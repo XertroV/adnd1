@@ -4,9 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#18352e">
-  <meta name="description" content="A private, source-referenced AD&D first edition study companion. Search rules and spells, plan advancement, and keep your own local notes.">
+  <meta name="description" content="A source-referenced AD&D first edition study companion. Search rules and spells, plan advancement, and keep your own local notes.">
   <title>First Edition — The Adventurer’s Reference</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="source-viewer.css">
+  <script src="books.js" defer></script>
+  <script src="citations.js" defer></script>
+  <script src="source-viewer.js" defer></script>
+  <script src="combat.js" defer></script>
   <script src="search.js" defer></script>
   <script src="app.js" defer></script>
 </head>
@@ -21,6 +26,7 @@
     <nav id="navigation">
       <a href="#spells" data-view="spells"><span class="nav-icon" data-icon="spark"></span>Spellbook<span class="nav-count" id="spellCount">—</span></a>
       <a href="#rules" data-view="rules"><span class="nav-icon" data-icon="book"></span>Rules reference<span class="nav-count" id="ruleCount">—</span></a>
+      <a href="#equipment" data-view="equipment"><span class="nav-icon" data-icon="bag"></span>Equipment<span class="nav-count" id="equipmentCount">—</span></a>
       <a href="#classes" data-view="classes"><span class="nav-icon" data-icon="shield"></span>Classes &amp; advancement</a>
     </nav>
     <p class="nav-label second-label">YOUR COMPANION</p>
@@ -38,7 +44,7 @@
   <div id="filterStatus" class="sr-only" role="status" aria-live="polite"></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <button id="selectionNote" class="selection-note" hidden><span data-icon="pen"></span>Annotate selection</button>
-  <dialog id="palette" class="palette-dialog" aria-label="Search the reference library"><div class="palette-search"><span data-icon="search"></span><input id="commandInput" type="search" aria-label="Search all reference content" role="combobox" aria-expanded="true" aria-controls="commandResults" aria-autocomplete="list" placeholder="A spell, a rule, a class…" autocomplete="off"><button class="esc" data-close="palette" aria-label="ESC Close search">ESC</button></div><div class="palette-hint">SEARCH YOUR REFERENCE LIBRARY</div><div id="commandResults" role="listbox" aria-label="Search results"></div><div class="palette-footer"><span><kbd>↑</kbd> <kbd>↓</kbd> to move <kbd>↵</kbd> to open</span><span>Rules · Spells · Classes · Notes</span></div></dialog>
+  <dialog id="palette" class="palette-dialog" aria-label="Search the reference library"><div class="palette-search"><span data-icon="search"></span><input id="commandInput" type="search" aria-label="Search all reference content" role="combobox" aria-expanded="true" aria-controls="commandResults" aria-autocomplete="list" placeholder="A spell, a rule, an item…" autocomplete="off"><button class="esc" data-close="palette" aria-label="ESC Close search">ESC</button></div><div class="palette-hint">SEARCH YOUR REFERENCE LIBRARY</div><div id="commandResults" role="listbox" aria-label="Search results"></div><div class="palette-footer"><span><kbd>↑</kbd> <kbd>↓</kbd> to move <kbd>↵</kbd> to open</span><span>Rules · Spells · Gear · Classes · Notes</span></div></dialog>
   <dialog id="sourceDialog" class="small-dialog" aria-labelledby="sourceTitle"><div class="dialog-header"><span class="eyebrow">FOLLOW THE SOURCE</span><button class="icon-button" data-close="sourceDialog" aria-label="Close source reference">×</button></div><div id="sourceBody"></div><button class="button secondary" data-close="sourceDialog">Back to reference</button></dialog>
   <dialog id="noteDialog" class="small-dialog" aria-labelledby="noteTitle"><form id="noteForm"><div class="dialog-header"><span class="eyebrow">YOUR MARGINALIA</span><button type="button" class="icon-button" data-close="noteDialog" aria-label="Close annotation">×</button></div><h2 id="noteTitle">Leave a note</h2><p id="noteTarget" class="muted"></p><blockquote id="noteQuote" hidden></blockquote><label class="field-label" for="noteText">Annotation</label><textarea id="noteText" rows="6" maxlength="20000" placeholder="A house ruling, a reminder, a spark of inspiration…" required></textarea><p class="small muted">Saved only in this browser. Export your notebook for a backup.</p><div class="dialog-actions"><button type="button" class="button secondary" data-close="noteDialog">Cancel</button><button class="button primary" type="submit">Save annotation</button></div></form></dialog>
   <input id="importFile" type="file" accept="application/json,.json" hidden>

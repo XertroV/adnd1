@@ -16,12 +16,12 @@ const search=async value=>{await page.locator('#referenceSearch').fill(value);aw
 try {
  await page.goto(base);await page.locator('.result-item').first().waitFor();
  check('initial index count and bounded list', (await page.locator('#spellCount').innerText()).replaceAll(',','')===String(data.spells.length)&&await page.locator('.result-item').count()===50);
- check('initial detail card has structured casting fields',await page.locator('.stat').count()>=4);
+ check('initial detail card has structured casting fields',await page.locator('.attribute-fact').count()>=4 && await page.locator('.attribute-fact dd').evaluateAll(xs=>xs.every(x=>x.textContent.trim())));
  await page.keyboard.press('Control+k');await page.locator('#commandInput').fill('Magic Missile');await page.keyboard.press('ArrowDown');await page.keyboard.press('ArrowUp');await page.keyboard.press('Enter');
  await page.waitForFunction(()=>document.querySelector('#referenceDetail h2')?.textContent==='Magic Missile');
  check('command palette keyboard routes exact spell',!(await page.locator('#palette').evaluate(e=>e.open)));
  await page.locator('#referenceDetail [data-source-id]').click();
- check('source modal printed-to-PDF mapping',await page.locator('#sourceBody').innerText().then(t=>t.includes('Players Handbook')&&t.includes('67')&&t.includes('68')));
+ check('source modal printed-to-PDF mapping',await page.locator('.source-viewer-main').innerText().then(t=>t.includes('Players Handbook')&&t.includes('67')&&t.includes('68')));
  await page.keyboard.press('Escape');
  await page.locator('#classFilter').selectOption('Illusionist');await page.locator('[data-spell-level="0"]').click();await page.locator('#bookFilter').selectOption('UA');
  await search('Chill');
@@ -37,7 +37,7 @@ try {
  await page.locator('#xpInput').fill('9999999');check('higher XP uses only explicit source continuation',/Derived threshold.*225,000 XP per level/i.test(await page.locator('#xpOutput').innerText()));
  await route('#classes/fighter');await page.locator('#targetLevel').selectOption('2');check('missing XP is explicit',/Not yet extracted/.test(await page.locator('#advancementSummary').innerText()));
  await route('#rules/initiative-ties');await page.locator('#referenceDetail [data-source-id]').click();
- check('DMG source mapping before missing page',await page.locator('#sourceBody').innerText().then(t=>t.includes('63')&&t.includes('64')&&t.includes('175 and 240 are missing')));
+ check('DMG source mapping before missing page',await page.locator('.source-viewer-main').innerText().then(t=>t.includes('63')&&t.includes('64')&&t.includes('175 and 240 are missing')));
  await page.keyboard.press('Escape');
  const note='Browser test annotation <img src=x onerror="window.__unsafe=1">';
  await page.locator('#referenceDetail [data-annotate]').first().click();await page.locator('#noteText').fill(note);await page.locator('#noteForm button[type=submit]').click();
