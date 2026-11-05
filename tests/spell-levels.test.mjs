@@ -1,0 +1,18 @@
+import test from'node:test';import assert from'node:assert/strict';import fs from'node:fs';import vm from'node:vm';
+const source=fs.readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
+const context=vm.createContext({});
+const classStart=source.indexOf('function classesOf(item)');const classEnd=source.indexOf('function classText(',classStart);
+const start=source.indexOf('function availableSpellLevels('),end=source.indexOf('function spellTogglesHTML()',start);
+vm.runInContext(source.slice(classStart,classEnd)+'\n'+source.slice(start,end),context);
+const{availableSpellLevels,reconcileSpellLevelSelection,toggleSpellLevelSelection}=context;
+const data=JSON.parse(fs.readFileSync(new URL('../dist/data.json',import.meta.url),'utf8'));
+const all=availableSpellLevels(data.spells),values=s=>Array.from(s).sort((a,b)=>Number(a)-Number(b));
+test('available levels come from actual class access, including shared cantrips',()=>{assert.deepEqual(Array.from(all),['0','1','2','3','4','5','6','7','8','9']);assert.ok(availableSpellLevels(data.spells,'Illusionist').includes('0'));assert.ok(!availableSpellLevels(data.spells,'Cleric').includes('0'));});
+test('All is no restriction and the first individual click isolates that level',()=>{assert.equal(reconcileSpellLevelSelection(new Set(),all).size,0);assert.deepEqual(values(toggleSpellLevelSelection(new Set(),'1',all)),['1']);});
+test('subsequent level clicks add or remove independently',()=>{let selected=toggleSpellLevelSelection(new Set(),'1',all);selected=toggleSpellLevelSelection(selected,'3',all);assert.deepEqual(values(selected),['1','3']);selected=toggleSpellLevelSelection(selected,'1',all);assert.deepEqual(values(selected),['3']);});
+test('removing the final selected level returns to All',()=>{assert.equal(toggleSpellLevelSelection(new Set(['3']),'3',all).size,0);});
+test('All clears any combination and remains idempotent',()=>{assert.equal(toggleSpellLevelSelection(new Set(['1','3']),'all',all).size,0);assert.equal(toggleSpellLevelSelection(new Set(),'all',all).size,0);});
+test('selecting every available individual level collapses to All',()=>{let selected=new Set();for(const level of all)selected=toggleSpellLevelSelection(selected,level,all);assert.equal(selected.size,0);});
+test('class changes preserve valid selected levels and drop unavailable ones',()=>{const cleric=availableSpellLevels(data.spells,'Cleric');assert.deepEqual(values(reconcileSpellLevelSelection(new Set(['1','9']),cleric)),['1']);assert.equal(reconcileSpellLevelSelection(new Set(['9']),cleric).size,0);});
+test('All remains All after a class change',()=>{assert.equal(reconcileSpellLevelSelection(new Set(),availableSpellLevels(data.spells,'Druid')).size,0);});
+test('invalid choices cannot fabricate an unavailable level',()=>{assert.deepEqual(values(toggleSpellLevelSelection(new Set(['1']),'99',all)),['1']);});

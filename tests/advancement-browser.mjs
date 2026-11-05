@@ -1,0 +1,38 @@
+import{createRequire}from'node:module';
+import{mkdirSync,writeFileSync}from'node:fs';
+import assert from'node:assert/strict';
+const require=createRequire(import.meta.url);
+const{chromium}=require(process.env.PLAYWRIGHT_MODULE||'/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',args:['--no-sandbox']});
+const page=await browser.newPage({viewport:{width:1440,height:1000}});const errors=[],checks=[];page.on('pageerror',e=>errors.push(e.message));
+const check=(name,value)=>{assert.ok(value,name);checks.push(name);};
+const base=process.env.TEST_URL||'http://127.0.0.1:8765';
+const target=async level=>{await page.locator('#targetLevel').selectOption(String(level));return page.locator('#advancementSummary').innerText();};
+try{
+ await page.goto(base+'/#classes/fighter');await page.locator('#targetLevel').waitFor();
+ let text=await target(2);check('Fighter 1→2 adds one d10 hit die',/Level 1.*2/s.test(text)&&/one d10 hit die/.test(text));
+ check('unreadable early Fighter XP remains unavailable',/Not yet extracted/.test(text));
+ text=await target(7);check('Fighter 6→7 normal attack frequency',/3-attacks-per-2-rounds/.test(text));
+ check('Fighter level7 gains weapon proficiency',/proficiency with one additional permitted weapon.*5 → 6/i.test(text));
+ check('UA specialization is visibly optional',/Optional rule.*UA weapon specialization/i.test(text));
+ check('selected transition has source citations',await page.locator('#advancementSummary [data-inline-source]').count()>2);
+ await page.locator('#advancementSummary [data-ref-book="DMG"]').first().click();check('level-change source modal maps printed74 to PDF75',await page.locator('#sourceBody').innerText().then(t=>t.includes('74')&&t.includes('75')));await page.keyboard.press('Escape');
+ text=await target(9);check('Fighter level9 stronghold conditions',/stronghold/.test(text)&&/clearing/.test(text));
+ text=await target(10);check('Fighter level10 fixed hit points',/Add 3 hit points/.test(text)&&!/Add one d10/.test(text));
+ text=await target(6);check('known adjacent Fighter XP delta is 17,000',/17,000 XP/.test(text));
+ text=await target(12);check('Fighter level12 continuation is derived and sourced',/1,000,001 XP/.test(text)&&/250,000 XP/.test(text)&&/derived/i.test(text));
+ await page.locator('#xpInput').fill('50000');check('sparse Fighter XP never infers an exact missing level',/level 6.*exact current level cannot be determined/is.test(await page.locator('#xpOutput').innerText()));
+ await page.locator('#advancementClass').selectOption('ua-druid');await page.waitForFunction(()=>document.querySelector('#referenceDetail h2')?.textContent==='Druid · UA high levels');
+ text=await target(15);check('Grand Druid threshold retained on original track',/3,000,001 XP/.test(text));
+ text=await target(16);check('Hierophant reset is not a negative XP delta',/1 XP/.test(text)&&/different XP tracks/i.test(text)&&/Comparison unavailable/.test(text));
+ text=await target(17);check('Hierophant adjacent reset-track delta is 500,000',/500,000 XP/.test(text));
+ await page.locator('#advancementClass').selectOption('monk');await page.waitForFunction(()=>document.querySelector('#referenceDetail h2')?.textContent==='Monk');
+ check('Monk explicit source limit respected',await page.locator('#targetLevel option').last().getAttribute('value')==='17');
+ await page.locator('#targetLevel').focus();await page.keyboard.press('ArrowDown');check('keyboard level selection preserves focus',await page.locator('#targetLevel').evaluate(e=>e===document.activeElement));
+ await page.setViewportSize({width:390,height:844});await page.locator('#advancementClass').selectOption('fighter');await page.waitForFunction(()=>document.querySelector('#referenceDetail h2')?.textContent==='Fighter');
+ check('mobile class planner contains table overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+ await page.setViewportSize({width:360,height:800});check('narrow mobile class planner contains table overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+ check('incomplete mechanics are explicit',/Incomplete level-up guide/.test(await page.locator('#advancementSummary').innerText()));
+ check('no browser errors',errors.length===0);
+ mkdirSync(new URL('../test-results/',import.meta.url),{recursive:true});const report={passed:checks.length,checks,errors};writeFileSync(new URL('../test-results/advancement-report.json',import.meta.url),JSON.stringify(report,null,2));await page.screenshot({path:new URL('../test-results/advancement-mobile.png',import.meta.url).pathname,fullPage:true});console.log(JSON.stringify(report,null,2));
+}finally{await browser.close();}
