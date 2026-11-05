@@ -31,7 +31,7 @@ if 'origin' in remotes:
     git('remote', 'set-url', 'origin', credential['remote_url'])
 else:
     git('remote', 'add', 'origin', credential['remote_url'])
-paths = ['dist', '.openai/hosting.json', '.gitignore', 'tools', 'tests', 'README.md', 'classes.json', 'rules.json', 'phb-spell-index.json', 'phb-spells.json', 'phb-magic-user-extra.json', 'ua-spell-index.json', 'ua-spells.json', 'monsters.json', 'attack-matrices.json', 'equipment.json']
+paths = ['dist', '.openai/hosting.json', '.gitignore', 'tools', 'tests', 'README.md', 'classes.json', 'rules.json', 'phb-spell-index.json', 'phb-spells.json', 'phb-magic-user-extra.json', 'ua-spell-index.json', 'ua-spells.json', 'monsters.json', 'attack-matrices.json', 'equipment.json', 'citation-overrides.json', 'progression-overrides.json']
 git('add', *[path for path in paths if (root/path).exists()])
 if git('status', '--porcelain'):
     git('commit', '-m', 'Publish source-anchored first edition reference')

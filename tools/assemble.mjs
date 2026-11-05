@@ -2,9 +2,9 @@ import {readFileSync, writeFileSync, existsSync} from 'node:fs';
 import {resolve} from 'node:path';
 const root = resolve(import.meta.dirname, '..');
 const load = name => existsSync(resolve(root,name)) ? JSON.parse(readFileSync(resolve(root,name),'utf8')) : {};
-const parts = ['rules.json','classes.json','phb-spell-index.json','ua-spell-index.json','phb-spells.json','phb-magic-user-extra.json','ua-spells.json'].map(load);
-const data = {rules:[],spells:[],classes:[],sources:[],release:{date:'2026-11-04',coverage:'Curated first release. Spell names and detailed cards have separate coverage; all OCR-derived content awaits visual verification.',sourceFilesDeployed:false}};
-for (const key of ['rules','classes','sources']) data[key] = parts.flatMap(p=>p[key]||[]);
+const parts = ['rules.json','classes.json','phb-spell-index.json','ua-spell-index.json','phb-spells.json','phb-magic-user-extra.json','ua-spells.json','equipment.json','attack-matrices.json'].map(load);
+const data = {rules:[],spells:[],equipment:[],matrices:[],classes:[],sources:[],release:{date:'2026-11-04',coverage:'Curated first release. Spell names and detailed cards have separate coverage; all OCR-derived content awaits visual verification.',sourceFilesDeployed:false}};
+for (const key of ['rules','classes','sources','equipment','matrices']) data[key] = parts.flatMap(p=>p[key]||[]);
 const spellMap = new Map();
 for (const p of parts) for (const spell of p.spells||[]) {
   const key = [spell.book,spell.class,spell.name.toLowerCase().replace(/[^a-z0-9]/g,'')].join(':');
@@ -20,5 +20,18 @@ for (const p of parts) for (const spell of p.spells||[]) {
   }
 }
 data.spells=[...spellMap.values()];
+// Keep reviewed cross-book references and provenance separate from original extraction files.
+const citations=load('citation-overrides.json');
+const progression=load('progression-overrides.json');
+for(const item of [...data.rules,...data.spells,...data.classes,...data.equipment,...data.matrices]){
+  const override=citations.items?.[item.id];
+  if(override?.references){
+    const refs=[...(item.references||[]),...override.references];
+    item.references=refs.filter((ref,index)=>refs.findIndex(other=>JSON.stringify(other)===JSON.stringify(ref))===index);
+  }
+  if(citations.priceStates?.[item.id])item.priceState=citations.priceStates[item.id];
+  if(progression.classes?.[item.id])Object.assign(item,progression.classes[item.id]);
+}
+if(progression.explainer)data.progressionExplainer=progression.explainer;
 writeFileSync(resolve(root,'dist/data.json'),JSON.stringify(data,null,2)+'\n');
-console.log(JSON.stringify({rules:data.rules.length,spells:data.spells.length,detailedSpells:data.spells.filter(s=>s.effect?.length).length,classes:data.classes.length,sources:data.sources.length}));
+console.log(JSON.stringify({rules:data.rules.length,spells:data.spells.length,detailedSpells:data.spells.filter(s=>s.effect?.length).length,equipment:data.equipment.length,matrices:data.matrices.length,classes:data.classes.length,sources:data.sources.length}));

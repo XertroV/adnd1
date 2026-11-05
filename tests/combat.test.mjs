@@ -1,0 +1,10 @@
+import test from'node:test';import assert from'node:assert/strict';import{createRequire}from'node:module';import fs from'node:fs';
+const require=createRequire(import.meta.url),combat=require('../dist/combat.js');const matrix=JSON.parse(fs.readFileSync(new URL('../attack-matrices.json',import.meta.url),'utf8')).matrices[0];
+test('official Fighter4to5 uses the source AC0 cells18to16',()=>{const row=combat.standardTransition(matrix,4,5);assert.equal(row.from,18);assert.equal(row.to,16);assert.equal(row.book,'DMG');assert.equal(row.pages[0],74)});
+test('ordinary twolevel band remains unchanged at Fighter1to2',()=>{const row=combat.standardTransition(matrix,1,2);assert.equal(row.from,20);assert.equal(row.to,20)});
+test('fighter-only Alt has explicit level1anchor20 and+1perlevel comparison',()=>{const row=combat.fighterAltTransition(matrix,4,5);assert.equal(row.anchorTarget,20);assert.equal(row.from,17);assert.equal(row.to,16);assert.equal(row.houseRule,true);assert.equal(combat.fighterAltTarget(matrix,2),19)});
+test('missing matrix cells stay null rather than being formula-filled or zero',()=>{assert.equal(combat.matrixTarget(matrix,5,10),null);assert.equal(combat.matrixTarget(matrix,5,-10),null);assert.equal(combat.matrixTarget(matrix,5,11),null)});
+test('source zero and negative targets remain valid numbers',()=>{assert.equal(combat.matrixTarget(matrix,15,6),0);assert.equal(combat.matrixTarget(matrix,17,7),-3)});
+test('unknown anchor blocks Alt rather than inventing20',()=>{const missing={...matrix,rows:[{levelMin:1,levelMax:2,targets:Array(matrix.armorClasses.length).fill(null)}]};assert.equal(combat.fighterAltTarget(missing,5),null)});
+test('partial matrix coverage is counted without inferring other cells',()=>{assert.deepEqual(combat.coverage(matrix),{known:70,total:210,missing:140})});
+test('provided repeated20examples are actual known source cells and differ fromlinear subtraction',()=>{for(const example of matrix.comparisonExamples){assert.equal(combat.matrixTarget(matrix,example.levelMin,example.armorClass),example.matrixTarget);assert.notEqual(example.simpleSubtractionTarget,example.matrixTarget)}});

@@ -41,3 +41,11 @@ The interface author fixed the inaccurate pending-citation copy, filtered-card c
 ## Remaining verification
 
 Full numeric and source-page visual checks require approved PDF-host access. Every rule and spell outside the reviewed sample still needs its own source check. The 636 indexed entries include repeated spell names across classes and are not 636 distinct spell names. Only five of the sixteen class/variant guides currently contain any numeric XP rows, and all five tables are partial.
+# Additional independent spell sample — 2026-11-04
+
+Read actual PHB pp. 78, 81, 86, 88–89 and 93–94 and compared the new magic-user cards for Polymorph Other, Polymorph Self, Magic Jar, Tenser's Transformation, Limited Wish, Simulacrum, Time Stop and Wish. The sampled numeric values, save/identity conditions and cited pages agree with readable OCR. This included Tenser's unusual damage accounting, Simulacrum's separate enabling spells and limits, and the source's original Time Stop behavior. The Magic Jar modifier table and Time Stop duration remain explicit gaps. This sample does not verify all 157 added cards or any scan pixels.
+
+Also read original UA pp. 55 and 58 for Whip, Item and Dolor. Item matched. Reported two corrections to root: Whip's sound alone allows a saving throw, separately from the penalized struck-animal save; Dolor's verbal component must concern the creature's class. These findings were reported without editing the author's data. Their application must be checked before the final release claim.
+
+Further UA samples at pp. 53–54 and 59 matched Deeppockets, Irritation and Leomund's Lamentable Belabourment. Dismissal p. 58 omits the normal spell's explicit caster-on-Prime-Material restriction in the card; reported this additional condition to root. Also recommended clarifying Irritation's four-point maximum Comeliness loss so it cannot be mistaken for an absolute score of minus four.
+

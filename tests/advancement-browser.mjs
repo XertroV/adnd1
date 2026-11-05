@@ -16,7 +16,7 @@ try{
  check('Fighter level7 gains weapon proficiency',/proficiency with one additional permitted weapon.*5 → 6/i.test(text));
  check('UA specialization is visibly optional',/Optional rule.*UA weapon specialization/i.test(text));
  check('selected transition has source citations',await page.locator('#advancementSummary [data-inline-source]').count()>2);
- await page.locator('#advancementSummary [data-ref-book="DMG"]').first().click();check('level-change source modal maps printed74 to PDF75',await page.locator('#sourceBody').innerText().then(t=>t.includes('74')&&t.includes('75')));await page.keyboard.press('Escape');
+ await page.locator('#advancementSummary [data-ref-book="DMG"]').first().click();check('level-change source modal maps printed74 to PDF75',await page.locator('.source-viewer-main').innerText().then(t=>t.includes('74')&&t.includes('75')));await page.keyboard.press('Escape');
  text=await target(9);check('Fighter level9 stronghold conditions',/stronghold/.test(text)&&/clearing/.test(text));
  text=await target(10);check('Fighter level10 fixed hit points',/Add 3 hit points/.test(text)&&!/Add one d10/.test(text));
  text=await target(6);check('known adjacent Fighter XP delta is 17,000',/17,000 XP/.test(text));

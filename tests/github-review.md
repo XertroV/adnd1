@@ -31,3 +31,7 @@ Connector metadata confirms repository push/admin permission for the authenticat
 ## Preservation and publication boundaries
 
 This review made no GitHub mutations, pushes, commits, branch changes, clones, or changes to the existing Sites origin. The owning agent retains deployment and repository-write responsibility. Preserve the existing Sites project identity and private audience independently of this public repository. Source PDFs, transfer helpers containing private metadata, raw OCR, and credentials must remain outside the repository.
+# Read-only follow-up checkpoint — 2026-11-04
+
+The remote now has `master` at `688087684236862f3c8b8815684f0e2ff8605399`, titled “Initialize Advanced Dungeons & Dragons reference site source”. Cloned the now-nonempty authorized repository into the new isolated path `/workspace/sites/adnd1-github-review` with `--no-checkout` and inspected history/tree only. The checkpoint contains one commit and only `README.md`; there are no PDFs, raw OCR files, or application source files at that checkpoint. `.gitignore` does not exist in that commit. This verifies the initialization outcome, not a completed application-source push. The reviewer made no remote changes or changes to the Sites source checkout.
+
