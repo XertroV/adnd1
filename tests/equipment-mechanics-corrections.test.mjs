@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
-import {equipmentCorrections,reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
+import {equipmentCorrections,equipmentAdditionalCorrections,reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
 const read=p=>JSON.parse(readFileSync(new URL(p,import.meta.url),'utf8'));
 const data=read('../dist/data.json'),require=createRequire(import.meta.url),citations=require('../dist/citations.js');
 const item=id=>{const x=data.equipment.find(x=>x.id===id);assert.ok(x,id);return x};
@@ -42,4 +42,28 @@ test('new equipment source references and corrected excerpt bind to the right pa
  const heavy=catalog('phb-heavy-bolt');assert.ok(!heavy.regions.some(r=>r.id==='phb-37-2b48e8334c573a67'));
  const replacement=heavy.regions.find(r=>r.id==='phb-37-1424cd0922cd9867');assert.ok(replacement);assert.deepEqual([replacement.book,replacement.printedPage,replacement.pdfPage],['PHB',37,38]);
  for(const r of [note,replacement]){const bytes=readFileSync(new URL(`../dist/scans/verified/${r.image}`,import.meta.url));assert.equal(digest(bytes),r.sha256);assert.deepEqual([bytes.readUInt32BE(16),bytes.readUInt32BE(20)],[r.width,r.height]);}
+});
+
+
+test('additional source-checked equipment fields retain every approved value and precise source',()=>{
+ const records=equipmentAdditionalCorrections.records;
+ assert.equal(records.length,45);
+ const changes=records.flatMap(r=>r.changes);
+ assert.equal(changes.filter(c=>c.path.startsWith('/fields/')).length,209);
+ assert.equal(changes.filter(c=>c.path.startsWith('/fieldSources/')).length,209);
+ assert.equal(changes.filter(c=>c.path==='/summary').length,9);
+ const reversed=reverseApprovedEquipmentChanges(data.equipment);
+ for(const row of records) for(const c of row.changes){
+  assert.deepEqual(get(item(row.id),c.path),c.newValue,`${row.id} ${c.path}`);
+  if(c.oldExists===false) {
+   const parts=c.path.split('/').slice(1).map(k=>k.replaceAll('~1','/').replaceAll('~0','~'));
+   const parent=parts.slice(0,-1).reduce((x,k)=>x[k],reversed.find(x=>x.id===row.id));
+   assert.ok(!Object.hasOwn(parent,parts.at(-1)),`${row.id} ${c.path}: absent in baseline`);
+  } else assert.deepEqual(get(reversed.find(x=>x.id===row.id),c.path),c.oldValue);
+ }
+ assert.equal(item('ua-man-catcher').fields['Length (UA p.27)'],'8 ft+');
+ assert.match(item('phb-hand-axe').fields['Hand-held AC adjustments (PHB p.38)'],/^AC 2 through 10:/);
+ assert.match(item('phb-hand-axe').fields['Hand-held AC adjustments (UA p.27)'],/^AC 0 through 10:/);
+ assert.match(item('ua-blowgun-needle').fields['Blowgun and needle combined weight (UA p.26)'],/^15 gp-weight/);
+ assert.match(item('ua-staff-sling').fields['Range with bullet or stone (UA p.28)'],/medium: 3–6; long: 9/);
 });

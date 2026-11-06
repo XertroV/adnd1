@@ -12,7 +12,7 @@ test('fixture is reproducible and includes every assembled reference-bearing rec
  const expected=['rules','spells','equipment','matrices','classes'].flatMap(k=>data[k].filter(x=>citations.pages(x).length).map(x=>`${k}:${x.id}`));
  if(citations.pages(data.progressionExplainer).length)expected.push('progressionExplainer:progression-explainer');
  assert.deepEqual(inventory.records.map(r=>`${r.collection}:${r.id}`),expected);
- assert.equal(inventory.counts.records,892);assert.equal(inventory.counts.recordPagePairs,1707);assert.equal(inventory.counts.citedPages,216);assert.equal(inventory.counts.knownGapPages,1);assert.equal(inventory.counts.unverifiedPages,2);
+ assert.equal(inventory.counts.records,892);assert.equal(inventory.counts.recordPagePairs,1749);assert.equal(inventory.counts.citedPages,217);assert.equal(inventory.counts.knownGapPages,1);assert.equal(inventory.counts.unverifiedPages,2);
  assert.equal(inventory.counts.pagesWithSomeSuppliedCropPixels,inventory.pages.filter(p=>p.suppliedCropPixels).length);
  assert.equal(inventory.counts.citedPagesWithoutSuppliedCropPixels,inventory.pages.filter(p=>p.records.length&&!p.suppliedCropPixels).length);
  assert.equal(inventory.counts.batches,inventory.queue.batches.length);

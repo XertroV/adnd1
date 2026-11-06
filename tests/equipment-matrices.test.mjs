@@ -37,6 +37,10 @@ function source(ref, context) {
     assert.ok(catalog,`${context}: item-specific catalog required`);
     assert.equal(ref.scanVerification.regionCount,catalog.regions.length);
     assert.equal(ref.incomplete,true);
+  }else if (ref.status === 'Selected numeric value visually checked') {
+    const id=context.split(':')[0];
+    const catalog=load(`dist/${citationOverrides.sourceExcerpts[`equipment:${id}`].catalog}`);
+    assert.ok(catalog.regions.some(region=>region.book===ref.book && ref.pages.includes(region.printedPage)), `${context}: cited source excerpt`);
   }else if (/purchase price$/.test(context) && ref.status === 'Selected purchase-price row visually checked') {
     assert.equal(ref.status, 'Selected purchase-price row visually checked');
     const id=context.split(':')[0];
