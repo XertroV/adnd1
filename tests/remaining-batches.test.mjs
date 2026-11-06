@@ -37,7 +37,7 @@ test('all 29 newly reviewed rows preserve exact image, focus, numeric values and
 });
 test('reviewed inventory adds eight distinct items and preserves price quantities',()=>{
  assert.equal(data.equipment.length,88);assert.equal(new Set(data.equipment.map(i=>i.id)).size,88);
- assert.equal(catalogs.length,20);assert.equal(data.equipment.filter(i=>i.price!==null).length,59);assert.equal(data.equipment.filter(i=>i.price===null).length,29);
+ assert.equal(catalogs.length,20);assert.equal(data.equipment.filter(i=>i.price!==null).length,61);assert.equal(data.equipment.filter(i=>i.price===null).length,27);
  for(const id of newIds){assert.equal(data.equipment.filter(i=>i.id===id).length,1);catalog(id)}
  for(const [id,amount,currency] of [['phb-heavy-crossbow',20,'gp'],['phb-light-crossbow',12,'gp'],['phb-composite-long-bow',100,'gp'],['phb-composite-short-bow',75,'gp'],['phb-long-bow',60,'gp'],['phb-short-bow',15,'gp'],['phb-silver-arrow',1,'gp'],['phb-arrow',2,'sp']]){
   const p=item(id).price;assert.deepEqual([p.amount,p.currency,p.book,p.pages],[amount,currency,'PHB',[35]],id);
@@ -92,12 +92,32 @@ test('matching missile rows use one canonical pair and retain separately sourced
 test('assembled spell citations exactly match the baseline plus independently approved additions',()=>{
  const fixture=read('./fixtures/remaining-approved-references.json');
  const baseline=read('./fixtures/spell-reference-baseline.json').references;
+ const uploaded=read('./fixtures/uploaded-source-references.json');
+ assert.equal(uploaded.length,2);
+ assert.deepEqual(uploaded.map(ref=>[ref.id,ref.book,ref.pages]),[['ua-illusionist-mirage-arcane','UA',[69]],['ua-illusionist-mirage-arcane','UA',[66]]]);
  assert.equal(fixture.cards,80);assert.equal(fixture.referenceObjects,102);assert.equal(fixture.bookPagePairs,113);
  assert.equal(fixture.additions.length,102);assert.equal(new Set(fixture.additions.map(r=>r.id)).size,80);
  assert.equal(fixture.additions.reduce((n,r)=>n+r.pages.length,0),113);assert.equal(baseline.length,25);
  const key=x=>JSON.stringify([x.id,x.book,x.pages,x.label,x.status]);
- const expected=[...baseline,...fixture.additions].map(key).sort();
+ const corrections=read('./fixtures/uploaded-source-reference-corrections.json');
+ assert.deepEqual(corrections,[{id:'ua-magic-user-eyebite',book:'PHB',label:'Magic-user charm person procedure',oldPages:[65,66],pages:[65]}]);
+ const reviewed=[...baseline,...fixture.additions,...uploaded].map(ref=>({...ref}));
+ for(const correction of corrections) {
+  const matches=reviewed.filter(ref=>ref.id===correction.id&&ref.book===correction.book&&ref.label===correction.label);
+  assert.equal(matches.length,1);
+  assert.deepEqual(matches[0].pages,correction.oldPages);
+  matches[0].pages=correction.pages;
+ }
+ const expected=reviewed.map(key).sort();
+ const eyebite=data.spells.find(spell=>spell.id==='ua-magic-user-eyebite');
+ const charm=eyebite.references.filter(ref=>ref.book==='PHB'&&ref.label==='Magic-user charm person procedure');
+ assert.equal(charm.length,1);
+ assert.deepEqual(charm[0].pages,[65]);
+ assert.equal(charm[0].status,'OCR checked · visual review pending');
  const actual=data.spells.flatMap(spell=>(spell.references||[]).map(ref=>({id:spell.id,...ref}))).map(key).sort();
  assert.deepEqual(actual,expected,'all references must be the unchanged baseline or an explicitly reviewed addition');
- for(const ref of fixture.additions){assert.equal(ref.status,'OCR checked · visual review pending');assert.ok(ref.label);}
+ for(const ref of [...fixture.additions,...uploaded]){assert.equal(ref.status,'OCR checked · visual review pending');assert.ok(ref.label);}
+ const spell=data.spells.find(spell=>spell.id==='ua-illusionist-mirage-arcane');
+ const catalog=read('../dist/'+spell.sourceExcerpts.catalog);
+ for(const ref of uploaded) assert.ok(catalog.regions.some(region=>region.book===ref.book&&ref.pages.includes(region.printedPage)), `missing source excerpt for ${ref.label}`);
 });

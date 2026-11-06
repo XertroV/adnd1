@@ -1,9 +1,12 @@
 import {readFileSync, writeFileSync, existsSync} from 'node:fs';
-import {resolve} from 'node:path';
+import {resolve, dirname} from 'node:path';
+import {createHash} from 'node:crypto';
+import {validScanCatalogPath, scanStates, validateScanCatalog} from './scan-catalog.mjs';
 const root = resolve(import.meta.dirname, '..');
+const {default: books} = await import('../dist/books.js');
 const load = name => existsSync(resolve(root,name)) ? JSON.parse(readFileSync(resolve(root,name),'utf8')) : {};
 const parts = ['rules.json','classes.json','phb-spell-index.json','ua-spell-index.json','phb-spells.json','phb-magic-user-extra.json','ua-spells.json','equipment.json','attack-matrices.json'].map(load);
-const data = {rules:[],spells:[],equipment:[],matrices:[],classes:[],sources:[],release:{date:'2026-11-06',coverage:'Local research batch with partial extraction. Most entries are OCR checked; selected equipment values have scoped image evidence. Full source PDFs are not deployed.',sourceFilesDeployed:false}};
+const data = {rules:[],spells:[],equipment:[],matrices:[],classes:[],sources:[],release:{date:'2026-11-07',coverage:'Partial extraction with checked source excerpt locations. Extracted values retain their individual review grades; selected equipment values have narrower checked-field evidence. Full source PDFs are not deployed.',sourceFilesDeployed:false}};
 for (const key of ['rules','classes','sources','equipment','matrices']) data[key] = parts.flatMap(p=>p[key]||[]);
 const spellMap = new Map();
 for (const p of parts) for (const spell of p.spells||[]) {
@@ -23,28 +26,44 @@ data.spells=[...spellMap.values()];
 // Keep reviewed cross-book references and provenance separate from original extraction files.
 const citations=load('citation-overrides.json');
 const progression=load('progression-overrides.json');
-for(const item of [...data.rules,...data.spells,...data.classes,...data.equipment,...data.matrices]){
+for(const [collection,items] of Object.entries({rules:data.rules,spells:data.spells,classes:data.classes,equipment:data.equipment,matrices:data.matrices}))for(const item of items){
   const override=citations.items?.[item.id];
   if(override?.references){
     const refs=[...(item.references||[]),...override.references];
     item.references=refs.filter((ref,index)=>refs.findIndex(other=>JSON.stringify(other)===JSON.stringify(ref))===index);
   }
+  const sourceExcerpts=citations.sourceExcerpts?.[`${collection}:${item.id}`]||citations.sourceExcerpts?.[item.id];
+  if(sourceExcerpts){if(sourceExcerpts.collection && sourceExcerpts.collection!==collection)throw new Error(`Wrong scan collection for ${collection}:${item.id}`);item.sourceExcerpts=sourceExcerpts;}
+  if(citations.scanVerification?.[item.id])item.scanVerification=citations.scanVerification[item.id];
   if(citations.priceStates?.[item.id])item.priceState=citations.priceStates[item.id];
   if(progression.classes?.[item.id])Object.assign(item,progression.classes[item.id]);
 }
-if(progression.explainer)data.progressionExplainer=progression.explainer;
-const excerptItems=data.equipment.filter(item=>item.scanVerification?.state==='selected-values-checked');
-const uniqueRegions=new Set(),imageFiles=new Set();let scopedRegions=0;
+if(progression.explainer){data.progressionExplainer=progression.explainer;
+  if(citations.scanVerification?.['progression-explainer'])data.progressionExplainer.scanVerification=citations.scanVerification['progression-explainer'];
+  const sourceExcerpts=citations.sourceExcerpts?.['progressionExplainer:progression-explainer']||citations.sourceExcerpts?.['progression-explainer'];
+  if(sourceExcerpts){if(sourceExcerpts.collection&&sourceExcerpts.collection!=='progressionExplainer')throw new Error('Wrong scan collection for progression explainer');data.progressionExplainer.sourceExcerpts=sourceExcerpts;}
+}
+const excerptItems=[...data.rules,...data.spells,...data.classes,...data.equipment,...data.matrices,...(data.progressionExplainer?[{...data.progressionExplainer,id:'progression-explainer'}]:[])].filter(item=>scanStates.has(item.scanVerification?.state)||item.sourceExcerpts?.state==='source-excerpt-checked');
+const uniqueRegions=new Set(),imageFiles=new Set(),imageMetadata=new Map();let scopedRegions=0;
 for(const item of excerptItems){
-  const path=item.scanVerification.catalog;
-  if(!/^scans\/dagger\/(?:manifest|(?:phb|ua)-[a-z0-9-]+)\.json$/.test(path||''))throw new Error(`Invalid scan catalog path for ${item.id}`);
+  for (const verification of [item.scanVerification,item.sourceExcerpts].filter(v=>scanStates.has(v?.state))) {
+  const path=verification.catalog;
+  if(!validScanCatalogPath(item.id,path,verification))throw new Error(`Invalid scan catalog path for ${item.id}`);
   const catalog=load('dist/'+path);
-  if(catalog.schemaVersion!==1||catalog.itemId!==item.id||!Array.isArray(catalog.regions)||catalog.regions.length!==item.scanVerification.regionCount)throw new Error(`Scan catalog does not match ${item.id}`);
+  validateScanCatalog(catalog,item,books,verification);
+  for (const region of catalog.regions) {
+    const filename=resolve(root,'dist',dirname(path),region.image);
+    if(!imageMetadata.has(filename)){const bytes=readFileSync(filename);if(bytes.length<24 || !bytes.subarray(0,8).equals(Buffer.from('89504e470d0a1a0a','hex')))throw new Error(`Invalid scan PNG for ${item.id}: ${region.image}`);imageMetadata.set(filename,{width:bytes.readUInt32BE(16),height:bytes.readUInt32BE(20),sha256:createHash('sha256').update(bytes).digest('hex')});}
+    const meta=imageMetadata.get(filename);
+    if(meta.width!==region.width || meta.height!==region.height || meta.sha256!==region.sha256)throw new Error(`Scan image mismatch for ${item.id}: ${region.image}`);
+  }
+  if(verification === item.scanVerification && item.sourceExcerpts) continue;
   for(const region of catalog.regions){
     uniqueRegions.add(JSON.stringify([region.book,region.printedPage,region.sha256,region.focusRects]));
     imageFiles.add(region.sha256);scopedRegions++;
   }
+  }
 }
-data.release.excerpts={itemIds:excerptItems.map(item=>item.id),regions:uniqueRegions.size,scopedRegions,imageFiles:imageFiles.size};
+data.release.excerpts={itemIds:excerptItems.map(item=>item.id),regions:uniqueRegions.size,scopedRegions,imageFiles:imageFiles.size,selectedValuesItems:excerptItems.filter(item=>item.scanVerification?.state==='selected-values-checked').length,sourceExcerptItems:excerptItems.filter(item=>item.scanVerification?.state==='source-excerpt-checked'||item.sourceExcerpts?.state==='source-excerpt-checked').length};
 writeFileSync(resolve(root,'dist/data.json'),JSON.stringify(data,null,2)+'\n');
 console.log(JSON.stringify({rules:data.rules.length,spells:data.spells.length,detailedSpells:data.spells.filter(s=>s.effect?.length).length,equipment:data.equipment.length,matrices:data.matrices.length,classes:data.classes.length,sources:data.sources.length}));

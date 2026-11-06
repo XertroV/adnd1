@@ -36,6 +36,11 @@ function source(ref, context) {
     assert.ok(catalog,`${context}: item-specific catalog required`);
     assert.equal(ref.scanVerification.regionCount,catalog.regions.length);
     assert.equal(ref.incomplete,true);
+  }else if (/^phb-(partisan|ranseur): purchase price$/.test(context)) {
+    assert.equal(ref.status, 'Selected purchase-price row visually checked');
+    const id=context.split(':')[0];
+    const catalog=load(`dist/${citationOverrides.sourceExcerpts[`equipment:${id}`].catalog}`);
+    assert.ok(catalog.regions.some(region=>region.book===ref.book && ref.pages.includes(region.printedPage) && /purchase price row/i.test(region.summary)), `${context}: source excerpt`);
   }else{
     assert.match(ref.status || '', /OCR checked/, `${context}: verification state`);
     assert.match(ref.status || '', /visual.*pending/i, `${context}: visual verification is pending`);
@@ -47,17 +52,17 @@ test('assembly preserves every equipment and matrix field from the author checkp
   assert.ok(Array.isArray(assembled.equipment), 'assembled equipment collection is required');
   assert.ok(Array.isArray(assembled.matrices), 'assembled matrices collection is required');
   const expected=authoredGear.map(item=>({...item,...(citationOverrides.items[item.id]||{}),priceState:citationOverrides.priceStates[item.id],...(citationOverrides.items[item.id]?.references?{references:[...(item.references||[]),...citationOverrides.items[item.id].references]}:{})}));
-  assert.deepEqual(assembled.equipment, expected, 'equipment and reviewed reference additions must not be omitted or flattened');
-  assert.deepEqual(assembled.matrices, authoredMatrices, 'matrix nulls and source notes must survive assembly');
+  assert.deepEqual(assembled.equipment.map(({sourceExcerpts,...item})=>item), expected, 'equipment and reviewed reference additions must not be omitted or flattened');
+  assert.deepEqual(assembled.matrices.map(({sourceExcerpts,...matrix})=>matrix), authoredMatrices, 'matrix nulls and source notes must survive assembly');
 });
 
 for (const [name, gear] of [['authored', authoredGear], ['assembled', assembled.equipment]]) {
-  test(`${name} catalogue distinguishes 59 sourced prices from 29 unavailable prices`, () => {
+  test(`${name} catalogue distinguishes 61 sourced prices from 27 unavailable prices`, () => {
     assert.ok(Array.isArray(gear), 'equipment collection must be assembled');
     assert.equal(gear.length, 88);
     assert.equal(new Set(gear.map(item => item.id)).size, 88, 'stable unique equipment identifiers');
-    assert.equal(gear.filter(item => item.price !== null).length, 59);
-    assert.equal(gear.filter(item => item.price === null).length, 29);
+    assert.equal(gear.filter(item => item.price !== null).length, 61);
+    assert.equal(gear.filter(item => item.price === null).length, 27);
     for (const item of gear) {
       source(item, item.id);
       assert.equal(item.incomplete, true, `${item.id}: catalogue remains a partial transcription`);

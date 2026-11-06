@@ -15,7 +15,16 @@
   let excerptCatalog, excerptSource = null, excerptError = '', excerptLoading = false, catalogRequest = 0;
   let requestedMode = 'pdf', regionIndex = 0, showHighlights = true, actualSize = false, session = 0;
   let imageFit = false;
-  const imageCache = new Map(), catalogCache = new Map();
+  const imageCache = new Map(), catalogCache = new Map(), cacheLimit = 64;
+  function cacheGet(cache, key) {
+    const value = cache.get(key);
+    if (value !== undefined) { cache.delete(key); cache.set(key, value); }
+    return value;
+  }
+  function cachePut(cache, key, value) {
+    cache.delete(key); cache.set(key, value);
+    if (cache.size > cacheLimit) cache.delete(cache.keys().next().value);
+  }
   const imageNames = new Set(['phb35-dagger-price.png','phb37-dagger-weight-damage.png','phb38-dagger-melee.png','phb38-dagger-thrown.png','phb38-missile-notes.png','ua28-dagger-thrown.png','ua28-missile-notes.png']);
   const books = () => root.FirstEditionBooks;
   const title = book => books()?.title(book) || book;
@@ -24,13 +33,16 @@
     const ids = [item?.id, contextItemId, item?.contextItemId].filter(id => id !== undefined && id !== null);
     const itemId = ids[0];
     if (typeof itemId !== 'string' || !/^[a-z0-9][a-z0-9-]{0,100}$/.test(itemId) || ids.some(id => id !== itemId)) return null;
-    const verification = item?.scanVerification;
+    const verification = item?.sourceExcerpts || item?.scanVerification;
     const legacy = verification == null && itemId === 'phb-dagger';
-    const path = legacy ? 'scans/dagger/manifest.json' : verification?.state === 'selected-values-checked' ? verification.catalog : null;
-    if (typeof path !== 'string' || !/^scans\/dagger\/(manifest|(?:phb|ua)-[a-z0-9-]+)\.json$/.test(path)) return null;
+    const path = legacy ? 'scans/dagger/manifest.json' : ['selected-values-checked','source-excerpt-checked'].includes(verification?.state) ? verification.catalog : null;
+    const legacyPath = itemId === 'phb-dagger' ? path === 'scans/dagger/manifest.json' : path === `scans/dagger/${itemId}.json`;
+    const collection = verification?.collection;
+    const verifiedPath = collection == null ? path === `scans/verified/${itemId}.json` : ['rules','spells','classes','equipment','matrices','progressionExplainer'].includes(collection) && path === `scans/verified/${collection.toLowerCase()}-${itemId}.json`;
+    if (!legacyPath && !verifiedPath) return null;
     const url = new URL(path, scriptBase);
     if (url.origin !== location.origin) return null;
-    return { itemId, name: item?.name || item?.title || 'this entry', url: url.href, legacy };
+    return { itemId, name: item?.name || item?.title || 'this entry', url: url.href, legacy, legacyPath, collection, state: verification?.state, regionCount: verification?.regionCount };
   }
   function normalize(references) {
     const result = [], seen = new Set();
@@ -230,23 +242,23 @@
   function viewingExcerpts() {
     return !!excerptSource && requestedMode === 'excerpts' && !excerptError && (!excerptCatalog || matchingRegions().length > 0);
   }
-  function validateCatalog(catalog, expectedItemId) {
+  function validateCatalog(catalog, source) {
     if (catalog?.schemaVersion !== 1 || typeof catalog.itemId !== 'string' || !/^[a-z0-9][a-z0-9-]{0,100}$/.test(catalog.itemId)
-        || expectedItemId && catalog.itemId !== expectedItemId || !Array.isArray(catalog.regions) || catalog.regions.length < 1 || catalog.regions.length > 32
-        || catalog.itemId === 'phb-dagger' && catalog.regions.length !== 7 || typeof catalog.scope !== 'string') throw new Error('Unsupported excerpt catalog.');
+        || source && (catalog.itemId !== source.itemId || source.collection != null && catalog.collection !== source.collection) || !Array.isArray(catalog.regions) || catalog.regions.length < 1 || catalog.regions.length > 256
+        || source?.legacyPath && catalog.itemId === 'phb-dagger' && catalog.regions.length !== 7 || source?.regionCount != null && catalog.regions.length !== source.regionCount || typeof catalog.scope !== 'string') throw new Error('Unsupported excerpt catalog.');
     const seen = new Set();
     for (const region of catalog.regions) {
-      const pageOK = region.book === 'PHB' ? [35,37,38].includes(region.printedPage) : region.book === 'UA' && region.printedPage === 28;
-      if (!pageOK || region.pdfPage !== books().pdfPage(region.book, region.printedPage) || !imageNames.has(region.image) || !region.image.startsWith(`${region.book.toLowerCase()}${region.printedPage}-`)
+      const pageOK = source?.legacyPath ? (region.book === 'PHB' ? [35,37,38].includes(region.printedPage) : region.book === 'UA' && region.printedPage === 28) : Object.hasOwn(books().books, region.book) && Number.isInteger(region.printedPage) && books().pdfPage(region.book, region.printedPage) !== null;
+      if (!pageOK || region.pdfPage !== books().pdfPage(region.book, region.printedPage) || (source?.legacyPath ? !imageNames.has(region.image) || !region.image.startsWith(`${region.book.toLowerCase()}${region.printedPage}-`) : !/^[a-z0-9][a-z0-9-]{0,150}\.png$/.test(region.image || ''))
           || typeof region.id !== 'string' || !/^[a-z0-9][a-z0-9-]{0,100}$/.test(region.id) || seen.has(region.id)
           || !Number.isInteger(region.width) || !Number.isInteger(region.height) || region.width < 1 || region.height < 1 || region.width > 8192 || region.height > 8192
-          || region.verification !== 'visually-checked-crop' || !/^[a-f0-9]{64}$/.test(region.sha256 || '')
+          || region.verification !== 'visually-checked-crop' || source?.state === 'source-excerpt-checked' && !['source-excerpt','selected-values'].includes(region.verificationScope) || !/^[a-f0-9]{64}$/.test(region.sha256 || '')
           || !Array.isArray(region.focusRects) || region.focusRects.some(box => !Array.isArray(box) || box.length !== 4 || box.some(n => !Number.isFinite(n)) || box[0] < 0 || box[1] < 0 || box[2] <= 0 || box[3] <= 0 || box[0] + box[2] > 1.001 || box[1] + box[3] > 1.001)
           || typeof region.title !== 'string' || typeof region.alt !== 'string' || typeof region.summary !== 'string'
           || !region.checkedFields || typeof region.checkedFields !== 'object' || Array.isArray(region.checkedFields)) throw new Error('Invalid verified excerpt metadata.');
       seen.add(region.id);
-      const source = catalog.sources?.[region.book];
-      if (!source || !/^[a-f0-9]{64}$/.test(source.sha256 || '') || source.hashStatus !== 'supplied-handoff') throw new Error('Missing excerpt provenance.');
+      const provenance = catalog.sources?.[region.book];
+      if (!provenance || !/^[a-f0-9]{64}$/.test(provenance.sha256 || '') || !['supplied-handoff','computed-local'].includes(provenance.hashStatus)) throw new Error('Missing excerpt provenance.');
     }
     return catalog;
   }
@@ -256,7 +268,7 @@
     excerptError = ''; excerptLoading = true;
     if (retry) { catalogCache.delete(source.url); excerptCatalog = null; requestedMode = 'excerpts'; }
     update();
-    let cached = catalogCache.get(source.url);
+    let cached = cacheGet(catalogCache, source.url);
     if (!cached) {
       cached = {};
       cached.promise = (async () => {
@@ -265,14 +277,14 @@
           const response = await fetch(source.url, { credentials: 'same-origin', cache: 'no-cache', signal: controller.signal });
           if (!response.ok) throw new Error('Excerpt catalog unavailable.');
           const text = await response.text();
-          if (text.length > 100000) throw new Error('Excerpt catalog too large.');
-          return validateCatalog(JSON.parse(text));
+          if (text.length > 1000000) throw new Error('Excerpt catalog too large.');
+          return JSON.parse(text);
         } finally { clearTimeout(timeout); }
       })().catch(error => { if (catalogCache.get(source.url) === cached) catalogCache.delete(source.url); throw error; });
-      catalogCache.set(source.url, cached);
+      cachePut(catalogCache, source.url, cached);
     }
     try {
-      const catalog = validateCatalog(await cached.promise, source.itemId);
+      const catalog = validateCatalog(await cached.promise, source);
       if (requestSession !== session || request !== catalogRequest || excerptSource !== source || !dialog.open) return;
       excerptCatalog = catalog;
       excerptLoading = false;
@@ -302,7 +314,7 @@
     el.excerptMode.setAttribute('aria-pressed', String(excerpts));
     el.pdfMode.setAttribute('aria-pressed', String(!excerpts));
     el.privacy.textContent = excerpts
-      ? `${excerptSource.name}: only the selected values and accompanying notes in these limited excerpts have been checked. Complete source PDFs are not hosted. Your own PDF can be opened privately.`
+      ? excerptSource.state === 'source-excerpt-checked' ? `${excerptSource.name}: these limited source excerpts have been checked for the cited passage; the entry's extracted values retain their existing status. Complete source PDFs are not hosted. Your own PDF can be opened privately.` : `${excerptSource.name}: only the selected values and accompanying notes in these limited excerpts have been checked. Complete source PDFs are not hosted. Your own PDF can be opened privately.`
       : 'Open your own PDF to read the cited pages. Your file stays in this tab; it is never uploaded or saved by this site.';
     el.fileRow.hidden = el.editionHelp.hidden = excerpts;
     el.regions.hidden = !excerpts || !regions.length;
@@ -465,8 +477,9 @@
     el.status.textContent = `Loading ${region.title}…`;
     try {
       const imageURL = new URL(region.image, excerptOwner.url).href;
-      if (!imageCache.has(imageURL)) {
-        const promise = new Promise((resolve, reject) => {
+      let promise = cacheGet(imageCache, imageURL);
+      if (!promise) {
+        promise = new Promise((resolve, reject) => {
           const image = node('img', { class: 'source-viewer-scan', alt: region.alt, decoding: 'async' });
           const timeout = setTimeout(() => {
             image.onload = image.onerror = null;
@@ -480,10 +493,10 @@
           };
           image.onerror = () => { clearTimeout(timeout); image.onload = image.onerror = null; reject(new Error('Excerpt image unavailable.')); };
           image.src = imageURL;
-        }).catch(error => { imageCache.delete(imageURL); throw error; });
-        imageCache.set(imageURL, promise);
+        }).catch(error => { if (imageCache.get(imageURL) === promise) imageCache.delete(imageURL); throw error; });
+        cachePut(imageCache, imageURL, promise);
       }
-      const image = await imageCache.get(imageURL);
+      const image = await promise;
       if (version !== renderVersion || !dialog.open || excerptSource !== excerptOwner || excerptCatalog !== catalog || !viewingExcerpts()) return;
       if (image.naturalWidth !== region.width || image.naturalHeight !== region.height) throw new Error('Excerpt dimensions do not match.');
       image.alt = region.alt;
@@ -503,13 +516,13 @@
       el.fit.setAttribute('aria-pressed', String(imageFit && zoom === 1));
       el.imageFrame.hidden = false; el.placeholder.hidden = true;
       el.captionTitle.textContent = region.title;
-      el.checked.textContent = region.summary;
+      el.checked.textContent = `${region.verificationScope === 'source-excerpt' ? 'Source excerpt checked. ' : region.verificationScope === 'selected-values' ? 'Selected values checked. ' : ''}${region.summary}`;
       const format = value => Array.isArray(value) ? value.map(format).join(' / ') : value && typeof value === 'object' ? Object.entries(value).map(([key,v]) => `${key}: ${format(v)}`).join('; ') : String(value);
       const label = key => key.replace(/_/g,' ').replace(/\bac\b/gi,'AC').replace(/^./,c => c.toUpperCase());
       el.checkedValues.replaceChildren(...Object.entries(region.checkedFields).flatMap(([key,value]) => [node('dt', {}, label(key)),node('dd', {}, format(value))]));
       el.caption.hidden = false;
       const source = catalog.sources[ref.book];
-      el.provenanceText.textContent = `Checked crop: ${region.checkedOn}. PNG SHA-256: ${region.sha256}. Source PDF SHA-256 (supplied with the handoff): ${source.sha256}. ${catalog.scope} This does not verify the whole page or book.`;
+      el.provenanceText.textContent = `Checked crop: ${region.checkedOn}. PNG SHA-256: ${region.sha256}. Source PDF SHA-256 (${source.hashStatus === 'computed-local' ? 'computed locally' : 'supplied with the handoff'}): ${source.sha256}. ${catalog.scope} This does not verify the whole page or book.`;
       el.provenance.hidden = false;
       el.status.textContent = `${ref.book} printed p. ${ref.page} · PDF page ${region.pdfPage} · excerpt ${regionIndex + 1} of ${regions.length}. ${actualSize ? zoom === 1 ? 'Actual image pixels' : 'Zoom from actual size' : imageFit ? zoom === 1 ? 'Fit width' : 'Zoom from fit width' : 'Readable view'}; scroll or use arrow keys to pan.`;
       const firstFocus = region.focusRects[0];

@@ -10,6 +10,7 @@ const reviewed=read('./fixtures/batch2-reviewed-rows.json').rows;
 const changed=['phb-arrow','phb-club','phb-composite-long-bow','phb-composite-short-bow','phb-hand-axe','phb-heavy-crossbow','phb-light-crossbow','phb-long-bow','phb-short-bow','phb-silver-arrow','ua-aklys-hurled','ua-atlatl-javelin','ua-blowgun-needle','ua-hand-crossbow'];
 const items=['phb-dagger','phb-battle-axe','phb-hand-axe','phb-bardiche','phb-bec-de-corbin','phb-bill-guisarme','phb-bo-stick','phb-club'];
 const canonical=v=>Array.isArray(v)?v.map(canonical):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,canonical(v[k])])):v;
+const stripExcerpts=v=>Array.isArray(v)?v.map(stripExcerpts):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).filter(([k])=>k!=='sourceExcerpts').map(([k,value])=>[k,stripExcerpts(value)])):v;
 const hash=v=>createHash('sha256').update(typeof v==='string'||Buffer.isBuffer(v)?v:JSON.stringify(canonical(v))).digest('hex');
 const pngs={
  'phb35-dagger-price.png':[394,454,'679d01d3fcf760fe438cd08f07142da8956d365971831a3a08bb4285c5e5ab12'],
@@ -39,14 +40,15 @@ test('all twenty independently read rows retain exact source, values and focus r
  const scoped=catalogs.flatMap(c=>c.regions),unique=new Set(scoped.map(r=>r.id));assert.equal(scoped.length,76);assert.equal(unique.size,56);
  const shared=scoped.filter(r=>r.id==='ua28-missile-notes');assert.ok(shared.length>=2);for(const note of shared)assert.deepEqual(note,shared[0]);
  assert.equal(new Set(scoped.map(r=>r.image)).size,7);
- assert.equal(data.release.excerpts.regions,56);assert.equal(data.release.excerpts.scopedRegions,76);assert.equal(data.release.excerpts.imageFiles,7);assert.deepEqual([...data.release.excerpts.itemIds].sort(),catalogs.map(c=>c.itemId).sort());
+ // Legacy catalog counts are checked above; release totals include additional catalogs.
+ for(const catalog of catalogs) assert.ok(data.release.excerpts.itemIds.includes(catalog.itemId),catalog.itemId);
 });
 test('five visible purchase prices added, and absent Bo/Club rows remain unextracted',()=>{
  for(const [id,amount]of [['phb-battle-axe',5],['phb-hand-axe',1],['phb-bardiche',7],['phb-bec-de-corbin',6],['phb-bill-guisarme',6]]){
   const item=data.equipment.find(e=>e.id===id);assert.equal(item.price.amount,amount);assert.equal(item.price.currency,'gp');assert.equal(item.price.book,'PHB');assert.deepEqual(item.price.pages,[35]);assert.equal(item.priceState,'source_listed');assert.match(item.price.status,/Visually checked/);assert.match(item.fields['Approx. weight'],/encumbrance; not purchase cost/);
  }
  for(const id of ['phb-bo-stick','phb-club']){const item=data.equipment.find(e=>e.id===id);assert.equal(item.price,null);assert.equal(item.priceState,'unextracted');assert.ok(!catalogs.find(c=>c.itemId===id).regions.some(r=>r.printedPage===35));}
- assert.equal(data.equipment.filter(e=>e.price!==null).length,59);assert.equal(data.equipment.filter(e=>e.price===null).length,29);
+ assert.equal(data.equipment.filter(e=>e.price!==null).length,61);assert.equal(data.equipment.filter(e=>e.price===null).length,27);
 });
 test('UA26 axe damage retains OCR grade despite matching visible PHB damage',()=>{
  for(const [id,sm,large]of [['phb-battle-axe','1–8','1–8'],['phb-hand-axe','1–6','1–4']]){
@@ -68,10 +70,10 @@ test('new selected-value evidence belongs to its item and exact cited page',()=>
  }
 });
 test('the untouched equipment entries, Dagger and matrices match the v9 semantic baseline',()=>{
- const others=data.equipment.filter(e=>![...items,...changed].includes(e.id)).sort((a,b)=>a.id.localeCompare(b.id));assert.equal(others.length,68);assert.equal(hash(others),'974f9e92f4d84b384c961816a3a8c90b34aeafa388f6f9759873679daba7c54b');assert.equal(hash(data.equipment.find(e=>e.id==='phb-dagger')),'557dbc64622c8e7b01f2e77a634845f75578d14aaec2a28371ccc1f47c6ecd8a');assert.equal(hash(data.matrices),'6f7427943e6de6229dd24f44770388a5de70ccbf861c931eff93c12d3db8a383');
+ const others=data.equipment.filter(e=>![...items,...changed,'phb-partisan','phb-ranseur'].includes(e.id)).sort((a,b)=>a.id.localeCompare(b.id));assert.equal(others.length,66);assert.equal(hash(stripExcerpts(others)),'e4886fa506a940cd8bb7ecc52be577d9d1e892942f3b9633d8249dcde4bc8f5e');assert.equal(hash(stripExcerpts(data.equipment.find(e=>e.id==='phb-dagger'))),'557dbc64622c8e7b01f2e77a634845f75578d14aaec2a28371ccc1f47c6ecd8a');assert.equal(hash(stripExcerpts(data.matrices)),'6f7427943e6de6229dd24f44770388a5de70ccbf861c931eff93c12d3db8a383');
 });
-test('spell additions are citations only; class, level, fields, rules and classes are unchanged',()=>{
- assert.equal(hash(data.spells.map(({references,...item})=>item)),'727e155ece28bb354c6ca3d22535870181772c0dd0745a7a092044d3347fe5e3');assert.equal(hash(data.rules),'ad9db274e4f158d9f931c0eba3b52878b432754318b6b8e120e68f148a035de6');assert.equal(hash(data.classes),'2dc47b8a22e59046c76d9f1fe00b75c86ee973c9af0180363d9bde423a94f820');
+test('other spells retain their semantics; rules and classes are unchanged',()=>{
+ assert.equal(hash(stripExcerpts(data.spells.filter(s=>!['ua-cleric-endure-cold-endure-heat','ua-illusionist-mirage-arcane','ua-magic-user-dusty','phb-magic-user-pyrotechnics'].includes(s.id)).map(({references,...item})=>item))),'d5fee9bdcc1f5a672a0f4c2c5532e14e3ccd7be555d77dd2b862df75ca64fadc');assert.equal(hash(stripExcerpts(data.rules)),'ad9db274e4f158d9f931c0eba3b52878b432754318b6b8e120e68f148a035de6');assert.equal(hash(stripExcerpts(data.classes)),'2dc47b8a22e59046c76d9f1fe00b75c86ee973c9af0180363d9bde423a94f820');
  const refs={
   'ua-cleric-ceremony':[['PHB',43]],'ua-cleric-aid':[['PHB',43]],'ua-cleric-heroes-feast':[['PHB',43]],'ua-druid-slow-poison':[['PHB',45]],'ua-illusionist-dispel-magic':[['PHB',47]],'ua-cleric-abjure':[['PHB',47]],'ua-magic-user-mordenkainens-disjunction':[['PHB',47],['PHB',73]],'ua-magic-user-yawn':[['PHB',68]],'ua-magic-user-bind':[['PHB',54]],'ua-magic-user-teleport-without-error':[['PHB',82]],'ua-cleric-spike-growth':[['DMG',74]],'ua-druid-spike-growth':[['DMG',74]],'ua-cleric-spike-stones':[['DMG',74]],'ua-druid-spike-stones':[['DMG',74]],'ua-magic-user-magic-mirror':[['DMG',141]],'ua-illusionist-magic-mirror':[['DMG',141]],'ua-druid-reflecting-pool':[['DMG',141]],'ua-magic-user-leomunds-secure-shelter':[['PHB',69],['PHB',72]],'ua-illusionist-read-illusionist-magic':[['PHB',68]],'ua-magic-user-melfs-minute-meteors':[['DMG',64]],
  };
