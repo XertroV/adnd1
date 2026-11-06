@@ -14,6 +14,35 @@ Serve `dist` using a static HTTP server. Run `node --test tests/*.test.mjs` for 
 
 ## Publication
 
+### GitHub Pages
+
+GitHub Pages publishes `dist` at https://xertrov.github.io/adnd1/ using
+`.github/workflows/pages.yml`. Set Settings → Pages → Source to **GitHub Actions**.
+The workflow deploys only pushes to `master` (or a manual run on `master`);
+pull requests run integrity and reproducible-output checks without deploying.
+It runs `node tools/assemble.mjs` and rejects stale committed output. Update
+`dist/data.json` with that command when changing source data.
+
+The branch-publishing dropdown cannot publish `/dist`: GitHub permits only `/`
+or `/docs`. The master-triggered workflow uploads only `dist`, without copying
+the scan library or exposing repository tooling as website files. All app,
+scan, and PDF worker URLs are relative and support the `/adnd1/` project path.
+No custom domain, source PDFs, secrets, or existing Site settings are changed.
+
+To smoke-test the project path, serve `dist` mounted at `/adnd1/`, then run
+`PLAYWRIGHT_MODULE=/path/to/playwright TEST_URL=http://localhost:8766/adnd1 node tests/pages-browser.mjs`.
+The same test accepts the live Pages URL and checks desktop/mobile excerpts
+from all five books, asset paths, and a real PDF worker with an original fixture.
+Use `BROWSER_PROXY` only when your environment requires an HTTP proxy.
+
+Notebook storage belongs to the browser origin. The existing Site and GitHub
+Pages have separate notes: use **Notebook → Export backup** on the old site,
+then **Notebook → Import** on the new site. They do not synchronize. Browser
+storage is shared with any other apps on the same `xertrov.github.io` origin,
+not isolated by the `/adnd1/` path.
+
+### Existing Site
+
 `.openai/hosting.json` preserves Site identity. The environment did not include the Sites source helper, so `tools/package-source.py` safely performs the documented source push and static archive preparation using a short-lived credential read only through hidden stdin. Native Sites tools perform deployment while preserving the requested audience. The first release was owner-private; the user subsequently requested public access.
 
 ## Current scope
