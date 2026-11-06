@@ -199,7 +199,7 @@
     });
     root.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { if (dialog.open) renderPage(); }, 150); });
   }
-  function open({ item, references, contextItemId } = {}) {
+  function open({ item, references, contextItemId, initialReference } = {}) {
     setup();
     session++;
     catalogRequest++;
@@ -207,7 +207,10 @@
     excerptCatalog = null; excerptLoading = false; excerptError = '';
     requestedMode = excerptSource ? 'excerpts' : 'pdf';
     refs = normalize(references);
-    current = 0; resetZoom(); regionIndex = 0; showHighlights = true;
+    const initialBook = books()?.code(initialReference?.book);
+    const initialPage = Number(initialReference?.page);
+    const initialIndex = refs.findIndex(ref => ref.book === initialBook && ref.page === initialPage);
+    current = initialIndex < 0 ? 0 : initialIndex; resetZoom(); regionIndex = 0; showHighlights = true;
     returnFocus = document.activeElement;
     el.item.textContent = item?.name || item?.title || 'First Edition reference';
     el.referenceList.replaceChildren(); el.select.replaceChildren();
