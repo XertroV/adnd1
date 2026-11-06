@@ -41,7 +41,7 @@ try {
   page.on('request',r=>requests.push({url:r.url(),method:r.method()}));
   page.on('pageerror',e=>errors.push(e.message));
   await page.locator('#opener').click();await shown(page);
-  check(await page.getByRole('button',{name:'Verified excerpts',exact:true}).getAttribute('aria-pressed')==='true','dagger defaults to verified excerpts');
+  check(await page.getByRole('button',{name:'View excerpts',exact:true}).getAttribute('aria-pressed')==='true','dagger defaults to verified excerpts');
   check(await page.locator('.source-viewer-file-row').isHidden(),'excerpt mode does not ask for a PDF');
   check(await page.locator('.source-viewer-controls select option').count()===4,'four cited pages remain four navigation choices');
   check(await page.locator('.source-viewer-scan').getAttribute('src')===origin+'/scans/dagger/phb35-dagger-price.png','PHB35 price image chosen');
@@ -96,7 +96,7 @@ try {
   check(await page.locator('.source-viewer-file-row').isVisible(),'touch toggle exposes local PDF reader');
   check(await page.locator('.source-viewer-image-frame').isHidden(),'local PDF mode hides hosted excerpts');
   check((await page.locator('#source-viewer-privacy').textContent()).includes('never uploaded'),'PDF mode has accurate privacy text');
-  await page.getByRole('button',{name:'Verified excerpts',exact:true}).click();await shown(page);
+  await page.getByRole('button',{name:'View excerpts',exact:true}).click();await shown(page);
   await page.locator('.source-viewer-close').focus();await page.keyboard.press('Shift+Tab');
   check(await page.locator('dialog').evaluate(n=>n.contains(document.activeElement)),'excerpt modal traps reverse tab');
   await page.keyboard.press('Escape');

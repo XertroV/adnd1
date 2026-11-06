@@ -14,7 +14,7 @@
   let libraryPromise, returnFocus, resizeTimer;
   let excerptCatalog, excerptSource = null, excerptError = '', excerptLoading = false, catalogRequest = 0;
   let requestedMode = 'pdf', regionIndex = 0, showHighlights = true, actualSize = false, session = 0;
-  let imageFit = false;
+  let imageFit = false, privacyDismissed = false;
   const imageCache = new Map(), catalogCache = new Map(), cacheLimit = 64;
   function cacheGet(cache, key) {
     const value = cache.get(key);
@@ -75,14 +75,23 @@
     dialog = node('dialog', { class: 'source-viewer', 'aria-labelledby': 'source-viewer-title', 'aria-describedby': 'source-viewer-privacy' });
     const shell = node('div', { class: 'source-viewer-shell' });
     const header = node('header', { class: 'source-viewer-header' });
-    const heading = node('div');
-    heading.append(node('span', { class: 'source-viewer-eyebrow' }, 'AT THE SOURCE'));
-    el.title = node('h2', { id: 'source-viewer-title' }, 'Original sources');
-    el.item = node('p', { class: 'source-viewer-item' });
-    heading.append(el.title, el.item);
+    const heading = node('div', { class: 'source-viewer-heading' });
+    el.title = node('h2', { id: 'source-viewer-title' });
+    el.title.append(document.createTextNode('Original Sources: '));
+    el.item = node('span', { class: 'source-viewer-item' });
+    el.title.append(el.item);
+    heading.append(el.title);
     el.close = button('Close', () => dialog.close(), { class: 'source-viewer-close', 'aria-label': 'Close original sources' });
-    header.append(heading, el.close);
-    el.privacy = node('p', { id: 'source-viewer-privacy', class: 'source-viewer-privacy' });
+    el.headerActions = node('div', { class: 'source-viewer-header-actions' });
+    header.append(heading, el.headerActions);
+    el.privacyNotice = node('div', { class: 'source-viewer-privacy' });
+    el.privacy = node('p', { id: 'source-viewer-privacy' });
+    el.dismissPrivacy = button('×', () => {
+      privacyDismissed = true; el.privacyNotice.hidden = true; dialog.removeAttribute('aria-describedby');
+      const target = !el.modes.hidden && !el.excerptMode.disabled ? el.excerptMode : el.close;
+      target.focus({ preventScroll: true });
+    }, { class: 'source-viewer-privacy-dismiss', 'aria-label': 'Dismiss source notice' });
+    el.privacyNotice.append(el.privacy, el.dismissPrivacy);
     const layout = node('div', { class: 'source-viewer-layout' });
     const aside = node('aside', { class: 'source-viewer-sources', 'aria-label': 'Cited source pages' });
     aside.append(node('h3', {}, 'Cited pages'));
@@ -95,9 +104,10 @@
     el.labels = node('p', { class: 'source-viewer-labels' });
     sourceHead.append(el.edition, el.mapping, el.labels);
     el.modes = node('div', { class: 'source-viewer-modes', role: 'group', 'aria-label': 'Source viewing mode' });
-    el.excerptMode = button('Verified excerpts', () => setMode('excerpts'), { 'aria-pressed': 'false' });
+    el.excerptMode = button('View excerpts', () => setMode('excerpts'), { 'aria-pressed': 'false' });
     el.pdfMode = button('Your PDF', () => setMode('pdf'), { 'aria-pressed': 'true' });
     el.modes.append(el.excerptMode, el.pdfMode);
+    el.headerActions.append(el.modes, el.close);
     el.excerptNotice = node('div', { class: 'source-viewer-excerpt-notice', role: 'status' });
     el.excerptNoticeText = node('p');
     el.retry = button('Retry verified excerpts', () => loadExcerpts(true));
@@ -165,9 +175,9 @@
     el.textDetails.append(node('small', { class: 'source-viewer-text-note' }, 'Text comes from your PDF and may contain OCR errors. Check the scan for exact wording.'));
     el.text = node('p');
     el.textDetails.append(el.text);
-    main.append(sourceHead, el.modes, el.excerptNotice, el.fileRow, el.editionHelp, controls, el.regions, el.pageTitle, el.status, el.stage, el.caption, el.regionStatus, el.textDetails, el.provenance);
+    main.append(sourceHead, el.excerptNotice, el.fileRow, el.editionHelp, controls, el.regions, el.pageTitle, el.status, el.stage, el.caption, el.regionStatus, el.textDetails, el.provenance);
     layout.append(aside, main);
-    shell.append(header, el.privacy, layout);
+    shell.append(header, el.privacyNotice, layout);
     dialog.append(shell);
     document.body.append(dialog);
     dialog.addEventListener('close', () => {
@@ -199,7 +209,7 @@
     });
     root.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { if (dialog.open) renderPage(); }, 150); });
   }
-  function open({ item, references, contextItemId } = {}) {
+  function open({ item, references, contextItemId, initialReference } = {}) {
     setup();
     session++;
     catalogRequest++;
@@ -207,8 +217,14 @@
     excerptCatalog = null; excerptLoading = false; excerptError = '';
     requestedMode = excerptSource ? 'excerpts' : 'pdf';
     refs = normalize(references);
-    current = 0; resetZoom(); regionIndex = 0; showHighlights = true;
+    const initialBook = books()?.code(initialReference?.book);
+    const initialPage = Number(initialReference?.page);
+    const initialIndex = refs.findIndex(ref => ref.book === initialBook && ref.page === initialPage);
+    current = initialIndex < 0 ? 0 : initialIndex; resetZoom(); regionIndex = 0; showHighlights = true;
     returnFocus = document.activeElement;
+    el.privacyNotice.hidden = privacyDismissed;
+    if (privacyDismissed) dialog.removeAttribute('aria-describedby');
+    else dialog.setAttribute('aria-describedby', 'source-viewer-privacy');
     el.item.textContent = item?.name || item?.title || 'First Edition reference';
     el.referenceList.replaceChildren(); el.select.replaceChildren();
     refs.forEach((ref, i) => {
@@ -455,7 +471,7 @@
       el.status.textContent = `Showing printed p. ${ref.page} from your local PDF (PDF page ${mapped}).`;
       el.regionStatus.hidden = false;
       el.regionStatus.textContent = excerptSource && matchingRegions().length
-        ? 'This is the complete page from your own PDF. Switch to Verified excerpts for the checked regions of this entry.'
+        ? 'This is the complete page from your own PDF. Switch to View excerpts for the checked regions of this entry.'
         : 'Focused regions not yet verified. The complete cited page is shown; use zoom to inspect its wording.';
       el.zoomOut.disabled = zoom <= .5; el.zoomIn.disabled = zoom >= 3; el.fit.disabled = false;
       const content = await page.getTextContent().catch(() => null);

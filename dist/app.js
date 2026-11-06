@@ -582,11 +582,13 @@ function bindAttributeDisclosures(root=document){
 function showSource(sourceView,id,reference=null,sourceBook='') {
  const contextItem=id==='progression-explainer'&&data.progressionExplainer?{...data.progressionExplainer,id}:data[sourceView]?.find(x=>x.id===id);
  const item=contextItem||reference;if(!item)return;
- const references=FirstEditionCitations.collect(reference||item).filter(group=>!sourceBook||bookCode(group.book)===bookCode(sourceBook));
- openScanViewer(item,references,contextItem?.id||'');
+ const references=FirstEditionCitations.collect(item);
+ const clicked=reference?FirstEditionCitations.collect(reference)[0]:references.find(group=>bookCode(group.book)===bookCode(sourceBook));
+ const initialReference=clicked?.pages?.length?{book:clicked.book,page:clicked.pages[0]}:undefined;
+ openScanViewer(item,references,contextItem?.id||'',initialReference);
 }
-function openScanViewer(item,references,contextItemId=item.id||''){
- if(globalThis.FirstEditionSourceViewer?.open){FirstEditionSourceViewer.open({item,references,contextItemId});return;}
+function openScanViewer(item,references,contextItemId=item.id||'',initialReference){
+ if(globalThis.FirstEditionSourceViewer?.open){FirstEditionSourceViewer.open({item,references,contextItemId,initialReference});return;}
  const heading=references.length===1?bookName(references[0].book):'Original source references';
  $('#sourceBody').innerHTML=`<h2 id="sourceTitle">${esc(heading)}</h2><p class="muted">${esc(item.name||item.title||'Source reference')}</p><div class="source-reference-table"><table><thead><tr><th>Book</th><th>Printed page</th><th>Supplied PDF page</th></tr></thead><tbody>${references.length?references.flatMap(group=>group.pages.map(page=>`<tr><td>${esc(bookCode(group.book))}</td><td>${page}</td><td>${pdfPage(group.book,page)===null?'Unavailable':pdfPage(group.book,page)}</td></tr>`)).join(''):'<tr><td colspan="3">Page location is not yet extracted.</td></tr>'}</tbody></table></div>${references.map(group=>`<p class="small muted">${esc(bookCode(group.book))}: ${esc(FirstEditionBooks.mapping(group.book))} PDF page numbers count from 1.</p>`).join('')}<p class="small muted">The local scan viewer is unavailable. These references still locate the rule in your own copy. Source PDFs are not hosted by this reference. Visual verification remains pending unless explicitly stated for a cited page.</p>`;
  $('#sourceDialog').showModal();
