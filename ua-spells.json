@@ -3217,16 +3217,26 @@
         "Components": "V, S",
         "Casting time": "4 segments",
         "Saving throw": "None",
-        "Area": "3″ cube"
+        "Area": "3″ cube",
+        "Dispel procedure": "Base chance 50%: add 5 percentage points per effective caster level above the opposing caster or object’s magic level; subtract 2 points per level below. Dispel automatically negates the caster’s own magic. It can remove spells on creatures or objects and counter casting in its area; it does not affect enchanted items as such, but destroys potions treated as 12th-level magic. Apply the illusionist’s two-level reduction."
       },
       "effect": [
         "Uses the cleric dispel magic rules, treating the illusionist as two experience levels below actual level."
       ],
       "conditions": [],
       "exceptions": [
-        "For example, a 9th-level illusionist resolves the spell as a 7th-level caster; consult the cleric spell for the underlying dispelling procedure."
+        "A 9th-level illusionist resolves the spell as a 7th-level caster."
       ],
-      "status": "OCR checked · visual review pending"
+      "status": "OCR checked · visual review pending",
+      "fieldSources": {
+        "Dispel procedure": {
+          "book": "PHB",
+          "pages": [
+            47
+          ],
+          "status": "Selected value visually checked"
+        }
+      }
     },
     {
       "id": "ua-illusionist-vacancy",
@@ -3306,7 +3316,9 @@
         "Casting time": "1 hour",
         "Saving throw": "None",
         "Area": "Scrying mirror",
-        "Materials": "Silver mirror worth at least 1,000 gp; bird eye, nitric acid, copper and zinc"
+        "Materials": "Silver mirror worth at least 1,000 gp; bird eye, nitric acid, copper and zinc",
+        "Scrying detection": "Check each round. The DMG states an Intelligence 12+ minimum, but its spell-user detection table contains lower-Intelligence entries; how these interact is unresolved. For non-spell-users, base chances are fighter 2%, paladin 6%, ranger 4%, thief 6%, assassin 5%, monk 1%, bard 3%; UA adds cavalier 5% and barbarian 1%. Add 1% per experience level and cumulative Intelligence bonuses above 12: 13–18 give +1%, +3%, +6%, +10%, +15%, +21% respectively. Treat monsters as the most applicable class. Spell-users use the detection-of-invisibility table instead.",
+        "Spell-user detection table": "DMG detection-of-invisibility table, per-round percentage; Intelligence columns 0–1 / 2–4 / 5–7 / 8–10 / 11–12 / 13–14 / 15–16 / 17+: level/HD 7 / 7 & 7+: — / — / — / — / — / — / — / 5; 8 / 8 & 8+: — / — / — / — / — / — / 5 / 10; 9 / 9 & 9+: — / — / — / — / — / 5 / 10 / 15; 10 / 10: — / — / — / — / 5 / 15 / 20 / 25; 11 / 10+–11: — / — / — / 5 / 15 / 25 / 30 / 35; 12 / 11+–12: — / — / 5 / 15 / 25 / 35 / 40 / 45; 13 / 12+–13: — / 5 / 10 / 25 / 35 / 45 / 50 / 55; 14 / 13+–14+: 5 / 10 / 15 / 35 / 45 / 55 / 65 / 75; 15+: 10 / 15 / 20 / 45 / 55 / 65 / 80 / 95. Dashes are blank entries."
       },
       "effect": [
         "Uses the magic-user magic mirror as a crystal-ball-like scrying surface.",
@@ -3317,9 +3329,25 @@
       ],
       "exceptions": [
         "An illusionist may cast vision instead of the normal material components; the mirror works but vision does not give its normal result.",
-        "Targets may detect the scrying; consult crystal-ball and magic-mirror detection rules."
+        "Targets may detect scrying using the per-round procedures and table shown."
       ],
-      "status": "OCR checked · visual review pending"
+      "status": "OCR checked · visual review pending",
+      "fieldSources": {
+        "Scrying detection": {
+          "book": "DMG",
+          "pages": [
+            141
+          ],
+          "status": "Selected value visually checked"
+        },
+        "Spell-user detection table": {
+          "book": "DMG",
+          "pages": [
+            60
+          ],
+          "status": "Selected value visually checked"
+        }
+      }
     },
     {
       "id": "ua-illusionist-tempus-fugit",
@@ -6166,7 +6194,9 @@
         "Casting time": "1 hour",
         "Saving throw": "None",
         "Area": "Scrying mirror",
-        "Materials": "Silver mirror worth at least 1,000 gp; hawk/eagle/roc eye, nitric acid, copper and zinc"
+        "Materials": "Silver mirror worth at least 1,000 gp; hawk/eagle/roc eye, nitric acid, copper and zinc",
+        "Scrying detection": "Check each round. The DMG states an Intelligence 12+ minimum, but its spell-user detection table contains lower-Intelligence entries; how these interact is unresolved. For non-spell-users, base chances are fighter 2%, paladin 6%, ranger 4%, thief 6%, assassin 5%, monk 1%, bard 3%; UA adds cavalier 5% and barbarian 1%. Add 1% per experience level and cumulative Intelligence bonuses above 12: 13–18 give +1%, +3%, +6%, +10%, +15%, +21% respectively. Treat monsters as the most applicable class. Spell-users use the detection-of-invisibility table instead.",
+        "Spell-user detection table": "DMG detection-of-invisibility table, per-round percentage; Intelligence columns 0–1 / 2–4 / 5–7 / 8–10 / 11–12 / 13–14 / 15–16 / 17+: level/HD 7 / 7 & 7+: — / — / — / — / — / — / — / 5; 8 / 8 & 8+: — / — / — / — / — / — / 5 / 10; 9 / 9 & 9+: — / — / — / — / — / 5 / 10 / 15; 10 / 10: — / — / — / — / 5 / 15 / 20 / 25; 11 / 10+–11: — / — / — / 5 / 15 / 25 / 30 / 35; 12 / 11+–12: — / — / 5 / 15 / 25 / 35 / 40 / 45; 13 / 12+–13: — / 5 / 10 / 25 / 35 / 45 / 50 / 55; 14 / 13+–14+: 5 / 10 / 15 / 35 / 45 / 55 / 65 / 75; 15+: 10 / 15 / 20 / 45 / 55 / 65 / 80 / 95. Dashes are blank entries."
       },
       "effect": [
         "Makes a crystal-ball-like scrying mirror. Comprehend languages, read magic, tongues, infravision and ultravision work through it.",
@@ -6178,7 +6208,23 @@
       "exceptions": [
         "Targets can detect scrying under crystal-ball rules; cavaliers have a base 5% chance and barbarians 1%, as noted here."
       ],
-      "status": "OCR checked · visual review pending"
+      "status": "OCR checked · visual review pending",
+      "fieldSources": {
+        "Scrying detection": {
+          "book": "DMG",
+          "pages": [
+            141
+          ],
+          "status": "Selected value visually checked"
+        },
+        "Spell-user detection table": {
+          "book": "DMG",
+          "pages": [
+            60
+          ],
+          "status": "Selected value visually checked"
+        }
+      }
     },
     {
       "id": "ua-magic-user-shout",
@@ -6587,7 +6633,8 @@
         "Casting time": "3–4 segments",
         "Saving throw": "None",
         "Area": "A cube 2″ on each side; forcecube variant is 1″ on each side",
-        "Materials": "At memorization, powder a diamond worth at least 1,000 gp and trace the intended cage or cube with its dust; toss the dust away to complete the study. No material is used in the later casting."
+        "Materials": "At memorization, powder a diamond worth at least 1,000 gp and trace the intended cage or cube with its dust; toss the dust away to complete the study. No material is used in the later casting.",
+        "Cube of force comparison": "The DMG device has five selectable screens that keep out, respectively: gases and wind; nonliving matter; living matter; magic; or all things. Its sixth face deactivates it. The device also has charges and face-dependent movement rates; UA says the spell resembles the device except for differences inherent in spell versus device, including how its power is defeated."
       },
       "effect": [
         "Forms a cage of alternating bands of force with open gaps. Creatures that cannot pass through the gaps are confined.",
@@ -6601,13 +6648,22 @@
       ],
       "exceptions": [
         "The cage consists of alternating force bands with ½-foot gaps.",
-        "The forcecube variant imports the cube of force device rules; consult that device for its detailed barrier effects."
+        "Forcecube resembles the DMG cube of force, but the source does not specify how the device’s selectable faces, charges, movement rates or methods of defeating its power apply to this spell."
       ],
       "status": "OCR checked · visual review pending",
       "incomplete": true,
       "aliases": [
         "Forcecube"
-      ]
+      ],
+      "fieldSources": {
+        "Cube of force comparison": {
+          "book": "DMG",
+          "pages": [
+            142
+          ],
+          "status": "Selected value visually checked"
+        }
+      }
     },
     {
       "id": "ua-magic-user-mordenkainens-magnificent-mansion",
