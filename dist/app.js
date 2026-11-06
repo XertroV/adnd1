@@ -106,7 +106,7 @@ function detailHeaderHTML(item,{eyebrow,status='OCR checked',statusClass='unveri
 $$('[data-icon]').forEach(el => { el.innerHTML = icon(el.dataset.icon); });
 const STORAGE_KEY = 'first-edition-notebook-v1';
 const views = ['spells','rules','equipment','classes','notebook','sources'];
-let data = {spells:[], rules:[], equipment:[], classes:[], sources:[], matrices:[],progressionExplainer:null};
+let data = {spells:[], rules:[], equipment:[], classes:[], sources:[], matrices:[],progressionExplainer:null,release:null};
 let view = 'spells';
 let selectedId = '';
 let filter = {q:'', class:'', book:'', category:'', details:''};
@@ -169,7 +169,14 @@ function statusLabel(item) {
 }
 function isVerified(item) { const s = String(item.status || '').toLowerCase(); return s.includes('visually verified') && !s.includes('not visually'); }
 function selectedScanVerification(item){const verification=item.scanVerification;return verification?.state==='selected-values-checked'&&Number.isInteger(verification.regionCount)&&verification.regionCount>0?verification:null;}
-function scanCoverage(){const items=['spells','rules','equipment','classes'].flatMap(key=>data[key]).filter(selectedScanVerification);return {items,regions:items.reduce((total,item)=>total+selectedScanVerification(item).regionCount,0)};}
+function scanCoverage(){
+ const items=['spells','rules','equipment','classes'].flatMap(key=>data[key]).filter(selectedScanVerification);
+ const excerpts=data.release?.excerpts;
+ const listed=Array.isArray(excerpts?.itemIds)?new Set(excerpts.itemIds.filter(id=>typeof id==='string')):null;
+ const matches=listed&&listed.size===items.length&&items.every(item=>listed.has(item.id));
+ const count=key=>matches&&Number.isInteger(excerpts[key])&&excerpts[key]>0?excerpts[key]:null;
+ return {items,regions:count('regions'),scopedRegions:count('scopedRegions'),imageFiles:count('imageFiles')};
+}
 function classesOf(item) { return Array.isArray(item.classes) && item.classes.length ? item.classes : Array.isArray(item.class) ? item.class : item.class ? [item.class] : []; }
 function classText(item) { return classesOf(item).join(' / ') || 'Class not yet extracted'; }
 function levelText(item) { return item.level === undefined || item.level === null || item.level === '' ? 'Level not yet extracted' : `Level ${item.level}`; }
@@ -192,7 +199,7 @@ function inlineNotes(target) {
 }
 function banner() {
  const checked=scanCoverage();
- const verification=checked.items.length?`Mostly OCR-checked references. ${checked.regions} limited ${checked.items.length===1?checked.items[0].name||checked.items[0].title:'reference'} scan regions checked; broader visual verification is pending.`:'OCR-checked references; visual table verification is pending.';
+ const verification=checked.items.length?`Mostly OCR-checked references. ${checked.regions===null?'Selected values checked':`${checked.regions} unique scan regions checked`} across ${checked.items.length} reference ${checked.items.length===1?'entry':'entries'}; broader visual verification is pending.`:'OCR-checked references; visual table verification is pending.';
  return `<div class="coverage-banner">${icon('info')}<span><strong>Curated first release · expanding coverage.</strong> ${esc(verification)}</span><a href="#sources">See coverage &amp; known gaps ↗</a></div>`;
 }
 function pageHeading(eyebrow, title, description, actions = '') {
@@ -500,8 +507,9 @@ function bindCombatDisclosures(root=document) {
 
 function renderSources() {
  const checked=scanCoverage();
- const verificationCopy=checked.items.length?`${checked.regions} limited scan regions for ${checked.items.map(item=>item.name||item.title).join(', ')} have been visually checked against selected values. These references remain partial; other tables and values still await visual verification.`:'Important tables still require visual verification against the scan.';
- const sourceSharingCopy=checked.items.length?'The full source PDFs and wholesale book text are never published here. Only the approved limited excerpts are hosted for the checked reference; their provenance is recorded in the excerpt catalog.':'The source PDFs and wholesale book text are never published here.';
+ const countsCopy=checked.regions===null?'':`${checked.regions} unique checked regions${checked.imageFiles===null?'':` in ${checked.imageFiles} source images`}. ${checked.scopedRegions===null?'':`The item catalogs contain ${checked.scopedRegions} item-specific region entries${checked.scopedRegions>checked.regions?', including reused regions':''}. `}`;
+ const verificationCopy=checked.items.length?`Selected values on ${checked.items.length} reference ${checked.items.length===1?'entry have':'entries have'} been visually checked. ${countsCopy}These references remain partial: verification applies only to the fields and limits stated on each card. Other values, secondary references and tables retain their source-specific grades and may still be OCR-only or unverified.`:'Important tables still require visual verification against the scan.';
+ const sourceSharingCopy=checked.items.length?'The full source PDFs and wholesale book text are never published here. Only the approved limited excerpts are included for the checked references; their provenance is recorded in the excerpt catalogs.':'The source PDFs and wholesale book text are never published here.';
  const xpCount = data.classes.filter(x=>xpThresholds(x).length>0).length;
  const detailed = data.spells.filter(hasDetails).length;
  const sources = data.sources.length ? data.sources : [{id:'PHB',title:'Players Handbook',edition:'Sixth printing · January 1980',mapping:'Printed page N = PDF page N + 1',gaps:[],coverage:'Extraction in progress.'},{id:'UA',title:'Unearthed Arcana',edition:'Original 1985 edition',mapping:'Printed page N = PDF page N + 1',gaps:[],coverage:'Extraction in progress.'},{id:'DMG',title:'Dungeon Masters Guide',edition:'Revised December 1979',mapping:'Printed 1–174: PDF N+1. Printed 176–239: PDF N.',gaps:[175,240],coverage:'Missing pages are excluded.'}];
@@ -661,6 +669,7 @@ async function initialize() {
   const incoming=await response.json();
   for(const key of ['spells','rules','equipment','classes','sources','matrices'])data[key]=Array.isArray(incoming[key])?incoming[key]:[];
   data.progressionExplainer=incoming.progressionExplainer&&typeof incoming.progressionExplainer==='object'?incoming.progressionExplainer:null;
+  data.release=incoming.release&&typeof incoming.release==='object'&&!Array.isArray(incoming.release)?incoming.release:null;
   buildIndex();updateCounts();route({force:true});revealInitialReference();
  }catch(error){$('#main').innerHTML=pageHeading('A MOMENT AT THE LIBRARY','The reference could not open.','Your annotations are safe in this browser. The rule data could not be loaded.')+`<div class="empty-state load-error"><p>${esc(error.message)}</p><button class="button primary" id="retryLoad">Try again</button> <a href="#notebook" class="button secondary" id="offlineNotes">Open my notebook</a></div>`;$('#retryLoad').onclick=initialize;$('#offlineNotes').onclick=()=>{view='notebook';render();};}
 }

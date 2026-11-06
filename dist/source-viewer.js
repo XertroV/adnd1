@@ -6,19 +6,32 @@
     PHB: 'Players Handbook · sixth printing, January 1980',
     UA: 'Unearthed Arcana · original 1985 edition',
     DMG: 'Dungeon Masters Guide · revised December 1979',
+    MM: 'Monster Manual · AD&D first edition scan',
+    MM2: 'Monster Manual II · AD&D first edition scan; printed p.83 is displaced',
   };
   const files = new Map();
   let dialog, el = {}, refs = [], current = 0, zoom = 1, renderTask, renderVersion = 0;
   let libraryPromise, returnFocus, resizeTimer;
-  let excerptPromise, excerptCatalog, excerptError = '', excerptLoading = false;
-  let daggerContext = false, requestedMode = 'pdf', regionIndex = 0, showHighlights = true, actualSize = false, session = 0;
+  let excerptCatalog, excerptSource = null, excerptError = '', excerptLoading = false, catalogRequest = 0;
+  let requestedMode = 'pdf', regionIndex = 0, showHighlights = true, actualSize = false, session = 0;
   let imageFit = false;
-  const imageCache = new Map();
-  const catalogURL = new URL('scans/dagger/manifest.json', scriptBase);
+  const imageCache = new Map(), catalogCache = new Map();
   const imageNames = new Set(['phb35-dagger-price.png','phb37-dagger-weight-damage.png','phb38-dagger-melee.png','phb38-dagger-thrown.png','phb38-missile-notes.png','ua28-dagger-thrown.png','ua28-missile-notes.png']);
   const books = () => root.FirstEditionBooks;
   const title = book => books()?.title(book) || book;
   const pageNumber = ref => books()?.pdfPage(ref.book, ref.page) ?? null;
+  function resolveExcerptSource(item, contextItemId) {
+    const ids = [item?.id, contextItemId, item?.contextItemId].filter(id => id !== undefined && id !== null);
+    const itemId = ids[0];
+    if (typeof itemId !== 'string' || !/^[a-z0-9][a-z0-9-]{0,100}$/.test(itemId) || ids.some(id => id !== itemId)) return null;
+    const verification = item?.scanVerification;
+    const legacy = verification == null && itemId === 'phb-dagger';
+    const path = legacy ? 'scans/dagger/manifest.json' : verification?.state === 'selected-values-checked' ? verification.catalog : null;
+    if (typeof path !== 'string' || !/^scans\/dagger\/(manifest|(?:phb|ua)-[a-z0-9-]+)\.json$/.test(path)) return null;
+    const url = new URL(path, scriptBase);
+    if (url.origin !== location.origin) return null;
+    return { itemId, name: item?.name || item?.title || 'this entry', url: url.href, legacy };
+  }
   function normalize(references) {
     const result = [], seen = new Set();
     for (const ref of references || []) {
@@ -146,7 +159,9 @@
     dialog.append(shell);
     document.body.append(dialog);
     dialog.addEventListener('close', () => {
+      if (dialog.open) return; // An older queued close must not cancel a newly opened item.
       session++;
+      catalogRequest++;
       renderVersion++;
       renderTask?.cancel();
       document.body.classList.remove('source-viewer-open');
@@ -175,10 +190,10 @@
   function open({ item, references, contextItemId } = {}) {
     setup();
     session++;
-    const context = contextItemId || item?.contextItemId || item?.id;
-    daggerContext = context === 'phb-dagger' && (!item?.id || item.id === 'phb-dagger');
-    requestedMode = daggerContext ? 'excerpts' : 'pdf';
-    excerptError = '';
+    catalogRequest++;
+    excerptSource = resolveExcerptSource(item, contextItemId);
+    excerptCatalog = null; excerptLoading = false; excerptError = '';
+    requestedMode = excerptSource ? 'excerpts' : 'pdf';
     refs = normalize(references);
     current = 0; resetZoom(); regionIndex = 0; showHighlights = true;
     returnFocus = document.activeElement;
@@ -194,7 +209,7 @@
     document.body.classList.add('source-viewer-open');
     update();
     el.close.focus({ preventScroll: true });
-    if (daggerContext && !excerptCatalog) loadExcerpts();
+    if (excerptSource) loadExcerpts();
   }
   function resetZoom() { zoom = 1; actualSize = false; imageFit = false; }
   function setMode(mode) {
@@ -210,17 +225,20 @@
   function changeZoom(delta) { zoom = Math.min(viewingExcerpts() ? 4 : 3, Math.max(.5, zoom + delta)); renderPage(); }
   function matchingRegions() {
     const ref = refs[current];
-    return daggerContext && ref && excerptCatalog ? excerptCatalog.regions.filter(region => region.book === ref.book && region.printedPage === ref.page) : [];
+    return excerptSource && ref && excerptCatalog?.itemId === excerptSource.itemId ? excerptCatalog.regions.filter(region => region.book === ref.book && region.printedPage === ref.page) : [];
   }
   function viewingExcerpts() {
-    return daggerContext && requestedMode === 'excerpts' && !excerptError && (!excerptCatalog || matchingRegions().length > 0);
+    return !!excerptSource && requestedMode === 'excerpts' && !excerptError && (!excerptCatalog || matchingRegions().length > 0);
   }
-  function validateCatalog(catalog) {
-    if (catalog?.schemaVersion !== 1 || catalog.itemId !== 'phb-dagger' || !Array.isArray(catalog.regions) || catalog.regions.length !== 7) throw new Error('Unsupported excerpt catalog.');
+  function validateCatalog(catalog, expectedItemId) {
+    if (catalog?.schemaVersion !== 1 || typeof catalog.itemId !== 'string' || !/^[a-z0-9][a-z0-9-]{0,100}$/.test(catalog.itemId)
+        || expectedItemId && catalog.itemId !== expectedItemId || !Array.isArray(catalog.regions) || catalog.regions.length < 1 || catalog.regions.length > 32
+        || catalog.itemId === 'phb-dagger' && catalog.regions.length !== 7 || typeof catalog.scope !== 'string') throw new Error('Unsupported excerpt catalog.');
     const seen = new Set();
     for (const region of catalog.regions) {
       const pageOK = region.book === 'PHB' ? [35,37,38].includes(region.printedPage) : region.book === 'UA' && region.printedPage === 28;
-      if (!pageOK || region.pdfPage !== books().pdfPage(region.book, region.printedPage) || !imageNames.has(region.image) || !region.image.startsWith(`${region.book.toLowerCase()}${region.printedPage}-`) || region.id !== region.image.slice(0,-4) || seen.has(region.id)
+      if (!pageOK || region.pdfPage !== books().pdfPage(region.book, region.printedPage) || !imageNames.has(region.image) || !region.image.startsWith(`${region.book.toLowerCase()}${region.printedPage}-`)
+          || typeof region.id !== 'string' || !/^[a-z0-9][a-z0-9-]{0,100}$/.test(region.id) || seen.has(region.id)
           || !Number.isInteger(region.width) || !Number.isInteger(region.height) || region.width < 1 || region.height < 1 || region.width > 8192 || region.height > 8192
           || region.verification !== 'visually-checked-crop' || !/^[a-f0-9]{64}$/.test(region.sha256 || '')
           || !Array.isArray(region.focusRects) || region.focusRects.some(box => !Array.isArray(box) || box.length !== 4 || box.some(n => !Number.isFinite(n)) || box[0] < 0 || box[1] < 0 || box[2] <= 0 || box[3] <= 0 || box[0] + box[2] > 1.001 || box[1] + box[3] > 1.001)
@@ -233,33 +251,35 @@
     return catalog;
   }
   async function loadExcerpts(retry = false) {
-    if (!daggerContext) return;
-    const requestSession = session;
+    if (!excerptSource) return;
+    const requestSession = session, request = ++catalogRequest, source = excerptSource;
     excerptError = ''; excerptLoading = true;
-    if (retry) { excerptPromise = null; excerptCatalog = null; requestedMode = 'excerpts'; }
+    if (retry) { catalogCache.delete(source.url); excerptCatalog = null; requestedMode = 'excerpts'; }
     update();
-    if (!excerptPromise) {
-      excerptPromise = (async () => {
-        if (catalogURL.origin !== location.origin) throw new Error('Excerpt assets must use this site.');
+    let cached = catalogCache.get(source.url);
+    if (!cached) {
+      cached = {};
+      cached.promise = (async () => {
         const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 12000);
         try {
-          const response = await fetch(catalogURL.href, { credentials: 'same-origin', cache: 'no-cache', signal: controller.signal });
+          const response = await fetch(source.url, { credentials: 'same-origin', cache: 'no-cache', signal: controller.signal });
           if (!response.ok) throw new Error('Excerpt catalog unavailable.');
           const text = await response.text();
           if (text.length > 100000) throw new Error('Excerpt catalog too large.');
           return validateCatalog(JSON.parse(text));
         } finally { clearTimeout(timeout); }
-      })().catch(error => { excerptPromise = null; throw error; });
+      })().catch(error => { if (catalogCache.get(source.url) === cached) catalogCache.delete(source.url); throw error; });
+      catalogCache.set(source.url, cached);
     }
     try {
-      const catalog = await excerptPromise;
+      const catalog = validateCatalog(await cached.promise, source.itemId);
+      if (requestSession !== session || request !== catalogRequest || excerptSource !== source || !dialog.open) return;
       excerptCatalog = catalog;
       excerptLoading = false;
-      if (requestSession !== session || !dialog.open) return;
       update();
     } catch {
+      if (requestSession !== session || request !== catalogRequest || excerptSource !== source || !dialog.open) return;
       excerptLoading = false;
-      if (requestSession !== session || !dialog.open) return;
       excerptError = 'Verified excerpts could not be loaded. Open your own PDF below, or retry the excerpts.';
       requestedMode = 'pdf';
       update();
@@ -277,12 +297,12 @@
     el.labels.textContent = ref?.labels.join(' · ') || '';
     const excerpts = viewingExcerpts();
     const regions = matchingRegions();
-    el.modes.hidden = !daggerContext;
+    el.modes.hidden = !excerptSource;
     el.excerptMode.disabled = excerptLoading || !!excerptCatalog && !regions.length;
     el.excerptMode.setAttribute('aria-pressed', String(excerpts));
     el.pdfMode.setAttribute('aria-pressed', String(!excerpts));
     el.privacy.textContent = excerpts
-      ? 'Only selected dagger values and shared missile notes in these seven limited excerpts have been checked. Complete source PDFs are not hosted. Your own PDF can be opened privately.'
+      ? `${excerptSource.name}: only the selected values and accompanying notes in these limited excerpts have been checked. Complete source PDFs are not hosted. Your own PDF can be opened privately.`
       : 'Open your own PDF to read the cited pages. Your file stays in this tab; it is never uploaded or saved by this site.';
     el.fileRow.hidden = el.editionHelp.hidden = excerpts;
     el.regions.hidden = !excerpts || !regions.length;
@@ -296,7 +316,7 @@
     el.actual.hidden = !excerpts;
     el.fit.textContent = excerpts ? 'Fit width' : 'Fit page';
     if (!excerpts) { el.fit.removeAttribute('aria-pressed'); el.actual.removeAttribute('aria-pressed'); }
-    el.excerptNotice.hidden = !daggerContext || !excerptError;
+    el.excerptNotice.hidden = !excerptSource || !excerptError;
     el.excerptNoticeText.textContent = excerptError;
     el.retry.disabled = excerptLoading;
     el.stage.setAttribute('aria-label', excerpts ? 'Verified excerpt; use arrow keys or scroll to pan when zoomed' : 'Original page; scroll to explore when zoomed');
@@ -309,7 +329,7 @@
     el.provenance.open = false;
     renderPage();
     const focused = document.activeElement;
-    if (focused && dialog.contains(focused) && !focused.getClientRects().length) (daggerContext ? el.pdfMode : el.close).focus({ preventScroll: true });
+    if (focused && dialog.contains(focused) && !focused.getClientRects().length) (excerptSource ? el.pdfMode : el.close).focus({ preventScroll: true });
   }
   async function library() {
     if (!libraryPromise) {
@@ -422,8 +442,8 @@
       el.stage.scrollTo(0, 0);
       el.status.textContent = `Showing printed p. ${ref.page} from your local PDF (PDF page ${mapped}).`;
       el.regionStatus.hidden = false;
-      el.regionStatus.textContent = daggerContext && matchingRegions().length
-        ? 'This is the complete page from your own PDF. Switch to Verified excerpts for the checked dagger regions.'
+      el.regionStatus.textContent = excerptSource && matchingRegions().length
+        ? 'This is the complete page from your own PDF. Switch to Verified excerpts for the checked regions of this entry.'
         : 'Focused regions not yet verified. The complete cited page is shown; use zoom to inspect its wording.';
       el.zoomOut.disabled = zoom <= .5; el.zoomIn.disabled = zoom >= 3; el.fit.disabled = false;
       const content = await page.getTextContent().catch(() => null);
@@ -437,14 +457,15 @@
     }
   }
   async function renderExcerpt(version, ref) {
-    const regions = matchingRegions(), region = regions[regionIndex];
-    if (!region) return empty('Loading the verified dagger excerpts…', 'Loading limited scan excerpts.');
+    const catalog = excerptCatalog, excerptOwner = excerptSource, regions = matchingRegions(), region = regions[regionIndex];
+    if (!region) return empty('Loading the verified excerpts…', 'Loading limited scan excerpts.');
     el.canvas.hidden = true; el.textDetails.hidden = el.regionStatus.hidden = true;
     el.actual.disabled = true;
     el.placeholder.hidden = false; el.placeholder.textContent = 'Loading verified excerpt…';
     el.status.textContent = `Loading ${region.title}…`;
     try {
-      if (!imageCache.has(region.image)) {
+      const imageURL = new URL(region.image, excerptOwner.url).href;
+      if (!imageCache.has(imageURL)) {
         const promise = new Promise((resolve, reject) => {
           const image = node('img', { class: 'source-viewer-scan', alt: region.alt, decoding: 'async' });
           const timeout = setTimeout(() => {
@@ -455,16 +476,16 @@
           image.onload = () => {
             clearTimeout(timeout);
             image.onload = image.onerror = null;
-            if (image.naturalWidth !== region.width || image.naturalHeight !== region.height) reject(new Error('Excerpt dimensions do not match.'));
-            else resolve(image);
+            resolve(image);
           };
           image.onerror = () => { clearTimeout(timeout); image.onload = image.onerror = null; reject(new Error('Excerpt image unavailable.')); };
-          image.src = new URL(region.image, catalogURL).href;
-        }).catch(error => { imageCache.delete(region.image); throw error; });
-        imageCache.set(region.image, promise);
+          image.src = imageURL;
+        }).catch(error => { imageCache.delete(imageURL); throw error; });
+        imageCache.set(imageURL, promise);
       }
-      const image = await imageCache.get(region.image);
-      if (version !== renderVersion || !dialog.open || !daggerContext || !viewingExcerpts()) return;
+      const image = await imageCache.get(imageURL);
+      if (version !== renderVersion || !dialog.open || excerptSource !== excerptOwner || excerptCatalog !== catalog || !viewingExcerpts()) return;
+      if (image.naturalWidth !== region.width || image.naturalHeight !== region.height) throw new Error('Excerpt dimensions do not match.');
       image.alt = region.alt;
       el.scan.replaceWith(image); el.scan = image;
       const availableWidth = Math.max(160, el.stage.clientWidth - 24);
@@ -487,8 +508,8 @@
       const label = key => key.replace(/_/g,' ').replace(/\bac\b/gi,'AC').replace(/^./,c => c.toUpperCase());
       el.checkedValues.replaceChildren(...Object.entries(region.checkedFields).flatMap(([key,value]) => [node('dt', {}, label(key)),node('dd', {}, format(value))]));
       el.caption.hidden = false;
-      const source = excerptCatalog.sources[ref.book];
-      el.provenanceText.textContent = `Checked crop: ${region.checkedOn}. PNG SHA-256: ${region.sha256}. Source PDF SHA-256 (supplied with the handoff): ${source.sha256}. ${excerptCatalog.scope} This does not verify the whole page or book.`;
+      const source = catalog.sources[ref.book];
+      el.provenanceText.textContent = `Checked crop: ${region.checkedOn}. PNG SHA-256: ${region.sha256}. Source PDF SHA-256 (supplied with the handoff): ${source.sha256}. ${catalog.scope} This does not verify the whole page or book.`;
       el.provenance.hidden = false;
       el.status.textContent = `${ref.book} printed p. ${ref.page} · PDF page ${region.pdfPage} · excerpt ${regionIndex + 1} of ${regions.length}. ${actualSize ? zoom === 1 ? 'Actual image pixels' : 'Zoom from actual size' : imageFit ? zoom === 1 ? 'Fit width' : 'Zoom from fit width' : 'Readable view'}; scroll or use arrow keys to pan.`;
       const firstFocus = region.focusRects[0];
@@ -496,7 +517,7 @@
       el.stage.scrollTo(0,Math.max(0,focusBottom - el.stage.clientHeight));
       el.zoomOut.disabled = zoom <= .5; el.zoomIn.disabled = zoom >= 4; el.fit.disabled = el.actual.disabled = false;
     } catch {
-      if (version !== renderVersion || !dialog.open || !daggerContext) return;
+      if (version !== renderVersion || !dialog.open || excerptSource !== excerptOwner || excerptCatalog !== catalog) return;
       excerptError = 'This verified excerpt could not be loaded. Open your own PDF below, or retry the excerpts.';
       requestedMode = 'pdf'; resetZoom(); update();
     }

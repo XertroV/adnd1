@@ -57,14 +57,14 @@ const assembled = JSON.parse(fs.readFileSync(path.join(root, 'dist/data.json'), 
     assert.equal(response.status(), 200);
     const live = await response.json();
     assert.deepEqual(live, assembled, 'test server must expose the current assembled checkpoint');
-    check('live assembly has 638 spell cards, 80 gear entries and the original matrix', live.spells.length===638 && live.spells.every(s=>s.effect?.length) && live.equipment.length===80 && live.matrices.length===1);
+    check('live assembly has 638 spell cards, 88 gear entries and the original matrix', live.spells.length===638 && live.spells.every(s=>s.effect?.length) && live.equipment.length===88 && live.matrices.length===1);
 
     await route('equipment');
-    check('equipment index loads all 80 entries', await count()===80);
+    check('equipment index loads all 88 entries', await count()===88);
     await page.locator('#priceFilter').selectOption('known');
-    check('known-price filter returns 46 entries', await count()===46);
+    check('known-price filter returns 59 entries', await count()===59);
     await page.locator('#priceFilter').selectOption('unknown');
-    check('unknown-price filter returns 34 entries', await count()===34);
+    check('unknown-price filter returns 29 entries', await count()===29);
     await page.locator('#clearFilters').click();
     for (const query of ['light crossbow','lightcrossbow','lightxbow','light x-bow','crossbow light']) {
       await search(query);
@@ -77,8 +77,8 @@ const assembled = JSON.parse(fs.readFileSync(path.join(root, 'dist/data.json'), 
     check('field-source UA filter preserves the PHB Light Crossbow', await count()===1 && await page.locator('#referenceDetail h2').innerText()==='Light Crossbow');
     await page.locator('.result-item').first().click(); // Persist the selected reference in the URL before testing reload.
     const crossbowText = await page.locator('#referenceDetail').innerText();
-    check('crossbow price stays unavailable rather than zero or weight-derived', /Price not extracted/.test(await page.locator('.attribute-fact').first().innerText()) && (await page.locator('.price-gap').innerText()).trim().length>0);
-    check('crossbow card preserves source rate, ranges and range-unit distinction', /1 per melee round/.test(crossbowText) && /6″ \/ 12″ \/ 18″/.test(crossbowText) && /10 feet indoors; 10 yards outdoors/.test(crossbowText));
+    check('crossbow price is the checked 12 gp', /12 gp/.test(await page.locator('.attribute-fact').first().innerText()));
+    check('crossbow card preserves source rate, ranges and range-unit distinction', /1 \(tabletop-miniatures turn or melee round\)/.test(crossbowText) && /6 \/ 12 \/ 18/.test(crossbowText) && /10 feet indoors; 10 yards outdoors/.test(crossbowText));
     check('currency versus gp-weight is explained in the gear card', /Purchase price · currency/.test(crossbowText) && /gp-weight.*encumbrance unit.*not a price/s.test(crossbowText));
     await page.locator('[data-attribute-view="table"]').click();
     await page.locator('.attribute-table [data-ref-book="UA"][data-ref-pages="28"]').first().click();
