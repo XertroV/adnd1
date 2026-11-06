@@ -16,7 +16,8 @@ const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const canonical=v=>Array.isArray(v)?v.map(canonical):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,canonical(v[k])])):v;
 test('only seven unchanged authorized PNG excerpts plus sanitized manifest are public',()=>{
  assert.equal(catalog.itemId,'phb-dagger');assert.equal(catalog.regions.length,7);
- assert.deepEqual(readdirSync(dir).sort(),['manifest.json',...Object.keys(expected).map(id=>id+'.png')].sort());
+ const batchItems=['phb-battle-axe','phb-hand-axe','phb-bardiche','phb-bec-de-corbin','phb-bill-guisarme','phb-bo-stick','phb-club','phb-arrow','phb-heavy-crossbow','phb-light-crossbow','ua-hand-crossbow','phb-composite-long-bow','phb-composite-short-bow','phb-long-bow','phb-short-bow','phb-silver-arrow','ua-aklys-hurled','ua-atlatl-javelin','ua-blowgun-needle'];
+ assert.deepEqual(readdirSync(dir).sort(),['manifest.json',...batchItems.map(id=>id+'.json'),...Object.keys(expected).map(id=>id+'.png')].sort());
  const serialized=JSON.stringify(catalog);assert.doesNotMatch(serialized,/libfile_|oai-library|asset_pointer|\/workspace|\/tmp|render_crops|review\.json|file:\/\//i);
  for(const region of catalog.regions){
   const [book,page,pdf,width,height,sha,focus]=expected[region.id]||[];assert.ok(book,region.id);
@@ -31,9 +32,9 @@ test('four source pages contain seven different regions; PDF digests stay handof
  for(const source of Object.values(catalog.sources)){assert.equal(source.hashStatus,'supplied-handoff');assert.match(source.sha256,/^[a-f0-9]{64}$/);}
  assert.match(catalog.scope,/outside this image review/);
 });
-test('only dagger changes its source-backed price and selected-value evidence',()=>{
+test('dagger retains its scoped evidence while the separate local batch is tested independently',()=>{
  const dagger=data.equipment.find(x=>x.id==='phb-dagger');assert.equal(dagger.price.amount,2);assert.equal(dagger.price.currency,'gp');assert.deepEqual(dagger.price.pages,[35]);assert.match(dagger.priceNote,/dagger and scabbard/);assert.equal(dagger.incomplete,true);assert.equal(dagger.scanVerification.regionCount,7);assert.equal(Object.keys(dagger.fields).length,6);assert.equal(dagger.fields['Approx. weight'],'10 gp-weight (encumbrance; not purchase cost)');assert.equal(dagger.fields['Damage vs S/M'],'1–4');assert.equal(dagger.fields['Damage vs Large'],'1–3');assert.equal(dagger.fields['Weapon speed factor'],'2');assert.equal(dagger.fields['Thrown rate (UA p.28)'],'2 per melee round');assert.equal(dagger.fields['Thrown range S/M/L (UA p.28)'],'1″ / 2″ / 3″');assert.equal(dagger.fieldSources['Thrown range S/M/L (UA p.28)'].verification.coverage,'numeric-bands-only');
- assert.equal(data.equipment.filter(x=>x.price!==null).length,46);assert.equal(data.equipment.filter(x=>x.price===null).length,34);
+ assert.equal(data.equipment.filter(x=>x.price!==null).length,59);assert.equal(data.equipment.filter(x=>x.price===null).length,29);
  // Pinned semantic hashes from the independent pre-update comparison, without private paths/IDs.
- const other=data.equipment.filter(x=>x.id!=='phb-dagger').sort((a,b)=>a.id.localeCompare(b.id));assert.equal(hash(JSON.stringify(canonical(other))),'3e049cf8f16cc90ae0882143f29dfdcac3633c8370fcf268c775e50d7bf1c95b');assert.equal(hash(JSON.stringify(canonical(data.matrices))),'6f7427943e6de6229dd24f44770388a5de70ccbf861c931eff93c12d3db8a383');
+ const other=data.equipment.filter(x=>!['phb-dagger','phb-battle-axe','phb-hand-axe','phb-bardiche','phb-bec-de-corbin','phb-bill-guisarme','phb-bo-stick','phb-club','phb-arrow','phb-heavy-crossbow','phb-light-crossbow','ua-hand-crossbow','phb-composite-long-bow','phb-composite-short-bow','phb-long-bow','phb-short-bow','phb-silver-arrow','ua-aklys-hurled','ua-atlatl-javelin','ua-blowgun-needle'].includes(x.id)).sort((a,b)=>a.id.localeCompare(b.id));assert.equal(hash(JSON.stringify(canonical(other))),'974f9e92f4d84b384c961816a3a8c90b34aeafa388f6f9759873679daba7c54b');assert.equal(hash(JSON.stringify(canonical(data.matrices))),'6f7427943e6de6229dd24f44770388a5de70ccbf861c931eff93c12d3db8a383');
 });

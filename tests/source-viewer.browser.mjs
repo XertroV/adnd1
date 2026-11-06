@@ -35,10 +35,13 @@ function makePdf(count) {
 const fixture = path.join(temporary, 'original-fixture.pdf');
 const short = path.join(temporary, 'too-short.pdf');
 const invalid = path.join(temporary, 'invalid.pdf');
+const mmFixture=path.join(temporary,'mm-generated-113.pdf'),mmShort=path.join(temporary,'mm-generated-112.pdf');
+const mm2Fixture=path.join(temporary,'mm2-generated-161.pdf'),mm2Short=path.join(temporary,'mm2-generated-160.pdf');
 await writeFile(fixture, makePdf(241));
 await writeFile(short, makePdf(3));
 await writeFile(invalid, 'This is not a PDF.');
-const harness = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Source viewer fixture</title><link rel="stylesheet" href="/source-viewer.css"></head><body><button id="opener">Open sources</button><script src="/books.js"></script><script src="/source-viewer.js"></script><script>document.querySelector('#opener').onclick=()=>FirstEditionSourceViewer.open({item:{name:'Original fixture reference'},references:[{book:'PHB',pages:[35,37,38],labels:['Price','Damage']},{book:'UA',pages:[28]},{book:'DMG',pages:[174,175,176,240]}]});</script></body></html>`;
+await Promise.all([[mmFixture,113],[mmShort,112],[mm2Fixture,161],[mm2Short,160]].map(([f,n])=>writeFile(f,makePdf(n))));
+const harness = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Source viewer fixture</title><link rel="stylesheet" href="/source-viewer.css"></head><body><button id="opener">Open sources</button><script src="/books.js"></script><script src="/source-viewer.js"></script><script>document.querySelector('#opener').onclick=()=>FirstEditionSourceViewer.open({item:{name:'Original fixture reference'},references:[{book:'PHB',pages:[35,37,38],labels:['Price','Damage']},{book:'UA',pages:[28]},{book:'DMG',pages:[174,175,176,240]},{book:'MM',pages:[6,112]},{book:'MM2',pages:[83,84,91,92,131,160]}]});</script></body></html>`;
 const requests = [];
 const server = http.createServer(async (req, res) => {
   requests.push({ method: req.method, url: req.url });
@@ -139,6 +142,34 @@ try {
   check(!await page.locator('.source-viewer-stage canvas').isVisible(), 'Forget removes loaded PDF');
   check(await page.locator('.source-viewer-stage canvas').evaluate(n => n.width === 0 && n.height === 0), 'Forget clears the rendered bitmap');
   check((await page.locator('.source-viewer-text p').textContent()) === '', 'Forget clears selectable source text');
+  const cited=page.getByRole('combobox',{name:'Select cited page',exact:true});
+  await cited.selectOption({label:'MM p. 6'});
+  await page.locator('#source-viewer-file').setInputFiles(mmShort);
+  await page.getByText('This PDF has 112 pages;', {exact:false}).waitFor();
+  check(true,'MM rejects a 112-page fixture');
+  await page.locator('#source-viewer-file').setInputFiles(mmFixture);
+  await page.locator('.source-viewer-status').filter({hasText:'Showing printed p. 6'}).waitFor();
+  await page.locator('.source-viewer-text p').filter({hasText:'PDF PAGE 7'}).waitFor({state:'attached'});
+  check(await page.locator('.source-viewer-stage canvas').isVisible(),'MM6 renders generated PDF page 7');
+  await cited.selectOption({label:'MM p. 112'});
+  await page.locator('.source-viewer-status').filter({hasText:'Showing printed p. 112'}).waitFor();
+  await page.locator('.source-viewer-text p').filter({hasText:'PDF PAGE 113'}).waitFor({state:'attached'});
+  check(true,'MM112 renders generated PDF page 113');
+  await cited.selectOption({label:'MM2 p. 83'});
+  check(await page.getByText('No local PDF selected',{exact:true}).isVisible()&&!await page.locator('.source-viewer-stage canvas').isVisible(),'switching to MM2 requires its own PDF');
+  await page.locator('#source-viewer-file').setInputFiles(mm2Short);
+  await page.getByText('This PDF has 160 pages;', {exact:false}).waitFor();
+  check(true,'MM2 rejects a 160-page fixture');
+  await page.locator('#source-viewer-file').setInputFiles(mm2Fixture);
+  for(const [printed,pdf] of [[83,92],[84,84],[91,91],[92,93],[131,132],[160,161]]){
+    if(printed!==83)await cited.selectOption({label:`MM2 p. ${printed}`});
+    await page.locator('.source-viewer-status').filter({hasText:`Showing printed p. ${printed}`}).waitFor();
+    await page.locator('.source-viewer-text p').filter({hasText:`PDF PAGE ${pdf}`}).waitFor({state:'attached'});
+    check(await page.locator('.source-viewer-stage canvas').isVisible(),`MM2 printed ${printed} renders generated PDF page ${pdf}`);
+  }
+  await cited.selectOption({label:'MM p. 6'});
+  await page.locator('.source-viewer-status').filter({hasText:'Showing printed p. 6'}).waitFor();
+  check(true,'switching back restores the selected MM PDF');
   check(network.every(r => r.url.startsWith(origin + '/')), 'all network requests are same origin');
   check(network.every(r => r.method === 'GET' && !r.url.toLowerCase().includes('.pdf')), 'no PDF HTTP request or upload');
   check(errors.length === 0, `no browser errors: ${errors.join(', ')}`);

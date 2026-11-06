@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,readdirSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import test from 'node:test';
 
@@ -9,7 +9,8 @@ const authoredGear = load('equipment.json').equipment;
 const authoredMatrices = load('attack-matrices.json').matrices;
 const assembled = load('dist/data.json');
 const citationOverrides = load('citation-overrides.json');
-const cropManifest = load('dist/scans/dagger/manifest.json');
+const cropCatalogs = readdirSync(new URL('dist/scans/dagger/', root)).filter(name=>name.endsWith('.json')).map(name=>load('dist/scans/dagger/'+name));
+const cropRegions=cropCatalogs.flatMap(catalog=>catalog.regions);
 const require = createRequire(import.meta.url);
 const combat = require('../dist/combat.js');
 
@@ -24,15 +25,16 @@ function source(ref, context) {
   if(ref.verification?.method==='supplied-scan-crop'){
     assert.ok(ref.verification.regions?.length,`${context}: crop evidence required`);
     for(const id of ref.verification.regions){
-      const region=cropManifest.regions.find(region=>region.id===id);
+      const region=cropRegions.find(region=>region.id===id);
       assert.ok(region,`${context}: known region`);
       assert.equal(region.book,ref.book,`${context}: evidence retains book identity`);
       assert.ok(ref.pages.includes(region.printedPage),`${context}: evidence retains printed page`);
     }
     assert.match(ref.status || '', /checked/i, `${context}: selected values checked`);
   }else if(ref.scanVerification?.state==='selected-values-checked'){
-    assert.equal(ref.id,'phb-dagger',`${context}: only dagger was reviewed`);
-    assert.equal(ref.scanVerification.regionCount,7);
+    const catalog=cropCatalogs.find(catalog=>catalog.itemId===ref.id);
+    assert.ok(catalog,`${context}: item-specific catalog required`);
+    assert.equal(ref.scanVerification.regionCount,catalog.regions.length);
     assert.equal(ref.incomplete,true);
   }else{
     assert.match(ref.status || '', /OCR checked/, `${context}: verification state`);
@@ -50,12 +52,12 @@ test('assembly preserves every equipment and matrix field from the author checkp
 });
 
 for (const [name, gear] of [['authored', authoredGear], ['assembled', assembled.equipment]]) {
-  test(`${name} catalogue distinguishes 46 sourced prices from 34 unavailable prices`, () => {
+  test(`${name} catalogue distinguishes 59 sourced prices from 29 unavailable prices`, () => {
     assert.ok(Array.isArray(gear), 'equipment collection must be assembled');
-    assert.equal(gear.length, 80);
-    assert.equal(new Set(gear.map(item => item.id)).size, 80, 'stable unique equipment identifiers');
-    assert.equal(gear.filter(item => item.price !== null).length, 46);
-    assert.equal(gear.filter(item => item.price === null).length, 34);
+    assert.equal(gear.length, 88);
+    assert.equal(new Set(gear.map(item => item.id)).size, 88, 'stable unique equipment identifiers');
+    assert.equal(gear.filter(item => item.price !== null).length, 59);
+    assert.equal(gear.filter(item => item.price === null).length, 29);
     for (const item of gear) {
       source(item, item.id);
       assert.equal(item.incomplete, true, `${item.id}: catalogue remains a partial transcription`);
@@ -99,7 +101,9 @@ for (const [name, gear] of [['authored', authoredGear], ['assembled', assembled.
       assert.ok(item.price === null || item.price.currency !== 'gp-weight');
     }
     const axe = gear.find(item => item.id === 'phb-battle-axe');
-    assert.equal(axe.price, null, '75 gp-weight cannot supply the unreadable axe purchase price');
+    assert.equal(axe.price.amount, 5, 'the separately checked PHB p.35 price is 5 gp, not 75 gp-weight');
+    assert.equal(axe.price.currency,'gp');
+    assert.deepEqual(axe.price.pages,[35]);
     assert.match(axe.fields['Approx. weight'], /^75 gp-weight/);
     for (const [id, amount, currency, unit] of [
       ['phb-rope-50', 4, 'sp', '50-foot length'],
@@ -113,16 +117,17 @@ for (const [name, gear] of [['authored', authoredGear], ['assembled', assembled.
     }
   });
 
-  test(`${name} crossbows preserve UA statistics, PHB range units and unavailable costs`, () => {
+  test(`${name} crossbows preserve UA statistics, PHB range units and reviewed costs`, () => {
     assert.ok(Array.isArray(gear), 'equipment collection must be assembled');
     for (const [id, rate, ranges] of [
-      ['phb-light-crossbow', '1 per melee round', '6″ / 12″ / 18″'],
-      ['phb-heavy-crossbow', '½ per melee round', '8″ / 16″ / 24″'],
-      ['ua-hand-crossbow', '1 per melee round', '2″ / 4″ / 6″'],
+      ['phb-light-crossbow', '1 (tabletop-miniatures turn or melee round)', '6 / 12 / 18 (numeric bands)'],
+      ['phb-heavy-crossbow', '½ (tabletop-miniatures turn or melee round)', '8 / 16 / 24 (numeric bands)'],
+      ['ua-hand-crossbow', '1 (tabletop-miniatures turn or melee round)', '2 / 4 / 6 (numeric bands)'],
     ]) {
       const item = gear.find(item => item.id === id);
       assert.ok(item, id);
-      assert.equal(item.price, null, `${id}: price remains unavailable`);
+      if (id === 'ua-hand-crossbow') assert.equal(item.price, null, `${id}: price remains unavailable`);
+      else { assert.equal(item.price.amount, id === 'phb-light-crossbow' ? 12 : 20); assert.equal(item.price.currency, 'gp'); assert.deepEqual(item.price.pages, [35]); }
       assert.equal(item.fields['Rate of fire (UA p.28)'], rate);
       assert.equal(item.fields['Range S / M / L (UA p.28)'], ranges);
       assert.deepEqual([item.fieldSources['Rate of fire (UA p.28)'].book, item.fieldSources['Rate of fire (UA p.28)'].pages], ['UA', [28]]);
