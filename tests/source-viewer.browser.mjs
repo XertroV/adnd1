@@ -41,7 +41,7 @@ await writeFile(fixture, makePdf(241));
 await writeFile(short, makePdf(3));
 await writeFile(invalid, 'This is not a PDF.');
 await Promise.all([[mmFixture,113],[mmShort,112],[mm2Fixture,161],[mm2Short,160]].map(([f,n])=>writeFile(f,makePdf(n))));
-const harness = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Source viewer fixture</title><link rel="stylesheet" href="/source-viewer.css"></head><body><button id="opener">Open sources</button><script src="/books.js"></script><script src="/source-viewer.js"></script><script>document.querySelector('#opener').onclick=()=>FirstEditionSourceViewer.open({item:{name:'Original fixture reference'},references:[{book:'PHB',pages:[35,37,38],labels:['Price','Damage']},{book:'UA',pages:[28]},{book:'DMG',pages:[174,175,176,240]},{book:'MM',pages:[6,112]},{book:'MM2',pages:[83,84,91,92,131,160]}]});</script></body></html>`;
+const harness = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Source viewer fixture</title><link rel="stylesheet" href="/source-viewer.css"></head><body><button id="opener">Open sources</button><script src="/books.js"></script><script src="/source-viewer.js"></script><script>document.querySelector('#opener').onclick=()=>FirstEditionSourceViewer.open({item:{name:'Original fixture reference'},references:[{book:'PHB',pages:[35,37,38],labels:['Price','Damage']},{book:'UA',pages:[28]},{book:'DMG',pages:[174,175,176,239,240]},{book:'MM',pages:[6,112]},{book:'MM2',pages:[83,84,91,92,131,160]}]});</script></body></html>`;
 const requests = [];
 const server = http.createServer(async (req, res) => {
   requests.push({ method: req.method, url: req.url });
@@ -123,8 +123,12 @@ try {
     await page.screenshot({ path: path.join(temporary, `viewer-${width}-page.png`), fullPage: true });
   }
   await page.getByRole('button', { name: 'Next cited page', exact: true }).tap();
-  await page.getByText('Printed p. 240 is unavailable', { exact: false }).waitFor();
-  check(!await page.locator('.source-viewer-stage canvas').isVisible(), 'touch navigation shows DMG240 gap');
+  await page.getByText('Printed p. 239 cannot be mapped reliably', { exact: false }).waitFor();
+  check(!await page.locator('.source-viewer-stage canvas').isVisible(), 'touch navigation shows DMG239 as unverified');
+  await page.getByRole('button', { name: 'Next cited page', exact: true }).click();
+  await page.getByText('Printed p. 240 cannot be mapped reliably', { exact: false }).waitFor();
+  check(!await page.locator('.source-viewer-stage canvas').isVisible(), 'DMG240 stays unverified');
+  await page.getByRole('button', { name: 'Previous cited page', exact: true }).click();
   await page.keyboard.press('Alt+ArrowLeft');
   await page.locator('.source-viewer-status').filter({ hasText: 'Showing printed p. 176' }).waitFor();
   check(true, 'keyboard alternative navigates cited pages');

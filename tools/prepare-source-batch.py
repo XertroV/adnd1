@@ -20,8 +20,10 @@ def pdf_page(book, page):
     if book not in LIMITS or type(page) is not int or not 1 <= page <= LIMITS[book]:
         raise ValueError(f'Invalid book or printed page: {book} {page}')
     if book == 'DMG':
-        if page in (175, 240):
+        if page == 175:
             raise ValueError(f'DMG printed page {page} is missing from the supplied scan')
+        if page in (239, 240):
+            raise ValueError(f'DMG printed page {page} is unverified in the supplied scan')
         return page + 1 if page <= 174 else page
     if book == 'MM2':
         return 92 if page == 83 else page if 84 <= page <= 91 else page + 1

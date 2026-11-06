@@ -71,6 +71,7 @@ class BatchTest(unittest.TestCase):
 
     def test_missing_pages_and_invalid_rectangles_fail_without_output(self):
         for entry in [{'id': 'x', 'book': 'DMG', 'printedPage': 175},
+                      {'id': 'x', 'book': 'DMG', 'printedPage': 239},
                       {'id': 'x', 'book': 'DMG', 'printedPage': 240},
                       {'id': 'x', 'book': 'DMG', 'printedPage': 1, 'rect': [0.8, 0, 0.3, 1]},
                       {'id': 'x', 'book': 'DMG', 'printedPage': 1, 'rect': [0, 0, 0, 1]}]:

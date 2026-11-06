@@ -3,7 +3,7 @@ import assert from'node:assert/strict';
 import test from'node:test';
 const require=createRequire(import.meta.url);const books=require('../dist/books.js');
 test('PHB and original UA printed pages map to the next one-based PDF page',()=>{for(const book of['PHB','UA'])for(const p of[1,43,74,128])assert.equal(books.pdfPage(book,p),p+1);});
-test('DMG missing pages are unavailable and mapping shifts after the gap',()=>{for(const[p,pdf]of[[1,2],[174,175],[175,null],[176,176],[239,239],[240,null]])assert.equal(books.pdfPage('DMG',p),pdf);});
+test('DMG distinguishes the missing page from unverified end matter',()=>{for(const[p,pdf]of[[1,2],[174,175],[175,null],[176,176],[238,238],[239,null],[240,null]])assert.equal(books.pdfPage('DMG',p),pdf);assert.equal(books.availability('DMG',175),'missing');for(const p of [239,240])assert.equal(books.availability('DMG',p),'unverified');});
 test('Monster Manual printed pages use the supplied single-cover offset',()=>{assert.equal(books.pdfPage('MM',1),2);assert.equal(books.pdfPage('MM',112),113);});
 test('Monster Manual II misplaced83 uses all four supplied mapping regions',()=>{for(const[p,pdf]of[[1,2],[82,83],[83,92],[84,84],[91,91],[92,93],[160,161]])assert.equal(books.pdfPage('MM2',p),pdf);});
 test('ambiguous book-name prefixes never collapse Monster Manual II into the first volume',()=>{assert.equal(books.code('Monster Manual II'),'MM2');assert.equal(books.code('MMII'),'MM2');assert.equal(books.code('Monster Manual'),'MM');});

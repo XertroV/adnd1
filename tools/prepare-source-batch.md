@@ -21,7 +21,7 @@ python3 tools/prepare-source-batch.py private/input.json private/review-batch-01
 python3 tests/test-prepare-source-batch.py
 ```
 
-The output directory must not exist; choose a fresh location outside this repository or under its ignored `private/` directory. An outside location may itself be public or tracked: choose a genuinely private location, never another site's `dist` directory. The tool validates the entire input before rendering, rejects DMG printed pages 175 and 240, out-of-range mappings, and invalid rectangles, and removes its newly created output directory if rendering fails. It does not copy PDFs or extract OCR.
+The output directory must not exist; choose a fresh location outside this repository or under its ignored `private/` directory. An outside location may itself be public or tracked: choose a genuinely private location, never another site's `dist` directory. The tool validates the entire input before rendering, rejects missing DMG printed page 175 and unverified pages 239–240, out-of-range mappings, and invalid rectangles, and removes its newly created output directory if rendering fails. It does not copy PDFs or extract OCR.
 
 Each entry produces a complete page PNG and, when a rectangle is supplied, a crop and a page with a red outline. `review.json` records the input PDF SHA-256 and page count, printed and mapped PDF pages (PDF pages are 1-based), rectangle, pixel dimensions, output SHA-256 hashes, and pending status. Filenames and hashes identify supplied material; neither confirms its edition or provenance. Do not publish these files automatically. Keep the manifest and generated images private.
 
@@ -63,4 +63,4 @@ PY
 python3 tools/prepare-source-batch.py private/phb-001-input.json private/phb-001-review
 ```
 
-Blocked pages are not in the queue; they require matching source evidence and separate handling. The tool still rejects the known DMG gaps even if a manifest is edited manually.
+Blocked pages are not in the queue; they require matching source evidence and separate handling. The tool still rejects the confirmed DMG gap and unverified end matter even if a manifest is edited manually.

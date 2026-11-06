@@ -6,6 +6,11 @@ const data=read('../dist/data.json');
 const reviewed=read('./fixtures/remaining-reviewed-rows.json').rows;
 const dir=new URL('../dist/scans/dagger/',import.meta.url);
 const catalogs=readdirSync(dir).filter(f=>f.endsWith('.json')).map(f=>read('../dist/scans/dagger/'+f));
+const sourceQuestionReferences=[
+ {id:'phb-illusionist-emotion',book:'PHB',pages:[53],label:'Candidate comparison: cleric Symbol of Hopelessness',status:'Source excerpt checked; Emotion does not identify the intended Symbol class'},
+ {id:'phb-illusionist-emotion',book:'PHB',pages:[91],label:'Candidate comparison: magic-user Symbol of Hopelessness',status:'Source excerpt checked; Emotion does not identify the intended Symbol class'},
+ {id:'phb-illusionist-first-level-magic-user-spells',book:'PHB',pages:[94],label:'Conflicting illusionist spell-list introduction',status:'Source excerpt checked'}
+];
 const newIds=['phb-composite-long-bow','phb-composite-short-bow','phb-long-bow','phb-short-bow','phb-silver-arrow','ua-aklys-hurled','ua-atlatl-javelin','ua-blowgun-needle'];
 const item=id=>{const v=data.equipment.find(x=>x.id===id);assert.ok(v,id);return v};
 const catalog=id=>{const c=catalogs.find(x=>x.itemId===id);assert.ok(c,id);return c};
@@ -63,13 +68,15 @@ test('spell reference additions retain source pages and OCR-pending grading',()=
  for(const spell of data.spells){
   const seen=new Set();
   for(const ref of spell.references||[]){
-   const limits={PHB:128,UA:128,DMG:239,MM:112,MM2:160};assert.ok(Object.hasOwn(limits,ref.book),spell.id);
+   const limits={PHB:128,UA:128,DMG:240,MM:112,MM2:160};assert.ok(Object.hasOwn(limits,ref.book),spell.id);
    assert.ok(ref.pages?.length,spell.id);
-   assert.match(ref.status,/OCR checked.*visual review pending/,spell.id);
+   const reviewed=sourceQuestionReferences.find(known=>known.id===spell.id&&known.book===ref.book&&known.label===ref.label);
+   if(reviewed){assert.deepEqual(ref.pages,reviewed.pages);assert.equal(ref.status,reviewed.status);}
+   else assert.match(ref.status,/OCR checked.*visual review pending/,spell.id);
    assert.equal(ref.verification,undefined,spell.id);
    for(const page of ref.pages){
     assert.ok(Number.isInteger(page)&&page>0&&page<=limits[ref.book],spell.id);
-    assert.ok(!(ref.book==='DMG'&&[175,240].includes(page)),spell.id);
+    assert.ok(!(ref.book==='DMG'&&[175,239,240].includes(page)),spell.id);
     assert.ok(!(ref.book===spell.book&&spell.pages.includes(page)),`${spell.id}: primary page duplicated`);
     const key=ref.book+':'+page;assert.ok(!seen.has(key),`${spell.id}: repeated reference ${key}`);seen.add(key);
    }
@@ -101,7 +108,7 @@ test('assembled spell citations exactly match the baseline plus independently ap
  const key=x=>JSON.stringify([x.id,x.book,x.pages,x.label,x.status]);
  const corrections=read('./fixtures/uploaded-source-reference-corrections.json');
  assert.deepEqual(corrections,[{id:'ua-magic-user-eyebite',book:'PHB',label:'Magic-user charm person procedure',oldPages:[65,66],pages:[65]}]);
- const reviewed=[...baseline,...fixture.additions,...uploaded].map(ref=>({...ref}));
+ const reviewed=[...baseline,...fixture.additions,...uploaded,...sourceQuestionReferences].map(ref=>({...ref}));
  for(const correction of corrections) {
   const matches=reviewed.filter(ref=>ref.id===correction.id&&ref.book===correction.book&&ref.label===correction.label);
   assert.equal(matches.length,1);

@@ -30,7 +30,7 @@ Cure Light Wounds already existed for Cleric 1 (PHB p.43) and Druid 2 (PHB p.56)
 
 Original materialization attempts for the PHB, UA and DMG failed because the environment proxy denies HTTPS tunnels to `sdmntprcentralus.oaiusercontent.com` and `sdmntpraustraliaeast.oaiusercontent.com` with HTTP 403. No readable local PDF was produced. Library extracted-text reads succeed. Native Library page-image reads currently return only sediment image-pointer metadata, not pixels; no supported pointer resolver is exposed. The network policy remains restricted and no policy-mutation tool is exposed.
 
-Required supported setup: enable the exact Library transfer hosts through the environment configuration workflow, or restore native Library image hydration/direct authorized local materialization. No proxy bypass or denied download retry was performed during the follow-up. DMG printed pp.175 and 240 remain independent source gaps.
+Required supported setup: enable the exact Library transfer hosts through the environment configuration workflow, or restore native Library image hydration/direct authorized local materialization. No proxy bypass or denied download retry was performed during the follow-up. The earlier assessment treated DMG pp.175 and 240 as missing; subsequent inspection confirms p.175 missing and leaves pp.239–240 unverified (see dmg-missing-pages-investigation.md).
 
 Monster Manual and Monster Manual II were subsequently supplied for a later expansion. Their name/page indexing is in progress; numerical monster statistics will be withheld until visual checks are possible. No source PDF is published.
 

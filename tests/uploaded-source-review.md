@@ -33,7 +33,7 @@ Two of the five earlier source questions are resolved: the Endure temperature li
 2. The illusionist's first-level magic-user spell entry on PHB p.100 lists twenty spells, whereas the general magic-user index on p.41 lists thirty. The broader list cannot be substituted for the restricted list.
 3. Emotion names a hopelessness symbol without specifying the cleric or magic-user version; those versions differ.
 
-DMG printed pages 175 and 240 are absent from the supplied PDF. They remain blocked, not fabricated or replaced with another edition. MM2 printed page 83 is at PDF page 92; its displaced-page mapping was visually checked.
+DMG printed page 175 is absent from the supplied PDF. End matter at printed pages 239 and 240 remains unverified: PDF page 239 is unnumbered and PDF page 240 is the back cover. All three remain blocked pending matching evidence. MM2 printed page 83 is at PDF page 92; its displaced-page mapping was visually checked.
 
 ## Reproducible checks
 

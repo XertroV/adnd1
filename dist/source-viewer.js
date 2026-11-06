@@ -425,7 +425,7 @@
     el.zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
     if (!ref) return empty('No supported source pages are listed for this entry.');
     if (excerpts) return renderExcerpt(version, ref);
-    if (!mapped) return empty(`Printed p. ${ref.page} is unavailable in the provided ${ref.book} scan.`, 'Known source gap — no substitute page is shown.');
+    if (!mapped) return books().availability(ref.book, ref.page) === 'unverified' ? empty(`Printed p. ${ref.page} cannot be mapped reliably in the provided ${ref.book} scan; its identity is unverified.`, 'Source page unverified — no substitute page is shown.') : empty(`Printed p. ${ref.page} is unavailable in the provided ${ref.book} scan.`, 'Known source gap — no substitute page is shown.');
     if (state?.loading) return empty('Reading your local copy…', 'Loading PDF.');
     if (state?.error) return empty(state.error, 'Could not open this PDF. Choose another copy.');
     if (!state?.doc) return empty(`Open your ${title(ref.book)} PDF to see printed p. ${ref.page}.`, 'Your copy stays on your device.');

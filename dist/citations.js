@@ -38,7 +38,7 @@
   walk(item,item?.name||item?.title||'Source reference');
   return [...groups.values()].sort((a,b)=>order.indexOf(a.book)-order.indexOf(b.book)).map(g=>({...g,pages:g.pages.sort((a,b)=>a-b)}));
  }
- function pages(item){return collect(item).flatMap(g=>g.pages.map(page=>({book:g.book,page,pdfPage:books.pdfPage(g.book,page),missing:books.books[g.book].gaps.includes(page),labels:[...new Set(g.contexts.filter(c=>c.page===page).map(c=>c.label))],statuses:[...new Set(g.contexts.filter(c=>c.page===page&&c.status).map(c=>c.status))]})));}
+ function pages(item){return collect(item).flatMap(g=>g.pages.map(page=>({book:g.book,page,pdfPage:books.pdfPage(g.book,page),missing:books.availability(g.book,page)==='missing',availability:books.availability(g.book,page),labels:[...new Set(g.contexts.filter(c=>c.page===page).map(c=>c.label))],statuses:[...new Set(g.contexts.filter(c=>c.page===page&&c.status).map(c=>c.status))]})));}
  const api=Object.freeze({collect,pages});
  root.FirstEditionCitations=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(globalThis);

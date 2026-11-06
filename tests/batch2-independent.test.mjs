@@ -73,7 +73,7 @@ test('the untouched equipment entries, Dagger and matrices match the v9 semantic
  const others=data.equipment.filter(e=>![...items,...changed,'phb-partisan','phb-ranseur'].includes(e.id)).sort((a,b)=>a.id.localeCompare(b.id));assert.equal(others.length,66);assert.equal(hash(stripExcerpts(others)),'e4886fa506a940cd8bb7ecc52be577d9d1e892942f3b9633d8249dcde4bc8f5e');assert.equal(hash(stripExcerpts(data.equipment.find(e=>e.id==='phb-dagger'))),'557dbc64622c8e7b01f2e77a634845f75578d14aaec2a28371ccc1f47c6ecd8a');assert.equal(hash(stripExcerpts(data.matrices)),'6f7427943e6de6229dd24f44770388a5de70ccbf861c931eff93c12d3db8a383');
 });
 test('other spells retain their semantics; rules and classes are unchanged',()=>{
- assert.equal(hash(stripExcerpts(data.spells.filter(s=>!['ua-cleric-endure-cold-endure-heat','ua-illusionist-mirage-arcane','ua-magic-user-dusty','phb-magic-user-pyrotechnics'].includes(s.id)).map(({references,...item})=>item))),'d5fee9bdcc1f5a672a0f4c2c5532e14e3ccd7be555d77dd2b862df75ca64fadc');assert.equal(hash(stripExcerpts(data.rules)),'ad9db274e4f158d9f931c0eba3b52878b432754318b6b8e120e68f148a035de6');assert.equal(hash(stripExcerpts(data.classes)),'2dc47b8a22e59046c76d9f1fe00b75c86ee973c9af0180363d9bde423a94f820');
+ assert.equal(hash(stripExcerpts(data.spells.filter(s=>!['ua-cleric-endure-cold-endure-heat','ua-illusionist-mirage-arcane','ua-magic-user-dusty','phb-magic-user-pyrotechnics','phb-illusionist-emotion','phb-illusionist-first-level-magic-user-spells','phb-cleric-speak-with-animals','phb-druid-speak-with-animals'].includes(s.id)).map(({references,...item})=>item))),'cd920ade0f945463be0737a0f4da43eed0f6edd0c899f33b8504affd94941f73');assert.equal(hash(stripExcerpts(data.rules)),'ad9db274e4f158d9f931c0eba3b52878b432754318b6b8e120e68f148a035de6');assert.equal(hash(stripExcerpts(data.classes)),'2dc47b8a22e59046c76d9f1fe00b75c86ee973c9af0180363d9bde423a94f820');
  const refs={
   'ua-cleric-ceremony':[['PHB',43]],'ua-cleric-aid':[['PHB',43]],'ua-cleric-heroes-feast':[['PHB',43]],'ua-druid-slow-poison':[['PHB',45]],'ua-illusionist-dispel-magic':[['PHB',47]],'ua-cleric-abjure':[['PHB',47]],'ua-magic-user-mordenkainens-disjunction':[['PHB',47],['PHB',73]],'ua-magic-user-yawn':[['PHB',68]],'ua-magic-user-bind':[['PHB',54]],'ua-magic-user-teleport-without-error':[['PHB',82]],'ua-cleric-spike-growth':[['DMG',74]],'ua-druid-spike-growth':[['DMG',74]],'ua-cleric-spike-stones':[['DMG',74]],'ua-druid-spike-stones':[['DMG',74]],'ua-magic-user-magic-mirror':[['DMG',141]],'ua-illusionist-magic-mirror':[['DMG',141]],'ua-druid-reflecting-pool':[['DMG',141]],'ua-magic-user-leomunds-secure-shelter':[['PHB',69],['PHB',72]],'ua-illusionist-read-illusionist-magic':[['PHB',68]],'ua-magic-user-melfs-minute-meteors':[['DMG',64]],
  };
@@ -81,4 +81,13 @@ test('other spells retain their semantics; rules and classes are unchanged',()=>
  for(const [id,pairs]of Object.entries(refs)){const spell=data.spells.find(s=>s.id===id);assert.ok(spell,id);for(const[book,page]of pairs){const r=spell.references.find(r=>r.book===book&&r.pages.includes(page));assert.ok(r,id+' '+book+page);assert.match(r.status,/OCR checked.*visual review pending/);assert.equal(r.verification,undefined);}}
  for(const id of ['ua-cleric-spike-growth','ua-druid-spike-growth','ua-cleric-spike-stones','ua-druid-spike-stones'])assert.match(data.spells.find(s=>s.id===id).references.find(r=>r.book==='DMG'&&r.pages.includes(74)).label,/lookup context/);
  for(const[id,page]of [['ua-druid-spike-growth',38],['ua-druid-spike-stones',40],['ua-illusionist-magic-mirror',57]]){const s=data.spells.find(s=>s.id===id);assert.equal(s.pages.filter(p=>p===page).length,1);assert.equal((s.references||[]).filter(r=>r.book==='UA'&&r.pages.includes(page)).length,0);}
+});
+test('Speak With Animals adds only the unresolved reaction-chart note',()=>{
+ const hashes=[['phb-cleric-speak-with-animals','31591fbf566d3781b4904d3562460efe95adf21fabe60ef6f6ddd875ff9b9abf'],['phb-druid-speak-with-animals','48177a1c7a1074471271c97609f053cd68f9690827cc93df080fce8b8f419c84']];
+ for(const [id,expected] of hashes){
+  const {references,...spell}=data.spells.find(item=>item.id===id);
+  assert.equal(spell.exceptions.length,2);
+  assert.equal(spell.exceptions[1],'The PHB calls for a special reaction chart but does not identify it; the referee determines how to resolve the favor or service.');
+  assert.equal(hash(stripExcerpts({...spell,exceptions:spell.exceptions.slice(0,1)})),expected,id);
+ }
 });
