@@ -1,0 +1,9 @@
+# Four missing weapon prices: bounded source investigation
+
+No direct numeric purchase price for a club, quarterstaff, bo stick, or sling stone was found in this bounded investigation. This does not establish that any item is free, or that a price is absent from other books or editions.
+
+The searchable text layers of the supplied Player's Handbook, Unearthed Arcana, and Dungeon Masters Guide PDFs were searched for club, quarterstaff / staff quarter, bo stick, and sling stone, including common spacing and hyphen variants. Text searches can miss poorly recognized words. The PHB printed p. 35 equipment price table (PDF p. 36), the PHB printed p. 123 reference-sheet price table (PDF p. 124), and the UA printed p. 26 additional equipment price table (PDF p. 27) were then inspected visually; none contains a named price row for the four items. All three tables are limited to what they actually list.
+
+UA p. 26 does list all four items in the separate **weight and damage** table. Its “weight in gold pieces” numbers are encumbrance units, not purchase prices. PHB p. 35 and p. 123 list sling and bullets, and sling bullets, but those entries do not specify the price of a sling stone. DMG text-layer hits concern unrelated uses such as followers' weapons, a spell's projectile size, random debris or club moss; no candidate numeric weapon price was identified from those hits. No image of a numerical price is reported because none was identified.
+
+Private focused visual-review crops cover the three cost lists: PHB p. 35 SHA-256 `20aae545464a0fa8db435258b34f1c9149370617b48265a4456a68a23e485c76`; PHB p. 123 `8526a6c9334c3f8ead766c363acda0b2a184337250a8cc8cb41c53ea21ae8bec`; UA p. 26 `547496af60818b5a78ece3ebe977f26b38f73cf1c716564fa5031574cf379f31`. These crops establish the visible contents of the cited tables, not the absence of prices throughout the literature.
