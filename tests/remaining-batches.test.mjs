@@ -30,7 +30,8 @@ test('all 29 newly reviewed rows preserve exact image, focus, numeric values and
    const rangeKey=Object.keys(gear.fields).find(k=>k.startsWith('Range S / M / L')&&k.includes(page)) || Object.keys(gear.fields).find(k=>k.startsWith('Range S / M / L'));
    assert.ok(rateKey,row.id);assert.ok(rangeKey,row.id);
    assert.equal(gear.fields[rateKey],`${row.checkedFields.fireRate} (tabletop-miniatures turn or melee round)`);
-   assert.ok(gear.fields[rangeKey].startsWith(`${row.checkedFields.rangeShortMediumLong} (numeric bands`),row.id);
+   if (gear.id==='ua-aklys-hurled') assert.match(gear.fields[rangeKey], /^1\* \/ — \/ — \(\* 10-foot range only, not 10 yards\)$/);
+   else assert.ok(gear.fields[rangeKey].startsWith(`${row.checkedFields.rangeShortMediumLong} (numeric bands`),row.id);
    for(const key of [rateKey,rangeKey]) {
     const source=gear.fieldSources[key];assert.ok(source?.verification?.regions?.length,`${row.id}: canonical ${key}`);
     if(key.includes(page)) assert.ok(source.verification.regions.includes(row.id),`${row.id}: ${key}`);
@@ -42,7 +43,7 @@ test('all 29 newly reviewed rows preserve exact image, focus, numeric values and
 });
 test('reviewed inventory adds eight distinct items and preserves price quantities',()=>{
  assert.equal(data.equipment.length,88);assert.equal(new Set(data.equipment.map(i=>i.id)).size,88);
- assert.equal(catalogs.length,20);assert.equal(data.equipment.filter(i=>i.price!==null).length,61);assert.equal(data.equipment.filter(i=>i.price===null).length,27);
+ assert.equal(catalogs.length,20);assert.equal(data.equipment.filter(i=>i.price!==null).length,84);assert.equal(data.equipment.filter(i=>i.price===null).length,4);
  for(const id of newIds){assert.equal(data.equipment.filter(i=>i.id===id).length,1);catalog(id)}
  for(const [id,amount,currency] of [['phb-heavy-crossbow',20,'gp'],['phb-light-crossbow',12,'gp'],['phb-composite-long-bow',100,'gp'],['phb-composite-short-bow',75,'gp'],['phb-long-bow',60,'gp'],['phb-short-bow',15,'gp'],['phb-silver-arrow',1,'gp'],['phb-arrow',2,'sp']]){
   const p=item(id).price;assert.deepEqual([p.amount,p.currency,p.book,p.pages],[amount,currency,'PHB',[35]],id);
@@ -51,10 +52,12 @@ test('reviewed inventory adds eight distinct items and preserves price quantitie
  assert.equal(arrow.price.unit,'single normal arrow');assert.equal(arrow.fields['Normal arrows, dozen price'],'1 gp per dozen');
  assert.ok(arrow.fieldSources['Normal arrows, dozen price'].verification.regions.includes('phb-arrow-phb35-2'));
  assert.equal(silver.price.unit,'single silver arrow');assert.deepEqual(silver.fields,{});assert.deepEqual(silver.fieldSources,{});
- for(const id of ['ua-aklys-hurled','ua-atlatl-javelin','ua-blowgun-needle','ua-hand-crossbow','phb-club'])assert.equal(item(id).price,null,id);
+ for(const id of ['phb-bo-stick','phb-club','phb-quarterstaff','phb-sling-stone'])assert.equal(item(id).price,null,id);
+ for(const [id,amount,currency] of [['ua-aklys-hurled',2,'gp'],['ua-atlatl-javelin',1,'gp'],['ua-blowgun-needle',1,'sp'],['ua-hand-crossbow',300,'gp']]) assert.deepEqual([item(id).price.amount,item(id).price.currency,item(id).price.book,item(id).price.pages],[amount,currency,'UA',[26]],id);
  assert.match(item('ua-atlatl-javelin').name,/Atlatl \(javelin\)/);
  assert.match(item('ua-aklys-hurled').fields['Range S / M / L (UA p.28)'],/^1\* \/ — \/ —/);
- assert.match(item('ua-aklys-hurled').scanVerification.scope,/asterisk.*unavailable/i);
+ assert.doesNotMatch(item('ua-aklys-hurled').scanVerification.scope,/asterisk.*unavailable/i);
+ assert.match(item('ua-aklys-hurled').fields['Range S / M / L (UA p.28)'],/10-foot range only, not 10 yards/);
 });
 test('unreviewed scale and UA axe damage retain their OCR pending grade',()=>{
  for(const id of ['phb-light-crossbow','phb-heavy-crossbow','ua-hand-crossbow']){
