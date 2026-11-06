@@ -1,3 +1,5 @@
+import {reverseFinalCorrections} from './mechanics-final-fixture.mjs';
+import {reverseFollowupCorrections} from './mechanics-followup-fixture.mjs';
 import {reverseNextCorrections} from './mechanics-next-fixture.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -43,7 +45,7 @@ export function validateIndependentReviews(records=fixture.records) {
  assert.deepEqual(counts,{spells:242,classes:38},'independent review coverage');
 }
 export function reverseMechanicsBatchTwo(items,collection) {
- const copy=reverseNextCorrections(items,collection);
+ const copy=reverseNextCorrections(reverseFollowupCorrections(reverseFinalCorrections(items,collection),collection),collection);
  for(const record of [...fixture.records].reverse().filter(r=>r.collection===collection)) {
   const item=copy.find(x=>x.id===record.id);assert.ok(item,record.id);
   for(const change of [...record.changes].reverse()) {
