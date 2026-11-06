@@ -75,4 +75,4 @@ The uploaded-source pass used the privately supplied PHB sixth printing (January
 
 ## Value-level audit progress
 
-The [durable field log](research/mechanics-audit-progress.json) inventories every tracked mechanics field, including unchecked values and pending corrections. The [log guide](research/README.md) explains its denominator, source-file hashes, verification states and regeneration checks. Source-image coverage is not a value-level completion percentage.
+The [progress summary](research/mechanics-audit-progress.md) gives the saved percentages and per-collection counts. The [durable field log](research/mechanics-audit-progress.json) inventories every tracked mechanics field, including unchecked values and pending corrections. The [log guide](research/README.md) explains its denominator, source-file hashes, verification states and regeneration checks. Source-image coverage is not a value-level completion percentage.

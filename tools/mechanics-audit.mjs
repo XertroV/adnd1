@@ -120,6 +120,17 @@ export function validateLedger(ledger,data) {
   if(rebuilt.counts.staleProposalFields)errors.push('Ledger contains checked values that changed without a matching reviewed correction.');
   return errors;
 }
+export function renderSummary(ledger) {
+  const c=ledger.counts;
+  const lines=['# Mechanics audit progress','',`Snapshot of **${c.records} records / ${c.totalFields.toLocaleString('en-US')} tracked mechanics fields**.`, '',`**${ledger.percentages.sourceCheckedFields}% source-checked**; **${ledger.percentages.inspectedFields}% inspected**. Inspection includes pending corrections and editorial review. Neither percentage measures whole-book coverage or implies every rule is complete.`, '', '| Collection | Fields | Source-checked | Corrections pending | Unchecked |','| --- | ---: | ---: | ---: | ---: |'];
+  for(const collection of Object.keys(allow)){
+    const fields=ledger.records.filter(r=>r.collection===collection).flatMap(r=>r.fields);
+    const n=status=>fields.filter(f=>status.includes(f.status)).length;
+    lines.push(`| ${collection} | ${fields.length} | ${n(['source-checked','corrected-and-checked'])} | ${n(['correction-proposed'])} | ${n(['unchecked'])} |`);
+  }
+  lines.push('',`Other dispositions: ${c.notExtractedFields} unextracted fields; ${c.sourceConflictFields} explicit field-level source conflicts; ${c.editorialReviewedFields} editorial/advisory fields reviewed separately. Additional unresolved qualifications are retained in the per-record notes.`, '', 'The [full field log](mechanics-audit-progress.json) preserves values, checkers, source pages/file hashes, pending old/new corrections and unchecked work. See the [log guide](README.md) for definitions and regeneration.', '', `Assembled-data SHA-256: \`${ledger.input.sha256}\`.`, '', 'This is a saved checkpoint, not a live estimate. Run `node tools/mechanics-audit.mjs --check` to verify it.');
+  return lines.join('\n')+'\n';
+}
 function main() {
   const data=JSON.parse(fs.readFileSync(path.join(root,'dist/data.json'),'utf8'));const output=path.join(root,'research/mechanics-audit-progress.json');
   if(process.argv.includes('--check')) {const ledger=JSON.parse(fs.readFileSync(output,'utf8'));const errors=validateLedger(ledger,data); if(errors.length){console.error(errors.join('\n'));process.exitCode=1;} else console.log('Ledger data hash, counts, and proposed values validate.');return;}
@@ -127,6 +138,6 @@ function main() {
   const proposals=files.map(name=>({checker:name.replace(/\.json$/,''),records:JSON.parse(fs.readFileSync(path.join(root,'research',name),'utf8')).records||[]}));
   const saved=fs.existsSync(output)?JSON.parse(fs.readFileSync(output,'utf8')):null;
   const ledger=process.argv.includes('--from-log')||!proposals.length&&saved ? buildLedger(data,saved?.reviewRecords||[],{alreadyNormalized:true}) : buildLedger(data,proposals,{previousReviews:saved?.reviewRecords||[]});
-  fs.writeFileSync(output,JSON.stringify(ledger,null,2)+'\n');console.log(JSON.stringify({counts:ledger.counts,percentages:ledger.percentages,validation:{staleChanges:ledger.validation.staleChanges.length,orphanReviews:ledger.validation.orphanReviews.length}},null,2));
+  fs.writeFileSync(output,JSON.stringify(ledger,null,2)+'\n');fs.writeFileSync(path.join(root,'research/mechanics-audit-progress.md'),renderSummary(ledger));console.log(JSON.stringify({counts:ledger.counts,percentages:ledger.percentages,validation:{staleChanges:ledger.validation.staleChanges.length,orphanReviews:ledger.validation.orphanReviews.length}},null,2));
 }
 if(process.argv[1] && path.resolve(process.argv[1])===fileURLToPath(import.meta.url)) main();
