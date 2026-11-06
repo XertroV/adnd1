@@ -11,3 +11,5 @@ Run `node tools/mechanics-audit.mjs --check` to validate the committed snapshot.
 The equipment batch review is in `tests/mechanics-equipment-review.md`. Remaining audits continue in bounded batches; a field without completed evidence stays explicitly unchecked. Source-image availability alone never changes a field's verification status.
 
 The [equipment completeness review](equipment-completeness-review.md) separately records the source areas searched for missing mechanics and remaining evidence limits. Completed value review of the current fields is distinct from exhaustive extraction of all book content. Accepted equipment and spell/class changes retain independent value snapshots in the regression fixtures; local working proposals are excluded from Git once their evidence is embedded in the durable log and fixtures.
+
+Rewording an editorial status note does not make it source-checked mechanics. Likewise, an applied clarification does not clear a still-documented source conflict. The generator preserves those dispositions and rejects unreviewed changes even when a conflict flag is present.

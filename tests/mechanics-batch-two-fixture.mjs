@@ -1,3 +1,4 @@
+import {reverseNextCorrections} from './mechanics-next-fixture.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -42,7 +43,7 @@ export function validateIndependentReviews(records=fixture.records) {
  assert.deepEqual(counts,{spells:242,classes:38},'independent review coverage');
 }
 export function reverseMechanicsBatchTwo(items,collection) {
- const copy=structuredClone(items);
+ const copy=reverseNextCorrections(items,collection);
  for(const record of [...fixture.records].reverse().filter(r=>r.collection===collection)) {
   const item=copy.find(x=>x.id===record.id);assert.ok(item,record.id);
   for(const change of [...record.changes].reverse()) {

@@ -88,9 +88,11 @@ export function buildLedger(data, proposals, {alreadyNormalized=false,previousRe
         let status;
         if (related.some(c=>c.state==='stale-proposal')) status='stale-proposal';
         else if (related.some(c=>c.state==='correction-proposed')) status='correction-proposed';
+        else if (staleCheck && !related.some(c=>c.state==='corrected-and-checked')) status='stale-proposal';
+        else if (unresolved.some(u=>conflict(u.reason))) status='source-conflict';
+        else if (editorial && related.some(c=>c.state==='corrected-and-checked')) status='editorial-reviewed';
         else if (related.some(c=>c.state==='corrected-and-checked')) status='corrected-and-checked';
         else if (staleCheck) status='stale-proposal';
-        else if (unresolved.some(u=>conflict(u.reason))) status='source-conflict';
         else if (blank(field.value)) status='not-extracted';
         else if (unresolved.some(u=>/not yet|not (?:checked|reviewed|compared)|pending|requires? (?:visual|further|separate)|not visually/i.test(u.reason||''))) status='unchecked';
         else if (checkers.length) status='source-checked';

@@ -53,3 +53,18 @@ test('committed audit snapshot matches current assembled values and its stored e
  assert.deepEqual(validateLedger(ledger,current),[]);
  assert.equal(ledger.counts.records,892);
 });
+
+test('rewriting a source-conflict or editorial note does not count it as verified mechanics',()=>{
+ const d=data(),p=proposals();d.spells[0].effect[0]='new';
+ p[0].records[0].unresolved=[{path:'/effect/0',reason:'Printed source tables still conflict.'}];
+ let ledger=buildLedger(d,p);assert.equal(ledger.records[0].fields.find(f=>f.path==='/effect/0').status,'source-conflict');
+ p[0].records[0].unresolved=[];p[0].records[0].reviewedPaths=[{path:'/effect/0',result:'Editorial audit-status wording'}];
+ ledger=buildLedger(d,p);assert.equal(ledger.records[0].fields.find(f=>f.path==='/effect/0').status,'editorial-reviewed');
+});
+
+test('a conflict flag cannot conceal an unreviewed change to a saved value',()=>{
+ const d=data(),p=proposals();p[0].records[0].unresolved=[{path:'/fields/Range',reason:'Printed source tables conflict.'}];
+ const initial=buildLedger(d,p);d.spells[0].fields.Range='unreviewed';
+ const ledger=buildLedger(d,initial.reviewRecords,{alreadyNormalized:true});
+ assert.equal(ledger.records[0].fields.find(f=>f.path==='/fields/Range').status,'stale-proposal');
+});
