@@ -13,6 +13,7 @@ const cropCatalogs = readdirSync(new URL('dist/scans/dagger/', root)).filter(nam
 const cropRegions=cropCatalogs.flatMap(catalog=>catalog.regions);
 const require = createRequire(import.meta.url);
 const combat = require('../dist/combat.js');
+const independentMatrix = load('tests/fixtures/dmg74-matrix-independent.json');
 
 function source(ref, context) {
   assert.ok(ref && typeof ref === 'object', `${context}: source is required`);
@@ -146,32 +147,28 @@ for (const [name, gear] of [['authored', authoredGear], ['assembled', assembled.
 }
 
 for (const [name, matrices] of [['authored', authoredMatrices], ['assembled', assembled.matrices]]) {
-  test(`${name} original matrix retains 70 explicit values and 140 null cells`, () => {
-    assert.ok(Array.isArray(matrices) && matrices.length === 1, 'one partial original matrix');
+  test(`${name} original matrix preserves all 210 independently checked source cells`, () => {
+    assert.ok(Array.isArray(matrices) && matrices.length === 1);
     const matrix = matrices[0];
     source(matrix, matrix.id);
     assert.deepEqual([matrix.book, matrix.pages], ['DMG', [74]]);
-    assert.equal(matrix.incomplete, true);
+    assert.equal(matrix.incomplete, true, 'other combat mechanics retain their review status');
     assert.deepEqual(matrix.armorClasses, Array.from({length:21}, (_, i) => 10 - i));
     assert.equal(matrix.rows.length, 10);
-    const knownAC = new Set([7, 6, 5, 1, 0, -1, -6]);
-    for (const row of matrix.rows) {
-      assert.equal(row.targets.length, 21, `${row.label}: all columns remain explicit`);
-      matrix.armorClasses.forEach((ac, index) => {
-        const target = row.targets[index];
-        if (knownAC.has(ac)) assert.ok(Number.isInteger(target), `${row.label}, AC ${ac}: source-listed target`);
-        else assert.equal(target, null, `${row.label}, AC ${ac}: no formula-filled gap`);
+    matrix.rows.forEach((row, band) => {
+      assert.equal(row.targets.length, 21);
+      matrix.armorClasses.forEach((ac, column) => {
+        const sourceRow = independentMatrix.armorClasses.indexOf(ac);
+        assert.equal(row.targets[column], independentMatrix.rows[sourceRow][band], `${row.label}, AC ${ac}`);
       });
-    }
-    const cells = matrix.rows.flatMap(row => row.targets);
-    assert.equal(cells.length, 210);
-    assert.equal(cells.filter(value => value !== null).length, 70);
-    assert.equal(cells.filter(value => value === null).length, 140);
-    assert.ok(cells.includes(0), 'a source zero is not an extraction gap');
-    assert.ok(cells.some(value => value !== null && value < 0), 'negative source targets remain numeric');
-    assert.deepEqual(combat.coverage(matrix), {known:70, total:210, missing:140});
-    assert.deepEqual([matrix.coverage.knownCells, matrix.coverage.totalCells, matrix.coverage.missingCells], [70, 210, 140]);
-    assert.match(matrix.coverage.missingCellsMeaning, /null.*unreadable.*never means.*zero/i);
+    });
+    assert.deepEqual(combat.coverage(matrix), {known:210, total:210, missing:0});
+    assert.deepEqual([matrix.coverage.knownCells, matrix.coverage.totalCells, matrix.coverage.missingCells], [210, 210, 0]);
+    assert.deepEqual(matrix.coverage.completeArmorClassRows, matrix.armorClasses);
+    assert.deepEqual(matrix.coverage.unreadableArmorClassRows, []);
+    assert.deepEqual([matrix.cellVerification.book, matrix.cellVerification.printedPage, matrix.cellVerification.pdfPage, matrix.cellVerification.cellCount], ['DMG',74,75,210]);
+    assert.equal(matrix.cellVerification.sourceSha256, '7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669');
+    assert.match(matrix.cellVerification.scope, /cells only.*other combat mechanics/i);
   });
 
   test(`${name} source AC-zero progression retains official bands and separate optional rules`, () => {
