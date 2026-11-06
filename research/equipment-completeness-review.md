@@ -20,4 +20,4 @@ Every accepted addition has an exact field source and a matching public excerpt.
 - Generic quiver, lantern, mirror and flask encumbrance rows do not establish every named variant's exact weight or contents. The DMG rations row does not identify a period; no weekly quantity is inferred.
 - The additional-mechanics search is bounded to the listed source areas and relevant indexed passages. It is not an exhaustive assertion that every mention of each object throughout all books has been extracted. Any future additions expand the tracked-field denominator and require their own review.
 
-Missing DMG printed p.175 and uncertain end-matter completeness are separately documented in the [source-question review](../tests/source-question-review.md); neither is filled by inference.
+DMG printed p.175 remains absent from the original PDF. A separate private image visibly provides that page and fits the neighboring Appendix C context, but its exact printing is unestablished; it did not produce any accepted equipment addition or public excerpt. The uncertain end matter remains separately documented in the [source-question review](../tests/source-question-review.md).

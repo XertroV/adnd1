@@ -2,18 +2,18 @@
   "schemaVersion": 1,
   "input": {
     "path": "dist/data.json",
-    "sha256": "41606ae2096a907e57c7aa8dcaf945006bb04c3e88b2bd21054cedced51cf8e8",
+    "sha256": "ecfe22c838306ec89e326576d96754d60404789d3a3e606ed1886a3da196cc00",
     "hashFormat": "SHA-256 of JSON.stringify(parsed data)",
     "denominator": "Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.",
     "countSemantics": "Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap."
   },
   "counts": {
     "records": 892,
-    "totalFields": 12976,
-    "inspectedFields": 12969,
-    "sourceCheckedFields": 12404,
-    "unchangedSourceCheckedFields": 9922,
-    "correctedAndCheckedFields": 2482,
+    "totalFields": 13035,
+    "inspectedFields": 13028,
+    "sourceCheckedFields": 12463,
+    "unchangedSourceCheckedFields": 9895,
+    "correctedAndCheckedFields": 2568,
     "correctionPendingFields": 0,
     "notExtractedFields": 11,
     "sourceConflictFields": 18,
@@ -23,9 +23,9 @@
   },
   "percentages": {
     "inspectedFields": 99.95,
-    "sourceCheckedFields": 95.59,
-    "unchangedSourceCheckedFields": 76.46,
-    "correctedAndCheckedFields": 19.13,
+    "sourceCheckedFields": 95.61,
+    "unchangedSourceCheckedFields": 75.91,
+    "correctedAndCheckedFields": 19.7,
     "correctionPendingFields": 0,
     "notExtractedFields": 0.08,
     "uncheckedFields": 0
@@ -115665,19 +115665,73 @@
         {
           "path": "/bullets/0",
           "value": "Your DM may restrict available races for the campaign.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/1",
           "value": "UA provides additional racial choices and revised limits; keep the selected source explicit.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/2",
+          "value": "PHB class level table (U = unlimited; parenthesized entries are non-player characters only; omitted classes are unavailable to that race): dwarf fighter 9, thief U, assassin 9, cleric (8); elf fighter 7, magic-user 11, thief U, assassin 10, cleric (7); gnome fighter 6, illusionist 7, thief U, assassin 8, cleric (7); half-elf cleric 5, druid U, fighter 8, ranger 8, magic-user 8, thief U, assassin 11; halfling fighter 6, thief U, druid (6); half-orc cleric 4, fighter 10, thief 8, assassin U; human all listed classes U. All are still subject to applicable ability and class requirements.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/3",
+          "value": "PHB fighter limits by Strength: dwarf below 17 → 7, at 17 → 8, otherwise maximum 9; elf below 17 → 5, at 17 → 6, otherwise maximum 7; gnome below 18 → 5, otherwise 6; half-elf below 17 → 6, at 17 → 7, otherwise 8. Halfling Hairfeet and others under Strength 17 → 4; Tallfellows at 17 and Stouts at 18 → 5; Tallfellows with 18 → 6.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/4",
+          "value": "PHB magic-user limits by Intelligence: elf below 17 → 9, at 17 → 10, otherwise maximum 11; half-elf below 17 → 6, at 17 → 7, otherwise maximum 8. Gnome illusionists with Intelligence or Dexterity below 17 are limited to 5; with both 17 to 6; otherwise table maximum 7. Half-orc thieves with Dexterity below 17 are limited to 6, at 17 to 7, otherwise maximum 8.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/5",
+          "value": "The printed half-elven ranger 8 entry bears footnote 4, but that footnote explicitly describes half-elven fighters. The table’s application of that footnote to rangers is unresolved.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         }
       ],
@@ -115693,13 +115747,45 @@
           "page": 7,
           "pdfPage": 8,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 14,
+          "pdfPage": 15,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
         "mechanics-rules"
       ],
-      "unresolvedNotes": [],
-      "proposedChanges": []
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-rules",
+          "note": "PHB half-elf ranger table prints footnote 4, whose text describes fighters, not rangers."
+        }
+      ],
+      "proposedChanges": [
+        {
+          "checker": "mechanics-rules",
+          "path": "/bullets",
+          "oldValue": [
+            "Your DM may restrict available races for the campaign.",
+            "UA provides additional racial choices and revised limits; keep the selected source explicit."
+          ],
+          "newValue": [
+            "Your DM may restrict available races for the campaign.",
+            "UA provides additional racial choices and revised limits; keep the selected source explicit.",
+            "PHB class level table (U = unlimited; parenthesized entries are non-player characters only; omitted classes are unavailable to that race): dwarf fighter 9, thief U, assassin 9, cleric (8); elf fighter 7, magic-user 11, thief U, assassin 10, cleric (7); gnome fighter 6, illusionist 7, thief U, assassin 8, cleric (7); half-elf cleric 5, druid U, fighter 8, ranger 8, magic-user 8, thief U, assassin 11; halfling fighter 6, thief U, druid (6); half-orc cleric 4, fighter 10, thief 8, assassin U; human all listed classes U. All are still subject to applicable ability and class requirements.",
+            "PHB fighter limits by Strength: dwarf below 17 → 7, at 17 → 8, otherwise maximum 9; elf below 17 → 5, at 17 → 6, otherwise maximum 7; gnome below 18 → 5, otherwise 6; half-elf below 17 → 6, at 17 → 7, otherwise 8. Halfling Hairfeet and others under Strength 17 → 4; Tallfellows at 17 and Stouts at 18 → 5; Tallfellows with 18 → 6.",
+            "PHB magic-user limits by Intelligence: elf below 17 → 9, at 17 → 10, otherwise maximum 11; half-elf below 17 → 6, at 17 → 7, otherwise maximum 8. Gnome illusionists with Intelligence or Dexterity below 17 are limited to 5; with both 17 to 6; otherwise table maximum 7. Half-orc thieves with Dexterity below 17 are limited to 6, at 17 to 7, otherwise maximum 8.",
+            "The printed half-elven ranger 8 entry bears footnote 4, but that footnote explicitly describes half-elven fighters. The table’s application of that footnote to rangers is unresolved."
+          ],
+          "reason": "The existing card defers numeric racial class restrictions or names no PHB multiclass combinations; printed tables and descriptions supply them.",
+          "book": "PHB",
+          "page": 14,
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "rules",
@@ -116632,19 +116718,37 @@
         {
           "path": "/bullets/0",
           "value": "This assumes the scroll is already in hand and ready to read.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/1",
-          "value": "Scroll effect strength has exceptions; consult the scroll and individual spell rules.",
-          "status": "source-checked",
+          "value": "In general, use 12th-level range, duration and area of effect for scroll spells.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/2",
+          "value": "Projectile attack spells such as magic missile, fireball and lightning bolt have variable strength; the DM supplies other information as needed.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         }
       ],
@@ -116666,7 +116770,25 @@
         "mechanics-rules"
       ],
       "unresolvedNotes": [],
-      "proposedChanges": []
+      "proposedChanges": [
+        {
+          "checker": "mechanics-rules",
+          "path": "/bullets",
+          "oldValue": [
+            "This assumes the scroll is already in hand and ready to read.",
+            "Scroll effect strength has exceptions; consult the scroll and individual spell rules."
+          ],
+          "newValue": [
+            "This assumes the scroll is already in hand and ready to read.",
+            "In general, use 12th-level range, duration and area of effect for scroll spells.",
+            "Projectile attack spells such as magic missile, fireball and lightning bolt have variable strength; the DM supplies other information as needed."
+          ],
+          "reason": "PHB pp.100–101 specify the general 12th-level range, duration and area and identify variable-strength projectile spells; replace the deferred warning without inventing a fixed damage level.",
+          "book": "PHB",
+          "page": 100,
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "rules",
@@ -117476,19 +117598,37 @@
         {
           "path": "/bullets/0",
           "value": "Determining a potential target is separate from making its attack roll.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/1",
           "value": "The source gives discretion when one opponent group is substantially larger.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/2",
+          "value": "For target allocation, count size S as ½, M as 1, and L as 1½ when the L creature is not much larger than man-sized. Compare the summed values of the opposing groups, then assign a target and roll to hit separately.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         }
       ],
@@ -117504,7 +117644,25 @@
         "mechanics-rules"
       ],
       "unresolvedNotes": [],
-      "proposedChanges": []
+      "proposedChanges": [
+        {
+          "checker": "mechanics-rules",
+          "path": "/bullets",
+          "oldValue": [
+            "Determining a potential target is separate from making its attack roll.",
+            "The source gives discretion when one opponent group is substantially larger."
+          ],
+          "newValue": [
+            "Determining a potential target is separate from making its attack roll.",
+            "The source gives discretion when one opponent group is substantially larger.",
+            "For target allocation, count size S as ½, M as 1, and L as 1½ when the L creature is not much larger than man-sized. Compare the summed values of the opposing groups, then assign a target and roll to hit separately."
+          ],
+          "book": "DMG",
+          "page": 63,
+          "reason": "Add the previously deferred cited-source procedure.",
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "rules",
@@ -118133,29 +118291,50 @@
         },
         {
           "path": "/bullets/0",
-          "value": "Name-level self-study and bard contributions have separate rules.",
-          "status": "source-checked",
+          "value": "At name level, characters train or study independently for the performance-determined time; weekly cost per level is 2,000 gp for clerics, 1,000 for fighters, 4,000 for magic-users, and 2,000 for thieves.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/1",
           "value": "Training must be continuous; serious interruption loses the prior time and payment.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/2",
           "value": "Once eligible to advance, further XP cannot be accumulated until the new level is actually acquired.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/3",
+          "value": "Bards contribute at least 50% of monetary gains plus 1,000 gp per level upon advancement to their college, through a druid able to use more of their highest-level spells than the bard; failure to pay prevents advancement. They otherwise need one week of study or training upon gaining sufficient XP.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         }
       ],
@@ -118170,8 +118349,33 @@
       "reviewers": [
         "mechanics-rules"
       ],
-      "unresolvedNotes": [],
-      "proposedChanges": []
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-rules",
+          "note": "The source lists four class cost headings and does not explicitly map their subclasses in this passage."
+        }
+      ],
+      "proposedChanges": [
+        {
+          "checker": "mechanics-rules",
+          "path": "/bullets",
+          "oldValue": [
+            "Name-level self-study and bard contributions have separate rules.",
+            "Training must be continuous; serious interruption loses the prior time and payment.",
+            "Once eligible to advance, further XP cannot be accumulated until the new level is actually acquired."
+          ],
+          "newValue": [
+            "At name level, characters train or study independently for the performance-determined time; weekly cost per level is 2,000 gp for clerics, 1,000 for fighters, 4,000 for magic-users, and 2,000 for thieves.",
+            "Training must be continuous; serious interruption loses the prior time and payment.",
+            "Once eligible to advance, further XP cannot be accumulated until the new level is actually acquired.",
+            "Bards contribute at least 50% of monetary gains plus 1,000 gp per level upon advancement to their college, through a druid able to use more of their highest-level spells than the bard; failure to pay prevents advancement. They otherwise need one week of study or training upon gaining sufficient XP."
+          ],
+          "book": "DMG",
+          "page": 86,
+          "reason": "Add the previously deferred cited-source procedure.",
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "rules",
@@ -118754,19 +118958,25 @@
         {
           "path": "/bullets/0",
           "value": "Minimums may be met by the initial roll plus the race's permitted bonus.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/1",
           "value": "A score above a racial maximum is reduced to that maximum.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
@@ -118774,7 +118984,120 @@
           "value": "Check the selected printing and UA revisions before finalizing a character.",
           "status": "editorial-reviewed",
           "inspected": true,
-          "checkers": []
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/3",
+          "value": "PHB racial ability limits below show each ability as minimum–maximum. A maximum written M/F gives the male maximum first and female maximum second; otherwise both are the same. Apply racial adjustments before the maximum; qualifying minimums can include an applicable racial bonus.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/4",
+          "value": "Dwarf: Strength 8–18/17; Intelligence 3–18; Wisdom 3–18; Dexterity 3–17; Constitution 12–19; Charisma 3–16.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/5",
+          "value": "Elf: Strength 3–18/16; Intelligence 8–18; Wisdom 3–18; Dexterity 7–19; Constitution 6–18; Charisma 8–18.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/6",
+          "value": "Gnome: Strength 6–18/15; Intelligence 7–18; Wisdom 3–18; Dexterity 3–18; Constitution 8–18; Charisma 3–18.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/7",
+          "value": "Half-elf: Strength 3–18/17; Intelligence 4–18; Wisdom 3–18; Dexterity 6–18; Constitution 6–18; Charisma 3–18.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/8",
+          "value": "Halfling: Strength 6–17/14; Intelligence 6–18; Wisdom 3–17; Dexterity 8–18; Constitution 10–19; Charisma 3–18.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/9",
+          "value": "Half-orc: Strength 6–18; Intelligence 3–17; Wisdom 3–14; Dexterity 3–17; Constitution 13–19; Charisma 3–12.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/10",
+          "value": "The PHB notes that fighters of all races might qualify for exceptional Strength; see the Strength table. This table covers the six listed nonhuman and part-human races; class requirements remain separate.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/11",
+          "value": "The dwarf Charisma maximum applies with respect to non-dwarves; the half-orc maximum applies with respect to non-orcs and non-half-orcs (PHB p.13).",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
         }
       ],
       "sources": [
@@ -118783,13 +119106,52 @@
           "page": 15,
           "pdfPage": 16,
           "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "PHB",
+          "page": 13,
+          "pdfPage": 14,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
         "mechanics-rules"
       ],
-      "unresolvedNotes": [],
-      "proposedChanges": []
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-rules",
+          "note": "This is the PHB printing; UA options and revisions are separate."
+        }
+      ],
+      "proposedChanges": [
+        {
+          "checker": "mechanics-rules",
+          "path": "/bullets",
+          "oldValue": [
+            "Minimums may be met by the initial roll plus the race's permitted bonus.",
+            "A score above a racial maximum is reduced to that maximum.",
+            "Check the selected printing and UA revisions before finalizing a character."
+          ],
+          "newValue": [
+            "Minimums may be met by the initial roll plus the race's permitted bonus.",
+            "A score above a racial maximum is reduced to that maximum.",
+            "Check the selected printing and UA revisions before finalizing a character.",
+            "PHB racial ability limits below show each ability as minimum–maximum. A maximum written M/F gives the male maximum first and female maximum second; otherwise both are the same. Apply racial adjustments before the maximum; qualifying minimums can include an applicable racial bonus.",
+            "Dwarf: Strength 8–18/17; Intelligence 3–18; Wisdom 3–18; Dexterity 3–17; Constitution 12–19; Charisma 3–16.",
+            "Elf: Strength 3–18/16; Intelligence 8–18; Wisdom 3–18; Dexterity 7–19; Constitution 6–18; Charisma 8–18.",
+            "Gnome: Strength 6–18/15; Intelligence 7–18; Wisdom 3–18; Dexterity 3–18; Constitution 8–18; Charisma 3–18.",
+            "Half-elf: Strength 3–18/17; Intelligence 4–18; Wisdom 3–18; Dexterity 6–18; Constitution 6–18; Charisma 3–18.",
+            "Halfling: Strength 6–17/14; Intelligence 6–18; Wisdom 3–17; Dexterity 8–18; Constitution 10–19; Charisma 3–18.",
+            "Half-orc: Strength 6–18; Intelligence 3–17; Wisdom 3–14; Dexterity 3–17; Constitution 13–19; Charisma 3–12.",
+            "The PHB notes that fighters of all races might qualify for exceptional Strength; see the Strength table. This table covers the six listed nonhuman and part-human races; class requirements remain separate.",
+            "The dwarf Charisma maximum applies with respect to non-dwarves; the half-orc maximum applies with respect to non-orcs and non-half-orcs (PHB p.13)."
+          ],
+          "reason": "The PHB p.15 table gives the racial minima and maxima omitted from this existing card.",
+          "book": "PHB",
+          "page": 15,
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "rules",
@@ -119523,28 +119885,61 @@
         {
           "path": "/bullets/0",
           "value": "Do not redirect the capped class's share to the other class or classes.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/1",
           "value": "Available combinations depend on race.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/2",
           "value": "UA revises some racial choices and limits; choose the source explicitly.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/3",
+          "value": "PHB racial descriptions name dwarf fighter/thief; elf fighter/magic-user, fighter/thief, magic-user/thief, and fighter/magic-user/thief; halfling fighter/thief. For gnomes, the text gives fighter/illusionist, fighter/thief and illusionist/thief as examples.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/4",
+          "value": "The PHB half-elf examples list cleric/fighter, cleric/ranger, cleric/magic-user, fighter/magic-user, fighter/thief, magic-user/thief, cleric/fighter/magic-user and fighter/magic-user/thief. The PHB half-orc list is cleric/fighter, cleric/thief, cleric/assassin, fighter/thief and fighter/assassin. These are PHB descriptions; do not substitute UA racial options.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         }
       ],
@@ -119577,8 +119972,34 @@
       "reviewers": [
         "mechanics-rules"
       ],
-      "unresolvedNotes": [],
-      "proposedChanges": []
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-rules",
+          "note": "Gnome text presents its combinations as examples, not an exhaustive list."
+        }
+      ],
+      "proposedChanges": [
+        {
+          "checker": "mechanics-rules",
+          "path": "/bullets",
+          "oldValue": [
+            "Do not redirect the capped class's share to the other class or classes.",
+            "Available combinations depend on race.",
+            "UA revises some racial choices and limits; choose the source explicitly."
+          ],
+          "newValue": [
+            "Do not redirect the capped class's share to the other class or classes.",
+            "Available combinations depend on race.",
+            "UA revises some racial choices and limits; choose the source explicitly.",
+            "PHB racial descriptions name dwarf fighter/thief; elf fighter/magic-user, fighter/thief, magic-user/thief, and fighter/magic-user/thief; halfling fighter/thief. For gnomes, the text gives fighter/illusionist, fighter/thief and illusionist/thief as examples.",
+            "The PHB half-elf examples list cleric/fighter, cleric/ranger, cleric/magic-user, fighter/magic-user, fighter/thief, magic-user/thief, cleric/fighter/magic-user and fighter/magic-user/thief. The PHB half-orc list is cleric/fighter, cleric/thief, cleric/assassin, fighter/thief and fighter/assassin. These are PHB descriptions; do not substitute UA racial options."
+          ],
+          "reason": "The existing card defers numeric racial class restrictions or names no PHB multiclass combinations; printed tables and descriptions supply them.",
+          "book": "PHB",
+          "page": 15,
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "rules",
@@ -120758,28 +121179,147 @@
         },
         {
           "path": "/bullets/0",
-          "value": "Wood elves gain +1 initial strength and −1 intelligence; strength still tops out at 18.",
-          "status": "source-checked",
+          "value": "Gray elves share high-elf abilities, including sleep and charm resistance, sword and bow ability, infravision, secret/concealed-door detection and silent movement when alone. They share high-elf languages and add +1 to the initial Intelligence roll, up to 19.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/1",
-          "value": "Wild elves gain +2 initial strength to a maximum of 18 and have sharply restricted class choices.",
-          "status": "source-checked",
+          "value": "Wood (sylvan) elves have similar elven traits, gain +1 initial Strength (maximum 18) and −1 initial Intelligence. Their starting languages are elvish, common, treant and the tongue of woodland mammals; the passage gives them no other starting languages.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/2",
-          "value": "Use the individual sub-race text and table rather than combining every elven benefit.",
+          "value": "Wild elves (grugach) retain standard elven resistance, weapon bonuses, infravision, silent movement and door detection. They gain +2 initial Strength (maximum 18), deal with woodland creatures as if animal friendship were in effect, and set pits, snares and natural traps with a 90% success chance. Most speak only elvish, though a player character may also know some common.",
           "status": "editorial-reviewed",
           "inspected": true,
-          "checkers": []
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/3",
+          "value": "The UA p.7 class table permits gray elves to be cavaliers, clerics, druids, fighters, rangers, magic-users or thieves (including acrobats and assassins); wood elves have those choices except cavalier; wild elves can be druids, fighters or thieves (including acrobats and assassins). Wild elf multiclassing is restricted to fighter/thief.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/4",
+          "value": "These are the UA class choices; ability requirements, multiclass rules and the separate UA class-level limits still apply. Do not merge them with the PHB-only class limits.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/5",
+          "value": "UA level-limit table conventions: use Wisdom for cleric/druid, Strength for fighter/ranger/assassin, Intelligence for magic-user, and Dexterity for thief; additional ability requirements appear in footnotes. U means unlimited for the appropriate race/class, subject to the highest level attainable by the class. Below the first score shown, use the lowest listed level; scores above the table do not raise its maximum. If single-classed and that class is an available multiclass choice for the character, the limit may be exceeded by 2. Class eligibility still applies.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/6",
+          "value": "UA elf cleric (all except dark elves): Wisdom 12–15: 7; 16: 8; 17: 9; 18: 10; 19: 11; 20–21: 12. Wild elves are not eligible for cleric under UA p.7.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/7",
+          "value": "UA elf druid: wild elf Wisdom 12–17: 10; 18: 11; 19: 12; 20: 14, each requiring Charisma 18; 21: 17 requiring Charisma 19. Other elves: U, where class-eligible.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/8",
+          "value": "UA elf fighter: Strength 12–17 gives gray/high 5, wild 7, wood 6; 18 gives 6/8/7; 18/75 gives 7/8/8; 18/90 gives 8/10/9; 18/99 gives 9/11/10; 18/00 gives 10/12/11; 19 gives 11/13/12; 20 gives 11/13/14. Values in each group are gray/high, wild, wood respectively.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/9",
+          "value": "UA elf magic-user: Intelligence 17–18 gives gray 11 and wood 9; 19 gives 12/10; 20 gives 13/11; 21 gives 15/13; 22 gives 18/13. Wild elves cannot be magic-users under UA p.7.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/10",
+          "value": "UA elf thief is U. UA elf assassin: Strength 18, 18/01, 18/51 or 18/76 gives level 10; 18/99 gives 11 with Intelligence 18 and Wisdom 19; 18/00, 19 or 20 gives 12 with Intelligence 19 or Wisdom 19. Apply eligibility separately.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/11",
+          "value": "UA elf ranger: Strength 18 gives level 6; 18/01 gives 7 with Intelligence 15 and Wisdom 15, or 8 if both exceed 15; 18/51 gives 9 with Intelligence and Wisdom 16; 18/76, 18/99 or 18/00 gives 10 with Intelligence and Wisdom 17; 19 gives 12 and 20 gives 14, both requiring Intelligence and Wisdom 18. Wild elves cannot be rangers under UA p.7.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
         }
       ],
       "sources": [
@@ -120788,13 +121328,124 @@
           "page": 10,
           "pdfPage": 11,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 7,
+          "pdfPage": 8,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 8,
+          "pdfPage": 9,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 9,
+          "pdfPage": 10,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
         }
       ],
       "reviewers": [
         "mechanics-rules"
       ],
-      "unresolvedNotes": [],
-      "proposedChanges": []
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-rules",
+          "note": "UA pp.8–9 give additional ability-based level limits; this proposal does not transcribe those tables."
+        },
+        {
+          "checker": "mechanics-rules",
+          "note": "The separate animal friendship spell’s complete mechanics have not been imported or fully reviewed."
+        },
+        {
+          "checker": "mechanics-rules",
+          "note": "Tables state discrete score entries; no unstated interpretation for blank exceptional-Strength cells is added."
+        }
+      ],
+      "proposedChanges": [
+        {
+          "checker": "mechanics-rules",
+          "path": "/pages",
+          "oldValue": [
+            10
+          ],
+          "newValue": [
+            7,
+            8,
+            9,
+            10
+          ],
+          "reason": "Add UA level-limit table and its instructions.",
+          "book": "UA",
+          "page": 8,
+          "supersededChanges": [
+            {
+              "path": "/pages",
+              "oldValue": [
+                10
+              ],
+              "newValue": [
+                7,
+                10
+              ],
+              "reason": "Add the UA character-class table supporting the newly extracted class choices.",
+              "book": "UA",
+              "page": 7
+            }
+          ],
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-rules",
+          "path": "/bullets",
+          "oldValue": [
+            "Wood elves gain +1 initial strength and −1 intelligence; strength still tops out at 18.",
+            "Wild elves gain +2 initial strength to a maximum of 18 and have sharply restricted class choices.",
+            "Use the individual sub-race text and table rather than combining every elven benefit."
+          ],
+          "newValue": [
+            "Gray elves share high-elf abilities, including sleep and charm resistance, sword and bow ability, infravision, secret/concealed-door detection and silent movement when alone. They share high-elf languages and add +1 to the initial Intelligence roll, up to 19.",
+            "Wood (sylvan) elves have similar elven traits, gain +1 initial Strength (maximum 18) and −1 initial Intelligence. Their starting languages are elvish, common, treant and the tongue of woodland mammals; the passage gives them no other starting languages.",
+            "Wild elves (grugach) retain standard elven resistance, weapon bonuses, infravision, silent movement and door detection. They gain +2 initial Strength (maximum 18), deal with woodland creatures as if animal friendship were in effect, and set pits, snares and natural traps with a 90% success chance. Most speak only elvish, though a player character may also know some common.",
+            "The UA p.7 class table permits gray elves to be cavaliers, clerics, druids, fighters, rangers, magic-users or thieves (including acrobats and assassins); wood elves have those choices except cavalier; wild elves can be druids, fighters or thieves (including acrobats and assassins). Wild elf multiclassing is restricted to fighter/thief.",
+            "These are the UA class choices; ability requirements, multiclass rules and the separate UA class-level limits still apply. Do not merge them with the PHB-only class limits.",
+            "UA level-limit table conventions: use Wisdom for cleric/druid, Strength for fighter/ranger/assassin, Intelligence for magic-user, and Dexterity for thief; additional ability requirements appear in footnotes. U means unlimited for the appropriate race/class, subject to the highest level attainable by the class. Below the first score shown, use the lowest listed level; scores above the table do not raise its maximum. If single-classed and that class is an available multiclass choice for the character, the limit may be exceeded by 2. Class eligibility still applies.",
+            "UA elf cleric (all except dark elves): Wisdom 12–15: 7; 16: 8; 17: 9; 18: 10; 19: 11; 20–21: 12. Wild elves are not eligible for cleric under UA p.7.",
+            "UA elf druid: wild elf Wisdom 12–17: 10; 18: 11; 19: 12; 20: 14, each requiring Charisma 18; 21: 17 requiring Charisma 19. Other elves: U, where class-eligible.",
+            "UA elf fighter: Strength 12–17 gives gray/high 5, wild 7, wood 6; 18 gives 6/8/7; 18/75 gives 7/8/8; 18/90 gives 8/10/9; 18/99 gives 9/11/10; 18/00 gives 10/12/11; 19 gives 11/13/12; 20 gives 11/13/14. Values in each group are gray/high, wild, wood respectively.",
+            "UA elf magic-user: Intelligence 17–18 gives gray 11 and wood 9; 19 gives 12/10; 20 gives 13/11; 21 gives 15/13; 22 gives 18/13. Wild elves cannot be magic-users under UA p.7.",
+            "UA elf thief is U. UA elf assassin: Strength 18, 18/01, 18/51 or 18/76 gives level 10; 18/99 gives 11 with Intelligence 18 and Wisdom 19; 18/00, 19 or 20 gives 12 with Intelligence 19 or Wisdom 19. Apply eligibility separately.",
+            "UA elf ranger: Strength 18 gives level 6; 18/01 gives 7 with Intelligence 15 and Wisdom 15, or 8 if both exceed 15; 18/51 gives 9 with Intelligence and Wisdom 16; 18/76, 18/99 or 18/00 gives 10 with Intelligence and Wisdom 17; 19 gives 12 and 20 gives 14, both requiring Intelligence and Wisdom 18. Wild elves cannot be rangers under UA p.7."
+          ],
+          "reason": "Add ancestry-relevant UA class-level table values and qualifications; keep PHB variants separate.",
+          "book": "UA",
+          "page": 9,
+          "supersededChanges": [
+            {
+              "path": "/bullets",
+              "oldValue": [
+                "Wood elves gain +1 initial strength and −1 intelligence; strength still tops out at 18.",
+                "Wild elves gain +2 initial strength to a maximum of 18 and have sharply restricted class choices.",
+                "Use the individual sub-race text and table rather than combining every elven benefit."
+              ],
+              "newValue": [
+                "Gray elves share high-elf abilities, including sleep and charm resistance, sword and bow ability, infravision, secret/concealed-door detection and silent movement when alone. They share high-elf languages and add +1 to the initial Intelligence roll, up to 19.",
+                "Wood (sylvan) elves have similar elven traits, gain +1 initial Strength (maximum 18) and −1 initial Intelligence. Their starting languages are elvish, common, treant and the tongue of woodland mammals; the passage gives them no other starting languages.",
+                "Wild elves (grugach) retain standard elven resistance, weapon bonuses, infravision, silent movement and door detection. They gain +2 initial Strength (maximum 18), deal with woodland creatures as if animal friendship were in effect, and set pits, snares and natural traps with a 90% success chance. Most speak only elvish, though a player character may also know some common.",
+                "The UA p.7 class table permits gray elves to be cavaliers, clerics, druids, fighters, rangers, magic-users or thieves (including acrobats and assassins); wood elves have those choices except cavalier; wild elves can be druids, fighters or thieves (including acrobats and assassins). Wild elf multiclassing is restricted to fighter/thief.",
+                "These are the UA class choices; ability requirements, multiclass rules and the separate UA class-level limits still apply. Do not merge them with the PHB-only class limits."
+              ],
+              "reason": "Transcribe the explicit gray, wood and wild elf distinctions and UA class table while distinguishing the UA variant.",
+              "book": "UA",
+              "page": 10
+            }
+          ],
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "rules",
@@ -120812,19 +121463,97 @@
         {
           "path": "/bullets/0",
           "value": "The source does not provide a half-grugach option.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/1",
           "value": "UA's class and level tables must be checked separately from ancestry descriptions.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/2",
+          "value": "UA level-limit table conventions: use Wisdom for cleric/druid, Strength for fighter/ranger/assassin, Intelligence for magic-user, and Dexterity for thief; additional ability requirements appear in footnotes. U means unlimited for the appropriate race/class, subject to the highest level attainable by the class. Below the first score shown, use the lowest listed level; scores above the table do not raise its maximum. If single-classed and that class is an available multiclass choice for the character, the limit may be exceeded by 2. Class eligibility still applies.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/3",
+          "value": "UA half-elf cleric: Wisdom 15: 5; 16: 6; 17: 7; 18: 8; 19: 10; 20: 12. Druid: U.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/4",
+          "value": "UA half-elf fighter: Strength 15–16: 6; 17–18: 7; 18/90: 8; 18/99: 9; 18/00: 10; 19: 11; 20: 13.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/5",
+          "value": "UA half-elf ranger: Strength 15–16: 6; 17: 7; 18: 8; 18/90: 9 and 18/99: 10, requiring Intelligence, Wisdom and Constitution 18. At 18/00, limit 11 requires those same scores; if Wisdom and Constitution both exceed 18 the limit is 12, or if both exceed 19 it is 14. Strength 19–20 gives 15, requiring Intelligence, Wisdom and Constitution 19.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/6",
+          "value": "UA half-elf magic-user: Intelligence 15–17: 7; 18–20: 8. Thief: U. Assassin: 11 at each listed Strength score 15 through 20.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/7",
+          "value": "UA p.8 says cavalier advancement is unlimited for qualifying elves and half-elves, and bard advancement is unlimited for qualifying half-elves. Eligibility and class requirements are separate.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         }
       ],
@@ -120834,13 +121563,69 @@
           "page": 11,
           "pdfPage": 12,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 8,
+          "pdfPage": 9,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 9,
+          "pdfPage": 10,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
         }
       ],
       "reviewers": [
         "mechanics-rules"
       ],
-      "unresolvedNotes": [],
-      "proposedChanges": []
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-rules",
+          "note": "Tables state discrete score entries; no unstated interpretation for blank exceptional-Strength cells is added."
+        }
+      ],
+      "proposedChanges": [
+        {
+          "checker": "mechanics-rules",
+          "path": "/pages",
+          "oldValue": [
+            11
+          ],
+          "newValue": [
+            8,
+            9,
+            11
+          ],
+          "reason": "Add UA level-limit table and its instructions.",
+          "book": "UA",
+          "page": 8,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-rules",
+          "path": "/bullets",
+          "oldValue": [
+            "The source does not provide a half-grugach option.",
+            "UA's class and level tables must be checked separately from ancestry descriptions."
+          ],
+          "newValue": [
+            "The source does not provide a half-grugach option.",
+            "UA's class and level tables must be checked separately from ancestry descriptions.",
+            "UA level-limit table conventions: use Wisdom for cleric/druid, Strength for fighter/ranger/assassin, Intelligence for magic-user, and Dexterity for thief; additional ability requirements appear in footnotes. U means unlimited for the appropriate race/class, subject to the highest level attainable by the class. Below the first score shown, use the lowest listed level; scores above the table do not raise its maximum. If single-classed and that class is an available multiclass choice for the character, the limit may be exceeded by 2. Class eligibility still applies.",
+            "UA half-elf cleric: Wisdom 15: 5; 16: 6; 17: 7; 18: 8; 19: 10; 20: 12. Druid: U.",
+            "UA half-elf fighter: Strength 15–16: 6; 17–18: 7; 18/90: 8; 18/99: 9; 18/00: 10; 19: 11; 20: 13.",
+            "UA half-elf ranger: Strength 15–16: 6; 17: 7; 18: 8; 18/90: 9 and 18/99: 10, requiring Intelligence, Wisdom and Constitution 18. At 18/00, limit 11 requires those same scores; if Wisdom and Constitution both exceed 18 the limit is 12, or if both exceed 19 it is 14. Strength 19–20 gives 15, requiring Intelligence, Wisdom and Constitution 19.",
+            "UA half-elf magic-user: Intelligence 15–17: 7; 18–20: 8. Thief: U. Assassin: 11 at each listed Strength score 15 through 20.",
+            "UA p.8 says cavalier advancement is unlimited for qualifying elves and half-elves, and bard advancement is unlimited for qualifying half-elves. Eligibility and class requirements are separate."
+          ],
+          "reason": "Add ancestry-relevant UA class-level table values and qualifications; keep PHB variants separate.",
+          "book": "UA",
+          "page": 9,
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "rules",
@@ -120857,28 +121642,255 @@
         },
         {
           "path": "/bullets/0",
-          "value": "The legend distinguishes preference, goodwill, tolerance, neutrality, antipathy and hatred.",
-          "status": "source-checked",
+          "value": "Read the row as the reacting race and the column as the race observed. The entries are general attitudes and need not be reciprocal.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/1",
-          "value": "For elves reacting to a half-elf, use the more negative of the half-elf reaction or the reaction to the elven ancestor's race.",
-          "status": "source-checked",
+          "value": "Legend: P preferred; G goodwill; T tolerated; N neutral (possibly suspicious); A antipathy; H strong hatred.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/2",
-          "value": "These are encounter and social-context guidelines, not automatic decisions for every individual.",
+          "value": "For reactions of races other than elves, use the half-elf column. An elf reacting to a half-elf uses whichever is more negative: its half-elf reaction or its reaction to a full-blooded elf of the half-elf’s nonhuman ancestor’s race.",
           "status": "editorial-reviewed",
           "inspected": true,
-          "checkers": []
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/3",
+          "value": "Column order: DG gray dwarf; DH hill dwarf; DM mountain dwarf; ED dark elf; EG gray elf; EH high elf; EV valley elf; EWi wild elf; EWd wood elf; GD deep gnome; GS surface gnome; ½E half-elf; HH hairfoot halfling; HS stout halfling; HT tallfellow halfling; ½O half-orc; H human.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/4",
+          "value": "DG: P A A G H H H H H A A N N T N N N",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/5",
+          "value": "DH: A P G H A A A A A N G N T G G H N",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/6",
+          "value": "DM: A G P H A A A A A T T N T G T H N",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/7",
+          "value": "ED: G A A P H H A H H H A A A A A T N",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/8",
+          "value": "EG: A A A H P G A T G N T G T T G A N",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/9",
+          "value": "EH: A A A H G P A N G T T G T T G A N",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/10",
+          "value": "EV: A A A A N N P N N G G T N N T A A",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/11",
+          "value": "EWi: A A A H N N A P N A A A A A N A A",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/12",
+          "value": "EWd: A A A H G G A N P N N G T T G A N",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/13",
+          "value": "GD: A N T H N N T N N P G N T T T A N",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/14",
+          "value": "GS: A G G A T T G N N G P T G G G H N",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/15",
+          "value": "½E: N N N P P P P A P N T P N N T A T",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/16",
+          "value": "HH: N T T A T T N N T N T N P P P N T",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/17",
+          "value": "HS: T G G A T T N N T T T N P P P N N",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/18",
+          "value": "HT: N T T N G G T T G N T G P P P N N",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/19",
+          "value": "½O: N H H N A A A A A A H A N N A P T",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/20",
+          "value": "H: N N N N N N N N N N N T N N N N P",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
         }
       ],
       "sources": [
@@ -120893,7 +121905,44 @@
         "mechanics-rules"
       ],
       "unresolvedNotes": [],
-      "proposedChanges": []
+      "proposedChanges": [
+        {
+          "checker": "mechanics-rules",
+          "path": "/bullets",
+          "oldValue": [
+            "The legend distinguishes preference, goodwill, tolerance, neutrality, antipathy and hatred.",
+            "For elves reacting to a half-elf, use the more negative of the half-elf reaction or the reaction to the elven ancestor's race.",
+            "These are encounter and social-context guidelines, not automatic decisions for every individual."
+          ],
+          "newValue": [
+            "Read the row as the reacting race and the column as the race observed. The entries are general attitudes and need not be reciprocal.",
+            "Legend: P preferred; G goodwill; T tolerated; N neutral (possibly suspicious); A antipathy; H strong hatred.",
+            "For reactions of races other than elves, use the half-elf column. An elf reacting to a half-elf uses whichever is more negative: its half-elf reaction or its reaction to a full-blooded elf of the half-elf’s nonhuman ancestor’s race.",
+            "Column order: DG gray dwarf; DH hill dwarf; DM mountain dwarf; ED dark elf; EG gray elf; EH high elf; EV valley elf; EWi wild elf; EWd wood elf; GD deep gnome; GS surface gnome; ½E half-elf; HH hairfoot halfling; HS stout halfling; HT tallfellow halfling; ½O half-orc; H human.",
+            "DG: P A A G H H H H H A A N N T N N N",
+            "DH: A P G H A A A A A N G N T G G H N",
+            "DM: A G P H A A A A A T T N T G T H N",
+            "ED: G A A P H H A H H H A A A A A T N",
+            "EG: A A A H P G A T G N T G T T G A N",
+            "EH: A A A H G P A N G T T G T T G A N",
+            "EV: A A A A N N P N N G G T N N T A A",
+            "EWi: A A A H N N A P N A A A A A N A A",
+            "EWd: A A A H G G A N P N N G T T G A N",
+            "GD: A N T H N N T N N P G N T T T A N",
+            "GS: A G G A T T G N N G P T G G G H N",
+            "½E: N N N P P P P A P N T P N N T A T",
+            "HH: N T T A T T N N T N T N P P P N T",
+            "HS: T G G A T T N N T T T N P P P N N",
+            "HT: N T T N G G T T G N T G P P P N N",
+            "½O: N H H N A A A A A A H A N N A P T",
+            "H: N N N N N N N N N N N T N N N N P"
+          ],
+          "reason": "The existing rule omits the 17-by-17 directional matrix; add its exact rows and legend.",
+          "book": "UA",
+          "page": 12,
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "rules",
@@ -121903,28 +122952,61 @@
         {
           "path": "/bullets/0",
           "value": "Short range uses the medium-range penalty, −2; medium range uses the long-range penalty, −5; long-range shots miss.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/1",
           "value": "An unpracticed rider using those means cannot hit under this procedure.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/2",
           "value": "A caster hovering with fly or a rider on a hovering flying carpet does not suffer these movement penalties; levitation has separate rules.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/3",
+          "value": "A levitating archer attacks at −1, worsening by 1 each successive round of fire to a maximum −3; a round without firing or fighting stabilizes the archer and resets the next shot to −1.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/4",
+          "value": "While levitating, slings, thrown javelins or spears, and swung weapons use double those penalties (−2, −4, −6). A medium or heavy crossbow cannot be cocked while levitating.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         }
       ],
@@ -121934,13 +123016,46 @@
           "page": 53,
           "pdfPage": 54,
           "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        {
+          "book": "DMG",
+          "page": 51,
+          "pdfPage": 52,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        {
+          "book": "DMG",
+          "page": 52,
+          "pdfPage": 53,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
         }
       ],
       "reviewers": [
         "mechanics-rules"
       ],
       "unresolvedNotes": [],
-      "proposedChanges": []
+      "proposedChanges": [
+        {
+          "checker": "mechanics-rules",
+          "path": "/bullets",
+          "oldValue": [
+            "Short range uses the medium-range penalty, −2; medium range uses the long-range penalty, −5; long-range shots miss.",
+            "An unpracticed rider using those means cannot hit under this procedure.",
+            "A caster hovering with fly or a rider on a hovering flying carpet does not suffer these movement penalties; levitation has separate rules."
+          ],
+          "newValue": [
+            "Short range uses the medium-range penalty, −2; medium range uses the long-range penalty, −5; long-range shots miss.",
+            "An unpracticed rider using those means cannot hit under this procedure.",
+            "A caster hovering with fly or a rider on a hovering flying carpet does not suffer these movement penalties; levitation has separate rules.",
+            "A levitating archer attacks at −1, worsening by 1 each successive round of fire to a maximum −3; a round without firing or fighting stabilizes the archer and resets the next shot to −1.",
+            "While levitating, slings, thrown javelins or spears, and swung weapons use double those penalties (−2, −4, −6). A medium or heavy crossbow cannot be cocked while levitating."
+          ],
+          "book": "DMG",
+          "page": 51,
+          "reason": "Add the previously deferred cited-source procedure.",
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "rules",
@@ -122905,19 +124020,49 @@
         {
           "path": "/bullets/0",
           "value": "Food and treasure are not automatic escape buttons; use the pursuer's intelligence and interests.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/1",
           "value": "At a three-way choice without sight, sound or scent clues, a pursuer has a two-in-three chance of taking the wrong way.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/2",
+          "value": "For palatable food or wine offered to pursuers of low intelligence or less, determine a 10%–100% base chance with d10 unless their hunger is known; add 10% per intelligence point below 5. Non-intelligent pursuers have a 100% probability. If the chance is under 100%, roll d10 again to test it; success distracts them for one round.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/3",
+          "value": "Treasure can distract pursuers of low intelligence or higher: start at 10%–100%, adding 10% per 10 items for low-intelligence pursuers or 10% per 100 gp of value or potential value for those of average intelligence or more. Test with a second d10; success lasts one round or the time needed to collect the treasure, whichever is longer. Tiny valuables can go unnoticed.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         }
       ],
@@ -122933,7 +124078,26 @@
         "mechanics-rules"
       ],
       "unresolvedNotes": [],
-      "proposedChanges": []
+      "proposedChanges": [
+        {
+          "checker": "mechanics-rules",
+          "path": "/bullets",
+          "oldValue": [
+            "Food and treasure are not automatic escape buttons; use the pursuer's intelligence and interests.",
+            "At a three-way choice without sight, sound or scent clues, a pursuer has a two-in-three chance of taking the wrong way."
+          ],
+          "newValue": [
+            "Food and treasure are not automatic escape buttons; use the pursuer's intelligence and interests.",
+            "At a three-way choice without sight, sound or scent clues, a pursuer has a two-in-three chance of taking the wrong way.",
+            "For palatable food or wine offered to pursuers of low intelligence or less, determine a 10%–100% base chance with d10 unless their hunger is known; add 10% per intelligence point below 5. Non-intelligent pursuers have a 100% probability. If the chance is under 100%, roll d10 again to test it; success distracts them for one round.",
+            "Treasure can distract pursuers of low intelligence or higher: start at 10%–100%, adding 10% per 10 items for low-intelligence pursuers or 10% per 100 gp of value or potential value for those of average intelligence or more. Test with a second d10; success lasts one round or the time needed to collect the treasure, whichever is longer. Tiny valuables can go unnoticed."
+          ],
+          "book": "DMG",
+          "page": 68,
+          "reason": "Add the previously deferred cited-source procedure.",
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "rules",
@@ -124418,19 +125582,73 @@
         {
           "path": "/bullets/0",
           "value": "After detecting it, cast at the small disturbance marking the magical view.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/1",
           "value": "Darkness stops the observation for its duration; dispel magic stops it for a day.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/2",
+          "value": "Use the DMG p.60 detection table: columns below are intelligence 0–1 / 2–4 / 5–7 / 8–10 / 11–12 / 13–14 / 15–16 / 17+, with — indicating a printed dash.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/3",
+          "value": "Level 7 / 7 or 7+ HD: — / — / — / — / — / — / — / 5%; level 8 / 8 or 8+ HD: — / — / — / — / — / — / 5% / 10%; level 9 / 9 or 9+ HD: — / — / — / — / — / 5% / 10% / 15%.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/4",
+          "value": "Level 10 / 10 HD: — / — / — / — / 5% / 15% / 20% / 25%; level 11 / 10+–11 HD: — / — / — / 5% / 15% / 25% / 30% / 35%; level 12 / 11+–12 HD: — / — / 5% / 15% / 25% / 35% / 40% / 45%.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/5",
+          "value": "Level 13 / 12+–13 HD: — / 5% / 10% / 25% / 35% / 45% / 50% / 55%; level 14 / 13+–14+ HD: 5% / 10% / 15% / 35% / 45% / 55% / 65% / 75%; level 15 and up: 10% / 15% / 20% / 45% / 55% / 65% / 80% / 95%.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         }
       ],
@@ -124440,13 +125658,45 @@
           "page": 119,
           "pdfPage": 120,
           "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        {
+          "book": "DMG",
+          "page": 60,
+          "pdfPage": 61,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
         }
       ],
       "reviewers": [
         "mechanics-rules"
       ],
-      "unresolvedNotes": [],
-      "proposedChanges": []
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-rules",
+          "note": "The printed table leaves lower levels and dashes without numeric chances; do not infer zero."
+        }
+      ],
+      "proposedChanges": [
+        {
+          "checker": "mechanics-rules",
+          "path": "/bullets",
+          "oldValue": [
+            "After detecting it, cast at the small disturbance marking the magical view.",
+            "Darkness stops the observation for its duration; dispel magic stops it for a day."
+          ],
+          "newValue": [
+            "After detecting it, cast at the small disturbance marking the magical view.",
+            "Darkness stops the observation for its duration; dispel magic stops it for a day.",
+            "Use the DMG p.60 detection table: columns below are intelligence 0–1 / 2–4 / 5–7 / 8–10 / 11–12 / 13–14 / 15–16 / 17+, with — indicating a printed dash.",
+            "Level 7 / 7 or 7+ HD: — / — / — / — / — / — / — / 5%; level 8 / 8 or 8+ HD: — / — / — / — / — / — / 5% / 10%; level 9 / 9 or 9+ HD: — / — / — / — / — / 5% / 10% / 15%.",
+            "Level 10 / 10 HD: — / — / — / — / 5% / 15% / 20% / 25%; level 11 / 10+–11 HD: — / — / — / 5% / 15% / 25% / 30% / 35%; level 12 / 11+–12 HD: — / — / 5% / 15% / 25% / 35% / 40% / 45%.",
+            "Level 13 / 12+–13 HD: — / 5% / 10% / 25% / 35% / 45% / 50% / 55%; level 14 / 13+–14+ HD: 5% / 10% / 15% / 35% / 45% / 55% / 65% / 75%; level 15 and up: 10% / 15% / 20% / 45% / 55% / 65% / 80% / 95%."
+          ],
+          "book": "DMG",
+          "page": 60,
+          "reason": "Add the previously deferred cited-source procedure.",
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "classes",
@@ -236017,12 +237267,20 @@
       "checkedPaths": [
         "/summary",
         "/bullets/0",
-        "/bullets/1"
+        "/bullets/1",
+        "/bullets/2",
+        "/bullets/3",
+        "/bullets/4",
+        "/bullets/5"
       ],
       "checkedValues": {
         "/summary": "The PHB offers dwarf, elf, gnome, half-elf, halfling, half-orc and human characters. Racial tables restrict classes and, for many non-human classes, advancement.",
         "/bullets/0": "Your DM may restrict available races for the campaign.",
-        "/bullets/1": "UA provides additional racial choices and revised limits; keep the selected source explicit."
+        "/bullets/1": "UA provides additional racial choices and revised limits; keep the selected source explicit.",
+        "/bullets/2": "PHB class level table (U = unlimited; parenthesized entries are non-player characters only; omitted classes are unavailable to that race): dwarf fighter 9, thief U, assassin 9, cleric (8); elf fighter 7, magic-user 11, thief U, assassin 10, cleric (7); gnome fighter 6, illusionist 7, thief U, assassin 8, cleric (7); half-elf cleric 5, druid U, fighter 8, ranger 8, magic-user 8, thief U, assassin 11; halfling fighter 6, thief U, druid (6); half-orc cleric 4, fighter 10, thief 8, assassin U; human all listed classes U. All are still subject to applicable ability and class requirements.",
+        "/bullets/3": "PHB fighter limits by Strength: dwarf below 17 → 7, at 17 → 8, otherwise maximum 9; elf below 17 → 5, at 17 → 6, otherwise maximum 7; gnome below 18 → 5, otherwise 6; half-elf below 17 → 6, at 17 → 7, otherwise 8. Halfling Hairfeet and others under Strength 17 → 4; Tallfellows at 17 and Stouts at 18 → 5; Tallfellows with 18 → 6.",
+        "/bullets/4": "PHB magic-user limits by Intelligence: elf below 17 → 9, at 17 → 10, otherwise maximum 11; half-elf below 17 → 6, at 17 → 7, otherwise maximum 8. Gnome illusionists with Intelligence or Dexterity below 17 are limited to 5; with both 17 to 6; otherwise table maximum 7. Half-orc thieves with Dexterity below 17 are limited to 6, at 17 to 7, otherwise maximum 8.",
+        "/bullets/5": "The printed half-elven ranger 8 entry bears footnote 4, but that footnote explicitly describes half-elven fighters. The table’s application of that footnote to rangers is unresolved."
       },
       "reviewedPaths": [],
       "sources": [
@@ -236037,10 +237295,37 @@
           "page": 7,
           "pdfPage": 8,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 14,
+          "pdfPage": 15,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
-      "unresolved": [],
-      "changes": []
+      "unresolved": [
+        "PHB half-elf ranger table prints footnote 4, whose text describes fighters, not rangers."
+      ],
+      "changes": [
+        {
+          "path": "/bullets",
+          "oldValue": [
+            "Your DM may restrict available races for the campaign.",
+            "UA provides additional racial choices and revised limits; keep the selected source explicit."
+          ],
+          "newValue": [
+            "Your DM may restrict available races for the campaign.",
+            "UA provides additional racial choices and revised limits; keep the selected source explicit.",
+            "PHB class level table (U = unlimited; parenthesized entries are non-player characters only; omitted classes are unavailable to that race): dwarf fighter 9, thief U, assassin 9, cleric (8); elf fighter 7, magic-user 11, thief U, assassin 10, cleric (7); gnome fighter 6, illusionist 7, thief U, assassin 8, cleric (7); half-elf cleric 5, druid U, fighter 8, ranger 8, magic-user 8, thief U, assassin 11; halfling fighter 6, thief U, druid (6); half-orc cleric 4, fighter 10, thief 8, assassin U; human all listed classes U. All are still subject to applicable ability and class requirements.",
+            "PHB fighter limits by Strength: dwarf below 17 → 7, at 17 → 8, otherwise maximum 9; elf below 17 → 5, at 17 → 6, otherwise maximum 7; gnome below 18 → 5, otherwise 6; half-elf below 17 → 6, at 17 → 7, otherwise 8. Halfling Hairfeet and others under Strength 17 → 4; Tallfellows at 17 and Stouts at 18 → 5; Tallfellows with 18 → 6.",
+            "PHB magic-user limits by Intelligence: elf below 17 → 9, at 17 → 10, otherwise maximum 11; half-elf below 17 → 6, at 17 → 7, otherwise maximum 8. Gnome illusionists with Intelligence or Dexterity below 17 are limited to 5; with both 17 to 6; otherwise table maximum 7. Half-orc thieves with Dexterity below 17 are limited to 6, at 17 to 7, otherwise maximum 8.",
+            "The printed half-elven ranger 8 entry bears footnote 4, but that footnote explicitly describes half-elven fighters. The table’s application of that footnote to rangers is unresolved."
+          ],
+          "reason": "The existing card defers numeric racial class restrictions or names no PHB multiclass combinations; printed tables and descriptions supply them.",
+          "book": "PHB",
+          "page": 14
+        }
+      ]
     },
     {
       "checker": "mechanics-rules",
@@ -236560,12 +237845,14 @@
       "checkedPaths": [
         "/summary",
         "/bullets/0",
-        "/bullets/1"
+        "/bullets/1",
+        "/bullets/2"
       ],
       "checkedValues": {
         "/summary": "A scroll's spell disappears when read. Scroll casting requires no somatic or material components and normally uses the listed spell casting time.",
         "/bullets/0": "This assumes the scroll is already in hand and ready to read.",
-        "/bullets/1": "Scroll effect strength has exceptions; consult the scroll and individual spell rules."
+        "/bullets/1": "Scroll effect strength has exceptions; consult the scroll and individual spell rules.",
+        "/bullets/2": "Projectile attack spells such as magic missile, fireball and lightning bolt have variable strength; the DM supplies other information as needed."
       },
       "reviewedPaths": [],
       "sources": [
@@ -236583,7 +237870,23 @@
         }
       ],
       "unresolved": [],
-      "changes": []
+      "changes": [
+        {
+          "path": "/bullets",
+          "oldValue": [
+            "This assumes the scroll is already in hand and ready to read.",
+            "Scroll effect strength has exceptions; consult the scroll and individual spell rules."
+          ],
+          "newValue": [
+            "This assumes the scroll is already in hand and ready to read.",
+            "In general, use 12th-level range, duration and area of effect for scroll spells.",
+            "Projectile attack spells such as magic missile, fireball and lightning bolt have variable strength; the DM supplies other information as needed."
+          ],
+          "reason": "PHB pp.100–101 specify the general 12th-level range, duration and area and identify variable-strength projectile spells; replace the deferred warning without inventing a fixed damage level.",
+          "book": "PHB",
+          "page": 100
+        }
+      ]
     },
     {
       "checker": "mechanics-rules",
@@ -237046,12 +238349,14 @@
       "checkedPaths": [
         "/summary",
         "/bullets/0",
-        "/bullets/1"
+        "/bullets/1",
+        "/bullets/2"
       ],
       "checkedValues": {
         "/summary": "Missiles aimed into a melee can strike participants on either side. The DM assigns target probabilities using numbers, relative sizes and the situation.",
         "/bullets/0": "Determining a potential target is separate from making its attack roll.",
-        "/bullets/1": "The source gives discretion when one opponent group is substantially larger."
+        "/bullets/1": "The source gives discretion when one opponent group is substantially larger.",
+        "/bullets/2": "For target allocation, count size S as ½, M as 1, and L as 1½ when the L creature is not much larger than man-sized. Compare the summed values of the opposing groups, then assign a target and roll to hit separately."
       },
       "reviewedPaths": [],
       "sources": [
@@ -237063,7 +238368,23 @@
         }
       ],
       "unresolved": [],
-      "changes": []
+      "changes": [
+        {
+          "path": "/bullets",
+          "oldValue": [
+            "Determining a potential target is separate from making its attack roll.",
+            "The source gives discretion when one opponent group is substantially larger."
+          ],
+          "newValue": [
+            "Determining a potential target is separate from making its attack roll.",
+            "The source gives discretion when one opponent group is substantially larger.",
+            "For target allocation, count size S as ½, M as 1, and L as 1½ when the L creature is not much larger than man-sized. Compare the summed values of the opposing groups, then assign a target and roll to hit separately."
+          ],
+          "book": "DMG",
+          "page": 63,
+          "reason": "Add the previously deferred cited-source procedure."
+        }
+      ]
     },
     {
       "checker": "mechanics-rules",
@@ -237397,13 +238718,15 @@
         "/summary",
         "/bullets/0",
         "/bullets/1",
-        "/bullets/2"
+        "/bullets/2",
+        "/bullets/3"
       ],
       "checkedValues": {
         "/summary": "Initial training normally requires a tutor of the same class and profession. A performance score below 2 permits self-training at twice the time.",
         "/bullets/0": "Name-level self-study and bard contributions have separate rules.",
         "/bullets/1": "Training must be continuous; serious interruption loses the prior time and payment.",
-        "/bullets/2": "Once eligible to advance, further XP cannot be accumulated until the new level is actually acquired."
+        "/bullets/2": "Once eligible to advance, further XP cannot be accumulated until the new level is actually acquired.",
+        "/bullets/3": "Bards contribute at least 50% of monetary gains plus 1,000 gp per level upon advancement to their college, through a druid able to use more of their highest-level spells than the bard; failure to pay prevents advancement. They otherwise need one week of study or training upon gaining sufficient XP."
       },
       "reviewedPaths": [],
       "sources": [
@@ -237414,8 +238737,28 @@
           "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
         }
       ],
-      "unresolved": [],
-      "changes": []
+      "unresolved": [
+        "The source lists four class cost headings and does not explicitly map their subclasses in this passage."
+      ],
+      "changes": [
+        {
+          "path": "/bullets",
+          "oldValue": [
+            "Name-level self-study and bard contributions have separate rules.",
+            "Training must be continuous; serious interruption loses the prior time and payment.",
+            "Once eligible to advance, further XP cannot be accumulated until the new level is actually acquired."
+          ],
+          "newValue": [
+            "At name level, characters train or study independently for the performance-determined time; weekly cost per level is 2,000 gp for clerics, 1,000 for fighters, 4,000 for magic-users, and 2,000 for thieves.",
+            "Training must be continuous; serious interruption loses the prior time and payment.",
+            "Once eligible to advance, further XP cannot be accumulated until the new level is actually acquired.",
+            "Bards contribute at least 50% of monetary gains plus 1,000 gp per level upon advancement to their college, through a druid able to use more of their highest-level spells than the bard; failure to pay prevents advancement. They otherwise need one week of study or training upon gaining sufficient XP."
+          ],
+          "book": "DMG",
+          "page": 86,
+          "reason": "Add the previously deferred cited-source procedure."
+        }
+      ]
     },
     {
       "checker": "mechanics-rules",
@@ -237697,12 +239040,30 @@
       "checkedPaths": [
         "/summary",
         "/bullets/0",
-        "/bullets/1"
+        "/bullets/1",
+        "/bullets/3",
+        "/bullets/4",
+        "/bullets/5",
+        "/bullets/6",
+        "/bullets/7",
+        "/bullets/8",
+        "/bullets/9",
+        "/bullets/10",
+        "/bullets/11"
       ],
       "checkedValues": {
         "/summary": "A non-human or part-human character must meet the race's ability minimums. Apply racial bonuses and penalties before enforcing the race's maximum scores.",
         "/bullets/0": "Minimums may be met by the initial roll plus the race's permitted bonus.",
-        "/bullets/1": "A score above a racial maximum is reduced to that maximum."
+        "/bullets/1": "A score above a racial maximum is reduced to that maximum.",
+        "/bullets/3": "PHB racial ability limits below show each ability as minimum–maximum. A maximum written M/F gives the male maximum first and female maximum second; otherwise both are the same. Apply racial adjustments before the maximum; qualifying minimums can include an applicable racial bonus.",
+        "/bullets/4": "Dwarf: Strength 8–18/17; Intelligence 3–18; Wisdom 3–18; Dexterity 3–17; Constitution 12–19; Charisma 3–16.",
+        "/bullets/5": "Elf: Strength 3–18/16; Intelligence 8–18; Wisdom 3–18; Dexterity 7–19; Constitution 6–18; Charisma 8–18.",
+        "/bullets/6": "Gnome: Strength 6–18/15; Intelligence 7–18; Wisdom 3–18; Dexterity 3–18; Constitution 8–18; Charisma 3–18.",
+        "/bullets/7": "Half-elf: Strength 3–18/17; Intelligence 4–18; Wisdom 3–18; Dexterity 6–18; Constitution 6–18; Charisma 3–18.",
+        "/bullets/8": "Halfling: Strength 6–17/14; Intelligence 6–18; Wisdom 3–17; Dexterity 8–18; Constitution 10–19; Charisma 3–18.",
+        "/bullets/9": "Half-orc: Strength 6–18; Intelligence 3–17; Wisdom 3–14; Dexterity 3–17; Constitution 13–19; Charisma 3–12.",
+        "/bullets/10": "The PHB notes that fighters of all races might qualify for exceptional Strength; see the Strength table. This table covers the six listed nonhuman and part-human races; class requirements remain separate.",
+        "/bullets/11": "The dwarf Charisma maximum applies with respect to non-dwarves; the half-orc maximum applies with respect to non-orcs and non-half-orcs (PHB p.13)."
       },
       "reviewedPaths": [
         {
@@ -237716,10 +239077,44 @@
           "page": 15,
           "pdfPage": 16,
           "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "PHB",
+          "page": 13,
+          "pdfPage": 14,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
-      "unresolved": [],
-      "changes": []
+      "unresolved": [
+        "This is the PHB printing; UA options and revisions are separate."
+      ],
+      "changes": [
+        {
+          "path": "/bullets",
+          "oldValue": [
+            "Minimums may be met by the initial roll plus the race's permitted bonus.",
+            "A score above a racial maximum is reduced to that maximum.",
+            "Check the selected printing and UA revisions before finalizing a character."
+          ],
+          "newValue": [
+            "Minimums may be met by the initial roll plus the race's permitted bonus.",
+            "A score above a racial maximum is reduced to that maximum.",
+            "Check the selected printing and UA revisions before finalizing a character.",
+            "PHB racial ability limits below show each ability as minimum–maximum. A maximum written M/F gives the male maximum first and female maximum second; otherwise both are the same. Apply racial adjustments before the maximum; qualifying minimums can include an applicable racial bonus.",
+            "Dwarf: Strength 8–18/17; Intelligence 3–18; Wisdom 3–18; Dexterity 3–17; Constitution 12–19; Charisma 3–16.",
+            "Elf: Strength 3–18/16; Intelligence 8–18; Wisdom 3–18; Dexterity 7–19; Constitution 6–18; Charisma 8–18.",
+            "Gnome: Strength 6–18/15; Intelligence 7–18; Wisdom 3–18; Dexterity 3–18; Constitution 8–18; Charisma 3–18.",
+            "Half-elf: Strength 3–18/17; Intelligence 4–18; Wisdom 3–18; Dexterity 6–18; Constitution 6–18; Charisma 3–18.",
+            "Halfling: Strength 6–17/14; Intelligence 6–18; Wisdom 3–17; Dexterity 8–18; Constitution 10–19; Charisma 3–18.",
+            "Half-orc: Strength 6–18; Intelligence 3–17; Wisdom 3–14; Dexterity 3–17; Constitution 13–19; Charisma 3–12.",
+            "The PHB notes that fighters of all races might qualify for exceptional Strength; see the Strength table. This table covers the six listed nonhuman and part-human races; class requirements remain separate.",
+            "The dwarf Charisma maximum applies with respect to non-dwarves; the half-orc maximum applies with respect to non-orcs and non-half-orcs (PHB p.13)."
+          ],
+          "reason": "The PHB p.15 table gives the racial minima and maxima omitted from this existing card.",
+          "book": "PHB",
+          "page": 15
+        }
+      ]
     },
     {
       "checker": "mechanics-rules",
@@ -238138,13 +239533,17 @@
         "/summary",
         "/bullets/0",
         "/bullets/1",
-        "/bullets/2"
+        "/bullets/2",
+        "/bullets/3",
+        "/bullets/4"
       ],
       "checkedValues": {
         "/summary": "A non-human multiclass character divides earned experience equally among the chosen classes, including a class in which the racial level limit has already been reached.",
         "/bullets/0": "Do not redirect the capped class's share to the other class or classes.",
         "/bullets/1": "Available combinations depend on race.",
-        "/bullets/2": "UA revises some racial choices and limits; choose the source explicitly."
+        "/bullets/2": "UA revises some racial choices and limits; choose the source explicitly.",
+        "/bullets/3": "PHB racial descriptions name dwarf fighter/thief; elf fighter/magic-user, fighter/thief, magic-user/thief, and fighter/magic-user/thief; halfling fighter/thief. For gnomes, the text gives fighter/illusionist, fighter/thief and illusionist/thief as examples.",
+        "/bullets/4": "The PHB half-elf examples list cleric/fighter, cleric/ranger, cleric/magic-user, fighter/magic-user, fighter/thief, magic-user/thief, cleric/fighter/magic-user and fighter/magic-user/thief. The PHB half-orc list is cleric/fighter, cleric/thief, cleric/assassin, fighter/thief and fighter/assassin. These are PHB descriptions; do not substitute UA racial options."
       },
       "reviewedPaths": [],
       "sources": [
@@ -238173,8 +239572,29 @@
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
         }
       ],
-      "unresolved": [],
-      "changes": []
+      "unresolved": [
+        "Gnome text presents its combinations as examples, not an exhaustive list."
+      ],
+      "changes": [
+        {
+          "path": "/bullets",
+          "oldValue": [
+            "Do not redirect the capped class's share to the other class or classes.",
+            "Available combinations depend on race.",
+            "UA revises some racial choices and limits; choose the source explicitly."
+          ],
+          "newValue": [
+            "Do not redirect the capped class's share to the other class or classes.",
+            "Available combinations depend on race.",
+            "UA revises some racial choices and limits; choose the source explicitly.",
+            "PHB racial descriptions name dwarf fighter/thief; elf fighter/magic-user, fighter/thief, magic-user/thief, and fighter/magic-user/thief; halfling fighter/thief. For gnomes, the text gives fighter/illusionist, fighter/thief and illusionist/thief as examples.",
+            "The PHB half-elf examples list cleric/fighter, cleric/ranger, cleric/magic-user, fighter/magic-user, fighter/thief, magic-user/thief, cleric/fighter/magic-user and fighter/magic-user/thief. The PHB half-orc list is cleric/fighter, cleric/thief, cleric/assassin, fighter/thief and fighter/assassin. These are PHB descriptions; do not substitute UA racial options."
+          ],
+          "reason": "The existing card defers numeric racial class restrictions or names no PHB multiclass combinations; printed tables and descriptions supply them.",
+          "book": "PHB",
+          "page": 15
+        }
+      ]
     },
     {
       "checker": "mechanics-rules",
@@ -238778,12 +240198,32 @@
       "checkedPaths": [
         "/summary",
         "/bullets/0",
-        "/bullets/1"
+        "/bullets/1",
+        "/bullets/2",
+        "/bullets/3",
+        "/bullets/4",
+        "/bullets/5",
+        "/bullets/6",
+        "/bullets/7",
+        "/bullets/8",
+        "/bullets/9",
+        "/bullets/10",
+        "/bullets/11"
       ],
       "checkedValues": {
         "/summary": "UA elven sub-races retain many high-elf traits but add specific changes. Gray elves gain +1 intelligence, potentially reaching 19.",
         "/bullets/0": "Wood elves gain +1 initial strength and −1 intelligence; strength still tops out at 18.",
-        "/bullets/1": "Wild elves gain +2 initial strength to a maximum of 18 and have sharply restricted class choices."
+        "/bullets/1": "Wild elves gain +2 initial strength to a maximum of 18 and have sharply restricted class choices.",
+        "/bullets/2": "Wild elves (grugach) retain standard elven resistance, weapon bonuses, infravision, silent movement and door detection. They gain +2 initial Strength (maximum 18), deal with woodland creatures as if animal friendship were in effect, and set pits, snares and natural traps with a 90% success chance. Most speak only elvish, though a player character may also know some common.",
+        "/bullets/3": "The UA p.7 class table permits gray elves to be cavaliers, clerics, druids, fighters, rangers, magic-users or thieves (including acrobats and assassins); wood elves have those choices except cavalier; wild elves can be druids, fighters or thieves (including acrobats and assassins). Wild elf multiclassing is restricted to fighter/thief.",
+        "/bullets/4": "These are the UA class choices; ability requirements, multiclass rules and the separate UA class-level limits still apply. Do not merge them with the PHB-only class limits.",
+        "/bullets/5": "UA level-limit table conventions: use Wisdom for cleric/druid, Strength for fighter/ranger/assassin, Intelligence for magic-user, and Dexterity for thief; additional ability requirements appear in footnotes. U means unlimited for the appropriate race/class, subject to the highest level attainable by the class. Below the first score shown, use the lowest listed level; scores above the table do not raise its maximum. If single-classed and that class is an available multiclass choice for the character, the limit may be exceeded by 2. Class eligibility still applies.",
+        "/bullets/6": "UA elf cleric (all except dark elves): Wisdom 12–15: 7; 16: 8; 17: 9; 18: 10; 19: 11; 20–21: 12. Wild elves are not eligible for cleric under UA p.7.",
+        "/bullets/7": "UA elf druid: wild elf Wisdom 12–17: 10; 18: 11; 19: 12; 20: 14, each requiring Charisma 18; 21: 17 requiring Charisma 19. Other elves: U, where class-eligible.",
+        "/bullets/8": "UA elf fighter: Strength 12–17 gives gray/high 5, wild 7, wood 6; 18 gives 6/8/7; 18/75 gives 7/8/8; 18/90 gives 8/10/9; 18/99 gives 9/11/10; 18/00 gives 10/12/11; 19 gives 11/13/12; 20 gives 11/13/14. Values in each group are gray/high, wild, wood respectively.",
+        "/bullets/9": "UA elf magic-user: Intelligence 17–18 gives gray 11 and wood 9; 19 gives 12/10; 20 gives 13/11; 21 gives 15/13; 22 gives 18/13. Wild elves cannot be magic-users under UA p.7.",
+        "/bullets/10": "UA elf thief is U. UA elf assassin: Strength 18, 18/01, 18/51 or 18/76 gives level 10; 18/99 gives 11 with Intelligence 18 and Wisdom 19; 18/00, 19 or 20 gives 12 with Intelligence 19 or Wisdom 19. Apply eligibility separately.",
+        "/bullets/11": "UA elf ranger: Strength 18 gives level 6; 18/01 gives 7 with Intelligence 15 and Wisdom 15, or 8 if both exceed 15; 18/51 gives 9 with Intelligence and Wisdom 16; 18/76, 18/99 or 18/00 gives 10 with Intelligence and Wisdom 17; 19 gives 12 and 20 gives 14, both requiring Intelligence and Wisdom 18. Wild elves cannot be rangers under UA p.7."
       },
       "reviewedPaths": [
         {
@@ -238797,10 +240237,108 @@
           "page": 10,
           "pdfPage": 11,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 7,
+          "pdfPage": 8,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 8,
+          "pdfPage": 9,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 9,
+          "pdfPage": 10,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
         }
       ],
-      "unresolved": [],
-      "changes": []
+      "unresolved": [
+        "UA pp.8–9 give additional ability-based level limits; this proposal does not transcribe those tables.",
+        "The separate animal friendship spell’s complete mechanics have not been imported or fully reviewed.",
+        "Tables state discrete score entries; no unstated interpretation for blank exceptional-Strength cells is added."
+      ],
+      "changes": [
+        {
+          "path": "/pages",
+          "oldValue": [
+            10
+          ],
+          "newValue": [
+            7,
+            8,
+            9,
+            10
+          ],
+          "reason": "Add UA level-limit table and its instructions.",
+          "book": "UA",
+          "page": 8,
+          "supersededChanges": [
+            {
+              "path": "/pages",
+              "oldValue": [
+                10
+              ],
+              "newValue": [
+                7,
+                10
+              ],
+              "reason": "Add the UA character-class table supporting the newly extracted class choices.",
+              "book": "UA",
+              "page": 7
+            }
+          ]
+        },
+        {
+          "path": "/bullets",
+          "oldValue": [
+            "Wood elves gain +1 initial strength and −1 intelligence; strength still tops out at 18.",
+            "Wild elves gain +2 initial strength to a maximum of 18 and have sharply restricted class choices.",
+            "Use the individual sub-race text and table rather than combining every elven benefit."
+          ],
+          "newValue": [
+            "Gray elves share high-elf abilities, including sleep and charm resistance, sword and bow ability, infravision, secret/concealed-door detection and silent movement when alone. They share high-elf languages and add +1 to the initial Intelligence roll, up to 19.",
+            "Wood (sylvan) elves have similar elven traits, gain +1 initial Strength (maximum 18) and −1 initial Intelligence. Their starting languages are elvish, common, treant and the tongue of woodland mammals; the passage gives them no other starting languages.",
+            "Wild elves (grugach) retain standard elven resistance, weapon bonuses, infravision, silent movement and door detection. They gain +2 initial Strength (maximum 18), deal with woodland creatures as if animal friendship were in effect, and set pits, snares and natural traps with a 90% success chance. Most speak only elvish, though a player character may also know some common.",
+            "The UA p.7 class table permits gray elves to be cavaliers, clerics, druids, fighters, rangers, magic-users or thieves (including acrobats and assassins); wood elves have those choices except cavalier; wild elves can be druids, fighters or thieves (including acrobats and assassins). Wild elf multiclassing is restricted to fighter/thief.",
+            "These are the UA class choices; ability requirements, multiclass rules and the separate UA class-level limits still apply. Do not merge them with the PHB-only class limits.",
+            "UA level-limit table conventions: use Wisdom for cleric/druid, Strength for fighter/ranger/assassin, Intelligence for magic-user, and Dexterity for thief; additional ability requirements appear in footnotes. U means unlimited for the appropriate race/class, subject to the highest level attainable by the class. Below the first score shown, use the lowest listed level; scores above the table do not raise its maximum. If single-classed and that class is an available multiclass choice for the character, the limit may be exceeded by 2. Class eligibility still applies.",
+            "UA elf cleric (all except dark elves): Wisdom 12–15: 7; 16: 8; 17: 9; 18: 10; 19: 11; 20–21: 12. Wild elves are not eligible for cleric under UA p.7.",
+            "UA elf druid: wild elf Wisdom 12–17: 10; 18: 11; 19: 12; 20: 14, each requiring Charisma 18; 21: 17 requiring Charisma 19. Other elves: U, where class-eligible.",
+            "UA elf fighter: Strength 12–17 gives gray/high 5, wild 7, wood 6; 18 gives 6/8/7; 18/75 gives 7/8/8; 18/90 gives 8/10/9; 18/99 gives 9/11/10; 18/00 gives 10/12/11; 19 gives 11/13/12; 20 gives 11/13/14. Values in each group are gray/high, wild, wood respectively.",
+            "UA elf magic-user: Intelligence 17–18 gives gray 11 and wood 9; 19 gives 12/10; 20 gives 13/11; 21 gives 15/13; 22 gives 18/13. Wild elves cannot be magic-users under UA p.7.",
+            "UA elf thief is U. UA elf assassin: Strength 18, 18/01, 18/51 or 18/76 gives level 10; 18/99 gives 11 with Intelligence 18 and Wisdom 19; 18/00, 19 or 20 gives 12 with Intelligence 19 or Wisdom 19. Apply eligibility separately.",
+            "UA elf ranger: Strength 18 gives level 6; 18/01 gives 7 with Intelligence 15 and Wisdom 15, or 8 if both exceed 15; 18/51 gives 9 with Intelligence and Wisdom 16; 18/76, 18/99 or 18/00 gives 10 with Intelligence and Wisdom 17; 19 gives 12 and 20 gives 14, both requiring Intelligence and Wisdom 18. Wild elves cannot be rangers under UA p.7."
+          ],
+          "reason": "Add ancestry-relevant UA class-level table values and qualifications; keep PHB variants separate.",
+          "book": "UA",
+          "page": 9,
+          "supersededChanges": [
+            {
+              "path": "/bullets",
+              "oldValue": [
+                "Wood elves gain +1 initial strength and −1 intelligence; strength still tops out at 18.",
+                "Wild elves gain +2 initial strength to a maximum of 18 and have sharply restricted class choices.",
+                "Use the individual sub-race text and table rather than combining every elven benefit."
+              ],
+              "newValue": [
+                "Gray elves share high-elf abilities, including sleep and charm resistance, sword and bow ability, infravision, secret/concealed-door detection and silent movement when alone. They share high-elf languages and add +1 to the initial Intelligence roll, up to 19.",
+                "Wood (sylvan) elves have similar elven traits, gain +1 initial Strength (maximum 18) and −1 initial Intelligence. Their starting languages are elvish, common, treant and the tongue of woodland mammals; the passage gives them no other starting languages.",
+                "Wild elves (grugach) retain standard elven resistance, weapon bonuses, infravision, silent movement and door detection. They gain +2 initial Strength (maximum 18), deal with woodland creatures as if animal friendship were in effect, and set pits, snares and natural traps with a 90% success chance. Most speak only elvish, though a player character may also know some common.",
+                "The UA p.7 class table permits gray elves to be cavaliers, clerics, druids, fighters, rangers, magic-users or thieves (including acrobats and assassins); wood elves have those choices except cavalier; wild elves can be druids, fighters or thieves (including acrobats and assassins). Wild elf multiclassing is restricted to fighter/thief.",
+                "These are the UA class choices; ability requirements, multiclass rules and the separate UA class-level limits still apply. Do not merge them with the PHB-only class limits."
+              ],
+              "reason": "Transcribe the explicit gray, wood and wild elf distinctions and UA class table while distinguishing the UA variant.",
+              "book": "UA",
+              "page": 10
+            }
+          ]
+        }
+      ]
     },
     {
       "checker": "mechanics-rules",
@@ -238809,12 +240347,24 @@
       "checkedPaths": [
         "/summary",
         "/bullets/0",
-        "/bullets/1"
+        "/bullets/1",
+        "/bullets/2",
+        "/bullets/3",
+        "/bullets/4",
+        "/bullets/5",
+        "/bullets/6",
+        "/bullets/7"
       ],
       "checkedValues": {
         "/summary": "Half-elves of gray, wood or valley ancestry use traits similar to the PHB half-elf. Drow-descended half-elves inherit light sensitivity without the special advantages of full drow.",
         "/bullets/0": "The source does not provide a half-grugach option.",
-        "/bullets/1": "UA's class and level tables must be checked separately from ancestry descriptions."
+        "/bullets/1": "UA's class and level tables must be checked separately from ancestry descriptions.",
+        "/bullets/2": "UA level-limit table conventions: use Wisdom for cleric/druid, Strength for fighter/ranger/assassin, Intelligence for magic-user, and Dexterity for thief; additional ability requirements appear in footnotes. U means unlimited for the appropriate race/class, subject to the highest level attainable by the class. Below the first score shown, use the lowest listed level; scores above the table do not raise its maximum. If single-classed and that class is an available multiclass choice for the character, the limit may be exceeded by 2. Class eligibility still applies.",
+        "/bullets/3": "UA half-elf cleric: Wisdom 15: 5; 16: 6; 17: 7; 18: 8; 19: 10; 20: 12. Druid: U.",
+        "/bullets/4": "UA half-elf fighter: Strength 15–16: 6; 17–18: 7; 18/90: 8; 18/99: 9; 18/00: 10; 19: 11; 20: 13.",
+        "/bullets/5": "UA half-elf ranger: Strength 15–16: 6; 17: 7; 18: 8; 18/90: 9 and 18/99: 10, requiring Intelligence, Wisdom and Constitution 18. At 18/00, limit 11 requires those same scores; if Wisdom and Constitution both exceed 18 the limit is 12, or if both exceed 19 it is 14. Strength 19–20 gives 15, requiring Intelligence, Wisdom and Constitution 19.",
+        "/bullets/6": "UA half-elf magic-user: Intelligence 15–17: 7; 18–20: 8. Thief: U. Assassin: 11 at each listed Strength score 15 through 20.",
+        "/bullets/7": "UA p.8 says cavalier advancement is unlimited for qualifying elves and half-elves, and bard advancement is unlimited for qualifying half-elves. Eligibility and class requirements are separate."
       },
       "reviewedPaths": [],
       "sources": [
@@ -238823,10 +240373,59 @@
           "page": 11,
           "pdfPage": 12,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 8,
+          "pdfPage": 9,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 9,
+          "pdfPage": 10,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
         }
       ],
-      "unresolved": [],
-      "changes": []
+      "unresolved": [
+        "Tables state discrete score entries; no unstated interpretation for blank exceptional-Strength cells is added."
+      ],
+      "changes": [
+        {
+          "path": "/pages",
+          "oldValue": [
+            11
+          ],
+          "newValue": [
+            8,
+            9,
+            11
+          ],
+          "reason": "Add UA level-limit table and its instructions.",
+          "book": "UA",
+          "page": 8
+        },
+        {
+          "path": "/bullets",
+          "oldValue": [
+            "The source does not provide a half-grugach option.",
+            "UA's class and level tables must be checked separately from ancestry descriptions."
+          ],
+          "newValue": [
+            "The source does not provide a half-grugach option.",
+            "UA's class and level tables must be checked separately from ancestry descriptions.",
+            "UA level-limit table conventions: use Wisdom for cleric/druid, Strength for fighter/ranger/assassin, Intelligence for magic-user, and Dexterity for thief; additional ability requirements appear in footnotes. U means unlimited for the appropriate race/class, subject to the highest level attainable by the class. Below the first score shown, use the lowest listed level; scores above the table do not raise its maximum. If single-classed and that class is an available multiclass choice for the character, the limit may be exceeded by 2. Class eligibility still applies.",
+            "UA half-elf cleric: Wisdom 15: 5; 16: 6; 17: 7; 18: 8; 19: 10; 20: 12. Druid: U.",
+            "UA half-elf fighter: Strength 15–16: 6; 17–18: 7; 18/90: 8; 18/99: 9; 18/00: 10; 19: 11; 20: 13.",
+            "UA half-elf ranger: Strength 15–16: 6; 17: 7; 18: 8; 18/90: 9 and 18/99: 10, requiring Intelligence, Wisdom and Constitution 18. At 18/00, limit 11 requires those same scores; if Wisdom and Constitution both exceed 18 the limit is 12, or if both exceed 19 it is 14. Strength 19–20 gives 15, requiring Intelligence, Wisdom and Constitution 19.",
+            "UA half-elf magic-user: Intelligence 15–17: 7; 18–20: 8. Thief: U. Assassin: 11 at each listed Strength score 15 through 20.",
+            "UA p.8 says cavalier advancement is unlimited for qualifying elves and half-elves, and bard advancement is unlimited for qualifying half-elves. Eligibility and class requirements are separate."
+          ],
+          "reason": "Add ancestry-relevant UA class-level table values and qualifications; keep PHB variants separate.",
+          "book": "UA",
+          "page": 9
+        }
+      ]
     },
     {
       "checker": "mechanics-rules",
@@ -238835,12 +240434,50 @@
       "checkedPaths": [
         "/summary",
         "/bullets/0",
-        "/bullets/1"
+        "/bullets/1",
+        "/bullets/2",
+        "/bullets/3",
+        "/bullets/4",
+        "/bullets/5",
+        "/bullets/6",
+        "/bullets/7",
+        "/bullets/8",
+        "/bullets/9",
+        "/bullets/10",
+        "/bullets/11",
+        "/bullets/12",
+        "/bullets/13",
+        "/bullets/14",
+        "/bullets/15",
+        "/bullets/16",
+        "/bullets/17",
+        "/bullets/18",
+        "/bullets/19",
+        "/bullets/20"
       ],
       "checkedValues": {
         "/summary": "Read a UA racial-preference row as that race's attitude toward the column's race. A relationship need not be reciprocal.",
         "/bullets/0": "The legend distinguishes preference, goodwill, tolerance, neutrality, antipathy and hatred.",
-        "/bullets/1": "For elves reacting to a half-elf, use the more negative of the half-elf reaction or the reaction to the elven ancestor's race."
+        "/bullets/1": "For elves reacting to a half-elf, use the more negative of the half-elf reaction or the reaction to the elven ancestor's race.",
+        "/bullets/2": "For reactions of races other than elves, use the half-elf column. An elf reacting to a half-elf uses whichever is more negative: its half-elf reaction or its reaction to a full-blooded elf of the half-elf’s nonhuman ancestor’s race.",
+        "/bullets/3": "Column order: DG gray dwarf; DH hill dwarf; DM mountain dwarf; ED dark elf; EG gray elf; EH high elf; EV valley elf; EWi wild elf; EWd wood elf; GD deep gnome; GS surface gnome; ½E half-elf; HH hairfoot halfling; HS stout halfling; HT tallfellow halfling; ½O half-orc; H human.",
+        "/bullets/4": "DG: P A A G H H H H H A A N N T N N N",
+        "/bullets/5": "DH: A P G H A A A A A N G N T G G H N",
+        "/bullets/6": "DM: A G P H A A A A A T T N T G T H N",
+        "/bullets/7": "ED: G A A P H H A H H H A A A A A T N",
+        "/bullets/8": "EG: A A A H P G A T G N T G T T G A N",
+        "/bullets/9": "EH: A A A H G P A N G T T G T T G A N",
+        "/bullets/10": "EV: A A A A N N P N N G G T N N T A A",
+        "/bullets/11": "EWi: A A A H N N A P N A A A A A N A A",
+        "/bullets/12": "EWd: A A A H G G A N P N N G T T G A N",
+        "/bullets/13": "GD: A N T H N N T N N P G N T T T A N",
+        "/bullets/14": "GS: A G G A T T G N N G P T G G G H N",
+        "/bullets/15": "½E: N N N P P P P A P N T P N N T A T",
+        "/bullets/16": "HH: N T T A T T N N T N T N P P P N T",
+        "/bullets/17": "HS: T G G A T T N N T T T N P P P N N",
+        "/bullets/18": "HT: N T T N G G T T G N T G P P P N N",
+        "/bullets/19": "½O: N H H N A A A A A A H A N N A P T",
+        "/bullets/20": "H: N N N N N N N N N N N T N N N N P"
       },
       "reviewedPaths": [
         {
@@ -238857,7 +240494,42 @@
         }
       ],
       "unresolved": [],
-      "changes": []
+      "changes": [
+        {
+          "path": "/bullets",
+          "oldValue": [
+            "The legend distinguishes preference, goodwill, tolerance, neutrality, antipathy and hatred.",
+            "For elves reacting to a half-elf, use the more negative of the half-elf reaction or the reaction to the elven ancestor's race.",
+            "These are encounter and social-context guidelines, not automatic decisions for every individual."
+          ],
+          "newValue": [
+            "Read the row as the reacting race and the column as the race observed. The entries are general attitudes and need not be reciprocal.",
+            "Legend: P preferred; G goodwill; T tolerated; N neutral (possibly suspicious); A antipathy; H strong hatred.",
+            "For reactions of races other than elves, use the half-elf column. An elf reacting to a half-elf uses whichever is more negative: its half-elf reaction or its reaction to a full-blooded elf of the half-elf’s nonhuman ancestor’s race.",
+            "Column order: DG gray dwarf; DH hill dwarf; DM mountain dwarf; ED dark elf; EG gray elf; EH high elf; EV valley elf; EWi wild elf; EWd wood elf; GD deep gnome; GS surface gnome; ½E half-elf; HH hairfoot halfling; HS stout halfling; HT tallfellow halfling; ½O half-orc; H human.",
+            "DG: P A A G H H H H H A A N N T N N N",
+            "DH: A P G H A A A A A N G N T G G H N",
+            "DM: A G P H A A A A A T T N T G T H N",
+            "ED: G A A P H H A H H H A A A A A T N",
+            "EG: A A A H P G A T G N T G T T G A N",
+            "EH: A A A H G P A N G T T G T T G A N",
+            "EV: A A A A N N P N N G G T N N T A A",
+            "EWi: A A A H N N A P N A A A A A N A A",
+            "EWd: A A A H G G A N P N N G T T G A N",
+            "GD: A N T H N N T N N P G N T T T A N",
+            "GS: A G G A T T G N N G P T G G G H N",
+            "½E: N N N P P P P A P N T P N N T A T",
+            "HH: N T T A T T N N T N T N P P P N T",
+            "HS: T G G A T T N N T T T N P P P N N",
+            "HT: N T T N G G T T G N T G P P P N N",
+            "½O: N H H N A A A A A A H A N N A P T",
+            "H: N N N N N N N N N N N T N N N N P"
+          ],
+          "reason": "The existing rule omits the 17-by-17 directional matrix; add its exact rows and legend.",
+          "book": "UA",
+          "page": 12
+        }
+      ]
     },
     {
       "checker": "mechanics-rules",
@@ -239370,13 +241042,17 @@
         "/summary",
         "/bullets/0",
         "/bullets/1",
-        "/bullets/2"
+        "/bullets/2",
+        "/bullets/3",
+        "/bullets/4"
       ],
       "checkedValues": {
         "/summary": "Missile attacks from moving flying mounts, brooms or wings of flying use special range penalties and require substantial practice.",
         "/bullets/0": "Short range uses the medium-range penalty, −2; medium range uses the long-range penalty, −5; long-range shots miss.",
         "/bullets/1": "An unpracticed rider using those means cannot hit under this procedure.",
-        "/bullets/2": "A caster hovering with fly or a rider on a hovering flying carpet does not suffer these movement penalties; levitation has separate rules."
+        "/bullets/2": "A caster hovering with fly or a rider on a hovering flying carpet does not suffer these movement penalties; levitation has separate rules.",
+        "/bullets/3": "A levitating archer attacks at −1, worsening by 1 each successive round of fire to a maximum −3; a round without firing or fighting stabilizes the archer and resets the next shot to −1.",
+        "/bullets/4": "While levitating, slings, thrown javelins or spears, and swung weapons use double those penalties (−2, −4, −6). A medium or heavy crossbow cannot be cocked while levitating."
       },
       "reviewedPaths": [],
       "sources": [
@@ -239385,10 +241061,41 @@
           "page": 53,
           "pdfPage": 54,
           "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        {
+          "book": "DMG",
+          "page": 51,
+          "pdfPage": 52,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        {
+          "book": "DMG",
+          "page": 52,
+          "pdfPage": 53,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
         }
       ],
       "unresolved": [],
-      "changes": []
+      "changes": [
+        {
+          "path": "/bullets",
+          "oldValue": [
+            "Short range uses the medium-range penalty, −2; medium range uses the long-range penalty, −5; long-range shots miss.",
+            "An unpracticed rider using those means cannot hit under this procedure.",
+            "A caster hovering with fly or a rider on a hovering flying carpet does not suffer these movement penalties; levitation has separate rules."
+          ],
+          "newValue": [
+            "Short range uses the medium-range penalty, −2; medium range uses the long-range penalty, −5; long-range shots miss.",
+            "An unpracticed rider using those means cannot hit under this procedure.",
+            "A caster hovering with fly or a rider on a hovering flying carpet does not suffer these movement penalties; levitation has separate rules.",
+            "A levitating archer attacks at −1, worsening by 1 each successive round of fire to a maximum −3; a round without firing or fighting stabilizes the archer and resets the next shot to −1.",
+            "While levitating, slings, thrown javelins or spears, and swung weapons use double those penalties (−2, −4, −6). A medium or heavy crossbow cannot be cocked while levitating."
+          ],
+          "book": "DMG",
+          "page": 51,
+          "reason": "Add the previously deferred cited-source procedure."
+        }
+      ]
     },
     {
       "checker": "mechanics-rules",
@@ -239910,12 +241617,16 @@
       "checkedPaths": [
         "/summary",
         "/bullets/0",
-        "/bullets/1"
+        "/bullets/1",
+        "/bullets/2",
+        "/bullets/3"
       ],
       "checkedValues": {
         "/summary": "Barriers, dropped food or treasure, and branching passages can interrupt a chase, depending on the pursuers' motives and senses.",
         "/bullets/0": "Food and treasure are not automatic escape buttons; use the pursuer's intelligence and interests.",
-        "/bullets/1": "At a three-way choice without sight, sound or scent clues, a pursuer has a two-in-three chance of taking the wrong way."
+        "/bullets/1": "At a three-way choice without sight, sound or scent clues, a pursuer has a two-in-three chance of taking the wrong way.",
+        "/bullets/2": "For palatable food or wine offered to pursuers of low intelligence or less, determine a 10%–100% base chance with d10 unless their hunger is known; add 10% per intelligence point below 5. Non-intelligent pursuers have a 100% probability. If the chance is under 100%, roll d10 again to test it; success distracts them for one round.",
+        "/bullets/3": "Treasure can distract pursuers of low intelligence or higher: start at 10%–100%, adding 10% per 10 items for low-intelligence pursuers or 10% per 100 gp of value or potential value for those of average intelligence or more. Test with a second d10; success lasts one round or the time needed to collect the treasure, whichever is longer. Tiny valuables can go unnoticed."
       },
       "reviewedPaths": [],
       "sources": [
@@ -239927,7 +241638,24 @@
         }
       ],
       "unresolved": [],
-      "changes": []
+      "changes": [
+        {
+          "path": "/bullets",
+          "oldValue": [
+            "Food and treasure are not automatic escape buttons; use the pursuer's intelligence and interests.",
+            "At a three-way choice without sight, sound or scent clues, a pursuer has a two-in-three chance of taking the wrong way."
+          ],
+          "newValue": [
+            "Food and treasure are not automatic escape buttons; use the pursuer's intelligence and interests.",
+            "At a three-way choice without sight, sound or scent clues, a pursuer has a two-in-three chance of taking the wrong way.",
+            "For palatable food or wine offered to pursuers of low intelligence or less, determine a 10%–100% base chance with d10 unless their hunger is known; add 10% per intelligence point below 5. Non-intelligent pursuers have a 100% probability. If the chance is under 100%, roll d10 again to test it; success distracts them for one round.",
+            "Treasure can distract pursuers of low intelligence or higher: start at 10%–100%, adding 10% per 10 items for low-intelligence pursuers or 10% per 100 gp of value or potential value for those of average intelligence or more. Test with a second d10; success lasts one round or the time needed to collect the treasure, whichever is longer. Tiny valuables can go unnoticed."
+          ],
+          "book": "DMG",
+          "page": 68,
+          "reason": "Add the previously deferred cited-source procedure."
+        }
+      ]
     },
     {
       "checker": "mechanics-rules",
@@ -240612,12 +242340,20 @@
       "checkedPaths": [
         "/summary",
         "/bullets/0",
-        "/bullets/1"
+        "/bullets/1",
+        "/bullets/2",
+        "/bullets/3",
+        "/bullets/4",
+        "/bullets/5"
       ],
       "checkedValues": {
         "/summary": "A spell-user being magically observed may check for detection each round using the invisibility-detection procedure and that observed creature's level and intelligence.",
         "/bullets/0": "After detecting it, cast at the small disturbance marking the magical view.",
-        "/bullets/1": "Darkness stops the observation for its duration; dispel magic stops it for a day."
+        "/bullets/1": "Darkness stops the observation for its duration; dispel magic stops it for a day.",
+        "/bullets/2": "Use the DMG p.60 detection table: columns below are intelligence 0–1 / 2–4 / 5–7 / 8–10 / 11–12 / 13–14 / 15–16 / 17+, with — indicating a printed dash.",
+        "/bullets/3": "Level 7 / 7 or 7+ HD: — / — / — / — / — / — / — / 5%; level 8 / 8 or 8+ HD: — / — / — / — / — / — / 5% / 10%; level 9 / 9 or 9+ HD: — / — / — / — / — / 5% / 10% / 15%.",
+        "/bullets/4": "Level 10 / 10 HD: — / — / — / — / 5% / 15% / 20% / 25%; level 11 / 10+–11 HD: — / — / — / 5% / 15% / 25% / 30% / 35%; level 12 / 11+–12 HD: — / — / 5% / 15% / 25% / 35% / 40% / 45%.",
+        "/bullets/5": "Level 13 / 12+–13 HD: — / 5% / 10% / 25% / 35% / 45% / 50% / 55%; level 14 / 13+–14+ HD: 5% / 10% / 15% / 35% / 45% / 55% / 65% / 75%; level 15 and up: 10% / 15% / 20% / 45% / 55% / 65% / 80% / 95%."
       },
       "reviewedPaths": [],
       "sources": [
@@ -240626,10 +242362,37 @@
           "page": 119,
           "pdfPage": 120,
           "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        {
+          "book": "DMG",
+          "page": 60,
+          "pdfPage": 61,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
         }
       ],
-      "unresolved": [],
-      "changes": []
+      "unresolved": [
+        "The printed table leaves lower levels and dashes without numeric chances; do not infer zero."
+      ],
+      "changes": [
+        {
+          "path": "/bullets",
+          "oldValue": [
+            "After detecting it, cast at the small disturbance marking the magical view.",
+            "Darkness stops the observation for its duration; dispel magic stops it for a day."
+          ],
+          "newValue": [
+            "After detecting it, cast at the small disturbance marking the magical view.",
+            "Darkness stops the observation for its duration; dispel magic stops it for a day.",
+            "Use the DMG p.60 detection table: columns below are intelligence 0–1 / 2–4 / 5–7 / 8–10 / 11–12 / 13–14 / 15–16 / 17+, with — indicating a printed dash.",
+            "Level 7 / 7 or 7+ HD: — / — / — / — / — / — / — / 5%; level 8 / 8 or 8+ HD: — / — / — / — / — / — / 5% / 10%; level 9 / 9 or 9+ HD: — / — / — / — / — / 5% / 10% / 15%.",
+            "Level 10 / 10 HD: — / — / — / — / 5% / 15% / 20% / 25%; level 11 / 10+–11 HD: — / — / — / 5% / 15% / 25% / 30% / 35%; level 12 / 11+–12 HD: — / — / 5% / 15% / 25% / 35% / 40% / 45%.",
+            "Level 13 / 12+–13 HD: — / 5% / 10% / 25% / 35% / 45% / 50% / 55%; level 14 / 13+–14+ HD: 5% / 10% / 15% / 35% / 45% / 55% / 65% / 75%; level 15 and up: 10% / 15% / 20% / 45% / 55% / 65% / 80% / 95%."
+          ],
+          "book": "DMG",
+          "page": 60,
+          "reason": "Add the previously deferred cited-source procedure."
+        }
+      ]
     },
     {
       "checker": "mechanics-rules",
