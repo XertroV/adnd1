@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "input": {
     "path": "dist/data.json",
-    "sha256": "ecfe22c838306ec89e326576d96754d60404789d3a3e606ed1886a3da196cc00",
+    "sha256": "24ad09476d019abc5dba2512d03072894d425a9dbdaf1fdc8e45ea32aac6f6bc",
     "hashFormat": "SHA-256 of JSON.stringify(parsed data)",
     "denominator": "Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.",
     "countSemantics": "Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap."
@@ -10,24 +10,24 @@
   "counts": {
     "records": 892,
     "totalFields": 13035,
-    "inspectedFields": 13028,
+    "inspectedFields": 13030,
     "sourceCheckedFields": 12463,
     "unchangedSourceCheckedFields": 9895,
     "correctedAndCheckedFields": 2568,
     "correctionPendingFields": 0,
-    "notExtractedFields": 11,
-    "sourceConflictFields": 18,
+    "notExtractedFields": 9,
+    "sourceConflictFields": 20,
     "editorialReviewedFields": 543,
     "staleProposalFields": 0,
     "uncheckedFields": 0
   },
   "percentages": {
-    "inspectedFields": 99.95,
+    "inspectedFields": 99.96,
     "sourceCheckedFields": 95.61,
     "unchangedSourceCheckedFields": 75.91,
     "correctedAndCheckedFields": 19.7,
     "correctionPendingFields": 0,
-    "notExtractedFields": 0.08,
+    "notExtractedFields": 0.07,
     "uncheckedFields": 0
   },
   "records": [
@@ -28421,7 +28421,7 @@
         },
         {
           "path": "/exceptions/0",
-          "value": "Gap: the OCR image-count bands overlap at 75; consult the printed table before resolving the roll.",
+          "value": "The printed image-count bands overlap at 75: both 51–75 and 75 or more include that result. The outcome at 75 remains unresolved.",
           "status": "source-conflict",
           "inspected": true,
           "checkers": [
@@ -28430,9 +28430,12 @@
           "unresolved": [
             {
               "checker": "mechanics-phb-magic",
-              "path": "/exceptions",
+              "path": "/exceptions/0",
               "reason": "Printed image-count bands overlap at 75; the ambiguity remains in the source."
             }
+          ],
+          "changePaths": [
+            "/exceptions/0"
           ]
         }
       ],
@@ -28447,8 +28450,24 @@
       "reviewers": [
         "mechanics-phb-magic"
       ],
-      "unresolvedNotes": [],
-      "proposedChanges": []
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-phb-magic",
+          "note": "The source ambiguity remains unresolved; no numerical interpretation is selected."
+        }
+      ],
+      "proposedChanges": [
+        {
+          "checker": "mechanics-phb-magic",
+          "path": "/exceptions/0",
+          "oldValue": "Gap: the OCR image-count bands overlap at 75; consult the printed table before resolving the roll.",
+          "newValue": "The printed image-count bands overlap at 75: both 51–75 and 75 or more include that result. The outcome at 75 remains unresolved.",
+          "reason": "Original scan confirms the ambiguity is present in print, not merely an OCR artifact.",
+          "book": "PHB",
+          "page": 71,
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "spells",
@@ -34753,18 +34772,21 @@
         },
         {
           "path": "/exceptions/0",
-          "value": "Gap: the OCR area header and the printed size examples give inconsistent scaling; verify the area directly in the scan.",
-          "status": "not-extracted",
-          "inspected": false,
+          "value": "The printed area header gives 1″ × 1″ square per level, while its 10th- and 12th-level examples give 10″ × 10″ and 12″ × 12″ squares. Their scaling is inconsistent; the intended area remains unresolved.",
+          "status": "source-conflict",
+          "inspected": true,
           "checkers": [
             "mechanics-phb-magic"
           ],
           "unresolved": [
             {
               "checker": "mechanics-phb-magic",
-              "path": "/exceptions",
-              "reason": "The printed area header and level examples imply different scaling; interpretation remains unresolved."
+              "path": "/exceptions/0",
+              "reason": "Printed source ambiguity: the area header and level examples imply different scaling; interpretation remains unresolved."
             }
+          ],
+          "changePaths": [
+            "/exceptions/0"
           ]
         }
       ],
@@ -34779,8 +34801,24 @@
       "reviewers": [
         "mechanics-phb-magic"
       ],
-      "unresolvedNotes": [],
-      "proposedChanges": []
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-phb-magic",
+          "note": "The source ambiguity remains unresolved; no numerical interpretation is selected."
+        }
+      ],
+      "proposedChanges": [
+        {
+          "checker": "mechanics-phb-magic",
+          "path": "/exceptions/0",
+          "oldValue": "Gap: the OCR area header and the printed size examples give inconsistent scaling; verify the area directly in the scan.",
+          "newValue": "The printed area header gives 1″ × 1″ square per level, while its 10th- and 12th-level examples give 10″ × 10″ and 12″ × 12″ squares. Their scaling is inconsistent; the intended area remains unresolved.",
+          "reason": "Original scan confirms the ambiguity is present in print, not merely an OCR artifact.",
+          "book": "PHB",
+          "page": 77,
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "spells",
@@ -35019,13 +35057,6 @@
           "inspected": true,
           "checkers": [
             "mechanics-phb-magic"
-          ],
-          "unresolved": [
-            {
-              "checker": "mechanics-phb-magic",
-              "path": "/exceptions",
-              "reason": "The printed header itself appears to say 11′ × 1″ square/level, an anomalous dimensional expression; interpretation is unresolved."
-            }
           ]
         },
         {
@@ -35035,29 +35066,25 @@
           "inspected": true,
           "checkers": [
             "mechanics-phb-magic"
-          ],
-          "unresolved": [
-            {
-              "checker": "mechanics-phb-magic",
-              "path": "/exceptions",
-              "reason": "The printed header itself appears to say 11′ × 1″ square/level, an anomalous dimensional expression; interpretation is unresolved."
-            }
           ]
         },
         {
           "path": "/exceptions/2",
-          "value": "Gap: the area header is corrupted in OCR.",
-          "status": "not-extracted",
-          "inspected": false,
+          "value": "The printed area header appears to read 11′ × 1″ square per level. This unusual dimensional expression remains unresolved.",
+          "status": "source-conflict",
+          "inspected": true,
           "checkers": [
             "mechanics-phb-magic"
           ],
           "unresolved": [
             {
               "checker": "mechanics-phb-magic",
-              "path": "/exceptions",
-              "reason": "The printed header itself appears to say 11′ × 1″ square/level, an anomalous dimensional expression; interpretation is unresolved."
+              "path": "/exceptions/2",
+              "reason": "Printed source ambiguity: the header gives an anomalous 11 feet by 1 inch per level; intended dimensions remain unresolved."
             }
+          ],
+          "changePaths": [
+            "/exceptions/2"
           ]
         }
       ],
@@ -35072,8 +35099,24 @@
       "reviewers": [
         "mechanics-phb-magic"
       ],
-      "unresolvedNotes": [],
-      "proposedChanges": []
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-phb-magic",
+          "note": "The source ambiguity remains unresolved; no numerical interpretation is selected."
+        }
+      ],
+      "proposedChanges": [
+        {
+          "checker": "mechanics-phb-magic",
+          "path": "/exceptions/2",
+          "oldValue": "Gap: the area header is corrupted in OCR.",
+          "newValue": "The printed area header appears to read 11′ × 1″ square per level. This unusual dimensional expression remains unresolved.",
+          "reason": "Original scan confirms the ambiguity is present in print, not merely an OCR artifact.",
+          "book": "PHB",
+          "page": 77,
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "spells",
@@ -228688,7 +228731,8 @@
         "/conditions",
         "/fields/Area",
         "/class",
-        "/level"
+        "/level",
+        "/exceptions/0"
       ],
       "checkedValues": {
         "/class": "Magic-user",
@@ -228701,7 +228745,8 @@
         "/fields/Area": "6′ radius around caster",
         "/effect/0": "Create 1–4 duplicates that follow the caster's actions, with the count determined by a caster-level-adjusted percentile roll.",
         "/effect/1": "A weapon hit destroys an image, including a hit by a magical weapon.",
-        "/conditions/0": "The images shift between rounds; hitting the real caster once does not identify the caster next round."
+        "/conditions/0": "The images shift between rounds; hitting the real caster once does not identify the caster next round.",
+        "/exceptions/0": "The printed image-count bands overlap at 75: both 51–75 and 75 or more include that result. The outcome at 75 remains unresolved."
       },
       "reviewedPaths": [],
       "sources": [
@@ -228714,11 +228759,21 @@
       ],
       "unresolved": [
         {
-          "path": "/exceptions",
+          "path": "/exceptions/0",
           "reason": "Printed image-count bands overlap at 75; the ambiguity remains in the source."
-        }
+        },
+        "The source ambiguity remains unresolved; no numerical interpretation is selected."
       ],
-      "changes": []
+      "changes": [
+        {
+          "path": "/exceptions/0",
+          "oldValue": "Gap: the OCR image-count bands overlap at 75; consult the printed table before resolving the roll.",
+          "newValue": "The printed image-count bands overlap at 75: both 51–75 and 75 or more include that result. The outcome at 75 remains unresolved.",
+          "reason": "Original scan confirms the ambiguity is present in print, not merely an OCR artifact.",
+          "book": "PHB",
+          "page": 71
+        }
+      ]
     },
     {
       "checker": "mechanics-phb-magic",
@@ -230985,7 +231040,8 @@
         "/fields/Material",
         "/class",
         "/level",
-        "/fields/Duration"
+        "/fields/Duration",
+        "/exceptions/0"
       ],
       "checkedValues": {
         "/class": "Magic-user",
@@ -230997,7 +231053,8 @@
         "/fields/Saving throw": "None",
         "/fields/Material": "Stone, twig and green leaf or grass",
         "/effect/0": "Disguise real terrain as a different natural feature, such as making a road look like a marsh or a precipice like a gentle slope.",
-        "/conditions/0": "The illusion ends when an intelligent creature contacts it or dispel magic affects the area."
+        "/conditions/0": "The illusion ends when an intelligent creature contacts it or dispel magic affects the area.",
+        "/exceptions/0": "The printed area header gives 1″ × 1″ square per level, while its 10th- and 12th-level examples give 10″ × 10″ and 12″ × 12″ squares. Their scaling is inconsistent; the intended area remains unresolved."
       },
       "reviewedPaths": [],
       "sources": [
@@ -231010,11 +231067,21 @@
       ],
       "unresolved": [
         {
-          "path": "/exceptions",
-          "reason": "The printed area header and level examples imply different scaling; interpretation remains unresolved."
-        }
+          "path": "/exceptions/0",
+          "reason": "Printed source ambiguity: the area header and level examples imply different scaling; interpretation remains unresolved."
+        },
+        "The source ambiguity remains unresolved; no numerical interpretation is selected."
       ],
-      "changes": []
+      "changes": [
+        {
+          "path": "/exceptions/0",
+          "oldValue": "Gap: the OCR area header and the printed size examples give inconsistent scaling; verify the area directly in the scan.",
+          "newValue": "The printed area header gives 1″ × 1″ square per level, while its 10th- and 12th-level examples give 10″ × 10″ and 12″ × 12″ squares. Their scaling is inconsistent; the intended area remains unresolved.",
+          "reason": "Original scan confirms the ambiguity is present in print, not merely an OCR artifact.",
+          "book": "PHB",
+          "page": 77
+        }
+      ]
     },
     {
       "checker": "mechanics-phb-magic",
@@ -231077,7 +231144,8 @@
         "/level",
         "/fields/Duration",
         "/exceptions/0",
-        "/exceptions/1"
+        "/exceptions/1",
+        "/exceptions/2"
       ],
       "checkedValues": {
         "/class": "Magic-user",
@@ -231091,7 +231159,8 @@
         "/effect/0": "Make up to ten willing man-sized or smaller creatures per caster level appear to be ordinary trees.",
         "/conditions/0": "Recipients must be within the spell's area.",
         "/exceptions/0": "Others may pass among and touch the apparent trees without exposing the illusion.",
-        "/exceptions/1": "Blows reveal their living nature through wounds and blood."
+        "/exceptions/1": "Blows reveal their living nature through wounds and blood.",
+        "/exceptions/2": "The printed area header appears to read 11′ × 1″ square per level. This unusual dimensional expression remains unresolved."
       },
       "reviewedPaths": [],
       "sources": [
@@ -231104,11 +231173,21 @@
       ],
       "unresolved": [
         {
-          "path": "/exceptions",
-          "reason": "The printed header itself appears to say 11′ × 1″ square/level, an anomalous dimensional expression; interpretation is unresolved."
-        }
+          "path": "/exceptions/2",
+          "reason": "Printed source ambiguity: the header gives an anomalous 11 feet by 1 inch per level; intended dimensions remain unresolved."
+        },
+        "The source ambiguity remains unresolved; no numerical interpretation is selected."
       ],
-      "changes": []
+      "changes": [
+        {
+          "path": "/exceptions/2",
+          "oldValue": "Gap: the area header is corrupted in OCR.",
+          "newValue": "The printed area header appears to read 11′ × 1″ square per level. This unusual dimensional expression remains unresolved.",
+          "reason": "Original scan confirms the ambiguity is present in print, not merely an OCR artifact.",
+          "book": "PHB",
+          "page": 77
+        }
+      ]
     },
     {
       "checker": "mechanics-phb-magic",
