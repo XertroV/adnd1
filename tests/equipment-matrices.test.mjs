@@ -37,7 +37,7 @@ function source(ref, context) {
     assert.ok(catalog,`${context}: item-specific catalog required`);
     assert.equal(ref.scanVerification.regionCount,catalog.regions.length);
     assert.equal(ref.incomplete,true);
-  }else if (ref.status === 'Selected numeric value visually checked') {
+  }else if (['Selected numeric value visually checked','Selected value visually checked','Source passage visually checked; interpretation unresolved'].includes(ref.status)) {
     const id=context.split(':')[0];
     const catalog=load(`dist/${citationOverrides.sourceExcerpts[`equipment:${id}`].catalog}`);
     assert.ok(catalog.regions.some(region=>region.book===ref.book && ref.pages.includes(region.printedPage)), `${context}: cited source excerpt`);
@@ -105,8 +105,12 @@ for (const [name, gear] of [['authored', authoredGear], ['assembled', assembled.
     assert.ok(weighted.length > 0, 'weight-unit regression requires weighted items');
     for (const item of weighted) {
       for (const [label, value] of Object.entries(item.fields)) if (/weight/i.test(label)) {
-        assert.match(String(value), /gp-weight/, `${item.id}: encumbrance unit must be explicit`);
-        assert.match(String(value), /not (?:purchase )?cost/i, `${item.id}: weight is not currency`);
+        if (label === 'Weight' && item.fieldSources[label]?.book === 'UA' && item.fieldSources[label]?.pages.includes(75)) {
+          assert.match(String(value), /lb.*human-sized/i, `${item.id}: human-sized armor weight units`);
+        } else {
+          assert.match(String(value), /gp-weight/, `${item.id}: encumbrance unit must be explicit`);
+          assert.match(String(value), /not (?:purchase )?cost/i, `${item.id}: weight is not currency`);
+        }
       }
       assert.ok(item.price === null || item.price.currency !== 'gp-weight');
     }

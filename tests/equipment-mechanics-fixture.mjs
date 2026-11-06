@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+export const equipmentCompletenessCorrections=JSON.parse(readFileSync(new URL('./fixtures/equipment-completeness-corrections.json',import.meta.url),'utf8'));
 export const equipmentAdditionalCorrections=JSON.parse(readFileSync(new URL('./fixtures/equipment-additional-mechanics-corrections.json',import.meta.url),'utf8'));
 export const equipmentCorrections=JSON.parse(readFileSync(new URL('./fixtures/equipment-mechanics-corrections.json',import.meta.url),'utf8'));
 const unescape=s=>s.replaceAll('~1','/').replaceAll('~0','~');
 export function reverseApprovedEquipmentChanges(equipment) {
  const copy=structuredClone(equipment);
- for(const record of [...equipmentAdditionalCorrections.records,...equipmentCorrections.records]){
+ for(const record of [...equipmentCompletenessCorrections.records,...equipmentAdditionalCorrections.records,...equipmentCorrections.records]){
   const item=copy.find(x=>x.id===record.id);assert.ok(item,record.id);
   for(const change of record.changes){
    const parts=change.path.split('/').slice(1).map(unescape);let parent=item;
