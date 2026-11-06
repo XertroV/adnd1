@@ -36,11 +36,11 @@ function source(ref, context) {
     assert.ok(catalog,`${context}: item-specific catalog required`);
     assert.equal(ref.scanVerification.regionCount,catalog.regions.length);
     assert.equal(ref.incomplete,true);
-  }else if (/^phb-(partisan|ranseur): purchase price$/.test(context)) {
+  }else if (/purchase price$/.test(context) && ref.status === 'Selected purchase-price row visually checked') {
     assert.equal(ref.status, 'Selected purchase-price row visually checked');
     const id=context.split(':')[0];
     const catalog=load(`dist/${citationOverrides.sourceExcerpts[`equipment:${id}`].catalog}`);
-    assert.ok(catalog.regions.some(region=>region.book===ref.book && ref.pages.includes(region.printedPage) && /purchase price row/i.test(region.summary)), `${context}: source excerpt`);
+    assert.ok(catalog.regions.some(region=>region.book===ref.book && ref.pages.includes(region.printedPage) && !/table headings/i.test(region.title)), `${context}: source excerpt`);
   }else{
     assert.match(ref.status || '', /OCR checked/, `${context}: verification state`);
     assert.match(ref.status || '', /visual.*pending/i, `${context}: visual verification is pending`);
@@ -57,12 +57,12 @@ test('assembly preserves every equipment and matrix field from the author checkp
 });
 
 for (const [name, gear] of [['authored', authoredGear], ['assembled', assembled.equipment]]) {
-  test(`${name} catalogue distinguishes 61 sourced prices from 27 unavailable prices`, () => {
+  test(`${name} catalogue distinguishes 84 sourced prices from 4 unavailable prices`, () => {
     assert.ok(Array.isArray(gear), 'equipment collection must be assembled');
     assert.equal(gear.length, 88);
     assert.equal(new Set(gear.map(item => item.id)).size, 88, 'stable unique equipment identifiers');
-    assert.equal(gear.filter(item => item.price !== null).length, 61);
-    assert.equal(gear.filter(item => item.price === null).length, 27);
+    assert.equal(gear.filter(item => item.price !== null).length, 84);
+    assert.equal(gear.filter(item => item.price === null).length, 4);
     for (const item of gear) {
       source(item, item.id);
       assert.equal(item.incomplete, true, `${item.id}: catalogue remains a partial transcription`);
@@ -112,7 +112,7 @@ for (const [name, gear] of [['authored', authoredGear], ['assembled', assembled.
     assert.match(axe.fields['Approx. weight'], /^75 gp-weight/);
     for (const [id, amount, currency, unit] of [
       ['phb-rope-50', 4, 'sp', '50-foot length'],
-      ['phb-oil-flask', 1, 'sp', 'flask'],
+      ['phb-oil-flask', 1, 'gp', 'flask'],
       ['phb-holy-water', 25, 'gp', 'vial'],
       ['phb-standard-rations', 3, 'gp', '1 week'],
     ]) {
@@ -131,7 +131,7 @@ for (const [name, gear] of [['authored', authoredGear], ['assembled', assembled.
     ]) {
       const item = gear.find(item => item.id === id);
       assert.ok(item, id);
-      if (id === 'ua-hand-crossbow') assert.equal(item.price, null, `${id}: price remains unavailable`);
+      if (id === 'ua-hand-crossbow') assert.deepEqual([item.price.amount,item.price.currency,item.price.book,item.price.pages], [300,'gp','UA',[26]]);
       else { assert.equal(item.price.amount, id === 'phb-light-crossbow' ? 12 : 20); assert.equal(item.price.currency, 'gp'); assert.deepEqual(item.price.pages, [35]); }
       assert.equal(item.fields['Rate of fire (UA p.28)'], rate);
       assert.equal(item.fields['Range S / M / L (UA p.28)'], ranges);

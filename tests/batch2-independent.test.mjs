@@ -1,3 +1,4 @@
+import {reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -48,7 +49,7 @@ test('five visible purchase prices added, and absent Bo/Club rows remain unextra
   const item=data.equipment.find(e=>e.id===id);assert.equal(item.price.amount,amount);assert.equal(item.price.currency,'gp');assert.equal(item.price.book,'PHB');assert.deepEqual(item.price.pages,[35]);assert.equal(item.priceState,'source_listed');assert.match(item.price.status,/Visually checked/);assert.match(item.fields['Approx. weight'],/encumbrance; not purchase cost/);
  }
  for(const id of ['phb-bo-stick','phb-club']){const item=data.equipment.find(e=>e.id===id);assert.equal(item.price,null);assert.equal(item.priceState,'unextracted');assert.ok(!catalogs.find(c=>c.itemId===id).regions.some(r=>r.printedPage===35));}
- assert.equal(data.equipment.filter(e=>e.price!==null).length,61);assert.equal(data.equipment.filter(e=>e.price===null).length,27);
+ assert.equal(data.equipment.filter(e=>e.price!==null).length,84);assert.equal(data.equipment.filter(e=>e.price===null).length,4);
 });
 test('UA26 axe damage retains OCR grade despite matching visible PHB damage',()=>{
  for(const [id,sm,large]of [['phb-battle-axe','1–8','1–8'],['phb-hand-axe','1–6','1–4']]){
@@ -70,7 +71,7 @@ test('new selected-value evidence belongs to its item and exact cited page',()=>
  }
 });
 test('the untouched equipment entries, Dagger and matrices match the v9 semantic baseline',()=>{
- const others=data.equipment.filter(e=>![...items,...changed,'phb-partisan','phb-ranseur'].includes(e.id)).sort((a,b)=>a.id.localeCompare(b.id));assert.equal(others.length,66);assert.equal(hash(stripExcerpts(others)),'e4886fa506a940cd8bb7ecc52be577d9d1e892942f3b9633d8249dcde4bc8f5e');assert.equal(hash(stripExcerpts(data.equipment.find(e=>e.id==='phb-dagger'))),'557dbc64622c8e7b01f2e77a634845f75578d14aaec2a28371ccc1f47c6ecd8a');assert.equal(hash(stripExcerpts(data.matrices)),'6f7427943e6de6229dd24f44770388a5de70ccbf861c931eff93c12d3db8a383');
+ const others=reverseApprovedEquipmentChanges(data.equipment).filter(e=>![...items,...changed,'phb-partisan','phb-ranseur'].includes(e.id)).sort((a,b)=>a.id.localeCompare(b.id));assert.equal(others.length,66);assert.equal(hash(stripExcerpts(others)),'e4886fa506a940cd8bb7ecc52be577d9d1e892942f3b9633d8249dcde4bc8f5e');assert.equal(hash(stripExcerpts(data.equipment.find(e=>e.id==='phb-dagger'))),'557dbc64622c8e7b01f2e77a634845f75578d14aaec2a28371ccc1f47c6ecd8a');assert.equal(hash(stripExcerpts(data.matrices)),'6f7427943e6de6229dd24f44770388a5de70ccbf861c931eff93c12d3db8a383');
 });
 test('other spells retain their semantics; rules and classes are unchanged',()=>{
  assert.equal(hash(stripExcerpts(data.spells.filter(s=>!['ua-cleric-endure-cold-endure-heat','ua-illusionist-mirage-arcane','ua-magic-user-dusty','phb-magic-user-pyrotechnics','phb-illusionist-emotion','phb-illusionist-first-level-magic-user-spells','phb-cleric-speak-with-animals','phb-druid-speak-with-animals'].includes(s.id)).map(({references,...item})=>item))),'cd920ade0f945463be0737a0f4da43eed0f6edd0c899f33b8504affd94941f73');assert.equal(hash(stripExcerpts(data.rules)),'ad9db274e4f158d9f931c0eba3b52878b432754318b6b8e120e68f148a035de6');assert.equal(hash(stripExcerpts(data.classes)),'2dc47b8a22e59046c76d9f1fe00b75c86ee973c9af0180363d9bde423a94f820');

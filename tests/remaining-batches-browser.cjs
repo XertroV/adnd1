@@ -39,7 +39,7 @@ const checks=[],errors=[],scans=[];const check=(name,ok,detail)=>{checks.push({n
  await route('phb-arrow');let t=await p.locator('#referenceDetail').innerText();check('normal arrow package prices distinguish single and dozen',/2 sp\s*\/\s*single normal arrow/.test(t)&&/1 gp per dozen/.test(t));
  await route('phb-silver-arrow');t=await p.locator('#referenceDetail').innerText();check('silver arrow price with no inherited damage or weight',/1 gp\s*\/\s*single silver arrow/.test(t)&&!/Damage vs|Approx\. weight/.test(t));
  await route('ua-atlatl-javelin');t=await p.locator('#referenceDetail').innerText();check('Atlatl specifies javelin',/Atlatl \(javelin\)/.test(t));
- await route('ua-aklys-hurled');t=await p.locator('#referenceDetail').innerText();check('Aklys asterisk explanation remains unavailable',/1\*/.test(t)&&/asterisk explanation unavailable/i.test(t));
+ await route('ua-aklys-hurled');t=await p.locator('#referenceDetail').innerText();check('Aklys range is limited to 10 feet',/1\*/.test(t)&&/10-foot range only, not 10 yards/i.test(t));
  const live=await(await p.request.get(base+'/data.json')).json();
  for(const id of ['phb-light-crossbow','phb-heavy-crossbow','ua-hand-crossbow','phb-long-bow','phb-short-bow','phb-composite-long-bow','phb-composite-short-bow']){
   await route(id);const fields=await p.locator('#referenceDetail .attribute-fact').allTextContents();check(`canonical rate and range once ${id}`,fields.filter(x=>/Rate of fire/.test(x)).length===1&&fields.filter(x=>/Range S \/ M \/ L/.test(x)).length===1,fields);
