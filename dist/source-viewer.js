@@ -256,7 +256,8 @@
     return excerptSource && ref && excerptCatalog?.itemId === excerptSource.itemId ? excerptCatalog.regions.filter(region => region.book === ref.book && region.printedPage === ref.page) : [];
   }
   function viewingExcerpts() {
-    return !!excerptSource && requestedMode === 'excerpts' && !excerptError && (!excerptCatalog || matchingRegions().length > 0);
+    const ref = refs[current];
+    return !!excerptSource && requestedMode === 'excerpts' && !excerptError && (!excerptCatalog || matchingRegions().length > 0 || !!(ref && books().privateEvidence(ref.book, ref.page)));
   }
   function validateCatalog(catalog, source) {
     if (catalog?.schemaVersion !== 1 || typeof catalog.itemId !== 'string' || !/^[a-z0-9][a-z0-9-]{0,100}$/.test(catalog.itemId)
@@ -325,12 +326,14 @@
     el.labels.textContent = ref?.labels.join(' · ') || '';
     const excerpts = viewingExcerpts();
     const regions = matchingRegions();
+    const privateOnly = !!(ref && excerptCatalog && !regions.length && books().privateEvidence(ref.book, ref.page));
     el.modes.hidden = !excerptSource;
-    el.excerptMode.disabled = excerptLoading || !!excerptCatalog && !regions.length;
+    el.excerptMode.disabled = excerptLoading || !!excerptCatalog && !regions.length && !privateOnly;
     el.excerptMode.setAttribute('aria-pressed', String(excerpts));
     el.pdfMode.setAttribute('aria-pressed', String(!excerpts));
-    el.privacy.textContent = excerpts
-      ? excerptSource.state === 'source-excerpt-checked' ? `${excerptSource.name}: these limited source excerpts have been checked for the cited passage; the entry's extracted values retain their existing status. Complete source PDFs are not hosted. Your own PDF can be opened privately.` : `${excerptSource.name}: only the selected values and accompanying notes in these limited excerpts have been checked. Complete source PDFs are not hosted. Your own PDF can be opened privately.`
+    el.privacy.textContent = excerpts && privateOnly
+      ? 'No public excerpt is available for this page. The separately supplied private image is not published, and its printing is unknown.'
+      : excerpts ? excerptSource.state === 'source-excerpt-checked' ? `${excerptSource.name}: these limited source excerpts have been checked for the cited passage; the entry's extracted values retain their existing status. Complete source PDFs are not hosted. Your own PDF can be opened privately.` : `${excerptSource.name}: only the selected values and accompanying notes in these limited excerpts have been checked. Complete source PDFs are not hosted. Your own PDF can be opened privately.`
       : 'Open your own PDF to read the cited pages. Your file stays in this tab; it is never uploaded or saved by this site.';
     el.fileRow.hidden = el.editionHelp.hidden = excerpts;
     el.regions.hidden = !excerpts || !regions.length;
@@ -347,7 +350,7 @@
     el.excerptNotice.hidden = !excerptSource || !excerptError;
     el.excerptNoticeText.textContent = excerptError;
     el.retry.disabled = excerptLoading;
-    el.stage.setAttribute('aria-label', excerpts ? 'Verified excerpt; use arrow keys or scroll to pan when zoomed' : 'Original page; scroll to explore when zoomed');
+    el.stage.setAttribute('aria-label', excerpts ? privateOnly ? 'Source page unavailable' : 'Verified excerpt; use arrow keys or scroll to pan when zoomed' : 'Original page; scroll to explore when zoomed');
     el.file.disabled = !ref || !!state?.loading;
     el.fileAction.textContent = state?.doc ? 'Replace your copy' : 'Open your copy';
     el.fileName.textContent = state?.doc ? `${state.name} · ${state.doc.numPages} PDF pages · in this tab` : state?.loading ? 'Reading your local PDF…' : 'No local PDF selected';
@@ -441,7 +444,7 @@
     el.zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
     if (!ref) return empty('No supported source pages are listed for this entry.');
     if (excerpts) return renderExcerpt(version, ref);
-    if (!mapped) return books().availability(ref.book, ref.page) === 'unverified' ? empty(`Printed p. ${ref.page} cannot be mapped reliably in the provided ${ref.book} scan; its identity is unverified.`, 'Source page unverified — no substitute page is shown.') : empty(`Printed p. ${ref.page} is unavailable in the provided ${ref.book} scan.`, 'Known source gap — no substitute page is shown.');
+    if (!mapped) return books().availability(ref.book, ref.page) === 'unverified' ? empty(`Printed p. ${ref.page} cannot be mapped reliably in the provided ${ref.book} scan; its identity is unverified.`, 'Source page unverified — no substitute page is shown.') : empty(books().missingPageNotice(ref.book, ref.page), 'Known source gap — no substitute page is shown.');
     if (state?.loading) return empty('Reading your local copy…', 'Loading PDF.');
     if (state?.error) return empty(state.error, 'Could not open this PDF. Choose another copy.');
     if (!state?.doc) return empty(`Open your ${title(ref.book)} PDF to see printed p. ${ref.page}.`, 'Your copy stays on your device.');
@@ -486,7 +489,10 @@
   }
   async function renderExcerpt(version, ref) {
     const catalog = excerptCatalog, excerptOwner = excerptSource, regions = matchingRegions(), region = regions[regionIndex];
-    if (!region) return empty('Loading the verified excerpts…', 'Loading limited scan excerpts.');
+    if (!region) {
+      if (catalog && books().privateEvidence(ref.book, ref.page)) return empty(books().missingPageNotice(ref.book, ref.page), 'No public excerpt is available for this page.');
+      return empty('Loading the verified excerpts…', 'Loading limited scan excerpts.');
+    }
     el.canvas.hidden = true; el.textDetails.hidden = el.regionStatus.hidden = true;
     el.actual.disabled = true;
     el.placeholder.hidden = false; el.placeholder.textContent = 'Loading verified excerpt…';
