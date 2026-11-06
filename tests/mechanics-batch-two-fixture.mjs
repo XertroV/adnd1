@@ -1,3 +1,4 @@
+import {reverseRacialLastCorrections} from './mechanics-racial-last-fixture.mjs';
 import {reverseDependencyCorrections} from './mechanics-dependency-fixture.mjs';
 import {reverseClosureCorrections} from './mechanics-closure-fixture.mjs';
 import {reverseEditorialCorrections} from './mechanics-editorial-fixture.mjs';
@@ -48,7 +49,7 @@ export function validateIndependentReviews(records=fixture.records) {
  assert.deepEqual(counts,{spells:242,classes:38},'independent review coverage');
 }
 export function reverseMechanicsBatchTwo(items,collection) {
- const copy=reverseNextCorrections(reverseFollowupCorrections(reverseFinalCorrections(reverseEditorialCorrections(reverseClosureCorrections(reverseDependencyCorrections(items,collection),collection),collection),collection),collection),collection);
+ const copy=reverseNextCorrections(reverseFollowupCorrections(reverseFinalCorrections(reverseEditorialCorrections(reverseClosureCorrections(reverseDependencyCorrections(reverseRacialLastCorrections(items,collection),collection),collection),collection),collection),collection),collection);
  for(const record of [...fixture.records].reverse().filter(r=>r.collection===collection)) {
   const item=copy.find(x=>x.id===record.id);assert.ok(item,record.id);
   for(const change of [...record.changes].reverse()) {

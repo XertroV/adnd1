@@ -2,18 +2,18 @@
   "schemaVersion": 1,
   "input": {
     "path": "dist/data.json",
-    "sha256": "d4de1ad67abecc1799ed2d9f7398ecc05966b6736ef11072c82678bf94a989f1",
+    "sha256": "282f41f32b89a62cde718abed8e6c699b1d7f2a42b83c48d5a55ec9d02416991",
     "hashFormat": "SHA-256 of JSON.stringify(parsed data)",
     "denominator": "Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.",
     "countSemantics": "Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap."
   },
   "counts": {
     "records": 892,
-    "totalFields": 13069,
-    "inspectedFields": 13064,
-    "sourceCheckedFields": 12493,
-    "unchangedSourceCheckedFields": 9885,
-    "correctedAndCheckedFields": 2608,
+    "totalFields": 13084,
+    "inspectedFields": 13079,
+    "sourceCheckedFields": 12508,
+    "unchangedSourceCheckedFields": 9879,
+    "correctedAndCheckedFields": 2629,
     "correctionPendingFields": 0,
     "notExtractedFields": 11,
     "sourceConflictFields": 22,
@@ -23,9 +23,9 @@
   },
   "percentages": {
     "inspectedFields": 99.96,
-    "sourceCheckedFields": 95.59,
-    "unchangedSourceCheckedFields": 75.64,
-    "correctedAndCheckedFields": 19.96,
+    "sourceCheckedFields": 95.6,
+    "unchangedSourceCheckedFields": 75.5,
+    "correctedAndCheckedFields": 20.09,
     "correctionPendingFields": 0,
     "notExtractedFields": 0.08,
     "uncheckedFields": 0
@@ -121887,28 +121887,97 @@
         {
           "path": "/bullets/0",
           "value": "Against natural poison they use the dwarven constitution-based save bonus.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/1",
           "value": "They do not gain the surface dwarves' attack bonus against orcs, goblins, hobgoblins and half-orcs.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/2",
-          "value": "Their surprise and light-sensitivity rules are separate from these defenses.",
-          "status": "source-checked",
+          "value": "A gray dwarf surprises others on 3 in 6 when alone or with other gray dwarves, and is surprised only 1 in 10. Light sensitivity is covered separately.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/3",
+          "value": "Infravision reaches 12″. Duergar use the standard dwarven underground detection abilities and the dwarven combat abilities against ogres, trolls, ogre magi, giants and titans.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/4",
+          "value": "Their save bonus against magical attacks from rods, staves, wands or spells is +1 per 3½ points of Constitution; the same bonus applies against natural poison.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/5",
+          "value": "They speak dwarvish, undercommon and their alignment language, plus at most two other languages regardless of Intelligence.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/6",
+          "value": "If psionics are used, duergar have twice the usual chance of being psionic: double the Intelligence, Wisdom and Charisma bonuses; this does not guarantee psionic ability.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/7",
+          "value": "Gray dwarves can be fighters, clerics or thieves; thieves may be assassins or thief-acrobats. The listed multiclass options are fighter/cleric, fighter/thief, cleric/thief and cleric/assassin. PCs may be of any alignment.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         }
       ],
@@ -121923,8 +121992,37 @@
       "reviewers": [
         "mechanics-rules"
       ],
-      "unresolvedNotes": [],
-      "proposedChanges": []
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-rules",
+          "note": "The detailed standard dwarven underground and combat rules are referenced but not re-transcribed here."
+        }
+      ],
+      "proposedChanges": [
+        {
+          "checker": "mechanics-rules",
+          "path": "/bullets",
+          "oldValue": [
+            "Against natural poison they use the dwarven constitution-based save bonus.",
+            "They do not gain the surface dwarves' attack bonus against orcs, goblins, hobgoblins and half-orcs.",
+            "Their surprise and light-sensitivity rules are separate from these defenses."
+          ],
+          "newValue": [
+            "Against natural poison they use the dwarven constitution-based save bonus.",
+            "They do not gain the surface dwarves' attack bonus against orcs, goblins, hobgoblins and half-orcs.",
+            "A gray dwarf surprises others on 3 in 6 when alone or with other gray dwarves, and is surprised only 1 in 10. Light sensitivity is covered separately.",
+            "Infravision reaches 12″. Duergar use the standard dwarven underground detection abilities and the dwarven combat abilities against ogres, trolls, ogre magi, giants and titans.",
+            "Their save bonus against magical attacks from rods, staves, wands or spells is +1 per 3½ points of Constitution; the same bonus applies against natural poison.",
+            "They speak dwarvish, undercommon and their alignment language, plus at most two other languages regardless of Intelligence.",
+            "If psionics are used, duergar have twice the usual chance of being psionic: double the Intelligence, Wisdom and Charisma bonuses; this does not guarantee psionic ability.",
+            "Gray dwarves can be fighters, clerics or thieves; thieves may be assassins or thief-acrobats. The listed multiclass options are fighter/cleric, fighter/thief, cleric/thief and cleric/assassin. PCs may be of any alignment."
+          ],
+          "reason": "Complete the directly stated player-race traits and qualifications on UA pp.10–11, preserving existing card text.",
+          "book": "UA",
+          "page": 10,
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "rules",
@@ -121997,28 +122095,109 @@
         {
           "path": "/bullets/0",
           "value": "The PC retains elven sleep/charm resistance and gains +2 on saves against magical effects.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/1",
           "value": "Drow do not receive the surface elves' sword and bow attack bonuses.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
           "path": "/bullets/2",
           "value": "Two readily one-handed weapons may be used without penalty and without a shield; a spiked buckler may serve as one weapon.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/3",
+          "value": "Drow infravision reaches 12″; base movement is 15″ for females and 12″ for males.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/4",
+          "value": "Drow detect secret and concealed doors as other elves do, and detect new construction, stonework traps, sliding walls and underground depth as dwarves do. They move silently under the same conditions as other elves and are surprised only 1 in 8.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/5",
+          "value": "Drow speak common, undercommon, elvish and gnomish, with further languages limited by Intelligence. Their silent tongue uses signs, expression and body language at a range of 30 feet; only drow fully master it, though others can learn basic signs.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/6",
+          "value": "Drow PCs may be clerics, fighters (including rangers), cavaliers, magic-users or thieves (including acrobats and assassins). Male and female level limits differ in cleric, fighter and magic-user classes; consult the separate UA level tables.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/7",
+          "value": "At the DM’s option, drow ability scores may use normal generation or the Fiend Folio method. If the latter is used, the PHB initial elf racial adjustments do not apply. The separate Fiend Folio method is not transcribed here.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/8",
+          "value": "An adventuring PC drow cannot regain the NPC magic resistance except by wish or similar magic.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         }
       ],
@@ -122039,8 +122218,38 @@
       "reviewers": [
         "mechanics-rules"
       ],
-      "unresolvedNotes": [],
-      "proposedChanges": []
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-rules",
+          "note": "The Fiend Folio score-generation method is referenced but not transcribed; UA class level limits are separate."
+        }
+      ],
+      "proposedChanges": [
+        {
+          "checker": "mechanics-rules",
+          "path": "/bullets",
+          "oldValue": [
+            "The PC retains elven sleep/charm resistance and gains +2 on saves against magical effects.",
+            "Drow do not receive the surface elves' sword and bow attack bonuses.",
+            "Two readily one-handed weapons may be used without penalty and without a shield; a spiked buckler may serve as one weapon."
+          ],
+          "newValue": [
+            "The PC retains elven sleep/charm resistance and gains +2 on saves against magical effects.",
+            "Drow do not receive the surface elves' sword and bow attack bonuses.",
+            "Two readily one-handed weapons may be used without penalty and without a shield; a spiked buckler may serve as one weapon.",
+            "Drow infravision reaches 12″; base movement is 15″ for females and 12″ for males.",
+            "Drow detect secret and concealed doors as other elves do, and detect new construction, stonework traps, sliding walls and underground depth as dwarves do. They move silently under the same conditions as other elves and are surprised only 1 in 8.",
+            "Drow speak common, undercommon, elvish and gnomish, with further languages limited by Intelligence. Their silent tongue uses signs, expression and body language at a range of 30 feet; only drow fully master it, though others can learn basic signs.",
+            "Drow PCs may be clerics, fighters (including rangers), cavaliers, magic-users or thieves (including acrobats and assassins). Male and female level limits differ in cleric, fighter and magic-user classes; consult the separate UA level tables.",
+            "At the DM’s option, drow ability scores may use normal generation or the Fiend Folio method. If the latter is used, the PHB initial elf racial adjustments do not apply. The separate Fiend Folio method is not transcribed here.",
+            "An adventuring PC drow cannot regain the NPC magic resistance except by wish or similar magic."
+          ],
+          "reason": "Complete the directly stated player-race traits and qualifications on UA pp.10–11, preserving existing card text.",
+          "book": "UA",
+          "page": 10,
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "rules",
@@ -122233,6 +122442,54 @@
           "changePaths": [
             "/bullets"
           ]
+        },
+        {
+          "path": "/bullets/8",
+          "value": "UA describes player-character deep gnomes as male; they may use the classes and class combinations available to surface gnomes.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/9",
+          "value": "They use standard gnomish abilities for detecting underground slopes and unsafe walls, and determining underground depth and direction.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/10",
+          "value": "They speak their own tongue and may learn other languages according to Intelligence. PCs cannot automatically converse with Elemental Plane of Earth creatures unless they have learned the relevant language, and are as likely to be attacked by them as other races.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/11",
+          "value": "Against attacks from giants, bugbears, ogre magi, ogres, trolls or titans, they receive the same benefits as surface gnomes. The underlying surface-gnome rule remains a separate reference.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
         }
       ],
       "sources": [
@@ -122250,6 +122507,10 @@
         {
           "checker": "mechanics-rules",
           "note": "The underlying conjure elemental spell procedure and monster statistics are referenced, not transcribed or fully reviewed."
+        },
+        {
+          "checker": "mechanics-rules",
+          "note": "Underlying conjure elemental, monster statistics, and surface-gnome defensive mechanics remain separate references."
         }
       ],
       "proposedChanges": [
@@ -122269,9 +122530,13 @@
             "Infravision reaches 12″ and ultravision 3″; bright light reduces all vision to 3″ and imposes −1 to hit opponents in such conditions.",
             "A PC deep gnome is surprised only 1 in 12; it surprises others 9 in 10 when alone or with other deep gnomes and not wearing bulky armor.",
             "Deep underground, it has a 60% chance to camouflage itself against natural rock, remaining effectively invisible until moving, attacking or taking another action that negates invisibility.",
-            "In melee against drow and kuo-toa, it gains +1 to hit and damage."
+            "In melee against drow and kuo-toa, it gains +1 to hit and damage.",
+            "UA describes player-character deep gnomes as male; they may use the classes and class combinations available to surface gnomes.",
+            "They use standard gnomish abilities for detecting underground slopes and unsafe walls, and determining underground depth and direction.",
+            "They speak their own tongue and may learn other languages according to Intelligence. PCs cannot automatically converse with Elemental Plane of Earth creatures unless they have learned the relevant language, and are as likely to be attacked by them as other races.",
+            "Against attacks from giants, bugbears, ogre magi, ogres, trolls or titans, they receive the same benefits as surface gnomes. The underlying surface-gnome rule remains a separate reference."
           ],
-          "reason": "Transcribe the source’s explicit daily frequency or summon table.",
+          "reason": "Complete the directly stated player-race traits and qualifications on UA pp.10–11, preserving existing card text.",
           "book": "UA",
           "page": 11,
           "supersededChanges": [
@@ -122287,6 +122552,27 @@
                 "Once-daily blindness, blur and change self use the highest class level; personal non-detection also applies.",
                 "PC deep gnomes do not have psionic abilities under this source.",
                 "A non-illusionist deep gnome who reaches 6th level in any class can attempt a summon once per day, similar to conjure elemental: roll d20; 1: 24 HD earth elemental; 2–6: 16 HD earth elemental; 7–10: 12 HD earth elemental; 11–15: 8 HD earth elemental; 16–18: xorn; 19–20: failure, with no further attempt that day."
+              ],
+              "reason": "Transcribe the source’s explicit daily frequency or summon table.",
+              "book": "UA",
+              "page": 11
+            },
+            {
+              "path": "/bullets",
+              "oldValue": [
+                "The character is immune to illusions and phantasms.",
+                "Once-daily blindness, blur and change self use the highest class level; personal non-detection also applies.",
+                "PC deep gnomes do not have psionic abilities under this source."
+              ],
+              "newValue": [
+                "The character is immune to illusions and phantasms.",
+                "Once-daily blindness, blur and change self use the highest class level; personal non-detection also applies.",
+                "PC deep gnomes do not have psionic abilities under this source.",
+                "A non-illusionist deep gnome who reaches 6th level in any class can attempt a summon once per day, similar to conjure elemental: roll d20; 1: 24 HD earth elemental; 2–6: 16 HD earth elemental; 7–10: 12 HD earth elemental; 11–15: 8 HD earth elemental; 16–18: xorn; 19–20: failure, with no further attempt that day.",
+                "Infravision reaches 12″ and ultravision 3″; bright light reduces all vision to 3″ and imposes −1 to hit opponents in such conditions.",
+                "A PC deep gnome is surprised only 1 in 12; it surprises others 9 in 10 when alone or with other deep gnomes and not wearing bulky armor.",
+                "Deep underground, it has a 60% chance to camouflage itself against natural rock, remaining effectively invisible until moving, attacking or taking another action that negates invisibility.",
+                "In melee against drow and kuo-toa, it gains +1 to hit and damage."
               ],
               "reason": "Transcribe the source’s explicit daily frequency or summon table.",
               "book": "UA",
@@ -241722,13 +242008,23 @@
         "/summary",
         "/bullets/0",
         "/bullets/1",
-        "/bullets/2"
+        "/bullets/2",
+        "/bullets/3",
+        "/bullets/4",
+        "/bullets/5",
+        "/bullets/6",
+        "/bullets/7"
       ],
       "checkedValues": {
         "/summary": "UA gray dwarves keep dwarven magic-save bonuses and are unaffected by illusions, paralysis and poisons of magical or alchemical origin.",
         "/bullets/0": "Against natural poison they use the dwarven constitution-based save bonus.",
         "/bullets/1": "They do not gain the surface dwarves' attack bonus against orcs, goblins, hobgoblins and half-orcs.",
-        "/bullets/2": "Their surprise and light-sensitivity rules are separate from these defenses."
+        "/bullets/2": "Their surprise and light-sensitivity rules are separate from these defenses.",
+        "/bullets/3": "Infravision reaches 12″. Duergar use the standard dwarven underground detection abilities and the dwarven combat abilities against ogres, trolls, ogre magi, giants and titans.",
+        "/bullets/4": "Their save bonus against magical attacks from rods, staves, wands or spells is +1 per 3½ points of Constitution; the same bonus applies against natural poison.",
+        "/bullets/5": "They speak dwarvish, undercommon and their alignment language, plus at most two other languages regardless of Intelligence.",
+        "/bullets/6": "If psionics are used, duergar have twice the usual chance of being psionic: double the Intelligence, Wisdom and Charisma bonuses; this does not guarantee psionic ability.",
+        "/bullets/7": "Gray dwarves can be fighters, clerics or thieves; thieves may be assassins or thief-acrobats. The listed multiclass options are fighter/cleric, fighter/thief, cleric/thief and cleric/assassin. PCs may be of any alignment."
       },
       "reviewedPaths": [],
       "sources": [
@@ -241739,8 +242035,32 @@
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
         }
       ],
-      "unresolved": [],
-      "changes": []
+      "unresolved": [
+        "The detailed standard dwarven underground and combat rules are referenced but not re-transcribed here."
+      ],
+      "changes": [
+        {
+          "path": "/bullets",
+          "oldValue": [
+            "Against natural poison they use the dwarven constitution-based save bonus.",
+            "They do not gain the surface dwarves' attack bonus against orcs, goblins, hobgoblins and half-orcs.",
+            "Their surprise and light-sensitivity rules are separate from these defenses."
+          ],
+          "newValue": [
+            "Against natural poison they use the dwarven constitution-based save bonus.",
+            "They do not gain the surface dwarves' attack bonus against orcs, goblins, hobgoblins and half-orcs.",
+            "A gray dwarf surprises others on 3 in 6 when alone or with other gray dwarves, and is surprised only 1 in 10. Light sensitivity is covered separately.",
+            "Infravision reaches 12″. Duergar use the standard dwarven underground detection abilities and the dwarven combat abilities against ogres, trolls, ogre magi, giants and titans.",
+            "Their save bonus against magical attacks from rods, staves, wands or spells is +1 per 3½ points of Constitution; the same bonus applies against natural poison.",
+            "They speak dwarvish, undercommon and their alignment language, plus at most two other languages regardless of Intelligence.",
+            "If psionics are used, duergar have twice the usual chance of being psionic: double the Intelligence, Wisdom and Charisma bonuses; this does not guarantee psionic ability.",
+            "Gray dwarves can be fighters, clerics or thieves; thieves may be assassins or thief-acrobats. The listed multiclass options are fighter/cleric, fighter/thief, cleric/thief and cleric/assassin. PCs may be of any alignment."
+          ],
+          "reason": "Complete the directly stated player-race traits and qualifications on UA pp.10–11, preserving existing card text.",
+          "book": "UA",
+          "page": 10
+        }
+      ]
     },
     {
       "checker": "mechanics-rules",
@@ -241778,13 +242098,25 @@
         "/summary",
         "/bullets/0",
         "/bullets/1",
-        "/bullets/2"
+        "/bullets/2",
+        "/bullets/3",
+        "/bullets/4",
+        "/bullets/5",
+        "/bullets/6",
+        "/bullets/7",
+        "/bullets/8"
       ],
       "checkedValues": {
         "/summary": "A UA drow adventurer does not inherit the NPC's 50% magic resistance or automatic access to underworld armor, weapons and poisons.",
         "/bullets/0": "The PC retains elven sleep/charm resistance and gains +2 on saves against magical effects.",
         "/bullets/1": "Drow do not receive the surface elves' sword and bow attack bonuses.",
-        "/bullets/2": "Two readily one-handed weapons may be used without penalty and without a shield; a spiked buckler may serve as one weapon."
+        "/bullets/2": "Two readily one-handed weapons may be used without penalty and without a shield; a spiked buckler may serve as one weapon.",
+        "/bullets/3": "Drow infravision reaches 12″; base movement is 15″ for females and 12″ for males.",
+        "/bullets/4": "Drow detect secret and concealed doors as other elves do, and detect new construction, stonework traps, sliding walls and underground depth as dwarves do. They move silently under the same conditions as other elves and are surprised only 1 in 8.",
+        "/bullets/5": "Drow speak common, undercommon, elvish and gnomish, with further languages limited by Intelligence. Their silent tongue uses signs, expression and body language at a range of 30 feet; only drow fully master it, though others can learn basic signs.",
+        "/bullets/6": "Drow PCs may be clerics, fighters (including rangers), cavaliers, magic-users or thieves (including acrobats and assassins). Male and female level limits differ in cleric, fighter and magic-user classes; consult the separate UA level tables.",
+        "/bullets/7": "At the DM’s option, drow ability scores may use normal generation or the Fiend Folio method. If the latter is used, the PHB initial elf racial adjustments do not apply. The separate Fiend Folio method is not transcribed here.",
+        "/bullets/8": "An adventuring PC drow cannot regain the NPC magic resistance except by wish or similar magic."
       },
       "reviewedPaths": [],
       "sources": [
@@ -241801,8 +242133,33 @@
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
         }
       ],
-      "unresolved": [],
-      "changes": []
+      "unresolved": [
+        "The Fiend Folio score-generation method is referenced but not transcribed; UA class level limits are separate."
+      ],
+      "changes": [
+        {
+          "path": "/bullets",
+          "oldValue": [
+            "The PC retains elven sleep/charm resistance and gains +2 on saves against magical effects.",
+            "Drow do not receive the surface elves' sword and bow attack bonuses.",
+            "Two readily one-handed weapons may be used without penalty and without a shield; a spiked buckler may serve as one weapon."
+          ],
+          "newValue": [
+            "The PC retains elven sleep/charm resistance and gains +2 on saves against magical effects.",
+            "Drow do not receive the surface elves' sword and bow attack bonuses.",
+            "Two readily one-handed weapons may be used without penalty and without a shield; a spiked buckler may serve as one weapon.",
+            "Drow infravision reaches 12″; base movement is 15″ for females and 12″ for males.",
+            "Drow detect secret and concealed doors as other elves do, and detect new construction, stonework traps, sliding walls and underground depth as dwarves do. They move silently under the same conditions as other elves and are surprised only 1 in 8.",
+            "Drow speak common, undercommon, elvish and gnomish, with further languages limited by Intelligence. Their silent tongue uses signs, expression and body language at a range of 30 feet; only drow fully master it, though others can learn basic signs.",
+            "Drow PCs may be clerics, fighters (including rangers), cavaliers, magic-users or thieves (including acrobats and assassins). Male and female level limits differ in cleric, fighter and magic-user classes; consult the separate UA level tables.",
+            "At the DM’s option, drow ability scores may use normal generation or the Fiend Folio method. If the latter is used, the PHB initial elf racial adjustments do not apply. The separate Fiend Folio method is not transcribed here.",
+            "An adventuring PC drow cannot regain the NPC magic resistance except by wish or similar magic."
+          ],
+          "reason": "Complete the directly stated player-race traits and qualifications on UA pp.10–11, preserving existing card text.",
+          "book": "UA",
+          "page": 10
+        }
+      ]
     },
     {
       "checker": "mechanics-rules",
@@ -241862,7 +242219,11 @@
         "/bullets/4",
         "/bullets/5",
         "/bullets/6",
-        "/bullets/7"
+        "/bullets/7",
+        "/bullets/8",
+        "/bullets/9",
+        "/bullets/10",
+        "/bullets/11"
       ],
       "checkedValues": {
         "/summary": "A player-character svirfneblin lacks the NPC's innate magic resistance and automatic AC improvement, but has +2 saves against poison and +3 on other saves.",
@@ -241873,7 +242234,11 @@
         "/bullets/4": "Infravision reaches 12″ and ultravision 3″; bright light reduces all vision to 3″ and imposes −1 to hit opponents in such conditions.",
         "/bullets/5": "A PC deep gnome is surprised only 1 in 12; it surprises others 9 in 10 when alone or with other deep gnomes and not wearing bulky armor.",
         "/bullets/6": "Deep underground, it has a 60% chance to camouflage itself against natural rock, remaining effectively invisible until moving, attacking or taking another action that negates invisibility.",
-        "/bullets/7": "In melee against drow and kuo-toa, it gains +1 to hit and damage."
+        "/bullets/7": "In melee against drow and kuo-toa, it gains +1 to hit and damage.",
+        "/bullets/8": "UA describes player-character deep gnomes as male; they may use the classes and class combinations available to surface gnomes.",
+        "/bullets/9": "They use standard gnomish abilities for detecting underground slopes and unsafe walls, and determining underground depth and direction.",
+        "/bullets/10": "They speak their own tongue and may learn other languages according to Intelligence. PCs cannot automatically converse with Elemental Plane of Earth creatures unless they have learned the relevant language, and are as likely to be attacked by them as other races.",
+        "/bullets/11": "Against attacks from giants, bugbears, ogre magi, ogres, trolls or titans, they receive the same benefits as surface gnomes. The underlying surface-gnome rule remains a separate reference."
       },
       "reviewedPaths": [],
       "sources": [
@@ -241885,7 +242250,8 @@
         }
       ],
       "unresolved": [
-        "The underlying conjure elemental spell procedure and monster statistics are referenced, not transcribed or fully reviewed."
+        "The underlying conjure elemental spell procedure and monster statistics are referenced, not transcribed or fully reviewed.",
+        "Underlying conjure elemental, monster statistics, and surface-gnome defensive mechanics remain separate references."
       ],
       "changes": [
         {
@@ -241903,9 +242269,13 @@
             "Infravision reaches 12″ and ultravision 3″; bright light reduces all vision to 3″ and imposes −1 to hit opponents in such conditions.",
             "A PC deep gnome is surprised only 1 in 12; it surprises others 9 in 10 when alone or with other deep gnomes and not wearing bulky armor.",
             "Deep underground, it has a 60% chance to camouflage itself against natural rock, remaining effectively invisible until moving, attacking or taking another action that negates invisibility.",
-            "In melee against drow and kuo-toa, it gains +1 to hit and damage."
+            "In melee against drow and kuo-toa, it gains +1 to hit and damage.",
+            "UA describes player-character deep gnomes as male; they may use the classes and class combinations available to surface gnomes.",
+            "They use standard gnomish abilities for detecting underground slopes and unsafe walls, and determining underground depth and direction.",
+            "They speak their own tongue and may learn other languages according to Intelligence. PCs cannot automatically converse with Elemental Plane of Earth creatures unless they have learned the relevant language, and are as likely to be attacked by them as other races.",
+            "Against attacks from giants, bugbears, ogre magi, ogres, trolls or titans, they receive the same benefits as surface gnomes. The underlying surface-gnome rule remains a separate reference."
           ],
-          "reason": "Transcribe the source’s explicit daily frequency or summon table.",
+          "reason": "Complete the directly stated player-race traits and qualifications on UA pp.10–11, preserving existing card text.",
           "book": "UA",
           "page": 11,
           "supersededChanges": [
@@ -241921,6 +242291,27 @@
                 "Once-daily blindness, blur and change self use the highest class level; personal non-detection also applies.",
                 "PC deep gnomes do not have psionic abilities under this source.",
                 "A non-illusionist deep gnome who reaches 6th level in any class can attempt a summon once per day, similar to conjure elemental: roll d20; 1: 24 HD earth elemental; 2–6: 16 HD earth elemental; 7–10: 12 HD earth elemental; 11–15: 8 HD earth elemental; 16–18: xorn; 19–20: failure, with no further attempt that day."
+              ],
+              "reason": "Transcribe the source’s explicit daily frequency or summon table.",
+              "book": "UA",
+              "page": 11
+            },
+            {
+              "path": "/bullets",
+              "oldValue": [
+                "The character is immune to illusions and phantasms.",
+                "Once-daily blindness, blur and change self use the highest class level; personal non-detection also applies.",
+                "PC deep gnomes do not have psionic abilities under this source."
+              ],
+              "newValue": [
+                "The character is immune to illusions and phantasms.",
+                "Once-daily blindness, blur and change self use the highest class level; personal non-detection also applies.",
+                "PC deep gnomes do not have psionic abilities under this source.",
+                "A non-illusionist deep gnome who reaches 6th level in any class can attempt a summon once per day, similar to conjure elemental: roll d20; 1: 24 HD earth elemental; 2–6: 16 HD earth elemental; 7–10: 12 HD earth elemental; 11–15: 8 HD earth elemental; 16–18: xorn; 19–20: failure, with no further attempt that day.",
+                "Infravision reaches 12″ and ultravision 3″; bright light reduces all vision to 3″ and imposes −1 to hit opponents in such conditions.",
+                "A PC deep gnome is surprised only 1 in 12; it surprises others 9 in 10 when alone or with other deep gnomes and not wearing bulky armor.",
+                "Deep underground, it has a 60% chance to camouflage itself against natural rock, remaining effectively invisible until moving, attacking or taking another action that negates invisibility.",
+                "In melee against drow and kuo-toa, it gains +1 to hit and damage."
               ],
               "reason": "Transcribe the source’s explicit daily frequency or summon table.",
               "book": "UA",
