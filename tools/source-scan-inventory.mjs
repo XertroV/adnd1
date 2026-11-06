@@ -43,7 +43,7 @@ export function buildInventory(data, loadCatalog=read) {
  const byPage=new Map();
  for(const record of records) for(const page of record.pages){
   const key=`${page.book}:${page.page}`;
-  if(!byPage.has(key))byPage.set(key,{book:page.book,page:page.page,pdfPage:page.pdfPage,missing:page.missing,records:[],suppliedCropPixels:false,scopedCropChecks:[]});
+  if(!byPage.has(key))byPage.set(key,{book:page.book,page:page.page,pdfPage:page.pdfPage,missing:page.missing,availability:page.availability,records:[],suppliedCropPixels:false,scopedCropChecks:[]});
   byPage.get(key).records.push({collection:record.collection,id:record.id,labels:page.labels,statuses:page.statuses});
  }
  // Catalogs establish only that selected pixels and scoped checks exist.
@@ -62,16 +62,16 @@ export function buildInventory(data, loadCatalog=read) {
    if(!page.scopedCropChecks.some(check=>check.itemId===item.id&&check.regionId===region.id&&check.state===state&&check.collection===(verification.collection||null)))page.scopedCropChecks.push({itemId:item.id,collection:verification.collection||null,regionId:region.id,state,fields:state==='selected-values-checked'?Object.keys(region.checkedFields||{}).sort():[]});
   }
  }
- // Preserve the two known gaps even when no current record cites them.
- for(const page of books.books.DMG.gaps){const key=`DMG:${page}`;if(!byPage.has(key))byPage.set(key,{book:'DMG',page,pdfPage:null,missing:true,records:[],suppliedCropPixels:false,scopedCropChecks:[]});}
+ // Preserve confirmed and unresolved unavailable pages even when uncited.
+ for(const page of [...books.books.DMG.gaps,...books.books.DMG.unverified]){const key=`DMG:${page}`,availability=books.availability('DMG',page);if(!byPage.has(key))byPage.set(key,{book:'DMG',page,pdfPage:null,missing:availability==='missing',availability,records:[],suppliedCropPixels:false,scopedCropChecks:[]});}
  const pages=[...byPage.values()].sort(cmp);
- const available=pages.filter(p=>!p.missing), blocked=pages.filter(p=>p.missing);
+ const available=pages.filter(p=>p.availability==='available'), blocked=pages.filter(p=>p.availability!=='available');
  const batches=[];
  for(const book of order){
   const bookPages=available.filter(p=>p.book===book);
   for(let i=0;i<bookPages.length;i+=BATCH_SIZE)batches.push({id:`${book.toLowerCase()}-${String(i/BATCH_SIZE+1).padStart(3,'0')}`,book,pages:bookPages.slice(i,i+BATCH_SIZE).map(p=>p.page)});
  }
- return {schemaVersion:1,scope:'Structured citations in assembled records and progression explainer; crop presence and scoped catalog checks do not verify any other field or the full page. OCR statuses are retained as data, never upgraded.',input:{path:'dist/data.json',sha256:createHash('sha256').update(JSON.stringify(data)).digest('hex'),hashFormat:'SHA-256 of JSON.stringify(parsed data)'},counts:{records:records.length,recordPagePairs:records.reduce((n,r)=>n+r.pages.length,0),citedPages:pages.filter(p=>p.records.length).length,knownGapPages:blocked.length,pagesWithSomeSuppliedCropPixels:pages.filter(p=>p.suppliedCropPixels).length,citedPagesWithoutSuppliedCropPixels:pages.filter(p=>p.records.length&&!p.suppliedCropPixels).length,batches:batches.length},records,pages,queue:{batchSize:BATCH_SIZE,batches,blocked:blocked.map(p=>({book:p.book,page:p.page,reason:'Missing from supplied scan; obtain a matching source before review.'}))}};
+ return {schemaVersion:1,scope:'Structured citations in assembled records and progression explainer; crop presence and scoped catalog checks do not verify any other field or the full page. OCR statuses are retained as data, never upgraded.',input:{path:'dist/data.json',sha256:createHash('sha256').update(JSON.stringify(data)).digest('hex'),hashFormat:'SHA-256 of JSON.stringify(parsed data)'},counts:{records:records.length,recordPagePairs:records.reduce((n,r)=>n+r.pages.length,0),citedPages:pages.filter(p=>p.records.length).length,knownGapPages:blocked.filter(p=>p.availability==='missing').length,unverifiedPages:blocked.filter(p=>p.availability==='unverified').length,pagesWithSomeSuppliedCropPixels:pages.filter(p=>p.suppliedCropPixels).length,citedPagesWithoutSuppliedCropPixels:pages.filter(p=>p.records.length&&!p.suppliedCropPixels).length,batches:batches.length},records,pages,queue:{batchSize:BATCH_SIZE,batches,blocked:blocked.map(p=>({book:p.book,page:p.page,availability:p.availability,reason:p.availability==='missing'?'Missing from supplied scan; obtain a matching source before review.':'Page identity is unverified in supplied scan; obtain matching end matter before review.'}))}};
 }
 if(process.argv[1] && resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  const result=buildInventory(read('dist/data.json'));

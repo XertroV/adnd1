@@ -14,9 +14,9 @@ test('all entries have unique stable identifiers and valid source locations',()=
    assert.ok(Array.isArray(item.pages)&&item.pages.length,`${item.id}: missing citation`);
    for(const page of item.pages) {
     assert.ok(Number.isInteger(page)&&page>0,`${item.id}: invalid page`);
-    const max={PHB:128,UA:128,DMG:239}[item.book];
+    const max={PHB:128,UA:128,DMG:240}[item.book];
     assert.ok(page<=max,`${item.id}: page out of range`);
-    if(item.book==='DMG') assert.ok(![175,240].includes(page),`${item.id}: cites missing page`);
+    if(item.book==='DMG') assert.ok(![175,239,240].includes(page),`${item.id}: cites missing or unverified page`);
    }
    assert.ok(item.status,`${item.id}: missing verification status`);
    assert.ok(!/visually verified/i.test(item.status),`${item.id}: unsupported visual verification`);
@@ -47,7 +47,7 @@ test('sparse XP, continuation anchors and level changes retain exact source cont
   for(const ref of [...(cls.xpRows||[]),...(cls.levelChanges||[]),...(cls.xpContinuation?[cls.xpContinuation]:[]),...(cls.levelLimit?[cls.levelLimit]:[])]){
    assert.ok(['PHB','DMG','UA'].includes(ref.book),`${cls.id}: nested source required`);
    assert.ok(ref.pages?.length,`${cls.id}: nested pages required`);
-   for(const page of ref.pages){assert.ok(Number.isInteger(page)&&page>=1&&page<=({PHB:128,UA:128,DMG:239}[ref.book]));if(ref.book==='DMG')assert.ok(![175,240].includes(page));}
+   for(const page of ref.pages){assert.ok(Number.isInteger(page)&&page>=1&&page<=({PHB:128,UA:128,DMG:240}[ref.book]));if(ref.book==='DMG')assert.ok(![175,239,240].includes(page));}
    assert.ok(ref.status,`${cls.id}: nested verification status required`);
    if(ref.changes){assert.equal(ref.incomplete,true);assert.ok(ref.changes.length>0);}
   }
@@ -64,7 +64,7 @@ test('spell filters have source-supported class and level values',()=>{
 });
 test('all three editions and known source gaps are disclosed',()=>{
  assert.equal(data.sources.length,3);
- assert.deepEqual(data.sources.find(s=>s.id==='DMG').gaps,[175,240]);
+ assert.deepEqual(data.sources.find(s=>s.id==='DMG').gaps,[175]);assert.deepEqual(data.sources.find(s=>s.id==='DMG').unverified,[239,240]);
  assert.equal(data.release.sourceFilesDeployed,false);
 });
 test('deployed tree contains no source PDFs, credentials or wholesale OCR',()=>{

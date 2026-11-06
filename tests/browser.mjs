@@ -37,7 +37,7 @@ try {
  await page.locator('#xpInput').fill('9999999');check('higher XP uses only explicit source continuation',/Derived threshold.*225,000 XP per level/i.test(await page.locator('#xpOutput').innerText()));
  await route('#classes/fighter');await page.locator('#targetLevel').selectOption('2');check('missing XP is explicit',/Not yet extracted/.test(await page.locator('#advancementSummary').innerText()));
  await route('#rules/initiative-ties');await page.locator('#referenceDetail [data-source-id]').click();
- check('DMG source mapping before missing page',await page.locator('.source-viewer-main').innerText().then(t=>t.includes('63')&&t.includes('64')&&t.includes('175 and 240 are missing')));
+ check('DMG source mapping before missing page',await page.locator('.source-viewer-main').innerText().then(t=>t.includes('63')&&t.includes('64')&&t.includes('p.175 is missing')&&t.includes('239–240 is unverified')));
  await page.keyboard.press('Escape');
  const note='Browser test annotation <img src=x onerror="window.__unsafe=1">';
  await page.locator('#referenceDetail [data-annotate]').first().click();await page.locator('#noteText').fill(note);await page.locator('#noteForm button[type=submit]').click();
@@ -53,7 +53,7 @@ try {
  const imported={format:'first-edition-notebook',version:1,notes:[{id:'regression-import',text:'Imported reminder',title:'Imported campaign note',view:'notebook',created:'2026-11-04T00:00:00Z',updated:'2026-11-04T00:00:00Z'}]};
  await page.locator('#importFile').setInputFiles({name:'valid.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(imported))});await page.waitForFunction(()=>document.querySelectorAll('.notebook-card').length===2);
  check('valid notebook import merges without discarding notes',await page.locator('.notebook-card').count()===2);
- await route('#sources');check('sources disclose incomplete coverage and DMG gaps',await page.locator('#main').innerText().then(t=>t.includes('175, 240')&&/incomplete|growing, curated/.test(t)));
+ await route('#sources');check('sources disclose incomplete coverage and DMG gaps',await page.locator('#main').innerText().then(t=>t.includes('Missing printed pages: 175')&&t.includes('Unverified printed pages: 239, 240')&&/incomplete|growing, curated/.test(t)));
  mkdirSync(new URL('../test-results/',import.meta.url),{recursive:true});await page.screenshot({path:new URL('../test-results/desktop.png',import.meta.url).pathname,fullPage:true});
  await page.setViewportSize({width:390,height:844});await route('#spells');await page.locator('.result-item').first().waitFor();
  check('mobile layout avoids horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));

@@ -5146,7 +5146,8 @@
         "A neutral animal or one of similar moral disposition may offer a favor; the referee checks reactions using the cleric’s Charisma and behavior."
       ],
       "exceptions": [
-        "Does not communicate with fantastic monsters or mindless life."
+        "Does not communicate with fantastic monsters or mindless life.",
+        "The PHB calls for a special reaction chart but does not identify it; the referee determines how to resolve the favor or service."
       ],
       "status": "OCR checked · visual review pending",
       "sourceExcerpts": {
@@ -7538,7 +7539,8 @@
         "Animals of that kind refrain from attacking during the spell. Favor or service depends on the referee’s reaction check."
       ],
       "exceptions": [
-        "Does not allow conversation with fantastic monsters or mindless life."
+        "Does not allow conversation with fantastic monsters or mindless life.",
+        "The PHB calls for a special reaction chart but does not identify it; the referee determines how to resolve the favor or service."
       ],
       "status": "OCR checked · visual review pending",
       "sourceExcerpts": {
@@ -18844,7 +18846,6 @@
       "level": 4,
       "book": "PHB",
       "pages": [
-        53,
         76,
         97
       ],
@@ -18853,7 +18854,8 @@
         "Duration": "While concentrating",
         "Components": "V, S",
         "Casting time": "4 segments",
-        "Saving throw": "Negates; fear form at −2"
+        "Saving throw": "Negates; fear form at −2",
+        "Area": "4″ × 4″ area"
       },
       "effect": [
         "Choose fear, hate, hopelessness or rage. Fear uses the fear effect; hopelessness uses its symbol effect.",
@@ -18863,15 +18865,33 @@
         "Fear and rage counter each other; hate and hopelessness counter each other."
       ],
       "exceptions": [
-        "Area dimensions are withheld because the OCR omits one side."
+        "The PHB does not specify whether the hopelessness reference means the cleric or magic-user Symbol; their descriptions differ."
       ],
       "status": "OCR checked · visual review pending",
       "incomplete": true,
+      "references": [
+        {
+          "book": "PHB",
+          "pages": [
+            53
+          ],
+          "label": "Candidate comparison: cleric Symbol of Hopelessness",
+          "status": "Source excerpt checked; Emotion does not identify the intended Symbol class"
+        },
+        {
+          "book": "PHB",
+          "pages": [
+            91
+          ],
+          "label": "Candidate comparison: magic-user Symbol of Hopelessness",
+          "status": "Source excerpt checked; Emotion does not identify the intended Symbol class"
+        }
+      ],
       "sourceExcerpts": {
         "collection": "spells",
         "state": "source-excerpt-checked",
         "catalog": "scans/verified/spells-phb-illusionist-emotion.json",
-        "regionCount": 4,
+        "regionCount": 5,
         "scope": "Source passage locations and legibility checked against the supplied PDFs. This does not verify every card value or the complete page. Any selected-values regions retain their narrower checked-field scope."
       }
     },
@@ -19965,8 +19985,8 @@
         "Components": "As the chosen spell",
         "Casting time": "As the chosen spell",
         "Saving throw": "As the chosen spell",
-        "Area": "Special seventh-level selection",
-        "Allowed spells": "Affect Normal Fires; Burning Hands; Charm Person; Comprehend Languages; Enlarge; Erase; Feather Fall; Friends; Hold Portal; Magic Missile; Mending; Message; Nystul’s Magic Aura; Protection from Evil; Read Magic; Shield; Shocking Grasp; Sleep; Tenser’s Floating Disc; Unseen Servant."
+        "Area": "As the chosen spell",
+        "PHB p.100 listed spells": "Affect Normal Fires; Burning Hands; Charm Person; Comprehend Languages; Enlarge; Erase; Feather Fall; Friends; Hold Portal; Magic Missile; Mending; Message; Nystul’s Magic Aura; Protection from Evil; Read Magic; Shield; Shocking Grasp; Sleep; Tenser’s Floating Disc; Unseen Servant."
       },
       "effect": [
         "At illusionist level 14, this selection grants four spells from the listed first-level magic-user choices, with one more gained at each later level."
@@ -19975,15 +19995,26 @@
         "Spells must be sought and learned in the magic-user manner."
       ],
       "exceptions": [
-        "The PHB describes taking these as a seventh-level spell selection; exact memorization/slot accounting is not fully explained in this entry and remains a referee/source review item."
+        "PHB p.100 directs selection from its 20 named spells. The introductory note on p.94 instead says the seventh-level list includes all first-level magic-user spells; the sources conflict, so the referee must decide how to apply the broader statement.",
+        "The PHB describes taking four or more selected first-level spells as one seventh-level spell; it does not explain every preparation or slot edge case."
       ],
       "status": "OCR checked · visual review pending",
       "incomplete": true,
+      "references": [
+        {
+          "book": "PHB",
+          "pages": [
+            94
+          ],
+          "label": "Conflicting illusionist spell-list introduction",
+          "status": "Source excerpt checked"
+        }
+      ],
       "sourceExcerpts": {
         "collection": "spells",
         "state": "source-excerpt-checked",
         "catalog": "scans/verified/spells-phb-illusionist-first-level-magic-user-spells.json",
-        "regionCount": 2,
+        "regionCount": 3,
         "scope": "Source passage locations and legibility checked against the supplied PDFs. This does not verify every card value or the complete page. Any selected-values regions retain their narrower checked-field scope."
       }
     },
@@ -51394,9 +51425,12 @@
       "id": "DMG",
       "title": "Dungeon Masters Guide",
       "edition": "AD&D first edition · revised December 1979",
-      "mapping": "Printed pages 1–174 correspond to PDF page N + 1. Printed pages 176–239 correspond to PDF page N. Printed pages 175 and 240 are missing.",
+      "mapping": "Printed pages 1–174 correspond to PDF page N + 1. Printed pages 176–238 correspond to PDF page N. Printed page 175 is missing; pages 239 and 240 are unverified end matter. PDF page 239 is unnumbered and PDF page 240 is the back cover.",
       "gaps": [
-        175,
+        175
+      ],
+      "unverified": [
+        239,
         240
       ],
       "coverage": "Selected combat, advancement and referee procedures. Coverage is incomplete. Missing pages are excluded; tables require visual review before a verified label."
@@ -52301,9 +52335,9 @@
         "dmg-original-fighter-attack-matrix",
         "progression-explainer"
       ],
-      "regions": 1295,
-      "scopedRegions": 2134,
-      "imageFiles": 1246,
+      "regions": 1297,
+      "scopedRegions": 2136,
+      "imageFiles": 1248,
       "selectedValuesItems": 20,
       "sourceExcerptItems": 892
     }

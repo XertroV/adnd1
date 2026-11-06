@@ -19,8 +19,8 @@ function source(ref, context) {
   assert.ok(['PHB', 'UA', 'DMG'].includes(ref.book), `${context}: source book`);
   assert.ok(Array.isArray(ref.pages) && ref.pages.length > 0, `${context}: printed pages`);
   for (const page of ref.pages) {
-    assert.ok(Number.isInteger(page) && page > 0 && page <= ({PHB:128, UA:128, DMG:239}[ref.book]), `${context}: valid printed page`);
-    if (ref.book === 'DMG') assert.ok(![175, 240].includes(page), `${context}: missing DMG page`);
+    assert.ok(Number.isInteger(page) && page > 0 && page <= ({PHB:128, UA:128, DMG:240}[ref.book]), `${context}: valid printed page`);
+    if (ref.book === 'DMG') assert.ok(![175, 239, 240].includes(page), `${context}: missing or unverified DMG page`);
   }
   if(ref.verification?.method==='supplied-scan-crop'){
     assert.ok(ref.verification.regions?.length,`${context}: crop evidence required`);
