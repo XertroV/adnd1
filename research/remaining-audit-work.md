@@ -12,7 +12,7 @@ The continuation after PR #15 identified these available-source additions. Exact
 - The existing encounter card's narrow Appendix C random character-party procedure, from the privately supplied DMG p.175 image.
 - Replacement of the assassin's stale unreadable-row warning with the actual PHB pp.19/30 level-limit conflict.
 
-Four further identified cross-reference extractions are being reviewed: Find Familiar's named special familiars; Forcecage's forcecube device reference; illusionist Dispel Magic's inherited procedure; and illusionist Magic Mirror's detection rules. These are available-source work, not missing-evidence blockers. Their completion must be recorded before this list is described as closed.
+The dependency batch adds Find Familiar's transferred special-familiar benefits and omitted neutral alignment; Forcecage's forcecube device comparison; illusionist Dispel Magic's inherited procedure; both Magic Mirror variants' detection rules; and two UA p.11 racial-card omissions (deep-gnome summoning and the frequency of female drow powers). The [exact dependency corrections](../tests/fixtures/mechanics-dependency-corrections.json) preserve independent verdicts and old/new values for these thirteen operations. The earlier twenty-three operations are recorded in [the preceding fixture](../tests/fixtures/mechanics-closure-corrections.json). These identified omissions have been addressed; that does not establish that every potentially relevant passage throughout the books has been extracted.
 
 The earlier rules screening covers explicit deferred/table language in 148 existing cards; it is not a line-by-line omission audit. See [the screening log](rules-next-screening.json). Historic blanket caveats about additional mechanics and external cross-references are scope limits, not evidence that all such content is missing or that all such work is complete.
 
@@ -35,6 +35,7 @@ The [spell issue inventory](spell-closure-status.md) identifies printed pages an
 - Emotion does not identify which class's hopelessness Symbol is intended (PHB pp.53, 91, 97).
 - The illusionist introduction's “all” first-level magic-user spells conflicts with the specific twenty-spell list (PHB pp.94/100).
 - A different printing, authoritative correction, or explicitly labeled referee ruling is needed for the remaining conflicting dimensions, timing, component wording, rank limits and roll boundaries. The supplied text must not be silently rewritten to resolve them.
+- Forcecube's device reference does not specify how every selectable face, charge, movement limit or defeat method transfers to the spell. The comparison preserves this distinction. Magic Mirror's detection prose gives an Intelligence threshold while the referenced spell-user table has lower-score entries; the relationship remains unresolved.
 - Overland burden categories omit exactly 90 pounds (DMG p.58). Scrying detection's lookup leaves some entries blank/dashed. These do not establish invented boundary values or zero chances.
 
 ## Class limits and pending calculator features

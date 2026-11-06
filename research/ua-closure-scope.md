@@ -1,0 +1,18 @@
+# Bounded UA class and rules omission screen
+
+This screen searched the current `classes.json` and `rules.json` records for pending mechanics, omission language, and deferred tables. It did not compare every class or rule statement against every page of the books, and it does not establish complete mechanics coverage.
+
+The class-record scan covered `cleric`, `druid`, `fighter`, `paladin`, `ranger`, `magic-user`, `illusionist`, `thief`, `assassin`, `monk`, `bard`, `ua-cavalier`, `ua-barbarian`, `ua-thief-acrobat`, `ua-paladin`, and `ua-druid`. Generic pending items for complete saving-throw, attack-matrix, spell-slot, and character-specific deltas describe incompleteness of the advancement planner, not evidence that the printed source is missing. The planner uses recorded per-level changes rather than calculating every such delta.
+
+The UA rule-record scan covered `ua-comeliness`, `ua-specialization`, `ua-double-specialization`, `ua-new-armor`, `ua-field-plate`, `ua-full-plate`, `ua-buckler`, `ua-duergar-defenses`, `ua-duergar-light`, `ua-drow-pc-exceptions`, `ua-drow-innate-magic`, `ua-deep-gnome-pc-exceptions`, `ua-elven-subrace-adjustments`, `ua-half-elf-ancestry`, and `ua-racial-preferences`. This was a targeted text/omission screen, not a full visual audit of all mechanics represented by those records. Earlier bounded work separately transcribed the indicated comeliness, specialization, elf and half-elf level, and racial-preference tables.
+
+Original-page visual checks for this screen covered PHB pp. 19 and 30, UA pp. 10–11 and 14, 16 and 22, and the four cited spell dependencies in UA pp. 57, 61–62, 69–70, PHB p. 47 and DMG pp. 60, 141–142. Focused source excerpts and hashes are recorded in the corresponding proposal files and catalogs.
+
+Concrete source issues remain distinct from the generic calculator scope:
+
+- PHB p. 19 lists assassin class limit 14; PHB p. 30 gives a 15th-level Grandfather of Assassins. The warning correction preserves this conflict and selects no cap.
+- UA p. 16 grants paladins the cavalier's weapons-of-choice ability; p. 14 describes the cavalier's five-level attack adjustment, while p. 22 gives paladins separate attack bands and includes level 12 in two bands. The interaction and overlapping boundary require a ruling.
+- UA p. 23 thief-acrobat retained-skill progression, UA p. 21 barbarian odd-level aide rounding, and the PHB p. 30 versus DMG p. 74 monk attack-table conflict remain explicit unresolved rules questions.
+- UA p. 11 gives non-illusionist deep-gnome summoning and other PC senses, surprise, camouflage and combat numbers, and specifies that each female drow additional power is once daily. These are addressed by the bounded racial-card proposals; underlying summon/monster rules are not fully imported.
+- Already visible but not covered by those two racial-card proposals: UA p. 10 gives gray dwarves a 3-in-6 chance to surprise when alone or with their race and a 1-in-10 chance to be surprised; the existing duergar cards refer to surprise separately but do not state those figures. UA p. 11 also gives drow infravision, sex-specific movement, stonework detection and a 1-in-8 chance to be surprised; these general drow traits are not transcribed in the existing PC-exception card. They are known source-backed additions, not unavailable source evidence.
+- The forcecube spell/device transfer, and the interaction between the DMG p. 141 scrying Intelligence threshold and its referenced p. 60 table, remain explicit ambiguities in the bounded spell proposals. Other underlying spell and monster comparisons were not exhaustively checked.
