@@ -74,7 +74,7 @@ try{
   }
   await p.getByRole('button',{name:'Your PDF',exact:true}).click();
   check(await p.locator('.source-viewer-file-row').isVisible(),'generic item retains private PDF mode');
-  await p.getByRole('button',{name:'Verified excerpts',exact:true}).click();await shown(p);
+  await p.getByRole('button',{name:'View excerpts',exact:true}).click();await shown(p);
   check(p.net.every(r=>r.method==='GET'&&r.url.startsWith(origin+'/')&&!r.url.includes('.pdf')),'same-origin-only assets with no PDF upload');
   check(p.errors.length===0,'metadata and cache tests have no uncaught errors');await p.close();
 

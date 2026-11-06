@@ -40,9 +40,9 @@ test('viewer selects the requested cited page and falls back for absent or inval
  const script=readFileSync(new URL('../dist/source-viewer.js',import.meta.url),'utf8');
  const fn=script.slice(script.indexOf('  function open({ item, references, contextItemId, initialReference'),script.indexOf('\n  function resetZoom()',script.indexOf('  function open({ item, references, contextItemId, initialReference')));
  let selected;const sink=()=>({replaceChildren(){},append(){},focus(){}});
- const ctx=vm.createContext({session:0,catalogRequest:0,excerptSource:null,excerptCatalog:null,excerptLoading:false,excerptError:'',requestedMode:'',refs:[],current:0,regionIndex:0,showHighlights:false,returnFocus:null,
+ const ctx=vm.createContext({privacyDismissed:false,session:0,catalogRequest:0,excerptSource:null,excerptCatalog:null,excerptLoading:false,excerptError:'',requestedMode:'',refs:[],current:0,regionIndex:0,showHighlights:false,returnFocus:null,
   setup(){},resolveExcerptSource(){return null},normalize:refs=>refs.flatMap(g=>g.pages.map(page=>({book:g.book,page}))),books:()=>books,resetZoom(){},
-  document:{activeElement:null,body:{classList:{add(){}}}},el:{item:{},referenceList:sink(),select:sink(),close:sink()},dialog:{open:true},
+  document:{activeElement:null,body:{classList:{add(){}}}},el:{item:{},privacyNotice:{},referenceList:sink(),select:sink(),close:sink()},dialog:{open:true,setAttribute(){},removeAttribute(){}} ,
   button:()=>({}),node:()=>({}),title:book=>book,update(){selected=ctx.refs[ctx.current]},loadExcerpts(){}});
  vm.runInContext(fn,ctx);const item={id:'ua-cleric-abjure'},references=citations.collect(data.spells.find(s=>s.id===item.id));
  for(const [initialReference,expected] of [[{book:'UA',page:37},['UA',37]],[{book:'PHB',page:47},['PHB',47]],[{book:'UA',page:999},['PHB',47]],[undefined,['PHB',47]]]){
@@ -56,4 +56,18 @@ test('inline controls pass the explicit owner and clicked page to citation navig
  vm.runInContext(fn,ctx);ctx.bindInlineSources();el.onclick();
  assert.equal(click[0],'matrices');assert.equal(click[1],'dmg-original-fighter-attack-matrix');
  assert.deepEqual(JSON.parse(JSON.stringify(click[2])),{name:'Nested source',book:'DMG',pages:[82],status:'OCR checked'});
+});
+test('viewer keeps selection, aria-current and previous/next controls synchronized',()=>{
+ const script=readFileSync(new URL('../dist/source-viewer.js',import.meta.url),'utf8');
+ const extract=(start,end)=>script.slice(script.indexOf(start),script.indexOf(end,script.indexOf(start)));
+ const component=()=>({children:[],attrs:{},append(x){this.children.push(x)},replaceChildren(...x){this.children=x},querySelectorAll(){return this.children},setAttribute(k,v){this.attrs[k]=v},removeAttribute(k){delete this.attrs[k]},focus(){}});
+ const controls=new Proxy({},{get:(o,k)=>o[k]||(o[k]=component())});
+ const ctx=vm.createContext({privacyDismissed:false,session:0,catalogRequest:0,excerptSource:null,excerptCatalog:null,excerptLoading:false,excerptError:'',requestedMode:'',refs:[],current:0,regionIndex:0,showHighlights:false,returnFocus:null,files:new Map(),editions:{PHB:'PHB',UA:'UA'},
+  setup(){},resolveExcerptSource(){return null},normalize:groups=>groups.flatMap(g=>g.pages.map(page=>({book:g.book,page,labels:[]}))),books:()=>books,resetZoom(){},matchingRegions:()=>[],viewingExcerpts:()=>false,
+  document:{activeElement:null,body:{classList:{add(){}}}},el:controls,dialog:{open:true,setAttribute(){},removeAttribute(){}},button:()=>component(),node:()=>component(),title:book=>book,pageNumber:()=>null,renderPage(){},loadExcerpts(){}});
+ vm.runInContext(extract('  function open({ item, references, contextItemId, initialReference','\n  function resetZoom()')+extract('  function navigate(delta)', '\n  function matchingRegions()')+extract('  function update()', '\n  async function library()'),ctx);
+ const references=citations.collect(data.spells.find(s=>s.id==='ua-cleric-abjure'));
+ ctx.open({item:{id:'ua-cleric-abjure'},references,initialReference:{book:'Unearthed Arcana',page:37}});
+ assert.equal(controls.select.value,'1');assert.deepEqual(controls.referenceList.children.map(b=>b.attrs['aria-current']),['false','page']);assert.equal(controls.previous.disabled,false);assert.equal(controls.next.disabled,true);
+ ctx.navigate(-1);assert.equal(controls.select.value,'0');assert.deepEqual(controls.referenceList.children.map(b=>b.attrs['aria-current']),['page','false']);assert.equal(controls.previous.disabled,true);assert.equal(controls.next.disabled,false);
 });
