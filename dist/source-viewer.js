@@ -1,5 +1,5 @@
 'use strict';
-// Source pages are read from a file chosen by the reader. No source PDFs ship with the site.
+// Full PDFs stay in the reader's tab. Only explicitly catalogued, verified excerpts are hosted.
 ((root) => {
   const scriptBase = new URL('.', document.currentScript?.src || document.baseURI);
   const editions = {
@@ -10,6 +10,12 @@
   const files = new Map();
   let dialog, el = {}, refs = [], current = 0, zoom = 1, renderTask, renderVersion = 0;
   let libraryPromise, returnFocus, resizeTimer;
+  let excerptPromise, excerptCatalog, excerptError = '', excerptLoading = false;
+  let daggerContext = false, requestedMode = 'pdf', regionIndex = 0, showHighlights = true, actualSize = false, session = 0;
+  let imageFit = false;
+  const imageCache = new Map();
+  const catalogURL = new URL('scans/dagger/manifest.json', scriptBase);
+  const imageNames = new Set(['phb35-dagger-price.png','phb37-dagger-weight-damage.png','phb38-dagger-melee.png','phb38-dagger-thrown.png','phb38-missile-notes.png','ua28-dagger-thrown.png','ua28-missile-notes.png']);
   const books = () => root.FirstEditionBooks;
   const title = book => books()?.title(book) || book;
   const pageNumber = ref => books()?.pdfPage(ref.book, ref.page) ?? null;
@@ -51,7 +57,7 @@
     heading.append(el.title, el.item);
     el.close = button('Close', () => dialog.close(), { class: 'source-viewer-close', 'aria-label': 'Close original sources' });
     header.append(heading, el.close);
-    const privacy = node('p', { id: 'source-viewer-privacy', class: 'source-viewer-privacy' }, 'Open your own PDF to read the cited pages. Your file stays in this tab; it is never uploaded or saved by this site.');
+    el.privacy = node('p', { id: 'source-viewer-privacy', class: 'source-viewer-privacy' });
     const layout = node('div', { class: 'source-viewer-layout' });
     const aside = node('aside', { class: 'source-viewer-sources', 'aria-label': 'Cited source pages' });
     aside.append(node('h3', {}, 'Cited pages'));
@@ -63,7 +69,15 @@
     el.mapping = node('p', { class: 'source-viewer-mapping' });
     el.labels = node('p', { class: 'source-viewer-labels' });
     sourceHead.append(el.edition, el.mapping, el.labels);
-    const fileRow = node('div', { class: 'source-viewer-file-row' });
+    el.modes = node('div', { class: 'source-viewer-modes', role: 'group', 'aria-label': 'Source viewing mode' });
+    el.excerptMode = button('Verified excerpts', () => setMode('excerpts'), { 'aria-pressed': 'false' });
+    el.pdfMode = button('Your PDF', () => setMode('pdf'), { 'aria-pressed': 'true' });
+    el.modes.append(el.excerptMode, el.pdfMode);
+    el.excerptNotice = node('div', { class: 'source-viewer-excerpt-notice', role: 'status' });
+    el.excerptNoticeText = node('p');
+    el.retry = button('Retry verified excerpts', () => loadExcerpts(true));
+    el.excerptNotice.append(el.excerptNoticeText, el.retry);
+    el.fileRow = node('div', { class: 'source-viewer-file-row' });
     const fileLabel = node('label', { class: 'source-viewer-file-label', for: 'source-viewer-file' });
     el.fileAction = node('span', {}, 'Open your copy');
     el.file = node('input', { type: 'file', accept: '.pdf,application/pdf', id: 'source-viewer-file', 'aria-describedby': 'source-viewer-edition-help' });
@@ -75,38 +89,64 @@
     fileLabel.append(el.fileAction, el.file);
     el.fileName = node('span', { class: 'source-viewer-file-name' });
     el.forget = button('Forget PDF', forget, { class: 'source-viewer-secondary' });
-    fileRow.append(fileLabel, el.fileName, el.forget);
-    const editionHelp = node('p', { id: 'source-viewer-edition-help', class: 'source-viewer-help' }, 'Choose the edition and page order shown above. A filename or page count cannot confirm that it is the correct book.');
+    el.fileRow.append(fileLabel, el.fileName, el.forget);
+    el.editionHelp = node('p', { id: 'source-viewer-edition-help', class: 'source-viewer-help' }, 'Choose the edition and page order shown above. A filename or page count cannot confirm that it is the correct book.');
     const controls = node('div', { class: 'source-viewer-controls' });
     el.previous = button('← Previous', () => navigate(-1), { 'aria-label': 'Previous cited page' });
     el.select = node('select', { 'aria-label': 'Select cited page' });
-    el.select.addEventListener('change', () => { current = Number(el.select.value); zoom = 1; update(); });
+    el.select.addEventListener('change', () => { current = Number(el.select.value); resetZoom(); regionIndex = 0; update(); });
     el.next = button('Next →', () => navigate(1), { 'aria-label': 'Next cited page' });
     const zoomControls = node('div', { class: 'source-viewer-zoom', role: 'group', 'aria-label': 'Page zoom' });
     el.zoomOut = button('−', () => changeZoom(-.25), { 'aria-label': 'Zoom out' });
     el.zoomLabel = node('span', { class: 'source-viewer-zoom-label', 'aria-live': 'polite' }, '100%');
     el.zoomIn = button('+', () => changeZoom(.25), { 'aria-label': 'Zoom in' });
-    el.fit = button('Fit page', () => { zoom = 1; renderPage(); });
-    zoomControls.append(el.zoomOut, el.zoomLabel, el.zoomIn, el.fit);
+    el.fit = button('Fit page', () => { resetZoom(); imageFit = true; renderPage(); });
+    el.actual = button('Actual size', () => { actualSize = true; imageFit = false; zoom = 1; renderPage(); });
+    zoomControls.append(el.zoomOut, el.zoomLabel, el.zoomIn, el.fit, el.actual);
     controls.append(el.previous, el.select, el.next, zoomControls);
+    el.regions = node('div', { class: 'source-viewer-regions' });
+    el.regionLabel = node('label', { for: 'source-viewer-region' }, 'Excerpt on this page');
+    el.regionSelect = node('select', { id: 'source-viewer-region' });
+    el.regionSelect.addEventListener('change', () => { regionIndex = Number(el.regionSelect.value); resetZoom(); renderPage(); });
+    el.highlights = button('Highlights on', () => {
+      showHighlights = !showHighlights;
+      el.highlights.setAttribute('aria-pressed', String(showHighlights));
+      el.highlights.textContent = showHighlights ? 'Highlights on' : 'Highlights off';
+      el.overlay.hidden = !showHighlights;
+    }, { 'aria-pressed': 'true' });
+    el.regions.append(el.regionLabel, el.regionSelect, el.highlights);
     el.pageTitle = node('p', { class: 'source-viewer-page-title' });
     el.status = node('p', { class: 'source-viewer-status', role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true' });
     el.stage = node('div', { class: 'source-viewer-stage', tabindex: '0', 'aria-label': 'Original page; scroll to explore when zoomed' });
     el.canvas = node('canvas', { role: 'img' });
     el.placeholder = node('div', { class: 'source-viewer-placeholder' });
-    el.stage.append(el.placeholder, el.canvas);
+    el.imageFrame = node('div', { class: 'source-viewer-image-frame', hidden: '' });
+    el.scan = node('img', { class: 'source-viewer-scan', alt: '', decoding: 'async' });
+    el.overlay = node('div', { class: 'source-viewer-focus-overlay', 'aria-hidden': 'true' });
+    el.imageFrame.append(el.scan, el.overlay);
+    el.stage.append(el.placeholder, el.canvas, el.imageFrame);
+    el.caption = node('div', { class: 'source-viewer-caption', hidden: '' });
+    el.captionTitle = node('h4');
+    el.checked = node('p');
+    el.checkedValues = node('dl', { class: 'source-viewer-checked-values' });
+    el.caption.append(el.captionTitle, el.checked, el.checkedValues);
+    el.provenance = node('details', { class: 'source-viewer-provenance', hidden: '' });
+    el.provenance.append(node('summary', {}, 'Excerpt provenance'));
+    el.provenanceText = node('p');
+    el.provenance.append(el.provenanceText);
     el.regionStatus = node('p', { class: 'source-viewer-help source-viewer-region-status' }, 'Focused regions not yet verified. The complete cited page is shown; use zoom to inspect its wording.');
     el.textDetails = node('details', { class: 'source-viewer-text' });
     el.textDetails.append(node('summary', {}, 'Read selectable page text'));
     el.textDetails.append(node('small', { class: 'source-viewer-text-note' }, 'Text comes from your PDF and may contain OCR errors. Check the scan for exact wording.'));
     el.text = node('p');
     el.textDetails.append(el.text);
-    main.append(sourceHead, fileRow, editionHelp, controls, el.pageTitle, el.status, el.stage, el.regionStatus, el.textDetails);
+    main.append(sourceHead, el.modes, el.excerptNotice, el.fileRow, el.editionHelp, controls, el.regions, el.pageTitle, el.status, el.stage, el.caption, el.regionStatus, el.textDetails, el.provenance);
     layout.append(aside, main);
-    shell.append(header, privacy, layout);
+    shell.append(header, el.privacy, layout);
     dialog.append(shell);
     document.body.append(dialog);
     dialog.addEventListener('close', () => {
+      session++;
       renderVersion++;
       renderTask?.cancel();
       document.body.classList.remove('source-viewer-open');
@@ -119,6 +159,10 @@
       if (event.altKey && !event.ctrlKey && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
         event.preventDefault(); event.stopPropagation(); navigate(event.key === 'ArrowLeft' ? -1 : 1);
       }
+      else if (event.target === el.stage && viewingExcerpts() && ['ArrowLeft','ArrowRight'].includes(event.key)) {
+        event.preventDefault();
+        el.stage.scrollBy({ left: (event.key === 'ArrowLeft' ? -1 : 1) * Math.max(80, el.stage.clientWidth * .7) });
+      }
       if (event.key === 'Tab') {
         const controls = [...dialog.querySelectorAll('button,select,input,[tabindex="0"],summary')].filter(n => !n.disabled && n.getClientRects().length);
         const first = controls[0], last = controls.at(-1);
@@ -128,16 +172,21 @@
     });
     root.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { if (dialog.open) renderPage(); }, 150); });
   }
-  function open({ item, references } = {}) {
+  function open({ item, references, contextItemId } = {}) {
     setup();
+    session++;
+    const context = contextItemId || item?.contextItemId || item?.id;
+    daggerContext = context === 'phb-dagger' && (!item?.id || item.id === 'phb-dagger');
+    requestedMode = daggerContext ? 'excerpts' : 'pdf';
+    excerptError = '';
     refs = normalize(references);
-    current = 0; zoom = 1;
+    current = 0; resetZoom(); regionIndex = 0; showHighlights = true;
     returnFocus = document.activeElement;
     el.item.textContent = item?.name || item?.title || 'First Edition reference';
     el.referenceList.replaceChildren(); el.select.replaceChildren();
     refs.forEach((ref, i) => {
       const label = `${title(ref.book)} · p. ${ref.page}`;
-      const b = button(label, () => { current = i; zoom = 1; update(); }, { class: 'source-viewer-reference', 'data-source-index': i });
+      const b = button(label, () => { current = i; resetZoom(); regionIndex = 0; update(); }, { class: 'source-viewer-reference', 'data-source-index': i });
       el.referenceList.append(b);
       el.select.append(node('option', { value: i }, `${ref.book} p. ${ref.page}`));
     });
@@ -145,13 +194,77 @@
     document.body.classList.add('source-viewer-open');
     update();
     el.close.focus({ preventScroll: true });
+    if (daggerContext && !excerptCatalog) loadExcerpts();
+  }
+  function resetZoom() { zoom = 1; actualSize = false; imageFit = false; }
+  function setMode(mode) {
+    requestedMode = mode; resetZoom();
+    if (mode === 'excerpts' && excerptError) loadExcerpts(true);
+    else update();
   }
   function navigate(delta) {
     const next = current + delta;
     if (next < 0 || next >= refs.length) return;
-    current = next; zoom = 1; update();
+    current = next; resetZoom(); regionIndex = 0; update();
   }
-  function changeZoom(delta) { zoom = Math.min(3, Math.max(.5, zoom + delta)); renderPage(); }
+  function changeZoom(delta) { zoom = Math.min(viewingExcerpts() ? 4 : 3, Math.max(.5, zoom + delta)); renderPage(); }
+  function matchingRegions() {
+    const ref = refs[current];
+    return daggerContext && ref && excerptCatalog ? excerptCatalog.regions.filter(region => region.book === ref.book && region.printedPage === ref.page) : [];
+  }
+  function viewingExcerpts() {
+    return daggerContext && requestedMode === 'excerpts' && !excerptError && (!excerptCatalog || matchingRegions().length > 0);
+  }
+  function validateCatalog(catalog) {
+    if (catalog?.schemaVersion !== 1 || catalog.itemId !== 'phb-dagger' || !Array.isArray(catalog.regions) || catalog.regions.length !== 7) throw new Error('Unsupported excerpt catalog.');
+    const seen = new Set();
+    for (const region of catalog.regions) {
+      const pageOK = region.book === 'PHB' ? [35,37,38].includes(region.printedPage) : region.book === 'UA' && region.printedPage === 28;
+      if (!pageOK || region.pdfPage !== books().pdfPage(region.book, region.printedPage) || !imageNames.has(region.image) || !region.image.startsWith(`${region.book.toLowerCase()}${region.printedPage}-`) || region.id !== region.image.slice(0,-4) || seen.has(region.id)
+          || !Number.isInteger(region.width) || !Number.isInteger(region.height) || region.width < 1 || region.height < 1 || region.width > 8192 || region.height > 8192
+          || region.verification !== 'visually-checked-crop' || !/^[a-f0-9]{64}$/.test(region.sha256 || '')
+          || !Array.isArray(region.focusRects) || region.focusRects.some(box => !Array.isArray(box) || box.length !== 4 || box.some(n => !Number.isFinite(n)) || box[0] < 0 || box[1] < 0 || box[2] <= 0 || box[3] <= 0 || box[0] + box[2] > 1.001 || box[1] + box[3] > 1.001)
+          || typeof region.title !== 'string' || typeof region.alt !== 'string' || typeof region.summary !== 'string'
+          || !region.checkedFields || typeof region.checkedFields !== 'object' || Array.isArray(region.checkedFields)) throw new Error('Invalid verified excerpt metadata.');
+      seen.add(region.id);
+      const source = catalog.sources?.[region.book];
+      if (!source || !/^[a-f0-9]{64}$/.test(source.sha256 || '') || source.hashStatus !== 'supplied-handoff') throw new Error('Missing excerpt provenance.');
+    }
+    return catalog;
+  }
+  async function loadExcerpts(retry = false) {
+    if (!daggerContext) return;
+    const requestSession = session;
+    excerptError = ''; excerptLoading = true;
+    if (retry) { excerptPromise = null; excerptCatalog = null; requestedMode = 'excerpts'; }
+    update();
+    if (!excerptPromise) {
+      excerptPromise = (async () => {
+        if (catalogURL.origin !== location.origin) throw new Error('Excerpt assets must use this site.');
+        const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 12000);
+        try {
+          const response = await fetch(catalogURL.href, { credentials: 'same-origin', cache: 'no-cache', signal: controller.signal });
+          if (!response.ok) throw new Error('Excerpt catalog unavailable.');
+          const text = await response.text();
+          if (text.length > 100000) throw new Error('Excerpt catalog too large.');
+          return validateCatalog(JSON.parse(text));
+        } finally { clearTimeout(timeout); }
+      })().catch(error => { excerptPromise = null; throw error; });
+    }
+    try {
+      const catalog = await excerptPromise;
+      excerptCatalog = catalog;
+      excerptLoading = false;
+      if (requestSession !== session || !dialog.open) return;
+      update();
+    } catch {
+      excerptLoading = false;
+      if (requestSession !== session || !dialog.open) return;
+      excerptError = 'Verified excerpts could not be loaded. Open your own PDF below, or retry the excerpts.';
+      requestedMode = 'pdf';
+      update();
+    }
+  }
   function update() {
     const ref = refs[current], state = ref && files.get(ref.book);
     el.referenceList.querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-current', i === current ? 'page' : 'false'));
@@ -162,13 +275,41 @@
     el.edition.textContent = ref ? editions[ref.book] : 'No source pages available';
     el.mapping.textContent = ref ? books().mapping(ref.book) : 'This entry does not yet have a supported printed-page citation.';
     el.labels.textContent = ref?.labels.join(' · ') || '';
+    const excerpts = viewingExcerpts();
+    const regions = matchingRegions();
+    el.modes.hidden = !daggerContext;
+    el.excerptMode.disabled = excerptLoading || !!excerptCatalog && !regions.length;
+    el.excerptMode.setAttribute('aria-pressed', String(excerpts));
+    el.pdfMode.setAttribute('aria-pressed', String(!excerpts));
+    el.privacy.textContent = excerpts
+      ? 'Only selected dagger values and shared missile notes in these seven limited excerpts have been checked. Complete source PDFs are not hosted. Your own PDF can be opened privately.'
+      : 'Open your own PDF to read the cited pages. Your file stays in this tab; it is never uploaded or saved by this site.';
+    el.fileRow.hidden = el.editionHelp.hidden = excerpts;
+    el.regions.hidden = !excerpts || !regions.length;
+    el.regionSelect.replaceChildren(...regions.map((region, i) => node('option', { value: i }, region.title)));
+    if (regionIndex >= regions.length) regionIndex = 0;
+    el.regionSelect.value = String(regionIndex);
+    el.regionSelect.disabled = regions.length < 2;
+    el.regionLabel.hidden = el.regionSelect.hidden = regions.length < 2;
+    el.highlights.setAttribute('aria-pressed', String(showHighlights));
+    el.highlights.textContent = showHighlights ? 'Highlights on' : 'Highlights off';
+    el.actual.hidden = !excerpts;
+    el.fit.textContent = excerpts ? 'Fit width' : 'Fit page';
+    if (!excerpts) { el.fit.removeAttribute('aria-pressed'); el.actual.removeAttribute('aria-pressed'); }
+    el.excerptNotice.hidden = !daggerContext || !excerptError;
+    el.excerptNoticeText.textContent = excerptError;
+    el.retry.disabled = excerptLoading;
+    el.stage.setAttribute('aria-label', excerpts ? 'Verified excerpt; use arrow keys or scroll to pan when zoomed' : 'Original page; scroll to explore when zoomed');
     el.file.disabled = !ref || !!state?.loading;
     el.fileAction.textContent = state?.doc ? 'Replace your copy' : 'Open your copy';
     el.fileName.textContent = state?.doc ? `${state.name} · ${state.doc.numPages} PDF pages · in this tab` : state?.loading ? 'Reading your local PDF…' : 'No local PDF selected';
     el.forget.hidden = !state;
     el.pageTitle.textContent = ref ? `${title(ref.book)} · printed p. ${ref.page}${pageNumber(ref) ? ` · PDF page ${pageNumber(ref)}` : ''}` : '';
     el.textDetails.open = false;
+    el.provenance.open = false;
     renderPage();
+    const focused = document.activeElement;
+    if (focused && dialog.contains(focused) && !focused.getClientRects().length) (daggerContext ? el.pdfMode : el.close).focus({ preventScroll: true });
   }
   async function library() {
     if (!libraryPromise) {
@@ -237,7 +378,8 @@
     el.status.textContent = status;
     el.textDetails.hidden = true;
     el.regionStatus.hidden = true;
-    el.zoomIn.disabled = el.zoomOut.disabled = el.fit.disabled = true;
+    el.imageFrame.hidden = el.caption.hidden = el.provenance.hidden = true;
+    el.zoomIn.disabled = el.zoomOut.disabled = el.fit.disabled = el.actual.disabled = true;
   }
   async function renderPage() {
     const version = ++renderVersion;
@@ -245,8 +387,12 @@
     el.text.textContent = '';
     el.canvas.width = el.canvas.height = 0;
     const ref = refs[current], mapped = ref && pageNumber(ref), state = ref && files.get(ref.book);
+    el.imageFrame.hidden = el.caption.hidden = el.provenance.hidden = true;
+    const excerpts = viewingExcerpts();
+    el.stage.classList.toggle('is-excerpt', excerpts);
     el.zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
     if (!ref) return empty('No supported source pages are listed for this entry.');
+    if (excerpts) return renderExcerpt(version, ref);
     if (!mapped) return empty(`Printed p. ${ref.page} is unavailable in the provided ${ref.book} scan.`, 'Known source gap — no substitute page is shown.');
     if (state?.loading) return empty('Reading your local copy…', 'Loading PDF.');
     if (state?.error) return empty(state.error, 'Could not open this PDF. Choose another copy.');
@@ -276,6 +422,9 @@
       el.stage.scrollTo(0, 0);
       el.status.textContent = `Showing printed p. ${ref.page} from your local PDF (PDF page ${mapped}).`;
       el.regionStatus.hidden = false;
+      el.regionStatus.textContent = daggerContext && matchingRegions().length
+        ? 'This is the complete page from your own PDF. Switch to Verified excerpts for the checked dagger regions.'
+        : 'Focused regions not yet verified. The complete cited page is shown; use zoom to inspect its wording.';
       el.zoomOut.disabled = zoom <= .5; el.zoomIn.disabled = zoom >= 3; el.fit.disabled = false;
       const content = await page.getTextContent().catch(() => null);
       if (version !== renderVersion || !dialog.open) return;
@@ -285,6 +434,71 @@
     } catch (error) {
       if (version !== renderVersion || error?.name === 'RenderingCancelledException') return;
       empty('This page could not be rendered. Try opening the PDF again.', 'Page rendering failed.');
+    }
+  }
+  async function renderExcerpt(version, ref) {
+    const regions = matchingRegions(), region = regions[regionIndex];
+    if (!region) return empty('Loading the verified dagger excerpts…', 'Loading limited scan excerpts.');
+    el.canvas.hidden = true; el.textDetails.hidden = el.regionStatus.hidden = true;
+    el.actual.disabled = true;
+    el.placeholder.hidden = false; el.placeholder.textContent = 'Loading verified excerpt…';
+    el.status.textContent = `Loading ${region.title}…`;
+    try {
+      if (!imageCache.has(region.image)) {
+        const promise = new Promise((resolve, reject) => {
+          const image = node('img', { class: 'source-viewer-scan', alt: region.alt, decoding: 'async' });
+          const timeout = setTimeout(() => {
+            image.onload = image.onerror = null;
+            image.removeAttribute('src');
+            reject(new Error('Excerpt image timed out.'));
+          }, 12000);
+          image.onload = () => {
+            clearTimeout(timeout);
+            image.onload = image.onerror = null;
+            if (image.naturalWidth !== region.width || image.naturalHeight !== region.height) reject(new Error('Excerpt dimensions do not match.'));
+            else resolve(image);
+          };
+          image.onerror = () => { clearTimeout(timeout); image.onload = image.onerror = null; reject(new Error('Excerpt image unavailable.')); };
+          image.src = new URL(region.image, catalogURL).href;
+        }).catch(error => { imageCache.delete(region.image); throw error; });
+        imageCache.set(region.image, promise);
+      }
+      const image = await imageCache.get(region.image);
+      if (version !== renderVersion || !dialog.open || !daggerContext || !viewingExcerpts()) return;
+      image.alt = region.alt;
+      el.scan.replaceWith(image); el.scan = image;
+      const availableWidth = Math.max(160, el.stage.clientWidth - 24);
+      // Preserve readable type on wide tables; Fit width gives an overview, Actual size restores PNG pixels.
+      const baseWidth = actualSize ? region.width : imageFit || region.width <= 640 ? Math.min(region.width, availableWidth) : Math.min(region.width, Math.max(availableWidth, 960));
+      el.imageFrame.style.width = `${Math.round(baseWidth * zoom)}px`;
+      el.overlay.replaceChildren(...region.focusRects.map(([x,y,width,height]) => {
+        const box = node('span', { class: 'source-viewer-focus-rect' });
+        box.style.left = `${x * 100}%`; box.style.top = `${y * 100}%`; box.style.width = `${width * 100}%`; box.style.height = `${height * 100}%`;
+        return box;
+      }));
+      el.overlay.hidden = !showHighlights;
+      el.highlights.disabled = !region.focusRects.length;
+      el.actual.setAttribute('aria-pressed', String(actualSize && zoom === 1));
+      el.fit.setAttribute('aria-pressed', String(imageFit && zoom === 1));
+      el.imageFrame.hidden = false; el.placeholder.hidden = true;
+      el.captionTitle.textContent = region.title;
+      el.checked.textContent = region.summary;
+      const format = value => Array.isArray(value) ? value.map(format).join(' / ') : value && typeof value === 'object' ? Object.entries(value).map(([key,v]) => `${key}: ${format(v)}`).join('; ') : String(value);
+      const label = key => key.replace(/_/g,' ').replace(/\bac\b/gi,'AC').replace(/^./,c => c.toUpperCase());
+      el.checkedValues.replaceChildren(...Object.entries(region.checkedFields).flatMap(([key,value]) => [node('dt', {}, label(key)),node('dd', {}, format(value))]));
+      el.caption.hidden = false;
+      const source = excerptCatalog.sources[ref.book];
+      el.provenanceText.textContent = `Checked crop: ${region.checkedOn}. PNG SHA-256: ${region.sha256}. Source PDF SHA-256 (supplied with the handoff): ${source.sha256}. ${excerptCatalog.scope} This does not verify the whole page or book.`;
+      el.provenance.hidden = false;
+      el.status.textContent = `${ref.book} printed p. ${ref.page} · PDF page ${region.pdfPage} · excerpt ${regionIndex + 1} of ${regions.length}. ${actualSize ? zoom === 1 ? 'Actual image pixels' : 'Zoom from actual size' : imageFit ? zoom === 1 ? 'Fit width' : 'Zoom from fit width' : 'Readable view'}; scroll or use arrow keys to pan.`;
+      const firstFocus = region.focusRects[0];
+      const focusBottom = firstFocus ? (firstFocus[1] + firstFocus[3]) * el.imageFrame.offsetHeight + 24 : 0;
+      el.stage.scrollTo(0,Math.max(0,focusBottom - el.stage.clientHeight));
+      el.zoomOut.disabled = zoom <= .5; el.zoomIn.disabled = zoom >= 4; el.fit.disabled = el.actual.disabled = false;
+    } catch {
+      if (version !== renderVersion || !dialog.open || !daggerContext) return;
+      excerptError = 'This verified excerpt could not be loaded. Open your own PDF below, or retry the excerpts.';
+      requestedMode = 'pdf'; resetZoom(); update();
     }
   }
   root.FirstEditionSourceViewer = Object.freeze({ open });

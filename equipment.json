@@ -1223,7 +1223,23 @@
       "aliases": [
         "dagger and scabbard"
       ],
-      "price": null,
+      "price": {
+        "amount": 2,
+        "currency": "gp",
+        "book": "PHB",
+        "pages": [
+          35
+        ],
+        "status": "Visually checked against supplied scan crop",
+        "verification": {
+          "method": "supplied-scan-crop",
+          "regions": [
+            "phb35-dagger-price"
+          ],
+          "coverage": "dagger-and-scabbard-price",
+          "checkedOn": "2026-11-05"
+        }
+      },
       "fields": {
         "Approx. weight": "10 gp-weight (encumbrance; not purchase cost)",
         "Damage vs S/M": "1–4",
@@ -1238,71 +1254,165 @@
           "pages": [
             37
           ],
-          "status": "OCR checked · visual verification pending"
+          "status": "Visually checked against supplied scan crop",
+          "verification": {
+            "method": "supplied-scan-crop",
+            "regions": [
+              "phb37-dagger-weight-damage"
+            ],
+            "coverage": "displayed-numeric-values",
+            "checkedOn": "2026-11-05"
+          }
         },
         "Damage vs S/M": {
           "book": "PHB",
           "pages": [
             37
           ],
-          "status": "OCR checked · visual verification pending"
+          "status": "Visually checked against supplied scan crop",
+          "verification": {
+            "method": "supplied-scan-crop",
+            "regions": [
+              "phb37-dagger-weight-damage"
+            ],
+            "coverage": "displayed-numeric-values",
+            "checkedOn": "2026-11-05"
+          }
         },
         "Damage vs Large": {
           "book": "PHB",
           "pages": [
             37
           ],
-          "status": "OCR checked · visual verification pending"
+          "status": "Visually checked against supplied scan crop",
+          "verification": {
+            "method": "supplied-scan-crop",
+            "regions": [
+              "phb37-dagger-weight-damage"
+            ],
+            "coverage": "displayed-numeric-values",
+            "checkedOn": "2026-11-05"
+          }
         },
         "Weapon speed factor": {
           "book": "PHB",
           "pages": [
             38
           ],
-          "status": "OCR checked · visual verification pending"
+          "status": "Visually checked against supplied scan crop",
+          "verification": {
+            "method": "supplied-scan-crop",
+            "regions": [
+              "phb38-dagger-melee"
+            ],
+            "coverage": "displayed-numeric-values",
+            "checkedOn": "2026-11-05"
+          }
         },
         "Thrown rate (UA p.28)": {
           "book": "UA",
           "pages": [
             28
           ],
-          "status": "OCR checked · visual verification pending"
+          "status": "Visually checked against supplied scan crop",
+          "verification": {
+            "method": "supplied-scan-crop",
+            "regions": [
+              "ua28-dagger-thrown",
+              "ua28-missile-notes"
+            ],
+            "coverage": "displayed-numeric-values",
+            "checkedOn": "2026-11-05"
+          }
         },
         "Thrown range S/M/L (UA p.28)": {
           "book": "UA",
           "pages": [
             28
           ],
-          "status": "OCR checked · visual verification pending"
+          "status": "Numeric bands visually checked; distance-scale convention remains unverified by these crops",
+          "verification": {
+            "method": "supplied-scan-crop",
+            "regions": [
+              "ua28-dagger-thrown",
+              "ua28-missile-notes"
+            ],
+            "coverage": "numeric-bands-only",
+            "checkedOn": "2026-11-05",
+            "limits": "The crop shows S/M/L bands 1/2/3; it does not verify the distance-scale interpretation."
+          }
         }
       },
       "summary": "The cost-table listing includes a scabbard; the weapon weight and damage table describes the dagger itself.",
-      "priceNote": "The PHB p.35 weapon-price column is unreadable in the OCR. No purchase price has been substituted.",
+      "priceNote": "The printed listing is dagger and scabbard: 2 gp, checked against the supplied PHB p.35 crop.",
       "references": [
         {
           "book": "PHB",
           "pages": [
             37
           ],
-          "status": "OCR checked · visual verification pending"
+          "status": "Selected dagger row and context checked against supplied scan crops",
+          "verification": {
+            "method": "supplied-scan-crop",
+            "regions": [
+              "phb37-dagger-weight-damage"
+            ],
+            "coverage": "selected-dagger-context-only",
+            "checkedOn": "2026-11-05"
+          }
         },
         {
           "book": "PHB",
           "pages": [
             38
           ],
-          "status": "OCR checked · visual verification pending"
+          "status": "Selected dagger row and context checked against supplied scan crops",
+          "verification": {
+            "method": "supplied-scan-crop",
+            "regions": [
+              "phb38-dagger-melee",
+              "phb38-dagger-thrown",
+              "phb38-missile-notes"
+            ],
+            "coverage": "selected-dagger-context-only",
+            "checkedOn": "2026-11-05"
+          }
         },
         {
           "book": "UA",
           "pages": [
             28
           ],
-          "status": "OCR checked · visual verification pending"
+          "status": "Selected dagger row and context checked against supplied scan crops",
+          "verification": {
+            "method": "supplied-scan-crop",
+            "regions": [
+              "ua28-dagger-thrown",
+              "ua28-missile-notes"
+            ],
+            "coverage": "selected-dagger-context-only",
+            "checkedOn": "2026-11-05"
+          }
         }
       ],
-      "status": "OCR checked · visual verification pending",
-      "incomplete": true
+      "status": "Selected values checked against scan crops · partial reference",
+      "incomplete": true,
+      "scanVerification": {
+        "state": "selected-values-checked",
+        "regionCount": 7,
+        "checkedFields": [
+          "Purchase price",
+          "Approx. weight",
+          "Damage vs S/M",
+          "Damage vs Large",
+          "Weapon speed factor",
+          "Thrown rate (UA p.28)",
+          "Thrown range S/M/L (UA p.28)"
+        ],
+        "scope": "Dagger price, displayed numeric statistics and accompanying missile notes checked in seven supplied crops. Distance-scale interpretation and unextracted mechanics are outside this image review.",
+        "checkedOn": "2026-11-05",
+        "catalog": "scans/dagger/manifest.json"
+      }
     },
     {
       "id": "phb-dart",

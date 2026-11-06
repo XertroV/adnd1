@@ -62,9 +62,9 @@ const assembled = JSON.parse(fs.readFileSync(path.join(root, 'dist/data.json'), 
     await route('equipment');
     check('equipment index loads all 80 entries', await count()===80);
     await page.locator('#priceFilter').selectOption('known');
-    check('known-price filter returns 45 entries', await count()===45);
+    check('known-price filter returns 46 entries', await count()===46);
     await page.locator('#priceFilter').selectOption('unknown');
-    check('unknown-price filter returns 35 entries', await count()===35);
+    check('unknown-price filter returns 34 entries', await count()===34);
     await page.locator('#clearFilters').click();
     for (const query of ['light crossbow','lightcrossbow','lightxbow','light x-bow','crossbow light']) {
       await search(query);
