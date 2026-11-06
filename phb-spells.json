@@ -1500,7 +1500,7 @@
       ],
       "exceptions": [
         "Fire resistance, protection from fire, water/snow immersion or cold/ice storm negates the heat. Reverse chill metal has its own damage/disability table; resist cold or great heat counters it.",
-        "Disability recovery periods and the reverse chill metal damage/disability table are not fully extracted; consult PHB p.56 before applying them."
+        "Searing-metal disability: exposed hands or feet are disabled for 2–8 days, head exposure causes 1–4 turns unconsciousness, and body exposure causes disability for 1–4 days. Chill metal: cold causes no damage or disability; icy metal causes 1–2 hit points per round without disability; freezing metal causes 1–4 hit points per round and amputation of fingers, toes, nose or ears."
       ],
       "status": "OCR checked · visual review pending",
       "aliases": [
@@ -2932,7 +2932,8 @@
         "Components": "V, S",
         "Casting time": "5 segments",
         "Saving throw": "None",
-        "Area": "Snakes with total hp no greater than caster’s hp"
+        "Area": "Snakes with total hp no greater than caster’s hp",
+        "Maximum affected": "One or more snakes whose combined hit points do not exceed the cleric’s hit points."
       },
       "effect": [
         "Makes the snakes cease activity and sway semi-upright."
@@ -2941,7 +2942,16 @@
         "Torpid snakes: 1d4+2 turns; calm but active snakes: 1d3 turns; angry or attacking snakes: 1d4+4 rounds."
       ],
       "exceptions": [],
-      "status": "OCR checked · visual review pending"
+      "status": "OCR checked · visual review pending",
+      "fieldSources": {
+        "Maximum affected": {
+          "book": "PHB",
+          "pages": [
+            46
+          ],
+          "status": "Selected value visually checked"
+        }
+      }
     },
     {
       "id": "phb-cleric-spiritual-hammer",
@@ -2987,7 +2997,8 @@
         "Casting time": "1 round",
         "Saving throw": "None",
         "Area": "1 skeleton or zombie per caster level",
-        "Material": "A drop of blood, human flesh and bone powder or a bone shard"
+        "Material": "A drop of blood, human flesh and bone powder or a bone shard",
+        "Maximum affected": "One skeleton or zombie per cleric level."
       },
       "effect": [
         "Animates dead human bones or bodies as skeletons or zombies that obey the cleric’s orders."
@@ -2996,7 +3007,16 @@
         "Good clerics must weigh the act carefully and have a good reason; the source treats animation as morally problematic."
       ],
       "exceptions": [],
-      "status": "OCR checked · visual review pending"
+      "status": "OCR checked · visual review pending",
+      "fieldSources": {
+        "Maximum affected": {
+          "book": "PHB",
+          "pages": [
+            46
+          ],
+          "status": "Selected value visually checked"
+        }
+      }
     },
     {
       "id": "phb-cleric-continual-light",
@@ -3888,7 +3908,7 @@
         "Works only where appropriate climatic conditions exist."
       ],
       "exceptions": [
-        "The full permitted-transition table is not reproduced; consult printed p.52 before selecting changes."
+        "Clouds and precipitation: clear → very clear or light clouds/haze; partly cloudy → clear, cloudy, mist/light rain/small hail, or sleet/light snow; cloudy → partly cloudy, deep clouds, fog, heavy rain/large hail, or driving sleet/heavy snow. Temperature: hot → warm or sweltering; warm → hot or cool; cool → warm or cold; cold → cool or arctic. Wind: calm → dead calm or light breeze; light wind → calm or strong; strong wind → light or gale; gale → strong or storm; storm → gale or hurricane/typhoon."
       ],
       "status": "OCR checked · visual review pending",
       "incomplete": true
@@ -5726,7 +5746,7 @@
       ],
       "conditions": [],
       "exceptions": [
-        "The permitted-weather transition table is referenced rather than extracted; consult p.52 for valid changes."
+        "Clouds and precipitation: clear → very clear or light clouds/haze; partly cloudy → clear, cloudy, mist/light rain/small hail, or sleet/light snow; cloudy → partly cloudy, deep clouds, fog, heavy rain/large hail, or driving sleet/heavy snow. Temperature: hot → warm or sweltering; warm → hot or cool; cool → warm or cold; cold → cool or arctic. Wind: calm → dead calm or light breeze; light wind → calm or strong; strong wind → light or gale; gale → strong or storm; storm → gale or hurricane/typhoon."
       ],
       "status": "OCR checked · visual review pending",
       "incomplete": true
@@ -5848,7 +5868,7 @@
         "Any player-character type can be reincarnated. Memories mostly remain, but class, abilities and speech may change."
       ],
       "exceptions": [
-        "The full outcome table and magic-user-table fallback are not extracted; consult PHB p.64 and pp.85–86."
+        "Druid table (d100): 01–03 badger; 04–08 black bear; 09–12 brown bear; 13–16 wild boar; 17–19 centaur; 20–23 dryad; 24–28 eagle; 29–31 elf; 32–34 faun; 35–36 fox; 37–40 gnome; 41–44 hawk; 45–58 human; 59–61 lynx; 62–64 owl; 65–68 pixie; 69–70 raccoon; 71–75 stag; 76–80 wolf; 81–85 wolverine; 86–00 use the magic-user reincarnation table. Magic-user table (d100): 01–05 bugbear; 06–11 dwarf; 12–18 elf; 19–23 gnoll; 24–28 gnome; 29–33 goblin; 34–40 half-elf; 41–47 halfling; 48–54 half-orc; 55–59 hobgoblin; 60–73 human; 74–79 kobold; 80–85 orc; 86–90 ogre; 91–95 ogre mage; 96–00 troll. Very good or very evil persons do not become creatures of opposite general alignment."
       ],
       "status": "OCR checked · visual review pending",
       "incomplete": true
@@ -6809,7 +6829,7 @@
         "All monsters from the casting must be the same kind."
       ],
       "exceptions": [
-        "The source uses an unusual 0.4 fractional-rounding rule; its full application is not restated here."
+        "For hit points, the source drops scores below 0.4 and rounds scores of 0.4 or greater up to one hit point; a monster of one hit die or less is not created if its result is dropped. For disbelievers, fractional melee damage below 0.4 is dropped, as with hit points; see the source example for its application."
       ],
       "status": "OCR checked · visual review pending",
       "incomplete": true

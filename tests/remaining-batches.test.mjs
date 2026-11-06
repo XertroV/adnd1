@@ -3,6 +3,14 @@ import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 const read=p=>JSON.parse(readFileSync(new URL(p,import.meta.url)));
 const data=read('../dist/data.json');
+const nextFixture=read('./fixtures/mechanics-next-corrections.json');
+const nextReferences=nextFixture.citationOverrides.flatMap(c=>(c.newValue?.references||[]).filter(ref=>!(c.oldValue?.references||[]).some(old=>JSON.stringify(old)===JSON.stringify(ref))).map(ref=>({id:c.id,...ref})));
+for(const ref of nextReferences){
+ const record=nextFixture.records.find(r=>r.id===ref.id);assert.ok(record,ref.id);
+ const sources=record.changes.flatMap(c=>{const v=c.independentReview;return v?[...(v.source?[v.source]:[]),...(v.sources||[])]:[]});
+ assert.ok(ref.pages.every(page=>sources.some(source=>source.book===ref.book&&source.page===page)),`${ref.id}: reference bound to independent source`);
+}
+
 const reviewed=read('./fixtures/remaining-reviewed-rows.json').rows;
 const dir=new URL('../dist/scans/dagger/',import.meta.url);
 const catalogs=readdirSync(dir).filter(f=>f.endsWith('.json')).map(f=>read('../dist/scans/dagger/'+f));
@@ -73,7 +81,7 @@ test('spell reference additions retain source pages and OCR-pending grading',()=
   for(const ref of spell.references||[]){
    const limits={PHB:128,UA:128,DMG:240,MM:112,MM2:160};assert.ok(Object.hasOwn(limits,ref.book),spell.id);
    assert.ok(ref.pages?.length,spell.id);
-   const reviewed=sourceQuestionReferences.find(known=>known.id===spell.id&&known.book===ref.book&&known.label===ref.label);
+   const reviewed=[...sourceQuestionReferences,...nextReferences].find(known=>known.id===spell.id&&known.book===ref.book&&known.label===ref.label);
    if(reviewed){assert.deepEqual(ref.pages,reviewed.pages);assert.equal(ref.status,reviewed.status);}
    else assert.match(ref.status,/OCR checked.*visual review pending/,spell.id);
    assert.equal(ref.verification,undefined,spell.id);
@@ -111,7 +119,7 @@ test('assembled spell citations exactly match the baseline plus independently ap
  const key=x=>JSON.stringify([x.id,x.book,x.pages,x.label,x.status]);
  const corrections=read('./fixtures/uploaded-source-reference-corrections.json');
  assert.deepEqual(corrections,[{id:'ua-magic-user-eyebite',book:'PHB',label:'Magic-user charm person procedure',oldPages:[65,66],pages:[65]}]);
- const reviewed=[...baseline,...fixture.additions,...uploaded,...sourceQuestionReferences].map(ref=>({...ref}));
+ const reviewed=[...baseline,...fixture.additions,...uploaded,...sourceQuestionReferences,...nextReferences].map(ref=>({...ref}));
  for(const correction of corrections) {
   const matches=reviewed.filter(ref=>ref.id===correction.id&&ref.book===correction.book&&ref.label===correction.label);
   assert.equal(matches.length,1);
