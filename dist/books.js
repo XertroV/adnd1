@@ -3,7 +3,7 @@
  const books={
   PHB:{title:'Players Handbook',lastPage:128,mapping:'Printed page N corresponds to PDF page N+1.',gaps:[]},
   UA:{title:'Unearthed Arcana',lastPage:128,mapping:'Printed page N corresponds to PDF page N+1.',gaps:[]},
-  DMG:{title:'Dungeon Masters Guide',lastPage:240,mapping:'Printed pp.1–174 correspond to PDF page N+1; pp.176–238 correspond to PDF page N. Printed p.175 is missing. The identity of pp.239–240 is unverified: PDF p.239 is an unnumbered sheet and PDF p.240 is the back cover.',gaps:[175],unverified:[239,240]},
+  DMG:{title:'Dungeon Masters Guide',lastPage:240,mapping:'Printed pp.1–174 correspond to PDF page N+1; pp.176–238 correspond to PDF page N. Printed p.175 is missing from the supplied PDF; a separately supplied private image is available, with printing unknown, and is not published. The identity of pp.239–240 is unverified: PDF p.239 is an unnumbered sheet and PDF p.240 is the back cover.',gaps:[175],unverified:[239,240]},
   MM:{title:'Monster Manual',lastPage:112,mapping:'Printed page N corresponds to PDF page N+1.',gaps:[]},
   MM2:{title:'Monster Manual II',lastPage:160,mapping:'Printed pp.1–82 correspond to PDF page N+1; printed p.83 is PDF page92; pp.84–91 correspond to PDF page N; pp.92–160 correspond to PDF page N+1. Printed p.83 is misplaced after p.91.',gaps:[]},
  };
@@ -30,6 +30,13 @@
   if(key==='MM2')return p===83?92:p>=84&&p<=91?p:p+1;
   return p+1;
  }
- const api=Object.freeze({books,code,pdfPage,availability,title:book=>books[code(book)]?.title||String(book||'Source pending'),mapping:book=>books[code(book)]?.mapping||'Page mapping has not been verified.'});
+ function privateEvidence(book,printed){
+  return code(book)==='DMG'&&Number(printed)===175?{available:true,printing:'unknown',published:false}:null;
+ }
+ function missingPageNotice(book,printed){
+  if(privateEvidence(book,printed))return 'Printed p. 175 is missing from the supplied DMG PDF. A separately supplied private image is available; its printing is unknown and the image is not published.';
+  return `Printed p. ${printed} is unavailable in the provided ${code(book)} scan.`;
+ }
+ const api=Object.freeze({books,code,pdfPage,availability,privateEvidence,missingPageNotice,title:book=>books[code(book)]?.title||String(book||'Source pending'),mapping:book=>books[code(book)]?.mapping||'Page mapping has not been verified.'});
  root.FirstEditionBooks=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(globalThis);

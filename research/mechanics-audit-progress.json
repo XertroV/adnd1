@@ -2,20 +2,20 @@
   "schemaVersion": 1,
   "input": {
     "path": "dist/data.json",
-    "sha256": "24ad09476d019abc5dba2512d03072894d425a9dbdaf1fdc8e45ea32aac6f6bc",
+    "sha256": "97c08dfa9bc40c0eeb386e29ec56a0e9a4dbf6feb1e0303c5dab7f58bc1ee075",
     "hashFormat": "SHA-256 of JSON.stringify(parsed data)",
     "denominator": "Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.",
     "countSemantics": "Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap."
   },
   "counts": {
     "records": 892,
-    "totalFields": 13035,
-    "inspectedFields": 13030,
-    "sourceCheckedFields": 12463,
-    "unchangedSourceCheckedFields": 9895,
-    "correctedAndCheckedFields": 2568,
+    "totalFields": 13057,
+    "inspectedFields": 13052,
+    "sourceCheckedFields": 12483,
+    "unchangedSourceCheckedFields": 9894,
+    "correctedAndCheckedFields": 2589,
     "correctionPendingFields": 0,
-    "notExtractedFields": 9,
+    "notExtractedFields": 11,
     "sourceConflictFields": 20,
     "editorialReviewedFields": 543,
     "staleProposalFields": 0,
@@ -23,11 +23,11 @@
   },
   "percentages": {
     "inspectedFields": 99.96,
-    "sourceCheckedFields": 95.61,
-    "unchangedSourceCheckedFields": 75.91,
-    "correctedAndCheckedFields": 19.7,
+    "sourceCheckedFields": 95.6,
+    "unchangedSourceCheckedFields": 75.78,
+    "correctedAndCheckedFields": 19.83,
     "correctionPendingFields": 0,
-    "notExtractedFields": 0.07,
+    "notExtractedFields": 0.08,
     "uncheckedFields": 0
   },
   "records": [
@@ -27168,7 +27168,7 @@
         {
           "path": "/exceptions/0",
           "value": "Gap: the paragraph uses both one-creature-per-turn and round-to-round probe timing; this needs source review.",
-          "status": "corrected-and-checked",
+          "status": "not-extracted",
           "inspected": true,
           "checkers": [
             "mechanics-phb-magic"
@@ -45693,7 +45693,7 @@
         {
           "path": "/exceptions/0",
           "value": "Gap: the header gives one segment but the paragraph gives one second (one-sixth segment); the duration needs direct source/DM review.",
-          "status": "corrected-and-checked",
+          "status": "not-extracted",
           "inspected": true,
           "checkers": [
             "mechanics-phb-magic"
@@ -47097,7 +47097,7 @@
         },
         {
           "path": "/exceptions/0",
-          "value": "Gap: the different underlying person/monster charm-breaking schedules are not reproduced here.",
+          "value": "Charm person checks for a new saving throw by Intelligence: 3 or less every 3 months; 4–6 every 2 months; 7–9 monthly; 10–12 every 3 weeks; 13–14 every 2 weeks; 15–16 weekly; 17 every 3 days; 18 every 2 days; 19 or more daily. Charm monster has a weekly chance to break by monster level or HD: 1st/up to 2, 5%; 2nd/up to 3+2, 10%; 3rd/up to 4+4, 15%; 4th/up to 6, 25%; 5th/up to 7+2, 35%; 6th/up to 8+4, 45%; 7th/up to 10, 60%; 8th/up to 12, 75%; 9th/over 12, 90%.",
           "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
@@ -47149,7 +47149,12 @@
       "reviewers": [
         "mechanics-phb-magic"
       ],
-      "unresolvedNotes": [],
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-phb-magic",
+          "note": "The source does not explicitly address every possible mixed person/monster classification; use the applicable underlying spell without inventing a new classification."
+        }
+      ],
       "proposedChanges": [
         {
           "checker": "mechanics-phb-magic",
@@ -47169,11 +47174,26 @@
             "Gap: the different underlying person/monster charm-breaking schedules are not reproduced here."
           ],
           "newValue": [
-            "Gap: the different underlying person/monster charm-breaking schedules are not reproduced here."
+            "Charm person checks for a new saving throw by Intelligence: 3 or less every 3 months; 4–6 every 2 months; 7–9 monthly; 10–12 every 3 weeks; 13–14 every 2 weeks; 15–16 weekly; 17 every 3 days; 18 every 2 days; 19 or more daily. Charm monster has a weekly chance to break by monster level or HD: 1st/up to 2, 5%; 2nd/up to 3+2, 10%; 3rd/up to 4+4, 15%; 4th/up to 6, 25%; 5th/up to 7+2, 35%; 6th/up to 8+4, 45%; 7th/up to 10, 60%; 8th/up to 12, 75%; 9th/over 12, 90%."
           ],
           "reason": "The corresponding header value is legible in the scan.",
           "book": "PHB",
           "page": 90,
+          "supersededChanges": [
+            {
+              "path": "/exceptions",
+              "oldValue": [
+                "Gap: the range fraction is unreadable.",
+                "Gap: the different underlying person/monster charm-breaking schedules are not reproduced here."
+              ],
+              "newValue": [
+                "Gap: the different underlying person/monster charm-breaking schedules are not reproduced here."
+              ],
+              "reason": "The corresponding header value is legible in the scan.",
+              "book": "PHB",
+              "page": 90
+            }
+          ],
           "state": "corrected-and-checked"
         }
       ]
@@ -98812,6 +98832,18 @@
           ]
         },
         {
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "value": "50 gp encumbrance",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Encumbrance (DMG p.225)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "The UA missile table preserves this crossbow's rate and range bands. Weapon purchase cost, encumbrance, and bolt damage are separate facts.",
           "status": "source-checked",
@@ -98847,6 +98879,12 @@
           "page": 39,
           "pdfPage": 40,
           "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "DMG",
+          "page": 225,
+          "pdfPage": 225,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
         }
       ],
       "reviewers": [
@@ -98905,6 +98943,16 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "oldValue": null,
+          "newValue": "50 gp encumbrance",
+          "book": "DMG",
+          "page": 225,
+          "reason": "Directly named row in the DMG standard-item encumbrance table; value is a game encumbrance figure, not a purchase price or necessarily literal weight.",
           "state": "corrected-and-checked"
         }
       ]
@@ -98983,6 +99031,18 @@
           ]
         },
         {
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "value": "80 gp encumbrance",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Encumbrance (DMG p.225)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "The UA missile table preserves this crossbow's rate and range bands. Weapon purchase cost, encumbrance, and bolt damage are separate facts.",
           "status": "source-checked",
@@ -99018,6 +99078,12 @@
           "page": 39,
           "pdfPage": 40,
           "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "DMG",
+          "page": 225,
+          "pdfPage": 225,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
         }
       ],
       "reviewers": [
@@ -99076,6 +99142,16 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "oldValue": null,
+          "newValue": "80 gp encumbrance",
+          "book": "DMG",
+          "page": 225,
+          "reason": "Directly named row in the DMG standard-item encumbrance table; value is a game encumbrance figure, not a purchase price or necessarily literal weight.",
           "state": "corrected-and-checked"
         }
       ]
@@ -99717,6 +99793,18 @@
           ]
         },
         {
+          "path": "/fields/Range scale (PHB p.39)",
+          "value": "1″ = 10 feet indoors; 10 yards outdoors",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Range scale (PHB p.39)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "Weapon weight uses gold-piece encumbrance units. Damage is shown as the source's numeric range for the indicated target size.",
           "status": "source-checked",
@@ -99770,6 +99858,12 @@
           "page": 27,
           "pdfPage": 28,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
@@ -99932,6 +100026,16 @@
           "reason": "UA hand-held table prints armor-class-specific adjustments in columns 0–10; this is the UA row, not the PHB p.38 row.",
           "book": "UA",
           "page": 27,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands.",
           "state": "corrected-and-checked"
         }
       ]
@@ -101139,6 +101243,18 @@
           ]
         },
         {
+          "path": "/fields/Range scale (PHB p.39)",
+          "value": "1″ = 10 feet indoors; 10 yards outdoors",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Range scale (PHB p.39)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "Weapon weight uses gold-piece encumbrance units. Damage is shown as the source's numeric range for the indicated target size.",
           "status": "source-checked",
@@ -101191,6 +101307,12 @@
           "page": 27,
           "pdfPage": 28,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
@@ -101373,6 +101495,16 @@
           "book": "UA",
           "page": 27,
           "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands.",
+          "state": "corrected-and-checked"
         }
       ]
     },
@@ -101525,6 +101657,18 @@
           ]
         },
         {
+          "path": "/fields/Range scale (PHB p.39)",
+          "value": "1″ = 10 feet indoors; 10 yards outdoors",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Range scale (PHB p.39)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "The cost-table listing includes a scabbard; the weapon weight and damage table describes the dagger itself.",
           "status": "source-checked",
@@ -101574,6 +101718,12 @@
           "page": 27,
           "pdfPage": 28,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
@@ -101737,6 +101887,16 @@
           "book": "UA",
           "page": 27,
           "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands.",
+          "state": "corrected-and-checked"
         }
       ]
     },
@@ -101838,6 +101998,18 @@
           ]
         },
         {
+          "path": "/fields/Range scale (PHB p.39)",
+          "value": "1″ = 10 feet indoors; 10 yards outdoors",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Range scale (PHB p.39)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "Weapon weight uses gold-piece encumbrance units. Damage is shown as the source's numeric range for the indicated target size.",
           "status": "source-checked",
@@ -101878,6 +102050,12 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
@@ -101974,6 +102152,16 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands.",
           "state": "corrected-and-checked"
         }
       ]
@@ -104043,6 +104231,18 @@
           ]
         },
         {
+          "path": "/fields/Range scale (PHB p.39)",
+          "value": "1″ = 10 feet indoors; 10 yards outdoors",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Range scale (PHB p.39)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "Weapon weight uses gold-piece encumbrance units. Damage is shown as the source's numeric range for the indicated target size.",
           "status": "source-checked",
@@ -104095,6 +104295,12 @@
           "page": 27,
           "pdfPage": 28,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
@@ -104295,6 +104501,16 @@
           "reason": "UA hand-held table prints armor-class-specific adjustments in columns 0–10; this is the UA row, not the PHB p.38 row.",
           "book": "UA",
           "page": 27,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands.",
           "state": "corrected-and-checked"
         }
       ]
@@ -109923,6 +110139,18 @@
           ]
         },
         {
+          "path": "/fields/Range scale (PHB p.39)",
+          "value": "1″ = 10 feet indoors; 10 yards outdoors",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Range scale (PHB p.39)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "The UA equipment tables provide the selected statistics shown here; special procedures and other details remain unextracted.",
           "status": "editorial-reviewed",
@@ -109948,6 +110176,12 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
@@ -110241,6 +110475,16 @@
           "book": "UA",
           "page": 27,
           "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands.",
+          "state": "corrected-and-checked"
         }
       ]
     },
@@ -110375,6 +110619,18 @@
           ]
         },
         {
+          "path": "/fields/Range scale (PHB p.39)",
+          "value": "1″ = 10 feet indoors; 10 yards outdoors",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Range scale (PHB p.39)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "The UA equipment tables provide the selected statistics shown here; special procedures and other details remain unextracted.",
           "status": "editorial-reviewed",
@@ -110400,6 +110656,12 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
@@ -110645,6 +110907,16 @@
           "reason": "UA hand-held table prints armor-class-specific adjustments in columns 0–10; this is the UA row, not the PHB p.38 row.",
           "book": "UA",
           "page": 27,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands.",
           "state": "corrected-and-checked"
         }
       ]
@@ -111507,6 +111779,18 @@
           ]
         },
         {
+          "path": "/fields/Range scale (PHB p.39)",
+          "value": "1″ = 10 feet indoors; 10 yards outdoors",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Range scale (PHB p.39)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "The UA equipment tables provide the selected statistics shown here; special procedures and other details remain unextracted.",
           "status": "editorial-reviewed",
@@ -111532,13 +111816,24 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
         "mechanics-equipment-existing-followup",
         "mechanics-equipment"
       ],
-      "unresolvedNotes": [],
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-equipment",
+          "note": "The separate staff-sling short-range and armor-adjustment interpretation remains unresolved."
+        }
+      ],
       "proposedChanges": [
         {
           "checker": "mechanics-equipment",
@@ -111954,6 +112249,16 @@
           "book": "UA",
           "page": 28,
           "reason": "Read the ammunition-specific UA table row and retain the short-range note as an unresolved interpretation where applicable.",
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 gives the general missile-range distance scale; this does not resolve the UA p.28 staff sling short-range adjustment ambiguity.",
           "state": "corrected-and-checked"
         }
       ]
@@ -113295,6 +113600,30 @@
           ]
         },
         {
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "value": "80 gp encumbrance",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Encumbrance (DMG p.225)"
+          ]
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "value": "1″ = 10 feet indoors; 10 yards outdoors",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Range scale (PHB p.39)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "Selected facts are transcribed from the supplied source rows; other mechanics remain unextracted.",
           "status": "editorial-reviewed",
@@ -113327,6 +113656,18 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "DMG",
+          "page": 225,
+          "pdfPage": 225,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
@@ -113385,6 +113726,26 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "oldValue": null,
+          "newValue": "80 gp encumbrance",
+          "book": "DMG",
+          "page": 225,
+          "reason": "Directly named row in the DMG standard-item encumbrance table; value is a game encumbrance figure, not a purchase price or necessarily literal weight.",
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands.",
           "state": "corrected-and-checked"
         }
       ]
@@ -113454,6 +113815,30 @@
           ]
         },
         {
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "value": "50 gp encumbrance",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Encumbrance (DMG p.225)"
+          ]
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "value": "1″ = 10 feet indoors; 10 yards outdoors",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Range scale (PHB p.39)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "Selected facts are transcribed from the supplied source rows; other mechanics remain unextracted.",
           "status": "editorial-reviewed",
@@ -113486,6 +113871,18 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "DMG",
+          "page": 225,
+          "pdfPage": 225,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
@@ -113544,6 +113941,26 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "oldValue": null,
+          "newValue": "50 gp encumbrance",
+          "book": "DMG",
+          "page": 225,
+          "reason": "Directly named row in the DMG standard-item encumbrance table; value is a game encumbrance figure, not a purchase price or necessarily literal weight.",
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands.",
           "state": "corrected-and-checked"
         }
       ]
@@ -113613,6 +114030,30 @@
           ]
         },
         {
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "value": "100 gp encumbrance",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Encumbrance (DMG p.225)"
+          ]
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "value": "1″ = 10 feet indoors; 10 yards outdoors",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Range scale (PHB p.39)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "Selected facts are transcribed from the supplied source rows; other mechanics remain unextracted.",
           "status": "editorial-reviewed",
@@ -113645,6 +114086,18 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "DMG",
+          "page": 225,
+          "pdfPage": 225,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
@@ -113703,6 +114156,26 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "oldValue": null,
+          "newValue": "100 gp encumbrance",
+          "book": "DMG",
+          "page": 225,
+          "reason": "Directly named row in the DMG standard-item encumbrance table; value is a game encumbrance figure, not a purchase price or necessarily literal weight.",
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands.",
           "state": "corrected-and-checked"
         }
       ]
@@ -113772,6 +114245,30 @@
           ]
         },
         {
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "value": "50 gp encumbrance",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Encumbrance (DMG p.225)"
+          ]
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "value": "1″ = 10 feet indoors; 10 yards outdoors",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Range scale (PHB p.39)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "Selected facts are transcribed from the supplied source rows; other mechanics remain unextracted.",
           "status": "editorial-reviewed",
@@ -113804,6 +114301,18 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "DMG",
+          "page": 225,
+          "pdfPage": 225,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
@@ -113862,6 +114371,26 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "oldValue": null,
+          "newValue": "50 gp encumbrance",
+          "book": "DMG",
+          "page": 225,
+          "reason": "Directly named row in the DMG standard-item encumbrance table; value is a game encumbrance figure, not a purchase price or necessarily literal weight.",
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands.",
           "state": "corrected-and-checked"
         }
       ]
@@ -114365,6 +114894,18 @@
           ]
         },
         {
+          "path": "/fields/Range scale (PHB p.39)",
+          "value": "1″ = 10 feet indoors; 10 yards outdoors",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Range scale (PHB p.39)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "The UA row specifies Atlatl (javelin); selected fire rate and numeric range bands are checked.",
           "status": "editorial-reviewed",
@@ -114396,6 +114937,12 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
@@ -114572,6 +115119,16 @@
           "book": "UA",
           "page": 28,
           "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands.",
+          "state": "corrected-and-checked"
         }
       ]
     },
@@ -114694,6 +115251,18 @@
           ]
         },
         {
+          "path": "/fields/Range scale (PHB p.39)",
+          "value": "1″ = 10 feet indoors; 10 yards outdoors",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/fields/Range scale (PHB p.39)"
+          ]
+        },
+        {
           "path": "/summary",
           "value": "Selected facts are transcribed from the supplied source rows; other mechanics remain unextracted.",
           "status": "editorial-reviewed",
@@ -114725,6 +115294,12 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "reviewers": [
@@ -114905,6 +115480,16 @@
           "reason": "Printed damage row is labelled blowgun and needle.",
           "book": "UA",
           "page": 26,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands.",
           "state": "corrected-and-checked"
         }
       ]
@@ -117247,10 +117832,13 @@
         {
           "path": "/bullets/0",
           "value": "Wandering monsters often offer little treasure compared with the resources spent fighting them.",
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
           ]
         },
         {
@@ -117258,7 +117846,36 @@
           "value": "Negotiation or avoidance can be useful alternatives to combat.",
           "status": "editorial-reviewed",
           "inspected": true,
-          "checkers": []
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/2",
+          "value": "For an Appendix C dungeon character-party encounter, roll d4 + 1 for 2–5 characters; accompanying men-at-arms or henchmen bring the total party to nine.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/3",
+          "value": "In that encounter procedure, men-at-arms accompany parties on dungeon levels 1–3; on level 4 or deeper the companions are henchmen. Character-class incompatibilities and per-party class maxima must also be applied using the source table.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
         }
       ],
       "sources": [
@@ -117267,13 +117884,51 @@
           "page": 103,
           "pdfPage": 104,
           "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "DMG",
+          "page": 175,
+          "pdfPage": null,
+          "sourceSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+          "sourceKind": "separately-supplied-private-image",
+          "availability": "private-unpublished",
+          "printing": "unestablished",
+          "originalPdfPage": "missing"
         }
       ],
       "reviewers": [
         "mechanics-rules"
       ],
-      "unresolvedNotes": [],
-      "proposedChanges": []
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-rules",
+          "note": "The class distribution, maximums and all other encounter-generator steps are not transcribed here."
+        },
+        {
+          "checker": "mechanics-rules",
+          "note": "The private image matches adjacent Appendix C content; exact printing remains unestablished."
+        }
+      ],
+      "proposedChanges": [
+        {
+          "checker": "mechanics-rules",
+          "path": "/bullets",
+          "oldValue": [
+            "Wandering monsters often offer little treasure compared with the resources spent fighting them.",
+            "Negotiation or avoidance can be useful alternatives to combat."
+          ],
+          "newValue": [
+            "Wandering monsters often offer little treasure compared with the resources spent fighting them.",
+            "Negotiation or avoidance can be useful alternatives to combat.",
+            "For an Appendix C dungeon character-party encounter, roll d4 + 1 for 2–5 characters; accompanying men-at-arms or henchmen bring the total party to nine.",
+            "In that encounter procedure, men-at-arms accompany parties on dungeon levels 1–3; on level 4 or deeper the companions are henchmen. Character-class incompatibilities and per-party class maxima must also be applied using the source table."
+          ],
+          "book": "DMG",
+          "page": 175,
+          "reason": "The supplied page gives a specific character-party generation procedure.",
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "rules",
@@ -143565,35 +144220,60 @@
           "value": "Complete saving-throw delta",
           "status": "editorial-reviewed",
           "inspected": true,
-          "checkers": []
+          "checkers": [
+            "mechanics-illusionist-classes"
+          ],
+          "changePaths": [
+            "/pendingMechanics"
+          ]
         },
         {
           "path": "/pendingMechanics/1",
           "value": "Complete attack-matrix delta for every armor class",
           "status": "editorial-reviewed",
           "inspected": true,
-          "checkers": []
+          "checkers": [
+            "mechanics-illusionist-classes"
+          ],
+          "changePaths": [
+            "/pendingMechanics"
+          ]
         },
         {
           "path": "/pendingMechanics/2",
           "value": "Character-specific ability, race, equipment, and multiclass adjustments",
           "status": "editorial-reviewed",
           "inspected": true,
-          "checkers": []
+          "checkers": [
+            "mechanics-illusionist-classes"
+          ],
+          "changePaths": [
+            "/pendingMechanics"
+          ]
         },
         {
           "path": "/pendingMechanics/3",
           "value": "Complete class-skill and special-ability table delta",
           "status": "editorial-reviewed",
           "inspected": true,
-          "checkers": []
+          "checkers": [
+            "mechanics-illusionist-classes"
+          ],
+          "changePaths": [
+            "/pendingMechanics"
+          ]
         },
         {
           "path": "/pendingMechanics/4",
-          "value": "The assassin class-limit row is absent from the current readable PHB p. 19 text; the selector’s display range is not permission to advance beyond the source’s allowed ranks.",
+          "value": "Printed source conflict: PHB p.19 lists assassin class limit 14, while PHB p.30 explicitly gives a 15th-level Grandfather of Assassins; the applicable cap requires a campaign ruling.",
           "status": "editorial-reviewed",
           "inspected": true,
-          "checkers": []
+          "checkers": [
+            "mechanics-illusionist-classes"
+          ],
+          "changePaths": [
+            "/pendingMechanics"
+          ]
         }
       ],
       "sources": [
@@ -143667,7 +144347,12 @@
       "reviewers": [
         "mechanics-illusionist-classes"
       ],
-      "unresolvedNotes": [],
+      "unresolvedNotes": [
+        {
+          "checker": "mechanics-illusionist-classes",
+          "note": "The printed class limit and level progression conflict; no rule is selected."
+        }
+      ],
       "proposedChanges": [
         {
           "checker": "mechanics-illusionist-classes",
@@ -143959,6 +144644,28 @@
           "reason": "The original PHB p.30 table clearly includes the previously withheld level-2 and other early thresholds.",
           "book": "PHB",
           "page": 30,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-illusionist-classes",
+          "path": "/pendingMechanics",
+          "oldValue": [
+            "Complete saving-throw delta",
+            "Complete attack-matrix delta for every armor class",
+            "Character-specific ability, race, equipment, and multiclass adjustments",
+            "Complete class-skill and special-ability table delta",
+            "The assassin class-limit row is absent from the current readable PHB p. 19 text; the selector’s display range is not permission to advance beyond the source’s allowed ranks."
+          ],
+          "newValue": [
+            "Complete saving-throw delta",
+            "Complete attack-matrix delta for every armor class",
+            "Character-specific ability, race, equipment, and multiclass adjustments",
+            "Complete class-skill and special-ability table delta",
+            "Printed source conflict: PHB p.19 lists assassin class limit 14, while PHB p.30 explicitly gives a 15th-level Grandfather of Assassins; the applicable cap requires a campaign ruling."
+          ],
+          "reason": "Original p.19 table is legible and lists 14; original p.30 table lists 15.",
+          "book": "PHB",
+          "page": 19,
           "state": "corrected-and-checked"
         }
       ]
@@ -182017,7 +182724,8 @@
         "/fields/Range scale (PHB p.39)",
         "/summary",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
-        "/fields/Additional missile range adjustments (UA p.28)"
+        "/fields/Additional missile range adjustments (UA p.28)",
+        "/fields/Encumbrance (DMG p.225)"
       ],
       "checkedValues": {
         "/price/amount": 12,
@@ -182027,6 +182735,7 @@
         "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)": "AC 0 through 10: -3, -2, -2, -1, 0, 0, +1, +2, +3, +3, +3",
         "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
+        "/fields/Encumbrance (DMG p.225)": "50 gp encumbrance",
         "/summary": "The UA missile table preserves this crossbow's rate and range bands. Weapon purchase cost, encumbrance, and bolt damage are separate facts."
       },
       "reviewedPaths": [
@@ -182053,6 +182762,12 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "DMG",
+          "page": 225,
+          "pdfPage": 225,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
         }
       ],
       "unresolved": [],
@@ -182100,6 +182815,14 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28
+        },
+        {
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "oldValue": null,
+          "newValue": "50 gp encumbrance",
+          "book": "DMG",
+          "page": 225,
+          "reason": "Directly named row in the DMG standard-item encumbrance table; value is a game encumbrance figure, not a purchase price or necessarily literal weight."
         }
       ]
     },
@@ -182115,7 +182838,8 @@
         "/fields/Range scale (PHB p.39)",
         "/summary",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
-        "/fields/Additional missile range adjustments (UA p.28)"
+        "/fields/Additional missile range adjustments (UA p.28)",
+        "/fields/Encumbrance (DMG p.225)"
       ],
       "checkedValues": {
         "/price/amount": 20,
@@ -182125,6 +182849,7 @@
         "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)": "AC 0 through 10: -2, -1, -1, 0, +1, +2, +3, +3, +4, +4, +4",
         "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
+        "/fields/Encumbrance (DMG p.225)": "80 gp encumbrance",
         "/summary": "The UA missile table preserves this crossbow's rate and range bands. Weapon purchase cost, encumbrance, and bolt damage are separate facts."
       },
       "reviewedPaths": [
@@ -182151,6 +182876,12 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "DMG",
+          "page": 225,
+          "pdfPage": 225,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
         }
       ],
       "unresolved": [],
@@ -182198,6 +182929,14 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28
+        },
+        {
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "oldValue": null,
+          "newValue": "80 gp encumbrance",
+          "book": "DMG",
+          "page": 225,
+          "reason": "Directly named row in the DMG standard-item encumbrance table; value is a game encumbrance figure, not a purchase price or necessarily literal weight."
         }
       ]
     },
@@ -182504,7 +183243,8 @@
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
         "/fields/Additional missile range adjustments (UA p.28)",
         "/fields/Hand-held AC adjustments (PHB p.38)",
-        "/fields/Hand-held AC adjustments (UA p.27)"
+        "/fields/Hand-held AC adjustments (UA p.27)",
+        "/fields/Range scale (PHB p.39)"
       ],
       "checkedValues": {
         "/price/amount": 1,
@@ -182521,6 +183261,7 @@
         "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
         "/fields/Hand-held AC adjustments (PHB p.38)": "AC 2 through 10: -3, -2, -2, -1, 0, 0, +1, +1, +1",
         "/fields/Hand-held AC adjustments (UA p.27)": "AC 0 through 10: -5, -4, -3, -2, -2, -1, 0, 0, +1, +1, +1",
+        "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors",
         "/summary": "Weapon weight uses gold-piece encumbrance units. Damage is shown as the source's numeric range for the indicated target size."
       },
       "reviewedPaths": [
@@ -182565,6 +183306,12 @@
           "page": 27,
           "pdfPage": 28,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "unresolved": [],
@@ -182700,6 +183447,14 @@
           "reason": "UA hand-held table prints armor-class-specific adjustments in columns 0–10; this is the UA row, not the PHB p.38 row.",
           "book": "UA",
           "page": 27
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands."
         }
       ]
     },
@@ -183341,7 +184096,8 @@
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
         "/fields/Additional missile range adjustments (UA p.28)",
         "/fields/Hand-held AC adjustments (PHB p.38)",
-        "/fields/Hand-held AC adjustments (UA p.27)"
+        "/fields/Hand-held AC adjustments (UA p.27)",
+        "/fields/Range scale (PHB p.39)"
       ],
       "checkedValues": {
         "/price": null,
@@ -183357,6 +184113,7 @@
         "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
         "/fields/Hand-held AC adjustments (PHB p.38)": "AC 2 through 10: -5, -4, -3, -2, -1, -1, 0, 0, +1",
         "/fields/Hand-held AC adjustments (UA p.27)": "AC 0 through 10: -7, -6, -5, -4, -3, -2, -1, -1, 0, 0, +1",
+        "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors",
         "/summary": "Weapon weight uses gold-piece encumbrance units. Damage is shown as the source's numeric range for the indicated target size."
       },
       "reviewedPaths": [],
@@ -183390,6 +184147,12 @@
           "page": 27,
           "pdfPage": 28,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "unresolved": [
@@ -183536,6 +184299,14 @@
           "reason": "UA hand-held table prints armor-class-specific adjustments in columns 0–10; this is the UA row, not the PHB p.38 row.",
           "book": "UA",
           "page": 27
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands."
         }
       ]
     },
@@ -183559,7 +184330,8 @@
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
         "/fields/Additional missile range adjustments (UA p.28)",
         "/fields/Hand-held AC adjustments (PHB p.38)",
-        "/fields/Hand-held AC adjustments (UA p.27)"
+        "/fields/Hand-held AC adjustments (UA p.27)",
+        "/fields/Range scale (PHB p.39)"
       ],
       "checkedValues": {
         "/price/amount": 2,
@@ -183576,6 +184348,7 @@
         "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
         "/fields/Hand-held AC adjustments (PHB p.38)": "AC 2 through 10: -3, -3, -2, -2, 0, 0, +1, +1, +3",
         "/fields/Hand-held AC adjustments (UA p.27)": "AC 0 through 10: -4, -4, -3, -3, -2, -2, 0, 0, +1, +1, +3",
+        "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors",
         "/summary": "The cost-table listing includes a scabbard; the weapon weight and damage table describes the dagger itself.",
         "/priceNote": "The printed listing is dagger and scabbard: 2 gp, checked against the supplied PHB p.35 crop."
       },
@@ -183610,6 +184383,12 @@
           "page": 27,
           "pdfPage": 28,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "unresolved": [],
@@ -183745,6 +184524,14 @@
           "reason": "UA hand-held table prints armor-class-specific adjustments in columns 0–10; this is the UA row, not the PHB p.38 row.",
           "book": "UA",
           "page": 27
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands."
         }
       ]
     },
@@ -183761,7 +184548,8 @@
         "/fields/Thrown range S~1M~1L (UA p.28)",
         "/summary",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
-        "/fields/Additional missile range adjustments (UA p.28)"
+        "/fields/Additional missile range adjustments (UA p.28)",
+        "/fields/Range scale (PHB p.39)"
       ],
       "checkedValues": {
         "/price/amount": 5,
@@ -183773,6 +184561,7 @@
         "/fields/Thrown range S~1M~1L (UA p.28)": "1½″ / 3″ / 4½″",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)": "AC 0 through 10: -7, -6, -5, -4, -3, -2, -1, 0, +1, 0, +1",
         "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
+        "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors",
         "/summary": "Weapon weight uses gold-piece encumbrance units. Damage is shown as the source's numeric range for the indicated target size."
       },
       "reviewedPaths": [],
@@ -183794,6 +184583,12 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "unresolved": [],
@@ -183873,6 +184668,14 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands."
         }
       ]
     },
@@ -185016,7 +185819,8 @@
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
         "/fields/Additional missile range adjustments (UA p.28)",
         "/fields/Hand-held AC adjustments (PHB p.38)",
-        "/fields/Hand-held AC adjustments (UA p.27)"
+        "/fields/Hand-held AC adjustments (UA p.27)",
+        "/fields/Range scale (PHB p.39)"
       ],
       "checkedValues": {
         "/price/amount": 1,
@@ -185033,6 +185837,7 @@
         "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
         "/fields/Hand-held AC adjustments (PHB p.38)": "AC 2 through 10: -2, -1, -1, -1, 0, 0, 0, 0, 0",
         "/fields/Hand-held AC adjustments (UA p.27)": "AC 0 through 10: -2, -2, -2, -1, -1, -1, 0, 0, 0, 0, 0",
+        "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors",
         "/summary": "Weapon weight uses gold-piece encumbrance units. Damage is shown as the source's numeric range for the indicated target size."
       },
       "reviewedPaths": [],
@@ -185066,6 +185871,12 @@
           "page": 27,
           "pdfPage": 28,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "unresolved": [],
@@ -185233,6 +186044,14 @@
           "reason": "UA hand-held table prints armor-class-specific adjustments in columns 0–10; this is the UA row, not the PHB p.38 row.",
           "book": "UA",
           "page": 27
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands."
         }
       ]
     },
@@ -188370,7 +189189,8 @@
         "/fields/Range S ~1 M ~1 L (UA p.28)",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
         "/fields/Additional missile range adjustments (UA p.28)",
-        "/fields/Hand-held AC adjustments (UA p.27)"
+        "/fields/Hand-held AC adjustments (UA p.27)",
+        "/fields/Range scale (PHB p.39)"
       ],
       "checkedValues": {
         "/price/amount": 1,
@@ -188385,7 +189205,8 @@
         "/fields/Range S ~1 M ~1 L (UA p.28)": "1 / 2 / 3 (numeric bands)",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)": "AC 0 through 10: -8, -7, -6, -5, -4, -3, -2, -1, 0, 0, +1",
         "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
-        "/fields/Hand-held AC adjustments (UA p.27)": "AC 0 through 10: -6, -5, -5, -4, -3, -2, -1, 0, +1, +1, +3"
+        "/fields/Hand-held AC adjustments (UA p.27)": "AC 0 through 10: -6, -5, -5, -4, -3, -2, -1, 0, +1, +1, +3",
+        "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors"
       },
       "reviewedPaths": [
         {
@@ -188411,6 +189232,12 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "unresolved": [],
@@ -188656,6 +189483,14 @@
           "reason": "UA hand-held table prints armor-class-specific adjustments in columns 0–10; this is the UA row, not the PHB p.38 row.",
           "book": "UA",
           "page": 27
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands."
         }
       ]
     },
@@ -188674,7 +189509,8 @@
         "/fields/Range S ~1 M ~1 L (UA p.28)",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
         "/fields/Additional missile range adjustments (UA p.28)",
-        "/fields/Hand-held AC adjustments (UA p.27)"
+        "/fields/Hand-held AC adjustments (UA p.27)",
+        "/fields/Range scale (PHB p.39)"
       ],
       "checkedValues": {
         "/price/amount": 5,
@@ -188687,7 +189523,8 @@
         "/fields/Range S ~1 M ~1 L (UA p.28)": "1 / 2 / 3 (numeric bands)",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)": "AC 0 through 10: +9, +8, +7, +6, +5, +4, +3, +2, +1, 0, -1",
         "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
-        "/fields/Hand-held AC adjustments (UA p.27)": "AC 0 through 10: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "/fields/Hand-held AC adjustments (UA p.27)": "AC 0 through 10: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0",
+        "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors"
       },
       "reviewedPaths": [
         {
@@ -188713,6 +189550,12 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "unresolved": [
@@ -188916,6 +189759,14 @@
           "reason": "UA hand-held table prints armor-class-specific adjustments in columns 0–10; this is the UA row, not the PHB p.38 row.",
           "book": "UA",
           "page": 27
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands."
         }
       ]
     },
@@ -189349,7 +190200,8 @@
         "/fields/Staff sling stone damage vs Large (UA p.26)",
         "/fields/Staff sling bullet AC adjustments (UA p.28)",
         "/fields/Staff sling stone AC adjustments (UA p.28)",
-        "/fields/Staff sling range interpretation (UA p.28)"
+        "/fields/Staff sling range interpretation (UA p.28)",
+        "/fields/Range scale (PHB p.39)"
       ],
       "checkedValues": {
         "/price/amount": 2,
@@ -189369,7 +190221,8 @@
         "/fields/Staff sling stone damage vs Large (UA p.26)": "2–8",
         "/fields/Staff sling bullet AC adjustments (UA p.28)": "AC 0 through 10: −5, −4, −3, −2, −1, 0, 0, 0, 0, 0, 0",
         "/fields/Staff sling stone AC adjustments (UA p.28)": "AC 0 through 10: −6, −5, −4, −3, −2, −1, 0, 0, 0, 0, 0",
-        "/fields/Staff sling range interpretation (UA p.28)": "The staff sling rows have no short-range band, but the shared AC-adjustment note describes the listed values as applying at short range. Ask the referee how to apply that note."
+        "/fields/Staff sling range interpretation (UA p.28)": "The staff sling rows have no short-range band, but the shared AC-adjustment note describes the listed values as applying at short range. Ask the referee how to apply that note.",
+        "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors"
       },
       "reviewedPaths": [
         {
@@ -189395,13 +190248,20 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "unresolved": [
         {
           "path": "/fields/Staff sling range interpretation (UA p.28)",
           "reason": "The printed table has no short-range band for staff sling, but its shared adjustment note describes short-range values; interpretation remains unclear."
-        }
+        },
+        "The separate staff-sling short-range and armor-adjustment interpretation remains unresolved."
       ],
       "changes": [
         {
@@ -189755,6 +190615,14 @@
           "book": "UA",
           "page": 28,
           "reason": "Read the ammunition-specific UA table row and retain the short-range note as an unresolved interpretation where applicable."
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 gives the general missile-range distance scale; this does not resolve the UA p.28 staff sling short-range adjustment ambiguity."
         }
       ]
     },
@@ -190584,7 +191452,9 @@
         "/fields/Rate of fire (PHB p.38)",
         "/fields/Range S ~1 M ~1 L (PHB p.38)",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
-        "/fields/Additional missile range adjustments (UA p.28)"
+        "/fields/Additional missile range adjustments (UA p.28)",
+        "/fields/Encumbrance (DMG p.225)",
+        "/fields/Range scale (PHB p.39)"
       ],
       "checkedValues": {
         "/price/amount": 100,
@@ -190592,7 +191462,9 @@
         "/fields/Rate of fire (PHB p.38)": "2 (tabletop-miniatures turn or melee round)",
         "/fields/Range S ~1 M ~1 L (PHB p.38)": "6 / 12 / 21 (numeric bands)",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)": "AC 0 through 10: -4, -3, -2, -1, 0, 0, +1, +2, +2, +3, +3",
-        "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range"
+        "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
+        "/fields/Encumbrance (DMG p.225)": "80 gp encumbrance",
+        "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors"
       },
       "reviewedPaths": [
         {
@@ -190622,6 +191494,18 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "DMG",
+          "page": 225,
+          "pdfPage": 225,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "unresolved": [],
@@ -190669,6 +191553,22 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28
+        },
+        {
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "oldValue": null,
+          "newValue": "80 gp encumbrance",
+          "book": "DMG",
+          "page": 225,
+          "reason": "Directly named row in the DMG standard-item encumbrance table; value is a game encumbrance figure, not a purchase price or necessarily literal weight."
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands."
         }
       ]
     },
@@ -190682,7 +191582,9 @@
         "/fields/Rate of fire (PHB p.38)",
         "/fields/Range S ~1 M ~1 L (PHB p.38)",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
-        "/fields/Additional missile range adjustments (UA p.28)"
+        "/fields/Additional missile range adjustments (UA p.28)",
+        "/fields/Encumbrance (DMG p.225)",
+        "/fields/Range scale (PHB p.39)"
       ],
       "checkedValues": {
         "/price/amount": 75,
@@ -190690,7 +191592,9 @@
         "/fields/Rate of fire (PHB p.38)": "2 (tabletop-miniatures turn or melee round)",
         "/fields/Range S ~1 M ~1 L (PHB p.38)": "5 / 10 / 18 (numeric bands)",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)": "AC 0 through 10: -4, -4, -3, -3, -1, 0, +1, +2, +2, +2, +3",
-        "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range"
+        "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
+        "/fields/Encumbrance (DMG p.225)": "50 gp encumbrance",
+        "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors"
       },
       "reviewedPaths": [
         {
@@ -190720,6 +191624,18 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "DMG",
+          "page": 225,
+          "pdfPage": 225,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "unresolved": [],
@@ -190767,6 +191683,22 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28
+        },
+        {
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "oldValue": null,
+          "newValue": "50 gp encumbrance",
+          "book": "DMG",
+          "page": 225,
+          "reason": "Directly named row in the DMG standard-item encumbrance table; value is a game encumbrance figure, not a purchase price or necessarily literal weight."
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands."
         }
       ]
     },
@@ -190780,7 +191712,9 @@
         "/fields/Rate of fire (PHB p.38)",
         "/fields/Range S ~1 M ~1 L (PHB p.38)",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
-        "/fields/Additional missile range adjustments (UA p.28)"
+        "/fields/Additional missile range adjustments (UA p.28)",
+        "/fields/Encumbrance (DMG p.225)",
+        "/fields/Range scale (PHB p.39)"
       ],
       "checkedValues": {
         "/price/amount": 60,
@@ -190788,7 +191722,9 @@
         "/fields/Rate of fire (PHB p.38)": "2 (tabletop-miniatures turn or melee round)",
         "/fields/Range S ~1 M ~1 L (PHB p.38)": "7 / 14 / 21 (numeric bands)",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)": "AC 0 through 10: -2, -1, -1, 0, 0, +1, +2, +3, +3, +3, +3",
-        "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range"
+        "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
+        "/fields/Encumbrance (DMG p.225)": "100 gp encumbrance",
+        "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors"
       },
       "reviewedPaths": [
         {
@@ -190818,6 +191754,18 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "DMG",
+          "page": 225,
+          "pdfPage": 225,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "unresolved": [],
@@ -190865,6 +191813,22 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28
+        },
+        {
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "oldValue": null,
+          "newValue": "100 gp encumbrance",
+          "book": "DMG",
+          "page": 225,
+          "reason": "Directly named row in the DMG standard-item encumbrance table; value is a game encumbrance figure, not a purchase price or necessarily literal weight."
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands."
         }
       ]
     },
@@ -190878,7 +191842,9 @@
         "/fields/Rate of fire (PHB p.38)",
         "/fields/Range S ~1 M ~1 L (PHB p.38)",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
-        "/fields/Additional missile range adjustments (UA p.28)"
+        "/fields/Additional missile range adjustments (UA p.28)",
+        "/fields/Encumbrance (DMG p.225)",
+        "/fields/Range scale (PHB p.39)"
       ],
       "checkedValues": {
         "/price/amount": 15,
@@ -190886,7 +191852,9 @@
         "/fields/Rate of fire (PHB p.38)": "2 (tabletop-miniatures turn or melee round)",
         "/fields/Range S ~1 M ~1 L (PHB p.38)": "5 / 10 / 15 (numeric bands)",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)": "AC 0 through 10: -7, -6, -5, -4, -1, 0, 0, +1, +2, +2, +2",
-        "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range"
+        "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
+        "/fields/Encumbrance (DMG p.225)": "50 gp encumbrance",
+        "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors"
       },
       "reviewedPaths": [
         {
@@ -190916,6 +191884,18 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "DMG",
+          "page": 225,
+          "pdfPage": 225,
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "unresolved": [],
@@ -190963,6 +191943,22 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28
+        },
+        {
+          "path": "/fields/Encumbrance (DMG p.225)",
+          "oldValue": null,
+          "newValue": "50 gp encumbrance",
+          "book": "DMG",
+          "page": 225,
+          "reason": "Directly named row in the DMG standard-item encumbrance table; value is a game encumbrance figure, not a purchase price or necessarily literal weight."
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands."
         }
       ]
     },
@@ -191201,7 +192197,8 @@
         "/fields/Damage vs S~1M (UA p.26)",
         "/fields/Damage vs Large (UA p.26)",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
-        "/fields/Additional missile range adjustments (UA p.28)"
+        "/fields/Additional missile range adjustments (UA p.28)",
+        "/fields/Range scale (PHB p.39)"
       ],
       "checkedValues": {
         "/price/amount": 1,
@@ -191213,7 +192210,8 @@
         "/fields/Damage vs S~1M (UA p.26)": "1–6",
         "/fields/Damage vs Large (UA p.26)": "1–6",
         "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)": "AC 0 through 10: -6, -5, -4, -3, -2, -1, 0, 0, +1, +1, +2",
-        "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range"
+        "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
+        "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors"
       },
       "reviewedPaths": [
         {
@@ -191233,6 +192231,12 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "unresolved": [],
@@ -191379,6 +192383,14 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands."
         }
       ]
     },
@@ -191394,7 +192406,8 @@
         "/fields/Additional missile range adjustments (UA p.28)",
         "/fields/Blowgun and needle combined weight (UA p.26)",
         "/fields/Blowgun and needle damage vs S~1M (UA p.26)",
-        "/fields/Blowgun and needle damage vs Large (UA p.26)"
+        "/fields/Blowgun and needle damage vs Large (UA p.26)",
+        "/fields/Range scale (PHB p.39)"
       ],
       "checkedValues": {
         "/price/amount": 1,
@@ -191406,7 +192419,8 @@
         "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
         "/fields/Blowgun and needle combined weight (UA p.26)": "15 gp-weight (encumbrance; not purchase cost)",
         "/fields/Blowgun and needle damage vs S~1M (UA p.26)": "1",
-        "/fields/Blowgun and needle damage vs Large (UA p.26)": "1"
+        "/fields/Blowgun and needle damage vs Large (UA p.26)": "1",
+        "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors"
       },
       "reviewedPaths": [
         {
@@ -191426,6 +192440,12 @@
           "page": 28,
           "pdfPage": 29,
           "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 39,
+          "pdfPage": 40,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
       "unresolved": [
@@ -191574,6 +192594,14 @@
           "reason": "Printed damage row is labelled blowgun and needle.",
           "book": "UA",
           "page": 26
+        },
+        {
+          "path": "/fields/Range scale (PHB p.39)",
+          "oldValue": null,
+          "newValue": "1″ = 10 feet indoors; 10 yards outdoors",
+          "book": "PHB",
+          "page": 39,
+          "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands."
         }
       ]
     },
@@ -202027,6 +203055,10 @@
           "path": "/xp",
           "result": "editorial-reviewed",
           "reason": "Empty legacy array; sourced XP thresholds are separately recorded in xpRows."
+        },
+        {
+          "path": "/pendingMechanics",
+          "result": "Editorial wording or audit status reviewed against the independently confirmed source evidence."
         }
       ],
       "sources": [
@@ -202104,7 +203136,8 @@
         "/pendingMechanics",
         "/levelChanges/1/changes/0",
         "/levelChanges/20/changes/0",
-        "/levelChanges/43/changes/0"
+        "/levelChanges/43/changes/0",
+        "The printed class limit and level progression conflict; no rule is selected."
       ],
       "changes": [
         {
@@ -202388,6 +203421,26 @@
           "reason": "The original PHB p.30 table clearly includes the previously withheld level-2 and other early thresholds.",
           "book": "PHB",
           "page": 30
+        },
+        {
+          "path": "/pendingMechanics",
+          "oldValue": [
+            "Complete saving-throw delta",
+            "Complete attack-matrix delta for every armor class",
+            "Character-specific ability, race, equipment, and multiclass adjustments",
+            "Complete class-skill and special-ability table delta",
+            "The assassin class-limit row is absent from the current readable PHB p. 19 text; the selector’s display range is not permission to advance beyond the source’s allowed ranks."
+          ],
+          "newValue": [
+            "Complete saving-throw delta",
+            "Complete attack-matrix delta for every armor class",
+            "Character-specific ability, race, equipment, and multiclass adjustments",
+            "Complete class-skill and special-ability table delta",
+            "Printed source conflict: PHB p.19 lists assassin class limit 14, while PHB p.30 explicitly gives a 15th-level Grandfather of Assassins; the applicable cap requires a campaign ruling."
+          ],
+          "reason": "Original p.19 table is legible and lists 14; original p.30 table lists 15.",
+          "book": "PHB",
+          "page": 19
         }
       ]
     },
@@ -235499,7 +236552,8 @@
         "/conditions",
         "/exceptions",
         "/fields/Duration",
-        "/fields/Saving throw"
+        "/fields/Saving throw",
+        "/exceptions/0"
       ],
       "checkedValues": {
         "/class": "Magic-user",
@@ -235553,7 +236607,9 @@
           "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
-      "unresolved": [],
+      "unresolved": [
+        "The source does not explicitly address every possible mixed person/monster classification; use the applicable underlying spell without inventing a new classification."
+      ],
       "changes": [
         {
           "path": "/fields/Range",
@@ -235570,11 +236626,26 @@
             "Gap: the different underlying person/monster charm-breaking schedules are not reproduced here."
           ],
           "newValue": [
-            "Gap: the different underlying person/monster charm-breaking schedules are not reproduced here."
+            "Charm person checks for a new saving throw by Intelligence: 3 or less every 3 months; 4–6 every 2 months; 7–9 monthly; 10–12 every 3 weeks; 13–14 every 2 weeks; 15–16 weekly; 17 every 3 days; 18 every 2 days; 19 or more daily. Charm monster has a weekly chance to break by monster level or HD: 1st/up to 2, 5%; 2nd/up to 3+2, 10%; 3rd/up to 4+4, 15%; 4th/up to 6, 25%; 5th/up to 7+2, 35%; 6th/up to 8+4, 45%; 7th/up to 10, 60%; 8th/up to 12, 75%; 9th/over 12, 90%."
           ],
           "reason": "The corresponding header value is legible in the scan.",
           "book": "PHB",
-          "page": 90
+          "page": 90,
+          "supersededChanges": [
+            {
+              "path": "/exceptions",
+              "oldValue": [
+                "Gap: the range fraction is unreadable.",
+                "Gap: the different underlying person/monster charm-breaking schedules are not reproduced here."
+              ],
+              "newValue": [
+                "Gap: the different underlying person/monster charm-breaking schedules are not reproduced here."
+              ],
+              "reason": "The corresponding header value is legible in the scan.",
+              "book": "PHB",
+              "page": 90
+            }
+          ]
         }
       ]
     },
@@ -238198,11 +239269,15 @@
       "id": "encounter-types",
       "checkedPaths": [
         "/summary",
-        "/bullets/0"
+        "/bullets/0",
+        "/bullets/2",
+        "/bullets/3"
       ],
       "checkedValues": {
         "/summary": "Wandering encounters occur through encounter checks; placed encounters arise from the DM's keyed locations. Unnecessary time and noise can attract more danger.",
-        "/bullets/0": "Wandering monsters often offer little treasure compared with the resources spent fighting them."
+        "/bullets/0": "Wandering monsters often offer little treasure compared with the resources spent fighting them.",
+        "/bullets/2": "For an Appendix C dungeon character-party encounter, roll d4 + 1 for 2–5 characters; accompanying men-at-arms or henchmen bring the total party to nine.",
+        "/bullets/3": "In that encounter procedure, men-at-arms accompany parties on dungeon levels 1–3; on level 4 or deeper the companions are henchmen. Character-class incompatibilities and per-party class maxima must also be applied using the source table."
       },
       "reviewedPaths": [
         {
@@ -238216,10 +239291,40 @@
           "page": 103,
           "pdfPage": 104,
           "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "DMG",
+          "page": 175,
+          "pdfPage": null,
+          "sourceSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+          "sourceKind": "separately-supplied-private-image",
+          "availability": "private-unpublished",
+          "printing": "unestablished",
+          "originalPdfPage": "missing"
         }
       ],
-      "unresolved": [],
-      "changes": []
+      "unresolved": [
+        "The class distribution, maximums and all other encounter-generator steps are not transcribed here.",
+        "The private image matches adjacent Appendix C content; exact printing remains unestablished."
+      ],
+      "changes": [
+        {
+          "path": "/bullets",
+          "oldValue": [
+            "Wandering monsters often offer little treasure compared with the resources spent fighting them.",
+            "Negotiation or avoidance can be useful alternatives to combat."
+          ],
+          "newValue": [
+            "Wandering monsters often offer little treasure compared with the resources spent fighting them.",
+            "Negotiation or avoidance can be useful alternatives to combat.",
+            "For an Appendix C dungeon character-party encounter, roll d4 + 1 for 2–5 characters; accompanying men-at-arms or henchmen bring the total party to nine.",
+            "In that encounter procedure, men-at-arms accompany parties on dungeon levels 1–3; on level 4 or deeper the companions are henchmen. Character-class incompatibilities and per-party class maxima must also be applied using the source table."
+          ],
+          "book": "DMG",
+          "page": 175,
+          "reason": "The supplied page gives a specific character-party generation procedure."
+        }
+      ]
     },
     {
       "checker": "mechanics-rules",

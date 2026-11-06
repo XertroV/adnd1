@@ -1,0 +1,22 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {buildInventory} from '../tools/source-scan-inventory.mjs';
+const require=createRequire(import.meta.url),books=require('../dist/books.js');
+test('private DMG p.175 evidence does not invent an original PDF page or public crop',()=>{
+ assert.equal(books.availability('DMG',175),'missing');
+ assert.equal(books.pdfPage('DMG',175),null);
+ assert.deepEqual(books.privateEvidence('DMG',175),{available:true,printing:'unknown',published:false});
+ assert.match(books.missingPageNotice('DMG',175),/private image.*printing is unknown.*not published/i);
+ assert.equal(books.privateEvidence('DMG',176),null);
+ assert.equal(books.privateEvidence('PHB',175),null);
+ const inventory=buildInventory({rules:[{id:'private-dmg-page',title:'Reference',book:'DMG',pages:[175]}]});
+ const p=inventory.pages.find(p=>p.book==='DMG'&&p.page===175);
+ assert.equal(p.pdfPage,null);assert.equal(p.availability,'missing');assert.equal(p.suppliedCropPixels,false);
+ assert.deepEqual(p.privateEvidence,{available:true,printing:'unknown',published:false});
+ const blocked=inventory.queue.blocked.find(p=>p.book==='DMG'&&p.page===175);
+ assert.match(blocked.reason,/private image.*printing unknown.*not published/i);
+ assert.doesNotMatch(blocked.reason,/obtain/i);
+ assert.ok(!inventory.queue.batches.some(b=>b.book==='DMG'&&b.pages.includes(175)));
+ assert.equal(inventory.pages.find(p=>p.book==='DMG'&&p.page===239).privateEvidence,undefined);
+});

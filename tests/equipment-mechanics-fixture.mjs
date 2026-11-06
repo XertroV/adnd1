@@ -1,3 +1,4 @@
+import {reverseClosureCorrections} from './mechanics-closure-fixture.mjs';
 import {reverseEditorialCorrections} from './mechanics-editorial-fixture.mjs';
 import {reverseFinalCorrections} from './mechanics-final-fixture.mjs';
 import {reverseFollowupCorrections} from './mechanics-followup-fixture.mjs';
@@ -9,7 +10,7 @@ export const equipmentAdditionalCorrections=JSON.parse(readFileSync(new URL('./f
 export const equipmentCorrections=JSON.parse(readFileSync(new URL('./fixtures/equipment-mechanics-corrections.json',import.meta.url),'utf8'));
 const unescape=s=>s.replaceAll('~1','/').replaceAll('~0','~');
 export function reverseApprovedEquipmentChanges(equipment) {
- const copy=reverseNextCorrections(reverseFollowupCorrections(reverseFinalCorrections(reverseEditorialCorrections(equipment,'equipment'),'equipment'),'equipment'),'equipment');
+ const copy=reverseNextCorrections(reverseFollowupCorrections(reverseFinalCorrections(reverseEditorialCorrections(reverseClosureCorrections(equipment,'equipment'),'equipment'),'equipment'),'equipment'),'equipment');
  for(const record of [...equipmentCompletenessCorrections.records,...equipmentAdditionalCorrections.records,...equipmentCorrections.records]){
   const item=copy.find(x=>x.id===record.id);assert.ok(item,record.id);
   for(const change of record.changes){

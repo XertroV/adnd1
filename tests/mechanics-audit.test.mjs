@@ -68,3 +68,16 @@ test('a conflict flag cannot conceal an unreviewed change to a saved value',()=>
  const ledger=buildLedger(d,initial.reviewRecords,{alreadyNormalized:true});
  assert.equal(ledger.records[0].fields.find(f=>f.path==='/fields/Range').status,'stale-proposal');
 });
+
+test('an accepted parent correction cannot promote a retained extraction gap',()=>{
+ const d=data(),p=proposals();
+ d.spells[0].exceptions=['Gap: schedule not reproduced'];
+ p[0].records[0].changes.push({path:'/exceptions',oldValue:['Gap: unreadable range','Gap: schedule not reproduced'],newValue:['Gap: schedule not reproduced']});
+ p[0].records[0].changes.push({path:'/fields/Duration',oldValue:'uncertain',newValue:null});
+ const ledger=buildLedger(d,p),fields=ledger.records.find(r=>r.id==='s').fields;
+ for(const path of ['/exceptions/0','/fields/Duration']) {
+  const f=fields.find(f=>f.path===path);assert.equal(f.status,'not-extracted');assert.equal(f.inspected,true);
+ }
+ d.spells[0].exceptions=['Gap: changed without review'];
+ assert.equal(buildLedger(d,p).records.find(r=>r.id==='s').fields.find(f=>f.path==='/exceptions/0').status,'stale-proposal');
+});
