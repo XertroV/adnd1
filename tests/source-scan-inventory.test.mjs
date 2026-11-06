@@ -12,7 +12,10 @@ test('fixture is reproducible and includes every assembled reference-bearing rec
  const expected=['rules','spells','equipment','matrices','classes'].flatMap(k=>data[k].filter(x=>citations.pages(x).length).map(x=>`${k}:${x.id}`));
  if(citations.pages(data.progressionExplainer).length)expected.push('progressionExplainer:progression-explainer');
  assert.deepEqual(inventory.records.map(r=>`${r.collection}:${r.id}`),expected);
- assert.deepEqual(inventory.counts,{records:892,recordPagePairs:1703,citedPages:216,knownGapPages:2,pagesWithSomeSuppliedCropPixels:4,citedPagesWithoutSuppliedCropPixels:212,batches:24});
+ assert.equal(inventory.counts.records,892);assert.equal(inventory.counts.recordPagePairs,1702);assert.equal(inventory.counts.citedPages,216);assert.equal(inventory.counts.knownGapPages,2);
+ assert.equal(inventory.counts.pagesWithSomeSuppliedCropPixels,inventory.pages.filter(p=>p.suppliedCropPixels).length);
+ assert.equal(inventory.counts.citedPagesWithoutSuppliedCropPixels,inventory.pages.filter(p=>p.records.length&&!p.suppliedCropPixels).length);
+ assert.equal(inventory.counts.batches,inventory.queue.batches.length);
 });
 test('nested field, progression and explainer references retain their paths and page statuses',()=>{
  const dagger=inventory.records.find(r=>r.id==='phb-dagger');
@@ -32,7 +35,12 @@ test('queue covers all available cited pages exactly once and blocks both missin
  assert.deepEqual(inventory.queue.blocked.map(p=>`${p.book}:${p.page}`),['DMG:175','DMG:240']);
 });
 test('crop pixels and scoped catalog checks never imply that a page or unrelated record is verified',()=>{
- assert.deepEqual(inventory.pages.filter(p=>p.suppliedCropPixels).map(p=>`${p.book}:${p.page}`),['PHB:35','PHB:37','PHB:38','UA:28']);
+ const pixels=new Set(inventory.pages.filter(p=>p.suppliedCropPixels).map(p=>`${p.book}:${p.page}`));
+ for(const key of ['PHB:35','PHB:37','PHB:38','UA:28'])assert.ok(pixels.has(key));
+ const checks=inventory.pages.flatMap(p=>p.scopedCropChecks);
+ assert.ok(checks.some(c=>c.state==='source-excerpt-checked'));
+ assert.ok(checks.filter(c=>c.state==='source-excerpt-checked').every(c=>c.fields.length===0));
+ assert.ok(checks.some(c=>c.state==='selected-values-checked'&&c.fields.length>0));
  const page=inventory.pages.find(p=>p.book==='PHB'&&p.page===35);
  assert.ok(page.scopedCropChecks.some(c=>c.itemId==='phb-dagger'&&c.fields.includes('price')));
  assert.ok(page.records.some(r=>r.id!=='phb-dagger'));

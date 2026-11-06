@@ -5,6 +5,7 @@ import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
 import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
+import {validScanCatalogPath, scanStates, validateScanCatalog} from './scan-catalog.mjs';
 const root=resolve(fileURLToPath(new URL('..',import.meta.url)));
 const require=createRequire(import.meta.url);
 const citations=require('../dist/citations.js');
@@ -46,17 +47,19 @@ export function buildInventory(data, loadCatalog=read) {
   byPage.get(key).records.push({collection:record.collection,id:record.id,labels:page.labels,statuses:page.statuses});
  }
  // Catalogs establish only that selected pixels and scoped checks exist.
- for(const item of data.equipment||[]){
-  if(item.scanVerification?.state!=='selected-values-checked')continue;
-  const path=item.scanVerification.catalog;
-  if(!/^scans\/dagger\/(?:manifest|(?:phb|ua)-[a-z0-9-]+)\.json$/.test(path||''))throw Error(`Invalid catalog for ${item.id}`);
+ for(const item of [...['rules','spells','equipment','matrices','classes'].flatMap(key=>data[key]||[]),...(data.progressionExplainer?[{...data.progressionExplainer,id:'progression-explainer'}]:[])]){
+  const verification=item.sourceExcerpts||item.scanVerification;
+  if(!scanStates.has(verification?.state))continue;
+  const path=verification.catalog;
+  if(!validScanCatalogPath(item.id,path,verification))throw Error(`Invalid catalog for ${item.id}`);
   const catalog=loadCatalog(`dist/${path}`);
-  if(catalog.itemId!==item.id || !Array.isArray(catalog.regions) || catalog.regions.length!==item.scanVerification.regionCount)throw Error(`Invalid catalog contents for ${item.id}`);
+  validateScanCatalog(catalog,item,books,verification);
   for(const region of catalog.regions){
    const page=byPage.get(`${region.book}:${region.printedPage}`);
-   if(!page)throw Error(`Uncited catalog page for ${item.id}`);
+   if(!page || !page.records.some(record=>record.id===item.id&&(!verification.collection||record.collection===verification.collection)))throw Error(`Uncited catalog page for ${item.id}`);
    page.suppliedCropPixels=true;
-   page.scopedCropChecks.push({itemId:item.id,regionId:region.id,fields:Object.keys(region.checkedFields||{}).sort()});
+   const state=region.verificationScope==='selected-values'?'selected-values-checked':region.verificationScope==='source-excerpt'?'source-excerpt-checked':verification.state;
+   if(!page.scopedCropChecks.some(check=>check.itemId===item.id&&check.regionId===region.id&&check.state===state&&check.collection===(verification.collection||null)))page.scopedCropChecks.push({itemId:item.id,collection:verification.collection||null,regionId:region.id,state,fields:state==='selected-values-checked'?Object.keys(region.checkedFields||{}).sort():[]});
   }
  }
  // Preserve the two known gaps even when no current record cites them.

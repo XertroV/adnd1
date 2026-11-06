@@ -12,8 +12,9 @@ const byId = new Map(data.spells.map(spell => [spell.id, spell]));
 test('assembly includes every indexed spell and the current class checkpoint plus reviewed progression metadata', () => {
   assert.equal(data.spells.length, 638);
   assert.equal(data.spells.filter(spell => spell.effect?.length).length, 638);
-  assert.deepEqual(data.classes, authorClasses.map(cls=>({...cls,...progression.classes[cls.id]})), 'authored level changes and reviewed metadata must survive assembly');
-  assert.deepEqual(data.progressionExplainer,progression.explainer);
+  assert.deepEqual(data.classes.map(({sourceExcerpts,...cls})=>cls), authorClasses.map(cls=>({...cls,...progression.classes[cls.id]})), 'authored level changes and reviewed metadata must survive assembly');
+  const {sourceExcerpts, ...explainer} = data.progressionExplainer;
+  assert.deepEqual(explainer, progression.explainer);
   const indexed = [...load('phb-spell-index.json').spells, ...load('ua-spell-index.json').spells];
   assert.deepEqual(new Set(byId.keys()), new Set(indexed.map(spell => spell.id)));
 });

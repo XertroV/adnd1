@@ -78,7 +78,7 @@ try{
   check(p.net.every(r=>r.method==='GET'&&r.url.startsWith(origin+'/')&&!r.url.includes('.pdf')),'same-origin-only assets with no PDF upload');
   check(p.errors.length===0,'metadata and cache tests have no uncaught errors');await p.close();
 
-  const mismatch=await page();await open(mismatch,item('phb-wrong-item','Wrong','phb-fixture-a.json'));await fail(mismatch,'manifest itemId mismatch falls back to private reader');
+  const mismatch=await page();await open(mismatch,item('phb-wrong-item','Wrong','phb-fixture-a.json'));await isPrivate(mismatch,'wrong-item catalog path falls back to private reader');
   check(!mismatch.net.some(r=>r.url.endsWith('.png')),'mismatched item catalog never fetches a PNG');await mismatch.close();
   const invalid=await page();await invalid.route('**/phb-fixture-a.json',r=>r.fulfill({json:{...catalog(A.id,'A'),regions:[{...catalog(A.id,'A').regions[0],image:'https://example.invalid/private.png'}]}}));
   await open(invalid,A);await fail(invalid,'external image filename is rejected');check(!invalid.net.some(r=>r.url.endsWith('.png')),'unsafe manifest rejected before PNG fetch');await invalid.close();
