@@ -9,6 +9,7 @@ const authoredGear = load('equipment.json').equipment;
 const authoredMatrices = load('attack-matrices.json').matrices;
 const assembled = load('dist/data.json');
 const citationOverrides = load('citation-overrides.json');
+const cropManifest = load('dist/scans/dagger/manifest.json');
 const require = createRequire(import.meta.url);
 const combat = require('../dist/combat.js');
 
@@ -20,8 +21,23 @@ function source(ref, context) {
     assert.ok(Number.isInteger(page) && page > 0 && page <= ({PHB:128, UA:128, DMG:239}[ref.book]), `${context}: valid printed page`);
     if (ref.book === 'DMG') assert.ok(![175, 240].includes(page), `${context}: missing DMG page`);
   }
-  assert.match(ref.status || '', /OCR checked/, `${context}: verification state`);
-  assert.match(ref.status || '', /visual.*pending/i, `${context}: visual verification is pending`);
+  if(ref.verification?.method==='supplied-scan-crop'){
+    assert.ok(ref.verification.regions?.length,`${context}: crop evidence required`);
+    for(const id of ref.verification.regions){
+      const region=cropManifest.regions.find(region=>region.id===id);
+      assert.ok(region,`${context}: known region`);
+      assert.equal(region.book,ref.book,`${context}: evidence retains book identity`);
+      assert.ok(ref.pages.includes(region.printedPage),`${context}: evidence retains printed page`);
+    }
+    assert.match(ref.status || '', /checked/i, `${context}: selected values checked`);
+  }else if(ref.scanVerification?.state==='selected-values-checked'){
+    assert.equal(ref.id,'phb-dagger',`${context}: only dagger was reviewed`);
+    assert.equal(ref.scanVerification.regionCount,7);
+    assert.equal(ref.incomplete,true);
+  }else{
+    assert.match(ref.status || '', /OCR checked/, `${context}: verification state`);
+    assert.match(ref.status || '', /visual.*pending/i, `${context}: visual verification is pending`);
+  }
   assert.doesNotMatch(ref.status || '', /visually verified/i, `${context}: unsupported visual claim`);
 }
 
@@ -34,12 +50,12 @@ test('assembly preserves every equipment and matrix field from the author checkp
 });
 
 for (const [name, gear] of [['authored', authoredGear], ['assembled', assembled.equipment]]) {
-  test(`${name} catalogue distinguishes 45 sourced prices from 35 unavailable prices`, () => {
+  test(`${name} catalogue distinguishes 46 sourced prices from 34 unavailable prices`, () => {
     assert.ok(Array.isArray(gear), 'equipment collection must be assembled');
     assert.equal(gear.length, 80);
     assert.equal(new Set(gear.map(item => item.id)).size, 80, 'stable unique equipment identifiers');
-    assert.equal(gear.filter(item => item.price !== null).length, 45);
-    assert.equal(gear.filter(item => item.price === null).length, 35);
+    assert.equal(gear.filter(item => item.price !== null).length, 46);
+    assert.equal(gear.filter(item => item.price === null).length, 34);
     for (const item of gear) {
       source(item, item.id);
       assert.equal(item.incomplete, true, `${item.id}: catalogue remains a partial transcription`);
