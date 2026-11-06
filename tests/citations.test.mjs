@@ -6,9 +6,10 @@ const require=createRequire(import.meta.url),citations=require('../dist/citation
 const data=JSON.parse(readFileSync(new URL('../dist/data.json',import.meta.url)));
 test('dagger combines primary, individual fields and cross-book references',()=>{
  const groups=citations.collect(data.equipment.find(x=>x.id==='phb-dagger'));
- assert.deepEqual(groups.map(g=>[g.book,g.pages]),[['PHB',[35,37,38]],['UA',[28]]]);
+ assert.deepEqual(groups.map(g=>[g.book,g.pages]),[['PHB',[35,37,38]],['UA',[27,28]]]);
  assert.ok(groups[1].contexts.some(c=>c.label==='Thrown rate (UA p.28)'));
- assert.equal(citations.pages(data.equipment.find(x=>x.id==='phb-dagger')).length,4);
+ assert.ok(groups[1].contexts.some(c=>c.label==='Hand-held AC adjustments (UA p.27)'));
+ assert.equal(citations.pages(data.equipment.find(x=>x.id==='phb-dagger')).length,5);
 });
 test('reviewed override citations retain the actual secondary source identity',()=>{
  const expected={'phb-partisan':['UA',26],'ua-druid-know-alignment':['PHB',45],'ua-magic-user-know-alignment':['PHB',45],'ua-magic-user-detect-illusion':['PHB',94],'ua-magic-user-dispel-illusion':['PHB',96],'ua-magic-user-shine':['DMG',26]};

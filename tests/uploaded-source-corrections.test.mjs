@@ -1,3 +1,4 @@
+import {reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -13,8 +14,9 @@ const get = (items, id) => {
 };
 
 test('PHB weapon corrections retain separate purchase and encumbrance values', () => {
-  const partisan = get(equipment, 'phb-partisan');
-  const ranseur = get(equipment, 'phb-ranseur');
+  const originalEquipment = reverseApprovedEquipmentChanges(assembled.equipment);
+  const partisan = get(originalEquipment, 'phb-partisan');
+  const ranseur = get(originalEquipment, 'phb-ranseur');
   for (const [weapon, amount] of [[partisan, 10], [ranseur, 4]]) {
     assert.deepEqual([weapon.price.amount, weapon.price.currency, weapon.price.book, weapon.price.pages], [amount, 'gp', 'PHB', [35]]);
     assert.match(weapon.price.status, /visually checked/i);
@@ -37,7 +39,7 @@ test('UA spell corrections retain partial-review status and unrelated mechanics'
   const mirage = get(spells, 'ua-illusionist-mirage-arcane');
   assert.match(endure.effect.join(' '), /−30°F.*130°F/);
   assert.match(endure.effect.join(' '), /1 hp\/hour.*1 hp\/turn/);
-  assert.deepEqual(endure.fields, {Range:'Touch', Duration:'9 turns/level', 'Casting time':'1 round', 'Saving throw':'None', Area:'One creature'});
+  assert.deepEqual(endure.fields, {Range:'Touch', Duration:'9 turns/level', 'Casting time':'1 round', 'Saving throw':'None', Area:'One creature', Components:'V, S'});
   assert.equal(mirage.fields.Area, '1″ per level radius');
   assert.equal(mirage.fields.Range, '1″/level');
   assert.equal(mirage.fields['Casting time'], '3 segments, or 6 with material component');
