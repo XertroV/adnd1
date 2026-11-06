@@ -63,7 +63,7 @@ Compact spell and equipment attributes show every extracted value as static, wra
 
 The earlier source-citation batches and private review tooling were merged in PRs #3 and #4. The uploaded-source image pass builds on those checkpoints. The public ChatGPT Site was deployed through PR #6 as version 11; subsequent repository changes are separate. GitHub Pages deploys master automatically. A new ChatGPT Site deployment requires specific approval. See the [batch-2 report](tests/batch2-engineering-review.md) and [remaining-batches report](tests/remaining-batches-engineering-review.md) for exact evidence scope, tests, and remaining source-access limitations.
 
-The current local catalogue contains 88 equipment entries, 84 extracted prices and 4 price extraction gaps. A historical text-citation pass covered the 638 existing spell cards in 35 batches and added structured references; subsequent source and mechanics reviews corrected or expanded selected cards. Explicit monster dependencies now link to MM/MM2; this does not establish a searchable monster catalogue or visual verification of those books.
+The current local catalogue contains 88 equipment entries, 84 extracted prices and 4 printed-price gaps. Each gap has a separately labeled editorial estimate; the source price remains unknown. A historical text-citation pass covered the 638 existing spell cards in 35 batches and added structured references; subsequent source and mechanics reviews corrected or expanded selected cards. Explicit monster dependencies now link to MM/MM2; this does not establish a searchable monster catalogue or visual verification of those books.
 
 ## Remaining scan review workflow
 

@@ -2,30 +2,30 @@
   "schemaVersion": 1,
   "input": {
     "path": "dist/data.json",
-    "sha256": "282f41f32b89a62cde718abed8e6c699b1d7f2a42b83c48d5a55ec9d02416991",
+    "sha256": "075d59b615496c7d3316d22b82406c7aeeb6c6d86c503c13f745cfd0ff11573d",
     "hashFormat": "SHA-256 of JSON.stringify(parsed data)",
     "denominator": "Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.",
     "countSemantics": "Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap."
   },
   "counts": {
     "records": 892,
-    "totalFields": 13084,
-    "inspectedFields": 13079,
+    "totalFields": 13100,
+    "inspectedFields": 13095,
     "sourceCheckedFields": 12508,
     "unchangedSourceCheckedFields": 9879,
     "correctedAndCheckedFields": 2629,
     "correctionPendingFields": 0,
     "notExtractedFields": 11,
     "sourceConflictFields": 22,
-    "editorialReviewedFields": 543,
+    "editorialReviewedFields": 559,
     "staleProposalFields": 0,
     "uncheckedFields": 0
   },
   "percentages": {
     "inspectedFields": 99.96,
-    "sourceCheckedFields": 95.6,
-    "unchangedSourceCheckedFields": 75.5,
-    "correctedAndCheckedFields": 20.09,
+    "sourceCheckedFields": 95.48,
+    "unchangedSourceCheckedFields": 75.41,
+    "correctedAndCheckedFields": 20.07,
     "correctionPendingFields": 0,
     "notExtractedFields": 0.08,
     "uncheckedFields": 0
@@ -101130,6 +101130,54 @@
           ]
         },
         {
+          "path": "/suggestedPrice/amount",
+          "value": 5,
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
+          ]
+        },
+        {
+          "path": "/suggestedPrice/currency",
+          "value": "sp",
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
+          ]
+        },
+        {
+          "path": "/suggestedPrice/unit",
+          "value": "one bo stick",
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
+          ]
+        },
+        {
+          "path": "/suggestedPrice/rationale",
+          "value": "A plain wooden staff is assumed to require less manufacture than the PHB p.35 spear at 1 gp (20 sp) or UA p.26 sap at 1 gp. The 5 sp figure is a discretionary quarter of either comparator, not a printed bo-stick price.",
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
+          ]
+        },
+        {
           "path": "/fields/Approx. weight",
           "value": "15 gp-weight (encumbrance; not purchase cost)",
           "status": "source-checked",
@@ -101390,6 +101438,45 @@
           "book": "UA",
           "page": 27,
           "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/suggestedPrice",
+          "oldValue": null,
+          "newValue": {
+            "amount": 5,
+            "currency": "sp",
+            "unit": "one bo stick",
+            "rationale": "A plain wooden staff is assumed to require less manufacture than the PHB p.35 spear at 1 gp (20 sp) or UA p.26 sap at 1 gp. The 5 sp figure is a discretionary quarter of either comparator, not a printed bo-stick price.",
+            "comparisons": [
+              {
+                "itemId": "phb-spear",
+                "amount": 1,
+                "currency": "gp",
+                "unit": "one",
+                "book": "PHB",
+                "pages": [
+                  35
+                ],
+                "label": "Comparison: Spear (not this item price)",
+                "status": "Printed comparator price; estimate remains editorial"
+              },
+              {
+                "itemId": "ua-sap",
+                "amount": 1,
+                "currency": "gp",
+                "unit": "one",
+                "book": "UA",
+                "pages": [
+                  26
+                ],
+                "label": "Comparison: Sap (not this item price)",
+                "status": "Printed comparator price; estimate remains editorial"
+              }
+            ]
+          },
+          "reason": "Editorial suggestion reviewed against comparator prices; the printed price remains unextracted.",
+          "state": "corrected-and-checked"
         }
       ]
     },
@@ -101404,6 +101491,54 @@
           "inspected": true,
           "checkers": [
             "mechanics-equipment"
+          ]
+        },
+        {
+          "path": "/suggestedPrice/amount",
+          "value": 2,
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
+          ]
+        },
+        {
+          "path": "/suggestedPrice/currency",
+          "value": "sp",
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
+          ]
+        },
+        {
+          "path": "/suggestedPrice/unit",
+          "value": "one club",
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
+          ]
+        },
+        {
+          "path": "/suggestedPrice/rationale",
+          "value": "Assumes a simply shaped purchased wooden club; the UA p.26 sap is 1 gp (20 sp). A lower 2 sp suggestion is a judgment about simple materials and workmanship, not a printed club price or a rule preventing scavenging a club.",
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
           ]
         },
         {
@@ -101794,6 +101929,33 @@
           "book": "PHB",
           "page": 39,
           "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands.",
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/suggestedPrice",
+          "oldValue": null,
+          "newValue": {
+            "amount": 2,
+            "currency": "sp",
+            "unit": "one club",
+            "rationale": "Assumes a simply shaped purchased wooden club; the UA p.26 sap is 1 gp (20 sp). A lower 2 sp suggestion is a judgment about simple materials and workmanship, not a printed club price or a rule preventing scavenging a club.",
+            "comparisons": [
+              {
+                "itemId": "ua-sap",
+                "amount": 1,
+                "currency": "gp",
+                "unit": "one",
+                "book": "UA",
+                "pages": [
+                  26
+                ],
+                "label": "Comparison: Sap (not this item price)",
+                "status": "Printed comparator price; estimate remains editorial"
+              }
+            ]
+          },
+          "reason": "Editorial suggestion reviewed against comparator prices; the printed price remains unextracted.",
           "state": "corrected-and-checked"
         }
       ]
@@ -106147,6 +106309,54 @@
           ]
         },
         {
+          "path": "/suggestedPrice/amount",
+          "value": 5,
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
+          ]
+        },
+        {
+          "path": "/suggestedPrice/currency",
+          "value": "sp",
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
+          ]
+        },
+        {
+          "path": "/suggestedPrice/unit",
+          "value": "one quarterstaff",
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
+          ]
+        },
+        {
+          "path": "/suggestedPrice/rationale",
+          "value": "Assumes a plain prepared wooden staff, without a metal point; the PHB p.35 spear is 1 gp (20 sp) and UA p.26 staff sling is 2 gp (40 sp). The 5 sp suggestion is an arbitrary lower price, not a printed quarterstaff price.",
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
+          ]
+        },
+        {
           "path": "/fields/Approx. weight",
           "value": "50 gp-weight (encumbrance; not purchase cost)",
           "status": "source-checked",
@@ -106490,6 +106700,45 @@
           "reason": "UA hand-held table prints armor-class-specific adjustments in columns 0–10; this is the UA row, not the PHB p.38 row.",
           "book": "UA",
           "page": 27,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/suggestedPrice",
+          "oldValue": null,
+          "newValue": {
+            "amount": 5,
+            "currency": "sp",
+            "unit": "one quarterstaff",
+            "rationale": "Assumes a plain prepared wooden staff, without a metal point; the PHB p.35 spear is 1 gp (20 sp) and UA p.26 staff sling is 2 gp (40 sp). The 5 sp suggestion is an arbitrary lower price, not a printed quarterstaff price.",
+            "comparisons": [
+              {
+                "itemId": "phb-spear",
+                "amount": 1,
+                "currency": "gp",
+                "unit": "one",
+                "book": "PHB",
+                "pages": [
+                  35
+                ],
+                "label": "Comparison: Spear (not this item price)",
+                "status": "Printed comparator price; estimate remains editorial"
+              },
+              {
+                "itemId": "ua-staff-sling",
+                "amount": 2,
+                "currency": "gp",
+                "unit": "one",
+                "book": "UA",
+                "pages": [
+                  26
+                ],
+                "label": "Comparison: Staff sling (not this item price)",
+                "status": "Printed comparator price; estimate remains editorial"
+              }
+            ]
+          },
+          "reason": "Editorial suggestion reviewed against comparator prices; the printed price remains unextracted.",
           "state": "corrected-and-checked"
         }
       ]
@@ -107687,6 +107936,54 @@
           ]
         },
         {
+          "path": "/suggestedPrice/amount",
+          "value": 1,
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
+          ]
+        },
+        {
+          "path": "/suggestedPrice/currency",
+          "value": "sp",
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
+          ]
+        },
+        {
+          "path": "/suggestedPrice/unit",
+          "value": "20 selected sling stones",
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
+          ]
+        },
+        {
+          "path": "/suggestedPrice/rationale",
+          "value": "The PHB p.35 lists 20 sling bullets for 10 sp. This suggestion assumes a purchased, selected set of 20 stones costs less than manufactured bullets; 1 sp is a discretionary package price, not a printed stone price. Suitable stones might instead be gathered at the DM's discretion.",
+          "status": "editorial-reviewed",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment"
+          ],
+          "changePaths": [
+            "/suggestedPrice"
+          ]
+        },
+        {
           "path": "/fields/Approx. weight",
           "value": "1 gp-weight (encumbrance; not cost)",
           "status": "source-checked",
@@ -107855,6 +108152,33 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-equipment",
+          "path": "/suggestedPrice",
+          "oldValue": null,
+          "newValue": {
+            "amount": 1,
+            "currency": "sp",
+            "unit": "20 selected sling stones",
+            "rationale": "The PHB p.35 lists 20 sling bullets for 10 sp. This suggestion assumes a purchased, selected set of 20 stones costs less than manufactured bullets; 1 sp is a discretionary package price, not a printed stone price. Suitable stones might instead be gathered at the DM's discretion.",
+            "comparisons": [
+              {
+                "itemId": "phb-sling-bullet",
+                "amount": 10,
+                "currency": "sp",
+                "unit": "20 bullets",
+                "book": "PHB",
+                "pages": [
+                  35
+                ],
+                "label": "Comparison: Sling bullets (not this item price)",
+                "status": "Printed comparator price; estimate remains editorial"
+              }
+            ]
+          },
+          "reason": "Editorial suggestion reviewed against comparator prices; the printed price remains unextracted.",
           "state": "corrected-and-checked"
         }
       ]
@@ -184669,7 +184993,12 @@
         "/fields/Hand-held AC adjustments (UA p.27)": "AC 0 through 10: -13, -11, -9, -7, -5, -3, -1, 0, +1, 0, +3",
         "/summary": "Weapon weight uses gold-piece encumbrance units. Damage is shown as the source's numeric range for the indicated target size."
       },
-      "reviewedPaths": [],
+      "reviewedPaths": [
+        {
+          "path": "/suggestedPrice",
+          "result": "Editorial price estimate and rationale independently reviewed; not a printed or source-verified price."
+        }
+      ],
       "sources": [
         {
           "book": "PHB",
@@ -184796,6 +185125,43 @@
           "reason": "UA hand-held table prints armor-class-specific adjustments in columns 0–10; this is the UA row, not the PHB p.38 row.",
           "book": "UA",
           "page": 27
+        },
+        {
+          "path": "/suggestedPrice",
+          "oldValue": null,
+          "newValue": {
+            "amount": 5,
+            "currency": "sp",
+            "unit": "one bo stick",
+            "rationale": "A plain wooden staff is assumed to require less manufacture than the PHB p.35 spear at 1 gp (20 sp) or UA p.26 sap at 1 gp. The 5 sp figure is a discretionary quarter of either comparator, not a printed bo-stick price.",
+            "comparisons": [
+              {
+                "itemId": "phb-spear",
+                "amount": 1,
+                "currency": "gp",
+                "unit": "one",
+                "book": "PHB",
+                "pages": [
+                  35
+                ],
+                "label": "Comparison: Spear (not this item price)",
+                "status": "Printed comparator price; estimate remains editorial"
+              },
+              {
+                "itemId": "ua-sap",
+                "amount": 1,
+                "currency": "gp",
+                "unit": "one",
+                "book": "UA",
+                "pages": [
+                  26
+                ],
+                "label": "Comparison: Sap (not this item price)",
+                "status": "Printed comparator price; estimate remains editorial"
+              }
+            ]
+          },
+          "reason": "Editorial suggestion reviewed against comparator prices; the printed price remains unextracted."
         }
       ]
     },
@@ -184837,7 +185203,12 @@
         "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors",
         "/summary": "Weapon weight uses gold-piece encumbrance units. Damage is shown as the source's numeric range for the indicated target size."
       },
-      "reviewedPaths": [],
+      "reviewedPaths": [
+        {
+          "path": "/suggestedPrice",
+          "result": "Editorial price estimate and rationale independently reviewed; not a printed or source-verified price."
+        }
+      ],
       "sources": [
         {
           "book": "PHB",
@@ -185028,6 +185399,31 @@
           "book": "PHB",
           "page": 39,
           "reason": "PHB p.39 provides the general missile range scale, explicitly illustrating longbows, slings, darts, javelins and crossbows. Apply as general context to the printed range bands."
+        },
+        {
+          "path": "/suggestedPrice",
+          "oldValue": null,
+          "newValue": {
+            "amount": 2,
+            "currency": "sp",
+            "unit": "one club",
+            "rationale": "Assumes a simply shaped purchased wooden club; the UA p.26 sap is 1 gp (20 sp). A lower 2 sp suggestion is a judgment about simple materials and workmanship, not a printed club price or a rule preventing scavenging a club.",
+            "comparisons": [
+              {
+                "itemId": "ua-sap",
+                "amount": 1,
+                "currency": "gp",
+                "unit": "one",
+                "book": "UA",
+                "pages": [
+                  26
+                ],
+                "label": "Comparison: Sap (not this item price)",
+                "status": "Printed comparator price; estimate remains editorial"
+              }
+            ]
+          },
+          "reason": "Editorial suggestion reviewed against comparator prices; the printed price remains unextracted."
         }
       ]
     },
@@ -187574,6 +187970,10 @@
         {
           "path": "/summary",
           "result": "Editorial review: The record now includes the printed PHB damage fields; the summary describes weight and damage units."
+        },
+        {
+          "path": "/suggestedPrice",
+          "result": "Editorial price estimate and rationale independently reviewed; not a printed or source-verified price."
         }
       ],
       "sources": [
@@ -187768,6 +188168,43 @@
           "reason": "UA hand-held table prints armor-class-specific adjustments in columns 0–10; this is the UA row, not the PHB p.38 row.",
           "book": "UA",
           "page": 27
+        },
+        {
+          "path": "/suggestedPrice",
+          "oldValue": null,
+          "newValue": {
+            "amount": 5,
+            "currency": "sp",
+            "unit": "one quarterstaff",
+            "rationale": "Assumes a plain prepared wooden staff, without a metal point; the PHB p.35 spear is 1 gp (20 sp) and UA p.26 staff sling is 2 gp (40 sp). The 5 sp suggestion is an arbitrary lower price, not a printed quarterstaff price.",
+            "comparisons": [
+              {
+                "itemId": "phb-spear",
+                "amount": 1,
+                "currency": "gp",
+                "unit": "one",
+                "book": "PHB",
+                "pages": [
+                  35
+                ],
+                "label": "Comparison: Spear (not this item price)",
+                "status": "Printed comparator price; estimate remains editorial"
+              },
+              {
+                "itemId": "ua-staff-sling",
+                "amount": 2,
+                "currency": "gp",
+                "unit": "one",
+                "book": "UA",
+                "pages": [
+                  26
+                ],
+                "label": "Comparison: Staff sling (not this item price)",
+                "status": "Printed comparator price; estimate remains editorial"
+              }
+            ]
+          },
+          "reason": "Editorial suggestion reviewed against comparator prices; the printed price remains unextracted."
         }
       ]
     },
@@ -188438,7 +188875,12 @@
         "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
         "/summary": "The weapon table provides the listed ammunition's approximate weight and any legible damage values. Packaging in the price table is a separate quantity."
       },
-      "reviewedPaths": [],
+      "reviewedPaths": [
+        {
+          "path": "/suggestedPrice",
+          "result": "Editorial price estimate and rationale independently reviewed; not a printed or source-verified price."
+        }
+      ],
       "sources": [
         {
           "book": "PHB",
@@ -188515,6 +188957,31 @@
           "reason": "Printed UA missile table note applies an additional range penalty.",
           "book": "UA",
           "page": 28
+        },
+        {
+          "path": "/suggestedPrice",
+          "oldValue": null,
+          "newValue": {
+            "amount": 1,
+            "currency": "sp",
+            "unit": "20 selected sling stones",
+            "rationale": "The PHB p.35 lists 20 sling bullets for 10 sp. This suggestion assumes a purchased, selected set of 20 stones costs less than manufactured bullets; 1 sp is a discretionary package price, not a printed stone price. Suitable stones might instead be gathered at the DM's discretion.",
+            "comparisons": [
+              {
+                "itemId": "phb-sling-bullet",
+                "amount": 10,
+                "currency": "sp",
+                "unit": "20 bullets",
+                "book": "PHB",
+                "pages": [
+                  35
+                ],
+                "label": "Comparison: Sling bullets (not this item price)",
+                "status": "Printed comparator price; estimate remains editorial"
+              }
+            ]
+          },
+          "reason": "Editorial suggestion reviewed against comparator prices; the printed price remains unextracted."
         }
       ]
     },

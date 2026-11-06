@@ -1,22 +1,22 @@
 # Mechanics audit progress
 
-Snapshot of **892 records / 13,084 tracked mechanics fields**.
+Snapshot of **892 records / 13,100 tracked mechanics fields**.
 
-**95.6% source-checked**; **99.96% inspected**. Inspection includes pending corrections and editorial review. Neither percentage measures whole-book coverage or implies every rule is complete.
+**95.48% source-checked**; **99.96% inspected**. Inspection includes pending corrections and editorial review. Neither percentage measures whole-book coverage or implies every rule is complete.
 
 | Collection | Fields | Source-checked | Corrections pending | Unchecked |
 | --- | ---: | ---: | ---: | ---: |
 | spells | 8117 | 7857 | 0 | 0 |
-| equipment | 817 | 755 | 0 | 0 |
+| equipment | 833 | 755 | 0 | 0 |
 | rules | 683 | 660 | 0 | 0 |
 | classes | 3177 | 2953 | 0 | 0 |
 | matrices | 281 | 276 | 0 | 0 |
 | progressionExplainer | 9 | 7 | 0 | 0 |
 
-Other dispositions: 11 unextracted fields; 22 explicit field-level source conflicts; 543 editorial/advisory fields reviewed separately. Additional unresolved qualifications are retained in the per-record notes.
+Other dispositions: 11 unextracted fields; 22 explicit field-level source conflicts; 559 editorial/advisory fields reviewed separately. Additional unresolved qualifications are retained in the per-record notes.
 
 The [full field log](mechanics-audit-progress.json) preserves values, checkers, source pages/file hashes, pending old/new corrections and unchecked work. See the [log guide](README.md) for definitions and regeneration.
 
-Assembled-data SHA-256: `282f41f32b89a62cde718abed8e6c699b1d7f2a42b83c48d5a55ec9d02416991`.
+Assembled-data SHA-256: `075d59b615496c7d3316d22b82406c7aeeb6c6d86c503c13f745cfd0ff11573d`.
 
 This is a saved checkpoint, not a live estimate. Run `node tools/mechanics-audit.mjs --check` to verify it.

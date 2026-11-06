@@ -10,11 +10,11 @@ The value-level log covers the currently extracted fields of all 88 equipment re
 | DMG 27, 225 | Existing armor movement and adjusted encumbrance; matched supplies and ammunition. Gold-piece encumbrance is distinct from purchase currency. Generic-container rows are not silently converted to item-specific quantities. |
 | DMG 64–65 | Oil and holy-water grenade assumptions, effects, ignition and target restrictions, without asserting general fuel duration or bottle capacity. |
 
-Every accepted addition has an exact field source and a matching public excerpt. Independent review snapshots are preserved in the equipment regression fixtures, and the durable mechanics log records current values, source PDF hashes and source pages. Whole-record `incomplete` flags remain: checking these assertions does not establish that no other rule applies.
+Every source-backed addition has an exact field source and a matching public excerpt. Suggested prices are editorial; their excerpts document comparator prices only, not prices for the four suggested items. Independent review snapshots are preserved in the equipment regression fixtures, and the durable mechanics log records current values, source PDF hashes and source pages. Whole-record `incomplete` flags remain: checking these assertions does not establish that no other rule applies.
 
 ## Remaining evidence limits
 
-- No numeric purchase price was found for the bo stick, club, quarterstaff or sling stone in the bounded search of supplied PHB/UA/DMG text and visually inspected PHB 35/123 and UA 26 cost tables. See [the price investigation](../tests/ua-missing-weapon-prices-investigation.md). No free price or estimate is substituted.
+- No numeric purchase price was found for the bo stick, club, quarterstaff or sling stone in the bounded search of supplied PHB/UA/DMG text and visually inspected PHB 35/123 and UA 26 cost tables. See [the price investigation](../tests/ua-missing-weapon-prices-investigation.md). Each card now offers a separately labeled editorial suggestion; the printed price remains unknown and no free price is inferred.
 - Staff-sling missile rows have no short-range band while the shared adjustment note uses a short-range baseline. The printed numbers and the interpretation gap remain separate.
 - Some armor weight rows include an unexplained plus sign. The human-size, bulk and source-book qualifiers are preserved.
 - Generic quiver, lantern, mirror and flask encumbrance rows do not establish every named variant's exact weight or contents. The DMG rations row does not identify a period; no weekly quantity is inferred.

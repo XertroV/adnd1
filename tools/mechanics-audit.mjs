@@ -7,7 +7,7 @@ import { isDeepStrictEqual } from 'node:util';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const allow = {
   spells: ['class','level','classes','fields','effect','conditions','exceptions'],
-  equipment: ['price','fields','summary','priceNote'],
+  equipment: ['price','suggestedPrice','fields','summary','priceNote'],
   rules: ['summary','bullets'],
   classes: ['hitDie','description','xpRows','levelChanges','guidance','xpContinuation','levelLimit','maxLevel','minLevel','xpNote','attackTableNote','errata','retainedSkillsNote','progression','pendingMechanics'],
   matrices: ['armorClasses','rows','notes','ruleNotes','comparisonExamples'],
@@ -15,6 +15,7 @@ const allow = {
 };
 const excluded = new Set(['book','pages','page','pdfPage','status','incomplete','id','label','references','reference','source','sources','sourceExcerpts','sourceSha256','verification','checkedOn','additionalSources']);
 const priceKeys = new Set(['amount','currency','unit']);
+const suggestionKeys = new Set(['amount','currency','unit','rationale']);
 const esc = s => String(s).replaceAll('~','~0').replaceAll('/','~1');
 const unesc = s => s.replaceAll('~1','/').replaceAll('~0','~');
 const containsPath = (parent, child) => parent === '' || parent === '/' || child === parent || child.startsWith(parent + '/');
@@ -35,7 +36,7 @@ function flatten(value, pointer, out, collection) {
     else value.forEach((v,i) => flatten(v, `${pointer}/${i}`, out, collection));
     return;
   }
-  const keys = Object.keys(value).filter(k => !excluded.has(k) && (collection !== 'equipment' || pointer !== '/price' || priceKeys.has(k)));
+  const keys = Object.keys(value).filter(k => !excluded.has(k) && (collection !== 'equipment' || pointer !== '/price' || priceKeys.has(k)) && (collection !== 'equipment' || pointer !== '/suggestedPrice' || suggestionKeys.has(k)));
   if (!keys.length) return;
   for (const key of keys) flatten(value[key], `${pointer}/${esc(key)}`, out, collection);
 }
@@ -90,6 +91,7 @@ export function buildLedger(data, proposals, {alreadyNormalized=false,previousRe
         else if (related.some(c=>c.state==='correction-proposed')) status='correction-proposed';
         else if (staleCheck && !related.some(c=>c.state==='corrected-and-checked')) status='stale-proposal';
         else if (unresolved.some(u=>conflict(u.reason))) status='source-conflict';
+        else if (collection==='equipment' && containsPath('/suggestedPrice',field.path) && (editorial || checkers.length || related.some(c=>c.state==='corrected-and-checked'))) status='editorial-reviewed';
         else if (editorial && related.some(c=>c.state==='corrected-and-checked')) status='editorial-reviewed';
         else if (blank(field.value)) status='not-extracted';
         else if (related.some(c=>c.state==='corrected-and-checked')) status='corrected-and-checked';

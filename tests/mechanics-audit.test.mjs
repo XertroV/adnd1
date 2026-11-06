@@ -81,3 +81,15 @@ test('an accepted parent correction cannot promote a retained extraction gap',()
  d.spells[0].exceptions=['Gap: changed without review'];
  assert.equal(buildLedger(d,p).records.find(r=>r.id==='s').fields.find(f=>f.path==='/exceptions/0').status,'stale-proposal');
 });
+
+test('suggested prices are editorial even when checked, and later edits lose review',()=>{
+ const d=data(),p=proposals();
+ d.equipment[0].suggestedPrice={amount:2,currency:'sp',unit:'one item',rationale:'Editorial comparison',comparisons:[{amount:1,currency:'gp',book:'PHB',pages:[35]}]};
+ p[0].records[1].checkedPaths.push('/suggestedPrice');
+ const ledger=buildLedger(d,p),fields=ledger.records.find(r=>r.id==='e').fields.filter(f=>f.path.startsWith('/suggestedPrice'));
+ assert.equal(fields.length,4);assert.ok(fields.every(f=>f.status==='editorial-reviewed'));
+ d.equipment[0].suggestedPrice.amount=200;
+ const changed=buildLedger(d,ledger.reviewRecords,{alreadyNormalized:true});
+ assert.equal(changed.records.find(r=>r.id==='e').fields.find(f=>f.path==='/suggestedPrice/amount').status,'stale-proposal');
+ assert.ok(validateLedger(changed,d).some(e=>e.includes('changed without')));
+});

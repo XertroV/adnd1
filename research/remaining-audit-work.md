@@ -24,7 +24,7 @@ The bounded equipment review covers all 88 existing entries and the source areas
 
 | Item or issue | Evidence checked | What remains needed |
 | --- | --- | --- |
-| Bo stick, club, quarterstaff, sling stone purchase prices | Supplied PHB/UA/DMG text; visual PHB pp.35/123 and UA p.26 price tables | A directly applicable listed purchase price or an explicitly adopted house price. Encumbrance is not price; absence does not mean free. |
+| Bo stick, club, quarterstaff, sling stone purchase prices | Supplied PHB/UA/DMG text; visual PHB pp.35/123 and UA p.26 price tables | Printed prices remain unknown. Separately labeled editorial suggestions are available for all four; the DM may adopt or change them. Encumbrance is not price, and absence does not mean free. |
 | Staff-sling range adjustments | UA weapon/range tables and notes | A ruling or authoritative clarification of the absent short-range band versus the shared short-range adjustment baseline. |
 | Armor weights with printed plus signs | UA armor tables | An applicable explanation of the plus signs; no extra weight is guessed. |
 | Generic container weights and ration quantities | DMG p.225 | Item-specific quantities/variant identification where the generic row does not establish them. The rations row does not establish a weekly quantity. |

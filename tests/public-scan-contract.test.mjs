@@ -20,7 +20,7 @@ test('every current cited record and available page has a scoped source excerpt'
    pairs++;
   }
  }
- assert.equal(pairs,1851);
+ assert.equal(pairs,1855);
 });
 test('all public catalogs bind to cited pages and checked PNG bytes',()=>{
  const checked=new Map();let regions=0;
