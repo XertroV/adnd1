@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 1,
+  "status": "applied-after-systemic-baseline-and-exact-source-review",
+  "scope": "Only these2 complete named-spell excerpts have explicit independently reviewed unmarked whole-spell scope. Individual fact precision is separate;152 historical unscoped exceptions are not waived.",
+  "originalPrivateReceiptSha256": "d37a622c7b3b5efbeb3036b3dfa87985423f0d9709812ffd854ad82792cda524",
+  "pathHandling": "Private absolute paths below are reduced to basenames; source files and full page renders are not published.",
+  "sourceReview": {
+    "schemaVersion": 1,
+    "status": "proposal-only-not-applied",
+    "scope": "Read-only original-source and exact-public-image review of the two PHB spell excerpts flagged by dogfooding for initial source-stage viewport framing. The dogfood report itself says the issue is viewport framing, not proof of PNG clipping.",
+    "method": "Verified the original PHB PDF SHA-256 against both catalogs; rendered each catalog PDF page plus the next PDF page to /tmp; visually compared full-page source renders with the exact public PNGs whose bytes match catalog image SHA-256; checked page text flow for continuation; computed the existing visual-review tool’s exact four hashes for each region. No catalog, viewer, or review-ledger data was changed.",
+    "sourcePdf": {
+      "path": "tsr2010-players-handbook.pdf",
+      "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+    },
+    "previousReviewLedger": {
+      "path": "research/source-visual-reviews.json",
+      "sha256": "13dfbf2443a6804bd57cf74029539fb04f3d7be7dd717fbff8a317f4b3089473",
+      "existingReviewCount": 896,
+      "matchingExactHashReviewCount": 0,
+      "note": "No exact-hash current ledger review was found for these two usages. This receipt proposes additive records only and does not alter the ledger or the 152 historical unscoped exceptions."
+    },
+    "records": [
+      {
+        "candidateId": "dogfood-phb-magic-user-fireball",
+        "category": "viewport-framing",
+        "dogfoodStatus": "pending-defect",
+        "dogfoodReason": "Read-only dogfooding reproduced the source stage opening scrolled to the bottom in a fresh tab, hiding its header. This is a reported viewport-framing issue, not evidence that the PNG is clipped.",
+        "identity": {
+          "collection": "spells",
+          "itemId": "phb-magic-user-fireball",
+          "binding": "sourceExcerpts",
+          "catalog": "scans/verified/spells-phb-magic-user-fireball.json",
+          "regionId": "phb-73-98d1b9198302b818",
+          "book": "PHB",
+          "printedPage": 73,
+          "pdfPage": 74
+        },
+        "source": {
+          "file": "tsr2010-players-handbook.pdf",
+          "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "pageSizePoints": {
+            "width": 609.119,
+            "height": 812.16
+          },
+          "followingPrintedPage": 74,
+          "continuationCheckedPdfPage": 75
+        },
+        "catalog": {
+          "path": "dist/scans/verified/spells-phb-magic-user-fireball.json",
+          "sha256": "114965ddb9b301eeb6b34ddbd6cc7f012bef97e93043f7b954d287ae1fbf62f8",
+          "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        "publicImage": {
+          "path": "dist/scans/verified/phb-73-98d1b9198302b818.png",
+          "sha256": "98d1b9198302b818bec6c2a6bb7480d840b8d87ecd84c235088744c8b59967b8",
+          "actualBytesSha256": "98d1b9198302b818bec6c2a6bb7480d840b8d87ecd84c235088744c8b59967b8",
+          "width": 565,
+          "height": 575
+        },
+        "fourHashes": {
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "imageSha256": "98d1b9198302b818bec6c2a6bb7480d840b8d87ecd84c235088744c8b59967b8",
+          "focusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+          "contentSha256": "dd67f8e7acfbe26cf209dcdba16e010278ad9f16ed29dca7a918b76ac046e6b2"
+        },
+        "bounds": {
+          "space": "source-page",
+          "origin": "top-left",
+          "units": "normalized",
+          "format": "xywh",
+          "values": [
+            0.5,
+            0.13836774231180743,
+            0.49,
+            0.3643772605837849
+          ],
+          "publicImageContainsRegion": true
+        },
+        "fullPageVisualCheck": {
+          "pageRender": "phb-fireball-page-074.png",
+          "pageRenderSha256": "27fd8c70248da65a81d2e59f258dfe541271da35cd3e98e61dbdbfdaee0b504e",
+          "followingPageRender": "phb-fireball-page-075.png",
+          "followingPageRenderSha256": "7b0415375f7a2acdb8f3a960f853ee07a929a1a10991d9aac83e7dc5994fcd59",
+          "beginning": "Fireball (Evocation), then level/components/range/duration/saving throw/area before the Explanation/Description.",
+          "ending": "The entry concludes with its bat-guano-and-sulphur material component, immediately before Flame Arrow.",
+          "neighborPage": "The following printed page continues other 3rd-level spells; it does not continue Fireball.",
+          "observation": "The published image contains the heading, all listed spell parameters, the entire explanatory text including damage exceptions and effects, and the final material-component sentence. Full-page PDF render shows it is a single complete spell entry in the right column; it ends before Flame Arrow."
+        },
+        "oldExactHashReviewExists": false,
+        "proposedAssessment": {
+          "dimension": "highlight",
+          "status": "exception",
+          "independent": true,
+          "scope": "whole-spell",
+          "kind": "whole-spell-unmarked",
+          "evidence": "Private read-only review receipt: /workspace/scratch/fireball-sleep-whole-spell-review.json. Checked hash-bound PHB original page and the exact published full-spell image against both source pages; complete named spell is shown unmarked."
+        },
+        "factTargetPolicy": "This whole-spell exception is only for an unmarked whole-spell view. It does not establish any individual field’s source support or waive precise fact-target focus.",
+        "proposedLedgerRecord": {
+          "collection": "spells",
+          "itemId": "phb-magic-user-fireball",
+          "binding": "sourceExcerpts",
+          "regionId": "phb-73-98d1b9198302b818",
+          "imageSha256": "98d1b9198302b818bec6c2a6bb7480d840b8d87ecd84c235088744c8b59967b8",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "focusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+          "contentSha256": "dd67f8e7acfbe26cf209dcdba16e010278ad9f16ed29dca7a918b76ac046e6b2",
+          "assessments": {
+            "highlight": {
+              "status": "exception",
+              "independent": true,
+              "scope": "whole-spell",
+              "kind": "whole-spell-unmarked",
+              "evidence": "Independent original-source and exact public-image review is recorded in this proposal receipt, including the complete printed-page spell and following-page continuation check."
+            }
+          }
+        }
+      },
+      {
+        "candidateId": "dogfood-phb-magic-user-sleep",
+        "category": "viewport-framing",
+        "dogfoodStatus": "pending-defect",
+        "dogfoodReason": "Read-only dogfooding reproduced the source stage opening scrolled to the bottom in a fresh tab, hiding its header. This is a reported viewport-framing issue, not evidence that the PNG is clipped.",
+        "identity": {
+          "collection": "spells",
+          "itemId": "phb-magic-user-sleep",
+          "binding": "sourceExcerpts",
+          "catalog": "scans/verified/spells-phb-magic-user-sleep.json",
+          "regionId": "phb-68-7b273e6d36dc7819",
+          "book": "PHB",
+          "printedPage": 68,
+          "pdfPage": 69
+        },
+        "source": {
+          "file": "tsr2010-players-handbook.pdf",
+          "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "pageSizePoints": {
+            "width": 609.119,
+            "height": 812.16
+          },
+          "followingPrintedPage": 69,
+          "continuationCheckedPdfPage": 70
+        },
+        "catalog": {
+          "path": "dist/scans/verified/spells-phb-magic-user-sleep.json",
+          "sha256": "c0d03f420b9ce1fc97299be234b0145b24889c49949defb59120b076c66eb693",
+          "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        "publicImage": {
+          "path": "dist/scans/verified/phb-68-7b273e6d36dc7819.png",
+          "sha256": "7b273e6d36dc7819929ac23c0dd8cf0436fbb066b8cb5710f6d33ba25c6cb8d7",
+          "actualBytesSha256": "7b273e6d36dc7819929ac23c0dd8cf0436fbb066b8cb5710f6d33ba25c6cb8d7",
+          "width": 563,
+          "height": 590
+        },
+        "fourHashes": {
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "imageSha256": "7b273e6d36dc7819929ac23c0dd8cf0436fbb066b8cb5710f6d33ba25c6cb8d7",
+          "focusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+          "contentSha256": "da53916ae674effd2811120c3f647495eef3ef0a7bcb803617eae3cdc78e5805"
+        },
+        "bounds": {
+          "space": "source-page",
+          "origin": "top-left",
+          "units": "normalized",
+          "format": "xywh",
+          "values": [
+            0.5,
+            0.22996296316940698,
+            0.49,
+            0.3735415117368842
+          ],
+          "publicImageContainsRegion": true
+        },
+        "fullPageVisualCheck": {
+          "pageRender": "phb-sleep-page-069.png",
+          "pageRenderSha256": "533610744a5d0911791528af4f294174ad54d5418ba0915b09956ecb97b83df4",
+          "followingPageRender": "phb-sleep-page-070.png",
+          "followingPageRenderSha256": "2bd57744da5bab70a4f4e80a9b3db5018fa2d8cd22ea1ef89d8f081e7be25b22",
+          "beginning": "Sleep (Enchantment/Charm), then level/components/range/duration/saving throw/area before the Explanation/Description.",
+          "ending": "The entry concludes with the sand, rose-petal, or live-cricket material component before Spider Climb.",
+          "neighborPage": "The following printed page continues Tenser’s Floating Disc and other spell material; it does not continue Sleep.",
+          "observation": "The published image contains the heading, all listed spell parameters, the complete affected-creature table, the full explanation, and the final material-component sentence. Full-page PDF render shows it is a single complete spell entry in the right column; it ends before Spider Climb."
+        },
+        "oldExactHashReviewExists": false,
+        "proposedAssessment": {
+          "dimension": "highlight",
+          "status": "exception",
+          "independent": true,
+          "scope": "whole-spell",
+          "kind": "whole-spell-unmarked",
+          "evidence": "Private read-only review receipt: /workspace/scratch/fireball-sleep-whole-spell-review.json. Checked hash-bound PHB original page and the exact published full-spell image against both source pages; complete named spell is shown unmarked."
+        },
+        "factTargetPolicy": "This whole-spell exception is only for an unmarked whole-spell view. It does not establish any individual field’s source support or waive precise fact-target focus.",
+        "proposedLedgerRecord": {
+          "collection": "spells",
+          "itemId": "phb-magic-user-sleep",
+          "binding": "sourceExcerpts",
+          "regionId": "phb-68-7b273e6d36dc7819",
+          "imageSha256": "7b273e6d36dc7819929ac23c0dd8cf0436fbb066b8cb5710f6d33ba25c6cb8d7",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "focusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+          "contentSha256": "da53916ae674effd2811120c3f647495eef3ef0a7bcb803617eae3cdc78e5805",
+          "assessments": {
+            "highlight": {
+              "status": "exception",
+              "independent": true,
+              "scope": "whole-spell",
+              "kind": "whole-spell-unmarked",
+              "evidence": "Independent original-source and exact public-image review is recorded in this proposal receipt, including the complete printed-page spell and following-page continuation check."
+            }
+          }
+        }
+      }
+    ],
+    "globalPolicy": "A whole-spell unmarked exception applies only to these exact four-hash usages if separately accepted. Field-specific facts still require precise highlights."
+  },
+  "appliedRecords": [
+    {
+      "collection": "spells",
+      "itemId": "phb-magic-user-fireball",
+      "binding": "sourceExcerpts",
+      "regionId": "phb-73-98d1b9198302b818",
+      "imageSha256": "98d1b9198302b818bec6c2a6bb7480d840b8d87ecd84c235088744c8b59967b8",
+      "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "focusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+      "contentSha256": "dd67f8e7acfbe26cf209dcdba16e010278ad9f16ed29dca7a918b76ac046e6b2",
+      "assessments": {
+        "highlight": {
+          "status": "exception",
+          "independent": true,
+          "scope": "whole-spell",
+          "kind": "whole-spell-unmarked",
+          "evidence": "research/whole-spell-unmarked-review.json: independent original-source/full-image review, complete named spell through final components, following page checked for continuation; individual facts still require precise highlights."
+        }
+      }
+    },
+    {
+      "collection": "spells",
+      "itemId": "phb-magic-user-sleep",
+      "binding": "sourceExcerpts",
+      "regionId": "phb-68-7b273e6d36dc7819",
+      "imageSha256": "7b273e6d36dc7819929ac23c0dd8cf0436fbb066b8cb5710f6d33ba25c6cb8d7",
+      "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "focusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+      "contentSha256": "da53916ae674effd2811120c3f647495eef3ef0a7bcb803617eae3cdc78e5805",
+      "assessments": {
+        "highlight": {
+          "status": "exception",
+          "independent": true,
+          "scope": "whole-spell",
+          "kind": "whole-spell-unmarked",
+          "evidence": "research/whole-spell-unmarked-review.json: independent original-source/full-image review, complete named spell through final components, following page checked for continuation; individual facts still require precise highlights."
+        }
+      }
+    }
+  ]
+}

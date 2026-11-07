@@ -1,0 +1,2977 @@
+{
+  "schemaVersion": 1,
+  "scope": "Snapshot inventory of all current exposed source-catalog pointers in dist/data.json that share (a) the exact historical image hashes of Assassin regions repaired in this working tree, (b) the exact PHB p.33 old/current region geometry, or (c) exact current Assassin image bytes. This is a candidate denominator and semantic triage, not an image review or blanket approval. No old image bytes are copied into this artifact.",
+  "snapshot": {
+    "gitHead": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+    "dataJsonSha256": "60cc10b9e841f60ca4b4d4a3df6c03f39598aac0e8418d73491f306ff3632b6e",
+    "assassinCatalogSha256": "44d51f96939222e78c34c1db47bcc007ffe3eaaa61b6d485696a55b0cd4bfc9f",
+    "sourcePdfSha256": {
+      "PHB": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "DMG": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+    }
+  },
+  "denominator": {
+    "dataRecordsByCollection": {
+      "rules": 148,
+      "spells": 638,
+      "equipment": 116,
+      "matrices": 1,
+      "classes": 16,
+      "sources": 3
+    },
+    "uniqueExposedCatalogPaths": 939,
+    "exposedCatalogPointerOccurrences": 1601,
+    "catalogFilesLoaded": 939,
+    "missingExposedCatalogFiles": [],
+    "regionsInLoadedExposedCatalogs": 2637,
+    "method": "Traverse every nested catalog pointer in every array record in dist/data.json; de-duplicate record/catalog ownership while retaining pointer paths; load each exposed dist catalog and enumerate every region."
+  },
+  "historicalAssassinBaseline": {
+    "commit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+    "catalogPath": "dist/scans/verified/classes-assassin.json",
+    "catalogGitBlobOid": "abad556dd380a35af241ed3448cf59deb02ad7a2",
+    "historicalAssassinCatalogHadRegions": 12,
+    "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+    "note": "The audit records four prior Assassin image hashes: PHB pp.27, 32, 33 and 28. These exact hash matches are checked across all currently exposed catalogs."
+  },
+  "historicalFailureImageGroups": {
+    "a0862452b397bc190405aa80d5bb9bea0a2444b873cca8be6f0f79a18a692c0f": {
+      "assassinRegionId": "phb-27-a0862452b397bc19",
+      "source": {
+        "book": "PHB",
+        "printedPage": 27,
+        "pdfPage": 28,
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+      },
+      "oldImage": "phb-27-a0862452b397bc19.png",
+      "oldImageSha256": "a0862452b397bc190405aa80d5bb9bea0a2444b873cca8be6f0f79a18a692c0f",
+      "oldDimensions": [
+        529,
+        1059
+      ],
+      "oldNormalizedPageRect": {
+        "x": 0.03,
+        "y": 0.21,
+        "width": 0.46,
+        "height": 0.67
+      },
+      "oldRegionSummary": "Thief functions, cited as baseline for subclass; assassin-specific application unverified. Location and legibility only; no comprehensive mechanics comparison.",
+      "currentAssassinRegion": {
+        "image": "phb-27-db664e29cfb2fea0.png",
+        "imageSha256": "db664e29cfb2fea0b244ea1bec6a34cc9a1661a9680f31f5fa0899fef3a15bea",
+        "dimensions": [
+          529,
+          1028
+        ],
+        "normalizedPageRect": {
+          "x": 0.03,
+          "y": 0.21,
+          "width": 0.46,
+          "height": 0.65
+        }
+      },
+      "exactCurrentExposedCatalogUses": [
+        {
+          "catalog": "scans/verified/classes-ua-thief-acrobat.json",
+          "catalogSha256": "23e55b7905568025b493d01bd5d159915e0c520a1bdcd42d155bda496a2cddd6",
+          "collection": "classes",
+          "catalogItemId": "ua-thief-acrobat",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "ua-thief-acrobat",
+              "name": "Thief-acrobat",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-27-a0862452b397bc19",
+          "source": {
+            "book": "PHB",
+            "printedPage": 27,
+            "pdfPage": 28,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-27-a0862452b397bc19.png",
+          "imageSha256": "a0862452b397bc190405aa80d5bb9bea0a2444b873cca8be6f0f79a18a692c0f",
+          "imageBytesSha256": "a0862452b397bc190405aa80d5bb9bea0a2444b873cca8be6f0f79a18a692c0f",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            529,
+            1059
+          ],
+          "normalizedPageRect": {
+            "x": 0.03,
+            "y": 0.21,
+            "width": 0.46,
+            "height": 0.67
+          },
+          "regionTitle": "PHB p. 27 · Thief functions used as baseline",
+          "regionSummary": "Thief functions used as baseline; UA-specific application unverified. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        }
+      ]
+    },
+    "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44": {
+      "assassinRegionId": "phb-32-3b48ac7c748517e3",
+      "source": {
+        "book": "PHB",
+        "printedPage": 32,
+        "pdfPage": 33,
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+      },
+      "oldImage": "phb-32-3b48ac7c748517e3.png",
+      "oldImageSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+      "oldDimensions": [
+        537,
+        787
+      ],
+      "oldNormalizedPageRect": {
+        "x": 0.51,
+        "y": 0.45,
+        "width": 0.46,
+        "height": 0.5
+      },
+      "oldRegionSummary": "Multi-class character explanation and example combinations, generic background; excerpt does not confirm every class combination. Location and legibility only; no comprehensive mechanics comparison.",
+      "currentAssassinRegion": {
+        "image": "phb-32-6fd80a05ceaa83bc.png",
+        "imageSha256": "6fd80a05ceaa83bcb628c6b55675df7b622021c669b5a9317eb79fe37ca97624",
+        "dimensions": [
+          537,
+          740
+        ],
+        "normalizedPageRect": {
+          "x": 0.51,
+          "y": 0.45,
+          "width": 0.46,
+          "height": 0.47
+        }
+      },
+      "exactCurrentExposedCatalogUses": [
+        {
+          "catalog": "scans/verified/classes-cleric.json",
+          "catalogSha256": "0ae702449496c26034e3ec51612da7688d14458e9b371ea63b3f91fd84cb97c9",
+          "collection": "classes",
+          "catalogItemId": "cleric",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "cleric",
+              "name": "Cleric",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-32-3b48ac7c748517e3",
+          "source": {
+            "book": "PHB",
+            "printedPage": 32,
+            "pdfPage": 33,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-32-3b48ac7c748517e3.png",
+          "imageSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            787
+          ],
+          "normalizedPageRect": {
+            "x": 0.51,
+            "y": 0.45,
+            "width": 0.46,
+            "height": 0.5
+          },
+          "regionTitle": "PHB p. 32 · Multi-class character explanation and example combinations, generic background",
+          "regionSummary": "Multi-class character explanation and example combinations, generic background; excerpt does not confirm every class combination. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-druid.json",
+          "catalogSha256": "bfa949ae8b753eecfa730270f286045cd0b7fc721b13e1eb2669a62314bb2e9d",
+          "collection": "classes",
+          "catalogItemId": "druid",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "druid",
+              "name": "Druid",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-32-3b48ac7c748517e3",
+          "source": {
+            "book": "PHB",
+            "printedPage": 32,
+            "pdfPage": 33,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-32-3b48ac7c748517e3.png",
+          "imageSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            787
+          ],
+          "normalizedPageRect": {
+            "x": 0.51,
+            "y": 0.45,
+            "width": 0.46,
+            "height": 0.5
+          },
+          "regionTitle": "PHB p. 32 · Multi-class character explanation and example combinations, generic background",
+          "regionSummary": "Multi-class character explanation and example combinations, generic background; excerpt does not confirm every class combination. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-fighter.json",
+          "catalogSha256": "0a13afd87de5275ffd8dd659205fb2e7c440fb1be4689f34dd456bf1910cf3b5",
+          "collection": "classes",
+          "catalogItemId": "fighter",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "fighter",
+              "name": "Fighter",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-32-3b48ac7c748517e3",
+          "source": {
+            "book": "PHB",
+            "printedPage": 32,
+            "pdfPage": 33,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-32-3b48ac7c748517e3.png",
+          "imageSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            787
+          ],
+          "normalizedPageRect": {
+            "x": 0.51,
+            "y": 0.45,
+            "width": 0.46,
+            "height": 0.5
+          },
+          "regionTitle": "PHB p. 32 · Multi-class character explanation and example combinations, generic background",
+          "regionSummary": "Multi-class character explanation and example combinations, generic background; excerpt does not confirm every class combination. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-paladin.json",
+          "catalogSha256": "0a2cb6229b6d664f201048c32a93a60a091ea719b91da9994341b25183642171",
+          "collection": "classes",
+          "catalogItemId": "paladin",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "paladin",
+              "name": "Paladin",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-32-3b48ac7c748517e3",
+          "source": {
+            "book": "PHB",
+            "printedPage": 32,
+            "pdfPage": 33,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-32-3b48ac7c748517e3.png",
+          "imageSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            787
+          ],
+          "normalizedPageRect": {
+            "x": 0.51,
+            "y": 0.45,
+            "width": 0.46,
+            "height": 0.5
+          },
+          "regionTitle": "PHB p. 32 · Multi-class character explanation and example combinations, generic background",
+          "regionSummary": "Multi-class character explanation and example combinations, generic background; excerpt does not confirm every class combination. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-ranger.json",
+          "catalogSha256": "16a72508a9056edddd993ae4edcd07afcb0989895e6629132579033d9b970d04",
+          "collection": "classes",
+          "catalogItemId": "ranger",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "ranger",
+              "name": "Ranger",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-32-3b48ac7c748517e3",
+          "source": {
+            "book": "PHB",
+            "printedPage": 32,
+            "pdfPage": 33,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-32-3b48ac7c748517e3.png",
+          "imageSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            787
+          ],
+          "normalizedPageRect": {
+            "x": 0.51,
+            "y": 0.45,
+            "width": 0.46,
+            "height": 0.5
+          },
+          "regionTitle": "PHB p. 32 · Multi-class character explanation and example combinations, generic background",
+          "regionSummary": "Multi-class character explanation and example combinations, generic background; excerpt does not confirm every class combination. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-magic-user.json",
+          "catalogSha256": "25fdde838cf1e564c114d09ee0cdbfe937b63d2d2359ef30a4821d26c2b46143",
+          "collection": "classes",
+          "catalogItemId": "magic-user",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "magic-user",
+              "name": "Magic-user",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-32-3b48ac7c748517e3",
+          "source": {
+            "book": "PHB",
+            "printedPage": 32,
+            "pdfPage": 33,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-32-3b48ac7c748517e3.png",
+          "imageSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            787
+          ],
+          "normalizedPageRect": {
+            "x": 0.51,
+            "y": 0.45,
+            "width": 0.46,
+            "height": 0.5
+          },
+          "regionTitle": "PHB p. 32 · Multi-class character explanation and example combinations, generic background",
+          "regionSummary": "Multi-class character explanation and example combinations, generic background; excerpt does not confirm every class combination. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-illusionist.json",
+          "catalogSha256": "27da3fdb905a8e3a23c054a644a836550585281d626c64874a7283a081b4c616",
+          "collection": "classes",
+          "catalogItemId": "illusionist",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "illusionist",
+              "name": "Illusionist",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-32-3b48ac7c748517e3",
+          "source": {
+            "book": "PHB",
+            "printedPage": 32,
+            "pdfPage": 33,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-32-3b48ac7c748517e3.png",
+          "imageSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            787
+          ],
+          "normalizedPageRect": {
+            "x": 0.51,
+            "y": 0.45,
+            "width": 0.46,
+            "height": 0.5
+          },
+          "regionTitle": "PHB p. 32 · Multi-class character explanation and example combinations, generic background",
+          "regionSummary": "Multi-class character explanation and example combinations, generic background; excerpt does not confirm every class combination. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-thief.json",
+          "catalogSha256": "f0c153795f3ed1790b5dc698a28455c4dab43a90466c46004e099a18a69b00cf",
+          "collection": "classes",
+          "catalogItemId": "thief",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "thief",
+              "name": "Thief",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-32-3b48ac7c748517e3",
+          "source": {
+            "book": "PHB",
+            "printedPage": 32,
+            "pdfPage": 33,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-32-3b48ac7c748517e3.png",
+          "imageSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            787
+          ],
+          "normalizedPageRect": {
+            "x": 0.51,
+            "y": 0.45,
+            "width": 0.46,
+            "height": 0.5
+          },
+          "regionTitle": "PHB p. 32 · Multi-class character explanation and example combinations, generic background",
+          "regionSummary": "Multi-class character explanation and example combinations, generic background; excerpt does not confirm every class combination. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-monk.json",
+          "catalogSha256": "7f2cd69796644d870515050624a367a22ced65652c0cd9a07881ec1439766f7f",
+          "collection": "classes",
+          "catalogItemId": "monk",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "monk",
+              "name": "Monk",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-32-3b48ac7c748517e3",
+          "source": {
+            "book": "PHB",
+            "printedPage": 32,
+            "pdfPage": 33,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-32-3b48ac7c748517e3.png",
+          "imageSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesSha256": "3b48ac7c748517e3217e78b02678fab851b1e75713e01a07bc7a49a3a5b92b44",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            787
+          ],
+          "normalizedPageRect": {
+            "x": 0.51,
+            "y": 0.45,
+            "width": 0.46,
+            "height": 0.5
+          },
+          "regionTitle": "PHB p. 32 · Multi-class character explanation and example combinations, generic background",
+          "regionSummary": "Multi-class character explanation and example combinations, generic background; excerpt does not confirm every class combination. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        }
+      ]
+    },
+    "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c": {
+      "assassinRegionId": "phb-33-3e99376517d917d0",
+      "source": {
+        "book": "PHB",
+        "printedPage": 33,
+        "pdfPage": 34,
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+      },
+      "oldImage": "phb-33-3e99376517d917d0.png",
+      "oldImageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+      "oldDimensions": [
+        537,
+        884
+      ],
+      "oldNormalizedPageRect": {
+        "x": 0.03,
+        "y": 0.39,
+        "width": 0.46,
+        "height": 0.56
+      },
+      "oldRegionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+      "currentAssassinRegion": {
+        "image": "phb-33-7df317f58544810d.png",
+        "imageSha256": "7df317f58544810deb1406c0a1f4deed4d9e17f51a120776ba5233a25f200cc5",
+        "dimensions": [
+          537,
+          743
+        ],
+        "normalizedPageRect": {
+          "x": 0.03,
+          "y": 0.39,
+          "width": 0.46,
+          "height": 0.47
+        }
+      },
+      "exactCurrentExposedCatalogUses": [
+        {
+          "catalog": "scans/verified/classes-cleric.json",
+          "catalogSha256": "0ae702449496c26034e3ec51612da7688d14458e9b371ea63b3f91fd84cb97c9",
+          "collection": "classes",
+          "catalogItemId": "cleric",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "cleric",
+              "name": "Cleric",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-33-3e99376517d917d0",
+          "source": {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-33-3e99376517d917d0.png",
+          "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            884
+          ],
+          "normalizedPageRect": {
+            "x": 0.03,
+            "y": 0.39,
+            "width": 0.46,
+            "height": 0.56
+          },
+          "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+          "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-druid.json",
+          "catalogSha256": "bfa949ae8b753eecfa730270f286045cd0b7fc721b13e1eb2669a62314bb2e9d",
+          "collection": "classes",
+          "catalogItemId": "druid",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "druid",
+              "name": "Druid",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-33-3e99376517d917d0",
+          "source": {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-33-3e99376517d917d0.png",
+          "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            884
+          ],
+          "normalizedPageRect": {
+            "x": 0.03,
+            "y": 0.39,
+            "width": 0.46,
+            "height": 0.56
+          },
+          "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+          "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-fighter.json",
+          "catalogSha256": "0a13afd87de5275ffd8dd659205fb2e7c440fb1be4689f34dd456bf1910cf3b5",
+          "collection": "classes",
+          "catalogItemId": "fighter",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "fighter",
+              "name": "Fighter",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-33-3e99376517d917d0",
+          "source": {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-33-3e99376517d917d0.png",
+          "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            884
+          ],
+          "normalizedPageRect": {
+            "x": 0.03,
+            "y": 0.39,
+            "width": 0.46,
+            "height": 0.56
+          },
+          "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+          "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-paladin.json",
+          "catalogSha256": "0a2cb6229b6d664f201048c32a93a60a091ea719b91da9994341b25183642171",
+          "collection": "classes",
+          "catalogItemId": "paladin",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "paladin",
+              "name": "Paladin",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-33-3e99376517d917d0",
+          "source": {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-33-3e99376517d917d0.png",
+          "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            884
+          ],
+          "normalizedPageRect": {
+            "x": 0.03,
+            "y": 0.39,
+            "width": 0.46,
+            "height": 0.56
+          },
+          "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+          "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-ranger.json",
+          "catalogSha256": "16a72508a9056edddd993ae4edcd07afcb0989895e6629132579033d9b970d04",
+          "collection": "classes",
+          "catalogItemId": "ranger",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "ranger",
+              "name": "Ranger",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-33-3e99376517d917d0",
+          "source": {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-33-3e99376517d917d0.png",
+          "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            884
+          ],
+          "normalizedPageRect": {
+            "x": 0.03,
+            "y": 0.39,
+            "width": 0.46,
+            "height": 0.56
+          },
+          "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+          "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-magic-user.json",
+          "catalogSha256": "25fdde838cf1e564c114d09ee0cdbfe937b63d2d2359ef30a4821d26c2b46143",
+          "collection": "classes",
+          "catalogItemId": "magic-user",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "magic-user",
+              "name": "Magic-user",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-33-3e99376517d917d0",
+          "source": {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-33-3e99376517d917d0.png",
+          "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            884
+          ],
+          "normalizedPageRect": {
+            "x": 0.03,
+            "y": 0.39,
+            "width": 0.46,
+            "height": 0.56
+          },
+          "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+          "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-illusionist.json",
+          "catalogSha256": "27da3fdb905a8e3a23c054a644a836550585281d626c64874a7283a081b4c616",
+          "collection": "classes",
+          "catalogItemId": "illusionist",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "illusionist",
+              "name": "Illusionist",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-33-3e99376517d917d0",
+          "source": {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-33-3e99376517d917d0.png",
+          "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            884
+          ],
+          "normalizedPageRect": {
+            "x": 0.03,
+            "y": 0.39,
+            "width": 0.46,
+            "height": 0.56
+          },
+          "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+          "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-thief.json",
+          "catalogSha256": "f0c153795f3ed1790b5dc698a28455c4dab43a90466c46004e099a18a69b00cf",
+          "collection": "classes",
+          "catalogItemId": "thief",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "thief",
+              "name": "Thief",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-33-3e99376517d917d0",
+          "source": {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-33-3e99376517d917d0.png",
+          "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            884
+          ],
+          "normalizedPageRect": {
+            "x": 0.03,
+            "y": 0.39,
+            "width": 0.46,
+            "height": 0.56
+          },
+          "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+          "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-monk.json",
+          "catalogSha256": "7f2cd69796644d870515050624a367a22ced65652c0cd9a07881ec1439766f7f",
+          "collection": "classes",
+          "catalogItemId": "monk",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "monk",
+              "name": "Monk",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-33-3e99376517d917d0",
+          "source": {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-33-3e99376517d917d0.png",
+          "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            537,
+            884
+          ],
+          "normalizedPageRect": {
+            "x": 0.03,
+            "y": 0.39,
+            "width": 0.46,
+            "height": 0.56
+          },
+          "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+          "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        }
+      ]
+    },
+    "c18cfa2ca0a1cda2864545ddd705a5a32675fccfdb10671150275d7520b09b5a": {
+      "assassinRegionId": "phb-28-c18cfa2ca0a1cda2",
+      "source": {
+        "book": "PHB",
+        "printedPage": 28,
+        "pdfPage": 29,
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+      },
+      "oldImage": "phb-28-c18cfa2ca0a1cda2.png",
+      "oldImageSha256": "c18cfa2ca0a1cda2864545ddd705a5a32675fccfdb10671150275d7520b09b5a",
+      "oldDimensions": [
+        1102,
+        588
+      ],
+      "oldNormalizedPageRect": {
+        "x": 0.02,
+        "y": 0.035,
+        "width": 0.95,
+        "height": 0.375
+      },
+      "oldRegionSummary": "Focused source table location and legibility; not a verification of the full class record.",
+      "currentAssassinRegion": {
+        "image": "phb-28-15aa176f1cd627f3.png",
+        "imageSha256": "15aa176f1cd627f332858276ca1fedece1826426ad7cfc1f422e1ba2c403d4d4",
+        "dimensions": [
+          1102,
+          619
+        ],
+        "normalizedPageRect": {
+          "x": 0.02,
+          "y": 0.035,
+          "width": 0.95,
+          "height": 0.395
+        }
+      },
+      "exactCurrentExposedCatalogUses": [
+        {
+          "catalog": "scans/verified/classes-thief.json",
+          "catalogSha256": "f0c153795f3ed1790b5dc698a28455c4dab43a90466c46004e099a18a69b00cf",
+          "collection": "classes",
+          "catalogItemId": "thief",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "thief",
+              "name": "Thief",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-28-c18cfa2ca0a1cda2",
+          "source": {
+            "book": "PHB",
+            "printedPage": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-28-c18cfa2ca0a1cda2.png",
+          "imageSha256": "c18cfa2ca0a1cda2864545ddd705a5a32675fccfdb10671150275d7520b09b5a",
+          "imageBytesSha256": "c18cfa2ca0a1cda2864545ddd705a5a32675fccfdb10671150275d7520b09b5a",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            1102,
+            588
+          ],
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.035,
+            "width": 0.95,
+            "height": 0.375
+          },
+          "regionTitle": "PHB p. 28 · Thief function table. Location and legibility",
+          "regionSummary": "Thief function table. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-monk.json",
+          "catalogSha256": "7f2cd69796644d870515050624a367a22ced65652c0cd9a07881ec1439766f7f",
+          "collection": "classes",
+          "catalogItemId": "monk",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "monk",
+              "name": "Monk",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-28-c18cfa2ca0a1cda2",
+          "source": {
+            "book": "PHB",
+            "printedPage": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-28-c18cfa2ca0a1cda2.png",
+          "imageSha256": "c18cfa2ca0a1cda2864545ddd705a5a32675fccfdb10671150275d7520b09b5a",
+          "imageBytesSha256": "c18cfa2ca0a1cda2864545ddd705a5a32675fccfdb10671150275d7520b09b5a",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            1102,
+            588
+          ],
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.035,
+            "width": 0.95,
+            "height": 0.375
+          },
+          "regionTitle": "PHB p. 28 · Thief function table used as baseline for monk abilities",
+          "regionSummary": "Thief function table used as baseline for monk abilities; application not independently checked. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-ua-barbarian.json",
+          "catalogSha256": "55d5864c0722dcfda5ee6c1bd9ba0e1562f6a7f90712dd241e98ee27ab70725b",
+          "collection": "classes",
+          "catalogItemId": "ua-barbarian",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "ua-barbarian",
+              "name": "Barbarian",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-28-c18cfa2ca0a1cda2",
+          "source": {
+            "book": "PHB",
+            "printedPage": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-28-c18cfa2ca0a1cda2.png",
+          "imageSha256": "c18cfa2ca0a1cda2864545ddd705a5a32675fccfdb10671150275d7520b09b5a",
+          "imageBytesSha256": "c18cfa2ca0a1cda2864545ddd705a5a32675fccfdb10671150275d7520b09b5a",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            1102,
+            588
+          ],
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.035,
+            "width": 0.95,
+            "height": 0.375
+          },
+          "regionTitle": "PHB p. 28 · PHB thief function table",
+          "regionSummary": "PHB thief function table; UA barbarian rule linking it requires separate verification. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        },
+        {
+          "catalog": "scans/verified/classes-ua-thief-acrobat.json",
+          "catalogSha256": "23e55b7905568025b493d01bd5d159915e0c520a1bdcd42d155bda496a2cddd6",
+          "collection": "classes",
+          "catalogItemId": "ua-thief-acrobat",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "ua-thief-acrobat",
+              "name": "Thief-acrobat",
+              "catalogPointers": [
+                "/sourceExcerpts/catalog"
+              ]
+            }
+          ],
+          "regionId": "phb-28-c18cfa2ca0a1cda2",
+          "source": {
+            "book": "PHB",
+            "printedPage": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "image": "phb-28-c18cfa2ca0a1cda2.png",
+          "imageSha256": "c18cfa2ca0a1cda2864545ddd705a5a32675fccfdb10671150275d7520b09b5a",
+          "imageBytesSha256": "c18cfa2ca0a1cda2864545ddd705a5a32675fccfdb10671150275d7520b09b5a",
+          "imageBytesMatchMetadata": true,
+          "dimensions": [
+            1102,
+            588
+          ],
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.035,
+            "width": 0.95,
+            "height": 0.375
+          },
+          "regionTitle": "PHB p. 28 · PHB thief function table",
+          "regionSummary": "PHB thief function table; UA subclass continuation requires separate verification. Location and legibility only; no comprehensive mechanics comparison.",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "contextStatus": "not inherited; source-context review for this catalog/item remains item-specific"
+        }
+      ]
+    }
+  },
+  "phb33RegionGeometryInventory": {
+    "candidateRule": "Source page PHB printed p.33; exact match means normalized page rect [0.03, 0.39, 0.46, 0.56] within 1e-5. Near-current geometry uses same left/top/width and height within 0.02 of 0.47. Same-page regions with different geometry are listed but excluded from candidate count.",
+    "exposedP33RegionCount": 13,
+    "exactOldImageOrGeometryCount": 9,
+    "nearCurrentAssassinGeometryCount": 2,
+    "candidateSamePassageCatalogCount": 11,
+    "regions": [
+      {
+        "catalog": "scans/verified/rules-dual-class.json",
+        "catalogSha256": "bd6c885f326f2afdffe47aab570bf77c93bc28b5a1b08c2c2ea883f803afd629",
+        "collection": "rules",
+        "catalogItemId": "dual-class",
+        "owners": [
+          {
+            "collection": "rules",
+            "itemId": "dual-class",
+            "name": null,
+            "catalogPointers": [
+              "/sourceExcerpts/catalog"
+            ]
+          }
+        ],
+        "regionId": "phb-33-3fe29356f2b1ddc7",
+        "regionTitle": "PHB p. 33 · Character with two classes. Location and legibility",
+        "regionSummary": "Character with two classes. Location and legibility only; no comprehensive mechanics comparison.",
+        "source": {
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        "image": "phb-33-e0c710a4928dacac.png",
+        "imageSha256": "e0c710a4928dacac787eb2bbb16bb0fc690d301d6472a8b730f5d6bea55b9e22",
+        "imageBytesMatchMetadata": true,
+        "normalizedPageRect": {
+          "x": 0.03000004,
+          "y": 0.38999997,
+          "width": 0.46000002,
+          "height": 0.46743304
+        },
+        "relationshipToAssassinExcerpt": "near-current-Assassin-left-column-geometry",
+        "reviewStatus": "candidate inventory only; no semantic or crop approval inherited"
+      },
+      {
+        "catalog": "scans/verified/rules-alignment.json",
+        "catalogSha256": "25ee33a5695f94272f17b3467c98b1d7d0a7750dcf0eaa2c5c9f0bd0873964d2",
+        "collection": "rules",
+        "catalogItemId": "alignment",
+        "owners": [
+          {
+            "collection": "rules",
+            "itemId": "alignment",
+            "name": null,
+            "catalogPointers": [
+              "/sourceExcerpts/catalog"
+            ]
+          }
+        ],
+        "regionId": "phb-33-eb88f352b8e2c3a7",
+        "regionTitle": "PHB p. 33 · Alignment and class restrictions. Location and legibility",
+        "regionSummary": "Alignment and class restrictions. Location and legibility only; no comprehensive mechanics comparison.",
+        "source": {
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        "image": "phb-33-80d589d5cf97561f.png",
+        "imageSha256": "80d589d5cf97561feb7835b45828b7a92f6c1c4d924016f2bd6471cd0c47d530",
+        "imageBytesMatchMetadata": true,
+        "normalizedPageRect": {
+          "x": 0.52,
+          "y": 0.15,
+          "width": 0.47,
+          "height": 0.14
+        },
+        "relationshipToAssassinExcerpt": "different-p33-region",
+        "reviewStatus": "candidate inventory only; no semantic or crop approval inherited"
+      },
+      {
+        "catalog": "scans/verified/rules-multiclass-equipment.json",
+        "catalogSha256": "42fb42a89eb3c431d0cbf0deb7da3de0c04f2b90cecc5b54339ffa396bff53e1",
+        "collection": "rules",
+        "catalogItemId": "multiclass-equipment",
+        "owners": [
+          {
+            "collection": "rules",
+            "itemId": "multiclass-equipment",
+            "name": null,
+            "catalogPointers": [
+              "/sourceExcerpts/catalog"
+            ]
+          }
+        ],
+        "regionId": "phb-33-e3151fbeaf003685",
+        "regionTitle": "PHB p. 33 · Multiclass equipment examples. Location and legibility",
+        "regionSummary": "Multiclass equipment examples. Location and legibility only; no comprehensive mechanics comparison.",
+        "source": {
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        "image": "phb-33-e3151fbeaf003685.png",
+        "imageSha256": "e3151fbeaf0036857b173a2790216264ae4f92ae8d1a13f2ecb9e784dda0e619",
+        "imageBytesMatchMetadata": true,
+        "normalizedPageRect": {
+          "x": 0.03,
+          "y": 0.035,
+          "width": 0.46,
+          "height": 0.345
+        },
+        "relationshipToAssassinExcerpt": "different-p33-region",
+        "reviewStatus": "candidate inventory only; no semantic or crop approval inherited"
+      },
+      {
+        "catalog": "scans/verified/classes-cleric.json",
+        "catalogSha256": "0ae702449496c26034e3ec51612da7688d14458e9b371ea63b3f91fd84cb97c9",
+        "collection": "classes",
+        "catalogItemId": "cleric",
+        "owners": [
+          {
+            "collection": "classes",
+            "itemId": "cleric",
+            "name": "Cleric",
+            "catalogPointers": [
+              "/sourceExcerpts/catalog"
+            ]
+          }
+        ],
+        "regionId": "phb-33-3e99376517d917d0",
+        "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+        "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+        "source": {
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        "image": "phb-33-3e99376517d917d0.png",
+        "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+        "imageBytesMatchMetadata": true,
+        "normalizedPageRect": {
+          "x": 0.03,
+          "y": 0.39,
+          "width": 0.46,
+          "height": 0.56
+        },
+        "relationshipToAssassinExcerpt": "exact-prior-Assassin-image",
+        "reviewStatus": "candidate inventory only; no semantic or crop approval inherited"
+      },
+      {
+        "catalog": "scans/verified/classes-druid.json",
+        "catalogSha256": "bfa949ae8b753eecfa730270f286045cd0b7fc721b13e1eb2669a62314bb2e9d",
+        "collection": "classes",
+        "catalogItemId": "druid",
+        "owners": [
+          {
+            "collection": "classes",
+            "itemId": "druid",
+            "name": "Druid",
+            "catalogPointers": [
+              "/sourceExcerpts/catalog"
+            ]
+          }
+        ],
+        "regionId": "phb-33-3e99376517d917d0",
+        "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+        "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+        "source": {
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        "image": "phb-33-3e99376517d917d0.png",
+        "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+        "imageBytesMatchMetadata": true,
+        "normalizedPageRect": {
+          "x": 0.03,
+          "y": 0.39,
+          "width": 0.46,
+          "height": 0.56
+        },
+        "relationshipToAssassinExcerpt": "exact-prior-Assassin-image",
+        "reviewStatus": "candidate inventory only; no semantic or crop approval inherited"
+      },
+      {
+        "catalog": "scans/verified/classes-fighter.json",
+        "catalogSha256": "0a13afd87de5275ffd8dd659205fb2e7c440fb1be4689f34dd456bf1910cf3b5",
+        "collection": "classes",
+        "catalogItemId": "fighter",
+        "owners": [
+          {
+            "collection": "classes",
+            "itemId": "fighter",
+            "name": "Fighter",
+            "catalogPointers": [
+              "/sourceExcerpts/catalog"
+            ]
+          }
+        ],
+        "regionId": "phb-33-3e99376517d917d0",
+        "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+        "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+        "source": {
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        "image": "phb-33-3e99376517d917d0.png",
+        "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+        "imageBytesMatchMetadata": true,
+        "normalizedPageRect": {
+          "x": 0.03,
+          "y": 0.39,
+          "width": 0.46,
+          "height": 0.56
+        },
+        "relationshipToAssassinExcerpt": "exact-prior-Assassin-image",
+        "reviewStatus": "candidate inventory only; no semantic or crop approval inherited"
+      },
+      {
+        "catalog": "scans/verified/classes-paladin.json",
+        "catalogSha256": "0a2cb6229b6d664f201048c32a93a60a091ea719b91da9994341b25183642171",
+        "collection": "classes",
+        "catalogItemId": "paladin",
+        "owners": [
+          {
+            "collection": "classes",
+            "itemId": "paladin",
+            "name": "Paladin",
+            "catalogPointers": [
+              "/sourceExcerpts/catalog"
+            ]
+          }
+        ],
+        "regionId": "phb-33-3e99376517d917d0",
+        "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+        "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+        "source": {
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        "image": "phb-33-3e99376517d917d0.png",
+        "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+        "imageBytesMatchMetadata": true,
+        "normalizedPageRect": {
+          "x": 0.03,
+          "y": 0.39,
+          "width": 0.46,
+          "height": 0.56
+        },
+        "relationshipToAssassinExcerpt": "exact-prior-Assassin-image",
+        "reviewStatus": "candidate inventory only; no semantic or crop approval inherited"
+      },
+      {
+        "catalog": "scans/verified/classes-ranger.json",
+        "catalogSha256": "16a72508a9056edddd993ae4edcd07afcb0989895e6629132579033d9b970d04",
+        "collection": "classes",
+        "catalogItemId": "ranger",
+        "owners": [
+          {
+            "collection": "classes",
+            "itemId": "ranger",
+            "name": "Ranger",
+            "catalogPointers": [
+              "/sourceExcerpts/catalog"
+            ]
+          }
+        ],
+        "regionId": "phb-33-3e99376517d917d0",
+        "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+        "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+        "source": {
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        "image": "phb-33-3e99376517d917d0.png",
+        "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+        "imageBytesMatchMetadata": true,
+        "normalizedPageRect": {
+          "x": 0.03,
+          "y": 0.39,
+          "width": 0.46,
+          "height": 0.56
+        },
+        "relationshipToAssassinExcerpt": "exact-prior-Assassin-image",
+        "reviewStatus": "candidate inventory only; no semantic or crop approval inherited"
+      },
+      {
+        "catalog": "scans/verified/classes-magic-user.json",
+        "catalogSha256": "25fdde838cf1e564c114d09ee0cdbfe937b63d2d2359ef30a4821d26c2b46143",
+        "collection": "classes",
+        "catalogItemId": "magic-user",
+        "owners": [
+          {
+            "collection": "classes",
+            "itemId": "magic-user",
+            "name": "Magic-user",
+            "catalogPointers": [
+              "/sourceExcerpts/catalog"
+            ]
+          }
+        ],
+        "regionId": "phb-33-3e99376517d917d0",
+        "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+        "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+        "source": {
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        "image": "phb-33-3e99376517d917d0.png",
+        "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+        "imageBytesMatchMetadata": true,
+        "normalizedPageRect": {
+          "x": 0.03,
+          "y": 0.39,
+          "width": 0.46,
+          "height": 0.56
+        },
+        "relationshipToAssassinExcerpt": "exact-prior-Assassin-image",
+        "reviewStatus": "candidate inventory only; no semantic or crop approval inherited"
+      },
+      {
+        "catalog": "scans/verified/classes-illusionist.json",
+        "catalogSha256": "27da3fdb905a8e3a23c054a644a836550585281d626c64874a7283a081b4c616",
+        "collection": "classes",
+        "catalogItemId": "illusionist",
+        "owners": [
+          {
+            "collection": "classes",
+            "itemId": "illusionist",
+            "name": "Illusionist",
+            "catalogPointers": [
+              "/sourceExcerpts/catalog"
+            ]
+          }
+        ],
+        "regionId": "phb-33-3e99376517d917d0",
+        "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+        "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+        "source": {
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        "image": "phb-33-3e99376517d917d0.png",
+        "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+        "imageBytesMatchMetadata": true,
+        "normalizedPageRect": {
+          "x": 0.03,
+          "y": 0.39,
+          "width": 0.46,
+          "height": 0.56
+        },
+        "relationshipToAssassinExcerpt": "exact-prior-Assassin-image",
+        "reviewStatus": "candidate inventory only; no semantic or crop approval inherited"
+      },
+      {
+        "catalog": "scans/verified/classes-thief.json",
+        "catalogSha256": "f0c153795f3ed1790b5dc698a28455c4dab43a90466c46004e099a18a69b00cf",
+        "collection": "classes",
+        "catalogItemId": "thief",
+        "owners": [
+          {
+            "collection": "classes",
+            "itemId": "thief",
+            "name": "Thief",
+            "catalogPointers": [
+              "/sourceExcerpts/catalog"
+            ]
+          }
+        ],
+        "regionId": "phb-33-3e99376517d917d0",
+        "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+        "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+        "source": {
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        "image": "phb-33-3e99376517d917d0.png",
+        "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+        "imageBytesMatchMetadata": true,
+        "normalizedPageRect": {
+          "x": 0.03,
+          "y": 0.39,
+          "width": 0.46,
+          "height": 0.56
+        },
+        "relationshipToAssassinExcerpt": "exact-prior-Assassin-image",
+        "reviewStatus": "candidate inventory only; no semantic or crop approval inherited"
+      },
+      {
+        "catalog": "scans/verified/classes-assassin.json",
+        "catalogSha256": "44d51f96939222e78c34c1db47bcc007ffe3eaaa61b6d485696a55b0cd4bfc9f",
+        "collection": "classes",
+        "catalogItemId": "assassin",
+        "owners": [
+          {
+            "collection": "classes",
+            "itemId": "assassin",
+            "name": "Assassin",
+            "catalogPointers": [
+              "/sourceExcerpts/catalog"
+            ]
+          }
+        ],
+        "regionId": "phb-33-3e99376517d917d0",
+        "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+        "regionSummary": "Complete PHB p. 33 two-class switching rule and its two listed benefits. The separate worked example concerns a Fighter switching to Magic-user and continues onto p. 34; it is excluded because it does not establish Assassin eligibility or mechanics.",
+        "source": {
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        "image": "phb-33-7df317f58544810d.png",
+        "imageSha256": "7df317f58544810deb1406c0a1f4deed4d9e17f51a120776ba5233a25f200cc5",
+        "imageBytesMatchMetadata": true,
+        "normalizedPageRect": {
+          "x": 0.03,
+          "y": 0.39,
+          "width": 0.46,
+          "height": 0.47
+        },
+        "relationshipToAssassinExcerpt": "near-current-Assassin-left-column-geometry",
+        "reviewStatus": "candidate inventory only; no semantic or crop approval inherited"
+      },
+      {
+        "catalog": "scans/verified/classes-monk.json",
+        "catalogSha256": "7f2cd69796644d870515050624a367a22ced65652c0cd9a07881ec1439766f7f",
+        "collection": "classes",
+        "catalogItemId": "monk",
+        "owners": [
+          {
+            "collection": "classes",
+            "itemId": "monk",
+            "name": "Monk",
+            "catalogPointers": [
+              "/sourceExcerpts/catalog"
+            ]
+          }
+        ],
+        "regionId": "phb-33-3e99376517d917d0",
+        "regionTitle": "PHB p. 33 · Two-class character advancement explanation, generic background",
+        "regionSummary": "Two-class character advancement explanation, generic background; does not establish that this specific class combination is eligible. Location and legibility only; no comprehensive mechanics comparison.",
+        "source": {
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        "image": "phb-33-3e99376517d917d0.png",
+        "imageSha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c",
+        "imageBytesMatchMetadata": true,
+        "normalizedPageRect": {
+          "x": 0.03,
+          "y": 0.39,
+          "width": 0.46,
+          "height": 0.56
+        },
+        "relationshipToAssassinExcerpt": "exact-prior-Assassin-image",
+        "reviewStatus": "candidate inventory only; no semantic or crop approval inherited"
+      }
+    ],
+    "sourceFinding": "PHB p.33 two-class worked example begins in the lower-left column and completes at the top of the right column on the same printed p.33/PDF p.34. The right-column continuation is part of the worked example and belongs in an ordered second segment when this general rule/example is the cited scope.",
+    "workedExampleSourceGeometry": {
+      "book": "PHB",
+      "printedPage": 33,
+      "pdfPage": 34,
+      "pageSizePdfPoints": [
+        582.239135742,
+        788.399780273
+      ],
+      "leftColumnExampleOpeningBoundsPdfPoints": [
+        22.1,
+        679.61,
+        281.12,
+        741.99
+      ],
+      "rightColumnContinuationBoundsPdfPoints": [
+        308.6,
+        33.313,
+        566.796,
+        104.99
+      ],
+      "rightColumnContinuationText": "Completes the Fighter-to-Magic-user worked example, including the new-class hit die and class-function/armor restrictions, then ends before the ALIGNMENT heading.",
+      "measuredCandidateContinuationCropPdfPoints": [
+        302,
+        28,
+        571,
+        110
+      ],
+      "measuredCandidateContinuationCropNormalizedPageRect": [
+        0.5187,
+        0.0355,
+        0.462,
+        0.104
+      ],
+      "boundaryFinding": "Current Assassin left excerpt bottom is at about y=678.0 pt and excludes the example start at y=679.6 pt; the historical taller left crop bottom at about y=749.0 pt contains the complete left-side example opening through y=742.0 pt. The complete example requires the ordered same-page right-column continuation.",
+      "status": "source bounds measured for review planning only; no catalog or crop applied."
+    }
+  },
+  "currentAssassinExactByteReuse": [
+    {
+      "assassinRegionId": "dmg-74-b31405f055ec1ffa",
+      "source": {
+        "book": "DMG",
+        "printedPage": 74,
+        "pdfPage": 75
+      },
+      "imageSha256": "be089201ebbd19393e63dac3b9e7e2b5198b656659b43bafd6e3947a5635112c",
+      "exactExposedUsages": [
+        {
+          "catalog": "scans/verified/classes-thief.json",
+          "catalogItemId": "thief",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "thief",
+              "name": "Thief"
+            }
+          ],
+          "regionId": "dmg-74-b31405f055ec1ffa",
+          "source": {
+            "book": "DMG",
+            "printedPage": 74,
+            "pdfPage": 75
+          },
+          "image": "dmg-74-be089201ebbd1939.png",
+          "imageSha256": "be089201ebbd19393e63dac3b9e7e2b5198b656659b43bafd6e3947a5635112c",
+          "normalizedPageRect": [
+            [
+              0.485,
+              0.538,
+              0.513,
+              0.344
+            ]
+          ]
+        },
+        {
+          "catalog": "scans/verified/classes-assassin.json",
+          "catalogItemId": "assassin",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "assassin",
+              "name": "Assassin"
+            }
+          ],
+          "regionId": "dmg-74-b31405f055ec1ffa",
+          "source": {
+            "book": "DMG",
+            "printedPage": 74,
+            "pdfPage": 75
+          },
+          "image": "dmg-74-be089201ebbd1939.png",
+          "imageSha256": "be089201ebbd19393e63dac3b9e7e2b5198b656659b43bafd6e3947a5635112c",
+          "normalizedPageRect": [
+            [
+              0.485,
+              0.538,
+              0.513,
+              0.344
+            ]
+          ]
+        },
+        {
+          "catalog": "scans/verified/classes-ua-thief-acrobat.json",
+          "catalogItemId": "ua-thief-acrobat",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "ua-thief-acrobat",
+              "name": "Thief-acrobat"
+            }
+          ],
+          "regionId": "dmg-74-b31405f055ec1ffa",
+          "source": {
+            "book": "DMG",
+            "printedPage": 74,
+            "pdfPage": 75
+          },
+          "image": "dmg-74-be089201ebbd1939.png",
+          "imageSha256": "be089201ebbd19393e63dac3b9e7e2b5198b656659b43bafd6e3947a5635112c",
+          "normalizedPageRect": [
+            [
+              0.485,
+              0.538,
+              0.513,
+              0.344
+            ]
+          ]
+        }
+      ],
+      "status": "currently shared exact bytes; listed for denominator only; no blanket context approval"
+    },
+    {
+      "assassinRegionId": "phb-37-911fe149fbfab8dd",
+      "source": {
+        "book": "PHB",
+        "printedPage": 37,
+        "pdfPage": 38
+      },
+      "imageSha256": "587f77a207f17287d2b8854453a915d70439d015ee05b320a43943bbaf03ae65",
+      "exactExposedUsages": [
+        {
+          "catalog": "scans/verified/classes-cleric.json",
+          "catalogItemId": "cleric",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "cleric",
+              "name": "Cleric"
+            }
+          ],
+          "regionId": "phb-37-947ed4b02bc5aed3",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-587f77a207f17287.png",
+          "imageSha256": "587f77a207f17287d2b8854453a915d70439d015ee05b320a43943bbaf03ae65",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.465,
+            "height": 0.187
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-druid.json",
+          "catalogItemId": "druid",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "druid",
+              "name": "Druid"
+            }
+          ],
+          "regionId": "phb-37-1e3e2abf64aba374",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-587f77a207f17287.png",
+          "imageSha256": "587f77a207f17287d2b8854453a915d70439d015ee05b320a43943bbaf03ae65",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.465,
+            "height": 0.187
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-fighter.json",
+          "catalogItemId": "fighter",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "fighter",
+              "name": "Fighter"
+            }
+          ],
+          "regionId": "phb-37-f700eca9387736c6",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-587f77a207f17287.png",
+          "imageSha256": "587f77a207f17287d2b8854453a915d70439d015ee05b320a43943bbaf03ae65",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.465,
+            "height": 0.187
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-paladin.json",
+          "catalogItemId": "paladin",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "paladin",
+              "name": "Paladin"
+            }
+          ],
+          "regionId": "phb-37-9106ad0ba141326d",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-587f77a207f17287.png",
+          "imageSha256": "587f77a207f17287d2b8854453a915d70439d015ee05b320a43943bbaf03ae65",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.465,
+            "height": 0.187
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-ranger.json",
+          "catalogItemId": "ranger",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "ranger",
+              "name": "Ranger"
+            }
+          ],
+          "regionId": "phb-37-0119fdbdadda1bfc",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-587f77a207f17287.png",
+          "imageSha256": "587f77a207f17287d2b8854453a915d70439d015ee05b320a43943bbaf03ae65",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.465,
+            "height": 0.187
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-magic-user.json",
+          "catalogItemId": "magic-user",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "magic-user",
+              "name": "Magic-user"
+            }
+          ],
+          "regionId": "phb-37-9c3d841088eb857a",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-587f77a207f17287.png",
+          "imageSha256": "587f77a207f17287d2b8854453a915d70439d015ee05b320a43943bbaf03ae65",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.465,
+            "height": 0.187
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-illusionist.json",
+          "catalogItemId": "illusionist",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "illusionist",
+              "name": "Illusionist"
+            }
+          ],
+          "regionId": "phb-37-1b62533798f9d154",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-587f77a207f17287.png",
+          "imageSha256": "587f77a207f17287d2b8854453a915d70439d015ee05b320a43943bbaf03ae65",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.465,
+            "height": 0.187
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-thief.json",
+          "catalogItemId": "thief",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "thief",
+              "name": "Thief"
+            }
+          ],
+          "regionId": "phb-37-b8e9b30fddb28ae1",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-587f77a207f17287.png",
+          "imageSha256": "587f77a207f17287d2b8854453a915d70439d015ee05b320a43943bbaf03ae65",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.465,
+            "height": 0.187
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-assassin.json",
+          "catalogItemId": "assassin",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "assassin",
+              "name": "Assassin"
+            }
+          ],
+          "regionId": "phb-37-911fe149fbfab8dd",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-587f77a207f17287.png",
+          "imageSha256": "587f77a207f17287d2b8854453a915d70439d015ee05b320a43943bbaf03ae65",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.465,
+            "height": 0.187
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-monk.json",
+          "catalogItemId": "monk",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "monk",
+              "name": "Monk"
+            }
+          ],
+          "regionId": "phb-37-e9ab4e8854da5c1b",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-587f77a207f17287.png",
+          "imageSha256": "587f77a207f17287d2b8854453a915d70439d015ee05b320a43943bbaf03ae65",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.465,
+            "height": 0.187
+          }
+        }
+      ],
+      "status": "currently shared exact bytes; listed for denominator only; no blanket context approval"
+    },
+    {
+      "assassinRegionId": "phb-37-94857b7670eeef3b",
+      "source": {
+        "book": "PHB",
+        "printedPage": 37,
+        "pdfPage": 38
+      },
+      "imageSha256": "a3f1299a0ed1e8dcc1fa008c69e214398794958f28015a696ed11777bb46faf8",
+      "exactExposedUsages": [
+        {
+          "catalog": "scans/verified/classes-druid.json",
+          "catalogItemId": "druid",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "druid",
+              "name": "Druid"
+            }
+          ],
+          "regionId": "phb-37-94857b7670eeef3b",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-a3f1299a0ed1e8dc.png",
+          "imageSha256": "a3f1299a0ed1e8dcc1fa008c69e214398794958f28015a696ed11777bb46faf8",
+          "normalizedPageRect": {
+            "x": 0.04000005,
+            "y": 0.03500001,
+            "width": 0.45000002,
+            "height": 0.181219
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-fighter.json",
+          "catalogItemId": "fighter",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "fighter",
+              "name": "Fighter"
+            }
+          ],
+          "regionId": "phb-37-94857b7670eeef3b",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-a3f1299a0ed1e8dc.png",
+          "imageSha256": "a3f1299a0ed1e8dcc1fa008c69e214398794958f28015a696ed11777bb46faf8",
+          "normalizedPageRect": {
+            "x": 0.04000005,
+            "y": 0.03500001,
+            "width": 0.45000002,
+            "height": 0.181219
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-paladin.json",
+          "catalogItemId": "paladin",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "paladin",
+              "name": "Paladin"
+            }
+          ],
+          "regionId": "phb-37-94857b7670eeef3b",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-a3f1299a0ed1e8dc.png",
+          "imageSha256": "a3f1299a0ed1e8dcc1fa008c69e214398794958f28015a696ed11777bb46faf8",
+          "normalizedPageRect": {
+            "x": 0.04000005,
+            "y": 0.03500001,
+            "width": 0.45000002,
+            "height": 0.181219
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-ranger.json",
+          "catalogItemId": "ranger",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "ranger",
+              "name": "Ranger"
+            }
+          ],
+          "regionId": "phb-37-94857b7670eeef3b",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-a3f1299a0ed1e8dc.png",
+          "imageSha256": "a3f1299a0ed1e8dcc1fa008c69e214398794958f28015a696ed11777bb46faf8",
+          "normalizedPageRect": {
+            "x": 0.04000005,
+            "y": 0.03500001,
+            "width": 0.45000002,
+            "height": 0.181219
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-magic-user.json",
+          "catalogItemId": "magic-user",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "magic-user",
+              "name": "Magic-user"
+            }
+          ],
+          "regionId": "phb-37-94857b7670eeef3b",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-a3f1299a0ed1e8dc.png",
+          "imageSha256": "a3f1299a0ed1e8dcc1fa008c69e214398794958f28015a696ed11777bb46faf8",
+          "normalizedPageRect": {
+            "x": 0.04000005,
+            "y": 0.03500001,
+            "width": 0.45000002,
+            "height": 0.181219
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-illusionist.json",
+          "catalogItemId": "illusionist",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "illusionist",
+              "name": "Illusionist"
+            }
+          ],
+          "regionId": "phb-37-94857b7670eeef3b",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-a3f1299a0ed1e8dc.png",
+          "imageSha256": "a3f1299a0ed1e8dcc1fa008c69e214398794958f28015a696ed11777bb46faf8",
+          "normalizedPageRect": {
+            "x": 0.04000005,
+            "y": 0.03500001,
+            "width": 0.45000002,
+            "height": 0.181219
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-thief.json",
+          "catalogItemId": "thief",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "thief",
+              "name": "Thief"
+            }
+          ],
+          "regionId": "phb-37-94857b7670eeef3b",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-a3f1299a0ed1e8dc.png",
+          "imageSha256": "a3f1299a0ed1e8dcc1fa008c69e214398794958f28015a696ed11777bb46faf8",
+          "normalizedPageRect": {
+            "x": 0.04000005,
+            "y": 0.03500001,
+            "width": 0.45000002,
+            "height": 0.181219
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-assassin.json",
+          "catalogItemId": "assassin",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "assassin",
+              "name": "Assassin"
+            }
+          ],
+          "regionId": "phb-37-94857b7670eeef3b",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-a3f1299a0ed1e8dc.png",
+          "imageSha256": "a3f1299a0ed1e8dcc1fa008c69e214398794958f28015a696ed11777bb46faf8",
+          "normalizedPageRect": {
+            "x": 0.04000005,
+            "y": 0.03500001,
+            "width": 0.45000002,
+            "height": 0.181219
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-monk.json",
+          "catalogItemId": "monk",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "monk",
+              "name": "Monk"
+            }
+          ],
+          "regionId": "phb-37-94857b7670eeef3b",
+          "source": {
+            "book": "PHB",
+            "printedPage": 37,
+            "pdfPage": 38
+          },
+          "image": "phb-37-a3f1299a0ed1e8dc.png",
+          "imageSha256": "a3f1299a0ed1e8dcc1fa008c69e214398794958f28015a696ed11777bb46faf8",
+          "normalizedPageRect": {
+            "x": 0.04000005,
+            "y": 0.03500001,
+            "width": 0.45000002,
+            "height": 0.181219
+          }
+        }
+      ],
+      "status": "currently shared exact bytes; listed for denominator only; no blanket context approval"
+    },
+    {
+      "assassinRegionId": "phb-12-2fa3715540dacc02",
+      "source": {
+        "book": "PHB",
+        "printedPage": 12,
+        "pdfPage": 13
+      },
+      "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+      "exactExposedUsages": [
+        {
+          "catalog": "scans/verified/spells-phb-cleric-raise-dead.json",
+          "catalogItemId": "phb-cleric-raise-dead",
+          "owners": [
+            {
+              "collection": "spells",
+              "itemId": "phb-cleric-raise-dead",
+              "name": "Raise Dead"
+            }
+          ],
+          "regionId": "phb-12-2fa3715540dacc02",
+          "source": {
+            "book": "PHB",
+            "printedPage": 12,
+            "pdfPage": 13
+          },
+          "image": "phb-12-2fa3715540dacc02.png",
+          "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.55,
+            "width": 0.47,
+            "height": 0.4
+          }
+        },
+        {
+          "catalog": "scans/verified/spells-phb-magic-user-polymorph-other.json",
+          "catalogItemId": "phb-magic-user-polymorph-other",
+          "owners": [
+            {
+              "collection": "spells",
+              "itemId": "phb-magic-user-polymorph-other",
+              "name": "Polymorph Other"
+            }
+          ],
+          "regionId": "phb-12-2fa3715540dacc02",
+          "source": {
+            "book": "PHB",
+            "printedPage": 12,
+            "pdfPage": 13
+          },
+          "image": "phb-12-2fa3715540dacc02.png",
+          "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.55,
+            "width": 0.47,
+            "height": 0.4
+          }
+        },
+        {
+          "catalog": "scans/verified/spells-phb-magic-user-polymorph-any-object.json",
+          "catalogItemId": "phb-magic-user-polymorph-any-object",
+          "owners": [
+            {
+              "collection": "spells",
+              "itemId": "phb-magic-user-polymorph-any-object",
+              "name": "Polymorph Any Object"
+            }
+          ],
+          "regionId": "phb-12-2fa3715540dacc02",
+          "source": {
+            "book": "PHB",
+            "printedPage": 12,
+            "pdfPage": 13
+          },
+          "image": "phb-12-2fa3715540dacc02.png",
+          "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.55,
+            "width": 0.47,
+            "height": 0.4
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-cleric.json",
+          "catalogItemId": "cleric",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "cleric",
+              "name": "Cleric"
+            }
+          ],
+          "regionId": "phb-12-2fa3715540dacc02",
+          "source": {
+            "book": "PHB",
+            "printedPage": 12,
+            "pdfPage": 13
+          },
+          "image": "phb-12-2fa3715540dacc02.png",
+          "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.55,
+            "width": 0.47,
+            "height": 0.4
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-druid.json",
+          "catalogItemId": "druid",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "druid",
+              "name": "Druid"
+            }
+          ],
+          "regionId": "phb-12-2fa3715540dacc02",
+          "source": {
+            "book": "PHB",
+            "printedPage": 12,
+            "pdfPage": 13
+          },
+          "image": "phb-12-2fa3715540dacc02.png",
+          "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.55,
+            "width": 0.47,
+            "height": 0.4
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-fighter.json",
+          "catalogItemId": "fighter",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "fighter",
+              "name": "Fighter"
+            }
+          ],
+          "regionId": "phb-12-2fa3715540dacc02",
+          "source": {
+            "book": "PHB",
+            "printedPage": 12,
+            "pdfPage": 13
+          },
+          "image": "phb-12-2fa3715540dacc02.png",
+          "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.55,
+            "width": 0.47,
+            "height": 0.4
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-paladin.json",
+          "catalogItemId": "paladin",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "paladin",
+              "name": "Paladin"
+            }
+          ],
+          "regionId": "phb-12-2fa3715540dacc02",
+          "source": {
+            "book": "PHB",
+            "printedPage": 12,
+            "pdfPage": 13
+          },
+          "image": "phb-12-2fa3715540dacc02.png",
+          "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.55,
+            "width": 0.47,
+            "height": 0.4
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-ranger.json",
+          "catalogItemId": "ranger",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "ranger",
+              "name": "Ranger"
+            }
+          ],
+          "regionId": "phb-12-2fa3715540dacc02",
+          "source": {
+            "book": "PHB",
+            "printedPage": 12,
+            "pdfPage": 13
+          },
+          "image": "phb-12-2fa3715540dacc02.png",
+          "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.55,
+            "width": 0.47,
+            "height": 0.4
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-magic-user.json",
+          "catalogItemId": "magic-user",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "magic-user",
+              "name": "Magic-user"
+            }
+          ],
+          "regionId": "phb-12-2fa3715540dacc02",
+          "source": {
+            "book": "PHB",
+            "printedPage": 12,
+            "pdfPage": 13
+          },
+          "image": "phb-12-2fa3715540dacc02.png",
+          "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.55,
+            "width": 0.47,
+            "height": 0.4
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-illusionist.json",
+          "catalogItemId": "illusionist",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "illusionist",
+              "name": "Illusionist"
+            }
+          ],
+          "regionId": "phb-12-2fa3715540dacc02",
+          "source": {
+            "book": "PHB",
+            "printedPage": 12,
+            "pdfPage": 13
+          },
+          "image": "phb-12-2fa3715540dacc02.png",
+          "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.55,
+            "width": 0.47,
+            "height": 0.4
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-thief.json",
+          "catalogItemId": "thief",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "thief",
+              "name": "Thief"
+            }
+          ],
+          "regionId": "phb-12-2fa3715540dacc02",
+          "source": {
+            "book": "PHB",
+            "printedPage": 12,
+            "pdfPage": 13
+          },
+          "image": "phb-12-2fa3715540dacc02.png",
+          "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.55,
+            "width": 0.47,
+            "height": 0.4
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-assassin.json",
+          "catalogItemId": "assassin",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "assassin",
+              "name": "Assassin"
+            }
+          ],
+          "regionId": "phb-12-2fa3715540dacc02",
+          "source": {
+            "book": "PHB",
+            "printedPage": 12,
+            "pdfPage": 13
+          },
+          "image": "phb-12-2fa3715540dacc02.png",
+          "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.55,
+            "width": 0.47,
+            "height": 0.4
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-monk.json",
+          "catalogItemId": "monk",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "monk",
+              "name": "Monk"
+            }
+          ],
+          "regionId": "phb-12-2fa3715540dacc02",
+          "source": {
+            "book": "PHB",
+            "printedPage": 12,
+            "pdfPage": 13
+          },
+          "image": "phb-12-2fa3715540dacc02.png",
+          "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.55,
+            "width": 0.47,
+            "height": 0.4
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-ua-thief-acrobat.json",
+          "catalogItemId": "ua-thief-acrobat",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "ua-thief-acrobat",
+              "name": "Thief-acrobat"
+            }
+          ],
+          "regionId": "phb-12-2fa3715540dacc02",
+          "source": {
+            "book": "PHB",
+            "printedPage": 12,
+            "pdfPage": 13
+          },
+          "image": "phb-12-2fa3715540dacc02.png",
+          "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.55,
+            "width": 0.47,
+            "height": 0.4
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-ua-paladin.json",
+          "catalogItemId": "ua-paladin",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "ua-paladin",
+              "name": "Paladin · UA revision"
+            }
+          ],
+          "regionId": "phb-12-2fa3715540dacc02",
+          "source": {
+            "book": "PHB",
+            "printedPage": 12,
+            "pdfPage": 13
+          },
+          "image": "phb-12-2fa3715540dacc02.png",
+          "imageSha256": "2fa3715540dacc02ff0a906d6649abab8aeb2dd97821cfa8627c61174e3f264a",
+          "normalizedPageRect": {
+            "x": 0.02,
+            "y": 0.55,
+            "width": 0.47,
+            "height": 0.4
+          }
+        }
+      ],
+      "status": "currently shared exact bytes; listed for denominator only; no blanket context approval"
+    },
+    {
+      "assassinRegionId": "phb-19-602a36abc607e820",
+      "source": {
+        "book": "PHB",
+        "printedPage": 19,
+        "pdfPage": 20
+      },
+      "imageSha256": "602a36abc607e8201382d866231bbb6c84d2ead256eea7f4ea2b1d065be4a449",
+      "exactExposedUsages": [
+        {
+          "catalog": "scans/verified/classes-cleric.json",
+          "catalogItemId": "cleric",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "cleric",
+              "name": "Cleric"
+            }
+          ],
+          "regionId": "phb-19-602a36abc607e820",
+          "source": {
+            "book": "PHB",
+            "printedPage": 19,
+            "pdfPage": 20
+          },
+          "image": "phb-19-602a36abc607e820.png",
+          "imageSha256": "602a36abc607e8201382d866231bbb6c84d2ead256eea7f4ea2b1d065be4a449",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.935,
+            "height": 0.175
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-druid.json",
+          "catalogItemId": "druid",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "druid",
+              "name": "Druid"
+            }
+          ],
+          "regionId": "phb-19-602a36abc607e820",
+          "source": {
+            "book": "PHB",
+            "printedPage": 19,
+            "pdfPage": 20
+          },
+          "image": "phb-19-602a36abc607e820.png",
+          "imageSha256": "602a36abc607e8201382d866231bbb6c84d2ead256eea7f4ea2b1d065be4a449",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.935,
+            "height": 0.175
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-fighter.json",
+          "catalogItemId": "fighter",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "fighter",
+              "name": "Fighter"
+            }
+          ],
+          "regionId": "phb-19-602a36abc607e820",
+          "source": {
+            "book": "PHB",
+            "printedPage": 19,
+            "pdfPage": 20
+          },
+          "image": "phb-19-602a36abc607e820.png",
+          "imageSha256": "602a36abc607e8201382d866231bbb6c84d2ead256eea7f4ea2b1d065be4a449",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.935,
+            "height": 0.175
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-paladin.json",
+          "catalogItemId": "paladin",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "paladin",
+              "name": "Paladin"
+            }
+          ],
+          "regionId": "phb-19-602a36abc607e820",
+          "source": {
+            "book": "PHB",
+            "printedPage": 19,
+            "pdfPage": 20
+          },
+          "image": "phb-19-602a36abc607e820.png",
+          "imageSha256": "602a36abc607e8201382d866231bbb6c84d2ead256eea7f4ea2b1d065be4a449",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.935,
+            "height": 0.175
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-ranger.json",
+          "catalogItemId": "ranger",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "ranger",
+              "name": "Ranger"
+            }
+          ],
+          "regionId": "phb-19-602a36abc607e820",
+          "source": {
+            "book": "PHB",
+            "printedPage": 19,
+            "pdfPage": 20
+          },
+          "image": "phb-19-602a36abc607e820.png",
+          "imageSha256": "602a36abc607e8201382d866231bbb6c84d2ead256eea7f4ea2b1d065be4a449",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.935,
+            "height": 0.175
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-magic-user.json",
+          "catalogItemId": "magic-user",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "magic-user",
+              "name": "Magic-user"
+            }
+          ],
+          "regionId": "phb-19-602a36abc607e820",
+          "source": {
+            "book": "PHB",
+            "printedPage": 19,
+            "pdfPage": 20
+          },
+          "image": "phb-19-602a36abc607e820.png",
+          "imageSha256": "602a36abc607e8201382d866231bbb6c84d2ead256eea7f4ea2b1d065be4a449",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.935,
+            "height": 0.175
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-illusionist.json",
+          "catalogItemId": "illusionist",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "illusionist",
+              "name": "Illusionist"
+            }
+          ],
+          "regionId": "phb-19-602a36abc607e820",
+          "source": {
+            "book": "PHB",
+            "printedPage": 19,
+            "pdfPage": 20
+          },
+          "image": "phb-19-602a36abc607e820.png",
+          "imageSha256": "602a36abc607e8201382d866231bbb6c84d2ead256eea7f4ea2b1d065be4a449",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.935,
+            "height": 0.175
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-thief.json",
+          "catalogItemId": "thief",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "thief",
+              "name": "Thief"
+            }
+          ],
+          "regionId": "phb-19-602a36abc607e820",
+          "source": {
+            "book": "PHB",
+            "printedPage": 19,
+            "pdfPage": 20
+          },
+          "image": "phb-19-602a36abc607e820.png",
+          "imageSha256": "602a36abc607e8201382d866231bbb6c84d2ead256eea7f4ea2b1d065be4a449",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.935,
+            "height": 0.175
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-assassin.json",
+          "catalogItemId": "assassin",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "assassin",
+              "name": "Assassin"
+            }
+          ],
+          "regionId": "phb-19-602a36abc607e820",
+          "source": {
+            "book": "PHB",
+            "printedPage": 19,
+            "pdfPage": 20
+          },
+          "image": "phb-19-602a36abc607e820.png",
+          "imageSha256": "602a36abc607e8201382d866231bbb6c84d2ead256eea7f4ea2b1d065be4a449",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.935,
+            "height": 0.175
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-monk.json",
+          "catalogItemId": "monk",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "monk",
+              "name": "Monk"
+            }
+          ],
+          "regionId": "phb-19-602a36abc607e820",
+          "source": {
+            "book": "PHB",
+            "printedPage": 19,
+            "pdfPage": 20
+          },
+          "image": "phb-19-602a36abc607e820.png",
+          "imageSha256": "602a36abc607e8201382d866231bbb6c84d2ead256eea7f4ea2b1d065be4a449",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.935,
+            "height": 0.175
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-ua-thief-acrobat.json",
+          "catalogItemId": "ua-thief-acrobat",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "ua-thief-acrobat",
+              "name": "Thief-acrobat"
+            }
+          ],
+          "regionId": "phb-19-602a36abc607e820",
+          "source": {
+            "book": "PHB",
+            "printedPage": 19,
+            "pdfPage": 20
+          },
+          "image": "phb-19-602a36abc607e820.png",
+          "imageSha256": "602a36abc607e8201382d866231bbb6c84d2ead256eea7f4ea2b1d065be4a449",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.935,
+            "height": 0.175
+          }
+        },
+        {
+          "catalog": "scans/verified/classes-ua-paladin.json",
+          "catalogItemId": "ua-paladin",
+          "owners": [
+            {
+              "collection": "classes",
+              "itemId": "ua-paladin",
+              "name": "Paladin · UA revision"
+            }
+          ],
+          "regionId": "phb-19-602a36abc607e820",
+          "source": {
+            "book": "PHB",
+            "printedPage": 19,
+            "pdfPage": 20
+          },
+          "image": "phb-19-602a36abc607e820.png",
+          "imageSha256": "602a36abc607e8201382d866231bbb6c84d2ead256eea7f4ea2b1d065be4a449",
+          "normalizedPageRect": {
+            "x": 0.035,
+            "y": 0.035,
+            "width": 0.935,
+            "height": 0.175
+          }
+        }
+      ],
+      "status": "currently shared exact bytes; listed for denominator only; no blanket context approval"
+    }
+  ],
+  "triage": {
+    "p33GenericTwoClassContext": "All current class-card uses of the old PHB p.33 image point to the same generic two-class advancement procedure; it is relevant as general context, but each card still needs its own source-claim/eligibility assessment. The separate rules:dual-class catalog is directly scoped to that procedure. The p.33 alignment and multiclass-equipment crops are different regions and excluded from this continuation candidate denominator.",
+    "phb32MultiClassContext": "The PHB p.32 exact image is a multi-class explanation/examples excerpt. It may support class-combination background but each class combination and context remains uncertain until reviewed; no group approval inferred.",
+    "phb28ThiefFunctionTable": "The PHB p.28 exact image is the thief-function table. It is a baseline candidate for thief/monk/UA barbarian/thief-acrobat records; the class-specific link from table to rules is unresolved per catalog summaries.",
+    "phb27ThiefAcrobat": "The PHB p.27 old image is used by the UA Thief-acrobat catalog as a thief-function baseline; likely related, but exact UA application/context remains separately unreviewed.",
+    "exactByteReuseOfCurrentAssassinImages": "Some currently approved/reviewed Assassin sources are shared byte-for-byte with other class/spell catalogs. Those are inventory only; a future crop change must assess every linked item, and their review states do not transfer."
+  },
+  "limitations": [
+    "This denominator covers only catalogs referenced by nested catalog pointers in the current dist/data.json snapshot. It does not enumerate unreferenced catalog files or source passages with no catalog link.",
+    "Exact-byte and rectangle matches locate possible shared source-image instances; they do not prove that each item relies on or is adequately supported by the same excerpt.",
+    "No permission or approval is inherited from a shared image, prior row review, or another class entry.",
+    "Historical image bytes are not included; their actual SHA-256 and Git catalog object identities are retained."
+  ]
+}

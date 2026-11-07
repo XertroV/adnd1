@@ -4,7 +4,7 @@
 Read-only for catalog/image/PDF inputs. Output is metadata, not semantic verification.
 Run from any directory; requires PyMuPDF and the separately supplied source PDFs.
 """
-import argparse,collections,hashlib,json,os,sys
+import argparse,collections,hashlib,json,math,os,sys
 from pathlib import Path
 import fitz
 from crop_geometry import crosses
@@ -17,19 +17,28 @@ def sha(path):
   for chunk in iter(lambda:f.read(1048576),b''):h.update(chunk)
  return h.hexdigest()
 def normalized(v):
- if isinstance(v,dict):return [v['x'],v['y'],v.get('width',v.get('w')),v.get('height',v.get('h'))],'object'
+ if isinstance(v,dict):return [v.get('x'),v.get('y'),v.get('width',v.get('w')),v.get('height',v.get('h'))],'object'
  if isinstance(v,list) and len(v)==1 and isinstance(v[0],list):return v[0],'nested'
  if isinstance(v,list) and len(v)==4:return v,'flat'
  return None,'none'
 def rect_for(r,p):
  a,shape=normalized(r.get('normalizedPageRect'))
  if a is not None:
-  x,y,w,h=map(float,a);return [x*p.width,y*p.height,(x+w)*p.width,(y+h)*p.height],shape
+  try:x,y,w,h=map(float,a)
+  except (TypeError,ValueError):return None,'invalid'
+  if not all(math.isfinite(v) for v in (x,y,w,h)) or x<0 or y<0 or w<=0 or h<=0 or x+w>1.000002 or y+h>1.000002:return None,'invalid'
+  return [x*p.width,y*p.height,(x+w)*p.width,(y+h)*p.height],shape
  b=r.get('boundsPdfPoints')
- if isinstance(b,list) and len(b)==4:return list(map(float,b)),'boundsPdfPoints'
+ if isinstance(b,list) and len(b)==4:
+  try:b=list(map(float,b))
+  except (TypeError,ValueError):return None,'invalid'
+  if not all(math.isfinite(v) for v in b) or b[0]<0 or b[1]<0 or b[2]<=b[0] or b[3]<=b[1] or b[2]>p.width+.002 or b[3]>p.height+.002:return None,'invalid'
+  return b,'boundsPdfPoints'
  return None,'missing'
 def main():
- parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--source-dir',default=os.environ.get('ADND_SOURCE_DIR'),help='Directory containing the five original source PDFs; or set ADND_SOURCE_DIR');parser.add_argument('--output-prefix',default='current',help='Snapshot suffix; baseline is reserved and immutable');args=parser.parse_args()
+ global DIST,OUT
+ parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--source-dir',default=os.environ.get('ADND_SOURCE_DIR'),help='Directory containing the five original source PDFs; or set ADND_SOURCE_DIR');parser.add_argument('--output-prefix',default='current',help='Snapshot suffix; baseline is reserved and immutable');parser.add_argument('--data-root',type=Path,default=DIST,help='Read data.json and catalogs from this dist directory; permits immutable Git snapshots');parser.add_argument('--output-dir',type=Path,default=OUT,help='Write metadata reports here without modifying input catalogs');args=parser.parse_args()
+ DIST=args.data_root.resolve();OUT=args.output_dir.resolve();OUT.mkdir(parents=True,exist_ok=True)
  if not args.source_dir:parser.error('--source-dir or ADND_SOURCE_DIR is required')
  if not args.output_prefix.replace('-','').replace('_','').isalnum() or args.output_prefix in ('baseline','corrected'):parser.error('invalid or reserved output prefix')
  output_stem='source-visual-audit-'+args.output_prefix;pdfpaths={k:Path(args.source_dir)/v for k,v in PDF_FILENAMES.items()}
@@ -43,13 +52,18 @@ def main():
     catpath=DIST/link['catalog'];cat=json.loads(catpath.read_text());catalog_hashes[link['catalog']]=sha(catpath)
     for r in cat.get('regions',[]):
      book=r.get('book'); page=r.get('pdfPage'); image=catpath.parent/r.get('image',''); focuses=r.get('focusRects',[]); full=sum(1 for v in focuses if v==[0,0,1,1]); partial=len(focuses)-full
-     expected=(cat.get('sources',{}).get(book,{}) or {}).get('sha256'); source_match=bool(book in hashes and expected==hashes[book]); bounds=None; btype='missing';words=[]
+     expected=(cat.get('sources',{}).get(book,{}) or {}).get('sha256'); source_match=bool(book in hashes and expected==hashes[book]); bounds=None; btype='missing';words=[];assessment='not-assessable-source-mismatch'
      if source_match and isinstance(page,int) and 1<=page<=len(pdfs[book]):
       pdfpage=pdfs[book][page-1];bounds,btype=rect_for(r,pdfpage.rect)
       if bounds:
-       key=(book,page);words=page_cache.setdefault(key,pdfpage.get_text('words'))
+       key=(book,page)
+       if key not in page_cache:page_cache[key]=pdfpage.get_text('words')
+       words=page_cache[key];assessment='assessed-text-layer' if words else 'not-assessable-empty-text-layer'
+      else:assessment='not-assessable-missing-bounds'
+     elif source_match:assessment='not-assessable-page-unavailable'
      image_sha=sha(image) if image.is_file() else None
      u={'collection':col,'itemId':item.get('id'),'binding':source_type,'catalog':link['catalog'],'regionId':r.get('id'),'book':book,'printedPage':r.get('printedPage'),'pdfPage':page,'image':str(image.relative_to(DIST)),'imageSha256':r.get('sha256'),'imageHashMatches':image_sha==r.get('sha256'),'focusSentinelCount':full,'focusPartialCount':partial,'boundsType':btype,'pdfBounds':[round(x,4) for x in bounds] if bounds else None,'sourceHashMatches':source_match,'viewerSelectedBinding':source_type==('sourceExcerpts' if item.get('sourceExcerpts') else 'scanVerification'),'role':r.get('role'),'regionTitle':r.get('title',''),'regionSummary':r.get('summary','')}
+     u['cropEdgeAssessment']=assessment;u['sourcePageWordBoxCount']=len(words);u['semanticContextAssessment']='unresolved-requires-source-review';u['continuationAssessment']='unresolved-requires-source-review';u['focusRelevanceAssessment']='unresolved-requires-fact-review'
      usage.append(u)
      if image_sha!=r.get('sha256'):warnings.append({'kind':'image-hash-mismatch','image':u['image']})
      if not source_match:warnings.append({'kind':'source-hash-missing-or-mismatch','catalog':u['catalog'],'book':book})
@@ -61,6 +75,8 @@ def main():
         edges=crosses(w,bounds)
         if edges:entry['edgeCrossings'].append({'wordBoundsPdfPoints':[round(v,2) for v in w[:4]],'edges':edges})
       entry['usages'].append({'collection':col,'itemId':item.get('id'),'binding':source_type,'regionId':r.get('id'),'catalog':link['catalog']})
+      u['cropEdgeCandidateId']=cid if entry['edgeCrossings'] else None
+      u['cropEdgeAssessment']='candidate-text-box-crossing' if entry['edgeCrossings'] else assessment
      else:warnings.append({'kind':'no-mappable-bounds','catalog':u['catalog'],'regionId':u['regionId']})
  groups=collections.defaultdict(list)
  for u in usage:groups[(u['collection'],u['itemId'],u['binding'],u['book'],u['printedPage'])].append(u)
@@ -78,6 +94,8 @@ def main():
   e['crossingCount']=len(e['edgeCrossings']);e['edgeCrossings']=e['edgeCrossings'][:20];e['edgeCrossingsTruncated']=e['crossingCount']>20
  bybook=collections.Counter(u['book'] for u in usage);bycollection=collections.Counter(u['collection'] for u in usage);sentinel=collections.Counter(u['book'] for u in usage if u['focusSentinelCount']);bounds=collections.Counter(u['boundsType'] for u in usage);candbooks=collections.Counter(c['book'] for c in candidates);candcols=collections.Counter(u['collection'] for c in candidates for u in c['usages']); uniqueimages=len({u['imageSha256'] for u in usage});unique_candidates=len({c['imageSha256'] for c in candidates})
  out={'schemaVersion':1,'scope':'All sourceExcerpts and scanVerification catalogs linked from dist/data.json. Edge candidates are text-layer geometry intersections, not verified defects. Full-image focus is a suspected overhighlight pending per-region review, not semantic verification. No supplied private page 175 image is published or scanned.','inputDataSha256':sha(DIST/'data.json'),'sourcePdfSha256':hashes,'catalogSha256':dict(sorted(catalog_hashes.items())),'catalogSnapshotSha256':hashlib.sha256(json.dumps(dict(sorted(catalog_hashes.items())),separators=(',',':'),ensure_ascii=False).encode()).hexdigest(),'counts':{'regionUsages':len(usage),'uniqueImageHashes':uniqueimages,'uniqueImageGeometryBindings':len(scans),'sentinelUsages':sum(bool(u['focusSentinelCount']) for u in usage),'partialFocusUsages':sum(bool(u['focusPartialCount']) for u in usage),'knownHeadingOnlyUsages':sum(u['knownHeadingOnly'] for u in usage),'knownHeadingOnlyFirstInPageGroup':sum(u['knownHeadingOnly'] and u['pageOrdinal']==1 for u in usage),'knownHeadingOnlyFirstWithSibling':sum(u['knownHeadingOnly'] and u['pageOrdinal']==1 and u['samePageRegionCount']>1 for u in usage),'knownHeadingOnlyViewerDefault':sum(u['knownHeadingOnly'] and u['viewerSelectedBinding'] and u['viewerOrdinal']==1 for u in usage),'defaultContextLabelCandidates':sum(u['defaultContextCandidate'] for u in usage),'viewerDefaultContextLabelCandidates':sum(u['contextLabelCandidate'] and u['viewerSelectedBinding'] and u['viewerOrdinal']==1 and u['samePageRegionCount']>1 for u in usage),'sentinelUsagesByCollection':dict(sorted(collections.Counter(u['collection'] for u in usage if u['focusSentinelCount']).items())),'candidateImageGeometryBindings':len(candidates),'candidateUniqueImages':unique_candidates,'candidateLinkedUsages':sum(len(c['usages']) for c in candidates),'usagesByBook':dict(sorted(bybook.items())),'usagesByCollection':dict(sorted(bycollection.items())),'sentinelUsagesByBook':dict(sorted(sentinel.items())),'boundsTypes':dict(sorted(bounds.items())),'candidateBindingsByBook':dict(sorted(candbooks.items())),'candidateUsagesByCollection':dict(sorted(candcols.items()))},'warnings':warnings,'usages':usage,'candidates':candidates}
+ out['counts']['cropEdgeAssessments']=dict(sorted(collections.Counter(u['cropEdgeAssessment'] for u in usage).items()))
+ out['assessmentPolicy']={'candidate-text-box-crossing':'Uncertain clipping candidate; inspect source pixels.','assessed-text-layer':'No word-box crossing found; raster clipping and semantic omissions remain unresolved.','not-assessable':'Missing, invalid or unavailable inputs never become clean results.','semanticDimensions':'Every usage remains unresolved for context, continuation and fact-focus relevance until separately joined to exact source-bound review evidence.'}
  (OUT/(output_stem+'.json')).write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n')
  queues={'phb-equipment':[],'nonphb-equipment':[],'other-records':[]}
  for entry in candidates:

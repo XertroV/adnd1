@@ -1,4 +1,4 @@
-import {withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
+import {withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -8,7 +8,7 @@ test('editorial suggestions preserve unknown printed prices and match reviewed c
  assert.equal(suggestedPriceCorrections.records.length,4);
  for(const r of suggestedPriceCorrections.records){
   const item=data.equipment.find(x=>x.id===r.id),change=r.changes.find(c=>c.path==='/suggestedPrice'),v=change.independentReview;
-  assert.equal(item.price,null,r.id);assert.equal(item.priceState,'unextracted',r.id);assert.deepEqual(item.suggestedPrice,change.newValue);
+  assert.equal(item.price,null,r.id);assert.equal(item.priceState,'unextracted',r.id);assert.deepEqual(withoutGeneratedCitationTransport(item.suggestedPrice),withoutGeneratedCitationTransport(change.newValue));
   assert.equal(v.verdict,'no decisive inconsistency found');assert.deepEqual({amount:item.suggestedPrice.amount,currency:item.suggestedPrice.currency,unit:item.suggestedPrice.unit},v.suggestedPrice);assert.equal(item.suggestedPrice.rationale,v.basis);
   assert.equal(item.suggestedPrice.comparisons.length,v.comparables.length);
   const ids={Spear:'phb-spear',Sap:'ua-sap','Staff sling':'ua-staff-sling','Sling bullets':'phb-sling-bullet'};

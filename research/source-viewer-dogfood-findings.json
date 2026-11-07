@@ -4,9 +4,9 @@
     {
       "candidateId": "dogfood-charging-melee",
       "category": "missing-continuation",
-      "status": "pending-defect",
-      "reviewStatus": "reported by separate read-only dogfood; follow-up diagnosis pending",
-      "reason": "Read-only dogfooding reports the displayed DMG p.66 passage ends mid-sentence and no p.67 continuation is offered. Current catalog has only p.66; original p.67 needs review before repair.",
+      "status": "fixed-local-pending-deployment",
+      "reviewStatus": "Local follow-up verified; deployment verification pending",
+      "reason": "Original-source review finds the continuation on the same printed DMG66, from bottom-left to top-right. Both required segments are present in order; page67 was an incorrect initial hypothesis.",
       "source": {
         "book": "DMG",
         "printedPage": 66,
@@ -21,14 +21,43 @@
           "catalog": "scans/verified/rules-charging-melee.json",
           "regionId": "dmg-66-736ea779203d26d3"
         }
+      ],
+      "supersedes": {
+        "record": {
+          "candidateId": "dogfood-charging-melee",
+          "category": "missing-continuation",
+          "status": "pending-defect",
+          "reviewStatus": "reported by separate read-only dogfood; follow-up diagnosis pending",
+          "reason": "Read-only dogfooding reports the displayed DMG p.66 passage ends mid-sentence and no p.67 continuation is offered. Current catalog has only p.66; original p.67 needs review before repair.",
+          "source": {
+            "book": "DMG",
+            "printedPage": 66,
+            "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "imageSha256": "c61536f2f2931ed31f2deb45cd0a68c1334811f77a9714c7e16b47dbd43ef8e6",
+          "usages": [
+            {
+              "collection": "rules",
+              "itemId": "charging-melee",
+              "binding": "sourceExcerpts",
+              "catalog": "scans/verified/rules-charging-melee.json",
+              "regionId": "dmg-66-736ea779203d26d3"
+            }
+          ]
+        },
+        "reason": "Follow-up source/behavior verification; original report retained verbatim, including disproved hypotheses."
+      },
+      "followupEvidence": [
+        "research/citation-continuations.json",
+        "tests/citation-continuation-history.test.mjs"
       ]
     },
     {
       "candidateId": "dogfood-phb-magic-user-fireball",
       "category": "viewport-framing",
-      "status": "pending-defect",
-      "reviewStatus": "reported by separate read-only dogfood; follow-up diagnosis pending",
-      "reason": "Read-only dogfooding reproduced the source stage opening scrolled to the bottom in a fresh tab, hiding its header. This is a reported viewport-framing issue, not evidence that the PNG is clipped.",
+      "status": "fixed-local-pending-deployment",
+      "reviewStatus": "Local follow-up verified; deployment verification pending",
+      "reason": "The raw full-image sentinel no longer drives stage scroll. Fresh-tab desktop/mobile header and permalink checks pass. Exact independent original-source review confirms this complete whole-spell image can remain unmarked; individual facts still require precise highlights.",
       "source": {
         "book": "PHB",
         "printedPage": 73,
@@ -43,14 +72,44 @@
           "catalog": "scans/verified/spells-phb-magic-user-fireball.json",
           "regionId": "phb-73-98d1b9198302b818"
         }
+      ],
+      "supersedes": {
+        "record": {
+          "candidateId": "dogfood-phb-magic-user-fireball",
+          "category": "viewport-framing",
+          "status": "pending-defect",
+          "reviewStatus": "reported by separate read-only dogfood; follow-up diagnosis pending",
+          "reason": "Read-only dogfooding reproduced the source stage opening scrolled to the bottom in a fresh tab, hiding its header. This is a reported viewport-framing issue, not evidence that the PNG is clipped.",
+          "source": {
+            "book": "PHB",
+            "printedPage": 73,
+            "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "imageSha256": "98d1b9198302b818bec6c2a6bb7480d840b8d87ecd84c235088744c8b59967b8",
+          "usages": [
+            {
+              "collection": "spells",
+              "itemId": "phb-magic-user-fireball",
+              "binding": "sourceExcerpts",
+              "catalog": "scans/verified/spells-phb-magic-user-fireball.json",
+              "regionId": "phb-73-98d1b9198302b818"
+            }
+          ]
+        },
+        "reason": "Follow-up source/behavior verification; original report retained verbatim, including disproved hypotheses."
+      },
+      "followupEvidence": [
+        "research/whole-spell-unmarked-review.json",
+        "tests/source-viewer-header.browser.mjs",
+        "tests/source-viewer-permalink.browser.mjs"
       ]
     },
     {
       "candidateId": "dogfood-phb-magic-user-sleep",
       "category": "viewport-framing",
-      "status": "pending-defect",
-      "reviewStatus": "reported by separate read-only dogfood; follow-up diagnosis pending",
-      "reason": "Read-only dogfooding reproduced the source stage opening scrolled to the bottom in a fresh tab, hiding its header. This is a reported viewport-framing issue, not evidence that the PNG is clipped.",
+      "status": "fixed-local-pending-deployment",
+      "reviewStatus": "Local follow-up verified; deployment verification pending",
+      "reason": "The raw full-image sentinel no longer drives stage scroll. Fresh-tab desktop/mobile header and permalink checks pass. Exact independent original-source review confirms this complete whole-spell image can remain unmarked; individual facts still require precise highlights.",
       "source": {
         "book": "PHB",
         "printedPage": 68,
@@ -65,27 +124,73 @@
           "catalog": "scans/verified/spells-phb-magic-user-sleep.json",
           "regionId": "phb-68-7b273e6d36dc7819"
         }
+      ],
+      "supersedes": {
+        "record": {
+          "candidateId": "dogfood-phb-magic-user-sleep",
+          "category": "viewport-framing",
+          "status": "pending-defect",
+          "reviewStatus": "reported by separate read-only dogfood; follow-up diagnosis pending",
+          "reason": "Read-only dogfooding reproduced the source stage opening scrolled to the bottom in a fresh tab, hiding its header. This is a reported viewport-framing issue, not evidence that the PNG is clipped.",
+          "source": {
+            "book": "PHB",
+            "printedPage": 68,
+            "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          "imageSha256": "7b273e6d36dc7819929ac23c0dd8cf0436fbb066b8cb5710f6d33ba25c6cb8d7",
+          "usages": [
+            {
+              "collection": "spells",
+              "itemId": "phb-magic-user-sleep",
+              "binding": "sourceExcerpts",
+              "catalog": "scans/verified/spells-phb-magic-user-sleep.json",
+              "regionId": "phb-68-7b273e6d36dc7819"
+            }
+          ]
+        },
+        "reason": "Follow-up source/behavior verification; original report retained verbatim, including disproved hypotheses."
+      },
+      "followupEvidence": [
+        "research/whole-spell-unmarked-review.json",
+        "tests/source-viewer-header.browser.mjs",
+        "tests/source-viewer-permalink.browser.mjs"
       ]
     },
     {
       "candidateId": "dogfood-ua-cleric-abjure",
       "category": "missing-continuation",
-      "status": "repaired-pending-deployment",
-      "reason": "The batch adds the missing UA p.37 continuation under stable source navigation; original starts and continuation remain distinct. Independent crop review is recorded in ua-other-fourth-independent-review.json. Live verification follows deployment.",
+      "status": "rechecked-local-pending-deployment",
+      "reason": "The two UA37 column segments remain present in order and separate from PHB47 support. Git-backed pre-fix continuation fixture fails and current manifest passes; no regression to the prior repair.",
       "entryId": "ua-cleric-abjure",
-      "addedRegionId": "ua-37-47646031f5b262d9"
+      "addedRegionId": "ua-37-47646031f5b262d9",
+      "supersedes": {
+        "record": {
+          "candidateId": "dogfood-ua-cleric-abjure",
+          "category": "missing-continuation",
+          "status": "repaired-pending-deployment",
+          "reason": "The batch adds the missing UA p.37 continuation under stable source navigation; original starts and continuation remain distinct. Independent crop review is recorded in ua-other-fourth-independent-review.json. Live verification follows deployment.",
+          "entryId": "ua-cleric-abjure",
+          "addedRegionId": "ua-37-47646031f5b262d9"
+        },
+        "reason": "Follow-up source/behavior verification; original report retained verbatim, including disproved hypotheses."
+      },
+      "reviewStatus": "Local follow-up verified; deployment verification pending",
+      "followupEvidence": [
+        "research/citation-continuations.json",
+        "tests/citation-continuation-history.test.mjs"
+      ]
     }
   ],
   "applicationFindings": [
     {
       "id": "dogfood-search-selection-url",
       "category": "navigation-selection",
-      "status": "reported-pending-diagnosis",
+      "status": "fixed-local-pending-deployment",
       "observedStartingRoute": "#equipment/phb-arrow",
       "query": "long sword",
       "observedSelectedItem": "phb-long-sword",
       "observedAddressRoute": "#equipment/phb-arrow",
-      "reason": "Separate read-only dogfood reports that search selects Long Sword while the URL remains Arrow; reload returns to Arrow. Spell searches reportedly show the same mismatch. Copy-source links preserved selected regions in the tested cases.",
+      "reason": "Filter/search selection updates the canonical entry URL. Direct entry/source routes clear incompatible active filters; reload and Back/Forward checks pass across all four content views.",
       "appSha256": "8b0b0cbdac548222bf660372c07a315bcd08e681b6987e82a302b361d78e6183",
       "requiredValidation": [
         "Search changes selected card and canonical entry URL coherently",
@@ -93,46 +198,166 @@
         "Back/Forward preserves intentional search and selection behavior",
         "Ordinary direct entry URLs remain valid"
       ],
-      "scope": "Application navigation finding, not a citation-image defect; excluded from citation-region denominators."
+      "scope": "Application navigation finding, not a citation-image defect; excluded from citation-region denominators.",
+      "supersedes": {
+        "record": {
+          "id": "dogfood-search-selection-url",
+          "category": "navigation-selection",
+          "status": "reported-pending-diagnosis",
+          "observedStartingRoute": "#equipment/phb-arrow",
+          "query": "long sword",
+          "observedSelectedItem": "phb-long-sword",
+          "observedAddressRoute": "#equipment/phb-arrow",
+          "reason": "Separate read-only dogfood reports that search selects Long Sword while the URL remains Arrow; reload returns to Arrow. Spell searches reportedly show the same mismatch. Copy-source links preserved selected regions in the tested cases.",
+          "appSha256": "8b0b0cbdac548222bf660372c07a315bcd08e681b6987e82a302b361d78e6183",
+          "requiredValidation": [
+            "Search changes selected card and canonical entry URL coherently",
+            "Reload restores selected entry",
+            "Back/Forward preserves intentional search and selection behavior",
+            "Ordinary direct entry URLs remain valid"
+          ],
+          "scope": "Application navigation finding, not a citation-image defect; excluded from citation-region denominators."
+        },
+        "reason": "Follow-up source/behavior verification; original report retained verbatim, including disproved hypotheses."
+      },
+      "reviewStatus": "Local follow-up verified; deployment verification pending",
+      "followupEvidence": [
+        "research/citation-filtered-route-prefx.json",
+        "tests/citation-filtered-route.browser.mjs",
+        "tests/citation-navigation.test.mjs"
+      ]
     },
     {
       "id": "reported-spell-filter-layout",
       "category": "layout-efficiency",
-      "status": "reported-pending-diagnosis",
-      "reason": "User reports inefficient spell class/level button layout. Improve scanning and use of space with desktop/mobile and keyboard checks; no redesign is claimed in this batch.",
-      "appSha256": "8b0b0cbdac548222bf660372c07a315bcd08e681b6987e82a302b361d78e6183"
+      "status": "fixed-local-pending-deployment",
+      "reason": "Class and level toggles use a compact grid and the redundant class select is hidden. Eighteen desktop/mobile interaction, keyboard,44px target and overflow checks pass; source meanings are unchanged.",
+      "appSha256": "8b0b0cbdac548222bf660372c07a315bcd08e681b6987e82a302b361d78e6183",
+      "supersedes": {
+        "record": {
+          "id": "reported-spell-filter-layout",
+          "category": "layout-efficiency",
+          "status": "reported-pending-diagnosis",
+          "reason": "User reports inefficient spell class/level button layout. Improve scanning and use of space with desktop/mobile and keyboard checks; no redesign is claimed in this batch.",
+          "appSha256": "8b0b0cbdac548222bf660372c07a315bcd08e681b6987e82a302b361d78e6183"
+        },
+        "reason": "Follow-up source/behavior verification; original report retained verbatim, including disproved hypotheses."
+      },
+      "reviewStatus": "Local follow-up verified; deployment verification pending",
+      "followupEvidence": [
+        "tests/spell-toggles-browser.mjs",
+        "test-results/spell-toggles-report.json"
+      ]
     },
     {
       "id": "reported-source-notice-borders",
       "category": "notice-dismissal",
-      "status": "reported-pending-diagnosis",
-      "reason": "User reports dismissing the green Original Sources notice removes both borders; one separator border should remain. Diagnose notice/container styling and test repeated openings plus reload-scoped dismissal.",
-      "appSha256": "8b0b0cbdac548222bf660372c07a315bcd08e681b6987e82a302b361d78e6183"
+      "status": "fixed-local-pending-deployment",
+      "reason": "Dismissing the source notice leaves one separator. Header browser checks pass for dismissal/reopening and small viewport framing.",
+      "appSha256": "8b0b0cbdac548222bf660372c07a315bcd08e681b6987e82a302b361d78e6183",
+      "supersedes": {
+        "record": {
+          "id": "reported-source-notice-borders",
+          "category": "notice-dismissal",
+          "status": "reported-pending-diagnosis",
+          "reason": "User reports dismissing the green Original Sources notice removes both borders; one separator border should remain. Diagnose notice/container styling and test repeated openings plus reload-scoped dismissal.",
+          "appSha256": "8b0b0cbdac548222bf660372c07a315bcd08e681b6987e82a302b361d78e6183"
+        },
+        "reason": "Follow-up source/behavior verification; original report retained verbatim, including disproved hypotheses."
+      },
+      "reviewStatus": "Local follow-up verified; deployment verification pending",
+      "followupEvidence": [
+        "tests/source-viewer-header.browser.mjs"
+      ]
     }
   ],
   "contextualReviewRequests": [
     {
       "id": "reported-assassin-context",
       "entry": "#classes/assassin",
-      "status": "partly-addressed-pending-entry-wide-review",
-      "reason": "User reports Assassin excerpts too tightly cropped, including the last single-row citation. The current PHB37 weapon-proficiency replacement now contains its complete table and is independently context-reviewed; other Assassin excerpts still require separate contextual review."
+      "status": "context-repairs-applied-highlights-pending",
+      "reason": "Source context now includes required scroll/proficiency notes, complete thief racial rows and both ordered columns of the human two-class example. Shared copies were inventoried and repaired consistently. Exact crop/context reviews cover52 owner-regions; class eligibility/values and precise fact highlights remain separate pending work.",
+      "supersedes": {
+        "record": {
+          "id": "reported-assassin-context",
+          "entry": "#classes/assassin",
+          "status": "partly-addressed-pending-entry-wide-review",
+          "reason": "User reports Assassin excerpts too tightly cropped, including the last single-row citation. The current PHB37 weapon-proficiency replacement now contains its complete table and is independently context-reviewed; other Assassin excerpts still require separate contextual review."
+        },
+        "reason": "Follow-up source/behavior verification; original report retained verbatim, including disproved hypotheses."
+      },
+      "reviewStatus": "Local follow-up verified; deployment verification pending",
+      "followupEvidence": [
+        "research/assassin-context-audit.json",
+        "research/assassin-context-independent-review.json",
+        "research/class-context-field-binding-proposal.json"
+      ]
     },
     {
       "id": "reported-long-sword-context",
       "entry": "#equipment/phb-long-sword",
-      "status": "confirmed-context-defects-logged",
-      "reason": "Four current price/weapon/missile table-row images manually confirmed contextually inadequate in contextual-adequacy-first-review.json. Other bindings are not automatically approved."
+      "status": "context-and-field-target-repairs-applied",
+      "reason": "PHB35 purchase price, PHB37 weight/damage, PHB38 general data and UA27 general data use complete table context and calibrated row focus. The PHB38 focus includes every AC2–10 cell. Field-value grades remain separate.",
+      "supersedes": {
+        "record": {
+          "id": "reported-long-sword-context",
+          "entry": "#equipment/phb-long-sword",
+          "status": "confirmed-context-defects-logged",
+          "reason": "Four current price/weapon/missile table-row images manually confirmed contextually inadequate in contextual-adequacy-first-review.json. Other bindings are not automatically approved."
+        },
+        "reason": "Follow-up source/behavior verification; original report retained verbatim, including disproved hypotheses."
+      },
+      "reviewStatus": "Local follow-up verified; deployment verification pending",
+      "followupEvidence": [
+        "research/equipment-weapon-context-applied-review.json",
+        "research/geometry-focus-calibration.json"
+      ]
     },
     {
       "id": "reported-arrow-context",
       "entry": "#equipment/phb-arrow",
-      "status": "confirmed-context-defect-logged",
-      "reason": "User considers the broader cost-table image/highlight good. The separate individual 2 sp excerpt is manually confirmed too narrow; retain the correct highlight while restoring context."
+      "status": "context-and-field-target-repairs-applied",
+      "reason": "The individual2 sp price uses complete Arms/Armor context with a precise single-arrow row; the1 gp/dozen offer remains a distinct field/target. Existing stable region IDs are preserved.",
+      "supersedes": {
+        "record": {
+          "id": "reported-arrow-context",
+          "entry": "#equipment/phb-arrow",
+          "status": "confirmed-context-defect-logged",
+          "reason": "User considers the broader cost-table image/highlight good. The separate individual 2 sp excerpt is manually confirmed too narrow; retain the correct highlight while restoring context."
+        },
+        "reason": "Follow-up source/behavior verification; original report retained verbatim, including disproved hypotheses."
+      },
+      "reviewStatus": "Local follow-up verified; deployment verification pending",
+      "followupEvidence": [
+        "research/equipment-weapon-context-applied-review.json",
+        "research/equipment-source-offer-reconciliation.json"
+      ]
     },
     {
       "id": "whole-spells-vs-individual-facts",
       "status": "documented-review-rule",
       "reason": "Complete whole-spell images may be shown without highlights. Individual fact citations need precise focus and adequate context; left-to-right column and next-page continuations must remain complete and legible."
     }
-  ]
+  ],
+  "followupScope": {
+    "baselineCommit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+    "localRenderInventory": "research/citation-browser-inventory.json.gz",
+    "sourceReviewUniverse": "research/systemic-detector-scope.json",
+    "additionalFindings": [
+      "Missing PHB19 scroll footnote and PHB37 Added Proficiency note cannot be detected by crop-edge intersection alone.",
+      "PHB33 human two-class worked example continues in the right column on the same page.",
+      "Contextual links require distinct UI route, semantic field owner and displayed source owner identities.",
+      "All-price source-row overlay initially misclassified101 reviewed mappings because it required a legacy match before applying the new mapping; the failure is preserved as a regression.",
+      "The first PHB38 Long Sword focus proposal omitted AC8–10, and Arrow price focus missed terminal currency punctuation. Preserved failing focus fixtures drove the corrected bounds before application.",
+      "Holy/Unholy price rows require the shared footnote in their evidence focus; the first recipe omitted that dependency.",
+      "UA Garrot is1 ep, not1 gp in the historical inventory. DMG obsidian vase is printed217/PDF217, notPDF218; both corrections retain failing source snapshots.",
+      "The UA28 text layer omits visible Aklys/Atlatl/Axe rows, so pixel review is necessary even when OCR-based detection reports no boundary issue."
+    ],
+    "remaining": [
+      "50 class field-target/highlight proposals remain pending independent precise-focus review.",
+      "Unannotated context, source-value, qualifier and continuation claims remain explicit review work across the complete property inventory.",
+      "Earlier unspecified pre-Assassin comments cannot be reconstructed precisely from repository evidence; no forgotten finding is invented. Full rendered-route checks and source-first price/shared-context reviews were repeated."
+    ],
+    "deploymentStatus": "pending-normal-Pages-verification"
+  }
 }

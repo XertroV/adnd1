@@ -23,7 +23,7 @@ try {
  await page.locator('#referenceDetail [data-source-id]').click();
  check('source modal printed-to-PDF mapping',await page.locator('.source-viewer-main').innerText().then(t=>t.includes('Players Handbook')&&t.includes('67')&&t.includes('68')));
  await page.keyboard.press('Escape');
- await page.locator('#classFilter').selectOption('Illusionist');await page.locator('[data-spell-level="0"]').click();await page.locator('#bookFilter').selectOption('UA');
+ await page.locator('[data-spell-class="Illusionist"]').click();await page.locator('[data-spell-level="0"]').click();await page.locator('#bookFilter').selectOption('UA');
  await search('Chill');
  check('shared magic-user cantrips available to illusionists',await page.locator('.result-name').innerText()==='Chill');
  check('pending source headings identified transparently',await page.locator('#referenceDetail').innerText().then(t=>/pending/i.test(t)&&!/not yet a description-page citation/.test(t)));

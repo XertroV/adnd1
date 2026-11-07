@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {withoutGeneratedCitationTransport} from './equipment-source-first-fixture.mjs';
 export const racialLastCorrections=JSON.parse(readFileSync(new URL('./fixtures/mechanics-racial-last-corrections.json',import.meta.url),'utf8'));
 export function reverseRacialLastCorrections(items,collection) {
  const copy=structuredClone(items);
@@ -10,7 +11,7 @@ export function reverseRacialLastCorrections(items,collection) {
    for(const key of parts.slice(0,-1)) {assert.ok(parent && Object.hasOwn(parent,key),`${record.id} ${c.path}: parent`);parent=parent[key]}
    const key=parts.at(-1),exists=Object.hasOwn(parent,key);
    assert.equal(exists,c.newExists!==false,`${record.id} ${c.path}: current existence`);
-   if(exists)assert.deepEqual(parent[key],c.newValue,`${record.id} ${c.path}: current value`);
+   if(exists)assert.deepEqual(withoutGeneratedCitationTransport(parent[key]),withoutGeneratedCitationTransport(c.newValue),`${record.id} ${c.path}: current value`);
    if(c.oldExists)parent[key]=structuredClone(c.oldValue);else delete parent[key];
   }
  }
@@ -18,8 +19,8 @@ export function reverseRacialLastCorrections(items,collection) {
   const item=copy.find(x=>x.id===entry.id);if(!item || !Object.hasOwn(item,'references'))continue;
   const oldRefs=entry.oldValue?.references??[], newRefs=entry.newValue?.references??[];
   for(const ref of newRefs) {
-   if(oldRefs.some(old=>JSON.stringify(old)===JSON.stringify(ref)))continue;
-   const index=item.references.findIndex(candidate=>JSON.stringify(candidate)===JSON.stringify(ref));
+   if(oldRefs.some(old=>JSON.stringify(withoutGeneratedCitationTransport(old))===JSON.stringify(withoutGeneratedCitationTransport(ref))))continue;
+   const index=item.references.findIndex(candidate=>JSON.stringify(withoutGeneratedCitationTransport(candidate))===JSON.stringify(withoutGeneratedCitationTransport(ref)));
    assert.notEqual(index,-1,`${entry.id}: approved citation reference`);item.references.splice(index,1);
   }
   if(!item.references.length && !oldRefs.length)delete item.references;

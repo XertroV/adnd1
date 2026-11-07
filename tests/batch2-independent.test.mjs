@@ -1,4 +1,4 @@
-import {withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
+import {withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import {reverseMechanicsBatchTwo} from './mechanics-batch-two-fixture.mjs';
 import {reverseMatrixCellReview} from './fixtures/matrix-baseline.mjs';
 import {reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
@@ -14,7 +14,7 @@ const reviewed=read('./fixtures/batch2-reviewed-rows.json').rows;
 const changed=['phb-arrow','phb-club','phb-composite-long-bow','phb-composite-short-bow','phb-hand-axe','phb-heavy-crossbow','phb-light-crossbow','phb-long-bow','phb-short-bow','phb-silver-arrow','ua-aklys-hurled','ua-atlatl-javelin','ua-blowgun-needle','ua-hand-crossbow'];
 const items=['phb-dagger','phb-battle-axe','phb-hand-axe','phb-bardiche','phb-bec-de-corbin','phb-bill-guisarme','phb-bo-stick','phb-club'];
 const canonical=v=>Array.isArray(v)?v.map(canonical):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,canonical(v[k])])):v;
-const stripExcerpts=v=>Array.isArray(v)?v.map(stripExcerpts):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).filter(([k])=>k!=='sourceExcerpts').map(([k,value])=>[k,stripExcerpts(value)])):v;
+const stripExcerpts=v=>withoutGeneratedCitationTransport(Array.isArray(v)?v.map(stripExcerpts):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).filter(([k])=>k!=='sourceExcerpts').map(([k,value])=>[k,stripExcerpts(value)])):v);
 const hash=v=>createHash('sha256').update(typeof v==='string'||Buffer.isBuffer(v)?v:JSON.stringify(canonical(v))).digest('hex');
 const pngs={
  'phb35-dagger-price.png':[394,454,'679d01d3fcf760fe438cd08f07142da8956d365971831a3a08bb4285c5e5ab12'],
@@ -56,7 +56,7 @@ test('five visible purchase prices added, and absent Bo/Club rows remain unextra
 });
 test('UA26 axe damage retains OCR grade despite matching visible PHB damage',()=>{
  for(const [id,sm,large]of [['phb-battle-axe','1–8','1–8'],['phb-hand-axe','1–6','1–4']]){
-  const item=data.equipment.find(e=>e.id===id);for(const [label,value]of [['Damage vs S/M (UA p.26)',sm],['Damage vs Large (UA p.26)',large]]){assert.equal(item.fields[label],value);assert.deepEqual(item.fieldSources[label],{book:'UA',pages:[26],status:'OCR checked · visual verification pending'});assert.ok(!item.scanVerification.checkedFields.includes(label));}
+  const item=data.equipment.find(e=>e.id===id);for(const [label,value]of [['Damage vs S/M (UA p.26)',sm],['Damage vs Large (UA p.26)',large]]){assert.equal(item.fields[label],value);assert.deepEqual(withoutGeneratedCitationTransport(item.fieldSources[label]),{book:'UA',pages:[26],status:'OCR checked · visual verification pending'});assert.ok(!item.scanVerification.checkedFields.includes(label));}
   assert.match(item.scanVerification.scope,/UA p\.26 damage.*(?:OCR checked|pending visual review)/);
  }
  const hand=data.equipment.find(e=>e.id==='phb-hand-axe');assert.equal(hand.fields['Fire rate (UA p.28)'],'1 (tabletop-miniatures turn or melee round)');assert.equal(hand.fields['Range S / M / L (UA p.28)'],'1 / 2 / 3 (numeric bands)');assert.equal(hand.fieldSources['Range S / M / L (UA p.28)'].verification.coverage,'numeric-bands-only');

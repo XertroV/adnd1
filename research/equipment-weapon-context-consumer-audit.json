@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "scope": "Structural consumer audit of the applied weapon context recipes and latest manual bindings; does not add an independent source-value review or change data.",
+  "status": "structural-checks-passed-with-unresolved-v2-receipt-path",
+  "artifacts": {
+    "appliedReview": {
+      "path": "research/equipment-weapon-context-applied-review.json",
+      "sha256": "9aaf102171f6461a9dbc942aa3deae646bfa28bf8d2e7defc3f8af427f73edba",
+      "records": 23,
+      "receiptV2Sha256": "e4e81e60d5d48872063e1be0f75890fb7b0c2162694d810e7308fe8a2ffb8f1a",
+      "receiptV2ArtifactPath": null,
+      "receiptV2ArtifactFoundInWorkspace": false
+    },
+    "manualBindings": {
+      "path": "research/field-evidence-bindings.json",
+      "sha256": "8a2a77a0ff3575ba3c6fd54a94202cc364417e310d6836060d576f083258973a",
+      "total": 206,
+      "reviewedTailCount": 18
+    },
+    "citationOverrides": {
+      "path": "citation-overrides.json",
+      "sha256": "ebb6e495c84797a5f04b1e19507ab66fa752249f4dbad1cbb79f7a68bb990ead"
+    },
+    "equipment": {
+      "path": "equipment.json",
+      "sha256": "4897dfbd39d4f438b566091cf815ce3cd7d8fcbc0615f28581a072c8f73a7e28"
+    },
+    "catalogs": [
+      {
+        "path": "dist/scans/verified/equipment-phb-arrow.json",
+        "sha256": "117ba7be1a338e6c9b6f396615d8f6097f76be2aaac9b321a18c070de61aeb4e"
+      },
+      {
+        "path": "dist/scans/verified/equipment-phb-long-sword.json",
+        "sha256": "6c8080ed3cec9a41637b639139065bb6f5dca505e4e90e35eb2f376bd934018c"
+      },
+      {
+        "path": "dist/scans/verified/equipment-ua-aklys-hurled.json",
+        "sha256": "a6a42926246cbf2af5c70e77b288766ca4349195b771181dad3e2073bbd55dbf"
+      }
+    ],
+    "calibration": {
+      "path": "research/geometry-focus-calibration.json",
+      "sha256": "6abf1a6ac2ea2eee64a49b74638b771ba8c3cc272ebc709b63e0697922992e40",
+      "matchesAppliedReview": true
+    }
+  },
+  "checks": {
+    "appliedReviewRecipes": {
+      "regionsChecked": 23,
+      "sourceImageFocusContentMismatches": 0,
+      "coordinateRecipeMismatches": 0
+    },
+    "manualBindings": {
+      "bindingsChecked": 18,
+      "sourcePointersResolved": 18,
+      "selectedCatalogsMatched": 18,
+      "reviewDigestsMatched": 18,
+      "sourceImageFocusContentRecipesMatched": 18,
+      "priceSnapshotsMatched": 3
+    },
+    "priceSnapshots": [
+      {
+        "itemId": "phb-arrow",
+        "expectedValue": {
+          "amount": 2,
+          "currency": "sp",
+          "unit": "single normal arrow"
+        }
+      },
+      {
+        "itemId": "phb-long-sword",
+        "expectedValue": {
+          "amount": 15,
+          "currency": "gp",
+          "unit": "sword and scabbard"
+        }
+      },
+      {
+        "itemId": "ua-aklys-hurled",
+        "expectedValue": {
+          "amount": 2,
+          "currency": "gp",
+          "unit": "aklys"
+        }
+      }
+    ]
+  },
+  "aklysContextReference": {
+    "overrideOnly": true,
+    "itemId": "ua-aklys-hurled",
+    "book": "UA",
+    "printedPage": 27,
+    "label": "Facing-page General Data table and notes (context only)",
+    "status": "Source context independently reviewed; no Aklys-specific numbered footnote inferred",
+    "regionId": "ua-aklys-hurled-ua27-notes-context",
+    "regionCount": {
+      "declared": 10,
+      "catalog": 10
+    },
+    "focusRects": [],
+    "highlightReview": "unmarked-context-only",
+    "manualRegionBindingPresent": false,
+    "effect": "Adds one page pair to the current assembled snapshot; UA p.27 is already cited elsewhere, so distinct cited-page count stays unchanged."
+  },
+  "sourcePagePairSimulation": {
+    "basis": "current dist/data.json plus only the new citation-overrides reference; does not include pending equipment assembly",
+    "currentDistRecords": 920,
+    "currentDistPagePairs": 1885,
+    "simulatedPagePairs": 1886,
+    "additivePagePairDelta": 1,
+    "ua27AlreadyCitedElsewhere": true
+  },
+  "limitations": [
+    "The UA p.27 context citation has no direct region binding in the manual ledger, so it remains a page-level context reference rather than a selected fact target.",
+    "The current dist snapshot predates assembly of the 73 equipment additions; regenerate the source-page-pair fixture from final assembled data and retain this explicit +1 reference delta.",
+    "The applied-review file has a receiptV2Sha256 but no artifact path; no matching SHA-256 file was present under /workspace, so that ancillary review receipt cannot be re-opened from this checkout. The applied-review file itself is current and all its region recipes matched."
+  ]
+}

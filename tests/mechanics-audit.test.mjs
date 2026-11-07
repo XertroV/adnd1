@@ -14,6 +14,37 @@ test('denominator excludes provenance and preserves empty and null mechanics',()
  assert.equal(ledger.records.find(r=>r.id==='e').fields.find(x=>x.path==='/price').status,'correction-proposed');
  assert.ok(ledger.counts.uncheckedFields>0); assert.ok(ledger.percentages.inspectedFields<100);
 });
+test('source-binding and region-review metadata do not inflate class mechanics leaves',()=>{
+ const item={id:'c',xpRows:[{level:1,xp:0,book:'PHB',pages:[20],label:'Novice'}],levelChanges:[{level:2,changes:['gain proficiency'],book:'PHB',pages:[21]}]};
+ const before=fieldsFor('classes',item);
+ item.xpRows[0].evidenceBindings=[{fieldPointer:'/xpRows/0',sourceObjectPointer:'/xpRows/0',sourceOwner:{collection:'classes',itemId:'c'},book:'PHB',printedPage:20,regionIds:[],reviewStatus:'field-target-pending',sourcePages:[20]}];
+ item.xpRows[0].regionReviews=[{regionId:'xp-row',status:'unreviewed',sourceSha256:'a'.repeat(64),imageSha256:'b'.repeat(64),review:{status:'pending'}}];
+ item.levelChanges[0].evidenceBindings=[{fieldPointer:'/levelChanges/0',sourceObjectPointer:'/levelChanges/0',book:'PHB',printedPage:21,regionIds:[],reviewStatus:'field-target-pending'}];
+ item.levelChanges[0].regionReviews=[{regionId:'level-change',status:'unreviewed',recordedReview:null}];
+ assert.deepEqual(fieldsFor('classes',item),before);
+ assert.deepEqual(before.map(field=>field.path),['/xpRows/0/level','/xpRows/0/xp','/levelChanges/0/level','/levelChanges/0/changes/0']);
+});
+test('transport metadata does not stale whole-object price or XP reviews, but game-value edits still do',()=>{
+ const d=data();
+ d.equipment[0].price={amount:2,currency:'gp',evidenceBindings:[{fieldPointer:'/price',regionIds:[],reviewStatus:'field-target-pending'}],regionReviews:[{regionId:'price-row',status:'unreviewed'}]};
+ const priceLedger=buildLedger(d,proposals());
+ assert.equal(priceLedger.records.find(r=>r.id==='e').fields.find(f=>f.path==='/price/amount').status,'corrected-and-checked');
+ assert.deepEqual(validateLedger(priceLedger,d),[]);
+ const priceChanged=structuredClone(d);priceChanged.equipment[0].price.amount=3;
+ const stalePrice=buildLedger(priceChanged,priceLedger.reviewRecords,{alreadyNormalized:true});
+ assert.equal(stalePrice.records.find(r=>r.id==='e').fields.find(f=>f.path==='/price/amount').status,'stale-proposal');
+
+ const xpData=data();xpData.classes[0].xpRows=[{level:1,xp:100,book:'PHB',pages:[20],evidenceBindings:[{fieldPointer:'/xpRows/0',regionIds:[],reviewStatus:'field-target-pending'}],regionReviews:[{regionId:'xp-row',status:'unreviewed'}]}];
+ const xpProposals=[{checker:'reviewer',records:[{id:'c',collection:'classes',checkedPaths:['/xpRows'],sources:[],changes:[{path:'/xpRows',oldValue:[{level:1,xp:0,book:'PHB',pages:[20]}],newValue:[{level:1,xp:100,book:'PHB',pages:[20]}]}]}]}];
+ const xpLedger=buildLedger(xpData,xpProposals);
+ assert.equal(xpLedger.records.find(r=>r.id==='c').fields.find(f=>f.path==='/xpRows/0/xp').status,'corrected-and-checked');
+ assert.deepEqual(validateLedger(xpLedger,xpData),[]);
+ const xpChanged=structuredClone(xpData);xpChanged.classes[0].xpRows[0].xp=101;
+ const staleXp=buildLedger(xpChanged,xpLedger.reviewRecords,{alreadyNormalized:true});
+ assert.equal(staleXp.records.find(r=>r.id==='c').fields.find(f=>f.path==='/xpRows/0/xp').status,'stale-proposal');
+ assert.equal(dataHash(xpData),dataHash({...xpData,classes:[{...xpData.classes[0],xpRows:[{...xpData.classes[0].xpRows[0],evidenceBindings:[{regionIds:['other']}],regionReviews:[{status:'current-reviewed'}]}]}]}));
+ assert.notEqual(dataHash(xpData),dataHash({...xpData,classes:[{...xpData.classes[0],xpRows:[{...xpData.classes[0].xpRows[0],xp:101}]}]}));
+});
 test('changed values are checked only if current equals proposed new value',()=>{
  const d=data(); d.spells[0].effect[0]='new'; const a=buildLedger(d,proposals());assert.equal(a.records[0].fields.find(x=>x.path==='/effect/0').status,'corrected-and-checked');
  d.spells[0].effect[0]='something else';const stale=buildLedger(d,proposals());assert.equal(stale.records[0].fields.find(x=>x.path==='/effect/0').status,'stale-proposal');assert.equal(stale.validation.staleChanges.length,1);
@@ -51,7 +82,7 @@ test('committed audit snapshot matches current assembled values and its stored e
  const ledger=JSON.parse(await readFile(new URL('../research/mechanics-audit-progress.json',import.meta.url)));
  const current=JSON.parse(await readFile(new URL('../dist/data.json',import.meta.url)));
  assert.deepEqual(validateLedger(ledger,current),[]);
- assert.equal(ledger.counts.records,892 + 28);
+ assert.equal(ledger.counts.records,892 + 28 + 73);
 });
 
 test('rewriting a source-conflict or editorial note does not count it as verified mechanics',()=>{

@@ -14,7 +14,7 @@ try{
   await page.locator('#paletteOpen').click();await page.locator('#commandInput').fill(query);
   assert.ok((await page.locator('#commandResults .result-title').allTextContents()).some(t=>t.startsWith(title)),`command palette ${query}`);checks.push(`command palette: ${query}`);await page.keyboard.press('Escape');await page.locator('#palette').waitFor({state:'hidden'});
  }
- await page.locator('#referenceSearch').fill('CLW');await page.waitForTimeout(160);await page.locator('#classFilter').selectOption('Druid');
+ await page.locator('#referenceSearch').fill('CLW');await page.waitForTimeout(160);await page.locator('[data-spell-class="Druid"]').click();
  assert.equal(await page.locator('.result-item').count(),1);assert.equal(await page.locator('.result-name').innerText(),'Cure Light Wounds');checks.push('Druid class filter with CLW');
  await page.locator('#clearFilters').click();await page.locator('#referenceSearch').fill('CLW cleric');await page.waitForTimeout(160);
  assert.equal(await page.locator('.result-item').count(),1);assert.match(await page.locator('.result-meta').innerText(),/Cleric/);checks.push('CLW with inline class term');

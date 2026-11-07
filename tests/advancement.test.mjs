@@ -1,10 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {createRequire} from 'node:module';
 import vm from 'node:vm';
 
 // Exercise the production calculation functions without a browser or copied logic.
 const app = fs.readFileSync(new URL('../dist/app.js', import.meta.url), 'utf8');
+const require=createRequire(import.meta.url);
+const citations=require('../dist/citations.js');
 const start = app.indexOf('function xpThresholds(x) {');
 const end = app.indexOf('function inlineSourceChip(', start);
 assert.ok(start >= 0 && end > start, 'Production advancement functions are available');
@@ -68,7 +71,7 @@ const classes = JSON.parse(fs.readFileSync(new URL('../classes.json',import.meta
 const renderContext=vm.createContext({
   esc:value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),
   bookCode:value=>String(value||''), pagesFor:value=>Array.isArray(value.pages)?value.pages:[],
-  noteButton:()=>'', classTargets:new Map(),data:{classes}
+  noteButton:()=>'', classTargets:new Map(),data:{classes},FirstEditionCitations:citations
 });
 vm.runInContext(app.slice(start,app.indexOf('function renderSources()',start)),renderContext);
 const fighter=classes.find(c=>c.id==='fighter');

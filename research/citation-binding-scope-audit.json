@@ -1,0 +1,224 @@
+{
+  "schemaVersion": 1,
+  "auditId": "citation-binding-scope-audit-before-systemic-pending-bindings",
+  "scope": {
+    "claim": "Structural baseline of citation-like objects and legacy verification.regions references in assembled content before systemic pending bindings are generated.",
+    "limits": [
+      "A citation-like node is a structured object with a nonempty pages array and a supported book code. This is a structural denominator, not a count of distinct facts, claims, or source passages.",
+      "Multipage nodes are record/reference page lists and are not equivalent to source rows or reviewed field targets.",
+      "The price-source inventory covers bounded named source tables and current equipment objects; it does not establish whole-book price completeness.",
+      "Source-page matching checks catalog region ID, book, printed page, and presence of source/image hashes. It does not independently re-review pixels or certify semantic adequacy."
+    ]
+  },
+  "baseline": {
+    "commit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+    "distDataSha256": "d63e2bc553be886fd5effa24ab170ace5673d42b4f310d567f0529d786a48ef4",
+    "distCitationsSha256": "4de81d0fe49b60df9360a7e921f2edfda7814c8d49140569c48db34830730cab",
+    "distAppSha256": "8b0b0cbdac548222bf660372c07a315bcd08e681b6987e82a302b361d78e6183",
+    "automaticFieldEvidenceBindings": 0,
+    "genericManualBindingCount": 0,
+    "legacyVerificationRegionReferences": {
+      "count": 93,
+      "regionIdOccurrences": 131,
+      "byCollection": {
+        "equipment": 93
+      },
+      "viewerSelectedCatalogAndSourcePageMatches": 93,
+      "regionIdMissingOrPageMismatch": 0,
+      "sourceHashPresent": 93,
+      "imageHashSha256FormatValid": 93,
+      "verificationCatalogExplicitlyStored": 0,
+      "examplesOfFalseOrStaleTargets": []
+    }
+  },
+  "currentPreFixSnapshot": {
+    "distDataSha256": "60cc10b9e841f60ca4b4d4a3df6c03f39598aac0e8418d73491f306ff3632b6e",
+    "distCitationsSha256": "0ba226075d36416e77373fc368994506ac453d27175af911c11f692d98f45834",
+    "distAppSha256": "3991791d0cb9da0aa186d91da9e55cd728d280d69e12b94fab833f9cfb8bb008",
+    "citationLikeNodes": 3181,
+    "citationLikeNodesByCollection": {
+      "rules": 155,
+      "spells": 795,
+      "classes": 1433,
+      "equipment": 784,
+      "matrices": 7,
+      "progressionExplainer": 7
+    },
+    "multipageCitationLikeNodes": 646,
+    "multipageByCollection": {
+      "rules": 19,
+      "spells": 330,
+      "classes": 246,
+      "equipment": 45,
+      "matrices": 0,
+      "progressionExplainer": 6
+    },
+    "recordCountByCollection": {
+      "rules": 148,
+      "spells": 638,
+      "classes": 16,
+      "equipment": 116,
+      "matrices": 1,
+      "progressionExplainer": 1
+    },
+    "currentAutomaticFieldEvidenceBindings": {
+      "total": 668,
+      "byCollection": {
+        "equipment": 668
+      },
+      "bySourceCategory": {
+        "equipment-purchase-price": 112,
+        "equipment-field": 496,
+        "record-reference": 54,
+        "printed-price-comparator": 6
+      },
+      "regionBound": 93,
+      "pending": 575
+    },
+    "genericManualBindingCount": 0,
+    "legacyVerificationRegionReferences": {
+      "count": 93,
+      "regionIdOccurrences": 131,
+      "byCollection": {
+        "equipment": 93
+      },
+      "viewerSelectedCatalogAndSourcePageMatches": 93,
+      "regionIdMissingOrPageMismatch": 0,
+      "sourceHashPresent": 93,
+      "imageHashSha256FormatValid": 93,
+      "verificationCatalogExplicitlyStored": 0,
+      "examplesOfFalseOrStaleTargets": []
+    },
+    "catalogGeometry": {
+      "allCatalogRegionCount": 2645,
+      "viewerSelectedCatalogRegionCount": 2569,
+      "normalizedPageRectCountInSelectedCatalogs": 2495,
+      "normalizedPageRectShapeCounts": {
+        "width-height object": 1016,
+        "array": 938,
+        "w-h object": 541
+      },
+      "normalizedPageRectWHAliasCountInSelectedCatalogs": 541,
+      "currentlyBoundCropTargetsWithNullOrNonfiniteRectValues": 0,
+      "note": "The 541 w/h aliases were not among the 93 currently bound region targets, so no current binding emitted null dimensions. The exporter had a latent width/height-only path that would lose w/h dimensions when such a target is bound."
+    },
+    "comparatorRouting": {
+      "bindingCount": 6,
+      "routeOwner": "estimate record at /suggestedPrice/comparisons/<index>",
+      "sourceOwner": "comparison.itemId record",
+      "allTargetsHaveRegionIds": false,
+      "citationCollectorPreservesSourceOwner": false,
+      "example": {
+        "itemId": "phb-bo-stick",
+        "fieldPointer": "/suggestedPrice/comparisons/0",
+        "sourceOwner": {
+          "collection": "equipment",
+          "itemId": "phb-spear"
+        }
+      }
+    }
+  },
+  "priceSourceInventory": {
+    "siteEquipmentObjects": 116,
+    "printedPrices": 112,
+    "priceGaps": 4,
+    "editorialEstimates": 4,
+    "boundedSourceInventories": 8,
+    "boundedSourceRows": 710,
+    "wholeBookPriceCompletenessClaimed": false,
+    "sourcePageMappingBaseline": {
+      "boundedSourceRows": {
+        "denominator": 710,
+        "rowsWithBookPrintedPagePdfPage": 710,
+        "assessableByVerifiedBookMapping": 710,
+        "mappingMismatches": 0,
+        "unassessable": 0
+      },
+      "separatelyRecordedUnresolvedPageFindings": [
+        {
+          "sourceFile": "research/price-source-inventory-dmg-post125-survey.json",
+          "sourceFileSha256": "a4ab8806f4386adb2e6c377928b16200a22447f27e5c3d07d653cc8bc50f6756",
+          "subject": "Obsidian vase in example trick described as worth 5,000 gp",
+          "status": "example treasure value, excluded from sale-price rows; revisit if scenario-specific treasure valuations are in scope",
+          "book": "DMG",
+          "printedPage": 217,
+          "recordedPdfPage": 218,
+          "expectedPdfPageByBooksMapping": 217,
+          "baselineDisposition": "mapping-inconsistent; preserve recorded values until separate adjudication"
+        }
+      ],
+      "detectorGap": "The prior generator validated source-row counts and hashes but did not compare each record printedPage/pdfPage pair against the book mapping. The inconsistent unresolved example was outside the 710 source-row denominator."
+    },
+    "newSourcePageCensusBaseline": {
+      "censusFiles": [
+        {
+          "id": "phb-dmg-other",
+          "path": "research/price-source-inventory-phb-dmg-other.json",
+          "pdfPageDenominator": 370,
+          "recordsOrClaims": 52,
+          "newDiscoveryRecords": 47,
+          "crossReferenceRecords": 5,
+          "tableGroups": 18,
+          "rowTranscribedNewTableGroups": 0,
+          "exclusions": 9,
+          "unresolved": 6
+        },
+        {
+          "id": "ua-other",
+          "path": "research/price-source-inventory-ua-other.json",
+          "pdfPageDenominator": 130,
+          "recordsOrClaims": 65,
+          "tableGroups": 15,
+          "rowTranscribedTableGroups": 0,
+          "exclusions": 13,
+          "unresolved": 2
+        },
+        {
+          "id": "monster-books",
+          "path": "research/price-source-inventory-monster-books.json",
+          "pdfPageDenominator": 276,
+          "recordsOrClaims": 63,
+          "tableGroups": 0,
+          "exclusions": 14,
+          "unresolvedCandidates": 4
+        }
+      ],
+      "totalPdfPages": 776,
+      "sourcePageMappingChecks": {
+        "assessable": 546,
+        "consistent": 546,
+        "inconsistent": 0,
+        "unassessable": 230
+      },
+      "unassessableMeaning": "Page census entries without an observed printed page, including unnumbered matter and page labels not visually read. They remain in the PDF-page denominator; no printed page is inferred.",
+      "crossReferenceMaterialNotAddedTo710RowDenominator": true
+    },
+    "auxiliaryPageMappingBaseline": {
+      "recordsChecked": 6,
+      "assessable": 6,
+      "consistent": 5,
+      "inconsistent": 1,
+      "issues": [
+        {
+          "sourceFile": "research/price-source-inventory-dmg-post125-survey.json",
+          "sourceFileSha256": "a4ab8806f4386adb2e6c377928b16200a22447f27e5c3d07d653cc8bc50f6756",
+          "pointer": "/unresolved/1",
+          "subject": "Obsidian vase in example trick described as worth 5,000 gp",
+          "book": "DMG",
+          "printedPage": 217,
+          "recordedPdfPage": 218,
+          "expectedPdfPageByBooksMapping": 217,
+          "status": "mapping-inconsistent; preserve source record as recorded pending separate adjudication"
+        }
+      ]
+    }
+  },
+  "mechanicsAuditDenominator": {
+    "baselineCommitTotalFields": 13193,
+    "baselineRecords": 920,
+    "metadataExclusionRequiredBeforeGenericBindings": [
+      "evidenceBindings",
+      "regionReviews"
+    ]
+  }
+}

@@ -62,7 +62,11 @@ test('assembled corrections link to scoped source excerpts without upgrading the
     assert.equal(item.incomplete, true);
     assert.match(item.status, /visual (?:verification|review) pending/i);
     assert.equal(item.sourceExcerpts.state, 'source-excerpt-checked');
-    assert.match(item.sourceExcerpts.scope, /does not verify every card value/i);
+    if (collection === 'equipment') {
+      assert.match(item.sourceExcerpts.scope, /Printed purchase price, complete named table context and precise row\/qualifier focus independently reviewed\. Other mechanics are outside this review\./i);
+    } else {
+      assert.match(item.sourceExcerpts.scope, /does not verify every card value/i);
+    }
     const catalog = read(`dist/${item.sourceExcerpts.catalog}`);
     assert.equal(catalog.itemId, id);
     assert.ok(catalog.regions.some(region => region.book === book && region.printedPage === page && region.verification === 'visually-checked-crop'));

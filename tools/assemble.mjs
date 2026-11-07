@@ -2,6 +2,7 @@ import {readFileSync, writeFileSync, existsSync} from 'node:fs';
 import {resolve, dirname} from 'node:path';
 import {createHash} from 'node:crypto';
 import {validScanCatalogPath, scanStates, validateScanCatalog} from './scan-catalog.mjs';
+import {attachEvidenceBindings, attachSourceVisualReviewMetadata, buildPriceSourceInventory, validatePriceSourceInventory, writePriceSourceInventory} from './price-source-inventory.mjs';
 const root = resolve(import.meta.dirname, '..');
 const {default: books} = await import('../dist/books.js');
 const load = name => existsSync(resolve(root,name)) ? JSON.parse(readFileSync(resolve(root,name),'utf8')) : {};
@@ -65,5 +66,11 @@ for(const item of excerptItems){
   }
 }
 data.release.excerpts={itemIds:excerptItems.map(item=>item.id),regions:uniqueRegions.size,scopedRegions,imageFiles:imageFiles.size,selectedValuesItems:excerptItems.filter(item=>item.scanVerification?.state==='selected-values-checked').length,sourceExcerptItems:excerptItems.filter(item=>item.scanVerification?.state==='source-excerpt-checked'||item.sourceExcerpts?.state==='source-excerpt-checked').length};
+const priceInventory=buildPriceSourceInventory({equipment:data.equipment,data});
+validatePriceSourceInventory(priceInventory,{equipment:data.equipment,data});
+attachEvidenceBindings(data,priceInventory);
+attachSourceVisualReviewMetadata(data);
+writePriceSourceInventory(priceInventory);
+data.release.priceInventory={path:'research/price-source-inventory.json',siteEquipmentObjects:priceInventory.counts.siteEquipmentObjects,sitePrintedPrices:priceInventory.counts.sitePrintedPrices,sitePriceGaps:priceInventory.counts.sitePriceGaps,editorialEstimates:priceInventory.counts.editorialEstimates,sourceRows:priceInventory.counts.sourceRows,fieldEvidenceBindings:priceInventory.counts.fieldEvidenceBindings,fieldEvidenceBindingsByCollection:priceInventory.counts.fieldEvidenceBindingsByCollection,regionBoundBindings:priceInventory.counts.regionBoundBindings,pendingRegionBindings:priceInventory.counts.pendingRegionBindings};
 writeFileSync(resolve(root,'dist/data.json'),JSON.stringify(data,null,2)+'\n');
 console.log(JSON.stringify({rules:data.rules.length,spells:data.spells.length,detailedSpells:data.spells.filter(s=>s.effect?.length).length,equipment:data.equipment.length,matrices:data.matrices.length,classes:data.classes.length,sources:data.sources.length}));

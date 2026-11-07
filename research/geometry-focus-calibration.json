@@ -1,0 +1,1180 @@
+{
+  "schemaVersion": 1,
+  "scope": "Source-first, read-only geometry calibration for PHB/UA equipment rows. This is a proposal and regression record only; it does not approve or apply catalog edits, establish semantic review beyond the listed visible claims, or certify source-book completeness.",
+  "coordinateConvention": {
+    "sourceCrop": "boundsPdfPoints is [x0,y0,x1,y1] in absolute source-PDF page points, top-left origin, unrotated; effective bounds are clipped to page.rect.",
+    "imageFocus": "focusRects is normalized [x,y,width,height] in the actual PNG excerpt pixel space, top-left origin. Compute from effective crop bounds, not requested out-of-page bounds.",
+    "sourcePageRect": "normalizedPageRect is the actual effective source crop normalized by the source PDF page width and height."
+  },
+  "supersession": {
+    "priorReceipt": {
+      "version": "v1",
+      "markdownPath": "/tmp/adnd1-geom-review/receipt.md",
+      "markdownSha256": "067105b795563d5fa0bfae4e71e87e359ea64bf95779bea3cf6024adfb3147fd",
+      "jsonPath": "/tmp/adnd1-geom-review/receipt.json",
+      "jsonSha256": "fc9826eb7cd933e1a2f5c55bfe5e111e7db82965bbebe143aae83be55e13be4e",
+      "preservedUnmodified": true
+    },
+    "correctedReceipt": "/tmp/adnd1-geom-review/receipt-v2.md",
+    "corrections": [
+      "The PHB printed p.38/PDF39 Sword, Long focus ending at x=449 omitted AC 8, AC 9, and AC 10 cells; the regression now requires every AC 2–10 cell and records a corrected full-row focus through x=547.",
+      "PHB printed p.35/PDF36 normal-arrow focus rectangles ending at x=424 clipped the terminal currency punctuation; source pixels reach x=424.833, so corrected focus ends at x=426.3.",
+      "Added the PHB printed p.37/PDF38 Sword, Long weight/damage row as the ninth focus case.",
+      "The PHB printed p.37/PDF38 candidate crop requested x1=580 beyond the 579.599304-point page width. The effective PyMuPDF crop is clamped to x1=579.599304; the existing PNG bytes/hash are unchanged, and normalized geometry must use the effective bounds.",
+      "Corrected the PHB p.37 table title to ‘WEIGHT AND DAMAGE BY WEAPON TYPE’. The separate ‘Hurled Weapons and Missiles’ table is on printed p.38/PDF39, not below the p.37 table.",
+      "UA printed p.26/PDF27 Aklys row has no footnote marker. UA printed p.27/PDF28 is retained as facing-page notes/context, but no numbered p.27 footnote is assigned as an Aklys-specific fact from adjacency alone.",
+      "Tightened the UA printed p.26 Aklys stats focus: the v1 bottom edge at y=81 entered the following Atlatl row; the measured Aklys ink ends by y=77.417, so v2 ends at y=78.0.",
+      "Extended the UA printed p.26 Aklys price focus bottom from y=116.25 to y=116.8 to retain the terminal ‘gp’ raster edge with a small margin.",
+      "Moved the UA printed p.27 Sword, Long focus top from y=584.4 to y=585.5: the v1 top edge overlapped preceding Sword, Khopesh ink through y=585.0; v2 covers Long Sword ink y=586.5–594.5 with margins."
+    ]
+  },
+  "sources": [
+    {
+      "book": "PHB",
+      "file": "/workspace/private-adnd1-sources/tsr2010-players-handbook.pdf",
+      "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+    },
+    {
+      "book": "UA",
+      "file": "/workspace/private-adnd1-sources/Unearthed Arcana.pdf",
+      "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+    }
+  ],
+  "contextCrops": [
+    {
+      "id": "phb35-arms-complete",
+      "book": "PHB",
+      "printedPage": 35,
+      "pdfPage": 36,
+      "pageSizePoints": [
+        584.6396484375,
+        785.5191650390625
+      ],
+      "requestedBoundsPoints": [
+        303,
+        213,
+        576,
+        603
+      ],
+      "effectiveBoundsPoints": [
+        303,
+        213,
+        576,
+        603
+      ],
+      "image": {
+        "path": "dist/scans/verified/phb-35-495e826549fd7c20.png",
+        "pixels": [
+          546,
+          780
+        ],
+        "sha256": "495e826549fd7c2012e18ed05c0fa85781cb7a5739ad5252f1bd079252fbbe61",
+        "kind": "published limited table excerpt; SHA-256 verified against calibrated candidate bytes"
+      },
+      "ncc": 0.9996448,
+      "scope": "Complete relevant Basic Equipment and Supplies Costs Armor and Arms sections, including both Arms columns. Clothing and Herbs are separate sections outside the crop."
+    },
+    {
+      "id": "phb37-weight-damage",
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "pageSizePoints": [
+        579.5993041992188,
+        786.2398681640625
+      ],
+      "requestedBoundsPoints": [
+        23,
+        177,
+        580,
+        745
+      ],
+      "effectiveBoundsPoints": [
+        23,
+        177,
+        579.5993041992188,
+        745
+      ],
+      "image": {
+        "path": "dist/scans/verified/phb-37-a0447e9e609ad119.png",
+        "pixels": [
+          1114,
+          1136
+        ],
+        "sha256": "a0447e9e609ad1191beda38a39a6f3673a0fb11bbfd72472f3f21df7f8445a31",
+        "kind": "published limited table excerpt; SHA-256 verified against calibrated candidate bytes"
+      },
+      "nominalRenderScalePixelsPerPoint": 2,
+      "expectedCeilPixelsFromEffectiveBounds": [
+        1114,
+        1136
+      ],
+      "ncc": 0.9999565,
+      "printedHeading": "WEIGHT AND DAMAGE BY WEAPON TYPE",
+      "requiredHeaderBoundsPoints": [
+        25.9,
+        179.85,
+        437.17,
+        214.79
+      ],
+      "scope": "Complete PHB p.37 Weight and Damage by Weapon Type table, including column labels, weight unit, both damage-size columns and notes. This crop does not contain Arrow range/rate-of-fire evidence. The separate Hurled Weapons and Missiles table is on printed p.38/PDF39."
+    },
+    {
+      "id": "phb38-general-data",
+      "book": "PHB",
+      "printedPage": 38,
+      "pdfPage": 39,
+      "pageSizePoints": [
+        584.879150390625,
+        782.879150390625
+      ],
+      "requestedBoundsPoints": [
+        9,
+        29,
+        570,
+        543
+      ],
+      "effectiveBoundsPoints": [
+        9,
+        29,
+        570,
+        543
+      ],
+      "image": {
+        "path": "dist/scans/verified/phb-38-b827f0f8f94a9dca.png",
+        "pixels": [
+          1122,
+          1028
+        ],
+        "sha256": "b827f0f8f94a9dca9c16c26cd7bedfb688c17756f7dd4bfd519a59d2b30d7d05",
+        "kind": "published limited table excerpt; SHA-256 verified against calibrated candidate bytes"
+      },
+      "ncc": 0.9999946,
+      "requiredHeaderBoundsPoints": [
+        11.5,
+        33.29,
+        544.01,
+        70.67
+      ],
+      "requiredTableNotesBoundsPoints": [
+        11.8,
+        473.89,
+        543.01,
+        527.47
+      ],
+      "scope": "Complete Weapon Types, General Data, and To Hit Adjustments table, including AC column headings 2–10, all rows, table notes and General Note. The separate Hurled Weapons and Missiles table begins below at printed p.38/PDF39 y≈550.99 and is outside this crop."
+    },
+    {
+      "id": "ua26-equipment-price",
+      "book": "UA",
+      "printedPage": 26,
+      "pdfPage": 27,
+      "pageSizePoints": [
+        571.198974609375,
+        765.599853515625
+      ],
+      "requestedBoundsPoints": [
+        14,
+        17,
+        283,
+        206
+      ],
+      "effectiveBoundsPoints": [
+        14,
+        17,
+        283,
+        206
+      ],
+      "image": {
+        "path": "dist/scans/verified/ua-26-c9412c959631a8cb.png",
+        "pixels": [
+          538,
+          378
+        ],
+        "sha256": "c9412c959631a8cb862203e7d8633296eb48c9160461ccadd29b66c7d2ff6106",
+        "kind": "published limited table excerpt; SHA-256 verified against calibrated candidate bytes"
+      },
+      "ncc": 0.9999937,
+      "scope": "Complete relevant Armor and Arms price block; not the entire printed page."
+    },
+    {
+      "id": "ua26-weight-damage",
+      "book": "UA",
+      "printedPage": 26,
+      "pdfPage": 27,
+      "pageSizePoints": [
+        571.198974609375,
+        765.599853515625
+      ],
+      "requestedBoundsPoints": [
+        297,
+        17,
+        571,
+        744
+      ],
+      "effectiveBoundsPoints": [
+        297,
+        17,
+        571,
+        744
+      ],
+      "image": {
+        "path": "dist/scans/verified/ua-26-9e9c6750d95af018.png",
+        "pixels": [
+          548,
+          1454
+        ],
+        "sha256": "9e9c6750d95af0181d01d52138e1f773f951b46fae6d75a719b7f0caa1cb3162",
+        "kind": "published limited table excerpt; SHA-256 verified against calibrated candidate bytes"
+      },
+      "ncc": 0.9998609,
+      "scope": "Complete Weight and Damage by Weapon Type table with header and note that notes are on the facing page; retain UA printed p.27 notes/context where relevant."
+    },
+    {
+      "id": "ua27-general-data",
+      "book": "UA",
+      "printedPage": 27,
+      "pdfPage": 28,
+      "pageSizePoints": [
+        579.8397216796875,
+        780.479736328125
+      ],
+      "requestedBoundsPoints": [
+        9,
+        29,
+        568,
+        748
+      ],
+      "effectiveBoundsPoints": [
+        9,
+        29,
+        568,
+        748
+      ],
+      "image": {
+        "path": "dist/scans/verified/ua-27-ac5c72afd1d4dae7.png",
+        "pixels": [
+          1118,
+          1438
+        ],
+        "sha256": "ac5c72afd1d4dae7712c0d95b0c4004b009f27c366a24208b8a0d924102d1c9f",
+        "kind": "published limited table excerpt; SHA-256 verified against calibrated candidate bytes"
+      },
+      "ncc": 0.9999946,
+      "scope": "Complete Hand Held Weapon Types, General Data, and To Hit Adjustments table, all rows, footnotes and General Note. The folio is outside the crop but the printed/PDF page mapping is explicit here."
+    }
+  ],
+  "focusCases": [
+    {
+      "id": "phb-arrow-normal-single-price",
+      "book": "PHB",
+      "printedPage": 35,
+      "pdfPage": 36,
+      "cropId": "phb35-arms-complete",
+      "claim": "Arrow, normal, single — 2 s.p. per single arrow; the terminal period is part of the amount/currency text.",
+      "stableRegionId": "phb-arrow-phb35-1",
+      "priorProposedFocusBoundsPoints": [
+        307.8,
+        347.3,
+        424,
+        356.3
+      ],
+      "correctedFocusBoundsPoints": [
+        306.8,
+        347.4,
+        426.3,
+        356.3
+      ],
+      "requiredEvidence": [
+        {
+          "id": "label",
+          "boundsPoints": [
+            308.9,
+            347.73,
+            384,
+            356.11
+          ],
+          "method": "original PDF text word boxes"
+        },
+        {
+          "id": "amountAndCurrency",
+          "boundsPoints": [
+            408.3333333333,
+            348,
+            424.8333333333,
+            354.5
+          ],
+          "method": "original-page raster ink bbox at 12 px/pt, threshold grayscale <170; includes 2 s.p. and terminal punctuation"
+        }
+      ],
+      "focusMarginPointsAgainstRasterInk": {
+        "left": 2.0333,
+        "right": 1.4667,
+        "top": 0.6,
+        "bottom": 0.8
+      },
+      "correction": "Prior x1=424 cut the currency punctuation (visible raster ink reaches x=424.8333).",
+      "correctedFocusImageXYWH": [
+        0.013919413919,
+        0.344615384615,
+        0.437728937729,
+        0.022820512821
+      ],
+      "priorProposedFocusImageXYWH": [
+        0.017582417582,
+        0.344358974359,
+        0.425641025641,
+        0.023076923077
+      ]
+    },
+    {
+      "id": "phb-arrow-normal-dozen-price",
+      "book": "PHB",
+      "printedPage": 35,
+      "pdfPage": 36,
+      "cropId": "phb35-arms-complete",
+      "claim": "Arrow, normal, dozen — 1 g.p. per dozen; distinct from the single-arrow price and the adjacent silver-arrow price.",
+      "stableRegionId": "phb-arrow-phb35-2",
+      "priorProposedFocusBoundsPoints": [
+        307.8,
+        356.3,
+        424,
+        365.3
+      ],
+      "correctedFocusBoundsPoints": [
+        306.8,
+        356.2,
+        426.3,
+        365.15
+      ],
+      "requiredEvidence": [
+        {
+          "id": "label",
+          "boundsPoints": [
+            308.9,
+            356.53,
+            384.89,
+            364.91
+          ],
+          "method": "original PDF text word boxes"
+        },
+        {
+          "id": "amountAndCurrency",
+          "boundsPoints": [
+            407.8333333333,
+            357,
+            424.8333333333,
+            364
+          ],
+          "method": "original-page raster ink bbox at 12 px/pt, threshold grayscale <170; includes 1 g.p. and terminal punctuation"
+        }
+      ],
+      "focusMarginPointsAgainstRasterInk": {
+        "left": 2.0333,
+        "right": 1.4667,
+        "top": 0.8,
+        "bottom": 1.15
+      },
+      "correction": "Prior x1=424 cut the currency punctuation (visible raster ink reaches x=424.8333).",
+      "correctedFocusImageXYWH": [
+        0.013919413919,
+        0.367179487179,
+        0.437728937729,
+        0.022948717949
+      ],
+      "priorProposedFocusImageXYWH": [
+        0.017582417582,
+        0.367435897436,
+        0.425641025641,
+        0.023076923077
+      ]
+    },
+    {
+      "id": "phb-long-sword-price",
+      "book": "PHB",
+      "printedPage": 35,
+      "pdfPage": 36,
+      "cropId": "phb35-arms-complete",
+      "claim": "Sword, long & scabbard — 15 g.p.; the price includes the scabbard.",
+      "stableRegionId": "phb-long-sword-phb35-price",
+      "correctedFocusBoundsPoints": [
+        450,
+        545.6,
+        574,
+        554.8
+      ],
+      "requiredEvidence": [
+        {
+          "id": "label",
+          "boundsPoints": [
+            451.4,
+            545.77,
+            534.3,
+            554.59
+          ],
+          "method": "original PDF text word boxes"
+        },
+        {
+          "id": "amountAndCurrency",
+          "boundsPoints": [
+            547.9166666667,
+            546.5,
+            569.4166666667,
+            554
+          ],
+          "method": "original-page raster ink bbox at 12 px/pt, threshold grayscale <170; includes complete 15 g.p."
+        }
+      ],
+      "focusMarginPointsAgainstRasterInk": {
+        "left": 2.3333,
+        "right": 4.5833,
+        "top": 0.9,
+        "bottom": 0.8
+      },
+      "correctedFocusImageXYWH": [
+        0.538461538462,
+        0.852820512821,
+        0.454212454212,
+        0.02358974359
+      ]
+    },
+    {
+      "id": "phb-arrow-weight-damage",
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "cropId": "phb37-weight-damage",
+      "claim": "Arrow: approximate weight 2 gold pieces of weight; damage 1–6 for Size S or M and 1–6 for Size L. This 2 is not a purchase price.",
+      "correctedFocusBoundsPoints": [
+        24.5,
+        214.6,
+        360,
+        224.1
+      ],
+      "requiredEvidence": [
+        {
+          "id": "label",
+          "boundsPoints": [
+            25.9,
+            215.45,
+            46.79,
+            223.83
+          ],
+          "method": "original PDF text word boxes"
+        },
+        {
+          "id": "approximateWeightGoldPieces",
+          "boundsPoints": [
+            158.4,
+            215.18,
+            162.63,
+            223.89
+          ],
+          "method": "original PDF text word box; table header states weight in gold pieces"
+        },
+        {
+          "id": "damageSizeSM",
+          "boundsPoints": [
+            264.2,
+            215.45,
+            275.6,
+            223.83
+          ],
+          "method": "original PDF text word box"
+        },
+        {
+          "id": "damageSizeL",
+          "boundsPoints": [
+            347,
+            215.18,
+            357.63,
+            223.89
+          ],
+          "method": "original PDF text word box, adjacent split glyphs combined"
+        }
+      ],
+      "requiredHeaderBoundsPoints": [
+        25.9,
+        179.85,
+        437.17,
+        214.79
+      ],
+      "correctedFocusImageXYWH": [
+        0.002694936894,
+        0.066197183099,
+        0.602767551933,
+        0.016725352113
+      ]
+    },
+    {
+      "id": "phb-long-sword-weight-damage",
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "cropId": "phb37-weight-damage",
+      "claim": "Sword, Long: approximate weight 60 gold pieces of weight; damage 1–8 for Size S or M and 1–12 for Size L.",
+      "correctedFocusBoundsPoints": [
+        25.3,
+        620.8,
+        356,
+        630.9
+      ],
+      "requiredEvidence": [
+        {
+          "id": "weaponType",
+          "boundsPoints": [
+            27,
+            621,
+            69,
+            630.667
+          ],
+          "method": "original-page raster ink bbox at 12 px/pt, threshold grayscale <170"
+        },
+        {
+          "id": "approximateWeightGoldPieces",
+          "boundsPoints": [
+            154.583,
+            623.167,
+            162.583,
+            628.667
+          ],
+          "method": "original-page raster ink bbox; table header supplies weight unit"
+        },
+        {
+          "id": "damageSizeSM",
+          "boundsPoints": [
+            265.167,
+            623.167,
+            274.667,
+            628.667
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "damageSizeL",
+          "boundsPoints": [
+            341.167,
+            622.667,
+            354.75,
+            628.167
+          ],
+          "method": "original-page raster ink bbox"
+        }
+      ],
+      "focusMarginPointsAgainstRasterInk": {
+        "left": 1.7,
+        "right": 1.25,
+        "top": 0.2,
+        "bottom": 0.233
+      },
+      "requiredHeaderBoundsPoints": [
+        25.9,
+        179.85,
+        437.17,
+        214.79
+      ],
+      "correction": "Added the previously omitted PHB p.37 Long Sword row. This table supplies weight and damage; it does not supply Arrow range/rate-of-fire evidence.",
+      "correctedFocusImageXYWH": [
+        0.004132236571,
+        0.781338028169,
+        0.594143753873,
+        0.017781690141
+      ]
+    },
+    {
+      "id": "phb-long-sword-to-hit-adjustments",
+      "book": "PHB",
+      "printedPage": 38,
+      "pdfPage": 39,
+      "cropId": "phb38-general-data",
+      "claim": "Sword, Long: c. 3½ ft. length, 3 ft. space required, speed factor 5; Armor Class adjustment columns 2–10 are −2, −1, 0, 0, 0, 0, 0, +1, +2.",
+      "priorBadFocusBoundsPoints": [
+        10.8,
+        420,
+        449,
+        429.2
+      ],
+      "badProposalMissingFields": [
+        "AC8",
+        "AC9",
+        "AC10"
+      ],
+      "correctedFocusBoundsPoints": [
+        9,
+        419.8,
+        547,
+        429.5
+      ],
+      "requiredEvidence": [
+        {
+          "id": "weaponType",
+          "value": "Sword, Long",
+          "boundsPoints": [
+            12,
+            421.417,
+            52.5,
+            428.917
+          ],
+          "method": "original-page raster ink bbox at 12 px/pt, threshold grayscale <170"
+        },
+        {
+          "id": "length",
+          "value": "c. 3½ ft.",
+          "boundsPoints": [
+            120.5,
+            421.917,
+            140,
+            427.417
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "spaceRequired",
+          "value": "3 ft.",
+          "boundsPoints": [
+            180.5,
+            421.917,
+            185.5,
+            427.417
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "speedFactor",
+          "value": "5",
+          "boundsPoints": [
+            227.5,
+            421.917,
+            230.5,
+            427.417
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC2",
+          "value": "−2",
+          "boundsPoints": [
+            276,
+            421.417,
+            281.5,
+            426.917
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC3",
+          "value": "−1",
+          "boundsPoints": [
+            308,
+            421.917,
+            312,
+            426.917
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC4",
+          "value": "0",
+          "boundsPoints": [
+            342.917,
+            421.917,
+            346.917,
+            427.417
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC5",
+          "value": "0",
+          "boundsPoints": [
+            375.917,
+            422.417,
+            379.417,
+            427.417
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC6",
+          "value": "0",
+          "boundsPoints": [
+            408.417,
+            421.917,
+            412.417,
+            427.417
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC7",
+          "value": "0",
+          "boundsPoints": [
+            442.917,
+            422.417,
+            446.917,
+            427.417
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC8",
+          "value": "0",
+          "boundsPoints": [
+            474.917,
+            422.417,
+            478.917,
+            427.917
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC9",
+          "value": "+1",
+          "boundsPoints": [
+            502.417,
+            422.417,
+            510.917,
+            427.917
+          ],
+          "method": "original-page raster ink bbox; split glyphs combined"
+        },
+        {
+          "id": "AC10",
+          "value": "+2",
+          "boundsPoints": [
+            534.917,
+            422.917,
+            544.917,
+            427.917
+          ],
+          "method": "original-page raster ink bbox; split glyphs combined"
+        }
+      ],
+      "focusMarginPointsAgainstRasterInk": {
+        "left": 3,
+        "right": 2.083,
+        "top": 1.617,
+        "bottom": 0.583
+      },
+      "requiredContextBoundsPoints": [
+        [
+          11.5,
+          33.29,
+          544.01,
+          70.67
+        ],
+        [
+          11.8,
+          473.89,
+          543.01,
+          527.47
+        ]
+      ],
+      "correction": "Old focus reached only x=449. It covered AC2–AC7 but excluded all visible pixels in AC8, AC9, and AC10, including the +2 glyph bbox [534.5,421.14,544.45,429.89] in the PDF text layer. The corrected focus spans every cell from weapon label through AC10 with raster margin; full original page overlay is under /tmp/adnd1-geom-review/overlays-v2/.",
+      "correctedFocusImageXYWH": [
+        0.0,
+        0.760311284047,
+        0.959001782531,
+        0.018871595331
+      ],
+      "priorBadFocusImageXYWH": [
+        0.00320855615,
+        0.760700389105,
+        0.78110516934,
+        0.017898832685
+      ]
+    },
+    {
+      "id": "ua-aklys-purchase-price",
+      "book": "UA",
+      "printedPage": 26,
+      "pdfPage": 27,
+      "cropId": "ua26-equipment-price",
+      "claim": "Aklys purchase price: 2 gp.",
+      "stableRegionId": "ua-equipment-price-table",
+      "correctedFocusBoundsPoints": [
+        16,
+        106.2,
+        140,
+        116.8
+      ],
+      "requiredEvidence": [
+        {
+          "id": "label",
+          "boundsPoints": [
+            17.5,
+            108.417,
+            37,
+            116.0
+          ],
+          "method": "original-page raster ink bbox at 12 px/pt, threshold grayscale <120"
+        },
+        {
+          "id": "amountAndCurrency",
+          "boundsPoints": [
+            121.083,
+            108.417,
+            137.083,
+            116.5
+          ],
+          "method": "original-page raster ink bbox at 12 px/pt, threshold grayscale <170; includes 2 gp"
+        }
+      ],
+      "reviewNote": "Price target remains separate from the Weight and Damage table.",
+      "focusMarginPointsAgainstRasterInk": {
+        "left": 1.5,
+        "right": 2.917,
+        "top": 2.217,
+        "bottom": 0.3
+      },
+      "correction": "Prior y1=116.25 stopped 0.25 points before the measured value/currency ink box ends at y=116.5; v2 ends at y=116.8.",
+      "priorProposedFocusBoundsPoints": [
+        16,
+        106.2,
+        140,
+        116.25
+      ],
+      "correctedFocusImageXYWH": [
+        0.007434944238,
+        0.471957671958,
+        0.460966542751,
+        0.056084656085
+      ],
+      "priorProposedFocusImageXYWH": [
+        0.007434944238,
+        0.471957671958,
+        0.460966542751,
+        0.053174603175
+      ]
+    },
+    {
+      "id": "ua-aklys-weight-damage",
+      "book": "UA",
+      "printedPage": 26,
+      "pdfPage": 27,
+      "cropId": "ua26-weight-damage",
+      "claim": "Aklys: weight 35 gold pieces; damage 1–6 for Size S or M and 1–3 for Size L.",
+      "correctedFocusBoundsPoints": [
+        299,
+        69.9,
+        539,
+        78.0
+      ],
+      "requiredEvidence": [
+        {
+          "id": "weaponType",
+          "value": "Aklys",
+          "boundsPoints": [
+            300.667,
+            70.917,
+            320.167,
+            76.917
+          ],
+          "method": "original-page raster ink bbox at 12 px/pt, threshold grayscale <120"
+        },
+        {
+          "id": "weightGoldPieces",
+          "value": "35",
+          "boundsPoints": [
+            407.667,
+            70.417,
+            415.167,
+            76.417
+          ],
+          "method": "original-page raster ink bbox; header specifies weight in gold pieces"
+        },
+        {
+          "id": "damageSizeSM",
+          "value": "1–6",
+          "boundsPoints": [
+            460.25,
+            71.417,
+            469.75,
+            76.917
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "damageSizeL",
+          "value": "1–3",
+          "boundsPoints": [
+            520.25,
+            71.417,
+            530.25,
+            77.417
+          ],
+          "method": "original-page raster ink bbox"
+        }
+      ],
+      "footnoteAssociation": {
+        "rowMarkerPresent": false,
+        "numberedPage27FootnotesAssignedToAklys": [],
+        "meaning": "The p.26 table directs readers to notes on the facing p.27, but the Aklys row has no marker. Preserve p.27 as notes/context, without attributing its row-marked numbered footnotes to Aklys based only on adjacency."
+      },
+      "reviewNote": "35 is approximate weight in gold pieces, not the 2 gp purchase price. The p.27 General Note is table-wide context, not evidence for the p.26 numerical fields.",
+      "focusMarginPointsAgainstRasterInk": {
+        "left": 1.667,
+        "right": 8.75,
+        "top": 0.517,
+        "bottom": 0.583
+      },
+      "priorProposedFocusBoundsPoints": [
+        299,
+        70,
+        539,
+        81
+      ],
+      "correction": "The v1 bottom edge at y=81 entered the next Atlatl row. The v2 focus ends at y=78.0 after the Aklys ink (maximum y=77.417) and before the following row.",
+      "followingRowInkTopPoints": 79.917,
+      "correctedFocusImageXYWH": [
+        0.007299270073,
+        0.072764786795,
+        0.875912408759,
+        0.011141678129
+      ],
+      "priorProposedFocusImageXYWH": [
+        0.007299270073,
+        0.072902338377,
+        0.875912408759,
+        0.015130674003
+      ]
+    },
+    {
+      "id": "ua-long-sword-general-data",
+      "book": "UA",
+      "printedPage": 27,
+      "pdfPage": 28,
+      "cropId": "ua27-general-data",
+      "claim": "Sword, Long: c. 3½ ft. length, 3 ft. space required, speed factor 5; Armor Class columns 0–10 are −4, −3, −2, −1, 0, 0, 0, 0, +1, +1, +2.",
+      "correctedFocusBoundsPoints": [
+        14.5,
+        585.5,
+        558,
+        595
+      ],
+      "requiredEvidence": [
+        {
+          "id": "weaponType",
+          "value": "Sword, Long",
+          "boundsPoints": [
+            16,
+            586.5,
+            63,
+            594.5
+          ],
+          "method": "original-page raster ink bbox at 12 px/pt, threshold grayscale <130"
+        },
+        {
+          "id": "length",
+          "value": "c. 3½ ft.",
+          "boundsPoints": [
+            124,
+            587,
+            148.5,
+            593
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "spaceRequired",
+          "value": "3 ft.",
+          "boundsPoints": [
+            184,
+            587,
+            191,
+            593
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "speedFactor",
+          "value": "5",
+          "boundsPoints": [
+            237,
+            587,
+            241,
+            593
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC0",
+          "value": "−4",
+          "boundsPoints": [
+            279,
+            587,
+            284.5,
+            592
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC1",
+          "value": "−3",
+          "boundsPoints": [
+            305.5,
+            586.5,
+            312,
+            592.5
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC2",
+          "value": "−2",
+          "boundsPoints": [
+            332.417,
+            586.5,
+            338.417,
+            593
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC3",
+          "value": "−1",
+          "boundsPoints": [
+            359.417,
+            587.5,
+            363.917,
+            592.5
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC4",
+          "value": "0",
+          "boundsPoints": [
+            388.417,
+            587,
+            392.417,
+            593
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC5",
+          "value": "0",
+          "boundsPoints": [
+            415.417,
+            587,
+            418.917,
+            593
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC6",
+          "value": "0",
+          "boundsPoints": [
+            441.917,
+            587,
+            445.917,
+            592.5
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC7",
+          "value": "0",
+          "boundsPoints": [
+            468.917,
+            587,
+            472.917,
+            592.5
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC8",
+          "value": "+1",
+          "boundsPoints": [
+            495.917,
+            587,
+            499.917,
+            592.5
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC9",
+          "value": "+1",
+          "boundsPoints": [
+            517.917,
+            587.5,
+            525.417,
+            592.5
+          ],
+          "method": "original-page raster ink bbox"
+        },
+        {
+          "id": "AC10",
+          "value": "+2",
+          "boundsPoints": [
+            544.917,
+            587,
+            553.917,
+            592.5
+          ],
+          "method": "original-page raster ink bbox"
+        }
+      ],
+      "noteScope": "No row-specific marker on Sword, Long. Footnote 5 about using a one-handed long sword applies to the marked Sword, Bastard row. The General Note remains page/table context.",
+      "focusMarginPointsAgainstRasterInk": {
+        "left": 1.5,
+        "right": 4.083,
+        "top": 0.5,
+        "bottom": 0.5
+      },
+      "priorProposedFocusBoundsPoints": [
+        14.5,
+        584.4,
+        558,
+        594.7
+      ],
+      "correction": "V1 y0=584.4 overlapped preceding Sword, Khopesh ink through y=585.0. The Sword, Long raster row spans y=586.5–594.5; v2 uses y=585.5..595.0 with 0.5-point vertical margins.",
+      "precedingRowInkBottomPoints": 585.0,
+      "followingRowInkTopPoints": 596.0,
+      "correctedFocusImageXYWH": [
+        0.009838998211,
+        0.773991655076,
+        0.972271914132,
+        0.013212795549
+      ],
+      "priorProposedFocusImageXYWH": [
+        0.009838998211,
+        0.772461752434,
+        0.972271914132,
+        0.014325452017
+      ]
+    }
+  ],
+  "visualReviewArtifacts": {
+    "fullPageOverlayDirectory": "/tmp/adnd1-geom-review/overlays-v2/",
+    "images": [
+      "phb35-price-and-arrows.png",
+      "phb37-weight-damage.png",
+      "phb38-general-data.png",
+      "ua26-price-and-stats.png",
+      "ua27-general-data.png"
+    ],
+    "scope": "Each overlay shows a full original source page; red outlines identify the context crop(s), green outlines identify row/cell focus. Original PDFs and full-page renders remain private under /workspace/private-adnd1-sources and /tmp."
+  },
+  "limits": [
+    "No catalog or existing calibration file was edited. All proposed bounds remain pending the parent repair gate.",
+    "Receipt v1 is preserved exactly; see explicit correction history above. Receipt v2 will supersede it only as a calibration record.",
+    "PHB p.37 Arrow evidence here covers weight/damage only, not missile range or rate of fire.",
+    "UA p.26 Aklys cost (2 gp) and weight (35 gold pieces of weight) are distinct fields. No p.27 numbered footnote is assigned to the unmarked Aklys row.",
+    "Automated containment confirms only geometric coverage of annotated boxes; it does not establish semantic correctness, full-book coverage, or contextual adequacy beyond the manually reviewed full-page overlays."
+  ],
+  "publication": {
+    "state": "applied-to-selected-verified-catalogs",
+    "catalogs": [
+      "dist/scans/verified/equipment-phb-arrow.json",
+      "dist/scans/verified/equipment-phb-long-sword.json",
+      "dist/scans/verified/equipment-ua-aklys-hurled.json"
+    ],
+    "scope": "Reviewed complete limited table excerpts, exact source crop bounds, stable region IDs and row/cell foci were applied. Source-value grading remains separately tracked; this geometry record does not certify all item mechanics.",
+    "appliedOn": "2026-11-07"
+  }
+}
