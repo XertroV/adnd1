@@ -23,14 +23,24 @@ pull requests run integrity and reproducible-output checks without deploying.
 It runs `node tools/assemble.mjs` and rejects stale committed output. Update
 `dist/data.json` with that command when changing source data.
 
-For a Pages deployment, the workflow stamps the artifact's sidebar with its
-commit, UTC build time and version, expressed as GitHub Actions workflow run
-number and attempt (for example, `123.1`). These identify a deployment attempt,
-not a count of successful deployments: failed and pull-request runs create
-gaps, and rerunning an older workflow can produce a lower run number. Each
-deploy job stamps a fresh artifact, including deploy-only retries. A local or
-other unstamped build says that build details are unavailable. The stamp is
-added after the committed-output check and is not written back to the repo.
+For a Pages deployment, the workflow stamps the sidebar with the commit,
+UTC build time and an increasing deployment version. A dedicated
+`pages-deployment-version` branch stores the counter. The deployment job has
+repository contents write permission to reserve the next version using a
+non-force, atomic Git ref update; it fails closed if the branch or reservation
+is unavailable. Every attempt reserves a number, so failed attempts may leave
+gaps. Build time refers to the original verified build, including on a
+deploy-only retry. Local or other unstamped builds say details are unavailable.
+The stamp is added after the committed-output check and is not committed to
+`master`.
+
+The monotonic guarantee applies to deployments through this updated workflow
+and assumes no other writer resets the counter. Historical workflow runs retain
+their old definitions and can redeploy without reserving a version; do not
+rerun pre-counter workflows. Other publication systems, including the separate
+ChatGPT Site, do not use this counter. Do not delete or reset the version-state
+branch: the workflow intentionally stops instead of restarting its sequence.
+
 
 The branch-publishing dropdown cannot publish `/dist`: GitHub permits only `/`
 or `/docs`. The master-triggered workflow uploads only `dist`, without copying

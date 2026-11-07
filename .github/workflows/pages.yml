@@ -42,6 +42,9 @@ jobs:
           overwrite: true
           path: artifacts/source-visual-coverage/
           if-no-files-found: error
+      - name: Capture build metadata
+        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+        run: node tools/stamp-build.mjs --capture
       - name: Save verified app for deployment
         if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -51,6 +54,8 @@ jobs:
           path: |
             dist/
             tools/stamp-build.mjs
+            tools/allocate-version.mjs
+            tools/build-metadata.json
           if-no-files-found: error
 
 
@@ -59,6 +64,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     permissions:
+      contents: write # Reserve the next number on the dedicated version-state branch.
       pages: write
       id-token: write
     environment:
@@ -72,7 +78,14 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '24'
+      - name: Reserve deployment version
+        id: version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node tools/allocate-version.mjs
       - name: Stamp build details into deploy artifact
+        env:
+          DEPLOYMENT_VERSION: ${{ steps.version.outputs.version }}
         run: node tools/stamp-build.mjs
       - name: Configure Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
