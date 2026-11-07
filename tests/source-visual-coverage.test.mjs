@@ -59,14 +59,22 @@ test('reported triage findings match current image bytes, book and page without 
 });
 test('pending findings respect exact bindings and generic unreviewed candidates are not defects',()=>{
  const binding={collection:'equipment',itemId:'fixture',binding:'sourceExcerpts',regionId:'partial',catalog:'fixture.json'};
- const pending={candidateId:'pending',status:'pending-defect',book:'PHB',printedPage:35,imageSha256:r2.sha256,usages:[binding]};
+ const pending={candidateId:'pending',category:'viewport-framing',status:'pending-defect',book:'PHB',printedPage:35,imageSha256:r2.sha256,usages:[binding]};
  const opts={knownFindings:[pending,{...pending,candidateId:'ordinary',status:'unreviewed'}],loadImage:(_,image)=>Buffer.from(image.replace(/\.png$/, ''))};
  const report=buildVisualCoverage(data,p=>cats[p],{reviews:[]},null,opts);
- assert.equal(report.reportedFindings.length,1);assert.equal(report.reportedFindings[0].status,'pending-defect');assert.equal(report.counts.crop.defect,0);
+ assert.equal(report.reportedFindings.length,1);assert.equal(report.reportedFindings[0].status,'pending-defect');assert.equal(report.reportedFindings[0].category,'viewport-framing');assert.equal(report.counts.crop.defect,0);
  assert.equal(buildVisualCoverage(data,p=>cats[p],{reviews:[]},null,{...opts,knownFindings:[{...pending,usages:[{...binding,itemId:'other'}]}]}).reportedFindings.length,0);
 });
 test('orphaned review keys remain visible without modifying the ledger',()=>{
  const orphan=review(r2,{crop:{status:'confirmed',independent:true,evidence:'review'}});orphan.collection='equipmnt';const ledger={reviews:[orphan]};
  const report=buildVisualCoverage(data,p=>cats[p],ledger,null,{loadImage:(_,image)=>Buffer.from(image.replace(/\.png$/, ''))});
  assert.equal(report.totals.orphanedReviews,1);assert.equal(report.orphanedReviews[0].collection,'equipmnt');assert.equal(ledger.reviews.length,1);assert.match(renderMarkdown(report),/equipmnt:fixture/);assert.equal(report.usages[1].status.crop,'unreviewed');
+});
+
+test('contextual adequacy requires its own manual evidence, independent of crop and highlight reviews',()=>{
+ const approved={status:'confirmed',independent:true,evidence:'Complete relevant table with headings, units and notes visually checked'};
+ const onlyLegible=build([review(r2,{crop:approved,highlight:approved})]);assert.equal(onlyLegible.usages[1].status.context,'unreviewed');assert.equal(onlyLegible.counts.context.total,3);
+ const contextual=review(r2,{context:approved});assert.equal(build([contextual]).usages[1].status.context,'confirmed');
+ assert.equal(build([{...contextual,imageSha256:'different'}]).usages[1].status.context,'unreviewed');
+ assert.match(renderMarkdown(onlyLegible),/context unreviewed/);
 });

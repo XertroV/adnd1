@@ -51,7 +51,7 @@ test('committed audit snapshot matches current assembled values and its stored e
  const ledger=JSON.parse(await readFile(new URL('../research/mechanics-audit-progress.json',import.meta.url)));
  const current=JSON.parse(await readFile(new URL('../dist/data.json',import.meta.url)));
  assert.deepEqual(validateLedger(ledger,current),[]);
- assert.equal(ledger.counts.records,892);
+ assert.equal(ledger.counts.records,892 + 28);
 });
 
 test('rewriting a source-conflict or editorial note does not count it as verified mechanics',()=>{

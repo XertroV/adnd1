@@ -6,6 +6,7 @@ import {reverseEditorialCorrections} from './mechanics-editorial-fixture.mjs';
 import {reverseFinalCorrections} from './mechanics-final-fixture.mjs';
 import {reverseFollowupCorrections} from './mechanics-followup-fixture.mjs';
 import {reverseNextCorrections} from './mechanics-next-fixture.mjs';
+import {withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 export const equipmentCompletenessCorrections=JSON.parse(readFileSync(new URL('./fixtures/equipment-completeness-corrections.json',import.meta.url),'utf8'));
@@ -13,7 +14,7 @@ export const equipmentAdditionalCorrections=JSON.parse(readFileSync(new URL('./f
 export const equipmentCorrections=JSON.parse(readFileSync(new URL('./fixtures/equipment-mechanics-corrections.json',import.meta.url),'utf8'));
 const unescape=s=>s.replaceAll('~1','/').replaceAll('~0','~');
 export function reverseApprovedEquipmentChanges(equipment) {
- const copy=reverseNextCorrections(reverseFollowupCorrections(reverseFinalCorrections(reverseEditorialCorrections(reverseClosureCorrections(reverseDependencyCorrections(reverseRacialLastCorrections(reverseSuggestedPriceChanges(equipment),'equipment'),'equipment'),'equipment'),'equipment'),'equipment'),'equipment'),'equipment');
+ const copy=reverseNextCorrections(reverseFollowupCorrections(reverseFinalCorrections(reverseEditorialCorrections(reverseClosureCorrections(reverseDependencyCorrections(reverseRacialLastCorrections(reverseSuggestedPriceChanges(withoutSourceFirstEquipment(equipment)),'equipment'),'equipment'),'equipment'),'equipment'),'equipment'),'equipment'),'equipment');
  const correction=JSON.parse(readFileSync(new URL('./fixtures/equipment-bone-case-price-correction.json',import.meta.url),'utf8')).records[0].changes[0];
  const boneCase=copy.find(item=>item.id==='phb-bone-case');
  assert.deepEqual(boneCase.price,correction.newValue,'bone case price must match the reviewed correction');

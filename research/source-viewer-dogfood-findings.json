@@ -1,0 +1,138 @@
+{
+  "scope": "Reports supplied by a separate read-only dogfood. Reported defects are not silently promoted to independent visual review; viewport framing is separate from source-image crop completeness.",
+  "records": [
+    {
+      "candidateId": "dogfood-charging-melee",
+      "category": "missing-continuation",
+      "status": "pending-defect",
+      "reviewStatus": "reported by separate read-only dogfood; follow-up diagnosis pending",
+      "reason": "Read-only dogfooding reports the displayed DMG p.66 passage ends mid-sentence and no p.67 continuation is offered. Current catalog has only p.66; original p.67 needs review before repair.",
+      "source": {
+        "book": "DMG",
+        "printedPage": 66,
+        "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "imageSha256": "c61536f2f2931ed31f2deb45cd0a68c1334811f77a9714c7e16b47dbd43ef8e6",
+      "usages": [
+        {
+          "collection": "rules",
+          "itemId": "charging-melee",
+          "binding": "sourceExcerpts",
+          "catalog": "scans/verified/rules-charging-melee.json",
+          "regionId": "dmg-66-736ea779203d26d3"
+        }
+      ]
+    },
+    {
+      "candidateId": "dogfood-phb-magic-user-fireball",
+      "category": "viewport-framing",
+      "status": "pending-defect",
+      "reviewStatus": "reported by separate read-only dogfood; follow-up diagnosis pending",
+      "reason": "Read-only dogfooding reproduced the source stage opening scrolled to the bottom in a fresh tab, hiding its header. This is a reported viewport-framing issue, not evidence that the PNG is clipped.",
+      "source": {
+        "book": "PHB",
+        "printedPage": 73,
+        "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+      },
+      "imageSha256": "98d1b9198302b818bec6c2a6bb7480d840b8d87ecd84c235088744c8b59967b8",
+      "usages": [
+        {
+          "collection": "spells",
+          "itemId": "phb-magic-user-fireball",
+          "binding": "sourceExcerpts",
+          "catalog": "scans/verified/spells-phb-magic-user-fireball.json",
+          "regionId": "phb-73-98d1b9198302b818"
+        }
+      ]
+    },
+    {
+      "candidateId": "dogfood-phb-magic-user-sleep",
+      "category": "viewport-framing",
+      "status": "pending-defect",
+      "reviewStatus": "reported by separate read-only dogfood; follow-up diagnosis pending",
+      "reason": "Read-only dogfooding reproduced the source stage opening scrolled to the bottom in a fresh tab, hiding its header. This is a reported viewport-framing issue, not evidence that the PNG is clipped.",
+      "source": {
+        "book": "PHB",
+        "printedPage": 68,
+        "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+      },
+      "imageSha256": "7b273e6d36dc7819929ac23c0dd8cf0436fbb066b8cb5710f6d33ba25c6cb8d7",
+      "usages": [
+        {
+          "collection": "spells",
+          "itemId": "phb-magic-user-sleep",
+          "binding": "sourceExcerpts",
+          "catalog": "scans/verified/spells-phb-magic-user-sleep.json",
+          "regionId": "phb-68-7b273e6d36dc7819"
+        }
+      ]
+    },
+    {
+      "candidateId": "dogfood-ua-cleric-abjure",
+      "category": "missing-continuation",
+      "status": "repaired-pending-deployment",
+      "reason": "The batch adds the missing UA p.37 continuation under stable source navigation; original starts and continuation remain distinct. Independent crop review is recorded in ua-other-fourth-independent-review.json. Live verification follows deployment.",
+      "entryId": "ua-cleric-abjure",
+      "addedRegionId": "ua-37-47646031f5b262d9"
+    }
+  ],
+  "applicationFindings": [
+    {
+      "id": "dogfood-search-selection-url",
+      "category": "navigation-selection",
+      "status": "reported-pending-diagnosis",
+      "observedStartingRoute": "#equipment/phb-arrow",
+      "query": "long sword",
+      "observedSelectedItem": "phb-long-sword",
+      "observedAddressRoute": "#equipment/phb-arrow",
+      "reason": "Separate read-only dogfood reports that search selects Long Sword while the URL remains Arrow; reload returns to Arrow. Spell searches reportedly show the same mismatch. Copy-source links preserved selected regions in the tested cases.",
+      "appSha256": "8b0b0cbdac548222bf660372c07a315bcd08e681b6987e82a302b361d78e6183",
+      "requiredValidation": [
+        "Search changes selected card and canonical entry URL coherently",
+        "Reload restores selected entry",
+        "Back/Forward preserves intentional search and selection behavior",
+        "Ordinary direct entry URLs remain valid"
+      ],
+      "scope": "Application navigation finding, not a citation-image defect; excluded from citation-region denominators."
+    },
+    {
+      "id": "reported-spell-filter-layout",
+      "category": "layout-efficiency",
+      "status": "reported-pending-diagnosis",
+      "reason": "User reports inefficient spell class/level button layout. Improve scanning and use of space with desktop/mobile and keyboard checks; no redesign is claimed in this batch.",
+      "appSha256": "8b0b0cbdac548222bf660372c07a315bcd08e681b6987e82a302b361d78e6183"
+    },
+    {
+      "id": "reported-source-notice-borders",
+      "category": "notice-dismissal",
+      "status": "reported-pending-diagnosis",
+      "reason": "User reports dismissing the green Original Sources notice removes both borders; one separator border should remain. Diagnose notice/container styling and test repeated openings plus reload-scoped dismissal.",
+      "appSha256": "8b0b0cbdac548222bf660372c07a315bcd08e681b6987e82a302b361d78e6183"
+    }
+  ],
+  "contextualReviewRequests": [
+    {
+      "id": "reported-assassin-context",
+      "entry": "#classes/assassin",
+      "status": "partly-addressed-pending-entry-wide-review",
+      "reason": "User reports Assassin excerpts too tightly cropped, including the last single-row citation. The current PHB37 weapon-proficiency replacement now contains its complete table and is independently context-reviewed; other Assassin excerpts still require separate contextual review."
+    },
+    {
+      "id": "reported-long-sword-context",
+      "entry": "#equipment/phb-long-sword",
+      "status": "confirmed-context-defects-logged",
+      "reason": "Four current price/weapon/missile table-row images manually confirmed contextually inadequate in contextual-adequacy-first-review.json. Other bindings are not automatically approved."
+    },
+    {
+      "id": "reported-arrow-context",
+      "entry": "#equipment/phb-arrow",
+      "status": "confirmed-context-defect-logged",
+      "reason": "User considers the broader cost-table image/highlight good. The separate individual 2 sp excerpt is manually confirmed too narrow; retain the correct highlight while restoring context."
+    },
+    {
+      "id": "whole-spells-vs-individual-facts",
+      "status": "documented-review-rule",
+      "reason": "Complete whole-spell images may be shown without highlights. Individual fact citations need precise focus and adequate context; left-to-right column and next-page continuations must remain complete and legible."
+    }
+  ]
+}
