@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "input": {
     "path": "dist/data.json",
-    "sha256": "075d59b615496c7d3316d22b82406c7aeeb6c6d86c503c13f745cfd0ff11573d",
+    "sha256": "79a766ba87f36ac7fb2f26ed3e86b501d995a8e2ee55ab615802e057d6731b68",
     "hashFormat": "SHA-256 of JSON.stringify(parsed data)",
     "denominator": "Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.",
     "countSemantics": "Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap."
@@ -12,8 +12,8 @@
     "totalFields": 13100,
     "inspectedFields": 13095,
     "sourceCheckedFields": 12508,
-    "unchangedSourceCheckedFields": 9879,
-    "correctedAndCheckedFields": 2629,
+    "unchangedSourceCheckedFields": 9877,
+    "correctedAndCheckedFields": 2631,
     "correctionPendingFields": 0,
     "notExtractedFields": 11,
     "sourceConflictFields": 22,
@@ -24,8 +24,8 @@
   "percentages": {
     "inspectedFields": 99.96,
     "sourceCheckedFields": 95.48,
-    "unchangedSourceCheckedFields": 75.41,
-    "correctedAndCheckedFields": 20.07,
+    "unchangedSourceCheckedFields": 75.4,
+    "correctedAndCheckedFields": 20.08,
     "correctionPendingFields": 0,
     "notExtractedFields": 0.08,
     "uncheckedFields": 0
@@ -109136,19 +109136,27 @@
         {
           "path": "/price/amount",
           "value": 5,
-          "status": "source-checked",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
-            "mechanics-equipment"
+            "mechanics-equipment",
+            "price-source-bone-case-independent"
+          ],
+          "changePaths": [
+            "/price"
           ]
         },
         {
           "path": "/price/currency",
-          "value": "sp",
-          "status": "source-checked",
+          "value": "gp",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
-            "mechanics-equipment"
+            "mechanics-equipment",
+            "price-source-bone-case-independent"
+          ],
+          "changePaths": [
+            "/price"
           ]
         },
         {
@@ -109187,7 +109195,8 @@
       ],
       "reviewers": [
         "mechanics-equipment-existing-followup",
-        "mechanics-equipment"
+        "mechanics-equipment",
+        "price-source-bone-case-independent"
       ],
       "unresolvedNotes": [
         {
@@ -109209,6 +109218,30 @@
           "book": "DMG",
           "page": 225,
           "state": "corrected-and-checked"
+        },
+        {
+          "checker": "price-source-bone-case-independent",
+          "path": "/price",
+          "oldValue": {
+            "amount": 5,
+            "currency": "sp",
+            "book": "PHB",
+            "pages": [
+              36
+            ],
+            "status": "OCR checked · visual verification pending"
+          },
+          "newValue": {
+            "amount": 5,
+            "currency": "gp",
+            "book": "PHB",
+            "pages": [
+              36
+            ],
+            "status": "Selected purchase-price row visually checked"
+          },
+          "state": "corrected-and-checked",
+          "reason": "Independent source-first PHB 36 review: 5 gp replaces previously extracted 5 sp; prior review history retained."
         }
       ]
     },
@@ -260459,6 +260492,48 @@
           "reason": "Rendered header includes a verbal component.",
           "book": "UA",
           "page": 65
+        }
+      ]
+    },
+    {
+      "checker": "price-source-bone-case-independent",
+      "collection": "equipment",
+      "id": "phb-bone-case",
+      "checkedPaths": [],
+      "checkedValues": {},
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 36,
+          "pdfPage": 37,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "unresolved": [],
+      "changes": [
+        {
+          "path": "/price",
+          "oldValue": {
+            "amount": 5,
+            "currency": "sp",
+            "book": "PHB",
+            "pages": [
+              36
+            ],
+            "status": "OCR checked · visual verification pending"
+          },
+          "newValue": {
+            "amount": 5,
+            "currency": "gp",
+            "book": "PHB",
+            "pages": [
+              36
+            ],
+            "status": "Selected purchase-price row visually checked"
+          },
+          "state": "corrected-and-checked",
+          "reason": "Independent source-first PHB 36 review: 5 gp replaces previously extracted 5 sp; prior review history retained."
         }
       ]
     }

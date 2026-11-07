@@ -8,7 +8,7 @@ const data=JSON.parse(readFileSync(new URL('../dist/data.json',import.meta.url))
 const app=readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
 const source=app.slice(app.indexOf('function showSource('),app.indexOf('\nfunction openNote('));
 let opened;
-const context=vm.createContext({data,FirstEditionCitations:citations,bookCode:books.code,FirstEditionSourceViewer:{open:args=>{opened=args;}}});
+const context=vm.createContext({data,view:'spells',selectedId:'ua-cleric-abjure',location:{hash:''},history:{pushState(){}},sourceLinkHash:()=>'',renderedRouteHash:'',FirstEditionCitations:citations,bookCode:books.code,FirstEditionSourceViewer:{open:args=>{opened=args;}}});
 vm.runInContext(source,context);
 const groups=value=>JSON.parse(JSON.stringify(value.map(group=>[group.book,group.pages])));
 const expectOpen=(collection,id,reference,book,expectedInitial)=>{
@@ -42,7 +42,7 @@ test('viewer selects the requested cited page and falls back for absent or inval
  let selected;const sink=()=>({replaceChildren(){},append(){},focus(){}});
  const ctx=vm.createContext({privacyDismissed:false,session:0,catalogRequest:0,excerptSource:null,excerptCatalog:null,excerptLoading:false,excerptError:'',requestedMode:'',refs:[],current:0,regionIndex:0,showHighlights:false,returnFocus:null,
   setup(){},resolveExcerptSource(){return null},normalize:refs=>refs.flatMap(g=>g.pages.map(page=>({book:g.book,page}))),books:()=>books,resetZoom(){},
-  document:{activeElement:null,body:{classList:{add(){}}}},el:{item:{},privacyNotice:{},referenceList:sink(),select:sink(),close:sink()},dialog:{open:true,setAttribute(){},removeAttribute(){}} ,
+  document:{activeElement:null,body:{classList:{add(){}}}},el:{item:{},privacyNotice:{},copyLink:{},referenceList:sink(),select:sink(),close:sink()},dialog:{open:true,setAttribute(){},removeAttribute(){}} ,
   button:()=>({}),node:()=>({}),title:book=>book,update(){selected=ctx.refs[ctx.current]},loadExcerpts(){}});
  vm.runInContext(fn,ctx);const item={id:'ua-cleric-abjure'},references=citations.collect(data.spells.find(s=>s.id===item.id));
  for(const [initialReference,expected] of [[{book:'UA',page:37},['UA',37]],[{book:'PHB',page:47},['PHB',47]],[{book:'UA',page:999},['PHB',47]],[undefined,['PHB',47]]]){

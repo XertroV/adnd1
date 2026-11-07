@@ -20,7 +20,7 @@ async function worker(){const page=await browser.newPage();const errors=[];page.
  await wait(()=>dialog?.open&&!$('.source-viewer-modes').hidden,'open excerpt mode');
  const pageOptions=[...dialog.querySelector('[aria-label="Select cited page"]').options];let visited=0;
  for(const key of [...new Set(catalog.regions.map(r=>`${r.book}:${r.printedPage}`))]){
-  const [book,n]=key.split(':'),page=Number(n),list=catalog.regions.filter(r=>r.book===book&&r.printedPage===page),option=pageOptions.find(o=>o.textContent===`${book} p. ${page}`);if(!option)throw Error(`Uncited page ${key}`);
+  const [book,n]=key.split(':'),page=Number(n),list=catalog.regions.filter(r=>r.book===book&&r.printedPage===page).sort((a,b)=>Number(a.role==='context')-Number(b.role==='context')),option=pageOptions.find(o=>o.textContent===`${book} p. ${page}`);if(!option)throw Error(`Uncited page ${key}`);
   clickSelect(dialog.querySelector('[aria-label="Select cited page"]'),option.value);
   await wait(()=>[...dialog.querySelectorAll('#source-viewer-region option')].length===list.length&&dialog.querySelector('.source-viewer-status').textContent.includes(`${book} printed p. ${page}`),`page ${key}`);
   for(let i=0;i<list.length;i++){
@@ -31,8 +31,10 @@ async function worker(){const page=await browser.newPage();const errors=[];page.
    if(image.naturalWidth!==r.width||image.naturalHeight!==r.height)throw Error(`Dimensions ${r.id}`);
    if(caption.hidden||!caption.textContent.includes(r.summary))throw Error(`Caption ${r.id}`);
    if(dialog.scrollWidth>dialog.clientWidth+1||rect.width>stage.clientWidth+1)throw Error(`Fit overflow ${r.id}`);
-   if(boxes.length!==r.focusRects.length)throw Error(`Highlight count ${r.id}`);
-   boxes.forEach((box,j)=>{const b=box.getBoundingClientRect(),actual=[(b.left-rect.left)/rect.width,(b.top-rect.top)/rect.height,b.width/rect.width,b.height/rect.height];if(actual.some((v,k)=>Math.abs(v-r.focusRects[j][k])>.008))throw Error(`Highlight geometry ${r.id}`);});
+   const focused=r.focusRects.filter(([x,y,w,h])=>!(x===0&&y===0&&w===1&&h===1));
+   if(boxes.length!==focused.length)throw Error(`Highlight count ${r.id}`);
+   if(!focused.length&&!caption.textContent.includes('Excerpt shown without a marked passage.'))throw Error(`Missing no-highlight explanation ${r.id}`);
+   boxes.forEach((box,j)=>{const b=box.getBoundingClientRect(),actual=[(b.left-rect.left)/rect.width,(b.top-rect.top)/rect.height,b.width/rect.width,b.height/rect.height];if(actual.some((v,k)=>Math.abs(v-focused[j][k])>.008))throw Error(`Highlight geometry ${r.id}`);});
    visited++;
   }
  }

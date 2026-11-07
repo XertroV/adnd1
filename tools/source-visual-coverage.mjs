@@ -1,0 +1,63 @@
+// Public catalog coverage: no source PDFs or OCR are read.
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+const root=path.resolve(fileURLToPath(new URL('..',import.meta.url))),require=createRequire(import.meta.url),citations=require('../dist/citations.js');
+const sha=x=>createHash('sha256').update(x).digest('hex');
+export function canonical(v){if(Array.isArray(v))return `[${v.map(canonical).join(',')}]`;if(v!==null&&typeof v==='object')return `{${Object.keys(v).sort().map(k=>`${JSON.stringify(k)}:${canonical(v[k])}`).join(',')}}`;return JSON.stringify(v);}
+export function regionHashes(region){const {focusRects,...content}=region;return {focusSha256:sha(canonical(focusRects)),contentSha256:sha(canonical(content))};}
+const key=x=>[x.collection,x.itemId,x.binding,x.regionId].join('|');
+const dimensions=['highlight','crop','default'];
+function emptyCounts(){return {total:0,reviewed:0,unreviewed:0,confirmed:0,defect:0,suspected:0,exception:0,stale:0};}
+function count(map,dimension,status,stale){const c=map[dimension];c.total++;if(['confirmed','defect','exception'].includes(status))c.reviewed++;else c.unreviewed++;if(['confirmed','defect','suspected','exception'].includes(status))c[status]++;if(stale)c.stale++;}
+export function buildVisualCoverage(data,loadCatalog,ledger={reviews:[]},geometry=null,{dataFileHash=null,loadImage=null,knownFindings=[]}={}){
+ const records=['rules','spells','equipment','matrices','classes'].flatMap(collection=>(data[collection]||[]).map(item=>({collection,item})));
+ if(data.progressionExplainer)records.push({collection:'progressionExplainer',item:{...data.progressionExplainer,id:'progression-explainer'}});
+ const reviews=new Map();for(const r of ledger.reviews||[]){const k=key(r);if(reviews.has(k))throw Error(`Duplicate visual review ${k}`);reviews.set(k,r);}
+ const counts={highlight:emptyCounts(),crop:emptyCounts(),default:emptyCounts()},byCategory={},usages=[],pairs=new Set(),images=new Set(),cache=new Map();
+ const dataHash=sha(JSON.stringify(data)),geometryValid=!!geometry,geometryDataMatches=geometry?.inputDataSha256===(dataFileHash||dataHash);const imageHashCache=new Map();
+ for(const {collection,item} of records){
+  for(const p of citations.pages(item))pairs.add(`${collection}|${item.id}|${p.book}|${p.page}`);
+  for(const binding of ['sourceExcerpts','scanVerification'].filter(name=>item[name]?.catalog)){
+  const viewerSelected=binding===(item.sourceExcerpts?'sourceExcerpts':'scanVerification');
+  const spec=item[binding],catalogPath=spec.catalog;if(!cache.has(catalogPath))cache.set(catalogPath,loadCatalog(catalogPath));const raw=cache.get(catalogPath),catalog=raw.catalog||raw;
+  const category=collection;byCategory[category] ||= {highlight:emptyCounts(),crop:emptyCounts(),default:emptyCounts()};
+  const groups=new Map();for(const r of catalog.regions){const k=`${r.book}:${r.printedPage}`;if(!groups.has(k))groups.set(k,[]);groups.get(k).push(r);}
+  for(const regions of groups.values()){
+   const ordered=[...regions].sort((a,b)=>Number(a.role==='context')-Number(b.role==='context'));
+   const orderSha256=sha(canonical(ordered.map(r=>({id:r.id,role:r.role||null,imageSha256:r.sha256,...regionHashes(r)}))));
+   for(const [ordinal,region] of ordered.entries()){
+    const usage={collection,itemId:item.id,binding,catalog:catalogPath,regionId:region.id,book:region.book,page:region.printedPage,image:region.image,imageSha256:region.sha256,...regionHashes(region),viewerSelected,default:viewerSelected&&ordinal===0,defaultOrderSha256:viewerSelected&&ordinal===0?orderSha256:null,sourceSha256:catalog.sources?.[region.book]?.sha256||null,role:region.role||null};
+    images.add(region.sha256);const imageKey=`${catalogPath}|${region.image}`;if(loadImage&&!imageHashCache.has(imageKey))imageHashCache.set(imageKey,sha(loadImage(catalogPath,region.image)));const imageMatches=!!loadImage&&imageHashCache.get(imageKey)===region.sha256;const saved=reviews.get(key(usage));const gates=!!saved&&imageMatches&&!!usage.sourceSha256&&saved.sourceSha256===usage.sourceSha256&&saved.imageSha256===usage.imageSha256&&saved.focusSha256===usage.focusSha256&&saved.contentSha256===usage.contentSha256;
+    const sentinel=region.focusRects.some(r=>r[0]===0&&r[1]===0&&r[2]===1&&r[3]===1);
+    const geoUsage=geometryValid&&raw.sha256&&imageMatches&&geometry.sourcePdfSha256?.[region.book]===catalog.sources?.[region.book]?.sha256&&geometry.catalogSha256?.[catalogPath]===raw.sha256?geometry.usages?.find(x=>key(x)===key(usage)&&x.imageSha256===usage.imageSha256&&x.sourceHashMatches&&x.imageHashMatches):null;
+    const snapshotCandidate=geometry?.candidates?.some(c=>c.usages?.some(x=>key(x)===key(usage)));
+    const geoCandidate=geoUsage&&geometry.candidates?.some(c=>c.imageSha256===usage.imageSha256&&c.usages?.some(x=>key(x)===key(usage)));
+    const states={};for(const dimension of dimensions){if(dimension==='default'&&!usage.default){states[dimension]='not-applicable';continue;}const verdict=gates&&(dimension!=='default'||saved.defaultOrderSha256===usage.defaultOrderSha256)?saved.assessments?.[dimension]:null;const allowed=['confirmed','defect','exception'].includes(verdict?.status)&&verdict.independent===true&&!(dimension==='highlight'&&sentinel&&verdict.status==='confirmed')&&typeof verdict.evidence==='string'&&verdict.evidence.trim();
+     states[dimension]=allowed?verdict.status:dimension==='highlight'&&sentinel?'suspected':dimension==='crop'&&geoCandidate?'suspected':dimension==='default'&&geoUsage?.defaultContextCandidate?'suspected':'unreviewed';
+     const stale=!!saved&&(!gates||(dimension==='default'&&!!saved.assessments?.default&&saved.defaultOrderSha256!==usage.defaultOrderSha256));count(counts,dimension,states[dimension],stale);count(byCategory[category],dimension,states[dimension],stale);
+    }
+    usage.status=states;usage.reviewStale=!!saved&&(!gates||(usage.default&&!!saved.assessments?.default&&saved.defaultOrderSha256!==usage.defaultOrderSha256));usage.sentinel=sentinel;usage.geometryCandidate=!!geoCandidate;usage.geometryStaleCandidate=!!snapshotCandidate&&!geoCandidate;const nested=collection==='progressionExplainer'||collection==='matrices';const owner=collection==='progressionExplainer'?'classes:progression-explainer':`matrices:${item.id}`;usage.link=`https://xertrov.github.io/adnd1/#${nested?'classes':collection}/${encodeURIComponent(nested?'fighter':item.id)}?source=${encodeURIComponent(`${region.book}:${region.printedPage}`)}&region=${encodeURIComponent(region.id)}${nested?`&owner=${encodeURIComponent(owner)}`:''}`;usages.push(usage);
+   }
+  }
+  }
+ }
+ const reportedStatuses=new Set(['confirmed-defect','clipped-repair-candidate','source-location-or-relevance-check']);
+ const reportedFindings=[];
+ for(const finding of knownFindings){
+  const book=finding.book||finding.source?.book,page=finding.printedPage??finding.source?.printedPage??finding.source?.page;
+  if(!reportedStatuses.has(finding.status)||!finding.imageSha256||!book||page==null)continue;
+  const matches=usages.filter(u=>u.book===book&&u.page===page&&u.imageSha256===finding.imageSha256&&!!u.sourceSha256&&(!finding.source?.sha256||u.sourceSha256===finding.source.sha256)&&loadImage&&imageHashCache.get(`${u.catalog}|${u.image}`)===u.imageSha256);
+  if(matches.length)reportedFindings.push({candidateId:finding.candidateId||null,origin:finding.origin||null,status:finding.status,reason:finding.reason||finding.observation||'',limitations:finding.limitations||null,book,page,imageSha256:finding.imageSha256,bindings:matches.map(u=>({collection:u.collection,itemId:u.itemId,binding:u.binding,regionId:u.regionId,catalog:u.catalog,link:u.link}))});
+ }
+ const activeKeys=new Set(usages.map(key)),orphanedGeometryCandidates=(geometry?.candidates||[]).flatMap(c=>(c.usages||[]).filter(u=>!activeKeys.has(key(u))).map(u=>({candidateId:c.candidateId,collection:u.collection,itemId:u.itemId,binding:u.binding,regionId:u.regionId,catalog:u.catalog})));
+ return {schemaVersion:1,scope:'Public catalog bindings and independently recorded visual reviews. Unreviewed is not confirmed safe; geometry is candidate evidence only.',inputDataSha256:dataHash,geometrySnapshotApplied:!!geometryValid,geometrySnapshotDataMatches:!!geometryDataMatches,totals:{citedRecordPagePairs:pairs.size,regionUsages:usages.length,uniqueImages:images.size,geometryCandidates:usages.filter(u=>u.geometryCandidate).length,staleGeometryCandidates:usages.filter(u=>u.geometryStaleCandidate).length,orphanedGeometryCandidates:orphanedGeometryCandidates.length,reportedFindings:reportedFindings.length,reportedFindingBindings:reportedFindings.reduce((n,f)=>n+f.bindings.length,0)},counts,byCategory,usages,orphanedGeometryCandidates,reportedFindings};
+}
+export function renderMarkdown(report){let out=`# Source visual coverage\n\n${report.scope}\n\nCited record-page pairs: **${report.totals.citedRecordPagePairs}** · region usages: **${report.totals.regionUsages}** · unique images: **${report.totals.uniqueImages}**. Geometry snapshot available: **${report.geometrySnapshotApplied?'yes':'no'}**; whole-data hash matches: **${report.geometrySnapshotDataMatches?'yes':'no'}**. Current geometry candidates: **${report.totals.geometryCandidates}**; stale candidates needing fresh analysis: **${report.totals.staleGeometryCandidates}**; removed or rebound candidates: **${report.totals.orphanedGeometryCandidates}**.\n\n| Collection | Dimension | Total | Reviewed | Unreviewed | Confirmed | Defect | Suspected | Exception | Stale |\n|---|---|---:|---:|---:|---:|---:|---:|---:|\n`;for(const [category,dims] of Object.entries(report.byCategory))for(const [name,c] of Object.entries(dims))out+=`| ${category} | ${name} | ${c.total} | ${c.reviewed} | ${c.unreviewed} | ${c.confirmed} | ${c.defect} | ${c.suspected} | ${c.exception} | ${c.stale} |\n`;out+=`\n## Reported findings (${report.reportedFindings.length})\n\nThese are triage reports matched to current image bytes, book and page; they are not independent review verdicts. Their listed bindings may include uses that need separate relevance review. Unreviewed bindings remain unreviewed.\n\n`;for(const f of report.reportedFindings){out+=`- **${f.status}** · ${f.book} p.${f.page} · ${f.candidateId||'unnamed'} · ${f.origin||'unspecified origin'}: ${f.reason}${f.limitations?` (${f.limitations})`:''}\n`;for(const b of f.bindings)out+=`  - [${b.collection}:${b.itemId} · ${b.regionId}](${b.link})\n`;}out+='\n## Bindings requiring review or attention\n\n';for(const u of report.usages.filter(x=>Object.values(x.status).some(s=>s!=='confirmed'&&s!=='exception'&&s!=='not-applicable')||x.reviewStale))out+=`- [${u.collection}:${u.itemId} · ${u.book} p.${u.page} · ${u.regionId}](${u.link}) — highlight ${u.status.highlight}, crop ${u.status.crop}, default ${u.status.default}${u.reviewStale?' (stale review)':''}${u.viewerSelected?'':' (legacy binding; viewer uses its preferred catalog)'}.\n`;if(report.orphanedGeometryCandidates.length){out+='\n## Removed or rebound geometry candidates\n\n';for(const c of report.orphanedGeometryCandidates)out+=`- ${c.collection}:${c.itemId} · ${c.regionId} · ${c.candidateId} (${c.catalog})\n`;}return out;}
+if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
+ const read=p=>JSON.parse(readFileSync(path.resolve(root,p),'utf8')),data=read('dist/data.json'),ledger=read('research/source-visual-reviews.json');let geometry=null;try{geometry=read('research/source-visual-audit-corrected.json');}catch{}
+ const knownFindings=['research/source-visual-audit-phb-ua-triage.json','research/source-visual-audit-mm-triage.json','research/phb-equipment-visual-triage.json','research/highlight-dmg-clipping-triage.json'].flatMap(origin=>{try{return (read(origin).records||[]).map(r=>({...r,origin}));}catch(e){if(e.code==='ENOENT')return [];throw e;}});
+ const report=buildVisualCoverage(data,p=>{const bytes=readFileSync(path.resolve(root,'dist',p));return {catalog:JSON.parse(bytes),sha256:sha(bytes)};},ledger,geometry,{knownFindings,dataFileHash:sha(readFileSync(path.resolve(root,'dist/data.json'))),loadImage:(catalog,image)=>readFileSync(path.resolve(root,'dist',path.dirname(catalog),image))}),dir=path.resolve(process.argv[2]||path.join(root,'artifacts/source-visual-coverage'));mkdirSync(dir,{recursive:true});writeFileSync(path.join(dir,'report.json'),JSON.stringify(report,null,2)+'\n');writeFileSync(path.join(dir,'report.md'),renderMarkdown(report));console.log(JSON.stringify(report.totals));
+}
