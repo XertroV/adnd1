@@ -23,6 +23,15 @@ pull requests run integrity and reproducible-output checks without deploying.
 It runs `node tools/assemble.mjs` and rejects stale committed output. Update
 `dist/data.json` with that command when changing source data.
 
+For a Pages deployment, the workflow stamps the artifact's sidebar with its
+commit, UTC build time and version, expressed as GitHub Actions workflow run
+number and attempt (for example, `123.1`). These identify a deployment attempt,
+not a count of successful deployments: failed and pull-request runs create
+gaps, and rerunning an older workflow can produce a lower run number. Each
+deploy job stamps a fresh artifact, including deploy-only retries. A local or
+other unstamped build says that build details are unavailable. The stamp is
+added after the committed-output check and is not written back to the repo.
+
 The branch-publishing dropdown cannot publish `/dist`: GitHub permits only `/`
 or `/docs`. The master-triggered workflow uploads only `dist`, without copying
 the scan library or exposing repository tooling as website files. All app,
@@ -93,3 +102,4 @@ suspected unless an independently justified exception is recorded; unreviewed
 partial rectangles are not presumed correct. Geometry-derived edge candidates
 are advisory, never semantic proof, and are used only when the binding’s source, catalog and public-image hashes match. A whole-data hash mismatch is reported separately; candidates whose binding hashes changed remain visible as stale. No private source PDF or
 private image is used to generate these reports.
+
