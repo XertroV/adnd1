@@ -11,14 +11,14 @@
   };
   const files = new Map();
   let dialog, el = {}, refs = [], current = 0, zoom = 1, renderTask, renderVersion = 0;
-  let libraryPromise, returnFocus, resizeTimer;
+  let libraryPromise, returnFocus, resizeTimer, continuationManifest = null;
   let excerptCatalog, excerptSource = null, excerptError = '', excerptLoading = false, catalogRequest = 0;
   let requestedMode = 'pdf', regionIndex = 0, showHighlights = true, actualSize = false, session = 0;
   let copySourceLink = null, onViewerClose = null, onSourceChange = null, requestedInitialRegion = null;
   let targets = [], targetStatus = '', pendingTargetPage = null, unavailableTarget = null, targetDismissed = false;
   let activeTarget = null;
   let imageFit = false, privacyDismissed = false;
-  const imageCache = new Map(), catalogCache = new Map(), cacheLimit = 64;
+  const imageCache = new Map(), catalogCache = new Map(), continuationCache = new Map(), cacheLimit = 64;
   function cacheGet(cache, key) {
     const value = cache.get(key);
     if (value !== undefined) { cache.delete(key); cache.set(key, value); }
@@ -45,7 +45,7 @@
     if (!legacyPath && !verifiedPath) return null;
     const url = new URL(path, scriptBase);
     if (url.origin !== location.origin) return null;
-    return { itemId, name: item?.name || item?.title || 'this entry', url: url.href, legacy, legacyPath, collection, state: verification?.state, regionCount: verification?.regionCount, regionReviews: Array.isArray(verification?.regionReviews) ? verification.regionReviews : [] };
+    return { itemId, name: item?.name || item?.title || 'this entry', url: url.href, catalog: path, legacy, legacyPath, collection, state: verification?.state, regionCount: verification?.regionCount, regionReviews: Array.isArray(verification?.regionReviews) ? verification.regionReviews : [] };
   }
   function normalize(references) {
     const result = [], seen = new Set();
@@ -140,7 +140,7 @@
     const controls = node('div', { class: 'source-viewer-controls' });
     el.previous = button('← Previous', () => navigate(-1), { 'aria-label': 'Previous cited page' });
     el.select = node('select', { 'aria-label': 'Select cited page' });
-    el.select.addEventListener('change', () => { current = Number(el.select.value); resetZoom(); regionIndex = defaultRegionIndex(refs[current]); update(); notifySourceChange(); });
+    el.select.addEventListener('change', () => selectReference(Number(el.select.value)));
     el.next = button('Next →', () => navigate(1), { 'aria-label': 'Next cited page' });
     const zoomControls = node('div', { class: 'source-viewer-zoom', role: 'group', 'aria-label': 'Page zoom' });
     el.zoomOut = button('−', () => changeZoom(-.25), { 'aria-label': 'Zoom out' });
@@ -156,10 +156,10 @@
     el.regionSelect.addEventListener('change', () => {
       const selected = Number(el.regionSelect.value);
       if (selected < 0) return;
-      regionIndex = selected;
       const ref = refs[current];
       const previousIssue = targetIssue(ref);
       const selectedRegion = matchingRegions()[selected];
+      if (!selectedRegion) return;
       const selectedTarget = targetForPage(ref);
       const targetMatches = selectedTarget && isResolvedTarget(selectedTarget) && selectedTarget.regionIds.includes(selectedRegion?.id);
       if (!targetMatches && (selectedTarget || previousIssue || targetPageMatches(requestedInitialRegion, ref))) targetDismissed = true;
@@ -170,13 +170,14 @@
         activeTarget = null;
         targetStatus = '';
       }
+      regionIndex = matchingRegions(ref).findIndex(region => region.id === selectedRegion.id);
       resetZoom(); update(); notifySourceChange();
     });
     el.highlights = button('Highlights on', () => {
       showHighlights = !showHighlights;
       el.highlights.setAttribute('aria-pressed', String(showHighlights));
       el.highlights.textContent = showHighlights ? 'Highlights on' : 'Highlights off';
-      el.overlay.hidden = !showHighlights;
+      applyHighlightVisibility();
     }, { 'aria-pressed': 'true' });
     el.regions.append(el.regionLabel, el.regionSelect, el.highlights);
     el.pageTitle = node('p', { class: 'source-viewer-page-title' });
@@ -188,7 +189,8 @@
     el.scan = node('img', { class: 'source-viewer-scan', alt: '', decoding: 'async' });
     el.overlay = node('div', { class: 'source-viewer-focus-overlay', 'aria-hidden': 'true' });
     el.imageFrame.append(el.scan, el.overlay);
-    el.stage.append(el.placeholder, el.canvas, el.imageFrame);
+    el.linkedParts = node('div', { class: 'source-viewer-linked-parts', hidden: '' });
+    el.stage.append(el.placeholder, el.canvas, el.imageFrame, el.linkedParts);
     el.caption = node('div', { class: 'source-viewer-caption', hidden: '' });
     el.captionTitle = node('h4');
     el.checked = node('p');
@@ -223,7 +225,8 @@
     dialog.addEventListener('keydown', event => {
       // Keep modal keystrokes away from application-wide command shortcuts.
       event.stopPropagation();
-      if (event.altKey && !event.ctrlKey && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
+      const editable = event.target?.closest?.('input,textarea,select,[contenteditable=""],[contenteditable="true"],[role="textbox"]');
+      if (event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && !editable && !event.target?.closest?.('.source-viewer-stage') && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
         event.preventDefault(); event.stopPropagation(); navigate(event.key === 'ArrowLeft' ? -1 : 1);
       }
       else if (event.target === el.stage && viewingExcerpts() && ['ArrowLeft','ArrowRight'].includes(event.key)) {
@@ -247,6 +250,7 @@
     catalogRequest++;
     excerptSource = resolveExcerptSource(item, contextItemId);
     excerptCatalog = null; excerptLoading = false; excerptError = '';
+    continuationManifest = null;
     requestedMode = excerptSource ? 'excerpts' : 'pdf';
     targets = normalizeTargets(requestedTargets);
     activeTarget = normalizeActiveTarget(requestedActiveTarget);
@@ -272,7 +276,7 @@
     el.referenceList.replaceChildren(); el.select.replaceChildren();
     refs.forEach((ref, i) => {
       const label = `${title(ref.book)} · p. ${ref.page}`;
-      const b = button(label, () => { current = i; resetZoom(); regionIndex = defaultRegionIndex(refs[current]); update(); notifySourceChange(); }, { class: 'source-viewer-reference', 'data-source-index': i });
+      const b = button(label, () => selectReference(i), { class: 'source-viewer-reference', 'data-source-index': i });
       el.referenceList.append(b);
       el.select.append(node('option', { value: i }, `${ref.book} p. ${ref.page}`));
     });
@@ -288,9 +292,35 @@
     else update();
   }
   function navigate(delta) {
-    const next = current + delta;
-    if (next < 0 || next >= refs.length) return;
-    current = next; resetZoom(); regionIndex = defaultRegionIndex(refs[current]); update(); notifySourceChange();
+    const destination = navigationDestination(delta);
+    if (!destination) return;
+    const changedPage = destination.referenceIndex !== current;
+    const selected = !changedPage && destination.regionIndex >= 0 ? matchingRegions()[destination.regionIndex] : null;
+    const oldRef = refs[current];
+    if (changedPage) {
+      if (targetPageMatches(requestedInitialRegion, oldRef)) requestedInitialRegion = null;
+      if (targetPageMatches(unavailableTarget, oldRef)) unavailableTarget = null;
+    }
+    current = destination.referenceIndex;
+    regionIndex = destination.regionIndex;
+    if (!changedPage && selected) {
+      dismissMismatchedFieldTarget(refs[current], selected);
+      regionIndex = matchingRegions(refs[current]).findIndex(region => region.id === selected.id);
+      if (targetPageMatches(requestedInitialRegion, refs[current]) && requestedInitialRegion.id !== selected.id) requestedInitialRegion = null;
+    }
+    if (regionIndex < 0 && targetPageMatches(requestedInitialRegion, refs[current]) && !targetIssue(refs[current])) unavailableTarget = { ...requestedInitialRegion };
+    resetZoom(); update(); notifySourceChange();
+  }
+  function selectReference(index) {
+    if (!Number.isInteger(index) || index < 0 || index >= refs.length) return;
+    const previous = refs[current];
+    current = index;
+    const ref = refs[current];
+    if (previous !== ref) {
+      if (targetPageMatches(requestedInitialRegion, previous)) requestedInitialRegion = null;
+      if (targetPageMatches(unavailableTarget, previous)) unavailableTarget = null;
+    }
+    resetZoom(); regionIndex = defaultRegionIndex(ref); update(); notifySourceChange();
   }
   function changeZoom(delta) { zoom = Math.min(viewingExcerpts() ? 4 : 3, Math.max(.5, zoom + delta)); renderPage(); }
   function notifySourceChange() {
@@ -353,6 +383,12 @@
     if (target) return target;
     return targetPageMatches(activeTarget, ref) ? activeTarget : null;
   }
+  function fieldTargetLabel(target) {
+    if (!target) return '';
+    const pointerLabel = String(target.fieldPointer || '').split('/').filter(Boolean).at(-1)?.replace(/~1/g, '/').replace(/~0/g, '~') || '';
+    const label = String(target.label || '').trim();
+    return target.fieldPointer && (!label || label === target.sourceObject || label === excerptSource?.name) ? pointerLabel || label : label || pointerLabel || 'Citation target';
+  }
   function targetRegionIds(ref) {
     if (targetDismissed || !activeTarget?.fieldPointer) return [];
     const ids = targets.filter(target => targetPageMatches(target, ref) && target.fieldPointer === activeTarget.fieldPointer && isResolvedTarget(target)).flatMap(target => target.regionIds);
@@ -388,7 +424,7 @@
     if (issue) return -1;
     if (!excerptCatalog) return 0;
     const regions = matchingRegions();
-    const requested = targetPageMatches(requestedInitialRegion, ref) ? requestedInitialRegion.id : targetRegionIds(ref)[0];
+    const requested = refs[current] === ref && targetPageMatches(requestedInitialRegion, ref) ? requestedInitialRegion.id : targetRegionIds(ref)[0];
     if (requested) {
       const index = regions.findIndex(region => region.id === requested);
       if (index < 0) { unavailableTarget = { book: ref.book, page: ref.page, id: requested }; return -1; }
@@ -398,8 +434,7 @@
     return 0;
   }
   function resetZoom() { zoom = 1; actualSize = false; imageFit = false; }
-  function matchingRegions() {
-    const ref = refs[current];
+  function matchingRegions(ref = refs[current]) {
     if (!excerptSource || !ref || excerptCatalog?.itemId !== excerptSource.itemId) return [];
     const available = excerptCatalog.regions.filter(region => region.book === ref.book && region.printedPage === ref.page).sort((a,b) => Number(a.role === 'context') - Number(b.role === 'context'));
     const targetIds = targetRegionIds(ref);
@@ -408,6 +443,38 @@
     const targeted = targetIds.map(id => byId.get(id)).filter(Boolean);
     const included = new Set(targeted.map(region => region.id));
     return [...targeted, ...available.filter(region => !included.has(region.id))];
+  }
+  function regionIndexFor(ref) {
+    if (!ref || targetIssue(ref)) return -1;
+    const regions = matchingRegions(ref);
+    if (!regions.length) return -1;
+    const requested = refs[current] === ref && targetPageMatches(requestedInitialRegion, ref) ? requestedInitialRegion.id : targetRegionIds(ref)[0];
+    if (!requested) return 0;
+    return regions.findIndex(region => region.id === requested);
+  }
+  function navigationDestination(direction) {
+    if (direction !== -1 && direction !== 1 || !refs[current]) return null;
+    const regions = viewingExcerpts() ? matchingRegions() : [];
+    if (viewingExcerpts() && regionIndex >= 0 && regionIndex < regions.length) {
+      const nextRegion = regionIndex + direction;
+      if (nextRegion >= 0 && nextRegion < regions.length) return { referenceIndex: current, regionIndex: nextRegion };
+    }
+    const nextReference = current + direction;
+    if (nextReference < 0 || nextReference >= refs.length) return null;
+    const nextRef = refs[nextReference];
+    if (requestedMode !== 'excerpts' || !excerptSource || excerptError) return { referenceIndex: nextReference, regionIndex: -1 };
+    const regionsForNext = matchingRegions(nextRef);
+    if (!regionsForNext.length || targetIssue(nextRef)) return { referenceIndex: nextReference, regionIndex: -1 };
+    const requestedIndex = regionIndexFor(nextRef);
+    return { referenceIndex: nextReference, regionIndex: direction > 0 ? Math.max(0, requestedIndex) : regionsForNext.length - 1 };
+  }
+  function dismissMismatchedFieldTarget(ref, region) {
+    const target = targetForPage(ref);
+    if (!target || !region) return;
+    if (isResolvedTarget(target) && target.regionIds.includes(region.id)) return;
+    targetDismissed = true;
+    if (targetPageMatches(pendingTargetPage, ref)) { pendingTargetPage = null; targetStatus = ''; }
+    if (targetPageMatches(requestedInitialRegion, ref)) requestedInitialRegion = null;
   }
   function viewingExcerpts() {
     const ref = refs[current];
@@ -432,6 +499,58 @@
       if (!provenance || !/^[a-f0-9]{64}$/.test(provenance.sha256 || '') || !['supplied-handoff','computed-local'].includes(provenance.hashStatus)) throw new Error('Missing excerpt provenance.');
     }
     return catalog;
+  }
+  async function loadContinuations() {
+    if (root.FirstEditionSourceContinuations?.schemaVersion === 1 && Array.isArray(root.FirstEditionSourceContinuations.groups)) return root.FirstEditionSourceContinuations;
+    const url = new URL('source-continuations.json', scriptBase).href;
+    let cached = cacheGet(continuationCache, url);
+    if (!cached) {
+      cached = {};
+      cached.promise = (async () => {
+        const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 12000);
+        try {
+          const response = await fetch(url, { credentials: 'same-origin', cache: 'no-cache', signal: controller.signal });
+          if (!response.ok) throw new Error('Continuation metadata unavailable.');
+          const text = await response.text();
+          if (text.length > 500000) throw new Error('Continuation metadata too large.');
+          const manifest = JSON.parse(text);
+          if (manifest?.schemaVersion !== 1 || !Array.isArray(manifest.groups) || manifest.groups.length > 512) throw new Error('Unsupported continuation metadata.');
+          return manifest;
+        } finally { clearTimeout(timeout); }
+      })().catch(error => { if (continuationCache.get(url) === cached) continuationCache.delete(url); throw error; });
+      cachePut(continuationCache, url, cached);
+    }
+    try { return await cached.promise; } catch { return null; }
+  }
+  function validatedContinuationParts(ref, selectedRegion) {
+    const manifest = root.FirstEditionSourceContinuations?.schemaVersion === 1 && Array.isArray(root.FirstEditionSourceContinuations.groups)
+      ? root.FirstEditionSourceContinuations : continuationManifest;
+    const catalog = excerptCatalog, source = excerptSource;
+    if (!manifest || manifest.schemaVersion !== 1 || !Array.isArray(manifest.groups) || !catalog || !source?.catalog || !source.collection
+        || catalog.itemId !== source.itemId || catalog.collection !== source.collection || !ref || !selectedRegion
+        || selectedRegion.book !== ref.book || selectedRegion.printedPage !== ref.page) return null;
+    for (const group of manifest.groups) {
+      if (group?.collection !== source.collection || group?.itemId !== source.itemId || group?.catalog !== source.catalog || !Array.isArray(group.segments) || group.segments.length < 2 || group.segments.length > 32) continue;
+      const ordered = [...group.segments].sort((a,b) => Number(a?.order) - Number(b?.order));
+      const uniqueRegions = new Set(ordered.map(segment => segment?.regionId));
+      if (uniqueRegions.size !== ordered.length || ordered.some((segment,index) => !segment || segment.order !== index + 1 || segment.state !== 'present' || segment.role !== (index === 0 ? 'opening' : 'continuation'))) continue;
+      const selectedSegment = ordered.find(segment => segment.regionId === selectedRegion.id && segment.book === ref.book && segment.printedPage === ref.page);
+      if (!selectedSegment) continue;
+      const parts = [];
+      let valid = true;
+      for (const segment of ordered) {
+        const region = catalog.regions.find(candidate => candidate.id === segment.regionId);
+        const sourceRecord = catalog.sources?.[segment.book];
+        if (!region || !sourceRecord || segment.book !== region.book || segment.printedPage !== region.printedPage || segment.pdfPage !== region.pdfPage
+            || segment.image !== region.image || segment.imageSha256 !== region.sha256 || segment.sourceSha256 !== sourceRecord.sha256
+            || !/^[a-f0-9]{64}$/.test(segment.imageSha256 || '') || !/^[a-f0-9]{64}$/.test(segment.sourceSha256 || '')
+            || typeof segment.role !== 'string' || !segment.role || !/^[a-z0-9][a-z0-9-]{0,150}\.png$/.test(segment.image || '')
+            || !Object.hasOwn(books().books, segment.book) || books().pdfPage(segment.book, segment.printedPage) !== segment.pdfPage) { valid = false; break; }
+        parts.push({ segment, region, selected: segment === selectedSegment });
+      }
+      if (valid && parts.some(part => part.selected)) return { group, parts };
+    }
+    return null;
   }
   async function loadExcerpts(retry = false) {
     if (!excerptSource) return;
@@ -473,21 +592,28 @@
     const ref = refs[current], state = ref && files.get(ref.book);
     el.referenceList.querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-current', i === current ? 'page' : 'false'));
     el.select.value = String(current);
-    el.previous.disabled = !ref || current === 0;
-    el.next.disabled = !ref || current === refs.length - 1;
+    const previousStop = navigationDestination(-1), nextStop = navigationDestination(1);
+    el.previous.disabled = !previousStop;
+    el.next.disabled = !nextStop;
+    const previousLabel = previousStop?.referenceIndex === current ? 'Previous excerpt' : 'Previous cited page';
+    const nextLabel = nextStop?.referenceIndex === current ? 'Next excerpt' : 'Next cited page';
+    el.previous.setAttribute('aria-label', previousLabel);
+    el.previous.textContent = `← ${previousLabel.replace(/^./, character => character.toUpperCase())}`;
+    el.next.setAttribute('aria-label', nextLabel);
+    el.next.textContent = `${nextLabel.replace(/^./, character => character.toUpperCase())} →`;
     el.select.disabled = !ref;
     el.edition.textContent = ref ? editions[ref.book] : 'No source pages available';
     el.mapping.textContent = ref ? books().mapping(ref.book) : 'This entry does not yet have a supported printed-page citation.';
     const fieldTarget = targetForPage(ref);
     el.labels.textContent = fieldTarget
-      ? `Field target: ${fieldTarget.label || fieldTarget.fieldPointer || 'Citation target'}${fieldTarget.status ? ` · ${fieldTarget.status}` : ''}`
+      ? `Field target: ${fieldTargetLabel(fieldTarget)}${fieldTarget.status ? ` · ${fieldTarget.status}` : ''}`
       : ref?.labels.length ? `Page citations: ${ref.labels.join(' · ')}` : '';
     const excerpts = viewingExcerpts();
     const regions = matchingRegions();
     const privateOnly = !!(ref && excerptCatalog && !regions.length && books().privateEvidence(ref.book, ref.page));
     const issue = targetIssue(ref);
     el.targetNotice.hidden = !issue;
-    const fieldLabel = fieldTarget?.label || fieldTarget?.fieldPointer;
+    const fieldLabel = fieldTargetLabel(fieldTarget || activeTarget);
     el.targetNotice.textContent = issue?.type === 'stale'
       ? `The linked excerpt “${issue.id}” is not available for this page in the current catalog. Choose another excerpt or open your PDF.`
       : issue?.type === 'pending' ? `${fieldLabel ? `The field target “${fieldLabel}”` : 'This citation'} has no reviewed excerpt mapping yet. The cited page is open in your PDF view; choose an excerpt only if it supports the field.` : '';
@@ -604,6 +730,7 @@
   async function renderPage() {
     const version = ++renderVersion;
     renderTask?.cancel(); renderTask = null;
+    clearLinkedParts();
     el.text.textContent = '';
     el.canvas.width = el.canvas.height = 0;
     const ref = refs[current], mapped = ref && pageNumber(ref), state = ref && files.get(ref.book);
@@ -656,6 +783,72 @@
       empty('This page could not be rendered. Try opening the PDF again.', 'Page rendering failed.');
     }
   }
+  function clearLinkedParts() {
+    if (!el.stage || !el.linkedParts) return;
+    el.stage.classList.remove('is-linked');
+    el.linkedParts.hidden = true;
+    el.linkedParts.replaceChildren();
+    el.stage.insertBefore(el.imageFrame, el.linkedParts);
+    const main = el.stage.parentElement;
+    if (main) {
+      main.insertBefore(el.highlightNotice, el.stage);
+      if (el.caption.parentElement !== main) main.insertBefore(el.caption, el.stage.nextSibling);
+    }
+  }
+  function applyHighlightVisibility() {
+    if (!el.stage) return;
+    el.stage.querySelectorAll('.source-viewer-focus-overlay,.source-viewer-linked-focus-overlay').forEach(overlay => {
+      overlay.hidden = !showHighlights || overlay.dataset.hasFocus !== 'true';
+    });
+  }
+  function imageWidth(region, availableWidth) {
+    return actualSize ? region.width : imageFit || region.width <= 640 ? Math.min(region.width, availableWidth) : Math.min(region.width, Math.max(availableWidth, 960));
+  }
+  function regionImagePromise(region, owner) {
+    const imageURL = new URL(region.image, owner.url).href;
+    let promise = cacheGet(imageCache, imageURL);
+    if (!promise) {
+      promise = new Promise((resolve, reject) => {
+        const image = node('img', { alt: region.alt, decoding: 'async' });
+        const timeout = setTimeout(() => { image.onload = image.onerror = null; image.removeAttribute('src'); reject(new Error('Excerpt image timed out.')); }, 12000);
+        image.onload = () => { clearTimeout(timeout); image.onload = image.onerror = null; resolve(image); };
+        image.onerror = () => { clearTimeout(timeout); image.onload = image.onerror = null; reject(new Error('Excerpt image unavailable.')); };
+        image.src = imageURL;
+      }).catch(error => { if (imageCache.get(imageURL) === promise) imageCache.delete(imageURL); throw error; });
+      cachePut(imageCache, imageURL, promise);
+    }
+    return promise;
+  }
+  function displayedImage(cached, region, className) {
+    const image = node('img', { class: className, alt: region.alt, decoding: 'async', 'data-region-id': region.id });
+    image.width = region.width; image.height = region.height;
+    image.src = cached.currentSrc || cached.src;
+    return image;
+  }
+  function focusOverlay(region, className) {
+    const focusRects = specificFocusRects(region.focusRects || []);
+    const overlay = node('div', { class: className, 'aria-hidden': 'true', 'data-has-focus': String(focusRects.length > 0) });
+    overlay.replaceChildren(...focusRects.map(([x,y,width,height]) => {
+      const box = node('span', { class: className === 'source-viewer-focus-overlay' ? 'source-viewer-focus-rect' : 'source-viewer-linked-focus-rect' });
+      box.style.left = `${x * 100}%`; box.style.top = `${y * 100}%`; box.style.width = `${width * 100}%`; box.style.height = `${height * 100}%`;
+      return box;
+    }));
+    overlay.hidden = !showHighlights || !focusRects.length;
+    return overlay;
+  }
+  async function highlightDisposition(region, ref) {
+    const precise = specificFocusRects(region.focusRects || []);
+    const sentinels = (region.focusRects || []).filter(fullImageSentinel);
+    if (!sentinels.length && precise.length) return { needsWarning: false, reviewed: false, text: '' };
+    const factTarget = !!targetForPage(ref);
+    const reviewed = !factTarget && sentinels.length === (region.focusRects || []).length && sentinels.length > 0 && await reviewedWholeSpell(region);
+    const text = reviewed
+      ? 'Unmarked whole-spell view reviewed against its exact source, image, focus and content hashes.'
+      : sentinels.length && precise.length
+        ? 'A full-image highlight flag is present but suppressed. The excerpt stays unobscured; passage-level precision is unresolved.'
+        : 'Precise highlighting is not reviewed or available for this excerpt. The source remains unobscured; no passage-level highlight is inferred.';
+    return { needsWarning: !reviewed, reviewed, text };
+  }
   async function renderExcerpt(version, ref) {
     const catalog = excerptCatalog, excerptOwner = excerptSource, regions = matchingRegions(), region = regions[regionIndex];
     if (!region) {
@@ -665,81 +858,109 @@
       if (catalog && books().privateEvidence(ref.book, ref.page)) return empty(books().missingPageNotice(ref.book, ref.page), 'No public excerpt is available for this page.');
       return empty('Loading the verified excerpts…', 'Loading limited scan excerpts.');
     }
-    const preciseFocusRects = specificFocusRects(region.focusRects);
-    const sentinels = (region.focusRects || []).filter(fullImageSentinel);
-    const onlySentinel = sentinels.length > 0 && sentinels.length === (region.focusRects || []).length;
-    const needsHighlightWarning = sentinels.length > 0 || !preciseFocusRects.length;
-    el.highlightNotice.hidden = !needsHighlightWarning;
-    el.highlightNotice.textContent = sentinels.length && preciseFocusRects.length
-      ? 'A full-image highlight flag is present but suppressed. The excerpt stays unobscured; passage-level precision is unresolved.'
-      : 'Precise highlighting is not reviewed or available for this excerpt. The source remains unobscured; no passage-level highlight is inferred.';
-    const wholeSpellReview = !targetForPage(ref) && needsHighlightWarning && onlySentinel && await reviewedWholeSpell(region);
+    const disposition = await highlightDisposition(region, ref);
     if (version !== renderVersion || !dialog.open || excerptSource !== excerptOwner || excerptCatalog !== catalog) return;
-    if (wholeSpellReview) {
-      el.highlightNotice.textContent = 'Unmarked whole-spell view reviewed against its exact source, image, focus and content hashes.';
-      el.highlightNotice.hidden = false;
-    }
+    el.highlightNotice.hidden = !disposition.needsWarning && !disposition.reviewed;
+    el.highlightNotice.textContent = disposition.text;
     el.canvas.hidden = true; el.textDetails.hidden = el.regionStatus.hidden = true;
     el.actual.disabled = true;
     el.placeholder.hidden = false; el.placeholder.textContent = 'Loading verified excerpt…';
     el.status.textContent = `Loading ${region.title}…`;
     try {
-      const imageURL = new URL(region.image, excerptOwner.url).href;
-      let promise = cacheGet(imageCache, imageURL);
-      if (!promise) {
-        promise = new Promise((resolve, reject) => {
-          const image = node('img', { class: 'source-viewer-scan', alt: region.alt, decoding: 'async' });
-          const timeout = setTimeout(() => {
-            image.onload = image.onerror = null;
-            image.removeAttribute('src');
-            reject(new Error('Excerpt image timed out.'));
-          }, 12000);
-          image.onload = () => {
-            clearTimeout(timeout);
-            image.onload = image.onerror = null;
-            resolve(image);
-          };
-          image.onerror = () => { clearTimeout(timeout); image.onload = image.onerror = null; reject(new Error('Excerpt image unavailable.')); };
-          image.src = imageURL;
-        }).catch(error => { if (imageCache.get(imageURL) === promise) imageCache.delete(imageURL); throw error; });
-        cachePut(imageCache, imageURL, promise);
-      }
-      const image = await promise;
+      const [,manifest] = await Promise.all([regionImagePromise(region, excerptOwner), loadContinuations()]);
+      if (version !== renderVersion || !dialog.open || excerptSource !== excerptOwner || excerptCatalog !== catalog) return;
+      continuationManifest = manifest;
+      const linked = validatedContinuationParts(ref, region);
+      const displayParts = linked?.parts || [{ region, selected: true, segment: { role: 'excerpt' } }];
+      const loadedParts = await Promise.all(displayParts.map(async part => {
+        try {
+          const cachedImage = await regionImagePromise(part.region, excerptOwner);
+          if (cachedImage.naturalWidth !== part.region.width || cachedImage.naturalHeight !== part.region.height) throw new Error('Linked excerpt dimensions do not match.');
+          return { ...part, cachedImage };
+        }
+        catch { return { ...part, cachedImage: null }; }
+      }));
       if (version !== renderVersion || !dialog.open || excerptSource !== excerptOwner || excerptCatalog !== catalog || !viewingExcerpts()) return;
+      const selectedPart = loadedParts.find(part => part.selected);
+      if (!selectedPart?.cachedImage) throw new Error('Selected excerpt image unavailable.');
+      const image = selectedPart.cachedImage;
       if (image.naturalWidth !== region.width || image.naturalHeight !== region.height) throw new Error('Excerpt dimensions do not match.');
+      image.className = 'source-viewer-scan';
       image.alt = region.alt;
-      el.scan.replaceWith(image); el.scan = image;
+      image.dataset.regionId = region.id;
+      if (el.scan !== image) el.scan.replaceWith(image);
+      el.scan = image;
       const availableWidth = Math.max(160, el.stage.clientWidth - 24);
       // Preserve readable type on wide tables; Fit width gives an overview, Actual size restores PNG pixels.
-      const baseWidth = actualSize ? region.width : imageFit || region.width <= 640 ? Math.min(region.width, availableWidth) : Math.min(region.width, Math.max(availableWidth, 960));
+      const baseWidth = imageWidth(region, availableWidth);
       el.imageFrame.style.width = `${Math.round(baseWidth * zoom)}px`;
-      const focusRects = preciseFocusRects;
-      el.overlay.replaceChildren(...focusRects.map(([x,y,width,height]) => {
-        const box = node('span', { class: 'source-viewer-focus-rect' });
-        box.style.left = `${x * 100}%`; box.style.top = `${y * 100}%`; box.style.width = `${width * 100}%`; box.style.height = `${height * 100}%`;
-        return box;
-      }));
-      el.overlay.hidden = !showHighlights || !focusRects.length;
-      el.highlights.hidden = !focusRects.length;
-      el.highlights.disabled = !focusRects.length;
+      el.overlay.replaceWith(focusOverlay(region, 'source-viewer-focus-overlay'));
+      el.overlay = el.imageFrame.querySelector('.source-viewer-focus-overlay');
+      const focusRects = specificFocusRects(region.focusRects || []);
       el.actual.setAttribute('aria-pressed', String(actualSize && zoom === 1));
       el.fit.setAttribute('aria-pressed', String(imageFit && zoom === 1));
-      el.imageFrame.hidden = false; el.placeholder.hidden = true;
+      el.placeholder.hidden = true;
       el.captionTitle.textContent = region.title;
       el.checked.textContent = `${region.verificationScope === 'source-excerpt' ? 'Source excerpt checked. ' : region.verificationScope === 'selected-values' ? 'Selected values checked. ' : ''}${region.summary}${focusRects.length ? '' : ' Excerpt shown without a marked passage.'}`;
       const format = value => Array.isArray(value) ? value.map(format).join(' / ') : value && typeof value === 'object' ? Object.entries(value).map(([key,v]) => `${key}: ${format(v)}`).join('; ') : String(value);
       const label = key => key.replace(/_/g,' ').replace(/\bac\b/gi,'AC').replace(/^./,c => c.toUpperCase());
       el.checkedValues.replaceChildren(...Object.entries(region.checkedFields).flatMap(([key,value]) => [node('dt', {}, label(key)),node('dd', {}, format(value))]));
       el.caption.hidden = false;
+      const preciseCount = loadedParts.reduce((count, part) => count + (part.cachedImage ? specificFocusRects(part.region.focusRects || []).length : 0), 0);
+      el.highlights.hidden = preciseCount === 0;
+      el.highlights.disabled = preciseCount === 0;
+      el.highlights.setAttribute('aria-pressed', String(showHighlights));
+      el.highlights.textContent = showHighlights ? 'Highlights on' : 'Highlights off';
+      if (linked) {
+        el.stage.classList.add('is-linked');
+        el.linkedParts.hidden = false;
+        el.linkedParts.replaceChildren();
+        for (const part of loadedParts) {
+          const partRegion = part.region, selected = part.selected;
+          const figure = node('figure', { class: 'source-viewer-linked-part', 'data-region-id': partRegion.id, 'data-printed-page': partRegion.printedPage, 'data-selected': String(selected), 'data-role': part.segment.role });
+          const pageLabel = node('p', { class: 'source-viewer-linked-page' }, `${title(partRegion.book)} printed p. ${partRegion.printedPage} · PDF page ${partRegion.pdfPage} · ${part.segment.role}`);
+          figure.append(pageLabel);
+          if (selected) {
+            el.imageFrame.hidden = false;
+            figure.append(el.highlightNotice);
+            figure.append(el.imageFrame);
+            figure.append(el.caption);
+          } else if (part.cachedImage) {
+            const partDisposition = await highlightDisposition(partRegion, { book: partRegion.book, page: partRegion.printedPage });
+            if (version !== renderVersion || !dialog.open || excerptSource !== excerptOwner || excerptCatalog !== catalog) return;
+            const note = node('p', { class: partDisposition.reviewed ? 'source-viewer-linked-reviewed' : 'source-viewer-linked-warning', role: 'status' }, partDisposition.text || 'Precise highlighting is reviewed for this excerpt.');
+            note.hidden = !partDisposition.needsWarning && !partDisposition.reviewed;
+            figure.append(note);
+            const frame = node('div', { class: 'source-viewer-linked-frame' });
+            frame.style.width = `${Math.round(imageWidth(partRegion, availableWidth) * zoom)}px`;
+            frame.append(displayedImage(part.cachedImage, partRegion, 'source-viewer-linked-scan'), focusOverlay(partRegion, 'source-viewer-linked-focus-overlay'));
+            figure.append(frame);
+            const caption = node('figcaption', { class: 'source-viewer-linked-caption' });
+            caption.append(node('strong', {}, partRegion.title), node('p', {}, partRegion.summary));
+            figure.append(caption);
+          } else {
+            figure.append(node('p', { class: 'source-viewer-linked-unavailable', role: 'status' }, `The declared ${part.segment.role} image is unavailable in this session; no substitute excerpt is shown.`));
+          }
+          el.linkedParts.append(figure);
+        }
+      } else {
+        el.imageFrame.hidden = false;
+      }
+      applyHighlightVisibility();
       const source = catalog.sources[ref.book];
       el.provenanceText.textContent = `Checked crop: ${region.checkedOn}. PNG SHA-256: ${region.sha256}. Source PDF SHA-256 (${source.hashStatus === 'computed-local' ? 'computed locally' : 'supplied with the handoff'}): ${source.sha256}. ${catalog.scope} This does not verify the whole page or book.`;
       el.provenance.hidden = false;
-      el.status.textContent = `${ref.book} printed p. ${ref.page} · PDF page ${region.pdfPage} · excerpt ${regionIndex + 1} of ${regions.length}. ${actualSize ? zoom === 1 ? 'Actual image pixels' : 'Zoom from actual size' : imageFit ? zoom === 1 ? 'Fit width' : 'Zoom from fit width' : 'Readable view'}; scroll or use arrow keys to pan.`;
-      const firstFocus = focusRects[0];
-      if (firstFocus) {
-        const focusBottom = (firstFocus[1] + firstFocus[3]) * el.imageFrame.offsetHeight + 24;
-        el.stage.scrollTo(0,Math.max(0,focusBottom - el.stage.clientHeight));
-      } else el.stage.scrollTo(0,0);
+      el.status.textContent = `${ref.book} printed p. ${ref.page} · PDF page ${region.pdfPage} · excerpt ${regionIndex + 1} of ${regions.length}${linked ? ` · ${loadedParts.length} linked passage parts` : ''}. ${actualSize ? zoom === 1 ? 'Actual image pixels' : 'Zoom from actual size' : imageFit ? zoom === 1 ? 'Fit width' : 'Zoom from fit width' : 'Readable view'}; scroll or use arrow keys to pan.`;
+      if (linked) {
+        const selectedFigure = el.linkedParts.querySelector('.source-viewer-linked-part[data-selected="true"]');
+        el.stage.scrollTo(0, Math.max(0, (selectedFigure?.offsetTop || 0) - 12));
+      } else {
+        const firstFocus = focusRects[0];
+        if (firstFocus) {
+          const focusBottom = (firstFocus[1] + firstFocus[3]) * el.imageFrame.offsetHeight + 24;
+          el.stage.scrollTo(0,Math.max(0,focusBottom - el.stage.clientHeight));
+        } else el.stage.scrollTo(0,0);
+      }
       el.zoomOut.disabled = zoom <= .5; el.zoomIn.disabled = zoom >= 4; el.fit.disabled = el.actual.disabled = false;
     } catch {
       if (version !== renderVersion || !dialog.open || excerptSource !== excerptOwner || excerptCatalog !== catalog) return;

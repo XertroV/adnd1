@@ -174,7 +174,7 @@ test('historical raw sentinel scroll and current precise-focus scroll stay disti
   assert.match(manifest.sentinelCalibration.calibrationSnapshotViewer.meaning, /Identity of the viewer bytes used for this calibration run/);
   assert.match(manifest.sentinelCalibration.historicalScrollInterpretation, /first raw focus rectangle/i);
   assert.match(manifest.sentinelCalibration.visibleOverlayInterpretation, /filters this exact sentinel/i);
-  assert.match(present, /const preciseFocusRects = specificFocusRects\(region\.focusRects\)/);
+  assert.match(present, /const focusRects = specificFocusRects\(region\.focusRects \|\| \[\]\)/);
   assert.match(present, /const firstFocus = focusRects\[0\]/);
   assert.match(manifest.sentinelCalibration.currentBrowserRegressionTests.join(' '), /source-viewer-header\.browser\.mjs/);
 });

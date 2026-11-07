@@ -8,7 +8,7 @@ const source=readFileSync(new URL('../dist/source-viewer.js',import.meta.url),'u
 const segment=(a,b)=>source.slice(source.indexOf(a),source.indexOf(b,source.indexOf(a)));
 test('a private-only page stays selected in excerpt mode with a truthful notice',async()=>{
  const ctx=vm.createContext({refs:[{book:'PHB',page:103},{book:'DMG',page:175}],current:1,regionIndex:0,requestedMode:'excerpts',excerptError:'',excerptSource:{itemId:'encounter-types'},excerptCatalog:{itemId:'encounter-types',regions:[{book:'PHB',printedPage:103}]},targetDismissed:false,targetRegionIds:()=>[],targetIssue:()=>null,books:()=>books,empty:(message,status)=>({message,status})});
- vm.runInContext(segment('  function matchingRegions()', '  function validateCatalog('),ctx);
+ vm.runInContext(segment('  function matchingRegions(', '  function validateCatalog('),ctx);
  vm.runInContext(segment('  async function renderExcerpt(', '\n  root.FirstEditionSourceViewer'),ctx);
  assert.equal(ctx.viewingExcerpts(),true);
  const result=await ctx.renderExcerpt(1,ctx.refs[ctx.current]);
