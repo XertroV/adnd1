@@ -23,6 +23,25 @@ pull requests run integrity and reproducible-output checks without deploying.
 It runs `node tools/assemble.mjs` and rejects stale committed output. Update
 `dist/data.json` with that command when changing source data.
 
+For a Pages deployment, the workflow stamps the sidebar with the commit,
+UTC build time and an increasing deployment version. A dedicated
+`pages-deployment-version` branch stores the counter. The deployment job has
+repository contents write permission to reserve the next version using a
+non-force, atomic Git ref update; it fails closed if the branch or reservation
+is unavailable. Every attempt reserves a number, so failed attempts may leave
+gaps. Build time refers to the original verified build, including on a
+deploy-only retry. Local or other unstamped builds say details are unavailable.
+The stamp is added after the committed-output check and is not committed to
+`master`.
+
+The monotonic guarantee applies to deployments through this updated workflow
+and assumes no other writer resets the counter. Historical workflow runs retain
+their old definitions and can redeploy without reserving a version; do not
+rerun pre-counter workflows. Other publication systems, including the separate
+ChatGPT Site, do not use this counter. Do not delete or reset the version-state
+branch: the workflow intentionally stops instead of restarting its sequence.
+
+
 The branch-publishing dropdown cannot publish `/dist`: GitHub permits only `/`
 or `/docs`. The master-triggered workflow uploads only `dist`, without copying
 the scan library or exposing repository tooling as website files. All app,
@@ -93,3 +112,4 @@ suspected unless an independently justified exception is recorded; unreviewed
 partial rectangles are not presumed correct. Geometry-derived edge candidates
 are advisory, never semantic proof, and are used only when the binding’s source, catalog and public-image hashes match. A whole-data hash mismatch is reported separately; candidates whose binding hashes changed remain visible as stale. No private source PDF or
 private image is used to generate these reports.
+
