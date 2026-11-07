@@ -3,6 +3,8 @@ import {resolve, dirname} from 'node:path';
 import {createHash} from 'node:crypto';
 import {validScanCatalogPath, scanStates, validateScanCatalog} from './scan-catalog.mjs';
 import {attachEvidenceBindings, attachSourceVisualReviewMetadata, buildPriceSourceInventory, validatePriceSourceInventory, writePriceSourceInventory} from './price-source-inventory.mjs';
+import {buildCoverageGaps} from './coverage-gaps.mjs';
+import {buildPublishedContinuations} from './published-continuations.mjs';
 const root = resolve(import.meta.dirname, '..');
 const {default: books} = await import('../dist/books.js');
 const load = name => existsSync(resolve(root,name)) ? JSON.parse(readFileSync(resolve(root,name),'utf8')) : {};
@@ -73,4 +75,9 @@ attachSourceVisualReviewMetadata(data);
 writePriceSourceInventory(priceInventory);
 data.release.priceInventory={path:'research/price-source-inventory.json',siteEquipmentObjects:priceInventory.counts.siteEquipmentObjects,sitePrintedPrices:priceInventory.counts.sitePrintedPrices,sitePriceGaps:priceInventory.counts.sitePriceGaps,editorialEstimates:priceInventory.counts.editorialEstimates,sourceRows:priceInventory.counts.sourceRows,fieldEvidenceBindings:priceInventory.counts.fieldEvidenceBindings,fieldEvidenceBindingsByCollection:priceInventory.counts.fieldEvidenceBindingsByCollection,regionBoundBindings:priceInventory.counts.regionBoundBindings,pendingRegionBindings:priceInventory.counts.pendingRegionBindings};
 writeFileSync(resolve(root,'dist/data.json'),JSON.stringify(data,null,2)+'\n');
+const linkedPassages=buildPublishedContinuations({manifest:load('research/citation-continuations.json'),data,catalogRoot:resolve(root,'dist')});
+writeFileSync(resolve(root,'dist/source-continuations.json'),JSON.stringify(linkedPassages,null,2)+'\n');
+// Keep the limitations projection separate from the hash-bound core catalog.
+const coverageGaps=buildCoverageGaps({data,handoff:load('research/gaps-limitations-next-task.json'),readFile:name=>readFileSync(resolve(root,name))});
+writeFileSync(resolve(root,'dist/coverage-gaps.json'),JSON.stringify(coverageGaps,null,2)+'\n');
 console.log(JSON.stringify({rules:data.rules.length,spells:data.spells.length,detailedSpells:data.spells.filter(s=>s.effect?.length).length,equipment:data.equipment.length,matrices:data.matrices.length,classes:data.classes.length,sources:data.sources.length}));

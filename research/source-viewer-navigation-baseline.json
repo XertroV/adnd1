@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "commit": "93cd2bf3645842792c6a1bcb3858915c42aab0c3",
+  "scope": "Pre-feature navigation and declared-passage display baseline. No source image bytes are copied.",
+  "sourceViewer": {
+    "path": "dist/source-viewer.js",
+    "sha256": "a908168f1d0997b6e743f33710e4d407156c4802984a183fc52b48e0e5d78987",
+    "previousNextMeaning": "cited pages only",
+    "samePageExcerptSelection": "dropdown",
+    "linkedPartsShownTogether": false,
+    "compiledContinuationAssetPresent": false
+  },
+  "exposedData": {
+    "records": 993,
+    "catalogRegionUsages": 2742,
+    "uniqueImages": 1383,
+    "knownContinuationGroups": 14,
+    "knownRequiredSegments": 28,
+    "selectedCatalogs": 993,
+    "validatedSelectedCatalogs": 993,
+    "citedPageGroups": 1959,
+    "citedPageGroupsWithExcerpts": 1958,
+    "selectableRegionNodes": 2666,
+    "unavailablePageStops": 1,
+    "allGenericNavigationStops": 2667,
+    "uncitedUnverifiedEndMatterStops": 0,
+    "catalogRegionsUnmatchedToCitedPages": 0
+  },
+  "abjure": {
+    "book": "UA",
+    "printedPage": 37,
+    "openingRegion": "ua-37-e35d106ad24ba65c",
+    "continuationRegion": "ua-37-47646031f5b262d9",
+    "currentRegionsAvailable": 2,
+    "simultaneouslyShown": 1,
+    "nextCitedPageDisabledOnUA37": true,
+    "browserEvidence": "Independent live and local checks recorded opening/continuation selection and exact-region reload; both source parts available but require dropdown selection."
+  },
+  "limits": [
+    "All14declared groups currently have same-page required segments; no actual cross-page passage is newly certified.",
+    "Unknown continuations are not inferred from available images.",
+    "Per-part precise highlighting remains independent of complete-passage display."
+  ],
+  "navigationUniverseReceipt": {
+    "sha256": "4af75aec2fea296af5d672b21c5ae19397429ac0781339b10fac03f7b74505f2",
+    "scope": "Every selected owner catalog, structured cited page and matching region. Retained outside the repository; current-data VM tests reproduce the full navigation denominator without source text inference."
+  },
+  "implementationRegressions": [
+    {
+      "category": "companion-notice-dom-order",
+      "capturedViewerSha256": "832fab11951ecde4b812e44a88830ad55725a3d2b0f1789901b122a052388dcb",
+      "representativeGroupsBefore": 2,
+      "partsBefore": 4,
+      "companionNoticesAfterImagesBefore": 2,
+      "cause": "Appending the same notice again with the caption moves it behind the image.",
+      "requiredBehavior": "Each part review notice precedes its source image; the selected marker remains outside image highlight geometry."
+    }
+  ]
+}

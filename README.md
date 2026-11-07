@@ -113,3 +113,13 @@ partial rectangles are not presumed correct. Geometry-derived edge candidates
 are advisory, never semantic proof, and are used only when the binding’s source, catalog and public-image hashes match. A whole-data hash mismatch is reported separately; candidates whose binding hashes changed remain visible as stale. No private source PDF or
 private image is used to generate these reports.
 
+### Known gaps and limitations
+
+The Sources & coverage page lists recorded equipment offers, unresolved fields,
+conflicting readings, missing references and excerpt-review limitations. Its
+separate `dist/coverage-gaps.json` projection is generated during assembly from
+the hash-bound handoff and current evidence. These categories overlap and do
+not form an overall error count or a whole-book completeness percentage. See
+[the maintenance rules](agent-docs/gaps-and-limitations.md) for regeneration,
+status distinctions and checks.
+

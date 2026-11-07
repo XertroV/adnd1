@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "baselineCommit": "93cd2bf3645842792c6a1bcb3858915c42aab0c3",
+  "scope": "Pre-change Sources page and known failures captured during implementation. Metadata only; no source scans or browser screenshots are republished.",
+  "inputHashes": {
+    "app": "9dee22000f51893020f53833f1b66141e9d3dfb370ab756ba29ff7d285e9060f",
+    "rawCoreData": "47908c8ddc8b68c09e11f600ed0d0dc24b2a3749f8e3f452e245c7ee6635053b",
+    "handoff": "a1965cc181460b9a0a3a9dcbb78cb7ce0265f5cbb5918a881f582bbd585829b6"
+  },
+  "observedBefore": {
+    "gapEntries": 0,
+    "slingPackagePresent": false,
+    "quarrelsOfferPresent": false,
+    "missing175Disclosed": true,
+    "unverified239And240Disclosed": true
+  },
+  "sourcePageTextSha256": "6e2b6d5622f850fc2814873b30c751d459cc95013f7e365125d730f818be979c",
+  "expectedSnapshot": {
+    "explicitMissingCitedSourcePages": 1,
+    "citedPagesWithoutPublishedCropPixels": 1,
+    "unverifiedUncitedEndMatterPages": 2,
+    "formalMechanicsFieldStatuses": {
+      "notExtracted": 11,
+      "sourceConflict": 22,
+      "ordinaryUncheckedFieldsExcluded": 104
+    },
+    "additionalRecordedReviewNoteCandidates": 78,
+    "distinctUnrepresentedOrUnresolvedEquipmentOffers": 2,
+    "currentExplicitUnextractedEquipmentPriceFields": 4,
+    "sourceCensus": {
+      "totalPdfPages": 776,
+      "claims": 180,
+      "tableGroups": 33,
+      "newTableGroupsRowTranscribed": 0,
+      "tableGroupDenominatorScope": "18 PHB/DMG groups plus 15 UA groups; MM/MMII inventory does not define a table-group denominator.",
+      "rowTranscribedNewTableGroups": {
+        "phb-dmg-other": 0,
+        "ua-other": 0,
+        "monster-books": "not-applicable/none enumerated"
+      }
+    }
+  },
+  "implementationRegressions": [
+    {
+      "category": "review-status-scope-and-exact-link",
+      "capturedRendererSha256": "c00946b51c07929ebe7f0ebb31e01fb3abf06fc725a0afc55047ddceaef4e1ee",
+      "failedChecks": [
+        "sourceRegionLinkRetained",
+        "fieldReviewNotCollapsed",
+        "highlightReviewNotCollapsed"
+      ],
+      "meaning": "Field-target/highlight pending labels must retain their scope; exact source+region links must survive."
+    },
+    {
+      "category": "input-to-output-topic-targets",
+      "scope": "All6documentedopenquestions",
+      "missingBefore": [
+        "#spells/ua-illusionist-magic-mirror"
+      ],
+      "meaning": "Every explicit target must survive a multi-target question, including both Magic Mirror class versions."
+    },
+    {
+      "category": "output-provenance-pointers",
+      "denominatorBefore": 138,
+      "unresolvedBefore": 34,
+      "meaning": "Every handoff pointer must resolve; external manifest provenance uses a file and pointer rather than an invented handoff path."
+    },
+    {
+      "category": "unverified-page-identities",
+      "affectedEntries": [
+        "unverified-endmatter-DMG-239",
+        "unverified-endmatter-DMG-240"
+      ],
+      "meaning": "Unverified printed-page identities must not be presented as established printed source locations."
+    },
+    {
+      "category": "source-census-freshness",
+      "meaning": "Changing a source-census review grade while retaining row/page counts must be rejected by artifact-hash validation."
+    }
+  ]
+}

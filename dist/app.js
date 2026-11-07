@@ -128,8 +128,17 @@ let fighterAltOpen=false;
 let fighterMatrixOpen=false;
 let attributeMode='compact';
 let listLimit = 50;
+let coverageGapsPayload = null;
+let coverageGapsLoadSequence = 0;
+let loadedDataSha256 = null;
 function toast(message) {
  const el = $('#toast'); el.textContent = message; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
+}
+async function sha256JSON(value) {
+ if (!globalThis.crypto?.subtle || !globalThis.TextEncoder) return null;
+ const bytes = new TextEncoder().encode(JSON.stringify(value));
+ const digest = await globalThis.crypto.subtle.digest('SHA-256',bytes);
+ return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2,'0')).join('');
 }
 function readNotes() {
  try { const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); notes = validateNotes(parsed); }
@@ -615,6 +624,153 @@ function bindCombatDisclosures(root=document) {
  $$('[data-fighter-matrix]',root).forEach(element=>element.addEventListener('toggle',()=>{fighterMatrixOpen=element.open;}));
 }
 
+// Pure HTML renderer for the public, sanitized gaps payload. Keep this isolated
+// so CI can exercise every rendered group and entry without a browser.
+function coverageGapsHTML(payload) {
+ const escape = value => String(value ?? '').replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
+ const safeHref = value => {
+  if (typeof value !== 'string' || value.length > 500 || /[\s<>"'\\\u0000-\u001f]/.test(value)) return '';
+  if (value === '#sources') return value;
+  const route = value.match(/^#(?:rules|spells|equipment|classes)\/[a-z0-9][a-z0-9-]*(?:\?(.+))?$/);
+  if (!route) return '';
+  if (route[1] === undefined) return value;
+  const params = new Map();
+  const rawParams = route[1].split('&');
+  if (rawParams.length > 6) return '';
+  try {
+   for (const rawParam of rawParams) {
+    const separator = rawParam.indexOf('=');
+    if (separator < 1 || rawParam.includes('+')) return '';
+    const key = decodeURIComponent(rawParam.slice(0,separator));
+    const paramValue = decodeURIComponent(rawParam.slice(separator+1));
+    if (!['source','region','target','field','owner','fieldOwner'].includes(key) || params.has(key)) return '';
+    params.set(key,paramValue);
+   }
+   const source = params.get('source');
+   const region = params.get('region');
+   const target = params.get('target');
+   const field = params.get('field');
+   const owner = params.get('owner');
+   const fieldOwner = params.get('fieldOwner');
+   const ownerPattern = /^(?:rules|spells|equipment|classes|matrices):[a-z0-9][a-z0-9-]{0,100}$/;
+   if (!/^(?:PHB|UA|DMG|MM|MM2):[1-9][0-9]*$/.test(source || '')) return '';
+   if (region !== undefined && !/^[a-z0-9][a-z0-9-]{0,199}$/i.test(region)) return '';
+   if (target !== undefined && target !== 'pending') return '';
+   if (field !== undefined && (field.length > 250 || !field.startsWith('/') || /[\u0000-\u001f<>]/.test(field) || field.split('/').some(segment => /~(?![01])/.test(segment)))) return '';
+   if (owner !== undefined && !ownerPattern.test(owner)) return '';
+   if (fieldOwner !== undefined && !/^(?:rules|spells|equipment|classes|matrices|progressionExplainer):[a-z0-9][a-z0-9-]{0,100}$/.test(fieldOwner)) return '';
+   if (target === 'pending' && region !== undefined) return '';
+   return value;
+  } catch { return ''; }
+ };
+ const statusText = value => {
+  const status = String(value || '').trim();
+  const normalized = status.toLowerCase().replace(/_/g,'-');
+  if (!status) return '';
+  const labels = {
+   'review-stale':'Earlier source check needs a fresh review',
+   'previously-confirmed-review-stale':'Earlier source check needs a fresh review',
+   'source-review-pending':'Source review pending',
+   'source-review-pending-provisional-bounds':'Source review pending; page bounds provisional',
+   'field-target-pending':'Field citation target pending review',
+   'field-target-review-pending':'Field citation target pending review',
+   'highlight-review-pending':'Precise highlight pending review',
+   'context-not-assessed':'Passage context not yet assessed',
+   'not-extracted':'Not yet extracted',
+   'unextracted-gap':'Not yet extracted',
+   'source-conflict':'Conflicting source readings',
+   'page-identity-unverified':'Printed page identity unverified',
+   'unverified':'Page identity unverified',
+   'missing-from-supplied-pdf':'Missing from supplied PDF',
+   'missing-from-supplied-canonical-pdf':'Missing from supplied PDF',
+   'unverified-uncited-page-identity':'Page identity unverified; no current citation',
+   'referenced-content-identity-unresolved':'Referenced content not identified',
+   'recorded-review-note-candidate':'Recorded source caution',
+   'extracted-separate-field':'Already captured in a separate field',
+   'editorial-estimate':'Editorial estimate',
+   'bounded-discovery-not-completeness':'Source discovery is bounded, not comprehensive',
+   'documented-open-question':'Open source question',
+   'proposal-not-applied':'Review proposal only',
+   'confirmed-source-edge-limitation':'Printed source edge is clipped',
+   'review-queue-not-missing-content':'Review item; no missing source content identified',
+   'known-cases-only':'Known cases only; not a completeness check'
+  };
+  return labels[normalized] || status;
+ };
+ const locationsText = locations => (Array.isArray(locations) ? locations : []).map(location => {
+  if (!location || typeof location !== 'object') return '';
+  const book = String(location.book || '').trim();
+  const printed = Number(location.printedPage);
+  const pdf = Number(location.pdfPage);
+  const printedText = Number.isInteger(printed) && printed > 0 ? `p. ${printed}` : '';
+  const pdfText = Number.isInteger(pdf) && pdf > 0 ? `PDF p. ${pdf}` : '';
+  const pages = [printedText,pdfText].filter(Boolean).join(' · ');
+  return [book,pages].filter(Boolean).join(' ');
+ }).filter(Boolean);
+ if (!payload || payload.schemaVersion !== 1 || !Array.isArray(payload.groups)) return '';
+ const groups = payload.groups.filter(group => group && typeof group === 'object' && typeof group.id === 'string' && Array.isArray(group.entries));
+ const fieldGroup = groups.find(group => group.id === 'formal-field-statuses');
+ const noteGroup = groups.find(group => group.id === 'recorded-review-notes');
+ const fieldEntries = fieldGroup?.entries || [];
+ const notExtracted = fieldEntries.filter(entry => String(entry?.status || '').toLowerCase().replace(/_/g,'-') === 'not-extracted').length;
+ const sourceConflicts = fieldEntries.filter(entry => String(entry?.status || '').toLowerCase().replace(/_/g,'-') === 'source-conflict').length;
+ const recordedNotes = noteGroup?.entries?.length || 0;
+ const summary = [
+  notExtracted ? `<div class="coverage-gap-count"><strong>${notExtracted.toLocaleString()}</strong><span>fields not yet extracted</span></div>` : '',
+  sourceConflicts ? `<div class="coverage-gap-count"><strong>${sourceConflicts.toLocaleString()}</strong><span>fields with conflicting source readings</span></div>` : '',
+  recordedNotes ? `<div class="coverage-gap-count"><strong>${recordedNotes.toLocaleString()}</strong><span>recorded source and interpretation notes</span></div>` : ''
+ ].filter(Boolean).join('');
+ const groupHTML = groups.map(group => {
+  const entries = group.entries.filter(entry => entry && typeof entry === 'object' && typeof entry.id === 'string');
+  const count = entries.length;
+  const open = group.id === 'missing-referenced-content' || group.id === 'equipment-offers';
+  const cards = entries.map(entry => {
+   const status = statusText(entry.status);
+   const locations = locationsText(entry.sourceLocations);
+   const links = (Array.isArray(entry.links) ? entry.links : []).map(link => {
+    const href = safeHref(link?.href);
+    return href && typeof link?.label === 'string' && link.label.trim() ? `<a class="coverage-gap-link" href="${escape(href)}">${escape(link.label)}</a>` : '';
+   }).filter(Boolean).join('');
+   return `<article class="coverage-gap-entry" data-gap-id="${escape(entry.id)}"><div class="coverage-gap-entry-heading"><h4>${escape(entry.title || 'Source note')}</h4>${status ? `<span class="coverage-gap-status">${escape(status)}</span>` : ''}</div>${entry.description ? `<p>${escape(entry.description)}</p>` : ''}${locations.length ? `<p class="coverage-gap-location">${locations.map(escape).join(' · ')}</p>` : ''}${links ? `<div class="coverage-gap-links">${links}</div>` : ''}</article>`;
+  }).join('');
+  return `<details class="coverage-gap-group" data-gap-group="${escape(group.id)}"${open ? ' open' : ''}><summary data-gap-group-summary><span>${escape(group.title || group.id)}</span><span class="coverage-gap-group-count" data-gap-count="${count}">${count.toLocaleString()}</span></summary>${group.description ? `<p class="coverage-gap-group-description">${escape(group.description)}</p>` : ''}<div class="coverage-gap-entries">${cards || '<p class="coverage-gap-empty">No current entries in this group.</p>'}</div></details>`;
+ }).join('');
+ return `<section id="coverageGapsPanel" class="coverage-gaps-panel" aria-labelledby="coverageGapsTitle" aria-busy="false"><header class="coverage-gaps-heading"><span class="eyebrow">SOURCE NOTES</span><h2 id="coverageGapsTitle">${escape(payload.title || 'Known gaps & limitations')}</h2>${payload.intro ? `<p>${escape(payload.intro)}</p>` : ''}</header>${summary ? `<div class="coverage-gap-summary" aria-label="Recorded source review statuses">${summary}</div>` : ''}${summary ? '<p class="coverage-gap-count-note">These groups can overlap. Their counts describe different kinds of source notes and are not a total error count.</p>' : ''}<div class="coverage-gap-groups">${groupHTML}</div></section>`;
+}
+
+function coverageGapsPanelHTML(payload) {
+ if (payload) return coverageGapsHTML(payload);
+ return '<section id="coverageGapsPanel" class="coverage-gaps-panel" aria-labelledby="coverageGapsTitle" aria-busy="true"><header class="coverage-gaps-heading"><span class="eyebrow">SOURCE NOTES</span><h2 id="coverageGapsTitle">Known gaps &amp; limitations</h2></header><p id="coverageGapsStatus" class="coverage-gaps-status" role="status" aria-live="polite">Loading source notes…</p></section>';
+}
+
+async function loadCoverageGaps(panel = $('#coverageGapsPanel')) {
+ if (!panel) return;
+ const request = ++coverageGapsLoadSequence;
+ const stillCurrent = () => request === coverageGapsLoadSequence && view === 'sources' && panel.isConnected;
+ panel.setAttribute('aria-busy','true');
+ panel.innerHTML = '<header class="coverage-gaps-heading"><span class="eyebrow">SOURCE NOTES</span><h2 id="coverageGapsTitle">Known gaps &amp; limitations</h2></header><p id="coverageGapsStatus" class="coverage-gaps-status" role="status" aria-live="polite">Loading source notes…</p>';
+ try {
+  if (!loadedDataSha256) throw new Error('identity-unavailable');
+  const response = await fetch('coverage-gaps.json',{credentials:'same-origin',cache:'no-cache'});
+  if (!response.ok) throw new Error('unavailable');
+  const payload = await response.json();
+  if (!stillCurrent()) return;
+  if (!payload || payload.schemaVersion !== 1 || !Array.isArray(payload.groups) || !payload.snapshot || typeof payload.snapshot.dataSha256 !== 'string') throw new Error('invalid-payload');
+  if (payload.snapshot.dataSha256 !== loadedDataSha256) throw new Error('snapshot-mismatch');
+  if (!payload.groups.every(group => group && typeof group.id === 'string' && typeof group.title === 'string' && typeof group.description === 'string' && Array.isArray(group.entries) && group.entries.every(entry => entry && typeof entry.id === 'string' && typeof entry.title === 'string' && typeof entry.status === 'string' && typeof entry.description === 'string' && Array.isArray(entry.sourceLocations) && Array.isArray(entry.links) && entry.sourceLocations.every(location => location && typeof location === 'object') && entry.links.every(link => link && typeof link.label === 'string' && typeof link.href === 'string')))) throw new Error('invalid-payload');
+  coverageGapsPayload = payload;
+  panel.setAttribute('aria-busy','false');
+  panel.outerHTML = coverageGapsHTML(payload);
+ } catch (error) {
+  if (!stillCurrent()) return;
+  const mismatch = error?.message === 'snapshot-mismatch';
+  const invalid = error?.message === 'invalid-payload';
+  panel.setAttribute('aria-busy','false');
+  panel.innerHTML = `<header class="coverage-gaps-heading"><span class="eyebrow">SOURCE NOTES</span><h2 id="coverageGapsTitle">Known gaps &amp; limitations</h2></header><p id="coverageGapsStatus" class="coverage-gaps-status" role="status" aria-live="polite">${mismatch ? 'These source notes do not match the reference data open in this tab. Reload the page and try again.' : invalid ? 'These source notes could not be verified. Please reload the page and try again.' : 'Source notes could not be loaded. Please try again.'}</p><button type="button" class="coverage-gaps-retry" data-coverage-gaps-retry>Try again</button>`;
+  panel.querySelector('[data-coverage-gaps-retry]')?.addEventListener('click',() => loadCoverageGaps(panel));
+ }
+}
+
 function renderSources() {
  const checked=scanCoverage();
  const countsCopy=checked.regions===null?'':`${checked.regions} unique checked regions${checked.imageFiles===null?'':` in ${checked.imageFiles} source images`}. ${checked.scopedRegions===null?'':`The item catalogs contain ${checked.scopedRegions} item-specific region entries${checked.scopedRegions>checked.regions?', including reused regions':''}. `}`;
@@ -623,7 +779,8 @@ function renderSources() {
  const xpCount = data.classes.filter(x=>xpThresholds(x).length>0).length;
  const detailed = data.spells.filter(hasDetails).length;
  const sources = data.sources.length ? data.sources : [{id:'PHB',title:'Players Handbook',edition:'Sixth printing · January 1980',mapping:'Printed page N = PDF page N + 1',gaps:[],coverage:'Extraction in progress.'},{id:'UA',title:'Unearthed Arcana',edition:'Original 1985 edition',mapping:'Printed page N = PDF page N + 1',gaps:[],coverage:'Extraction in progress.'},{id:'DMG',title:'Dungeon Masters Guide',edition:'Revised December 1979',mapping:FirstEditionBooks.mapping('DMG'),gaps:[175],unverified:[239,240],coverage:'Missing and unverified pages are excluded.'}];
- $('#main').innerHTML = pageHeading('KNOW WHAT YOU’RE READING','A reference you can trace.','The original printings are the authority. This companion provides selected, reformatted study aids and exact page locations.') + `<div class="coverage-grid"><div class="coverage-stat"><strong>${data.spells.length.toLocaleString()}</strong><span>Class-specific spell entries indexed · ${detailed} detailed cards</span></div><div class="coverage-stat"><strong>${data.rules.length.toLocaleString()}</strong><span>Curated rules references</span></div><div class="coverage-stat"><strong>${data.classes.length.toLocaleString()}</strong><span>Class &amp; advancement guides · ${xpCount} with partial XP tables</span></div><div class="coverage-stat"><strong>${data.equipment.length.toLocaleString()}</strong><span>Equipment entries · ${data.equipment.filter(hasKnownPrice).length} transcribed prices · ${data.equipment.filter(hasSuggestedPrice).length} suggested estimates</span></div></div><section class="source-cards" aria-label="Source printings">${sources.map((s,i) => { const code = bookCode(s.id || s.book || ['PHB','UA','DMG'][i]); const count = data.rules.filter(x=>bookCode(x.book)===code).length; const spells = data.spells.filter(x=>bookCode(x.book)===code); return `<article class="source-card" data-annotation-target="source:${esc(code)}" data-annotation-title="${esc(s.title)}"><div class="source-bookmark" aria-hidden="true"><span>AD&amp;D</span><strong>${esc(code)}</strong></div><span class="eyebrow">SOURCE ${String(i+1).padStart(2,'0')}</span><h2>${esc(s.title)}</h2><p>${esc(s.edition || '')}</p><h3>Current coverage</h3><p>${esc(code==='DMG'?'Selected combat, advancement and referee procedures; coverage is incomplete.':typeof s.coverage === 'string' ? s.coverage : JSON.stringify(s.coverage || 'Source extraction in progress.'))}</p><p>${count} rule references · ${spells.length} spell entries · ${spells.filter(hasDetails).length} detailed cards</p>${Array.isArray(s.gaps)&&s.gaps.length ? `<div class="gap-badge">Missing from the supplied PDF: ${s.gaps.map(esc).join(', ')}.${code==='DMG'?' A separately supplied private image of p. 175 is available; its printing is unknown and it is not published.':' These pages are not reconstructed.'}</div>` : ''}${Array.isArray(s.unverified)&&s.unverified.length ? `<div class="gap-badge">Unverified printed pages: ${s.unverified.map(esc).join(', ')}. No PDF page is assigned.</div>` : ''}<p class="source-map">${esc(code==='DMG'?FirstEditionBooks.mapping(code):(s.mapping || FirstEditionBooks.mapping(code)))}</p><div>${noteButton({id:`source:${code}`,name:s.title})}</div></article>`; }).join('')}</section><section class="coverage-copy" data-annotation-target="coverage" data-annotation-title="Coverage & editorial standards"><h2>Clear boundaries. Better rulings.</h2><p>This is a growing, curated reference, not a complete reproduction of the books. ${xpCount<data.classes.length?`Only ${xpCount} of ${data.classes.length} class/variant guides currently include partial XP tables; other progressions are pending.`:`All ${data.classes.length} class/variant guides include source XP rows, but individual tables may still have gaps and level-up mechanics remain partially extracted.`} An indexed entry records a class-specific spell heading and level; the same spell name may appear in several classes. A detailed card separately extracts selected casting attributes and a concise paraphrase. Missing fields are not inferred.</p><p>Most content has been checked against source OCR. ${esc(verificationCopy)} Page chips identify the printed page and its corresponding page in the supplied PDF. ${esc(sourceSharingCopy)}</p><p>Players Handbook and original Unearthed Arcana rules are identified separately. Later editions, modified scans, house rules, and errata are not silently substituted. Any errata supplied in a guide is explicitly labeled. Equipment prices are source-listed coin amounts; gp-weight is separately labeled encumbrance. ${data.matrices?.find(m=>m.id==='dmg-original-fighter-attack-matrix')?.cellVerification?.cellCount===210 && data.matrices?.find(m=>m.id==='dmg-original-fighter-attack-matrix')?.coverage?.missingCells===0?'The original fighter matrix cells were checked against the supplied scan.':'The original fighter matrix remains a partial transcription.'} Its Alt comparison is an explicitly optional house-rule illustration.</p>${noteButton({id:'coverage',name:'Coverage & editorial standards'})}</section>`;
+ $('#main').innerHTML = pageHeading('KNOW WHAT YOU’RE READING','A reference you can trace.','The original printings are the authority. This companion provides selected, reformatted study aids and exact page locations.') + `<div class="coverage-grid"><div class="coverage-stat"><strong>${data.spells.length.toLocaleString()}</strong><span>Class-specific spell entries indexed · ${detailed} detailed cards</span></div><div class="coverage-stat"><strong>${data.rules.length.toLocaleString()}</strong><span>Curated rules references</span></div><div class="coverage-stat"><strong>${data.classes.length.toLocaleString()}</strong><span>Class &amp; advancement guides · ${xpCount} with partial XP tables</span></div><div class="coverage-stat"><strong>${data.equipment.length.toLocaleString()}</strong><span>Equipment entries · ${data.equipment.filter(hasKnownPrice).length} transcribed prices · ${data.equipment.filter(hasSuggestedPrice).length} suggested estimates</span></div></div><section class="source-cards" aria-label="Source printings">${sources.map((s,i) => { const code = bookCode(s.id || s.book || ['PHB','UA','DMG'][i]); const count = data.rules.filter(x=>bookCode(x.book)===code).length; const spells = data.spells.filter(x=>bookCode(x.book)===code); return `<article class="source-card" data-annotation-target="source:${esc(code)}" data-annotation-title="${esc(s.title)}"><div class="source-bookmark" aria-hidden="true"><span>AD&amp;D</span><strong>${esc(code)}</strong></div><span class="eyebrow">SOURCE ${String(i+1).padStart(2,'0')}</span><h2>${esc(s.title)}</h2><p>${esc(s.edition || '')}</p><h3>Current coverage</h3><p>${esc(code==='DMG'?'Selected combat, advancement and referee procedures; coverage is incomplete.':typeof s.coverage === 'string' ? s.coverage : JSON.stringify(s.coverage || 'Source extraction in progress.'))}</p><p>${count} rule references · ${spells.length} spell entries · ${spells.filter(hasDetails).length} detailed cards</p>${Array.isArray(s.gaps)&&s.gaps.length ? `<div class="gap-badge">Missing from the supplied PDF: ${s.gaps.map(esc).join(', ')}.${code==='DMG'?' A separately supplied private image of p. 175 is available; its printing is unknown and it is not published.':' These pages are not reconstructed.'}</div>` : ''}${Array.isArray(s.unverified)&&s.unverified.length ? `<div class="gap-badge">Unverified printed pages: ${s.unverified.map(esc).join(', ')}. No PDF page is assigned.</div>` : ''}<p class="source-map">${esc(code==='DMG'?FirstEditionBooks.mapping(code):(s.mapping || FirstEditionBooks.mapping(code)))}</p><div>${noteButton({id:`source:${code}`,name:s.title})}</div></article>`; }).join('')}</section><section class="coverage-copy" data-annotation-target="coverage" data-annotation-title="Coverage & editorial standards"><h2>Clear boundaries. Better rulings.</h2><p>This is a growing, curated reference, not a complete reproduction of the books. ${xpCount<data.classes.length?`Only ${xpCount} of ${data.classes.length} class/variant guides currently include partial XP tables; other progressions are pending.`:`All ${data.classes.length} class/variant guides include source XP rows, but individual tables may still have gaps and level-up mechanics remain partially extracted.`} An indexed entry records a class-specific spell heading and level; the same spell name may appear in several classes. A detailed card separately extracts selected casting attributes and a concise paraphrase. Missing fields are not inferred.</p><p>Most content has been checked against source OCR. ${esc(verificationCopy)} Page chips identify the printed page and its corresponding page in the supplied PDF. ${esc(sourceSharingCopy)}</p><p>Players Handbook and original Unearthed Arcana rules are identified separately. Later editions, modified scans, house rules, and errata are not silently substituted. Any errata supplied in a guide is explicitly labeled. Equipment prices are source-listed coin amounts; gp-weight is separately labeled encumbrance. ${data.matrices?.find(m=>m.id==='dmg-original-fighter-attack-matrix')?.cellVerification?.cellCount===210 && data.matrices?.find(m=>m.id==='dmg-original-fighter-attack-matrix')?.coverage?.missingCells===0?'The original fighter matrix cells were checked against the supplied scan.':'The original fighter matrix remains a partial transcription.'} Its Alt comparison is an explicitly optional house-rule illustration.</p>${noteButton({id:'coverage',name:'Coverage & editorial standards'})}</section>${coverageGapsPanelHTML(coverageGapsPayload)}`;
+ if (!coverageGapsPayload) loadCoverageGaps();
 }
 function renderNotebook() {
  let shown = [...notes].sort((a,b) => String(b.updated).localeCompare(String(a.updated)));
@@ -805,6 +962,7 @@ async function initialize() {
  try {
   const response=await fetch('data.json');if(!response.ok)throw new Error(`Reference data returned HTTP ${response.status}.`);
   const incoming=await response.json();
+  loadedDataSha256=await sha256JSON(incoming);
   for(const key of ['spells','rules','equipment','classes','sources','matrices'])data[key]=Array.isArray(incoming[key])?incoming[key]:[];
   data.progressionExplainer=incoming.progressionExplainer&&typeof incoming.progressionExplainer==='object'?incoming.progressionExplainer:null;
   data.release=incoming.release&&typeof incoming.release==='object'&&!Array.isArray(incoming.release)?incoming.release:null;

@@ -5,3 +5,37 @@
 .source-viewer-privacy[hidden]+.source-viewer-layout{border-top:1px solid var(--line,#dedfd5)}.source-viewer-target-notice{margin:12px 0;padding:10px 12px;background:#fff8e8;border:1px solid #ddceac;border-radius:6px;font-size:12px;line-height:1.7}.source-viewer-target-notice[hidden]{display:none!important}
 .source-viewer-highlight-notice{margin:10px 0;padding:8px 11px;border-left:3px solid #9a7224;background:#fbf3df;color:#4f472f;font-size:11px;line-height:1.6}.source-viewer-highlight-notice[hidden]{display:none!important}
 @media(max-width:760px){.source-viewer h2 .source-viewer-item{font-size:15px}.source-viewer-header-actions{margin-left:auto}.source-viewer-header-actions .source-viewer-modes{display:inline-flex}.source-viewer-header-actions .source-viewer-modes button{white-space:nowrap}}
+
+/* Linked passage parts keep their own image geometry and captions. Flex wrapping
+   permits two columns only when both actual frame widths fit the available stage. */
+.source-viewer-stage.is-linked{height:auto;max-height:min(650px,64dvh);min-height:120px;overflow:auto;touch-action:pan-x pan-y;scrollbar-gutter:stable}
+.source-viewer-linked-parts{display:flex;align-items:flex-start;justify-content:center;flex-wrap:wrap;gap:16px;width:100%;min-width:0}
+.source-viewer-linked-part{box-sizing:border-box;flex:0 0 auto;width:max-content;max-width:100%;min-width:0;margin:0;padding:8px;border:1px solid #d7ded0;border-radius:7px;background:#fffefa;overflow-wrap:anywhere}
+.source-viewer-linked-part[data-selected=true]{border:2px solid #557246;padding:7px;background:#f4f8ef;box-shadow:0 0 0 2px #dbe6d3}
+.source-viewer-linked-page{display:flex;align-items:center;flex-wrap:wrap;gap:5px;min-height:44px;margin:0 0 8px;padding:4px 3px;color:#43523f;font-size:11px;line-height:1.5;overflow-wrap:anywhere}
+.source-viewer-linked-part[data-selected=true] .source-viewer-linked-page{font-weight:700;color:#30472d}
+.source-viewer-linked-part[data-selected=true] .source-viewer-linked-page::after{content:'Current excerpt';display:inline-flex;align-items:center;min-height:28px;margin-left:auto;padding:3px 8px;border-radius:14px;background:#e4eddc;color:#334c2c;font-size:10px;font-weight:700;letter-spacing:.02em}
+.source-viewer-linked-frame{position:relative;flex:none;max-width:none;margin:0 auto;background:#fff;box-shadow:0 3px 16px #152b2026}
+.source-viewer-linked-frame .source-viewer-linked-scan{display:block;width:100%;height:auto;max-width:none;margin:0}
+.source-viewer-linked-focus-overlay{position:absolute;inset:0;pointer-events:none}
+.source-viewer-linked-focus-rect{box-sizing:border-box;position:absolute;border:2px solid #a16b00;background:#f5d94a20;box-shadow:0 0 0 1px #fff9;pointer-events:none}
+.source-viewer-linked-caption{box-sizing:border-box;width:100%;min-height:44px;margin-top:10px;padding:10px 11px;border:1px solid #d7ded0;border-radius:5px;background:#f6f8f0;color:#455340;overflow-wrap:anywhere}
+.source-viewer-linked-caption strong{display:block;margin-bottom:4px;color:#334a31;font-size:12px;line-height:1.5}
+.source-viewer-linked-caption p{margin:0;color:#455340;font-size:11px;line-height:1.7;overflow-wrap:anywhere}
+.source-viewer-linked-warning,.source-viewer-linked-reviewed,.source-viewer-linked-unavailable{box-sizing:border-box;min-height:44px;margin:9px 0 0;padding:8px 10px;border-left:3px solid #9a7224;background:#fbf3df;color:#4f472f;font-size:10px;line-height:1.6;overflow-wrap:anywhere}
+.source-viewer-linked-reviewed{border-left-color:#53734a;background:#eef4e9;color:#3f5339}
+.source-viewer-linked-unavailable{border-left-color:#8e5b37;background:#f8eee6;color:#654632}
+@media(min-width:761px){.source-viewer:has(.source-viewer-stage.is-linked){width:min(1680px,calc(100vw - 40px))}}
+@media(max-width:760px){
+ .source-viewer:has(.source-viewer-stage.is-linked) .source-viewer-header{min-width:0}
+ .source-viewer:has(.source-viewer-stage.is-linked) .source-viewer-header-actions{flex:1 1 100%;min-width:0;max-width:100%;flex-wrap:wrap;justify-content:flex-end;gap:6px;margin-left:0}
+ .source-viewer:has(.source-viewer-stage.is-linked) .source-viewer-header-actions .source-viewer-modes{display:flex;flex:1 1 100%;width:100%;min-width:0;max-width:100%}
+ .source-viewer:has(.source-viewer-stage.is-linked) .source-viewer-header-actions .source-viewer-modes button{flex:1 1 0;min-width:0;white-space:normal}
+ .source-viewer-stage.is-linked{max-height:55dvh;min-height:120px}
+ .source-viewer-linked-parts{gap:12px}
+ .source-viewer-linked-part{padding:6px}
+ .source-viewer-linked-part[data-selected=true]{padding:5px}
+ .source-viewer-linked-page{font-size:10px}
+ .source-viewer-linked-caption{padding:9px}
+ .source-viewer-linked-warning,.source-viewer-linked-reviewed,.source-viewer-linked-unavailable{font-size:10px}
+}
