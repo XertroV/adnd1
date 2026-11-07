@@ -3,7 +3,7 @@
   "baselineCommit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
   "baselineDataSha256": "d63e2bc553be886fd5effa24ab170ace5673d42b4f310d567f0529d786a48ef4",
   "policy": "Capture entire exposed-data denominator for each systemic issue before instance repair. Structural negatives do not certify semantics. Every unresolved case remains in a review queue.",
-  "gate": "baseline-captured-bounded-reviewed-repairs-in-progress",
+  "gate": "bounded-repairs-validated-semantic-review-remains-open",
   "contentRecordDenominator": 920,
   "fullDataTree": {
     "nodes": 46618,
@@ -53,7 +53,14 @@
         "OCR alignment and nearby content can produce false positives",
         "Raster connected-component detector is not implemented; pixel review remains required"
       ],
-      "repairGate": "open-only-for-frozen-reviewed-category-recipes"
+      "repairGate": "open-only-for-frozen-reviewed-category-recipes",
+      "current": {
+        "regionUsages": 2742,
+        "uniqueImages": 1383,
+        "candidateRegionUsages": 916,
+        "inputWarnings": 0,
+        "note": "Word-box candidates; no negative result is a raster or semantic completeness pass."
+      }
     },
     {
       "id": "highlight-sentinel-and-relevance",
@@ -70,7 +77,14 @@
         "Semantic fact relevance requires source and field review",
         "Existing historical exceptions do not automatically certify whole-spell scope"
       ],
-      "repairGate": "open-only-for-frozen-reviewed-category-recipes"
+      "repairGate": "open-only-for-frozen-reviewed-category-recipes",
+      "current": {
+        "rawSentinelRegionUsages": 2245,
+        "actionableWarnings": 2243,
+        "historicalScopeReviewsPending": 152,
+        "explicitPureWholeSpellExceptions": 2,
+        "mixedSentinelPolicy": "Always actionable; exact whole-spell scope does not clear a mixed region."
+      }
     },
     {
       "id": "field-to-source-region-links",
@@ -80,9 +94,6 @@
         "Known source-only and comparator route failures retained as fixtures",
         "Page-specific generated pending bindings across structured references; review assertions are scoped and hash-bound",
         "Separate semantic field owner, displayed source owner and UI route identities"
-      ],
-      "inProgress": [
-        "Final assembled-data/browser integration validation"
       ],
       "gaps": [
         "Most generic field references lack independently reviewed field-region bindings",
@@ -97,7 +108,18 @@
         "selectedCatalogsUsingShortWidthHeightKeys": 541,
         "trackedMechanicsLeaves": 13193
       },
-      "repairGate": "open-for-systemic-binding-generator-and-validator-fixes"
+      "repairGate": "open-for-systemic-binding-generator-and-validator-fixes",
+      "completedFromInProgress": [
+        "Final assembled-data/browser integration validation"
+      ],
+      "current": {
+        "pageSpecificBindings": 4260,
+        "regionBoundBindings": 283,
+        "bindingsWithoutRegionTargets": 3977,
+        "manualReviewedLocationTargets": 210,
+        "sourceValueConfirmedEquipmentPriceBindings": 185,
+        "snapshotDriftChecks": "Current amount/currency/unit must match independent valueReview; string status alone cannot confirm."
+      }
     },
     {
       "id": "table-context-and-qualifiers",
@@ -108,14 +130,19 @@
         "All-property and all-region unresolved semantic review universe",
         "Captured full shared-image consumer census before class-context repair"
       ],
-      "inProgress": [
-        "Apply only independently approved source recipes, then rerun contracts"
-      ],
       "gaps": [
         "Table/heading/units/footnote completeness is not proved by OCR or crop size",
         "Context extent checks apply only to explicitly annotated contracts; other cases remain unresolved"
       ],
-      "repairGate": "open-only-for-frozen-reviewed-category-recipes"
+      "repairGate": "open-only-for-frozen-reviewed-category-recipes",
+      "completedFromInProgress": [
+        "Apply only independently approved source recipes, then rerun contracts"
+      ],
+      "current": {
+        "annotatedExtentContracts": 35,
+        "violations": 0,
+        "note": "Unknown context/qualifiers remain unresolved over all property/catalog usages."
+      }
     },
     {
       "id": "ordered-continuations",
@@ -124,14 +151,21 @@
         "Validation of explicit segment order, region existence and source identity",
         "Database-wide multi-page and unannotated-passage review inventory; no unannotated passage is automatically complete"
       ],
-      "inProgress": [
-        "Final ordered-source integration checks"
-      ],
       "gaps": [
         "Same-page column continuation and uncited subsequent pages cannot be inferred exhaustively",
         "Every unannotated passage remains unresolved rather than accepted"
       ],
-      "repairGate": "open-only-for-frozen-reviewed-category-recipes"
+      "repairGate": "open-only-for-frozen-reviewed-category-recipes",
+      "completedFromInProgress": [
+        "Final ordered-source integration checks"
+      ],
+      "current": {
+        "knownGroups": 14,
+        "requiredSegments": 28,
+        "present": 28,
+        "blocked": 0,
+        "note": "Unannotated passages remain unresolved."
+      }
     },
     {
       "id": "price-extraction-completeness",
@@ -142,9 +176,6 @@
         "Every-page discovery census for all776 pages of5 original PDFs, plus1 separate supplemental image",
         "Explicit source claims, exclusions, uncertainty, and untranscribed table groups"
       ],
-      "inProgress": [
-        "Final assembled inventory, current hash validation and price-click sweep"
-      ],
       "gaps": [
         "Source-page text screening is a discovery queue, not absence evidence",
         "Bounded tables are not whole-book extraction coverage",
@@ -154,6 +185,19 @@
       "knownFailureCalibration": {
         "test": "tests/equipment-price-corrections.test.mjs",
         "beforeRepair": "Historical source fixture passes; current-value test fails as expected: source inventory says1gp, independently reviewed original requires1ep."
+      },
+      "completedFromInProgress": [
+        "Final assembled inventory, current hash validation and price-click sweep"
+      ],
+      "current": {
+        "namedSourceRows": 710,
+        "sourceInventories": 8,
+        "equipmentOffers": 188,
+        "canonicalPriceMappings": 185,
+        "additionalExtractedOfferFields": 1,
+        "unrepresentedOrUnresolvedOffers": 2,
+        "sourceCensusPdfPages": 776,
+        "wholeBookCompleteness": "not established"
       }
     },
     {
@@ -165,14 +209,23 @@
         "Captured full rendered-control pre-fix inventory and contextual-owner/filtered-route failures",
         "Spell control desktop/mobile layout with18 passing interaction, keyboard and touch-size checks"
       ],
-      "inProgress": [
-        "Final production-data navigation sweep and contextual-owner replay validation"
-      ],
       "gaps": [
         "Representative browser checks do not cover every view, device and content combination"
       ],
       "baselineManifest": "research/citation-navigation-coverage.json",
-      "repairGate": "open-for-systemic-navigation-code-after-preserved-failure-tests"
+      "repairGate": "open-for-systemic-navigation-code-after-preserved-failure-tests",
+      "completedFromInProgress": [
+        "Final production-data navigation sweep and contextual-owner replay validation"
+      ],
+      "current": {
+        "renderedContentRecords": 993,
+        "inlineControls": 5212,
+        "controlObservations": 10736,
+        "renderedPayloadOrRouteFailures": 0,
+        "contextualLinkCases": 146,
+        "priceClickCases": 185,
+        "note": "Recorded render snapshot and focused interaction suites; not semantic verification."
+      }
     }
   ],
   "sourceInstanceRepairGate": "open-after-full-systemic-baseline-validation",
@@ -189,5 +242,15 @@
     "originalGeometryNotAssessableInputs": 0,
     "sourceFilesAvailablePrivately": 6,
     "remainingSemanticReview": "All unannotated content pointers remain unresolved/not-assessable; no whole-book completeness claim."
+  },
+  "integrationBaseCommit": "a36884141cd28fcb86564a60fef20859c71adec9",
+  "integrationBasePR": "https://github.com/XertroV/adnd1/pull/23",
+  "finalDataSha256": "47908c8ddc8b68c09e11f600ed0d0dc24b2a3749f8e3f452e245c7ee6635053b",
+  "finalLocalChecks": {
+    "preSidebarIntegrationNodeTestsPassed": 317,
+    "rebasedNodeTestsPassed": 326,
+    "nodeTestsFailed": 0,
+    "independentReview": "Six Luna xHigh workers and independent Sol6.1Ultra final integration review; no remaining reviewed code blockers.",
+    "cleanCheckoutCIAndDeployment": "Reported in final job handoff after completion."
   }
 }

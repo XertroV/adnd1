@@ -1,6 +1,6 @@
 # Citation follow-up handoff
 
-The implementation starts from `13783128ca5955ac707ed7ec6994d78d7c9a7cce` (PR #22), preserving its fixes and review history. The branch is `codex/citation-field-evidence`. PR, CI, merge and normal Pages deployment results are supplied in the final job handoff; local verification alone is not a deployment claim.
+The implementation starts from `13783128ca5955ac707ed7ec6994d78d7c9a7cce` (PR #22), preserving its fixes and review history. The branch is `codex/citation-field-evidence`; it integrates PR #23 at `a36884141cd28fcb86564a60fef20859c71adec9`, retaining the sidebar and deployment-version workflow. PR, CI, merge and normal Pages deployment results are supplied in the final job handoff; local verification alone is not a deployment claim.
 
 Fact citations now preserve semantic field identity, source owner, source page and exact region. Unreviewed targets remain explicit instead of selecting the first excerpt on a page. Copy, reload, Back/Forward, filtered direct routes and search selection preserve coherent URL state. Aklys’s 2 gp purchase price is separate from 35 gp-weight statistics. Arrow’s 2 sp single price and 1 gp/dozen offer remain distinct.
 
@@ -32,7 +32,7 @@ The machine-readable price/value/geometry inventory is [price-source-inventory.j
 
 CI always attempts the systemic and source-visual reports and uploads full JSON/Markdown artifacts, including price inventory and disposition queues. Generator/structural failures remain failures. Hash-bound current context/value assertions are separate from historical review snapshots. One historical unmatched-semantic artifact retains two stale input-hash checks after the equipment additions and Garrot correction; it is preserved, not refreshed without review.
 
-Local verification passed 317 Node tests, both report structural gates, the 185-price actual UI click matrix, the 993-record rendered-control sweep (5,212 controls),146 contextual field-link probes, desktop/mobile source permalinks, copy/reload/history and filtered routes. Independent Sol review verified the snapshot, pointer, stale-value and mixed-sentinel fixes. Source geometry was regenerated from the authorized original PDFs with no input warnings;916 usages remain word-box edge candidates. Candidates are not confirmed clipping defects.
+Local verification passed 317 Node tests before sidebar integration and 326 after the rebase, both report structural gates, the 185-price actual UI click matrix, the 993-record rendered-control sweep (5,212 controls),146 contextual field-link probes, desktop/mobile source permalinks, copy/reload/history and filtered routes. Independent Sol review verified the snapshot, pointer, stale-value and mixed-sentinel fixes. Source geometry was regenerated from the authorized original PDFs with no input warnings;916 usages remain word-box edge candidates. Candidates are not confirmed clipping defects.
 
 ## Remaining work and next task
 
