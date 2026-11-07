@@ -1,6 +1,7 @@
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {dirname, isAbsolute, relative, resolve, sep} from 'node:path';
+import {auditContinuationOrder} from './continuation-order-audit.mjs';
 
 function requireValue(condition, message) {
   if (!condition) throw new Error(message);
@@ -174,6 +175,7 @@ export function auditRequiredSegmentPresence(group, catalog) {
     present,
     missing,
     mismatches,
+    ...auditContinuationOrder(group, catalog),
   };
 }
 
@@ -199,6 +201,8 @@ export function validateContinuationManifest(manifest, {data, catalogRoot}) {
     const presence = auditRequiredSegmentPresence(group, catalog);
     requireValue(presence.missing.length === 0, `${group.id} required segment ${presence.missing[0]?.regionId} is absent from catalog`);
     requireValue(presence.mismatches.length === 0, `${group.id} required segment ${presence.mismatches[0]?.regionId} does not match the catalog binding`);
+    requireValue(presence.duplicateRegionIds.length === 0, `${group.id} duplicate required segment ${presence.duplicateRegionIds[0]}`);
+    requireValue(presence.orderMismatches.length === 0, `${group.id} required segment order disagrees with the catalog/viewer order`);
     requireValue(catalog.sources?.[group.source.book]?.sha256 === group.source.sourceSha256, `${group.id} group source identity changed`);
     requireValue(group.sourceComparison?.status === 'compared-to-verified-original' && Array.isArray(group.sourceComparison.pages) && group.sourceComparison.pages.length > 0, `${group.id} needs source-bound page comparison evidence`);
     for (const review of group.sourceComparison.pages) {

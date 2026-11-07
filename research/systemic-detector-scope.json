@@ -149,11 +149,13 @@
       "implemented": [
         "Known Charging, Abjure and Animate Object source/segment manifests",
         "Validation of explicit segment order, region existence and source identity",
-        "Database-wide multi-page and unannotated-passage review inventory; no unannotated passage is automatically complete"
+        "Database-wide multi-page and unannotated-passage review inventory; no unannotated passage is automatically complete",
+        "Actual required-segment catalog order and untargeted same-page viewer order, including context-last sorting, duplicate detection and a 14-group ordering census"
       ],
       "gaps": [
         "Same-page column continuation and uncited subsequent pages cannot be inferred exhaustively",
-        "Every unannotated passage remains unresolved rather than accepted"
+        "Every unannotated passage remains unresolved rather than accepted",
+        "Cross-page viewer sequence, unrelated-region defaults and field-target overrides are outside the ordering projection"
       ],
       "repairGate": "open-only-for-frozen-reviewed-category-recipes",
       "completedFromInProgress": [
@@ -164,7 +166,16 @@
         "requiredSegments": 28,
         "present": 28,
         "blocked": 0,
-        "note": "Unannotated passages remain unresolved."
+        "note": "Unannotated passages remain unresolved.",
+        "orderingBaseline": {
+          "commit": "461b74f522537440a7b861f059d2093493a18e05",
+          "file": "research/citation-continuation-order-baseline.json",
+          "groups": 14,
+          "segments": 28,
+          "currentCorrectOrder": 14,
+          "reversedMutationPreviouslyAccepted": true,
+          "interpretation": "Original checker false-pass retained before repair; current catalog instances required no reorder."
+        }
       }
     },
     {

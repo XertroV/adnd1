@@ -1,0 +1,1248 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-07T09:15:55.066Z",
+  "purpose": "Captured before the continuation-contract repair. New audit-tool development had not changed the original validator, source manifests, catalogs or viewer.",
+  "repository": {
+    "resolvedHead": "461b74f522537440a7b861f059d2093493a18e05"
+  },
+  "manifest": {
+    "path": "research/citation-continuations.json",
+    "sha256": "9504a11f432fd7531f95d0bea4b81a8f50c67e9607c6bfc6faf4aa67b3ef5001",
+    "schemaVersion": 1
+  },
+  "viewerProjection": {
+    "source": "dist/source-viewer.js matchingRegions()",
+    "samePageFilter": "region.book===ref.book && region.printedPage===ref.page",
+    "order": "stable sort by Number(region.role === context), then original catalog index",
+    "targetMode": "No target IDs; this is matchingRegions default path. defaultRegionIndex falls back to matchingRegions()[0]."
+  },
+  "validator": {
+    "module": "tools/continuation-contract.mjs",
+    "baselineAccepted": true,
+    "baselineSummary": {
+      "groups": 14,
+      "segments": 28,
+      "presentSegments": 28,
+      "blockedSegments": 0,
+      "regressionBindings": 2,
+      "statusCounts": {
+        "segments-present-pending-deployment": 14
+      }
+    },
+    "reversedAbjureMutation": {
+      "operation": "In a disposable temp copy of dist/scans/verified/spells-ua-cleric-abjure.json, swap the catalog array positions of the two manifest-required UA p.37 regions; keep manifest, data, images, source and region objects unchanged.",
+      "accepted": true,
+      "result": {
+        "accepted": true,
+        "summary": {
+          "groups": 14,
+          "segments": 28,
+          "presentSegments": 28,
+          "blockedSegments": 0,
+          "regressionBindings": 2,
+          "statusCounts": {
+            "segments-present-pending-deployment": 14
+          }
+        }
+      },
+      "viewerProjection": {
+        "page": {
+          "book": "UA",
+          "printedPage": 37
+        },
+        "requiredOrder": [
+          "ua-37-e35d106ad24ba65c",
+          "ua-37-47646031f5b262d9"
+        ],
+        "beforeNoTargetMatchingRegions": [
+          "ua-37-e35d106ad24ba65c",
+          "ua-37-47646031f5b262d9"
+        ],
+        "afterNoTargetMatchingRegions": [
+          "ua-37-47646031f5b262d9",
+          "ua-37-e35d106ad24ba65c"
+        ],
+        "defaultRegionBefore": "ua-37-e35d106ad24ba65c",
+        "defaultRegionAfter": "ua-37-47646031f5b262d9",
+        "defaultAfterIsExpectedOpening": false
+      }
+    }
+  },
+  "counts": {
+    "groups": 14,
+    "segments": 28,
+    "correct": 14,
+    "reversed": 0,
+    "missing": 0,
+    "duplicate": 0,
+    "otherMismatch": 0,
+    "notAssessable": 0,
+    "multiPageRequiredSequences": 0,
+    "multiPageCitationRecords": 1,
+    "firstRequiredSegmentAtViewerIndexZero": 14,
+    "viewerNoTargetDefaultMismatch": 0
+  },
+  "groups": [
+    {
+      "groupId": "charging-melee-dmg-66",
+      "collection": "rules",
+      "itemId": "charging-melee",
+      "catalog": "scans/verified/rules-charging-melee.json",
+      "catalogSha256": "61ad9f16b0dea1fa432b194e5f615b44fb5232db71ce1d862a8c92a93350dfa4",
+      "expectedOrderedSegments": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "DMG",
+          "printedPage": 66,
+          "pdfPage": 67,
+          "regionId": "dmg-66-736ea779203d26d3",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "DMG",
+          "printedPage": 66,
+          "pdfPage": 67,
+          "regionId": "dmg-66-172588f85488ff67",
+          "state": "present"
+        }
+      ],
+      "actualCatalogOrderFilteredToRequiredIds": [
+        "dmg-66-736ea779203d26d3",
+        "dmg-66-172588f85488ff67"
+      ],
+      "catalogOrderClassification": "correct",
+      "missingRequiredRegionIds": [],
+      "duplicateRequiredRegionIds": [],
+      "requiredSegmentPageCount": 1,
+      "multiPageRequiredSequence": false,
+      "citationPageCount": 1,
+      "citationPages": [
+        {
+          "book": "DMG",
+          "printedPage": 66,
+          "role": "ordered charge passage",
+          "regionIds": [
+            "dmg-66-736ea779203d26d3",
+            "dmg-66-172588f85488ff67"
+          ]
+        }
+      ],
+      "citationPagesIncludeNonSegmentPages": false,
+      "viewerNoTargetSamePageOrder": [
+        {
+          "book": "DMG",
+          "printedPage": 66,
+          "matchingRegionsNoTarget": [
+            {
+              "regionId": "dmg-66-736ea779203d26d3",
+              "role": null,
+              "title": "DMG p. 66 \u00b7 Charge movement and opening Armor Class passage"
+            },
+            {
+              "regionId": "dmg-66-172588f85488ff67",
+              "role": null,
+              "title": "DMG p. 66 \u00b7 Charge and Armor Class same-page continuation"
+            }
+          ],
+          "firstRequiredSegmentIndex": 0,
+          "requiredSegmentPositions": [
+            {
+              "order": 1,
+              "regionId": "dmg-66-736ea779203d26d3",
+              "index": 0
+            },
+            {
+              "order": 2,
+              "regionId": "dmg-66-172588f85488ff67",
+              "index": 1
+            }
+          ],
+          "defaultRegionId": "dmg-66-736ea779203d26d3",
+          "defaultIsFirstRequiredSegment": true
+        }
+      ]
+    },
+    {
+      "groupId": "ua-cleric-abjure-ua-37",
+      "collection": "spells",
+      "itemId": "ua-cleric-abjure",
+      "catalog": "scans/verified/spells-ua-cleric-abjure.json",
+      "catalogSha256": "b0c44fe83b07ae8edd091c7ab7397c52f01223d9c2dccefff50f322c94774770",
+      "expectedOrderedSegments": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "UA",
+          "printedPage": 37,
+          "pdfPage": 38,
+          "regionId": "ua-37-e35d106ad24ba65c",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "UA",
+          "printedPage": 37,
+          "pdfPage": 38,
+          "regionId": "ua-37-47646031f5b262d9",
+          "state": "present"
+        }
+      ],
+      "actualCatalogOrderFilteredToRequiredIds": [
+        "ua-37-e35d106ad24ba65c",
+        "ua-37-47646031f5b262d9"
+      ],
+      "catalogOrderClassification": "correct",
+      "missingRequiredRegionIds": [],
+      "duplicateRequiredRegionIds": [],
+      "requiredSegmentPageCount": 1,
+      "multiPageRequiredSequence": false,
+      "citationPageCount": 2,
+      "citationPages": [
+        {
+          "book": "PHB",
+          "printedPage": 47,
+          "role": "related mechanics reference",
+          "regionIds": [
+            "phb-47-fa66266da842805d"
+          ]
+        },
+        {
+          "book": "UA",
+          "printedPage": 37,
+          "role": "ordered spell passage",
+          "regionIds": [
+            "ua-37-e35d106ad24ba65c",
+            "ua-37-47646031f5b262d9"
+          ]
+        }
+      ],
+      "citationPagesIncludeNonSegmentPages": true,
+      "viewerNoTargetSamePageOrder": [
+        {
+          "book": "UA",
+          "printedPage": 37,
+          "matchingRegionsNoTarget": [
+            {
+              "regionId": "ua-37-e35d106ad24ba65c",
+              "role": null,
+              "title": "UA p. 37 \u00b7 Named spell heading and visible portion of description on this page"
+            },
+            {
+              "regionId": "ua-37-47646031f5b262d9",
+              "role": null,
+              "title": "UA p. 37 \u00b7 Abjure \u00b7 continuation"
+            }
+          ],
+          "firstRequiredSegmentIndex": 0,
+          "requiredSegmentPositions": [
+            {
+              "order": 1,
+              "regionId": "ua-37-e35d106ad24ba65c",
+              "index": 0
+            },
+            {
+              "order": 2,
+              "regionId": "ua-37-47646031f5b262d9",
+              "index": 1
+            }
+          ],
+          "defaultRegionId": "ua-37-e35d106ad24ba65c",
+          "defaultIsFirstRequiredSegment": true
+        }
+      ]
+    },
+    {
+      "groupId": "phb33-human-two-class-context-classes-assassin",
+      "collection": "classes",
+      "itemId": "assassin",
+      "catalog": "scans/verified/classes-assassin.json",
+      "catalogSha256": "b3bea295cbec21e7507c21a6d8bfa4048df0cade86818614c20c8037145b20dd",
+      "expectedOrderedSegments": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "state": "present"
+        }
+      ],
+      "actualCatalogOrderFilteredToRequiredIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "catalogOrderClassification": "correct",
+      "missingRequiredRegionIds": [],
+      "duplicateRequiredRegionIds": [],
+      "requiredSegmentPageCount": 1,
+      "multiPageRequiredSequence": false,
+      "citationPageCount": 1,
+      "citationPages": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "role": "ordered two-class procedure and worked example, generic context",
+          "regionIds": [
+            "phb-33-3e99376517d917d0",
+            "phb-33-7d2eca37ce27b8e"
+          ]
+        }
+      ],
+      "citationPagesIncludeNonSegmentPages": false,
+      "viewerNoTargetSamePageOrder": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "matchingRegionsNoTarget": [
+            {
+              "regionId": "phb-33-3e99376517d917d0",
+              "role": null,
+              "title": "PHB p. 33 \u00b7 Two-class procedure and complete example opening \u00b7 generic context"
+            },
+            {
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "role": "context",
+              "title": "PHB p. 33 \u00b7 Same-page completion of Fighter-to-Magic-user example"
+            }
+          ],
+          "firstRequiredSegmentIndex": 0,
+          "requiredSegmentPositions": [
+            {
+              "order": 1,
+              "regionId": "phb-33-3e99376517d917d0",
+              "index": 0
+            },
+            {
+              "order": 2,
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "index": 1
+            }
+          ],
+          "defaultRegionId": "phb-33-3e99376517d917d0",
+          "defaultIsFirstRequiredSegment": true
+        }
+      ]
+    },
+    {
+      "groupId": "phb33-human-two-class-context-classes-cleric",
+      "collection": "classes",
+      "itemId": "cleric",
+      "catalog": "scans/verified/classes-cleric.json",
+      "catalogSha256": "e5234bc0405cb55241845516430c08fda902fb98449210be73c42998630bea79",
+      "expectedOrderedSegments": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "state": "present"
+        }
+      ],
+      "actualCatalogOrderFilteredToRequiredIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "catalogOrderClassification": "correct",
+      "missingRequiredRegionIds": [],
+      "duplicateRequiredRegionIds": [],
+      "requiredSegmentPageCount": 1,
+      "multiPageRequiredSequence": false,
+      "citationPageCount": 1,
+      "citationPages": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "role": "ordered two-class procedure and worked example, generic context",
+          "regionIds": [
+            "phb-33-3e99376517d917d0",
+            "phb-33-7d2eca37ce27b8e"
+          ]
+        }
+      ],
+      "citationPagesIncludeNonSegmentPages": false,
+      "viewerNoTargetSamePageOrder": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "matchingRegionsNoTarget": [
+            {
+              "regionId": "phb-33-3e99376517d917d0",
+              "role": null,
+              "title": "PHB p. 33 \u00b7 Two-class procedure and complete example opening \u00b7 generic context"
+            },
+            {
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "role": "context",
+              "title": "PHB p. 33 \u00b7 Same-page completion of Fighter-to-Magic-user example"
+            }
+          ],
+          "firstRequiredSegmentIndex": 0,
+          "requiredSegmentPositions": [
+            {
+              "order": 1,
+              "regionId": "phb-33-3e99376517d917d0",
+              "index": 0
+            },
+            {
+              "order": 2,
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "index": 1
+            }
+          ],
+          "defaultRegionId": "phb-33-3e99376517d917d0",
+          "defaultIsFirstRequiredSegment": true
+        }
+      ]
+    },
+    {
+      "groupId": "phb33-human-two-class-context-classes-druid",
+      "collection": "classes",
+      "itemId": "druid",
+      "catalog": "scans/verified/classes-druid.json",
+      "catalogSha256": "b4113b8d87a2eda2eed97587fb11561e09cf57e6670da14ad5674440af08e85d",
+      "expectedOrderedSegments": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "state": "present"
+        }
+      ],
+      "actualCatalogOrderFilteredToRequiredIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "catalogOrderClassification": "correct",
+      "missingRequiredRegionIds": [],
+      "duplicateRequiredRegionIds": [],
+      "requiredSegmentPageCount": 1,
+      "multiPageRequiredSequence": false,
+      "citationPageCount": 1,
+      "citationPages": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "role": "ordered two-class procedure and worked example, generic context",
+          "regionIds": [
+            "phb-33-3e99376517d917d0",
+            "phb-33-7d2eca37ce27b8e"
+          ]
+        }
+      ],
+      "citationPagesIncludeNonSegmentPages": false,
+      "viewerNoTargetSamePageOrder": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "matchingRegionsNoTarget": [
+            {
+              "regionId": "phb-33-3e99376517d917d0",
+              "role": null,
+              "title": "PHB p. 33 \u00b7 Two-class procedure and complete example opening \u00b7 generic context"
+            },
+            {
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "role": "context",
+              "title": "PHB p. 33 \u00b7 Same-page completion of Fighter-to-Magic-user example"
+            }
+          ],
+          "firstRequiredSegmentIndex": 0,
+          "requiredSegmentPositions": [
+            {
+              "order": 1,
+              "regionId": "phb-33-3e99376517d917d0",
+              "index": 0
+            },
+            {
+              "order": 2,
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "index": 1
+            }
+          ],
+          "defaultRegionId": "phb-33-3e99376517d917d0",
+          "defaultIsFirstRequiredSegment": true
+        }
+      ]
+    },
+    {
+      "groupId": "phb33-human-two-class-context-classes-fighter",
+      "collection": "classes",
+      "itemId": "fighter",
+      "catalog": "scans/verified/classes-fighter.json",
+      "catalogSha256": "22a9a339ad268b3c0c7993b610a43180de38a7c9d0d1a51192f0fe3a2c5c84c6",
+      "expectedOrderedSegments": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "state": "present"
+        }
+      ],
+      "actualCatalogOrderFilteredToRequiredIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "catalogOrderClassification": "correct",
+      "missingRequiredRegionIds": [],
+      "duplicateRequiredRegionIds": [],
+      "requiredSegmentPageCount": 1,
+      "multiPageRequiredSequence": false,
+      "citationPageCount": 1,
+      "citationPages": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "role": "ordered two-class procedure and worked example, generic context",
+          "regionIds": [
+            "phb-33-3e99376517d917d0",
+            "phb-33-7d2eca37ce27b8e"
+          ]
+        }
+      ],
+      "citationPagesIncludeNonSegmentPages": false,
+      "viewerNoTargetSamePageOrder": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "matchingRegionsNoTarget": [
+            {
+              "regionId": "phb-33-3e99376517d917d0",
+              "role": null,
+              "title": "PHB p. 33 \u00b7 Two-class procedure and complete example opening \u00b7 generic context"
+            },
+            {
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "role": "context",
+              "title": "PHB p. 33 \u00b7 Same-page completion of Fighter-to-Magic-user example"
+            }
+          ],
+          "firstRequiredSegmentIndex": 0,
+          "requiredSegmentPositions": [
+            {
+              "order": 1,
+              "regionId": "phb-33-3e99376517d917d0",
+              "index": 0
+            },
+            {
+              "order": 2,
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "index": 1
+            }
+          ],
+          "defaultRegionId": "phb-33-3e99376517d917d0",
+          "defaultIsFirstRequiredSegment": true
+        }
+      ]
+    },
+    {
+      "groupId": "phb33-human-two-class-context-classes-illusionist",
+      "collection": "classes",
+      "itemId": "illusionist",
+      "catalog": "scans/verified/classes-illusionist.json",
+      "catalogSha256": "d7ebd5be4a55ca13e49bcbb73174370d313e0789f13c30f38037b5c868b00ab7",
+      "expectedOrderedSegments": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "state": "present"
+        }
+      ],
+      "actualCatalogOrderFilteredToRequiredIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "catalogOrderClassification": "correct",
+      "missingRequiredRegionIds": [],
+      "duplicateRequiredRegionIds": [],
+      "requiredSegmentPageCount": 1,
+      "multiPageRequiredSequence": false,
+      "citationPageCount": 1,
+      "citationPages": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "role": "ordered two-class procedure and worked example, generic context",
+          "regionIds": [
+            "phb-33-3e99376517d917d0",
+            "phb-33-7d2eca37ce27b8e"
+          ]
+        }
+      ],
+      "citationPagesIncludeNonSegmentPages": false,
+      "viewerNoTargetSamePageOrder": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "matchingRegionsNoTarget": [
+            {
+              "regionId": "phb-33-3e99376517d917d0",
+              "role": null,
+              "title": "PHB p. 33 \u00b7 Two-class procedure and complete example opening \u00b7 generic context"
+            },
+            {
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "role": "context",
+              "title": "PHB p. 33 \u00b7 Same-page completion of Fighter-to-Magic-user example"
+            }
+          ],
+          "firstRequiredSegmentIndex": 0,
+          "requiredSegmentPositions": [
+            {
+              "order": 1,
+              "regionId": "phb-33-3e99376517d917d0",
+              "index": 0
+            },
+            {
+              "order": 2,
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "index": 1
+            }
+          ],
+          "defaultRegionId": "phb-33-3e99376517d917d0",
+          "defaultIsFirstRequiredSegment": true
+        }
+      ]
+    },
+    {
+      "groupId": "phb33-human-two-class-context-classes-magic-user",
+      "collection": "classes",
+      "itemId": "magic-user",
+      "catalog": "scans/verified/classes-magic-user.json",
+      "catalogSha256": "b9a4f3af4aaadfbd0d61aad7178ab2edcc3c9b33c68957d923c9bbdcce22a85f",
+      "expectedOrderedSegments": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "state": "present"
+        }
+      ],
+      "actualCatalogOrderFilteredToRequiredIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "catalogOrderClassification": "correct",
+      "missingRequiredRegionIds": [],
+      "duplicateRequiredRegionIds": [],
+      "requiredSegmentPageCount": 1,
+      "multiPageRequiredSequence": false,
+      "citationPageCount": 1,
+      "citationPages": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "role": "ordered two-class procedure and worked example, generic context",
+          "regionIds": [
+            "phb-33-3e99376517d917d0",
+            "phb-33-7d2eca37ce27b8e"
+          ]
+        }
+      ],
+      "citationPagesIncludeNonSegmentPages": false,
+      "viewerNoTargetSamePageOrder": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "matchingRegionsNoTarget": [
+            {
+              "regionId": "phb-33-3e99376517d917d0",
+              "role": null,
+              "title": "PHB p. 33 \u00b7 Two-class procedure and complete example opening \u00b7 generic context"
+            },
+            {
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "role": "context",
+              "title": "PHB p. 33 \u00b7 Same-page completion of Fighter-to-Magic-user example"
+            }
+          ],
+          "firstRequiredSegmentIndex": 0,
+          "requiredSegmentPositions": [
+            {
+              "order": 1,
+              "regionId": "phb-33-3e99376517d917d0",
+              "index": 0
+            },
+            {
+              "order": 2,
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "index": 1
+            }
+          ],
+          "defaultRegionId": "phb-33-3e99376517d917d0",
+          "defaultIsFirstRequiredSegment": true
+        }
+      ]
+    },
+    {
+      "groupId": "phb33-human-two-class-context-classes-monk",
+      "collection": "classes",
+      "itemId": "monk",
+      "catalog": "scans/verified/classes-monk.json",
+      "catalogSha256": "68003a371207fe408124be5ea37e1c65c140272a01955378317b44d008f3e17b",
+      "expectedOrderedSegments": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "state": "present"
+        }
+      ],
+      "actualCatalogOrderFilteredToRequiredIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "catalogOrderClassification": "correct",
+      "missingRequiredRegionIds": [],
+      "duplicateRequiredRegionIds": [],
+      "requiredSegmentPageCount": 1,
+      "multiPageRequiredSequence": false,
+      "citationPageCount": 1,
+      "citationPages": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "role": "ordered two-class procedure and worked example, generic context",
+          "regionIds": [
+            "phb-33-3e99376517d917d0",
+            "phb-33-7d2eca37ce27b8e"
+          ]
+        }
+      ],
+      "citationPagesIncludeNonSegmentPages": false,
+      "viewerNoTargetSamePageOrder": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "matchingRegionsNoTarget": [
+            {
+              "regionId": "phb-33-3e99376517d917d0",
+              "role": null,
+              "title": "PHB p. 33 \u00b7 Two-class procedure and complete example opening \u00b7 generic context"
+            },
+            {
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "role": "context",
+              "title": "PHB p. 33 \u00b7 Same-page completion of Fighter-to-Magic-user example"
+            }
+          ],
+          "firstRequiredSegmentIndex": 0,
+          "requiredSegmentPositions": [
+            {
+              "order": 1,
+              "regionId": "phb-33-3e99376517d917d0",
+              "index": 0
+            },
+            {
+              "order": 2,
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "index": 1
+            }
+          ],
+          "defaultRegionId": "phb-33-3e99376517d917d0",
+          "defaultIsFirstRequiredSegment": true
+        }
+      ]
+    },
+    {
+      "groupId": "phb33-human-two-class-context-classes-paladin",
+      "collection": "classes",
+      "itemId": "paladin",
+      "catalog": "scans/verified/classes-paladin.json",
+      "catalogSha256": "c55a756c6cac8655cdb5be8dad87e383587641173ab500c266f7fa686c18af54",
+      "expectedOrderedSegments": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "state": "present"
+        }
+      ],
+      "actualCatalogOrderFilteredToRequiredIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "catalogOrderClassification": "correct",
+      "missingRequiredRegionIds": [],
+      "duplicateRequiredRegionIds": [],
+      "requiredSegmentPageCount": 1,
+      "multiPageRequiredSequence": false,
+      "citationPageCount": 1,
+      "citationPages": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "role": "ordered two-class procedure and worked example, generic context",
+          "regionIds": [
+            "phb-33-3e99376517d917d0",
+            "phb-33-7d2eca37ce27b8e"
+          ]
+        }
+      ],
+      "citationPagesIncludeNonSegmentPages": false,
+      "viewerNoTargetSamePageOrder": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "matchingRegionsNoTarget": [
+            {
+              "regionId": "phb-33-3e99376517d917d0",
+              "role": null,
+              "title": "PHB p. 33 \u00b7 Two-class procedure and complete example opening \u00b7 generic context"
+            },
+            {
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "role": "context",
+              "title": "PHB p. 33 \u00b7 Same-page completion of Fighter-to-Magic-user example"
+            }
+          ],
+          "firstRequiredSegmentIndex": 0,
+          "requiredSegmentPositions": [
+            {
+              "order": 1,
+              "regionId": "phb-33-3e99376517d917d0",
+              "index": 0
+            },
+            {
+              "order": 2,
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "index": 1
+            }
+          ],
+          "defaultRegionId": "phb-33-3e99376517d917d0",
+          "defaultIsFirstRequiredSegment": true
+        }
+      ]
+    },
+    {
+      "groupId": "phb33-human-two-class-context-classes-ranger",
+      "collection": "classes",
+      "itemId": "ranger",
+      "catalog": "scans/verified/classes-ranger.json",
+      "catalogSha256": "aaa4990de499c96ef22ae6f00b0fdf224ace014d047423175f78903bd56f27d6",
+      "expectedOrderedSegments": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "state": "present"
+        }
+      ],
+      "actualCatalogOrderFilteredToRequiredIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "catalogOrderClassification": "correct",
+      "missingRequiredRegionIds": [],
+      "duplicateRequiredRegionIds": [],
+      "requiredSegmentPageCount": 1,
+      "multiPageRequiredSequence": false,
+      "citationPageCount": 1,
+      "citationPages": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "role": "ordered two-class procedure and worked example, generic context",
+          "regionIds": [
+            "phb-33-3e99376517d917d0",
+            "phb-33-7d2eca37ce27b8e"
+          ]
+        }
+      ],
+      "citationPagesIncludeNonSegmentPages": false,
+      "viewerNoTargetSamePageOrder": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "matchingRegionsNoTarget": [
+            {
+              "regionId": "phb-33-3e99376517d917d0",
+              "role": null,
+              "title": "PHB p. 33 \u00b7 Two-class procedure and complete example opening \u00b7 generic context"
+            },
+            {
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "role": "context",
+              "title": "PHB p. 33 \u00b7 Same-page completion of Fighter-to-Magic-user example"
+            }
+          ],
+          "firstRequiredSegmentIndex": 0,
+          "requiredSegmentPositions": [
+            {
+              "order": 1,
+              "regionId": "phb-33-3e99376517d917d0",
+              "index": 0
+            },
+            {
+              "order": 2,
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "index": 1
+            }
+          ],
+          "defaultRegionId": "phb-33-3e99376517d917d0",
+          "defaultIsFirstRequiredSegment": true
+        }
+      ]
+    },
+    {
+      "groupId": "phb33-human-two-class-context-classes-thief",
+      "collection": "classes",
+      "itemId": "thief",
+      "catalog": "scans/verified/classes-thief.json",
+      "catalogSha256": "094a81443acc7e1a9baa7e72e2ff7212ed3155011ee242ecc89ce0764274e3e2",
+      "expectedOrderedSegments": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "state": "present"
+        }
+      ],
+      "actualCatalogOrderFilteredToRequiredIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "catalogOrderClassification": "correct",
+      "missingRequiredRegionIds": [],
+      "duplicateRequiredRegionIds": [],
+      "requiredSegmentPageCount": 1,
+      "multiPageRequiredSequence": false,
+      "citationPageCount": 1,
+      "citationPages": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "role": "ordered two-class procedure and worked example, generic context",
+          "regionIds": [
+            "phb-33-3e99376517d917d0",
+            "phb-33-7d2eca37ce27b8e"
+          ]
+        }
+      ],
+      "citationPagesIncludeNonSegmentPages": false,
+      "viewerNoTargetSamePageOrder": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "matchingRegionsNoTarget": [
+            {
+              "regionId": "phb-33-3e99376517d917d0",
+              "role": null,
+              "title": "PHB p. 33 \u00b7 Two-class procedure and complete example opening \u00b7 generic context"
+            },
+            {
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "role": "context",
+              "title": "PHB p. 33 \u00b7 Same-page completion of Fighter-to-Magic-user example"
+            }
+          ],
+          "firstRequiredSegmentIndex": 0,
+          "requiredSegmentPositions": [
+            {
+              "order": 1,
+              "regionId": "phb-33-3e99376517d917d0",
+              "index": 0
+            },
+            {
+              "order": 2,
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "index": 1
+            }
+          ],
+          "defaultRegionId": "phb-33-3e99376517d917d0",
+          "defaultIsFirstRequiredSegment": true
+        }
+      ]
+    },
+    {
+      "groupId": "phb33-human-two-class-context-progressionExplainer-progression-explainer",
+      "collection": "progressionExplainer",
+      "itemId": "progression-explainer",
+      "catalog": "scans/verified/progressionexplainer-progression-explainer.json",
+      "catalogSha256": "47caf349c00c1caa15d0343fcd7ee76a243c12a51f751811654ce8d950b34a09",
+      "expectedOrderedSegments": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3fe29356f2b1ddc7",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "state": "present"
+        }
+      ],
+      "actualCatalogOrderFilteredToRequiredIds": [
+        "phb-33-3fe29356f2b1ddc7",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "catalogOrderClassification": "correct",
+      "missingRequiredRegionIds": [],
+      "duplicateRequiredRegionIds": [],
+      "requiredSegmentPageCount": 1,
+      "multiPageRequiredSequence": false,
+      "citationPageCount": 1,
+      "citationPages": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "role": "ordered two-class procedure and worked example, generic context",
+          "regionIds": [
+            "phb-33-3fe29356f2b1ddc7",
+            "phb-33-7d2eca37ce27b8e"
+          ]
+        }
+      ],
+      "citationPagesIncludeNonSegmentPages": false,
+      "viewerNoTargetSamePageOrder": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "matchingRegionsNoTarget": [
+            {
+              "regionId": "phb-33-3fe29356f2b1ddc7",
+              "role": null,
+              "title": "PHB p. 33 \u00b7 Two-class procedure and complete example opening \u00b7 generic context"
+            },
+            {
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "role": "context",
+              "title": "PHB p. 33 \u00b7 Same-page completion of Fighter-to-Magic-user example"
+            }
+          ],
+          "firstRequiredSegmentIndex": 0,
+          "requiredSegmentPositions": [
+            {
+              "order": 1,
+              "regionId": "phb-33-3fe29356f2b1ddc7",
+              "index": 0
+            },
+            {
+              "order": 2,
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "index": 1
+            }
+          ],
+          "defaultRegionId": "phb-33-3fe29356f2b1ddc7",
+          "defaultIsFirstRequiredSegment": true
+        }
+      ]
+    },
+    {
+      "groupId": "phb33-human-two-class-context-rules-dual-class",
+      "collection": "rules",
+      "itemId": "dual-class",
+      "catalog": "scans/verified/rules-dual-class.json",
+      "catalogSha256": "e9678d78d79179f2bdd971d4d4a7aab2b536705abe124b55ec9b27d4884369bd",
+      "expectedOrderedSegments": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3fe29356f2b1ddc7",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "state": "present"
+        }
+      ],
+      "actualCatalogOrderFilteredToRequiredIds": [
+        "phb-33-3fe29356f2b1ddc7",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "catalogOrderClassification": "correct",
+      "missingRequiredRegionIds": [],
+      "duplicateRequiredRegionIds": [],
+      "requiredSegmentPageCount": 1,
+      "multiPageRequiredSequence": false,
+      "citationPageCount": 1,
+      "citationPages": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "role": "ordered two-class procedure and worked example, generic context",
+          "regionIds": [
+            "phb-33-3fe29356f2b1ddc7",
+            "phb-33-7d2eca37ce27b8e"
+          ]
+        }
+      ],
+      "citationPagesIncludeNonSegmentPages": false,
+      "viewerNoTargetSamePageOrder": [
+        {
+          "book": "PHB",
+          "printedPage": 33,
+          "matchingRegionsNoTarget": [
+            {
+              "regionId": "phb-33-3fe29356f2b1ddc7",
+              "role": null,
+              "title": "PHB p. 33 \u00b7 Two-class procedure and complete example opening \u00b7 generic context"
+            },
+            {
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "role": "context",
+              "title": "PHB p. 33 \u00b7 Same-page completion of Fighter-to-Magic-user example"
+            }
+          ],
+          "firstRequiredSegmentIndex": 0,
+          "requiredSegmentPositions": [
+            {
+              "order": 1,
+              "regionId": "phb-33-3fe29356f2b1ddc7",
+              "index": 0
+            },
+            {
+              "order": 2,
+              "regionId": "phb-33-7d2eca37ce27b8e",
+              "index": 1
+            }
+          ],
+          "defaultRegionId": "phb-33-3fe29356f2b1ddc7",
+          "defaultIsFirstRequiredSegment": true
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "This is a census of the 14 declared continuation manifest groups only, not discovery-completeness for all citations.",
+    "Viewer projection models same-page matchingRegions with no active target; active reviewed target IDs can reorder targeted regions.",
+    "Reversal probe is synthetic and affects only a disposable copied catalog; repository files are unchanged."
+  ]
+}

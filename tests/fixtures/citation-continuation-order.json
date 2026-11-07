@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "scope": "Metadata-only regression receipt for continuation display-order validation. No source image bytes are included. The baseline records the pre-fix merge and catalog identities; tests reverse only required same-page region entries in disposable copies.",
+  "preFixReceipt": {
+    "gitCommit": "461b74f522537440a7b861f059d2093493a18e05",
+    "checkerPath": "tools/continuation-contract.mjs",
+    "checkerGitBlobOid": "8aa32ce1a166827d519b8c161671db16fb874c32",
+    "catalogPath": "dist/scans/verified/spells-ua-cleric-abjure.json",
+    "catalogGitBlobOid": "b639ac4cb372d19546dd8314762f2d7c4a2ae9f4",
+    "catalogSha256": "b0c44fe83b07ae8edd091c7ab7397c52f01223d9c2dccefff50f322c94774770",
+    "collection": "spells",
+    "itemId": "ua-cleric-abjure",
+    "imageBytesIncluded": false,
+    "baselineCatalogRegionIds": [
+      "phb-47-fa66266da842805d",
+      "ua-37-e35d106ad24ba65c",
+      "ua-37-47646031f5b262d9"
+    ],
+    "requiredSegmentOrder": [
+      "ua-37-e35d106ad24ba65c",
+      "ua-37-47646031f5b262d9"
+    ],
+    "reversedCatalogOrder": [
+      "ua-37-47646031f5b262d9",
+      "ua-37-e35d106ad24ba65c"
+    ],
+    "failure": "At this commit, identity-only lookups accept the same required regions after their catalog/display order is reversed. The order regression must reject that mutation while ignoring unrelated book/page regions."
+  },
+  "orderedCases": [
+    {
+      "id": "ua-cleric-abjure-ua-37",
+      "collection": "spells",
+      "itemId": "ua-cleric-abjure",
+      "catalog": "scans/verified/spells-ua-cleric-abjure.json",
+      "book": "UA",
+      "printedPage": 37,
+      "requiredRegionIds": [
+        "ua-37-e35d106ad24ba65c",
+        "ua-37-47646031f5b262d9"
+      ]
+    },
+    {
+      "id": "charging-melee-dmg-66",
+      "collection": "rules",
+      "itemId": "charging-melee",
+      "catalog": "scans/verified/rules-charging-melee.json",
+      "book": "DMG",
+      "printedPage": 66,
+      "requiredRegionIds": [
+        "dmg-66-736ea779203d26d3",
+        "dmg-66-172588f85488ff67"
+      ]
+    },
+    {
+      "id": "phb33-human-two-class-context-classes-assassin",
+      "collection": "classes",
+      "itemId": "assassin",
+      "catalog": "scans/verified/classes-assassin.json",
+      "book": "PHB",
+      "printedPage": 33,
+      "requiredRegionIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ]
+    }
+  ],
+  "viewerOrderPolicy": {
+    "contextRole": "context",
+    "sort": "stable-context-last-within-cited-book-and-page",
+    "requiredOpeningRoleMayNotBeSilentlyReordered": true
+  },
+  "expectedResults": {
+    "reversedRequiredPair": {
+      "missingOrders": [],
+      "catalogOrderMismatch": true,
+      "fullValidatorRejects": true
+    },
+    "unrelatedInterleaving": {
+      "requiredRelativeOrderPreserved": true,
+      "orderMismatches": []
+    },
+    "requiredOpeningRoleContext": {
+      "catalogOrderIs": "opening-then-continuation",
+      "viewerOrderIs": "continuation-then-opening",
+      "fullValidatorRejects": true
+    },
+    "duplicateRequiredRegion": {
+      "duplicateRegionIds": [
+        "ua-37-e35d106ad24ba65c"
+      ],
+      "fullValidatorRejects": true
+    }
+  },
+  "duplicatePolicy": "A repeated catalog region ID is a structural defect even when one matching occurrence has the expected image identity."
+}
