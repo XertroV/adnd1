@@ -7,6 +7,7 @@ Run from any directory; requires PyMuPDF and the separately supplied source PDFs
 import argparse,collections,hashlib,json,os,sys
 from pathlib import Path
 import fitz
+from crop_geometry import crosses
 ROOT=Path(__file__).resolve().parent.parent; DIST=ROOT/'dist'; OUT=ROOT/'research'
 PDF_FILENAMES={'PHB':'tsr2010-players-handbook.pdf','DMG':'DMG_1stEd.pdf','UA':'Unearthed Arcana.pdf','MM':'Monster_Manual.pdf','MM2':'Monster Manual II.pdf'}
 
@@ -27,16 +28,6 @@ def rect_for(r,p):
  b=r.get('boundsPdfPoints')
  if isinstance(b,list) and len(b)==4:return list(map(float,b)),'boundsPdfPoints'
  return None,'missing'
-def crosses(word,rect):
- x0,y0,x1,y1=word[:4];a,b,c,d=rect; result=[]
- if y1>b and y0<d:
-  if x0<a<x1:result.append('left')
-  if x0<c<x1:result.append('right')
- if x1>a and x0<c:
-  if y0<b<y1:result.append('top')
-  if y0<d<y1:result.append('bottom')
- return result
-
 def main():
  parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--source-dir',default=os.environ.get('ADND_SOURCE_DIR'),help='Directory containing the five original source PDFs; or set ADND_SOURCE_DIR');parser.add_argument('--output-prefix',default='current',help='Snapshot suffix; baseline is reserved and immutable');args=parser.parse_args()
  if not args.source_dir:parser.error('--source-dir or ADND_SOURCE_DIR is required')
@@ -97,8 +88,8 @@ def main():
  for name,entries in queues.items():
   q={'scope':'Text-layer crop-edge intersection candidates only; not proof of clipping. Images may occur in more than one queue when shared across collections.','baselineInputSha256':out['inputDataSha256'],'candidateCount':len(entries),'linkedUsages':sum(len(e['usages']) for e in entries),'candidates':entries}
   (OUT/(output_stem+'-queue-'+name+'.json')).write_text(json.dumps(q,indent=2,ensure_ascii=False)+'\n')
- lines=['# Source visual audit baseline','', 'The inventory covers every `sourceExcerpts` and `scanVerification` catalog referenced by the assembled `dist/data.json`. Input SHA-256: `'+out['inputDataSha256']+'`. It is a snapshot: re-run the tool after source data or catalogs change. The separately supplied private DMG 175 image is not a published excerpt and is excluded.','', 'The `[0, 0, 1, 1]` focus rectangle is a suspected overhighlight pending per-region review; hiding the overlay is not semantic verification. Context labels are only heuristics and may describe a mixed heading-and-row crop. For each catalog binding, a page ordinal is computed within the item/book/printed-page group; viewer ordinal applies the current context-last role ordering and selected catalog. Other navigation and deep links can select another region.','', 'Crop-edge candidates are word-box intersections from the PDF text layer, using only original PDF geometry and hashes. A candidate is not a defect: OCR alignment, intentional partial context and neighboring columns can produce false positives. Text-layer misses do not establish safety. Review actual image pixels and source pages.','', '## Counts','', '```json',json.dumps(out['counts'],indent=2),'```','', 'No image or source PDF hash mismatches or unmappable region bounds were found.' if not warnings else 'Warnings: '+str(len(warnings)), '', 'The confirmed heading-only PHB p.35 image has '+str(out['counts']['knownHeadingOnlyUsages'])+' linked usages; '+str(out['counts']['knownHeadingOnlyFirstInPageGroup'])+' are first in their same-catalog page group, and '+str(out['counts']['knownHeadingOnlyViewerDefault'])+' are the current viewer default after role ordering. Every first occurrence has a sibling on that page. This exact-image finding does not establish semantic roles for other crops.','', '## Review queues','']
- for name,entries in queues.items():lines.append('- `source-visual-audit-queue-'+name+'.json`: '+str(len(entries))+' unique image/geometry candidates; '+str(sum(len(e['usages']) for e in entries))+' linked usages.')
+ lines=['# Source visual audit '+args.output_prefix+' snapshot','', 'The inventory covers every `sourceExcerpts` and `scanVerification` catalog referenced by the assembled `dist/data.json`. Input SHA-256: `'+out['inputDataSha256']+'`. It is a snapshot: re-run the tool after source data or catalogs change. The separately supplied private DMG 175 image is not a published excerpt and is excluded.','', 'The `[0, 0, 1, 1]` focus rectangle is a suspected overhighlight pending per-region review; hiding the overlay is not semantic verification. Context labels are only heuristics and may describe a mixed heading-and-row crop. For each catalog binding, a page ordinal is computed within the item/book/printed-page group; viewer ordinal applies the current context-last role ordering and selected catalog. Other navigation and deep links can select another region.','', 'Crop-edge candidates are word-box intersections from the PDF text layer, using only original PDF geometry and hashes. A candidate is not a defect: OCR alignment, intentional partial context and neighboring columns can produce false positives. Text-layer misses do not establish safety. Review actual image pixels and source pages.','', '## Counts','', '```json',json.dumps(out['counts'],indent=2),'```','', 'No image or source PDF hash mismatches or unmappable region bounds were found.' if not warnings else 'Warnings: '+str(len(warnings)), '', 'The confirmed heading-only PHB p.35 image has '+str(out['counts']['knownHeadingOnlyUsages'])+' linked usages; '+str(out['counts']['knownHeadingOnlyFirstInPageGroup'])+' are first in their same-catalog page group, and '+str(out['counts']['knownHeadingOnlyViewerDefault'])+' are the current viewer default after role ordering. Every first occurrence has a sibling on that page. This exact-image finding does not establish semantic roles for other crops.','', '## Review queues','']
+ for name,entries in queues.items():lines.append('- `'+output_stem+'-queue-'+name+'.json`: '+str(len(entries))+' unique image/geometry candidates; '+str(sum(len(e['usages']) for e in entries))+' linked usages.')
  lines+=['','## Highest-linked candidates','', '| Candidate | Book/page | Linked usages | Text boxes crossing edge |','| --- | --- | ---: | ---: |']
  for e in sorted(candidates,key=lambda v:(-len(v['usages']),-v['crossingCount'],v['candidateId']))[:10]:lines.append('| `'+e['candidateId']+'` | '+str(e['book'])+' '+str(e['printedPage'])+' | '+str(len(e['usages']))+' | '+str(e['crossingCount'])+' |')
  lines+=['','Stable candidate IDs bind image hash, source book/PDF page and normalized PDF-point bounds. Shared images can occur in multiple queues. Coordinates and all linked usages are in the baseline JSON; private PDF paths and full source text are not included.']

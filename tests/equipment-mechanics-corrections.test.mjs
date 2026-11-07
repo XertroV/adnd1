@@ -1,3 +1,4 @@
+import {withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -22,7 +23,7 @@ test('approved correction fixture validates every current value before restoring
  assert.throws(()=>reverseApprovedEquipmentChanges(tampered),/approved current value/);
 });
 test('new purchase prices preserve listed quantities and unknown prices remain unknown',()=>{
- assert.equal(data.equipment.filter(x=>x.price!==null).length,84);
+ assert.equal(withoutSourceFirstEquipment(data.equipment).filter(x=>x.price!==null).length,84);
  assert.deepEqual(data.equipment.filter(x=>x.price===null).map(x=>x.id).sort(),['phb-bo-stick','phb-club','phb-quarterstaff','phb-sling-stone'].sort());
  for(const [id,amount,currency,unit] of [
   ['phb-oil-flask',1,'gp','flask'],['phb-light-bolt',1,'sp','single light bolt'],['phb-heavy-bolt',2,'gp','score of heavy bolts'],['phb-sling-bullet',10,'sp','score of sling bullets'],['phb-long-sword',15,'gp','sword and scabbard'],['phb-short-sword',8,'gp','sword and scabbard'],['phb-bastard-sword',25,'gp','sword and scabbard'],['ua-atlatl-javelin',1,'gp','atlatl launcher']

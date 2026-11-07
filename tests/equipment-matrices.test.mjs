@@ -1,3 +1,4 @@
+import {withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createRequire} from 'node:module';
@@ -41,6 +42,8 @@ function source(ref, context) {
     const id=context.split(':')[0];
     const catalog=load(`dist/${citationOverrides.sourceExcerpts[`equipment:${id}`].catalog}`);
     assert.ok(catalog.regions.some(region=>region.book===ref.book && ref.pages.includes(region.printedPage)), `${context}: cited source excerpt`);
+  }else if (ref.status === 'Price visually checked; other mechanics not extracted') {
+    assert.ok(citationOverrides.sourceExcerpts[`equipment:${ref.id}`], `${context}: reviewed source excerpt`);
   }else if (/purchase price$/.test(context) && ref.status === 'Selected purchase-price row visually checked') {
     assert.equal(ref.status, 'Selected purchase-price row visually checked');
     const id=context.split(':')[0];
@@ -64,9 +67,9 @@ test('assembly preserves every equipment and matrix field from the author checkp
 for (const [name, gear] of [['authored', authoredGear], ['assembled', assembled.equipment]]) {
   test(`${name} catalogue distinguishes 84 sourced prices from 4 unavailable prices`, () => {
     assert.ok(Array.isArray(gear), 'equipment collection must be assembled');
-    assert.equal(gear.length, 88);
-    assert.equal(new Set(gear.map(item => item.id)).size, 88, 'stable unique equipment identifiers');
-    assert.equal(gear.filter(item => item.price !== null).length, 84);
+    assert.equal(withoutSourceFirstEquipment(gear).length, 88);
+    assert.equal(new Set(gear.map(item => item.id)).size, 116, 'stable unique equipment identifiers');
+    assert.equal(withoutSourceFirstEquipment(gear).filter(item => item.price !== null).length, 84);
     assert.equal(gear.filter(item => item.price === null).length, 4);
     for (const item of gear) {
       source(item, item.id);

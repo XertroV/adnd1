@@ -1,3 +1,4 @@
+import {withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import {reverseMechanicsBatchTwo} from './mechanics-batch-two-fixture.mjs';
 import {reverseMatrixCellReview} from './fixtures/matrix-baseline.mjs';
 import {reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
@@ -51,7 +52,7 @@ test('five visible purchase prices added, and absent Bo/Club rows remain unextra
   const item=data.equipment.find(e=>e.id===id);assert.equal(item.price.amount,amount);assert.equal(item.price.currency,'gp');assert.equal(item.price.book,'PHB');assert.deepEqual(item.price.pages,[35]);assert.equal(item.priceState,'source_listed');assert.match(item.price.status,/Visually checked/);assert.match(item.fields['Approx. weight'],/encumbrance; not purchase cost/);
  }
  for(const id of ['phb-bo-stick','phb-club']){const item=data.equipment.find(e=>e.id===id);assert.equal(item.price,null);assert.equal(item.priceState,'unextracted');assert.ok(!catalogs.find(c=>c.itemId===id).regions.some(r=>r.printedPage===35));}
- assert.equal(data.equipment.filter(e=>e.price!==null).length,84);assert.equal(data.equipment.filter(e=>e.price===null).length,4);
+ assert.equal(withoutSourceFirstEquipment(data.equipment).filter(e=>e.price!==null).length,84);assert.equal(data.equipment.filter(e=>e.price===null).length,4);
 });
 test('UA26 axe damage retains OCR grade despite matching visible PHB damage',()=>{
  for(const [id,sm,large]of [['phb-battle-axe','1–8','1–8'],['phb-hand-axe','1–6','1–4']]){

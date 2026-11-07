@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
+import {withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 const read=p=>JSON.parse(readFileSync(new URL(p,import.meta.url)));
 const data=read('../dist/data.json');
 const nextFixture=read('./fixtures/mechanics-next-corrections.json');
@@ -66,8 +67,9 @@ test('all 29 newly reviewed rows preserve exact image, focus, numeric values and
  }
 });
 test('reviewed inventory adds eight distinct items and preserves price quantities',()=>{
- assert.equal(data.equipment.length,88);assert.equal(new Set(data.equipment.map(i=>i.id)).size,88);
- assert.equal(catalogs.length,20);assert.equal(data.equipment.filter(i=>i.price!==null).length,84);assert.equal(data.equipment.filter(i=>i.price===null).length,4);
+ const previousEquipment=withoutSourceFirstEquipment(data.equipment);
+ assert.equal(previousEquipment.length,88);assert.equal(new Set(data.equipment.map(i=>i.id)).size,116);
+ assert.equal(catalogs.length,20);assert.equal(previousEquipment.filter(i=>i.price!==null).length,84);assert.equal(data.equipment.filter(i=>i.price===null).length,4);
  for(const id of newIds){assert.equal(data.equipment.filter(i=>i.id===id).length,1);catalog(id)}
  for(const [id,amount,currency] of [['phb-heavy-crossbow',20,'gp'],['phb-light-crossbow',12,'gp'],['phb-composite-long-bow',100,'gp'],['phb-composite-short-bow',75,'gp'],['phb-long-bow',60,'gp'],['phb-short-bow',15,'gp'],['phb-silver-arrow',1,'gp'],['phb-arrow',2,'sp']]){
   const p=item(id).price;assert.deepEqual([p.amount,p.currency,p.book,p.pages],[amount,currency,'PHB',[35]],id);
