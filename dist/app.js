@@ -217,20 +217,39 @@ function buildIndex() {
 function matchesQuery(item, q) {
  return Number.isFinite(FirstEditionSearch.score(item,q));
 }
+function parseReferenceRoute(hashValue=location.hash) {
+ const [path,query=''] = hashValue.slice(1).split('?',2), parts=path.split('/');
+ const routeView=views.includes(parts[0])?parts[0]:'spells';
+ let id='';try{id=decodeURIComponent(parts.slice(1).join('/'));}catch{}
+ const params=new URLSearchParams(query),match=params.get('source')?.match(/^(PHB|UA|DMG|MM|MM2):(\d+)$/),region=params.get('region'),owner=params.get('owner')?.match(/^(rules|spells|equipment|classes|matrices):([a-z0-9][a-z0-9-]{0,100})$/);
+ return {view:routeView,id,owner:owner?{view:owner[1],id:owner[2]}:null,source:match?{book:match[1],page:Number(match[2]),...(region&&region.length<=200?{region}: {})}:null};
+}
+function sourceLinkHash(routeView,id,ref,owner=null) {
+ return `#${routeView}/${encodeURIComponent(id)}?source=${encodeURIComponent(`${ref.book}:${ref.page}`)}${ref.region?`&region=${encodeURIComponent(ref.region)}`:''}${owner?`&owner=${encodeURIComponent(`${owner.view}:${owner.id}`)}`:''}`;
+}
+function routeSourceOwner(target) {
+ if(!data[target.view]?.some(entry=>entry.id===target.id))return null;
+ if(!target.owner)return data[target.view]?.find(entry=>entry.id===target.id);
+ const allowed=[...document.querySelectorAll('[data-source-context]')].some(el=>el.dataset.sourceContext===target.owner.id&&(el.dataset.sourceView||target.view)===target.owner.view);
+ if(!allowed)return null;
+ if(target.owner.id==='progression-explainer'&&target.owner.view==='classes'&&data.progressionExplainer)return {...data.progressionExplainer,id:target.owner.id};
+ return data[target.owner.view]?.find(entry=>entry.id===target.owner.id);
+}
 function route({force=false}={}) {
  if(!force&&renderedRouteHash===location.hash)return;
  clearTimeout(referenceSearchTimer);
- const hash = location.hash.slice(1).split('/');
- const newView = views.includes(hash[0]) ? hash[0] : 'spells';
- const oldView = view;
- view = newView;
- let requested = '';
- try { requested = decodeURIComponent(hash.slice(1).join('/')); } catch { requested = ''; }
- if (oldView !== view) listLimit = 50;
- if (oldView !== view) {filter = {q:'',class:'',book:'',category:'',details:''};selectedSpellLevels=new Set();}
- selectedId = requested;
+ const target=parseReferenceRoute(), oldView=view;
+ view=target.view;
+ if(oldView!==view)listLimit=50;
+ if(oldView!==view){filter={q:'',class:'',book:'',category:'',details:''};selectedSpellLevels=new Set();}
+ selectedId=target.id;
  render();
  renderedRouteHash=location.hash;
+ const item=routeSourceOwner(target);
+ const references=item?FirstEditionCitations.collect(item):[];
+ const valid=target.source&&references.some(group=>bookCode(group.book)===target.source.book&&group.pages.includes(target.source.page));
+ if(valid)openScanViewer(item,references,item.id,target.source,{fromRoute:true,owner:target.owner});
+ else globalThis.FirstEditionSourceViewer?.close?.();
 }
 function goTo(newView, id = '', {reveal=false}={}) {
  const hash = `#${newView}${id ? '/' + encodeURIComponent(id) : ''}`;
@@ -248,8 +267,8 @@ function revealSelectedReference(targetView,targetId) {
  card.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start',inline:'nearest'});
 }
 function revealInitialReference(){
- const path=location.hash.slice(1).split('/');if(path.length<2)return;
- let id;try{id=decodeURIComponent(path.slice(1).join('/'));}catch{return;}
+ const target=parseReferenceRoute();if(target.source)return;
+ const id=target.id;
  if(!id||selectedId!==id)return;
  const exists=view==='notebook'?notes.some(note=>note.id===id):index.some(item=>item._view===view&&item.id===id);
  if(exists)revealSelectedReference(view,id);
@@ -594,8 +613,22 @@ function showSource(sourceView,id,reference=null,sourceBook='') {
  const initialReference=clicked?.pages?.length?{book:clicked.book,page:clicked.pages[0]}:undefined;
  openScanViewer(item,references,contextItem?.id||'',initialReference);
 }
-function openScanViewer(item,references,contextItemId=item.id||'',initialReference){
- if(globalThis.FirstEditionSourceViewer?.open){FirstEditionSourceViewer.open({item,references,contextItemId,initialReference});return;}
+function openScanViewer(item,references,contextItemId=item.id||'',initialReference,options={}){
+ if(globalThis.FirstEditionSourceViewer?.open){
+  const routeView=view, routeId=selectedId;
+  let owner=options.owner||null;
+  if(!options.fromRoute && (item.id!==routeId || !data[routeView]?.some(entry=>entry===item))){
+   const ownerView=item.id==='progression-explainer'?'classes':['rules','spells','equipment','classes','matrices'].find(key=>data[key]?.some(entry=>entry===item));
+   if(ownerView)owner={view:ownerView,id:item.id};
+  }
+  const first=initialReference||references.flatMap(group=>(group.pages||[]).map(page=>({book:bookCode(group.book),page})))[0];
+  const link=(ref,region)=>sourceLinkHash(routeView,routeId,{...ref,region},owner);
+  const writeHistory=(ref,region)=>{const hash=link(ref,region);if(location.hash!==hash){history.pushState({sourceModal:true},'',hash);renderedRouteHash=location.hash;}};
+  if(!options.fromRoute&&first)writeHistory(first,null);
+  const onCopyLink=async (ref,region)=>{const url=new URL(location.href);url.hash=link(ref,region);try{await navigator.clipboard.writeText(url.href);toast('Source link copied.');}catch{toast('Could not copy the source link.');}};
+  const onClose=()=>{const target=parseReferenceRoute();if(target.source&&target.view===routeView&&target.id===routeId){history.replaceState(null,'',`#${routeView}/${encodeURIComponent(routeId)}`);renderedRouteHash=location.hash;}setTimeout(()=>{if(view===routeView&&selectedId===routeId&&(!document.activeElement||document.activeElement===document.body||!document.activeElement.isConnected)){const heading=$('#referenceDetail .detail-card h2');if(heading){heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});}}},0)};
+  FirstEditionSourceViewer.open({item,references,contextItemId,initialReference,onCopyLink,onClose,onChange:writeHistory});return;
+ }
  const heading=references.length===1?bookName(references[0].book):'Original source references';
  $('#sourceBody').innerHTML=`<h2 id="sourceTitle">${esc(heading)}</h2><p class="muted">${esc(item.name||item.title||'Source reference')}</p><div class="source-reference-table"><table><thead><tr><th>Book</th><th>Printed page</th><th>Supplied PDF page</th></tr></thead><tbody>${references.length?references.flatMap(group=>group.pages.map(page=>`<tr><td>${esc(bookCode(group.book))}</td><td>${page}</td><td>${pdfPage(group.book,page)===null?'Unavailable':pdfPage(group.book,page)}</td></tr>`)).join(''):'<tr><td colspan="3">Page location is not yet extracted.</td></tr>'}</tbody></table></div>${references.map(group=>`<p class="small muted">${esc(bookCode(group.book))}: ${esc(FirstEditionBooks.mapping(group.book))} PDF page numbers count from 1.</p>`).join('')}<p class="small muted">The local scan viewer is unavailable. These references still locate the rule in your own copy. Source PDFs are not hosted by this reference. Visual verification remains pending unless explicitly stated for a cited page.</p>`;
  $('#sourceDialog').showModal();

@@ -21,7 +21,7 @@ test('header groups the named title, mode controls and accessible close button',
  const {ctx}=makeViewer();ctx.open({item:{name:'A long entry title',hasExcerpt:true},references:[]});
  assert.equal(ctx.dialog.attrs['aria-labelledby'],'source-viewer-title');
  assert.equal(ctx.el.title.tag,'h2');assert.equal(ctx.el.title.children[0].textContent,'Original Sources: ');assert.equal(ctx.el.title.children[1].textContent,'A long entry title');
- assert.deepEqual(ctx.el.headerActions.children,[ctx.el.modes,ctx.el.close]);assert.equal(ctx.el.modes.attrs['aria-label'],'Source viewing mode');
+ assert.deepEqual(ctx.el.headerActions.children,[ctx.el.modes,ctx.el.copyLink,ctx.el.close]);assert.equal(ctx.el.modes.attrs['aria-label'],'Source viewing mode');
  assert.equal(ctx.el.excerptMode.textContent,'View excerpts');assert.equal(ctx.el.pdfMode.textContent,'Your PDF');assert.equal(ctx.el.close.attrs['aria-label'],'Close original sources');
  assert.equal(ctx.el.dismissPrivacy.attrs['aria-label'],'Dismiss source notice');assert.equal(ctx.dialog.attrs['aria-describedby'],'source-viewer-privacy');
 });

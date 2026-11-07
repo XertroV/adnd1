@@ -30,6 +30,17 @@ jobs:
         run: |
           node tools/assemble.mjs
           git diff --exit-code -- dist
+      - name: Generate source visual coverage
+        run: |
+          node tools/source-visual-coverage.mjs artifacts/source-visual-coverage
+          sed -n '1,35p' artifacts/source-visual-coverage/report.md >> "$GITHUB_STEP_SUMMARY"
+          echo "Full binding-level JSON and Markdown are available in the source-visual-coverage artifact." >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload source visual coverage
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: source-visual-coverage
+          path: artifacts/source-visual-coverage/
+          if-no-files-found: error
       - name: Configure Pages
         if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5

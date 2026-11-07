@@ -14,6 +14,7 @@
   let libraryPromise, returnFocus, resizeTimer;
   let excerptCatalog, excerptSource = null, excerptError = '', excerptLoading = false, catalogRequest = 0;
   let requestedMode = 'pdf', regionIndex = 0, showHighlights = true, actualSize = false, session = 0;
+  let copySourceLink = null, onViewerClose = null, onSourceChange = null, requestedInitialRegion = null;
   let imageFit = false, privacyDismissed = false;
   const imageCache = new Map(), catalogCache = new Map(), cacheLimit = 64;
   function cacheGet(cache, key) {
@@ -107,7 +108,8 @@
     el.excerptMode = button('View excerpts', () => setMode('excerpts'), { 'aria-pressed': 'false' });
     el.pdfMode = button('Your PDF', () => setMode('pdf'), { 'aria-pressed': 'true' });
     el.modes.append(el.excerptMode, el.pdfMode);
-    el.headerActions.append(el.modes, el.close);
+    el.copyLink = button('Copy source link', () => { if (refs[current] && copySourceLink) copySourceLink(refs[current], viewingExcerpts() ? matchingRegions()[regionIndex]?.id : null); }, { class: 'source-viewer-secondary', 'aria-label': 'Copy link to this source page' });
+    el.headerActions.append(el.modes, el.copyLink, el.close);
     el.excerptNotice = node('div', { class: 'source-viewer-excerpt-notice', role: 'status' });
     el.excerptNoticeText = node('p');
     el.retry = button('Retry verified excerpts', () => loadExcerpts(true));
@@ -129,7 +131,7 @@
     const controls = node('div', { class: 'source-viewer-controls' });
     el.previous = button('← Previous', () => navigate(-1), { 'aria-label': 'Previous cited page' });
     el.select = node('select', { 'aria-label': 'Select cited page' });
-    el.select.addEventListener('change', () => { current = Number(el.select.value); resetZoom(); regionIndex = 0; update(); });
+    el.select.addEventListener('change', () => { current = Number(el.select.value); resetZoom(); regionIndex = 0; update(); notifySourceChange(); });
     el.next = button('Next →', () => navigate(1), { 'aria-label': 'Next cited page' });
     const zoomControls = node('div', { class: 'source-viewer-zoom', role: 'group', 'aria-label': 'Page zoom' });
     el.zoomOut = button('−', () => changeZoom(-.25), { 'aria-label': 'Zoom out' });
@@ -142,7 +144,7 @@
     el.regions = node('div', { class: 'source-viewer-regions' });
     el.regionLabel = node('label', { for: 'source-viewer-region' }, 'Excerpt on this page');
     el.regionSelect = node('select', { id: 'source-viewer-region' });
-    el.regionSelect.addEventListener('change', () => { regionIndex = Number(el.regionSelect.value); resetZoom(); renderPage(); });
+    el.regionSelect.addEventListener('change', () => { regionIndex = Number(el.regionSelect.value); resetZoom(); renderPage(); notifySourceChange(); });
     el.highlights = button('Highlights on', () => {
       showHighlights = !showHighlights;
       el.highlights.setAttribute('aria-pressed', String(showHighlights));
@@ -188,6 +190,7 @@
       renderTask?.cancel();
       document.body.classList.remove('source-viewer-open');
       if (returnFocus?.isConnected) returnFocus.focus({ preventScroll: true });
+      const callback = onViewerClose; onViewerClose = null; callback?.();
     });
     dialog.addEventListener('cancel', event => { event.stopPropagation(); });
     dialog.addEventListener('keydown', event => {
@@ -209,8 +212,10 @@
     });
     root.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { if (dialog.open) renderPage(); }, 150); });
   }
-  function open({ item, references, contextItemId, initialReference } = {}) {
+  function open({ item, references, contextItemId, initialReference, onCopyLink, onClose, onChange } = {}) {
     setup();
+    copySourceLink = typeof onCopyLink === 'function' ? onCopyLink : null; onViewerClose = typeof onClose === 'function' ? onClose : null; onSourceChange = typeof onChange === 'function' ? onChange : null;
+    el.copyLink.hidden = !copySourceLink;
     session++;
     catalogRequest++;
     excerptSource = resolveExcerptSource(item, contextItemId);
@@ -221,6 +226,7 @@
     const initialPage = Number(initialReference?.page);
     const initialIndex = refs.findIndex(ref => ref.book === initialBook && ref.page === initialPage);
     current = initialIndex < 0 ? 0 : initialIndex; resetZoom(); regionIndex = 0; showHighlights = true;
+    requestedInitialRegion = initialIndex >= 0 && typeof initialReference?.region === 'string' ? { book: initialBook, page: initialPage, id: initialReference.region } : null;
     returnFocus = document.activeElement;
     el.privacyNotice.hidden = privacyDismissed;
     if (privacyDismissed) dialog.removeAttribute('aria-describedby');
@@ -229,7 +235,7 @@
     el.referenceList.replaceChildren(); el.select.replaceChildren();
     refs.forEach((ref, i) => {
       const label = `${title(ref.book)} · p. ${ref.page}`;
-      const b = button(label, () => { current = i; resetZoom(); regionIndex = 0; update(); }, { class: 'source-viewer-reference', 'data-source-index': i });
+      const b = button(label, () => { current = i; resetZoom(); regionIndex = 0; update(); notifySourceChange(); }, { class: 'source-viewer-reference', 'data-source-index': i });
       el.referenceList.append(b);
       el.select.append(node('option', { value: i }, `${ref.book} p. ${ref.page}`));
     });
@@ -248,12 +254,14 @@
   function navigate(delta) {
     const next = current + delta;
     if (next < 0 || next >= refs.length) return;
-    current = next; resetZoom(); regionIndex = 0; update();
+    current = next; resetZoom(); regionIndex = 0; update(); notifySourceChange();
   }
   function changeZoom(delta) { zoom = Math.min(viewingExcerpts() ? 4 : 3, Math.max(.5, zoom + delta)); renderPage(); }
+  function notifySourceChange() { if (refs[current] && onSourceChange) onSourceChange(refs[current], viewingExcerpts() ? matchingRegions()[regionIndex]?.id : null); }
+  function specificFocusRects(rects) { return rects.filter(([x,y,w,h]) => !(x === 0 && y === 0 && w === 1 && h === 1)); }
   function matchingRegions() {
     const ref = refs[current];
-    return excerptSource && ref && excerptCatalog?.itemId === excerptSource.itemId ? excerptCatalog.regions.filter(region => region.book === ref.book && region.printedPage === ref.page) : [];
+    return excerptSource && ref && excerptCatalog?.itemId === excerptSource.itemId ? excerptCatalog.regions.filter(region => region.book === ref.book && region.printedPage === ref.page).sort((a,b) => Number(a.role === 'context') - Number(b.role === 'context')) : [];
   }
   function viewingExcerpts() {
     const ref = refs[current];
@@ -304,6 +312,11 @@
       const catalog = validateCatalog(await cached.promise, source);
       if (requestSession !== session || request !== catalogRequest || excerptSource !== source || !dialog.open) return;
       excerptCatalog = catalog;
+      if (requestedInitialRegion && refs[current]?.book === requestedInitialRegion.book && refs[current]?.page === requestedInitialRegion.page) {
+        const found = matchingRegions().findIndex(region => region.id === requestedInitialRegion.id);
+        regionIndex = found < 0 ? 0 : found;
+      }
+      requestedInitialRegion = null;
       excerptLoading = false;
       update();
     } catch {
@@ -527,18 +540,20 @@
       // Preserve readable type on wide tables; Fit width gives an overview, Actual size restores PNG pixels.
       const baseWidth = actualSize ? region.width : imageFit || region.width <= 640 ? Math.min(region.width, availableWidth) : Math.min(region.width, Math.max(availableWidth, 960));
       el.imageFrame.style.width = `${Math.round(baseWidth * zoom)}px`;
-      el.overlay.replaceChildren(...region.focusRects.map(([x,y,width,height]) => {
+      const focusRects = specificFocusRects(region.focusRects);
+      el.overlay.replaceChildren(...focusRects.map(([x,y,width,height]) => {
         const box = node('span', { class: 'source-viewer-focus-rect' });
         box.style.left = `${x * 100}%`; box.style.top = `${y * 100}%`; box.style.width = `${width * 100}%`; box.style.height = `${height * 100}%`;
         return box;
       }));
-      el.overlay.hidden = !showHighlights;
-      el.highlights.disabled = !region.focusRects.length;
+      el.overlay.hidden = !showHighlights || !focusRects.length;
+      el.highlights.hidden = !focusRects.length;
+      el.highlights.disabled = !focusRects.length;
       el.actual.setAttribute('aria-pressed', String(actualSize && zoom === 1));
       el.fit.setAttribute('aria-pressed', String(imageFit && zoom === 1));
       el.imageFrame.hidden = false; el.placeholder.hidden = true;
       el.captionTitle.textContent = region.title;
-      el.checked.textContent = `${region.verificationScope === 'source-excerpt' ? 'Source excerpt checked. ' : region.verificationScope === 'selected-values' ? 'Selected values checked. ' : ''}${region.summary}`;
+      el.checked.textContent = `${region.verificationScope === 'source-excerpt' ? 'Source excerpt checked. ' : region.verificationScope === 'selected-values' ? 'Selected values checked. ' : ''}${region.summary}${focusRects.length ? '' : ' Excerpt shown without a marked passage.'}`;
       const format = value => Array.isArray(value) ? value.map(format).join(' / ') : value && typeof value === 'object' ? Object.entries(value).map(([key,v]) => `${key}: ${format(v)}`).join('; ') : String(value);
       const label = key => key.replace(/_/g,' ').replace(/\bac\b/gi,'AC').replace(/^./,c => c.toUpperCase());
       el.checkedValues.replaceChildren(...Object.entries(region.checkedFields).flatMap(([key,value]) => [node('dt', {}, label(key)),node('dd', {}, format(value))]));
@@ -557,5 +572,6 @@
       requestedMode = 'pdf'; resetZoom(); update();
     }
   }
-  root.FirstEditionSourceViewer = Object.freeze({ open });
+  function close() { if (dialog?.open) dialog.close(); }
+  root.FirstEditionSourceViewer = Object.freeze({ open, close });
 })(globalThis);

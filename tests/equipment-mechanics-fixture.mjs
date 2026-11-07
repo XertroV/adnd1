@@ -14,6 +14,10 @@ export const equipmentCorrections=JSON.parse(readFileSync(new URL('./fixtures/eq
 const unescape=s=>s.replaceAll('~1','/').replaceAll('~0','~');
 export function reverseApprovedEquipmentChanges(equipment) {
  const copy=reverseNextCorrections(reverseFollowupCorrections(reverseFinalCorrections(reverseEditorialCorrections(reverseClosureCorrections(reverseDependencyCorrections(reverseRacialLastCorrections(reverseSuggestedPriceChanges(equipment),'equipment'),'equipment'),'equipment'),'equipment'),'equipment'),'equipment'),'equipment');
+ const correction=JSON.parse(readFileSync(new URL('./fixtures/equipment-bone-case-price-correction.json',import.meta.url),'utf8')).records[0].changes[0];
+ const boneCase=copy.find(item=>item.id==='phb-bone-case');
+ assert.deepEqual(boneCase.price,correction.newValue,'bone case price must match the reviewed correction');
+ boneCase.price=structuredClone(correction.oldValue);
  for(const record of [...equipmentCompletenessCorrections.records,...equipmentAdditionalCorrections.records,...equipmentCorrections.records]){
   const item=copy.find(x=>x.id===record.id);assert.ok(item,record.id);
   for(const change of record.changes){

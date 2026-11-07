@@ -76,3 +76,20 @@ The uploaded-source pass used the privately supplied PHB sixth printing (January
 ## Value-level audit progress
 
 The [progress summary](research/mechanics-audit-progress.md) gives the saved percentages and per-collection counts. The [durable field log](research/mechanics-audit-progress.json) inventories every tracked mechanics field, including unchecked values and pending corrections. The [log guide](research/README.md) explains its denominator, source-file hashes, verification states and regeneration checks. Source-image coverage is not a value-level completion percentage.
+
+### Source visual coverage
+
+`node tools/source-visual-coverage.mjs` writes public-data-only JSON and Markdown
+reports to `artifacts/source-visual-coverage/`; pass an output directory to write
+elsewhere. CI publishes the reports as a workflow artifact and summarizes them
+in the job output. Counts distinguish cited record/page pairs, catalog-region
+usages (including legacy bindings), and unique images. Default-selection review
+applies only to the region initially shown for each page in the active catalog.
+
+`research/source-visual-reviews.json` holds binding-specific independent review
+verdicts for highlight, crop and default selection. Each verdict must include
+`independent: true` and evidence, and is accepted only while the actual public image bytes, source PDF identity, focus rectangle and region-content SHA-256 values match. Default-selection verdicts also bind the complete region ordering for the cited page. Full-image rectangles remain
+suspected unless an independently justified exception is recorded; unreviewed
+partial rectangles are not presumed correct. Geometry-derived edge candidates
+are advisory, never semantic proof, and are used only when the binding’s source, catalog and public-image hashes match. A whole-data hash mismatch is reported separately; candidates whose binding hashes changed remain visible as stale. No private source PDF or
+private image is used to generate these reports.

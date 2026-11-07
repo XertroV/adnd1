@@ -1,0 +1,37 @@
+{
+  "scope": "Correct independently confirmed PHB 36 bone case printed currency. Preserve old snapshot/history; no changes applied.",
+  "records": [
+    {
+      "id": "phb-bone-case",
+      "collection": "equipment",
+      "sourceFile": "equipment.json",
+      "changes": [
+        {
+          "path": "/price/currency",
+          "oldValue": "sp",
+          "newValue": "gp",
+          "reason": "Original PHB p.36 printed row reads 5 g.p.; current 5 sp is incorrect.",
+          "book": "PHB",
+          "page": 36
+        }
+      ],
+      "source": {
+        "book": "PHB",
+        "page": 36,
+        "pdfPage": 37,
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "normalizedPageBounds": [
+          0.021538,
+          0.289377,
+          0.209231,
+          0.012821
+        ]
+      },
+      "preserveHistory": "Supersede earlier OCR-derived currency rather than erase prior review history.",
+      "integrationNotes": [
+        "Update price field audit and exact correction fixture with independent source confirmation.",
+        "Review PHB p.36 selected-value catalog checkedFields and row focus for the corrected purchase price; do not upgrade unrelated fields."
+      ]
+    }
+  ]
+}

@@ -49,7 +49,15 @@ export function validateIndependentReviews(records=fixture.records) {
  assert.deepEqual(counts,{spells:242,classes:38},'independent review coverage');
 }
 export function reverseMechanicsBatchTwo(items,collection) {
- const copy=reverseNextCorrections(reverseFollowupCorrections(reverseFinalCorrections(reverseEditorialCorrections(reverseClosureCorrections(reverseDependencyCorrections(reverseRacialLastCorrections(items,collection),collection),collection),collection),collection),collection),collection);
+ const sourceBaseline=structuredClone(items);
+ if(collection==='rules'){
+  const aerial=sourceBaseline.find(item=>item.id==='aerial-climbing-diving');
+  // The unchanged C–E mechanics were always on p.51. Reverse only the reviewed
+  // provenance addition when comparing to the historical semantic snapshot.
+  assert.deepEqual(aerial.references,[{book:'DMG',pages:[51],label:'Maneuverability classes C–E',status:'Source excerpt checked'}]);
+  delete aerial.references;
+ }
+ const copy=reverseNextCorrections(reverseFollowupCorrections(reverseFinalCorrections(reverseEditorialCorrections(reverseClosureCorrections(reverseDependencyCorrections(reverseRacialLastCorrections(sourceBaseline,collection),collection),collection),collection),collection),collection),collection);
  for(const record of [...fixture.records].reverse().filter(r=>r.collection===collection)) {
   const item=copy.find(x=>x.id===record.id);assert.ok(item,record.id);
   for(const change of [...record.changes].reverse()) {
