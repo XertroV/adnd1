@@ -17,6 +17,6 @@ Other dispositions: 11 unextracted fields; 22 explicit field-level source confli
 
 The [full field log](mechanics-audit-progress.json) preserves values, checkers, source pages/file hashes, pending old/new corrections and unchecked work. See the [log guide](README.md) for definitions and regeneration.
 
-Assembled-data SHA-256: `79a766ba87f36ac7fb2f26ed3e86b501d995a8e2ee55ab615802e057d6731b68`.
+Assembled-data SHA-256: `3778070f8b643b53106c0ed537d3b88653fecadfc546b8a56535422c9192a8da`.
 
 This is a saved checkpoint, not a live estimate. Run `node tools/mechanics-audit.mjs --check` to verify it.

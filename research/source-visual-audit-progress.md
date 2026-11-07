@@ -1,4 +1,4 @@
-# Source visual audit: first repair batch
+# Source visual audit progress
 
 This is a bounded repair checkpoint. The CI-generated `source-visual-coverage` artifact is the reproducible current report; its JSON lists individual catalog bindings and source permalinks. The checked-in review ledger binds each accepted assessment to the current source PDF identity, public image bytes, rectangle and region content. A changed binding invalidates the assessment. Review of an image does not verify every game mechanic or whole-book coverage.
 
@@ -22,3 +22,13 @@ The source-first price work has transcribed bounded PHB p.35/p.36 and UA p.26 ta
 ## Validation
 
 The first integration passed 174 Node tests, desktop/mobile source permalink and focus tests, and a real-browser sweep of 1,784 item/viewport combinations and 5,002 region/viewport checks with zero failures. Browser rendering checks do not establish semantic correctness of source crops. Private PDFs and the separately supplied DMG p.175 image are not published by this work.
+
+## Second repair batch
+
+The next batch replaces additional DMG, PHB and UA crops after comparison with the original supplied pages. It restores split-column Succor context and preserves original region IDs. DMG p.11 has an intrinsic source-edge defect in two bindings: recropping cannot restore missing pixels, and the ledger continues to call these defects. Page-bound excerpts with continuations are reviewed only within their declared scope.
+
+Seventy-two independently reviewed PHB equipment price highlights now identify item/value rows across 67 catalogs. Repaired whole-image crops retain their sentinel until separate focus review; no cosmetic inset or empty rectangle is used to reduce the suspected count. CI now includes the later PHB/UA triage logs, respects exact reported bindings, and reports orphaned review keys.
+
+The price inventory now includes an independently reviewed transcription of 373 DMG magic-item sale rows and two scroll formulas on printed pp.121–125, plus 101 service/construction rows and seven condition groups. Dust of Sneezing and Choking was corrected in the draft inventory to the printed 1,000 gp sale value. These are bounded table inventories, not whole-book completeness. Price-row bounds and semantic site matching remain separate pending work.
+
+Validation for this batch: 176 Node tests and desktop/mobile permalink, copy-link, history and focus tests pass. The CI artifact is the authoritative current count; old geometry candidates are explicitly stale when source/catalog/image hashes no longer match. Confirmed crop reviews do not establish mechanic correctness or default-selection quality.
