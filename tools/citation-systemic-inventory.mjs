@@ -10,6 +10,7 @@ import {buildVisualCoverage} from './source-visual-coverage.mjs';
 import {validatePriceSourceInventory} from './price-source-inventory.mjs';
 import {reportContextContracts} from './citation-context-contract.mjs';
 import {validateContinuationManifest} from './continuation-contract.mjs';
+import {reportContinuationOrder, continuationValidationGate} from './continuation-order-audit.mjs';
 import {validScanCatalogPath, validateScanCatalog} from './scan-catalog.mjs';
 
 export const BASELINE_COMMIT = '13783128ca5955ac707ed7ec6994d78d7c9a7cce';
@@ -614,7 +615,8 @@ function buildManualCoverage({data, records, catalogRegions, reader, current}) {
       try { validation = validateContinuationManifest(manifest, {data: current, catalogRoot: path.resolve(root, 'dist')}); }
       catch (error) { validation = {valid: false, error: error.message}; }
     }
-    continuation = {available: true, status: 'known-cases-only', scope: manifest.scope, knownGroups: manifest.groups?.length || 0, knownSegments: (manifest.groups || []).reduce((sum, group) => sum + (group.segments || []).length, 0), states: stateCounts, groups: (manifest.groups || []).map(group => ({id: group.id, collection: group.collection, itemId: group.itemId, catalog: group.catalog, status: group.status, source: group.source, segments: (group.segments || []).map(segment => ({regionId: segment.regionId, book: segment.book, printedPage: segment.printedPage, pdfPage: segment.pdfPage, state: segment.state, order: segment.order}))})), validation};
+    const ordering = reportContinuationOrder(manifest, catalog => reader(`dist/${catalog}`));
+    continuation = {available: true, status: 'known-cases-only', scope: manifest.scope, knownGroups: manifest.groups?.length || 0, knownSegments: (manifest.groups || []).reduce((sum, group) => sum + (group.segments || []).length, 0), states: stateCounts, groups: (manifest.groups || []).map(group => ({id: group.id, collection: group.collection, itemId: group.itemId, catalog: group.catalog, status: group.status, source: group.source, segments: (group.segments || []).map(segment => ({regionId: segment.regionId, book: segment.book, printedPage: segment.printedPage, pdfPage: segment.pdfPage, state: segment.state, order: segment.order}))})), ordering, validation};
   } catch (error) { continuation.error = error.message; }
   try {
     const manifest = readJson(qualifierPath);
@@ -934,6 +936,7 @@ export function renderSummaryMarkdown(baseline, current, outputFiles) {
     `- Baseline evidence-binding classes: ${JSON.stringify(baseline.evidenceBindings.classification)}; current: ${JSON.stringify(current.evidenceBindings.classification)}.`,
     `- Baseline money-candidate classes: ${JSON.stringify(baseline.moneyLikeProperties.claimsByClassification)}; current: ${JSON.stringify(current.moneyLikeProperties.claimsByClassification)}. A reviewed target does not confirm a price; only explicit independent source-value status does.`,
     `- Context requirements remain bounded to annotations: current outcomes ${JSON.stringify(current.contextualCoverage.requirementOutcomeCounts || {})}; region-level annotated and unassessable counts are separate from containment passes.`,
+    `- Declared continuation ordering: ${JSON.stringify(current.continuationCoverage.ordering?.counts || {})} across ${current.continuationCoverage.ordering?.denominator || 0} groups. These checks compare catalog and untargeted same-page viewer relative order; unknown continuations, cross-page viewer sequencing and unrelated-region defaults are not certified.`,
     `- Structural join gate: **${current.structuralValidation.valid ? 'PASS' : 'FAIL'}** (${current.structuralValidation.confirmedFailureCount} confirmed issues; ${current.structuralValidation.unresolvedCount} ambiguous joins). Pending semantic review is non-failing.`,
     `- Current sentinel policy: ${current.sourceVisualCoverage?.sentinelPolicy ? `${current.sourceVisualCoverage.sentinelPolicy.unresolvedHighlightWarnings} / ${current.sourceVisualCoverage.sentinelPolicy.rawFullImageSentinelBindings} raw sentinels still warn; ${current.sourceVisualCoverage.sentinelPolicy.historicalExceptionsNeedingScopeReview} / ${current.sourceVisualCoverage.sentinelPolicy.historicalHighlightExceptionDenominator} historical exceptions need scope review; ${current.sourceVisualCoverage.sentinelPolicy.explicitWholeSpellExceptions} explicit whole-spell exceptions. Field targets: ${current.sourceVisualCoverage.sentinelPolicy.factFocus.fieldTargetReviewed} / ${current.sourceVisualCoverage.sentinelPolicy.factFocus.fieldEvidenceBindingDenominator} reviewed, ${current.sourceVisualCoverage.sentinelPolicy.factFocus.factFocusPending} pending; whole-spell exceptions do not clear field-focus work.` : 'Sentinel scope policy unavailable.'}`,
     `- Current bounded price inventory: ${current.sourceVisualCoverage?.priceInventory ? `${current.sourceVisualCoverage.priceInventory.sourceRowCount} source rows / ${current.sourceVisualCoverage.priceInventory.sourceTableDenominatorCount} named inventories; ${current.sourceVisualCoverage.priceInventory.siteClaimCount} / ${current.sourceVisualCoverage.priceInventory.siteClaimDenominator} site objects; ${current.sourceVisualCoverage.priceInventory.siteClaimTargetBindingDenominator} target bindings; ${current.sourceVisualCoverage.priceInventory.printedPriceEvidenceBindingDenominator} printed-price value bindings; ${current.sourceVisualCoverage.priceInventory.pageCensusPageCount} PDF pages / ${current.sourceVisualCoverage.priceInventory.sourcePageCensuses.length} censuses. Target statuses ${JSON.stringify(current.sourceVisualCoverage.priceInventory.siteClaimTargetStatuses || {})}; source-value statuses ${JSON.stringify(current.sourceVisualCoverage.priceInventory.printedPriceSourceValueStatuses || {})}. ${current.sourceVisualCoverage.priceInventory.estimateOverlap?.editorialEstimateCount || 0} estimates overlap ${current.sourceVisualCoverage.priceInventory.estimateOverlap?.editorialEstimatesWithinPriceGapObjects || 0} price-gap objects; counts are not additive. Units are distinct and the inventory is bounded, not exhaustive.` : 'Bounded price inventory unavailable.'} Validation: ${current.sourceVisualCoverage?.priceInventory?.validation?.valid === true ? 'passed' : current.sourceVisualCoverage?.priceInventory?.validation?.valid === false ? 'failed' : 'unavailable'}.`,
@@ -971,15 +974,16 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     const currentPath = path.join(args.outputDir, 'citation-systemic-current.json');
     const summaryPath = path.join(args.outputDir, 'citation-systemic-summary.md');
     const validationPath = path.join(args.outputDir, 'validation.json');
+    const continuationValidation = continuationValidationGate(current.continuationCoverage);
     mkdirSync(args.outputDir, {recursive: true});
     writeFileSync(baselinePath, JSON.stringify(baseline) + '\n');
     writeFileSync(currentPath, JSON.stringify(current) + '\n');
-    writeFileSync(validationPath, JSON.stringify({schemaVersion: 1, baseline: baseline.structuralValidation, current: current.structuralValidation, gatePolicy: 'Only confirmed structural owner/catalog/region/page/source-object join failures fail. Pending semantic review remains non-failing.'}) + '\n');
+    writeFileSync(validationPath, JSON.stringify({schemaVersion: 1, baseline: baseline.structuralValidation, current: current.structuralValidation, currentContinuations: continuationValidation, gatePolicy: 'Confirmed structural owner/catalog/region/page/source-object join failures and declared continuation contract/order failures fail. Pending semantic review remains non-failing.'}) + '\n');
     writeFileSync(summaryPath, renderSummaryMarkdown(baseline, current, [baselinePath, currentPath, validationPath]));
     if (args.writeBaseline) writeFileSync(path.resolve(root, 'research/citation-systemic-baseline.json'), JSON.stringify(compactBaseline(baseline)) + '\n');
-    const result = {baseline: summarizeCounts(baseline), current: summarizeCounts(current), files: [baselinePath, currentPath, validationPath, summaryPath], trackedBaselineUpdated: args.writeBaseline};
+    const result = {baseline: summarizeCounts(baseline), current: summarizeCounts(current), currentContinuations: continuationValidation, files: [baselinePath, currentPath, validationPath, summaryPath], trackedBaselineUpdated: args.writeBaseline};
     console.log(JSON.stringify(result));
-    if (!current.structuralValidation.valid) process.exitCode = 1;
+    if (!current.structuralValidation.valid || !continuationValidation.valid) process.exitCode = 1;
   } catch (error) {
     console.error(error.stack || error.message);
     process.exitCode = 1;
