@@ -1,4 +1,4 @@
-import {withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
+import {withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -16,8 +16,8 @@ test('approved correction fixture validates every current value before restoring
  assert.equal(equipmentCorrections.records.flatMap(x=>x.changes).length,78);
  const reversed=reverseApprovedEquipmentChanges(data.equipment);
  for(const row of equipmentCorrections.records)for(const c of row.changes){
-  assert.deepEqual(get(item(row.id),c.path),c.newValue,`${row.id} ${c.path} approved current value`);
-  assert.deepEqual(get(reversed.find(x=>x.id===row.id),c.path),c.oldValue,`${row.id} ${c.path} original value`);
+  assert.deepEqual(withoutGeneratedCitationTransport(get(item(row.id),c.path)),withoutGeneratedCitationTransport(c.newValue),`${row.id} ${c.path} approved current value`);
+  assert.deepEqual(withoutGeneratedCitationTransport(get(reversed.find(x=>x.id===row.id),c.path)),withoutGeneratedCitationTransport(c.oldValue),`${row.id} ${c.path} original value`);
  }
  const tampered=structuredClone(data.equipment);tampered.find(x=>x.id==='phb-oil-flask').price.currency='cp';
  assert.throws(()=>reverseApprovedEquipmentChanges(tampered),/approved current value/);
@@ -55,12 +55,12 @@ test('additional source-checked equipment fields retain every approved value and
  assert.equal(changes.filter(c=>c.path==='/summary').length,9);
  const reversed=reverseApprovedEquipmentChanges(data.equipment);
  for(const row of records) for(const c of row.changes){
-  assert.deepEqual(get(item(row.id),c.path),c.newValue,`${row.id} ${c.path}`);
+  assert.deepEqual(withoutGeneratedCitationTransport(get(item(row.id),c.path)),withoutGeneratedCitationTransport(c.newValue),`${row.id} ${c.path}`);
   if(c.oldExists===false) {
    const parts=c.path.split('/').slice(1).map(k=>k.replaceAll('~1','/').replaceAll('~0','~'));
    const parent=parts.slice(0,-1).reduce((x,k)=>x[k],reversed.find(x=>x.id===row.id));
    assert.ok(!Object.hasOwn(parent,parts.at(-1)),`${row.id} ${c.path}: absent in baseline`);
-  } else assert.deepEqual(get(reversed.find(x=>x.id===row.id),c.path),c.oldValue);
+  } else assert.deepEqual(withoutGeneratedCitationTransport(get(reversed.find(x=>x.id===row.id),c.path)),withoutGeneratedCitationTransport(c.oldValue));
  }
  assert.equal(item('ua-man-catcher').fields['Length (UA p.27)'],'8 ft+');
  assert.match(item('phb-hand-axe').fields['Hand-held AC adjustments (PHB p.38)'],/^AC 2 through 10:/);

@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {withoutGeneratedCitationTransport} from './equipment-source-first-fixture.mjs';
 export const suggestedPriceCorrections=JSON.parse(readFileSync(new URL('./fixtures/equipment-suggested-price-corrections.json',import.meta.url),'utf8'));
 export function reverseSuggestedPriceChanges(items){
  const copy=structuredClone(items);
@@ -8,7 +9,7 @@ export function reverseSuggestedPriceChanges(items){
   for(const change of [...record.changes].reverse()){
    const parts=change.path.split('/').slice(1).map(s=>s.replaceAll('~1','/').replaceAll('~0','~'));let parent=item;
    for(const part of parts.slice(0,-1)){assert.ok(parent&&Object.hasOwn(parent,part),`${record.id} ${change.path}: parent`);parent=parent[part]}
-   const key=parts.at(-1);assert.ok(Object.hasOwn(parent,key),`${record.id} ${change.path}: approved field`);assert.deepEqual(parent[key],change.newValue,`${record.id} ${change.path}: approved value`);
+   const key=parts.at(-1);assert.ok(Object.hasOwn(parent,key),`${record.id} ${change.path}: approved field`);assert.deepEqual(withoutGeneratedCitationTransport(parent[key]),withoutGeneratedCitationTransport(change.newValue),`${record.id} ${change.path}: approved value`);
    if(change.oldExists)parent[key]=structuredClone(change.oldValue);else delete parent[key];
   }
  }

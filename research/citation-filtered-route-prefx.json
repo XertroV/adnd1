@@ -1,0 +1,468 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Pre-fix baseline for an explicit same-view route whose requested record is excluded by an active nonempty filter. Captures direct detail route, source deep link, Back and Forward in all four filterable collections.",
+  "provenance": {
+    "gitHead": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+    "dataSha256": "60cc10b9e841f60ca4b4d4a3df6c03f39598aac0e8418d73491f306ff3632b6e",
+    "distAppSha256": "eb8367d9edd372e180dc8fbce600c0beaf0dda0a5b938a342715b4caf682b8b8",
+    "browserVersion": "155.0.8059.79",
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    }
+  },
+  "fixtures": [
+    {
+      "view": "spells",
+      "requested": "phb-cleric-bless",
+      "filterRecord": "phb-cleric-command",
+      "query": "command",
+      "sourcePage": 43
+    },
+    {
+      "view": "rules",
+      "requested": "character-creation",
+      "filterRecord": "six-abilities",
+      "query": "six ability scores",
+      "sourcePage": 8
+    },
+    {
+      "view": "equipment",
+      "requested": "phb-bo-stick",
+      "filterRecord": "phb-banded-mail",
+      "query": "banded mail",
+      "sourcePage": 35
+    },
+    {
+      "view": "classes",
+      "requested": "fighter",
+      "filterRecord": "cleric",
+      "query": "cleric",
+      "sourcePage": 12
+    }
+  ],
+  "outcome": {
+    "cases": 20,
+    "mismatches": 16,
+    "filterRetained": 20,
+    "sourceViewerOpen": 4,
+    "browserErrors": []
+  },
+  "observations": [
+    {
+      "caseType": "direct-same-view-route",
+      "view": "spells",
+      "requestedId": "phb-cleric-bless",
+      "hash": "#spells/phb-cleric-bless",
+      "detailId": "phb-cleric-command",
+      "filter": "command",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "",
+      "visibleResultIds": [
+        "phb-cleric-command",
+        "phb-magic-user-animate-dead",
+        "ua-cleric-animate-dead-monsters",
+        "ua-magic-user-bind",
+        "ua-druid-changestaff",
+        "phb-druid-chariot-of-sustarre",
+        "phb-magic-user-charm-plants",
+        "phb-druid-conjure-earth-elemental",
+        "ua-magic-user-dolor",
+        "ua-magic-user-ensnarement",
+        "phb-druid-fire-seeds",
+        "phb-magic-user-geas",
+        "ua-magic-user-item",
+        "phb-magic-user-monster-summoning-iii",
+        "phb-magic-user-monster-summoning-iv",
+        "phb-magic-user-monster-summoning-vi",
+        "phb-magic-user-monster-summoning-vii",
+        "phb-illusionist-programmed-illusion",
+        "ua-magic-user-secret-page",
+        "phb-magic-user-serten-s-spell-immunity",
+        "phb-magic-user-simulacrum",
+        "phb-cleric-speak-with-plants",
+        "phb-druid-speak-with-plants",
+        "phb-cleric-sticks-to-snakes",
+        "phb-druid-sticks-to-snakes",
+        "ua-cleric-succor",
+        "ua-magic-user-succor",
+        "phb-illusionist-summon-shadow",
+        "phb-magic-user-tenser-s-floating-disc",
+        "ua-magic-user-truename",
+        "ua-magic-user-wrap"
+      ]
+    },
+    {
+      "caseType": "direct-source-link",
+      "view": "spells",
+      "requestedId": "phb-cleric-bless",
+      "hash": "#spells/phb-cleric-bless?source=PHB%3A43",
+      "detailId": "phb-cleric-command",
+      "filter": "command",
+      "sourceViewerOpen": true,
+      "sourceViewerItem": "Bless",
+      "visibleResultIds": [
+        "phb-cleric-command",
+        "phb-magic-user-animate-dead",
+        "ua-cleric-animate-dead-monsters",
+        "ua-magic-user-bind",
+        "ua-druid-changestaff",
+        "phb-druid-chariot-of-sustarre",
+        "phb-magic-user-charm-plants",
+        "phb-druid-conjure-earth-elemental",
+        "ua-magic-user-dolor",
+        "ua-magic-user-ensnarement",
+        "phb-druid-fire-seeds",
+        "phb-magic-user-geas",
+        "ua-magic-user-item",
+        "phb-magic-user-monster-summoning-iii",
+        "phb-magic-user-monster-summoning-iv",
+        "phb-magic-user-monster-summoning-vi",
+        "phb-magic-user-monster-summoning-vii",
+        "phb-illusionist-programmed-illusion",
+        "ua-magic-user-secret-page",
+        "phb-magic-user-serten-s-spell-immunity",
+        "phb-magic-user-simulacrum",
+        "phb-cleric-speak-with-plants",
+        "phb-druid-speak-with-plants",
+        "phb-cleric-sticks-to-snakes",
+        "phb-druid-sticks-to-snakes",
+        "ua-cleric-succor",
+        "ua-magic-user-succor",
+        "phb-illusionist-summon-shadow",
+        "phb-magic-user-tenser-s-floating-disc",
+        "ua-magic-user-truename",
+        "ua-magic-user-wrap"
+      ]
+    },
+    {
+      "caseType": "history-forward-target",
+      "view": "spells",
+      "requestedId": "phb-cleric-bless",
+      "hash": "#spells/phb-cleric-bless",
+      "detailId": "phb-cleric-command",
+      "filter": "command",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "Bless",
+      "visibleResultIds": [
+        "phb-cleric-command",
+        "phb-magic-user-animate-dead",
+        "ua-cleric-animate-dead-monsters",
+        "ua-magic-user-bind",
+        "ua-druid-changestaff",
+        "phb-druid-chariot-of-sustarre",
+        "phb-magic-user-charm-plants",
+        "phb-druid-conjure-earth-elemental",
+        "ua-magic-user-dolor",
+        "ua-magic-user-ensnarement",
+        "phb-druid-fire-seeds",
+        "phb-magic-user-geas",
+        "ua-magic-user-item",
+        "phb-magic-user-monster-summoning-iii",
+        "phb-magic-user-monster-summoning-iv",
+        "phb-magic-user-monster-summoning-vi",
+        "phb-magic-user-monster-summoning-vii",
+        "phb-illusionist-programmed-illusion",
+        "ua-magic-user-secret-page",
+        "phb-magic-user-serten-s-spell-immunity",
+        "phb-magic-user-simulacrum",
+        "phb-cleric-speak-with-plants",
+        "phb-druid-speak-with-plants",
+        "phb-cleric-sticks-to-snakes",
+        "phb-druid-sticks-to-snakes",
+        "ua-cleric-succor",
+        "ua-magic-user-succor",
+        "phb-illusionist-summon-shadow",
+        "phb-magic-user-tenser-s-floating-disc",
+        "ua-magic-user-truename",
+        "ua-magic-user-wrap"
+      ]
+    },
+    {
+      "caseType": "history-back-filter-record",
+      "view": "spells",
+      "requestedId": "phb-cleric-command",
+      "hash": "#spells/phb-cleric-command",
+      "detailId": "phb-cleric-command",
+      "filter": "command",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "Bless",
+      "visibleResultIds": [
+        "phb-cleric-command",
+        "phb-magic-user-animate-dead",
+        "ua-cleric-animate-dead-monsters",
+        "ua-magic-user-bind",
+        "ua-druid-changestaff",
+        "phb-druid-chariot-of-sustarre",
+        "phb-magic-user-charm-plants",
+        "phb-druid-conjure-earth-elemental",
+        "ua-magic-user-dolor",
+        "ua-magic-user-ensnarement",
+        "phb-druid-fire-seeds",
+        "phb-magic-user-geas",
+        "ua-magic-user-item",
+        "phb-magic-user-monster-summoning-iii",
+        "phb-magic-user-monster-summoning-iv",
+        "phb-magic-user-monster-summoning-vi",
+        "phb-magic-user-monster-summoning-vii",
+        "phb-illusionist-programmed-illusion",
+        "ua-magic-user-secret-page",
+        "phb-magic-user-serten-s-spell-immunity",
+        "phb-magic-user-simulacrum",
+        "phb-cleric-speak-with-plants",
+        "phb-druid-speak-with-plants",
+        "phb-cleric-sticks-to-snakes",
+        "phb-druid-sticks-to-snakes",
+        "ua-cleric-succor",
+        "ua-magic-user-succor",
+        "phb-illusionist-summon-shadow",
+        "phb-magic-user-tenser-s-floating-disc",
+        "ua-magic-user-truename",
+        "ua-magic-user-wrap"
+      ]
+    },
+    {
+      "caseType": "history-forward-filtered-target",
+      "view": "spells",
+      "requestedId": "phb-cleric-bless",
+      "hash": "#spells/phb-cleric-bless",
+      "detailId": "phb-cleric-command",
+      "filter": "command",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "Bless",
+      "visibleResultIds": [
+        "phb-cleric-command",
+        "phb-magic-user-animate-dead",
+        "ua-cleric-animate-dead-monsters",
+        "ua-magic-user-bind",
+        "ua-druid-changestaff",
+        "phb-druid-chariot-of-sustarre",
+        "phb-magic-user-charm-plants",
+        "phb-druid-conjure-earth-elemental",
+        "ua-magic-user-dolor",
+        "ua-magic-user-ensnarement",
+        "phb-druid-fire-seeds",
+        "phb-magic-user-geas",
+        "ua-magic-user-item",
+        "phb-magic-user-monster-summoning-iii",
+        "phb-magic-user-monster-summoning-iv",
+        "phb-magic-user-monster-summoning-vi",
+        "phb-magic-user-monster-summoning-vii",
+        "phb-illusionist-programmed-illusion",
+        "ua-magic-user-secret-page",
+        "phb-magic-user-serten-s-spell-immunity",
+        "phb-magic-user-simulacrum",
+        "phb-cleric-speak-with-plants",
+        "phb-druid-speak-with-plants",
+        "phb-cleric-sticks-to-snakes",
+        "phb-druid-sticks-to-snakes",
+        "ua-cleric-succor",
+        "ua-magic-user-succor",
+        "phb-illusionist-summon-shadow",
+        "phb-magic-user-tenser-s-floating-disc",
+        "ua-magic-user-truename",
+        "ua-magic-user-wrap"
+      ]
+    },
+    {
+      "caseType": "direct-same-view-route",
+      "view": "rules",
+      "requestedId": "character-creation",
+      "hash": "#rules/character-creation",
+      "detailId": "six-abilities",
+      "filter": "six ability scores",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "Bless",
+      "visibleResultIds": [
+        "six-abilities"
+      ]
+    },
+    {
+      "caseType": "direct-source-link",
+      "view": "rules",
+      "requestedId": "character-creation",
+      "hash": "#rules/character-creation?source=PHB%3A8",
+      "detailId": "six-abilities",
+      "filter": "six ability scores",
+      "sourceViewerOpen": true,
+      "sourceViewerItem": "Creating a player character",
+      "visibleResultIds": [
+        "six-abilities"
+      ]
+    },
+    {
+      "caseType": "history-forward-target",
+      "view": "rules",
+      "requestedId": "character-creation",
+      "hash": "#rules/character-creation",
+      "detailId": "six-abilities",
+      "filter": "six ability scores",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "Creating a player character",
+      "visibleResultIds": [
+        "six-abilities"
+      ]
+    },
+    {
+      "caseType": "history-back-filter-record",
+      "view": "rules",
+      "requestedId": "six-abilities",
+      "hash": "#rules/six-abilities",
+      "detailId": "six-abilities",
+      "filter": "six ability scores",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "Creating a player character",
+      "visibleResultIds": [
+        "six-abilities"
+      ]
+    },
+    {
+      "caseType": "history-forward-filtered-target",
+      "view": "rules",
+      "requestedId": "character-creation",
+      "hash": "#rules/character-creation",
+      "detailId": "six-abilities",
+      "filter": "six ability scores",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "Creating a player character",
+      "visibleResultIds": [
+        "six-abilities"
+      ]
+    },
+    {
+      "caseType": "direct-same-view-route",
+      "view": "equipment",
+      "requestedId": "phb-bo-stick",
+      "hash": "#equipment/phb-bo-stick",
+      "detailId": "phb-banded-mail",
+      "filter": "banded mail",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "Creating a player character",
+      "visibleResultIds": [
+        "phb-banded-mail"
+      ]
+    },
+    {
+      "caseType": "direct-source-link",
+      "view": "equipment",
+      "requestedId": "phb-bo-stick",
+      "hash": "#equipment/phb-bo-stick?source=PHB%3A35",
+      "detailId": "phb-banded-mail",
+      "filter": "banded mail",
+      "sourceViewerOpen": true,
+      "sourceViewerItem": "Bo Stick",
+      "visibleResultIds": [
+        "phb-banded-mail"
+      ]
+    },
+    {
+      "caseType": "history-forward-target",
+      "view": "equipment",
+      "requestedId": "phb-bo-stick",
+      "hash": "#equipment/phb-bo-stick",
+      "detailId": "phb-banded-mail",
+      "filter": "banded mail",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "Bo Stick",
+      "visibleResultIds": [
+        "phb-banded-mail"
+      ]
+    },
+    {
+      "caseType": "history-back-filter-record",
+      "view": "equipment",
+      "requestedId": "phb-banded-mail",
+      "hash": "#equipment/phb-banded-mail",
+      "detailId": "phb-banded-mail",
+      "filter": "banded mail",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "Bo Stick",
+      "visibleResultIds": [
+        "phb-banded-mail"
+      ]
+    },
+    {
+      "caseType": "history-forward-filtered-target",
+      "view": "equipment",
+      "requestedId": "phb-bo-stick",
+      "hash": "#equipment/phb-bo-stick",
+      "detailId": "phb-banded-mail",
+      "filter": "banded mail",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "Bo Stick",
+      "visibleResultIds": [
+        "phb-banded-mail"
+      ]
+    },
+    {
+      "caseType": "direct-same-view-route",
+      "view": "classes",
+      "requestedId": "fighter",
+      "hash": "#classes/fighter",
+      "detailId": "cleric",
+      "filter": "cleric",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "Bo Stick",
+      "visibleResultIds": [
+        "cleric",
+        "druid"
+      ]
+    },
+    {
+      "caseType": "direct-source-link",
+      "view": "classes",
+      "requestedId": "fighter",
+      "hash": "#classes/fighter?source=PHB%3A12",
+      "detailId": "cleric",
+      "filter": "cleric",
+      "sourceViewerOpen": true,
+      "sourceViewerItem": "Fighter",
+      "visibleResultIds": [
+        "cleric",
+        "druid"
+      ]
+    },
+    {
+      "caseType": "history-forward-target",
+      "view": "classes",
+      "requestedId": "fighter",
+      "hash": "#classes/fighter",
+      "detailId": "cleric",
+      "filter": "cleric",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "Fighter",
+      "visibleResultIds": [
+        "cleric",
+        "druid"
+      ]
+    },
+    {
+      "caseType": "history-back-filter-record",
+      "view": "classes",
+      "requestedId": "cleric",
+      "hash": "#classes/cleric",
+      "detailId": "cleric",
+      "filter": "cleric",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "Fighter",
+      "visibleResultIds": [
+        "cleric",
+        "druid"
+      ]
+    },
+    {
+      "caseType": "history-forward-filtered-target",
+      "view": "classes",
+      "requestedId": "fighter",
+      "hash": "#classes/fighter",
+      "detailId": "cleric",
+      "filter": "cleric",
+      "sourceViewerOpen": false,
+      "sourceViewerItem": "Fighter",
+      "visibleResultIds": [
+        "cleric",
+        "druid"
+      ]
+    }
+  ]
+}

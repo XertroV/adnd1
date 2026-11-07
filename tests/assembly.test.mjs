@@ -14,8 +14,10 @@ test('assembly includes every indexed spell and the current class checkpoint plu
   assert.equal(data.spells.length, 638);
   assert.equal(data.spells.filter(spell => spell.effect?.length).length, 638);
   assert.deepEqual(reverseClosureCorrections(data.classes,'classes').map(({sourceExcerpts,...cls})=>cls), reverseClosureCorrections(authorClasses.map(cls=>({...cls,...progression.classes[cls.id]})),'classes'), 'authored level changes and reviewed metadata must survive assembly');
-  const {sourceExcerpts, ...explainer} = data.progressionExplainer;
-  assert.deepEqual(explainer, progression.explainer);
+  const {sourceExcerpts, id:explainerId, ...explainer} = data.progressionExplainer;
+  assert.equal(explainerId, 'progression-explainer', 'synthetic citation owner identity remains stable');
+  const withoutGeneratedTransport=value=>Array.isArray(value)?value.map(withoutGeneratedTransport):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).filter(([key])=>!['evidenceBindings','regionReviews'].includes(key)).map(([key,child])=>[key,withoutGeneratedTransport(child)])):value;
+  assert.deepEqual(withoutGeneratedTransport(explainer), progression.explainer);
   const indexed = [...load('phb-spell-index.json').spells, ...load('ua-spell-index.json').spells];
   assert.deepEqual(new Set(byId.keys()), new Set(indexed.map(spell => spell.id)));
 });

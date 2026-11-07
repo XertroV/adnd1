@@ -12,7 +12,7 @@ test('fixture is reproducible and includes every assembled reference-bearing rec
  const expected=['rules','spells','equipment','matrices','classes'].flatMap(k=>data[k].filter(x=>citations.pages(x).length).map(x=>`${k}:${x.id}`));
  if(citations.pages(data.progressionExplainer).length)expected.push('progressionExplainer:progression-explainer');
  assert.deepEqual(inventory.records.map(r=>`${r.collection}:${r.id}`),expected);
- assert.equal(inventory.counts.records,892 + 28);assert.equal(inventory.counts.recordPagePairs,1857 + 28);assert.equal(inventory.counts.citedPages,230);assert.equal(inventory.counts.knownGapPages,1);assert.equal(inventory.counts.unverifiedPages,2);
+ assert.equal(inventory.counts.records,892 + 28 + 73);assert.equal(inventory.counts.recordPagePairs,1857 + 28 + 73 + 1);assert.equal(inventory.counts.citedPages,230);assert.equal(inventory.counts.knownGapPages,1);assert.equal(inventory.counts.unverifiedPages,2);
  assert.equal(inventory.counts.pagesWithSomeSuppliedCropPixels,inventory.pages.filter(p=>p.suppliedCropPixels).length);
  assert.equal(inventory.counts.citedPagesWithoutSuppliedCropPixels,inventory.pages.filter(p=>p.records.length&&!p.suppliedCropPixels).length);
  assert.equal(inventory.counts.batches,inventory.queue.batches.length);
@@ -43,7 +43,8 @@ test('crop pixels and scoped catalog checks never imply that a page or unrelated
  assert.ok(checks.filter(c=>c.state==='source-excerpt-checked').every(c=>c.fields.length===0));
  assert.ok(checks.some(c=>c.state==='selected-values-checked'&&c.fields.length>0));
  const page=inventory.pages.find(p=>p.book==='PHB'&&p.page===35);
- assert.ok(page.scopedCropChecks.some(c=>c.itemId==='phb-dagger'&&c.fields.includes('price')));
+ assert.ok(page.scopedCropChecks.some(c=>c.itemId==='phb-dagger'&&c.regionId==='phb35-dagger-price'&&c.fields.includes('purchasePrice')));
+ assert.ok(inventory.records.find(r=>r.id==='phb-dagger').references.some(r=>r.path==='/price'&&r.book==='PHB'&&r.pages.includes(35)));
  assert.ok(page.records.some(r=>r.id!=='phb-dagger'));
  assert.ok(!('verified' in page));
  assert.ok(inventory.pages.filter(p=>!p.suppliedCropPixels).every(p=>p.scopedCropChecks.length===0));

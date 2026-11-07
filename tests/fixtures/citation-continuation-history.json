@@ -1,0 +1,1344 @@
+{
+  "schemaVersion": 1,
+  "scope": "Metadata-only Git history fixtures for two source-reviewed same-page continuation clipping omissions. Historical image bytes are not included; image SHA-256 identities are retained. Current corrected catalogs are loaded from dist during tests. The shared PHB p.33 two-class example fixture adds twelve pinned-baseline catalog identities with source/image hashes only, showing each historical catalog lacked the required ordered right-column segment.",
+  "cases": [
+    {
+      "id": "charging-melee-dmg-66",
+      "collection": "rules",
+      "itemId": "charging-melee",
+      "catalogPath": "dist/scans/verified/rules-charging-melee.json",
+      "historicalCatalog": {
+        "gitCommit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+        "gitBlobOid": "8b5af34468aee7dfada58b5f55088429f4f7425c",
+        "collection": "rules",
+        "itemId": "charging-melee",
+        "sources": {
+          "DMG": {
+            "title": "Dungeon Masters Guide",
+            "edition": "Revised December 1979",
+            "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "hashStatus": "computed-local"
+          }
+        },
+        "regions": [
+          {
+            "id": "dmg-66-736ea779203d26d3",
+            "book": "DMG",
+            "printedPage": 66,
+            "pdfPage": 67,
+            "image": "dmg-66-c61536f2f2931ed3.png",
+            "width": 542,
+            "height": 322,
+            "sha256": "c61536f2f2931ed31f2deb45cd0a68c1334811f77a9714c7e16b47dbd43ef8e6"
+          }
+        ],
+        "imageBytesIncluded": false
+      },
+      "requiredSegmentsFromCurrentSourceReviewedManifest": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "DMG",
+          "printedPage": 66,
+          "pdfPage": 67,
+          "regionId": "dmg-66-736ea779203d26d3",
+          "image": "dmg-66-8f8a16512b08a565.png",
+          "imageSha256": "8f8a16512b08a565d565f878ff1eb00d14d9204c8952e5393dd364b4e715cce9",
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "DMG",
+          "printedPage": 66,
+          "pdfPage": 67,
+          "regionId": "dmg-66-172588f85488ff67",
+          "image": "dmg-66-172588f85488ff67.png",
+          "imageSha256": "172588f85488ff67a13127a045d604f9a121c9a67c66be1ae39fc6e567ef3c9d",
+          "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "state": "present"
+        }
+      ],
+      "historicalMissingOrders": [
+        2
+      ],
+      "currentSourceFinding": "DMG p.66 left-column charge text continues in the top-right column on the same printed page; the historical excerpt catalog contained only the opening region.",
+      "correctedCatalogPath": "scans/verified/rules-charging-melee.json",
+      "correctedExpectedRegionIds": [
+        "dmg-66-736ea779203d26d3",
+        "dmg-66-172588f85488ff67"
+      ],
+      "originalSourceEvidence": {
+        "status": "compared-to-verified-original",
+        "pages": [
+          {
+            "book": "DMG",
+            "printedPage": 66,
+            "pdfPage": 67,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "finding": "DMG p.66 left-column charge passage ends \u201c1 armor\u201d; the p.66 right-column opening begins \u201cclass lower\u201d and completes the sentence, then includes Melee At End of Charge and the one-charge interval paragraph."
+          }
+        ],
+        "p67Disposition": "The original DMG printed p.67 was checked; it contains unrelated Morale, Subdual and Weapon Speed Factor excerpts, not the charging continuation. The p.66 continuation is same-page, top-right; p.67 is not required."
+      },
+      "historicalExpectedBindingMismatches": [
+        {
+          "order": 1,
+          "regionId": "dmg-66-736ea779203d26d3",
+          "changedFields": [
+            "image",
+            "sha256"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ua-cleric-abjure-ua-37",
+      "collection": "spells",
+      "itemId": "ua-cleric-abjure",
+      "catalogPath": "dist/scans/verified/spells-ua-cleric-abjure.json",
+      "historicalCatalog": {
+        "gitCommit": "84252dc74db14e4c1d6ec465670c8b5b3d88f364",
+        "gitBlobOid": "f61e1587fde4681b6eb9a94d0e40711363e965ab",
+        "collection": "spells",
+        "itemId": "ua-cleric-abjure",
+        "sources": {
+          "PHB": {
+            "title": "Players Handbook",
+            "edition": "Sixth printing, January 1980",
+            "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "hashStatus": "computed-local"
+          },
+          "UA": {
+            "title": "Unearthed Arcana",
+            "edition": "Original 1985 edition",
+            "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+            "hashStatus": "computed-local"
+          }
+        },
+        "regions": [
+          {
+            "id": "phb-47-fa66266da842805d",
+            "book": "PHB",
+            "printedPage": 47,
+            "pdfPage": 48,
+            "image": "phb-47-fa66266da842805d.png",
+            "width": 559,
+            "height": 432,
+            "sha256": "fa66266da842805dc976d3a463726ef8811d614c782c98d93ae63fbf829ef013"
+          },
+          {
+            "id": "ua-37-e35d106ad24ba65c",
+            "book": "UA",
+            "printedPage": 37,
+            "pdfPage": 38,
+            "image": "ua-37-e35d106ad24ba65c.png",
+            "width": 551,
+            "height": 198,
+            "sha256": "e35d106ad24ba65c478ff2fd8b832d43036529150dbd66ae5edad5f8382ce7a6"
+          }
+        ],
+        "imageBytesIncluded": false
+      },
+      "requiredSegmentsFromCurrentSourceReviewedManifest": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "UA",
+          "printedPage": 37,
+          "pdfPage": 38,
+          "regionId": "ua-37-e35d106ad24ba65c",
+          "image": "ua-37-e35d106ad24ba65c.png",
+          "imageSha256": "e35d106ad24ba65c478ff2fd8b832d43036529150dbd66ae5edad5f8382ce7a6",
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+          "state": "present"
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "UA",
+          "printedPage": 37,
+          "pdfPage": 38,
+          "regionId": "ua-37-47646031f5b262d9",
+          "image": "ua-37-47646031f5b262d9.png",
+          "imageSha256": "47646031f5b262d9929d5d7f07816486a90c410b39e8abaad5b9b00935efe512",
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+          "state": "present"
+        }
+      ],
+      "historicalMissingOrders": [
+        2
+      ],
+      "currentSourceFinding": "UA p.37 Abjure continues in the top-right column on the same printed page; the historical excerpt catalog contained only the opening region, alongside a separate PHB p.47 reference.",
+      "correctedCatalogPath": "scans/verified/spells-ua-cleric-abjure.json",
+      "correctedExpectedRegionIds": [
+        "ua-37-e35d106ad24ba65c",
+        "ua-37-47646031f5b262d9"
+      ],
+      "originalSourceEvidence": {
+        "status": "compared-to-verified-original",
+        "pages": [
+          {
+            "book": "PHB",
+            "printedPage": 47,
+            "pdfPage": 48,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "finding": "The referenced Dispel Magic description and its caster-versus-magic comparison are complete in the crop."
+          },
+          {
+            "book": "UA",
+            "printedPage": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+            "finding": "UA p.37 opening in the left column ends \u201cex-\u201d; the top-right same-page continuation begins \u201cistence\u201d and contains the complete remaining Abjure, Implore and material-component passages."
+          }
+        ],
+        "limits": "Crop/page-completeness only; the record\u2019s header and prose save/procedure wording conflict is not resolved by this visual review."
+      },
+      "historicalExpectedBindingMismatches": []
+    }
+  ],
+  "sharedP33Cases": [
+    {
+      "id": "phb33-human-two-class-context-classes-assassin",
+      "collection": "classes",
+      "itemId": "assassin",
+      "catalogPath": "scans/verified/classes-assassin.json",
+      "historicalCatalog": {
+        "gitCommit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+        "gitBlobOid": "abad556dd380a35af241ed3448cf59deb02ad7a2",
+        "collection": "classes",
+        "itemId": "assassin",
+        "sources": {
+          "PHB": {
+            "title": "Players Handbook",
+            "edition": "Sixth printing, January 1980",
+            "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "hashStatus": "computed-local"
+          }
+        },
+        "regions": [
+          {
+            "id": "phb-33-3e99376517d917d0",
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "image": "phb-33-3e99376517d917d0.png",
+            "width": 537,
+            "height": 884,
+            "sha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c"
+          }
+        ],
+        "imageBytesIncluded": false
+      },
+      "requiredSegmentsFromCurrentSourceReviewedManifest": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "image": "phb-33-6fe233ecf3bcfa40.png",
+          "imageSha256": "6fe233ecf3bcfa4018fd6136c2c1e7ab5dce63b7ac70b3547fde8ff61008d0f6",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Left-column two-class procedure and benefits, including the full worked-example opening. Generic procedure context only; no class-specific eligibility."
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "image": "phb-33-7d2eca37ce27b8e.png",
+          "imageSha256": "7d2eca37ce27b8e712c829ea89f4b49512421f082df92121e71d0c91966199e3",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Same-page upper-right completion of the human Fighter-to-Magic-user example; stops before the unrelated ALIGNMENT heading."
+        }
+      ],
+      "historicalMissingOrders": [
+        2
+      ],
+      "historicalExpectedBindingMismatches": [
+        {
+          "order": 1,
+          "regionId": "phb-33-3e99376517d917d0",
+          "changedFields": [
+            "image",
+            "sha256"
+          ]
+        }
+      ],
+      "currentSourceFinding": "The complete PHB p.33 human two-class passage is source-ordered across the left-column opening and same-page upper-right continuation. Historical catalog had one opening only; the exact same-page continuation is absent.",
+      "correctedCatalogPath": "scans/verified/classes-assassin.json",
+      "correctedExpectedRegionIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "sourceComparison": {
+        "status": "compared-to-verified-original",
+        "pages": [
+          {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "finding": "The PHB p.33 left-column procedure/benefits and worked-example opening are followed by the same-page upper-right segment that completes the human Fighter-to-Magic-user example. Independent crop review confirms both segment bounds; no class-specific eligibility is inferred."
+          }
+        ],
+        "evidence": "research/assassin-context-recipe-review.json; research/assassin-context-independent-review.json",
+        "evidenceSha256": "b39c5cd3808cb3687e473828027f23719557388acc829f0715681af785807c30"
+      },
+      "semanticLimit": "Context/segment completeness only. This does not establish eligibility for this class or any specific pairing; field values and highlights remain pending."
+    },
+    {
+      "id": "phb33-human-two-class-context-classes-cleric",
+      "collection": "classes",
+      "itemId": "cleric",
+      "catalogPath": "scans/verified/classes-cleric.json",
+      "historicalCatalog": {
+        "gitCommit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+        "gitBlobOid": "768d9562ce2df1bb8fe0eb34268b2d2ef26b11a4",
+        "collection": "classes",
+        "itemId": "cleric",
+        "sources": {
+          "PHB": {
+            "title": "Players Handbook",
+            "edition": "Sixth printing, January 1980",
+            "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "hashStatus": "computed-local"
+          }
+        },
+        "regions": [
+          {
+            "id": "phb-33-3e99376517d917d0",
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "image": "phb-33-3e99376517d917d0.png",
+            "width": 537,
+            "height": 884,
+            "sha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c"
+          }
+        ],
+        "imageBytesIncluded": false
+      },
+      "requiredSegmentsFromCurrentSourceReviewedManifest": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "image": "phb-33-6fe233ecf3bcfa40.png",
+          "imageSha256": "6fe233ecf3bcfa4018fd6136c2c1e7ab5dce63b7ac70b3547fde8ff61008d0f6",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Left-column two-class procedure and benefits, including the full worked-example opening. Generic procedure context only; no class-specific eligibility."
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "image": "phb-33-7d2eca37ce27b8e.png",
+          "imageSha256": "7d2eca37ce27b8e712c829ea89f4b49512421f082df92121e71d0c91966199e3",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Same-page upper-right completion of the human Fighter-to-Magic-user example; stops before the unrelated ALIGNMENT heading."
+        }
+      ],
+      "historicalMissingOrders": [
+        2
+      ],
+      "historicalExpectedBindingMismatches": [
+        {
+          "order": 1,
+          "regionId": "phb-33-3e99376517d917d0",
+          "changedFields": [
+            "image",
+            "sha256"
+          ]
+        }
+      ],
+      "currentSourceFinding": "The complete PHB p.33 human two-class passage is source-ordered across the left-column opening and same-page upper-right continuation. Historical catalog had one opening only; the exact same-page continuation is absent.",
+      "correctedCatalogPath": "scans/verified/classes-cleric.json",
+      "correctedExpectedRegionIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "sourceComparison": {
+        "status": "compared-to-verified-original",
+        "pages": [
+          {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "finding": "The PHB p.33 left-column procedure/benefits and worked-example opening are followed by the same-page upper-right segment that completes the human Fighter-to-Magic-user example. Independent crop review confirms both segment bounds; no class-specific eligibility is inferred."
+          }
+        ],
+        "evidence": "research/assassin-context-recipe-review.json; research/assassin-context-independent-review.json",
+        "evidenceSha256": "b39c5cd3808cb3687e473828027f23719557388acc829f0715681af785807c30"
+      },
+      "semanticLimit": "Context/segment completeness only. This does not establish eligibility for this class or any specific pairing; field values and highlights remain pending."
+    },
+    {
+      "id": "phb33-human-two-class-context-classes-druid",
+      "collection": "classes",
+      "itemId": "druid",
+      "catalogPath": "scans/verified/classes-druid.json",
+      "historicalCatalog": {
+        "gitCommit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+        "gitBlobOid": "aec35f6b984adbadb2c94c277ed9521eb515ca47",
+        "collection": "classes",
+        "itemId": "druid",
+        "sources": {
+          "PHB": {
+            "title": "Players Handbook",
+            "edition": "Sixth printing, January 1980",
+            "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "hashStatus": "computed-local"
+          }
+        },
+        "regions": [
+          {
+            "id": "phb-33-3e99376517d917d0",
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "image": "phb-33-3e99376517d917d0.png",
+            "width": 537,
+            "height": 884,
+            "sha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c"
+          }
+        ],
+        "imageBytesIncluded": false
+      },
+      "requiredSegmentsFromCurrentSourceReviewedManifest": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "image": "phb-33-6fe233ecf3bcfa40.png",
+          "imageSha256": "6fe233ecf3bcfa4018fd6136c2c1e7ab5dce63b7ac70b3547fde8ff61008d0f6",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Left-column two-class procedure and benefits, including the full worked-example opening. Generic procedure context only; no class-specific eligibility."
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "image": "phb-33-7d2eca37ce27b8e.png",
+          "imageSha256": "7d2eca37ce27b8e712c829ea89f4b49512421f082df92121e71d0c91966199e3",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Same-page upper-right completion of the human Fighter-to-Magic-user example; stops before the unrelated ALIGNMENT heading."
+        }
+      ],
+      "historicalMissingOrders": [
+        2
+      ],
+      "historicalExpectedBindingMismatches": [
+        {
+          "order": 1,
+          "regionId": "phb-33-3e99376517d917d0",
+          "changedFields": [
+            "image",
+            "sha256"
+          ]
+        }
+      ],
+      "currentSourceFinding": "The complete PHB p.33 human two-class passage is source-ordered across the left-column opening and same-page upper-right continuation. Historical catalog had one opening only; the exact same-page continuation is absent.",
+      "correctedCatalogPath": "scans/verified/classes-druid.json",
+      "correctedExpectedRegionIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "sourceComparison": {
+        "status": "compared-to-verified-original",
+        "pages": [
+          {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "finding": "The PHB p.33 left-column procedure/benefits and worked-example opening are followed by the same-page upper-right segment that completes the human Fighter-to-Magic-user example. Independent crop review confirms both segment bounds; no class-specific eligibility is inferred."
+          }
+        ],
+        "evidence": "research/assassin-context-recipe-review.json; research/assassin-context-independent-review.json",
+        "evidenceSha256": "b39c5cd3808cb3687e473828027f23719557388acc829f0715681af785807c30"
+      },
+      "semanticLimit": "Context/segment completeness only. This does not establish eligibility for this class or any specific pairing; field values and highlights remain pending."
+    },
+    {
+      "id": "phb33-human-two-class-context-classes-fighter",
+      "collection": "classes",
+      "itemId": "fighter",
+      "catalogPath": "scans/verified/classes-fighter.json",
+      "historicalCatalog": {
+        "gitCommit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+        "gitBlobOid": "2176ef4768abffcff804a7d2ac2bcedf72961fbb",
+        "collection": "classes",
+        "itemId": "fighter",
+        "sources": {
+          "PHB": {
+            "title": "Players Handbook",
+            "edition": "Sixth printing, January 1980",
+            "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "hashStatus": "computed-local"
+          }
+        },
+        "regions": [
+          {
+            "id": "phb-33-3e99376517d917d0",
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "image": "phb-33-3e99376517d917d0.png",
+            "width": 537,
+            "height": 884,
+            "sha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c"
+          }
+        ],
+        "imageBytesIncluded": false
+      },
+      "requiredSegmentsFromCurrentSourceReviewedManifest": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "image": "phb-33-6fe233ecf3bcfa40.png",
+          "imageSha256": "6fe233ecf3bcfa4018fd6136c2c1e7ab5dce63b7ac70b3547fde8ff61008d0f6",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Left-column two-class procedure and benefits, including the full worked-example opening. Generic procedure context only; no class-specific eligibility."
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "image": "phb-33-7d2eca37ce27b8e.png",
+          "imageSha256": "7d2eca37ce27b8e712c829ea89f4b49512421f082df92121e71d0c91966199e3",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Same-page upper-right completion of the human Fighter-to-Magic-user example; stops before the unrelated ALIGNMENT heading."
+        }
+      ],
+      "historicalMissingOrders": [
+        2
+      ],
+      "historicalExpectedBindingMismatches": [
+        {
+          "order": 1,
+          "regionId": "phb-33-3e99376517d917d0",
+          "changedFields": [
+            "image",
+            "sha256"
+          ]
+        }
+      ],
+      "currentSourceFinding": "The complete PHB p.33 human two-class passage is source-ordered across the left-column opening and same-page upper-right continuation. Historical catalog had one opening only; the exact same-page continuation is absent.",
+      "correctedCatalogPath": "scans/verified/classes-fighter.json",
+      "correctedExpectedRegionIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "sourceComparison": {
+        "status": "compared-to-verified-original",
+        "pages": [
+          {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "finding": "The PHB p.33 left-column procedure/benefits and worked-example opening are followed by the same-page upper-right segment that completes the human Fighter-to-Magic-user example. Independent crop review confirms both segment bounds; no class-specific eligibility is inferred."
+          }
+        ],
+        "evidence": "research/assassin-context-recipe-review.json; research/assassin-context-independent-review.json",
+        "evidenceSha256": "b39c5cd3808cb3687e473828027f23719557388acc829f0715681af785807c30"
+      },
+      "semanticLimit": "Context/segment completeness only. This does not establish eligibility for this class or any specific pairing; field values and highlights remain pending."
+    },
+    {
+      "id": "phb33-human-two-class-context-classes-illusionist",
+      "collection": "classes",
+      "itemId": "illusionist",
+      "catalogPath": "scans/verified/classes-illusionist.json",
+      "historicalCatalog": {
+        "gitCommit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+        "gitBlobOid": "2f9d2e3dd76d4f557b5502b5991106a84c1b3f85",
+        "collection": "classes",
+        "itemId": "illusionist",
+        "sources": {
+          "PHB": {
+            "title": "Players Handbook",
+            "edition": "Sixth printing, January 1980",
+            "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "hashStatus": "computed-local"
+          }
+        },
+        "regions": [
+          {
+            "id": "phb-33-3e99376517d917d0",
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "image": "phb-33-3e99376517d917d0.png",
+            "width": 537,
+            "height": 884,
+            "sha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c"
+          }
+        ],
+        "imageBytesIncluded": false
+      },
+      "requiredSegmentsFromCurrentSourceReviewedManifest": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "image": "phb-33-6fe233ecf3bcfa40.png",
+          "imageSha256": "6fe233ecf3bcfa4018fd6136c2c1e7ab5dce63b7ac70b3547fde8ff61008d0f6",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Left-column two-class procedure and benefits, including the full worked-example opening. Generic procedure context only; no class-specific eligibility."
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "image": "phb-33-7d2eca37ce27b8e.png",
+          "imageSha256": "7d2eca37ce27b8e712c829ea89f4b49512421f082df92121e71d0c91966199e3",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Same-page upper-right completion of the human Fighter-to-Magic-user example; stops before the unrelated ALIGNMENT heading."
+        }
+      ],
+      "historicalMissingOrders": [
+        2
+      ],
+      "historicalExpectedBindingMismatches": [
+        {
+          "order": 1,
+          "regionId": "phb-33-3e99376517d917d0",
+          "changedFields": [
+            "image",
+            "sha256"
+          ]
+        }
+      ],
+      "currentSourceFinding": "The complete PHB p.33 human two-class passage is source-ordered across the left-column opening and same-page upper-right continuation. Historical catalog had one opening only; the exact same-page continuation is absent.",
+      "correctedCatalogPath": "scans/verified/classes-illusionist.json",
+      "correctedExpectedRegionIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "sourceComparison": {
+        "status": "compared-to-verified-original",
+        "pages": [
+          {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "finding": "The PHB p.33 left-column procedure/benefits and worked-example opening are followed by the same-page upper-right segment that completes the human Fighter-to-Magic-user example. Independent crop review confirms both segment bounds; no class-specific eligibility is inferred."
+          }
+        ],
+        "evidence": "research/assassin-context-recipe-review.json; research/assassin-context-independent-review.json",
+        "evidenceSha256": "b39c5cd3808cb3687e473828027f23719557388acc829f0715681af785807c30"
+      },
+      "semanticLimit": "Context/segment completeness only. This does not establish eligibility for this class or any specific pairing; field values and highlights remain pending."
+    },
+    {
+      "id": "phb33-human-two-class-context-classes-magic-user",
+      "collection": "classes",
+      "itemId": "magic-user",
+      "catalogPath": "scans/verified/classes-magic-user.json",
+      "historicalCatalog": {
+        "gitCommit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+        "gitBlobOid": "75005f8a83fa14a3097bd081bc6c9ca87699f4c2",
+        "collection": "classes",
+        "itemId": "magic-user",
+        "sources": {
+          "PHB": {
+            "title": "Players Handbook",
+            "edition": "Sixth printing, January 1980",
+            "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "hashStatus": "computed-local"
+          }
+        },
+        "regions": [
+          {
+            "id": "phb-33-3e99376517d917d0",
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "image": "phb-33-3e99376517d917d0.png",
+            "width": 537,
+            "height": 884,
+            "sha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c"
+          }
+        ],
+        "imageBytesIncluded": false
+      },
+      "requiredSegmentsFromCurrentSourceReviewedManifest": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "image": "phb-33-6fe233ecf3bcfa40.png",
+          "imageSha256": "6fe233ecf3bcfa4018fd6136c2c1e7ab5dce63b7ac70b3547fde8ff61008d0f6",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Left-column two-class procedure and benefits, including the full worked-example opening. Generic procedure context only; no class-specific eligibility."
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "image": "phb-33-7d2eca37ce27b8e.png",
+          "imageSha256": "7d2eca37ce27b8e712c829ea89f4b49512421f082df92121e71d0c91966199e3",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Same-page upper-right completion of the human Fighter-to-Magic-user example; stops before the unrelated ALIGNMENT heading."
+        }
+      ],
+      "historicalMissingOrders": [
+        2
+      ],
+      "historicalExpectedBindingMismatches": [
+        {
+          "order": 1,
+          "regionId": "phb-33-3e99376517d917d0",
+          "changedFields": [
+            "image",
+            "sha256"
+          ]
+        }
+      ],
+      "currentSourceFinding": "The complete PHB p.33 human two-class passage is source-ordered across the left-column opening and same-page upper-right continuation. Historical catalog had one opening only; the exact same-page continuation is absent.",
+      "correctedCatalogPath": "scans/verified/classes-magic-user.json",
+      "correctedExpectedRegionIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "sourceComparison": {
+        "status": "compared-to-verified-original",
+        "pages": [
+          {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "finding": "The PHB p.33 left-column procedure/benefits and worked-example opening are followed by the same-page upper-right segment that completes the human Fighter-to-Magic-user example. Independent crop review confirms both segment bounds; no class-specific eligibility is inferred."
+          }
+        ],
+        "evidence": "research/assassin-context-recipe-review.json; research/assassin-context-independent-review.json",
+        "evidenceSha256": "b39c5cd3808cb3687e473828027f23719557388acc829f0715681af785807c30"
+      },
+      "semanticLimit": "Context/segment completeness only. This does not establish eligibility for this class or any specific pairing; field values and highlights remain pending."
+    },
+    {
+      "id": "phb33-human-two-class-context-classes-monk",
+      "collection": "classes",
+      "itemId": "monk",
+      "catalogPath": "scans/verified/classes-monk.json",
+      "historicalCatalog": {
+        "gitCommit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+        "gitBlobOid": "95751ec0a0e02ed09616e8c477134ae4e3fa6f7b",
+        "collection": "classes",
+        "itemId": "monk",
+        "sources": {
+          "PHB": {
+            "title": "Players Handbook",
+            "edition": "Sixth printing, January 1980",
+            "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "hashStatus": "computed-local"
+          }
+        },
+        "regions": [
+          {
+            "id": "phb-33-3e99376517d917d0",
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "image": "phb-33-3e99376517d917d0.png",
+            "width": 537,
+            "height": 884,
+            "sha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c"
+          }
+        ],
+        "imageBytesIncluded": false
+      },
+      "requiredSegmentsFromCurrentSourceReviewedManifest": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "image": "phb-33-6fe233ecf3bcfa40.png",
+          "imageSha256": "6fe233ecf3bcfa4018fd6136c2c1e7ab5dce63b7ac70b3547fde8ff61008d0f6",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Left-column two-class procedure and benefits, including the full worked-example opening. Generic procedure context only; no class-specific eligibility."
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "image": "phb-33-7d2eca37ce27b8e.png",
+          "imageSha256": "7d2eca37ce27b8e712c829ea89f4b49512421f082df92121e71d0c91966199e3",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Same-page upper-right completion of the human Fighter-to-Magic-user example; stops before the unrelated ALIGNMENT heading."
+        }
+      ],
+      "historicalMissingOrders": [
+        2
+      ],
+      "historicalExpectedBindingMismatches": [
+        {
+          "order": 1,
+          "regionId": "phb-33-3e99376517d917d0",
+          "changedFields": [
+            "image",
+            "sha256"
+          ]
+        }
+      ],
+      "currentSourceFinding": "The complete PHB p.33 human two-class passage is source-ordered across the left-column opening and same-page upper-right continuation. Historical catalog had one opening only; the exact same-page continuation is absent.",
+      "correctedCatalogPath": "scans/verified/classes-monk.json",
+      "correctedExpectedRegionIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "sourceComparison": {
+        "status": "compared-to-verified-original",
+        "pages": [
+          {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "finding": "The PHB p.33 left-column procedure/benefits and worked-example opening are followed by the same-page upper-right segment that completes the human Fighter-to-Magic-user example. Independent crop review confirms both segment bounds; no class-specific eligibility is inferred."
+          }
+        ],
+        "evidence": "research/assassin-context-recipe-review.json; research/assassin-context-independent-review.json",
+        "evidenceSha256": "b39c5cd3808cb3687e473828027f23719557388acc829f0715681af785807c30"
+      },
+      "semanticLimit": "Context/segment completeness only. This does not establish eligibility for this class or any specific pairing; field values and highlights remain pending."
+    },
+    {
+      "id": "phb33-human-two-class-context-classes-paladin",
+      "collection": "classes",
+      "itemId": "paladin",
+      "catalogPath": "scans/verified/classes-paladin.json",
+      "historicalCatalog": {
+        "gitCommit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+        "gitBlobOid": "bdb52774322244ee26e2eb848a60a29879c5b839",
+        "collection": "classes",
+        "itemId": "paladin",
+        "sources": {
+          "PHB": {
+            "title": "Players Handbook",
+            "edition": "Sixth printing, January 1980",
+            "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "hashStatus": "computed-local"
+          }
+        },
+        "regions": [
+          {
+            "id": "phb-33-3e99376517d917d0",
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "image": "phb-33-3e99376517d917d0.png",
+            "width": 537,
+            "height": 884,
+            "sha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c"
+          }
+        ],
+        "imageBytesIncluded": false
+      },
+      "requiredSegmentsFromCurrentSourceReviewedManifest": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "image": "phb-33-6fe233ecf3bcfa40.png",
+          "imageSha256": "6fe233ecf3bcfa4018fd6136c2c1e7ab5dce63b7ac70b3547fde8ff61008d0f6",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Left-column two-class procedure and benefits, including the full worked-example opening. Generic procedure context only; no class-specific eligibility."
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "image": "phb-33-7d2eca37ce27b8e.png",
+          "imageSha256": "7d2eca37ce27b8e712c829ea89f4b49512421f082df92121e71d0c91966199e3",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Same-page upper-right completion of the human Fighter-to-Magic-user example; stops before the unrelated ALIGNMENT heading."
+        }
+      ],
+      "historicalMissingOrders": [
+        2
+      ],
+      "historicalExpectedBindingMismatches": [
+        {
+          "order": 1,
+          "regionId": "phb-33-3e99376517d917d0",
+          "changedFields": [
+            "image",
+            "sha256"
+          ]
+        }
+      ],
+      "currentSourceFinding": "The complete PHB p.33 human two-class passage is source-ordered across the left-column opening and same-page upper-right continuation. Historical catalog had one opening only; the exact same-page continuation is absent.",
+      "correctedCatalogPath": "scans/verified/classes-paladin.json",
+      "correctedExpectedRegionIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "sourceComparison": {
+        "status": "compared-to-verified-original",
+        "pages": [
+          {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "finding": "The PHB p.33 left-column procedure/benefits and worked-example opening are followed by the same-page upper-right segment that completes the human Fighter-to-Magic-user example. Independent crop review confirms both segment bounds; no class-specific eligibility is inferred."
+          }
+        ],
+        "evidence": "research/assassin-context-recipe-review.json; research/assassin-context-independent-review.json",
+        "evidenceSha256": "b39c5cd3808cb3687e473828027f23719557388acc829f0715681af785807c30"
+      },
+      "semanticLimit": "Context/segment completeness only. This does not establish eligibility for this class or any specific pairing; field values and highlights remain pending."
+    },
+    {
+      "id": "phb33-human-two-class-context-classes-ranger",
+      "collection": "classes",
+      "itemId": "ranger",
+      "catalogPath": "scans/verified/classes-ranger.json",
+      "historicalCatalog": {
+        "gitCommit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+        "gitBlobOid": "3392c9cb28f262bb51987f5db8d4f4749caa70ee",
+        "collection": "classes",
+        "itemId": "ranger",
+        "sources": {
+          "PHB": {
+            "title": "Players Handbook",
+            "edition": "Sixth printing, January 1980",
+            "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "hashStatus": "computed-local"
+          }
+        },
+        "regions": [
+          {
+            "id": "phb-33-3e99376517d917d0",
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "image": "phb-33-3e99376517d917d0.png",
+            "width": 537,
+            "height": 884,
+            "sha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c"
+          }
+        ],
+        "imageBytesIncluded": false
+      },
+      "requiredSegmentsFromCurrentSourceReviewedManifest": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "image": "phb-33-6fe233ecf3bcfa40.png",
+          "imageSha256": "6fe233ecf3bcfa4018fd6136c2c1e7ab5dce63b7ac70b3547fde8ff61008d0f6",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Left-column two-class procedure and benefits, including the full worked-example opening. Generic procedure context only; no class-specific eligibility."
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "image": "phb-33-7d2eca37ce27b8e.png",
+          "imageSha256": "7d2eca37ce27b8e712c829ea89f4b49512421f082df92121e71d0c91966199e3",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Same-page upper-right completion of the human Fighter-to-Magic-user example; stops before the unrelated ALIGNMENT heading."
+        }
+      ],
+      "historicalMissingOrders": [
+        2
+      ],
+      "historicalExpectedBindingMismatches": [
+        {
+          "order": 1,
+          "regionId": "phb-33-3e99376517d917d0",
+          "changedFields": [
+            "image",
+            "sha256"
+          ]
+        }
+      ],
+      "currentSourceFinding": "The complete PHB p.33 human two-class passage is source-ordered across the left-column opening and same-page upper-right continuation. Historical catalog had one opening only; the exact same-page continuation is absent.",
+      "correctedCatalogPath": "scans/verified/classes-ranger.json",
+      "correctedExpectedRegionIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "sourceComparison": {
+        "status": "compared-to-verified-original",
+        "pages": [
+          {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "finding": "The PHB p.33 left-column procedure/benefits and worked-example opening are followed by the same-page upper-right segment that completes the human Fighter-to-Magic-user example. Independent crop review confirms both segment bounds; no class-specific eligibility is inferred."
+          }
+        ],
+        "evidence": "research/assassin-context-recipe-review.json; research/assassin-context-independent-review.json",
+        "evidenceSha256": "b39c5cd3808cb3687e473828027f23719557388acc829f0715681af785807c30"
+      },
+      "semanticLimit": "Context/segment completeness only. This does not establish eligibility for this class or any specific pairing; field values and highlights remain pending."
+    },
+    {
+      "id": "phb33-human-two-class-context-classes-thief",
+      "collection": "classes",
+      "itemId": "thief",
+      "catalogPath": "scans/verified/classes-thief.json",
+      "historicalCatalog": {
+        "gitCommit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+        "gitBlobOid": "c8ce35055f84ae0927084c1adc6b4bdf915f5c0d",
+        "collection": "classes",
+        "itemId": "thief",
+        "sources": {
+          "PHB": {
+            "title": "Players Handbook",
+            "edition": "Sixth printing, January 1980",
+            "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "hashStatus": "computed-local"
+          }
+        },
+        "regions": [
+          {
+            "id": "phb-33-3e99376517d917d0",
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "image": "phb-33-3e99376517d917d0.png",
+            "width": 537,
+            "height": 884,
+            "sha256": "3e99376517d917d0234f5bf6493e6afb4ee2b8be0c72646c473f67928a17230c"
+          }
+        ],
+        "imageBytesIncluded": false
+      },
+      "requiredSegmentsFromCurrentSourceReviewedManifest": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3e99376517d917d0",
+          "image": "phb-33-6fe233ecf3bcfa40.png",
+          "imageSha256": "6fe233ecf3bcfa4018fd6136c2c1e7ab5dce63b7ac70b3547fde8ff61008d0f6",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Left-column two-class procedure and benefits, including the full worked-example opening. Generic procedure context only; no class-specific eligibility."
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "image": "phb-33-7d2eca37ce27b8e.png",
+          "imageSha256": "7d2eca37ce27b8e712c829ea89f4b49512421f082df92121e71d0c91966199e3",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Same-page upper-right completion of the human Fighter-to-Magic-user example; stops before the unrelated ALIGNMENT heading."
+        }
+      ],
+      "historicalMissingOrders": [
+        2
+      ],
+      "historicalExpectedBindingMismatches": [
+        {
+          "order": 1,
+          "regionId": "phb-33-3e99376517d917d0",
+          "changedFields": [
+            "image",
+            "sha256"
+          ]
+        }
+      ],
+      "currentSourceFinding": "The complete PHB p.33 human two-class passage is source-ordered across the left-column opening and same-page upper-right continuation. Historical catalog had one opening only; the exact same-page continuation is absent.",
+      "correctedCatalogPath": "scans/verified/classes-thief.json",
+      "correctedExpectedRegionIds": [
+        "phb-33-3e99376517d917d0",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "sourceComparison": {
+        "status": "compared-to-verified-original",
+        "pages": [
+          {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "finding": "The PHB p.33 left-column procedure/benefits and worked-example opening are followed by the same-page upper-right segment that completes the human Fighter-to-Magic-user example. Independent crop review confirms both segment bounds; no class-specific eligibility is inferred."
+          }
+        ],
+        "evidence": "research/assassin-context-recipe-review.json; research/assassin-context-independent-review.json",
+        "evidenceSha256": "b39c5cd3808cb3687e473828027f23719557388acc829f0715681af785807c30"
+      },
+      "semanticLimit": "Context/segment completeness only. This does not establish eligibility for this class or any specific pairing; field values and highlights remain pending."
+    },
+    {
+      "id": "phb33-human-two-class-context-progressionExplainer-progression-explainer",
+      "collection": "progressionExplainer",
+      "itemId": "progression-explainer",
+      "catalogPath": "scans/verified/progressionexplainer-progression-explainer.json",
+      "historicalCatalog": {
+        "gitCommit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+        "gitBlobOid": "beb26fb305a0247c3d8f1119c541fb92e5284039",
+        "collection": "progressionExplainer",
+        "itemId": "progression-explainer",
+        "sources": {
+          "PHB": {
+            "title": "Players Handbook",
+            "edition": "Sixth printing, January 1980",
+            "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "hashStatus": "computed-local"
+          }
+        },
+        "regions": [
+          {
+            "id": "phb-33-3fe29356f2b1ddc7",
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "image": "phb-33-e0c710a4928dacac.png",
+            "width": 671,
+            "height": 922,
+            "sha256": "e0c710a4928dacac787eb2bbb16bb0fc690d301d6472a8b730f5d6bea55b9e22"
+          }
+        ],
+        "imageBytesIncluded": false
+      },
+      "requiredSegmentsFromCurrentSourceReviewedManifest": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3fe29356f2b1ddc7",
+          "image": "phb-33-6fe233ecf3bcfa40.png",
+          "imageSha256": "6fe233ecf3bcfa4018fd6136c2c1e7ab5dce63b7ac70b3547fde8ff61008d0f6",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Left-column two-class procedure and benefits, including the full worked-example opening. Generic procedure context only; no class-specific eligibility."
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "image": "phb-33-7d2eca37ce27b8e.png",
+          "imageSha256": "7d2eca37ce27b8e712c829ea89f4b49512421f082df92121e71d0c91966199e3",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Same-page upper-right completion of the human Fighter-to-Magic-user example; stops before the unrelated ALIGNMENT heading."
+        }
+      ],
+      "historicalMissingOrders": [
+        2
+      ],
+      "historicalExpectedBindingMismatches": [
+        {
+          "order": 1,
+          "regionId": "phb-33-3fe29356f2b1ddc7",
+          "changedFields": [
+            "image",
+            "sha256"
+          ]
+        }
+      ],
+      "currentSourceFinding": "The complete PHB p.33 human two-class passage is source-ordered across the left-column opening and same-page upper-right continuation. Historical catalog had one opening only; the exact same-page continuation is absent.",
+      "correctedCatalogPath": "scans/verified/progressionexplainer-progression-explainer.json",
+      "correctedExpectedRegionIds": [
+        "phb-33-3fe29356f2b1ddc7",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "sourceComparison": {
+        "status": "compared-to-verified-original",
+        "pages": [
+          {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "finding": "The PHB p.33 left-column procedure/benefits and worked-example opening are followed by the same-page upper-right segment that completes the human Fighter-to-Magic-user example. Independent crop review confirms both segment bounds; no class-specific eligibility is inferred."
+          }
+        ],
+        "evidence": "research/assassin-context-recipe-review.json; research/assassin-context-independent-review.json",
+        "evidenceSha256": "b39c5cd3808cb3687e473828027f23719557388acc829f0715681af785807c30"
+      },
+      "semanticLimit": "Context/segment completeness only. This does not establish eligibility for this class or any specific pairing; field values and highlights remain pending."
+    },
+    {
+      "id": "phb33-human-two-class-context-rules-dual-class",
+      "collection": "rules",
+      "itemId": "dual-class",
+      "catalogPath": "scans/verified/rules-dual-class.json",
+      "historicalCatalog": {
+        "gitCommit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+        "gitBlobOid": "47b6726282841ada6d388ba7ea1459cbf32a35bf",
+        "collection": "rules",
+        "itemId": "dual-class",
+        "sources": {
+          "PHB": {
+            "title": "Players Handbook",
+            "edition": "Sixth printing, January 1980",
+            "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "hashStatus": "computed-local"
+          }
+        },
+        "regions": [
+          {
+            "id": "phb-33-3fe29356f2b1ddc7",
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "image": "phb-33-e0c710a4928dacac.png",
+            "width": 671,
+            "height": 922,
+            "sha256": "e0c710a4928dacac787eb2bbb16bb0fc690d301d6472a8b730f5d6bea55b9e22"
+          }
+        ],
+        "imageBytesIncluded": false
+      },
+      "requiredSegmentsFromCurrentSourceReviewedManifest": [
+        {
+          "order": 1,
+          "role": "opening",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-3fe29356f2b1ddc7",
+          "image": "phb-33-6fe233ecf3bcfa40.png",
+          "imageSha256": "6fe233ecf3bcfa4018fd6136c2c1e7ab5dce63b7ac70b3547fde8ff61008d0f6",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Left-column two-class procedure and benefits, including the full worked-example opening. Generic procedure context only; no class-specific eligibility."
+        },
+        {
+          "order": 2,
+          "role": "continuation",
+          "book": "PHB",
+          "printedPage": 33,
+          "pdfPage": 34,
+          "regionId": "phb-33-7d2eca37ce27b8e",
+          "image": "phb-33-7d2eca37ce27b8e.png",
+          "imageSha256": "7d2eca37ce27b8e712c829ea89f4b49512421f082df92121e71d0c91966199e3",
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "present",
+          "relevance": "Same-page upper-right completion of the human Fighter-to-Magic-user example; stops before the unrelated ALIGNMENT heading."
+        }
+      ],
+      "historicalMissingOrders": [
+        2
+      ],
+      "historicalExpectedBindingMismatches": [
+        {
+          "order": 1,
+          "regionId": "phb-33-3fe29356f2b1ddc7",
+          "changedFields": [
+            "image",
+            "sha256"
+          ]
+        }
+      ],
+      "currentSourceFinding": "The complete PHB p.33 human two-class passage is source-ordered across the left-column opening and same-page upper-right continuation. Historical catalog had one opening only; the exact same-page continuation is absent.",
+      "correctedCatalogPath": "scans/verified/rules-dual-class.json",
+      "correctedExpectedRegionIds": [
+        "phb-33-3fe29356f2b1ddc7",
+        "phb-33-7d2eca37ce27b8e"
+      ],
+      "sourceComparison": {
+        "status": "compared-to-verified-original",
+        "pages": [
+          {
+            "book": "PHB",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "finding": "The PHB p.33 left-column procedure/benefits and worked-example opening are followed by the same-page upper-right segment that completes the human Fighter-to-Magic-user example. Independent crop review confirms both segment bounds; no class-specific eligibility is inferred."
+          }
+        ],
+        "evidence": "research/assassin-context-recipe-review.json; research/assassin-context-independent-review.json",
+        "evidenceSha256": "b39c5cd3808cb3687e473828027f23719557388acc829f0715681af785807c30"
+      },
+      "semanticLimit": "Context/segment completeness only. This does not establish eligibility for this class or any specific pairing; field values and highlights remain pending."
+    }
+  ]
+}

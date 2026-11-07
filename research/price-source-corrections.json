@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "scope": "Original-source corrections detected and calibrated before the bounded equipment price integration. Prior values remain in Git13783128 and the preserved peer review; no historical evidence is discarded.",
+  "records": [
+    {
+      "sourceFile": "research/price-source-inventory-ua26.json",
+      "sourceRecordIndex": 11,
+      "sourceObject": "Garrot",
+      "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+      "printedPage": 26,
+      "pdfPage": 27,
+      "path": "/price/currency",
+      "oldValue": "gp",
+      "newValue": "ep",
+      "originalRecord": {
+        "sourceObject": "Garrot",
+        "section": "Arms",
+        "price": {
+          "amount": 1,
+          "currency": "gp",
+          "unit": null,
+          "classification": "printed"
+        },
+        "source": {
+          "book": "UA",
+          "page": 26,
+          "pdfPage": 27,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+          "normalizedPageBounds": [
+            0.023945,
+            0.22473,
+            0.219282,
+            0.015515
+          ]
+        },
+        "siteMatch": {
+          "id": null,
+          "status": "not represented"
+        }
+      },
+      "beforeFileSha256": "f66a2b46777ee930237ad37dfa6a1d0bcbe2f25252ab37117773394916a80495",
+      "afterFileSha256": "2e93d88a4e9a22fbcf9146db6a836c738f5f64549451ddb90032d621c2689ae0",
+      "reviewReceiptSha256": "37ef1e94e4c1fa396f8abf45d57f85863b8424933192daa54cc3c1a715383bc4",
+      "regressionTest": "tests/equipment-price-corrections.test.mjs",
+      "beforeRepairResult": "Current-source requirement failed as expected:1gp versus original-scan1ep.",
+      "status": "applied-after-systemic-baseline-and-independent-source-review"
+    },
+    {
+      "id": "dmg-obsidian-vase-page-mapping",
+      "sourceFile": "research/price-source-inventory-dmg-post125-survey.json",
+      "sourceRecordIndex": 1,
+      "path": "/unresolved/1/pdfPage",
+      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "book": "DMG",
+      "printedPage": 217,
+      "pdfPage": 217,
+      "oldValue": 218,
+      "newValue": 217,
+      "originalRecord": {
+        "pdfPage": 218,
+        "printedPage": 217,
+        "subject": "Obsidian vase in example trick described as worth 5,000 gp",
+        "status": "example treasure value, excluded from sale-price rows; revisit if scenario-specific treasure valuations are in scope"
+      },
+      "beforeFileSha256": "a4ab8806f4386adb2e6c377928b16200a22447f27e5c3d07d653cc8bc50f6756",
+      "afterFileSha256": "7faebd1b566cee02ec53ca96d24fea18f656b31c38a321d13fa08eac12d7f29d",
+      "sourcePageEvidence": {
+        "reviewStatus": "direct-original-page-visual-check",
+        "textLayerSubject": "Appendix H: Tricks; obsidian vase example with a 5,000 gp valuation",
+        "printedFolio": "217",
+        "pdf218PrintedFolio": "218",
+        "sourcePagePreviewSha256": "2b6609e5ae248d4e114e243f4bf7c4ea21bdf7599fdfbe084ec179296061c260",
+        "sourcePagePreviewScale": 1.5,
+        "mappingBasis": "dist/books.js maps DMG printed pages 176–238 directly to PDF page N; the source image visibly prints 217 on PDF page 217.",
+        "pdf217PrintedFolio": "217",
+        "previewRenderer": "PyMuPDF",
+        "previewPdfPageIndexZeroBased": 216,
+        "previewAlpha": false
+      },
+      "regressionTest": "tests/price-source-inventory.test.mjs",
+      "status": "corrected-after-direct-original-source-page-verification"
+    }
+  ]
+}

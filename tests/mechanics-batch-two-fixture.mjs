@@ -5,6 +5,7 @@ import {reverseEditorialCorrections} from './mechanics-editorial-fixture.mjs';
 import {reverseFinalCorrections} from './mechanics-final-fixture.mjs';
 import {reverseFollowupCorrections} from './mechanics-followup-fixture.mjs';
 import {reverseNextCorrections} from './mechanics-next-fixture.mjs';
+import {withoutGeneratedCitationTransport} from './equipment-source-first-fixture.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -54,7 +55,7 @@ export function reverseMechanicsBatchTwo(items,collection) {
   const aerial=sourceBaseline.find(item=>item.id==='aerial-climbing-diving');
   // The unchanged C–E mechanics were always on p.51. Reverse only the reviewed
   // provenance addition when comparing to the historical semantic snapshot.
-  assert.deepEqual(aerial.references,[{book:'DMG',pages:[51],label:'Maneuverability classes C–E',status:'Source excerpt checked'}]);
+  assert.deepEqual(withoutGeneratedCitationTransport(aerial.references),[{book:'DMG',pages:[51],label:'Maneuverability classes C–E',status:'Source excerpt checked'}]);
   delete aerial.references;
  }
  const copy=reverseNextCorrections(reverseFollowupCorrections(reverseFinalCorrections(reverseEditorialCorrections(reverseClosureCorrections(reverseDependencyCorrections(reverseRacialLastCorrections(sourceBaseline,collection),collection),collection),collection),collection),collection),collection);
@@ -66,7 +67,7 @@ export function reverseMechanicsBatchTwo(items,collection) {
    const key=parts.at(-1),array=Array.isArray(parent),index=array?Number(key):key,exists=array?Number.isInteger(index)&&index>=0&&index<parent.length:Object.hasOwn(parent,key);
    const newExists=change.newExists!==false;
    assert.equal(exists,newExists,`${record.id} ${change.path}: approved existence`);
-   if(newExists)assert.deepEqual(parent[index],change.newValue,`${record.id} ${change.path}: approved value`);
+   if(newExists)assert.deepEqual(withoutGeneratedCitationTransport(parent[index]),withoutGeneratedCitationTransport(change.newValue),`${record.id} ${change.path}: approved value`);
    if(change.oldExists){if(array&&!newExists)parent.splice(index,0,structuredClone(change.oldValue));else parent[index]=structuredClone(change.oldValue);}
    else if(array){if(newExists)parent.splice(index,1);}else delete parent[key];
   }

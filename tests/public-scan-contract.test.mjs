@@ -20,7 +20,7 @@ test('every current cited record and available page has a scoped source excerpt'
    pairs++;
   }
  }
- assert.equal(pairs,1856 + 28); // Includes corrected DMG p.51 maneuverability provenance.
+ assert.equal(pairs,1856 + 28 + 73 + 1); // Baseline, prior DMG provenance additions, 73 new records, and Aklys UA 27.
 });
 test('all public catalogs bind to cited pages and checked PNG bytes',()=>{
  const checked=new Map();let regions=0;

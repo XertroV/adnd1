@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "scope": "Current follow-up to the three records historically unmatched to canonical equipment item.price. The frozen185 mapping/value receipt remains unchanged. This does not establish whole-book completeness.",
+  "denominator": {
+    "namedSourceOffers": 188,
+    "canonicalEquipmentPrices": 185,
+    "additionalExtractedOfferFields": 1,
+    "distinctUnrepresentedOrUnresolvedOffers": 2
+  },
+  "records": [
+    {
+      "sourceInventoryFile": "research/price-source-inventory-phb35.json",
+      "sourceInventorySha256": "9a80b0094cbcf41846fcfbeafd88d22433c1213d5c163134bebd20c8d7f8837f",
+      "sourceRecordIndex": 15,
+      "sourceRowId": "phb35-equipment-purchase-016",
+      "sourceObject": "Arrow, normal, dozen",
+      "price": {
+        "amount": 1,
+        "currency": "gp",
+        "unit": "as named",
+        "classification": "printed"
+      },
+      "source": {
+        "book": "PHB",
+        "page": 35,
+        "pdfPage": 36,
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "normalizedPageBounds": [
+          0.523077,
+          0.451923,
+          0.209231,
+          0.012821
+        ]
+      },
+      "disposition": "extracted-separate-field",
+      "itemId": "phb-arrow",
+      "fieldPointer": "/fields/Normal arrows, dozen price",
+      "note": "1 gp/dozen is already extracted separately from2 sp per single arrow. It is not a missing price and must not replace the single-arrow item.price.",
+      "canonicalItemPriceBinding": false
+    },
+    {
+      "sourceInventoryFile": "research/price-source-inventory-phb35.json",
+      "sourceInventorySha256": "9a80b0094cbcf41846fcfbeafd88d22433c1213d5c163134bebd20c8d7f8837f",
+      "sourceRecordIndex": 55,
+      "sourceRowId": "phb35-equipment-purchase-056",
+      "sourceObject": "Sling & Bullets, dozen",
+      "price": {
+        "amount": 15,
+        "currency": "sp",
+        "unit": "as named",
+        "classification": "printed"
+      },
+      "source": {
+        "book": "PHB",
+        "page": 35,
+        "pdfPage": 36,
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "normalizedPageBounds": [
+          0.766154,
+          0.612179,
+          0.208615,
+          0.012821
+        ]
+      },
+      "disposition": "unrepresented-distinct-package",
+      "itemId": null,
+      "fieldPointer": null,
+      "note": "15 sp per dozen for Sling & Bullets is a separate offer. Existing sling-bullet price10 sp per score is not equivalent.",
+      "canonicalItemPriceBinding": false
+    },
+    {
+      "sourceInventoryFile": "research/price-source-inventory-ua26.json",
+      "sourceInventorySha256": "2e93d88a4e9a22fbcf9146db6a836c738f5f64549451ddb90032d621c2689ae0",
+      "sourceRecordIndex": 10,
+      "sourceRowId": "ua26-equipment-supplies-011",
+      "sourceObject": "Quarrels for same",
+      "price": {
+        "amount": 100,
+        "currency": "gp",
+        "unit": null,
+        "classification": "printed"
+      },
+      "source": {
+        "book": "UA",
+        "page": 26,
+        "pdfPage": 27,
+        "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "normalizedPageBounds": [
+          0.023945,
+          0.211566,
+          0.219282,
+          0.015985
+        ]
+      },
+      "disposition": "unresolved-source-offer",
+      "itemId": null,
+      "fieldPointer": null,
+      "note": "100 gp for Quarrels for same remains unrepresented; quantity/equivalence is unresolved. Do not infer a per-bolt price.",
+      "canonicalItemPriceBinding": false
+    }
+  ],
+  "evidence": [
+    "research/equipment-price-context-review.json",
+    "research/equipment-weapon-context-applied-review.json",
+    "research/field-evidence-bindings.json"
+  ]
+}

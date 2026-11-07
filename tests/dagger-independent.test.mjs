@@ -1,6 +1,6 @@
 import {reverseMatrixCellReview} from './fixtures/matrix-baseline.mjs';
 import {reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
-import {withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
+import {withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -16,7 +16,7 @@ const expected={
  'ua28-missile-notes':['UA',28,29,1608,136,'0ff1fd747b85152d2dca21de68bcf49a08c84f6817c05574cb5729e0f89c350a',[.004975,.036765,.939055,.926471]],
 };
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
-const stripExcerpts=v=>Array.isArray(v)?v.map(stripExcerpts):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).filter(([k])=>k!=='sourceExcerpts').map(([k,value])=>[k,stripExcerpts(value)])):v;
+const stripExcerpts=v=>withoutGeneratedCitationTransport(Array.isArray(v)?v.map(stripExcerpts):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).filter(([k])=>k!=='sourceExcerpts').map(([k,value])=>[k,stripExcerpts(value)])):v);
 const canonical=v=>Array.isArray(v)?v.map(canonical):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,canonical(v[k])])):v;
 test('only seven unchanged authorized PNG excerpts plus sanitized manifest are public',()=>{
  assert.equal(catalog.itemId,'phb-dagger');assert.equal(catalog.regions.length,7);

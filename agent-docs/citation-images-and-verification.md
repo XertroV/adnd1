@@ -21,6 +21,10 @@
 
 ## Evidence and coverage
 
+- Before repairing an instance of a systemic problem, capture a programmatic baseline over the entire exposed database, collections and properties for that problem. Preserve known failures from Git as regression fixtures. Record the exact input commit and hashes, denominator, candidates, confirmed findings, uncertainty and cases that cannot be assessed. Then repair the bounded reviewed cases and rerun the same detector. Do not fix away the examples before proving detection.
+- Where semantic context, continuation, qualifier relevance or extraction completeness cannot be proved automatically, inventory the entire unresolved universe and route every case to explicit source review. A heuristic's negative result is not a pass. Keep structural detector outcomes separate from human judgments; do not mask an issue by removing a highlight, changing a status or silently waiving a case.
+- Preserve historical full-image exceptions, but do not infer their scope. The viewer must disclose an unresolved full-image sentinel without covering the source. An intentionally unmarked complete spell needs an explicit current, independently reviewed `scope: "whole-spell"` and `kind: "whole-spell-unmarked"`, bound to the source, image, focus and content hashes; an individual fact still needs precise evidence. A mixed full-image sentinel and partial focus remains unresolved.
+
 - Record the original source identity/hash, edition or printing when established, printed page, PDF page, crop bounds, image SHA and dimensions, image-relative highlights, and exact entry/catalog/region binding.
 - Review against authorized original source files. OCR and automated edge/geometry checks identify candidates; they do not prove correctness or completeness. A full-image rectangle is a suspected highlight issue, not automatically a confirmed semantic error.
 - Record independent review with its exact scope. Bind accepted assessments to source/image/content/focus hashes; default-selection reviews additionally bind the entire ordered page group. Re-review changed evidence instead of copying approvals onto new hashes.

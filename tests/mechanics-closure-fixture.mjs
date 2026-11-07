@@ -1,6 +1,26 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 export const closureCorrections=JSON.parse(readFileSync(new URL('./fixtures/mechanics-closure-corrections.json',import.meta.url),'utf8'));
+const generatedCitationTransport=new Set(['evidenceBindings','regionReviews']);
+function sameSemanticValue(actual,expected) {
+ if(Object.is(actual,expected))return true;
+ if(Array.isArray(actual)||Array.isArray(expected))return Array.isArray(actual)&&Array.isArray(expected)&&actual.length===expected.length&&actual.every((value,index)=>sameSemanticValue(value,expected[index]));
+ if(actual&&expected&&typeof actual==='object'&&typeof expected==='object') {
+  const actualKeys=Object.keys(actual).filter(key=>!generatedCitationTransport.has(key)).sort();
+  const expectedKeys=Object.keys(expected).filter(key=>!generatedCitationTransport.has(key)).sort();
+  return actualKeys.length===expectedKeys.length&&actualKeys.every((key,index)=>key===expectedKeys[index]&&sameSemanticValue(actual[key],expected[key]));
+ }
+ return false;
+}
+function assertSameSemanticValue(actual,expected,message) {
+ assert.ok(sameSemanticValue(actual,expected),message);
+}
+function stripGeneratedCitationTransport(value) {
+ if(Array.isArray(value)){for(const child of value)stripGeneratedCitationTransport(child);return value;}
+ if(value&&typeof value==='object')for(const key of generatedCitationTransport){delete value[key];}
+ if(value&&typeof value==='object')for(const child of Object.values(value))stripGeneratedCitationTransport(child);
+ return value;
+}
 export function reverseClosureCorrections(items,collection) {
  const copy=structuredClone(items);
  for(const record of [...closureCorrections.records].reverse().filter(r=>r.collection===collection)) {
@@ -10,7 +30,7 @@ export function reverseClosureCorrections(items,collection) {
    for(const key of parts.slice(0,-1)) {assert.ok(parent && Object.hasOwn(parent,key),`${record.id} ${c.path}: parent`);parent=parent[key]}
    const key=parts.at(-1),exists=Object.hasOwn(parent,key);
    assert.equal(exists,c.newExists!==false,`${record.id} ${c.path}: current existence`);
-   if(exists)assert.deepEqual(parent[key],c.newValue,`${record.id} ${c.path}: current value`);
+   if(exists)assertSameSemanticValue(parent[key],c.newValue,`${record.id} ${c.path}: current value`);
    if(c.oldExists)parent[key]=structuredClone(c.oldValue);else delete parent[key];
   }
  }
@@ -18,13 +38,13 @@ export function reverseClosureCorrections(items,collection) {
   const item=copy.find(x=>x.id===entry.id);if(!item || !Object.hasOwn(item,'references'))continue;
   const oldRefs=entry.oldValue?.references??[], newRefs=entry.newValue?.references??[];
   for(const ref of newRefs) {
-   if(oldRefs.some(old=>JSON.stringify(old)===JSON.stringify(ref)))continue;
-   const index=item.references.findIndex(candidate=>JSON.stringify(candidate)===JSON.stringify(ref));
+   if(oldRefs.some(old=>sameSemanticValue(old,ref)))continue;
+   const index=item.references.findIndex(candidate=>sameSemanticValue(candidate,ref));
    assert.notEqual(index,-1,`${entry.id}: approved citation reference`);item.references.splice(index,1);
   }
   if(!item.references.length && !oldRefs.length)delete item.references;
  }
- return copy;
+ return stripGeneratedCitationTransport(copy);
 }
 export function validateClosureIndependentReviews(records=closureCorrections.records) {
  let count=0;

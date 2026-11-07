@@ -1,4 +1,4 @@
-import {withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
+import {withoutGeneratedCitationTransport,withoutPriceCompletionEquipment, withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createRequire} from 'node:module';
@@ -44,6 +44,9 @@ function source(ref, context) {
     assert.ok(catalog.regions.some(region=>region.book===ref.book && ref.pages.includes(region.printedPage)), `${context}: cited source excerpt`);
   }else if (ref.status === 'Price visually checked; other mechanics not extracted') {
     assert.ok(citationOverrides.sourceExcerpts[`equipment:${ref.id}`], `${context}: reviewed source excerpt`);
+  }else if(ref.status==='Source context independently reviewed; no Aklys-specific numbered footnote inferred'){
+    assert.equal(context,'ua-aklys-hurled: related reference');
+    assert.deepEqual([ref.book,ref.pages,ref.label],['UA',[27],'Facing-page General Data table and notes (context only)']);
   }else if (/purchase price$/.test(context) && ref.status === 'Selected purchase-price row visually checked') {
     assert.equal(ref.status, 'Selected purchase-price row visually checked');
     const id=context.split(':')[0];
@@ -59,16 +62,19 @@ function source(ref, context) {
 test('assembly preserves every equipment and matrix field from the author checkpoints', () => {
   assert.ok(Array.isArray(assembled.equipment), 'assembled equipment collection is required');
   assert.ok(Array.isArray(assembled.matrices), 'assembled matrices collection is required');
-  const expected=authoredGear.map(item=>({...item,...(citationOverrides.items[item.id]||{}),priceState:citationOverrides.priceStates[item.id],...(citationOverrides.items[item.id]?.references?{references:[...(item.references||[]),...citationOverrides.items[item.id].references]}:{})}));
-  assert.deepEqual(assembled.equipment.map(({sourceExcerpts,...item})=>item), expected, 'equipment and reviewed reference additions must not be omitted or flattened');
-  assert.deepEqual(assembled.matrices.map(({sourceExcerpts,...matrix})=>matrix), authoredMatrices, 'matrix nulls and source notes must survive assembly');
+  const expected=authoredGear.map(item=>({...item,...(citationOverrides.items[item.id]||{}),...(citationOverrides.priceStates?.[item.id]?{priceState:citationOverrides.priceStates[item.id]}:{}),...(citationOverrides.items[item.id]?.references?{references:[...(item.references||[]),...citationOverrides.items[item.id].references]}:{})}));
+  assert.deepEqual(withoutGeneratedCitationTransport(assembled.equipment.map(({sourceExcerpts,...item})=>item)), withoutGeneratedCitationTransport(expected), 'equipment and reviewed reference additions must not be omitted or flattened');
+  assert.deepEqual(withoutGeneratedCitationTransport(assembled.matrices.map(({sourceExcerpts,...matrix})=>matrix)), withoutGeneratedCitationTransport(authoredMatrices), 'matrix nulls and source notes must survive assembly');
 });
 
 for (const [name, gear] of [['authored', authoredGear], ['assembled', assembled.equipment]]) {
-  test(`${name} catalogue distinguishes 84 sourced prices from 4 unavailable prices`, () => {
+  test(`${name} catalogue keeps baseline and 73 completion prices distinct`, () => {
     assert.ok(Array.isArray(gear), 'equipment collection must be assembled');
+    assert.equal(withoutPriceCompletionEquipment(gear).length, 116, 'the completion fixture reverses to the pinned baseline population');
     assert.equal(withoutSourceFirstEquipment(gear).length, 88);
-    assert.equal(new Set(gear.map(item => item.id)).size, 116, 'stable unique equipment identifiers');
+    assert.equal(new Set(gear.map(item => item.id)).size, 189, 'stable unique equipment identifiers after 73 additions');
+    assert.equal(withoutPriceCompletionEquipment(gear).filter(item => item.price !== null).length, 112, 'the pinned baseline contains 112 purchase prices');
+    assert.equal(gear.filter(item => item.price !== null).length, 185, '112 baseline prices plus 73 reviewed prices');
     assert.equal(withoutSourceFirstEquipment(gear).filter(item => item.price !== null).length, 84);
     assert.equal(gear.filter(item => item.price === null).length, 4);
     for (const item of gear) {
@@ -78,7 +84,7 @@ for (const [name, gear] of [['authored', authoredGear], ['assembled', assembled.
         assert.ok(typeof item.priceNote === 'string' && item.priceNote.trim(), `${item.id}: explain the unavailable price`);
       } else {
         assert.ok(Number.isFinite(item.price.amount) && item.price.amount > 0, `${item.id}: positive source price`);
-        assert.ok(['gp', 'sp', 'cp'].includes(item.price.currency), `${item.id}: purchase currency`);
+        assert.ok(['gp', 'sp', 'cp', 'ep'].includes(item.price.currency), `${item.id}: purchase currency`);
         source(item.price, `${item.id}: purchase price`);
       }
     }

@@ -56,3 +56,10 @@
 
 
 .build-details{font-size:10px;line-height:1.6;margin-top:15px;color:#c5cfc1}.build-details span,.build-details time{display:block}.build-details time{white-space:nowrap}
+/* Keep related spell choices compact, and avoid a second class selector. */
+.spell-quick-filters.spell-filters{grid-template-columns:max-content minmax(0,1fr);gap:20px;padding:12px 0}
+.spell-filters .spell-toggle-group legend{margin-bottom:6px}
+.spell-filters .spell-toggle-group>p{margin-top:5px}
+.filters .class-precision-filter{display:none}
+@media(max-width:1100px){.spell-quick-filters.spell-filters{grid-template-columns:minmax(0,1fr);gap:12px}}
+@media(max-width:760px){.spell-class-filter .spell-toggle-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.spell-class-filter .spell-toggle{min-width:44px;padding:6px;font-size:11px}}

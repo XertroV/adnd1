@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {equipmentCompletenessCorrections,reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
+import {withoutGeneratedCitationTransport} from './equipment-source-first-fixture.mjs';
 const data=JSON.parse(readFileSync(new URL('../dist/data.json',import.meta.url),'utf8'));
 const find=id=>{const item=data.equipment.find(x=>x.id===id);assert.ok(item,id);return item};
 const get=(obj,p)=>p.split('/').slice(1).map(x=>x.replaceAll('~1','/').replaceAll('~0','~')).reduce((x,k)=>x[k],obj);
@@ -14,7 +15,7 @@ test('every added equipment field is bound to an independent confirmed old/new s
  assert.equal(changes.filter(c=>c.path==='/summary').length,7);
  const reversed=reverseApprovedEquipmentChanges(data.equipment);
  for(const r of records) for(const c of r.changes){
-  assert.deepEqual(get(find(r.id),c.path),c.newValue,`${r.id} ${c.path}: approved current value`);
+  assert.deepEqual(withoutGeneratedCitationTransport(get(find(r.id),c.path)),withoutGeneratedCitationTransport(c.newValue),`${r.id} ${c.path}: approved current value`);
   const review=c.independentReview;
   if(c.path.startsWith('/fields/')){
    assert.ok(review,`${r.id} ${c.path}: independent review`);

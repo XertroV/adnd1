@@ -13,13 +13,18 @@ const allow = {
   matrices: ['armorClasses','rows','notes','ruleNotes','comparisonExamples'],
   progressionExplainer: ['description','sections','terminologyNotes'],
 };
-const excluded = new Set(['book','pages','page','pdfPage','status','incomplete','id','label','references','reference','source','sources','sourceExcerpts','sourceSha256','verification','checkedOn','additionalSources']);
+const excluded = new Set(['book','pages','page','pdfPage','status','incomplete','id','label','references','reference','source','sources','sourceExcerpts','sourceSha256','verification','checkedOn','additionalSources','evidenceBindings','regionReviews']);
 const priceKeys = new Set(['amount','currency','unit']);
 const suggestionKeys = new Set(['amount','currency','unit','rationale']);
 const esc = s => String(s).replaceAll('~','~0').replaceAll('/','~1');
 const unesc = s => s.replaceAll('~1','/').replaceAll('~0','~');
 const containsPath = (parent, child) => parent === '' || parent === '/' || child === parent || child.startsWith(parent + '/');
-export const dataHash = data => createHash('sha256').update(JSON.stringify(data)).digest('hex');
+function stripCitationTransport(value) {
+  if(Array.isArray(value))return value.map(stripCitationTransport);
+  if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).filter(([key])=>!['evidenceBindings','regionReviews'].includes(key)).map(([key,child])=>[key,stripCitationTransport(child)]));
+  return value;
+}
+export const dataHash = data => createHash('sha256').update(JSON.stringify(stripCitationTransport(data))).digest('hex');
 export function getPointer(object, pointer) {
   if (pointer === '' || pointer === '/') return object;
   let value = object;
@@ -58,7 +63,7 @@ function normalizeReviews(proposals,data,previousReviews=[]) {
     const prior=previousReviews.find(p=>p.checker===checker&&p.collection===r.collection&&p.id===r.id);
     const item=r.collection==='progressionExplainer'?data.progressionExplainer:data[r.collection]?.find(x=>x.id===r.id);
     const checkedPaths=r.checkedPaths||[];
-    const checkedValues=Object.fromEntries((item?fieldsFor(r.collection,item):[]).filter(f=>checkedPaths.some(p=>containsPath(p,f.path))).map(f=>[f.path,prior?.checkedValues&&Object.hasOwn(prior.checkedValues,f.path)?prior.checkedValues[f.path]:f.value]));
+    const checkedValues=Object.fromEntries((item?fieldsFor(r.collection,item):[]).filter(f=>checkedPaths.some(p=>containsPath(p,f.path))).map(f=>[f.path,prior?.checkedValues&&Object.hasOwn(prior.checkedValues,f.path)?prior.checkedValues[f.path]:stripCitationTransport(f.value)]));
     return {checker,collection:r.collection,id:r.id,checkedPaths,checkedValues,reviewedPaths:sanitized(r.reviewedPaths||[]),sources:sanitized(r.sources || []),unresolved:sanitized(r.unresolved || []),changes:sanitized(r.changes || [])};
   }));
 }
@@ -75,8 +80,8 @@ export function buildLedger(data, proposals, {alreadyNormalized=false,previousRe
       const key = `${collection}\0${id}`; const matching = byKey.get(key) || []; byKey.delete(key);
       const evaluated=[];
       for (const review of matching) for (const change of review.changes) {
-        const actual=getPointer(item,change.path); const current=actual === undefined ? null : actual;
-        let state=isDeepStrictEqual(current,change.newValue) ? 'corrected-and-checked' : isDeepStrictEqual(current,change.oldValue) ? 'correction-proposed' : 'stale-proposal';
+        const actual=getPointer(item,change.path); const current=actual === undefined ? null : stripCitationTransport(actual);
+        let state=isDeepStrictEqual(current,stripCitationTransport(change.newValue)) ? 'corrected-and-checked' : isDeepStrictEqual(current,stripCitationTransport(change.oldValue)) ? 'correction-proposed' : 'stale-proposal';
         if(state==='stale-proposal') staleChanges.push({collection,id,checker:review.checker,path:change.path,currentValue:current,oldValue:change.oldValue,newValue:change.newValue});
         evaluated.push({checker:review.checker,...change,state});
       }
@@ -84,7 +89,7 @@ export function buildLedger(data, proposals, {alreadyNormalized=false,previousRe
         const related=evaluated.filter(c=>containsPath(c.path,field.path)||containsPath(field.path,c.path));
         const unresolved=matching.flatMap(r=>r.unresolved.filter(u=>u && typeof u==='object' && typeof u.path==='string' && (containsPath(u.path,field.path)||containsPath(field.path,u.path))).map(u=>({checker:r.checker,...u})));
         const checkers=matching.filter(r=>r.checkedPaths.some(p=>typeof p==='string' && containsPath(p,field.path))).map(r=>r.checker);
-        const staleCheck=matching.some(r=>r.checkedValues&&Object.hasOwn(r.checkedValues,field.path)&&!isDeepStrictEqual(r.checkedValues[field.path],field.value));
+        const staleCheck=matching.some(r=>r.checkedValues&&Object.hasOwn(r.checkedValues,field.path)&&!isDeepStrictEqual(stripCitationTransport(r.checkedValues[field.path]),stripCitationTransport(field.value)));
         const editorial=matching.some(r=>(r.reviewedPaths||[]).some(p=>containsPath(p.path,field.path)&&/editorial|advice/i.test(p.result||'')));
         let status;
         if (related.some(c=>c.state==='stale-proposal')) status='stale-proposal';
@@ -110,7 +115,7 @@ export function buildLedger(data, proposals, {alreadyNormalized=false,previousRe
   const keys={'source-checked':'unchangedSourceCheckedFields','corrected-and-checked':'correctedAndCheckedFields','correction-proposed':'correctionPendingFields','not-extracted':'notExtractedFields','source-conflict':'sourceConflictFields','editorial-reviewed':'editorialReviewedFields','stale-proposal':'staleProposalFields','unchecked':'uncheckedFields'};
   for (const r of records) for (const f of r.fields) {counts.totalFields++;counts[keys[f.status]]++;if(f.status==='source-checked'||f.status==='corrected-and-checked')counts.sourceCheckedFields++;if(f.inspected)counts.inspectedFields++;}
   const pct=n=>counts.totalFields ? Number((100*n/counts.totalFields).toFixed(2)) : 0;
-  return {schemaVersion:1,input:{path:'dist/data.json',sha256:dataHash(data),hashFormat:'SHA-256 of JSON.stringify(parsed data)',denominator:'Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.',countSemantics:'Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap.'},counts,percentages:{inspectedFields:pct(counts.inspectedFields),sourceCheckedFields:pct(counts.sourceCheckedFields),unchangedSourceCheckedFields:pct(counts.unchangedSourceCheckedFields),correctedAndCheckedFields:pct(counts.correctedAndCheckedFields),correctionPendingFields:pct(counts.correctionPendingFields),notExtractedFields:pct(counts.notExtractedFields),uncheckedFields:pct(counts.uncheckedFields)},records,reviewRecords:reviews,validation:{staleChanges,orphanReviews}};
+  return {schemaVersion:1,input:{path:'dist/data.json',sha256:dataHash(data),hashFormat:'mechanics-only SHA-256 of JSON.stringify(parsed data after recursively removing generated evidenceBindings and regionReviews transport metadata; distinct from raw data.json/provenance hashes)',denominator:'Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.',countSemantics:'Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap.'},counts,percentages:{inspectedFields:pct(counts.inspectedFields),sourceCheckedFields:pct(counts.sourceCheckedFields),unchangedSourceCheckedFields:pct(counts.unchangedSourceCheckedFields),correctedAndCheckedFields:pct(counts.correctedAndCheckedFields),correctionPendingFields:pct(counts.correctionPendingFields),notExtractedFields:pct(counts.notExtractedFields),uncheckedFields:pct(counts.uncheckedFields)},records,reviewRecords:reviews,validation:{staleChanges,orphanReviews}};
 }
 export function validateLedger(ledger,data) {
   const errors=[];

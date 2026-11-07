@@ -15,6 +15,8 @@
   let excerptCatalog, excerptSource = null, excerptError = '', excerptLoading = false, catalogRequest = 0;
   let requestedMode = 'pdf', regionIndex = 0, showHighlights = true, actualSize = false, session = 0;
   let copySourceLink = null, onViewerClose = null, onSourceChange = null, requestedInitialRegion = null;
+  let targets = [], targetStatus = '', pendingTargetPage = null, unavailableTarget = null, targetDismissed = false;
+  let activeTarget = null;
   let imageFit = false, privacyDismissed = false;
   const imageCache = new Map(), catalogCache = new Map(), cacheLimit = 64;
   function cacheGet(cache, key) {
@@ -43,7 +45,7 @@
     if (!legacyPath && !verifiedPath) return null;
     const url = new URL(path, scriptBase);
     if (url.origin !== location.origin) return null;
-    return { itemId, name: item?.name || item?.title || 'this entry', url: url.href, legacy, legacyPath, collection, state: verification?.state, regionCount: verification?.regionCount };
+    return { itemId, name: item?.name || item?.title || 'this entry', url: url.href, legacy, legacyPath, collection, state: verification?.state, regionCount: verification?.regionCount, regionReviews: Array.isArray(verification?.regionReviews) ? verification.regionReviews : [] };
   }
   function normalize(references) {
     const result = [], seen = new Set();
@@ -108,12 +110,19 @@
     el.excerptMode = button('View excerpts', () => setMode('excerpts'), { 'aria-pressed': 'false' });
     el.pdfMode = button('Your PDF', () => setMode('pdf'), { 'aria-pressed': 'true' });
     el.modes.append(el.excerptMode, el.pdfMode);
-    el.copyLink = button('Copy source link', () => { if (refs[current] && copySourceLink) copySourceLink(refs[current], viewingExcerpts() ? matchingRegions()[regionIndex]?.id : null); }, { class: 'source-viewer-secondary', 'aria-label': 'Copy link to this source page' });
+    el.copyLink = button('Copy source link', () => {
+      if (!refs[current] || !copySourceLink) return;
+      const issue = targetIssue(refs[current]);
+      const region = issue?.type === 'stale' ? issue.id : issue?.type === 'pending' ? null : viewingExcerpts() ? matchingRegions()[regionIndex]?.id : null;
+      copySourceLink(refs[current], region, sourceChangeMeta(refs[current], region, issue));
+    }, { class: 'source-viewer-secondary', 'aria-label': 'Copy link to this source page' });
     el.headerActions.append(el.modes, el.copyLink, el.close);
     el.excerptNotice = node('div', { class: 'source-viewer-excerpt-notice', role: 'status' });
     el.excerptNoticeText = node('p');
     el.retry = button('Retry verified excerpts', () => loadExcerpts(true));
     el.excerptNotice.append(el.excerptNoticeText, el.retry);
+    el.targetNotice = node('p', { class: 'source-viewer-target-notice', role: 'status', 'aria-live': 'polite' });
+    el.highlightNotice = node('p', { class: 'source-viewer-highlight-notice', role: 'status', 'aria-live': 'polite' });
     el.fileRow = node('div', { class: 'source-viewer-file-row' });
     const fileLabel = node('label', { class: 'source-viewer-file-label', for: 'source-viewer-file' });
     el.fileAction = node('span', {}, 'Open your copy');
@@ -131,7 +140,7 @@
     const controls = node('div', { class: 'source-viewer-controls' });
     el.previous = button('← Previous', () => navigate(-1), { 'aria-label': 'Previous cited page' });
     el.select = node('select', { 'aria-label': 'Select cited page' });
-    el.select.addEventListener('change', () => { current = Number(el.select.value); resetZoom(); regionIndex = 0; update(); notifySourceChange(); });
+    el.select.addEventListener('change', () => { current = Number(el.select.value); resetZoom(); regionIndex = defaultRegionIndex(refs[current]); update(); notifySourceChange(); });
     el.next = button('Next →', () => navigate(1), { 'aria-label': 'Next cited page' });
     const zoomControls = node('div', { class: 'source-viewer-zoom', role: 'group', 'aria-label': 'Page zoom' });
     el.zoomOut = button('−', () => changeZoom(-.25), { 'aria-label': 'Zoom out' });
@@ -144,7 +153,25 @@
     el.regions = node('div', { class: 'source-viewer-regions' });
     el.regionLabel = node('label', { for: 'source-viewer-region' }, 'Excerpt on this page');
     el.regionSelect = node('select', { id: 'source-viewer-region' });
-    el.regionSelect.addEventListener('change', () => { regionIndex = Number(el.regionSelect.value); resetZoom(); renderPage(); notifySourceChange(); });
+    el.regionSelect.addEventListener('change', () => {
+      const selected = Number(el.regionSelect.value);
+      if (selected < 0) return;
+      regionIndex = selected;
+      const ref = refs[current];
+      const previousIssue = targetIssue(ref);
+      const selectedRegion = matchingRegions()[selected];
+      const selectedTarget = targetForPage(ref);
+      const targetMatches = selectedTarget && isResolvedTarget(selectedTarget) && selectedTarget.regionIds.includes(selectedRegion?.id);
+      if (!targetMatches && (selectedTarget || previousIssue || targetPageMatches(requestedInitialRegion, ref))) targetDismissed = true;
+      if (ref && targetPageMatches(unavailableTarget, ref)) unavailableTarget = null;
+      if (ref && targetPageMatches(pendingTargetPage, ref)) { pendingTargetPage = null; targetStatus = ''; }
+      if (ref && targetPageMatches(requestedInitialRegion, ref)) requestedInitialRegion = null;
+      if (!targetMatches) {
+        activeTarget = null;
+        targetStatus = '';
+      }
+      resetZoom(); update(); notifySourceChange();
+    });
     el.highlights = button('Highlights on', () => {
       showHighlights = !showHighlights;
       el.highlights.setAttribute('aria-pressed', String(showHighlights));
@@ -177,7 +204,7 @@
     el.textDetails.append(node('small', { class: 'source-viewer-text-note' }, 'Text comes from your PDF and may contain OCR errors. Check the scan for exact wording.'));
     el.text = node('p');
     el.textDetails.append(el.text);
-    main.append(sourceHead, el.excerptNotice, el.fileRow, el.editionHelp, controls, el.regions, el.pageTitle, el.status, el.stage, el.caption, el.regionStatus, el.textDetails, el.provenance);
+    main.append(sourceHead, el.targetNotice, el.excerptNotice, el.fileRow, el.editionHelp, controls, el.regions, el.pageTitle, el.status, el.highlightNotice, el.stage, el.caption, el.regionStatus, el.textDetails, el.provenance);
     layout.append(aside, main);
     shell.append(header, el.privacyNotice, layout);
     dialog.append(shell);
@@ -212,7 +239,7 @@
     });
     root.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { if (dialog.open) renderPage(); }, 150); });
   }
-  function open({ item, references, contextItemId, initialReference, onCopyLink, onClose, onChange } = {}) {
+  function open({ item, references, contextItemId, initialReference, targets: requestedTargets, activeTarget: requestedActiveTarget, targetStatus: requestedTargetStatus, onCopyLink, onClose, onChange } = {}) {
     setup();
     copySourceLink = typeof onCopyLink === 'function' ? onCopyLink : null; onViewerClose = typeof onClose === 'function' ? onClose : null; onSourceChange = typeof onChange === 'function' ? onChange : null;
     el.copyLink.hidden = !copySourceLink;
@@ -221,12 +248,22 @@
     excerptSource = resolveExcerptSource(item, contextItemId);
     excerptCatalog = null; excerptLoading = false; excerptError = '';
     requestedMode = excerptSource ? 'excerpts' : 'pdf';
-    refs = normalize(references);
+    targets = normalizeTargets(requestedTargets);
+    activeTarget = normalizeActiveTarget(requestedActiveTarget);
+    targetDismissed = false;
+    refs = orderReferencesByTargets(normalize(references), targets);
     const initialBook = books()?.code(initialReference?.book);
     const initialPage = Number(initialReference?.page);
     const initialIndex = refs.findIndex(ref => ref.book === initialBook && ref.page === initialPage);
     current = initialIndex < 0 ? 0 : initialIndex; resetZoom(); regionIndex = 0; showHighlights = true;
     requestedInitialRegion = initialIndex >= 0 && typeof initialReference?.region === 'string' ? { book: initialBook, page: initialPage, id: initialReference.region } : null;
+    targetStatus = requestedTargetStatus === 'pending' && activeTarget?.fieldPointer ? 'pending' : '';
+    pendingTargetPage = targetStatus === 'pending'
+      ? (initialIndex >= 0 ? { book: initialBook, page: initialPage } : targets.find(target => !target.regionIds.length) || null)
+      : null;
+    unavailableTarget = null;
+    if (targetPageMatches(pendingTargetPage, refs[current])) { regionIndex = -1; requestedMode = 'pdf'; }
+    else if (requestedInitialRegion) regionIndex = -1;
     returnFocus = document.activeElement;
     el.privacyNotice.hidden = privacyDismissed;
     if (privacyDismissed) dialog.removeAttribute('aria-describedby');
@@ -235,7 +272,7 @@
     el.referenceList.replaceChildren(); el.select.replaceChildren();
     refs.forEach((ref, i) => {
       const label = `${title(ref.book)} · p. ${ref.page}`;
-      const b = button(label, () => { current = i; resetZoom(); regionIndex = 0; update(); notifySourceChange(); }, { class: 'source-viewer-reference', 'data-source-index': i });
+      const b = button(label, () => { current = i; resetZoom(); regionIndex = defaultRegionIndex(refs[current]); update(); notifySourceChange(); }, { class: 'source-viewer-reference', 'data-source-index': i });
       el.referenceList.append(b);
       el.select.append(node('option', { value: i }, `${ref.book} p. ${ref.page}`));
     });
@@ -245,7 +282,6 @@
     el.close.focus({ preventScroll: true });
     if (excerptSource) loadExcerpts();
   }
-  function resetZoom() { zoom = 1; actualSize = false; imageFit = false; }
   function setMode(mode) {
     requestedMode = mode; resetZoom();
     if (mode === 'excerpts' && excerptError) loadExcerpts(true);
@@ -254,14 +290,124 @@
   function navigate(delta) {
     const next = current + delta;
     if (next < 0 || next >= refs.length) return;
-    current = next; resetZoom(); regionIndex = 0; update(); notifySourceChange();
+    current = next; resetZoom(); regionIndex = defaultRegionIndex(refs[current]); update(); notifySourceChange();
   }
   function changeZoom(delta) { zoom = Math.min(viewingExcerpts() ? 4 : 3, Math.max(.5, zoom + delta)); renderPage(); }
-  function notifySourceChange() { if (refs[current] && onSourceChange) onSourceChange(refs[current], viewingExcerpts() ? matchingRegions()[regionIndex]?.id : null); }
+  function notifySourceChange() {
+    if (!refs[current] || !onSourceChange) return;
+    const issue = targetIssue(refs[current]);
+    const regionId = issue?.type === 'stale' ? issue.id : issue?.type === 'pending' ? null : viewingExcerpts() ? matchingRegions()[regionIndex]?.id : null;
+    onSourceChange(refs[current], regionId, sourceChangeMeta(refs[current], regionId, issue));
+  }
   function specificFocusRects(rects) { return rects.filter(([x,y,w,h]) => !(x === 0 && y === 0 && w === 1 && h === 1)); }
+  function fullImageSentinel(rect) { return Array.isArray(rect) && rect.length === 4 && rect[0] === 0 && rect[1] === 0 && rect[2] === 1 && rect[3] === 1; }
+  function canonical(value) {
+    if (Array.isArray(value)) return `[${value.map(canonical).join(',')}]`;
+    if (value !== null && typeof value === 'object') return `{${Object.keys(value).sort().map(key => `${JSON.stringify(key)}:${canonical(value[key])}`).join(',')}}`;
+    return JSON.stringify(value);
+  }
+  async function sha256Hex(value) {
+    if (!root.crypto?.subtle || !root.TextEncoder) return '';
+    const digest = await root.crypto.subtle.digest('SHA-256', new root.TextEncoder().encode(value));
+    return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2,'0')).join('');
+  }
+  async function reviewedWholeSpell(region) {
+    const record = excerptSource?.regionReviews?.find(candidate => candidate.regionId === region.id);
+    const catalogSource = excerptCatalog?.sources?.[region.book];
+    const review = record?.review;
+    if (!record || record.status !== 'current-reviewed' || record.sentinel !== true || review?.status !== 'exception' || review.independent !== true || review.scope !== 'whole-spell' || review.kind !== 'whole-spell-unmarked') return false;
+    const sourceHash = catalogSource?.sha256 || '';
+    const imageHash = region.sha256 || '';
+    const focusHash = await sha256Hex(canonical(region.focusRects || []));
+    const {focusRects, ...content} = region;
+    const contentHash = await sha256Hex(canonical(content));
+    return !!sourceHash && record.sourceSha256 === sourceHash && record.imageSha256 === imageHash && record.focusSha256 === focusHash && record.contentSha256 === contentHash;
+  }
+  function normalizeSourceOwner(value) {
+    if (!value || typeof value !== 'object' || Array.isArray(value) || typeof value.collection !== 'string' || !/^[a-z][A-Za-z0-9-]{0,40}$/.test(value.collection) || typeof value.itemId !== 'string' || !/^[a-z0-9][a-z0-9-]{0,100}$/.test(value.itemId)) return null;
+    return { collection: value.collection, itemId: value.itemId };
+  }
+  function normalizeTargets(input) {
+    const normalized = [];
+    for (const target of Array.isArray(input) ? input : []) {
+      const book = books()?.code(target?.book) || target?.book;
+      const page = Number(target?.page);
+      if (!Object.hasOwn(books()?.books || {}, book) || !Number.isInteger(page) || page < 1) continue;
+      const regionIds = [...new Set((Array.isArray(target.regionIds) ? target.regionIds : []).filter(id => typeof id === 'string' && /^[a-z0-9][a-z0-9-]{0,100}$/.test(id)))];
+      normalized.push({ book, page, regionIds, label: typeof target.label === 'string' ? target.label : '', status: typeof target.status === 'string' ? target.status : '', targetStatus: typeof target.targetStatus === 'string' ? target.targetStatus : '', reviewStatus: typeof target.reviewStatus === 'string' ? target.reviewStatus : '', fieldPointer: typeof target.fieldPointer === 'string' ? target.fieldPointer : '', sourceObject: typeof target.sourceObject === 'string' ? target.sourceObject : '', sourceCategory: typeof target.sourceCategory === 'string' ? target.sourceCategory : '', contextStatus: typeof target.contextStatus === 'string' ? target.contextStatus : '', contextLimitations: Array.isArray(target.contextLimitations) ? target.contextLimitations.filter(value => typeof value === 'string') : [], coordinateSpace: typeof target.coordinateSpace === 'string' ? target.coordinateSpace : '', catalog: typeof target.catalog === 'string' ? target.catalog : '', pdfPage: Number.isInteger(target.pdfPage) ? target.pdfPage : null, ...(normalizeSourceOwner(target.fieldOwner) ? { fieldOwner: normalizeSourceOwner(target.fieldOwner) } : {}), ...(normalizeSourceOwner(target.sourceOwner) ? { sourceOwner: normalizeSourceOwner(target.sourceOwner) } : {}) });
+    }
+    return normalized;
+  }
+  function normalizeActiveTarget(target) {
+    const book = books()?.code(target?.book) || target?.book;
+    const page = Number(target?.page);
+    if (!target || !Object.hasOwn(books()?.books || {}, book) || !Number.isInteger(page) || page < 1) return null;
+    const regionIds = [...new Set((Array.isArray(target.regionIds) ? target.regionIds : []).filter(id => typeof id === 'string' && /^[a-z0-9][a-z0-9-]{0,100}$/.test(id)))];
+    return { book, page, regionIds, label: typeof target.label === 'string' ? target.label : '', status: typeof target.status === 'string' ? target.status : '', targetStatus: typeof target.targetStatus === 'string' ? target.targetStatus : '', reviewStatus: typeof target.reviewStatus === 'string' ? target.reviewStatus : '', fieldPointer: typeof target.fieldPointer === 'string' ? target.fieldPointer : '', sourceObject: typeof target.sourceObject === 'string' ? target.sourceObject : '', sourceCategory: typeof target.sourceCategory === 'string' ? target.sourceCategory : '', contextStatus: typeof target.contextStatus === 'string' ? target.contextStatus : '', contextLimitations: Array.isArray(target.contextLimitations) ? target.contextLimitations.filter(value => typeof value === 'string') : [], coordinateSpace: typeof target.coordinateSpace === 'string' ? target.coordinateSpace : '', catalog: typeof target.catalog === 'string' ? target.catalog : '', pdfPage: Number.isInteger(target.pdfPage) ? target.pdfPage : null, ...(normalizeSourceOwner(target.fieldOwner) ? { fieldOwner: normalizeSourceOwner(target.fieldOwner) } : {}), ...(normalizeSourceOwner(target.sourceOwner) ? { sourceOwner: normalizeSourceOwner(target.sourceOwner) } : {}) };
+  }
+  function targetPageMatches(target, ref) { return !!target && !!ref && target.book === ref.book && target.page === ref.page; }
+  function isResolvedTarget(target) { return !!target && (target.targetStatus === 'resolved' || ['field-target-reviewed','region-verified'].includes(target.reviewStatus)); }
+  function targetForPage(ref) {
+    if (!ref || targetDismissed || !activeTarget?.fieldPointer) return null;
+    const target = targets.find(candidate => targetPageMatches(candidate, ref) && candidate.fieldPointer === activeTarget.fieldPointer);
+    if (target) return target;
+    return targetPageMatches(activeTarget, ref) ? activeTarget : null;
+  }
+  function targetRegionIds(ref) {
+    if (targetDismissed || !activeTarget?.fieldPointer) return [];
+    const ids = targets.filter(target => targetPageMatches(target, ref) && target.fieldPointer === activeTarget.fieldPointer && isResolvedTarget(target)).flatMap(target => target.regionIds);
+    return [...new Set(ids)];
+  }
+  function orderReferencesByTargets(references, orderedTargets) {
+    const order = new Map();
+    for (const target of orderedTargets) {
+      const key = `${target.book}:${target.page}`;
+      if (!order.has(key)) order.set(key, order.size);
+    }
+    return references.map((ref, index) => ({ ref, index, order: order.get(`${ref.book}:${ref.page}`) ?? Number.MAX_SAFE_INTEGER }))
+      .sort((a,b) => a.order - b.order || a.index - b.index).map(row => row.ref);
+  }
+  function targetIssue(ref) {
+    if (targetPageMatches(unavailableTarget, ref)) return { type: 'stale', id: unavailableTarget.id };
+    const target = targetForPage(ref);
+    if (target && !isResolvedTarget(target)) return { type: 'pending' };
+    if (targetStatus === 'pending' && targetPageMatches(pendingTargetPage, ref)) return { type: 'pending' };
+    return null;
+  }
+  function sourceChangeMeta(ref, regionId, issue = targetIssue(ref)) {
+    if (targetDismissed) return { activeTarget: false };
+    const target = targetForPage(ref);
+    if (issue?.type === 'pending') return { targetStatus: 'pending', activeTarget: target || activeTarget || false };
+    if (issue?.type === 'stale') return { targetStatus: 'resolved', activeTarget: target || activeTarget || false };
+    if (regionId && target && isResolvedTarget(target) && target.regionIds.includes(regionId)) return { targetStatus: 'resolved', activeTarget: target };
+    if (activeTarget) return { activeTarget: false };
+    return undefined;
+  }
+  function defaultRegionIndex(ref) {
+    const issue = targetIssue(ref);
+    if (issue) return -1;
+    if (!excerptCatalog) return 0;
+    const regions = matchingRegions();
+    const requested = targetPageMatches(requestedInitialRegion, ref) ? requestedInitialRegion.id : targetRegionIds(ref)[0];
+    if (requested) {
+      const index = regions.findIndex(region => region.id === requested);
+      if (index < 0) { unavailableTarget = { book: ref.book, page: ref.page, id: requested }; return -1; }
+      unavailableTarget = null;
+      return index;
+    }
+    return 0;
+  }
+  function resetZoom() { zoom = 1; actualSize = false; imageFit = false; }
   function matchingRegions() {
     const ref = refs[current];
-    return excerptSource && ref && excerptCatalog?.itemId === excerptSource.itemId ? excerptCatalog.regions.filter(region => region.book === ref.book && region.printedPage === ref.page).sort((a,b) => Number(a.role === 'context') - Number(b.role === 'context')) : [];
+    if (!excerptSource || !ref || excerptCatalog?.itemId !== excerptSource.itemId) return [];
+    const available = excerptCatalog.regions.filter(region => region.book === ref.book && region.printedPage === ref.page).sort((a,b) => Number(a.role === 'context') - Number(b.role === 'context'));
+    const targetIds = targetRegionIds(ref);
+    if (!targetIds.length) return available;
+    const byId = new Map(available.map(region => [region.id, region]));
+    const targeted = targetIds.map(id => byId.get(id)).filter(Boolean);
+    const included = new Set(targeted.map(region => region.id));
+    return [...targeted, ...available.filter(region => !included.has(region.id))];
   }
   function viewingExcerpts() {
     const ref = refs[current];
@@ -312,11 +458,7 @@
       const catalog = validateCatalog(await cached.promise, source);
       if (requestSession !== session || request !== catalogRequest || excerptSource !== source || !dialog.open) return;
       excerptCatalog = catalog;
-      if (requestedInitialRegion && refs[current]?.book === requestedInitialRegion.book && refs[current]?.page === requestedInitialRegion.page) {
-        const found = matchingRegions().findIndex(region => region.id === requestedInitialRegion.id);
-        regionIndex = found < 0 ? 0 : found;
-      }
-      requestedInitialRegion = null;
+      regionIndex = defaultRegionIndex(refs[current]);
       excerptLoading = false;
       update();
     } catch {
@@ -336,10 +478,19 @@
     el.select.disabled = !ref;
     el.edition.textContent = ref ? editions[ref.book] : 'No source pages available';
     el.mapping.textContent = ref ? books().mapping(ref.book) : 'This entry does not yet have a supported printed-page citation.';
-    el.labels.textContent = ref?.labels.join(' · ') || '';
+    const fieldTarget = targetForPage(ref);
+    el.labels.textContent = fieldTarget
+      ? `Field target: ${fieldTarget.label || fieldTarget.fieldPointer || 'Citation target'}${fieldTarget.status ? ` · ${fieldTarget.status}` : ''}`
+      : ref?.labels.length ? `Page citations: ${ref.labels.join(' · ')}` : '';
     const excerpts = viewingExcerpts();
     const regions = matchingRegions();
     const privateOnly = !!(ref && excerptCatalog && !regions.length && books().privateEvidence(ref.book, ref.page));
+    const issue = targetIssue(ref);
+    el.targetNotice.hidden = !issue;
+    const fieldLabel = fieldTarget?.label || fieldTarget?.fieldPointer;
+    el.targetNotice.textContent = issue?.type === 'stale'
+      ? `The linked excerpt “${issue.id}” is not available for this page in the current catalog. Choose another excerpt or open your PDF.`
+      : issue?.type === 'pending' ? `${fieldLabel ? `The field target “${fieldLabel}”` : 'This citation'} has no reviewed excerpt mapping yet. The cited page is open in your PDF view; choose an excerpt only if it supports the field.` : '';
     el.modes.hidden = !excerptSource;
     el.excerptMode.disabled = excerptLoading || !!excerptCatalog && !regions.length && !privateOnly;
     el.excerptMode.setAttribute('aria-pressed', String(excerpts));
@@ -349,12 +500,15 @@
       : excerpts ? excerptSource.state === 'source-excerpt-checked' ? `${excerptSource.name}: these limited source excerpts have been checked for the cited passage; the entry's extracted values retain their existing status. Complete source PDFs are not hosted. Your own PDF can be opened privately.` : `${excerptSource.name}: only the selected values and accompanying notes in these limited excerpts have been checked. Complete source PDFs are not hosted. Your own PDF can be opened privately.`
       : 'Open your own PDF to read the cited pages. Your file stays in this tab; it is never uploaded or saved by this site.';
     el.fileRow.hidden = el.editionHelp.hidden = excerpts;
-    el.regions.hidden = !excerpts || !regions.length;
-    el.regionSelect.replaceChildren(...regions.map((region, i) => node('option', { value: i }, region.title)));
-    if (regionIndex >= regions.length) regionIndex = 0;
+    el.regions.hidden = !excerpts || !regions.length && !issue;
+    const regionOptions = [];
+    if (issue) regionOptions.push(node('option', { value: -1, disabled: '' }, issue.type === 'stale' ? 'Requested excerpt unavailable' : 'No field excerpt mapped'));
+    regionOptions.push(...regions.map((region, i) => node('option', { value: i }, region.title)));
+    el.regionSelect.replaceChildren(...regionOptions);
+    if (!issue && (regionIndex < 0 || regionIndex >= regions.length)) regionIndex = 0;
     el.regionSelect.value = String(regionIndex);
-    el.regionSelect.disabled = regions.length < 2;
-    el.regionLabel.hidden = el.regionSelect.hidden = regions.length < 2;
+    el.regionSelect.disabled = regions.length < 2 && !issue;
+    el.regionLabel.hidden = el.regionSelect.hidden = regions.length < 2 && !issue;
     el.highlights.setAttribute('aria-pressed', String(showHighlights));
     el.highlights.textContent = showHighlights ? 'Highlights on' : 'Highlights off';
     el.actual.hidden = !excerpts;
@@ -364,6 +518,7 @@
     el.excerptNoticeText.textContent = excerptError;
     el.retry.disabled = excerptLoading;
     el.stage.setAttribute('aria-label', excerpts ? privateOnly ? 'Source page unavailable' : 'Verified excerpt; use arrow keys or scroll to pan when zoomed' : 'Original page; scroll to explore when zoomed');
+    el.highlightNotice.hidden = !excerpts;
     el.file.disabled = !ref || !!state?.loading;
     el.fileAction.textContent = state?.doc ? 'Replace your copy' : 'Open your copy';
     el.fileName.textContent = state?.doc ? `${state.name} · ${state.doc.numPages} PDF pages · in this tab` : state?.loading ? 'Reading your local PDF…' : 'No local PDF selected';
@@ -434,6 +589,7 @@
   }
   function dispose(state) { state?.task?.destroy().catch(() => {}); }
   function empty(message, status = '') {
+    el.highlightNotice.hidden = true;
     el.canvas.hidden = true;
     el.canvas.width = el.canvas.height = 0;
     el.text.textContent = '';
@@ -503,8 +659,25 @@
   async function renderExcerpt(version, ref) {
     const catalog = excerptCatalog, excerptOwner = excerptSource, regions = matchingRegions(), region = regions[regionIndex];
     if (!region) {
+      const issue = targetIssue(ref);
+      if (issue?.type === 'stale') return empty('This linked excerpt is no longer available. Choose a listed excerpt or open your PDF.', 'Requested excerpt unavailable.');
+      if (issue?.type === 'pending') return empty('No field-specific excerpt is linked. Switch to Your PDF to inspect the cited page, or choose a listed excerpt.', 'No exact field excerpt is mapped.');
       if (catalog && books().privateEvidence(ref.book, ref.page)) return empty(books().missingPageNotice(ref.book, ref.page), 'No public excerpt is available for this page.');
       return empty('Loading the verified excerpts…', 'Loading limited scan excerpts.');
+    }
+    const preciseFocusRects = specificFocusRects(region.focusRects);
+    const sentinels = (region.focusRects || []).filter(fullImageSentinel);
+    const onlySentinel = sentinels.length > 0 && sentinels.length === (region.focusRects || []).length;
+    const needsHighlightWarning = sentinels.length > 0 || !preciseFocusRects.length;
+    el.highlightNotice.hidden = !needsHighlightWarning;
+    el.highlightNotice.textContent = sentinels.length && preciseFocusRects.length
+      ? 'A full-image highlight flag is present but suppressed. The excerpt stays unobscured; passage-level precision is unresolved.'
+      : 'Precise highlighting is not reviewed or available for this excerpt. The source remains unobscured; no passage-level highlight is inferred.';
+    const wholeSpellReview = !targetForPage(ref) && needsHighlightWarning && onlySentinel && await reviewedWholeSpell(region);
+    if (version !== renderVersion || !dialog.open || excerptSource !== excerptOwner || excerptCatalog !== catalog) return;
+    if (wholeSpellReview) {
+      el.highlightNotice.textContent = 'Unmarked whole-spell view reviewed against its exact source, image, focus and content hashes.';
+      el.highlightNotice.hidden = false;
     }
     el.canvas.hidden = true; el.textDetails.hidden = el.regionStatus.hidden = true;
     el.actual.disabled = true;
@@ -540,7 +713,7 @@
       // Preserve readable type on wide tables; Fit width gives an overview, Actual size restores PNG pixels.
       const baseWidth = actualSize ? region.width : imageFit || region.width <= 640 ? Math.min(region.width, availableWidth) : Math.min(region.width, Math.max(availableWidth, 960));
       el.imageFrame.style.width = `${Math.round(baseWidth * zoom)}px`;
-      const focusRects = specificFocusRects(region.focusRects);
+      const focusRects = preciseFocusRects;
       el.overlay.replaceChildren(...focusRects.map(([x,y,width,height]) => {
         const box = node('span', { class: 'source-viewer-focus-rect' });
         box.style.left = `${x * 100}%`; box.style.top = `${y * 100}%`; box.style.width = `${width * 100}%`; box.style.height = `${height * 100}%`;
@@ -562,9 +735,11 @@
       el.provenanceText.textContent = `Checked crop: ${region.checkedOn}. PNG SHA-256: ${region.sha256}. Source PDF SHA-256 (${source.hashStatus === 'computed-local' ? 'computed locally' : 'supplied with the handoff'}): ${source.sha256}. ${catalog.scope} This does not verify the whole page or book.`;
       el.provenance.hidden = false;
       el.status.textContent = `${ref.book} printed p. ${ref.page} · PDF page ${region.pdfPage} · excerpt ${regionIndex + 1} of ${regions.length}. ${actualSize ? zoom === 1 ? 'Actual image pixels' : 'Zoom from actual size' : imageFit ? zoom === 1 ? 'Fit width' : 'Zoom from fit width' : 'Readable view'}; scroll or use arrow keys to pan.`;
-      const firstFocus = region.focusRects[0];
-      const focusBottom = firstFocus ? (firstFocus[1] + firstFocus[3]) * el.imageFrame.offsetHeight + 24 : 0;
-      el.stage.scrollTo(0,Math.max(0,focusBottom - el.stage.clientHeight));
+      const firstFocus = focusRects[0];
+      if (firstFocus) {
+        const focusBottom = (firstFocus[1] + firstFocus[3]) * el.imageFrame.offsetHeight + 24;
+        el.stage.scrollTo(0,Math.max(0,focusBottom - el.stage.clientHeight));
+      } else el.stage.scrollTo(0,0);
       el.zoomOut.disabled = zoom <= .5; el.zoomIn.disabled = zoom >= 4; el.fit.disabled = el.actual.disabled = false;
     } catch {
       if (version !== renderVersion || !dialog.open || excerptSource !== excerptOwner || excerptCatalog !== catalog) return;

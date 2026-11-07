@@ -187,6 +187,13 @@ function sourceChip(item, indexOnly = false) {
  return groups.map(group=>{const text=`${prefix}${bookCode(group.book)} ${group.pages.length===1?'p.':'pp.'} ${compactPageList(group.pages)}`;return `<button class="source-chip" data-source-id="${esc(item.id)}" data-source-view="${esc(item._view||view)}" data-source-book="${esc(group.book)}" aria-label="Open original source reference: ${esc(text)}">${esc(text)}</button>`;}).join('');
 }
 function compactPageList(pages){const ranges=[];for(const page of pages){const last=ranges.at(-1);if(last&&page===last[1]+1)last[1]=page;else ranges.push([page,page]);}return ranges.map(([start,end])=>start===end?String(start):`${start}–${end}`).join(', ');}
+function sourceTargetSelection(targets=[],fallbackBook='',fallbackPage=null,{fieldScoped=false}={}){
+ const list=Array.isArray(targets)?targets:[];
+ const first=fieldScoped?list.find(target=>target?.fieldPointer)||null:list.find(target=>!target?.fieldPointer)||null;
+ const resolved=first?.targetStatus==='resolved'&&Array.isArray(first.regionIds)&&first.regionIds.length?first:null;
+ const book=first?.book||fallbackBook,page=Number(first?.page??fallbackPage);
+ return {initialReference:Number.isInteger(page)&&page>0?{book,page,...(resolved?{region:resolved.regionIds[0]}:{})}:undefined,targetStatus:resolved?'resolved':fieldScoped?'pending':'',activeTarget:first,targets:list};
+}
 function originalScansButton(item){return `<button class="source-chip view-original-scans" data-view-scans="${esc(item.id)}" data-scan-view="${esc(item._view||view)}">${icon('book')}View original scans</button>`;}
 function noteButton(item, target = item.id, title = item.name || item.title) {
  const count = notes.filter(n => n.target === target).length;
@@ -221,19 +228,50 @@ function parseReferenceRoute(hashValue=location.hash) {
  const [path,query=''] = hashValue.slice(1).split('?',2), parts=path.split('/');
  const routeView=views.includes(parts[0])?parts[0]:'spells';
  let id='';try{id=decodeURIComponent(parts.slice(1).join('/'));}catch{}
- const params=new URLSearchParams(query),match=params.get('source')?.match(/^(PHB|UA|DMG|MM|MM2):(\d+)$/),region=params.get('region'),owner=params.get('owner')?.match(/^(rules|spells|equipment|classes|matrices):([a-z0-9][a-z0-9-]{0,100})$/);
- return {view:routeView,id,owner:owner?{view:owner[1],id:owner[2]}:null,source:match?{book:match[1],page:Number(match[2]),...(region&&region.length<=200?{region}: {})}:null};
+ const params=new URLSearchParams(query),match=params.get('source')?.match(/^(PHB|UA|DMG|MM|MM2):(\d+)$/),region=params.get('region'),fieldPointer=params.get('field'),pending=params.get('target')==='pending',owner=params.get('owner')?.match(/^(rules|spells|equipment|classes|matrices):([a-z0-9][a-z0-9-]{0,100})$/),fieldOwner=params.get('fieldOwner')?.match(/^(rules|spells|equipment|classes|matrices|progressionExplainer):([a-z0-9][a-z0-9-]{0,100})$/);
+ return {view:routeView,id,owner:owner?{view:owner[1],id:owner[2]}:null,source:match?{book:match[1],page:Number(match[2]),...(region&&region.length<=200?{region}: {}),...(fieldPointer&&fieldPointer.length<=250?{fieldPointer}: {}),...(params.has('fieldOwner')?{fieldOwner:fieldOwner?{collection:fieldOwner[1],itemId:fieldOwner[2]}:null,fieldOwnerSpecified:true}:{}),...(pending&&!region?{targetStatus:'pending'}:{})}:null};
 }
-function sourceLinkHash(routeView,id,ref,owner=null) {
- return `#${routeView}/${encodeURIComponent(id)}?source=${encodeURIComponent(`${ref.book}:${ref.page}`)}${ref.region?`&region=${encodeURIComponent(ref.region)}`:''}${owner?`&owner=${encodeURIComponent(`${owner.view}:${owner.id}`)}`:''}`;
+function sourceLinkHash(routeView,id,ref,owner=null,targetStatus='',activeTarget=null) {
+ const targetOwner=activeTarget?.sourceOwner;
+ const targetOwnerDiffers=activeTarget?.fieldPointer&&targetOwner&&typeof targetOwner.collection==='string'&&typeof targetOwner.itemId==='string'&&(targetOwner.collection!==routeView||targetOwner.itemId!==id);
+ const routeOwnerValue=targetOwnerDiffers?targetOwner:owner;
+ const routeOwner=routeOwnerValue?.collection==='progressionExplainer'?{view:'classes',id:'progression-explainer'}:routeOwnerValue?.collection?{view:routeOwnerValue.collection,id:routeOwnerValue.itemId}:routeOwnerValue;
+ const fieldOwner=activeTarget?.fieldOwner;
+ const fieldOwnerDiffers=activeTarget?.fieldPointer&&fieldOwner&&typeof fieldOwner.collection==='string'&&typeof fieldOwner.itemId==='string'&&(fieldOwner.collection!==routeView||fieldOwner.itemId!==id);
+ return `#${routeView}/${encodeURIComponent(id)}?source=${encodeURIComponent(`${ref.book}:${ref.page}`)}${ref.region?`&region=${encodeURIComponent(ref.region)}`:''}${targetStatus==='pending'&&!ref.region?'&target=pending':''}${activeTarget?.fieldPointer?`&field=${encodeURIComponent(activeTarget.fieldPointer)}`:''}${fieldOwnerDiffers?`&fieldOwner=${encodeURIComponent(`${fieldOwner.collection}:${fieldOwner.itemId}`)}`:''}${routeOwner?`&owner=${encodeURIComponent(`${routeOwner.view}:${routeOwner.id}`)}`:''}`;
+}
+function syncSelectionRoute(previousId){
+ if(previousId===selectedId)return;
+ const hash=`#${view}${selectedId?`/${encodeURIComponent(selectedId)}`:''}`;
+ if(location.hash!==hash)history.replaceState(null,'',hash);
+ renderedRouteHash=location.hash;
 }
 function routeSourceOwner(target) {
  if(!data[target.view]?.some(entry=>entry.id===target.id))return null;
  if(!target.owner)return data[target.view]?.find(entry=>entry.id===target.id);
+ if(target.owner.view==='classes'&&target.owner.id==='progression-explainer'&&data.progressionExplainer){
+  const allowed=[...document.querySelectorAll('[data-source-context]')].some(el=>el.dataset.sourceContext===target.owner.id&&(el.dataset.sourceView||target.view)===target.owner.view);
+  return allowed?{...data.progressionExplainer,id:target.owner.id}:null;
+ }
  const allowed=[...document.querySelectorAll('[data-source-context]')].some(el=>el.dataset.sourceContext===target.owner.id&&(el.dataset.sourceView||target.view)===target.owner.view);
  if(!allowed)return null;
- if(target.owner.id==='progression-explainer'&&target.owner.view==='classes'&&data.progressionExplainer)return {...data.progressionExplainer,id:target.owner.id};
  return data[target.owner.view]?.find(entry=>entry.id===target.owner.id);
+}
+function citationSourceOwnerMatches(routeTarget, sourceOwner) {
+ const expected=routeTarget.owner||{view:routeTarget.view,id:routeTarget.id};
+ const owner=sourceOwner||{collection:routeTarget.view,itemId:routeTarget.id};
+ const expectedCollection=expected.view==='classes'&&expected.id==='progression-explainer'?'progressionExplainer':expected.view;
+ return expectedCollection===owner.collection&&expected.id===owner.itemId;
+}
+function routeFieldOwner(source,routeItem) {
+ if(!source?.fieldOwnerSpecified)return routeItem;
+ const owner=source.fieldOwner;
+ if(!owner)return null;
+ if(owner.collection==='progressionExplainer')return owner.itemId==='progression-explainer'&&data.progressionExplainer?{...data.progressionExplainer,id:owner.itemId}:null;
+ return data[owner.collection]?.find(entry=>entry.id===owner.itemId)||null;
+}
+function unresolvedFieldRouteTarget(source,fieldPointer,candidate=null,sourceOwner=null) {
+ return {...(candidate||{}),book:source.book,page:source.page,regionIds:[],label:candidate?.label||'Requested field',status:candidate?.status||'Field target mapping or source owner is unavailable',targetStatus:'pending',reviewStatus:'field-target-pending',fieldPointer,...(source.fieldOwner?{fieldOwner:source.fieldOwner}:{}),sourceOwner:sourceOwner||candidate?.sourceOwner};
 }
 function route({force=false}={}) {
  if(!force&&renderedRouteHash===location.hash)return;
@@ -243,12 +281,50 @@ function route({force=false}={}) {
  if(oldView!==view)listLimit=50;
  if(oldView!==view){filter={q:'',class:'',book:'',category:'',details:''};selectedSpellLevels=new Set();}
  selectedId=target.id;
+ // Explicit same-view URLs (including source permalinks and history entries) identify the
+ // requested record. If the current filters exclude it, clear those filters before rendering
+ // so the detail, selected list row and URL all continue to name the same record.
+ if(selectedId&&index.some(item=>item._view===view&&item.id===selectedId)&&!filteredItems().some(item=>item.id===selectedId)){
+  filter={q:'',class:'',book:'',category:'',details:''};selectedSpellLevels=new Set();listLimit=50;
+ }
  render();
  renderedRouteHash=location.hash;
+ const routeItem=data[target.view]?.find(entry=>entry.id===target.id)||null;
  const item=routeSourceOwner(target);
  const references=item?FirstEditionCitations.collect(item):[];
  const valid=target.source&&references.some(group=>bookCode(group.book)===target.source.book&&group.pages.includes(target.source.page));
- if(valid)openScanViewer(item,references,item.id,target.source,{fromRoute:true,owner:target.owner});
+ if(valid){
+  let initialReference=target.source,activeTarget=null,targets=FirstEditionCitations.targets(item),fieldScoped=!!target.source.fieldPointer;
+  let targetStatus=target.source.targetStatus||(target.source.region?'resolved':'');
+  if(fieldScoped){
+   const fieldOwnerItem=routeFieldOwner(target.source,routeItem);
+   const originTargets=fieldOwnerItem?FirstEditionCitations.targets(fieldOwnerItem):[];
+   const candidates=originTargets.filter(candidate=>candidate.fieldPointer===target.source.fieldPointer);
+   const ownerCandidates=candidates.filter(candidate=>citationSourceOwnerMatches(target,candidate.sourceOwner));
+   activeTarget=ownerCandidates.find(candidate=>candidate.book===target.source.book&&candidate.page===target.source.page)||null;
+   if(activeTarget){
+    targets=ownerCandidates;
+    targetStatus=target.source.targetStatus||(activeTarget.targetStatus==='pending'?'pending':target.source.region?'resolved':activeTarget.targetStatus);
+    if(target.source.region&&!activeTarget.regionIds.includes(target.source.region)){
+     // An explicit region remains an exact page-level link if it is not part of this field target.
+     initialReference={book:target.source.book,page:target.source.page,region:target.source.region};
+     activeTarget=null;fieldScoped=false;targetStatus='resolved';targets=FirstEditionCitations.targets(item).filter(candidate=>candidate.regionIds.includes(target.source.region));
+    }
+   }else if(target.source.region){
+    // Preserve the exact user-supplied region without claiming it supports an unavailable field target.
+    initialReference={book:target.source.book,page:target.source.page,region:target.source.region};
+    activeTarget=null;fieldScoped=false;targetStatus='resolved';targets=FirstEditionCitations.targets(item).filter(candidate=>candidate.regionIds.includes(target.source.region));
+   }else{
+    const candidate=candidates.find(entry=>entry.book===target.source.book&&entry.page===target.source.page)||candidates[0]||null;
+    const sourceOwner=candidate?.sourceOwner||target.owner&&{collection:target.owner.view,itemId:target.owner.id}||{collection:target.view,itemId:target.id};
+    activeTarget=unresolvedFieldRouteTarget(target.source,target.source.fieldPointer,candidate,sourceOwner);
+    targets=[activeTarget];targetStatus='pending';
+   }
+  }else if(target.source.region){
+   targets=targets.filter(candidate=>candidate.regionIds.includes(target.source.region));
+  }
+  openScanViewer(item,references,item.id,initialReference,{fromRoute:true,owner:target.owner,targetStatus,activeTarget,targets,fieldScoped});
+ }
  else globalThis.FirstEditionSourceViewer?.close?.();
 }
 function goTo(newView, id = '', {reveal=false}={}) {
@@ -307,20 +383,22 @@ function spellTogglesHTML() {
  const classes=[...new Set(data.spells.flatMap(classesOf))].sort((a,b)=>a.localeCompare(b));
  const levels=availableSpellLevels(data.spells,filter.class);
  const selectedCount=selectedSpellLevels.size;
- return `<div class="spell-quick-filters"><fieldset class="spell-toggle-group"><legend>Spellcasting class <span>${esc(filter.class||'All classes')}</span></legend><div class="spell-toggle-row" aria-label="Choose a spellcasting class"><button type="button" class="spell-toggle" data-spell-class="" aria-pressed="${!filter.class}" aria-label="All spellcasting classes">All</button>${classes.map(name=>`<button type="button" class="spell-toggle" data-spell-class="${esc(name)}" aria-pressed="${filter.class===name}">${esc(name)}</button>`).join('')}</div></fieldset><fieldset class="spell-toggle-group" aria-describedby="spellLevelHelp"><legend>Spell levels <span>${selectedCount?`${selectedCount} selected`:'All levels'}</span></legend><div class="spell-toggle-row level-toggle-row"><button type="button" class="spell-toggle" data-spell-level="all" aria-pressed="${!selectedCount}" aria-label="All spell levels; clear the level filter">All</button>${levels.map(level=>`<button type="button" class="spell-toggle${level==='0'?' cantrip-toggle':''}" data-spell-level="${esc(level)}" aria-pressed="${selectedSpellLevels.has(level)}" aria-label="${level==='0'?'0 Cantrip, spell level 0':`Spell level ${esc(level)}`}"><span>${esc(level)}</span> ${level==='0'?'<small>Cantrip</small>':''}</button>`).join('')}</div><p id="spellLevelHelp">Choose one or more levels. All clears the level filter.</p></fieldset></div>`;
+ return `<div class="spell-quick-filters spell-filters"><fieldset class="spell-toggle-group spell-class-filter"><legend>Spellcasting class <span>${esc(filter.class||'All classes')}</span></legend><div class="spell-toggle-row" aria-label="Choose a spellcasting class"><button type="button" class="spell-toggle" data-spell-class="" aria-pressed="${!filter.class}" aria-label="All spellcasting classes">All</button>${classes.map(name=>`<button type="button" class="spell-toggle" data-spell-class="${esc(name)}" aria-pressed="${filter.class===name}">${esc(name)}</button>`).join('')}</div></fieldset><fieldset class="spell-toggle-group spell-level-filter" aria-describedby="spellLevelHelp"><legend>Spell levels <span>${selectedCount?`${selectedCount} selected`:'All levels'}</span></legend><div class="spell-toggle-row level-toggle-row"><button type="button" class="spell-toggle" data-spell-level="all" aria-pressed="${!selectedCount}" aria-label="All spell levels; clear the level filter">All</button>${levels.map(level=>`<button type="button" class="spell-toggle${level==='0'?' cantrip-toggle':''}" data-spell-level="${esc(level)}" aria-pressed="${selectedSpellLevels.has(level)}" aria-label="${level==='0'?'0 Cantrip, spell level 0':`Spell level ${esc(level)}`}"><span>${esc(level)}</span> ${level==='0'?'<small>Cantrip</small>':''}</button>`).join('')}</div><p id="spellLevelHelp">Choose one or more levels. All clears the level filter.</p></fieldset></div>`;
 }
 function bindSpellToggles() {
  $$('[data-spell-class]').forEach(button=>button.addEventListener('click',()=>{
+  const previousSelectedId=selectedId;
   const chosen=button.dataset.spellClass;
   filter.class=filter.class===chosen?'':chosen;
   selectedSpellLevels=reconcileSpellLevelSelection(selectedSpellLevels,availableSpellLevels(data.spells,filter.class));
-  selectedId='';listLimit=50;renderReference();bindPage();
+  selectedId='';listLimit=50;renderReference();syncSelectionRoute(previousSelectedId);bindPage();
   $$('[data-spell-class]').find(el=>el.dataset.spellClass===chosen)?.focus({preventScroll:true});
  }));
  $$('[data-spell-level]').forEach(button=>button.addEventListener('click',()=>{
+  const previousSelectedId=selectedId;
   const chosen=button.dataset.spellLevel;
   selectedSpellLevels=toggleSpellLevelSelection(selectedSpellLevels,chosen,availableSpellLevels(data.spells,filter.class));
-  selectedId='';listLimit=50;renderReference();bindPage();
+  selectedId='';listLimit=50;renderReference();syncSelectionRoute(previousSelectedId);bindPage();
   $$('[data-spell-level]').find(el=>el.dataset.spellLevel===chosen)?.focus({preventScroll:true});
  }));
 }
@@ -429,7 +507,8 @@ function thresholdForLevel(x, level) {
 }
 function inlineSourceChip(reference,title, prefix='') {
  const pages=pagesFor(reference);
- return `<button class="source-chip" data-inline-source data-ref-book="${esc(reference.book)}" data-ref-pages="${esc(pages.join(','))}" data-ref-title="${esc(title)}" data-ref-status="${esc(reference.status||'Source extraction pending')}">${esc(prefix)}${esc(bookCode(reference.book))} ${pages.length?`${pages.length===1?'p.':'pp.'} ${pages.join(', ')}`:'page pending'}</button>`;
+ const targets=FirstEditionCitations.targets(reference,title);
+ return `<button class="source-chip" data-inline-source data-ref-book="${esc(reference.book)}" data-ref-pages="${esc(pages.join(','))}" data-ref-title="${esc(title)}" data-ref-status="${esc(reference.status||'Source extraction pending')}" data-ref-targets="${esc(JSON.stringify(targets))}">${esc(prefix)}${esc(bookCode(reference.book))} ${pages.length?`${pages.length===1?'p.':'pp.'} ${pages.join(', ')}`:'page pending'}</button>`;
 }
 function classTarget(x) {
  const limit=classTargetLimit(x);
@@ -503,7 +582,10 @@ function bindInlineSources(root=document) {
   const context=el.closest('[data-source-context]');
   const contextView=context?.dataset.sourceView||defaultView;
   const contextItemId=context?.dataset.sourceContext||el.closest('.detail-card[data-annotation-target]')?.dataset.annotationTarget||selectedId;
-  el.onclick=()=>showSource(contextView,contextItemId,{name:el.dataset.refTitle,book:el.dataset.refBook,pages:el.dataset.refPages.split(',').filter(Boolean).map(Number),status:el.dataset.refStatus});
+  el.onclick=()=>{
+   let targets=[];try{targets=JSON.parse(el.dataset.refTargets||'[]');}catch{}
+   showSource(contextView,contextItemId,{name:el.dataset.refTitle,book:el.dataset.refBook,pages:el.dataset.refPages.split(',').filter(Boolean).map(Number),status:el.dataset.refStatus,...(targets.length?{targets}:{})});
+  };
  });
 }
 function bindAdvancement() {
@@ -553,9 +635,9 @@ function formatDate(value) { const date = new Date(value); return Number.isNaN(d
 function bindPage() {
  bindSpellToggles();
  $('#loadMore')?.addEventListener('click',()=>{const top=$('.result-list').scrollTop;listLimit+=50;renderReference();bindPage();$('.result-list').scrollTop=top;($('#loadMore')||$$('[data-select]').at(-1))?.focus({preventScroll:true});});
- $('#referenceSearch')?.addEventListener('input',e=>{const inputElement=e.target;const searchView=view;filter.q=inputElement.value;clearTimeout(referenceSearchTimer);referenceSearchTimer=setTimeout(()=>{if(!inputElement.isConnected||view!==searchView)return;const start=inputElement.selectionStart;listLimit=50;renderReference();bindPage();const input=$('#referenceSearch');input.focus();if(start!==null)input.setSelectionRange(start,start);},100);});
- $$('[data-filter]').forEach(el=>el.addEventListener('change',()=>{filter[el.dataset.filter]=el.value;if(el.dataset.filter==='class')selectedSpellLevels=reconcileSpellLevelSelection(selectedSpellLevels,availableSpellLevels(data.spells,filter.class)); listLimit=50; selectedId=''; const focusedId=el.id; renderReference(); bindPage(); $('#'+focusedId)?.focus({preventScroll:true});}));
- $('#clearFilters')?.addEventListener('click',()=>{filter={q:'',class:'',book:'',category:'',details:''};selectedSpellLevels=new Set();selectedId='';renderReference();bindPage();$('#referenceSearch').focus();});
+ $('#referenceSearch')?.addEventListener('input',e=>{const inputElement=e.target;const searchView=view,previousSelectedId=selectedId;filter.q=inputElement.value;clearTimeout(referenceSearchTimer);referenceSearchTimer=setTimeout(()=>{if(!inputElement.isConnected||view!==searchView)return;const start=inputElement.selectionStart;listLimit=50;renderReference();syncSelectionRoute(previousSelectedId);bindPage();const input=$('#referenceSearch');input.focus();if(start!==null)input.setSelectionRange(start,start);},100);});
+ $$('[data-filter]').forEach(el=>el.addEventListener('change',()=>{const previousSelectedId=selectedId;filter[el.dataset.filter]=el.value;if(el.dataset.filter==='class')selectedSpellLevels=reconcileSpellLevelSelection(selectedSpellLevels,availableSpellLevels(data.spells,filter.class)); listLimit=50; selectedId=''; const focusedId=el.id; renderReference(); syncSelectionRoute(previousSelectedId);bindPage(); $('#'+focusedId)?.focus({preventScroll:true});}));
+ $('#clearFilters')?.addEventListener('click',()=>{const previousSelectedId=selectedId;filter={q:'',class:'',book:'',category:'',details:''};selectedSpellLevels=new Set();selectedId='';renderReference();syncSelectionRoute(previousSelectedId);bindPage();$('#referenceSearch').focus();});
  $$('[data-select]').forEach(el=>el.addEventListener('click',()=>{
   selectedId=el.dataset.select; const item=index.find(x=>x._view===view&&x.id===selectedId); if(!item)return;
   $$('[data-select]').forEach(b=>{b.classList.toggle('selected',b.dataset.select===selectedId);b.setAttribute('aria-pressed',String(b.dataset.select===selectedId));});
@@ -610,24 +692,36 @@ function showSource(sourceView,id,reference=null,sourceBook='') {
  const item=contextItem||reference;if(!item)return;
  const references=FirstEditionCitations.collect(item);
  const clicked=reference?FirstEditionCitations.collect(reference)[0]:references.find(group=>bookCode(group.book)===bookCode(sourceBook));
- const initialReference=clicked?.pages?.length?{book:clicked.book,page:clicked.pages[0]}:undefined;
- openScanViewer(item,references,contextItem?.id||'',initialReference);
+ const targets=reference?.targets|| (reference?FirstEditionCitations.targets(reference):clicked?.targets)||[];
+ const fieldScoped=!!reference&&targets.some(target=>!!target.fieldPointer);
+ const selection=sourceTargetSelection(targets,clicked?.book,clicked?.pages?.[0],{fieldScoped});
+ openScanViewer(item,references,contextItem?.id||'',selection.initialReference,{targets:selection.targets,targetStatus:selection.targetStatus,activeTarget:fieldScoped?selection.activeTarget:null,fieldScoped});
 }
 function openScanViewer(item,references,contextItemId=item.id||'',initialReference,options={}){
  if(globalThis.FirstEditionSourceViewer?.open){
   const routeView=view, routeId=selectedId;
+  const targets=options.targets||FirstEditionCitations.targets(item);
+  const fieldScoped=!!(options.fieldScoped||options.activeTarget?.fieldPointer||initialReference?.fieldPointer);
+  const pageTargets=initialReference?targets.filter(target=>bookCode(target.book)===bookCode(initialReference.book)&&Number(target.page)===Number(initialReference.page)):targets;
+  const selection=sourceTargetSelection(pageTargets,initialReference?.book||references[0]?.book,initialReference?.page||references[0]?.pages?.[0],{fieldScoped});
+  const explicitPending=fieldScoped&&(options.targetStatus==='pending'||initialReference?.targetStatus==='pending');
+  const firstCitedGroup=references.find(group=>Array.isArray(group.pages)&&group.pages.length);
+  const firstCitedPage=firstCitedGroup?{book:bookCode(firstCitedGroup.book),page:Number(firstCitedGroup.pages[0])}:selection.initialReference;
+  const effectiveInitial=fieldScoped?(initialReference?.region||explicitPending?initialReference:selection.initialReference||initialReference):initialReference||firstCitedPage;
+  const targetStatus=fieldScoped?options.targetStatus||initialReference?.targetStatus||(effectiveInitial?.region?'resolved':selection.targetStatus):effectiveInitial?.region?'resolved':'';
+  const activeTarget=fieldScoped?(options.activeTarget||selection.activeTarget||targets.find(target=>target.book===effectiveInitial?.book&&target.page===effectiveInitial?.page&&effectiveInitial?.region&&target.regionIds?.includes(effectiveInitial.region))):null;
   let owner=options.owner||null;
   if(!options.fromRoute && (item.id!==routeId || !data[routeView]?.some(entry=>entry===item))){
    const ownerView=item.id==='progression-explainer'?'classes':['rules','spells','equipment','classes','matrices'].find(key=>data[key]?.some(entry=>entry===item));
    if(ownerView)owner={view:ownerView,id:item.id};
   }
-  const first=initialReference||references.flatMap(group=>(group.pages||[]).map(page=>({book:bookCode(group.book),page})))[0];
-  const link=(ref,region)=>sourceLinkHash(routeView,routeId,{...ref,region},owner);
-  const writeHistory=(ref,region)=>{const hash=link(ref,region);if(location.hash!==hash){history.pushState({sourceModal:true},'',hash);renderedRouteHash=location.hash;}};
-  if(!options.fromRoute&&first)writeHistory(first,null);
-  const onCopyLink=async (ref,region)=>{const url=new URL(location.href);url.hash=link(ref,region);try{await navigator.clipboard.writeText(url.href);toast('Source link copied.');}catch{toast('Could not copy the source link.');}};
+  const first=effectiveInitial||references.flatMap(group=>(group.pages||[]).map(page=>({book:bookCode(group.book),page})))[0];
+  const link=(ref,region,meta={})=>{const matched=fieldScoped&&region?targets.find(target=>bookCode(target.book)===bookCode(ref.book)&&Number(target.page)===Number(ref.page)&&target.regionIds?.includes(region)):null;return sourceLinkHash(routeView,routeId,{...ref,region},owner,meta.targetStatus,meta.activeTarget??matched??(fieldScoped&&meta.targetStatus==='pending'?activeTarget:null));};
+  const writeHistory=(ref,region,meta={})=>{const hash=link(ref,region,meta);if(location.hash!==hash){history.pushState({sourceModal:true},'',hash);renderedRouteHash=location.hash;}};
+  if(!options.fromRoute&&first)writeHistory(first,first.region,{targetStatus,activeTarget});
+  const onCopyLink=async (ref,region,meta={})=>{const url=new URL(location.href);url.hash=link(ref,region,meta);try{await navigator.clipboard.writeText(url.href);toast('Source link copied.');}catch{toast('Could not copy the source link.');}};
   const onClose=()=>{const target=parseReferenceRoute();if(target.source&&target.view===routeView&&target.id===routeId){history.replaceState(null,'',`#${routeView}/${encodeURIComponent(routeId)}`);renderedRouteHash=location.hash;}setTimeout(()=>{if(view===routeView&&selectedId===routeId&&(!document.activeElement||document.activeElement===document.body||!document.activeElement.isConnected)){const heading=$('#referenceDetail .detail-card h2');if(heading){heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});}}},0)};
-  FirstEditionSourceViewer.open({item,references,contextItemId,initialReference,onCopyLink,onClose,onChange:writeHistory});return;
+  FirstEditionSourceViewer.open({item,references,contextItemId,initialReference:effectiveInitial,targets,targetStatus,activeTarget,onCopyLink,onClose,onChange:writeHistory});return;
  }
  const heading=references.length===1?bookName(references[0].book):'Original source references';
  $('#sourceBody').innerHTML=`<h2 id="sourceTitle">${esc(heading)}</h2><p class="muted">${esc(item.name||item.title||'Source reference')}</p><div class="source-reference-table"><table><thead><tr><th>Book</th><th>Printed page</th><th>Supplied PDF page</th></tr></thead><tbody>${references.length?references.flatMap(group=>group.pages.map(page=>`<tr><td>${esc(bookCode(group.book))}</td><td>${page}</td><td>${pdfPage(group.book,page)===null?'Unavailable':pdfPage(group.book,page)}</td></tr>`)).join(''):'<tr><td colspan="3">Page location is not yet extracted.</td></tr>'}</tbody></table></div>${references.map(group=>`<p class="small muted">${esc(bookCode(group.book))}: ${esc(FirstEditionBooks.mapping(group.book))} PDF page numbers count from 1.</p>`).join('')}<p class="small muted">The local scan viewer is unavailable. These references still locate the rule in your own copy. Source PDFs are not hosted by this reference. Visual verification remains pending unless explicitly stated for a cited page.</p>`;

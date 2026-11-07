@@ -1,0 +1,690 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Static route/control coverage baseline for citation navigation. This file records the dirty working-tree snapshot and currently implemented test coverage; it is not a claim that every click path passed.",
+  "snapshot": {
+    "gitHead": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+    "workingTreeDirty": true,
+    "files": {
+      "dist/app.js": "3991791d0cb9da0aa186d91da9e55cd728d280d69e12b94fab833f9cfb8bb008",
+      "dist/citations.js": "0ba226075d36416e77373fc368994506ac453d27175af911c11f692d98f45834",
+      "dist/data.json": "60cc10b9e841f60ca4b4d4a3df6c03f39598aac0e8418d73491f306ff3632b6e"
+    }
+  },
+  "rootViews": [
+    "spells",
+    "rules",
+    "equipment",
+    "classes",
+    "notebook",
+    "sources"
+  ],
+  "additionalCollections": [
+    {
+      "name": "matrices",
+      "entries": 1,
+      "route": "not a root view; opened through source-owner context in matrix citations"
+    },
+    {
+      "name": "progressionExplainer",
+      "exists": true,
+      "sections": 3,
+      "route": "synthetic owner id progression-explainer within classes view"
+    }
+  ],
+  "counts": {
+    "collections": {
+      "spells": {
+        "entries": 638,
+        "citedEntries": 638,
+        "pageGroups": 701,
+        "printedPageOccurrences": 1247,
+        "targets": 1247,
+        "fieldScopedTargets": 0,
+        "resolvedTargets": 0,
+        "pendingTargets": 1247,
+        "fieldSourceObjects": 16,
+        "relatedReferences": 141
+      },
+      "rules": {
+        "entries": 148,
+        "citedEntries": 148,
+        "pageGroups": 149,
+        "printedPageOccurrences": 178,
+        "targets": 178,
+        "fieldScopedTargets": 0,
+        "resolvedTargets": 0,
+        "pendingTargets": 178,
+        "fieldSourceObjects": 0,
+        "relatedReferences": 7
+      },
+      "equipment": {
+        "entries": 116,
+        "citedEntries": 116,
+        "pageGroups": 206,
+        "printedPageOccurrences": 326,
+        "targets": 838,
+        "fieldScopedTargets": 662,
+        "resolvedTargets": 93,
+        "pendingTargets": 745,
+        "fieldSourceObjects": 496,
+        "relatedReferences": 54
+      },
+      "classes": {
+        "entries": 16,
+        "citedEntries": 16,
+        "pageGroups": 33,
+        "printedPageOccurrences": 123,
+        "targets": 123,
+        "fieldScopedTargets": 0,
+        "resolvedTargets": 0,
+        "pendingTargets": 123,
+        "fieldSourceObjects": 0,
+        "relatedReferences": 1
+      },
+      "matrices": {
+        "entries": 1,
+        "citedEntries": 1,
+        "pageGroups": 1,
+        "printedPageOccurrences": 3,
+        "targets": 3,
+        "fieldScopedTargets": 0,
+        "resolvedTargets": 0,
+        "pendingTargets": 3,
+        "fieldSourceObjects": 0,
+        "relatedReferences": 0
+      }
+    },
+    "progressionExplainer": {
+      "pageGroups": 2,
+      "targets": 8,
+      "sections": 3,
+      "referenceObjects": 4
+    },
+    "assembledReleaseInventory": {
+      "path": "research/price-source-inventory.json",
+      "siteEquipmentObjects": 116,
+      "sitePrintedPrices": 112,
+      "sitePriceGaps": 4,
+      "editorialEstimates": 4,
+      "sourceRows": 710,
+      "fieldEvidenceBindings": 662,
+      "regionBoundBindings": 93,
+      "pendingRegionBindings": 569
+    },
+    "currentInMemoryInventory": {
+      "validation": "passed",
+      "fieldEvidenceBindings": 668,
+      "regionBoundBindings": 93,
+      "pendingRegionBindings": 575,
+      "comparisonBindings": 6,
+      "comparisonBindingsWithSourceOwner": 6
+    }
+  },
+  "urlContract": {
+    "parserLine": 227,
+    "sourceOwnerResolverLine": 243,
+    "routeDispatcherLine": 251,
+    "serializedParameters": [
+      "source=BOOK:printedPage",
+      "region=exact-region-id",
+      "field=JSON-Pointer",
+      "target=pending",
+      "owner=collection:item-id"
+    ],
+    "sourceControls": [
+      "data-source-id",
+      "data-view-scans",
+      "data-inline-source",
+      "data-copy-link"
+    ],
+    "path": "The path view/id identifies the route entry. owner=collection:id selects the contextual item used to render the cited source. This creates two identities for comparator citations: estimate owner in the path, comparator source item in owner query."
+  },
+  "producerScanner": {
+    "classes": [
+      "class-advancement",
+      "class-progression-reference",
+      "class-xp-table",
+      "dynamic-xp-result",
+      "equipment-estimate-comparison",
+      "equipment-related-reference",
+      "field-attribute-layout",
+      "fighter-matrix-reference",
+      "progression-explainer-reference"
+    ],
+    "siteCount": 14,
+    "sites": [
+      {
+        "line": 93,
+        "function": "attributeLayoutHTML",
+        "producerClass": "field-attribute-layout"
+      },
+      {
+        "line": 95,
+        "function": "attributeLayoutHTML",
+        "producerClass": "field-attribute-layout"
+      },
+      {
+        "line": 359,
+        "function": "suggestedPriceHTML",
+        "producerClass": "equipment-estimate-comparison"
+      },
+      {
+        "line": 368,
+        "function": "equipmentDetailHTML",
+        "producerClass": "equipment-related-reference"
+      },
+      {
+        "line": 410,
+        "function": "progressionExplainerHTML",
+        "producerClass": "progression-explainer-reference"
+      },
+      {
+        "line": 467,
+        "function": "advancementControlsHTML",
+        "producerClass": "class-advancement"
+      },
+      {
+        "line": 475,
+        "function": "advancementSummaryHTML",
+        "producerClass": "class-advancement"
+      },
+      {
+        "line": 485,
+        "function": "xpTableHTML",
+        "producerClass": "class-xp-table"
+      },
+      {
+        "line": 487,
+        "function": "xpTableHTML",
+        "producerClass": "class-xp-table"
+      },
+      {
+        "line": 495,
+        "function": "classDetailHTML",
+        "producerClass": "class-progression-reference"
+      },
+      {
+        "line": 505,
+        "function": "calculateXP",
+        "producerClass": "dynamic-xp-result"
+      },
+      {
+        "line": 508,
+        "function": "calculateXP",
+        "producerClass": "dynamic-xp-result"
+      },
+      {
+        "line": 517,
+        "function": "calculateXP",
+        "producerClass": "dynamic-xp-result"
+      },
+      {
+        "line": 549,
+        "function": "fighterCombatHTML",
+        "producerClass": "fighter-matrix-reference"
+      }
+    ],
+    "routeQueryContract": {
+      "parsed": [
+        "field",
+        "owner",
+        "region",
+        "source",
+        "target"
+      ],
+      "serialized": [
+        "field",
+        "owner",
+        "region",
+        "source",
+        "target"
+      ]
+    },
+    "sourceAttributeContract": {
+      "observed": [
+        "data-copy-link",
+        "data-inline-source",
+        "data-ref-book",
+        "data-ref-pages",
+        "data-ref-status",
+        "data-ref-targets",
+        "data-ref-title",
+        "data-scan-view",
+        "data-source-book",
+        "data-source-context",
+        "data-source-id",
+        "data-source-view",
+        "data-view-scans"
+      ],
+      "missing": []
+    }
+  },
+  "citationControlClasses": [
+    {
+      "id": "entry-book-page-chip",
+      "producer": "sourceChip(item)",
+      "line": 183,
+      "selector": "data-source-id",
+      "scope": [
+        "spells",
+        "rules",
+        "equipment",
+        "classes"
+      ],
+      "identity": "page-level; caller chooses the clicked book group"
+    },
+    {
+      "id": "view-all-original-scans",
+      "producer": "originalScansButton(item)",
+      "line": 197,
+      "selector": "data-view-scans",
+      "scope": [
+        "spells",
+        "rules",
+        "equipment",
+        "classes"
+      ],
+      "identity": "page-list viewer; no clicked field target"
+    },
+    {
+      "id": "inline-source-chip",
+      "producer": "inlineSourceChip(reference,title)",
+      "line": 450,
+      "selector": "data-inline-source",
+      "scope": [
+        "spells",
+        "rules",
+        "equipment",
+        "classes",
+        "matrices",
+        "progressionExplainer"
+      ],
+      "identity": "passes target metadata serialized by FirstEditionCitations.targets(reference)"
+    },
+    {
+      "id": "equipment-field-source",
+      "producer": "attributeLayoutHTML / attributeRows",
+      "lines": [
+        93,
+        95
+      ],
+      "scope": [
+        "equipment",
+        "spell fieldSources when compact layout is used"
+      ],
+      "identity": "fieldSources values create chips; equipment table mode has a source column"
+    },
+    {
+      "id": "equipment-comparator",
+      "producer": "suggestedPriceHTML",
+      "line": 359,
+      "selector": "data-source-context",
+      "scope": [
+        "equipment"
+      ],
+      "identity": "origin estimate path + comparator source-owner context; reload field-target identity gap reported"
+    },
+    {
+      "id": "equipment-related-reference",
+      "producer": "equipment detail references",
+      "line": 368,
+      "scope": [
+        "equipment"
+      ],
+      "identity": "nested reference chip under equipment owner"
+    },
+    {
+      "id": "class-progression-and-level",
+      "producer": "progression/XP/level-limit/level-change chips",
+      "lines": [
+        410,
+        467,
+        475,
+        485,
+        495,
+        505,
+        508,
+        517
+      ],
+      "scope": [
+        "classes"
+      ],
+      "identity": "some are dynamically regenerated by advancement controls and re-bound"
+    },
+    {
+      "id": "fighter-matrix-context",
+      "producer": "fighterCombatHTML",
+      "line": 549,
+      "scope": [
+        "classes",
+        "matrices"
+      ],
+      "identity": "source context changes to matrix owner"
+    },
+    {
+      "id": "copy-reference-address",
+      "producer": "detail footer data-copy-link handler",
+      "line": 606,
+      "selector": "data-copy-link",
+      "scope": [
+        "spells",
+        "rules",
+        "equipment",
+        "classes"
+      ],
+      "identity": "copies entry route without source query"
+    }
+  ],
+  "inlineProducerSites": [
+    {
+      "line": 93,
+      "producerClass": "inlineSourceChip(reference"
+    },
+    {
+      "line": 95,
+      "producerClass": "inlineSourceChip(reference"
+    },
+    {
+      "line": 359,
+      "producerClass": "inlineSourceChip(c"
+    },
+    {
+      "line": 368,
+      "producerClass": "inlineSourceChip(reference"
+    },
+    {
+      "line": 410,
+      "producerClass": "inlineSourceChip(reference"
+    },
+    {
+      "line": 467,
+      "producerClass": "inlineSourceChip(x.levelLimit"
+    },
+    {
+      "line": 475,
+      "producerClass": "inlineSourceChip(to"
+    },
+    {
+      "line": 485,
+      "producerClass": "inlineSourceChip(row"
+    },
+    {
+      "line": 487,
+      "producerClass": "inlineSourceChip(x.xpContinuation"
+    },
+    {
+      "line": 495,
+      "producerClass": "inlineSourceChip(reference"
+    },
+    {
+      "line": 505,
+      "producerClass": "inlineSourceChip(x.levelLimit||cap"
+    },
+    {
+      "line": 508,
+      "producerClass": "inlineSourceChip(continuation"
+    },
+    {
+      "line": 517,
+      "producerClass": "inlineSourceChip(current"
+    },
+    {
+      "line": 549,
+      "producerClass": "inlineSourceChip(matrix"
+    }
+  ],
+  "urlStateCoverage": [
+    {
+      "state": "generic page route",
+      "implemented": true,
+      "test": "citation-navigation.test.mjs; source-viewer-permalink.browser.mjs"
+    },
+    {
+      "state": "field target resolved to explicit region",
+      "implemented": true,
+      "test": "citation-navigation.test.mjs; source-viewer-field-targets.browser.mjs"
+    },
+    {
+      "state": "field target pending without region",
+      "implemented": true,
+      "test": "citation-navigation.test.mjs; source-viewer-field-targets.browser.mjs"
+    },
+    {
+      "state": "explicit valid region permalink",
+      "implemented": true,
+      "test": "source-viewer-permalink.browser.mjs"
+    },
+    {
+      "state": "stale region ID retained as unavailable",
+      "implemented": true,
+      "test": "source-viewer-permalink.browser.mjs"
+    },
+    {
+      "state": "manual selection clears stale/pending route state",
+      "implemented": true,
+      "test": "source-viewer-permalink.browser.mjs; source-viewer-field-targets.browser.mjs"
+    },
+    {
+      "state": "owner query validation and standard owner reload",
+      "implemented": true,
+      "test": "source-viewer-permalink.browser.mjs"
+    },
+    {
+      "state": "comparison owner reload preserves origin field identity",
+      "implemented": false,
+      "knownGap": true,
+      "detail": "Inventory target fieldPointer belongs to estimate entry in route path while owner query resolves the comparator. Citations target projection drops sourceOwner; route searches target only on the owner item, so active field target is not restored."
+    },
+    {
+      "state": "browser copy/close/back/forward",
+      "implemented": true,
+      "test": "source-viewer-permalink.browser.mjs"
+    },
+    {
+      "state": "keyboard focus close/reopen and mobile layout",
+      "implemented": true,
+      "test": "source-viewer-permalink.browser.mjs; source-viewer.browser.mjs; source-viewer-header.browser.mjs"
+    }
+  ],
+  "existingTestClasses": [
+    {
+      "path": "tests/citation-navigation.test.mjs",
+      "nodeTestCases": [
+        "Abjure header book chips retain both complete citation groups and select the clicked book",
+        "nested equipment, matrix, class progression and explainer chips retain their owning entry",
+        "all-scans viewer receives the full entry and no initial page filter",
+        "generic book page chips do not promote a same-page resolved field target",
+        "citation targets preserve verified field identity, secondary IDs and page-segment order",
+        "field citation opens its own reviewed target and preserves an explicit pending target",
+        "rendered inline chips carry the exact field target metadata",
+        "source routes preserve pending targets, exact regions and semantic field pointers",
+        "filter-driven item changes replace the stale selected-item URL",
+        "viewer selects the requested cited page and falls back for absent or invalid targets",
+        "inline controls pass the explicit owner and clicked page to citation navigation",
+        "viewer keeps selection, aria-current and previous/next controls synchronized"
+      ],
+      "titleSamples": [
+        "Abjure header book chips retain both complete citation groups and select the clicked book",
+        "nested equipment, matrix, class progression and explainer chips retain their owning entry",
+        "all-scans viewer receives the full entry and no initial page filter",
+        "generic book page chips do not promote a same-page resolved field target",
+        "citation targets preserve verified field identity, secondary IDs and page-segment order",
+        "field citation opens its own reviewed target and preserves an explicit pending target",
+        "rendered inline chips carry the exact field target metadata",
+        "source routes preserve pending targets, exact regions and semantic field pointers",
+        "filter-driven item changes replace the stale selected-item URL",
+        "viewer selects the requested cited page and falls back for absent or invalid targets",
+        "inline controls pass the explicit owner and clicked page to citation navigation",
+        "viewer keeps selection, aria-current and previous/next controls synchronized"
+      ],
+      "execution": "passed in this capture"
+    },
+    {
+      "path": "tests/citations.test.mjs",
+      "nodeTestCases": [
+        "dagger combines primary, individual fields and cross-book references",
+        "reviewed override citations retain the actual secondary source identity",
+        "no inferred references, invalid pages, or accidental visual upgrades",
+        "missing DMG pages remain a visible gap and MM2 uses its exact displaced mapping",
+        "class citations include source-backed XP and changes without cross-book relabeling",
+        "per-page verification status never leaks from a different page of the same book"
+      ],
+      "titleSamples": [
+        "dagger combines primary, individual fields and cross-book references",
+        "reviewed override citations retain the actual secondary source identity",
+        "no inferred references, invalid pages, or accidental visual upgrades",
+        "missing DMG pages remain a visible gap and MM2 uses its exact displaced mapping",
+        "class citations include source-backed XP and changes without cross-book relabeling",
+        "per-page verification status never leaks from a different page of the same book"
+      ],
+      "execution": "passed in this capture"
+    },
+    {
+      "path": "tests/source-viewer-permalink.browser.mjs",
+      "execution": "passed in this capture"
+    },
+    {
+      "path": "tests/source-viewer-field-targets.browser.mjs",
+      "execution": "passed in this capture"
+    },
+    {
+      "path": "tests/source-viewer-header.browser.mjs",
+      "execution": "not run in this capture"
+    },
+    {
+      "path": "tests/source-viewer.browser.mjs",
+      "execution": "not run in this capture"
+    },
+    {
+      "path": "tests/general-source-viewer.browser.mjs",
+      "execution": "passed in this capture"
+    },
+    {
+      "path": "tests/advancement-browser.mjs",
+      "execution": "not run in this capture"
+    },
+    {
+      "path": "tests/browser.mjs",
+      "execution": "not run in this capture"
+    },
+    {
+      "path": "tests/accessibility.mjs",
+      "execution": "not run in this capture"
+    }
+  ],
+  "observedGaps": [
+    {
+      "id": "comparison-origin-owner-roundtrip",
+      "severity": "high",
+      "repro": "Build and attach price inventory in-memory; `phb-bo-stick` comparison 0 produces `/suggestedPrice/comparisons/0` with `sourceOwner=equipment:phb-spear`. `FirstEditionCitations.targets(comparison)` omits sourceOwner. The direct click is contextualized to phb-spear, and on reload app route searches that field pointer only in phb-spear targets, where it is absent. Current served dist/data.json has 662 field bindings while the current inventory builder validates 668, including six new comparator bindings; therefore the exact field-target round trip is not exercised by the current browser fixture. Existing browser assertion checks only that the reloaded viewer title is Spear; it does not assert field target identity/label, pending notice or exact target list."
+    },
+    {
+      "id": "field-navigation-integration-surface",
+      "severity": "medium",
+      "repro": "Current viewer field-target browser test invokes FirstEditionSourceViewer.open() directly. Current app-level citation navigation unit test uses synthetic refs and source-function extraction; no browser test clicks an assembled equipment field target and then reloads that exact field URL."
+    },
+    {
+      "id": "detail-copy-link",
+      "severity": "low",
+      "repro": "The `Copy reference link` footer button copies only `#view/id`; no test asserts it or clarifies that it intentionally copies item-level rather than active source location."
+    },
+    {
+      "id": "source-layout-coverage",
+      "severity": "low",
+      "repro": "Compact equipment/spell field-source layout emits inline chips, but spell table layout omits the source column (`attributeLayoutHTML` conditionally emits it only for equipment). No test verifies citations remain discoverable across compact/table toggles for spells."
+    },
+    {
+      "id": "collection-route-matrix",
+      "severity": "low",
+      "repro": "Matrices are source-owner targets rather than root views. Existing tests cover fighter matrix context/reload, but no general page-only matrix route exists by design; sources/notebook pages have no source-navigation chip path tested beyond general app/accessibility tests."
+    }
+  ],
+  "preservedPreFixFailureFixture": {
+    "id": "bo-stick-comparator-origin-field-target-reload",
+    "captureSnapshot": {
+      "gitHead": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+      "appSha256": "3991791d0cb9da0aa186d91da9e55cd728d280d69e12b94fab833f9cfb8bb008",
+      "citationsSha256": "0ba226075d36416e77373fc368994506ac453d27175af911c11f692d98f45834",
+      "assembledDataSha256": "60cc10b9e841f60ca4b4d4a3df6c03f39598aac0e8418d73491f306ff3632b6e"
+    },
+    "baselineBinding": {
+      "routeCollection": "equipment",
+      "routeItemId": "phb-bo-stick",
+      "fieldPointer": "/suggestedPrice/comparisons/0",
+      "sourceOwner": {
+        "collection": "equipment",
+        "itemId": "phb-spear"
+      },
+      "book": "PHB",
+      "printedPage": 35,
+      "regionIds": [],
+      "reviewStatus": "source-row-value-verified-region-pending"
+    },
+    "targetProjection": {
+      "fieldPointer": "/suggestedPrice/comparisons/0",
+      "sourceOwner": null,
+      "sourceOwnerDropped": true
+    },
+    "preFixPermalink": "#equipment/phb-bo-stick?source=PHB%3A35&target=pending&field=%2FsuggestedPrice%2Fcomparisons%2F0&owner=equipment%3Aphb-spear",
+    "sourceHashes": {
+      "app-route.js": "502f84ff52db3e125e0bef8d3884e24dc8d8626c9b2d9d03fc50f1c1585ef532",
+      "citations.js": "0ba226075d36416e77373fc368994506ac453d27175af911c11f692d98f45834",
+      "viewer-target-state.js": "0c65f30cdf42e45c59465725f3c0e7273e4d325feda9d017e284cf52792edf7c"
+    },
+    "reloadResolution": {
+      "routeEntryItemId": "phb-bo-stick",
+      "validatedSourceContextOwner": "phb-spear",
+      "fieldLookupCollection": "equipment",
+      "fieldLookupItemId": "phb-spear",
+      "fieldPointerFoundOnLookupItem": false,
+      "activeTargetResolved": false,
+      "pendingNoticeGuard": "source-viewer.js preserves targetStatus=pending only when normalized activeTarget has a fieldPointer; a lost target can clear the pending state",
+      "exactCrops": "not assessed by this failure fixture; no region geometry is introduced or inferred"
+    }
+  },
+  "verification": {
+    "passed": [
+      {
+        "command": "node --test tests/citation-navigation.test.mjs tests/citations.test.mjs",
+        "tests": 18
+      },
+      {
+        "command": "NODE_PATH=/workspace/adnd1-devtools/node_modules node tests/source-viewer-permalink.browser.mjs",
+        "viewports": [
+          1440,
+          390
+        ]
+      },
+      {
+        "command": "NODE_PATH=/workspace/adnd1-devtools/node_modules node tests/source-viewer-field-targets.browser.mjs"
+      },
+      {
+        "command": "NODE_PATH=/workspace/adnd1-devtools/node_modules node tests/general-source-viewer.browser.mjs"
+      },
+      {
+        "command": "node --input-type=module -e \"import fs from \\\"node:fs\\\"; import {buildPriceSourceInventory,validatePriceSourceInventory} from \\\"./tools/price-source-inventory.mjs\\\"; const data=JSON.parse(fs.readFileSync(\\\"dist/data.json\\\",\\\"utf8\\\")); const inventory=buildPriceSourceInventory({equipment:data.equipment,data}); console.log(validatePriceSourceInventory(inventory,{equipment:data.equipment,data}).counts)\"",
+        "result": "inventory-wide validation passed; 668 current generated field bindings, 93 region-bound and 575 pending"
+      }
+    ],
+    "notRunInThisCapture": [
+      "tests/accessibility.mjs",
+      "tests/browser.mjs",
+      "tests/advancement-browser.mjs",
+      "tests/source-viewer.browser.mjs",
+      "tests/source-viewer-header.browser.mjs"
+    ],
+    "notAssessable": [
+      "source-only field mappings have no automatic proof of exact source passage; citation navigation state can be tested independently from source adequacy"
+    ]
+  },
+  "historicalBaseline": {
+    "note": "This working-tree capture includes uncommitted navigation/citation changes. Git HEAD is the pre-feature baseline; do not interpret current working-tree passes as old behavior.",
+    "gitDerivedViewerCalibration": "research/citation-regression-calibration.json",
+    "genericPagePromotion": "Earlier pre-fix implementation promoted generic page-only equipment chips to same-page field targets; regression test now asserts page-level route with no field pointer. The earlier dirty implementation is not preserved as a Git commit in this capture."
+  },
+  "reproduction": {
+    "scanner": "node tools/citation-navigation-coverage.mjs",
+    "output": "JSON to stdout; deterministic except git HEAD / working-tree file hashes",
+    "testCommands": "See verification.passed and verification.notRunInThisCapture"
+  }
+}

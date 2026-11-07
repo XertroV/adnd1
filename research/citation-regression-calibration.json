@@ -1,0 +1,1054 @@
+{
+  "schemaVersion": 1,
+  "scope": "Regression calibration for known insufficient source context, whole-note omissions, three recorded clipping cases, semantic qualifier-focus coverage, and sentinel scroll/overlay distinction. These checks do not authorize unrelated source edits and do not prove whole-page or whole-book completeness.",
+  "coordinateConventions": {
+    "sourceBounds": {
+      "space": "source-pdf-page",
+      "origin": "top-left",
+      "units": "points",
+      "format": "x0-y0-x1-y1"
+    },
+    "normalizedSourceRects": {
+      "space": "source-pdf-page",
+      "origin": "top-left",
+      "units": "normalized",
+      "format": "xywh"
+    },
+    "focusRects": {
+      "space": "rendered-excerpt-image",
+      "origin": "top-left",
+      "units": "normalized",
+      "format": "xywh"
+    },
+    "normalizationRule": "Convert source point corners to normalized XYWH using the exact private source page width and height; do not reinterpret corner coordinates as XYWH."
+  },
+  "sourceFiles": {
+    "PHB": {
+      "filename": "tsr2010-players-handbook.pdf",
+      "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+    },
+    "UA": {
+      "filename": "Unearthed Arcana.pdf",
+      "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+    }
+  },
+  "sourcePageDimensions": {
+    "PHB": {
+      "19": {
+        "pdfIndexZeroBased": 19,
+        "pdfPage": 20,
+        "widthPt": 582.71923828125,
+        "heightPt": 787.198974609375
+      },
+      "28": {
+        "pdfIndexZeroBased": 28,
+        "pdfPage": 29,
+        "widthPt": 579.59912109375,
+        "heightPt": 781.9189453125
+      },
+      "35": {
+        "pdfIndexZeroBased": 35,
+        "pdfPage": 36,
+        "widthPt": 584.6396484375,
+        "heightPt": 785.5191650390625
+      },
+      "36": {
+        "pdfIndexZeroBased": 36,
+        "pdfPage": 37,
+        "widthPt": 584.879150390625,
+        "heightPt": 786.2398681640625
+      },
+      "37": {
+        "pdfIndexZeroBased": 37,
+        "pdfPage": 38,
+        "widthPt": 579.5993041992188,
+        "heightPt": 786.2398681640625
+      },
+      "51": {
+        "pdfIndexZeroBased": 51,
+        "pdfPage": 52,
+        "widthPt": 576.719970703125,
+        "heightPt": 779.759033203125
+      },
+      "73": {
+        "pdfIndexZeroBased": 73,
+        "pdfPage": 74,
+        "widthPt": 576.23974609375,
+        "heightPt": 787.919677734375
+      }
+    },
+    "UA": {
+      "26": {
+        "pdfIndexZeroBased": 26,
+        "pdfPage": 27,
+        "widthPt": 571.198974609375,
+        "heightPt": 765.599853515625
+      }
+    }
+  },
+  "gitBaselineArtifacts": [
+    {
+      "commit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+      "catalogPath": "dist/scans/verified/equipment-phb-arrow.json",
+      "catalogSha256": "5268c30fd4fc654197551e24bba075184784f4055449148e44050b56d963ba49",
+      "catalogGitBlobOid": "7cb5def0171d88c4e07a71bd24d07d17e1ff0c08",
+      "collection": "equipment",
+      "itemId": "phb-arrow",
+      "regionId": "phb-35-99d338a0db024fc0",
+      "imagePath": "dist/scans/verified/phb-35-99d338a0db024fc0.png",
+      "imageSha256": "99d338a0db024fc00e6de18e7d995a189badd2dbb2ccb430d59059b4c4a43087",
+      "imageGitBlobOid": "1582be0dc8c090c3bca4a36f9096888caa456d84",
+      "imageWidth": 281,
+      "imageHeight": 52,
+      "book": "PHB",
+      "printedPage": 35,
+      "pdfPage": 36,
+      "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "normalizedPageRectXywh": {
+        "x": 0.51,
+        "y": 0.438858,
+        "width": 0.24,
+        "height": 0.032307
+      },
+      "focusRectsImageRelativeXywh": [
+        [
+          0.05449,
+          0.05008,
+          0.8718,
+          0.39685
+        ]
+      ],
+      "id": "arrow-single-price-old"
+    },
+    {
+      "commit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+      "catalogPath": "dist/scans/verified/equipment-phb-long-sword.json",
+      "catalogSha256": "62fcf8755105b6f8e8292af25cb149d027ad99731ad8e669eb353151d41db081",
+      "catalogGitBlobOid": "a07b6eeb3988d4764ce56bd7f1a716202ddb2f54",
+      "collection": "equipment",
+      "itemId": "phb-long-sword",
+      "regionId": "phb-35-24f9543184fe2a2a",
+      "imagePath": "dist/scans/verified/phb-35-24f9543184fe2a2a.png",
+      "imageSha256": "24f9543184fe2a2a214e5bbf242aba6deaf15f34114ed8d8e25f4cfabdfc9140",
+      "imageGitBlobOid": "0cec4c870f7db5d4eedbb6bea32c9e4c947ae544",
+      "imageWidth": 282,
+      "imageHeight": 52,
+      "book": "PHB",
+      "printedPage": 35,
+      "pdfPage": 36,
+      "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "normalizedPageRectXywh": {
+        "x": 0.75,
+        "y": 0.69143,
+        "width": 0.24,
+        "height": 0.032307
+      },
+      "focusRectsImageRelativeXywh": [
+        [
+          0.06731,
+          0.02718,
+          0.86923,
+          0.39685
+        ]
+      ],
+      "id": "long-sword-price-old"
+    },
+    {
+      "commit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+      "catalogPath": "dist/scans/verified/equipment-ua-aklys-hurled.json",
+      "catalogSha256": "96037264f53a90e92a2dd2d79c2a2aecd2acaa36dcb52aa2d6e51e8172c40c5f",
+      "catalogGitBlobOid": "cb3292141ab32e483fe62b7f1569e402afaca3ed",
+      "collection": "equipment",
+      "itemId": "ua-aklys-hurled",
+      "regionId": "ua-26-92697cf6b5d2d5ec",
+      "imagePath": "dist/scans/verified/ua-26-92697cf6b5d2d5ec.png",
+      "imageSha256": "92697cf6b5d2d5ec90cd0164ae2f2342ed670de2192941067df725107d1f32bb",
+      "imageGitBlobOid": "77c186f6a6dedc79cf7b419c5884108e3d5b4c86",
+      "imageWidth": 560,
+      "imageHeight": 32,
+      "book": "UA",
+      "printedPage": 26,
+      "pdfPage": 27,
+      "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+      "normalizedPageRectXywh": {
+        "x": 0.5,
+        "y": 0.087513,
+        "width": 0.49,
+        "height": 0.020899
+      },
+      "focusRectsImageRelativeXywh": [
+        [
+          0,
+          0.08,
+          1,
+          0.7
+        ]
+      ],
+      "id": "aklys-stats-old"
+    },
+    {
+      "commit": "84252dc74db14e4c1d6ec465670c8b5b3d88f364",
+      "catalogPath": "dist/scans/verified/spells-phb-cleric-animate-object.json",
+      "catalogSha256": "8fc153bb9fc4fb0f2f638dc509507ce220824f95571918bd1369dcf8d46477c4",
+      "catalogGitBlobOid": "a05a0bdcc9492cd5c20359dc9540139bef862a71",
+      "collection": "spells",
+      "itemId": "phb-cleric-animate-object",
+      "regionId": "phb-51-5f5f86d3cf71f766",
+      "imagePath": "dist/scans/verified/phb-51-5f5f86d3cf71f766.png",
+      "imageSha256": "5f5f86d3cf71f766c6a059dfa580ac459745916aef027bf540ca15fc580ae239",
+      "imageGitBlobOid": "a6ce76267c95b6ef39c02148999db7847fac2a9e",
+      "imageWidth": 555,
+      "imageHeight": 752,
+      "book": "PHB",
+      "printedPage": 51,
+      "pdfPage": 52,
+      "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "normalizedPageRectXywh": {
+        "x": 0.01,
+        "y": 0.2128862801602934,
+        "width": 0.48,
+        "height": 0.48220024903777303
+      },
+      "focusRectsImageRelativeXywh": [
+        [
+          0,
+          0,
+          1,
+          1
+        ]
+      ],
+      "id": "animate-object-old"
+    },
+    {
+      "commit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+      "catalogPath": "dist/scans/verified/classes-assassin.json",
+      "catalogSha256": "6ec914e81bd06ee50c4d9a4d6105bfbb7f558de515ace3edeb70c5802b55a62d",
+      "catalogGitBlobOid": "abad556dd380a35af241ed3448cf59deb02ad7a2",
+      "collection": "classes",
+      "itemId": "assassin",
+      "regionId": "phb-19-602a36abc607e820",
+      "imagePath": "dist/scans/verified/phb-19-602a36abc607e820.png",
+      "imageSha256": "602a36abc607e8201382d866231bbb6c84d2ead256eea7f4ea2b1d065be4a449",
+      "imageGitBlobOid": "048877576e8e406c1cffadf21b0f3b2fa74fc7a6",
+      "imageWidth": 1091,
+      "imageHeight": 276,
+      "book": "PHB",
+      "printedPage": 19,
+      "pdfPage": 20,
+      "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "normalizedPageRectXywh": {
+        "x": 0.035,
+        "y": 0.035,
+        "width": 0.935,
+        "height": 0.175
+      },
+      "focusRectsImageRelativeXywh": [
+        [
+          0,
+          0,
+          1,
+          1
+        ]
+      ],
+      "id": "assassin-phb19-old"
+    },
+    {
+      "commit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+      "catalogPath": "dist/scans/verified/classes-assassin.json",
+      "catalogSha256": "6ec914e81bd06ee50c4d9a4d6105bfbb7f558de515ace3edeb70c5802b55a62d",
+      "catalogGitBlobOid": "abad556dd380a35af241ed3448cf59deb02ad7a2",
+      "collection": "classes",
+      "itemId": "assassin",
+      "regionId": "phb-28-c18cfa2ca0a1cda2",
+      "imagePath": "dist/scans/verified/phb-28-c18cfa2ca0a1cda2.png",
+      "imageSha256": "c18cfa2ca0a1cda2864545ddd705a5a32675fccfdb10671150275d7520b09b5a",
+      "imageGitBlobOid": "3902b9cf398bc97a2d29e01ef0eee2445d4ee3ac",
+      "imageWidth": 1102,
+      "imageHeight": 588,
+      "book": "PHB",
+      "printedPage": 28,
+      "pdfPage": 29,
+      "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "normalizedPageRectXywh": {
+        "x": 0.02,
+        "y": 0.035,
+        "width": 0.95,
+        "height": 0.375
+      },
+      "focusRectsImageRelativeXywh": [
+        [
+          0,
+          0,
+          1,
+          1
+        ]
+      ],
+      "id": "assassin-phb28-old"
+    },
+    {
+      "commit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+      "catalogPath": "dist/scans/verified/classes-assassin.json",
+      "catalogSha256": "6ec914e81bd06ee50c4d9a4d6105bfbb7f558de515ace3edeb70c5802b55a62d",
+      "catalogGitBlobOid": "abad556dd380a35af241ed3448cf59deb02ad7a2",
+      "collection": "classes",
+      "itemId": "assassin",
+      "regionId": "phb-37-911fe149fbfab8dd",
+      "imagePath": "dist/scans/verified/phb-37-587f77a207f17287.png",
+      "imageSha256": "587f77a207f17287d2b8854453a915d70439d015ee05b320a43943bbaf03ae65",
+      "imageGitBlobOid": "cd9da7c918bb5544c5752caa9fbe83e902fa13fa",
+      "imageWidth": 540,
+      "imageHeight": 295,
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "normalizedPageRectXywh": {
+        "x": 0.035,
+        "y": 0.035,
+        "width": 0.465,
+        "height": 0.187
+      },
+      "focusRectsImageRelativeXywh": [
+        [
+          0,
+          0,
+          1,
+          1
+        ]
+      ],
+      "id": "assassin-phb37-old"
+    },
+    {
+      "commit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+      "catalogPath": "dist/scans/verified/equipment-phb-holy-water.json",
+      "catalogSha256": "66da438f9a5f1f84a2ff393bf2dbf83baeb60379b03d3cf639d71c62483a8910",
+      "catalogGitBlobOid": "599a5a277deaefbbc1d7acd51dd9e2510c974b67",
+      "collection": "equipment",
+      "itemId": "phb-holy-water",
+      "regionId": "phb-36-d9da603a48a956f7",
+      "imagePath": "dist/scans/verified/phb-36-d9da603a48a956f7.png",
+      "imageSha256": "d9da603a48a956f7c3acaab6b8bb1687d109e7c977a16d68748164f639a2bd25",
+      "imageGitBlobOid": "ed33ba50ab08fe6fe241f4ef1e1644be5f1c2310",
+      "imageWidth": 282,
+      "imageHeight": 52,
+      "book": "PHB",
+      "printedPage": 36,
+      "pdfPage": 37,
+      "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "normalizedPageRectXywh": {
+        "x": 0.25,
+        "y": 0.57788,
+        "width": 0.24,
+        "height": 0.032277
+      },
+      "focusRectsImageRelativeXywh": [
+        [
+          0.05577,
+          0.13489,
+          0.87693,
+          0.35747
+        ]
+      ],
+      "id": "holy-water-row-focus-old"
+    },
+    {
+      "commit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+      "catalogPath": "dist/scans/verified/spells-phb-magic-user-fireball.json",
+      "catalogSha256": "114965ddb9b301eeb6b34ddbd6cc7f012bef97e93043f7b954d287ae1fbf62f8",
+      "catalogGitBlobOid": "319cc34f4e00150cf8b35a54c17cc8e3139abe9a",
+      "collection": "spells",
+      "itemId": "phb-magic-user-fireball",
+      "regionId": "phb-73-98d1b9198302b818",
+      "imagePath": "dist/scans/verified/phb-73-98d1b9198302b818.png",
+      "imageSha256": "98d1b9198302b818bec6c2a6bb7480d840b8d87ecd84c235088744c8b59967b8",
+      "imageGitBlobOid": "d7a00fd000b30bb14f949ca194a82aff6cc6b5f2",
+      "imageWidth": 565,
+      "imageHeight": 575,
+      "book": "PHB",
+      "printedPage": 73,
+      "pdfPage": 74,
+      "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "normalizedPageRectXywh": {
+        "x": 0.5,
+        "y": 0.13836774231180743,
+        "width": 0.49,
+        "height": 0.3643772605837849
+      },
+      "focusRectsImageRelativeXywh": [
+        [
+          0,
+          0,
+          1,
+          1
+        ]
+      ],
+      "id": "fireball-full-image-sentinel"
+    },
+    {
+      "commit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+      "catalogPath": "dist/scans/verified/equipment-phb-banded-mail.json",
+      "catalogSha256": "59d7fe7d67705bf9a898ab895fed6bdce83ffb176f5b5978efc9684a4131247f",
+      "catalogGitBlobOid": "ef95b4b09cbdef445fd7dea0ba635f2bcb808871",
+      "collection": "equipment",
+      "itemId": "phb-banded-mail",
+      "regionId": "phb-36-36541e88d64c623b",
+      "imagePath": "dist/scans/verified/phb-36-9f81c295e9868526.png",
+      "imageSha256": "9f81c295e986852674bd26b3cb631bf64d0dae739825843253e312b330d2a52d",
+      "imageGitBlobOid": "27d0d39acb0a51947d1aaec226b7754fd597263d",
+      "imageWidth": 743,
+      "imageHeight": 413,
+      "book": "PHB",
+      "printedPage": 36,
+      "pdfPage": 37,
+      "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "normalizedPageRectXywh": {
+        "x": 0.4753118653901944,
+        "y": 0.4006410928201237,
+        "width": 0.5077972087082292,
+        "height": 0.20985962004863623
+      },
+      "focusRectsImageRelativeXywh": [
+        [
+          0.04,
+          0.72155,
+          0.84,
+          0.106538
+        ]
+      ],
+      "id": "banded-mail-sentinel-scroll-fixture"
+    }
+  ],
+  "contextContainmentCases": [
+    {
+      "id": "arrow-single-price-requires-arms-table",
+      "baselineArtifactId": "arrow-single-price-old",
+      "itemId": "phb-arrow",
+      "fieldPointer": "/price",
+      "requiredContext": {
+        "space": "source-pdf-page",
+        "origin": "top-left",
+        "units": "points",
+        "format": "x0-y0-x1-y1",
+        "values": [
+          306,
+          336,
+          573,
+          601
+        ],
+        "label": "Complete PHB Arms price table, including the heading and all listed rows"
+      },
+      "candidates": [
+        {
+          "id": "baseline-single-row",
+          "source": "git-baseline-region",
+          "artifactId": "arrow-single-price-old",
+          "expected": "does-not-contain"
+        },
+        {
+          "id": "source-backed-arms-context-crop",
+          "source": "source-pdf-crop-points",
+          "bounds": {
+            "space": "source-pdf-page",
+            "origin": "top-left",
+            "units": "points",
+            "format": "x0-y0-x1-y1",
+            "values": [
+              303,
+              213,
+              576,
+              603
+            ]
+          },
+          "expected": "contains"
+        }
+      ]
+    },
+    {
+      "id": "long-sword-price-requires-arms-table",
+      "baselineArtifactId": "long-sword-price-old",
+      "itemId": "phb-long-sword",
+      "fieldPointer": "/price",
+      "requiredContext": {
+        "space": "source-pdf-page",
+        "origin": "top-left",
+        "units": "points",
+        "format": "x0-y0-x1-y1",
+        "values": [
+          306,
+          336,
+          573,
+          601
+        ],
+        "label": "Complete PHB Arms price table, including the heading and all listed rows"
+      },
+      "candidates": [
+        {
+          "id": "baseline-single-row",
+          "source": "git-baseline-region",
+          "artifactId": "long-sword-price-old",
+          "expected": "does-not-contain"
+        },
+        {
+          "id": "source-backed-arms-context-crop",
+          "source": "source-pdf-crop-points",
+          "bounds": {
+            "space": "source-pdf-page",
+            "origin": "top-left",
+            "units": "points",
+            "format": "x0-y0-x1-y1",
+            "values": [
+              303,
+              213,
+              576,
+              603
+            ]
+          },
+          "expected": "contains"
+        }
+      ]
+    },
+    {
+      "id": "aklys-stat-row-requires-weapon-table",
+      "baselineArtifactId": "aklys-stats-old",
+      "itemId": "ua-aklys-hurled",
+      "fieldPointer": "/fields/Approx. weight (UA p.26)",
+      "requiredContext": {
+        "space": "source-pdf-page",
+        "origin": "top-left",
+        "units": "points",
+        "format": "x0-y0-x1-y1",
+        "values": [
+          297,
+          19,
+          568,
+          740
+        ],
+        "label": "Complete UA Weapon Weight and Damage table with heading, column labels and rows"
+      },
+      "candidates": [
+        {
+          "id": "baseline-single-stat-row",
+          "source": "git-baseline-region",
+          "artifactId": "aklys-stats-old",
+          "expected": "does-not-contain"
+        },
+        {
+          "id": "source-backed-weapon-table-crop",
+          "source": "source-pdf-crop-points",
+          "bounds": {
+            "space": "source-pdf-page",
+            "origin": "top-left",
+            "units": "points",
+            "format": "x0-y0-x1-y1",
+            "values": [
+              297,
+              17,
+              571,
+              744
+            ]
+          },
+          "expected": "contains"
+        }
+      ]
+    }
+  ],
+  "wholeNoteOmissionCases": [
+    {
+      "id": "assassin-phb19-scroll-reading-footnote",
+      "baselineArtifactId": "assassin-phb19-old",
+      "sourcePage": {
+        "book": "PHB",
+        "printedPage": 19,
+        "pdfIndexZeroBased": 19,
+        "pdfPage": 20,
+        "widthPt": 582.71923828125,
+        "heightPt": 787.198974609375
+      },
+      "requiredContext": {
+        "space": "source-pdf-page",
+        "origin": "top-left",
+        "units": "points",
+        "format": "x0-y0-x1-y1",
+        "values": [
+          25.6989,
+          231.5114,
+          486.4952,
+          239.8889
+        ],
+        "label": "Footnote attached to the class-level table about reading spells from scrolls"
+      },
+      "edgeDetectorCalibration": {
+        "omittedBoxIsWhollyOutsideBaseline": true,
+        "expectedOldCrossings": [],
+        "limitation": "The boundary detector sees no crossing when a relevant note is wholly outside the crop."
+      },
+      "candidates": [
+        {
+          "id": "baseline",
+          "source": "git-baseline-region",
+          "artifactId": "assassin-phb19-old",
+          "expected": "does-not-contain"
+        },
+        {
+          "id": "repaired-top-context",
+          "source": "normalized-source-page-xywh",
+          "bounds": {
+            "space": "source-pdf-page",
+            "origin": "top-left",
+            "units": "normalized",
+            "format": "xywh",
+            "values": [
+              0.035,
+              0.035,
+              0.935,
+              0.28
+            ]
+          },
+          "expected": "contains"
+        }
+      ]
+    },
+    {
+      "id": "assassin-phb37-proficiency-interval-note",
+      "baselineArtifactId": "assassin-phb37-old",
+      "sourcePage": {
+        "book": "PHB",
+        "printedPage": 37,
+        "pdfIndexZeroBased": 37,
+        "pdfPage": 38,
+        "widthPt": 579.5993041992188,
+        "heightPt": 786.2398681640625
+      },
+      "requiredContext": {
+        "space": "source-pdf-page",
+        "origin": "top-left",
+        "units": "points",
+        "format": "x0-y0-x1-y1",
+        "values": [
+          20.3,
+          28.0,
+          568.7,
+          165.23
+        ],
+        "label": "Weapon Proficiency Table and its explanatory progression note, ending before the next table"
+      },
+      "edgeDetectorCalibration": {
+        "omittedBoxPoints": [
+          308.2,
+          120.85,
+          568.7,
+          165.23
+        ],
+        "omittedBoxIsWhollyOutsideBaseline": true,
+        "expectedOldCrossings": [],
+        "limitation": "The boundary detector does not find a note entirely beyond the right edge."
+      },
+      "candidates": [
+        {
+          "id": "baseline-left-half-context",
+          "source": "git-baseline-region",
+          "artifactId": "assassin-phb37-old",
+          "expected": "does-not-contain"
+        },
+        {
+          "id": "intermediate-proposed-width",
+          "source": "normalized-source-page-xywh",
+          "bounds": {
+            "space": "source-pdf-page",
+            "origin": "top-left",
+            "units": "normalized",
+            "format": "xywh",
+            "values": [
+              0.035,
+              0.035,
+              0.935,
+              0.187
+            ]
+          },
+          "expected": "does-not-contain"
+        },
+        {
+          "id": "corrected-source-page-context",
+          "source": "normalized-source-page-xywh",
+          "bounds": {
+            "space": "source-pdf-page",
+            "origin": "top-left",
+            "units": "normalized",
+            "format": "xywh",
+            "values": [
+              0.035,
+              0.035,
+              0.96,
+              0.187
+            ]
+          },
+          "expected": "contains"
+        }
+      ]
+    }
+  ],
+  "clippingCases": [
+    {
+      "id": "animate-object-phb51-right-edge-words",
+      "baselineArtifactId": "animate-object-old",
+      "correctedAsset": {
+        "catalogPath": "dist/scans/verified/spells-phb-cleric-animate-object.json",
+        "regionId": "phb-51-5f5f86d3cf71f766",
+        "imagePath": "dist/scans/verified/phb-51-a1fa4dbc69e703f9.png",
+        "imageSha256": "a1fa4dbc69e703f9d506ad774cbf5bc78db12f4bd071f5d7aee19eed0a72a9d5",
+        "normalizedPageRectXywh": {
+          "x": 0.01,
+          "y": 0.2128862801602934,
+          "width": 0.5112109878526572,
+          "height": 0.48220024903777303
+        }
+      },
+      "sourcePage": {
+        "book": "PHB",
+        "printedPage": 51,
+        "pdfIndexZeroBased": 51,
+        "pdfPage": 52,
+        "widthPt": 576.719970703125,
+        "heightPt": 779.759033203125
+      },
+      "oldCrop": {
+        "space": "source-pdf-page",
+        "origin": "top-left",
+        "units": "points",
+        "format": "x0-y0-x1-y1",
+        "values": [
+          5.7672,
+          166.0,
+          282.5928,
+          542.0
+        ]
+      },
+      "correctedCrop": {
+        "space": "source-pdf-page",
+        "origin": "top-left",
+        "units": "points",
+        "format": "x0-y0-x1-y1",
+        "values": [
+          5.7672,
+          166.0,
+          300.5928,
+          542.0
+        ]
+      },
+      "sourceTextWordBoxes": [
+        [
+          276.8,
+          234.76,
+          283.31,
+          243.03
+        ],
+        [
+          246.5,
+          270.76,
+          283.84,
+          279.03
+        ],
+        [
+          260.6,
+          342.46,
+          284.17,
+          350.73
+        ]
+      ],
+      "expectedOldCrossingEdges": [
+        "right"
+      ],
+      "expectedCorrectedCrossingEdges": [],
+      "scope": "Three recorded original-PDF text-layer word boxes in this passage only."
+    },
+    {
+      "id": "assassin-phb28-bottom-row-words",
+      "baselineArtifactId": "assassin-phb28-old",
+      "correctedAsset": {
+        "catalogPath": "dist/scans/verified/classes-assassin.json",
+        "regionId": "phb-28-c18cfa2ca0a1cda2",
+        "imagePath": "dist/scans/verified/phb-28-15aa176f1cd627f3.png",
+        "imageSha256": "15aa176f1cd627f332858276ca1fedece1826426ad7cfc1f422e1ba2c403d4d4",
+        "normalizedPageRectXywh": {
+          "x": 0.02,
+          "y": 0.035,
+          "width": 0.95,
+          "height": 0.395
+        }
+      },
+      "sourcePage": {
+        "book": "PHB",
+        "printedPage": 28,
+        "pdfIndexZeroBased": 28,
+        "pdfPage": 29,
+        "widthPt": 579.59912109375,
+        "heightPt": 781.9189453125
+      },
+      "oldCrop": {
+        "space": "source-pdf-page",
+        "origin": "top-left",
+        "units": "points",
+        "format": "x0-y0-x1-y1",
+        "normalizedXywh": [
+          0.02,
+          0.035,
+          0.95,
+          0.375
+        ]
+      },
+      "correctedCrop": {
+        "space": "source-pdf-page",
+        "origin": "top-left",
+        "units": "points",
+        "format": "x0-y0-x1-y1",
+        "normalizedXywh": [
+          0.02,
+          0.035,
+          0.95,
+          0.395
+        ]
+      },
+      "sourceTextWordBoxes": [
+        [
+          31.0,
+          314.53,
+          60.47,
+          322.91
+        ],
+        [
+          96.2,
+          314.41,
+          109.31,
+          323.81
+        ],
+        [
+          149.0,
+          307.92,
+          155.77,
+          324.46
+        ],
+        [
+          156.0,
+          314.41,
+          164.96,
+          323.81
+        ],
+        [
+          209.0,
+          307.92,
+          215.77,
+          324.46
+        ],
+        [
+          216.0,
+          314.41,
+          224.96,
+          323.81
+        ],
+        [
+          389.3,
+          307.68,
+          396.37,
+          324.88
+        ],
+        [
+          396.2,
+          314.71,
+          405.16,
+          324.11
+        ],
+        [
+          449.0,
+          308.22,
+          456.07,
+          324.76
+        ],
+        [
+          456.2,
+          314.71,
+          464.91,
+          324.11
+        ],
+        [
+          508.6,
+          314.54,
+          513.4,
+          324.17
+        ],
+        [
+          515.3,
+          314.62,
+          524.45,
+          324.14
+        ]
+      ],
+      "expectedOldCrossingEdges": [
+        "bottom"
+      ],
+      "expectedOldCrossingCount": 12,
+      "expectedCorrectedCrossingEdges": [],
+      "scope": "Twelve original-PDF text-layer word boxes crossing the old bottom edge; includes the Half-Orc row word box y=314.53–322.91. This checks those boxes only."
+    }
+  ],
+  "qualifierFocusCases": [
+    {
+      "id": "holy-water-asterisk-qualifier-focus",
+      "baselineArtifactId": "holy-water-row-focus-old",
+      "itemId": "phb-holy-water",
+      "fieldPointer": "/price",
+      "sourcePage": {
+        "book": "PHB",
+        "printedPage": 36,
+        "pdfIndexZeroBased": 36,
+        "pdfPage": 37,
+        "widthPt": 584.879150390625,
+        "heightPt": 786.2398681640625
+      },
+      "cropSourcePdfPoints": [
+        146.22,
+        454.35,
+        286.59,
+        479.73
+      ],
+      "existingRowFocusRectsImageRelativeXywh": [
+        [
+          0.05577,
+          0.13489,
+          0.87693,
+          0.35747
+        ]
+      ],
+      "requiredEvidence": {
+        "label": "Asterisked price-row qualifier note",
+        "sourcePdfPoints": [
+          163.67,
+          467.0,
+          202.33,
+          474.67
+        ],
+        "normalizedSourcePageXywh": [
+          0.2798355863611982,
+          0.5939663185618977,
+          0.06609912487764362,
+          0.009755292641048748
+        ]
+      },
+      "separateQualifierFocus": {
+        "sourcePdfPoints": [
+          162.67,
+          466.0,
+          203.33,
+          475.67
+        ],
+        "imageRelativeXywh": [
+          [
+            0.11719028282396518,
+            0.4590228526398731,
+            0.28966303341169786,
+            0.3810086682427115
+          ]
+        ]
+      },
+      "scope": "This is a manually annotated dependency: the source price row’s asterisk refers to its adjacent qualifier note. The text-layer and focus containment checks do not infer that relationship.",
+      "expectedExistingFocusCoversEvidence": false,
+      "expectedSeparateQualifierFocusCoversEvidence": true
+    }
+  ],
+  "sentinelCalibration": {
+    "sentinelRectImageRelativeXywh": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "rawAuditInterpretation": "Exact raw rectangle is a highlight suspect unless a hash-bound independent exception is recorded.",
+    "visibleOverlayInterpretation": "The current viewer filters this exact sentinel from visible overlay rectangles; mixed precise rectangles remain visible with a warning.",
+    "historicalScrollInterpretation": "The baseline viewer selected the first raw focus rectangle for scroll framing. With this sentinel, the scroll calculation used the full image bottom and moved the crop downward; current viewer uses only precise non-sentinel focus for scroll framing.",
+    "baselineViewer": {
+      "commit": "13783128ca5955ac707ed7ec6994d78d7c9a7cce",
+      "path": "dist/source-viewer.js",
+      "sha256": "4efe41599b5696cef8742091b8b4c45cc2d2a7719ef7a14414264c23d577ee9d",
+      "gitBlobOid": "bec1d4975f8c35c897d9bd2ef9fa5aece276d984"
+    },
+    "calibrationSnapshotViewer": {
+      "path": "dist/source-viewer.js",
+      "sha256": "57fe3c8828ba6272eb2d20af4ccb105fbbc377b7fa5ff8dbd92464b62bd4e29c",
+      "meaning": "Identity of the viewer bytes used for this calibration run; subsequent routing edits may change the file and hash."
+    },
+    "representativeBaselineBindings": [
+      {
+        "artifactId": "fireball-full-image-sentinel",
+        "role": "actual whole-spell image with raw sentinel"
+      },
+      {
+        "artifactId": "banded-mail-sentinel-scroll-fixture",
+        "role": "table fixture with sentinel injected by the browser test; original crop is not sentinel-marked"
+      }
+    ],
+    "baselineFireballScrollMeasurements": [
+      {
+        "viewport": [
+          640,
+          360
+        ],
+        "scrollTop": 387,
+        "stageHeight": 196,
+        "imageHeight": 559
+      },
+      {
+        "viewport": [
+          1440,
+          900
+        ],
+        "scrollTop": 25,
+        "stageHeight": 574,
+        "imageHeight": 575
+      }
+    ],
+    "baselineBandedMailScrollMeasurements": [
+      {
+        "viewport": [
+          640,
+          360
+        ],
+        "scrollTop": 241,
+        "stageHeight": 196,
+        "imageHeight": 413
+      },
+      {
+        "viewport": [
+          1024,
+          400
+        ],
+        "scrollTop": 183,
+        "stageHeight": 254,
+        "imageHeight": 413
+      },
+      {
+        "viewport": [
+          1440,
+          500
+        ],
+        "scrollTop": 119,
+        "stageHeight": 318,
+        "imageHeight": 413
+      }
+    ],
+    "currentBrowserRegressionTests": [
+      "tests/source-viewer-header.browser.mjs",
+      "tests/source-viewer-permalink.browser.mjs",
+      "tests/source-viewer-review-exceptions.browser.mjs"
+    ],
+    "wholeSpellPolicy": "An unmarked whole-spell view can be accepted only by a separate exact source/image/focus/content hash-bound independent exception; see tests/source-viewer-review-exceptions.browser.mjs.",
+    "individualFieldPolicy": "An individual fact requires a precise field-specific highlight. A whole-image sentinel cannot establish a field highlight.",
+    "coverageWarning": "Geometric coverage by a full-image sentinel is not precision and does not clear raw audit suspicion."
+  },
+  "limitations": [
+    "Boundary crossing detects only the recorded text-layer boxes; it can miss any note, row, or table wholly outside a crop.",
+    "No OCR/text layer means no word-box candidates, even if visible source ink is clipped.",
+    "Context checks catch only the required bounds manually annotated in this manifest; they do not discover missing table rows, headings, units, continuations, or footnotes.",
+    "Focus coverage only asks whether every manually annotated dependency box is covered by at least one focus rectangle; it does not prove precision, relevance, or that the correct values are highlighted.",
+    "A complete table crop does not establish a specific field/value binding.",
+    "Source-pixel review is still needed for semantic interpretation and source limitations."
+  ]
+}

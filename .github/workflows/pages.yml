@@ -21,6 +21,8 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
+          # Calibration fixtures verify the original failing catalog/image Git objects.
+          fetch-depth: 0
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '24'
@@ -30,18 +32,55 @@ jobs:
         run: |
           node tools/assemble.mjs
           git diff --exit-code -- dist
-      - name: Generate source visual coverage
+      - name: Generate citation systemic inventory
+        if: always()
         run: |
+          set +e
+          node tools/citation-systemic-inventory.mjs --output-dir artifacts/citation-systemic-coverage
+          report_status=$?
+          set -e
+          if [ -f artifacts/citation-systemic-coverage/citation-systemic-summary.md ]; then
+            sed -n '1,35p' artifacts/citation-systemic-coverage/citation-systemic-summary.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            mkdir -p artifacts/citation-systemic-coverage
+            echo "Citation systemic inventory unavailable: generator exited before writing its summary (status ${report_status})." >> "$GITHUB_STEP_SUMMARY"
+            echo "Generator did not write citation-systemic-summary.md (exit status ${report_status})." > artifacts/citation-systemic-coverage/generation-error.txt
+            if [ "$report_status" -eq 0 ]; then report_status=1; fi
+          fi
+          exit "$report_status"
+      - name: Upload citation systemic inventory
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: citation-systemic-inventory
+          overwrite: true
+          path: artifacts/citation-systemic-coverage/
+          if-no-files-found: warn
+      - name: Generate source visual coverage
+        if: always()
+        run: |
+          set +e
           node tools/source-visual-coverage.mjs artifacts/source-visual-coverage
-          sed -n '1,35p' artifacts/source-visual-coverage/report.md >> "$GITHUB_STEP_SUMMARY"
-          echo "Full binding-level JSON and Markdown are available in the source-visual-coverage artifact." >> "$GITHUB_STEP_SUMMARY"
+          visual_status=$?
+          set -e
+          if [ -f artifacts/source-visual-coverage/report.md ]; then
+            sed -n '1,35p' artifacts/source-visual-coverage/report.md >> "$GITHUB_STEP_SUMMARY"
+            echo "Full binding-level JSON and Markdown are available in the source-visual-coverage artifact." >> "$GITHUB_STEP_SUMMARY"
+          else
+            mkdir -p artifacts/source-visual-coverage
+            echo "Source visual coverage unavailable: generator exited before writing its report (status ${visual_status})." >> "$GITHUB_STEP_SUMMARY"
+            echo "Generator did not write report.md (exit status ${visual_status})." > artifacts/source-visual-coverage/generation-error.txt
+            if [ "$visual_status" -eq 0 ]; then visual_status=1; fi
+          fi
+          exit "$visual_status"
       - name: Upload source visual coverage
+        if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: source-visual-coverage
           overwrite: true
           path: artifacts/source-visual-coverage/
-          if-no-files-found: error
+          if-no-files-found: warn
       - name: Capture build metadata
         if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
         run: node tools/stamp-build.mjs --capture

@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+import http from 'node:http';
+import path from 'node:path';
+import {readFile} from 'node:fs/promises';
+import {createRequire} from 'node:module';
+const require=createRequire(import.meta.url);let chromium;try{({chromium}=require('playwright'));}catch{({chromium}=require('/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'));}
+const root=path.resolve('dist'),data=JSON.parse(await readFile(path.join(root,'data.json'),'utf8'));
+const server=http.createServer(async(req,res)=>{try{const pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);const file=path.resolve(root,'.'+(pathname==='/'?'/index.html':pathname));if(!file.startsWith(root+path.sep))throw Error();res.setHeader('Content-Type',({'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png'})[path.extname(file)]||'application/octet-stream');res.end(await readFile(file));}catch{res.writeHead(404);res.end();}});
+await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',args:['--no-sandbox']});
+try{
+ const page=await browser.newPage({viewport:{width:1280,height:900}});const errors=[];page.on('pageerror',error=>errors.push(error.message));
+ await page.goto(`http://127.0.0.1:${server.address().port}/`);await page.waitForTimeout(150);
+ const target={book:'PHB',page:35,regionIds:['phb-35-aace59b02b33236d'],label:'Purchase price',status:'Price row checked',targetStatus:'resolved',reviewStatus:'field-target-reviewed',fieldPointer:'/price',sourceOwner:{collection:'equipment',itemId:'phb-banded-mail'},contextStatus:'context-adequate',contextLimitations:['Adjacent table rows remain visible.']};
+ const item=data.equipment.find(entry=>entry.id==='phb-banded-mail');
+ const verification=item.sourceExcerpts||item.scanVerification;
+ const catalog=JSON.parse(await readFile(path.join(root,verification.catalog),'utf8'));
+ const reviewedRegion=catalog.regions.find(region=>region.id===target.regionIds[0]);
+ assert.ok(reviewedRegion,'field target region resolves in the item’s selected catalog');
+ const open=async(options)=>page.evaluate(({item,options})=>{const references=FirstEditionCitations.collect(item);const config={...options};delete config.recordChange;delete config.recordCopy;const onChange=options.recordChange?(ref,region,meta)=>{window.__viewerChange={book:ref.book,page:ref.page,region,meta};}:undefined;const onCopyLink=options.recordCopy?(ref,region,meta)=>{window.__viewerCopy={book:ref.book,page:ref.page,region,meta};}:undefined;FirstEditionSourceViewer.open({item,contextItemId:item.id,references,...config,onChange,onCopyLink});}, {item,options});
+ await open({targets:[target],activeTarget:target,targetStatus:'resolved',initialReference:{book:'PHB',page:35,region:target.regionIds[0]}});
+ const dialog=page.locator('dialog.source-viewer[open]');await dialog.waitFor();
+ await dialog.locator('.source-viewer-scan').waitFor({state:'visible'});await page.waitForFunction(()=>document.querySelector('.source-viewer-scan')?.naturalWidth>0);
+ assert.equal(await dialog.locator('.source-viewer-labels').innerText(),'Field target: Purchase price · Price row checked');
+ assert.ok(new URL(await dialog.locator('.source-viewer-scan').getAttribute('src')).pathname.endsWith(`/${reviewedRegion.image}`),'viewer uses the image currently named by the selected catalog');
+ const pending={...target,regionIds:['phb-35-aace59b02b33236d'],label:'Weight',status:'Weight pending review',targetStatus:'pending',reviewStatus:'source-excerpt-only',fieldPointer:'/weight'};
+ await open({targets:[pending],activeTarget:pending,targetStatus:'pending',initialReference:{book:'PHB',page:35},recordChange:true,recordCopy:true});
+ assert.equal(await dialog.locator('.source-viewer-target-notice').isVisible(),true);
+ assert.match(await dialog.locator('.source-viewer-target-notice').innerText(),/Weight.*no reviewed excerpt mapping/i);
+ await dialog.getByRole('button',{name:'Copy link to this source page'}).click();
+ await page.waitForFunction(()=>window.__viewerCopy?.meta?.activeTarget?.sourceOwner?.itemId==='phb-banded-mail');
+ assert.deepEqual(await page.evaluate(()=>window.__viewerCopy.meta.activeTarget.sourceOwner),{collection:'equipment',itemId:'phb-banded-mail'},'active target metadata keeps structured sourceOwner through viewer normalization');
+ assert.equal(await dialog.getByRole('button',{name:'Your PDF'}).getAttribute('aria-pressed'),'true');
+ assert.equal(await dialog.locator('.source-viewer-image-frame').isVisible(),false,'pending target must not select a crop');
+ await dialog.getByRole('button',{name:'View excerpts'}).click();
+ await page.waitForFunction(()=>!document.querySelector('#source-viewer-region')?.hidden);
+ await dialog.locator('#source-viewer-region').selectOption('1');
+ await page.waitForFunction(()=>window.__viewerChange?.meta?.activeTarget===false);
+ assert.equal(await dialog.locator('.source-viewer-target-notice').isHidden(),true,'manual crop choice clears the pending target notice');
+ await dialog.locator('.source-viewer-image-frame').waitFor({state:'visible'});
+ assert.equal(await dialog.locator('.source-viewer-image-frame').isVisible(),true);
+ assert.deepEqual(errors,[]);await page.close();
+ console.log('Field targets select only reviewed regions, retain the clicked field label, and keep pending targets crop-free until manual selection.');
+}finally{await browser.close();await new Promise(resolve=>server.close(resolve));}
