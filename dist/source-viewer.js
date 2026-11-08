@@ -385,9 +385,37 @@
   }
   function fieldTargetLabel(target) {
     if (!target) return '';
-    const pointerLabel = String(target.fieldPointer || '').split('/').filter(Boolean).at(-1)?.replace(/~1/g, '/').replace(/~0/g, '~') || '';
+    const segments = String(target.fieldPointer || '').split('/').filter(Boolean).map(segment => segment.replace(/~1/g, '/').replace(/~0/g, '~'));
+    const indexLabel = key => ({
+      xpRows: 'XP', levelChanges: 'Level change', additionalSources: 'Additional source', references: 'Reference',
+      notes: 'Note', noteRows: 'Note', rows: 'Row', entries: 'Entry', sources: 'Source',
+    }[key] || key.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/[_-]+/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase()));
+    const pathLabel = () => {
+      const parts = [];
+      for (let index = 0; index < segments.length; index++) {
+        const segment = segments[index];
+        if (/^(0|[1-9]\d*)$/.test(segment) && Number.isSafeInteger(Number(segment))) {
+          const key = segments[index - 1];
+          const label = key && !/^(0|[1-9]\d*)$/.test(key) ? indexLabel(key) : 'Entry';
+          parts.push(`${label} entry ${Number(segment) + 1}`);
+        } else if (parts.length && !/^(0|[1-9]\d*)$/.test(segments[index + 1] || '')) {
+          parts.push(indexLabel(segment));
+        }
+      }
+      return parts.join(' › ');
+    };
+    const pointerLabel = segments.at(-1) || '';
     const label = String(target.label || '').trim();
-    return target.fieldPointer && (!label || label === target.sourceObject || label === excerptSource?.name) ? pointerLabel || label : label || pointerLabel || 'Citation target';
+    const pointerPathLabel = pathLabel();
+    const isIndexedPointer = segments.some(segment => /^(0|[1-9]\d*)$/.test(segment) && Number.isSafeInteger(Number(segment)));
+    const explicitReferenceLabel = isIndexedPointer
+      && /reference|context/i.test(String(target.sourceCategory || ''))
+      && label
+      && !/^\d+$/.test(label);
+    if (explicitReferenceLabel) return label;
+    const genericLabel = !label || label === target.sourceObject || label === excerptSource?.name || /^\d+$/.test(label);
+    if (target.fieldPointer && genericLabel) return pointerPathLabel || pointerLabel || label || 'Citation target';
+    return label || pointerPathLabel || pointerLabel || 'Citation target';
   }
   function targetRegionIds(ref) {
     if (targetDismissed || !activeTarget?.fieldPointer) return [];
