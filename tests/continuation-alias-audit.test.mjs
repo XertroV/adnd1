@@ -1,6 +1,7 @@
 import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync as readRawFileSync} from 'node:fs';
 
 import {gunzipSync} from 'node:zlib';
 import {buildContinuationAliasReport,loadContinuationAliasReport} from '../tools/continuation-alias-audit.mjs';
@@ -9,7 +10,15 @@ const read=p=>JSON.parse(readFileSync(p));
 const before=read('research/source-audit-batch5-continuation-alias-before.json');
 const integration=read('research/source-audit-batch5-continuation-alias-integration.json');
 const manifest=read('research/citation-continuations.json');
+const liveManifest=JSON.parse(readRawFileSync(new URL('../research/citation-continuations.json',import.meta.url),'utf8'));
 const data=read('dist/data.json');
+const liveData=JSON.parse(readRawFileSync(new URL('../dist/data.json',import.meta.url),'utf8'));
+const addedDmg74MatrixIds=[
+ 'dmg-cleric-druid-monk-attack-matrix',
+ 'dmg-magic-user-illusionist-attack-matrix',
+ 'dmg-thief-assassin-attack-matrix',
+];
+const addedDmg74MatrixCatalogs=addedDmg74MatrixIds.map(id=>`scans/verified/matrices-${id}.json`).sort();
 const catalogs=new Map();
 for(const collection of ['rules','spells','equipment','matrices','classes','progressionExplainer']){
  const values=Array.isArray(data[collection])?data[collection]:data[collection]?[data[collection]]:[];
@@ -39,9 +48,24 @@ test('the exact legacy alias keeps its source, focus and relationship and opens 
  const primary=catalog.regions.find(region=>region.id===original.segments[1].regionId);
  const alias=catalog.regions.find(region=>region.id===added.segments[1].regionId);
  for(const key of ['sha256','book','printedPage','pdfPage','normalizedPageRect','focusRects'])assert.deepEqual(alias[key],primary[key]);
+ const addedMatrixOwners=liveData.matrices.filter(owner=>addedDmg74MatrixIds.includes(owner.id));
+ assert.deepEqual(addedMatrixOwners.map(owner=>owner.id).sort(),[...addedDmg74MatrixIds].sort());
+ assert.deepEqual(addedMatrixOwners.map(owner=>owner.sourceExcerpts.catalog).sort(),addedDmg74MatrixCatalogs);
+ for(const owner of addedMatrixOwners){
+  const catalog=read(`dist/${owner.sourceExcerpts.catalog}`);
+  assert.ok(catalog,owner.id);
+  assert.equal(catalog.collection,'matrices',owner.id);
+  assert.equal(catalog.itemId,owner.id);
+  assert.equal(catalog.regions.length,1,owner.id);
+  assert.deepEqual([catalog.regions[0].book,catalog.regions[0].printedPage,catalog.regions[0].pdfPage],['DMG',74,75],owner.id);
+ }
  const current=loadContinuationAliasReport();
- assert.equal(current.denominators.exposedRecords,997,'the current source universe independently retains both the published turning table and Jo');
- assert.equal(current.denominators.referencedCatalogs,1017);
+ assert.equal(current.denominators.exposedRecords,997+addedDmg74MatrixIds.length,'the current source universe retains the prior published turning-table/Jo records plus exactly three DMG matrix owners');
+ assert.equal(current.denominators.referencedCatalogs,1017+addedDmg74MatrixCatalogs.length,'each of the three named DMG matrix owners contributes its scoped catalog');
+ assert.equal(current.denominators.declaredGroups,liveManifest.groups.length);
+ assert.equal(current.denominators.declaredParts,liveManifest.groups.reduce((count,group)=>count+(group.segments?.length||0),0));
+ assert.equal(current.denominators.exactAliasMatches,696);
+ assert.equal(current.denominators.missingAliasLinks,0);
  assert.equal(current.missingAliases.length,0);
  assert.equal(current.structuralCheck.valid,true);
  assert.equal(current.structuralCheck.sourceSemanticsCertified,false);

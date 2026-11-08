@@ -10,6 +10,7 @@ import {readdirSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import test from 'node:test';
 import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';
+import {withoutDmg74MatrixAdditions} from './fixtures/matrix-baseline.mjs';
 
 const root = new URL('../', import.meta.url);
 const load = name => JSON.parse(readFileSync(new URL(name, root), 'utf8'));
@@ -786,7 +787,10 @@ test('assembly preserves every equipment and matrix field from the author checkp
     return {...item,...withoutCollectionOwnerMetadata(citationOverrides.items[item.id]),...withoutCollectionOwnerMetadata(citationOverrides.items[`equipment:${item.id}`]),...(citationOverrides.priceStates?.[item.id]?{priceState:citationOverrides.priceStates[item.id]}:{}),...(references.length?{references:[...(item.references||[]),...references]}:{})};
   });
   assert.deepEqual(withoutGeneratedCitationTransport(assembled.equipment.map(({sourceExcerpts,...item})=>item)), withoutGeneratedCitationTransport(expected), 'equipment and reviewed reference additions must not be omitted or flattened');
-  assert.deepEqual(withoutGeneratedCitationTransport(assembled.matrices.map(({sourceExcerpts,...matrix})=>matrix)), withoutGeneratedCitationTransport(authoredMatrices), 'matrix nulls and source notes must survive assembly');
+  const legacyAssembledMatrices=withoutDmg74MatrixAdditions(assembled.matrices);
+  const legacyAuthoredMatrices=withoutDmg74MatrixAdditions(authoredMatrices);
+  assert.deepEqual(legacyAssembledMatrices.map(matrix=>matrix.id),['dmg-original-fighter-attack-matrix']);
+  assert.deepEqual(withoutGeneratedCitationTransport(legacyAssembledMatrices.map(({sourceExcerpts,...matrix})=>matrix)), withoutGeneratedCitationTransport(legacyAuthoredMatrices), 'matrix nulls and source notes must survive assembly after reversing only the separately approved DMG p. 74 additions');
 });
 
 for (const [name, gear] of [['authored', authoredGear], ['assembled', assembled.equipment]]) {
@@ -889,8 +893,10 @@ for (const [name, gear] of [['authored', authoredGear], ['assembled', assembled.
 
 for (const [name, matrices] of [['authored', authoredMatrices], ['assembled', assembled.matrices]]) {
   test(`${name} original matrix preserves all 210 independently checked source cells`, () => {
-    assert.ok(Array.isArray(matrices) && matrices.length === 1);
-    const matrix = matrices[0];
+    assert.ok(Array.isArray(matrices));
+    const legacyMatrices=withoutDmg74MatrixAdditions(matrices);
+    assert.deepEqual(legacyMatrices.map(matrix=>matrix.id),['dmg-original-fighter-attack-matrix']);
+    const matrix = legacyMatrices[0];
     source(matrix, matrix.id);
     assert.deepEqual([matrix.book, matrix.pages], ['DMG', [74]]);
     assert.equal(matrix.incomplete, true, 'other combat mechanics retain their review status');
@@ -913,8 +919,10 @@ for (const [name, matrices] of [['authored', authoredMatrices], ['assembled', as
   });
 
   test(`${name} source AC-zero progression retains official bands and separate optional rules`, () => {
-    assert.ok(Array.isArray(matrices) && matrices.length === 1);
-    const matrix = matrices[0];
+    assert.ok(Array.isArray(matrices));
+    const legacyMatrices=withoutDmg74MatrixAdditions(matrices);
+    assert.deepEqual(legacyMatrices.map(matrix=>matrix.id),['dmg-original-fighter-attack-matrix']);
+    const matrix = legacyMatrices[0];
     assert.deepEqual(matrix.rows.map(row => [row.levelMin, row.levelMax ?? null]), [[0,0],[1,2],[3,4],[5,6],[7,8],[9,10],[11,12],[13,14],[15,16],[17,null]]);
     assert.deepEqual(matrix.rows.map(row => row.targets[matrix.armorClasses.indexOf(0)]), [20,20,18,16,14,12,10,8,6,4]);
     assert.match(matrix.rows[0].label, /halflings and humans/, 'level zero is not a generic fighter row');

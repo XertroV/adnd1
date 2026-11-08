@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "reviewType": "independent-matrix-batch-implementation-review",
+  "status": "bounded-implementation-approved-with-post-rebase-gates",
+  "inputCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+  "worktreeBranch": "codex/complete-dmg74-matrices",
+  "scope": {
+    "included": [
+      "The three additive DMG printed-p. 74 attack matrices and their assembled distribution records.",
+      "The DMG p. 74/PDF p. 75 source crops, catalog bindings, and the v4 crop/focus review.",
+      "Exact historical reverse helpers and focused fixture-preservation tests affected by the additive records.",
+      "The application display/search implications of the newly stored notes, alias, and Monk source conflict."
+    ],
+    "excluded": [
+      "A new combat-rule ruling for the PHB/DMG Monk conflict.",
+      "Whole-book mechanics completeness, class-ability completeness, or activation of pending citation-owner reviews.",
+      "The post-rebase browser/source-owner activation review and global regenerated coverage snapshot."
+    ]
+  },
+  "source": {
+    "book": "DMG",
+    "fileName": "DMG_1stEd.pdf",
+    "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+    "pdfPages": 240,
+    "printedPage": 74,
+    "pdfPage": 75,
+    "pageMapping": "Printed p. 74 is visually printed at the bottom of PDF p. 75."
+  },
+  "proofArtifacts": [
+    {
+      "path": "research/source-completeness-matrices-source-transcription.json",
+      "sha256": "9219fd5362be85035aaeff18b0240fbebad28327705b800400b258f2eef602e9",
+      "role": "author source-cell transcription"
+    },
+    {
+      "path": "research/source-completeness-matrices-independent-transcription.json",
+      "sha256": "e6047f6c8a4cf48c5de9a9c3d4f574292b352c5988d3ef812a954b7cecb37562",
+      "role": "blind source-cell transcription"
+    },
+    {
+      "path": "research/source-completeness-matrices-independent-review-v2.json",
+      "sha256": "5938216513809579bba61c40d5a1901b9cb738d74cc1d53649ab01932da0a32c",
+      "role": "transcription comparison and v4 source-pixel/crop-focus recheck"
+    }
+  ],
+  "sourceCellReview": {
+    "status": "pass-with-bounded-scope",
+    "numericTargetCellsCompared": 378,
+    "mismatches": 0,
+    "byMatrix": [
+      { "id": "dmg-cleric-druid-monk-attack-matrix", "cells": 147 },
+      { "id": "dmg-magic-user-illusionist-attack-matrix", "cells": 105 },
+      { "id": "dmg-thief-assassin-attack-matrix", "cells": 126 }
+    ],
+    "checks": [
+      "For authored and assembled records, axes and band ordering match the frozen source transcription; all 378 numeric cells match both the author and blind transcription.",
+      "The I.C asterisk is attached to the missile adjustment and its 'Normal, not magical.' qualifier only; it does not qualify the numeric matrix cells.",
+      "The I.D.1 markers are a/b/c/d/d/d, and marker d is linked to the final three bands. Four exact source notes are preserved; display strings now prefix a/b/c/d while retaining literal source wording."
+    ],
+    "limits": [
+      "The 378-cell check covers numeric target cells, axes, bands, markers, and the noted qualifier scope; it does not establish completeness of other combat or class mechanics.",
+      "All three records remain marked incomplete.",
+      "This review does not resolve the PHB printed-p. 30 versus DMG printed-p. 74 Monk attack-matrix conflict."
+    ]
+  },
+  "sourceImages": {
+    "status": "v4-crop-and-focus-pixel-review-passed; owner-activation-pending",
+    "proposalSha256": "858e478343de9b1d348be843f7d982caedbf88b3e10cedb01bedb46823bd784e",
+    "render": "The v4 crop pixels were compared with the rendered source page; crop bounds use PyMuPDF page.rect coordinates, CropBox-relative top-left origin, at 216 dpi / 3x.",
+    "regions": [
+      {
+        "id": "dmg-74-ia-cleric-druid-monk",
+        "imageSha256": "315c08264db687ce6c701bf1514f48f36b9b09961c24dd105e3513584aac0f94",
+        "catalogSha256": "93625605401a86f54c9c69bc5245f1881325596747c73de23c58493dc6a33f2c",
+        "sourcePdfPointsLTRB": [0, 27, 274, 298],
+        "pixelFinding": "Heading, all seven bands and 21 armor-class rows, plus the complete missile adjustment are present. Separate note focus clears the note glyphs."
+      },
+      {
+        "id": "dmg-74-ic-magic-user-illusionist",
+        "imageSha256": "25e6e2598775e705d98322ed3bb37dd038f43ae9632e26fda33d587ad856fbf2",
+        "catalogSha256": "77c2318613569ae5b3725e291d8616497e75f6310b1c5b61a73e8608015d76f9",
+        "sourcePdfPointsLTRB": [286, 27, 572.6396484375, 312],
+        "pixelFinding": "Heading, all five bands and 21 armor-class rows, missile adjustment, and the complete qualifier are present. Table focus includes the table margin while excluding the page-edge artifact; range and qualifier have separate focus."
+      },
+      {
+        "id": "dmg-74-id1-thief-assassin",
+        "imageSha256": "9b0b5ce8738505349a6ef9e637317cafca160ea1442176b5d99d24c7a30945d2",
+        "catalogSha256": "340460f48612038d5b3c78e35ef56c0a8de06f54d389a86efa4676567f535c61",
+        "sourcePdfPointsLTRB": [286, 416, 572.6396484375, 751],
+        "pixelFinding": "Heading, all six marked bands and 21 armor-class rows, missile adjustment, and all four notes are present. Focus includes markers a/b/c/d and excludes the outer page-edge artifact."
+      }
+    ],
+    "ownerBinding": "research/source-visual-reviews.json leaves all three exact matrix owner assessments empty and ownerBindingReviewPending. This review does not activate owner/page default selection."
+  },
+  "historicalRegressionReview": {
+    "status": "exact-reversal-design-reviewed; source-owner-and-inventory-rerun-passed",
+    "frozenArtifacts": [
+      {
+        "path": "tests/fixtures/matrix-before-cell-review.json",
+        "sha256": "67fdb5a4cccb6835938ddcb7059795a6148e5a1acb37f51ae68d4b80f869e434"
+      },
+      {
+        "path": "research/citation-evidence-seals.json",
+        "sha256": "cbff9672e23810c844253429abaa75fe77108f6a96aa000ec5deeed96ec314a5"
+      }
+    ],
+    "reviewedCurrentInputs": [
+      {
+        "path": "tests/source-owner-identity-audit.test.mjs",
+        "sha256": "d415fc5f473b9fac5ab4845fecbc304684a4a135c0f0074b3ddbb4033397133e",
+        "role": "current test assertions for the exact six added bindings"
+      },
+      {
+        "path": "tests/price-source-inventory.test.mjs",
+        "sha256": "4a25f8249c8ea1189368dfa5edae356f33e7c0d34b875c5dee11659ce4cbd1de",
+        "role": "current source-first inventory assertions"
+      },
+      {
+        "path": "research/price-source-inventory.json",
+        "sha256": "669943f7ba32250641f4b6f0073e3b0ee756e15ab02f735b32ae66c93c3c1c19",
+        "role": "full current inventory including the six named matrix bindings"
+      }
+    ],
+    "reviewedMechanisms": [
+      "The historical matrix fixture and seal remain unchanged in the worktree.",
+      "Reverse helpers name the exact three new matrix IDs, assert the 147/105/126 cell counts, remove only the six generated matrix evidence bindings, and deep-compare the restored data/inventory to frozen historical objects.",
+      "Equipment-matrix comparisons strip only those named additions before comparing against the prior fighter matrix. A separate addition test checks exact IDs, complete cell payloads, source owner/catalog identity, focus geometry, and pending owner review."
+    ],
+    "focusedTestRuns": [
+      {
+        "suite": [
+          "tests/dmg74-matrix-additions.test.mjs",
+          "tests/equipment-matrices.test.mjs",
+          "tests/matrix-cell-review.test.mjs",
+          "tests/batch2-independent.test.mjs",
+          "tests/dmg-context-three-chains.test.mjs",
+          "tests/jo-stick-source-mapping.test.mjs",
+          "tests/dagger-independent.test.mjs"
+        ],
+        "result": "54/54 passed after the exact historical-reversal helper fixes."
+      },
+      {
+        "suite": [
+          "tests/price-source-inventory.test.mjs",
+          "tests/source-owner-identity-audit.test.mjs"
+        ],
+        "lastObservedResult": "29/31; two source-owner count expectations failed before the in-progress adaptation.",
+        "rerunAfterAdaptation": "31/31 passed. The updated source-owner tests require exactly six new bindings, two per named matrix owner, and preserve the full current inventory audit."
+      }
+    ],
+    "checksNotRun": [
+      "The changed continuation-alias current-count test remains a separate pending author gate; it was not included in this source-owner rerun.",
+      "No full test suite, release-wide regeneration, or global coverage snapshot was run as part of this bounded review."
+    ]
+  },
+  "integrationGates": [
+    {
+      "status": "pending-final-integrated-head",
+      "requirement": "Run the fresh 24-block release workflow and exact-head CI after rebase and the remaining focused fixes; record deployment verification separately before publication.",
+      "currentEvidence": "This bounded implementation review ran only the two affected inventory/source-owner test files; no full workflow, release-wide regeneration, exact-head CI, or deployment check was performed."
+    },
+    {
+      "status": "pending-author-rerun",
+      "requirement": "Reconcile the changed current continuation-alias counts while retaining the frozen alias-behavior assertions.",
+      "currentEvidence": "The parent reports the observed current counts changed from 997/1017 to 1000/1020 and assigned that separate test update to the author. This matrix review did not run or adjudicate that test."
+    },
+    {
+      "status": "pending-post-rebase",
+      "requirement": "Render the Monk source conflict only through a validated relatedClassGuideId link to the existing Monk guide, with topic and unresolved disposition visible. Do not dump arbitrary sourceConflict metadata or infer a rules ruling.",
+      "currentEvidence": "The data records the PHB/DMG conflict and relatedClassGuideId='monk'; dist/app.js is unchanged and this review found no displayed conflict treatment."
+    },
+    {
+      "status": "pending-post-rebase",
+      "requirement": "Independently test source owner activation, page selection/defaults, and direct citation navigation for each newly added matrix against the final integrated UI.",
+      "currentEvidence": "The catalog entries and source-visual-review records are hash-bound, but each owner review remains explicitly pending."
+    },
+    {
+      "status": "pending-search-integration",
+      "requirement": "The editorial alias 'backstab' is stored and its unit-level search score is tested; the integrated site must index matrix records for that alias to be discoverable from site search.",
+      "currentEvidence": "dist/app.js is unchanged in this branch; the unit-level alias check alone does not establish site-wide matrix indexing."
+    }
+  ],
+  "reviewDisposition": "The source transcription comparison, rendered crop/focus evidence, additive data checks, exact historical reverse design, and updated source-owner/inventory assertions are bounded and internally consistent; the affected owner/inventory tests pass 31/31. This approves the bounded implementation review, subject to the separately pending continuation-alias count rerun and post-rebase sourceConflict, owner-binding, and search integration gates. It does not approve whole-book completeness or a Monk combat-rule ruling."
+}

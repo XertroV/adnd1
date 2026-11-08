@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import {projectDmg175Json} from './batch6-dmg175-source-history.mjs';
+import {dmg175HistoryContract} from './batch6-dmg175-source-history.mjs';
+import {reverseDmg74MatrixBatchFromData,withoutDmg74MatrixSourceExcerptOverrides} from '../fixtures/matrix-baseline.mjs';
 import {readFileSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
@@ -40,6 +42,7 @@ export function withoutBatch6XpSourceMetadata(data){
  const selected=refs.map(ref=>{const values=ref.collection==='progressionExplainer'?[data.progressionExplainer]:data[ref.collection];const matches=values.filter(item=>item?.id===ref.itemId);assert.equal(matches.length,1);return matches[0];});
  const alreadyReleased=selected.every((item,index)=>hash(item)===refs[index].releasedSha256);
  if(alreadyReleased){assert.deepEqual(data.release,xpA65HistoryProjection.releaseMetadata.released,'only the exact released Jo stage is an already-projected input');return data;}
+ if(data.matrices?.some(matrix=>matrix?.id==='dmg-cleric-druid-monk-attack-matrix'))data=reverseDmg74MatrixBatchFromData(data,dmg175HistoryContract().files['dist/data.json'].current);
  data=projectDmg175Json('dist/data.json',data);
  assert.deepEqual(data.release,xpA65HistoryProjection.releaseMetadata.merged,'only exact merged XP release metadata may be reversed');
  const copy={...data,release:structuredClone(xpA65HistoryProjection.releaseMetadata.released)};
@@ -95,7 +98,16 @@ export function withoutBatch6JoManifest(manifest){
 export function readBeforeJoBytes(path){
  const normalized=String(path).replace(/^\.\//,'');
  let current=readFileSync(new URL(normalized,root));
- if(['dist/data.json','citation-overrides.json','dist/scans/verified/rules-encounter-types.json'].includes(normalized))current=Buffer.from(JSON.stringify(projectDmg175Json(normalized,JSON.parse(current)),null,2)+'\n');
+ if(normalized==='dist/data.json'){
+  let parsed=JSON.parse(current);
+  if(parsed.matrices?.some(matrix=>matrix?.id==='dmg-cleric-druid-monk-attack-matrix'))parsed=reverseDmg74MatrixBatchFromData(parsed,dmg175HistoryContract().files[normalized].current);
+  current=Buffer.from(JSON.stringify(projectDmg175Json(normalized,parsed),null,2)+'\n');
+ }
+ if(normalized==='citation-overrides.json'){
+  const parsed=JSON.parse(current);
+  if(parsed.sourceExcerpts?.['matrices:dmg-cleric-druid-monk-attack-matrix'])current=Buffer.from(JSON.stringify(withoutDmg74MatrixSourceExcerptOverrides(parsed),null,2)+'\n');
+ }
+ if(['citation-overrides.json','dist/scans/verified/rules-encounter-types.json'].includes(normalized))current=Buffer.from(JSON.stringify(projectDmg175Json(normalized,JSON.parse(current)),null,2)+'\n');
  if(normalized==='dist/scans/verified/equipment-ua-caltrop.json'){
   assert.equal(sha(current),joIntegration.currentCaltrop.catalog.sha256,'exact current Caltrop catalogue before history reversal');return gunzipSync(readFileSync(new URL(joIntegration.beforeCaltropCatalog.path,root)));
  }

@@ -9,6 +9,7 @@ import {withoutBatch6JoManifest,withoutBatch6XpManifest,beforeJoSearchOverridesF
 import {auditRequiredSegmentPresence,validateContinuationManifest} from '../tools/continuation-contract.mjs';
 import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';
 import {reverseApprovedXpExcerptCounts} from './helpers/batch6-xp-source-history.mjs';
+import {withoutDmg74MatrixSourceExcerptOverrides} from './fixtures/matrix-baseline.mjs';
 
 const read = path => JSON.parse(readFileSync(path,'utf8'));
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -121,7 +122,7 @@ test('source owners, values, unrelated crops and prior PNGs stay unchanged throu
   assert.notEqual(sha(readFileSync('rules.json')),before.files['rules.json'].sha256,'the new Cleric table owner is an intended additive source record');
   const oldOverrides=JSON.parse(before.files['citation-overrides.json'].utf8);
   const currentOverrides=read('citation-overrides.json');
-  const xpOverrides=beforeJoSearchOverridesForXp(projectDmg175Json('citation-overrides.json',currentOverrides));
+  const xpOverrides=beforeJoSearchOverridesForXp(projectDmg175Json('citation-overrides.json',withoutDmg74MatrixSourceExcerptOverrides(currentOverrides)));
   assert.deepEqual(reverseApprovedXpExcerptCounts(xpOverrides),oldOverrides,'Jo/Search-to-C2 and the17 XP count reversals compose exactly once');
   assert.deepEqual(JSON.parse(readBeforeJoBytes('citation-overrides.json')),oldOverrides,'the original JoV4 legacy reader still returns its exact historical override bytes');
   const changedRegionCountKeys=Object.keys(xpOverrides.sourceExcerpts).filter(key=>oldOverrides.sourceExcerpts[key]?.regionCount!==xpOverrides.sourceExcerpts[key]?.regionCount).sort();
