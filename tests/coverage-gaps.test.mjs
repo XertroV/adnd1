@@ -31,8 +31,34 @@ test('coverage gaps payload has source-linked entries and traces every generated
   const allEntries = payload.groups.flatMap(group => group.entries);
   const currentQuestions = allEntries.filter(row => row.id.startsWith('monetary-source-question-'));
   const jo=allEntries.filter(row=>row.id==='equipment-ua-jo-stick-price');
+  const openEndedMatrixFields = [
+    {id: 'matrices-dmg-cleric-druid-monk-attack-matrix-rows-6-levelMax', itemId: 'dmg-cleric-druid-monk-attack-matrix', fieldPointer: '/rows/6/levelMax', handoffPointer: '/mechanicsAudit/formalFieldIssues/notExtracted/11'},
+    {id: 'matrices-dmg-magic-user-illusionist-attack-matrix-rows-4-levelMax', itemId: 'dmg-magic-user-illusionist-attack-matrix', fieldPointer: '/rows/4/levelMax', handoffPointer: '/mechanicsAudit/formalFieldIssues/notExtracted/12'},
+    {id: 'matrices-dmg-thief-assassin-attack-matrix-rows-5-levelMax', itemId: 'dmg-thief-assassin-attack-matrix', fieldPointer: '/rows/5/levelMax', handoffPointer: '/mechanicsAudit/formalFieldIssues/notExtracted/13'},
+  ];
   assert.equal(jo.length,1);assert.equal(jo[0].status,'not-extracted');assert.match(jo[0].description,/not purchase costs/);
-  assert.equal(allEntries.length - currentQuestions.length - jo.length, 134, 'all original entries remain alongside the eight questions and Jo');
+  assert.equal(allEntries.length - currentQuestions.length - jo.length, 137, 'the 134 historical entries remain alongside three exact matrix fields, eight questions and Jo');
+  const newMatrixIds = new Set(openEndedMatrixFields.map(field => field.id));
+  const historicalEntries = allEntries.filter(row => !currentQuestions.includes(row) && row.id !== jo[0].id && !newMatrixIds.has(row.id));
+  assert.equal(historicalEntries.length, 134, 'all 134 historical entries retain their previous count and semantics');
+  for (const field of openEndedMatrixFields) {
+    const matches = allEntries.filter(row => row.id === field.id);
+    assert.equal(matches.length, 1, `expected one structural open-ended endpoint entry for ${field.itemId}`);
+    assert.equal(matches[0].status, 'not-extracted');
+    assert.match(matches[0].description, /No finite upper level is printed/);
+    assert.match(matches[0].description, /does not identify missing table values/);
+    assert.deepEqual(matches[0].handoffPointers, [field.handoffPointer]);
+    assert.deepEqual(pointer(handoff, field.handoffPointer).value, {
+      collection: 'matrices', itemId: field.itemId, fieldPointer: field.fieldPointer,
+      status: 'not-extracted', value: null, checkers: [], sourceReferences: [],
+    });
+    const matrix = data.matrices.find(record => record.id === field.itemId);
+    assert.ok(matrix, `missing matrix owner ${field.itemId}`);
+    const parts = field.fieldPointer.slice(1).split('/');
+    const finalField = parts.pop();
+    const parent = parts.reduce((value, part) => value?.[part], matrix);
+    assert.equal(parent?.[finalField], null, `${field.itemId}${field.fieldPointer} retains its structural open-ended endpoint`);
+  }
   assert.equal(currentQuestions.length, 8, 'all eight historical questions receive explicit current dispositions');
   assert.equal(currentQuestions.filter(row => row.status === 'unresolved-source-question').length, 7);
   assert.equal(currentQuestions.filter(row => row.status === 'source-backed-derived-valuation').length, 1);

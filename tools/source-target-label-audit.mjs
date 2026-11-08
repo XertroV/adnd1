@@ -127,6 +127,10 @@ if (currentMode) {
   }
   const beforeCounts = countCategories(entries.map(row => ({category: row.beforeCategory})));
   const afterCounts = countCategories(entries.map(row => ({category: row.afterCategory})));
+  const primaryRouteRecords = ['rules', 'spells', 'equipment', 'classes']
+    .reduce((sum, collection) => sum + collectionCounts[collection], 0);
+  const auxiliaryRouteRecords = ['matrices', 'progressionExplainer']
+    .reduce((sum, collection) => sum + (collectionCounts[collection] || 0), 0);
   const result = {
     schemaVersion: 1,
     artifactType: 'current-data-source-viewer-target-label-audit',
@@ -139,7 +143,9 @@ if (currentMode) {
     },
     denominator: {
       contentRecords,
-      routeRecords: ['rules', 'spells', 'equipment', 'classes'].reduce((sum, collection) => sum + collectionCounts[collection], 0),
+      routeRecords: primaryRouteRecords + auxiliaryRouteRecords,
+      primaryRouteRecords,
+      auxiliaryRouteRecords,
       collections: collectionCounts,
       collectorTargets: entries.length,
       currentBrowserRenderedControls: 'not-run',
