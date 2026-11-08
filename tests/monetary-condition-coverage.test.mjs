@@ -1,11 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {readFileSync, writeFileSync, mkdtempSync, mkdirSync, existsSync, rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
+import {gunzipSync} from 'node:zlib';
 import {buildMonetaryConditionCoverage} from '../tools/monetary-condition-coverage.mjs';
 
 const hash = 'a'.repeat(64);
+const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
+const HISTORICAL_INDEX_PATH = 'artifacts/monetary-source-inventory-before-source-corrections/index.json';
+const HISTORICAL_INDEX_SHA256 = '472771cc6925c176ebf4eaed5030dc35c1764d53db164a7eda2f9f86e46a004a';
+const HISTORICAL_INDEX_FIXTURE_GZIP_SHA256 = 'c0170d73f59a3379fabd68444a9594a277a8d6f36503dc9296741cd24923d57c';
+const HISTORICAL_AUDIT_PATH = 'research/source-audit-batch5-monetary-context-migration-before-v3.json';
+const HISTORICAL_AUDIT_SHA256 = 'bee94a49f34c33ef1d0c1a77da2a13e4ed56f38880fba55d352c8d42c53fef0b';
+const HISTORICAL_CONTRACT_PATH = 'research/source-audit-batch5-monetary-condition-contract-before-info4-v2.json';
+const HISTORICAL_CONTRACT_SHA256 = '935cbe0d33613a29cf359e334a4886ac1dc522d4a7daf823c3b6d46fee72e1cd';
 const sourceRef = {path: 'source.json', sha256: hash, jsonPointer: '/rows/0'};
 function inputs() {
   return {
@@ -317,12 +327,41 @@ test('historical before mode requires a fresh output path and never overwrites t
 test('historical before CLI reproduces all four frozen source bindings to a new output', async () => {
   const {runMonetaryConditionCoverage} = await import('../tools/monetary-condition-coverage.mjs');
   const temp = mkdtempSync(join(tmpdir(), 'monetary-condition-frozen-report-'));
-  const output = join(temp, 'before-review.json');
+  const output = 'artifacts/monetary-condition-coverage/before-review.json';
   const frozenReport = new URL('../research/source-audit-batch5-monetary-condition-coverage-before-source-corrections-v2.json', import.meta.url);
   const frozenBytesBefore = readFileSync(frozenReport);
   try {
-    const result = await runMonetaryConditionCoverage(['--before', '--output', output]);
-    const report = JSON.parse(readFileSync(output));
+    const fixturePath = new URL('../tests/fixtures/monetary-condition-frozen-index-before.json.gz', import.meta.url);
+    const compressedIndexBytes = readFileSync(fixturePath);
+    assert.equal(sha256(compressedIndexBytes), HISTORICAL_INDEX_FIXTURE_GZIP_SHA256, 'the frozen original index fixture is immutable');
+    const indexBytes = gunzipSync(compressedIndexBytes);
+    assert.equal(sha256(indexBytes), HISTORICAL_INDEX_SHA256, 'the decompressed fixture is the exact historical index byte stream');
+
+    const auditBytes = readFileSync(new URL('../research/source-audit-batch5-monetary-context-migration-before-v3.json', import.meta.url));
+    const contractBytes = readFileSync(new URL('../research/source-audit-batch5-monetary-condition-contract-before-info4-v2.json', import.meta.url));
+    assert.equal(sha256(auditBytes), HISTORICAL_AUDIT_SHA256);
+    assert.equal(sha256(contractBytes), HISTORICAL_CONTRACT_SHA256);
+    const contractDoc = JSON.parse(contractBytes);
+    assert.equal(contractDoc.inputs.index.path, HISTORICAL_INDEX_PATH);
+    assert.equal(contractDoc.inputs.index.sha256, HISTORICAL_INDEX_SHA256);
+    assert.equal(contractDoc.inputs.fullRowAudit.path, HISTORICAL_AUDIT_PATH);
+    assert.equal(contractDoc.inputs.fullRowAudit.sha256, HISTORICAL_AUDIT_SHA256);
+
+    const frozenIndex = JSON.parse(indexBytes);
+    assert.equal(frozenIndex.denominators.sourceOccurrences, 1871);
+    assert.equal(frozenIndex.denominators.sourceValueClaims, 2318);
+    mkdirSync(join(temp, 'artifacts/monetary-source-inventory-before-source-corrections'), {recursive: true});
+    mkdirSync(join(temp, 'research'), {recursive: true});
+    writeFileSync(join(temp, HISTORICAL_INDEX_PATH), indexBytes);
+    writeFileSync(join(temp, HISTORICAL_AUDIT_PATH), auditBytes);
+    writeFileSync(join(temp, HISTORICAL_CONTRACT_PATH), contractBytes);
+
+    // This isolated repository intentionally contains no live index, source inputs, or assembled app data.
+    assert.equal(existsSync(join(temp, 'research/monetary-source-inventory.json')), false);
+    assert.equal(existsSync(join(temp, 'research/source-audit-batch5-phb-dmg-additional-prices.json')), false);
+    assert.equal(existsSync(join(temp, 'dist/data.json')), false);
+    const result = await runMonetaryConditionCoverage(['--before', '--output', output], {repoRoot: temp});
+    const report = JSON.parse(readFileSync(join(temp, output)));
     assert.equal(result.mode, 'before');
     assert.equal(report.executionMode, 'before');
     assert.equal(report.denominators.indexedSourceOccurrences, 1871);
@@ -330,6 +369,10 @@ test('historical before CLI reproduces all four frozen source bindings to a new 
     assert.equal(report.denominators.fullRowAuditRecords, 2161);
     assert.equal(report.declaredSourceConditionContracts[0].exactIndexBindings.length, 4);
     assert.ok(report.declaredSourceConditionContracts[0].exactIndexBindings.every(binding => binding.status === 'exact-pointer-hash-row-audit-uid-and-before-value-match'));
+    assert.equal(report.inputArtifacts.indexedInventory.path, HISTORICAL_INDEX_PATH);
+    assert.equal(report.inputArtifacts.indexedInventory.sha256, HISTORICAL_INDEX_SHA256);
+    assert.equal(report.inputArtifacts.fullRowAudit.path, HISTORICAL_AUDIT_PATH);
+    assert.equal(report.inputArtifacts.fullRowAudit.sha256, HISTORICAL_AUDIT_SHA256);
     assert.equal(readFileSync(frozenReport).compare(frozenBytesBefore), 0, 'the frozen V2 report must remain byte-identical');
   } finally {
     rmSync(temp, {recursive: true, force: true});
