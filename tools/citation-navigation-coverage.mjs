@@ -23,6 +23,8 @@ const producerClassByFunction={
  suggestedPriceHTML:'equipment-estimate-comparison',
  equipmentDetailHTML:'equipment-related-reference',
  progressionExplainerHTML:'progression-explainer-reference',
+ progressionExplainerDetailHTML:'progression-explainer-detail-reference',
+ matrixDetailHTML:'matrix-detail-reference',
  advancementControlsHTML:'class-advancement',
  advancementSummaryHTML:'class-advancement',
  xpTableHTML:'class-xp-table',
@@ -68,7 +70,7 @@ const producerInventory=auditInlineProducerSites(app);
 const routeContract=auditRouteQueryContract(app);
 const sourceAttributeContract=auditSourceNavigationAttributes(app);
 const testFiles=[
- 'tests/citation-navigation.test.mjs','tests/citations.test.mjs','tests/source-viewer-permalink.browser.mjs',
+ 'tests/citation-navigation.test.mjs','tests/citation-navigation-comparator-regression.test.mjs','tests/citation-rapid-history.test.mjs','tests/citation-navigation-inventory.test.mjs','tests/citations.test.mjs','tests/site-completeness.browser.mjs','tests/source-viewer-permalink.browser.mjs',
  'tests/source-viewer-field-targets.browser.mjs','tests/source-viewer-header.browser.mjs',
  'tests/source-viewer.browser.mjs','tests/general-source-viewer.browser.mjs','tests/advancement-browser.mjs',
  'tests/browser.mjs','tests/accessibility.mjs'
@@ -76,10 +78,9 @@ const testFiles=[
 const testInventory=testFiles.map(path=>{
  const source=readFileSync(resolve(root,path),'utf8');
  const titles=[...source.matchAll(/test\(['"`]([^'"`]+)['"`]/g)].map(match=>match[1]);
- return {path,nodeTestCases:titles.length?titles:undefined,titleSamples:titles.length?titles:undefined,
-  execution:path==='tests/citation-navigation.test.mjs'||path==='tests/citations.test.mjs'?'passed in this capture':
-   ['tests/source-viewer-permalink.browser.mjs','tests/source-viewer-field-targets.browser.mjs','tests/general-source-viewer.browser.mjs'].includes(path)?'passed in this capture':
-   'not run in this capture'};
+ const browserChecks=[...source.matchAll(/check\(['"`]([^'"`]+)['"`]/g)].map(match=>match[1]);
+ return {path,nodeTestCases:titles.length||undefined,titleSamples:titles.length?titles:undefined,browserCheckCount:browserChecks.length||undefined,browserCheckTitles:browserChecks.length?browserChecks:undefined,
+  execution:'Not executed by this inventory generator; consult the full-workflow or focused test receipt.'};
 });
 const collectionNames=['spells','rules','equipment','classes','matrices'];
 const collections=Object.fromEntries(collectionNames.map(name=>{
@@ -126,10 +127,10 @@ const report={
  schemaVersion:1,
  purpose:'Static route/control coverage baseline for citation navigation. This file records the dirty working-tree snapshot and currently implemented test coverage; it is not a claim that every click path passed.',
  snapshot:{gitHead:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),workingTreeDirty:true,files:{'dist/app.js':sha256(app),'dist/citations.js':sha256(citationsSource),'dist/data.json':sha256(dataBytes)}},
- rootViews:['spells','rules','equipment','classes','notebook','sources'],
+ rootViews:['spells','rules','equipment','classes','matrices','progressionExplainer','notebook','sources'],
  additionalCollections:[
-  {name:'matrices',entries:(data.matrices||[]).length,route:'not a root view; opened through source-owner context in matrix citations'},
-  {name:'progressionExplainer',exists:!!explainer,sections:(explainer?.sections||[]).length,route:'synthetic owner id progression-explainer within classes view'}
+  {name:'matrices',entries:(data.matrices||[]).length,route:'collection-native #matrices/:id detail route; compound source owner stays matrices'},
+  {name:'progressionExplainer',exists:!!explainer,sections:(explainer?.sections||[]).length,route:'collection-native #progressionExplainer/:id detail route; compound source owner stays progressionExplainer'}
  ],
  counts:{collections,progressionExplainer:explainer?{pageGroups:citations.collect(explainer).length,targets:citations.targets(explainer).length,sections:(explainer.sections||[]).length,referenceObjects:(explainer.sections||[]).reduce((n,s)=>n+(s.references||[]).length,0)}:null,
   assembledReleaseInventory:data.release?.priceInventory??null,
@@ -144,17 +145,19 @@ const report={
  },
  producerScanner:{classes:producerInventory.classes,siteCount:producerInventory.sites.length,sites:producerInventory.sites,routeQueryContract:routeContract,sourceAttributeContract},
  citationControlClasses:[
-  {id:'entry-book-page-chip',producer:'sourceChip(item)',line:lineOf(app,'function sourceChip('),selector:'data-source-id',scope:['spells','rules','equipment','classes'],identity:'page-level; caller chooses the clicked book group'},
-  {id:'view-all-original-scans',producer:'originalScansButton(item)',line:lineOf(app,'function originalScansButton('),selector:'data-view-scans',scope:['spells','rules','equipment','classes'],identity:'page-list viewer; no clicked field target'},
+  {id:'entry-book-page-chip',producer:'sourceChip(item)',line:lineOf(app,'function sourceChip('),selector:'data-source-id',scope:['spells','rules','equipment','classes','matrices','progressionExplainer'],identity:'page-level; clicked book group remains attached to the compound collection owner'},
+  {id:'view-all-original-scans',producer:'originalScansButton(item)',line:lineOf(app,'function originalScansButton('),selector:'data-view-scans',scope:['spells','rules','equipment','classes','matrices'],identity:'page-list viewer; no clicked field target'},
   {id:'inline-source-chip',producer:'inlineSourceChip(reference,title)',line:lineOf(app,'function inlineSourceChip('),selector:'data-inline-source',scope:['spells','rules','equipment','classes','matrices','progressionExplainer'],identity:'passes target metadata serialized by FirstEditionCitations.targets(reference)'},
   {id:'equipment-field-source',producer:'attributeLayoutHTML / attributeRows',lines:[93,95],scope:['equipment','spell fieldSources when compact layout is used'],identity:'fieldSources values create chips; equipment table mode has a source column'},
   {id:'equipment-comparator',producer:'suggestedPriceHTML',line:359,selector:'data-source-context',scope:['equipment'],identity:'origin estimate path + comparator source-owner context; reload field-target identity gap reported'},
   {id:'equipment-related-reference',producer:'equipment detail references',line:368,scope:['equipment'],identity:'nested reference chip under equipment owner'},
   {id:'class-progression-and-level',producer:'progression/XP/level-limit/level-change chips',lines:[410,467,475,485,495,505,508,517],scope:['classes'],identity:'some are dynamically regenerated by advancement controls and re-bound'},
+  {id:'progression-explainer-detail',producer:'progressionExplainerDetailHTML',line:lineOf(app,'function progressionExplainerDetailHTML('),scope:['progressionExplainer'],identity:'section and overview chips retain progressionExplainer sourceOwner/fieldOwner and the standalone compound progression route; never reassign to a class'},
+  {id:'matrix-detail-source-notes',producer:'matrixDetailHTML',line:lineOf(app,'function matrixDetailHTML('),scope:['matrices'],identity:'rule-note chips retain their authored matrix/source/field owners under the matrices collection; no owner reassignment to Fighter or another class'},
   {id:'class-abilities-table-record',producer:'classAbilitiesHTML',line:lineOf(app,'function classAbilitiesHTML('),scope:['classes'],identity:'record-level citation for the Cleric turning table; its enclosing source context is explicitly rules:cleric-turning-table. This is a page/group reference, not an individual fact target.'},
   {id:'cleric-turning-table-fact',producer:'tableFactSourceChip',line:lineOf(app,'function tableFactSourceChip('),scope:['rules:cleric-turning-table'],identity:'renders one of 32 reviewed table facts across row, symbol, procedure, footnote and progression kinds only when a unique matching focus and exact rules owner, printed/PDF page, field pointer, source object, catalog, region and verification region are present; otherwise it fails closed to a pending placeholder. This bounded table check does not classify generic inline chips as reviewed.'},
-  {id:'fighter-matrix-context',producer:'fighterCombatHTML',line:549,scope:['classes','matrices'],identity:'source context changes to matrix owner'},
-  {id:'copy-reference-address',producer:'detail footer data-copy-link handler',line:606,selector:'data-copy-link',scope:['spells','rules','equipment','classes'],identity:'copies entry route without source query'}
+  {id:'fighter-matrix-context',producer:'fighterCombatHTML',line:lineOf(app,'function fighterCombatHTML('),scope:['classes','matrices'],identity:'embedded Fighter matrix context changes to the existing matrix source owner'},
+  {id:'copy-reference-address',producer:'detail footer data-copy-link handler',line:606,selector:'data-copy-link',scope:['spells','rules','equipment','classes','matrices','progressionExplainer'],identity:'copies the collection-native entry route without a source query'}
  ],
  inlineProducerSites,
  urlStateCoverage:[
@@ -165,6 +168,8 @@ const report={
   {state:'stale region ID retained as unavailable',implemented:true,test:'source-viewer-permalink.browser.mjs'},
   {state:'manual selection clears stale/pending route state',implemented:true,test:'source-viewer-permalink.browser.mjs; source-viewer-field-targets.browser.mjs'},
   {state:'owner query validation and standard owner reload',implemented:true,test:'source-viewer-permalink.browser.mjs'},
+  {state:'matrix collection-native route and matrix-owned citation navigation',implemented:true,test:'site-completeness.browser.mjs'},
+  {state:'progressionExplainer collection-native route and progression-owned citation navigation',implemented:true,test:'site-completeness.browser.mjs'},
   {state:'comparison owner reload preserves origin field identity',implemented:false,knownGap:true,detail:'Inventory target fieldPointer belongs to estimate entry in route path while owner query resolves the comparator. Citations target projection drops sourceOwner; route searches target only on the owner item, so active field target is not restored.'},
   {state:'browser copy/close/back/forward',implemented:true,test:'source-viewer-permalink.browser.mjs'},
   {state:'keyboard focus close/reopen and mobile layout',implemented:true,test:'source-viewer-permalink.browser.mjs; source-viewer.browser.mjs; source-viewer-header.browser.mjs'}
@@ -187,6 +192,7 @@ const report={
   reloadResolution:{routeEntryItemId:'phb-bo-stick',validatedSourceContextOwner:'phb-spear',fieldLookupCollection:'equipment',fieldLookupItemId:'phb-spear',fieldPointerFoundOnLookupItem:comparisonSourceTargets.some(target=>target.fieldPointer==='/suggestedPrice/comparisons/0'),activeTargetResolved:comparisonSourceTargets.some(target=>target.fieldPointer==='/suggestedPrice/comparisons/0'),pendingNoticeGuard:'source-viewer.js preserves targetStatus=pending only when normalized activeTarget has a fieldPointer; a lost target can clear the pending state',exactCrops:'not assessed by this failure fixture; no region geometry is introduced or inferred'}
  },
  verification:{
+  scopeStatement:'The passed and notRunInThisCapture arrays below are retained historical capture descriptions. This inventory generator reads current sources but executes none of those commands; current outcomes are recorded in the full-workflow and focused test receipts.',
   passed:[
    {command:'node --test tests/citation-navigation.test.mjs tests/citations.test.mjs',tests:18},
    {command:'NODE_PATH=/workspace/adnd1-devtools/node_modules node tests/source-viewer-permalink.browser.mjs',viewports:[1440,390]},

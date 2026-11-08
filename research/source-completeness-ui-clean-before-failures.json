@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "actual-first-clean-workflow-failures-before-integration-fix",
+  "inputCommit": "8830bae614ee14782cdd908d7e3d6e192eb5ce70",
+  "command": "node --test tests/*.test.mjs",
+  "timing": "Full clean checkout run captured before fixing VM fixture wiring and producer classification. Not a reconstructed historical regression.",
+  "result": {
+    "tests": 832,
+    "passed": 819,
+    "failed": 13,
+    "skipped": 0,
+    "cancelled": 0,
+    "durationMs": 164549.152987
+  },
+  "failureFamilies": [
+    {
+      "count": 12,
+      "cause": "Extracted-function VM test harnesses did not load the new production recordsForView/recordForView helper dependencies.",
+      "scope": "Harness integration failures, not twelve observed production browser failures."
+    },
+    {
+      "count": 1,
+      "cause": "Citation producer inventory failed closed on new progressionExplainerDetailHTML inline source producer; matrixDetailHTML also needs explicit classification.",
+      "scope": "Audit tool integration failure requiring current producer census extension; unknown functions must still fail closed."
+    }
+  ],
+  "log": {
+    "path": "research/source-completeness-ui-clean-before-failures.log.gz",
+    "sha256": "d88c71e34bdb40614f0cdcd89dd2903f8eda3f3384fd77dd363c7970a7a4944c",
+    "uncompressedSha256": "3d01c3b198b3af42d1c1898ca092ffc6c4b0af89ab21f0403136c56a18c15e47",
+    "sizeBytes": 31149
+  },
+  "failingCodeSource": "All source/tool/test bytes remain in the exact immutable input Git commit; the clean worktree was not edited."
+}

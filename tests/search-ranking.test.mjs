@@ -108,9 +108,9 @@ test('authored class level-change text is indexed without nested citation metada
  assert.ok(Number.isFinite(search.score(isolated,'silver ferret speaks')));
  assert.ok(Number.isFinite(search.score(isolated,'rare option')));
  for(const privateToken of ['private change status canary','private change provenance canary','private change evidence canary','private change region canary','private change hash canary','222'])assert.equal(search.score(isolated,privateToken),Infinity,`${privateToken} is not indexed from a nested level-change record`);
- const unrenderedNotes=search.prepare({_view:'classes',_title:'Notes are not rendered canary',attackTableNote:'unrendered attack note canary',retainedSkillsNote:'unrendered retained note canary'});
- assert.equal(search.score(unrenderedNotes,'unrendered attack note'),Infinity);
- assert.equal(search.score(unrenderedNotes,'unrendered retained note'),Infinity);
+ const renderedNotes=search.prepare({_view:'classes',_title:'Rendered notes canary',attackTableNote:'rendered attack note canary',retainedSkillsNote:'rendered retained note canary'});
+ assert.ok(Number.isFinite(search.score(renderedNotes,'rendered attack note')));
+ assert.ok(Number.isFinite(search.score(renderedNotes,'rendered retained note')));
 });
 
 test('focused table source references retain the exact owner and clone region',()=>{

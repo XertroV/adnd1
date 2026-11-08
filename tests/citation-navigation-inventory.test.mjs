@@ -1,18 +1,55 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
+import {gunzipSync} from 'node:zlib';
+import vm from 'node:vm';
 import {auditInlineProducerSites,auditRouteQueryContract,auditSourceNavigationAttributes} from '../tools/citation-navigation-coverage.mjs';
 
 const app=readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
+const before=JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/citation-navigation-unclassified-producers-before.json.gz',import.meta.url))));
 
 test('citation navigation inventory captures all current chip producer classes and sites',()=>{
  const inventory=auditInlineProducerSites(app);
- assert.equal(inventory.sites.length,16);
- assert.equal(inventory.classes.length,11);
+ assert.equal(inventory.sites.length,19);
+ assert.equal(inventory.classes.length,13);
  assert.deepEqual(inventory.classes,[
   'class-abilities-table-record','class-advancement','class-progression-reference','class-xp-table','cleric-turning-table-fact','dynamic-xp-result',
   'equipment-estimate-comparison','equipment-related-reference','field-attribute-layout',
-  'fighter-matrix-reference','progression-explainer-reference'
+  'fighter-matrix-reference','matrix-detail-reference','progression-explainer-detail-reference','progression-explainer-reference'
+ ]);
+});
+
+test('the preserved clean-workflow failure is detected before and explicitly classified after',()=>{
+ const capturedApp=before.files['dist/app.js'],capturedTool=before.files['tools/citation-navigation-coverage.mjs'];
+ assert.equal(createHash('sha256').update(capturedApp.content).digest('hex'),capturedApp.sha256);
+ assert.equal(createHash('sha256').update(capturedTool.content).digest('hex'),capturedTool.sha256);
+ assert.equal(before.actualFailure.capturedNotReconstructed,true);
+ assert.match(before.actualFailure.stackExcerpt,/Unclassified citation chip producer at dist\/app\.js:535 in progressionExplainerDetailHTML/);
+ const mapStart=capturedTool.content.indexOf('const producerClassByFunction=');
+ const auditStart=capturedTool.content.indexOf('export function auditInlineProducerSites(');
+ const auditEnd=capturedTool.content.indexOf('\nconst routeQueryNames',auditStart);
+ const oldDetector=vm.createContext({});
+ vm.runInContext(`${capturedTool.content.slice(mapStart,auditStart)}\n${capturedTool.content.slice(auditStart,auditEnd).replace('export function','function')}\nthis.auditBefore=auditInlineProducerSites;`,oldDetector);
+ assert.throws(()=>oldDetector.auditBefore(capturedApp.content),/Unclassified citation chip producer at dist\/app\.js:535 in progressionExplainerDetailHTML/);
+ const expected={progressionExplainerDetailHTML:{producerClass:'progression-explainer-detail-reference',sites:2},matrixDetailHTML:{producerClass:'matrix-detail-reference',sites:1}};
+ const sourceLines=capturedApp.content.split('\n');
+ for(const [functionName,{producerClass,sites:siteCount}] of Object.entries(expected)){
+  const start=sourceLines.findIndex(value=>value.startsWith(`function ${functionName}(`));
+  assert.notEqual(start,-1,`${functionName} exists in the exact captured before source`);
+  const next=sourceLines.findIndex((value,index)=>index>start&&value.startsWith('function '));
+  const functionSource=sourceLines.slice(start,next<0?undefined:next).join('\n');
+  assert.throws(()=>oldDetector.auditBefore(functionSource),new RegExp(`Unclassified citation chip producer.*${functionName}`));
+  assert.deepEqual(auditInlineProducerSites(functionSource).sites.map(site=>[site.function,site.producerClass]),Array.from({length:siteCount},()=>[functionName,producerClass]));
+ }
+});
+
+test('auxiliary detail producers retain their collection owner classes',()=>{
+ const inventory=auditInlineProducerSites(app);
+ assert.deepEqual(inventory.sites.filter(site=>['progressionExplainerDetailHTML','matrixDetailHTML'].includes(site.function)).map(site=>[site.function,site.producerClass]),[
+  ['progressionExplainerDetailHTML','progression-explainer-detail-reference'],
+  ['progressionExplainerDetailHTML','progression-explainer-detail-reference'],
+  ['matrixDetailHTML','matrix-detail-reference']
  ]);
 });
 

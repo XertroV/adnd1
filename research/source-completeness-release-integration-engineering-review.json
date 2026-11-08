@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-release-workflow-integration-review",
+  "failedInputCommit": "8830bae614ee14782cdd908d7e3d6e192eb5ce70",
+  "status": "integration-fix-approved-subject-to-fresh-complete-release-gates",
+  "blockingEngineeringFindings": [],
+  "scope": "Independent review of the citation producer inventory and extracted-function VM harness integration fix after the actual first clean workflow run. This receipt supplements the sealed initial engineering review; it does not rewrite that review or certify an unrun complete workflow.",
+  "priorSealedReview": {
+    "path": "research/source-completeness-release-engineering-review.json",
+    "sha256": "81aab8481565a84cbb47169239670b476b2feeb8182dfe5814f77ae5c51ce4c7",
+    "unchangedFromFailedInputCommit": true
+  },
+  "reviewedChangedInputs": [
+    {
+      "path": "tools/citation-navigation-coverage.mjs",
+      "sha256": "89cf70b58fa4265c57ca886a4caff48ccf1e0ab35f22070bd2a4891f37d2d4e9",
+      "sizeBytes": 24127
+    },
+    {
+      "path": "tests/citation-navigation-inventory.test.mjs",
+      "sha256": "7bdf2211f0c3ae48b62a7ffedb02429513dab4efc1004850987fe4693f449795",
+      "sizeBytes": 5694
+    },
+    {
+      "path": "tests/citation-navigation-comparator-regression.test.mjs",
+      "sha256": "8cf7bc5a93a99607f61f017373074f500eeb2819a2f3a8b2309f3037e9753622",
+      "sizeBytes": 7637
+    },
+    {
+      "path": "tests/citation-navigation.test.mjs",
+      "sha256": "0fd30567cd2a579dd5eeb20d672f12b1403c67e8c615580bf1dea6dc5606bdb4",
+      "sizeBytes": 17998
+    },
+    {
+      "path": "tests/citation-rapid-history.test.mjs",
+      "sha256": "362be691448c7b182942311a3459f1c35b501adbb60ab0b43c1987244d52bb59",
+      "sizeBytes": 5845
+    },
+    {
+      "path": "tests/fixtures/citation-navigation-unclassified-producers-before.json.gz",
+      "sha256": "2ee3db140d96fd136421e94faba00b62ea5fbdd57b1e9cb39901e83eaa6aceb4",
+      "sizeBytes": 48635
+    }
+  ],
+  "supportingEvidence": [
+    {
+      "path": "research/source-completeness-ui-clean-before-failures.json",
+      "sha256": "e1ae53ea04499632901a3aea1ad55a5806229c2d7eac79631ab8f9b7ae8bbf9c",
+      "sizeBytes": 1568
+    },
+    {
+      "path": "research/source-completeness-ui-clean-before-failures.log.gz",
+      "sha256": "d88c71e34bdb40614f0cdcd89dd2903f8eda3f3384fd77dd363c7970a7a4944c",
+      "sizeBytes": 31149
+    },
+    {
+      "path": "research/source-completeness-release-engineering-review.json",
+      "sha256": "81aab8481565a84cbb47169239670b476b2feeb8182dfe5814f77ae5c51ce4c7",
+      "sizeBytes": 16244
+    },
+    {
+      "path": "research/citation-navigation-coverage.json",
+      "sha256": "f3308a5a0bee71545da6567ca9e8a6f6b905dc4bb3967e497bccb3ed70132749",
+      "sizeBytes": 24426
+    }
+  ],
+  "preservedFailure": {
+    "command": "node --test tests/*.test.mjs",
+    "tests": 832,
+    "passed": 819,
+    "failed": 13,
+    "skipped": 0,
+    "cancelled": 0,
+    "archivePath": "research/source-completeness-ui-clean-before-failures.log.gz",
+    "archiveSha256": "d88c71e34bdb40614f0cdcd89dd2903f8eda3f3384fd77dd363c7970a7a4944c",
+    "uncompressedSha256": "3d01c3b198b3af42d1c1898ca092ffc6c4b0af89ab21f0403136c56a18c15e47",
+    "uncompressedSizeBytes": 97060,
+    "originalPrivateLogMatches": true,
+    "failureFamilies": [
+      {
+        "count": 12,
+        "cause": "The extracted-function VM harnesses omitted the new production recordForView/recordsForView dependencies. These are harness integration errors, not twelve observed production browser defects."
+      },
+      {
+        "count": 1,
+        "cause": "The audit module rejected the new progression detail citation producer before tests could load; the new matrix detail producer also required explicit classification."
+      }
+    ]
+  },
+  "acceptedFixes": [
+    {
+      "scope": "VM harness wiring",
+      "files": [
+        "tests/citation-navigation-comparator-regression.test.mjs",
+        "tests/citation-navigation.test.mjs",
+        "tests/citation-rapid-history.test.mjs"
+      ],
+      "assessment": "Harnesses now evaluate the actual recordsForView and recordForView source extracted from current dist/app.js before calling the dependent application functions. No helper stubs, weakened assertions, skips, or lowered thresholds were introduced. The two route harness view lists also mirror the two new root views. Historical failing controls remain active; supplying unused current helpers does not alter the historical fixture functions."
+    },
+    {
+      "scope": "Explicit producer classification",
+      "assessment": "progressionExplainerDetailHTML and matrixDetailHTML receive explicit, collection-specific producer classes. The scanner still rejects unknown function producers. Three added source-line sites bring the current census from 16 to 19, with 13 classes; section and overview references produce two progression lines, and matrix rule notes one line."
+    },
+    {
+      "scope": "Preserved failure calibration",
+      "assessment": "The compressed fixture retains exact app and audit-tool bytes from the immutable failed commit. Both the observed full-log failure and replays of each previously unclassified function remain regression controls. Internal payload sizes/hashes were independently checked against Git, rather than accepted solely from fixture metadata."
+    },
+    {
+      "scope": "Truthful inventory metadata",
+      "assessment": "Current inventory entries enumerate test definitions and browser check definitions without claiming execution. An explicit verification scope statement identifies the retained passed/notRunInThisCapture arrays as historical descriptions, not commands run by this generator. Current root views and auxiliary collection ownership descriptions match the unchanged runtime."
+    }
+  ],
+  "assertionPreservation": [
+    {
+      "path": "tests/citation-navigation-comparator-regression.test.mjs",
+      "assertionBearingLines": 35,
+      "allAssertionLinesUnchanged": true,
+      "testCases": 7,
+      "allTestTitlesUnchanged": true
+    },
+    {
+      "path": "tests/citation-navigation.test.mjs",
+      "assertionBearingLines": 34,
+      "allAssertionLinesUnchanged": true,
+      "testCases": 14,
+      "allTestTitlesUnchanged": true
+    },
+    {
+      "path": "tests/citation-rapid-history.test.mjs",
+      "assertionBearingLines": 8,
+      "allAssertionLinesUnchanged": true,
+      "testCases": 5,
+      "allTestTitlesUnchanged": true
+    }
+  ],
+  "independentValidation": {
+    "vmHarnessSuite": {
+      "command": "node --test tests/citation-navigation-comparator-regression.test.mjs tests/citation-navigation.test.mjs tests/citation-rapid-history.test.mjs",
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0,
+      "resultSha256": "bafae123a321651a9f5272b72afd02dd56a04be471318c6ca4b3451e8a4d46be"
+    },
+    "producerInventorySubreview": {
+      "mode": "Read-only independent delegated review; no edits",
+      "command": "node --test tests/citation-navigation-inventory.test.mjs",
+      "passed": 7,
+      "failed": 0,
+      "freshUnclassifiedOrRenamedProducerMutationControlsRejected": 3,
+      "cliGeneration": "Current CLI output generates successfully and reports 19 source-line sites/13 classes with neutral execution metadata."
+    },
+    "focusedTotal": {
+      "passed": 33,
+      "failed": 0,
+      "scope": "Combined independent focused suites only; this is not the full Node suite or all 24 required workflow blocks."
+    },
+    "beforeFixtureGitIdentity": {
+      "commit": "8830bae614ee14782cdd908d7e3d6e192eb5ce70",
+      "exactByteMatches": [
+        "dist/app.js",
+        "tools/citation-navigation-coverage.mjs"
+      ]
+    },
+    "diffWhitespace": {
+      "command": "git diff --check",
+      "exitStatus": 0
+    }
+  },
+  "censusMeaning": {
+    "currentSourceLineSites": 19,
+    "currentProducerClasses": 13,
+    "frozenHistoricalReportSourceLineSites": 14,
+    "frozenHistoricalReportSha256": "f3308a5a0bee71545da6567ca9e8a6f6b905dc4bb3967e497bccb3ed70132749",
+    "frozenHistoricalReportUnchanged": true,
+    "scope": "A scanner site is a source line containing inlineSourceChip, not an individual call expression or rendered control. Function classification does not prove semantic source support or source/field-owner transport; separate existing UI receipts cover bounded runtime interactions."
+  },
+  "runtimeAndEvidenceIntegrity": {
+    "runtimeInputs": [
+      {
+        "path": "dist/app.js",
+        "sha256": "67d063e8a72998eedab573290e972e381d3d314c17d66672ea56ecad14d7eb2c",
+        "sizeBytes": 141202,
+        "unchangedFromFailedInputCommit": true
+      },
+      {
+        "path": "dist/search.js",
+        "sha256": "503af2eb6b3ccbf442dcdc1e8e770669a66a288f76e7e4bf86bf4984c4fdd9c9",
+        "sizeBytes": 9960,
+        "unchangedFromFailedInputCommit": true
+      },
+      {
+        "path": "dist/styles.css",
+        "sha256": "e2ac2aedd6191e1e15e41ceabcb5b3726432b8f6f10e3a8f5eb51f2935430aea",
+        "sizeBytes": 55710,
+        "unchangedFromFailedInputCommit": true
+      },
+      {
+        "path": "dist/data.json",
+        "sha256": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d",
+        "sizeBytes": 14593527,
+        "unchangedFromFailedInputCommit": true
+      },
+      {
+        "path": "dist/source-viewer.js",
+        "sha256": "7d818caf5869c3c0f69538fc7a3b3efbd7e649306aa777532a84094e208cc71e",
+        "sizeBytes": 74473,
+        "unchangedFromFailedInputCommit": true
+      },
+      {
+        "path": "dist/citations.js",
+        "sha256": "63e1667cd93c773e950bf6c53d8cf56e6beb29490278cecdeeb952cfa2663032",
+        "sizeBytes": 8056,
+        "unchangedFromFailedInputCommit": true
+      }
+    ],
+    "sourceDataChanged": false,
+    "productionRuntimeOrCitationBytesChangedByIntegrationFix": false,
+    "oldSealedReviewChanged": false,
+    "sealPrefix": {
+      "baseCommit": "8830bae614ee14782cdd908d7e3d6e192eb5ce70",
+      "baseCount": 790,
+      "observedCurrentCount": 790,
+      "unchangedPrefix": true,
+      "fullByteValidatorStillRequired": true
+    }
+  },
+  "remainingReleaseGates": [
+    "Append new failure/fix/review evidence seals without modifying the existing 790-entry prefix or any already sealed artifact.",
+    "Run all 24 actual required workflow blocks in a fresh clean committed checkout, including the complete Node wildcard suite and assembled-output reproduction. Retain this first failed run as historical failure evidence.",
+    "Require successful exact-head GitHub CI before merge/deploy and verify the published release/version and selected asset hashes against the final approved head."
+  ],
+  "limits": [
+    "No new browser or source-pixel review was required for this fix because all inspected production runtime/data/citation bytes are unchanged; bounded prior UI review remains pinned in the sealed initial receipt.",
+    "No source units, mechanics, crop/focus proposals, source verification grades, or the isolated DMG 74 source-data batch are approved or activated by this integration review.",
+    "Whole-book semantics and the complete semantic source-unit denominator remain unassessed; this integration approval does not change the earlier scope limits."
+  ],
+  "reopenPolicy": "Review changed pinned tool/test/fixture bytes again. Record completed full-workflow and publication gates in later receipts without rewriting this frozen review."
+}

@@ -37,6 +37,23 @@
  const searchableClassChangeText = item => item._view==='classes'&&Array.isArray(item.levelChanges)
   ? item.levelChanges.flatMap(entry=>[entry?.option,...(Array.isArray(entry?.changes)?entry.changes:[])]).filter(value=>typeof value==='string'&&value.trim()).join(' ')
   : '';
+ const searchableClassXpText = item => item._view==='classes'
+  ? [...(Array.isArray(item.xpRows)?item.xpRows:Array.isArray(item.xp)?item.xp:[])].flatMap((entry,index)=>{
+    if(entry===null||entry===undefined||entry==='')return [];
+    const row=typeof entry==='object'?entry:{level:index+1,xp:entry};
+    return [row.level??index+1,row.xp??row.minimum??row.threshold,row.label,row.track].filter(value=>value!==undefined&&value!==null&&value!=='').flatMap(value=>typeof value==='number'?[value,value.toLocaleString('en-US')]:[value]);
+   }).concat(item.xpTrack||[]).join(' ')
+  : '';
+ const authoredNoteFields=new Set(['attackTableNote','retainedSkillsNote','priceNote']);
+ const searchableAuthoredNotesText = item => item&&typeof item==='object'
+  ? Object.entries(item).filter(([key,value])=>authoredNoteFields.has(key)&&typeof value==='string'&&!isPrivateSearchKey(key)).map(([,value])=>value).join(' ')
+  : '';
+ const searchableMatrixText = item => item?._view==='matrices'
+  ? [item.title,item.attackerLabel,item.rowHeader?.label,...(item.armorClasses||[]),...(item.rows||[]).flatMap(row=>[row?.label,...(row?.targets||[])]),...(item.notes||[]),...(item.ruleNotes||[]).flatMap(note=>[note?.title,note?.text]),...(item.comparisonExamples||[]).flatMap(example=>[example?.levelMin,example?.levelMax,example?.armorClass,example?.acZeroTarget,example?.simpleSubtractionTarget,example?.matrixTarget,example?.explanation])].filter(value=>value!==undefined&&value!==null).join(' ')
+  : '';
+ const searchableProgressionExplainerText = item => item?._view==='progressionExplainer'
+  ? [item.title,item.description,...(item.sections||[]).flatMap(section=>[section?.label,section?.description]),...(item.terminologyNotes||[])].filter(value=>value!==undefined&&value!==null).join(' ')
+  : '';
  const searchableTableText = table => {
   if(!table||typeof table!=='object')return '';
   return [table.title,table.rowHeader?.label,table.columnGroup?.label,
@@ -63,7 +80,8 @@
    searchableFieldsText(item.fields),item.book,item._bookName,...(item.pages||[]),
    ...(item.tags||[]),...(item.effect||[]),...(item.conditions||[]),...(item.exceptions||[]),
    ...(item.bullets||[]),...(item.pendingMechanics||[]),...(item.guidance||[]),
-   item.xpNote, item.progression?.label, item.progression?.description,searchableClassChangeText(item),
+   item.xpNote, item.progression?.label, item.progression?.description,searchableClassChangeText(item),searchableClassXpText(item),
+   searchableAuthoredNotesText(item),searchableMatrixText(item),searchableProgressionExplainerText(item),
    searchableTableText(item.table),...aliases
   ].filter(value=>value!==undefined&&value!==null).join(' '));
   const bodyWords=body.split(' ').filter(Boolean);

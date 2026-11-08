@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-review-of-source-completeness-ledgers",
+  "reviewedAt": "2026-11-08",
+  "reviewScope": {
+    "books": ["DMG", "UA", "MM", "MM2"],
+    "inputCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+    "limits": "This review checked ledger structure and claims against the stated source-first bounds, reviewed selected original-source pixels and relevant baseline data, and ran the aggregate validator and negative controls. It did not semantically review every page or every source unit across 776 physical pages. PHB is outside this independent-review scope.",
+    "noRepairs": "No source-completeness ledger, production data, citation, or aggregate tool was edited by this reviewer. Findings were sent to the relevant owner and root."
+  },
+  "baseline": {
+    "pageBaseline": {
+      "path": "research/source-completeness-page-baseline.json",
+      "sha256": "04497369894821d9d455c590ab55dd56a011fae0ba18c0e80cc84b7864f6ae8f",
+      "canonicalPhysicalPages": 776,
+      "supplementalImages": 1
+    },
+    "siteBaseline": {
+      "path": "research/source-completeness-site.json",
+      "sha256": "b56b165f7693c92f679dd8d6abfa15c992602bc1808092c529b3c8debbf9fe68",
+      "beforeSiteOwners": 997
+    },
+    "semanticConclusion": "No book is certified semantically complete; complete source-unit denominators remain unknown."
+  },
+  "reviewedLedgers": [
+    {
+      "book": "DMG",
+      "path": "research/source-completeness-dmg.json",
+      "sha256": "aa2a54b141bcf3813edd5545d29f0b96d5d6aa25a4404a291463235bc991bc84",
+      "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "physicalPdfPages": 240,
+      "namedSourceUnits": 60,
+      "reviewDisposition": "Page accounting and the sampled Appendix A/B/C boundary claims agree with source pixels after the ledger correction. Appendix C covers printed p.174 and p.176–194; printed p.175 is absent from the canonical PDF and represented separately by the supplemental image. Other source-unit semantics remain bounded or unassessed."
+    },
+    {
+      "book": "UA",
+      "path": "research/source-completeness-ua.json",
+      "sha256": "d19143fb4686e6f7069492bf391e2c9884a0cf5d80a8e1b17d72ec9c5198953f",
+      "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+      "physicalPdfPages": 130,
+      "namedSourceUnits": 36,
+      "reviewDisposition": "The two Cavalier level-zero rows and one UA Druid level-fourteen row are supported by the cited source-page pixels and are distinctly classified. They do not establish a full class-mechanics denominator or whole-book completeness."
+    },
+    {
+      "book": "MM",
+      "path": "research/source-completeness-mm.json",
+      "sha256": "0f319cf99cc9ef207df052551dafd77519b7190d04c603de691766bf1ed29be3",
+      "sourceSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+      "physicalPdfPages": 114,
+      "namedSourceUnits": 317,
+      "reviewDisposition": "The 223 TOC headings were source-enumerated, but per-entry locators joined from monsters.json remain candidates rather than independent source-index transcriptions. One bounded internal-index gap is confirmed. Sixteen physical pages remain explicitly without named-unit assignments in the aggregate report; they are not silently treated as reviewed."
+    },
+    {
+      "book": "MM2",
+      "path": "research/source-completeness-mm2.json",
+      "sha256": "220049803ccc80810f6e97ca9af5a78ef48e57d144f92dc3b05ee0aa1f403b2e",
+      "sourceSha256": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24",
+      "physicalPdfPages": 162,
+      "namedSourceUnits": 41,
+      "reviewDisposition": "Physical mapping, including printed p.83 at PDF p.92, is supported by sampled source pixels. The main monster-heading denominator and complete entry/table census remain unknown. A p.110 candidate-heading gap is recorded below without claiming a product omission."
+    }
+  ],
+  "aggregateValidation": {
+    "tool": {
+      "path": "tools/source-completeness-coverage.mjs",
+      "sha256": "46143b1426706c365634d48397fc181e8995537a85d88c71d7ddbcd141b3d690"
+    },
+    "test": {
+      "path": "tests/source-completeness-coverage.test.mjs",
+      "sha256": "09079a666acc3328f13122e3ab155e6ad7b1f020eac206c0421b179bc55abbce",
+      "result": "6/6 passed"
+    },
+    "computedDenominators": {
+      "physicalPdfPages": 776,
+      "supplementalImages": 1,
+      "namedSourceUnitsAcrossFiveLedgers": 559,
+      "completeSemanticSourceUnitDenominator": null,
+      "semanticallyCompleteBooks": 0,
+      "beforeSiteOwners": 997,
+      "currentSiteOwnersAtReview": 997
+    },
+    "openStructuralCoverage": {
+      "MMPhysicalPagesWithoutNamedUnitAssignments": [18, 19, 20, 22, 23, 25, 26, 27, 28, 31, 32, 33, 34, 59, 68, 69],
+      "interpretation": "These physical-page assignments remain explicitly unassessed. Their presence in pageCoverage does not count as semantic review or a complete source-unit inventory."
+    },
+    "freshNegativeControls": [
+      {
+        "mutation": "Set an observed DMG page folio to 999.",
+        "result": "Rejected: observed printed folio conflicts with declared physical-page map."
+      },
+      {
+        "mutation": "Set a DMG source unit printed folio to 999.",
+        "result": "Rejected: printed-unit folio has no matching physical source-page locator."
+      },
+      {
+        "mutation": "Set a DMG site disposition to not-real.",
+        "result": "Rejected: unsupported site disposition."
+      }
+    ]
+  },
+  "sourcePixelReviews": [
+    {
+      "book": "DMG",
+      "scope": "Appendix endpoints and printed-to-PDF mapping only.",
+      "observations": [
+        "PDF173 shows printed p.172 and Appendix A.",
+        "PDF174 shows printed p.173; Appendix A continues in the upper-left, and Appendix B begins later on that page.",
+        "PDF175 shows printed p.174 and Appendix C in both columns.",
+        "PDF176 shows printed p.176. The canonical baseline marks printed p.175 missing; its separate image stays outside the PDF page count."
+      ],
+      "privateRenders": [
+        {"path": "/workspace/vault-audit-private/dmg/review/folio-review-pdf-173-2p4x.png", "sha256": "5c8bce50497ba989fbd52e14802a0aae2e21f74e1476c4bd9162c583de22a492"},
+        {"path": "/workspace/vault-audit-private/dmg/review/folio-review-pdf-174-2p4x.png", "sha256": "877956020b6d7b9c0b777a3052d599d26e5a41b67975002bc788791a9e58b02b"},
+        {"path": "/workspace/vault-audit-private/dmg/review/folio-review-pdf-175-2p4x.png", "sha256": "d8b6ae3ebb47e6b3a241b3fefdc763626289c13c22a7780d756d1ddb26e6a33a"},
+        {"path": "/workspace/vault-audit-private/dmg/review/folio-review-pdf-176-2p4x.png", "sha256": "03a9b81c7eb380f9efa93ee3b87764f86feceaf233d8f94110d3cf87c7a02ec4"}
+      ]
+    },
+    {
+      "book": "UA",
+      "scope": "XP table row counts and bounded values only; not a full class audit.",
+      "observations": [
+        "Printed p.15/PDF16 has two physical level-zero Cavalier rows (Horseman and Lancer), followed by a first-level Armiger context row.",
+        "Printed p.17/PDF18 has the Druid level-14 Great Druid row. The current PHB Druid level-14 threshold alone is not equivalent to this UA row's full band and fields."
+      ],
+      "privateRenders": [
+        {"path": "/workspace/vault-audit-private/ua/pages/pdf-016-cavalier-xp-table.png", "sha256": "9c065e968f8d1f41c80363c208f515b5cca54b0596a28ab7c825a1916036f0ef"},
+        {"path": "/workspace/vault-audit-private/ua/pages/pdf-018-3x.png", "sha256": "859c45bf97f26a60daf22c44b81221a7bc69ba34605007122c3c7c0932cb94df"}
+      ]
+    },
+    {
+      "book": "MM",
+      "scope": "Source TOC/index/article heading and bounded internal-index data gap.",
+      "observations": [
+        "The source index includes Centipede, Giant at printed p.14; the printed p.14 article begins on PDF15.",
+        "At the input commit, monsters.json has no MM record matching Centipede/Giant Centipede; the separate MM2 Centipede record does not satisfy the MM source heading. The assembled searchable monster catalogue is explicitly out of scope, so this is an internal source-index gap rather than a product-catalogue absence claim."
+      ],
+      "privateRenders": [
+        {"path": "/workspace/vault-audit-private/mm/renders/pdf-004.png", "sha256": "72c67e0d27f6a5a3cad888c8da33ec5f6d4af756508649a0866b427dd7eeea3c"},
+        {"path": "/workspace/vault-audit-private/mm/renders/pdf-005.png", "sha256": "56c4359a6bb921ecbe437db669e26e4ec59120fdc0826f9f5e6c3afb56efac4c"},
+        {"path": "/workspace/vault-audit-private/mm/index-hires/pdf-107.png", "sha256": "428d94555fb8edaf0a93192742c475ede626539a04534e79f5a383be5fef7ec2"},
+        {"path": "/workspace/vault-audit-private/mm/renders/pdf-015.png", "sha256": "1472df646717b5478776733467830e4b43dea91a8c8938bdc919bc0e8b673ab3"}
+      ]
+    },
+    {
+      "book": "MM2",
+      "scope": "Page mapping samples and one candidate embedded-heading gap.",
+      "observations": [
+        "Printed p.83 appears at PDF92, confirming the documented scan-order exception.",
+        "Printed p.110/PDF111 visibly has headings SKUNK, SLIME CREATURE, and SLIME, OLIVE. The named candidate units jump from `skeleton-snake-solar` at pp.109 and 111 to `spectator-eye-attacks` at p.112; no named p.110 candidate unit is present. The broad A–Z sequence and shared-stat/prose spans include p.110, but this indicates a gap in the named embedded-unit candidate inventory only. It does not establish an absent application record: the searchable monster catalogue is explicitly excluded, and the complete heading denominator is unknown."
+      ],
+      "privateRenders": [
+        {"path": "/workspace/vault-audit-private/phb/review/mm2-pdf-092.png", "sha256": "b0b4f732d4df98d9a302479d8742ad75615735e54dd110d1787371866ff39898"},
+        {"path": "/workspace/vault-audit-private/phb/review/mm2-pdf-111.png", "sha256": "3327e77efe0b49643a691401510e23213980fb61ab882e68aae8ec9c16796158"}
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "independent-review-dmg-appendix-boundary",
+      "status": "confirmed-and-corrected-in-final-ledger",
+      "ledgerPointer": "research/source-completeness-dmg.json#/sourceUnits[id=dmg-appendix-a], /sourceUnits[id=dmg-appendix-b], /sourceUnits[id=dmg-appendix-c], /sourceUnits[id=dmg-appendix-c-printed-page-175-supplement]",
+      "evidence": "Pixel review supports Appendix A continuing on printed p.173, Appendix B on printed p.173, Appendix C starting on printed p.174, and printed p.175 missing from the canonical PDF and represented separately. Final C scope is printed [174,176..194] with PDF [175..194]; the supplement remains separate."
+    },
+    {
+      "id": "independent-review-mm-toc-disposition",
+      "status": "corrected-and-verified",
+      "ledgerPointer": "research/source-completeness-mm.json#/sourceUnits[id=mm-toc]/siteDispositions[0]",
+      "evidence": "The final disposition is unassessable for the application surface, with reason/evidence explaining that 223 source headings establish a source denominator only. Source locators joined from existing records remain candidates."
+    },
+    {
+      "id": "MM-GAP-CENTIPEDE-GIANT-001",
+      "status": "source-and-before-data-supported",
+      "ledgerPointer": "research/source-completeness-mm.json#/findings[id=MM-GAP-CENTIPEDE-GIANT-001]",
+      "evidence": "Source TOC/index/article pixels and the original monsters.json hash support a missing MM locator record in the internal source index. This is not a searchable-app absence claim because that catalogue is documented as excluded."
+    },
+    {
+      "id": "independent-review-mm2-p110-candidate-gap",
+      "status": "open-candidate-inventory-gap",
+      "ledgerPointer": "research/source-completeness-mm2.json#/sourceUnits[id=monster-entries-az], /sourceUnits[id=monster-statblocks-and-prose], /sourceUnits[id=skeleton-snake-solar], /sourceUnits[id=spectator-eye-attacks]",
+      "evidence": "Private source pixels at printed p.110/PDF111 show three separate creature headings, while the named embedded-unit candidates skip p.110. Parent and MM2 owner were informed. Keep the issue at candidate-inventory scope; do not classify as an app absence or treat the known broad section spans as a complete heading census."
+    },
+    {
+      "id": "independent-review-ua-xp-row-classification",
+      "status": "source-pixel-confirmed",
+      "ledgerPointer": "research/source-completeness-ua.json#/findings[id=ua-cavalier-zero-level-rows], /findings[id=ua-druid-level14-row], /historicalThreeRowReconciliation",
+      "evidence": "The source shows two, not three, Cavalier level-zero rows. The third out-of-tuple audit row is the UA Druid level-fourteen row, which is partial cross-source representation. It is not three missing zero levels."
+    }
+  ],
+  "reviewerCorrections": [
+    {
+      "id": "reviewer-dmg-appendix-running-head-misread",
+      "status": "retracted-and-corrected",
+      "incorrectClaim": "I initially treated Appendix B as continuing onto printed p.174/PDF175 and suggested an Appendix B/C overlap there.",
+      "correction": "I misread PDF175's running head. Actual pixels show Appendix C in both columns on printed p.174; Appendix B occupies printed p.173 only. Printed p.175 is missing from the canonical PDF and is a separate supplemental image.",
+      "disposition": "The owner corrected the final DMG ledger bounds. The final hash above and the source-image review record the corrected mapping."
+    }
+  ],
+  "unassessed": [
+    "This review did not line-review all 776 physical PDF pages; contact-sheet/page-screen status is not semantic source-unit review.",
+    "No whole-book source-unit denominator was established for DMG, UA, MM, or MM2. Named units overlap and are candidates, not a complete row/rule/prose census.",
+    "MM2 page p.110 candidate headings were not reconciled to any app product record; product scope excludes a searchable MM/MM2 catalogue.",
+    "MM has 16 pages without named-unit assignments in the aggregate report; their content remains explicitly unassessed."
+  ]
+}
