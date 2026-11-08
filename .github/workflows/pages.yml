@@ -169,6 +169,11 @@ jobs:
       - name: Join monetary values with current review coverage
         if: always()
         run: node tools/monetary-coverage-report.mjs --output artifacts/monetary-review-coverage/report.json
+      - name: Verify current monetary source question dispositions
+        if: always()
+        run: |
+          mkdir -p artifacts/monetary-review-coverage
+          node tools/monetary-current-source-questions.mjs --output artifacts/monetary-review-coverage/current-source-questions.json --check
       - name: Upload monetary values and review coverage
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -177,6 +182,7 @@ jobs:
           overwrite: true
           path: |
             artifacts/monetary-review-coverage/report.json
+            artifacts/monetary-review-coverage/current-source-questions.json
             artifacts/monetary-row-identity/report.json
             research/monetary-source-inventory.json
           if-no-files-found: warn

@@ -30,7 +30,7 @@
     },
     "monsterCensus": {
       "path": "research/price-source-inventory-monster-books.json",
-      "sha256": "5b18323c4817c7c99a38cd058015f862bbc588237b655ec6c7e8375f60f8248f"
+      "sha256": "c390fdf3343adf55f3827b0e2a7b6dd2b811acae90bfdb57744e84c1a61e2a05"
     },
     "originalSourceInventory710": {
       "path": "research/price-source-inventory.json",
@@ -28884,12 +28884,60 @@
       "book": "MM",
       "sourceObjectOrPassage": "Mammoth tusks",
       "passageIdentity": "Mammoth entry",
-      "claimType": "qualitative-valuation",
+      "claimType": "derived-relative-valuation-range",
       "typedClaim": {
-        "amountOrFormula": "proportionately higher than elephant tusks",
-        "currency": "relative to gp valuation",
+        "amountOrFormula": "(100–600 gp per elephant tusk) × 1.5 = 150–900 gp per mammoth tusk (derived)",
+        "currency": "gp",
         "unit": "per tusk",
-        "conditions": "Source supplies no numeric multiplier; baseline elephant valuation is MM printed p.38 / PDF p.39."
+        "conditions": "Mammoth tusks are 50% heavier and their value is proportionately higher. Apply the explicit proportional value relation to the Elephant value of 100–600 gp each. The resulting 150–900 gp per mammoth tusk is derived, not a printed range.",
+        "valuationDerivation": {
+          "kind": "source-proportional-value-range",
+          "factor": 1.5,
+          "increasePercentage": 50,
+          "relation": "explicit-value-proportionate-to-tusk-weight-increase",
+          "baseline": {
+            "claimId": "mm-elephant-tusks",
+            "minimumAmount": 100,
+            "maximumAmount": 600,
+            "currency": "gp",
+            "unit": "each"
+          },
+          "derivedRange": {
+            "minimumAmount": 150,
+            "maximumAmount": 900,
+            "currency": "gp",
+            "unit": "per tusk"
+          },
+          "formula": "(100–600 gp per elephant tusk) × (1 + 0.50)",
+          "printedAsRange": false,
+          "isSourcePrinted": false,
+          "sourceDependencies": [
+            {
+              "book": "MM",
+              "printedPage": 65,
+              "pdfPage": 66,
+              "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+              "role": "explicit-proportional-value-relation"
+            },
+            {
+              "book": "MM",
+              "printedPage": 38,
+              "pdfPage": 39,
+              "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+              "role": "elephant-per-tusk-valuation-baseline"
+            }
+          ],
+          "sourceProofs": [
+            {
+              "path": "research/source-audit-batch6-mammoth-source-proof.json",
+              "sha256": "6e0b3cacd78475c6c7dc38ae40834a13a6996af56dd9afc45c9cf57a19b7ad1b"
+            },
+            {
+              "path": "research/source-audit-batch6-retained-source-first-review.json",
+              "sha256": "3e3c02c5c0f139417375fbd675fe169571dcdc691fcfd7dd2d8fe59c417a7d34"
+            }
+          ]
+        }
       },
       "sourcePages": [
         {
@@ -28945,30 +28993,30 @@
           }
         }
       ],
-      "receiptStatus": "direct-typed-census-claim",
+      "receiptStatus": "derived-typed-census-claim",
       "sourceLinkage": {
         "kind": "exact stable claim ID + named passage identity + typed amount/formula; not a page-only link",
-        "sourceReviewStatus": "source-value-visually-confirmed",
-        "interpretationStatus": "direct"
+        "sourceReviewStatus": "source-relation-and-baseline-visually-confirmed",
+        "interpretationStatus": "source-backed-derived-interpretation"
       },
       "linkedTypedSourceRecords": [],
       "moneyCategory": "typed-monetary-rule-or-valuation",
       "baselineReceiptStatus": "direct-typed-census-claim",
       "postRemediation": {
-        "disposition": "currency-bearing relative/ambiguous reading retained unassessable",
+        "disposition": "source-backed-derived-valuation-not-source-printed-range",
         "receiptOccurrenceId": "price-discovery:mm-mammoth-tusks-relative",
         "indexedClaimIds": [
           "price-discovery:mm-mammoth-tusks-relative#/typedClaim"
         ],
-        "typedCurrencyAmountOrFormulaClaimIds": [],
-        "nonPriceOrReferenceClaimIds": [],
-        "unassessableClaimIds": [
+        "typedCurrencyAmountOrFormulaClaimIds": [
           "price-discovery:mm-mammoth-tusks-relative#/typedClaim"
         ],
+        "nonPriceOrReferenceClaimIds": [],
+        "unassessableClaimIds": [],
         "linkedSourceOccurrenceIds": [],
         "linkedSourceClaimIds": [],
         "passageRecordId": null,
-        "sourceReview": "source census record retained; independent review pending",
+        "sourceReview": "Source relation and baseline reviewed separately; derived arithmetic is explicit and independent integration review remains pending.",
         "geometryAndOverlayReview": "independent geometry/overlay review pending; not certified by the pure builder"
       }
     },
