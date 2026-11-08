@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "batch6-dmg175-current-gap-projection-before-correction",
+  "capturedBeforeProjectionEdit": true,
+  "input": {
+    "path": "research/gaps-limitations-next-task.json",
+    "sha256": "c5b3cc24edb827032f299857ec683d872ad39597417d5b03321d7b6ef21b4b54",
+    "dataPath": "dist/data.json",
+    "dataSha256": "2adf579c9a5d1baa88d7db8ea8323d243adc6c33c4449bba78d343121018dc0c",
+    "commit": "10809125b3e0b810b67e97931bae7c5facf29139"
+  },
+  "target": {
+    "path": "/mechanicsAudit/specificReviewNoteCandidates/notes/29/sourceReferences/1",
+    "owner": {
+      "collection": "rules",
+      "itemId": "encounter-types"
+    },
+    "note": {
+      "annotationType": "record-note",
+      "reason": "The class distribution, maximums and all other encounter-generator steps are not transcribed here.",
+      "reference": {
+        "book": "DMG",
+        "page": 175,
+        "pdfPage": null,
+        "sourceSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+        "sourceKind": "separately-supplied-private-image",
+        "availability": "private-unpublished",
+        "printing": "unestablished",
+        "originalPdfPage": "missing"
+      }
+    }
+  },
+  "otherP175Projection": {
+    "classificationRule": "DMG printed p.175 remains absent from the supplied canonical PDF and is still a PDF page gap. The user confirmed a separate supplemental image is from the correct edition; two limited source excerpts are available, but this does not make the page part of the PDF or establish whole-page/table completeness.",
+    "currentMissingCitedPage": {
+      "book": "DMG",
+      "printedPage": 175,
+      "pdfPage": null,
+      "status": "missing-from-supplied-canonical-PDF; user-confirmed correct-edition supplemental image is usable as source evidence; two limited excerpts are staged for the existing scoped reference",
+      "canonicalSource": {
+        "file": "DMG_1stEd.pdf",
+        "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "pageMappingEvidence": "tests/dmg-missing-pages-investigation.md",
+        "nearbyPages": "PDF p.174 is printed 173; PDF p.175 is printed 174; PDF p.176 is printed 176; supplied PDF has no page printed 175."
+      },
+      "privateSupplement": {
+        "filename": "dmg175.jpg",
+        "sha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+        "dimensions": [
+          1329,
+          1796
+        ],
+        "printing": "not specified",
+        "published": false,
+        "note": "The user confirmed the separate image is from the correct edition. The canonical PDF still omits printed p.175. Two limited excerpts are staged with distinct supplemental-image and canonical-PDF provenance; the full image is not published.",
+        "limitedCropsStaged": 2
+      },
+      "currentReference": {
+        "collection": "rules",
+        "itemId": "encounter-types",
+        "recordIndex": 35,
+        "jsonPointer": "/references/0",
+        "sourceObjectPointer": "/references/0",
+        "label": "DMG p.175 encounter procedure · supplemental source image; absent from canonical PDF",
+        "status": "User-confirmed correct-edition source; two limited excerpts reviewed",
+        "catalog": "scans/verified/rules-encounter-types.json",
+        "regionIds": [
+          "dmg-175-party-table-context-78c4c383c38c7d10",
+          "dmg-175-level-others-context-5aa02e91e35c4c28"
+        ],
+        "sourceSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+        "reviewStatus": "field-target-reviewed",
+        "contextStatus": "context-reviewed-for-existing-facts-only",
+        "sourceValueStatus": "not-assessed-by-field-target-review"
+      },
+      "contentScope": "A bounded Appendix C random character-party procedure was added; it does not transcribe the complete class-limit or magic-item encounter tables.",
+      "evidencePaths": [
+        "tests/fixtures/source-scan-inventory.json",
+        "tests/dmg-missing-pages-investigation.md",
+        "research/remaining-audit-work.md"
+      ]
+    },
+    "historicalSourceScanSnapshot": {
+      "input": {
+        "path": "dist/data.json",
+        "sha256": "b617db17b85a468b36ceda4e570bc5c8b4d85557c2b67f42e567ba1780e4bae6",
+        "hashFormat": "SHA-256 of JSON.stringify(parsed data)"
+      },
+      "blockedPage": {
+        "book": "DMG",
+        "page": 175,
+        "availability": "missing",
+        "reason": "Missing from supplied PDF; a separately supplied private image is available, printing unknown, and is not published.",
+        "privateEvidence": {
+          "available": true,
+          "printing": "unknown",
+          "published": false
+        },
+        "currentRecordReferences": [
+          {
+            "collection": "rules",
+            "id": "encounter-types",
+            "labels": [
+              "Wandering and placed encounters"
+            ],
+            "statuses": []
+          }
+        ],
+        "cited": true
+      },
+      "snapshotStatus": "historical-pre-supplement-crop-activation",
+      "supersededBy": "research/source-audit-batch6-dmg175-supplement-status-addendum-v1.json"
+    },
+    "historicalPriceCensus": {
+      "topic": "DMG missing printed p.175 image",
+      "status": "Historical finding at the original census capture; superseded for p.175 image availability and the alleged clipped-word limitation by research/source-audit-batch6-dmg175-supplement-status-addendum-v1.json. The supplemental page remains outside the 370-page PDF denominator.",
+      "historicalStatus": "separate image supplement was visually screened but clipped text/unknown printing prevents an exhaustive no-claim assertion."
+    }
+  },
+  "retainedDmGScopeQuestions": [
+    {
+      "pointer": "/reviewQueuesNotSourceAbsences/rowNormalizedMonetaryReview/reports/0/currentReview/underlyingSourceQuestions/0",
+      "value": {
+        "id": "phb-dmg-commodity-adjustment-scope",
+        "label": "Whether the fur-value adjustment also applies to the listed commodities",
+        "status": "unresolved",
+        "semanticPass": false,
+        "extractionRepresentation": "qualified-representation-recorded",
+        "affectedAuditUids": [
+          "phb-dmg-supplement-row:dmg-commodity-01",
+          "phb-dmg-supplement-row:dmg-commodity-02",
+          "phb-dmg-supplement-row:dmg-commodity-03",
+          "phb-dmg-supplement-row:dmg-commodity-04",
+          "phb-dmg-supplement-row:dmg-commodity-05",
+          "phb-dmg-supplement-row:dmg-commodity-06",
+          "phb-dmg-supplement-row:dmg-commodity-07",
+          "phb-dmg-supplement-row:dmg-commodity-08"
+        ]
+      }
+    },
+    {
+      "pointer": "/reviewQueuesNotSourceAbsences/rowNormalizedMonetaryReview/reports/0/currentReview/underlyingSourceQuestions/1",
+      "value": {
+        "id": "phb-dmg-alchemist-discount-scope",
+        "label": "Whether or how alchemist assistance affects potion monetary costs",
+        "status": "unresolved",
+        "semanticPass": false,
+        "extractionRepresentation": "qualified-representation-recorded",
+        "affectedAuditUids": [
+          "phb-dmg-supplement-row:dmg-potion-alchemist-discount"
+        ]
+      }
+    }
+  ],
+  "intent": "Preserve exact prior projection fields before adding current supplemental availability annotation. Do not change the source-review bytes or promote a mechanics/field grade."
+}
