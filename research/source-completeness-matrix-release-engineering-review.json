@@ -1,0 +1,548 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-matrix-release-engineering-review",
+  "inputBaseCommit": "db7d10957dd4d50e9bab063cffb3b503a16144c2",
+  "status": "bounded-candidate-approved-subject-to-full-release-gates",
+  "blockingEngineeringFindings": [],
+  "scope": "Additive matrix data, exact historical adapters, bounded UI/search, owner activation, offline identity, and current-report integration. Local review only; no completed full workflow or publication is claimed.",
+  "reviewedInputs": [
+    {
+      "path": "attack-matrices.json",
+      "sha256": "8748dadb1c8f927bed62537c220dbfedbfc476426dc34d0dbd25d2dd21ada76e",
+      "sizeBytes": 35403
+    },
+    {
+      "path": "citation-overrides.json",
+      "sha256": "9839fa2f7bdf6d72cb8202cf175dac4db6ebc6885fe3ec5b27adada3d7c950f8",
+      "sizeBytes": 578851
+    },
+    {
+      "path": "dist/app.js",
+      "sha256": "5913dd09673455247367b797d7ae8b7d1375df1fb98c05db0135ce5fd502630e",
+      "sizeBytes": 143227
+    },
+    {
+      "path": "dist/search.js",
+      "sha256": "5e225a2518ae6e50dfcefb668f3587f5cf26aae7353fe0f168e246f1c7657cf3",
+      "sizeBytes": 10449
+    },
+    {
+      "path": "dist/source-viewer.js",
+      "sha256": "12dcd10e9d3f47188cc5a1fd440e344152863b9ea6dc8d56ad9f260769b52819",
+      "sizeBytes": 74826
+    },
+    {
+      "path": "dist/styles.css",
+      "sha256": "b4816be2195f8bd94309bfd4a9d83b7b54dd9c441a2c58fcf746540930b4ab5a",
+      "sizeBytes": 56245
+    },
+    {
+      "path": "dist/data.json",
+      "sha256": "ceb7c8b9a8fe32b676e57c8d007f124a4490684d54558479e555d504075ba4f3",
+      "sizeBytes": 14632564
+    },
+    {
+      "path": "dist/source-continuations.json",
+      "sha256": "802365aff769c036d1f65f7384d2096981c8b4998b987bbf53310b59bc8d1b3e",
+      "sizeBytes": 298599
+    },
+    {
+      "path": "dist/coverage-gaps.json",
+      "sha256": "45f61401341d15702149b95e060204b3619b8c2dd13b8af3066a1afcaba10b51",
+      "sizeBytes": 175028
+    },
+    {
+      "path": "tests/fixtures/matrix-baseline.mjs",
+      "sha256": "fb5ddc3f922e84799589d9019fe9a87f4f6cedbcffe68c51e3b2217a9b9684a7",
+      "sizeBytes": 663
+    },
+    {
+      "path": "tests/helpers/dmg74-matrix-batch.mjs",
+      "sha256": "9864a3a9b1f45971699b91178610b6a1d1a62f70c54f93fbcacb3ae607284d49",
+      "sizeBytes": 7754
+    },
+    {
+      "path": "tests/helpers/batch6-jo-fixture.mjs",
+      "sha256": "761e78916bd5a79435c58c2ecd59330d3d9bcb6331676a738fbad1f27a60cd06",
+      "sizeBytes": 15085
+    },
+    {
+      "path": "tests/matrix-batch-reversal.test.mjs",
+      "sha256": "11869bda3da5d7c2e019c9ad8b4b72ef1a946cec12dedb59c78788fb1943d5e2",
+      "sizeBytes": 2859
+    },
+    {
+      "path": "tests/jo-stick-source-mapping.test.mjs",
+      "sha256": "877627b02096d5578bfe271c578385c398791df697d2bc138aefedc726ab52c2",
+      "sizeBytes": 25277
+    },
+    {
+      "path": "tests/batch2-independent.test.mjs",
+      "sha256": "a12c071a590ad4c95cfb21c005ba8f40f9b0892c72b0de0ed7dbc5c68c39ae1d",
+      "sizeBytes": 14981
+    },
+    {
+      "path": "tests/dagger-independent.test.mjs",
+      "sha256": "f867c6239d80dd938ec73e92b4da9e0cd7244faef3c4ec532c840517e46029b1",
+      "sizeBytes": 10214
+    },
+    {
+      "path": "tests/matrix-cell-review.test.mjs",
+      "sha256": "30f86f2dd255a27a21fe452b76969c1a1141487d54658184c99cd9c02f115403",
+      "sizeBytes": 1028
+    },
+    {
+      "path": "tests/dmg-context-three-chains.test.mjs",
+      "sha256": "80f6373a7962ae67e123fbebbb073b5e3da7ca814ce4faa2984215385c218bcc",
+      "sizeBytes": 14328
+    },
+    {
+      "path": "tests/equipment-matrices.test.mjs",
+      "sha256": "0569f520cfa882e1e9035c3a4023e3c62d39d4fb1cf72c5554c6faa02f9d5e18",
+      "sizeBytes": 74096
+    },
+    {
+      "path": "tests/dmg74-matrix-additions.test.mjs",
+      "sha256": "2f302be11cedab74b34f9ba937433ab9333e4210eedf9b21ffd397c0e19ff302",
+      "sizeBytes": 11960
+    },
+    {
+      "path": "tests/site-search-coverage.test.mjs",
+      "sha256": "d3d38241cf74b3e52c4ba727ea9e4d9e6d353926f2a5276a61225c83649a5566",
+      "sizeBytes": 7128
+    },
+    {
+      "path": "tests/site-completeness.browser.mjs",
+      "sha256": "5ed337d122929d0aedf067219af6b9af785069bd774da06de67acc24e66ab70c",
+      "sizeBytes": 20491
+    },
+    {
+      "path": "tests/source-viewer.browser.mjs",
+      "sha256": "038d3e4cafc191c5fdfdba2101d07fcded180289d4bd1298a832bbe96c4def26",
+      "sizeBytes": 18129
+    },
+    {
+      "path": "tests/source-visual-coverage.test.mjs",
+      "sha256": "787a1a2f2dd8494eac0d8616e4d9f4583a73de9862a2718dd89f5eb4a40b8155",
+      "sizeBytes": 29559
+    },
+    {
+      "path": "tests/source-completeness-coverage.test.mjs",
+      "sha256": "7bc9e9a1436f3f55482b4b11857385b95638699b15ef3409e80835a283f4cc63",
+      "sizeBytes": 6213
+    },
+    {
+      "path": "tests/source-owner-identity-audit.test.mjs",
+      "sha256": "d415fc5f473b9fac5ab4845fecbc304684a4a135c0f0074b3ddbb4033397133e",
+      "sizeBytes": 25188
+    },
+    {
+      "path": "tests/continuation-alias-audit.test.mjs",
+      "sha256": "3bec8c4a0cb71dc3e9db26d519dc09d0c552448acd09acde0ca02174844d0824",
+      "sizeBytes": 5433
+    },
+    {
+      "path": "tools/source-visual-coverage.mjs",
+      "sha256": "571af4d8abfb42d1b6f0fc565b9445d4008e3b1969dbeb376491060beb74036e",
+      "sizeBytes": 62747
+    },
+    {
+      "path": "tools/source-completeness-coverage.mjs",
+      "sha256": "97dcffcec298371a114ff60e210562ab36f3afb1f43fc2cfd46b5fe5f47a7f23",
+      "sizeBytes": 12511
+    },
+    {
+      "path": "research/source-visual-audit.py",
+      "sha256": "ff79cf86cd6d65ec428183266f406ccd8984e5425acacde362116e6519f2af56",
+      "sizeBytes": 20184
+    },
+    {
+      "path": "research/source-raster-boundary-audit.py",
+      "sha256": "117ad7787f23172331f5c883154d08fd3ef35d0ae84a0458a451ca52c757a4ff",
+      "sizeBytes": 49292
+    },
+    {
+      "path": "tests/source-visual-audit-inputs.py",
+      "sha256": "41a1d76c23312b7dacef57fab3204c1ea0761d9a3122586a9c4814e029492c91",
+      "sizeBytes": 5525
+    },
+    {
+      "path": "tests/source-raster-boundary-audit.test.py",
+      "sha256": "4d056948b117a6db664616ea3107287ac5b9487083cd567b8f1f93ef580d51d1",
+      "sizeBytes": 20030
+    },
+    {
+      "path": "research/source-visual-reviews.json",
+      "sha256": "0994f308ffced81d050dc52f59a75f3b3caa78b3484ead589daf6e8c134aa87a",
+      "sizeBytes": 3214480
+    },
+    {
+      "path": "research/source-completeness-matrix-final-local-snapshot.json",
+      "sha256": "1192aa37a80d2b28e115195dbe6cc8ae6de62164161d09b0b2e30700d936c6e0",
+      "sizeBytes": 6035
+    },
+    {
+      "path": "research/source-completeness-matrix-owner-review.json",
+      "sha256": "bc8bc1c6d1dcbfb3e8c87f02c52a95c60358a190fa1b4d612bc78e270942e957",
+      "sizeBytes": 18623
+    },
+    {
+      "path": "research/source-completeness-matrix-owner-activation.json",
+      "sha256": "e633fa79aac39c3c2c5bf008cae3a148815becd3268318f1daeec9b0bbf9d15d",
+      "sizeBytes": 21432
+    },
+    {
+      "path": "research/source-completeness-matrix-ui-author-review.json",
+      "sha256": "b719189df7c60f65bd46a538f6c18c22f2b4ff5343627a47427323088a644805",
+      "sizeBytes": 8366
+    },
+    {
+      "path": "research/source-completeness-matrix-viewer-notice-adapter.json",
+      "sha256": "f19c1ebd44b716b6f84f4505ee6b41a0b67d40bb39f75dd4620ba8c19b396896",
+      "sizeBytes": 1848
+    },
+    {
+      "path": "research/source-completeness-matrix-monetary-input-refresh.json",
+      "sha256": "4766bfb4462e667911c7fbc400601da59d35a3375dc1bec2d6951a7db8bfd8d7",
+      "sizeBytes": 16395
+    },
+    {
+      "path": "research/source-completeness-matrix-reversal-guard-review.json",
+      "sha256": "749c56551fbca8b1dcc6282b641056b81bb80a462492b6a10541cf9960bcc343",
+      "sizeBytes": 1518
+    },
+    {
+      "path": "research/source-completeness-matrices-source-transcription.json",
+      "sha256": "9219fd5362be85035aaeff18b0240fbebad28327705b800400b258f2eef602e9",
+      "sizeBytes": 26757
+    },
+    {
+      "path": "research/source-completeness-matrices-independent-transcription.json",
+      "sha256": "e6047f6c8a4cf48c5de9a9c3d4f574292b352c5988d3ef812a954b7cecb37562",
+      "sizeBytes": 31808
+    },
+    {
+      "path": "research/source-completeness-matrices-independent-review-v2.json",
+      "sha256": "5938216513809579bba61c40d5a1901b9cb738d74cc1d53649ab01932da0a32c",
+      "sizeBytes": 18092
+    },
+    {
+      "path": "research/current-source-raster-snapshot.json",
+      "sha256": "1896e5b23b63d45e5c8183ab691924af570644a89449419e699b4f3c5bbe0573",
+      "sizeBytes": 393
+    },
+    {
+      "path": "research/current-continuation-candidate-snapshot.json",
+      "sha256": "ac5e8e99f54d2ba052abb3b13560d70cf89b36fb2aab4b2ee7004e8334345547",
+      "sizeBytes": 404
+    },
+    {
+      "path": "research/source-visual-audit-batch7-matrices-current-v3.json",
+      "sha256": "e5d9688d8ca55875226597135f4a44d1fe8f823d11fc0c9daee46008475d9894",
+      "sizeBytes": 6201900
+    },
+    {
+      "path": "research/source-raster-boundary-batch7-matrices-current-v3.json.gz",
+      "sha256": "f27d9c71d7762042a4cd65b1c306666359d947eeb41fc3a7831e6660f451c535",
+      "sizeBytes": 1468930
+    },
+    {
+      "path": "research/source-audit-batch7-matrices-continuation-current-v2.json",
+      "sha256": "0dce2891c5f28396a2b169d73f10eb44390719e6b8971cb0426eaa7863a850cd",
+      "sizeBytes": 1204416
+    },
+    {
+      "path": "research/source-audit-batch7-matrices-continuation-current-v2-full.json.gz",
+      "sha256": "548b5ced42e4ee528a5c39065fb6c952ed4196a6555fe60b1edff1ffb04ab215",
+      "sizeBytes": 1637979
+    },
+    {
+      "path": "research/source-completeness-coverage.json",
+      "sha256": "ae36f43b2e6ba63643d2c4a5a4fea34ddc494f3f10337a28a53040dfe8a9401d",
+      "sizeBytes": 147939
+    },
+    {
+      "path": "research/source-completeness-coverage.md",
+      "sha256": "016600d37949af61f3a580009da06adbc128a6c2e80437ded63c04f8730a70c8",
+      "sizeBytes": 5599
+    },
+    {
+      "path": "research/source-completeness-repairs.json",
+      "sha256": "37e7d5bc22fd16ddfe7bef8170dccd82c9c8aeeade76b929aec32f91b3f8ebb7",
+      "sizeBytes": 5300
+    },
+    {
+      "path": "research/price-source-inventory.json",
+      "sha256": "669943f7ba32250641f4b6f0073e3b0ee756e15ab02f735b32ae66c93c3c1c19",
+      "sizeBytes": 12743527
+    },
+    {
+      "path": "research/monetary-source-inventory.json",
+      "sha256": "2baf2c4cc78e72927d4fde01973b5af0e5effe3fcffb236d21527e2f62e15113",
+      "sizeBytes": 34450729
+    },
+    {
+      "path": "research/source-audit-batch6-current-monetary-source-questions.json",
+      "sha256": "f7c4428c617bd55110187019bd41fd3d182d40ef136e9026b3a9325f1bb84dcd",
+      "sizeBytes": 7392
+    },
+    {
+      "path": "tests/fixtures/matrix-reversal-guards-before.json.gz",
+      "sha256": "d9383f6bd48ec531ca1a6be055bfdd54d1b879d318e5fb4939cd6209330413d5",
+      "sizeBytes": 3053
+    },
+    {
+      "path": "tests/fixtures/matrix-sealed-helper-integration-before.json.gz",
+      "sha256": "3bae2f993fcefc062d2eb4656c6a5f33046ff39fb8ae673a944284f602c7b34f",
+      "sizeBytes": 2263
+    },
+    {
+      "path": "tests/fixtures/matrix-final-history-integration-before.json.gz",
+      "sha256": "a6bf8086eb6c962aa4caff9e49664139f3038f1388542e0cce5e5a4d6a5c1568",
+      "sizeBytes": 29895
+    },
+    {
+      "path": "tests/fixtures/matrix-coverage-links-before.json.gz",
+      "sha256": "70dc0b799676626f09e3c798a2fa5e2653e9f355f0922cc979f30a738ce015e7",
+      "sizeBytes": 22480
+    },
+    {
+      "path": "tests/fixtures/source-raster-batch7-supplemental-identity-before.json.gz",
+      "sha256": "34615b3009f1da46929a091379e787f7318b45d8587e5efa672687c6bceacd4f",
+      "sizeBytes": 863573
+    },
+    {
+      "path": "dist/scans/verified/matrices-dmg-cleric-druid-monk-attack-matrix.json",
+      "sha256": "ba6718a644279530485e4d99dd3cb49d8da58bfec6fce096bb5b4014a8cf5afc",
+      "sizeBytes": 4145
+    },
+    {
+      "path": "dist/scans/verified/dmg74-ia-cleric-druid-monk-315c08264db687ce.png",
+      "sha256": "315c08264db687ce6c701bf1514f48f36b9b09961c24dd105e3513584aac0f94",
+      "sizeBytes": 363291
+    },
+    {
+      "path": "dist/scans/verified/matrices-dmg-magic-user-illusionist-attack-matrix.json",
+      "sha256": "ce7755ae0f44668b6451f6a7fd1a0e97041b1a805101afdc90c79297807c6c4a",
+      "sizeBytes": 4458
+    },
+    {
+      "path": "dist/scans/verified/dmg74-ic-magic-user-illusionist-25e6e2598775e705.png",
+      "sha256": "25e6e2598775e705d98322ed3bb37dd038f43ae9632e26fda33d587ad856fbf2",
+      "sizeBytes": 336227
+    },
+    {
+      "path": "dist/scans/verified/matrices-dmg-thief-assassin-attack-matrix.json",
+      "sha256": "8cb869262a8e06c8c79e1f4e88c6a8a4f1dc23a0ff4a0cdf33e2431e05688915",
+      "sizeBytes": 5177
+    },
+    {
+      "path": "dist/scans/verified/dmg74-id1-thief-assassin-9b0b5ce873850534.png",
+      "sha256": "9b0b5ce8738505349a6ef9e637317cafca160ea1442176b5d99d24c7a30945d2",
+      "sizeBytes": 428007
+    }
+  ],
+  "approvedBoundary": {
+    "newOwnerIds": [
+      "dmg-cleric-druid-monk-attack-matrix",
+      "dmg-magic-user-illusionist-attack-matrix",
+      "dmg-thief-assassin-attack-matrix"
+    ],
+    "newNumericCells": 378,
+    "cellsByOwner": [
+      147,
+      105,
+      126
+    ],
+    "existingFighterCells": 210,
+    "currentOwners": 1000,
+    "currentMatrices": 4,
+    "newLimitedCrops": 3,
+    "allMatricesIncomplete": true,
+    "existingRecordsUnchanged": {
+      "rules": true,
+      "spells": true,
+      "equipment": true,
+      "classes": true,
+      "matrices": true
+    },
+    "progressionExplainerUnchanged": true,
+    "postActivationDataChange": "Only sourceExcerpts.regionReviews of the three new matrix owners changes from the pre-activation implementation. Final data SHA is ceb7c8b9a8fe32b676e57c8d007f124a4490684d54558479e555d504075ba4f3."
+  },
+  "sourceReviewSeparation": {
+    "literalProof": "Sealed author/blind comparison and current addition tests cover the exact 378 numeric cells, axes, band labels, markers and declared qualifier scope. This engineer did not perform another PDF transcription.",
+    "ownerProof": "Independent owner receipt and scoped activation are pinned; 12 crop/context/highlight/default assessments apply only to three new records. Every prior visual review remains deep-equal to merged Git.",
+    "fieldTargetsActivated": 0,
+    "newBindings": 6,
+    "newBindingReviewStatus": "field-target-pending",
+    "newBindingValueStatus": "not-assessed-by-field-target-review",
+    "monkConflict": "Unresolved; no PHB/DMG ruling selected."
+  },
+  "resolvedFindings": [
+    {
+      "id": "matrix-reversal-metadata-masking",
+      "before": "Actual canaries changing selectedValuesItems or deleting unrelated equipment collection metadata were accepted and erased.",
+      "fix": "Reverse only four asserted +3 counters, exactly three owner IDs, and the asserted +6 matrix collection count; compare complete metadata objects and maps before final whole-object equality. The preserved actual before tests show one pass/five failures; the current guards reject these mutations."
+    },
+    {
+      "id": "sealed-helper-modification",
+      "before": "The additive branch modified the previously sealed 663-byte matrix-baseline.mjs; the manifest prefix alone did not establish its byte integrity.",
+      "fix": "Restore exact sealed bytes (SHA fb5ddc3f922e84799589d9019fe9a87f4f6cedbcffe68c51e3b2217a9b9684a7). Put additions in unsealed tests/helpers/dmg74-matrix-batch.mjs and rewire eight unsealed consumers. Its wrapper invokes the original sealed projection after removing only the three named additions. Full seal validation now passes."
+    },
+    {
+      "id": "history-viewer-and-current-count-integration",
+      "before": "Independent 56-test history run had 54 passes and two failures: the historical whole-viewer pin and a 4566-vs-4572 current handoff comparison. Actual bytes/output are preserved.",
+      "fix": "The notice adapter pins the entire current viewer, reverses exactly one approved branch, and verifies the entire original viewer SHA; unrelated changes are rejected. Actual current viewer/member behavior still runs. Historical 4545/4566 proofs remain; current metrics are deep-equal to historical metrics plus exactly six empty/pending matrix bindings. Final affected history/guard run passes 16/16."
+    },
+    {
+      "id": "coverage-route-and-temporal-scope",
+      "fix": "Coverage links address collection-native matrix/progression owners. Current matrix cohort checks require exactly the original plus three named additions. Aggregate book findings/dispositions explicitly describe their frozen baseline, with current repair states separate. No historical ledgers or sealed review receipts were rewritten."
+    }
+  ],
+  "uiReview": {
+    "conflictDisplayFields": [
+      "topic",
+      "string references",
+      "disposition"
+    ],
+    "link": "Resolve relatedClassGuideId in current classes, escape labels and encode ID; omit unresolved guide IDs.",
+    "search": "Explicit public conflict prose and validated guide-link label only; private canaries remain excluded.",
+    "supplementPdfNotice": "Accepted supplemental evidence has no canonical PDF ordinal; no adjacent page substitution. Other missing/unverified branches remain."
+  },
+  "offlineReview": {
+    "assessment": "Closed supplemental identity validates private image/crop hashes and normalized image coordinates separately from canonical PDF identity. Both image usages remain explicit NAs in PDF-only raster analysis. Corrupt/unknown/forged identity cases reject; no semantic geometry pass is manufactured.",
+    "activeRasterValidation": {
+      "valid": true,
+      "errors": []
+    },
+    "liveUniverse": {
+      "regionUsages": 3399,
+      "catalogs": 1020,
+      "dataSha256": "ceb7c8b9a8fe32b676e57c8d007f124a4490684d54558479e555d504075ba4f3",
+      "catalogSnapshotSha256": "770344dadf7681ee8dc278614229a7efd8bc7b6aed06edffaf16464ce086b5b3"
+    },
+    "supplementalImageNAs": 2,
+    "semanticPass": false,
+    "privateFullSourceScanRepeatedByEngineer": false
+  },
+  "monetaryRefresh": {
+    "beforeMatchesMergedGit": true,
+    "afterMatchesCurrent": true,
+    "onlyChangedPaths": [
+      "/currentInputs/canonical/sha256",
+      "/currentInputs/monetaryIndex/sha256"
+    ],
+    "allCurrentInputHashesMatch": true,
+    "dispositions": {
+      "unresolved-source-question": 7,
+      "source-backed-derived-valuation": 1
+    },
+    "newAdjudications": 0,
+    "scope": "Only two mutable input references are rebound. Question identities, source proofs, all seven unresolved states and the one derived valuation remain unchanged."
+  },
+  "independentChecks": {
+    "targetedNode": {
+      "passed": 62,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "Final core data/UI and eight focused files before the subsequent sealed-helper relocation; changed adapter/history wiring is separately validated below.",
+      "sha256": "fc289250483cf71178364498ba436051e440a7c39237616f51af75547dc748ce",
+      "sizeBytes": 6204
+    },
+    "adapterHistoryBeforeCorrection": {
+      "passed": 54,
+      "failed": 2,
+      "tests": 56,
+      "preservedFixture": "tests/fixtures/matrix-final-history-integration-before.json.gz"
+    },
+    "finalAdapterHistory": {
+      "command": "node --test tests/matrix-batch-reversal.test.mjs tests/jo-stick-source-mapping.test.mjs",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "sha256": "2af3a39e4b3f312ec555ddf401a2e1361a4f527f3cc2bfc393184b55369693d4",
+      "sizeBytes": 1880
+    },
+    "finalNativeUi": {
+      "command": "node tests/site-completeness.browser.mjs",
+      "passed": 48,
+      "desktopErrors": [],
+      "mobileErrors": [],
+      "dataSha256": "ceb7c8b9a8fe32b676e57c8d007f124a4490684d54558479e555d504075ba4f3",
+      "sha256": "fd61b03775a79dabaa01cdc399523d374e52b2c8e5a7ee04b0998259dbd00537",
+      "sizeBytes": 3956
+    },
+    "sourceViewerBrowser": {
+      "passed": 51,
+      "fixture": "Generated PDF fixtures, not source-book content.",
+      "scope": "Final viewer code; before only the three-new-owner regionReviews data projection, which did not alter PDF-mode inputs.",
+      "sha256": "cd5eb9cf849beb20774c34cc005db3b5925f0667a1211f05a79ae79d3ddf9c2e",
+      "sizeBytes": 476
+    },
+    "python": {
+      "sourceRaster": 14,
+      "sourceVisualInputs": 4,
+      "failed": 0,
+      "includedInNodeWorkflowCount": false,
+      "rasterOutput": {
+        "sha256": "c46d0b4828ed0a4991dcc028edaa3f90892fa4f6e4000662a7f0d6ca37c2a200",
+        "sizeBytes": 113
+      },
+      "visualOutput": {
+        "sha256": "56e03afda220e7ba78bbcecf9a2e53a0149cfc3e311fa10bbd01b25e8e5ba671",
+        "sizeBytes": 102
+      }
+    },
+    "rasterCli": {
+      "valid": true,
+      "regionUsages": 3399,
+      "catalogs": 1020,
+      "semanticPass": false,
+      "sha256": "e53bf546d7050831f03f20d3eb0051336dcfde4cdaaf3ed2b2228932140245f9",
+      "sizeBytes": 12966555
+    },
+    "monetaryLoader": {
+      "valid": true,
+      "historicalQuestions": 8,
+      "unresolved": 7,
+      "derived": 1,
+      "semanticPass": false,
+      "sha256": "66052559058c1abca2dd696efb8fcdc100e5d3e0a64c167c4168b21dd5c71906",
+      "sizeBytes": 25181
+    },
+    "fullSealValidator": {
+      "status": "validated",
+      "manifestPath": "research/citation-evidence-seals.json",
+      "sealCount": 819,
+      "baselineStatus": "append-only-prefix-preserved",
+      "baselineRef": "db7d10957dd4d50e9bab063cffb3b503a16144c2",
+      "baselineCommit": "db7d10957dd4d50e9bab063cffb3b503a16144c2",
+      "priorSealCount": 794,
+      "newSealCount": 25,
+      "appendOnlyPrefixPreserved": true
+    },
+    "diffWhitespace": {
+      "command": "git diff --check",
+      "exitStatus": 0
+    }
+  },
+  "completenessLimits": {
+    "physicalPdfPages": 776,
+    "supplementalSourceImages": 1,
+    "overlappingNamedUnits": 559,
+    "completeSemanticSourceUnitDenominator": null,
+    "semanticallyCompleteBooks": 0,
+    "fieldBindingDenominator": 4572,
+    "fieldTargetsReviewed": 717,
+    "fieldTargetsNotReviewed": 3855,
+    "highlightWarnings": 2190,
+    "scope": "Distinct structural/review queues, not whole-book error totals or completion percentages. No individual cell-to-field mapping is approved by the table-owner assessment."
+  },
+  "remainingReleaseGates": [
+    "Append this receipt seal without changing prior 819 preserved artifact bytes; do not use a self-referential final manifest hash.",
+    "Commit the exact candidate and run all 24 actual workflow blocks in a clean checkout, including complete Node tests and reproducible assembly. No full workflow pass is claimed here.",
+    "Require exact-head PR CI, exact-merge Pages deployment, and independent live version/asset/route/source-viewer verification."
+  ],
+  "reopenPolicy": "Review changed runtime/data/catalog/focus/tool/test bytes again. Preserve this receipt and add later workflow/publication outcomes separately.",
+  "engineerWrites": "Only this new receipt; no production, source, existing proof or historical fixture edits."
+}

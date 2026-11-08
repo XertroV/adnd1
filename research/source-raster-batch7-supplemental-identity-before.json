@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Pre-fix preservation receipt",
+  "inputCommit": "1cb39acfd2ce31c435a14963f5ab0e43d9bc82bf",
+  "fixture": "tests/fixtures/source-raster-batch7-supplemental-identity-before.json.gz",
+  "fixtureSha256": "34615b3009f1da46929a091379e787f7318b45d8587e5efa672687c6bceacd4f",
+  "fixtureByteLength": 863573,
+  "uncompressedFixtureSha256": "3ad1ab78eb51e780621636b5406dcc6ba64df1c40a4a819101ed3571dd6ff4f8",
+  "uncompressedFixtureByteLength": 8850189,
+  "memberHashes": [
+    {
+      "path": "research/source-visual-audit.py",
+      "sha256": "59fbe26c4ad1b0a1c0bc8f802073e8488b2f32e1991570530095c9095320e46c",
+      "byteLength": 15580
+    },
+    {
+      "path": "research/source-raster-boundary-audit.py",
+      "sha256": "d4bccfe3f6b09d145f3d936399fd0b663ce52fcef2fe9ad1dd95136b81f8dac7",
+      "byteLength": 42953
+    },
+    {
+      "path": "research/source-visual-audit-batch7-matrices-current-v1.json",
+      "sha256": "4a516b8cd123c61b6d78e18596f4df3caf8558a7d66aa0a00cefd9b81dde6ee3",
+      "byteLength": 6199750
+    },
+    {
+      "path": "research/source-visual-audit-batch7-matrices-current-v1.md",
+      "sha256": "2cf165dab32cb2f702ec895c5fbc14204bb0429b4e4776670d489c296e11cc43",
+      "byteLength": 4557
+    },
+    {
+      "path": "research/source-visual-audit-batch7-matrices-current-v1-queue-nonphb-equipment.json",
+      "sha256": "ecc9eb365ba2ce46de5f46b36bdb91167a70defee6d391e37cdee5b727e3219f",
+      "byteLength": 52483
+    },
+    {
+      "path": "research/source-visual-audit-batch7-matrices-current-v1-queue-other-records.json",
+      "sha256": "c8dd637a436b125752181746d2d7f2322a7c42c2c64e933dd46a996eac7d2e2b",
+      "byteLength": 230989
+    },
+    {
+      "path": "research/source-visual-audit-batch7-matrices-current-v1-queue-phb-equipment.json",
+      "sha256": "e2ae03ffcc5ca703fb741e8ddb9b17eb0c0cf11760b9b44cfcb064291870952d",
+      "byteLength": 74283
+    },
+    {
+      "path": "git:1cb39acfd2ce31c435a14963f5ab0e43d9bc82bf:research/source-visual-audit.py",
+      "sha256": "8b5a40cc6a7abbf6ccd2c52a0c9db715e706d6c3b08256b84358d56295cb54ac",
+      "byteLength": 15384
+    }
+  ],
+  "failureLog": {
+    "text": "source raster boundary audit failed: source usage map source geometry identity mismatch: scans/verified/rules-encounter-types.json#dmg-175-party-table-context-78c4c383c38c7d10",
+    "origin": "parent-relayed tool result from session78918",
+    "fullConsoleCaptured": false,
+    "note": "Root reports the redirected stdout log at /workspace/vault-audit-private/matrix-raster.log was empty; this is the exact relayed failure line, not a complete captured console log."
+  },
+  "status": "captured-before-script-edits",
+  "replayedBeforeFix": {
+    "command": "python3 research/source-raster-boundary-audit.py --source-dir /workspace/vault-audit-private/sources --source-usage-map research/source-visual-audit-batch7-matrices-current-v1.json --data-root dist --output /tmp/source-raster-batch7-before-fix.json.gz",
+    "exitCode": 1,
+    "capturedOutput": "source raster boundary audit failed: source usage map source geometry identity mismatch: scans/verified/rules-encounter-types.json#dmg-175-party-table-context-78c4c383c38c7d10\n",
+    "capturedFrom": "direct exec_command result; stderr/stdout combined by tool",
+    "sourceUsageMapSha256": "4a516b8cd123c61b6d78e18596f4df3caf8558a7d66aa0a00cefd9b81dde6ee3",
+    "rasterScriptSha256": "d4bccfe3f6b09d145f3d936399fd0b663ce52fcef2fe9ad1dd95136b81f8dac7",
+    "outputFileCreated": false
+  }
+}

@@ -7,6 +7,21 @@ import {buildSourceCompletenessCoverage,markdownSourceCompleteness} from '../too
 const read=path=>JSON.parse(readFileSync(new URL('../'+path,import.meta.url),'utf8'));
 function inputs(){return {pageBaseline:read('research/source-completeness-page-baseline.json'),siteBaseline:read('research/source-completeness-site.json'),ledgers:['phb','dmg','ua','mm','mm2'].map(code=>read(`research/source-completeness-${code}.json`)),currentData:read('dist/data.json')};}
 
+test('frozen baseline findings cannot be mistaken for current repair publication state',()=>{
+ const source=inputs(),repairs=read('research/source-completeness-repairs.json');
+ const report=buildSourceCompletenessCoverage({...source,repairs});
+ for(const [index,book] of report.bookReports.entries()){
+  assert.equal(book.baselineCommit,report.baselineCommit);
+  assert.deepEqual(book.baselineFindings,source.ledgers[index].findings);
+  assert.equal(Object.hasOwn(book,'findings'),false);
+  assert.equal(Object.hasOwn(book,'siteDispositionOccurrences'),false);
+ }
+ const text=markdownSourceCompleteness(report);
+ assert.match(text,/Current repair batches/);
+ assert.match(text,/following book findings and disposition counts describe the frozen baseline/);
+ for(const batch of repairs.batches)assert.ok(text.includes(batch.status));
+});
+
 test('all five original-source ledgers account for physical pages without claiming whole-book semantics',()=>{
   const report=buildSourceCompletenessCoverage(inputs());
   assert.equal(report.denominators.physicalPdfPages,776);

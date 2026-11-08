@@ -6,15 +6,30 @@ const require=createRequire(import.meta.url);
 const search=require('../dist/search.js');
 const data=JSON.parse(readFileSync(new URL('../dist/data.json',import.meta.url),'utf8'));
 const classDocs=data.classes.map(item=>search.prepare({...item,_view:'classes',_title:item.name,_subtitle:`Class & advancement · ${item.book}`}));
-const matrixDocs=data.matrices.map(item=>search.prepare({...item,_view:'matrices',_title:item.title,_subtitle:`${item.book} · Combat matrix`}));
+const addedDmg74MatrixIds=[
+ 'dmg-cleric-druid-monk-attack-matrix',
+ 'dmg-magic-user-illusionist-attack-matrix',
+ 'dmg-thief-assassin-attack-matrix',
+];
+const matrixDocs=data.matrices.map(item=>{
+ const relatedId=item.sourceConflict?.relatedClassGuideId;
+ const guide=data.classes.find(candidate=>candidate.id===relatedId);
+ const guideName=guide?.name||guide?.title||guide?.id;
+ return search.prepare({...item,_view:'matrices',_title:item.title,_subtitle:`${item.book} · Combat matrix`,_sourceConflictClassGuideLabel:guide&&guideName?`Open ${guideName} class guide`:''});
+});
 const progressionDoc=search.prepare({...data.progressionExplainer,_view:'progressionExplainer',_title:data.progressionExplainer.title,_subtitle:'Class progression reference'});
 const byClass=id=>classDocs.find(item=>item.id===id);
 
-test('current global content owner set produces 997 unique search documents',()=>{
+test('current global content owner set preserves the prior 997 docs plus exactly three DMG matrix docs',()=>{
  const count=data.spells.length+data.rules.length+data.equipment.length+data.classes.length+data.matrices.length+1;
- assert.equal(count,997);
+ const newMatrixIds=data.matrices.filter(item=>addedDmg74MatrixIds.includes(item.id)).map(item=>item.id).sort();
+ assert.deepEqual(newMatrixIds,[...addedDmg74MatrixIds].sort());
+ assert.equal(count,997+addedDmg74MatrixIds.length);
+ assert.equal(count,1000,'the three exact new DMG matrix owners bring the current searchable document total to 1,000');
  const identities=[...['spells','rules','equipment','classes','matrices'].flatMap(collection=>data[collection].map(item=>`${collection}:${item.id}`)),`progressionExplainer:${data.progressionExplainer.id}`];
- assert.equal(new Set(identities).size,997);
+ assert.equal(new Set(identities).size,997+addedDmg74MatrixIds.length);
+ assert.equal(new Set(identities).size,1000);
+ assert.equal(matrixDocs.length,data.matrices.length);
 });
 
 test('class note fields and every existing pending mechanics value remain searchable',()=>{
@@ -58,4 +73,22 @@ test('matrix and progression auxiliary records search authored content under the
  assert.doesNotMatch(matrixDocs[0]._search,/field-target-pending|not-assessed-by-field-target-review|7052949697a009/i);
  assert.doesNotMatch(progressionDoc._search,/field-target-pending|not-assessed-by-field-target-review|sourceOwner/i);
  assert.equal(search.score(matrixDocs[0],'not-assessed-by-field-target-review'),Infinity);
+});
+
+test('matrix source-conflict prose and the validated Monk class-guide link are searchable without arbitrary metadata',()=>{
+ const monkMatrix=matrixDocs.find(item=>item.id==='dmg-cleric-druid-monk-attack-matrix');
+ assert.ok(monkMatrix);
+ for(const query of [
+  'Recorded source conflict',
+  'Monk attack matrix',
+  'PHB printed p. 30',
+  'DMG printed p. 74 clerics druids',
+  'Unresolved source conflict this DMG table does not adjudicate or reconcile it',
+  'Open Monk class guide',
+ ])assert.ok(Number.isFinite(search.score(monkMatrix,query)),`visible conflict text is searchable: ${query}`);
+ const privateMetadata=search.prepare({...monkMatrix,sourceConflict:{...monkMatrix.sourceConflict,privateReviewNote:'private conflict review canary',internalRuling:'private conflict decision canary'}});
+ assert.equal(search.score(privateMetadata,'private conflict review canary'),Infinity);
+ assert.equal(search.score(privateMetadata,'private conflict decision canary'),Infinity);
+ const unresolvedGuide=search.prepare({...monkMatrix,_sourceConflictClassGuideLabel:''});
+ assert.equal(search.score(unresolvedGuide,'Open Monk class guide'),Infinity,'a class-guide link label is indexed only when its ID resolves to a current class record');
 });

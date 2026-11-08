@@ -149,9 +149,7 @@ export function buildVisualCoverage(data,loadCatalog,ledger={reviews:[]},geometr
           usage.staleGeometryCandidateIds=staleGeometryCandidates.map(candidate=>candidate.candidateId);
           usage.reviewGate={imageBytesMatch:imageMatches,sourceHashMatch:!!saved&&saved.sourceSha256===usage.sourceSha256,imageHashMatch:!!saved&&saved.imageSha256===usage.imageSha256,focusHashMatch:!!saved&&saved.focusSha256===usage.focusSha256,contentHashMatch:!!saved&&saved.contentSha256===usage.contentSha256,defaultOrderHashMatch:!usage.default||!saved?.assessments?.default||currentDefaultOrderMatches,applied:reviewHashesMatch};
           usage.recordedReview=saved?{sourceSha256:saved.sourceSha256,imageSha256:saved.imageSha256,focusSha256:saved.focusSha256,contentSha256:saved.contentSha256,defaultOrderSha256:saved.defaultOrderSha256||null,assessments:saved.assessments||{},reviewer:saved.reviewer||null,reviewedAt:saved.reviewedAt||null}:null;
-          const nested=collection==='progressionExplainer'||collection==='matrices';
-          const owner=collection==='progressionExplainer'?'classes:progression-explainer':`matrices:${item.id}`;
-          usage.link=`https://xertrov.github.io/adnd1/#${nested?'classes':collection}/${encodeURIComponent(nested?'fighter':item.id)}?source=${encodeURIComponent(`${region.book}:${region.printedPage}`)}&region=${encodeURIComponent(region.id)}${nested?`&owner=${encodeURIComponent(owner)}`:''}`;
+          usage.link=`https://xertrov.github.io/adnd1/#${collection}/${encodeURIComponent(item.id)}?source=${encodeURIComponent(`${region.book}:${region.printedPage}`)}&region=${encodeURIComponent(region.id)}`;
           usages.push(usage);
         }
       }

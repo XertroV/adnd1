@@ -13,6 +13,8 @@ const output = path.join(root, 'test-results');
 const checks = [], errors = [], accessibility = [];
 const check = (name, result) => { assert.ok(result, name); checks.push(name); };
 const assembled = JSON.parse(fs.readFileSync(path.join(root, 'dist/data.json'), 'utf8'));
+const addedDmg74MatrixIds = ['dmg-cleric-druid-monk-attack-matrix','dmg-magic-user-illusionist-attack-matrix','dmg-thief-assassin-attack-matrix'];
+const expectedMatrixIds = ['dmg-original-fighter-attack-matrix', ...addedDmg74MatrixIds];
 
 (async () => {
   const browser = await chromium.launch({executablePath:process.env.CHROMIUM_PATH || '/usr/bin/chromium', args:['--no-sandbox']});
@@ -57,7 +59,7 @@ const assembled = JSON.parse(fs.readFileSync(path.join(root, 'dist/data.json'), 
     assert.equal(response.status(), 200);
     const live = await response.json();
     assert.deepEqual(live, assembled, 'test server must expose the current assembled checkpoint');
-    check('live assembly has 638 spell cards, 88 gear entries and the original matrix', live.spells.length===638 && live.spells.every(s=>s.effect?.length) && live.equipment.length===88 && live.matrices.length===1);
+    check('live assembly has 638 spell cards, 88 gear entries and exactly the original plus three DMG matrices', live.spells.length===638 && live.spells.every(s=>s.effect?.length) && live.equipment.length===88 && live.matrices.map(matrix=>matrix.id).join(',')===expectedMatrixIds.join(','));
 
     await route('equipment');
     check('equipment index loads all 88 entries', await count()===88);

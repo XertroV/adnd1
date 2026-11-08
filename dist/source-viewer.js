@@ -793,7 +793,12 @@
     el.zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
     if (!ref) return empty('No supported source pages are listed for this entry.');
     if (excerpts) return renderExcerpt(version, ref);
-    if (!mapped) return books().availability(ref.book, ref.page) === 'unverified' ? empty(`Printed p. ${ref.page} cannot be mapped reliably in the provided ${ref.book} scan; its identity is unverified.`, 'Source page unverified — no substitute page is shown.') : empty(books().missingPageNotice(ref.book, ref.page), 'Known source gap — no substitute page is shown.');
+    if (!mapped) {
+      const availability=books().availability(ref.book,ref.page);
+      if(availability==='unverified')return empty(`Printed p. ${ref.page} cannot be mapped reliably in the provided ${ref.book} scan; its identity is unverified.`, 'Source page unverified — no substitute page is shown.');
+      if(availability==='missing'&&books().evidenceAvailability?.(ref.book,ref.page)==='supplemental')return empty('This page uses the accepted supplemental image. Open source excerpts to view the reviewed evidence; no corresponding page exists in this PDF.','Accepted supplemental image.');
+      return empty(books().missingPageNotice(ref.book,ref.page),'Known source gap — no substitute page is shown.');
+    }
     if (state?.loading) return empty('Reading your local copy…', 'Loading PDF.');
     if (state?.error) return empty(state.error, 'Could not open this PDF. Choose another copy.');
     if (!state?.doc) return empty(`Open your ${title(ref.book)} PDF to see printed p. ${ref.page}.`, 'Your copy stays on your device.');

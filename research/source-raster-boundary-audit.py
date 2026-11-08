@@ -16,6 +16,7 @@ import argparse
 import collections
 import gzip
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -38,8 +39,14 @@ PDF_FILENAMES = {
     "MM": "Monster_Manual.pdf",
     "MM2": "Monster Manual II.pdf",
 }
+SUPPLEMENTAL_IMAGE_FILENAMES = {"dmg175-user-confirmed-supplement": "dmg175.jpg"}
+SUPPLEMENTAL_NA_REASON = "Supplemental source-image frame is retained in the usage denominator but is not part of the current PDF-raster geometry assessment."
 THRESHOLDS = (180, 230, 254)
 STRUCTURE_8 = np.ones((3, 3), dtype=np.uint8)
+_continuation_spec = importlib.util.spec_from_file_location("continuation_candidates", ROOT / "tools" / "continuation-candidates.py")
+_continuation = importlib.util.module_from_spec(_continuation_spec)
+_continuation_spec.loader.exec_module(_continuation)
+supplemental_region_identity = _continuation.supplemental_region_identity
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -293,7 +300,7 @@ def _catalog_region_geometry(region, page=None):
                 or x + width > 1.000002 or y + height > 1.000002):
             return None, "invalid"
         if page is None:
-            return None, shape
+            return [x, y, width, height], shape
         return [round(x * page.rect.width, 4), round(y * page.rect.height, 4),
                 round((x + width) * page.rect.width, 4), round((y + height) * page.rect.height, 4)], shape
     bounds = region.get("boundsPdfPoints")
@@ -310,7 +317,54 @@ def _catalog_region_geometry(region, page=None):
     return [round(value, 4) for value in values], "boundsPdfPoints"
 
 
-def reconcile_live_catalog_usage(source_map, data_root, source_map_path, pdfs):
+def _supplemental_region_receipt(catalog, region, catalog_path, source_dir, data_root, declared_pdf_hashes):
+    """Validate the closed source-image artifact and keep it out of PDF geometry."""
+    identity = supplemental_region_identity(catalog, region)
+    if identity is None or not identity.get("valid"):
+        raise ValueError(f"invalid supplemental source identity: {region.get('id')}")
+    artifact_id = region.get("sourceArtifactId")
+    filename = SUPPLEMENTAL_IMAGE_FILENAMES.get(artifact_id) if isinstance(artifact_id, str) else None
+    if not filename:
+        raise ValueError(f"unknown supplemental source artifact: {artifact_id}")
+    source_path = Path(source_dir) / filename
+    if not source_path.is_file() or sha256_file(source_path) != identity.get("sourceSha256"):
+        raise ValueError(f"supplemental source image SHA mismatch: {artifact_id}")
+    canonical_sha = identity.get("canonicalPdfSha256")
+    catalog_sha = ((catalog.get("sources") or {}).get(region.get("book")) or {}).get("sha256")
+    if canonical_sha != catalog_sha or canonical_sha != declared_pdf_hashes.get(region.get("book")):
+        raise ValueError(f"supplemental canonical PDF identity mismatch: {artifact_id}")
+
+    normalized, shape = _catalog_region_geometry(region)
+    dimensions, crop = identity.get("sourceDimensionsPx"), identity.get("sourceCropBoundsPx")
+    if shape != "object" or normalized is None or not dimensions or not crop:
+        raise ValueError(f"supplemental image-coordinate geometry is missing: {region.get('id')}")
+    x, y, width, height = normalized
+    left, top, right, bottom = crop
+    source_width, source_height = dimensions
+    expected_rect = (left / source_width, top / source_height,
+                     (right - left) / source_width, (bottom - top) / source_height)
+    if any(abs(actual - expected) > 0.000002 for actual, expected in zip((x, y, width, height), expected_rect)):
+        raise ValueError(f"supplemental image-coordinate bounds mismatch: {region.get('id')}")
+
+    # Catalog paths are relative to dist; resolve the crop alongside its catalog.
+    image_path = Path(data_root) / Path(catalog_path).parent / str(region.get("image", ""))
+    if not image_path.is_file() or sha256_file(image_path) != region.get("sha256"):
+        raise ValueError(f"supplemental published crop SHA mismatch: {region.get('id')}")
+
+    return {
+        "sourceKind": "supplemental-image",
+        "sourceArtifactId": artifact_id,
+        "sourceArtifactSha256": identity.get("sourceSha256"),
+        "sourcePdfSha256": canonical_sha,
+        "canonicalPdfSha256": canonical_sha,
+        "sourceFrameDimensionsPx": dimensions,
+        "sourceCropBoundsPx": crop,
+        "sourceCoordinateSpace": identity.get("sourceCoordinateSpace"),
+        "canonicalPdfContainsPrintedPage": False,
+    }
+
+
+def reconcile_live_catalog_usage(source_map, data_root, source_map_path, pdfs, source_dir=None):
     """Require the hash-bound map to cover the complete live catalog universe."""
     data = json.loads((Path(data_root) / "data.json").read_text())
     links = _linked_catalogs(data)
@@ -395,6 +449,25 @@ def reconcile_live_catalog_usage(source_map, data_root, source_map_path, pdfs):
         for row, (expected, region) in zip(rows, expectations):
             book = expected.get("book")
             page_no = expected.get("pdfPage")
+            if "sourceArtifactId" in region:
+                if source_dir is None:
+                    raise ValueError(f"supplemental source directory is required: {expected['regionId']}")
+                receipt = _supplemental_region_receipt(catalog_contents[expected["catalog"]], region,
+                                                       expected["catalog"], source_dir, data_root,
+                                                       declared_pdf_hashes)
+                if row.get("boundsType") != "object" or row.get("pdfBounds") is not None:
+                    raise ValueError(f"supplemental image geometry was mapped into PDF coordinates: {expected['catalog']}#{expected['regionId']}")
+                for field, value in receipt.items():
+                    if row.get(field) != value:
+                        raise ValueError(f"source usage map supplemental identity mismatch: {expected['catalog']}#{expected['regionId']} field={field}")
+                if row.get("sourceArtifactHashMatches") is not True or row.get("normalizedImageRectMatches") is not True:
+                    raise ValueError(f"source usage map supplemental source validation failed: {expected['catalog']}#{expected['regionId']}")
+                if row.get("sourceHashMatches") is not True or row.get("notAssessableReason") != SUPPLEMENTAL_NA_REASON:
+                    raise ValueError(f"source usage map supplemental PDF/NA binding mismatch: {expected['catalog']}#{expected['regionId']}")
+                continue
+            if (row.get("sourceKind") not in (None, "pdf") or row.get("sourceArtifactId") not in (None, "")
+                    or row.get("sourceArtifactSha256") not in (None, "")):
+                raise ValueError(f"source usage map assigns a supplemental identity to a PDF region: {expected['catalog']}#{expected['regionId']}")
             if book not in pdfs or not isinstance(page_no, int) or not (1 <= page_no <= len(pdfs[book])):
                 _, shape = _catalog_region_geometry(region)
                 if row.get("boundsType") != shape:
@@ -531,7 +604,7 @@ def build_audit(source_map_path, source_dir, data_root, dpi=300, band_px=8, cali
     # is rendered. It prevents a stale or hand-edited usage map from shrinking
     # the scan to an empty or partial universe while keeping missing-source and
     # missing-geometry cases explicit downstream NAs.
-    live_catalog_hashes = reconcile_live_catalog_usage(source_map, data_root, source_map_path, pdfs)
+    live_catalog_hashes = reconcile_live_catalog_usage(source_map, data_root, source_map_path, pdfs, source_dir)
 
     usages = source_map.get("usages", [])
     geometry_groups = collections.defaultdict(list)
@@ -541,6 +614,27 @@ def build_audit(source_map_path, source_dir, data_root, dpi=300, band_px=8, cali
         reason = None
         book = usage.get("book")
         page_no = usage.get("pdfPage")
+        if usage.get("sourceKind") == "supplemental-image":
+            reason = SUPPLEMENTAL_NA_REASON
+            not_assessable_uses.append({
+                "usageOrdinal": ordinal,
+                "collection": usage.get("collection"),
+                "itemId": usage.get("itemId"),
+                "binding": usage.get("binding"),
+                "catalog": usage.get("catalog"),
+                "regionId": usage.get("regionId"),
+                "book": book,
+                "printedPage": usage.get("printedPage"),
+                "pdfPage": None,
+                "imageSha256": usage.get("imageSha256"),
+                "sourceKind": usage.get("sourceKind"),
+                "sourceArtifactId": usage.get("sourceArtifactId"),
+                "sourceArtifactSha256": usage.get("sourceArtifactSha256"),
+                "sourcePdfSha256": usage.get("sourcePdfSha256"),
+                "notAssessableReason": reason,
+                "semanticReviewStatus": "unresolved-requires-source-review",
+            })
+            continue
         if not usage.get("sourceHashMatches") or book not in pdfs:
             reason = "source-hash-mismatch-or-source-unavailable"
         elif not isinstance(page_no, int) or page_no < 1 or page_no > len(pdfs[book]):

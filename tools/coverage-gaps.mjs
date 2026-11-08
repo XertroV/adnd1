@@ -341,6 +341,17 @@ function formalIssueEntries(data, handoff) {
       description = `Recorded source conflict for this field; the status does not claim that every reading is a proven book contradiction. ${String(issue.value)}`;
     } else if (issue.status === 'not-extracted') {
       description = `This field is explicitly marked not extracted. ${String(issue.value)}`;
+      const reviewedOpenBands={
+        'dmg-cleric-druid-monk-attack-matrix':{pointer:'/rows/6/levelMax',minimum:19,label:'19+'},
+        'dmg-magic-user-illusionist-attack-matrix':{pointer:'/rows/4/levelMax',minimum:21,label:'21+'},
+        'dmg-thief-assassin-attack-matrix':{pointer:'/rows/5/levelMax',minimum:21,label:'21+ᵈ'},
+      };
+      const band=issue.collection==='matrices'?reviewedOpenBands[issue.itemId]:null;
+      const matrix=band?data.matrices?.find(record=>record.id===issue.itemId):null;
+      const row=matrix?.rows?.[Number(band?.pointer.split('/')[2])];
+      if(band&&issue.fieldPointer===band.pointer&&issue.value===null&&row?.levelMax===null&&row.levelMin===band.minimum&&row.label===band.label){
+        description=`The source band is ${band.label}, meaning level ${band.minimum} and higher. No finite upper level is printed. This tracker entry records the open-ended range; it does not identify missing table values.`;
+      }
     }
     const issueListName = issue.status === 'not-extracted' ? 'notExtracted' : 'sourceConflict';
     const issueIndex = handoff.mechanicsAudit.formalFieldIssues[issueListName].indexOf(issue);

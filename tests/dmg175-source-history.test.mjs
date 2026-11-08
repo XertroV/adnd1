@@ -4,6 +4,7 @@ import test from 'node:test';
 import {createHash} from 'node:crypto';
 import vm from 'node:vm';
 import {dmg175HistoryContract,decodeDmg175HistoryContract as loadContract,projectDmg175Json as projectJson,projectDmg175Books as projectBooks} from './helpers/batch6-dmg175-source-history.mjs';
+import {reverseDmg74MatrixBatchFromData,reverseDmg74MatrixBatchFromInventory,withoutDmg74MatrixSourceExcerptOverrides} from './helpers/dmg74-matrix-batch.mjs';
 const contract=dmg175HistoryContract();
 test('closed175-to-853 history projection retains all five literal inputs and rejects28 altered inputs plus forged books/capture bytes',()=>{
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex'),results=[];
@@ -63,7 +64,24 @@ assert.equal(results.length,44);assert.equal(mappings,783);
 });
 
 test('the captured historical pairs bind all actual current inputs without repinning any source value or source PDF',()=>{
- for(const [path,pair]of Object.entries(contract.files))assert.equal(createHash('sha256').update(readFileSync(new URL('../'+path,import.meta.url))).digest('hex'),pair.currentRawSha256,path);
+ const data='dist/data.json',over='citation-overrides.json',price='research/price-source-inventory.json';
+ for(const [path,pair]of Object.entries(contract.files)){
+  const bytes=readFileSync(new URL('../'+path,import.meta.url)),current=JSON.parse(bytes.toString('utf8'));
+  if([data,over,price].includes(path)){
+   let historicalCurrent=current;
+   if(path===data)historicalCurrent=reverseDmg74MatrixBatchFromData(current,pair.current);
+   if(path===over)historicalCurrent=withoutDmg74MatrixSourceExcerptOverrides(current);
+   if(path===price)historicalCurrent=reverseDmg74MatrixBatchFromInventory(current,pair.current);
+   assert.deepEqual(historicalCurrent,pair.current,`${path}: exact reviewed matrix batch reversal restores the complete historical current object`);
+   const historical=projectJson(path,historicalCurrent);
+   assert.deepEqual(historical,pair.before,`${path}: exact historical p. 175 projection restores the complete before object`);
+   const historicalBytes=Buffer.from(JSON.stringify(historical,null,2)+'\n');
+   assert.equal(createHash('sha256').update(historicalBytes).digest('hex'),pair.beforeRawSha256,`${path}: reconstructed complete historical bytes retain the sealed raw hash`);
+  }else{
+   assert.equal(createHash('sha256').update(bytes).digest('hex'),pair.currentRawSha256,path+': unchanged raw-byte pin');
+   assert.deepEqual(current,pair.current,path+': complete unchanged current object');
+  }
+ }
  assert.equal(createHash('sha256').update(readFileSync(new URL('../dist/books.js',import.meta.url))).digest('hex'),contract.books.currentSha256);
  assert.equal(contract.dataScope.unchangedOwnerHashes.length,996);assert.equal(contract.bindingScope.denominator,4566);assert.equal(contract.bindingScope.unchanged,4565);assert.equal(contract.bindingScope.metadataTransfers.length,233);assert.equal(contract.manifest.groups,250);assert.equal(contract.manifest.parts,490);assert.equal(contract.manifest.newGroups,0);
 });

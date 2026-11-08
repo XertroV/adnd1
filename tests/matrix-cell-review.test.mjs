@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {reverseMatrixCellReview} from './fixtures/matrix-baseline.mjs';
+import {reverseMatrixCellReview} from './helpers/dmg74-matrix-batch.mjs';
 const read = name => JSON.parse(readFileSync(new URL(`../${name}`, import.meta.url), 'utf8'));
 const authored = read('attack-matrices.json').matrices;
 const before = read('tests/fixtures/matrix-before-cell-review.json').matrices;

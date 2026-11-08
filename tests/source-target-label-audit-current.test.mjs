@@ -16,9 +16,20 @@ test('current label mode audits the present collector without claiming a fresh r
     const hash = createHash('sha256').update(compressed).digest('hex');
     assert.equal(hash, summary.fullReport.sha256);
     const report = JSON.parse(gunzipSync(compressed).toString('utf8'));
-    assert.equal(report.denominator.contentRecords, 996+1);
-    assert.equal(report.denominator.routeRecords, 994+1);
+    assert.equal(report.denominator.contentRecords, 1000);
+    assert.equal(report.denominator.routeRecords, 1000);
+    assert.equal(report.denominator.primaryRouteRecords, 995);
+    assert.equal(report.denominator.auxiliaryRouteRecords, 5);
+    assert.equal(report.denominator.collections.matrices, 4);
+    assert.equal(report.denominator.collections.progressionExplainer, 1);
     assert.equal(report.denominator.collectorTargets, report.entries.length);
+    for (const itemId of [
+      'dmg-cleric-druid-monk-attack-matrix',
+      'dmg-magic-user-illusionist-attack-matrix',
+      'dmg-thief-assassin-attack-matrix',
+    ]) {
+      assert.ok(report.entries.some(row => row.owner?.collection === 'matrices' && row.owner?.itemId === itemId), `current collector omits ${itemId}`);
+    }
     assert.ok(report.entries.filter(row=>row.owner?.collection==='equipment'&&row.owner?.itemId==='ua-jo-stick').length>=14,'current captions include all distinct Jo fields');
     assert.equal(report.denominator.currentBrowserRenderedControls, 'not-run');
     assert.equal(report.denominator.currentDistinctRenderedPayloads, 'not-assessed');

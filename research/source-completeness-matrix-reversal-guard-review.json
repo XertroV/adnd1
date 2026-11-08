@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "type": "matrix-historical-reversal-guard-regression",
+  "actualBeforeFixture": {
+    "path": "tests/fixtures/matrix-reversal-guards-before.json.gz",
+    "sha256": "d9383f6bd48ec531ca1a6be055bfdd54d1b879d318e5fb4939cd6209330413d5"
+  },
+  "before": {
+    "tests": 6,
+    "passed": 1,
+    "failed": 5,
+    "meaning": "Actual new regression checks against the authored pre-fix helper; unrelated excerpt metadata and missing collection keys were accepted and silently reconstructed."
+  },
+  "after": {
+    "tests": 6,
+    "passed": 6,
+    "failed": 0,
+    "output": "\u2714 the matrix reversal restores both complete frozen predecessor objects (306.407116ms)\n\u2714 matrix reversal rejects a changed unrelated excerpt review counter (127.036754ms)\n\u2714 matrix reversal rejects duplicate added excerpt owner identifiers (246.159162ms)\n\u2714 matrix reversal rejects deleted or added unrelated excerpt metadata (290.560211ms)\n\u2714 data reversal rejects a deleted unrelated field-binding collection (101.865788ms)\n\u2714 inventory reversal rejects a deleted unrelated field-binding collection (118.896128ms)\n\u2139 tests 6\n\u2139 suites 0\n\u2139 pass 6\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 1799.664608\n"
+  },
+  "scope": "Reverse exactly the three matrix records, declared source-excerpt counters/identifiers and six added metadata bindings. Full unrelated predecessor objects must remain equal; source values are not reinterpreted."
+}

@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "bounded-dmg74-matrix-ui-search-author-verification",
+  "status": "bounded-verification-passed",
+  "author": "/root/dmg_inventory",
+  "recordedAt": "2026-11-08T14:53:31Z",
+  "input": {
+    "commit": "1cb39acfd2ce31c435a14963f5ab0e43d9bc82bf",
+    "branch": "codex/complete-dmg74-matrices",
+    "assembledData": {
+      "path": "dist/data.json",
+      "sha256": "3cebfd0899b1a123b2328ec28fbeca99e05c25403e8a56dec81e8e21bb716a02",
+      "sizeBytes": 14630086
+    }
+  },
+  "reviewScope": {
+    "included": [
+      "Generic route and search integration for the three restored DMG printed-p. 74 matrix records.",
+      "Whitelisted display/search for the recorded Monk attack-table conflict and a class-guide link resolved against the current class collection.",
+      "Canonical-PDF-mode wording for DMG printed p. 175 when its evidence availability is supplemental."
+    ],
+    "excluded": [
+      "Source-data, crop, catalog, or coverage-report edits.",
+      "Any adjudication between PHB p. 30 and DMG p. 74 for Monk attacks.",
+      "Whole-book mechanics completeness, final source-owner activation, global snapshot regeneration, deployment, or live-site verification."
+    ],
+    "noMechanicsAdjudication": true
+  },
+  "changedFiles": [
+    {"path": "dist/app.js", "sha256": "5913dd09673455247367b797d7ae8b7d1375df1fb98c05db0135ce5fd502630e"},
+    {"path": "dist/search.js", "sha256": "5e225a2518ae6e50dfcefb668f3587f5cf26aae7353fe0f168e246f1c7657cf3"},
+    {"path": "dist/source-viewer.js", "sha256": "12dcd10e9d3f47188cc5a1fd440e344152863b9ea6dc8d56ad9f260769b52819"},
+    {"path": "dist/styles.css", "sha256": "b4816be2195f8bd94309bfd4a9d83b7b54dd9c441a2c58fcf746540930b4ab5a"},
+    {"path": "tests/site-search-coverage.test.mjs", "sha256": "d3d38241cf74b3e52c4ba727ea9e4d9e6d353926f2a5276a61225c83649a5566"},
+    {"path": "tests/site-completeness.browser.mjs", "sha256": "5ed337d122929d0aedf067219af6b9af785069bd774da06de67acc24e66ab70c"},
+    {"path": "tests/gear-matrix-browser.cjs", "sha256": "547006dce9f60ead13d303720f60ce935decccce90f8963cda367f95bf5f944b"},
+    {"path": "tests/source-viewer.browser.mjs", "sha256": "038d3e4cafc191c5fdfdba2101d07fcded180289d4bd1298a832bbe96c4def26"}
+  ],
+  "sourceConflictUi": {
+    "matrixId": "dmg-cleric-druid-monk-attack-matrix",
+    "displayAllowlist": [
+      "sourceConflict.topic",
+      "sourceConflict.references entries that are strings",
+      "sourceConflict.disposition"
+    ],
+    "classGuideLink": {
+      "resolution": "Exact relatedClassGuideId lookup in current data.classes; omit the link if no class record resolves.",
+      "relatedClassGuideId": "monk",
+      "route": "#classes/monk",
+      "visibleLabel": "Open Monk class guide ↗",
+      "searchableLabel": "Open Monk class guide"
+    },
+    "searchAllowlist": [
+      "Recorded source conflict heading",
+      "topic",
+      "string source-location references",
+      "disposition",
+      "validated class-guide link label"
+    ],
+    "arbitraryConflictMetadataDisplayedOrSearched": false,
+    "currentDisposition": "Unresolved source conflict; this DMG table does not adjudicate or reconcile it.",
+    "readingSelected": null,
+    "browserCanary": "Injected privateReviewNote and internalRuling text were absent from rendering and search; an unresolved class-guide ID produced no link or matrix link-label match."
+  },
+  "matrixRouteAndSearchCohort": {
+    "priorSearchDocumentCount": 997,
+    "exactAddedOwnerIds": [
+      "dmg-cleric-druid-monk-attack-matrix",
+      "dmg-magic-user-illusionist-attack-matrix",
+      "dmg-thief-assassin-attack-matrix"
+    ],
+    "addedOwnerCount": 3,
+    "currentSearchDocumentCount": 1000,
+    "currentMatrixIdsInOrder": [
+      "dmg-original-fighter-attack-matrix",
+      "dmg-cleric-druid-monk-attack-matrix",
+      "dmg-magic-user-illusionist-attack-matrix",
+      "dmg-thief-assassin-attack-matrix"
+    ],
+    "allThreeAddedMatrixRoutesAndSearchesCheckedInBrowser": true,
+    "countAssertion": "997 prior documents + exactly three named DMG matrix owners = 1,000 unique current search documents"
+  },
+  "supplementalPdfMode": {
+    "boundedCondition": "No PDF mapping, books().availability(...) === 'missing', and books().evidenceAvailability(...) === 'supplemental'.",
+    "exactNotice": "This page uses the accepted supplemental image. Open source excerpts to view the reviewed evidence; no corresponding page exists in this PDF.",
+    "otherMissingAndUnverifiedPageBranchesPreserved": true,
+    "pdfPageOrdinalInvented": false,
+    "syntheticPdfBrowserFixture": true
+  },
+  "verification": {
+    "commands": [
+      {
+        "command": "node tests/site-completeness.browser.mjs",
+        "result": "passed",
+        "checks": 48,
+        "desktopBrowserErrors": 0,
+        "mobileBrowserErrors": 0,
+        "savedReportPath": null,
+        "output": "Structured result was returned to the execution transcript; the script did not save a report file."
+      },
+      {
+        "command": "node tests/source-viewer.browser.mjs",
+        "result": "passed",
+        "checks": 51,
+        "requests": 20,
+        "fixture": "Generated PDF fixtures only; no source-book PDF was used.",
+        "savedReportPath": null,
+        "output": "Structured result was returned to the execution transcript; screenshots listed below are temporary files."
+      },
+      {
+        "command": "node --test tests/site-search-coverage.test.mjs tests/dmg74-matrix-additions.test.mjs tests/source-completeness-matrix.test.mjs",
+        "result": "passed",
+        "tests": 13,
+        "passed": 13,
+        "failed": 0
+      },
+      {
+        "command": "node --test tests/search-ranking.test.mjs tests/citation-navigation-inventory.test.mjs tests/citation-navigation.test.mjs",
+        "result": "passed",
+        "tests": 31,
+        "passed": 31,
+        "failed": 0,
+        "producerInventory": "Passed; the class-guide route anchor did not require a new inline citation-chip producer classification."
+      },
+      {
+        "command": "node --test tests/site-search-coverage.test.mjs tests/source-viewer-excerpt-navigation.test.mjs tests/books.test.mjs",
+        "result": "passed",
+        "tests": 22,
+        "passed": 22,
+        "failed": 0
+      },
+      {
+        "command": "node --check dist/app.js && node --check dist/search.js && node --check dist/source-viewer.js && node --check tests/site-completeness.browser.mjs && node --check tests/site-search-coverage.test.mjs && node --check tests/source-viewer.browser.mjs",
+        "result": "passed"
+      },
+      {
+        "command": "git diff --check",
+        "result": "passed"
+      }
+    ],
+    "notRun": [
+      {
+        "command": "node tests/gear-matrix-browser.cjs",
+        "result": "not run",
+        "reason": "Outside the bounded UI/search run: the browser fixture expects a separately served TEST_URL and retains an 88-equipment-entry expectation, while the current assembled browser checkpoint contains 192 equipment entries. Its matrix check was updated to require the exact four expected IDs, but no suite-level pass is claimed."
+      }
+    ],
+    "savedOutputs": [
+      {
+        "directory": "/tmp/adnd-original-pdf-fixture-OcTpdc",
+        "status": "temporary output still present when hashed",
+        "description": "Source-viewer browser screenshots generated with synthetic local PDF fixtures.",
+        "files": [
+          {"path": "viewer-320.png", "sha256": "d229806b39bd9d4871edc08f4f3c278a2dd1e626bdcf66bd5d747ac988ea2922"},
+          {"path": "viewer-320-page.png", "sha256": "08e49f04b0ff65f9d3fcf83bfd0039d1d638d663d0c9aea64301a683222fceeb"},
+          {"path": "viewer-390.png", "sha256": "4632b9fa421c5549fb390e55a0fad5fadb9dd66e8f49708eb2b2af7398e3c851"},
+          {"path": "viewer-390-page.png", "sha256": "4632b9fa421c5549fb390e55a0fad5fadb9dd66e8f49708eb2b2af7398e3c851"}
+        ],
+        "portability": "Ephemeral /tmp artifacts; hashes identify the saved outputs but the files are not repository deliverables."
+      }
+    ]
+  },
+  "limitations": [
+    "The result covers the named UI, search, source-viewer, and route behaviors only.",
+    "The PHB/DMG Monk attack-table conflict remains unresolved and both source readings remain distinct.",
+    "No complete class-mechanics, book-coverage, owner-binding activation, or deployment claim is made."
+  ]
+}

@@ -13,6 +13,20 @@ const r1=region('full',[[0,0,1,1]]),r2=region('partial',[[.2,.2,.3,.1]]),r3={...
 const cats={'fixture.json':{regions:[r1,r2],sources:{PHB:{sha256:sourceHash,hashStatus:'computed-local'}}},'explainer.json':{regions:[r3],sources:{PHB:{sha256:sourceHash,hashStatus:'computed-local'}}}};
 const build=(reviews=[])=>buildVisualCoverage(data,p=>cats[p],{reviews},null,{loadImage:(_,image)=>Buffer.from(image.replace(/\.png$/, ''))});
 const review=(r,assessments)=>({collection:'equipment',itemId:'fixture',binding:'sourceExcerpts',regionId:r.id,imageSha256:r.sha256,sourceSha256:sourceHash,...regionHashes(r),assessments});
+test('matrix and progression coverage links address their actual standalone citation owners',()=>{
+ const matrix={id:'dmg-cleric-druid-monk-attack-matrix',book:'DMG',pages:[74],sourceExcerpts:{catalog:'matrix.json'}};
+ const matrixRegion={...region('matrix-region',[[.1,.1,.7,.7]]),book:'DMG',printedPage:74,pdfPage:75};
+ const catalogs={...cats,'matrix.json':{regions:[matrixRegion],sources:{DMG:{sha256:sourceHash,hashStatus:'computed-local'}}}};
+ const report=buildVisualCoverage({matrices:[matrix],progressionExplainer:explainer},p=>catalogs[p],{reviews:[]});
+ for(const [collection,id] of [['matrices',matrix.id],['progressionExplainer','progression-explainer']]){
+  const usage=report.usages.find(row=>row.collection===collection);
+  const url=new URL(usage.link),[route,query]=url.hash.slice(1).split('?'),params=new URLSearchParams(query);
+  assert.equal(route,`${collection}/${id}`);
+  assert.equal(params.get('source'),`${usage.book}:${usage.printedPage}`);
+  assert.equal(params.get('region'),usage.regionId);
+  assert.equal(params.has('owner'),false,'standalone route owns its own source controls');
+ }
+});
 test('unreviewed sentinels are suspected, partials unreviewed, and denominators include the explainer',()=>{
  const x=build();assert.equal(x.totals.citedRecordPagePairs,2);assert.equal(x.totals.regionUsages,3);assert.equal(x.totals.uniqueImages,3);
  assert.equal(x.totals.fullImageSentinelBindings,2);assert.equal(x.totals.sentinelHighlightSuspects,2);assert.equal(x.totals.sentinelIndependentExceptions,0);

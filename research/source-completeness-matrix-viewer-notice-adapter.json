@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "exact-supplemental-pdf-notice-only-viewer-adapter",
+  "previousViewerSha256": "7d818caf5869c3c0f69538fc7a3b3efbd7e649306aa777532a84094e208cc71e",
+  "currentViewerSha256": "12dcd10e9d3f47188cc5a1fd440e344152863b9ea6dc8d56ad9f260769b52819",
+  "beforeBlock": "    if (!mapped) return books().availability(ref.book, ref.page) === 'unverified' ? empty(`Printed p. ${ref.page} cannot be mapped reliably in the provided ${ref.book} scan; its identity is unverified.`, 'Source page unverified \u2014 no substitute page is shown.') : empty(books().missingPageNotice(ref.book, ref.page), 'Known source gap \u2014 no substitute page is shown.');\n",
+  "afterBlock": "    if (!mapped) {\n      const availability=books().availability(ref.book,ref.page);\n      if(availability==='unverified')return empty(`Printed p. ${ref.page} cannot be mapped reliably in the provided ${ref.book} scan; its identity is unverified.`, 'Source page unverified \u2014 no substitute page is shown.');\n      if(availability==='missing'&&books().evidenceAvailability?.(ref.book,ref.page)==='supplemental')return empty('This page uses the accepted supplemental image. Open source excerpts to view the reviewed evidence; no corresponding page exists in this PDF.','Accepted supplemental image.');\n      return empty(books().missingPageNotice(ref.book,ref.page),'Known source gap \u2014 no substitute page is shown.');\n    }\n",
+  "authorReview": {
+    "path": "research/source-completeness-matrix-ui-author-review.json",
+    "sha256": "b719189df7c60f65bd46a538f6c18c22f2b4ff5343627a47427323088a644805"
+  },
+  "scope": "Only the accepted-supplemental-image PDF-mode notice branch changes. Current runtime continuation checks continue to execute the actual complete viewer; this exact reversal preserves the earlier whole-viewer proof."
+}

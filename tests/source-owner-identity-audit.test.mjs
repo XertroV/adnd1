@@ -13,6 +13,33 @@ const ua75 = JSON.parse(readFileSync(resolve(root, 'research/source-audit-batch5
 const canonical = value => Array.isArray(value) ? `[${value.map(canonical).join(',')}]` : value && typeof value === 'object' ? `{${Object.keys(value).sort().map(key => `${JSON.stringify(key)}:${canonical(value[key])}`).join(',')}}` : JSON.stringify(value);
 const valueSha256 = value => createHash('sha256').update(canonical(value)).digest('hex');
 const withoutBinding = value => Object.fromEntries(Object.entries(value).filter(([key]) => key !== 'evidenceBindings'));
+const dmg74MatrixIds = [
+  'dmg-cleric-druid-monk-attack-matrix',
+  'dmg-magic-user-illusionist-attack-matrix',
+  'dmg-thief-assassin-attack-matrix',
+];
+const priorBindingCount = 4489 + 40 + 20 + 1 + ua75.referenceAppends.length;
+const dmg74MatrixBindingCount = dmg74MatrixIds.length * 2;
+
+function assertDmg74MatrixBindings(bindings, itemIdField = 'itemId') {
+  const matrixBindings = bindings.filter(binding => dmg74MatrixIds.includes(binding[itemIdField]));
+  assert.equal(matrixBindings.length, dmg74MatrixBindingCount);
+  for (const itemId of dmg74MatrixIds) {
+    const rows = matrixBindings.filter(binding => binding[itemIdField] === itemId);
+    assert.equal(rows.length, 2, itemId);
+    assert.deepEqual(rows.map(binding => binding.fieldPointer).sort(), ['', '/cellVerification'], itemId);
+    for (const binding of rows) {
+      assert.equal(binding.collection ?? binding.bindingCollection, 'matrices', itemId);
+      assert.deepEqual(binding.sourceOwner, {collection: 'matrices', itemId}, itemId);
+      assert.equal(binding.sourceCategory, 'matrix-reference', itemId);
+      assert.equal(binding.book, 'DMG', itemId);
+      assert.equal(binding.printedPage, 74, itemId);
+      assert.equal(binding.catalog, `scans/verified/matrices-${itemId}.json`, itemId);
+      if ('pdfPage' in binding) assert.equal(binding.pdfPage, 75, itemId);
+      assert.equal(binding.reviewStatus, 'field-target-pending', itemId);
+    }
+  }
+}
 
 // Restore only the exact UA75 successor recorded after the owner migration.
 // Removing the reference alone leaves its region review and regionCount behind.
@@ -121,10 +148,12 @@ test('current source assembly resolves scoped citations, preserves legacy intent
   const currentReplay = buildSourceOwnerIdentityAudit({replayAssembly: true}).inMemoryCurrentAssemblyReplay;
   assert.equal(currentReplay.preAttachCrossOwnerObjectAliasCount, 0);
   assert.equal(currentReplay.foreignOwnerBindings.length, 0);
-  assert.equal(currentReplay.counts.evidenceBindings, 4489 + 40 + 20 + 1 + ua75.referenceAppends.length);
+  assert.equal(currentReplay.counts.evidenceBindings, priorBindingCount + dmg74MatrixBindingCount);
   assert.equal(currentReplay.counts.dispositions.validatedExplicitComparatorSource, 6);
   const currentReport = buildSourceOwnerIdentityAudit();
   assert.equal(sourceOwnerIdentityCheck(currentReport).pass, true);
+  assert.equal(currentReport.report.evidenceBindings.denominator, priorBindingCount + dmg74MatrixBindingCount);
+  assertDmg74MatrixBindings(currentReport.report.evidenceBindings.attachedBindingPaths, 'bindingItemId');
   assert.equal(currentReport.currentOwnerIdentity.progressionClassOverrideApplications.overrideCount, 16);
   assert.equal(currentReport.currentOwnerIdentity.progressionClassOverrideApplications.intendedClassOwnerCount, 16);
   assert.equal(currentReport.currentOwnerIdentity.progressionClassOverrideApplications.nonClassOwnerCountPreviouslyEligible, 0);
@@ -296,8 +325,10 @@ test('standalone price-source inventory uses scoped owner references without rul
   });
   const historicalGrandDruidCompanion = historicalInventory.fieldEvidenceBindings.filter(binding => binding.collection === 'classes' && binding.itemId === 'ua-druid' && binding.fieldPointer === '/levelChanges/0' && binding.sourceCategory === 'class-level-change');
   assert.deepEqual(historicalGrandDruidCompanion, grandDruidCompanion);
-  assert.equal(historicalInventory.counts.fieldEvidenceBindings, 4489 + 40 + 20 + 1);
-  assert.equal(inventory.counts.fieldEvidenceBindings, 4489 + 40 + 20 + 1 + ua75.referenceAppends.length);
+  assert.equal(historicalInventory.counts.fieldEvidenceBindings, 4489 + 40 + 20 + 1 + dmg74MatrixBindingCount);
+  assert.equal(inventory.counts.fieldEvidenceBindings, priorBindingCount + dmg74MatrixBindingCount);
+  assertDmg74MatrixBindings(historicalInventory.fieldEvidenceBindings);
+  assertDmg74MatrixBindings(inventory.fieldEvidenceBindings);
   const joBindings=inventory.fieldEvidenceBindings.filter(binding=>binding.itemId==='ua-jo-stick');assert.equal(joBindings.length,19);assert.ok(joBindings.every(binding=>binding.collection==='equipment'&&binding.sourceOwner.itemId==='ua-jo-stick'));
   assert.equal(inventory.siteClaims.find(claim=>claim.itemId==='ua-jo-stick').missingPrice,true);
   const additions = inventory.fieldEvidenceBindings.filter(binding => binding.sourceCategory === 'equipment-price-occurrence-reference' && binding.printedPage === 75 && ua75.referenceAppends.some(row => row.itemId === binding.itemId && row.fieldPointer === binding.fieldPointer));

@@ -48,9 +48,18 @@
  const searchableAuthoredNotesText = item => item&&typeof item==='object'
   ? Object.entries(item).filter(([key,value])=>authoredNoteFields.has(key)&&typeof value==='string'&&!isPrivateSearchKey(key)).map(([,value])=>value).join(' ')
   : '';
- const searchableMatrixText = item => item?._view==='matrices'
-  ? [item.title,item.attackerLabel,item.rowHeader?.label,...(item.armorClasses||[]),...(item.rows||[]).flatMap(row=>[row?.label,...(row?.targets||[])]),...(item.notes||[]),...(item.ruleNotes||[]).flatMap(note=>[note?.title,note?.text]),...(item.comparisonExamples||[]).flatMap(example=>[example?.levelMin,example?.levelMax,example?.armorClass,example?.acZeroTarget,example?.simpleSubtractionTarget,example?.matrixTarget,example?.explanation])].filter(value=>value!==undefined&&value!==null).join(' ')
-  : '';
+ const searchableMatrixText = item => {
+  if(item?._view!=='matrices')return '';
+  const conflict=item.sourceConflict&&typeof item.sourceConflict==='object'&&!Array.isArray(item.sourceConflict)?item.sourceConflict:null;
+  const conflictText=conflict?[
+   'Recorded source conflict',
+   conflict.topic,
+   ...(Array.isArray(conflict.references)?conflict.references.filter(value=>typeof value==='string'):[]),
+   conflict.disposition,
+   item._sourceConflictClassGuideLabel,
+  ].filter(value=>typeof value==='string'&&value.trim()):[];
+  return [item.title,item.attackerLabel,item.rowHeader?.label,...(item.armorClasses||[]),...(item.rows||[]).flatMap(row=>[row?.label,...(row?.targets||[])]),...(item.notes||[]),...(item.ruleNotes||[]).flatMap(note=>[note?.title,note?.text]),...conflictText,...(item.comparisonExamples||[]).flatMap(example=>[example?.levelMin,example?.levelMax,example?.armorClass,example?.acZeroTarget,example?.simpleSubtractionTarget,example?.matrixTarget,example?.explanation])].filter(value=>value!==undefined&&value!==null).join(' ');
+ };
  const searchableProgressionExplainerText = item => item?._view==='progressionExplainer'
   ? [item.title,item.description,...(item.sections||[]).flatMap(section=>[section?.label,section?.description]),...(item.terminologyNotes||[])].filter(value=>value!==undefined&&value!==null).join(' ')
   : '';
