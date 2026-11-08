@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "bounded independent source qualifier review and preserved actual bad data/DOM/search before repair",
+  "inputCommit": "6d330af372ac809d11ed6029ed8695d0d8dc0909",
+  "source": {
+    "book": "UA",
+    "printedPage": 8,
+    "pdfPage": 9,
+    "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+    "table": "Character Race Table II.C: Elves, Druid/Wild column",
+    "privateFullPageRenderSha256": "33cf08557f0f7b95089873d2764ea7a1f4958645ee670eec206a145456a4a6cb",
+    "renderDpi": 300,
+    "actualPixelsInspected": true,
+    "markerCensus": {
+      "wisdom12through17": null,
+      "wisdom18and19": "1",
+      "wisdom20and21": "2",
+      "footnote1": "Charisma 18 also required.",
+      "footnote2": "Charisma 19 also required."
+    }
+  },
+  "reviewer": "root-orchestrator, independent of the UA inventory worker",
+  "sourceRowDenominator": 10,
+  "sourceRows": [
+    {
+      "wisdom": 12,
+      "classLevelLimit": 10,
+      "additionalCharismaFootnote": null
+    },
+    {
+      "wisdom": 13,
+      "classLevelLimit": 10,
+      "additionalCharismaFootnote": null
+    },
+    {
+      "wisdom": 14,
+      "classLevelLimit": 10,
+      "additionalCharismaFootnote": null
+    },
+    {
+      "wisdom": 15,
+      "classLevelLimit": 10,
+      "additionalCharismaFootnote": null
+    },
+    {
+      "wisdom": 16,
+      "classLevelLimit": 10,
+      "additionalCharismaFootnote": null
+    },
+    {
+      "wisdom": 17,
+      "classLevelLimit": 10,
+      "additionalCharismaFootnote": null
+    },
+    {
+      "wisdom": 18,
+      "classLevelLimit": 11,
+      "additionalCharismaFootnote": 18
+    },
+    {
+      "wisdom": 19,
+      "classLevelLimit": 12,
+      "additionalCharismaFootnote": 18
+    },
+    {
+      "wisdom": 20,
+      "classLevelLimit": 14,
+      "additionalCharismaFootnote": 19
+    },
+    {
+      "wisdom": 21,
+      "classLevelLimit": 17,
+      "additionalCharismaFootnote": 19
+    }
+  ],
+  "blankRows": {
+    "scoreLabels": [
+      "18/75",
+      "18/90",
+      "18/99",
+      "18/00"
+    ],
+    "interpretation": "These exceptional Strength rows have blank Druid cells and are outside this Wisdom-entry denominator; no prior-row inheritance inferred."
+  },
+  "before": {
+    "collection": "rules",
+    "itemId": "ua-elven-subrace-adjustments",
+    "fieldPointer": "/bullets/7",
+    "sourceRecordHash": "43f0aca2a624e5cdc351749ab90659bde3d09440cc731e2d92cbb530c4b09c40",
+    "snapshotSha256": "663ea470af5cdd272674b264ba96f5a74231d3525143c907596ba41da21194d2",
+    "actualValue": "UA elf druid: wild elf Wisdom 12–17: 10; 18: 11; 19: 12; 20: 14, each requiring Charisma 18; 21: 17 requiring Charisma 19. Other elves: U, where class-eligible.",
+    "visibleInActualCapturedDom": true,
+    "actualSearchDocumentCaptured": true,
+    "renderedTextSha256": "60c950f24ada8a568722fb9df69629f74bde8fe2dcf8922343dc11523283aebb",
+    "searchTextSha256": "48a26bbcb4d0c5ce25cbdfd6322aef4c739caf8881ee8cb4af4faeaac962fa9f",
+    "failure": "CHA18 was applied to all Wisdom12–20 entries. The source marks only18–19 withCHA18;20–21 haveCHA19."
+  },
+  "adjudication": {
+    "classification": "partial",
+    "confirmedDefect": "Qualifier assigned to unmarked low-Wisdom entries and wrong Charisma qualifier atWisdom20.",
+    "dataLevelLimitsAlreadyCorrect": true,
+    "normalDruidClassEligibilityStillApplies": true,
+    "allOtherRaceTableValuesAssessedByThisReview": false
+  },
+  "proposedValue": "UA elf druid: wild elf Wisdom 12–17: 10; 18: 11 and 19: 12, both requiring Charisma 18; 20: 14 and 21: 17, both requiring Charisma 19. The 12–17 rows have no additional Charisma footnote; normal class requirements still apply. Other elves: U, where class-eligible.",
+  "repairState": "Prepared in isolated worktree; not applied to active audit checkout or published.",
+  "citationOrValueGradesActivated": 0
+}

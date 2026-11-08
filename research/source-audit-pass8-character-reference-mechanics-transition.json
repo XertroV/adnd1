@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "bounded-source-correction-mechanics-log-transition",
+  "inputCommit": "6d330af372ac809d11ed6029ed8695d0d8dc0909",
+  "beforeLedger": {
+    "path": "research/source-audit-pass8-character-reference-mechanics-before.json.gz",
+    "sha256": "03664a04fee21f044cfead002add9102fe1efdd7559b695aa4dd1c6b8ede9df6",
+    "rawSha256": "7d867071deb7384685a9f599b5d4c02e7a815c15e8df318ca03b2c438f660bc6"
+  },
+  "independentSourceReview": {
+    "path": "research/source-audit-pass8-content-repair-independent-review.json",
+    "sha256": "0b668fe48de26533b9ce0570c90d54089641cfb3cdf2618523a5ea96c4a36f91"
+  },
+  "records": [
+    {
+      "collection": "rules",
+      "id": "secondary-skills",
+      "checker": "mechanics-rules",
+      "changedSourceReviewedLeaves": [
+        "/summary",
+        "/bullets/0",
+        "/bullets/5",
+        "/bullets/6",
+        "/bullets/7",
+        "/bullets/8"
+      ],
+      "unchangedArrayElementsPreserved": true,
+      "priorReviewRecordSha256": "97ca6d17aa48093cbf82d0fe2f91bb92a2d3bccaaf2c3a4c5c66924c11ab4e2f",
+      "newReviewRecordSha256": "7fc672b3cff1a2a2ed2048a6a725b232f21572419c5fc0ae083b288d4fa2e3d8"
+    },
+    {
+      "collection": "rules",
+      "id": "ua-elven-subrace-adjustments",
+      "checker": "mechanics-rules",
+      "changedSourceReviewedLeaves": [
+        "/bullets/7"
+      ],
+      "unchangedArrayElementsPreserved": true,
+      "priorReviewRecordSha256": "57707a32ee0034b2646ed1e2aa174506e06623cac995427c0267558424109fab",
+      "newReviewRecordSha256": "0c7a7c9d9510bf8a7a24ea90b2d3b2301a8233cb72b49ed5e27ee1c643fd5797"
+    }
+  ],
+  "policy": [
+    "The exact old ledger and mistaken source claims remain in the immutable before fixture. Each superseded whole-array proposal is preserved verbatim under supersededChanges.",
+    "Only the listed changed leaves receive the new source review. Existing unchanged facts retain their prior grade; no other UA race table values are newly approved.",
+    "Infravision displayed names and aliases are outside the mechanics-leaf denominator. No target, crop, highlight or default-selection grades are activated."
+  ],
+  "status": "current-log-transition-prepared; regenerate mechanics ledger and run validation"
+}

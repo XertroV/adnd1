@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {reverseMatrixCellReview as reverseOriginalMatrixCellReview} from '../fixtures/matrix-baseline.mjs';
+import {projectPass8CharacterReferenceJson} from './pass8-character-reference-history.mjs';
 // These three DMG p. 74 matrix records are a separately reviewed additive batch.
 export const addedDmg74MatrixIds = Object.freeze([
  'dmg-cleric-druid-monk-attack-matrix',
@@ -36,7 +37,7 @@ export function withoutDmg74MatrixSourceExcerptOverrides(value) {
  return copy;
 }
 export function reverseDmg74MatrixBatchFromData(data, expectedCurrent) {
- const copy=structuredClone(data),matches=copy.matrices.filter(matrix=>addedDmg74MatrixIds.includes(matrix.id));
+ const copy=projectPass8CharacterReferenceJson('dist/data.json',data),matches=copy.matrices.filter(matrix=>addedDmg74MatrixIds.includes(matrix.id));
  assert.deepEqual(matches.map(matrix=>matrix.id),addedDmg74MatrixIds,'reverse only the exact three approved DMG p. 74 matrix records');
  assert.deepEqual(matches.map(matrix=>matrix.cellVerification?.cellCount),[147,105,126]);
  copy.matrices=withoutDmg74MatrixAdditions(copy.matrices);
@@ -61,7 +62,7 @@ export function reverseDmg74MatrixBatchFromData(data, expectedCurrent) {
  return copy;
 }
 export function reverseDmg74MatrixBatchFromInventory(inventory, expectedCurrent) {
- const copy=structuredClone(inventory);
+ const copy=projectPass8CharacterReferenceJson('research/price-source-inventory.json',inventory);
  const added=copy.fieldEvidenceBindings.filter(binding=>binding.collection==='matrices'&&addedDmg74MatrixIds.includes(binding.itemId));
  assert.equal(added.length,6,'only two generated matrix-reference bindings per approved DMG p. 74 owner are reversed');
  for(const id of addedDmg74MatrixIds){

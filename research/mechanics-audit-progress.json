@@ -2,18 +2,18 @@
   "schemaVersion": 1,
   "input": {
     "path": "dist/data.json",
-    "sha256": "b2f378ebadffc1794b1636dd06aaebbe96f8f9fe78f039dd80ff7187e61affe4",
+    "sha256": "cbdc5f250aaf292fd21efa8f0e54eb8cbdcf0866b7136dabc61cf049ecb6ce15",
     "hashFormat": "mechanics-only SHA-256 of JSON.stringify(parsed data after recursively removing generated evidenceBindings and regionReviews transport metadata; distinct from raw data.json/provenance hashes)",
     "denominator": "Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.",
     "countSemantics": "Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap."
   },
   "counts": {
     "records": 1000,
-    "totalFields": 13942,
-    "inspectedFields": 13315,
-    "sourceCheckedFields": 12729,
-    "unchangedSourceCheckedFields": 10095,
-    "correctedAndCheckedFields": 2634,
+    "totalFields": 13946,
+    "inspectedFields": 13319,
+    "sourceCheckedFields": 12733,
+    "unchangedSourceCheckedFields": 10094,
+    "correctedAndCheckedFields": 2639,
     "correctionPendingFields": 0,
     "notExtractedFields": 14,
     "sourceConflictFields": 22,
@@ -24,8 +24,8 @@
   "percentages": {
     "inspectedFields": 95.5,
     "sourceCheckedFields": 91.3,
-    "unchangedSourceCheckedFields": 72.41,
-    "correctedAndCheckedFields": 18.89,
+    "unchangedSourceCheckedFields": 72.38,
+    "correctedAndCheckedFields": 18.92,
     "correctionPendingFields": 0,
     "notExtractedFields": 0.1,
     "uncheckedFields": 4.44
@@ -131551,7 +131551,7 @@
         },
         {
           "path": "/bullets/7",
-          "value": "UA elf druid: wild elf Wisdom 12–17: 10; 18: 11; 19: 12; 20: 14, each requiring Charisma 18; 21: 17 requiring Charisma 19. Other elves: U, where class-eligible.",
+          "value": "UA elf druid: wild elf Wisdom 12–17: 10; 18: 11 and 19: 12, both requiring Charisma 18; 20: 14 and 21: 17, both requiring Charisma 19. The 12–17 rows have no additional Charisma footnote; normal class requirements still apply. Other elves: U, where class-eligible.",
           "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
@@ -131690,11 +131690,6 @@
           "checker": "mechanics-rules",
           "path": "/bullets",
           "oldValue": [
-            "Wood elves gain +1 initial strength and −1 intelligence; strength still tops out at 18.",
-            "Wild elves gain +2 initial strength to a maximum of 18 and have sharply restricted class choices.",
-            "Use the individual sub-race text and table rather than combining every elven benefit."
-          ],
-          "newValue": [
             "Gray elves share high-elf abilities, including sleep and charm resistance, sword and bow ability, infravision, secret/concealed-door detection and silent movement when alone. They share high-elf languages and add +1 to the initial Intelligence roll, up to 19.",
             "Wood (sylvan) elves have similar elven traits, gain +1 initial Strength (maximum 18) and −1 initial Intelligence. Their starting languages are elvish, common, treant and the tongue of woodland mammals; the passage gives them no other starting languages.",
             "Wild elves (grugach) retain standard elven resistance, weapon bonuses, infravision, silent movement and door detection. They gain +2 initial Strength (maximum 18), deal with woodland creatures as if animal friendship were in effect, and set pits, snares and natural traps with a 90% success chance. Most speak only elvish, though a player character may also know some common.",
@@ -131708,7 +131703,21 @@
             "UA elf thief is U. UA elf assassin: Strength 18, 18/01, 18/51 or 18/76 gives level 10; 18/99 gives 11 with Intelligence 18 and Wisdom 19; 18/00, 19 or 20 gives 12 with Intelligence 19 or Wisdom 19. Apply eligibility separately.",
             "UA elf ranger: Strength 18 gives level 6; 18/01 gives 7 with Intelligence 15 and Wisdom 15, or 8 if both exceed 15; 18/51 gives 9 with Intelligence and Wisdom 16; 18/76, 18/99 or 18/00 gives 10 with Intelligence and Wisdom 17; 19 gives 12 and 20 gives 14, both requiring Intelligence and Wisdom 18. Wild elves cannot be rangers under UA p.7."
           ],
-          "reason": "Add ancestry-relevant UA class-level table values and qualifications; keep PHB variants separate.",
+          "newValue": [
+            "Gray elves share high-elf abilities, including sleep and charm resistance, sword and bow ability, infravision, secret/concealed-door detection and silent movement when alone. They share high-elf languages and add +1 to the initial Intelligence roll, up to 19.",
+            "Wood (sylvan) elves have similar elven traits, gain +1 initial Strength (maximum 18) and −1 initial Intelligence. Their starting languages are elvish, common, treant and the tongue of woodland mammals; the passage gives them no other starting languages.",
+            "Wild elves (grugach) retain standard elven resistance, weapon bonuses, infravision, silent movement and door detection. They gain +2 initial Strength (maximum 18), deal with woodland creatures as if animal friendship were in effect, and set pits, snares and natural traps with a 90% success chance. Most speak only elvish, though a player character may also know some common.",
+            "The UA p.7 class table permits gray elves to be cavaliers, clerics, druids, fighters, rangers, magic-users or thieves (including acrobats and assassins); wood elves have those choices except cavalier; wild elves can be druids, fighters or thieves (including acrobats and assassins). Wild elf multiclassing is restricted to fighter/thief.",
+            "These are the UA class choices; ability requirements, multiclass rules and the separate UA class-level limits still apply. Do not merge them with the PHB-only class limits.",
+            "UA level-limit table conventions: use Wisdom for cleric/druid, Strength for fighter/ranger/assassin, Intelligence for magic-user, and Dexterity for thief; additional ability requirements appear in footnotes. U means unlimited for the appropriate race/class, subject to the highest level attainable by the class. Below the first score shown, use the lowest listed level; scores above the table do not raise its maximum. If single-classed and that class is an available multiclass choice for the character, the limit may be exceeded by 2. Class eligibility still applies.",
+            "UA elf cleric (all except dark elves): Wisdom 12–15: 7; 16: 8; 17: 9; 18: 10; 19: 11; 20–21: 12. Wild elves are not eligible for cleric under UA p.7.",
+            "UA elf druid: wild elf Wisdom 12–17: 10; 18: 11 and 19: 12, both requiring Charisma 18; 20: 14 and 21: 17, both requiring Charisma 19. The 12–17 rows have no additional Charisma footnote; normal class requirements still apply. Other elves: U, where class-eligible.",
+            "UA elf fighter: Strength 12–17 gives gray/high 5, wild 7, wood 6; 18 gives 6/8/7; 18/75 gives 7/8/8; 18/90 gives 8/10/9; 18/99 gives 9/11/10; 18/00 gives 10/12/11; 19 gives 11/13/12; 20 gives 11/13/14. Values in each group are gray/high, wild, wood respectively.",
+            "UA elf magic-user: Intelligence 17–18 gives gray 11 and wood 9; 19 gives 12/10; 20 gives 13/11; 21 gives 15/13; 22 gives 18/13. Wild elves cannot be magic-users under UA p.7.",
+            "UA elf thief is U. UA elf assassin: Strength 18, 18/01, 18/51 or 18/76 gives level 10; 18/99 gives 11 with Intelligence 18 and Wisdom 19; 18/00, 19 or 20 gives 12 with Intelligence 19 or Wisdom 19. Apply eligibility separately.",
+            "UA elf ranger: Strength 18 gives level 6; 18/01 gives 7 with Intelligence 15 and Wisdom 15, or 8 if both exceed 15; 18/51 gives 9 with Intelligence and Wisdom 16; 18/76, 18/99 or 18/00 gives 10 with Intelligence and Wisdom 17; 19 gives 12 and 20 gives 14, both requiring Intelligence and Wisdom 18. Wild elves cannot be rangers under UA p.7."
+          ],
+          "reason": "Bounded pass8 source correction/continuation, independently reviewed. Unchanged elements retain their previous grades.",
           "book": "UA",
           "page": 9,
           "supersededChanges": [
@@ -131724,13 +131733,44 @@
                 "Wood (sylvan) elves have similar elven traits, gain +1 initial Strength (maximum 18) and −1 initial Intelligence. Their starting languages are elvish, common, treant and the tongue of woodland mammals; the passage gives them no other starting languages.",
                 "Wild elves (grugach) retain standard elven resistance, weapon bonuses, infravision, silent movement and door detection. They gain +2 initial Strength (maximum 18), deal with woodland creatures as if animal friendship were in effect, and set pits, snares and natural traps with a 90% success chance. Most speak only elvish, though a player character may also know some common.",
                 "The UA p.7 class table permits gray elves to be cavaliers, clerics, druids, fighters, rangers, magic-users or thieves (including acrobats and assassins); wood elves have those choices except cavalier; wild elves can be druids, fighters or thieves (including acrobats and assassins). Wild elf multiclassing is restricted to fighter/thief.",
-                "These are the UA class choices; ability requirements, multiclass rules and the separate UA class-level limits still apply. Do not merge them with the PHB-only class limits."
+                "These are the UA class choices; ability requirements, multiclass rules and the separate UA class-level limits still apply. Do not merge them with the PHB-only class limits.",
+                "UA level-limit table conventions: use Wisdom for cleric/druid, Strength for fighter/ranger/assassin, Intelligence for magic-user, and Dexterity for thief; additional ability requirements appear in footnotes. U means unlimited for the appropriate race/class, subject to the highest level attainable by the class. Below the first score shown, use the lowest listed level; scores above the table do not raise its maximum. If single-classed and that class is an available multiclass choice for the character, the limit may be exceeded by 2. Class eligibility still applies.",
+                "UA elf cleric (all except dark elves): Wisdom 12–15: 7; 16: 8; 17: 9; 18: 10; 19: 11; 20–21: 12. Wild elves are not eligible for cleric under UA p.7.",
+                "UA elf druid: wild elf Wisdom 12–17: 10; 18: 11; 19: 12; 20: 14, each requiring Charisma 18; 21: 17 requiring Charisma 19. Other elves: U, where class-eligible.",
+                "UA elf fighter: Strength 12–17 gives gray/high 5, wild 7, wood 6; 18 gives 6/8/7; 18/75 gives 7/8/8; 18/90 gives 8/10/9; 18/99 gives 9/11/10; 18/00 gives 10/12/11; 19 gives 11/13/12; 20 gives 11/13/14. Values in each group are gray/high, wild, wood respectively.",
+                "UA elf magic-user: Intelligence 17–18 gives gray 11 and wood 9; 19 gives 12/10; 20 gives 13/11; 21 gives 15/13; 22 gives 18/13. Wild elves cannot be magic-users under UA p.7.",
+                "UA elf thief is U. UA elf assassin: Strength 18, 18/01, 18/51 or 18/76 gives level 10; 18/99 gives 11 with Intelligence 18 and Wisdom 19; 18/00, 19 or 20 gives 12 with Intelligence 19 or Wisdom 19. Apply eligibility separately.",
+                "UA elf ranger: Strength 18 gives level 6; 18/01 gives 7 with Intelligence 15 and Wisdom 15, or 8 if both exceed 15; 18/51 gives 9 with Intelligence and Wisdom 16; 18/76, 18/99 or 18/00 gives 10 with Intelligence and Wisdom 17; 19 gives 12 and 20 gives 14, both requiring Intelligence and Wisdom 18. Wild elves cannot be rangers under UA p.7."
               ],
-              "reason": "Transcribe the explicit gray, wood and wild elf distinctions and UA class table while distinguishing the UA variant.",
+              "reason": "Add ancestry-relevant UA class-level table values and qualifications; keep PHB variants separate.",
               "book": "UA",
-              "page": 10
+              "page": 9,
+              "supersededChanges": [
+                {
+                  "path": "/bullets",
+                  "oldValue": [
+                    "Wood elves gain +1 initial strength and −1 intelligence; strength still tops out at 18.",
+                    "Wild elves gain +2 initial strength to a maximum of 18 and have sharply restricted class choices.",
+                    "Use the individual sub-race text and table rather than combining every elven benefit."
+                  ],
+                  "newValue": [
+                    "Gray elves share high-elf abilities, including sleep and charm resistance, sword and bow ability, infravision, secret/concealed-door detection and silent movement when alone. They share high-elf languages and add +1 to the initial Intelligence roll, up to 19.",
+                    "Wood (sylvan) elves have similar elven traits, gain +1 initial Strength (maximum 18) and −1 initial Intelligence. Their starting languages are elvish, common, treant and the tongue of woodland mammals; the passage gives them no other starting languages.",
+                    "Wild elves (grugach) retain standard elven resistance, weapon bonuses, infravision, silent movement and door detection. They gain +2 initial Strength (maximum 18), deal with woodland creatures as if animal friendship were in effect, and set pits, snares and natural traps with a 90% success chance. Most speak only elvish, though a player character may also know some common.",
+                    "The UA p.7 class table permits gray elves to be cavaliers, clerics, druids, fighters, rangers, magic-users or thieves (including acrobats and assassins); wood elves have those choices except cavalier; wild elves can be druids, fighters or thieves (including acrobats and assassins). Wild elf multiclassing is restricted to fighter/thief.",
+                    "These are the UA class choices; ability requirements, multiclass rules and the separate UA class-level limits still apply. Do not merge them with the PHB-only class limits."
+                  ],
+                  "reason": "Transcribe the explicit gray, wood and wild elf distinctions and UA class table while distinguishing the UA variant.",
+                  "book": "UA",
+                  "page": 10
+                }
+              ]
             }
           ],
+          "sourceReview": {
+            "path": "research/source-audit-pass8-content-repair-independent-review.json",
+            "sha256": "0b668fe48de26533b9ce0570c90d54089641cfb3cdf2618523a5ea96c4a36f91"
+          },
           "state": "corrected-and-checked"
         }
       ]
@@ -132330,16 +132370,19 @@
       "fields": [
         {
           "path": "/summary",
-          "value": "A campaign may assign a secondary trade or craft randomly or from a character's background. The skill represents limited practical knowledge, with its reach judged by the DM.",
-          "status": "source-checked",
+          "value": "A campaign may assign a secondary trade or craft to player characters and, if desired, henchmen. Assign it randomly or select it to suit the campaign's background. The skill gives limited practical knowledge judged by the DM.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
             "mechanics-rules"
+          ],
+          "changePaths": [
+            "/summary"
           ]
         },
         {
           "path": "/bullets/0",
-          "value": "For example, an armorer background can support evaluating ordinary armor or making minor repairs.",
+          "value": "An armorer might judge the quality of normal armor, repair chain links, or perhaps fashion certain weapons.",
           "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
@@ -132396,6 +132439,54 @@
           "changePaths": [
             "/bullets"
           ]
+        },
+        {
+          "path": "/bullets/5",
+          "value": "At 1st level, the class is assumed to have been the character's main prior profession. Secondary skills reflect minor mundane training picked up earlier or incidentally.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/6",
+          "value": "The prose says to roll to determine whether a second skill is known and, on a 'TWO SKILLS' result, assign an appropriate second skill. The 86–00 table entry is worded 'ROLL TWICE IGNORING THIS RESULT HEREAFTER'.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/7",
+          "value": "Other examples of secondary-skill use include judging an item's general worth and soundness, finding food, making small repairs, and constructing crude items. These are examples for DM adjudication.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
+        },
+        {
+          "path": "/bullets/8",
+          "value": "To judge a skill's extent, consider what someone who knows only a little about the subject could do; use that as a scale for the character's secondary skill.",
+          "status": "corrected-and-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-rules"
+          ],
+          "changePaths": [
+            "/bullets"
+          ]
         }
       ],
       "sources": [
@@ -132416,18 +132507,62 @@
           "path": "/bullets",
           "oldValue": [
             "For example, an armorer background can support evaluating ordinary armor or making minor repairs.",
-            "This procedure does not supply a universal proficiency-check system."
-          ],
-          "newValue": [
-            "For example, an armorer background can support evaluating ordinary armor or making minor repairs.",
             "This procedure does not supply a universal proficiency-check system.",
             "Random percentile: 01–02 armorer; 03–04 bowyer/fletcher; 05–10 farmer/gardener; 11–14 fisher (netting); 15–20 forester; 21–23 gambler; 24–27 hunter/fisher (hook and line).",
             "28–32 husbandman (animal husbandry); 33–34 jeweler/lapidary; 35–37 leather worker/tanner; 38–39 limner/painter; 40–42 mason/carpenter; 43–44 miner; 45–46 navigator (fresh or salt water); 47–49 sailor (fresh or salt); 50–51 shipwright (boats or ships).",
             "52–54 tailor/weaver; 55–57 teamster/freighter; 58–60 trader/barterer; 61–64 trapper/furrier; 65–67 woodworker/cabinetmaker; 68–85 no skill of measurable worth; 86–00 roll twice, ignoring that result thereafter."
           ],
+          "newValue": [
+            "An armorer might judge the quality of normal armor, repair chain links, or perhaps fashion certain weapons.",
+            "This procedure does not supply a universal proficiency-check system.",
+            "Random percentile: 01–02 armorer; 03–04 bowyer/fletcher; 05–10 farmer/gardener; 11–14 fisher (netting); 15–20 forester; 21–23 gambler; 24–27 hunter/fisher (hook and line).",
+            "28–32 husbandman (animal husbandry); 33–34 jeweler/lapidary; 35–37 leather worker/tanner; 38–39 limner/painter; 40–42 mason/carpenter; 43–44 miner; 45–46 navigator (fresh or salt water); 47–49 sailor (fresh or salt); 50–51 shipwright (boats or ships).",
+            "52–54 tailor/weaver; 55–57 teamster/freighter; 58–60 trader/barterer; 61–64 trapper/furrier; 65–67 woodworker/cabinetmaker; 68–85 no skill of measurable worth; 86–00 roll twice, ignoring that result thereafter.",
+            "At 1st level, the class is assumed to have been the character's main prior profession. Secondary skills reflect minor mundane training picked up earlier or incidentally.",
+            "The prose says to roll to determine whether a second skill is known and, on a 'TWO SKILLS' result, assign an appropriate second skill. The 86–00 table entry is worded 'ROLL TWICE IGNORING THIS RESULT HEREAFTER'.",
+            "Other examples of secondary-skill use include judging an item's general worth and soundness, finding food, making small repairs, and constructing crude items. These are examples for DM adjudication.",
+            "To judge a skill's extent, consider what someone who knows only a little about the subject could do; use that as a scale for the character's secondary skill."
+          ],
           "book": "DMG",
           "page": 12,
-          "reason": "Supply the optional random secondary skills table.",
+          "reason": "Bounded pass8 source correction/continuation, independently reviewed. Unchanged elements retain their previous grades.",
+          "sourceReview": {
+            "path": "research/source-audit-pass8-content-repair-independent-review.json",
+            "sha256": "0b668fe48de26533b9ce0570c90d54089641cfb3cdf2618523a5ea96c4a36f91"
+          },
+          "supersededChanges": [
+            {
+              "path": "/bullets",
+              "oldValue": [
+                "For example, an armorer background can support evaluating ordinary armor or making minor repairs.",
+                "This procedure does not supply a universal proficiency-check system."
+              ],
+              "newValue": [
+                "For example, an armorer background can support evaluating ordinary armor or making minor repairs.",
+                "This procedure does not supply a universal proficiency-check system.",
+                "Random percentile: 01–02 armorer; 03–04 bowyer/fletcher; 05–10 farmer/gardener; 11–14 fisher (netting); 15–20 forester; 21–23 gambler; 24–27 hunter/fisher (hook and line).",
+                "28–32 husbandman (animal husbandry); 33–34 jeweler/lapidary; 35–37 leather worker/tanner; 38–39 limner/painter; 40–42 mason/carpenter; 43–44 miner; 45–46 navigator (fresh or salt water); 47–49 sailor (fresh or salt); 50–51 shipwright (boats or ships).",
+                "52–54 tailor/weaver; 55–57 teamster/freighter; 58–60 trader/barterer; 61–64 trapper/furrier; 65–67 woodworker/cabinetmaker; 68–85 no skill of measurable worth; 86–00 roll twice, ignoring that result thereafter."
+              ],
+              "book": "DMG",
+              "page": 12,
+              "reason": "Supply the optional random secondary skills table."
+            }
+          ],
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-rules",
+          "path": "/summary",
+          "oldValue": "A campaign may assign a secondary trade or craft randomly or from a character's background. The skill represents limited practical knowledge, with its reach judged by the DM.",
+          "newValue": "A campaign may assign a secondary trade or craft to player characters and, if desired, henchmen. Assign it randomly or select it to suit the campaign's background. The skill gives limited practical knowledge judged by the DM.",
+          "book": "DMG",
+          "page": 12,
+          "reason": "Correct campaign-background selection criterion and retain optional henchmen.",
+          "sourceReview": {
+            "path": "research/source-audit-pass8-content-repair-independent-review.json",
+            "sha256": "0b668fe48de26533b9ce0570c90d54089641cfb3cdf2618523a5ea96c4a36f91"
+          },
           "state": "corrected-and-checked"
         }
       ]
@@ -255022,7 +255157,7 @@
         "/bullets/4": "These are the UA class choices; ability requirements, multiclass rules and the separate UA class-level limits still apply. Do not merge them with the PHB-only class limits.",
         "/bullets/5": "UA level-limit table conventions: use Wisdom for cleric/druid, Strength for fighter/ranger/assassin, Intelligence for magic-user, and Dexterity for thief; additional ability requirements appear in footnotes. U means unlimited for the appropriate race/class, subject to the highest level attainable by the class. Below the first score shown, use the lowest listed level; scores above the table do not raise its maximum. If single-classed and that class is an available multiclass choice for the character, the limit may be exceeded by 2. Class eligibility still applies.",
         "/bullets/6": "UA elf cleric (all except dark elves): Wisdom 12–15: 7; 16: 8; 17: 9; 18: 10; 19: 11; 20–21: 12. Wild elves are not eligible for cleric under UA p.7.",
-        "/bullets/7": "UA elf druid: wild elf Wisdom 12–17: 10; 18: 11; 19: 12; 20: 14, each requiring Charisma 18; 21: 17 requiring Charisma 19. Other elves: U, where class-eligible.",
+        "/bullets/7": "UA elf druid: wild elf Wisdom 12–17: 10; 18: 11 and 19: 12, both requiring Charisma 18; 20: 14 and 21: 17, both requiring Charisma 19. The 12–17 rows have no additional Charisma footnote; normal class requirements still apply. Other elves: U, where class-eligible.",
         "/bullets/8": "UA elf fighter: Strength 12–17 gives gray/high 5, wild 7, wood 6; 18 gives 6/8/7; 18/75 gives 7/8/8; 18/90 gives 8/10/9; 18/99 gives 9/11/10; 18/00 gives 10/12/11; 19 gives 11/13/12; 20 gives 11/13/14. Values in each group are gray/high, wild, wood respectively.",
         "/bullets/9": "UA elf magic-user: Intelligence 17–18 gives gray 11 and wood 9; 19 gives 12/10; 20 gives 13/11; 21 gives 15/13; 22 gives 18/13. Wild elves cannot be magic-users under UA p.7.",
         "/bullets/10": "UA elf thief is U. UA elf assassin: Strength 18, 18/01, 18/51 or 18/76 gives level 10; 18/99 gives 11 with Intelligence 18 and Wisdom 19; 18/00, 19 or 20 gives 12 with Intelligence 19 or Wisdom 19. Apply eligibility separately.",
@@ -255099,11 +255234,6 @@
         {
           "path": "/bullets",
           "oldValue": [
-            "Wood elves gain +1 initial strength and −1 intelligence; strength still tops out at 18.",
-            "Wild elves gain +2 initial strength to a maximum of 18 and have sharply restricted class choices.",
-            "Use the individual sub-race text and table rather than combining every elven benefit."
-          ],
-          "newValue": [
             "Gray elves share high-elf abilities, including sleep and charm resistance, sword and bow ability, infravision, secret/concealed-door detection and silent movement when alone. They share high-elf languages and add +1 to the initial Intelligence roll, up to 19.",
             "Wood (sylvan) elves have similar elven traits, gain +1 initial Strength (maximum 18) and −1 initial Intelligence. Their starting languages are elvish, common, treant and the tongue of woodland mammals; the passage gives them no other starting languages.",
             "Wild elves (grugach) retain standard elven resistance, weapon bonuses, infravision, silent movement and door detection. They gain +2 initial Strength (maximum 18), deal with woodland creatures as if animal friendship were in effect, and set pits, snares and natural traps with a 90% success chance. Most speak only elvish, though a player character may also know some common.",
@@ -255117,7 +255247,21 @@
             "UA elf thief is U. UA elf assassin: Strength 18, 18/01, 18/51 or 18/76 gives level 10; 18/99 gives 11 with Intelligence 18 and Wisdom 19; 18/00, 19 or 20 gives 12 with Intelligence 19 or Wisdom 19. Apply eligibility separately.",
             "UA elf ranger: Strength 18 gives level 6; 18/01 gives 7 with Intelligence 15 and Wisdom 15, or 8 if both exceed 15; 18/51 gives 9 with Intelligence and Wisdom 16; 18/76, 18/99 or 18/00 gives 10 with Intelligence and Wisdom 17; 19 gives 12 and 20 gives 14, both requiring Intelligence and Wisdom 18. Wild elves cannot be rangers under UA p.7."
           ],
-          "reason": "Add ancestry-relevant UA class-level table values and qualifications; keep PHB variants separate.",
+          "newValue": [
+            "Gray elves share high-elf abilities, including sleep and charm resistance, sword and bow ability, infravision, secret/concealed-door detection and silent movement when alone. They share high-elf languages and add +1 to the initial Intelligence roll, up to 19.",
+            "Wood (sylvan) elves have similar elven traits, gain +1 initial Strength (maximum 18) and −1 initial Intelligence. Their starting languages are elvish, common, treant and the tongue of woodland mammals; the passage gives them no other starting languages.",
+            "Wild elves (grugach) retain standard elven resistance, weapon bonuses, infravision, silent movement and door detection. They gain +2 initial Strength (maximum 18), deal with woodland creatures as if animal friendship were in effect, and set pits, snares and natural traps with a 90% success chance. Most speak only elvish, though a player character may also know some common.",
+            "The UA p.7 class table permits gray elves to be cavaliers, clerics, druids, fighters, rangers, magic-users or thieves (including acrobats and assassins); wood elves have those choices except cavalier; wild elves can be druids, fighters or thieves (including acrobats and assassins). Wild elf multiclassing is restricted to fighter/thief.",
+            "These are the UA class choices; ability requirements, multiclass rules and the separate UA class-level limits still apply. Do not merge them with the PHB-only class limits.",
+            "UA level-limit table conventions: use Wisdom for cleric/druid, Strength for fighter/ranger/assassin, Intelligence for magic-user, and Dexterity for thief; additional ability requirements appear in footnotes. U means unlimited for the appropriate race/class, subject to the highest level attainable by the class. Below the first score shown, use the lowest listed level; scores above the table do not raise its maximum. If single-classed and that class is an available multiclass choice for the character, the limit may be exceeded by 2. Class eligibility still applies.",
+            "UA elf cleric (all except dark elves): Wisdom 12–15: 7; 16: 8; 17: 9; 18: 10; 19: 11; 20–21: 12. Wild elves are not eligible for cleric under UA p.7.",
+            "UA elf druid: wild elf Wisdom 12–17: 10; 18: 11 and 19: 12, both requiring Charisma 18; 20: 14 and 21: 17, both requiring Charisma 19. The 12–17 rows have no additional Charisma footnote; normal class requirements still apply. Other elves: U, where class-eligible.",
+            "UA elf fighter: Strength 12–17 gives gray/high 5, wild 7, wood 6; 18 gives 6/8/7; 18/75 gives 7/8/8; 18/90 gives 8/10/9; 18/99 gives 9/11/10; 18/00 gives 10/12/11; 19 gives 11/13/12; 20 gives 11/13/14. Values in each group are gray/high, wild, wood respectively.",
+            "UA elf magic-user: Intelligence 17–18 gives gray 11 and wood 9; 19 gives 12/10; 20 gives 13/11; 21 gives 15/13; 22 gives 18/13. Wild elves cannot be magic-users under UA p.7.",
+            "UA elf thief is U. UA elf assassin: Strength 18, 18/01, 18/51 or 18/76 gives level 10; 18/99 gives 11 with Intelligence 18 and Wisdom 19; 18/00, 19 or 20 gives 12 with Intelligence 19 or Wisdom 19. Apply eligibility separately.",
+            "UA elf ranger: Strength 18 gives level 6; 18/01 gives 7 with Intelligence 15 and Wisdom 15, or 8 if both exceed 15; 18/51 gives 9 with Intelligence and Wisdom 16; 18/76, 18/99 or 18/00 gives 10 with Intelligence and Wisdom 17; 19 gives 12 and 20 gives 14, both requiring Intelligence and Wisdom 18. Wild elves cannot be rangers under UA p.7."
+          ],
+          "reason": "Bounded pass8 source correction/continuation, independently reviewed. Unchanged elements retain their previous grades.",
           "book": "UA",
           "page": 9,
           "supersededChanges": [
@@ -255133,15 +255277,50 @@
                 "Wood (sylvan) elves have similar elven traits, gain +1 initial Strength (maximum 18) and −1 initial Intelligence. Their starting languages are elvish, common, treant and the tongue of woodland mammals; the passage gives them no other starting languages.",
                 "Wild elves (grugach) retain standard elven resistance, weapon bonuses, infravision, silent movement and door detection. They gain +2 initial Strength (maximum 18), deal with woodland creatures as if animal friendship were in effect, and set pits, snares and natural traps with a 90% success chance. Most speak only elvish, though a player character may also know some common.",
                 "The UA p.7 class table permits gray elves to be cavaliers, clerics, druids, fighters, rangers, magic-users or thieves (including acrobats and assassins); wood elves have those choices except cavalier; wild elves can be druids, fighters or thieves (including acrobats and assassins). Wild elf multiclassing is restricted to fighter/thief.",
-                "These are the UA class choices; ability requirements, multiclass rules and the separate UA class-level limits still apply. Do not merge them with the PHB-only class limits."
+                "These are the UA class choices; ability requirements, multiclass rules and the separate UA class-level limits still apply. Do not merge them with the PHB-only class limits.",
+                "UA level-limit table conventions: use Wisdom for cleric/druid, Strength for fighter/ranger/assassin, Intelligence for magic-user, and Dexterity for thief; additional ability requirements appear in footnotes. U means unlimited for the appropriate race/class, subject to the highest level attainable by the class. Below the first score shown, use the lowest listed level; scores above the table do not raise its maximum. If single-classed and that class is an available multiclass choice for the character, the limit may be exceeded by 2. Class eligibility still applies.",
+                "UA elf cleric (all except dark elves): Wisdom 12–15: 7; 16: 8; 17: 9; 18: 10; 19: 11; 20–21: 12. Wild elves are not eligible for cleric under UA p.7.",
+                "UA elf druid: wild elf Wisdom 12–17: 10; 18: 11; 19: 12; 20: 14, each requiring Charisma 18; 21: 17 requiring Charisma 19. Other elves: U, where class-eligible.",
+                "UA elf fighter: Strength 12–17 gives gray/high 5, wild 7, wood 6; 18 gives 6/8/7; 18/75 gives 7/8/8; 18/90 gives 8/10/9; 18/99 gives 9/11/10; 18/00 gives 10/12/11; 19 gives 11/13/12; 20 gives 11/13/14. Values in each group are gray/high, wild, wood respectively.",
+                "UA elf magic-user: Intelligence 17–18 gives gray 11 and wood 9; 19 gives 12/10; 20 gives 13/11; 21 gives 15/13; 22 gives 18/13. Wild elves cannot be magic-users under UA p.7.",
+                "UA elf thief is U. UA elf assassin: Strength 18, 18/01, 18/51 or 18/76 gives level 10; 18/99 gives 11 with Intelligence 18 and Wisdom 19; 18/00, 19 or 20 gives 12 with Intelligence 19 or Wisdom 19. Apply eligibility separately.",
+                "UA elf ranger: Strength 18 gives level 6; 18/01 gives 7 with Intelligence 15 and Wisdom 15, or 8 if both exceed 15; 18/51 gives 9 with Intelligence and Wisdom 16; 18/76, 18/99 or 18/00 gives 10 with Intelligence and Wisdom 17; 19 gives 12 and 20 gives 14, both requiring Intelligence and Wisdom 18. Wild elves cannot be rangers under UA p.7."
               ],
-              "reason": "Transcribe the explicit gray, wood and wild elf distinctions and UA class table while distinguishing the UA variant.",
+              "reason": "Add ancestry-relevant UA class-level table values and qualifications; keep PHB variants separate.",
               "book": "UA",
-              "page": 10
+              "page": 9,
+              "supersededChanges": [
+                {
+                  "path": "/bullets",
+                  "oldValue": [
+                    "Wood elves gain +1 initial strength and −1 intelligence; strength still tops out at 18.",
+                    "Wild elves gain +2 initial strength to a maximum of 18 and have sharply restricted class choices.",
+                    "Use the individual sub-race text and table rather than combining every elven benefit."
+                  ],
+                  "newValue": [
+                    "Gray elves share high-elf abilities, including sleep and charm resistance, sword and bow ability, infravision, secret/concealed-door detection and silent movement when alone. They share high-elf languages and add +1 to the initial Intelligence roll, up to 19.",
+                    "Wood (sylvan) elves have similar elven traits, gain +1 initial Strength (maximum 18) and −1 initial Intelligence. Their starting languages are elvish, common, treant and the tongue of woodland mammals; the passage gives them no other starting languages.",
+                    "Wild elves (grugach) retain standard elven resistance, weapon bonuses, infravision, silent movement and door detection. They gain +2 initial Strength (maximum 18), deal with woodland creatures as if animal friendship were in effect, and set pits, snares and natural traps with a 90% success chance. Most speak only elvish, though a player character may also know some common.",
+                    "The UA p.7 class table permits gray elves to be cavaliers, clerics, druids, fighters, rangers, magic-users or thieves (including acrobats and assassins); wood elves have those choices except cavalier; wild elves can be druids, fighters or thieves (including acrobats and assassins). Wild elf multiclassing is restricted to fighter/thief.",
+                    "These are the UA class choices; ability requirements, multiclass rules and the separate UA class-level limits still apply. Do not merge them with the PHB-only class limits."
+                  ],
+                  "reason": "Transcribe the explicit gray, wood and wild elf distinctions and UA class table while distinguishing the UA variant.",
+                  "book": "UA",
+                  "page": 10
+                }
+              ]
             }
-          ]
+          ],
+          "sourceReview": {
+            "path": "research/source-audit-pass8-content-repair-independent-review.json",
+            "sha256": "0b668fe48de26533b9ce0570c90d54089641cfb3cdf2618523a5ea96c4a36f91"
+          }
         }
-      ]
+      ],
+      "currentSourceReview": {
+        "path": "research/source-audit-pass8-content-repair-independent-review.json",
+        "sha256": "0b668fe48de26533b9ce0570c90d54089641cfb3cdf2618523a5ea96c4a36f91"
+      }
     },
     {
       "checker": "mechanics-rules",
@@ -255395,14 +255574,22 @@
         "/bullets/0",
         "/bullets/2",
         "/bullets/3",
-        "/bullets/4"
+        "/bullets/4",
+        "/bullets/5",
+        "/bullets/6",
+        "/bullets/7",
+        "/bullets/8"
       ],
       "checkedValues": {
-        "/summary": "A campaign may assign a secondary trade or craft randomly or from a character's background. The skill represents limited practical knowledge, with its reach judged by the DM.",
-        "/bullets/0": "For example, an armorer background can support evaluating ordinary armor or making minor repairs.",
+        "/summary": "A campaign may assign a secondary trade or craft to player characters and, if desired, henchmen. Assign it randomly or select it to suit the campaign's background. The skill gives limited practical knowledge judged by the DM.",
+        "/bullets/0": "An armorer might judge the quality of normal armor, repair chain links, or perhaps fashion certain weapons.",
         "/bullets/2": "Random percentile: 01–02 armorer; 03–04 bowyer/fletcher; 05–10 farmer/gardener; 11–14 fisher (netting); 15–20 forester; 21–23 gambler; 24–27 hunter/fisher (hook and line).",
         "/bullets/3": "28–32 husbandman (animal husbandry); 33–34 jeweler/lapidary; 35–37 leather worker/tanner; 38–39 limner/painter; 40–42 mason/carpenter; 43–44 miner; 45–46 navigator (fresh or salt water); 47–49 sailor (fresh or salt); 50–51 shipwright (boats or ships).",
-        "/bullets/4": "52–54 tailor/weaver; 55–57 teamster/freighter; 58–60 trader/barterer; 61–64 trapper/furrier; 65–67 woodworker/cabinetmaker; 68–85 no skill of measurable worth; 86–00 roll twice, ignoring that result thereafter."
+        "/bullets/4": "52–54 tailor/weaver; 55–57 teamster/freighter; 58–60 trader/barterer; 61–64 trapper/furrier; 65–67 woodworker/cabinetmaker; 68–85 no skill of measurable worth; 86–00 roll twice, ignoring that result thereafter.",
+        "/bullets/5": "At 1st level, the class is assumed to have been the character's main prior profession. Secondary skills reflect minor mundane training picked up earlier or incidentally.",
+        "/bullets/6": "The prose says to roll to determine whether a second skill is known and, on a 'TWO SKILLS' result, assign an appropriate second skill. The 86–00 table entry is worded 'ROLL TWICE IGNORING THIS RESULT HEREAFTER'.",
+        "/bullets/7": "Other examples of secondary-skill use include judging an item's general worth and soundness, finding food, making small repairs, and constructing crude items. These are examples for DM adjudication.",
+        "/bullets/8": "To judge a skill's extent, consider what someone who knows only a little about the subject could do; use that as a scale for the character's secondary skill."
       },
       "reviewedPaths": [
         {
@@ -255424,20 +255611,66 @@
           "path": "/bullets",
           "oldValue": [
             "For example, an armorer background can support evaluating ordinary armor or making minor repairs.",
-            "This procedure does not supply a universal proficiency-check system."
-          ],
-          "newValue": [
-            "For example, an armorer background can support evaluating ordinary armor or making minor repairs.",
             "This procedure does not supply a universal proficiency-check system.",
             "Random percentile: 01–02 armorer; 03–04 bowyer/fletcher; 05–10 farmer/gardener; 11–14 fisher (netting); 15–20 forester; 21–23 gambler; 24–27 hunter/fisher (hook and line).",
             "28–32 husbandman (animal husbandry); 33–34 jeweler/lapidary; 35–37 leather worker/tanner; 38–39 limner/painter; 40–42 mason/carpenter; 43–44 miner; 45–46 navigator (fresh or salt water); 47–49 sailor (fresh or salt); 50–51 shipwright (boats or ships).",
             "52–54 tailor/weaver; 55–57 teamster/freighter; 58–60 trader/barterer; 61–64 trapper/furrier; 65–67 woodworker/cabinetmaker; 68–85 no skill of measurable worth; 86–00 roll twice, ignoring that result thereafter."
           ],
+          "newValue": [
+            "An armorer might judge the quality of normal armor, repair chain links, or perhaps fashion certain weapons.",
+            "This procedure does not supply a universal proficiency-check system.",
+            "Random percentile: 01–02 armorer; 03–04 bowyer/fletcher; 05–10 farmer/gardener; 11–14 fisher (netting); 15–20 forester; 21–23 gambler; 24–27 hunter/fisher (hook and line).",
+            "28–32 husbandman (animal husbandry); 33–34 jeweler/lapidary; 35–37 leather worker/tanner; 38–39 limner/painter; 40–42 mason/carpenter; 43–44 miner; 45–46 navigator (fresh or salt water); 47–49 sailor (fresh or salt); 50–51 shipwright (boats or ships).",
+            "52–54 tailor/weaver; 55–57 teamster/freighter; 58–60 trader/barterer; 61–64 trapper/furrier; 65–67 woodworker/cabinetmaker; 68–85 no skill of measurable worth; 86–00 roll twice, ignoring that result thereafter.",
+            "At 1st level, the class is assumed to have been the character's main prior profession. Secondary skills reflect minor mundane training picked up earlier or incidentally.",
+            "The prose says to roll to determine whether a second skill is known and, on a 'TWO SKILLS' result, assign an appropriate second skill. The 86–00 table entry is worded 'ROLL TWICE IGNORING THIS RESULT HEREAFTER'.",
+            "Other examples of secondary-skill use include judging an item's general worth and soundness, finding food, making small repairs, and constructing crude items. These are examples for DM adjudication.",
+            "To judge a skill's extent, consider what someone who knows only a little about the subject could do; use that as a scale for the character's secondary skill."
+          ],
           "book": "DMG",
           "page": 12,
-          "reason": "Supply the optional random secondary skills table."
+          "reason": "Bounded pass8 source correction/continuation, independently reviewed. Unchanged elements retain their previous grades.",
+          "sourceReview": {
+            "path": "research/source-audit-pass8-content-repair-independent-review.json",
+            "sha256": "0b668fe48de26533b9ce0570c90d54089641cfb3cdf2618523a5ea96c4a36f91"
+          },
+          "supersededChanges": [
+            {
+              "path": "/bullets",
+              "oldValue": [
+                "For example, an armorer background can support evaluating ordinary armor or making minor repairs.",
+                "This procedure does not supply a universal proficiency-check system."
+              ],
+              "newValue": [
+                "For example, an armorer background can support evaluating ordinary armor or making minor repairs.",
+                "This procedure does not supply a universal proficiency-check system.",
+                "Random percentile: 01–02 armorer; 03–04 bowyer/fletcher; 05–10 farmer/gardener; 11–14 fisher (netting); 15–20 forester; 21–23 gambler; 24–27 hunter/fisher (hook and line).",
+                "28–32 husbandman (animal husbandry); 33–34 jeweler/lapidary; 35–37 leather worker/tanner; 38–39 limner/painter; 40–42 mason/carpenter; 43–44 miner; 45–46 navigator (fresh or salt water); 47–49 sailor (fresh or salt); 50–51 shipwright (boats or ships).",
+                "52–54 tailor/weaver; 55–57 teamster/freighter; 58–60 trader/barterer; 61–64 trapper/furrier; 65–67 woodworker/cabinetmaker; 68–85 no skill of measurable worth; 86–00 roll twice, ignoring that result thereafter."
+              ],
+              "book": "DMG",
+              "page": 12,
+              "reason": "Supply the optional random secondary skills table."
+            }
+          ]
+        },
+        {
+          "path": "/summary",
+          "oldValue": "A campaign may assign a secondary trade or craft randomly or from a character's background. The skill represents limited practical knowledge, with its reach judged by the DM.",
+          "newValue": "A campaign may assign a secondary trade or craft to player characters and, if desired, henchmen. Assign it randomly or select it to suit the campaign's background. The skill gives limited practical knowledge judged by the DM.",
+          "book": "DMG",
+          "page": 12,
+          "reason": "Correct campaign-background selection criterion and retain optional henchmen.",
+          "sourceReview": {
+            "path": "research/source-audit-pass8-content-repair-independent-review.json",
+            "sha256": "0b668fe48de26533b9ce0570c90d54089641cfb3cdf2618523a5ea96c4a36f91"
+          }
         }
-      ]
+      ],
+      "currentSourceReview": {
+        "path": "research/source-audit-pass8-content-repair-independent-review.json",
+        "sha256": "0b668fe48de26533b9ce0570c90d54089641cfb3cdf2618523a5ea96c4a36f91"
+      }
     },
     {
       "checker": "mechanics-rules",
