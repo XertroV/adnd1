@@ -3,6 +3,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { isDeepStrictEqual } from 'node:util';
+import {resolveMechanicsCitationPageTransfer} from './mechanics-citation-page-transfer.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const allow = {
@@ -71,7 +72,7 @@ export function buildLedger(data, proposals, {alreadyNormalized=false,previousRe
   const reviews = alreadyNormalized ? proposals : normalizeReviews(proposals,data,previousReviews);
   const byKey = new Map();
   for (const review of reviews) { const key=`${review.collection}\0${review.id}`; if (!byKey.has(key)) byKey.set(key,[]); byKey.get(key).push(review); }
-  const records=[]; const staleChanges=[]; const orphanReviews=[];
+  const records=[]; const staleChanges=[]; const orphanReviews=[]; const citationPageOnlyTransfers=[];
   const collections = Object.keys(allow);
   for (const collection of collections) {
     const values = collection === 'progressionExplainer' ? [data[collection]] : data[collection];
@@ -82,8 +83,14 @@ export function buildLedger(data, proposals, {alreadyNormalized=false,previousRe
       for (const review of matching) for (const change of review.changes) {
         const actual=getPointer(item,change.path); const current=actual === undefined ? null : stripCitationTransport(actual);
         let state=isDeepStrictEqual(current,stripCitationTransport(change.newValue)) ? 'corrected-and-checked' : isDeepStrictEqual(current,stripCitationTransport(change.oldValue)) ? 'correction-proposed' : 'stale-proposal';
+        const pageTransfer=state==='stale-proposal'?resolveMechanicsCitationPageTransfer({collection,id,review,change,currentValue:current}):null;
+        if(pageTransfer){
+          if(!isDeepStrictEqual(pageTransfer.comparisonValue,stripCitationTransport(change.newValue)))throw new Error('Citation-page transfer does not match the original mechanics comparison.');
+          state='corrected-and-checked';
+          citationPageOnlyTransfers.push(pageTransfer.annotation);
+        }
         if(state==='stale-proposal') staleChanges.push({collection,id,checker:review.checker,path:change.path,currentValue:current,oldValue:change.oldValue,newValue:change.newValue});
-        evaluated.push({checker:review.checker,...change,state});
+        evaluated.push({checker:review.checker,...change,state,...(pageTransfer?{citationMetadataTransfer:pageTransfer.annotation}:{})});
       }
       const fields=fieldsFor(collection,item).map(field => {
         const related=evaluated.filter(c=>containsPath(c.path,field.path)||containsPath(field.path,c.path));
@@ -115,7 +122,7 @@ export function buildLedger(data, proposals, {alreadyNormalized=false,previousRe
   const keys={'source-checked':'unchangedSourceCheckedFields','corrected-and-checked':'correctedAndCheckedFields','correction-proposed':'correctionPendingFields','not-extracted':'notExtractedFields','source-conflict':'sourceConflictFields','editorial-reviewed':'editorialReviewedFields','stale-proposal':'staleProposalFields','unchecked':'uncheckedFields'};
   for (const r of records) for (const f of r.fields) {counts.totalFields++;counts[keys[f.status]]++;if(f.status==='source-checked'||f.status==='corrected-and-checked')counts.sourceCheckedFields++;if(f.inspected)counts.inspectedFields++;}
   const pct=n=>counts.totalFields ? Number((100*n/counts.totalFields).toFixed(2)) : 0;
-  return {schemaVersion:1,input:{path:'dist/data.json',sha256:dataHash(data),hashFormat:'mechanics-only SHA-256 of JSON.stringify(parsed data after recursively removing generated evidenceBindings and regionReviews transport metadata; distinct from raw data.json/provenance hashes)',denominator:'Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.',countSemantics:'Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap.'},counts,percentages:{inspectedFields:pct(counts.inspectedFields),sourceCheckedFields:pct(counts.sourceCheckedFields),unchangedSourceCheckedFields:pct(counts.unchangedSourceCheckedFields),correctedAndCheckedFields:pct(counts.correctedAndCheckedFields),correctionPendingFields:pct(counts.correctionPendingFields),notExtractedFields:pct(counts.notExtractedFields),uncheckedFields:pct(counts.uncheckedFields)},records,reviewRecords:reviews,validation:{staleChanges,orphanReviews}};
+  return {schemaVersion:1,input:{path:'dist/data.json',sha256:dataHash(data),hashFormat:'mechanics-only SHA-256 of JSON.stringify(parsed data after recursively removing generated evidenceBindings and regionReviews transport metadata; distinct from raw data.json/provenance hashes)',denominator:'Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.',countSemantics:'Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap.'},counts,percentages:{inspectedFields:pct(counts.inspectedFields),sourceCheckedFields:pct(counts.sourceCheckedFields),unchangedSourceCheckedFields:pct(counts.unchangedSourceCheckedFields),correctedAndCheckedFields:pct(counts.correctedAndCheckedFields),correctionPendingFields:pct(counts.correctionPendingFields),notExtractedFields:pct(counts.notExtractedFields),uncheckedFields:pct(counts.uncheckedFields)},records,reviewRecords:reviews,...(citationPageOnlyTransfers.length?{citationPageOnlyTransfers}:{}),validation:{staleChanges,orphanReviews}};
 }
 export function validateLedger(ledger,data) {
   const errors=[];
@@ -125,6 +132,7 @@ export function validateLedger(ledger,data) {
   if(!isDeepStrictEqual(ledger.counts,rebuilt.counts))errors.push('Ledger counts do not match regenerated counts.');
   if(!isDeepStrictEqual(ledger.records,rebuilt.records))errors.push('Ledger field values, evidence or statuses do not match regenerated records.');
   if(!isDeepStrictEqual(ledger.percentages,rebuilt.percentages))errors.push('Ledger percentages do not match regenerated percentages.');
+  if(!isDeepStrictEqual(ledger.citationPageOnlyTransfers??[],rebuilt.citationPageOnlyTransfers??[]))errors.push('Ledger citation-page-only transfers do not match the exact reviewed comparisons.');
   if(rebuilt.validation.orphanReviews.length)errors.push('Ledger contains reviews for unknown records.');
   if(rebuilt.counts.staleProposalFields)errors.push('Ledger contains checked values that changed without a matching reviewed correction.');
   return errors;

@@ -1,0 +1,126 @@
+{
+  "artifactType": "one-explicit-GrandDruid-citation-page-effective-comparison-implementation-before-root-review",
+  "status": "Focused19tests pass; source-author implementation awaiting root independent review before final integration.",
+  "fullBeforeScope": {
+    "exposedRecords": 995,
+    "currentMechanicsLeaves": 13428,
+    "reviewRecords": 1205,
+    "changeComparisons": 1194,
+    "changeOutcomes": {
+      "exact-current-newValue": 1193,
+      "stale-parent-comparison": 1
+    },
+    "checkedValueComparisons": 12460,
+    "checkedValueMatches": 11549,
+    "checkedValueDifferences": 911,
+    "staleParentChanges": 1,
+    "staleMechanicsLeaves": 27,
+    "orphanReviews": 0
+  },
+  "checkedValueDifferenceCategories": {
+    "corrected-and-checked": 906,
+    "stale-proposal": 4,
+    "source-conflict": 1
+  },
+  "before": {
+    "fixture": {
+      "path": "tests/fixtures/source-audit-batch6-grand-page-mechanics-stale-before.json.gz",
+      "sha256": "9bd64da1d85d9848569a79276d0e10132b19f93633b9defa3c2365fe75391e4a"
+    },
+    "comparisonSummary": {
+      "path": "research/source-audit-batch6-grand-page-mechanics-comparison-before.json",
+      "sha256": "4fe52313be5467c670e6812097049c636ac1a9ff3f759528be9470d4a7ea1d46"
+    },
+    "oldProducerSha256": "956b689dcc776a707a71fe4c0bf2fd16818a4ec3e15f631eb8dcd2db425bb5d7",
+    "reviewRecordSha256": "b861099772793d5ee3b5438ad02d54e4de50f4227ff6c3b3c7450d3201b9716a"
+  },
+  "implementation": [
+    {
+      "path": "tools/mechanics-audit.mjs",
+      "sha256": "f359b684310ef02f25d09034ac83346f64e7029b52d79081a18911f0bb0b66f3"
+    },
+    {
+      "path": "tools/mechanics-citation-page-transfer.mjs",
+      "sha256": "edfad6e2dd9bfabe7a4befc8737c7bb5cefb1b898b046260905b30e39a59d2f4"
+    },
+    {
+      "path": "research/source-audit-batch6-grand-druid-mechanics-citation-page-transfer.json",
+      "sha256": "ce34f1206624f1122e4f55d8b4ceda5598eb221ff6520201ff28f798680d4f9b"
+    },
+    {
+      "path": "tests/mechanics-citation-page-transfer.test.mjs",
+      "sha256": "52849568c00774a44655f7faf92303841f717f0b952619165155757c30dd3934"
+    }
+  ],
+  "independentSourcePageApproval": {
+    "path": "research/source-audit-batch6-grand-druid-root-independent-review.json",
+    "sha256": "7d61523b3f34c6e99fd22c5fa3eabb4773fc3a24fd7c91284f97d3969a2a664d"
+  },
+  "afterLedger": {
+    "path": "research/mechanics-audit-progress.json",
+    "sha256": "1f9156093bccab1427a75aeb8405af60a8da85476c7aede362826a77839e79cf"
+  },
+  "assertions": {
+    "all1205OriginalReviewRecordsExact": true,
+    "originalWholeCorrectionOldAndNewValueUnchanged": true,
+    "soleCurrentMetadataDeltaGrandPages16To16And17": true,
+    "all13428MechanicsFieldsValuesAndStatusesEqualHistoricalReviewedPage16State": true,
+    "noGenericPageStrippingOrStaleSuppression": true,
+    "staleNumericSourceStatusTrackOwnerOrderAndReviewMutationsHeld": true,
+    "independentProofAndBeforeFixtureRequiredByExactHash": true,
+    "pureOldPage16CaseRetainsExistingGradeWithoutTransfer": true,
+    "transferAnnotationForgingRejected": true
+  },
+  "negativeClasses": [
+    "XP/level/track/book/status changes",
+    "Different, reordered, expanded source pages or source metadata on another row",
+    "Reordered, appended or missing XP rows",
+    "Different owner, collection, checker, correction path, original review or original correction",
+    "Changed or missing transfer artifact, whole before fixture or independent source-page proof",
+    "Forged/removed ledger effective-transfer annotation"
+  ],
+  "testing": {
+    "focusedExistingAndNewMechanicsTests": {
+      "passed": 19,
+      "failed": 0,
+      "log": "/tmp/batch6-xp-grand-mechanics-transfer-focused-tests.log",
+      "sha256": "9727a997b7d28cee3d3132dee42a118098b9506522b56397f350cf3c00805ec4"
+    },
+    "productionMechanicsLedgerCheck": "passed",
+    "gitDiffCheck": "passed"
+  },
+  "beforeCounts": {
+    "records": 995,
+    "totalFields": 13428,
+    "inspectedFields": 13316,
+    "sourceCheckedFields": 12708,
+    "unchangedSourceCheckedFields": 10095,
+    "correctedAndCheckedFields": 2613,
+    "correctionPendingFields": 0,
+    "notExtractedFields": 10,
+    "sourceConflictFields": 22,
+    "editorialReviewedFields": 553,
+    "staleProposalFields": 27,
+    "uncheckedFields": 108
+  },
+  "restoredHistoricalCounts": {
+    "records": 995,
+    "totalFields": 13428,
+    "inspectedFields": 13316,
+    "sourceCheckedFields": 12729,
+    "unchangedSourceCheckedFields": 10095,
+    "correctedAndCheckedFields": 2634,
+    "correctionPendingFields": 0,
+    "notExtractedFields": 10,
+    "sourceConflictFields": 22,
+    "editorialReviewedFields": 559,
+    "staleProposalFields": 0,
+    "uncheckedFields": 108
+  },
+  "limitations": [
+    "Original checker did not approve the new source page; the explicit separately reviewed metadata transfer is annotated.",
+    "These are retained historical mechanics statuses, not new numerical review or whole-class completeness approval.",
+    "FullNode+24workflow and root independent review still pending."
+  ],
+  "sourceValueGrade": "NOT PROMOTED"
+}

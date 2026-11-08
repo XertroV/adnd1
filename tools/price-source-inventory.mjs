@@ -439,6 +439,115 @@ function boundTargetReview(review){
   return review?{...review}:null;
 }
 
+const classXpRowIdentityValueKeys=['level','xp','book','pages','track'];
+const classXpRowIdentityKeys=['kind','collection','itemId','fieldPointer','sourceObjectPointer','value'];
+const classXpTargetReviewDocumentKeys=['artifactType','reviewedTargets','schemaVersion'];
+const classXpTargetReviewTargetKeys=['expectedTargetIdentity','independent','regionEvidence','sourceEvidence','sourceValueGrade','status'];
+const classXpTargetReviewSourceKeys=['path','pointer','sha256'];
+const classXpTargetReviewRegionKeys=['contentSha256','focusSha256','imageSha256','regionId','sourceSha256'];
+
+function isReviewedClassXpTarget(binding){
+  if(binding?.reviewStatus!=='field-target-reviewed')return false;
+  const isXpPath=binding.collection==='classes'&&typeof binding.fieldPointer==='string'&&binding.fieldPointer.startsWith('/xpRows/');
+  return binding.sourceCategory==='class-xp-row'||(binding.collection==='classes'&&isXpPath);
+}
+
+function assertReviewedClassXpTargetIdentity(binding,{item,target,sourceOwner,sourceObjectPointer}){
+  if(!isReviewedClassXpTarget(binding))return;
+  const fail=message=>{throw new Error(`Reviewed class XP target ${binding.collection??'(missing collection)'}:${binding.itemId??'(missing item)'}${binding.fieldPointer??'(missing field pointer)'} ${message}`);};
+  const xpPath=/^\/xpRows\/(0|[1-9]\d*)$/.exec(binding.fieldPointer??'');
+  if(binding.collection!=='classes')fail('must use collection classes');
+  if(!xpPath)fail('fieldPointer must identify exactly one /xpRows/N object');
+  if(binding.sourceCategory!=='class-xp-row')fail('sourceCategory must be class-xp-row');
+  if(typeof binding.sourceObjectPointer!=='string'||binding.sourceObjectPointer!==binding.fieldPointer||sourceObjectPointer!==binding.fieldPointer)fail('sourceObjectPointer must equal fieldPointer');
+  if(!binding.sourceOwner||binding.sourceOwner.collection!=='classes'||binding.sourceOwner.itemId!==binding.itemId
+      ||sourceOwner?.collection!=='classes'||sourceOwner?.itemId!==binding.itemId)fail('sourceOwner must exactly identify the routed classes item');
+  if(binding.requiresRowEvidence!==true)fail('requiresRowEvidence must be true');
+  if(!item||item.id!==binding.itemId||!target||typeof target!=='object'||Array.isArray(target))fail('does not resolve to a current XP row object');
+  for(const key of classXpRowIdentityValueKeys)if(!Object.hasOwn(target,key))fail(`current XP row is missing ${key}`);
+  if(!Number.isInteger(target.level)||target.level<1||!Number.isInteger(target.xp)||target.xp<0
+      ||typeof target.book!=='string'||!target.book.trim()||!Array.isArray(target.pages)||!target.pages.length
+      ||target.pages.some(page=>!Number.isInteger(page)||page<1)||typeof target.track!=='string'||!target.track.trim())fail('current XP row identity has invalid field types');
+  const rowValue=Object.fromEntries(classXpRowIdentityValueKeys.map(key=>[key,target[key]]));
+  const expected={kind:'class-xp-row',collection:'classes',itemId:binding.itemId,fieldPointer:binding.fieldPointer,sourceObjectPointer:binding.sourceObjectPointer,value:rowValue};
+  const actual=binding.targetReview?.expectedTargetIdentity;
+  if(!actual||typeof actual!=='object'||Array.isArray(actual)
+      ||JSON.stringify(Object.keys(actual).sort())!==JSON.stringify([...classXpRowIdentityKeys].sort())
+      ||!actual.value||typeof actual.value!=='object'||Array.isArray(actual.value)
+      ||JSON.stringify(Object.keys(actual.value).sort())!==JSON.stringify([...classXpRowIdentityValueKeys].sort())
+      ||canonical(actual)!==canonical(expected))fail('targetReview.expectedTargetIdentity does not exactly match its owner, pointers, and current {level,xp,book,pages,track} projection');
+
+  const targetReview=binding.targetReview;
+  if(targetReview?.status!=='confirmed'||targetReview.independent!==true)fail('target review must be independently confirmed');
+  const evidencePath=targetReview?.evidence;
+  if(typeof evidencePath!=='string'||!evidencePath.startsWith('research/')||evidencePath.split('/').includes('..')||!existsSync(resolve(root,evidencePath)))fail('target review evidence file is missing or outside research');
+  if(typeof targetReview.evidenceSha256!=='string'||!/^[a-f0-9]{64}$/.test(targetReview.evidenceSha256)||targetReview.evidenceSha256!==hashFile(evidencePath))fail('target review evidence file is stale or lacks its recorded hash');
+  let proof;
+  try{proof=readJson(evidencePath);}catch{fail('target review evidence is not valid JSON');}
+  if(!proof||typeof proof!=='object'||Array.isArray(proof)
+      ||JSON.stringify(Object.keys(proof).sort())!==JSON.stringify([...classXpTargetReviewDocumentKeys].sort())
+      ||proof.schemaVersion!==1||proof.artifactType!=='class-xp-row-target-review'||!Array.isArray(proof.reviewedTargets))fail('target review evidence must use the closed class-xp-row-target-review schemaVersion 1');
+  const targets=proof.reviewedTargets;
+  const scopes=new Set();
+  for(const reviewed of targets){
+    if(!reviewed||typeof reviewed!=='object'||Array.isArray(reviewed)
+        ||JSON.stringify(Object.keys(reviewed).sort())!==JSON.stringify([...classXpTargetReviewTargetKeys].sort()))fail('target review proof contains an unsupported or open target entry');
+    const identity=reviewed.expectedTargetIdentity;
+    if(!identity||typeof identity!=='object'||Array.isArray(identity)
+        ||JSON.stringify(Object.keys(identity).sort())!==JSON.stringify([...classXpRowIdentityKeys].sort())
+        ||!identity.value||typeof identity.value!=='object'||Array.isArray(identity.value)
+        ||JSON.stringify(Object.keys(identity.value).sort())!==JSON.stringify([...classXpRowIdentityValueKeys].sort())
+        ||identity.kind!=='class-xp-row'||identity.collection!=='classes'||typeof identity.itemId!=='string'||!identity.itemId.trim()
+        ||typeof identity.fieldPointer!=='string'||!/^\/xpRows\/(0|[1-9]\d*)$/.test(identity.fieldPointer)
+        ||identity.sourceObjectPointer!==identity.fieldPointer
+        ||!Number.isInteger(identity.value.level)||identity.value.level<1||!Number.isInteger(identity.value.xp)||identity.value.xp<0
+        ||typeof identity.value.book!=='string'||!identity.value.book.trim()||!Array.isArray(identity.value.pages)||!identity.value.pages.length
+        ||identity.value.pages.some(page=>!Number.isInteger(page)||page<1)||typeof identity.value.track!=='string'||!identity.value.track.trim())fail('target review proof contains a malformed target identity');
+    const scope=[identity.collection,identity.itemId,identity.fieldPointer].join('|');
+    if(scopes.has(scope))fail('target review proof contains duplicate target identities');
+    scopes.add(scope);
+    if(reviewed.status!=='confirmed'||reviewed.independent!==true)fail('target review proof must independently confirm each target');
+    if(reviewed.sourceValueGrade!=='NOT PROMOTED')fail('target review proof must explicitly preserve sourceValueGrade NOT PROMOTED');
+    if(!Array.isArray(reviewed.sourceEvidence)||reviewed.sourceEvidence.length<2)fail('target review proof must retain author and independent-review source evidence references');
+    const sourceRefs=new Set();
+    const sourcePaths=new Set();
+    for(const source of reviewed.sourceEvidence){
+      if(!source||typeof source!=='object'||Array.isArray(source)
+          ||JSON.stringify(Object.keys(source).sort())!==JSON.stringify([...classXpTargetReviewSourceKeys].sort()))fail('target review proof contains an unsupported source evidence reference');
+      if(typeof source.path!=='string'||!source.path.startsWith('research/')||source.path.split('/').includes('..')||source.path===evidencePath||!existsSync(resolve(root,source.path)))fail('target review proof source evidence path is missing, cyclic, or outside research');
+      if(typeof source.sha256!=='string'||!/^[a-f0-9]{64}$/.test(source.sha256)||source.sha256!==hashFile(source.path))fail('target review proof source evidence digest is stale');
+      if(typeof source.pointer!=='string'||!source.pointer.startsWith('/')||pointerParts(source.pointer)===null)fail('target review proof source evidence pointer is invalid');
+      const referenced=valueAtPointer(readJson(source.path),source.pointer);
+      if(!referenced||typeof referenced!=='object'||Array.isArray(referenced))fail('target review proof source evidence pointer does not resolve to a source-row object');
+      if(referenced.fieldPointer!==identity.fieldPointer||referenced.sourceObjectPointer!==identity.sourceObjectPointer)fail('target review proof source evidence pointer does not identify the reviewed field and source object');
+      if((Object.hasOwn(referenced,'collection')&&referenced.collection!==identity.collection)||(Object.hasOwn(referenced,'itemId')&&referenced.itemId!==identity.itemId))fail('target review proof source evidence pointer identifies a different owner');
+      const refKey=`${source.path}|${source.pointer}`;
+      if(sourceRefs.has(refKey))fail('target review proof contains duplicate source evidence references');
+      sourceRefs.add(refKey);
+      sourcePaths.add(source.path);
+    }
+    if(sourcePaths.size<2)fail('target review proof source evidence must come from distinct author and independent-review records');
+    if(!Array.isArray(reviewed.regionEvidence)||reviewed.regionEvidence.length<1)fail('target review proof must bind selected region source/image/focus/content hashes');
+    const regionIds=new Set();
+    for(const region of reviewed.regionEvidence){
+      if(!region||typeof region!=='object'||Array.isArray(region)
+          ||JSON.stringify(Object.keys(region).sort())!==JSON.stringify([...classXpTargetReviewRegionKeys].sort()))fail('target review proof contains an unsupported region evidence entry');
+      if(typeof region.regionId!=='string'||!region.regionId.trim()||regionIds.has(region.regionId)
+          ||['sourceSha256','imageSha256','focusSha256','contentSha256'].some(key=>typeof region[key]!=='string'||!/^[a-f0-9]{64}$/.test(region[key])))fail('target review proof contains incomplete or duplicate region hashes');
+      regionIds.add(region.regionId);
+    }
+  }
+  const matching=targets.filter(reviewed=>reviewed.expectedTargetIdentity.collection===expected.collection
+    &&reviewed.expectedTargetIdentity.itemId===expected.itemId&&reviewed.expectedTargetIdentity.fieldPointer===expected.fieldPointer);
+  if(matching.length!==1)fail('target review evidence must contain exactly one entry for this collection, owner, and field pointer');
+  const approved=matching[0];
+  if(canonical(approved.expectedTargetIdentity)!==canonical(expected))fail('targetReview.expectedTargetIdentity does not exactly match the hash-pinned review proof target identity');
+  const expectedRegions=binding.expectedRegionEvidence;
+  if(!Array.isArray(expectedRegions)||!expectedRegions.length
+      ||JSON.stringify(expectedRegions.map(region=>region.regionId))!==JSON.stringify(binding.regionIds)
+      ||canonical(approved.regionEvidence)!==canonical(expectedRegions))fail('target review proof region source/image/focus/content hashes do not exactly match expectedRegionEvidence');
+}
+
 function makeSourceRows(config, inventory, review, reviewFresh) {
   const rawRows = inventory.records || [];
   const arrayIndex = new Map();
@@ -1017,6 +1126,7 @@ function manualBindingFor(binding,{collections,catalogs}) {
   const pdfPage=binding.pdfPage??(regions.length?regions[0].pdfPage:(book&&printedPage?sourcePdfPage(book,printedPage):null));
   const bindingSourceSha=binding.sourceSha256??(book?catalog?.sources?.[book]?.sha256:null);
   const reviewStatus=valuePathMissing?'field-target-pending':binding.reviewStatus??'field-target-pending';
+  assertReviewedClassXpTargetIdentity({...binding,reviewStatus},{item,target,sourceOwner,sourceObjectPointer});
   const targetReview=boundTargetReview(binding.targetReview);
   const evidence=regions.map(region=>({
     regionId:region.id,book:region.book,printedPage:region.printedPage,pdfPage:region.pdfPage,
@@ -1294,6 +1404,7 @@ export function validatePriceSourceInventory(inventory, {equipment=applyAssembly
     if(target===undefined&&(!valuePathMissing||binding.valuePathStatus!=='value-path-missing')) fail(`${binding.itemId}${binding.fieldPointer}: JSON Pointer does not resolve and is not explicitly recorded as a missing field value`);
     if(target!==undefined&&binding.valuePathStatus==='value-path-missing') fail(`${binding.itemId}${binding.fieldPointer}: value path is marked missing but resolves`);
     if(sourceObject===undefined||sourceObject===null||typeof sourceObject!=='object') fail(`${binding.itemId}${sourceObjectPointer}: cited source object does not resolve to an object`);
+    try{assertReviewedClassXpTargetIdentity(binding,{item,target,sourceOwner,sourceObjectPointer});}catch(error){fail(error.message);}
     if(binding.valueReview||binding.sourceValueStatus===CONFIRMED_PRICE_VALUE_STATUS){
       let derivedStatus;
       try{derivedStatus=derivePriceValueStatus({collection:binding.collection||'equipment',itemId:binding.itemId,fieldPointer:binding.fieldPointer??'',sourceObjectPointer:effectiveSourceObjectPointer,target,valueReview:binding.valueReview,claimedStatus:binding.sourceValueStatus});}

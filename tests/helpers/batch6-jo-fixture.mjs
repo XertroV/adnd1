@@ -16,6 +16,49 @@ export const caltropCatalogBeforeJo=frozen(joIntegration.beforeCaltropCatalog);
 export const manifestBeforeJo=frozen(joIntegration.beforeContinuationManifest);
 const equipmentBeforeJo=frozen(joIntegration.beforeEquipment);
 export const contractsBeforeJo=frozen(joIntegration.beforeSourceContracts);
+// This separate, hash-bound stage precedes the unchanged JoV4 history guards.
+// It has no dependency on the XP helper, which itself uses this fixture reader.
+export const xpA65HistoryProjection=frozen({path:'research/source-audit-batch6-xp-a65-history-projection-contract.json.gz',sha256:'15fc0a2b012fefed1f7ea04cc01df979f468f856544cb40d454baf1315145acc'});
+assert.equal(xpA65HistoryProjection.releasedMaster,'a65cb9931919a18a50591a206e6e4ea09064fc29');
+assert.equal(xpA65HistoryProjection.xpFrozenCandidate,'c2efd1eba27f0b3047ef4ce80f7db187597c808f');
+assert.equal(xpA65HistoryProjection.recordTransfers.length,17);
+assert.equal(xpA65HistoryProjection.manifest.xpGroups.length,42);
+for(const ref of xpA65HistoryProjection.sourceApprovals)assert.equal(sha(readFileSync(new URL(ref.path,root))),ref.sha256,'the existing source approval remains exact');
+assert.deepEqual(xpA65HistoryProjection.metadataPolicy.stripOnlyGeneratedKeys,['evidenceBindings','regionReviews']);
+assert.equal(xpA65HistoryProjection.metadataPolicy.restoreOnlyDeclaredBindingProperty,'regionCount');
+assert.deepEqual(xpA65HistoryProjection.metadataPolicy.soleRawValueDelta,{collection:'classes',itemId:'ua-druid',fieldPointer:'/xpRows/0/pages',released:[16],merged:[16,17]});
+for(const ref of xpA65HistoryProjection.recordTransfers){
+ assert.equal(hash(ref.mergedRecord),ref.mergedSha256);assert.equal(hash(ref.releasedRecord),ref.releasedSha256);
+ const current=semanticJoFixture(ref.mergedRecord),before=semanticJoFixture(ref.releasedRecord);
+ for(const count of ref.declaredRegionCountTransitions){assert.ok(['sourceExcerpts','scanVerification'].includes(count.binding));assert.equal(current[count.binding].regionCount,count.afterMerged);assert.equal(before[count.binding].regionCount,count.beforeReleased);current[count.binding].regionCount=count.beforeReleased;}
+ if(ref.collection==='classes'&&ref.itemId==='ua-druid'){assert.deepEqual(current.xpRows[0].pages,[16,17]);assert.deepEqual(before.xpRows[0].pages,[16]);current.xpRows[0].pages=[16];}
+ assert.deepEqual(current,before,'the XP history stage changes only exact generated transport, declared excerpt counts and the one approved Grand source-page tuple');
+}
+export function withoutBatch6XpSourceMetadata(data){
+ const refs=xpA65HistoryProjection.recordTransfers;
+ const selected=refs.map(ref=>{const values=ref.collection==='progressionExplainer'?[data.progressionExplainer]:data[ref.collection];const matches=values.filter(item=>item?.id===ref.itemId);assert.equal(matches.length,1);return matches[0];});
+ const alreadyReleased=selected.every((item,index)=>hash(item)===refs[index].releasedSha256);
+ if(alreadyReleased){assert.deepEqual(data.release,xpA65HistoryProjection.releaseMetadata.released,'only the exact released Jo stage is an already-projected input');return data;}
+ assert.deepEqual(data.release,xpA65HistoryProjection.releaseMetadata.merged,'only exact merged XP release metadata may be reversed');
+ const copy={...data,release:structuredClone(xpA65HistoryProjection.releaseMetadata.released)};
+ for(const collection of new Set(refs.map(ref=>ref.collection))){
+  const project=item=>{const ref=refs.find(row=>row.collection===collection&&row.itemId===item.id);if(!ref)return item;assert.equal(hash(item),ref.mergedSha256,'only exact approved XP record transport may be reversed');return structuredClone(ref.releasedRecord);};
+  copy[collection]=collection==='progressionExplainer'?project(data[collection]):data[collection].map(project);
+ }
+ return copy;
+}
+export function withoutBatch6XpManifest(manifest){
+ const expected=xpA65HistoryProjection.manifest;
+ if(!manifest.groups.some(group=>expected.xpGroups.some(row=>row.id===group.id)))return manifest;
+ assert.deepEqual(manifest.groups,[...expected.releasedGroups,...expected.xpGroups],'all208 released groups and the42 approved XP groups retain exact contents and ordering');
+ return {...manifest,groups:structuredClone(expected.releasedGroups)};
+}
+export function beforeJoSearchOverridesForXp(overrides){
+ const stages=xpA65HistoryProjection.overrideStages;
+ assert.deepEqual(overrides,stages.merged,'only the whole exact merged Jo/Search/XP override object may enter the C2 history stage');
+ assert.equal(hash(stages.c2),stages.c2Sha256);
+ return structuredClone(stages.c2);
+}
 export function withoutBatch6JoEquipment(equipment){
  const matches=equipment.filter(item=>item.id==='ua-jo-stick');
  if(!matches.length)return equipment;
@@ -31,6 +74,7 @@ export function withoutBatch6JoEquipment(equipment){
 }
 export function withoutBatch6JoData(data){
  const equipment=withoutBatch6JoEquipment(data.equipment);if(equipment===data.equipment)return data;
+ data=withoutBatch6XpSourceMetadata(data);
  assert.deepEqual(data.release.priceInventory,joIntegration.currentReleasePriceInventory,'only the declared current price-inventory counters may be reversed');assert.deepEqual(data.release.excerpts,joIntegration.currentReleaseExcerpts,'only the exact current excerpt-count and owner changes may be reversed');
  const restored={};for(const collection of ['rules','classes']){
   const additions=joIntegration.upstreamIntegration.exactHistoricalRecordAdditions.filter(ref=>ref.collection===collection);
@@ -55,8 +99,16 @@ export function readBeforeJoBytes(path){
  if(normalized==='research/source-table-citation-contracts.json'){
   assert.equal(sha(current),joIntegration.currentSourceContracts.sha256,'exact current mapping contracts before history reversal');return gunzipSync(readFileSync(new URL(joIntegration.beforeSourceContracts.path,root)));
  }
- if(normalized==='research/citation-continuations.json'){let projected=withoutBatch6JoManifest(JSON.parse(current));for(const ref of joIntegration.upstreamIntegration.groupAdditions){const matches=projected.groups.filter(group=>group.id===ref.group.id);assert.equal(matches.length,1);assert.equal(hash(matches[0]),ref.sha256,'only an exact reviewed upstream DMG group may be reversed');projected={...projected,groups:projected.groups.filter(group=>group.id!==ref.group.id)};}assert.deepEqual(projected,manifestBeforeJo,'the original190 groups remain unchanged');return gunzipSync(readFileSync(new URL(joIntegration.beforeContinuationManifest.path,root)));}
- if(normalized==='citation-overrides.json'){assert.equal(sha(current),joIntegration.currentCitationOverrides.sha256,'exact current scoped overrides before history reversal');return gunzipSync(readFileSync(new URL(joIntegration.beforeCitationOverrides.path,root)));}
+ if(normalized==='research/citation-continuations.json'){let projected=withoutBatch6JoManifest(withoutBatch6XpManifest(JSON.parse(current)));for(const ref of joIntegration.upstreamIntegration.groupAdditions){const matches=projected.groups.filter(group=>group.id===ref.group.id);assert.equal(matches.length,1);assert.equal(hash(matches[0]),ref.sha256,'only an exact reviewed upstream DMG group may be reversed');projected={...projected,groups:projected.groups.filter(group=>group.id!==ref.group.id)};}assert.deepEqual(projected,manifestBeforeJo,'the original190 groups remain unchanged');return gunzipSync(readFileSync(new URL(joIntegration.beforeContinuationManifest.path,root)));}
+ if(normalized==='citation-overrides.json'){
+  if(sha(current)!==joIntegration.currentCitationOverrides.sha256){
+   const stages=xpA65HistoryProjection.overrideStages;assert.deepEqual(JSON.parse(current),stages.merged,'only the exact merged override stage may precede the original JoV4 guard');
+   const released=structuredClone(stages.merged);for(const key of stages.regionCountKeys){assert.equal(released.sourceExcerpts[key].regionCount,stages.c2.sourceExcerpts[key].regionCount);released.sourceExcerpts[key].regionCount=stages.released.sourceExcerpts[key].regionCount;}
+   assert.deepEqual(released,stages.released,'only the17 approved XP excerpt counts differ from released Jo overrides');
+   assert.equal(sha(Buffer.from(JSON.stringify(released,null,2)+'\n')),joIntegration.currentCitationOverrides.sha256,'the original JoV4 override hash guard is retained');
+  }
+  return gunzipSync(readFileSync(new URL(joIntegration.beforeCitationOverrides.path,root)));
+ }
  const parsed=['dist/data.json','equipment.json','research/citation-continuations.json'].includes(normalized)?JSON.parse(current):null;
  const projected=normalized==='dist/data.json'?withoutBatch6JoData(parsed):normalized==='equipment.json'?{...parsed,equipment:withoutBatch6JoEquipment(parsed.equipment)}:normalized==='research/citation-continuations.json'?withoutBatch6JoManifest(parsed):null;
  return projected?Buffer.from(JSON.stringify(projected,null,2)+'\n'):current;

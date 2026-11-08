@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 
 import {gunzipSync} from 'node:zlib';
 import {buildContinuationAliasReport,loadContinuationAliasReport} from '../tools/continuation-alias-audit.mjs';
+import {xpBeforeCatalogsForAliasReplay} from './helpers/batch6-xp-source-history.mjs';
 const read=p=>JSON.parse(readFileSync(p));
 const before=read('research/source-audit-batch5-continuation-alias-before.json');
 const integration=read('research/source-audit-batch5-continuation-alias-integration.json');
@@ -17,8 +18,8 @@ for(const collection of ['rules','spells','equipment','matrices','classes','prog
 const oldManifest=JSON.parse(gunzipSync(readFileSync(integration.beforeManifestFixture)));
 
 test('the complete before universe detects the real unlinked Solid Fog region alias',()=>{
- const replay=buildContinuationAliasReport({data,manifest:oldManifest,catalogs});
- assert.deepEqual(replay.denominators,before.denominators,'the strict reader has reversed only exact approved additions to reproduce the complete historical source universe');
+ const replay=buildContinuationAliasReport({data,manifest:oldManifest,catalogs:xpBeforeCatalogsForAliasReplay(catalogs)});
+ assert.deepEqual(replay.denominators,before.denominators,'exact XP catalog rollback composes with the exact Jo history stage to reproduce the complete historical universe');
  assert.equal(replay.denominators.exposedRecords,995);
  assert.equal(replay.denominators.referencedCatalogs,1015);
  assert.equal(replay.denominators.exactAliasMatches,23);

@@ -1,4 +1,4 @@
-import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
+import {readBeforeJoFile as readFileSync,withoutBatch6XpSourceMetadata,xpA65HistoryProjection} from './helpers/batch6-jo-fixture.mjs';
 import {readFileSync as readCurrentFileSync} from 'node:fs';
 import {withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import {reverseMechanicsBatchTwo} from './mechanics-batch-two-fixture.mjs';
@@ -106,4 +106,19 @@ test('Speak With Animals adds only the unresolved reaction-chart note',()=>{
   assert.equal(spell.exceptions[1],'The PHB calls for a special reaction chart but does not identify it; the referee determines how to resolve the favor or service.');
   assert.equal(hash(stripExcerpts({...spell,exceptions:spell.exceptions.slice(0,1)})),expected,id);
  }
+});
+
+test('the XP-to-Jo stage rejects semantic changes, altered evidence and mixed stages before the unchanged Jo guards',()=>{
+ const current=JSON.parse(readCurrentFileSync(new URL('../dist/data.json',import.meta.url)));
+ const released=withoutBatch6XpSourceMetadata(current);
+ assert.deepEqual(released.classes.find(row=>row.id==='ua-druid').xpRows[0].pages,[16]);
+ assert.equal(withoutBatch6XpSourceMetadata(released),released,'the exact released stage is an explicit no-op; Grand is not reversed twice');
+ const reject=mutate=>{const changed=structuredClone(current);mutate(changed);assert.throws(()=>withoutBatch6XpSourceMetadata(changed));};
+ reject(copy=>copy.classes.find(row=>row.id==='cleric').xpRows[0].xp=99);
+ reject(copy=>copy.classes.find(row=>row.id==='cleric').pendingMechanics.push('unapproved mechanic'));
+ reject(copy=>copy.classes.find(row=>row.id==='cleric').xpRows[0].evidenceBindings[0].reviewStatus='pending');
+ reject(copy=>copy.classes.find(row=>row.id==='cleric').sourceExcerpts.regionCount++);
+ reject(copy=>copy.classes.find(row=>row.id==='ua-druid').xpRows[0].pages=[16,18]);
+ reject(copy=>copy.release.priceInventory.fieldEvidenceBindings++);
+ reject(copy=>{const ref=xpA65HistoryProjection.recordTransfers.find(row=>row.itemId==='cleric');copy.classes[copy.classes.findIndex(row=>row.id==='cleric')]=structuredClone(ref.releasedRecord);});
 });

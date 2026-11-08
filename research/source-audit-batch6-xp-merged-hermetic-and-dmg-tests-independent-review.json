@@ -1,0 +1,61 @@
+{
+  "artifactType": "independent-test-repair-review-current-pointer-and-DMG-historic-scope",
+  "reviewStatus": "passed",
+  "scope": "Added the exact dependency copy required by the hermetic current-continuation test and updated only the DMG historical test expectations for separately approved current appends. No source, catalog, production validator, output ledger, or sealed baseline was edited by this reviewer.",
+  "beforeCaptures": {
+    "hermeticDependencyFailure": {
+      "capture": "/tmp/batch6-current-continuation-helper-dependency-before.json",
+      "sha256": "e0f9006ad28312a6a9ecc4ccb6eb3e99ef003f12787d08edc265a6b522dbfe74",
+      "log": "/tmp/batch6-current-continuation-snapshot-before-failure.log",
+      "logSha256": "a89198f4e70f43f53ef27e79e07e4d2b0661fc0aacea2b6dd31f23bf77ec2974",
+      "testBeforeSha256": "475846c0ce52660cf79f741ee430a1ccec9fddb463c5153facda530f71c28ab7",
+      "failure": "Copied mechanics-audit.mjs could not resolve its new mechanics-citation-page-transfer.mjs relative dependency in the hermetic temp tree.",
+      "scopeInventory": "One copy site found by rg; the exact imported helper is now copied beside mechanics-audit.mjs."
+    },
+    "DMGHistoricalTestFailure": {
+      "initialCapture": "/tmp/batch6-dmg-three-chains-before/current-before-capture.json",
+      "initialCaptureSha256": "d3af424f603463f9b53d7bcc9299862c6214b4053db9993200065cdb5e5bd43a",
+      "postCanonicalAdditionCapture": "/tmp/batch6-dmg-three-chains-canonical-mu-before/current-before-capture.json",
+      "postCanonicalAdditionCaptureSha256": "99baa810e081a4ebdad9c887e52e600ae93149450e23cb37ba495b9d4f3f4c1d",
+      "testOriginalSha256": "ae22752235d0745c4a620d38724d436f5b4487ccf965f7a143b16c1d4dfe399e",
+      "negativeCalibrationLogSha256": "c30459ff44b9b64a1b94694b55ffad7867f1f46cf27aa416fb61b202119df825",
+      "negativeCalibration": "The original 190-group manifest still fails the same three undeclared-chain, two crop-binding, and six focus-recipe controls."
+    }
+  },
+  "testChanges": {
+    "tests/current-continuation-snapshot.test.mjs": {
+      "sha256": "8bc8b61603fb767bbca0b2bbdf62fc69f51976ee21d9d9dd023fd8a269763c61",
+      "change": "Copy tools/mechanics-citation-page-transfer.mjs beside the hermetically copied mechanics-audit.mjs."
+    },
+    "tests/dmg-context-three-chains.test.mjs": {
+      "sha256": "df2bcd87c4c62d9251427e7c61bf79f74eab7d803646704a4623c15d7655d89a",
+      "change": "Reconstruct the historical DMG-only 193-group view; assert the exact unchanged 41-group XP/context suffix; separately bind the single root-reviewed Magic-User canonical context group; use the approved helper to restore only hash-pinned XP catalog-count additions for historical comparison."
+    },
+    "tests/helpers/batch6-xp-source-history.mjs": {
+      "sha256": "7ff4fd6e352a296d3c2b974cdfedd3214abf87ef317cf931ad11861ef20d0544",
+      "owner": "pd_dpi_review",
+      "usage": "Imported read-only; not modified by this reviewer."
+    }
+  },
+  "strictHistoricalBindings": {
+    "historicFixtureSha256": "9a77a8a557823e56506c041f554ad936d98bb4016a15267b4bd73073417c32a4",
+    "groupSequence": "190 unchanged historical groups + 3 independently reviewed DMG groups = validated 193-group/362-segment historical view; followed by exactly 41 approved XP/context groups and one separately root-approved canonical Magic-User group.",
+    "xpAppendCanonicalJsonSha256": "8e55326742088967cc75803bee64b30dba0c7a58767bf9faa0d0204c60b97045",
+    "magicUserProposalSha256": "985213a55f3f5ba95fe9317d25338d44023d8201edaf96f8e8a6bb71b5f7d24b",
+    "magicUserIndependentReviewSha256": "27e20bfbaf1998c6715a9f5d0af8a200ef09be87d0a6cc8fcf099af86e1aa91e",
+    "magicUserAppliedReceiptSha256": "8a20ebe6557365784063f9e5966caa2f628cf76cf5e0fc6ad023c73b6d1e086c",
+    "canonicalCitationOverrides": "The helper verifies the exact pinned current source freeze and restores only its 17 reviewed regionCount updates; the DMG test confirms the restored object exactly equals the frozen historic override object and each current count matches its catalog. Other citation metadata remains exact."
+  },
+  "currentSnapshotPins": {
+    "distDataSha256": "d224a41a46bdb2cc24ff918e9737f925713c22871643813a72797f174e6c2307",
+    "continuationManifestSha256": "ea4eee5ff19aa30f9ab0d76d0725aacd5671a17fe4d2b8a78566f74715a54481",
+    "currentSnapshotPointerSha256": "06ae80c4bbc19c99d66447d8362707c5e751186aa1f5e767145001dc55fd0a74"
+  },
+  "checks": {
+    "command": "node --test tests/current-continuation-snapshot.test.mjs tests/mechanics-audit.test.mjs tests/mechanics-citation-page-transfer.test.mjs tests/dmg-context-three-chains.test.mjs",
+    "passed": 33,
+    "failed": 0,
+    "mechanicsAuditCheck": "node tools/mechanics-audit.mjs --check: passed",
+    "diffCheck": "git diff --check: passed"
+  }
+}

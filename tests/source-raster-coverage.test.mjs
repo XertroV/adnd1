@@ -13,6 +13,7 @@ const snapshot = JSON.parse(gunzipSync(loadRasterSnapshotInput().bytes));
 const historicalSnapshot = JSON.parse(gunzipSync(readFileSync(new URL('../research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz', import.meta.url))));
 const historicalLive = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-raster-live-b90d317-before.json.gz', import.meta.url)))).live;
 const live = collectLiveRasterUniverse();
+const releasedJoSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research/source-raster-boundary-batch6-jo-search079-v1.json.gz',import.meta.url))));
 const priorJoSearchSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research/source-raster-boundary-batch6-search-cleric-post-pr34.json.gz',import.meta.url))));
 const legacyFixture = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-raster-coverage-derived-metrics-before.json.gz', import.meta.url))));
 const legacySource = legacyFixture.files['tools/source-raster-coverage.mjs'];
@@ -111,18 +112,31 @@ const componentIntegrityMutations = [
   }],
 ];
 
-test('the complete current catalog universe matches the preserved numeric raster snapshot', () => {
+test('the frozen historical catalog universe retains3069 uses and1284 source windows', () => {
+  const report = buildSourceRasterCoverage(historicalSnapshot, historicalLive);
+  assert.deepEqual(report.validation, {valid: true, errors: []});
+  assert.equal(report.liveUniverse.regionUsages, 3069);
+  assert.equal(report.geometries.length, 1284);
+  assert.equal(report.currentCandidateCounts.sourcePagesRendered, 229);
+  assert.deepEqual(report.currentCandidateCounts, historicalSnapshot.counts);
+  assert.equal(report.semanticPass, false);
+});
+
+test('the active pointer snapshot covers the complete actual current catalog universe', () => {
   const report = buildSourceRasterCoverage(snapshot, live);
   assert.deepEqual(report.validation, {valid: true, errors: []});
-  assert.equal(report.liveUniverse.regionUsages, snapshot.counts.regionUsages);
-  assert.equal(snapshot.usages.length,priorJoSearchSnapshot.usages.length+7);
-  assert.deepEqual(snapshot.sourceFrames,priorJoSearchSnapshot.sourceFrames);
-  assert.deepEqual(snapshot.usages.slice(0,priorJoSearchSnapshot.usages.length),priorJoSearchSnapshot.usages);
-  assert.deepEqual(snapshot.geometries.map(({uses,...row})=>row),priorJoSearchSnapshot.geometries.map(({uses,...row})=>row));
-  assert.equal(report.geometries.length, snapshot.counts.uniqueImageGeometryBindings);
-  assert.equal(report.currentCandidateCounts.sourcePagesRendered, snapshot.counts.sourcePagesRendered);
+  assert.equal(report.liveUniverse.regionUsages, live.usages.length);
+  assert.equal(report.currentCandidateCounts.sourcePagesRendered, new Set(live.usages.map(row => `${row.book}:${row.pdfPage}`)).size);
   assert.deepEqual(report.currentCandidateCounts, snapshot.counts);
   assert.equal(report.semanticPass, false);
+});
+
+test('the frozen released Jo snapshot preserves its exact seven-use extension and source windows', () => {
+  assert.equal(releasedJoSnapshot.usages.length,priorJoSearchSnapshot.usages.length+7);
+  assert.deepEqual(releasedJoSnapshot.sourceFrames,priorJoSearchSnapshot.sourceFrames);
+  assert.deepEqual(releasedJoSnapshot.usages.slice(0,priorJoSearchSnapshot.usages.length),priorJoSearchSnapshot.usages);
+  assert.deepEqual(releasedJoSnapshot.geometries.map(({uses,...row})=>row),priorJoSearchSnapshot.geometries.map(({uses,...row})=>row));
+  assert.equal(releasedJoSnapshot.geometries.length,releasedJoSnapshot.counts.uniqueImageGeometryBindings);
 });
 
 test('dropping uses cannot claim complete coverage even when reported counts and current hashes are retained', () => {

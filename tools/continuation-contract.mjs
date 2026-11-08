@@ -1,8 +1,26 @@
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
 import {dirname, isAbsolute, relative, resolve, sep} from 'node:path';
+import {isDeepStrictEqual} from 'node:util';
 import {auditContinuationOrder} from './continuation-order-audit.mjs';
 import {sourceVisualRegionHashes} from './price-source-inventory.mjs';
+
+const ASSASSIN_XP_APPEND_TRANSFER_PATH = 'research/source-audit-batch6-assassin-xp-catalog-append-transfer.json';
+const ASSASSIN_XP_APPEND_TRANSFER_SHA256 = '610ffa96f6ce3273acb778a0a28fafe31d53f331a00e834909547c5e46ce8e68';
+const ASSASSIN_XP_AUTHOR_PROPOSAL_PATH = 'research/source-audit-batch6-phb74-xp-source-target-proposal.json';
+const ASSASSIN_XP_AUTHOR_PROPOSAL_SHA256 = '87123a31f1ff10801b28088a47a46ddc88c712bd276f6ed782f307722dd938cb';
+const ASSASSIN_XP_INDEPENDENT_REVIEW_PATH = 'research/source-audit-batch6-phb74-xp-independent-review.json';
+const ASSASSIN_XP_INDEPENDENT_REVIEW_SHA256 = '5fb0bdb1666d219062372f098f65326b5373ddaf26e627afd43e2310c52aa46f';
+const ASSASSIN_XP_PEER_JOIN_PATH = 'research/source-audit-batch6-assassin-xp-peer-pointer-join.json';
+const ASSASSIN_XP_PEER_JOIN_SHA256 = 'b334d11f4cbad8e9558aa394242ce1a14c1a2d644b2178bd97b3f3d7cba37acf';
+const ASSASSIN_XP_TARGET_REVIEW_PATH = 'research/source-audit-batch6-assassin-xp-target-review-v2.json';
+const ASSASSIN_XP_TARGET_REVIEW_SHA256 = 'd1f8bc23dd863b3efebf70e1969d54aa6da2381480c5c2b366e88391ec891e5e';
+const ASSASSIN_XP_BASELINE_COMMIT = 'b90d31762611acc96895c66a9e8697360b39182a';
+const ASSASSIN_XP_BASELINE_GIT_BLOB = '0e0ba89623493f1d3014bb1fbc00e361033d6cbf';
+const ASSASSIN_XP_BASELINE_CATALOG_SHA256 = '65870ea210206565c5a367fb8d54512a95fd38d387ff901843feeb9fda28a9b3';
+const ASSASSIN_XP_CURRENT_CATALOG_SHA256 = 'a1af57a383a53117be4ef2cbef0cf1bb4ed06c3017632a9351862f4a817f8291';
+const ASSASSIN_XP_COUNT = 15;
 
 function requireValue(condition, message) {
   if (!condition) throw new Error(message);
@@ -28,6 +46,132 @@ function readJson(root, path, description) {
 
 function sha256(bytes) {
   return createHash('sha256').update(bytes).digest('hex');
+}
+
+function canonicalJson(value) {
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
+  if (value !== null && typeof value === 'object') return `{${Object.keys(value).sort().map(key => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(',')}}`;
+  return JSON.stringify(value);
+}
+
+function gitBlobSha1(bytes) {
+  return createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
+}
+
+function pointerValue(value, pointer) {
+  return pointer.split('/').slice(1).map(part => part.replaceAll('~1', '/').replaceAll('~0', '~'))
+    .reduce((current, part) => current?.[Array.isArray(current) ? Number(part) : part], value);
+}
+
+function readPinnedJson(repositoryRoot, reference, description) {
+  const bytes = readFileSync(safePath(repositoryRoot, reference.path, description));
+  requireValue(reference.sha256 === sha256(bytes), `${description} file hash is stale`);
+  try {
+    return JSON.parse(bytes.toString('utf8'));
+  } catch (error) {
+    if (error instanceof SyntaxError) throw new Error(`${description} is not valid JSON`);
+    throw error;
+  }
+}
+
+function validateAssassinXpAppendTransfer(record, catalog, catalogBytes, catalogRoot) {
+  const repositoryRoot = resolve(import.meta.dirname, '..');
+  const transferBytes = readFileSync(safePath(repositoryRoot, ASSASSIN_XP_APPEND_TRANSFER_PATH, 'Assassin XP catalog transfer'));
+  requireValue(sha256(transferBytes) === ASSASSIN_XP_APPEND_TRANSFER_SHA256, 'Assassin XP catalog transfer receipt hash is stale');
+  const transfer = JSON.parse(transferBytes.toString('utf8'));
+  requireValue(transfer.schemaVersion === 1 && transfer.artifactType === 'assassin-xp-append-only-catalog-transfer', 'Unsupported Assassin XP catalog transfer receipt');
+  requireValue(transfer.scope === 'Transfers only exact Assassin XP-row target identities and cell-focus regions. It does not upgrade numeric/source-value grades, historical crop/context/default-selection findings, or any other finding.', 'Assassin XP transfer scope changed');
+
+  const baseline = transfer.baseline;
+  const current = transfer.current;
+  const expectedCatalogPath = `dist/${record.catalog}`;
+  requireValue(baseline?.commit === ASSASSIN_XP_BASELINE_COMMIT && baseline.catalogPath === expectedCatalogPath && baseline.gitBlobSha1 === ASSASSIN_XP_BASELINE_GIT_BLOB && baseline.catalogSha256 === ASSASSIN_XP_BASELINE_CATALOG_SHA256, 'Assassin XP transfer baseline identity changed');
+  requireValue(current?.catalogPath === expectedCatalogPath && current.catalogSha256 === ASSASSIN_XP_CURRENT_CATALOG_SHA256 && current.regionCount === catalog.regions.length && current.appendedRegionCount === ASSASSIN_XP_COUNT, 'Assassin XP transfer current catalog identity changed');
+  requireValue(sha256(catalogBytes) === current.catalogSha256, 'Assassin current catalog bytes do not match the append-only transfer');
+
+  let baselineBytes;
+  try {
+    baselineBytes = execFileSync('git', ['show', `${baseline.commit}:${baseline.catalogPath}`], {cwd: repositoryRoot, maxBuffer: 16 * 1024 * 1024});
+  } catch {
+    throw new Error('Assassin XP baseline Git catalog object is unavailable');
+  }
+  requireValue(gitBlobSha1(baselineBytes) === baseline.gitBlobSha1 && sha256(baselineBytes) === baseline.catalogSha256, 'Assassin XP baseline Git catalog hashes changed');
+  const baselineCatalog = JSON.parse(baselineBytes.toString('utf8'));
+  requireValue(baselineCatalog.collection === 'classes' && baselineCatalog.itemId === 'assassin', 'Assassin XP baseline catalog owner changed');
+  requireValue(baselineCatalog.regions.length === ASSASSIN_XP_COUNT && Array.isArray(baseline.regionIds) && isDeepStrictEqual(baseline.regionIds, baselineCatalog.regions.map(region => region.id)), 'Assassin XP baseline region inventory changed');
+  requireValue(isDeepStrictEqual({...catalog, regions: undefined}, {...baselineCatalog, regions: undefined}), 'Assassin catalog metadata changed outside the append-only region list');
+  requireValue(isDeepStrictEqual(catalog.regions.slice(0, baselineCatalog.regions.length), baselineCatalog.regions), 'Assassin catalog no longer preserves every old region and metadata byte-for-byte');
+  requireValue(catalog.regions.length === baselineCatalog.regions.length + ASSASSIN_XP_COUNT, 'Assassin catalog must append exactly the reviewed XP regions');
+  requireValue(record.catalogSha256 === baseline.catalogSha256, 'Historical Assassin audit must stay bound to its original catalog hash');
+  requireValue(record.regions.length === baselineCatalog.regions.length && isDeepStrictEqual(record.regions.map(region => region.regionId), baseline.regionIds), 'Historical Assassin audit must retain its exact original region scope');
+
+  const references = transfer.sourceEvidence;
+  requireValue(isDeepStrictEqual(references, {
+    authorProposal: {path: ASSASSIN_XP_AUTHOR_PROPOSAL_PATH, sha256: ASSASSIN_XP_AUTHOR_PROPOSAL_SHA256},
+    independentReview: {path: ASSASSIN_XP_INDEPENDENT_REVIEW_PATH, sha256: ASSASSIN_XP_INDEPENDENT_REVIEW_SHA256},
+    peerPointerJoin: {path: ASSASSIN_XP_PEER_JOIN_PATH, sha256: ASSASSIN_XP_PEER_JOIN_SHA256},
+    normalizedTargetReview: {path: ASSASSIN_XP_TARGET_REVIEW_PATH, sha256: ASSASSIN_XP_TARGET_REVIEW_SHA256},
+  }), 'Assassin XP source review references changed');
+  const authorProposal = readPinnedJson(repositoryRoot, references.authorProposal, 'Assassin XP author proposal');
+  const independentReview = readPinnedJson(repositoryRoot, references.independentReview, 'Assassin XP independent review');
+  const peerJoin = readPinnedJson(repositoryRoot, references.peerPointerJoin, 'Assassin XP peer-pointer join');
+  const targetReview = readPinnedJson(repositoryRoot, references.normalizedTargetReview, 'Assassin XP normalized target review');
+  requireValue(authorProposal.artifactType === 'batch6-phb-five-class-xp74-source-target-proposal' && independentReview.artifactType === 'independent-private-PHB74-XP-source-identity-focus-and-conditional-context-review', 'Assassin XP source review types changed');
+  requireValue(independentReview.reviewer && independentReview.reviewer !== authorProposal.author && independentReview.result.includes('All74 printed row identities'), 'Assassin XP independent-review identity or denominator changed');
+  requireValue(independentReview.sourcePdf?.sha256 === baselineCatalog.sources?.PHB?.sha256 && peerJoin.sourceReviewSha256 === references.independentReview.sha256, 'Assassin XP review source identity changed');
+  requireValue(peerJoin.artifactType === 'transparent-XP-independent-peer-pointer-normalization-join' && Array.isArray(peerJoin.records) && peerJoin.records.length === ASSASSIN_XP_COUNT, 'Assassin XP peer-pointer join denominator changed');
+  requireValue(targetReview.schemaVersion === 1 && targetReview.artifactType === 'class-xp-row-target-review' && Array.isArray(targetReview.reviewedTargets) && targetReview.reviewedTargets.length === ASSASSIN_XP_COUNT, 'Assassin XP target-review denominator changed');
+  requireValue(Array.isArray(transfer.appendedTargets) && transfer.appendedTargets.length === ASSASSIN_XP_COUNT, 'Assassin XP transfer target denominator changed');
+
+  const actualAppendedIds = catalog.regions.slice(baselineCatalog.regions.length).map(region => region.id);
+  const receiptIds = transfer.appendedTargets.map(target => target.regionId);
+  requireValue(new Set(actualAppendedIds).size === ASSASSIN_XP_COUNT && isDeepStrictEqual(actualAppendedIds, receiptIds), 'Assassin catalog appended region order or identity changed');
+  const oldContextIds = new Set(baselineCatalog.regions.map(region => region.id));
+  for (const [index, receiptTarget] of transfer.appendedTargets.entries()) {
+    const level = index + 1;
+    const proposalIndex = 42 + index;
+    const independentPointer = `/rowVerdicts/${proposalIndex}`;
+    const proposalPointer = `/rows/${proposalIndex}`;
+    const peerPointer = `/records/${index}`;
+    const authorRow = pointerValue(authorProposal, proposalPointer);
+    const peerVerdict = pointerValue(independentReview, independentPointer);
+    const peerRecord = pointerValue(peerJoin, peerPointer);
+    const reviewedTarget = targetReview.reviewedTargets[index];
+    const region = catalog.regions[baselineCatalog.regions.length + index];
+    const candidateRegion = authorRow?.candidateRegion;
+    const expectedIdentity = {
+      kind: 'class-xp-row', collection: 'classes', itemId: 'assassin',
+      fieldPointer: `/xpRows/${index}`, sourceObjectPointer: `/xpRows/${index}`,
+      value: authorRow?.currentIdentityTuple,
+    };
+    requireValue(receiptTarget.level === level && receiptTarget.fieldPointer === expectedIdentity.fieldPointer && receiptTarget.sourceObjectPointer === expectedIdentity.sourceObjectPointer, `Assassin XP transfer row ${level} pointer changed`);
+    requireValue(isDeepStrictEqual(receiptTarget.value, expectedIdentity.value) && isDeepStrictEqual(reviewedTarget?.expectedTargetIdentity, expectedIdentity), `Assassin XP transfer row ${level} current identity changed`);
+    requireValue(authorRow?.collection === 'classes' && authorRow.itemId === 'assassin' && authorRow.fieldPointer === expectedIdentity.fieldPointer && authorRow.sourceObjectPointer === expectedIdentity.sourceObjectPointer && authorRow.sourceCategory === 'class-xp-row', `Assassin XP author row ${level} source identity changed`);
+    requireValue(authorRow?.physicalSourceRowId === receiptTarget.sourceRowId && candidateRegion?.id === receiptTarget.regionId, `Assassin XP author row ${level} source region changed`);
+    requireValue(peerVerdict?.proposalPointer === proposalPointer && peerVerdict.itemId === 'assassin' && peerVerdict.level === level && peerVerdict.currentIdentity && isDeepStrictEqual(peerVerdict.currentIdentity, expectedIdentity.value), `Assassin XP independent row ${level} source identity changed`);
+    requireValue(peerVerdict.independent === true && peerVerdict.geometryVerdict === 'approved-exact-XP-and-level-cell-focus' && peerVerdict.sourceIdentityVerdict === 'approved-exact-printed-row-and-current-tuple' && peerVerdict.contextVerdict === 'complete-single-table-context-approved' && peerVerdict.numericMechanicsGradePromoted === false, `Assassin XP independent row ${level} review scope changed`);
+    requireValue(peerRecord?.collection === 'classes' && peerRecord.itemId === 'assassin' && peerRecord.fieldPointer === expectedIdentity.fieldPointer && peerRecord.sourceObjectPointer === expectedIdentity.sourceObjectPointer, `Assassin XP peer join row ${level} identity changed`);
+    requireValue(peerRecord.originalAuthorRecord?.path === references.authorProposal.path && peerRecord.originalAuthorRecord.sha256 === references.authorProposal.sha256 && peerRecord.originalAuthorRecord.pointer === proposalPointer, `Assassin XP peer join row ${level} author pointer changed`);
+    requireValue(peerRecord.originalIndependentRecord?.path === references.independentReview.path && peerRecord.originalIndependentRecord.sha256 === references.independentReview.sha256 && peerRecord.originalIndependentRecord.pointer === independentPointer, `Assassin XP peer join row ${level} independent pointer changed`);
+    requireValue(peerRecord.originalPeerVerdict?.independent === true && peerRecord.originalPeerVerdict.numericMechanicsGradePromoted === false && isDeepStrictEqual(peerRecord.originalPeerVerdict.currentIdentity, expectedIdentity.value), `Assassin XP peer join row ${level} verdict changed`);
+    const orderedContextIds = authorRow?.requiredTableContext?.orderedExistingContextRegionIds;
+    requireValue(Array.isArray(orderedContextIds) && orderedContextIds.length > 0 && orderedContextIds.every(id => oldContextIds.has(id)) && isDeepStrictEqual(orderedContextIds, peerVerdict.requiredOrderedContextRegionIds) && isDeepStrictEqual(orderedContextIds, receiptTarget.requiredOrderedContextRegionIds), `Assassin XP row ${level} context partner is not an unchanged historical region`);
+    requireValue(reviewedTarget?.status === 'confirmed' && reviewedTarget.independent === true && reviewedTarget.sourceValueGrade === 'NOT PROMOTED', `Assassin XP row ${level} value grade or review status changed`);
+    requireValue(isDeepStrictEqual(reviewedTarget.sourceEvidence, [
+      {path: references.authorProposal.path, sha256: references.authorProposal.sha256, pointer: proposalPointer},
+      {path: references.peerPointerJoin.path, sha256: references.peerPointerJoin.sha256, pointer: peerPointer},
+    ]), `Assassin XP row ${level} target-review source pointers changed`);
+    requireValue(reviewedTarget.regionEvidence?.length === 1 && reviewedTarget.regionEvidence[0].regionId === region.id, `Assassin XP row ${level} target-review region changed`);
+    const sourceHashes = sourceVisualRegionHashes(region);
+    requireValue(isDeepStrictEqual(reviewedTarget.regionEvidence[0], {regionId: region.id, sourceSha256: independentReview.sourcePdf.sha256, imageSha256: region.sha256, ...sourceHashes}), `Assassin XP row ${level} source/image/focus/content proof changed`);
+    const expectedRegion = structuredClone(candidateRegion);
+    expectedRegion.verification = 'visually-checked-crop';
+    requireValue(isDeepStrictEqual(region, expectedRegion), `Assassin XP row ${level} catalog region differs from its exact author proposal`);
+    requireValue(region.id === receiptTarget.regionId && region.book === 'PHB' && region.printedPage === 30 && region.pdfPage === 31 && region.sha256 === receiptTarget.imageSha256 && isDeepStrictEqual(region.focusRects, receiptTarget.focusRects), `Assassin XP row ${level} appended image/focus binding changed`);
+    const imagePath = safePath(resolve(catalogRoot, dirname(record.catalog)), region.image, `Assassin XP image ${level}`);
+    requireValue(sha256(readFileSync(imagePath)) === region.sha256, `Assassin XP image bytes changed for row ${level}`);
+  }
+  return {baselineRegions: baselineCatalog.regions.length, currentCatalogRegions: catalog.regions.length, appendedXpTargets: ASSASSIN_XP_COUNT};
 }
 
 function sourcePages(item) {
@@ -245,7 +389,9 @@ export function validateAssassinContextAudit(audit, {data, catalogRoot}) {
   requireValue(item?.sourceExcerpts?.catalog === record.catalog, 'Assassin context record is rebound to another catalog');
   const catalog = readJson(catalogRoot, record.catalog, 'Assassin context catalog');
   requireValue(catalog.itemId === record.itemId && catalog.collection === record.collection, 'Assassin context catalog owner changed');
-  requireValue(record.catalogSha256 === sha256(readFileSync(safePath(catalogRoot, record.catalog, 'Assassin context catalog'))), 'Assassin catalog bytes changed since this audit');
+  requireValue(Array.isArray(record.regions), 'Assassin context audit region list is missing');
+  const catalogBytes = readFileSync(safePath(catalogRoot, record.catalog, 'Assassin context catalog'));
+  const appendTransfer = validateAssassinXpAppendTransfer(record, catalog, catalogBytes, catalogRoot);
   const hasIndependentFocusReview = record.regions.some(entry => entry.independentFocusReview);
   let independentClassProof = null;
   if (hasIndependentFocusReview) {
@@ -257,7 +403,7 @@ export function validateAssassinContextAudit(audit, {data, catalogRoot}) {
     independentClassProof = JSON.parse(proofBytes);
     requireValue(independentClassProof?.source?.sha256 === catalog.sources?.PHB?.sha256, 'Assassin independent class review source identity changed');
   }
-  requireValue(Array.isArray(record.regions) && record.regions.length === catalog.regions.length, 'Assassin audit must enumerate every current region');
+  requireValue(record.regions.length === appendTransfer.baselineRegions, 'Historical Assassin audit must enumerate every original region');
   const currentIds = new Set(catalog.regions.map(region => region.id));
   const auditedIds = new Set();
   let priorContextConfirmed = 0, sourceComparedPendingIndependent = 0, repairedPendingIndependent = 0, contextAdequateFocusPending = 0, repairContextAdequateFocusPending = 0, independentlyReviewedContextAndFocus = 0, followupPendingCalibration = 0, followupPendingContinuation = 0, priorCropConfirmed = 0;
@@ -344,8 +490,8 @@ export function validateAssassinContextAudit(audit, {data, catalogRoot}) {
     } else throw new Error(`Assassin region ${entry.regionId} has an unsupported context status`);
     if (entry.priorCropReview === 'confirmed') priorCropConfirmed++;
   }
-  requireValue(auditedIds.size === currentIds.size && [...currentIds].every(id => auditedIds.has(id)), 'Assassin context audit does not cover the exact current region set');
-  requireValue(record.summary?.regions === catalog.regions.length && record.summary?.sourceCompared === catalog.regions.length && record.summary?.priorContextConfirmed === priorContextConfirmed && record.summary?.sourceComparedPendingIndependent === sourceComparedPendingIndependent && record.summary?.repairedPendingIndependent === repairedPendingIndependent && record.summary?.contextAdequateFocusPending === contextAdequateFocusPending && record.summary?.repairContextAdequateFocusPending === repairContextAdequateFocusPending && record.summary?.independentlyReviewedContextAndFocus === independentlyReviewedContextAndFocus && record.summary?.followupPendingCalibration === followupPendingCalibration && record.summary?.followupPendingContinuation === followupPendingContinuation && record.summary?.priorCropConfirmed === priorCropConfirmed, 'Assassin context summary does not match its bindings');
+  requireValue(auditedIds.size === record.regions.length && [...auditedIds].every(id => currentIds.has(id)), 'Assassin context audit does not cover its exact historical region set');
+  requireValue(record.summary?.regions === record.regions.length && record.summary?.sourceCompared === record.regions.length && record.summary?.priorContextConfirmed === priorContextConfirmed && record.summary?.sourceComparedPendingIndependent === sourceComparedPendingIndependent && record.summary?.repairedPendingIndependent === repairedPendingIndependent && record.summary?.contextAdequateFocusPending === contextAdequateFocusPending && record.summary?.repairContextAdequateFocusPending === repairContextAdequateFocusPending && record.summary?.independentlyReviewedContextAndFocus === independentlyReviewedContextAndFocus && record.summary?.followupPendingCalibration === followupPendingCalibration && record.summary?.followupPendingContinuation === followupPendingContinuation && record.summary?.priorCropConfirmed === priorCropConfirmed, 'Assassin context summary does not match its bindings');
   const findingIds = new Set();
   for (const finding of record.coverageFindings || []) {
     requireValue(typeof finding.id === 'string' && finding.id && !findingIds.has(finding.id), 'Assassin coverage finding id is missing or duplicated');
@@ -358,5 +504,5 @@ export function validateAssassinContextAudit(audit, {data, catalogRoot}) {
   }
   requireValue(record.summary?.priceEvidence === record.regions.filter(entry => entry.priceEvidence).length, 'Assassin price-evidence count does not match its regions');
   requireValue(record.sourceAccess?.status === 'verified' && record.sourceAccess?.sourceHashes?.PHB === catalog.sources?.PHB?.sha256 && record.sourceAccess?.sourceHashes?.DMG === catalog.sources?.DMG?.sha256, 'Assassin audit must bind verified source identities');
-  return {regions: catalog.regions.length, sourceCompared: record.regions.filter(entry => entry.sourceComparison.status === 'compared-to-original-page').length, priorContextConfirmed, sourceComparedPendingIndependent, repairedPendingIndependent, contextAdequateFocusPending, repairContextAdequateFocusPending, independentlyReviewedContextAndFocus, followupPendingCalibration, followupPendingContinuation, priorCropConfirmed, priceRegions: record.regions.filter(entry => entry.priceEvidence).length};
+  return {regions: record.regions.length, sourceCompared: record.regions.filter(entry => entry.sourceComparison.status === 'compared-to-original-page').length, priorContextConfirmed, sourceComparedPendingIndependent, repairedPendingIndependent, contextAdequateFocusPending, repairContextAdequateFocusPending, independentlyReviewedContextAndFocus, followupPendingCalibration, followupPendingContinuation, priorCropConfirmed, priceRegions: record.regions.filter(entry => entry.priceEvidence).length, currentCatalogRegions: appendTransfer.currentCatalogRegions, appendedXpTargets: appendTransfer.appendedXpTargets};
 }
