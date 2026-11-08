@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "id": "batch6-dmg175-raster-mapper-reconstruction-v1",
+  "scope": "Bounded regression evidence for carrying printedPage through the live raster usage mapper for two supplemental DMG p.175 crop regions.",
+  "captureMode": "retrospective-reconstruction",
+  "actualPreFixCapture": false,
+  "reconstructedFromCurrentSource": true,
+  "originalRetainedFixture": {
+    "path": "tests/fixtures/source-raster-dmg175-live-mapper-before.json.gz",
+    "sha256": "130e8413219bd689cbd4734783ca9d7433496e473af7e99e6f1b1f73d6eec0ff",
+    "retainedUnchanged": true
+  },
+  "reconstructionFixture": {
+    "path": "tests/fixtures/source-raster-dmg175-live-mapper-reconstruction-v1.json.gz",
+    "sha256": "5f253065ab442a67ca1d0d7467226b30685c9bc6a6d2f7840a495d90c2186f98",
+    "uncompressedSha256": "33cf909c6d273d27bd85ca0972c0873b51b58b736b39eb89bc2d624b140c76c8",
+    "helperPath": "tools/source-raster-coverage.mjs",
+    "helperSha256": "520826b2f1a6444da760c8fa54477d45511141941961b5b2b757686727b9ceeb",
+    "scope": "The then-current mapper source was reconstructed by removing only its printedPage assignment; it is not evidence that this exact file was captured before the implementation fix."
+  },
+  "currentHelper": {
+    "path": "tools/source-raster-coverage.mjs",
+    "sha256": "d502abe849e15264945c45725814b9428f4149d0318f9aa21e146e739a9ad50b"
+  },
+  "test": {
+    "path": "tests/source-raster-coverage.test.mjs",
+    "name": "the reconstructed pre-fix mapper omits page 175; the current live mapper carries both typed supplemental crops"
+  },
+  "reconstructedBefore": {
+    "liveUsageCount": 3132,
+    "actualSupplementalRows": [
+      {
+        "catalog": "scans/verified/rules-encounter-types.json",
+        "regionId": "dmg-175-party-table-context-78c4c383c38c7d10",
+        "book": "DMG",
+        "printedPage": null,
+        "pdfPage": null,
+        "sourceArtifactId": "dmg175-user-confirmed-supplement",
+        "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      {
+        "catalog": "scans/verified/rules-encounter-types.json",
+        "regionId": "dmg-175-level-others-context-5aa02e91e35c4c28",
+        "book": "DMG",
+        "printedPage": null,
+        "pdfPage": null,
+        "sourceArtifactId": "dmg175-user-confirmed-supplement",
+        "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      }
+    ],
+    "mapperOmittedPrintedPage": true,
+    "observedErrors": [
+      "Not-assessable usages must be exactly the live typed DMG p.175 supplemental-image rows with the approved unassessed reason.",
+      "A supplemental raster usage has an invalid typed source identity."
+    ]
+  },
+  "currentCollector": {},
+  "validatedTests": {
+    "actualLiveMapper": true,
+    "syntheticSupplementAppendsToExistingTwo": true,
+    "allKnownPDFRegionSchemaParity": "covered by tests/scan-catalog.test.mjs; 3,127 valid PDF regions, 9,381 alias/string-page mutations rejected; exact root calibration is separately preserved"
+  },
+  "outstanding": {
+    "activeRasterSnapshotRefresh": "pending final source/data integration after XP merge; current test intentionally fails against the stale active pointer/data/catalog hashes and must be rerun after refreshing that snapshot",
+    "privatePdfOrFullPageGeneration": "not performed"
+  }
+}

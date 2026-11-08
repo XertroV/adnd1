@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {projectDmg175Json} from './batch6-dmg175-source-history.mjs';
 import {readFileSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
@@ -39,6 +40,7 @@ export function withoutBatch6XpSourceMetadata(data){
  const selected=refs.map(ref=>{const values=ref.collection==='progressionExplainer'?[data.progressionExplainer]:data[ref.collection];const matches=values.filter(item=>item?.id===ref.itemId);assert.equal(matches.length,1);return matches[0];});
  const alreadyReleased=selected.every((item,index)=>hash(item)===refs[index].releasedSha256);
  if(alreadyReleased){assert.deepEqual(data.release,xpA65HistoryProjection.releaseMetadata.released,'only the exact released Jo stage is an already-projected input');return data;}
+ data=projectDmg175Json('dist/data.json',data);
  assert.deepEqual(data.release,xpA65HistoryProjection.releaseMetadata.merged,'only exact merged XP release metadata may be reversed');
  const copy={...data,release:structuredClone(xpA65HistoryProjection.releaseMetadata.released)};
  for(const collection of new Set(refs.map(ref=>ref.collection))){
@@ -92,7 +94,8 @@ export function withoutBatch6JoManifest(manifest){
 
 export function readBeforeJoBytes(path){
  const normalized=String(path).replace(/^\.\//,'');
- const current=readFileSync(new URL(normalized,root));
+ let current=readFileSync(new URL(normalized,root));
+ if(['dist/data.json','citation-overrides.json','dist/scans/verified/rules-encounter-types.json'].includes(normalized))current=Buffer.from(JSON.stringify(projectDmg175Json(normalized,JSON.parse(current)),null,2)+'\n');
  if(normalized==='dist/scans/verified/equipment-ua-caltrop.json'){
   assert.equal(sha(current),joIntegration.currentCaltrop.catalog.sha256,'exact current Caltrop catalogue before history reversal');return gunzipSync(readFileSync(new URL(joIntegration.beforeCaltropCatalog.path,root)));
  }
@@ -119,7 +122,7 @@ export function readBeforeJoFile(path,options){
  if(typeof path==='number')return readFileSync(path,options);
  const absolute=path instanceof URL?fileURLToPath(path):resolve(String(path));
  const local=relative(fileURLToPath(root),absolute).replaceAll('\\','/');
- const scoped=['equipment.json','dist/data.json','citation-overrides.json','research/citation-continuations.json','research/source-table-citation-contracts.json','dist/scans/verified/equipment-ua-caltrop.json'];
+ const scoped=['equipment.json','dist/data.json','citation-overrides.json','research/citation-continuations.json','research/source-table-citation-contracts.json','dist/scans/verified/equipment-ua-caltrop.json','dist/scans/verified/rules-encounter-types.json'];
  if(!scoped.includes(local))return readFileSync(path,options);
  const bytes=readBeforeJoBytes(local),encoding=typeof options==='string'?options:options?.encoding;return encoding?bytes.toString(encoding):bytes;
 }

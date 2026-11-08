@@ -554,7 +554,7 @@ test('manual target review requires a persisted evidence-file digest and current
   const catalogPath='scans/verified/classes-fighter.json';
   const data={rules:[],spells:[],classes:[{id:'fighter',name:'Fighter',xpRows:[classRow],sourceExcerpts:{catalog:catalogPath}}],equipment:[],matrices:[]};
   const region={id:'fighter-xp-row',book:'PHB',printedPage:22,pdfPage:23,sha256:'b'.repeat(64),focusRects:[[0.1,0.2,0.3,0.1]],normalizedPageRect:{x:0.1,y:0.2,width:0.3,height:0.1},verificationScope:'source-excerpt',role:'row',sourceTableId:'fighter-xp-test-table',sourceRowId:'fighter-xp-test-row-01'};
-  const catalog={sources:{PHB:{sha256:'a'.repeat(64)}},regions:[region]};
+  const catalog={sources:{PHB:{sha256:'a'.repeat(64),hashStatus:'computed-local'}},regions:[region]};
   const catalogs=new Map([[catalogPath,catalog]]);
   const hashes=sourceVisualRegionHashes(region);
   const evidenceFile=classXpProofTempFiles[0],sourceEvidenceFile=classXpProofTempFiles[1],peerEvidenceFile=classXpProofTempFiles[2];
@@ -585,7 +585,7 @@ test('manual target review requires a persisted evidence-file digest and current
 test('independent printed-price value review is hash-bound to an exact amount currency and unit snapshot',()=>{
   const catalogPath='scans/verified/equipment-price-review-fixture.json';
   const region={id:'price-row',book:'PHB',printedPage:35,pdfPage:36,sha256:'b'.repeat(64),focusRects:[[0.1,0.2,0.4,0.1]],normalizedPageRect:{x:0.1,y:0.2,width:0.4,height:0.1}};
-  const catalog={sources:{PHB:{sha256:'a'.repeat(64)}},regions:[region]};
+  const catalog={sources:{PHB:{sha256:'a'.repeat(64),hashStatus:'computed-local'}},regions:[region]};
   const catalogs=new Map([[catalogPath,catalog]]);
   const item={id:'reviewed-price-fixture',name:'Reviewed price fixture',book:'PHB',pages:[35],sourceExcerpts:{catalog:catalogPath},
     price:{amount:10,currency:'gp',book:'PHB',pages:[35],verification:{regions:[region.id]}}};
@@ -618,7 +618,7 @@ test('independent printed-price value review is hash-bound to an exact amount cu
 test('whole-image highlight exceptions are exposed only after exact independent hashes and retain explicit scope',()=>{
   const wholeSpell={id:'whole-spell',book:'PHB',printedPage:45,pdfPage:46,sha256:'b'.repeat(64),focusRects:[[0,0,1,1]],verificationScope:'source-excerpt'};
   const confirmedSentinel={id:'confirmed-sentinel',book:'PHB',printedPage:46,pdfPage:47,sha256:'d'.repeat(64),focusRects:[[0,0,1,1]],verificationScope:'source-excerpt'};
-  const catalog={sources:{PHB:{sha256:'a'.repeat(64)}},regions:[wholeSpell,confirmedSentinel]};
+  const catalog={sources:{PHB:{sha256:'a'.repeat(64),hashStatus:'computed-local'}},regions:[wholeSpell,confirmedSentinel]};
   const saved=(region,status,extra={})=>({collection:'spells',itemId:'example',binding:'sourceExcerpts',regionId:region.id,sourceSha256:catalog.sources.PHB.sha256,imageSha256:region.sha256,...sourceVisualRegionHashes(region),assessments:{highlight:{status,independent:true,evidence:'independent fixture review',...extra}}});
   const data={spells:[{id:'example',sourceExcerpts:{catalog:'scans/verified/example.json'}}],rules:[],classes:[],equipment:[],matrices:[]};
   attachSourceVisualReviewMetadata(data,{catalogs:new Map([['scans/verified/example.json',catalog]]),ledger:{reviews:[saved(wholeSpell,'exception',{scope:'whole-spell'}),saved(confirmedSentinel,'confirmed',{scope:'whole-spell'})]}});

@@ -1,0 +1,93 @@
+{
+  "artifactType": "dmg175-history-and-native-test-author-final-freeze",
+  "agentResumedAt": "2026-11-08T11:56:53Z",
+  "repository": "/workspace/adnd1-dmg175-supplement",
+  "baseline": {
+    "path": "research/source-audit-batch6-dmg175-full-node-first-failure-v1.json",
+    "sha256": "2d4e1f0004e87170c1d4c7e47cf37731d317ea64afd038942842cef4ff3ff6d7",
+    "tests": 774,
+    "passed": 749,
+    "failed": 25
+  },
+  "files": [
+    {
+      "path": "tests/helpers/batch6-dmg175-source-history.mjs",
+      "sha256": "d8485809eb27d9debdfa686e403d82d2a9947d4eb1863348548321319df50517"
+    },
+    {
+      "path": "tests/fixtures/dmg175-853-history-projection-contract-v1.json.gz",
+      "sha256": "31f3410033b3a2a362cf51e556be55d7d8d6bf7bea66fd47c2b0c5561e6b9d42"
+    },
+    {
+      "path": "tests/helpers/batch6-jo-fixture.mjs",
+      "sha256": "a0af90382b1618f2bd9671f7884418a8cd4ee6d0ded6bc6c96e8725731aea7f9"
+    },
+    {
+      "path": "tests/jo-stick-source-mapping.test.mjs",
+      "sha256": "1d4c38fca32b5eb4c58c91bdcf92faf1e7e8f771b46ffd956bc9ead34a6718d1"
+    },
+    {
+      "path": "tests/dmg-context-three-chains.test.mjs",
+      "sha256": "e7c151c7f3d04edc577be9664a21c725fa72e9dc85488e5106d0ce3cae6b083c"
+    },
+    {
+      "path": "tests/source-price-token-inventory.test.mjs",
+      "sha256": "aa121256dac25b4f84f3b55fe996c9e21141abb6224a83119399ce67c984c25d"
+    },
+    {
+      "path": "tests/dmg175-source-history.test.mjs",
+      "sha256": "76b26cee66cd83c81afdbf4ff5651ad2766cac9e0092787022efd7c4493f3f03"
+    },
+    {
+      "path": "tests/fixtures/dmg175-jo-viewer-bytepin-first-targeted-failure.log.gz",
+      "sha256": "cf967d23a20f1616fccef76e876f0346eaa8af35174916d2f3b642b62432be04"
+    }
+  ],
+  "validation": {
+    "command": "node --test tests/jo-stick-source-mapping.test.mjs tests/dmg-context-three-chains.test.mjs tests/source-price-token-inventory.test.mjs tests/dmg175-source-history.test.mjs tests/batch2-independent.test.mjs tests/continuation-alias-audit.test.mjs tests/continuation-final-bundle.test.mjs tests/dagger-independent.test.mjs tests/equipment-matrices.test.mjs tests/equipment-mechanics-corrections.test.mjs tests/equipment-offers-batch5.test.mjs tests/equipment-source-first-batch1.test.mjs tests/remaining-batches.test.mjs",
+    "passed": 72,
+    "failed": 0,
+    "exitCode": 0,
+    "log": {
+      "path": "/tmp/dmg175-history-targeted-final.log",
+      "sha256": "668a3362a2a64016eefec1b12d0757f6287cca85153670e91759c5618272c989"
+    },
+    "calibrationControls": 44,
+    "printedPageMappingCases": 783,
+    "diffCheck": true,
+    "newTextWhitespaceCheck": true
+  },
+  "targetedFirstFailure": {
+    "passed": 69,
+    "failed": 1,
+    "reason": "existing Jo fixture expected pre175 viewer bytes2bcd, actual approved175viewer7d",
+    "fixture": "tests/fixtures/dmg175-jo-viewer-bytepin-first-targeted-failure.log.gz",
+    "sha256": "cf967d23a20f1616fccef76e876f0346eaa8af35174916d2f3b642b62432be04"
+  },
+  "preservedCurrentAssertions": {
+    "ownerRecords": 997,
+    "unchangedOwners": 996,
+    "bindingRows": 4566,
+    "bindingsUnchangedFrom853": 4565,
+    "fieldTargetReviewed": 717,
+    "currentGroups": 250,
+    "currentMemberRuntimeSelections": 490,
+    "sourceValueGradePromotion": false
+  },
+  "currentAndUnchangedDependencyPins": {
+    "dist/data.json": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d",
+    "dist/books.js": "6284977531e38b3184a15939bb8a68e31b37d1dad61c91392bb57d443045d98d",
+    "dist/source-viewer.js": "7d818caf5869c3c0f69538fc7a3b3efbd7e649306aa777532a84094e208cc71e",
+    "dist/scans/verified/rules-encounter-types.json": "906ce41c1cb2c6691048231a2123977b7b27421487e7a0bca6f8ae0aa25c86dd",
+    "citation-overrides.json": "84060c39136bf97a284f43aa4a4493874f6ee3a8adf12e09f2027a7195873e42",
+    "research/price-source-inventory.json": "8470a58eeec75d6efa6ff67aa217e8bc61a48b3ae5ebb5189dec462405524d02",
+    "tests/helpers/batch6-xp-source-history.mjs": "a9dd42e739b4a4d28b23c206b1572a14ac00c394a55309b8fb13298b1ecb56ba",
+    "research/source-audit-batch6-jo-integration-v4.json": "bd9de08fa5ef7e3a7dfc6019dc33f5cca912ac2f69e22950dcd6eef1b7148faa",
+    "research/source-audit-batch6-xp-a65-history-projection-contract.json.gz": "15fc0a2b012fefed1f7ea04cc01df979f468f856544cb40d454baf1315145acc"
+  },
+  "limits": [
+    "No production/source/pointer/seal/XPhelper/JoV4/15fc edits.",
+    "Only the assigned8 test/helper/newfixture files are frozen here.",
+    "No full-suite, CI, merge, publication or browser execution claim; root/PD own remaining release checks."
+  ]
+}

@@ -36,10 +36,79 @@ TERMINAL = re.compile(r"[.!?][\"'’”)]?\s*$")
 LOWER_START = re.compile(r"^[a-z]")
 PAGE_NUMBER = re.compile(r"^\s*\d{1,4}\s*$")
 GEOMETRY_TOLERANCE_PT = 0.5
+DMG175_SUPPLEMENT_ARTIFACT_ID = "dmg175-user-confirmed-supplement"
+DMG175_SUPPLEMENT_SHA256 = "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7"
+DMG175_CANONICAL_PDF_SHA256 = "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+DMG175_SUPPLEMENT_CROPS = {
+    "dmg-175-party-table-context-78c4c383c38c7d10": ([0, 1145, 635, 1635], "78c4c383c38c7d100a9e66bec4f36de1fdb9453d6e44d1eec53120e849a36e89"),
+    "dmg-175-level-others-context-5aa02e91e35c4c28": ([670, 120, 1329, 492], "5aa02e91e35c4c28152caccd947096943b74889b8596376cb86cb0c7170291b8"),
+}
 
 
 def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
+
+def supplemental_region_identity(catalog: dict[str, Any], region: dict[str, Any]) -> dict[str, Any] | None:
+    """Return a bounded image-source identity for a separately supplied page crop.
+
+    This keeps an image-backed excerpt distinct from a PDF page. The current
+    CCD tool does not assess raster geometry for such a region; the Node
+    validator independently resolves the closed source-artifact contract.
+    """
+    if "sourceArtifactId" not in region:
+        return None
+    artifact_id = region.get("sourceArtifactId")
+    artifact = catalog.get("sourceArtifacts", {}).get(artifact_id) if isinstance(artifact_id, str) else None
+    book = region.get("book")
+    canonical_pdf = catalog.get("sources", {}).get(book, {}).get("sha256")
+    source_sha = artifact.get("sha256") if isinstance(artifact, dict) else None
+    dimensions = artifact.get("dimensionsPx") if isinstance(artifact, dict) else None
+    crop = region.get("sourceCropBoundsPx")
+    coordinate_space = region.get("sourceCoordinateSpace")
+    valid_dimensions = isinstance(dimensions, list) and len(dimensions) == 2 and all(type(value) is int and value > 0 for value in dimensions)
+    valid_crop = isinstance(crop, list) and len(crop) == 4 and all(type(value) is int for value in crop)
+    if valid_dimensions and valid_crop:
+        left, top, right, bottom = crop
+        valid_crop = 0 <= left < right <= dimensions[0] and 0 <= top < bottom <= dimensions[1]
+        valid_crop = valid_crop and right - left == region.get("width") and bottom - top == region.get("height")
+    expected_crop = DMG175_SUPPLEMENT_CROPS.get(region.get("id"))
+    valid = bool(
+        artifact_id == DMG175_SUPPLEMENT_ARTIFACT_ID
+        and
+        isinstance(artifact, dict)
+        and artifact.get("id") == artifact_id
+        and artifact.get("type") == "supplemental-page-image"
+        and artifact.get("mediaType") == "image/jpeg"
+        and artifact.get("book") == book
+        and book == "DMG"
+        and region.get("printedPage") == 175
+        and artifact.get("printedPage") == 175
+        and region.get("pdfPage") is None
+        and source_sha == DMG175_SUPPLEMENT_SHA256
+        and canonical_pdf == DMG175_CANONICAL_PDF_SHA256
+        and artifact.get("canonicalPdfSha256") == canonical_pdf
+        and artifact.get("originalPdfContainsPrintedPage") is False
+        and artifact.get("editionStatus") == "user-confirmed-correct-edition"
+        and artifact.get("printingStatus") == "not-specified"
+        and dimensions == [1329, 1796]
+        and valid_dimensions
+        and valid_crop
+        and expected_crop is not None
+        and crop == expected_crop[0]
+        and region.get("sha256") == expected_crop[1]
+        and coordinate_space == "supplement-image pixels; top-left origin; LTRB half-open"
+    )
+    return {
+        "valid": valid,
+        "sourceKind": "supplemental-image" if valid else "invalid-source-identity",
+        "sourceArtifactId": artifact_id,
+        "sourceSha256": source_sha if valid else None,
+        "canonicalPdfSha256": canonical_pdf if isinstance(canonical_pdf, str) and re.fullmatch(r"[a-f0-9]{64}", canonical_pdf) else None,
+        "sourceDimensionsPx": dimensions if valid_dimensions else None,
+        "sourceCropBoundsPx": crop if valid_crop else None,
+        "sourceCoordinateSpace": coordinate_space if isinstance(coordinate_space, str) else None,
+    }
 
 
 def json_bytes(path: Path) -> bytes:
@@ -446,7 +515,12 @@ def linked_crop_flow_candidates(data_root: Path, catalog_entries: list[dict[str,
     by_page: dict[tuple[str, int], list[dict[str, Any]]] = defaultdict(list)
     for entry in catalog_entries:
         region = entry["region"]
-        by_page[(region.get("book"), region.get("pdfPage"))].append(entry)
+        pdf_page = region.get("pdfPage")
+        # This detector compares PDF text-layer geometry only. Image-backed
+        # excerpts remain in regionAssessments but have no PDF page frame.
+        if type(pdf_page) is not int or pdf_page < 1:
+            continue
+        by_page[(region.get("book"), pdf_page)].append(entry)
     output = []
     for (book, pdf_page), entries in sorted(by_page.items()):
         page = page_cache.get((book, pdf_page))
@@ -595,13 +669,20 @@ def text_inventory(data_root: Path, source_dir: Path, catalog_entries: list[dict
     for entry in catalog_entries:
         region, catalog = entry["region"], entry["catalog"]
         book, pdf_page = region.get("book"), region.get("pdfPage")
+        supplemental_identity = supplemental_region_identity(catalog, region)
         owner = {"collection": catalog.get("collection"), "itemId": catalog.get("itemId"), "catalog": entry["catalogPath"]}
         page = page_cache.get((book, pdf_page), {"available": False, "textLayer": "not-assessable", "wordCount": 0, "lines": [], "pageWidthPt": None, "pageHeightPt": None, "flowSignals": []})
         rect = rect_xywh(region.get("normalizedPageRect"))
         status = "assessed"
         geometry = None
         signal_names: list[str] = []
-        if not page["available"]:
+        if supplemental_identity is not None and supplemental_identity["valid"]:
+            status = "not-assessable-supplemental-image-format"
+            not_assessable[status] += 1
+        elif supplemental_identity is not None:
+            status = "invalid-source-identity"
+            not_assessable[status] += 1
+        elif not page["available"]:
             status = "source-page-unavailable"
             not_assessable[status] += 1
         elif page["textLayer"] != "present":
@@ -644,13 +725,22 @@ def text_inventory(data_root: Path, source_dir: Path, catalog_entries: list[dict
                 signal_counts[name] += 1
         context = {
             "regionId": region.get("id"), "book": book, "printedPage": region.get("printedPage"), "pdfPage": pdf_page,
-            "sourceSha256": catalog.get("sources", {}).get(book, {}).get("sha256"),
+            "sourceSha256": supplemental_identity["sourceSha256"] if supplemental_identity else catalog.get("sources", {}).get(book, {}).get("sha256"),
             "imageSha256": region.get("sha256"), "normalizedPageRect": region.get("normalizedPageRect"),
             "owner": owner, "bindingUses": [{"bindingKey": use["bindingKey"], "collection": use["collection"], "itemId": use["itemId"]} for use in entry["bindingUses"]],
             "textGeometryStatus": status, "sourceTextWordCount": page["wordCount"],
             "signals": sorted(set(signal_names)), "geometry": geometry,
             "adjacentFlowSignals": list(page["flowSignals"]) + list(page.get("pageBoundarySignalsFromPrevious", [])),
         }
+        if supplemental_identity is not None:
+            context.update({
+                "sourceKind": supplemental_identity["sourceKind"],
+                "sourceArtifactId": supplemental_identity["sourceArtifactId"],
+                "canonicalPdfSha256": supplemental_identity["canonicalPdfSha256"],
+                "sourceDimensionsPx": supplemental_identity["sourceDimensionsPx"],
+                "sourceCropBoundsPx": supplemental_identity["sourceCropBoundsPx"],
+                "sourceCoordinateSpace": supplemental_identity["sourceCoordinateSpace"],
+            })
         region_results.append(context)
         owners_by_source[(book, region.get("printedPage"), pdf_page)].add(f"{catalog.get('collection')}:{catalog.get('itemId')}")
         if signal_names:

@@ -3,11 +3,14 @@ import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 import {resolve, dirname, isAbsolute, relative, sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {createRequire} from 'node:module';
+
+const books=createRequire(import.meta.url)('../dist/books.js');
 import {isDeepStrictEqual} from 'node:util';
 
 const root = resolve(import.meta.dirname, '..');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
-const identity = row => JSON.stringify(['collection', 'itemId', 'binding', 'catalog', 'regionId', 'book', 'pdfPage', 'imageSha256'].map(key => row?.[key]));
+const identity = row => JSON.stringify(['collection', 'itemId', 'binding', 'catalog', 'regionId', 'book', 'pdfPage', 'imageSha256', 'sourceArtifactId', 'sourceArtifactSha256'].map(key => row?.[key]));
 const multiset = rows => {
   const result = new Map();
   for (const row of rows) {
@@ -161,7 +164,8 @@ export function collectLiveRasterUniverse({repoRoot = root} = {}) {
         const imagePath = resolve(repoRoot, 'dist', dirname(path), region.image);
         if (!imageHashes.has(imagePath)) imageHashes.set(imagePath, sha(readFileSync(imagePath)));
         if (imageHashes.get(imagePath) !== region.sha256) throw Error(`Published raster image hash mismatch: ${path} ${region.id}`);
-        usages.push({collection, itemId: item.id, binding, catalog: path, regionId: region.id, book: region.book, pdfPage: region.pdfPage, imageSha256: region.sha256, sourcePdfSha256: catalog.sources?.[region.book]?.sha256});
+        const sourceIdentity=books.resolveRegionSourceIdentity(catalog,region);
+        usages.push({collection, itemId: item.id, binding, catalog: path, regionId: region.id, book: region.book, printedPage:region.printedPage, pdfPage: region.pdfPage, imageSha256: region.sha256, sourceKind:sourceIdentity?.sourceKind||'invalid-source-identity',sourceArtifactId:sourceIdentity?.sourceArtifactId||null,sourceArtifactSha256:sourceIdentity?.sourceKind==='supplemental-image'?sourceIdentity.sourceSha256:null,sourcePdfSha256:catalog.sources?.[region.book]?.sha256});
       }
     }
   }
@@ -186,7 +190,10 @@ export function buildSourceRasterCoverage(snapshot, live) {
   if (inputs.distDataSha256 !== live?.dataSha256) errors.push('Current data hash differs from raster snapshot.');
   if (inputs.catalogSnapshotSha256 !== live?.catalogSnapshotSha256 || inputs.catalogCount !== live?.catalogCount) errors.push('Current catalog hashes differ from raster snapshot.');
   if (!sameMultiset(multiset(allUses), multiset(liveUsages))) errors.push('Raster usage multiset differs from the complete live catalog universe.');
-  if (notAssessable.length !== 0) errors.push('This frozen raster snapshot requires zero not-assessable usages; a current assessability policy is required to change that partition.');
+  const allowedSupplementalNotAssessableReason='Supplemental source-image frame is retained in the usage denominator but is not part of the current PDF-raster geometry assessment.';
+  const supplementalLive=liveUsages.filter(usage=>usage?.sourceKind==='supplemental-image');
+  const supplementalNotAssessable=notAssessable.filter(usage=>isRecord(usage)&&usage.sourceKind==='supplemental-image'&&usage.sourceArtifactId==='dmg175-user-confirmed-supplement'&&usage.sourceArtifactSha256==='e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7'&&usage.sourcePdfSha256==='7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669'&&usage.book==='DMG'&&usage.printedPage===175&&usage.pdfPage===null&&usage.notAssessableReason===allowedSupplementalNotAssessableReason);
+  if (supplementalNotAssessable.length!==notAssessable.length||notAssessable.length!==supplementalLive.length||!sameMultiset(multiset(supplementalNotAssessable),multiset(supplementalLive))) errors.push('Not-assessable usages must be exactly the live typed DMG p.175 supplemental-image rows with the approved unassessed reason.');
 
   const livePdfHashes = new Map();
   for (const usage of liveUsages) {
@@ -194,6 +201,14 @@ export function buildSourceRasterCoverage(snapshot, live) {
       errors.push('A live catalog usage has no valid source PDF identity/hash.');
       continue;
     }
+    const sourceKind=usage.sourceKind??'pdf';
+    if(sourceKind==='supplemental-image'){
+      if(usage.book!=='DMG'||usage.printedPage!==175||usage.pdfPage!==null||usage.sourceArtifactId!=='dmg175-user-confirmed-supplement'||usage.sourceArtifactSha256!=='e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7'||usage.sourcePdfSha256!=='7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669')errors.push('A supplemental raster usage has an invalid typed source identity.');
+      if(livePdfHashes.has(usage.book)&&livePdfHashes.get(usage.book)!==usage.sourcePdfSha256)errors.push(`Live catalog source PDF hashes disagree for ${usage.book}.`);
+      else livePdfHashes.set(usage.book,usage.sourcePdfSha256);
+      continue;
+    }
+    if(sourceKind!=='pdf'||usage.sourceArtifactId||usage.sourceArtifactSha256||!isInt(usage.pdfPage)||usage.pdfPage<1)errors.push('A PDF raster usage has an unexpected source identity or page frame.');
     if (livePdfHashes.has(usage.book) && livePdfHashes.get(usage.book) !== usage.sourcePdfSha256) errors.push(`Live catalog source PDF hashes disagree for ${usage.book}.`);
     livePdfHashes.set(usage.book, usage.sourcePdfSha256);
   }
@@ -201,7 +216,7 @@ export function buildSourceRasterCoverage(snapshot, live) {
   if (!isDeepStrictEqual(sortedCounts(new Map(Object.entries(inputPdfHashes))), sortedCounts(livePdfHashes))) errors.push('Raster source PDF hash map differs from the complete live catalog universe.');
 
   const expectedFrameKeys = new Set();
-  for (const usage of liveUsages) if (typeof usage?.book === 'string' && isInt(usage.pdfPage) && usage.pdfPage > 0) expectedFrameKeys.add(pointKey(usage.book, usage.pdfPage));
+  for (const usage of liveUsages) if ((usage?.sourceKind===undefined||usage?.sourceKind==='pdf')&&typeof usage.book === 'string' && isInt(usage.pdfPage) && usage.pdfPage > 0) expectedFrameKeys.add(pointKey(usage.book, usage.pdfPage));
   const frames = new Map();
   for (const frame of frameRows) {
     if (!isRecord(frame) || typeof frame.book !== 'string' || !isInt(frame.pdfPage) || frame.pdfPage < 1) {
@@ -397,6 +412,7 @@ export function buildSourceRasterCoverage(snapshot, live) {
     scope: 'Current graph/hash and numeric snapshot checks only. CI does not rerender private source PDFs or establish crop semantics.',
     liveUniverse: {regionUsages: live.usages.length, catalogs: live.catalogCount, dataSha256: live.dataSha256, catalogSnapshotSha256: live.catalogSnapshotSha256},
     snapshotCounts: snapshot.counts,
+    sourceIdentityCoverage:{pdfFrameUsages:liveUsages.filter(usage=>usage?.sourceKind===undefined||usage?.sourceKind==='pdf').length,supplementalImageUsages:supplementalLive.length,supplementalImageUsagesNotAssessed:supplementalNotAssessable.length},
     currentCandidateCounts: valid ? expectedCounts : null,
     calibration: snapshot.calibration,
     sourceFrames: frameRows,

@@ -15,6 +15,8 @@ const historicalLive = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/so
 const live = collectLiveRasterUniverse();
 const releasedJoSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research/source-raster-boundary-batch6-jo-search079-v1.json.gz',import.meta.url))));
 const priorJoSearchSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research/source-raster-boundary-batch6-search-cleric-post-pr34.json.gz',import.meta.url))));
+const dmg175MapperBeforeBytes=readFileSync(new URL('./fixtures/source-raster-dmg175-live-mapper-reconstruction-v1.json.gz',import.meta.url));
+const dmg175MapperBefore=JSON.parse(gunzipSync(dmg175MapperBeforeBytes));
 const legacyFixture = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-raster-coverage-derived-metrics-before.json.gz', import.meta.url))));
 const legacySource = legacyFixture.files['tools/source-raster-coverage.mjs'];
 assert.equal(createHash('sha256').update(legacySource.utf8).digest('hex'), legacySource.sha256);
@@ -126,7 +128,10 @@ test('the active pointer snapshot covers the complete actual current catalog uni
   const report = buildSourceRasterCoverage(snapshot, live);
   assert.deepEqual(report.validation, {valid: true, errors: []});
   assert.equal(report.liveUniverse.regionUsages, live.usages.length);
-  assert.equal(report.currentCandidateCounts.sourcePagesRendered, new Set(live.usages.map(row => `${row.book}:${row.pdfPage}`)).size);
+  const pdfFrameUsages=live.usages.filter(row=>row.sourceKind==='pdf'||row.sourceKind===undefined);
+  assert.equal(report.currentCandidateCounts.sourcePagesRendered, new Set(pdfFrameUsages.map(row => `${row.book}:${row.pdfPage}`)).size);
+  assert.equal(pdfFrameUsages.length, snapshot.counts.assessedUsages);
+  assert.equal(live.usages.length, pdfFrameUsages.length + snapshot.counts.notAssessableUsages);
   assert.deepEqual(report.currentCandidateCounts, snapshot.counts);
   assert.equal(report.semanticPass, false);
 });
@@ -137,6 +142,47 @@ test('the frozen released Jo snapshot preserves its exact seven-use extension an
   assert.deepEqual(releasedJoSnapshot.usages.slice(0,priorJoSearchSnapshot.usages.length),priorJoSearchSnapshot.usages);
   assert.deepEqual(releasedJoSnapshot.geometries.map(({uses,...row})=>row),priorJoSearchSnapshot.geometries.map(({uses,...row})=>row));
   assert.equal(releasedJoSnapshot.geometries.length,releasedJoSnapshot.counts.uniqueImageGeometryBindings);
+});
+
+test('the reconstructed pre-fix mapper omits page 175; the current live mapper carries both typed supplemental crops',()=>{
+ assert.equal(createHash('sha256').update(dmg175MapperBeforeBytes).digest('hex'),'5f253065ab442a67ca1d0d7467226b30685c9bc6a6d2f7840a495d90c2186f98');
+ assert.equal(createHash('sha256').update(dmg175MapperBefore.beforeCapture.helperSource).digest('hex'),dmg175MapperBefore.beforeCapture.helperSha256);
+ assert.equal(dmg175MapperBefore.captureMode,'retrospective-reconstruction');
+ assert.equal(dmg175MapperBefore.actualPreFixCapture,false);
+ assert.equal(dmg175MapperBefore.reconstructedFromCurrentSource,true);
+ assert.equal(dmg175MapperBefore.sourceFixtureSha256,'130e8413219bd689cbd4734783ca9d7433496e473af7e99e6f1b1f73d6eec0ff');
+ assert.equal(dmg175MapperBefore.beforeCapture.liveUniverse.usages.length,3132);
+ const oldRows=dmg175MapperBefore.beforeCapture.liveUniverse.usages.filter(row=>row.sourceKind==='supplemental-image');
+ assert.deepEqual(oldRows.map(row=>row.regionId).sort(),['dmg-175-level-others-context-5aa02e91e35c4c28','dmg-175-party-table-context-78c4c383c38c7d10']);
+ assert.ok(oldRows.every(row=>row.printedPage===undefined));
+ assert.ok(dmg175MapperBefore.beforeCapture.reportedPipelineFailure.errors.includes('Not-assessable usages must be exactly the live typed DMG p.175 supplemental-image rows with the approved unassessed reason.'));
+ assert.ok(dmg175MapperBefore.beforeCapture.reportedPipelineFailure.errors.includes('A supplemental raster usage has an invalid typed source identity.'));
+ const supplemental=live.usages.filter(row=>row.sourceKind==='supplemental-image');
+ const pdfFrameUsages=live.usages.filter(row=>row.sourceKind==='pdf'||row.sourceKind===undefined);
+ assert.equal(supplemental.length,2);assert.equal(pdfFrameUsages.length,snapshot.counts.regionUsages-snapshot.counts.notAssessableUsages);
+ assert.equal(live.usages.length,pdfFrameUsages.length+supplemental.length);
+ assert.deepEqual(supplemental.map(row=>[row.regionId,row.book,row.printedPage,row.pdfPage,row.sourceArtifactId,row.sourceArtifactSha256,row.sourcePdfSha256]).sort((a,b)=>a[0].localeCompare(b[0])),[
+  ['dmg-175-level-others-context-5aa02e91e35c4c28','DMG',175,null,'dmg175-user-confirmed-supplement','e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7','7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669'],
+  ['dmg-175-party-table-context-78c4c383c38c7d10','DMG',175,null,'dmg175-user-confirmed-supplement','e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7','7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669'],
+ ].sort((a,b)=>a[0].localeCompare(b[0])));
+ assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateValidation.valid,true);
+ assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateCounts.regionUsages,3132);
+ assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateCounts.notAssessableUsages,2);
+ assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateCounts.assessedUsages,3130);
+});
+
+test('typed DMG 175 supplemental rows stay in the raster denominator as explicit unassessable image frames',()=>{
+ const copy=structuredClone(snapshot),liveCopy=structuredClone(live);
+ const reason='Supplemental source-image frame is retained in the usage denominator but is not part of the current PDF-raster geometry assessment.';
+ let ordinal=Math.max(0,...copy.usages.map(row=>row.usageOrdinal),...(copy.notAssessableUsages||[]).map(row=>row.usageOrdinal));
+ const existing=new Set(copy.notAssessableUsages.map(row=>`${row.catalog}:${row.regionId}`));
+ for(const region of live.usages.filter(row=>row.sourceKind==='supplemental-image'))if(!existing.has(`${region.catalog}:${region.regionId}`))copy.notAssessableUsages.push({...region,usageOrdinal:++ordinal,notAssessableReason:reason});
+ const supplemental={collection:'rules',itemId:'synthetic-dmg175-supplement',binding:'sourceExcerpts',catalog:'scans/verified/rules-synthetic-dmg175-supplement.json',regionId:'dmg175-test-region',book:'DMG',printedPage:175,pdfPage:null,imageSha256:'c'.repeat(64),sourceKind:'supplemental-image',sourceArtifactId:'dmg175-user-confirmed-supplement',sourceArtifactSha256:'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7',sourcePdfSha256:'7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669'};
+ const synthetic={...supplemental,usageOrdinal:++ordinal,notAssessableReason:reason};copy.notAssessableUsages.push(synthetic);liveCopy.usages.push(supplemental);
+ const all=[...copy.usages,...copy.notAssessableUsages];copy.inputs.distDataSha256=live.dataSha256;copy.inputs.catalogSnapshotSha256=live.catalogSnapshotSha256;copy.inputs.catalogCount=live.catalogCount;
+ copy.counts.regionUsages=all.length;copy.counts.uniqueImages=new Set(all.map(row=>row.imageSha256)).size;copy.counts.regionUsagesByBook=Object.fromEntries([...new Set(all.map(row=>row.book))].sort().map(book=>[book,all.filter(row=>row.book===book).length]));copy.counts.notAssessableUsages=copy.notAssessableUsages.length;copy.counts.assessedUsages=copy.usages.length;
+ const report=buildSourceRasterCoverage(copy,liveCopy);assert.deepEqual(report.validation,{valid:true,errors:[]});assert.equal(report.liveUniverse.regionUsages,live.usages.length+1);assert.deepEqual(report.sourceIdentityCoverage,{pdfFrameUsages:live.usages.length-2,supplementalImageUsages:3,supplementalImageUsagesNotAssessed:3});
+ for(const mutate of [row=>row.sourceArtifactSha256='a'.repeat(64),row=>row.notAssessableReason='unreviewed',row=>row.pdfPage=176,row=>delete row.printedPage]){const bad=structuredClone(copy);mutate(bad.notAssessableUsages.at(-1));assert.equal(buildSourceRasterCoverage(bad,liveCopy).validation.valid,false);}
 });
 
 test('dropping uses cannot claim complete coverage even when reported counts and current hashes are retained', () => {
@@ -189,7 +235,10 @@ test('coordinated omissions, orphan evidence, hash substitutions and altered met
     const report = buildSourceRasterCoverage(copy, live);
     assert.equal(report.validation.valid, false, name);
     assert.equal(report.currentCandidateCounts, null, name);
-    if (name.startsWith('all live rows')) assert.equal(report.notAssessableUsages.length, live.usages.length);
+    if (name.startsWith('all live rows')) {
+      assert.equal(report.notAssessableUsages.length, snapshot.usages.length);
+      assert.ok(report.notAssessableUsages.length < live.usages.length, 'the snapshot counts assessed PDF uses, not later supplement usages');
+    }
   }
 });
 

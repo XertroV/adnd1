@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {projectDmg175Json} from './helpers/batch6-dmg175-source-history.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -120,7 +121,7 @@ test('source owners, values, unrelated crops and prior PNGs stay unchanged throu
   assert.notEqual(sha(readFileSync('rules.json')),before.files['rules.json'].sha256,'the new Cleric table owner is an intended additive source record');
   const oldOverrides=JSON.parse(before.files['citation-overrides.json'].utf8);
   const currentOverrides=read('citation-overrides.json');
-  const xpOverrides=beforeJoSearchOverridesForXp(currentOverrides);
+  const xpOverrides=beforeJoSearchOverridesForXp(projectDmg175Json('citation-overrides.json',currentOverrides));
   assert.deepEqual(reverseApprovedXpExcerptCounts(xpOverrides),oldOverrides,'Jo/Search-to-C2 and the17 XP count reversals compose exactly once');
   assert.deepEqual(JSON.parse(readBeforeJoBytes('citation-overrides.json')),oldOverrides,'the original JoV4 legacy reader still returns its exact historical override bytes');
   const changedRegionCountKeys=Object.keys(xpOverrides.sourceExcerpts).filter(key=>oldOverrides.sourceExcerpts[key]?.regionCount!==xpOverrides.sourceExcerpts[key]?.regionCount).sort();
@@ -167,5 +168,5 @@ test('both exact history boundaries reject undeclared groups, changed values and
  }
  const overrides=read('citation-overrides.json');
  const changed=structuredClone(overrides);changed.sourceExcerpts['classes:cleric'].regionCount++;assert.throws(()=>beforeJoSearchOverridesForXp(changed));
- assert.throws(()=>beforeJoSearchOverridesForXp(beforeJoSearchOverridesForXp(overrides)),'the C2 stage must go only to the separately pinned XP count reversal');
+ assert.throws(()=>beforeJoSearchOverridesForXp(beforeJoSearchOverridesForXp(projectDmg175Json('citation-overrides.json',overrides))),'the C2 stage must go only to the separately pinned XP count reversal');
 });

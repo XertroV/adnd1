@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Synthetic unmapped comparator test fixture",
+  "isHistoricalDataset": false,
+  "scope": "Derived only in the browser test from the exact 079 reviewed comparator target. It removes the region mapping and its region-specific review/crop projections to exercise pending fail-closed owner, copy, reload and history behavior. It does not alter the product data or claim that the current comparator is unmapped.",
+  "base": {
+    "head": "079f4ec03924b32d8b340ee349012c9a8237066e",
+    "tree": "0de85b1f25e30898534ca50ec59b9305db84ee70",
+    "dataSha256": "ff4cf9b944f6584f2b3ea219068c552fd554a586e449ffc6999e93bf01343470",
+    "comparatorBaselineFixture": "tests/fixtures/citation-comparator-captions-base-079.json"
+  },
+  "target": {
+    "routeOwner": {"collection": "equipment", "itemId": "phb-bo-stick"},
+    "fieldPointer": "/suggestedPrice/comparisons/0",
+    "sourceOwner": {"collection": "equipment", "itemId": "phb-spear"},
+    "label": "Comparison: Spear (not this item price)",
+    "amount": 1,
+    "currency": "gp",
+    "unit": "one",
+    "sourceCategory": "printed-price-comparator",
+    "book": "PHB",
+    "printedPage": 35
+  },
+  "derivation": {
+    "preserve": ["fieldPointer", "sourceObject", "sourceCategory", "sourceOwner", "book", "printedPage", "pdfPage", "catalog", "sourcePages", "sourceSha256", "contextStatus", "contextLimitations", "sourceRowIds", "comparison label", "comparison amount", "comparison currency", "comparison unit"],
+    "set": {"regionIds": [], "reviewStatus": "field-target-pending"},
+    "remove": ["targetReview", "expectedRegionEvidence", "regionEvidence", "cropCoordinates", "highlightCoordinates"],
+    "sourceDataChanges": 0,
+    "purpose": "Exercise the pending-field safety path using an explicitly derived in-memory copy while the actual six current comparator targets remain resolved and are tested separately."
+  },
+  "expectedSafetyBehavior": {
+    "unmappedOwnerQuery": "Do not substitute the comparator item or claim the field is resolved; retain a pending target with no region.",
+    "canonicalOwnerCopy": "Copy the exact field pointer and source owner; displaying the comparator item is allowed only after that owner is explicit.",
+    "reloadAndHistory": "Keep the pending label, owner identity, exact source page, and no-region state through reload and Back/Forward."
+  }
+}

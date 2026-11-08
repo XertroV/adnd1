@@ -4,14 +4,15 @@ import {createHash} from 'node:crypto';
 import {buildVisualCoverage,regionHashes,renderMarkdown,renderPriceInventoryMarkdown,summarizePriceInventory} from '../tools/source-visual-coverage.mjs';
 import {buildDispositionManifest,renderDispositionMarkdown,validateDispositionManifest,stableDispositionId} from '../tools/source-visual-dispositions.mjs';
 const hash=x=>createHash('sha256').update(x).digest('hex');
+const sourceHash='a'.repeat(64);
 const region=(id,focusRects)=>({id,book:'PHB',printedPage:35,pdfPage:36,image:id+'.png',sha256:hash(id),focusRects,title:id});
 const item={id:'fixture',book:'PHB',pages:[35],sourceExcerpts:{catalog:'fixture.json'}};
 const explainer={book:'PHB',pages:[32],sourceExcerpts:{catalog:'explainer.json'}};
 const data={equipment:[item],progressionExplainer:explainer};
 const r1=region('full',[[0,0,1,1]]),r2=region('partial',[[.2,.2,.3,.1]]),r3={...region('explainer',[[0,0,1,1]]),printedPage:32,pdfPage:33};
-const cats={'fixture.json':{regions:[r1,r2],sources:{PHB:{sha256:'source'}}},'explainer.json':{regions:[r3],sources:{PHB:{sha256:'source'}}}};
+const cats={'fixture.json':{regions:[r1,r2],sources:{PHB:{sha256:sourceHash,hashStatus:'computed-local'}}},'explainer.json':{regions:[r3],sources:{PHB:{sha256:sourceHash,hashStatus:'computed-local'}}}};
 const build=(reviews=[])=>buildVisualCoverage(data,p=>cats[p],{reviews},null,{loadImage:(_,image)=>Buffer.from(image.replace(/\.png$/, ''))});
-const review=(r,assessments)=>({collection:'equipment',itemId:'fixture',binding:'sourceExcerpts',regionId:r.id,imageSha256:r.sha256,sourceSha256:'source',...regionHashes(r),assessments});
+const review=(r,assessments)=>({collection:'equipment',itemId:'fixture',binding:'sourceExcerpts',regionId:r.id,imageSha256:r.sha256,sourceSha256:sourceHash,...regionHashes(r),assessments});
 test('unreviewed sentinels are suspected, partials unreviewed, and denominators include the explainer',()=>{
  const x=build();assert.equal(x.totals.citedRecordPagePairs,2);assert.equal(x.totals.regionUsages,3);assert.equal(x.totals.uniqueImages,3);
  assert.equal(x.totals.fullImageSentinelBindings,2);assert.equal(x.totals.sentinelHighlightSuspects,2);assert.equal(x.totals.sentinelIndependentExceptions,0);
@@ -35,9 +36,9 @@ test('review must match image, focus, content, and independent evidence; full bo
 });
 test('geometry produces only a candidate when data, catalog, source and image hashes agree',async()=>{
  const {createHash}=await import('node:crypto');const digest=x=>createHash('sha256').update(x).digest('hex'),bytes=Buffer.from('synthetic image');
- const r={...region('geo',[[.1,.2,.3,.4]]),sha256:digest(bytes)},cat={regions:[r],sources:{PHB:{sha256:'pdfhash'}}},d={equipment:[item]},catalogHash='cataloghash',dataHash=digest(JSON.stringify(d));
+ const r={...region('geo',[[.1,.2,.3,.4]]),sha256:digest(bytes)},cat={regions:[r],sources:{PHB:{sha256:sourceHash,hashStatus:'computed-local'}}},d={equipment:[item]},catalogHash='cataloghash',dataHash=digest(JSON.stringify(d));
  const u={collection:'equipment',itemId:'fixture',binding:'sourceExcerpts',regionId:'geo',imageSha256:r.sha256,sourceHashMatches:true,imageHashMatches:true};
- const geometry={inputDataSha256:dataHash,catalogSha256:{'fixture.json':catalogHash},sourcePdfSha256:{PHB:'pdfhash'},usages:[u],candidates:[{imageSha256:r.sha256,usages:[u]}]};
+ const geometry={inputDataSha256:dataHash,catalogSha256:{'fixture.json':catalogHash},sourcePdfSha256:{PHB:sourceHash},usages:[u],candidates:[{imageSha256:r.sha256,usages:[u]}]};
  const loader=()=>({catalog:cat,sha256:catalogHash}),options={loadImage:()=>bytes};
  assert.equal(buildVisualCoverage(d,loader,{reviews:[]},geometry,options).usages[0].status.crop,'suspected');
  assert.equal(buildVisualCoverage(d,loader,{reviews:[]},geometry,{loadImage:()=>Buffer.from('changed')}).usages[0].status.crop,'unreviewed');
@@ -54,7 +55,7 @@ test('default verdicts bind ordered page group, and image-byte changes stale all
  const missing=buildVisualCoverage(data,p=>cats[p],{reviews:[saved]},null,{loadImage:()=>Buffer.from('different')});assert.equal(missing.usages[0].status.default,'unreviewed');assert.equal(missing.usages[0].reviewStale,true);
 });
 test('reported triage findings match current image bytes, book and page without changing review status',()=>{
- const finding={candidateId:'issue',origin:'research/example.json',status:'confirmed-defect',reason:'Clipped edge',source:{book:'PHB',printedPage:35,sha256:'source'},imageSha256:r2.sha256};
+ const finding={candidateId:'issue',origin:'research/example.json',status:'confirmed-defect',reason:'Clipped edge',source:{book:'PHB',printedPage:35,sha256:sourceHash},imageSha256:r2.sha256};
  const opts={knownFindings:[finding],loadImage:(_,image)=>Buffer.from(image.replace(/\.png$/, ''))};
  const report=buildVisualCoverage(data,p=>cats[p],{reviews:[]},null,opts);
  assert.equal(report.totals.reportedFindings,1);assert.equal(report.reportedFindings[0].bindings[0].regionId,'partial');
@@ -117,7 +118,7 @@ test('sentinel policy requires structured whole-spell scope and preserves separa
 
 test('whole-spell exception does not clear a mixed full-image and precise-focus region',()=>{
  const mixedRegion=region('mixed-focus',[[0,0,1,1],[.2,.2,.1,.1]]);
- const mixedCatalog={regions:[mixedRegion],sources:{PHB:{sha256:'source'}}};
+ const mixedCatalog={regions:[mixedRegion],sources:{PHB:{sha256:sourceHash,hashStatus:'computed-local'}}};
  const scopedReview=review(mixedRegion,{highlight:{status:'exception',independent:true,evidence:'Whole spell is intentionally unmarked.',scope:'whole-spell',kind:'whole-spell-unmarked'}});
  const report=buildVisualCoverage(
   {equipment:[{...item,sourceExcerpts:{catalog:'mixed-focus.json'}}]},
@@ -166,7 +167,7 @@ test('whole-spell exception does not clear a mixed full-image and precise-focus 
 
 test('zero-focus regions remain visible and unresolved without being counted as whole-image sentinels',()=>{
  const emptyRegion=region('empty-focus',[]);
- const catalog={regions:[emptyRegion],sources:{PHB:{sha256:'source'}}};
+ const catalog={regions:[emptyRegion],sources:{PHB:{sha256:sourceHash,hashStatus:'computed-local'}}};
  const report=buildVisualCoverage(
   {equipment:[{...item,sourceExcerpts:{catalog:'empty-focus.json'}}]},
   ()=>({catalog,sha256:'catalog'}),
@@ -187,7 +188,7 @@ test('zero-focus regions remain visible and unresolved without being counted as 
 
 test('all historical records receive hash-bound dispositions even when stale or identity-incomplete',()=>{
  const knownFindings=[
-  {origin:'research/triage-a.json',originSha256:hash('triage-a'),recordIndex:0,sourceSha256:'source',record:{candidateId:'same-image',status:'valid-context',book:'PHB',printedPage:35,imageSha256:r2.sha256,reason:'Checked source image.',usages:[{collection:'equipment',itemId:'fixture',binding:'sourceExcerpts',regionId:'partial',catalog:'fixture.json'}]}},
+  {origin:'research/triage-a.json',originSha256:hash('triage-a'),recordIndex:0,sourceSha256:sourceHash,record:{candidateId:'same-image',status:'valid-context',book:'PHB',printedPage:35,imageSha256:r2.sha256,reason:'Checked source image.',usages:[{collection:'equipment',itemId:'fixture',binding:'sourceExcerpts',regionId:'partial',catalog:'fixture.json'}]}},
   {origin:'research/triage-b.json',originSha256:hash('triage-b'),recordIndex:0,record:{candidateId:'missing-source-sha',status:'pending-defect',book:'PHB',printedPage:35,imageSha256:r2.sha256,reason:'Reported viewport issue.',usages:[{collection:'equipment',itemId:'fixture',binding:'sourceExcerpts',regionId:'partial',catalog:'fixture.json'}]}},
   {origin:'research/triage-c.json',originSha256:hash('triage-c'),recordIndex:0,sourceSha256:'stale-source',record:{candidateId:'old-source',status:'fixed',book:'PHB',printedPage:35,imageSha256:r2.sha256,reason:'Old source identity.',usages:[{collection:'equipment',itemId:'fixture',binding:'sourceExcerpts',regionId:'partial',catalog:'fixture.json'}]}},
   {origin:'research/triage-d.json',originSha256:hash('triage-d'),recordIndex:1,record:{candidateId:'unmatched',status:'open',reason:'No current page identity.'}},

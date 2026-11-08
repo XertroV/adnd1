@@ -374,11 +374,21 @@ function missingContentEntries(data, handoff) {
   const section = handoff.missingReferencedContent;
   const entries = [];
   for (const missing of section.missingCitedPages || []) {
+    const supplemental175 = missing.book === 'DMG' && missing.printedPage === 175
+      && missing.privateSupplement?.sha256 === 'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7'
+      && missing.privateSupplement?.limitedCropsStaged === 2;
+    const supplementalNotice=supplemental175
+      ? 'The user confirmed the separate image is from the correct edition. Two limited excerpts are available as source evidence; the full image remains private, and the canonical PDF still omits p. 175.'
+      : missing.privateSupplement?.published?'A supplemental excerpt is published.':'No verified supplemental page is published.';
     entries.push(entry({
       id: `missing-cited-${missing.book}-${missing.printedPage}`,
-      title: `${missing.book} p. ${missing.printedPage} · cited page unavailable`,
-      status: 'missing-from-supplied-canonical-pdf',
-      description: `${missing.status}. ${missing.privateSupplement?.published ? 'A supplement is published.' : 'A separate private image exists, but its printing is unknown and it is not published.'} The entry contains a bounded Appendix C random character-party procedure; it does not transcribe the complete class-limit or magic-item encounter tables.`,
+      title: supplemental175
+        ? `${missing.book} p. ${missing.printedPage} · absent from supplied PDF; supplemental excerpts available`
+        : `${missing.book} p. ${missing.printedPage} · cited page unavailable`,
+      status: supplemental175
+        ? 'physical-gap-in-supplied-pdf; limited-supplemental-excerpts-available'
+        : 'missing-from-supplied-canonical-pdf',
+      description: `${missing.status}. ${supplementalNotice} The entry contains a bounded Appendix C random character-party procedure; it does not transcribe the complete class-limit or magic-item encounter tables.`,
       sourceLocations: [{book: missing.book, printedPage: missing.printedPage}],
       links: openEntryLink(data, missing.currentReference.collection, missing.currentReference.itemId),
       handoffPointers: ['/missingReferencedContent/missingCitedPages/0'],

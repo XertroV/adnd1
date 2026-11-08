@@ -2,11 +2,13 @@ import {readFileSync, existsSync, readdirSync, mkdirSync, copyFileSync, writeFil
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 import {execFileSync} from 'node:child_process';
+import {createRequire} from 'node:module';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {fieldsFor} from './mechanics-audit.mjs';
 
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
+const require = createRequire(import.meta.url);
 const pointerPart = value => String(value).replaceAll('~', '~0').replaceAll('/', '~1');
 const unescapePointer = value => value.replaceAll('~1', '/').replaceAll('~0', '~');
 const fail = (errors, code, detail) => errors.push({code, detail});
@@ -87,6 +89,57 @@ function expectedCatalogBindings(data, catalogs) {
     }
   }
   return {uses, bindingCounts, regionCounts};
+}
+
+export function regionSourceIdentityIssues({books, catalog, region, assessment, summary}) {
+  const issues = [];
+  const identity = books?.resolveRegionSourceIdentity?.(catalog, region);
+  if (identity?.valid !== true) {
+    return [{code: 'invalid-source-identity', detail: `${region?.id || 'unknown region'} does not resolve to a valid typed source identity.`}];
+  }
+  const canonicalPdfSha256 = identity.canonicalPdfSha256 || identity.sourceSha256;
+  const expectedCatalogHashes = summary?.input?.sources?.[region.book]?.catalogSourceHashes;
+  if (assessment.sourceSha256 !== identity.sourceSha256) {
+    issues.push({code: 'stale-source-hash', detail: `${region.id} source SHA differs from the shared typed source identity.`});
+  }
+  if (!Array.isArray(expectedCatalogHashes) || !expectedCatalogHashes.includes(canonicalPdfSha256)) {
+    issues.push({code: 'stale-source-hash', detail: `${region.id} canonical PDF SHA is not bound to the report source set.`});
+  }
+  if (identity.sourceKind === 'supplemental-image') {
+    const expected = {
+      sourceKind: 'supplemental-image',
+      sourceArtifactId: identity.sourceArtifactId,
+      sourceSha256: identity.sourceSha256,
+      canonicalPdfSha256: identity.canonicalPdfSha256,
+      sourceDimensionsPx: identity.sourceDimensionsPx,
+      sourceCropBoundsPx: identity.sourceCropBoundsPx,
+      sourceCoordinateSpace: identity.sourceCoordinateSpace,
+      textGeometryStatus: 'not-assessable-supplemental-image-format',
+    };
+    for (const [key, value] of Object.entries(expected)) {
+      if (JSON.stringify(assessment[key] ?? null) !== JSON.stringify(value ?? null)) {
+        issues.push({code: 'supplemental-source-identity-mismatch', detail: `${region.id} ${key} does not match the shared source-image identity or non-PDF assessment status.`});
+      }
+    }
+    if (assessment.pdfPage !== null || assessment.geometry !== null) {
+      issues.push({code: 'supplemental-source-frame-mismatch', detail: `${region.id} must retain its null PDF page and must not claim PDF text geometry.`});
+    }
+  } else {
+    // Historic PDF-only snapshots predate the explicit typed fields. Continue
+    // accepting that unchanged PDF representation; when fields are present,
+    // bind each one to the resolver result.
+    const expected = {
+      sourceKind: identity.sourceKind,
+      sourceArtifactId: identity.sourceArtifactId || null,
+      canonicalPdfSha256,
+    };
+    for (const [key, value] of Object.entries(expected)) {
+      if (Object.hasOwn(assessment, key) && JSON.stringify(assessment[key] ?? null) !== JSON.stringify(value ?? null)) {
+        issues.push({code: 'stale-source-identity-metadata', detail: `${region.id} ${key} differs from the shared PDF source identity.`});
+      }
+    }
+  }
+  return issues;
 }
 
 function checkPropertyPointerInventory(full, data, errors) {
@@ -172,6 +225,9 @@ export function validateContinuationSnapshot({root, summaryPath = path.join(root
     }
   }
   const dataBytes = dataBytesOverride || readTreeFile('dist/data.json');
+  let books;
+  try { books = require(path.resolve(root, 'dist/books.js')); }
+  catch (error) { fail(errors, 'source-identity-resolver-unavailable', `Could not load the shared book source-identity resolver: ${error.message}`); }
   if (sha256(dataBytes) !== summary.input.distDataRawFileSha256) fail(errors, 'stale-data-input', 'Current dist/data.json differs from the report input hash. Regenerate the current snapshot or validate the baseline against its pinned tree.');
   const data = JSON.parse(dataBytes.toString('utf8'));
   const manifestPath = path.join(root, 'research/citation-continuations.json');
@@ -218,8 +274,8 @@ export function validateContinuationSnapshot({root, summaryPath = path.join(root
     if (region.book !== assessment.book || region.printedPage !== assessment.printedPage || region.pdfPage !== assessment.pdfPage) fail(errors, 'stale-region-location', `${catalogPath}:${assessment.regionId} source location changed.`);
     if (region.sha256 !== assessment.imageSha256) fail(errors, 'stale-image-hash', `${catalogPath}:${assessment.regionId} image hash changed.`);
     if (JSON.stringify(region.normalizedPageRect ?? null) !== JSON.stringify(assessment.normalizedPageRect ?? null)) fail(errors, 'stale-crop-geometry', `${catalogPath}:${assessment.regionId} crop geometry changed.`);
-    const sourceHash = catalog.sources?.[region.book]?.sha256;
-    if (sourceHash !== assessment.sourceSha256 || !summary.input.sources?.[region.book]?.catalogSourceHashes?.includes(sourceHash)) fail(errors, 'stale-source-hash', `${catalogPath}:${assessment.regionId} source hash is not bound to the recorded source set.`);
+    const sourceIdentityProblems = regionSourceIdentityIssues({books, catalog, region, assessment, summary});
+    for (const issue of sourceIdentityProblems) fail(errors, issue.code, `${catalogPath}:${assessment.regionId} ${issue.detail}`);
     const expectedUses = expected.uses.get(key) || [];
     const actualUses = assessment.bindingUses || [];
     if (JSON.stringify(expectedUses) !== JSON.stringify(actualUses)) fail(errors, 'stale-record-region-bindings', `${catalogPath}:${assessment.regionId} exposed record bindings changed.`);

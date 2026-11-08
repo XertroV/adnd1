@@ -7,13 +7,67 @@ import {spawnSync} from 'node:child_process';
 import {gunzipSync} from 'node:zlib';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-import {validateContinuationSnapshot} from '../tools/continuation-candidates-validate.mjs';
+import {regionSourceIdentityIssues, validateContinuationSnapshot} from '../tools/continuation-candidates-validate.mjs';
+import {createRequire} from 'node:module';
 
 const root = path.resolve('.');
 const summaryPath = path.join(root, 'research/source-audit-batch5-continuation.json');
 const summary = JSON.parse(readFileSync(summaryPath, 'utf8'));
 const fullPath = path.join(path.dirname(summaryPath), summary.fullEvidence.path);
 const full = JSON.parse(gunzipSync(readFileSync(fullPath)).toString('utf8'));
+const require = createRequire(import.meta.url);
+const books = require(path.join(root, 'dist/books.js'));
+
+test('typed supplemental CCD identity uses the actual image hash and retains canonical PDF identity', () => {
+  const catalog = JSON.parse(readFileSync(path.join(root, 'dist/scans/verified/rules-encounter-types.json'), 'utf8'));
+  const region = catalog.regions.find(item => item.printedPage === 175);
+  assert.ok(region);
+  const identity = books.resolveRegionSourceIdentity(catalog, region);
+  const summary = {input: {sources: {DMG: {catalogSourceHashes: [catalog.sources.DMG.sha256]}}}};
+  const assessment = {
+    book: region.book,
+    printedPage: region.printedPage,
+    pdfPage: null,
+    sourceSha256: identity.sourceSha256,
+    sourceKind: identity.sourceKind,
+    sourceArtifactId: identity.sourceArtifactId,
+    canonicalPdfSha256: identity.canonicalPdfSha256,
+    sourceDimensionsPx: identity.sourceDimensionsPx,
+    sourceCropBoundsPx: identity.sourceCropBoundsPx,
+    sourceCoordinateSpace: identity.sourceCoordinateSpace,
+    textGeometryStatus: 'not-assessable-supplemental-image-format',
+    geometry: null,
+  };
+  assert.equal(identity.valid, true);
+  assert.equal(identity.sourceSha256, 'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7');
+  assert.equal(identity.canonicalPdfSha256, '7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669');
+  assert.deepEqual(regionSourceIdentityIssues({books, catalog, region, assessment, summary}), []);
+
+  for (const [key, value, expectedCode] of [
+    ['sourceSha256', identity.canonicalPdfSha256, 'stale-source-hash'],
+    ['sourceArtifactId', 'missing-supplement', 'supplemental-source-identity-mismatch'],
+    ['canonicalPdfSha256', '0'.repeat(64), 'supplemental-source-identity-mismatch'],
+    ['sourceCropBoundsPx', [0, 0, 635, 490], 'supplemental-source-identity-mismatch'],
+    ['sourceCoordinateSpace', 'PDF page points', 'supplemental-source-identity-mismatch'],
+    ['textGeometryStatus', 'source-page-unavailable', 'supplemental-source-identity-mismatch'],
+    ['pdfPage', 176, 'supplemental-source-frame-mismatch'],
+  ]) {
+    const changed = {...assessment, [key]: value};
+    const issues = regionSourceIdentityIssues({books, catalog, region, assessment: changed, summary});
+    assert.ok(issues.some(issue => issue.code === expectedCode), `${key} mutation should fail closed`);
+  }
+
+  const wrongCanonicalSet = {input: {sources: {DMG: {catalogSourceHashes: ['0'.repeat(64)]}}}};
+  assert.ok(regionSourceIdentityIssues({books, catalog, region, assessment, summary: wrongCanonicalSet}).some(issue => issue.code === 'stale-source-hash'));
+});
+
+test('historic PDF-only CCD assessment remains valid with its canonical source hash', () => {
+  const catalog = JSON.parse(readFileSync(path.join(root, 'dist/scans/verified/spells-phb-cleric-animate-object.json'), 'utf8'));
+  const region = catalog.regions.find(item => item.book === 'PHB' && item.pdfPage != null);
+  const summary = {input: {sources: {PHB: {catalogSourceHashes: [catalog.sources.PHB.sha256]}}}};
+  const assessment = {book: region.book, printedPage: region.printedPage, pdfPage: region.pdfPage, sourceSha256: catalog.sources.PHB.sha256};
+  assert.deepEqual(regionSourceIdentityIssues({books, catalog, region, assessment, summary}), []);
+});
 
 test('source comparison snapshot is hash-bound and CI validation needs no private PDFs', () => {
   const report = validateContinuationSnapshot({root, summaryPath, fullPath, treeSelection: 'pinned-git-commit'});
@@ -138,13 +192,18 @@ test('orthogonal detector precision delta is hash-bound and leaves source-pixel 
   const deltaBytes = readFileSync(deltaPath);
   const delta = JSON.parse(deltaBytes.toString('utf8'));
   const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+  const dmg175Before = JSON.parse(readFileSync(path.join(root, 'research/source-audit-batch6-dmg175-ccd-source-identity-before-v1.json'), 'utf8'));
+  const preFixDetector = dmg175Before.inputs.files.find(file => file.path === 'tools/continuation-candidates.py');
+  const preFixDetectorBytes = Buffer.from(preFixDetector.base64, 'base64');
   assert.equal(delta.input.gitCommit, '679b15d1c580172e54314829c1c3c86dc78b65f3');
   assert.equal(delta.input.inputFilesEqualExceptDetectorCodeHash, true);
   assert.equal(delta.input.legacySummarySha256, sha(readFileSync(summaryPath)));
   assert.equal(delta.input.legacyFullEvidenceSha256, sha(readFileSync(fullPath)));
   assert.equal(delta.input.orthogonalSummarySha256, sha(readFileSync(path.join(root, delta.input.orthogonalSummaryPath))));
   assert.equal(delta.input.orthogonalFullEvidenceSha256, sha(readFileSync(path.join(root, delta.input.orthogonalFullEvidencePath))));
-  assert.equal(delta.input.orthogonalDetectorSha256, sha(readFileSync(path.join(root, 'tools/continuation-candidates.py'))));
+  assert.equal(sha(preFixDetectorBytes), preFixDetector.sha256, 'exact pre-DMG175 detector bytes are retained for the historical delta');
+  assert.equal(delta.input.orthogonalDetectorSha256, preFixDetector.sha256, 'the historical detector proof remains pinned to its original code, not the current supplement-aware tool');
+  assert.notEqual(preFixDetector.sha256, sha(readFileSync(path.join(root, 'tools/continuation-candidates.py'))));
   assert.equal(delta.universe.reviewedElevatedPages, 73);
   assert.equal(delta.universe.reviewedRegionRows, 887);
   assert.equal(delta.universe.sourceReviewMutated, false);
@@ -174,5 +233,5 @@ test('numeric source geometry fixtures run without private PDFs', () => {
   });
   const output = `${result.stdout}\n${result.stderr}`;
   assert.equal(result.status, 0, output);
-  assert.match(output, /Ran 7 tests/);
+  assert.match(output, /Ran 9 tests/);
 });

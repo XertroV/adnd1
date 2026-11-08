@@ -1,0 +1,582 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "DMG p.175 source-identity consumer inventory before supplemental integration",
+  "status": "immutable derived summary of the independently captured before inventory; no source/catalog bytes or private file paths included",
+  "sourceReceipt": {
+    "path": "temporary independent review receipt; retained outside repository",
+    "sha256": "3c002dc1c2e6db311ee744ac6b522de7b60ac7d41adfb32b520c9f06c8610f83",
+    "gzipSha256": "7c0542d93ab2fae96ca08e699ce41599456e7f1b38a8b24af04bc63ac44d0112"
+  },
+  "repository": {
+    "head": "079f4ec03924b32d8b340ee349012c9a8237066e",
+    "tree": "0de85b1f25e30898534ca50ec59b9305db84ee70",
+    "dataPath": "dist/data.json",
+    "dataSha256": "ff4cf9b944f6584f2b3ea219068c552fd554a586e449ffc6999e93bf01343470"
+  },
+  "earlierConditionBaseline": {
+    "head": "0e6932468ae4ef8593c20f34dc8d44af87bb0a85",
+    "dataSha256": "ff4cf9b944f6584f2b3ea219068c552fd554a586e449ffc6999e93bf01343470",
+    "baselineReceiptSha256": "77927c9a601bccc9b1dfac59b9d938992d1f7eb0e1743f68833b3f486292bf1d"
+  },
+  "scope": {
+    "activeCatalogPaths": 1016,
+    "catalogBindingOccurrences": 1017,
+    "uniqueRegionRows": 3127,
+    "regionUseOccurrences": 3130,
+    "verifiedCatalogs": 996,
+    "verifiedRegionRows": 3051,
+    "verifiedRegionUseOccurrences": 3054,
+    "legacyCatalogs": 20,
+    "legacyRegionRows": 76,
+    "legacyRegionUseOccurrences": 76,
+    "sourceRecords": 1227,
+    "sourceRecordsByBook": {
+      "DMG": 159
+    },
+    "uniqueDmgSourceHashes": {
+      "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669": 159
+    },
+    "regionsWithSourceArtifactIdentity": 0
+  },
+  "currentP175": {
+    "record": "rules:encounter-types",
+    "referencePointer": "/rules/35/references/0",
+    "bindingPointer": "/rules/35/references/0/evidenceBindings/0",
+    "catalog": "scans/verified/rules-encounter-types.json",
+    "pdfPage": null,
+    "regionIds": [],
+    "sourceHash": null,
+    "reviewStatus": "field-target-pending"
+  },
+  "sourceArtifacts": {
+    "canonicalPdf": {
+      "kind": "canonical-book-pdf",
+      "book": "DMG",
+      "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "pdfPageCount": 240,
+      "printedPage175Present": false
+    },
+    "userConfirmedSupplement": {
+      "kind": "supplemental-page-image",
+      "book": "DMG",
+      "printedPage": 175,
+      "mediaType": "image/jpeg",
+      "sha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+      "dimensionsPx": [
+        1329,
+        1796
+      ],
+      "editionStatus": "user-confirmed-correct-edition",
+      "printingStatus": "not-specified",
+      "published": false,
+      "bytesIncluded": false
+    }
+  },
+  "consumers": [
+    {
+      "path": "dist/books.js",
+      "classification": "book-page-map-and-gap-api",
+      "gitBlobObject": "bbc1c4daa7965ffd7bb9e5eec4277b5a17c64932",
+      "fileSha256": "eec2bf53b19e6f131f06032f7f17c86d004b93798c8cb476129e4ff852b61877",
+      "assumptions": [
+        {
+          "label": "DMG mapping",
+          "matchCount": 1,
+          "lines": [
+            6
+          ]
+        },
+        {
+          "label": "gap handling",
+          "matchCount": 1,
+          "lines": [
+            22
+          ]
+        },
+        {
+          "label": "page map",
+          "matchCount": 1,
+          "lines": [
+            26
+          ]
+        },
+        {
+          "label": "supplement API at baseline",
+          "matchCount": 1,
+          "lines": [
+            33
+          ]
+        },
+        {
+          "label": "missing page notice",
+          "matchCount": 1,
+          "lines": [
+            36
+          ]
+        }
+      ]
+    },
+    {
+      "path": "dist/citations.js",
+      "classification": "citation-page-projection",
+      "gitBlobObject": "71d0a0b425c41aa1c62d8e63b16c2234773f27c1",
+      "fileSha256": "dec36d9e039c2ed4f53fd07a34f5ad8f60473dcf74b11173d18183928f4a5b22",
+      "assumptions": [
+        {
+          "label": "page projection",
+          "matchCount": 1,
+          "lines": [
+            103
+          ]
+        }
+      ]
+    },
+    {
+      "path": "dist/app.js",
+      "classification": "local-PDF-page-label",
+      "gitBlobObject": "988750cfe9d6374fe56211d3363a90e9d146c200",
+      "fileSha256": "e96f442f5b2310495971868f19052245fad9ad54b82a939b8d7f6d9adce642ab",
+      "assumptions": [
+        {
+          "label": "page mapper",
+          "matchCount": 1,
+          "lines": [
+            214
+          ]
+        },
+        {
+          "label": "PDF page header",
+          "matchCount": 1,
+          "lines": [
+            980
+          ]
+        }
+      ]
+    },
+    {
+      "path": "dist/source-viewer.js",
+      "classification": "runtime-catalog-and-continuation-validator",
+      "gitBlobObject": "8fd5e9eb89f45f0774c45b5f7be42d73e01c8c1b",
+      "fileSha256": "2bcd568da598999036594d670e826f715b782643074d21fbed0cfab5233283e4",
+      "assumptions": [
+        {
+          "label": "page mapper",
+          "matchCount": 1,
+          "lines": [
+            35
+          ]
+        },
+        {
+          "label": "region page gate",
+          "matchCount": 1,
+          "lines": [
+            520
+          ]
+        },
+        {
+          "label": "per-book source map",
+          "matchCount": 1,
+          "lines": [
+            529
+          ]
+        },
+        {
+          "label": "continuation hash check",
+          "matchCount": 1,
+          "lines": [
+            597
+          ]
+        },
+        {
+          "label": "continuation PDF page check",
+          "matchCount": 1,
+          "lines": [
+            600
+          ]
+        },
+        {
+          "label": "PDF hash caption",
+          "matchCount": 1,
+          "lines": [
+            1005
+          ]
+        },
+        {
+          "label": "PDF page caption",
+          "matchCount": 1,
+          "lines": [
+            1007
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/assemble.mjs",
+      "classification": "assembly-and-published-image-validation",
+      "gitBlobObject": "8252b5bd76375a9be2b278b0b4b7063166dcec70",
+      "fileSha256": "3e1924f2686121e6101b4e5337fff6607faa45be9be29444f764556d6e204a7b",
+      "assumptions": [
+        {
+          "label": "catalog validator call",
+          "matchCount": 1,
+          "lines": [
+            59
+          ]
+        },
+        {
+          "label": "PNG signature",
+          "matchCount": 1,
+          "lines": [
+            62
+          ]
+        },
+        {
+          "label": "released region uniqueness",
+          "matchCount": 1,
+          "lines": [
+            68
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/scan-catalog.mjs",
+      "classification": "shared-catalog-schema-validator",
+      "gitBlobObject": "c875a3cc07197d98b4d8eb8a74c7f0c6eacf3124",
+      "fileSha256": "3188175a718a2b122f0fedc5a396d02c774da6ce4d50d60337b34125118c2116",
+      "assumptions": [
+        {
+          "label": "source-map lookup",
+          "matchCount": 1,
+          "lines": [
+            20
+          ]
+        },
+        {
+          "label": "strict PDF page map",
+          "matchCount": 1,
+          "lines": [
+            22
+          ]
+        },
+        {
+          "label": "source SHA validation",
+          "matchCount": 1,
+          "lines": [
+            22
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/price-source-inventory.mjs",
+      "classification": "field-binding-source-hash-and-crop-coordinates",
+      "gitBlobObject": "038029a2f378d42e52aae3e435a3fdc5756b0ea9",
+      "fileSha256": "96abb14ce2b640b784753b58c8706a1817b8e10ee8cc93999d18c4acfb0bb0c2",
+      "assumptions": [
+        {
+          "label": "source SHA per region",
+          "matchCount": 3,
+          "lines": [
+            57,
+            1332,
+            1341
+          ]
+        },
+        {
+          "label": "printed to PDF map",
+          "matchCount": 1,
+          "lines": [
+            135
+          ]
+        },
+        {
+          "label": "normalized crop bounds",
+          "matchCount": 2,
+          "lines": [
+            307,
+            1323
+          ]
+        },
+        {
+          "label": "field-review source hash guard",
+          "matchCount": 1,
+          "lines": [
+            1332
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/citation-browser-inventory.mjs",
+      "classification": "field-target-region-owner-validation",
+      "gitBlobObject": "a28c58f5bd1e6eb8da77e690e278276273dd8cb1",
+      "fileSha256": "c203d06c8ab4fa144124282ed6581cc81b0c75bc471a6fc98d6f6df1f6ed48d8",
+      "assumptions": [
+        {
+          "label": "page range guard",
+          "matchCount": 1,
+          "lines": [
+            73
+          ]
+        },
+        {
+          "label": "region/page identity guard",
+          "matchCount": 1,
+          "lines": [
+            112
+          ]
+        },
+        {
+          "label": "resolved target guard",
+          "matchCount": 1,
+          "lines": [
+            78
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/source-visual-coverage.mjs",
+      "classification": "visual-review-ledger-and-PDF-geometry",
+      "gitBlobObject": "d5643d11b1ad21fd50abe1317f4c79a9e294f1d8",
+      "fileSha256": "c7742b7f418f961acc4ef2d007ebf60243174c30f9597fc072c9a904322e5f61",
+      "assumptions": [
+        {
+          "label": "region source SHA",
+          "matchCount": 1,
+          "lines": [
+            116
+          ]
+        },
+        {
+          "label": "review-hash gate",
+          "matchCount": 1,
+          "lines": [
+            122
+          ]
+        },
+        {
+          "label": "PDF geometry source map",
+          "matchCount": 1,
+          "lines": [
+            128
+          ]
+        },
+        {
+          "label": "ledger source comparison",
+          "matchCount": 2,
+          "lines": [
+            122,
+            149
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/source-raster-coverage.mjs",
+      "classification": "complete-active-raster-universe",
+      "gitBlobObject": "4f6244cfe073fc11a0f7a34ac568a15e8155aa74",
+      "fileSha256": "a95657c9822f5db8b5562b5f27748805faa287403d69a11ca3f9cebea99f2d7f",
+      "assumptions": [
+        {
+          "label": "sourcePdf hash on live use",
+          "matchCount": 1,
+          "lines": [
+            164
+          ]
+        },
+        {
+          "label": "single hash per book",
+          "matchCount": 1,
+          "lines": [
+            197
+          ]
+        },
+        {
+          "label": "required PDF frames",
+          "matchCount": 1,
+          "lines": [
+            204
+          ]
+        },
+        {
+          "label": "complete frame set",
+          "matchCount": 1,
+          "lines": [
+            222
+          ]
+        },
+        {
+          "label": "geometry frame join",
+          "matchCount": 1,
+          "lines": [
+            233
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/continuation-candidates.py",
+      "classification": "PDF-only-source-text-and-continuation-discovery",
+      "gitBlobObject": "9ec8f061f84a092ef2dd010295b164dd2fd7b0ae",
+      "fileSha256": "359eec092837ec25ccc180c860271faaa5901a92fe9e83fbb7a3e54e4a16ce11",
+      "assumptions": [
+        {
+          "label": "one PDF per book",
+          "matchCount": 1,
+          "lines": [
+            25
+          ]
+        },
+        {
+          "label": "integer PDF-page admission",
+          "matchCount": 1,
+          "lines": [
+            515
+          ]
+        },
+        {
+          "label": "book source-hash set",
+          "matchCount": 1,
+          "lines": [
+            526
+          ]
+        },
+        {
+          "label": "PDF page reader",
+          "matchCount": 1,
+          "lines": [
+            519
+          ]
+        },
+        {
+          "label": "region source assessment",
+          "matchCount": 1,
+          "lines": [
+            599
+          ]
+        },
+        {
+          "label": "book source hash on assessment",
+          "matchCount": 1,
+          "lines": [
+            647
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/continuation-candidates-validate.mjs",
+      "classification": "generated-continuation-snapshot-validation",
+      "gitBlobObject": "c4ec4c8a9e26e971083f786c38240a0b4cd64828",
+      "fileSha256": "33124f6bb41bd7d98ee350863be16515205c8a5682b6ea395fd341a5c047ee2b",
+      "assumptions": [
+        {
+          "label": "per-region source lookup",
+          "matchCount": 1,
+          "lines": [
+            221
+          ]
+        },
+        {
+          "label": "book PDF source allowlist",
+          "matchCount": 1,
+          "lines": [
+            222
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/citation-systemic-inventory.mjs",
+      "classification": "full-catalog-region-coordinate-inventory",
+      "gitBlobObject": "89f142f367bc96425b443cbf025c93d3d4512547",
+      "fileSha256": "333806f2b84b3491597b5a29fddb176e8a65a4d53c103deb8348497c4ca42762",
+      "assumptions": [
+        {
+          "label": "source identity on region inventory",
+          "matchCount": 1,
+          "lines": [
+            353
+          ]
+        },
+        {
+          "label": "coordinate source",
+          "matchCount": 3,
+          "lines": [
+            531,
+            536,
+            544
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/source-scan-inventory.mjs",
+      "classification": "cited-page-availability-and-crop-inventory",
+      "gitBlobObject": "a9af0e0d364a771760808e50b05558b350da516a",
+      "fileSha256": "f9339413413476bc94bb41c9e50850e042e809768ec2f4f07320ba57089c5d97",
+      "assumptions": [
+        {
+          "label": "page PDF identity projection",
+          "matchCount": 1,
+          "lines": [
+            46
+          ]
+        },
+        {
+          "label": "missing-page map",
+          "matchCount": 1,
+          "lines": [
+            66
+          ]
+        },
+        {
+          "label": "missing-page list",
+          "matchCount": 1,
+          "lines": [
+            66
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tests/books.test.mjs",
+      "classification": "page-map-regression",
+      "gitBlobObject": "0d353fb26fe5c0f8b4b37e28815ee95b946d3a6c",
+      "fileSha256": "f3c669f9e4539c1bf1f1445e3a0a0b835c22e46f10373368777c9933fec93b0f",
+      "assumptions": [
+        {
+          "label": "missing p.175 expectation",
+          "matchCount": 1,
+          "lines": [
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tests/scan-catalog.test.mjs",
+      "classification": "catalog-gate-regression",
+      "gitBlobObject": "fc38016916a4556145223f84ecf00373dc4f0b84",
+      "fileSha256": "97f5679bd35c7541ee177b33abe9a5f15a8b67e209d6ede8656836f2dc4a48e2",
+      "assumptions": [
+        {
+          "label": "catalog validation tests",
+          "matchCount": 6,
+          "lines": [
+            5,
+            16,
+            19,
+            21,
+            27,
+            29
+          ]
+        }
+      ]
+    }
+  ],
+  "requiredInvariant": "Preserve the canonical DMG PDF hash and pdfPage:null for printed p.175. A crop sourced from the user-confirmed supplement must bind separately to the exact JPEG artifact and native pixel frame; its published PNG hash is a third, distinct identity.",
+  "limitation": "Structural source/identity consumer census only. It makes no source-text, crop, focus, or content-completeness judgment. Independent source and root-reviewed V2 focus reports are separate artifacts."
+}

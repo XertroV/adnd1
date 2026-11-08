@@ -21,6 +21,76 @@ test('scoped metadata and book mapping are checked',()=>{
   const broken=structuredClone(catalog);edit(broken);assert.throws(()=>validateScanCatalog(broken,item,books));
  }
 });
+test('the explicit DMG 175 supplement resolves to its JPEG frame without changing the canonical PDF identity',()=>{
+ const c=JSON.parse(readFileSync(new URL('../dist/scans/verified/rules-encounter-types.json',import.meta.url),'utf8'));
+ const v={...verification,collection:'rules',catalog:'scans/verified/rules-encounter-types.json',regionCount:3},entry={id:'encounter-types',scanVerification:v};
+ const region=c.regions.find(r=>r.id==='dmg-175-party-table-context-78c4c383c38c7d10'),identity=books.resolveRegionSourceIdentity(c,region);
+ assert.equal(identity.valid,true);assert.equal(identity.sourceKind,'supplemental-image');assert.equal(identity.sourceArtifactId,'dmg175-user-confirmed-supplement');assert.equal(identity.sourceSha256,'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7');assert.equal(identity.canonicalPdfSha256,'7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669');assert.deepEqual(identity.sourceCropBoundsPx,[0,1145,635,1635]);
+ assert.equal(books.pdfPage('DMG',175),null);assert.equal(c.sources.DMG.sha256,identity.canonicalPdfSha256);assert.equal(validateScanCatalog(c,entry,books,v),c);
+});
+test('invalid supplemental identities, page mappings and source-image bounds fail closed without PDF fallback',()=>{
+ const supplementId='dmg175-user-confirmed-supplement';
+ const make=()=>{const c=structuredClone(catalog);c.sourceArtifacts={[supplementId]:structuredClone(books.sourceArtifacts[supplementId])};c.sources.DMG={sha256:'7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669',hashStatus:'computed-local'};c.regions[0]={...c.regions[0],id:'dmg-175-party-table-context-78c4c383c38c7d10',book:'DMG',printedPage:175,pdfPage:null,sourceArtifactId:supplementId,sourceCropBoundsPx:[0,1145,635,1635],sourceCoordinateSpace:'supplement-image pixels; top-left origin; LTRB half-open',image:'dmg-175-party-table-context-78c4c383c38c7d10.png',sha256:'78c4c383c38c7d100a9e66bec4f36de1fdb9453d6e44d1eec53120e849a36e89',width:635,height:490};return c;};
+ const mutations=[
+  ['unknown artifact id',c=>c.regions[0].sourceArtifactId='other'],
+  ['missing artifact map',c=>delete c.sourceArtifacts[supplementId]],
+  ['artifact page mismatch',c=>c.sourceArtifacts[supplementId].printedPage=174],
+  ['wrong image hash',c=>c.sourceArtifacts[supplementId].sha256='a'.repeat(64)],
+  ['wrong media type',c=>c.sourceArtifacts[supplementId].mediaType='image/png'],
+  ['wrong native dimensions',c=>c.sourceArtifacts[supplementId].dimensionsPx=[1328,1796]],
+  ['wrong canonical PDF identity',c=>c.sourceArtifacts[supplementId].canonicalPdfSha256='b'.repeat(64)],
+  ['wrong canonical catalog PDF',c=>c.sources.DMG.sha256='b'.repeat(64)],
+  ['claim PDF contains page',c=>c.sourceArtifacts[supplementId].originalPdfContainsPrintedPage=true],
+  ['unexpected PDF page',c=>c.regions[0].pdfPage=176],
+  ['missing PDF page field',c=>delete c.regions[0].pdfPage],
+  ['missing crop bounds',c=>delete c.regions[0].sourceCropBoundsPx],
+  ['out-of-frame crop bounds',c=>c.regions[0].sourceCropBoundsPx=[10,20,1330,30]],
+  ['empty crop bounds',c=>c.regions[0].sourceCropBoundsPx=[10,20,10,30]],
+  ['full native source image is not an approved crop',c=>c.regions[0].sourceCropBoundsPx=[0,0,1329,1796]],
+  ['other in-frame crop is not approved',c=>c.regions[0].sourceCropBoundsPx=[1,1,634,489]],
+  ['new crop must use its reviewed region identity',c=>c.regions[0].id='dmg-175-unreviewed-crop'],
+  ['approved bounds with changed PNG bytes are rejected',c=>c.regions[0].sha256='d'.repeat(64)],
+  ['coordinate label mismatch',c=>c.regions[0].sourceCoordinateSpace='PDF page pixels'],
+  ['output dimensions mismatch',c=>c.regions[0].width=11],
+  ['supplement frame without artifact identity',c=>delete c.regions[0].sourceArtifactId],
+ ];
+ for(const [label,mutate] of mutations){const c=make();mutate(c);assert.equal(books.resolveRegionSourceIdentity(c,c.regions[0]).valid,false,label);assert.throws(()=>validateScanCatalog(c,{...item,scanVerification:{...verification,regionCount:1}},books,{...verification,regionCount:1}),label);}
+});
+test('all active catalog regions preserve strict PDF identity while both supplemental crops resolve',()=>{
+ const catalogs=new Map();
+ for(const collection of ['rules','spells','equipment','matrices','classes','progressionExplainer']){
+  const items=collection==='progressionExplainer'?(data[collection]?[data[collection]]:[]):data[collection]||[];
+  for(const entry of items)for(const binding of ['sourceExcerpts','scanVerification']){
+   const selected=entry[binding];if(!selected?.catalog||catalogs.has(selected.catalog))continue;
+   catalogs.set(selected.catalog,{entry:{...entry,scanVerification:selected},verification:selected});
+  }
+ }
+ let regionCount=0,pdfCount=0,supplementCount=0,stringPageRejected=0,lowerBookRejected=0,paddedBookRejected=0;
+ for(const [catalogPath,{entry,verification:selected}] of catalogs){
+  const c=JSON.parse(readFileSync(new URL(`../dist/${catalogPath}`,import.meta.url),'utf8'));
+  assert.equal(validateScanCatalog(c,entry,books,selected),c,catalogPath);
+  for(const region of c.regions){
+   regionCount++;
+   const identity=books.resolveRegionSourceIdentity(c,region);
+   assert.equal(identity.valid,true,`${catalogPath}/${region.id}`);
+   if(identity.sourceKind==='supplemental-image'){
+    supplementCount++;
+    assert.equal(region.book,'DMG');assert.equal(region.printedPage,175);assert.equal(region.pdfPage,null);
+    continue;
+   }
+   pdfCount++;
+   const stringPage=structuredClone(region);stringPage.printedPage=String(region.printedPage);
+   const lowerBook=structuredClone(region);lowerBook.book=region.book.toLowerCase();
+   const paddedBook=structuredClone(region);paddedBook.book=` ${region.book} `;
+   assert.equal(books.resolveRegionSourceIdentity(c,stringPage).valid,false,`${catalogPath}/${region.id}: string page`);stringPageRejected++;
+   assert.equal(books.resolveRegionSourceIdentity(c,lowerBook).valid,false,`${catalogPath}/${region.id}: lowercase book`);lowerBookRejected++;
+   assert.equal(books.resolveRegionSourceIdentity(c,paddedBook).valid,false,`${catalogPath}/${region.id}: padded book`);paddedBookRejected++;
+  }
+ }
+ assert.ok(catalogs.size>=1016);assert.equal(regionCount,pdfCount+supplementCount);assert.equal(supplementCount,2);
+ assert.equal(stringPageRejected,pdfCount);assert.equal(lowerBookRejected,pdfCount);assert.equal(paddedBookRejected,pdfCount);
+ assert.equal(books.pdfPage('phb','1'),2,'public page lookup remains alias-friendly');
+});
 test('legacy dagger admits only the pinned complete UA28 table asset and hash',()=>{
  const fullTable=JSON.parse(readFileSync(new URL('../dist/scans/dagger/manifest.json',import.meta.url),'utf8'));
  const dagger=data.equipment.find(x=>x.id==='phb-dagger'),v=dagger.scanVerification;

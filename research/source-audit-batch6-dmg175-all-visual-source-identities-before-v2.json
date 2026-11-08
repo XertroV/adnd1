@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "dmg175-all-current-visual-source-identities-before-fix-v2",
+  "capturedAt": "2026-11-08T00:00:00Z",
+  "supersedes": "research/source-audit-batch6-dmg175-all-visual-source-identities-before-v1.json",
+  "supersessionReason": "The v1 diagnostic omitted the distinct progressionExplainer owner from its local catalog lookup; this v2 pass includes all exposed owners and all report usages.",
+  "inputs": {
+    "distDataSha256": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d",
+    "visualReportSha256": "4227378719bb54cfcbaf86eca518045a2384039c75ed8a31141657ca4659d56a",
+    "helperSha256": "ead85c138b717252da555b59808f65373260fa81d1edde44a5315ebf6e89d633",
+    "sharedSourceIdentityResolver": "dist/books.js#resolveRegionSourceIdentity",
+    "sharedResolverSha256": "6284977531e38b3184a15939bb8a68e31b37d1dad61c91392bb57d443045d98d",
+    "catalogCount": 1017
+  },
+  "counts": {
+    "catalogRegionUsages": 3396,
+    "validatedSourceIdentities": 3396,
+    "invalidSourceIdentities": 0,
+    "sourceShaMatchesSharedResolver": 3396,
+    "legacyBookPdfExpectedShaMismatches": 2,
+    "bySourceKind": {
+      "pdf": 3394,
+      "supplemental-image": 2
+    },
+    "byBook": {
+      "PHB": 1845,
+      "DMG": 332,
+      "UA": 1202,
+      "MM": 15,
+      "MM2": 2
+    },
+    "progressionExplainerUsages": 10
+  },
+  "expectedResolution": {
+    "normalPdfUsages": 3394,
+    "supplementalImageUsages": 2,
+    "total": 3396,
+    "invalidSourceIdentities": 0,
+    "legacyBookPdfOnlyMismatchCount": 2
+  },
+  "mismatches": [
+    {
+      "owner": "rules:encounter-types",
+      "binding": "sourceExcerpts",
+      "catalog": "scans/verified/rules-encounter-types.json",
+      "regionId": "dmg-175-party-table-context-78c4c383c38c7d10",
+      "book": "DMG",
+      "printedPage": 175,
+      "pdfPage": null,
+      "sourceArtifactId": "dmg175-user-confirmed-supplement",
+      "reportedSourceSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+      "legacyBookPdfExpectedSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "resolvedSourceSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+      "canonicalPdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+    },
+    {
+      "owner": "rules:encounter-types",
+      "binding": "sourceExcerpts",
+      "catalog": "scans/verified/rules-encounter-types.json",
+      "regionId": "dmg-175-level-others-context-5aa02e91e35c4c28",
+      "book": "DMG",
+      "printedPage": 175,
+      "pdfPage": null,
+      "sourceArtifactId": "dmg175-user-confirmed-supplement",
+      "reportedSourceSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+      "legacyBookPdfExpectedSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "resolvedSourceSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+      "canonicalPdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+    }
+  ],
+  "invalid": [],
+  "interpretation": "All 3,396 live catalog-region usages resolve to the identity recorded by the current shared resolver: normal PDF regions use the canonical per-book PDF hash; the two typed DMG p.175 supplements use the separate e4ac image hash while retaining canonical PDF hash 705 and pdfPage:null. The prior viewer/refresh sourceSha join incorrectly used the book PDF hash for every region."
+}

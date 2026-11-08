@@ -21,14 +21,30 @@ copyFileSync('tools/mechanics-citation-page-transfer.mjs',path.join(temp,'mechan
 const {validateContinuationSnapshot:oldValidate}=await import(pathToFileURL(path.join(temp,'old-validator.mjs')).href);
 after(()=>rmSync(temp,{recursive:true,force:true}));
 const selected=loadCurrentContinuationCandidateSnapshot({root});
-function mutant(change){
- const full=JSON.parse(gunzipSync(readFileSync(selected.fullPath))),summary=structuredClone(selected.summary);
+function archivedPdfSelection(){
+ const commit='853f2fb931c7e18d50caf06f43c73df848ff5ab2';
+ const gitBytes=relativePath=>{
+  const result=spawnSync('git',['show',`${commit}:${relativePath}`],{cwd:root,maxBuffer:150*1024*1024});
+  assert.equal(result.status,0,`Archived source snapshot remains available: ${relativePath}`);return result.stdout;
+ };
+ const pointer=JSON.parse(gitBytes('research/current-continuation-candidate-snapshot.json'));
+ assert.deepEqual(pointer,{schemaVersion:1,summary:{path:'research/source-audit-batch6-xp-a65-continuation-current-v1.json',sha256:'d081a85bb937b9213512a1868e4bd03467740552ff8fd89b0faee5d6fc4cfe3d'},fullEvidence:{path:'research/source-audit-batch6-xp-a65-continuation-current-v1-full.json.gz',sha256:'9cad1ff653cce0505b0bf81ccd38490d0d760178bc5c774c58744af71d68d79d'}});
+ const summaryBytes=gitBytes(pointer.summary.path),fullBytes=gitBytes(pointer.fullEvidence.path),summary=JSON.parse(summaryBytes);
+ assert.equal(sha(summaryBytes),pointer.summary.sha256);assert.equal(sha(fullBytes),pointer.fullEvidence.sha256);
+ assert.equal(summary.input.sourceTreeMode,'pinned-git-commit');
+ assert.equal(summary.input.gitCommit,'3d610f60763b7343e7bd4bb5508d5461a6c90bf3');
+ const dir=mkdtempSync(path.join(temp,'archived-pdf-')),summaryPath=path.join(dir,'summary.json'),fullPath=path.join(dir,'full.json.gz');
+ writeFileSync(summaryPath,summaryBytes);writeFileSync(fullPath,fullBytes);
+ return {summary,summaryPath,fullPath};
+}
+function mutant(change,{source=selected,treeSelection='current-worktree'}={}){
+ const full=JSON.parse(gunzipSync(readFileSync(source.fullPath))),summary=structuredClone(source.summary);
  change(full,summary);
  const dir=mkdtempSync(path.join(temp,'mutation-')),raw=Buffer.from(JSON.stringify(full)+'\n'),compressed=gzipSync(raw);
  writeFileSync(path.join(dir,'full.json.gz'),compressed);
  Object.assign(summary.fullEvidence,{path:'full.json.gz',sha256:sha(compressed),rawReportSha256:sha(raw)});
  const summaryPath=path.join(dir,'summary.json');writeFileSync(summaryPath,JSON.stringify(summary));
- return {root,summaryPath,treeSelection:'current-worktree'};
+ return {root,summaryPath,treeSelection};
 }
 test('the exact old workflow/summary/full and all twelve real CI errors remain frozen',()=>{
  assert.equal(sha(fixtureBytes),'7c1af89d36234a04f37cd27f384f65efec5e9cceb1af9c82db17638a1e7a4087');
@@ -51,9 +67,23 @@ test('the active pair covers the complete current tree without a semantic-source
  assert.equal(result.counts.distinctSourcePageBindings,selected.summary.exposedUniverse.uniqueSourcePageBindings);
  assert.match(result.sourcePdfRegeneration,/not regenerated from private PDFs/);
 });
-test('an omitted declared alias cannot be hidden by a matching row counter and recomputed hashes',()=>{
- const options=mutant((full,summary)=>{full.regionAssessments=full.regionAssessments.filter(r=>!(r.regionId==='ua-69-b8b05ef9807ad0f8'&&r.owner.itemId==='ua-illusionist-death-fog'));summary.exposedCatalogSummary.catalogRegionRows--;});
+test('the archived PDF-only tree reproduces the omitted-alias false pass against its exact captured source tree',()=>{
+ const source=archivedPdfSelection(),base={root,summaryPath:source.summaryPath,fullPath:source.fullPath,treeSelection:'pinned-git-commit'};
+ const full=JSON.parse(gunzipSync(readFileSync(source.fullPath)));
+ assert.equal(full.regionAssessments.length,3391);
+ assert.equal(full.regionAssessments.some(r=>r.sourceKind==='supplemental-image'),false);
+ assert.equal(oldValidate(base).valid,true);assert.equal(validateContinuationSnapshot(base).valid,true);
+ const options=mutant((full,summary)=>{const before=full.regionAssessments.length;full.regionAssessments=full.regionAssessments.filter(r=>!(r.regionId==='ua-69-b8b05ef9807ad0f8'&&r.owner.itemId==='ua-illusionist-death-fog'));assert.equal(full.regionAssessments.length,before-1);summary.exposedCatalogSummary.catalogRegionRows--;},{source,treeSelection:'pinned-git-commit'});
  assert.equal(oldValidate(options).valid,true,'exact pre-fix checker reproduces the omission false pass');
+ const result=validateContinuationSnapshot(options);assert.equal(result.valid,false);
+ assert.ok(result.errors.some(x=>x.code==='current-region-assessment-missing'&&x.detail.includes('ua-69-b8b05ef9807ad0f8')));
+});
+test('an omitted alias is rejected in the native current3393-row universe while both supplemental records remain present',()=>{
+ const full=JSON.parse(gunzipSync(readFileSync(selected.fullPath))),supplemental=full.regionAssessments.filter(r=>r.sourceKind==='supplemental-image');
+ assert.equal(full.regionAssessments.length,3393);
+ assert.deepEqual(supplemental.map(r=>r.regionId).sort(),['dmg-175-level-others-context-5aa02e91e35c4c28','dmg-175-party-table-context-78c4c383c38c7d10']);
+ for(const row of supplemental){assert.equal(row.sourceSha256,'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7');assert.equal(row.sourceArtifactId,'dmg175-user-confirmed-supplement');assert.equal(row.pdfPage,null);}
+ const options=mutant((copy,summary)=>{copy.regionAssessments=copy.regionAssessments.filter(r=>!(r.regionId==='ua-69-b8b05ef9807ad0f8'&&r.owner.itemId==='ua-illusionist-death-fog'));assert.equal(copy.regionAssessments.length,3392);assert.deepEqual(copy.regionAssessments.filter(r=>r.sourceKind==='supplemental-image'),supplemental);summary.exposedCatalogSummary.catalogRegionRows--;});
  const result=validateContinuationSnapshot(options);assert.equal(result.valid,false);
  assert.ok(result.errors.some(x=>x.code==='current-region-assessment-missing'&&x.detail.includes('ua-69-b8b05ef9807ad0f8')));
 });
