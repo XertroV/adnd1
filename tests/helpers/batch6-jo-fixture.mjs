@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {projectPass8CharacterReferenceBytes} from './pass8-character-reference-history.mjs';
 import {projectDmg175Json} from './batch6-dmg175-source-history.mjs';
 import {dmg175HistoryContract} from './batch6-dmg175-source-history.mjs';
 import {reverseDmg74MatrixBatchFromData,withoutDmg74MatrixSourceExcerptOverrides} from './dmg74-matrix-batch.mjs';
@@ -97,7 +98,7 @@ export function withoutBatch6JoManifest(manifest){
 
 export function readBeforeJoBytes(path){
  const normalized=String(path).replace(/^\.\//,'');
- let current=readFileSync(new URL(normalized,root));
+ let current=projectPass8CharacterReferenceBytes(normalized,readFileSync(new URL(normalized,root)));
  if(normalized==='dist/data.json'){
   let parsed=JSON.parse(current);
   if(parsed.matrices?.some(matrix=>matrix?.id==='dmg-cleric-druid-monk-attack-matrix'))parsed=reverseDmg74MatrixBatchFromData(parsed,dmg175HistoryContract().files[normalized].current);
@@ -134,7 +135,7 @@ export function readBeforeJoFile(path,options){
  if(typeof path==='number')return readFileSync(path,options);
  const absolute=path instanceof URL?fileURLToPath(path):resolve(String(path));
  const local=relative(fileURLToPath(root),absolute).replaceAll('\\','/');
- const scoped=['equipment.json','dist/data.json','citation-overrides.json','research/citation-continuations.json','research/source-table-citation-contracts.json','dist/scans/verified/equipment-ua-caltrop.json','dist/scans/verified/rules-encounter-types.json'];
+ const scoped=['rules.json','phb-spell-index.json','phb-magic-user-extra.json','equipment.json','dist/data.json','citation-overrides.json','research/citation-continuations.json','research/source-table-citation-contracts.json','dist/scans/verified/equipment-ua-caltrop.json','dist/scans/verified/rules-encounter-types.json'];
  if(!scoped.includes(local))return readFileSync(path,options);
  const bytes=readBeforeJoBytes(local),encoding=typeof options==='string'?options:options?.encoding;return encoding?bytes.toString(encoding):bytes;
 }

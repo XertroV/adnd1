@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-root-review-of-character-reference-history-adapter",
+  "reviewer": "root; independent of new helper implementer",
+  "implementationReceipt": {
+    "path": "research/source-audit-pass8-character-reference-history-integration.json",
+    "sha256": "67f121f999229c48f92c696648dfddb8ed5bf51f2f6f2d0f04105db3d42252c2"
+  },
+  "code": {
+    "path": "tests/helpers/pass8-character-reference-history.mjs",
+    "sha256": "67ebc08c45e088b41c3b208c1f01cffa6965c36ed8f9875a9d603f84ff5840b9"
+  },
+  "contract": {
+    "path": "tests/fixtures/pass8-character-reference-history-v1.json.gz",
+    "sha256": "6fb9c572179302493e3bc8759e1bcd546915f9775ae887a9b2b5dc78fb208eb5"
+  },
+  "checks": [
+    {
+      "path": "rules.json",
+      "beforeMatchesGit": true,
+      "currentMatchesPinnedState": true,
+      "replacementCount": 2
+    },
+    {
+      "path": "phb-spell-index.json",
+      "beforeMatchesGit": true,
+      "currentMatchesPinnedState": true,
+      "replacementCount": 1
+    },
+    {
+      "path": "phb-magic-user-extra.json",
+      "beforeMatchesGit": true,
+      "currentMatchesPinnedState": true,
+      "replacementCount": 1
+    },
+    {
+      "path": "dist/data.json",
+      "beforeMatchesGit": true,
+      "currentMatchesPinnedState": true,
+      "replacementCount": 3
+    },
+    {
+      "path": "research/price-source-inventory.json",
+      "beforeMatchesGit": true,
+      "currentMatchesPinnedState": true,
+      "replacementCount": 1
+    }
+  ],
+  "beforeHelperTestFilesComparedToExactGit": 7,
+  "reviewFindings": [
+    "Outer history stage accepts only the complete captured current state or exact full predecessor. It replaces only the three approved owners/five input files and the single generated sourceObject label; all other properties/counts/grades must restore exactly.",
+    "Raw-byte projection requires one of two exact raw hashes and checks the complete restored raw bytes. Mixed states and unexpected aliases, owners, bindings or unrelated changes fail before older guards run.",
+    "All seven old unsealed helper/test files are preserved as complete bytes in the fixture; five test edits only substitute an explicitly historical reader. The production mechanics evaluator is unchanged.",
+    "The original663-byte sealed matrix helper and every old golden remain unchanged. Existing matrix,175,XP,Jo and mechanics guards still execute after this exact outer stage.",
+    "Non-JSON values, symbols, sparse/extra/non-enumerable array properties, getters and prototypes cannot disappear through serialization."
+  ],
+  "independentExecutableCheck": {
+    "command": "node --test tests/pass8-character-reference-history.test.mjs",
+    "registered": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "privateActualLogSha256": "3583b0a4739975d7b998396d94f8b1e9b447bfac9142ccd57cd6b189dbf98838"
+  },
+  "status": "approved-for-exact-bounded-history-projection",
+  "limits": [
+    "Source readings are approved separately in source-audit-pass8-content-repair-independent-review.json.",
+    "This does not approve a future content change, mutate a golden, clear citation warnings or substitute for the full24release checks and exact-head CI."
+  ]
+}
