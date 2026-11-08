@@ -5,7 +5,7 @@ export function citationRegionRole(region){
  const title=region.title||'';
  if(['heading','heading-only'].includes(region.role)||['heading','heading-only'].includes(region.kind)||/\b(?:table|section) headings?\b|\bheading[- ]only\b/i.test(title))return 'heading-context';
  if(region.role==='row'||region.kind==='row')return 'declared-row';
- if(region.role==='note'||region.kind==='note')return 'declared-passage';
+ if(['note','passage'].includes(region.role)||['note','passage'].includes(region.kind))return 'declared-passage';
  if(region.role==='context')return 'declared-context';
  if(/\brow\b/i.test(title))return 'declared-row';
  if(/\btable notes\b/i.test(title))return 'declared-context';

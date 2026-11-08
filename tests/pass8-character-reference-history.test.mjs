@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-xp-continuation-history.mjs';
+// Exercise the original character-reference adapter at its exact777 successor
+// checkpoint, after the separately guarded XP outer stage has been reversed.
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
@@ -9,7 +11,7 @@ import {
   projectPass8CharacterReferenceJson as project,
   projectPass8CharacterReferenceBytes as projectBytes,
   readBeforePass8CharacterReferenceFile as readBefore,
-} from './helpers/pass8-character-reference-history.mjs';
+} from './helpers/pass8-xp-continuation-history.mjs';
 
 const root = new URL('../', import.meta.url);
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -23,7 +25,7 @@ const before = Object.fromEntries(Object.entries(beforeBytes).map(([path, bytes]
 const spell = data => data.spells.find(row => row.id === 'phb-magic-user-lnfravision');
 const secondary = data => data.rules.find(row => row.id === 'secondary-skills');
 
-test('all five actual current inputs restore complete Git-bound predecessor objects and raw bytes', () => {
+test('all five released777 inputs restore complete Git-bound predecessor objects and raw bytes', () => {
   for (const path of Object.keys(contract.files)) {
     const input = structuredClone(current[path]);
     assert.deepEqual(project(path, input), before[path], path);

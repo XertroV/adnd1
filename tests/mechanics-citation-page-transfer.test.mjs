@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-character-reference-history.mjs';
+import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-xp-continuation-history.mjs';
 import {gunzipSync} from 'node:zlib';
 import {resolve} from 'node:path';
 import {buildLedger, validateLedger} from '../tools/mechanics-audit.mjs';

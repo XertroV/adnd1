@@ -1,7 +1,7 @@
 import test from 'node:test';
 import {projectDmg175Json} from './helpers/batch6-dmg175-source-history.mjs';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-xp-continuation-history.mjs';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {gunzipSync} from 'node:zlib';
@@ -10,6 +10,8 @@ import {auditRequiredSegmentPresence,validateContinuationManifest} from '../tool
 import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';
 import {reverseApprovedXpExcerptCounts} from './helpers/batch6-xp-source-history.mjs';
 import {withoutDmg74MatrixSourceExcerptOverrides} from './helpers/dmg74-matrix-batch.mjs';
+// This history replay uses the exact released777 inputs before the additive
+// XP-continuation mapping. Current-input validation remains a separate gate.
 
 const read = path => JSON.parse(readFileSync(path,'utf8'));
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -53,7 +55,7 @@ test('same detector rejects all three old undeclared chains, both old crop bindi
   assert.equal(findings.flatMap(row=>row.missing).length,0,'IDs were present; complete reviewed recipes and linkage were absent');
 });
 
-test('live six stable regions and three ordered groups match the exact independently reviewed recipes',()=>{
+test('the released777 six stable regions and three ordered groups retain their exact reviewed recipes',()=>{
   assert.ok(detect(liveManifest(),read).every(row=>row.valid));
   const paths=[...new Set(plan.regions.map(row=>row.catalog))];
   for(const path of paths){

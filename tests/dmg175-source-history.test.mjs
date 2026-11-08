@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-character-reference-history.mjs';
+import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-xp-continuation-history.mjs';
 import test from 'node:test';
 import {createHash} from 'node:crypto';
 import vm from 'node:vm';
@@ -63,7 +63,7 @@ check('two declared supplemental identities resolve without PDF invention',()=>{
 assert.equal(results.length,44);assert.equal(mappings,783);
 });
 
-test('the captured historical pairs bind all actual current inputs without repinning any source value or source PDF',()=>{
+test('the captured historical pairs bind exact ancestor inputs without repinning source values or source PDFs',()=>{
  const data='dist/data.json',over='citation-overrides.json',price='research/price-source-inventory.json';
  for(const [path,pair]of Object.entries(contract.files)){
   const bytes=readFileSync(new URL('../'+path,import.meta.url)),current=JSON.parse(bytes.toString('utf8'));

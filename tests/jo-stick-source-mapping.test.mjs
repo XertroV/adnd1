@@ -1,7 +1,9 @@
 import test from 'node:test';
 import {dmg175HistoryContract,projectDmg175Books} from './helpers/batch6-dmg175-source-history.mjs';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-xp-continuation-history.mjs';
+// Exact released777 source/Jo history. The active252-group/728-target census
+// is exercised separately by current-integration and native browser checks.
 import {gunzipSync} from 'node:zlib';
 import {resolve} from 'node:path';
 import {readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from './helpers/batch6-jo-fixture.mjs';
@@ -35,7 +37,7 @@ test('the full preserved production-function census reproduces only the Jo role 
  const dmg225=inventory.flatMap(g=>g.selections).filter(s=>s.book==='DMG'&&s.printedPage===225);assert.ok(dmg225.length>0);assert.ok(dmg225.every(s=>s.expectedPdfPage===225));
 });
 
-test('every current group member retains its real runtime result while both Jo members now join',()=>{
+test('every released777 group member retains its real runtime result while both Jo members join',()=>{
  const fixture=unzip('tests/fixtures/jo-stick-continuation-role-before.json.gz'),inventory=runtimeGroupInventory(path=>readFileSync(resolve(root,path)));
  const upstreamRef=joIntegration.upstreamIntegration.runtimeBefore,upstreamBytes=readFileSync(resolve(root,upstreamRef.path));assert.equal(createHash('sha256').update(upstreamBytes).digest('hex'),upstreamRef.sha256);const published=JSON.parse(gunzipSync(upstreamBytes)),publishedFiles=new Map(published.files.map(file=>[file.path,file]));
  assert.deepEqual(runtimeGroupInventory(path=>{const file=publishedFiles.get(path);assert.ok(file,path);assert.equal(createHash('sha256').update(file.text).digest('hex'),file.sha256);return file.text;}),published.inventory,'all207 published group-member results reproduce from exact Git master inputs');const oldById=new Map(published.inventory.map(g=>[g.id,g]));
@@ -67,7 +69,7 @@ test('the distinct Jo owner preserves all fourteen approved source-specific valu
  assert.match(jo.fields['Approx. weight (UA p.26)'],/gp-weight/);
 });
 
-test('all fourteen field targets stay page-bound while the separately cited note remains ordered context',()=>{
+test('the released777 fourteen field targets stay page-bound while the cited note remains ordered context',()=>{
  const bindings=inventory.fieldEvidenceBindings.filter(b=>b.itemId==='ua-jo-stick'&&b.sourceCategory==='equipment-field');assert.equal(bindings.length,14);assert.equal(catalog.regions.length,5);
  for(const binding of bindings){assert.equal(binding.regionIds.length,1);const region=catalog.regions.find(r=>r.id===binding.regionIds[0]);assert.equal(region.book,binding.book);assert.equal(region.printedPage,binding.printedPage);assert.equal(region.pdfPage,binding.pdfPage);assert.equal(region.role,'row');}
  const oldManifest=unzip('tests/fixtures/citation-continuations-before-jo.json.gz'),manifest=read('research/citation-continuations.json');assert.deepEqual(manifest.groups.slice(0,190),oldManifest.groups);assert.equal(manifest.groups.length,250);assert.deepEqual(manifest.groups,[...xpA65HistoryProjection.manifest.releasedGroups,...xpA65HistoryProjection.manifest.xpGroups]);
@@ -94,7 +96,7 @@ test('the fifth unextracted price preserves the exact historical four and cannot
 });
 
 
-test('fourteen value activations bind exact source rows and the peer receipt while unrelated current data reverses byte-for-byte',()=>{
+test('fourteen value activations bind exact source rows and peer receipt while the released777 data reverses byte-for-byte',()=>{
  const activationPath='research/source-audit-batch6-jo-field-value-activation.json',activationBytes=readFileSync(resolve(root,activationPath)),activation=JSON.parse(activationBytes),activationSha=createHash('sha256').update(activationBytes).digest('hex');
  assert.equal(createHash('sha256').update(readFileSync(resolve(root,activation.sourcePeer.path))).digest('hex'),activation.sourcePeer.sha256);assert.equal(activation.records.length,14);assert.equal(activation.sourcePeer.sha256,'2393845114b9a2b9d29518c8464374b1e7312efd61dfbf68ace17afd4e3ed95c');
  for(const record of activation.records){const name=record.fieldPointer.slice('/fields/'.length).replaceAll('~1','/').replaceAll('~0','~');assert.equal(jo.fields[name],record.expectedValue);assert.equal(hash(jo.fields[name]),record.valueSha256);const source=jo.fieldSources[name];assert.equal(source.book,record.source.book);assert.ok(source.pages.includes(record.source.printedPage));assert.equal(source.verification.sourceValueReview.evidence,activationPath);assert.equal(source.verification.sourceValueReview.evidenceSha256,activationSha);const region=catalog.regions.find(region=>region.id===record.source.regionId);assert.equal(region.sourceRowId,record.source.rowId);assert.equal(region.sha256,record.source.imageSha256);assert.equal(hash(region.focusRects),record.source.focusSha256);assert.equal(catalog.sources[record.source.book].sha256,record.source.sourcePdfSha256);assert.equal(source.verification.sourceValueReview.status,'confirmed');assert.equal(source.verification.sourceValueReview.scope,'extracted-equipment-field-value');for(const flag of ['priceReview','contextReview','defaultSelectionReview','wholeItemReview'])assert.equal(record[flag],false);}
@@ -102,7 +104,7 @@ test('fourteen value activations bind exact source rows and the peer receipt whi
  assert.equal(jo.incomplete,true);assert.match(jo.status,/metadata review remains pending/);assert.equal(jo.price,null);
 });
 
-test('the native4566 binding universe preserves Jo and classifies every approved XP/HP transfer without extending value grades',()=>{
+test('the released777 pre-matrix4566 binding universe preserves Jo and approved XP/HP transfers without extending value grades',()=>{
  const before=unzip('tests/fixtures/jo-search079-field-binding-universe-before.json.gz');assert.equal(before.masterCommit,'079f4ec03924b32d8b340ee349012c9a8237066e');assert.equal(before.denominator,4545);assert.equal(before.bindings.length,4545);
  const transfer=xpA65HistoryProjection.bindingDelta,supplement=dmg175HistoryContract(),supplementKey=JSON.stringify(supplement.bindingScope.changedIdentity);
  const legacyInventory=reverseDmg74MatrixBatchFromInventory(inventory,supplement.files['research/price-source-inventory.json'].current);

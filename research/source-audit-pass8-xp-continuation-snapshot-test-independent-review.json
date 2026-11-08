@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "xp-continuation-current-snapshot-test-independent-review",
+  "inputCommit": "77712b831fac3256baf97da385c1dd56b6d82e88",
+  "scope": {
+    "test": "tests/current-continuation-snapshot.test.mjs",
+    "validator": "tools/continuation-candidates-validate.mjs",
+    "sourcePixelReview": "none; confirms inventory/validator contracts only, no new source approval"
+  },
+  "inputHashes": [
+    {
+      "path": "tests/current-continuation-snapshot.test.mjs",
+      "sha256": "ca4cd20438a52d187c1c391a342c99f672b2176ac7e1bebf8db3bcc51390bb55",
+      "bytes": 13911
+    },
+    {
+      "path": "tools/continuation-candidates-validate.mjs",
+      "sha256": "4d97f02146ae2d4ede4e44e7d7d6a27d60d9daac6e0962090d07d64aa17871b0",
+      "bytes": 29798
+    },
+    {
+      "path": "research/current-continuation-candidate-snapshot.json",
+      "sha256": "d2fbe16df5f766be8b1febec8d71bceea6aca98b7e95bc1ba082cd3e8c2b526f",
+      "bytes": 384
+    },
+    {
+      "path": "research/source-audit-pass8-xp-continuation-current.json",
+      "sha256": "932300c977fc818c8d3c99d946724009e15058f7ac3e7e741f9200babc8413e3",
+      "bytes": 1205316
+    },
+    {
+      "path": "research/source-audit-pass8-xp-continuation-current-full.json.gz",
+      "sha256": "7c261a5bb3c4bd2d0d7adebfdc615914ab9b85ff96e22bcd0afea8df6d26d807",
+      "bytes": 1641233
+    },
+    {
+      "path": "research/source-audit-pass8-character-reference-continuation-current-full.json.gz",
+      "sha256": "43111f6a70ccfc8c6fb0216f52c01362037bc6d1166ce601068d65daa1271368",
+      "bytes": 1637927
+    },
+    {
+      "path": "tests/fixtures/pass8-xp-continuation-first-full-node-inputs.json.gz",
+      "sha256": "3edca076a27cce3ae3debac80b9844bfefc06fb570434a391155eea9a2860475",
+      "bytes": 82542
+    },
+    {
+      "path": "tests/fixtures/pass8-xp-continuation-first-full-node.log.gz",
+      "sha256": "7192eca199a7f099bb6d85fa882a22e731b3496c8e3803b183f78f2eef483010",
+      "bytes": 101451
+    },
+    {
+      "path": "tests/fixtures/dmg-current-continuation-a5a-before.json.gz",
+      "sha256": "7c1af89d36234a04f37cd27f384f65efec5e9cceb1af9c82db17638a1e7a4087",
+      "bytes": 1606146
+    }
+  ],
+  "preAdapterCapturedTest": {
+    "path": "tests/current-continuation-snapshot.test.mjs",
+    "sha256": "66a42aaa9b687853c39be6fff9c5c29597dcb4b293a71d7825b569bc57616a78",
+    "capturedBy": "tests/fixtures/pass8-xp-continuation-first-full-node-inputs.json.gz",
+    "archiveSha256": "3edca076a27cce3ae3debac80b9844bfefc06fb570434a391155eea9a2860475"
+  },
+  "activePair": {
+    "pointerSha256": "d2fbe16df5f766be8b1febec8d71bceea6aca98b7e95bc1ba082cd3e8c2b526f",
+    "summaryPath": "research/source-audit-pass8-xp-continuation-current.json",
+    "summarySha256": "932300c977fc818c8d3c99d946724009e15058f7ac3e7e741f9200babc8413e3",
+    "fullPath": "research/source-audit-pass8-xp-continuation-current-full.json.gz",
+    "fullSha256": "7c261a5bb3c4bd2d0d7adebfdc615914ab9b85ff96e22bcd0afea8df6d26d807",
+    "regionAssessmentRows": 3409,
+    "summaryCatalogRegionRows": 3409,
+    "summaryCatalogRegionUsageCount": 3409,
+    "summaryBindingRegionUsageCount": 3412
+  },
+  "predecessorUniverse": {
+    "path": "research/source-audit-pass8-character-reference-continuation-current-full.json.gz",
+    "sha256": "43111f6a70ccfc8c6fb0216f52c01362037bc6d1166ce601068d65daa1271368",
+    "rows": 3396,
+    "testPinnedSha256": "43111f6a70ccfc8c6fb0216f52c01362037bc6d1166ce601068d65daa1271368"
+  },
+  "command": "node --test tests/current-continuation-snapshot.test.mjs",
+  "testRun": {
+    "passed": 9,
+    "failed": 0,
+    "durationMs": 38027,
+    "testedCases": [
+      "frozen legacy CI errors",
+      "old snapshot fails against current tree",
+      "active current tree validates",
+      "archived PDF-only omission false pass reproduced and current validator rejects missing alias",
+      "3396 predecessor rows exact plus exact 13 new XP-region identities; 3408-row alias omission rejected",
+      "unknown assessment cannot substitute",
+      "active pointer path/hash/missing-file/pair-identity guards",
+      "symlink escape guard",
+      "current selector rejects pinned history/replacement files/unknown flags"
+    ]
+  },
+  "keyFindings": [
+    {
+      "id": "current-complete-tree-exact-delta",
+      "result": "PASS",
+      "detail": "The current report contains 3,409 region assessment rows. The test pins the 3,396-row predecessor archive by SHA, checks every predecessor row deeply and in order, and requires the exact 13 new XP region identity tuples."
+    },
+    {
+      "id": "current-validator-cross-check",
+      "result": "PASS",
+      "detail": "The current validator verifies current dist/data hash, continuation manifest, catalog file universe/hashes, region rows against each current catalog (location, image hash, crop geometry, source identity, binding uses), full/summary input identity and actual mechanics/pointer denominators."
+    },
+    {
+      "id": "omitted-alias-regression",
+      "result": "PASS",
+      "detail": "The historical PDF-only captured tree reproduces the old validator’s omission false pass; the current validator rejects the analogous removed alias in the active 3,409-row report."
+    },
+    {
+      "id": "snapshot-scope-boundary",
+      "result": "DECLARED",
+      "detail": "The report is an inventory/consistency snapshot, not semantic source review; the test asserts that no PDF regeneration or semantic-source pass is claimed."
+    }
+  ],
+  "boundedConclusion": "The new 3,409-row snapshot test is source-inventory complete for the declared current distribution delta and exercises the current validator on real current files plus adversarial omissions. No correctness defect was found within this test’s stated scope."
+}

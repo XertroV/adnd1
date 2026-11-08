@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {projectPass8CharacterReferenceBytes} from './pass8-character-reference-history.mjs';
+import {projectPass8CharacterReferenceBytes,isPass8XpContinuationHistoryPath} from './pass8-xp-continuation-history.mjs';
 import {projectDmg175Json} from './batch6-dmg175-source-history.mjs';
 import {dmg175HistoryContract} from './batch6-dmg175-source-history.mjs';
 import {reverseDmg74MatrixBatchFromData,withoutDmg74MatrixSourceExcerptOverrides} from './dmg74-matrix-batch.mjs';
@@ -136,7 +136,7 @@ export function readBeforeJoFile(path,options){
  const absolute=path instanceof URL?fileURLToPath(path):resolve(String(path));
  const local=relative(fileURLToPath(root),absolute).replaceAll('\\','/');
  const scoped=['rules.json','phb-spell-index.json','phb-magic-user-extra.json','equipment.json','dist/data.json','citation-overrides.json','research/citation-continuations.json','research/source-table-citation-contracts.json','dist/scans/verified/equipment-ua-caltrop.json','dist/scans/verified/rules-encounter-types.json'];
- if(!scoped.includes(local))return readFileSync(path,options);
+ if(!scoped.includes(local)&&!isPass8XpContinuationHistoryPath(local))return readFileSync(path,options);
  const bytes=readBeforeJoBytes(local),encoding=typeof options==='string'?options:options?.encoding;return encoding?bytes.toString(encoding):bytes;
 }
 

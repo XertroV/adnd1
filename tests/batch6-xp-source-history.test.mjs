@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-xp-continuation-history.mjs';
 import {execFileSync} from 'node:child_process';
 import {reverseApprovedGrandDruidSourcePage, xpBeforeCatalogsForAliasReplay, reverseApprovedXpExcerptCounts} from './helpers/batch6-xp-source-history.mjs';
 const read = path => JSON.parse(readFileSync(new URL('../' + path, import.meta.url)));
@@ -21,7 +21,7 @@ test('historical class replay reverses only the exact approved Grand source page
   assert.equal(reverseApprovedGrandDruidSourcePage(unrelated).find(item => item.id === 'cleric').xpRows[0].xp, unrelated.find(item => item.id === 'cleric').xpRows[0].xp);
 });
 
-test('alias checkpoint uses exact approved current catalogs and exact frozen old catalog hashes', () => {
+test('the released777 alias checkpoint uses exact approved catalogs and frozen older catalog hashes', () => {
   const freeze = read('research/source-audit-batch6-xp206-hp10-source-unit-final-freeze.json');
   const pins = freeze.sourcePins.filter(pin => pin.path.startsWith('dist/scans/verified/') && pin.path.endsWith('.json'));
   const catalogs = new Map(pins.map(pin => [pin.path.slice(5), read(pin.path)]));

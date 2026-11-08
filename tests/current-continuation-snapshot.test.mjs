@@ -78,11 +78,25 @@ test('the archived PDF-only tree reproduces the omitted-alias false pass against
  const result=validateContinuationSnapshot(options);assert.equal(result.valid,false);
  assert.ok(result.errors.some(x=>x.code==='current-region-assessment-missing'&&x.detail.includes('ua-69-b8b05ef9807ad0f8')));
 });
-test('the native current3396-row universe includes exactly the three new matrix owners and rejects an omitted alias',()=>{
+test('the native current3409-row universe preserves all3396 predecessor rows, adds exactly13 XP parts and rejects an omitted alias',()=>{
  const full=JSON.parse(gunzipSync(readFileSync(selected.fullPath))),supplemental=full.regionAssessments.filter(r=>r.sourceKind==='supplemental-image');
- assert.equal(full.regionAssessments.length,3396);
- assert.equal(selected.summary.exposedUniverse.catalogRegionUsageCount,3396);
- assert.equal(selected.summary.exposedUniverse.bindingRegionUsageCount,3399,'binding uses are a separate denominator from catalog-region rows');
+ const predecessorBytes=readFileSync('research/source-audit-pass8-character-reference-continuation-current-full.json.gz');
+ assert.equal(sha(predecessorBytes),'43111f6a70ccfc8c6fb0216f52c01362037bc6d1166ce601068d65daa1271368');
+ const predecessor=JSON.parse(gunzipSync(predecessorBytes)).regionAssessments;
+ assert.equal(predecessor.length,3396,'the literal predecessor denominator is retained');
+ const identity=row=>JSON.stringify([row.owner.collection,row.owner.itemId,row.owner.catalog,row.regionId]);
+ const oldKeys=new Set(predecessor.map(identity));
+ assert.equal(oldKeys.size,3396);
+ assert.equal(new Set(full.regionAssessments.map(identity)).size,3409);
+ assert.deepEqual(full.regionAssessments.filter(row=>oldKeys.has(identity(row))),predecessor,'all3396 old complete assessment rows remain exact');
+ const xpOwners=['cleric','fighter','paladin','ranger','magic-user','illusionist','thief','ua-cavalier','ua-barbarian','ua-thief-acrobat','ua-paladin'];
+ const expectedXpKeys=xpOwners.map(id=>JSON.stringify(['classes',id,`scans/verified/classes-${id}.json`,`pass8-${id}-xp-continuation-rule`]));
+ expectedXpKeys.push(JSON.stringify(['classes','magic-user','scans/verified/classes-magic-user.json','pass8-magic-user-xp-continuation-table-opening']));
+ expectedXpKeys.push(JSON.stringify(['classes','ua-paladin','scans/verified/classes-ua-paladin.json','pass8-ua-paladin-phb-advancement-context']));
+ assert.deepEqual(full.regionAssessments.filter(row=>!oldKeys.has(identity(row))).map(identity).sort(),expectedXpKeys.sort());
+ assert.equal(full.regionAssessments.length,3409);
+ assert.equal(selected.summary.exposedUniverse.catalogRegionUsageCount,3409);
+ assert.equal(selected.summary.exposedUniverse.bindingRegionUsageCount,3412,'binding uses are a separate denominator from catalog-region rows');
  const newMatrixOwners=[
   {itemId:'dmg-cleric-druid-monk-attack-matrix',regionId:'dmg-74-ia-cleric-druid-monk',catalog:'scans/verified/matrices-dmg-cleric-druid-monk-attack-matrix.json'},
   {itemId:'dmg-magic-user-illusionist-attack-matrix',regionId:'dmg-74-ic-magic-user-illusionist',catalog:'scans/verified/matrices-dmg-magic-user-illusionist-attack-matrix.json'},
@@ -92,7 +106,7 @@ test('the native current3396-row universe includes exactly the three new matrix 
  assert.deepEqual(currentNewMatrixRows,newMatrixOwners.map(expected=>({collection:'matrices',...expected,book:'DMG',printedPage:74,pdfPage:75})).sort((a,b)=>a.itemId.localeCompare(b.itemId)));
  assert.deepEqual(supplemental.map(r=>r.regionId).sort(),['dmg-175-level-others-context-5aa02e91e35c4c28','dmg-175-party-table-context-78c4c383c38c7d10']);
  for(const row of supplemental){assert.equal(row.sourceSha256,'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7');assert.equal(row.sourceArtifactId,'dmg175-user-confirmed-supplement');assert.equal(row.pdfPage,null);}
- const options=mutant((copy,summary)=>{copy.regionAssessments=copy.regionAssessments.filter(r=>!(r.regionId==='ua-69-b8b05ef9807ad0f8'&&r.owner.itemId==='ua-illusionist-death-fog'));assert.equal(copy.regionAssessments.length,3395);assert.deepEqual(copy.regionAssessments.filter(r=>r.sourceKind==='supplemental-image'),supplemental);summary.exposedCatalogSummary.catalogRegionRows--;});
+ const options=mutant((copy,summary)=>{copy.regionAssessments=copy.regionAssessments.filter(r=>!(r.regionId==='ua-69-b8b05ef9807ad0f8'&&r.owner.itemId==='ua-illusionist-death-fog'));assert.equal(copy.regionAssessments.length,3408);assert.deepEqual(copy.regionAssessments.filter(r=>r.sourceKind==='supplemental-image'),supplemental);summary.exposedCatalogSummary.catalogRegionRows--;});
  const result=validateContinuationSnapshot(options);assert.equal(result.valid,false);
  assert.ok(result.errors.some(x=>x.code==='current-region-assessment-missing'&&x.detail.includes('ua-69-b8b05ef9807ad0f8')));
 });
