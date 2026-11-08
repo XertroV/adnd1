@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "site-independent-ui-code-review",
+  "inputCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+  "reviewedInputs": [
+    {
+      "path": "dist/app.js",
+      "sha256": "67d063e8a72998eedab573290e972e381d3d314c17d66672ea56ecad14d7eb2c",
+      "sizeBytes": 141202
+    },
+    {
+      "path": "dist/search.js",
+      "sha256": "e59371baeea8de9412b8dcdeb2893190c36067f4bb2800a8efe8589f0e3479ca",
+      "sizeBytes": 9874
+    },
+    {
+      "path": "dist/styles.css",
+      "sha256": "e2ac2aedd6191e1e15e41ceabcb5b3726432b8f6f10e3a8f5eb51f2935430aea",
+      "sizeBytes": 55710
+    },
+    {
+      "path": "dist/data.json",
+      "sha256": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d",
+      "sizeBytes": 14593527
+    },
+    {
+      "path": "tests/site-completeness.browser.mjs",
+      "sha256": "b19896483b23663a699254daf4c42c57adf999ae3ff546e938564c3b0d89a9e1",
+      "sizeBytes": 15157
+    },
+    {
+      "path": "tests/site-search-coverage.test.mjs",
+      "sha256": "1f6db32982f52b95318ed262ddad7d70cd11ecf3f8d6735ff074110e03e7da2a",
+      "sizeBytes": 4642
+    },
+    {
+      "path": "tests/search-ranking.test.mjs",
+      "sha256": "74dc24d423466b706e629c02b574419233a3c54e5a6989c66e214e99888c53fa",
+      "sizeBytes": 14210
+    }
+  ],
+  "independentScope": {
+    "method": "Reviewed current application/search/style diffs and exercised the built static app in Chromium using a local static server. Focused live routes and all current class-note renderers were inspected; this is not exhaustive traversal of every field in all 997 indexed documents.",
+    "runtimeIndexDenominator": {
+      "count": 997,
+      "breakdown": {
+        "spells": 638,
+        "equipment": 192,
+        "rules": 149,
+        "classes": 16,
+        "progressionExplainer": 1,
+        "matrices": 1
+      },
+      "observedIn": "actual compiled global palette"
+    },
+    "interactions": [
+      "keyboard Enter activation of a matrix result in the global palette",
+      "matrix direct route, table rendering, source-chip owner and pending field identity, Back, reload, and copied link",
+      "progression direct route, sections/terminology, source-chip owner and pending field identity, Back, reload, and copied link",
+      "matrix and progression notebook annotation links reopen their collection route",
+      "existing UA class filter, Cavalier selection, and reload",
+      "actual Fighter matrix backlink and a synthetic non-Fighter matrix fallback backlink",
+      "desktop and mobile matrix/progression/class-note display, viewport overflow, browser errors, and PDF network requests"
+    ],
+    "classNoteScope": {
+      "liveClassRoutesReviewed": 16,
+      "liveExplicitPublicNoteOccurrences": 2,
+      "noteFields": [
+        "attackTableNote",
+        "retainedSkillsNote"
+      ],
+      "pendingMechanicsSourceCount": 69,
+      "pendingMechanicsDisplayedAfterExactDuplicateRemoval": 68,
+      "monkDuplicateSuppressed": true,
+      "thiefAcrobatRetainedSkillsVisible": true,
+      "canaryFieldsInjectedOnlyIntoBrowserFixture": [
+        "privateReviewNote",
+        "sourceProvenanceNote",
+        "priceNote"
+      ]
+    },
+    "limitations": [
+      "Did not individually traverse every route, field, citation, or source image across all 997 indexed documents.",
+      "This was UI and code-path review; no new source-pixel review was performed.",
+      "No production data or citations were edited."
+    ]
+  },
+  "findings": [
+    {
+      "id": "SITE-RENDER-002",
+      "severity": "fixed-before-review-completion",
+      "status": "resolved-and-independently-rechecked",
+      "finding": "The pre-fix class renderer accepted arbitrary keys ending in Note, so injected privateReviewNote and sourceProvenanceNote appeared in class-detail DOM even though global search excluded them. The final renderer uses the explicit attackTableNote/retainedSkillsNote allowlist.",
+      "scopeClarification": "This is a constructed browser canary against the pre-fix app, not evidence that the current production corpus contained or displayed either private field.",
+      "before": {
+        "appJsSha256": "c85f30a4d2345cc9c3241c36ac703f0c16fcf3bc6e3571796c0f954136f51abf",
+        "injectedFields": {
+          "privateReviewNote": "synthetic private review boundary canary",
+          "sourceProvenanceNote": "synthetic source provenance boundary canary"
+        },
+        "observedDomExcerpt": "Exact actual DOM text is recorded in observedDomText and the linked private probe output.",
+        "bothInjectedFieldsRendered": true,
+        "evidencePath": "/workspace/vault-audit-private/ua/site-review/followup-probes.json",
+        "evidenceSha256": "8bd789a77849e296051648b8057be067ba63964517004234ca44ce72dad3a4b8",
+        "observedDomText": "RECORDED CLASS NOTES\nAttack Table\n\nPrinting conflict: PHB p. 30 says monks attack as thieves; the DMG p. 74 cleric/druid matrix explicitly includes monks. Confirm which table the campaign uses.\n\nPrivate Review\n\nsynthetic private review boundary canary\n\nSource Provenance\n\nsynthetic source provenance boundary canary\n\nRemaining extraction notes 4",
+        "injectedTestRecord": {
+          "target": "classes:monk",
+          "privateReviewNote": "PRIVATE REVIEW CANARY 7f02b81",
+          "sourceProvenanceNote": "SOURCE PROVENANCE CANARY 1a93c47"
+        }
+      },
+      "after": {
+        "appJsSha256": "67d063e8a72998eedab573290e972e381d3d314c17d66672ea56ecad14d7eb2c",
+        "explicitAllowlist": [
+          "attackTableNote",
+          "retainedSkillsNote"
+        ],
+        "all16CurrentClassRoutesExposeOnlyTwoPublicNoteOccurrences": true,
+        "pendingMechanics": {
+          "sourceCount": 69,
+          "displayedAfterDedup": 68
+        },
+        "injectedPrivateAndNonClassPriceFieldsHidden": true,
+        "actualPublicNotesPreserved": true,
+        "evidencePath": "/workspace/vault-audit-private/ua/site-review/final-note-browser.json",
+        "evidenceSha256": "e6325c218c8917f084aea30d63ebc893b36aed0e697e7b1c7c00bfde5370d92b"
+      }
+    },
+    {
+      "id": "SITE-ROUTE-005",
+      "severity": "none-after-fix",
+      "status": "independently-verified",
+      "finding": "The current Fighter matrix retains its Fighter advancement backlink. A test-only non-Fighter matrix uses the generic Class guides fallback and record-specific attacker label. Matrix and progression citation routes keep their collection and field owners.",
+      "evidencePath": "/workspace/vault-audit-private/ua/site-review/final-route-browser.json",
+      "evidenceSha256": "3ca4ab7482d224e986267f97f421cdda609cd5d3621eb746c43258a6c99093b5"
+    }
+  ],
+  "independentBrowserResults": {
+    "initialBroadRun": {
+      "passed": 27,
+      "checks": 29,
+      "failedAssertions": 2,
+      "classification": "The two failures were over-narrow test expectations, not product defects: a Cavalier query also matches Paladin note text, and the progression annotation assertion raced route rendering. The actual Cavalier selection/reload passed; a subsequent focused annotation-route check passed."
+    },
+    "finalClassNoteRun": {
+      "passed": 8,
+      "failed": 0,
+      "evidencePath": "/workspace/vault-audit-private/ua/site-review/final-note-browser.json",
+      "evidenceSha256": "e6325c218c8917f084aea30d63ebc893b36aed0e697e7b1c7c00bfde5370d92b"
+    },
+    "finalRouteSmoke": {
+      "passed": 7,
+      "failed": 0,
+      "evidencePath": "/workspace/vault-audit-private/ua/site-review/final-route-browser.json",
+      "evidenceSha256": "3ca4ab7482d224e986267f97f421cdda609cd5d3621eb746c43258a6c99093b5"
+    },
+    "consoleOrPageErrors": 0,
+    "fullPdfRequests": 0,
+    "screenshotsAndProbeEvidence": [
+      {
+        "path": "/workspace/vault-audit-private/ua/site-review/independent-browser-results.json",
+        "sha256": "3e2298693635eb45b531dd796c4e42bd5102af78367faa6836c0f48641c87a0e",
+        "sizeBytes": 4079
+      },
+      {
+        "path": "/workspace/vault-audit-private/ua/site-review/followup-probes.json",
+        "sha256": "8bd789a77849e296051648b8057be067ba63964517004234ca44ce72dad3a4b8",
+        "sizeBytes": 948
+      },
+      {
+        "path": "/workspace/vault-audit-private/ua/site-review/final-note-browser.json",
+        "sha256": "e6325c218c8917f084aea30d63ebc893b36aed0e697e7b1c7c00bfde5370d92b",
+        "sizeBytes": 1256
+      },
+      {
+        "path": "/workspace/vault-audit-private/ua/site-review/final-route-browser.json",
+        "sha256": "3ca4ab7482d224e986267f97f421cdda609cd5d3621eb746c43258a6c99093b5",
+        "sizeBytes": 1637
+      },
+      {
+        "path": "/workspace/vault-audit-private/ua/site-review/desktop-matrix.png",
+        "sha256": "acc9d2ded4c2ceedd44bb9f932ba7122d1a1d530d7ff6d963102cb134c2e2512",
+        "sizeBytes": 309103
+      },
+      {
+        "path": "/workspace/vault-audit-private/ua/site-review/desktop-class-note.png",
+        "sha256": "cc9fc70efbba3ac243ca03eb79a4dac65e839d03b11e36f47c1f2b800ad82092",
+        "sizeBytes": 364897
+      },
+      {
+        "path": "/workspace/vault-audit-private/ua/site-review/desktop-progression.png",
+        "sha256": "b8e43654835a6273f6822980b827f43eb2c86fcd2624aa1cffddfd891f8859b3",
+        "sizeBytes": 225524
+      },
+      {
+        "path": "/workspace/vault-audit-private/ua/site-review/mobile-matrix.png",
+        "sha256": "0e4d4cf908d44a1585b556bd365a3bcb8829d384aeac302dce4193508e58bc58",
+        "sizeBytes": 245918
+      },
+      {
+        "path": "/workspace/vault-audit-private/ua/site-review/mobile-progression.png",
+        "sha256": "8910ab8e942579052f3e8f042d16cab596e0db2579c36ec02273823169872c1f",
+        "sizeBytes": 195064
+      }
+    ]
+  },
+  "productionDataIntegrity": {
+    "path": "dist/data.json",
+    "sha256": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d",
+    "matchesProvidedBaseline": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d"
+  },
+  "authorValidationReceipt": {
+    "path": "research/source-completeness-site-after-v3.json",
+    "sha256": "d46778fcab3df43027b0ad72a500952e97ebfc68571bd2b2eb6fbf829411e027",
+    "browserChecks": 34,
+    "receiptInputArchive": {
+      "path": "research/source-completeness-site-after-v3-inputs.json.gz",
+      "sha256": "03a6054a41f6bc95a6ab8b20e7c6be7cf4a55dc680716541c192edc42525da7a"
+    },
+    "validationNote": "The v3 receipt validation now records 34 checks; its saved private output site-v3-browser-checks.json also reports passed=34 and errors=[]."
+  },
+  "unassessed": [
+    "Exhaustive runtime behavior for all 997 indexed records and all source citation fields.",
+    "Accessibility audit beyond the tested keyboard activation and visible browser layout.",
+    "Browser engines and viewport widths other than the Chromium desktop/mobile sessions recorded in the linked evidence."
+  ]
+}

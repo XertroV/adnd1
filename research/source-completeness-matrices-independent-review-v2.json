@@ -1,0 +1,460 @@
+{
+  "schemaVersion": 1,
+  "artifact": "independent-review-v2",
+  "book": "Dungeon Masters Guide",
+  "source": {
+    "fileName": "DMG_1stEd.pdf",
+    "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+    "pdfPages": 240,
+    "printedPage": 74,
+    "pdfPage": 75,
+    "pageMapping": "Printed p.74 is visually printed at the bottom of PDF p.75."
+  },
+  "inputCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+  "reviewScope": {
+    "rootIds": [
+      "dmg-cleric-druid-monk-attack-matrix",
+      "dmg-magic-user-illusionist-attack-matrix",
+      "dmg-thief-assassin-attack-matrix"
+    ],
+    "tableCounts": {
+      "I.A": 147,
+      "I.C": 105,
+      "I.D.1": 126
+    },
+    "totalCells": 378,
+    "defaultScope": "Each named matrix as a whole lookup table, including axes and all cells. Qualifier passages are reviewed as separate linked source units. This does not claim any particular cell as a standalone fact or extend to the excluded I.B matrix or the rest of the book."
+  },
+  "blindTranscription": {
+    "file": "research/source-completeness-matrices-independent-transcription.json",
+    "sha256": "e6047f6c8a4cf48c5de9a9c3d4f574292b352c5988d3ef812a954b7cecb37562",
+    "status": "Preserved unchanged."
+  },
+  "authorComparison": {
+    "file": "research/source-completeness-matrices-source-transcription.json",
+    "sha256": "9219fd5362be85035aaeff18b0240fbebad28327705b800400b258f2eef602e9",
+    "method": "Independently compared blind table IDs and armor-class axes; aligned each author attacker band by printed label and level min/max; compared every integer target value by armor class; then compared band markers and qualifier text.",
+    "tables": [
+      {
+        "id": "dmg-cleric-druid-monk-attack-matrix",
+        "cellsCompared": 147,
+        "valueMismatches": 0,
+        "armorAxisMatches": true,
+        "bandLabelsAndRangesMatch": true,
+        "bandMarkersMatch": true,
+        "qualifierTextMatches": true
+      },
+      {
+        "id": "dmg-magic-user-illusionist-attack-matrix",
+        "cellsCompared": 105,
+        "valueMismatches": 0,
+        "armorAxisMatches": true,
+        "bandLabelsAndRangesMatch": true,
+        "bandMarkersMatch": true,
+        "qualifierTextMatches": true
+      },
+      {
+        "id": "dmg-thief-assassin-attack-matrix",
+        "cellsCompared": 126,
+        "valueMismatches": 0,
+        "armorAxisMatches": true,
+        "bandLabelsAndRangesMatch": true,
+        "bandMarkersMatch": true,
+        "qualifierTextMatches": true
+      }
+    ],
+    "totalCellsCompared": 378,
+    "mismatches": [],
+    "qualifierFindings": [
+      "I.C asterisk appears on the missile adjustment line and its “Normal, not magical.” qualifier; it does not qualify the matrix cells.",
+      "I.D.1 markers and notes align: a/b/c/d/d/d across six level bands; the four notes specify double/triple/quadruple/quintuple surprise back-stab damage, with d applying to the last three bands."
+    ],
+    "pixelAdjudication": "No cell, band, marker, or qualifier mismatch was found; there were no disputed coordinates requiring further pixel adjudication. The blind values had been transcribed from the original source page pixels before opening the author proposal."
+  },
+  "cropProposal": {
+    "file": "/workspace/vault-audit-private/matrix-crops-v2/proposal.json",
+    "sha256": "5d82bc43f5636ac2e26cf412b2b6ec3a4a53f8cf245d7b779b9fb8e8d401a8a0",
+    "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+    "status": "All crop and overlay images remain private and proposed, not activated.",
+    "coordinateFrame": {
+      "coordinates": "LTRB points in PyMuPDF page.rect coordinates, CropBox-relative top-left origin; not MediaBox coordinates.",
+      "mediaBoxPoints": [
+        0,
+        0,
+        581.9996337890625,
+        794.638916015625
+      ],
+      "cropBoxPoints": [
+        0,
+        9.3599853515625,
+        572.6396484375,
+        776.638916015625
+      ],
+      "pageRectPoints": [
+        0,
+        0,
+        572.6396484375,
+        767.2789306640625
+      ],
+      "rotation": 0,
+      "renderDpi": 216,
+      "renderMatrix": [
+        3,
+        3
+      ],
+      "renderFrame": "PyMuPDF default CropBox; page.rect coordinates, CropBox-relative top-left origin."
+    },
+    "rerenderVerification": "Independently re-rendered all three crops from source PDF page 75 using the declared page.rect-frame clip and 3x PyMuPDF matrix. Each rendered PNG hash and pixel dimensions exactly matched the proposal JSON."
+  },
+  "cropAndFocusReview": [
+    {
+      "id": "cleric-druid-monk",
+      "title": "I.A. Attack Matrix for Clerics, Druids and Monks",
+      "crop": {
+        "file": "/workspace/vault-audit-private/matrix-crops-v2/cleric-druid-monk.png",
+        "sha256": "315c08264db687ce6c701bf1514f48f36b9b09961c24dd105e3513584aac0f94",
+        "pixels": [
+          822,
+          813
+        ],
+        "sourcePdfPointsLTRB": [
+          0,
+          27,
+          274,
+          298
+        ]
+      },
+      "focusOverlay": {
+        "file": "/workspace/vault-audit-private/matrix-crops-v2/cleric-druid-monk-focus-overlay.png",
+        "sha256": "d22cc05c8a27d67303742a7b3564bbeba386c90a5b6b52ec3ef67d178081b3ac",
+        "focusSourcePdfPointsLTRB": [
+          [
+            7,
+            50,
+            271,
+            273
+          ],
+          [
+            5,
+            278,
+            270,
+            293
+          ]
+        ]
+      },
+      "observed": "Crop shows heading, complete seven-band lookup table with all 21 AC rows, and complete missile adjustment. Table focus separates the whole table from the missile line.",
+      "focusFinding": "The missile-note focus box starts at y=278; in the 216-dpi source crop, note ink begins above that edge and the overlay top border visibly intersects the upper ink. The source crop itself does not clip the note. This is an overlay-margin issue, not a transcription or source-crop defect.",
+      "recommendedFocusSourcePdfPointsLTRB": [
+        [
+          7,
+          50,
+          271,
+          273
+        ],
+        [
+          5,
+          276,
+          270,
+          293
+        ]
+      ],
+      "status": "Crop complete; v2 focus needs the conservative top-margin expansion shown above."
+    },
+    {
+      "id": "magic-user-illusionist",
+      "title": "I.C. Attack Matrix for Magic-Users and Illusionists",
+      "crop": {
+        "file": "/workspace/vault-audit-private/matrix-crops-v2/magic-user-illusionist.png",
+        "sha256": "25e6e2598775e705d98322ed3bb37dd038f43ae9632e26fda33d587ad856fbf2",
+        "pixels": [
+          860,
+          855
+        ],
+        "sourcePdfPointsLTRB": [
+          286,
+          27,
+          572.6396484375,
+          312
+        ]
+      },
+      "focusOverlay": {
+        "file": "/workspace/vault-audit-private/matrix-crops-v2/magic-user-illusionist-focus-overlay.png",
+        "sha256": "821b673a204e19ab2b7bfa196d11e0d56718f5fac969ffbbb1948148b1198abd",
+        "focusSourcePdfPointsLTRB": [
+          [
+            291,
+            50,
+            571,
+            273
+          ],
+          [
+            290,
+            281,
+            570,
+            296
+          ],
+          [
+            290,
+            300,
+            390,
+            311
+          ]
+        ]
+      },
+      "observed": "Crop includes heading, full five-band lookup table with all 21 AC rows, missile adjustment, and “Normal, not magical.” qualifier. It reaches the physical right CropBox edge without cutting the gray table margin; bottom ends after the qualifier and before adjacent artwork.",
+      "focusFinding": "Whole-table axes and cells are focused; the missile line and qualifier have separate focus boxes and their full glyphs are inside. The table focus extends to x=571, however, which includes the outer right page-edge artifact beyond the gray table end; narrowing the table focus to the content end near x=550 would remove this irrelevant highlight. The crop should continue to the physical CropBox edge.",
+      "status": "Crop content complete; focus needs its right edge narrowed to exclude the outer page-edge artifact."
+    },
+    {
+      "id": "thief-assassin",
+      "title": "I.D.1. Attack Matrix for Thieves and Assassins",
+      "crop": {
+        "file": "/workspace/vault-audit-private/matrix-crops-v2/thief-assassin.png",
+        "sha256": "9b0b5ce8738505349a6ef9e637317cafca160ea1442176b5d99d24c7a30945d2",
+        "pixels": [
+          860,
+          1005
+        ],
+        "sourcePdfPointsLTRB": [
+          286,
+          416,
+          572.6396484375,
+          751
+        ]
+      },
+      "focusOverlay": {
+        "file": "/workspace/vault-audit-private/matrix-crops-v2/thief-assassin-focus-overlay.png",
+        "sha256": "cc97182e0e32092596421bc0cb8cdbcf6092cd7b4d0eff626123e0bc79b5431c",
+        "focusSourcePdfPointsLTRB": [
+          [
+            290,
+            437,
+            571,
+            659
+          ],
+          [
+            290,
+            663,
+            570,
+            676
+          ],
+          [
+            290,
+            681,
+            570,
+            695
+          ],
+          [
+            290,
+            699,
+            570,
+            713
+          ],
+          [
+            290,
+            717,
+            570,
+            731
+          ],
+          [
+            290,
+            735,
+            570,
+            749
+          ]
+        ]
+      },
+      "observed": "Crop includes heading, all six marked bands and 21 AC rows, complete missile line, and all four back-stab notes. It reaches the physical right CropBox edge; table gray margins and rightmost values remain visible.",
+      "focusFinding": "The table and all linked passages are present in the crop. The table focus extends to x=571 and includes the outer right page-edge artifact beyond the gray table end; the first-to-last note focus boxes start at x=290, where overlay pixels visibly cut the left edge of the superscript/bullet markers a, b, c and d. The crop contains those markers intact. This is a focus-coverage/relevance issue, not a source-crop defect.",
+      "status": "Crop content complete; focus needs its table right edge narrowed and note/range left edge widened."
+    }
+  ],
+  "crossSourceBoundary": {
+    "monkConflict": "PHB printed p.30 and DMG printed p.74 remain conflicting attack-matrix references. No DM ruling is inferred."
+  },
+  "disposition": "378/378 values, armor axes, band markers and qualifier text match between the frozen blind transcription and author proposal. The v4 private source crops and whole-table/linked-note focus overlays pass the independent source-pixel review, with exact image hashes and CropBox-frame coordinates recorded in v4Recheck. The earlier v2 focus issues are documented and resolved in v4. Monk PHB/DMG source conflict remains unresolved; no DM ruling is inferred.",
+  "v4Recheck": {
+    "proposalFile": "/workspace/vault-audit-private/matrix-crops-v4/proposal.json",
+    "proposalSha256": "858e478343de9b1d348be843f7d982caedbf88b3e10cedb01bedb46823bd784e",
+    "status": "Pass for v4 proposed crops and focus overlays; do not infer activation. No source/citation/runtime changes were made by this review.",
+    "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+    "renderFrame": {
+      "coordinates": "source and focus LTRB rectangles are in PyMuPDF page.rect coordinates, CropBox-relative top-left origin; do not apply them as MediaBox coordinates.",
+      "mediaBoxPoints": [
+        0,
+        0,
+        581.9996337890625,
+        794.638916015625
+      ],
+      "cropBoxPoints": [
+        0,
+        9.3599853515625,
+        572.6396484375,
+        776.638916015625
+      ],
+      "pageRectPoints": [
+        0,
+        0,
+        572.6396484375,
+        767.2789306640625
+      ],
+      "pageRotation": 0,
+      "renderDpi": 216,
+      "renderMatrix": [
+        3,
+        3
+      ],
+      "description": "PyMuPDF default CropBox render using page.rect coordinates. The declared page.rect width/height differ from the PDF MediaBox."
+    },
+    "renderValidation": "Re-rendered each proposed crop from the canonical PDF page 75 using the proposal clip rectangle and 3x matrix. Rendered bytes match the crop SHA-256 in the proposal; image size matches declared width/height.",
+    "matrices": [
+      {
+        "id": "cleric-druid-monk",
+        "printedHeading": "I.A. ATTACK MATRIX FOR CLERICS, DRUIDS AND MONKS",
+        "crop": {
+          "file": "/workspace/vault-audit-private/matrix-crops-v4/cleric-druid-monk.png",
+          "sha256": "315c08264db687ce6c701bf1514f48f36b9b09961c24dd105e3513584aac0f94",
+          "pixels": [
+            822,
+            813
+          ],
+          "sourcePdfPointsLTRB": [
+            0,
+            27,
+            274,
+            298
+          ]
+        },
+        "focus": {
+          "file": "/workspace/vault-audit-private/matrix-crops-v4/cleric-druid-monk-focus-overlay.png",
+          "sha256": "79af9d330f9919cd196c4d66274e6e5144069c53846152b2bbdf3ac9b05ef655",
+          "sourcePdfPointsLTRB": [
+            [
+              7,
+              50,
+              271,
+              273
+            ],
+            [
+              5,
+              276,
+              270,
+              293
+            ]
+          ]
+        },
+        "pixelVerdict": "Crop contains heading, all seven attacker bands, all 21 armor-class rows, and the missile adjustment. The whole table focus covers both axes and all cells; the missile note is separately focused. Pixel inspection confirms the revised y=276 top edge sits above the note ink; the prior v2 red border crossed the note glyph top. The crop itself was complete in v2."
+      },
+      {
+        "id": "magic-user-illusionist",
+        "printedHeading": "I.C. ATTACK MATRIX FOR MAGIC-USERS AND ILLUSIONISTS",
+        "crop": {
+          "file": "/workspace/vault-audit-private/matrix-crops-v4/magic-user-illusionist.png",
+          "sha256": "25e6e2598775e705d98322ed3bb37dd038f43ae9632e26fda33d587ad856fbf2",
+          "pixels": [
+            860,
+            855
+          ],
+          "sourcePdfPointsLTRB": [
+            286,
+            27,
+            572.6396484375,
+            312
+          ]
+        },
+        "focus": {
+          "file": "/workspace/vault-audit-private/matrix-crops-v4/magic-user-illusionist-focus-overlay.png",
+          "sha256": "23578bae2074af7eb4fed73afcf0e50079502115218ea701e575019102a26fff",
+          "sourcePdfPointsLTRB": [
+            [
+              291,
+              50,
+              550,
+              273
+            ],
+            [
+              290,
+              281,
+              570,
+              296
+            ],
+            [
+              290,
+              300,
+              390,
+              311
+            ]
+          ]
+        },
+        "pixelVerdict": "Crop reaches the physical right CropBox edge and includes the complete table gray margin, all five bands and 21 rows, missile line, and “Normal, not magical.” qualifier; it ends after the qualifier and excludes the adjacent artwork fragment. Table focus now ends at x=550, includes all axes/cells and the gray margin, and excludes the outer page-edge artifact. Range and qualifier are separately focused; their full printed glyphs are inside. No glyph clip or irrelevant focus region observed."
+      },
+      {
+        "id": "thief-assassin",
+        "printedHeading": "I.D.1. ATTACK MATRIX FOR THIEVES AND ASSASSINS",
+        "crop": {
+          "file": "/workspace/vault-audit-private/matrix-crops-v4/thief-assassin.png",
+          "sha256": "9b0b5ce8738505349a6ef9e637317cafca160ea1442176b5d99d24c7a30945d2",
+          "pixels": [
+            860,
+            1005
+          ],
+          "sourcePdfPointsLTRB": [
+            286,
+            416,
+            572.6396484375,
+            751
+          ]
+        },
+        "focus": {
+          "file": "/workspace/vault-audit-private/matrix-crops-v4/thief-assassin-focus-overlay.png",
+          "sha256": "2f7b901b4a166242f7dcb59e97b0fc9771e80255289aa07bee20f036b14bf009",
+          "sourcePdfPointsLTRB": [
+            [
+              290,
+              437,
+              550,
+              659
+            ],
+            [
+              288,
+              663,
+              570,
+              676
+            ],
+            [
+              288,
+              681,
+              570,
+              695
+            ],
+            [
+              288,
+              699,
+              570,
+              713
+            ],
+            [
+              288,
+              717,
+              570,
+              731
+            ],
+            [
+              288,
+              735,
+              570,
+              749
+            ]
+          ]
+        },
+        "pixelVerdict": "Crop includes the heading, all six level bands with markers a/b/c/d/d/d, all 21 armor-class rows, missile adjustment, and all four back-stab notes. Table focus ends at x=550; all numeric cells and gray table extent remain visible while the outer page-edge artifact is excluded. Its y=659 boundary includes the final armor-class row. Missile line is within y=663–676. Each footnote focus begins at x=288, fully covering marker a/b/c/d plus note text. No glyph intersection or irrelevant focus observed."
+      }
+    ],
+    "scopeVerdict": "The focusScope is the whole named lookup table, including axes and all cells, with range and footnote passages as separate linked source units. Heading text remains visible context and is not the sole highlighted claim. Crop and focus geometry support that declared scope; they do not claim individual cells independently.",
+    "resolutionOfV2CandidateFindings": [
+      "I.A note overlay border moved from y=278 to y=276 and now clears ink.",
+      "I.C and I.D.1 table highlights moved left from x=571 to x=550, keeping the full table and gray margin while excluding the page-edge artifact.",
+      "I.D.1 missile and note highlights moved left from x=290 to x=288 and now include all note markers."
+    ]
+  }
+}

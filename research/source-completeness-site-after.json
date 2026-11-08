@@ -1,0 +1,290 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "source-completeness-site-after",
+  "inputCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+  "baselineArtifact": "research/source-completeness-site.json",
+  "baselineArchive": "research/source-completeness-site-before.json.gz",
+  "beforeDetector": "/workspace/vault-audit-private/site/site-before-detector.mjs",
+  "beforeDetectorOutput": "/workspace/vault-audit-private/site/site-before-detector-output.json",
+  "currentFiles": [
+    {
+      "path": "dist/data.json",
+      "sha256": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d",
+      "sizeBytes": 14593527
+    },
+    {
+      "path": "dist/app.js",
+      "sha256": "8bda368d14060aa8b668502adf9b5eab79e217143fd2d77e44c602bed080f580",
+      "sizeBytes": 141146
+    },
+    {
+      "path": "dist/search.js",
+      "sha256": "b4c88346803ceab134089c121821db7a05dba3512da107bc08cad35fd4fe75ee",
+      "sizeBytes": 9789
+    },
+    {
+      "path": "dist/styles.css",
+      "sha256": "e2ac2aedd6191e1e15e41ceabcb5b3726432b8f6f10e3a8f5eb51f2935430aea",
+      "sizeBytes": 55710
+    },
+    {
+      "path": "tests/site-completeness.browser.mjs",
+      "sha256": "2ba71d419fda9dd4fa0eb599f5baf9a66a5477eedd903e1cf70e06e25cee9300",
+      "sizeBytes": 12048
+    },
+    {
+      "path": "tests/site-search-coverage.test.mjs",
+      "sha256": "2d1f57472f15b5ab4982f76a1432d8faf18bd13cd3238553aaa27d6bb297ef1f",
+      "sizeBytes": 3386
+    },
+    {
+      "path": "tests/search-ranking.test.mjs",
+      "sha256": "74dc24d423466b706e629c02b574419233a3c54e5a6989c66e214e99888c53fa",
+      "sizeBytes": 14210
+    }
+  ],
+  "denominators": {
+    "exposedContentOwners": 997,
+    "ownersByCollection": {
+      "rules": 149,
+      "spells": 638,
+      "equipment": 192,
+      "classes": 16,
+      "matrices": 1,
+      "progressionExplainer": 1
+    },
+    "arrayBackedOwners": 996,
+    "auxiliarySourceMetadataOwners": 3,
+    "releaseMetadataObjects": 1,
+    "uniqueTopLevelPropertiesByCollection": {
+      "rules": 17,
+      "spells": 18,
+      "equipment": 19,
+      "classes": 26,
+      "matrices": 16,
+      "progressionExplainer": 8
+    },
+    "actualGlobalSearchDocuments": 997,
+    "personalNotebookSearchDocumentsAtProbe": 0,
+    "expectedCurrentSearchDocumentOwners": 997,
+    "unindexedExposedOwners": 0,
+    "pendingMechanicsCandidates": 69,
+    "duplicateOwnerIdentities": 0,
+    "classXPTableRows": 206,
+    "classXPTableOwners": 16,
+    "topLevelPropertyOccurrencesIncludingMetadata": 13661,
+    "propertyOccurrenceScope": "Current exposed record top-level property occurrences, including generated sourceExcerpts, evidenceBindings, scanVerification, and other provenance metadata; this is a structural property count, not an authored semantic field denominator."
+  },
+  "collections": [
+    {
+      "name": "rules",
+      "storage": "array",
+      "ownerCount": 149,
+      "searchDocumentCount": 149,
+      "route": "rules",
+      "rendering": "Existing rule detail route and renderer"
+    },
+    {
+      "name": "spells",
+      "storage": "array",
+      "ownerCount": 638,
+      "searchDocumentCount": 638,
+      "route": "spells",
+      "rendering": "Existing spell detail route and renderer"
+    },
+    {
+      "name": "equipment",
+      "storage": "array",
+      "ownerCount": 192,
+      "searchDocumentCount": 192,
+      "route": "equipment",
+      "rendering": "Existing equipment detail route and renderer"
+    },
+    {
+      "name": "classes",
+      "storage": "array",
+      "ownerCount": 16,
+      "searchDocumentCount": 16,
+      "route": "classes",
+      "rendering": "Existing class detail route; class note and pending-extraction disclosures added"
+    },
+    {
+      "name": "matrices",
+      "storage": "array",
+      "ownerCount": 1,
+      "searchDocumentCount": 1,
+      "route": "matrices/:id",
+      "rendering": "Generic matrix detail route; Fighter embed remains available"
+    },
+    {
+      "name": "progressionExplainer",
+      "storage": "singleton-object",
+      "ownerCount": 1,
+      "searchDocumentCount": 1,
+      "route": "progressionExplainer/:id",
+      "rendering": "Standalone progression detail route; Classes-page accordion remains available"
+    },
+    {
+      "name": "sources",
+      "storage": "array-metadata",
+      "ownerCount": 3,
+      "searchDocumentCount": 0,
+      "route": "#sources",
+      "rendering": "Citation/source coverage metadata only"
+    },
+    {
+      "name": "releaseMetadata",
+      "storage": "singleton-object",
+      "ownerCount": 1,
+      "searchDocumentCount": 0,
+      "route": "not a content route",
+      "rendering": "Release metadata"
+    }
+  ],
+  "fieldCoverage": {
+    "method": "Compare the complete frozen top-level field/owner inventory with static index/render selectors and focused live browser routes; current baseline owner roster and structural field coverage remain in research/source-completeness-site.json.",
+    "classAuthoredNotes": {
+      "propertyFamilies": [
+        "attackTableNote",
+        "retainedSkillsNote",
+        "xpNote"
+      ],
+      "rendered": "All populated note-suffix class fields appear on class details; xpNote remains in the existing XP detail context.",
+      "searchable": "Authored note-suffix text is searchable; private-key values/provenance excluded.",
+      "verification": [
+        "Exact Monk note visible exactly once although also duplicated in pendingMechanics",
+        "Thief-acrobat retainedSkillsNote visible verbatim and its unique phrase returns the class"
+      ]
+    },
+    "pendingMechanics": {
+      "candidateValues": 69,
+      "rendered": "All existing entries are shown in a separate Remaining extraction notes disclosure, with scope language that they are not extracted rules/resolved mechanics.",
+      "searchable": "All 69 existing values remain searchable.",
+      "duplicatePolicy": "When a pending entry exactly equals a separately rendered authored note, omit the duplicate display only; source data is retained."
+    },
+    "classXP": {
+      "owners": 16,
+      "storedRows": 206,
+      "rendered": "Existing class XP table rows remain rendered.",
+      "searchable": "Only actual row level, XP threshold/value, row label, track and authored XP-track labels are projected; citation/audit/provenance metadata remains excluded.",
+      "verification": "Live Magic-user level 15 value 1,875,001 rendered and exact query 1875001 returns Magic-user in class search."
+    },
+    "auxiliarySearch": {
+      "owners": 2,
+      "docs": 2,
+      "identity": "Compound (collection,id); MATRIX and PROGRESSION type labels.",
+      "matrix": {
+        "recordId": "dmg-original-fighter-attack-matrix",
+        "renderedCells": 210,
+        "statusVisible": true,
+        "citationOwner": "matrices"
+      },
+      "progression": {
+        "recordId": "progression-explainer",
+        "sections": 3,
+        "terminologyNotes": 5,
+        "overviewReferences": 3,
+        "citationOwner": "progressionExplainer"
+      }
+    },
+    "globalIndex": {
+      "owners": 997,
+      "docs": 997,
+      "duplicateOwnerIdentities": 0,
+      "sourceMetadataIndexed": false
+    }
+  },
+  "findings": [
+    {
+      "id": "SITE-SEARCH-001",
+      "status": "resolved",
+      "result": "All 997 exposed content owners, including both auxiliary owners, have one unique global search document; empty palette count and group counts reconcile.",
+      "evidence": "private browser output and tests/site-search-coverage.test.mjs"
+    },
+    {
+      "id": "SITE-RENDER-002",
+      "status": "resolved",
+      "result": "Class-authored note fields are visible on class details. Monk duplicate text appears once; Thief-acrobat retained-skills note is shown in full.",
+      "evidence": "tests/site-completeness.browser.mjs; private browser output"
+    },
+    {
+      "id": "SITE-SEARCH-003",
+      "status": "resolved",
+      "result": "Authored note field text is searchable from its owner document; private provenance keys remain excluded.",
+      "evidence": "tests/site-search-coverage.test.mjs and browser metadata-negative probe"
+    },
+    {
+      "id": "SITE-RENDER-004",
+      "status": "resolved",
+      "result": "All 69 existing pendingMechanics entries are displayed in a separate, explicitly unresolved extraction disclosure.",
+      "evidence": "static count test plus live Monk disclosure check"
+    },
+    {
+      "id": "SITE-ROUTE-005",
+      "status": "resolved",
+      "result": "Matrix is independently searchable, selectable, directly routable/reloadable, and rendered with its 210 current cells and matrix-owned citations.",
+      "evidence": "29-check browser output; matrix owner citation assertion"
+    },
+    {
+      "id": "SITE-ROUTE-006",
+      "status": "resolved",
+      "result": "Progression explainer is independently searchable, selectable, directly routable/reloadable, with its sections/terminology/references and progressionExplainer-owned citations.",
+      "evidence": "29-check browser output"
+    },
+    {
+      "id": "SITE-SEARCH-007",
+      "status": "resolved",
+      "result": "Displayed class XP table level/threshold values resolve to their class result without indexing audit metadata.",
+      "evidence": "unit and live browser XP tests; frozen baseline detector replays prior zero-result failure"
+    }
+  ],
+  "checkedNegativeScope": [
+    "Source data, source excerpts, evidence bindings, citation catalogs, review receipts, region identifiers and source ownership were not edited.",
+    "The source owner for matrix evidence remains matrices; progression citations remain progressionExplainer; class source ownership remains unchanged.",
+    "The existing Fighter matrix embed and existing class routes/filters remain present; auxiliary routes are additive.",
+    "The reference makes no claim that any book or semantic extraction is complete. No source-unit denominator is asserted.",
+    "No numerical source-confidence/status upgrade or mechanic/ruling adjudication was made. The matrix/source review status remains its recorded state.",
+    "This site inventory does not replace the separate PHB, DMG, UA, MM, or MM2 source-unit ledgers."
+  ],
+  "unassessed": [
+    "Nested field/leaf coverage for all 995 current search documents beyond their top-level property selectors and focused notes/matrix/progression structures.",
+    "Independent source completeness and semantic unit reconciliation for PHB, DMG, UA, MM, MM2; source workers own these ledgers.",
+    "All 997 routes were not manually opened in a browser; current route map and renderer calls were statically inspected, and high-risk current routes were browser-probed.",
+    "Search relevance/ranking changes after a future repair; baseline preserves current ranking/filter/history evidence separately."
+  ],
+  "mappingHandoff": {
+    "repairScope": "Search/rendering only; the source content and citation map remain frozen for this site-repair batch.",
+    "implementation": "Compound (collection,id) owner resolution and dedicated auxiliary detail dispatch; generic matrix renderer uses source title and attackerLabel or Attacker level fallback.",
+    "igcGoals": {
+      "G1": "PASS: each auxiliary record is uniquely searchable by meaningful authored terms.",
+      "G2": "PASS: selection, direct route, reload, copy, Back/Forward, and detail rendering exercised.",
+      "G3": "PASS: source ownership remains matrices/progressionExplainer; live citation navigation retains original namespace.",
+      "G4": "PASS: existing class route and Fighter embed exercised; existing search/ranking browser checks still pass."
+    },
+    "sourceCompletenessBoundary": "Content present but previously unrendered/unindexed fields are now exposed. This does not prove source completeness or establish a denominator for absent source units.",
+    "changedFiles": [
+      "dist/app.js",
+      "dist/search.js",
+      "dist/styles.css",
+      "tests/site-completeness.browser.mjs",
+      "tests/site-search-coverage.test.mjs",
+      "tests/search-ranking.test.mjs"
+    ],
+    "privateAfterEvidence": "/workspace/vault-audit-private/site/site-after-browser-checks.json, /workspace/vault-audit-private/site/site-after-search-unit.tap, /workspace/vault-audit-private/site/site-after-search-browser.json, /workspace/vault-audit-private/site/site-after-search-ranking-browser.json",
+    "validation": {
+      "siteCompletenessBrowserChecks": 29,
+      "searchUnitTests": "22 passed",
+      "searchBrowserChecks": 24,
+      "searchRankingBrowserChecks": 91,
+      "browserErrors": 0,
+      "syntax": "node --check dist/app.js and dist/search.js passed"
+    },
+    "commit": "No commit created; parent review pending."
+  },
+  "afterArchive": {
+    "path": "research/source-completeness-site-after-inputs.json.gz",
+    "sha256": "3bfc53e5974dfb2e1efc5e48cac39bb376474c44583103c97e26df76c5f03ae2",
+    "sizeBytes": 1219661,
+    "contents": "Compressed exact copies of deployed data/code, focused tests, and recorded after/before detector output."
+  }
+}
