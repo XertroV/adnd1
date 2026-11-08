@@ -16,6 +16,7 @@ const catalog = readJson(catalogPath);
 const candidateReviewPath = 'research/source-audit-batch6-turning-matrix-root-independent-review.json';
 const candidateReview = readJson(candidateReviewPath);
 const candidateReviewSha = sha256(fs.readFileSync(path.join(root, candidateReviewPath)));
+const integrationBefore = readJson('research/source-audit-batch6-turning-matrix-integration-before.json');
 const expectedRows = [
   ['Skeleton', [], ['10', '7', '4', 'T', 'T', 'D', 'D', 'D*', 'D*', 'D*']],
   ['Zombie', [], ['13', '10', '7', 'T', 'T', 'D', 'D', 'D', 'D*', 'D*']],
@@ -182,4 +183,23 @@ test('Cleric turning table preserves the reviewed 13 × 10 source matrix', () =>
   }
   assert.ok(data.rules.some(record => record.id === 'turning-undead'), 'the separate DMG p.65 mixed-group rule remains intact');
   assert.doesNotMatch(JSON.stringify(item), /\/workspace\/private-adnd|\/tmp\/batch6-/);
+});
+
+test('resolves the one named baseline absence without claiming the broader table universe is complete', () => {
+  const before = integrationBefore.currentAbsence;
+  assert.equal(before.tableIdAbsent, true);
+  assert.equal(before.exposedRecordsBefore, 995);
+  assert.equal(before.allJsonLeavesBefore, 198318);
+  assert.equal(before.primarySemanticTableReferencesBefore, 478);
+  assert.equal(before.noLexicalMatchIsNotSemanticNegative, true);
+  assert.equal(before.clericPendingMechanic, 'Complete turn-undead table delta');
+
+  assert.ok(data.rules.some(record => record.id === 'cleric-turning-table'));
+  const cleric = readJson('classes.json').classes.find(candidate => candidate.id === 'cleric');
+  assert.ok(!cleric.pendingMechanics.includes(before.clericPendingMechanic));
+  for (const classId of ['paladin', 'ua-paladin']) {
+    const otherClass = readJson('classes.json').classes.find(candidate => candidate.id === classId);
+    assert.ok(otherClass.pendingMechanics.includes(before.clericPendingMechanic));
+  }
+  assert.equal(integrationBefore.scope, 'This source-first baseline predates only the new cleric-turning-table record/catalog. It is not a whole-book or complete-class review.');
 });

@@ -16,8 +16,8 @@ test('current label mode audits the present collector without claiming a fresh r
     const hash = createHash('sha256').update(compressed).digest('hex');
     assert.equal(hash, summary.fullReport.sha256);
     const report = JSON.parse(gunzipSync(compressed).toString('utf8'));
-    assert.equal(report.denominator.contentRecords, 995);
-    assert.equal(report.denominator.routeRecords, 993);
+    assert.equal(report.denominator.contentRecords, 996);
+    assert.equal(report.denominator.routeRecords, 994);
     assert.equal(report.denominator.collectorTargets, report.entries.length);
     assert.equal(report.denominator.currentBrowserRenderedControls, 'not-run');
     assert.equal(report.denominator.currentDistinctRenderedPayloads, 'not-assessed');

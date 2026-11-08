@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "batch6-citation-navigation-producer-classification-addendum",
+  "scope": "Narrow audit-tool classification of two new turning-table citation producer functions. No application, search, source catalog, or assembled data code was changed by this addendum.",
+  "before": {
+    "appSha256": "e96f442f5b2310495971868f19052245fad9ad54b82a939b8d7f6d9adce642ab",
+    "toolSha256": "d44c1fd4c99abc1271cbeb91dafd4d4605bf87c6ea121b293a4e085775304bf2",
+    "dataSha256": "ff4cf9b944f6584f2b3ea219068c552fd554a586e449ffc6999e93bf01343470",
+    "inventory": {
+      "path": "research/source-audit-batch6-citation-navigation-producer-before.json",
+      "sha256": "3e2e786277d94fb427ac6aac3259878a64773651d5a234e76ffd92650d16cadd",
+      "siteCount": 16,
+      "functions": 12,
+      "unclassifiedFunctions": [
+        {
+          "function": "tableFactSourceChip",
+          "line": 593
+        },
+        {
+          "function": "classAbilitiesHTML",
+          "line": 653
+        }
+      ]
+    },
+    "fullNodeRun": {
+      "path": "research/source-audit-batch6-citation-navigation-full-node-before.log",
+      "sha256": "42261e3aed3c5b3d3dba408a7b76f51b0561134ba972cf45f3d20f24b0318850",
+      "tests": 775,
+      "pass": 772,
+      "fail": 3,
+      "failures": [
+        {
+          "test": "citation-navigation-inventory.test.mjs",
+          "reason": "audit tool threw on unclassified tableFactSourceChip producer; classAbilitiesHTML was also present in the captured full callsite inventory"
+        },
+        {
+          "test": "batch2-independent.test.mjs:84",
+          "reason": "source snapshot assertion mismatch; actual 11d786a0bc9c97cf5b9989381629979b9094087282e55f4c923d92666d7329cb; expected 2dc47b8a22e59046c76d9f1fe00b75c86ee973c9af0180363d9bde423a94f820"
+        },
+        {
+          "test": "dmg-context-three-chains.test.mjs:75",
+          "reason": "source snapshot assertion mismatch; actual 163d28d9b825a718c17463a439d0bc471e8504971517c3ffbd513b5934947b70; expected 7ca363c3aef9c6d7ec4c2f3d2e0c4ba1444d371533be3d29e31d9e48d3584d19"
+        }
+      ]
+    }
+  },
+  "classification": {
+    "functions": [
+      {
+        "function": "classAbilitiesHTML",
+        "producerClass": "class-abilities-table-record",
+        "scope": "record-level citation in Cleric class abilities; rules:cleric-turning-table owner; broad page/group link, not an individual fact target"
+      },
+      {
+        "function": "tableFactSourceChip",
+        "producerClass": "cleric-turning-table-fact",
+        "scope": "32 fact instances across 5 kinds; exact rules owner, focus, printed/PDF page, pointer, source object, catalog, region, and verification region required; otherwise pending placeholder"
+      }
+    ],
+    "currentProducerInventory": {
+      "path": "research/source-audit-batch6-citation-navigation-coverage-after.json",
+      "sha256": "029b66476d5c19d306ad175a0f94b474af632001e758e3afa9abf43071bf55fe",
+      "siteCount": 16,
+      "classes": [
+        "class-abilities-table-record",
+        "class-advancement",
+        "class-progression-reference",
+        "class-xp-table",
+        "cleric-turning-table-fact",
+        "dynamic-xp-result",
+        "equipment-estimate-comparison",
+        "equipment-related-reference",
+        "field-attribute-layout",
+        "fighter-matrix-reference",
+        "progression-explainer-reference"
+      ],
+      "newClassSites": [
+        {
+          "line": 593,
+          "function": "tableFactSourceChip",
+          "producerClass": "cleric-turning-table-fact"
+        },
+        {
+          "line": 653,
+          "function": "classAbilitiesHTML",
+          "producerClass": "class-abilities-table-record"
+        }
+      ]
+    }
+  },
+  "verification": {
+    "toolSha256": "9b1892ae702822f1afde1aad0de497cc8b4180d7d4371a57e32aea7bcce892f6",
+    "testSha256": "ef309f9f874351f2e42e5148686a9ffe5cc0901a9ddde679c015437631883630",
+    "classificationTests": "5/5 pass; separate producer class assertions pass; unknown future producer rejection remains active",
+    "fullNodeRun": {
+      "path": "research/source-audit-batch6-citation-navigation-full-node-after.log",
+      "sha256": "5db3f9ae2dd390cee203ba142d2107f1b3df05b28d5e3aa0863a52808187a568",
+      "tests": 779,
+      "pass": 779,
+      "fail": 0
+    },
+    "appSha256": "e96f442f5b2310495971868f19052245fad9ad54b82a939b8d7f6d9adce642ab",
+    "dataSha256": "ff4cf9b944f6584f2b3ea219068c552fd554a586e449ffc6999e93bf01343470"
+  },
+  "limitations": [
+    "The audit classifies these two producer functions only; it does not certify all inline citation producers as semantically reviewed.",
+    "The table-specific field/source routing behavior is bounded by the separate 91-check browser review; this audit class alone does not prove source-content completeness."
+  ]
+}

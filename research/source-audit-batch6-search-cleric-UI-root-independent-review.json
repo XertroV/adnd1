@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "root-independent-search-ranking-and-Cleric-table-UI-review",
+  "reviewer": "/root",
+  "independent": true,
+  "reviewedAt": "2026-11-08",
+  "verdict": "approved-code-and-bounded-source-UI-integration",
+  "inputPins": [
+    {
+      "path": "dist/app.js",
+      "sha256": "e96f442f5b2310495971868f19052245fad9ad54b82a939b8d7f6d9adce642ab"
+    },
+    {
+      "path": "dist/search.js",
+      "sha256": "5c341a8bf2d132830574d6f6f1806d4bcc279a64bc140dd126c1fe79fc31744b"
+    },
+    {
+      "path": "dist/styles.css",
+      "sha256": "722f0e9abdc4e912fd886ee2519b403bf56f04d45308d9916b0e8b70a31b615b"
+    },
+    {
+      "path": "dist/index.html",
+      "sha256": "0b5a1670f6521b6af2a352d78f587e8f11f3e55942352290f7d44ed054571fed"
+    },
+    {
+      "path": "tests/search-ranking.test.mjs",
+      "sha256": "c291f282f72875e024bc771c81c9fb3d4e1acf3bb8ea455f77416e90e0fb7502"
+    },
+    {
+      "path": "tests/search-ranking.browser.mjs",
+      "sha256": "3296ac4bc576675c9f43eafcf80045cfb01c943a2f3e50ae79af1f0a774f0548"
+    },
+    {
+      "path": "tests/fixtures/cleric-turning-citation-schema-before.json",
+      "sha256": "16c1f5c1281a377567f413af8a627058b7a9d21ca366b09c805848b9016051dd"
+    },
+    {
+      "path": "tests/fixtures/cleric-turning-citation-owner-before.json",
+      "sha256": "5432f2cb3e9145cfb5b843d5696c72c07159e7e9a0357937cd5c6e605e9c3865"
+    },
+    {
+      "path": "tests/fixtures/search-ranking-before-ae5195a.json",
+      "sha256": "155289499e2b1aaa9ff8df0bf8c22673fa4093ae7d45233b265e30d5c4a2d1cd"
+    },
+    {
+      "path": "rules.json",
+      "sha256": "d7e11b26a7c05d3d8d3abd6a40d8fcd22e50f3b2dc45d479ac213a504c33292e"
+    },
+    {
+      "path": "classes.json",
+      "sha256": "2372095ded81398370f4c760503a913814c29cb7a190a01210d4121936e2ab1f"
+    },
+    {
+      "path": "dist/scans/verified/rules-cleric-turning-table.json",
+      "sha256": "4915381b86e4f01c67eb06a174ae615e008046989693a3f8e6bc72e23c3c0a48"
+    }
+  ],
+  "capturedCurrentData": {
+    "path": "dist/data.json",
+    "sha256": "ff4cf9b944f6584f2b3ea219068c552fd554a586e449ffc6999e93bf01343470"
+  },
+  "capturedContinuations": {
+    "path": "dist/source-continuations.json",
+    "sha256": "70214bfb1a52a24cce349c5b339b7e13da1421aedd1ede9a4bb6a1742a0c96ad"
+  },
+  "codeReview": [
+    "Exact title/alias/phrase and complete word-prefix token matches sort before weaker matches, with deterministic ties.",
+    "Search lists expose displayed/total counts and usable more/all controls; existing mobile entry/history and keyboard selection remain supported.",
+    "Top-level human field labels and authored class level-change text are indexed; nested citation/private provenance is excluded.",
+    "All32 table fact source chips require exact rule owner, source book/page, field pointer and clone region, using real printedPage/sourcePages metadata. No invented binding.pages requirement remains.",
+    "Cleric Class abilities controls explicitly use the rules owner; per-row source links retain all3 ordered table/continuation parts.",
+    "Human fact caption labels are passed by this bounded renderer without changing global viewer normalization."
+  ],
+  "rootExecutedTests": {
+    "command": "node --test tests/search-ranking.test.mjs tests/cleric-turning-table.test.mjs tests/suggested-equipment-prices.test.mjs",
+    "pass": 14,
+    "fail": 0,
+    "runAtFinalSearchCode": "5c341a8bf2d132830574d6f6f1806d4bcc279a64bc140dd126c1fe79fc31744b"
+  },
+  "rootVisualReview": {
+    "scope": "Root opened Cleric Class abilities, the actual structured matrix, exact Skeleton row source context and search on desktop/mobile. The decoded desktop source image shows complete table headers and precise row focus.",
+    "beforePR34DataHash": "4526679456fd198387e2caff56f64666b87d1a19f6ca39c3a4eb4a22919057ca",
+    "semanticTableSourceUnchangedByPR34": true,
+    "captureLimit": "The first screenshot was taken before async image decoding and appeared blank. Root waited for three nonempty image decodes and two animation frames; source pixels were then visible. No runtime image defect is inferred from that premature capture."
+  },
+  "peerExecutionSeparatelyReported": {
+    "reviewer": "/root/condition_tool_review",
+    "nativeActualTableChecks": 91,
+    "nativeExistingMobileHistoryChecks": 20,
+    "focusedNodeChecks": 12,
+    "dataHash": "ff4cf9b944f6584f2b3ea219068c552fd554a586e449ffc6999e93bf01343470",
+    "scope": "All32 current fact links, all13 ordered row groups, real mobile owner/reload/Back and decoded images."
+  },
+  "authorExecutionSeparatelyReported": {
+    "nativeActualTableChecks": 91,
+    "citationControlRoundTrips": 146,
+    "reloadChecks": 3,
+    "routeOwnerRegionFieldCopyErrors": 0,
+    "browserErrors": 0,
+    "dataHash": "ff4cf9b944f6584f2b3ea219068c552fd554a586e449ffc6999e93bf01343470",
+    "continuationHash": "70214bfb1a52a24cce349c5b339b7e13da1421aedd1ede9a4bb6a1742a0c96ad"
+  },
+  "preservedRegressions": [
+    "Missing-region Class-abilities owner route before fixture.",
+    "Actual32 fact metadata omit binding.pages; the schema-before fixture remains bound to the historical452667 input, not overwritten after source integration.",
+    "Pre-change ranking/cutoff baseline and full994-index field-label before/after inventory.",
+    "The64 apparent roundtrip failures in the newer harness were caption comparisons; exact before/current146 observations matched. Normalized-caption checks keep all route/owner/region/field/copied-link assertions and negative calibrations.",
+    "All2218 lexical references/478 primary references/995 record-index metadata are preserved in the separate bounded table-before archive."
+  ],
+  "remaining": [
+    "Run all24 required workflow commands and full current Node suite, append-only seals, clean and remote CI, and normal Pages/live asset checks on the final candidate.",
+    "Two inline global matrix/progression entities remain outside the global search document index; no all-exposed/all-book search completeness claim.",
+    "Authored attackTableNote/retainedSkillsNote fields are not currently rendered/indexed; broader content discovery remains a separate follow-on.",
+    "The current matrix resolves one named absence. Other class abilities, unknown source tables and unknown continuations remain explicitly unresolved.",
+    "The legacy mechanics field allowlist omits structured rules.table leaves; its13428 count does not include the new130 matrix cells. Those cells have a separate literal source review and regression."
+  ]
+}

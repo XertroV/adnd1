@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "batch6-search-ui-and-citation-roundtrip-closeout",
+  "scope": "Search ranking/all-results and turning-table citation UI closure for the merged Batch 6 source snapshot. Does not claim whole-database semantic verification or source-content completeness.",
+  "currentSnapshot": {
+    "gitHead": "25abc149bf0cefaabe831fcf422656e030edc05f",
+    "hashes": {
+      "dist/app.js": "e96f442f5b2310495971868f19052245fad9ad54b82a939b8d7f6d9adce642ab",
+      "dist/search.js": "5c341a8bf2d132830574d6f6f1806d4bcc279a64bc140dd126c1fe79fc31744b",
+      "dist/index.html": "0b5a1670f6521b6af2a352d78f587e8f11f3e55942352290f7d44ed054571fed",
+      "dist/styles.css": "722f0e9abdc4e912fd886ee2519b403bf56f04d45308d9916b0e8b70a31b615b",
+      "dist/data.json": "ff4cf9b944f6584f2b3ea219068c552fd554a586e449ffc6999e93bf01343470",
+      "dist/source-continuations.json": "70214bfb1a52a24cce349c5b339b7e13da1421aedd1ede9a4bb6a1742a0c96ad",
+      "tests/search-ranking.test.mjs": "c291f282f72875e024bc771c81c9fb3d4e1acf3bb8ea455f77416e90e0fb7502",
+      "tests/search-ranking.browser.mjs": "3296ac4bc576675c9f43eafcf80045cfb01c943a2f3e50ae79af1f0a774f0548",
+      "tests/citation-context-field-owner.browser.mjs": "fb5a863509351d350802e1ff643041c9f8835e45bded7469d841a62efa237937",
+      "tests/suggested-equipment-prices.test.mjs": "1226c618a247080b7bf95e6f9c2c2098406533682b53621c7f2d2c2e234eda46",
+      "tests/fixtures/search-ranking-before-ae5195a.json": "155289499e2b1aaa9ff8df0bf8c22673fa4093ae7d45233b265e30d5c4a2d1cd",
+      "tests/fixtures/cleric-turning-citation-owner-before.json": "5432f2cb3e9145cfb5b843d5696c72c07159e7e9a0357937cd5c6e605e9c3865",
+      "tests/fixtures/cleric-turning-citation-schema-before.json": "16c1f5c1281a377567f413af8a627058b7a9d21ca366b09c805848b9016051dd",
+      "research/source-audit-batch6-search-owner-roundtrip-current.json": "a33f8ce918c083cc6b6510c2ab1c5c7728b13d1639f5c8b5c6ede089fe57aaa3"
+    },
+    "counts": {
+      "records": {
+        "spells": 638,
+        "rules": 149,
+        "equipment": 191,
+        "classes": 16
+      },
+      "catalogSearchRecords": 994,
+      "includingInlineProgression": 995,
+      "topLevelFieldOccurrences": 4706,
+      "distinctTopLevelFieldLabels": 117,
+      "classLevelChangeEntries": 1081,
+      "classLevelChangeSearchStrings": 1211,
+      "turningTableRows": 13,
+      "turningTableFacts": 32
+    }
+  },
+  "tests": {
+    "focusedNode": "24/24 pass (search ranking, viewer labels, suggested price citations)",
+    "turningTableBrowser": "91/91 pass (32 facts, 13 ordered three-part row groups, desktop/mobile, decode, reload/back, exact owner/page/region/pointer, and fail-closed negatives)",
+    "citationRoundtrip": "146/146 pass; zero pointer/region/owner/replay/copy/browser/reload mismatches; three actual reload checks",
+    "citationRoundtripReport": {
+      "path": "research/source-audit-batch6-search-owner-roundtrip-current.json",
+      "sha256": "a33f8ce918c083cc6b6510c2ab1c5c7728b13d1639f5c8b5c6ede089fe57aaa3"
+    }
+  },
+  "searchBaseline": {
+    "fixture": "tests/fixtures/search-ranking-before-ae5195a.json",
+    "fixtureSha256": "155289499e2b1aaa9ff8df0bf8c22673fa4093ae7d45233b265e30d5c4a2d1cd",
+    "beforeDataSha256": "2b803d29cccd83ffd8418818abddf04b66204c82cebb8afba13f7a8226c6583c",
+    "beforeCounts": {
+      "spells": 638,
+      "rules": 148,
+      "equipment": 191,
+      "classes": 16,
+      "matrices": 1,
+      "progressionExplainer": 1,
+      "searchableCatalogRecords": 993,
+      "searchableIncludingInlineProgression": 995
+    },
+    "currentRecords": {
+      "catalog": 994,
+      "includingInlineProgression": 995
+    },
+    "behavior": "Exact title/phrase/alias results rank ahead of weaker token matches; every query token must match. Search exposes total counts, show-more, show-all, stable group counts, keyboard navigation, mobile history and selection. Human top-level field labels/values and rendered class level-change text are indexed; citation/audit metadata and unrendered attackTableNote/retainedSkillsNote are excluded."
+  },
+  "historicalHarnessDiagnosis": {
+    "observationCount": 146,
+    "oldApparentRoundtripMisses": 64,
+    "cleanBaselineMisses": 64,
+    "identicalObservationsOnCurrentAndCleanBaseline": true,
+    "interpretation": "All 64 apparent misses came from comparing raw numeric labels 0/1 with the viewer’s normalized labels for four progression-explainer reference-array pointers (16 each). Routes, exact field pointers, owners, source selection, copied URLs and replay hashes matched on both the current snapshot and clean b90 baseline. The harness now uses the production viewer label formatter as its oracle and preserves the owner/pointer/region/copy/reload assertions.",
+    "diagnosisV2Sha256": "7b82e1bd3b7573a09a2565fe7dd1791a807c5118d7002d4aff48e0cb0e9542fa"
+  },
+  "schemaHistory": {
+    "fixture": "tests/fixtures/cleric-turning-citation-schema-before.json",
+    "fixtureSha256": "16c1f5c1281a377567f413af8a627058b7a9d21ca366b09c805848b9016051dd",
+    "fixtureDataSha256": "ff4cf9b944f6584f2b3ea219068c552fd554a586e449ffc6999e93bf01343470",
+    "preFixHelperSha256": "1867b91b4a208e5360ced7e1914862a3874ceccf110073fdf9e057d19afe5abf",
+    "shape": "The actual row binding has printedPage + sourcePages and no binding.pages. The helper accepts that canonical shape; all 32 fact targets resolve through source owner, field pointer, region, page, and PDF-page checks.",
+    "caveat": "This fixture records the actual assembled ff4cf9 data retrospectively alongside the pre-fix helper hash; it is not a 452667 data-byte snapshot. Root is adding a separate executable old-helper regression fixture/test. The fixture itself is preserved unchanged."
+  },
+  "classAbilityOwnerRegression": {
+    "fixture": "tests/fixtures/cleric-turning-citation-owner-before.json",
+    "fixtureSha256": "5432f2cb3e9145cfb5b843d5696c72c07159e7e9a0357937cd5c6e605e9c3865",
+    "observedBefore": "classes:cleric",
+    "expectedOwner": "rules:cleric-turning-table",
+    "scope": "This is a synthetic UI-routing regression capture. It does not represent or approve turning-table source values, crops, focus geometry, or catalog activation."
+  },
+  "limitations": [
+    "The search content census covers the four collections plus the inline progression record used by the current palette; matrices remain outside that palette.",
+    "The two authored class note fields attackTableNote and retainedSkillsNote are not rendered in the current UI and are not indexed.",
+    "The 146-control roundtrip suite is a rendered-control routing regression check, not a semantic review of all field values or citations.",
+    "Search relevance and source-citation usability do not imply whole-sourcebook completeness or universal semantic accuracy."
+  ]
+}

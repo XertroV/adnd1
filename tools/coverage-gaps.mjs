@@ -698,6 +698,7 @@ function buildGroups({data, handoff, readFile, mechanics, continuationManifest})
       ...(Number.isInteger(queueMeta.fieldBindingAndHistoricalScopeQueues.fieldTargetsReviewed) ? {
         reviewedFieldTargets: queueMeta.fieldBindingAndHistoricalScopeQueues.fieldTargetsReviewed,
         regionTargetResolvedBindings: queueMeta.fieldBindingAndHistoricalScopeQueues.regionTargetResolvedBindings,
+        recordTargetResolvedBindings: queueMeta.fieldBindingAndHistoricalScopeQueues.recordTargetResolvedBindings,
         regionResolvedPendingFieldTargets: queueMeta.fieldBindingAndHistoricalScopeQueues.regionResolvedFieldTargetsPending,
       } : {}),
       historicalScopesNeedingReview: queueMeta.fieldBindingAndHistoricalScopeQueues.historicalScopesNeedingReview,
