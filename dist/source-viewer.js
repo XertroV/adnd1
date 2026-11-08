@@ -15,6 +15,7 @@
   let excerptCatalog, excerptSource = null, excerptError = '', excerptLoading = false, catalogRequest = 0;
   let requestedMode = 'pdf', regionIndex = 0, showHighlights = true, actualSize = false, session = 0;
   let copySourceLink = null, onViewerClose = null, onSourceChange = null, requestedInitialRegion = null;
+  let navigationClose = false;
   let targets = [], targetStatus = '', pendingTargetPage = null, unavailableTarget = null, targetDismissed = false;
   let activeTarget = null;
   let imageFit = false, privacyDismissed = false;
@@ -219,7 +220,8 @@
       renderTask?.cancel();
       document.body.classList.remove('source-viewer-open');
       if (returnFocus?.isConnected) returnFocus.focus({ preventScroll: true });
-      const callback = onViewerClose; onViewerClose = null; callback?.();
+      const callback = onViewerClose, fromRoute = navigationClose;
+      onViewerClose = null; navigationClose = false; callback?.({ fromRoute });
     });
     dialog.addEventListener('cancel', event => { event.stopPropagation(); });
     dialog.addEventListener('keydown', event => {
@@ -245,6 +247,7 @@
   function open({ item, references, contextItemId, initialReference, targets: requestedTargets, activeTarget: requestedActiveTarget, targetStatus: requestedTargetStatus, onCopyLink, onClose, onChange } = {}) {
     setup();
     copySourceLink = typeof onCopyLink === 'function' ? onCopyLink : null; onViewerClose = typeof onClose === 'function' ? onClose : null; onSourceChange = typeof onChange === 'function' ? onChange : null;
+    navigationClose = false;
     el.copyLink.hidden = !copySourceLink;
     session++;
     catalogRequest++;
@@ -409,7 +412,7 @@
     const pointerPathLabel = pathLabel();
     const isIndexedPointer = segments.some(segment => /^(0|[1-9]\d*)$/.test(segment) && Number.isSafeInteger(Number(segment)));
     const explicitReferenceLabel = isIndexedPointer
-      && /reference|context/i.test(String(target.sourceCategory || ''))
+      && /reference|context|comparison|comparator/i.test(String(target.sourceCategory || ''))
       && label
       && !/^\d+$/.test(label);
     if (explicitReferenceLabel) return label;
@@ -996,6 +999,9 @@
       requestedMode = 'pdf'; resetZoom(); update();
     }
   }
-  function close() { if (dialog?.open) dialog.close(); }
+  function close({ fromRoute = false } = {}) {
+    navigationClose = fromRoute;
+    if (dialog?.open) dialog.close();
+  }
   root.FirstEditionSourceViewer = Object.freeze({ open, close });
 })(globalThis);

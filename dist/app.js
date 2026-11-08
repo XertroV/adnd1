@@ -334,7 +334,7 @@ function route({force=false}={}) {
   }
   openScanViewer(item,references,item.id,initialReference,{fromRoute:true,owner:target.owner,targetStatus,activeTarget,targets,fieldScoped});
  }
- else globalThis.FirstEditionSourceViewer?.close?.();
+ else globalThis.FirstEditionSourceViewer?.close?.({fromRoute:true});
 }
 function goTo(newView, id = '', {reveal=false}={}) {
  const hash = `#${newView}${id ? '/' + encodeURIComponent(id) : ''}`;
@@ -877,7 +877,7 @@ function openScanViewer(item,references,contextItemId=item.id||'',initialReferen
   const writeHistory=(ref,region,meta={})=>{const hash=link(ref,region,meta);if(location.hash!==hash){history.pushState({sourceModal:true},'',hash);renderedRouteHash=location.hash;}};
   if(!options.fromRoute&&first)writeHistory(first,first.region,{targetStatus,activeTarget});
   const onCopyLink=async (ref,region,meta={})=>{const url=new URL(location.href);url.hash=link(ref,region,meta);try{await navigator.clipboard.writeText(url.href);toast('Source link copied.');}catch{toast('Could not copy the source link.');}};
-  const onClose=()=>{const target=parseReferenceRoute();if(target.source&&target.view===routeView&&target.id===routeId){history.replaceState(null,'',`#${routeView}/${encodeURIComponent(routeId)}`);renderedRouteHash=location.hash;}setTimeout(()=>{if(view===routeView&&selectedId===routeId&&(!document.activeElement||document.activeElement===document.body||!document.activeElement.isConnected)){const heading=$('#referenceDetail .detail-card h2');if(heading){heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});}}},0)};
+  const onClose=({fromRoute=false}={})=>{const target=parseReferenceRoute();if(!fromRoute&&target.source&&target.view===routeView&&target.id===routeId){history.replaceState(null,'',`#${routeView}/${encodeURIComponent(routeId)}`);renderedRouteHash=location.hash;}setTimeout(()=>{if(view===routeView&&selectedId===routeId&&(!document.activeElement||document.activeElement===document.body||!document.activeElement.isConnected)){const heading=$('#referenceDetail .detail-card h2');if(heading){heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});}}},0)};
   FirstEditionSourceViewer.open({item,references,contextItemId,initialReference:effectiveInitial,targets,targetStatus,activeTarget,onCopyLink,onClose,onChange:writeHistory});return;
  }
  const heading=references.length===1?bookName(references[0].book):'Original source references';
