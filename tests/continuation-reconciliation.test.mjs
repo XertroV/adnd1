@@ -5,6 +5,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import os from 'node:os';
 import {fileURLToPath} from 'node:url';
+import {gunzipSync} from 'node:zlib';
 import {validateContinuationManifest} from '../tools/continuation-contract.mjs';
 import {buildPublishedContinuations} from '../tools/published-continuations.mjs';
 
@@ -104,7 +105,16 @@ test('a separate PHB p.55–56 Druid own-passage continuation is pinned as a sou
   assert.deepEqual(before.manifest.matchingOwnerGroups, []);
   assert.deepEqual(before.catalog.regions.map(region => region.regionId), ['phb-55-1ed1d4a06d478c09', 'phb-56-52c28faceedb3b01']);
   assert.equal(report.ownerPairRows.length, 44, 'the cross-page own-spell finding stays outside the fixed 44 same-page owner denominator');
-  const group = JSON.parse(fs.readFileSync('/workspace/scratch/batch5-continuation-druid-phb55-56-proposal.json', 'utf8'));
+  const proposalFixtureBytes = fs.readFileSync(new URL('../tests/fixtures/continuation-druid-phb55-56-proposal.json.gz', import.meta.url));
+  assert.equal(hash(proposalFixtureBytes), '3d0d997c7f0ec7abde7a5d79540310039bc5af8263bc06e14c6e5833e2a60025');
+  const proposalBytes = gunzipSync(proposalFixtureBytes);
+  assert.equal(hash(proposalBytes), '036cc95bef27587548ee9f4bcf66ba2a45475d93be368b46287104bbf587e527');
+  const group = JSON.parse(proposalBytes.toString('utf8'));
+  const committedProposal = json('research/source-audit-batch5-continuation-final-proposal.json').proposals.additionalCrossPageOwnerPassage;
+  assert.deepEqual(group, committedProposal, 'the pinned proposal is the exact published continuation proposal object');
+  assert.equal(group.sourceComparison.evidence, 'research/source-audit-batch5-continuation-phb55-56.json');
+  assert.equal(hash(fs.readFileSync(path.join(root, group.sourceComparison.evidence))), group.sourceComparison.evidenceSha256);
+  assert.ok(group.segments.every(segment => typeof segment.image === 'string' && /^[a-f0-9]{64}$/.test(segment.imageSha256)), 'the fixture contains image references and hashes, not source image bytes');
   assert.equal(group.id, 'batch5-cont-phb-p55-56-phb-druid-charm-person-or-mammal');
   assert.deepEqual(group.requiredRegionIds, ['phb-55-1ed1d4a06d478c09', 'phb-56-52c28faceedb3b01']);
   assert.deepEqual(group.segments.map(segment => segment.role), ['opening', 'continuation']);

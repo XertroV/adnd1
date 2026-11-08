@@ -1,4 +1,5 @@
 import importlib.util
+import hashlib
 import json
 import os
 import unittest
@@ -102,17 +103,18 @@ class ContinuationCandidateFixtures(unittest.TestCase):
         self.assertTrue(result[0]["semanticReviewRequired"])
 
     def test_local_animate_object_crop_extracts_endpoint_and_edge_geometry(self):
-        import fitz
         source_dir = os.environ.get("ADND1_PRIVATE_SOURCE_DIR")
         if not source_dir:
             self.skipTest("authorized source PDF is absent in this CI environment")
         source = Path(source_dir) / "tsr2010-players-handbook.pdf"
         if not source.exists():
             self.skipTest("authorized source PDF is absent in this CI environment")
+        import fitz
         document = fitz.open(source)
         page = document[51]
         words = detector.pdf_words(page)
         row = json.loads((ROOT / "dist/scans/verified/spells-phb-cleric-animate-object.json").read_text())
+        self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["sources"]["PHB"]["sha256"])
         region = next(region for region in row["regions"] if region["printedPage"] == 51)
         x, y, width, height = detector.rect_xywh(region["normalizedPageRect"])
         crop = (x * page.rect.width, y * page.rect.height, (x + width) * page.rect.width, (y + height) * page.rect.height)
@@ -122,7 +124,11 @@ class ContinuationCandidateFixtures(unittest.TestCase):
         # establish that a passage continues or is incomplete.
         self.assertEqual(result["endClass"], "unpunctuated")
         self.assertGreater(result["lineCount"], 0)
-        self.assertGreater(len(result["crossings"]), 0)
+        calibration = json.loads((ROOT / "research/citation-regression-calibration.json").read_text())
+        case = next(item for item in calibration["clippingCases"] if item["id"] == "animate-object-phb51-right-edge-words")
+        historical = detector.crop_word_geometry(words, case["oldCrop"]["values"])
+        self.assertGreater(len(historical["crossings"]), 0, "the archived clipped crop remains a positive regression")
+        self.assertEqual(result["crossings"], [], "the current corrected crop must not inherit the historical failure")
 
 
 if __name__ == "__main__":

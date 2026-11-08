@@ -169,7 +169,9 @@ test('CI reports changed data and catalog inputs as stale evidence', () => {
 });
 
 test('numeric source geometry fixtures run without private PDFs', () => {
-  const result = spawnSync('python3', ['tests/continuation-candidates-fixtures.py'], {cwd: root, encoding: 'utf8'});
+  const result = spawnSync('python3', ['-S', 'tests/continuation-candidates-fixtures.py'], {
+    cwd: root, encoding: 'utf8', env: {...process.env, ADND1_PRIVATE_SOURCE_DIR: ''},
+  });
   const output = `${result.stdout}\n${result.stderr}`;
   assert.equal(result.status, 0, output);
   assert.match(output, /Ran 7 tests/);
