@@ -6,9 +6,9 @@ import {hash} from '../../tools/monetary-row-identity-audit.mjs';
 import {fileURLToPath} from 'node:url';
 import {resolve,relative} from 'node:path';
 const root=new URL('../../',import.meta.url),read=p=>JSON.parse(readFileSync(new URL(p,root))),sha=b=>createHash('sha256').update(b).digest('hex');
-export const joIntegration=read('research/source-audit-batch6-jo-integration-v3.json');
+export const joIntegration=read('research/source-audit-batch6-jo-integration-v4.json');
 assert.equal(sha(readFileSync(new URL(joIntegration.supersedes.path,root))),joIntegration.supersedes.sha256,'the former Jo integration receipt remains exact historical evidence');
-for(const ref of [...joIntegration.historicalJoReceipts,joIntegration.upstreamIntegration.sourceMetadataReview,joIntegration.upstreamIntegration.continuationRepairReview])assert.equal(sha(readFileSync(new URL(ref.path,root))),ref.sha256,'exact historical and upstream integration review evidence');
+for(const ref of [...joIntegration.historicalJoReceipts,joIntegration.upstreamIntegration.sourceMetadataReview,joIntegration.upstreamIntegration.continuationRepairReview,joIntegration.upstreamIntegration.searchSourceReview,joIntegration.upstreamIntegration.searchMetricReview])assert.equal(sha(readFileSync(new URL(ref.path,root))),ref.sha256,'exact historical and published upstream integration review evidence');
 export const semanticJoFixture=value=>Array.isArray(value)?value.map(semanticJoFixture):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).filter(([key])=>!['evidenceBindings','regionReviews'].includes(key)).map(([key,child])=>[key,semanticJoFixture(child)])):value;
 function frozen(ref){const zipped=readFileSync(new URL(ref.path,root));assert.equal(sha(zipped),ref.sha256,ref.path);const bytes=gunzipSync(zipped);if(ref.uncompressedSha256)assert.equal(sha(bytes),ref.uncompressedSha256);return JSON.parse(bytes);}
 export const dataBeforeJo=frozen(joIntegration.beforeData);
@@ -29,7 +29,16 @@ export function withoutBatch6JoEquipment(equipment){
   return structuredClone(dataBeforeJo.equipment.find(old=>old.id==='ua-caltrop'));
  });
 }
-export function withoutBatch6JoData(data){const equipment=withoutBatch6JoEquipment(data.equipment);if(equipment===data.equipment)return data;assert.deepEqual(data.release.priceInventory,joIntegration.currentReleasePriceInventory,'only the declared current price-inventory counters may be reversed');assert.deepEqual(data.release.excerpts,joIntegration.currentReleaseExcerpts,'only the exact current excerpt-count and owner changes may be reversed');const rules=data.rules.map(item=>{const ref=joIntegration.upstreamIntegration.exactHistoricalRecordRestorations.find(r=>r.collection==='rules'&&r.itemId===item.id);if(!ref)return item;assert.equal(hash(item),ref.currentRecordSha256,'only exact reviewed upstream DMG metadata may be reversed');const old=dataBeforeJo.rules.find(r=>r.id===item.id);assert.equal(hash(old),ref.beforeRecordSha256);return structuredClone(old);});return {...data,equipment,rules,release:{...data.release,priceInventory:structuredClone(dataBeforeJo.release.priceInventory),excerpts:structuredClone(dataBeforeJo.release.excerpts)}};}
+export function withoutBatch6JoData(data){
+ const equipment=withoutBatch6JoEquipment(data.equipment);if(equipment===data.equipment)return data;
+ assert.deepEqual(data.release.priceInventory,joIntegration.currentReleasePriceInventory,'only the declared current price-inventory counters may be reversed');assert.deepEqual(data.release.excerpts,joIntegration.currentReleaseExcerpts,'only the exact current excerpt-count and owner changes may be reversed');
+ const restored={};for(const collection of ['rules','classes']){
+  const additions=joIntegration.upstreamIntegration.exactHistoricalRecordAdditions.filter(ref=>ref.collection===collection);
+  for(const ref of additions){const matches=data[collection].filter(item=>item.id===ref.itemId);assert.equal(matches.length,1);assert.equal(hash(matches[0]),ref.currentRecordSha256,'only the exact published new source owner may be reversed');assert.equal(dataBeforeJo[collection].some(item=>item.id===ref.itemId),false);}
+  restored[collection]=data[collection].filter(item=>!additions.some(ref=>ref.itemId===item.id)).map(item=>{const ref=joIntegration.upstreamIntegration.exactHistoricalRecordRestorations.find(r=>r.collection===collection&&r.itemId===item.id);if(!ref)return item;assert.equal(hash(item),ref.currentRecordSha256,'only exact published upstream source metadata may be reversed');const old=dataBeforeJo[collection].find(r=>r.id===item.id);assert.equal(hash(old),ref.beforeRecordSha256);return structuredClone(old);});
+ }
+ return {...data,equipment,...restored,release:{...data.release,priceInventory:structuredClone(dataBeforeJo.release.priceInventory),excerpts:structuredClone(dataBeforeJo.release.excerpts)}};
+}
 export function withoutBatch6JoManifest(manifest){
  const matches=manifest.groups.filter(group=>group.id===joIntegration.addedContinuationGroup.id);
  if(!matches.length)return manifest;

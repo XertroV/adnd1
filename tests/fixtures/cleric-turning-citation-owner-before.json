@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "synthetic-cleric-turning-table-citation-owner-before",
+  "capturedAgainst": {
+    "branch": "codex/search-ranking-all-results",
+    "dataSha256": "2b803d29cccd83ffd8418818abddf04b66204c82cebb8afba13f7a8226c6583c",
+    "appSha256": "55966941fa9876fc7d7ff4534efd7af4d440cb6c386dbd20b89ec313e21bd262",
+    "searchBaselinePath": "tests/fixtures/search-ranking-before-ae5195a.json",
+    "searchBaselineSha256": "155289499e2b1aaa9ff8df0bf8c22673fa4093ae7d45233b265e30d5c4a2d1cd",
+    "searchableRecords": 995
+  },
+  "scenario": {
+    "routeBeforeClick": "#classes/cleric",
+    "clickedControl": "synthetic Cleric class-abilities source chip for rules:cleric-turning-table",
+    "expectedSourceOwner": "rules:cleric-turning-table",
+    "observedRouteAfterClick": "#classes/cleric?source=DMG%3A75&region=row-region&field=%2Ftable%2Frows%2F0&fieldOwner=rules%3Acleric-turning-table",
+    "observedContextOwner": "classes:cleric",
+    "failure": "The chip carried the target row binding but inherited the enclosing Cleric guide as its source context, so the viewer routed the DMG citation through classes:cleric instead of rules:cleric-turning-table."
+  },
+  "limitation": "This is a synthetic UI-routing regression capture. It does not represent or approve turning-table source values, crops, focus geometry, or catalog activation."
+}

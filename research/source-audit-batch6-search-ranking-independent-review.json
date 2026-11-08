@@ -1,0 +1,136 @@
+{
+  "artifactType": "independent-search-ranking-and-source-chip-review",
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-08T07:40:18Z",
+  "repository": "/workspace/adnd1-search-ranking",
+  "reviewScope": "Read-only review of frozen search core/UI, current DMG Cleric turning-table source-chip routing, and frozen field-owner history evidence. No source/data/seal edits.",
+  "inputs": {
+    "app": {
+      "path": "dist/app.js",
+      "sha256": "e96f442f5b2310495971868f19052245fad9ad54b82a939b8d7f6d9adce642ab"
+    },
+    "searchCore": {
+      "path": "dist/search.js",
+      "sha256": "5c341a8bf2d132830574d6f6f1806d4bcc279a64bc140dd126c1fe79fc31744b"
+    },
+    "currentData": {
+      "path": "dist/data.json",
+      "sha256": "ff4cf9b944f6584f2b3ea219068c552fd554a586e449ffc6999e93bf01343470"
+    },
+    "currentContinuations": {
+      "path": "dist/source-continuations.json",
+      "sha256": "70214bfb1a52a24cce349c5b339b7e13da1421aedd1ede9a4bb6a1742a0c96ad"
+    },
+    "researchContinuations": {
+      "path": "research/citation-continuations.json",
+      "sha256": "ff43c7e02eada43fb19ad24befd310f13314d233c9617c4f246164a5ac0b46ab"
+    },
+    "sourceVisualReviews": {
+      "path": "research/source-visual-reviews.json",
+      "sha256": "9fe3df201bc0ee912f0685249d1e49f9dae0c60fcb08c87ec29d6d6c41ff8948"
+    },
+    "rankingUnitTest": {
+      "path": "tests/search-ranking.test.mjs",
+      "sha256": "c291f282f72875e024bc771c81c9fb3d4e1acf3bb8ea455f77416e90e0fb7502"
+    },
+    "nativeBrowserTest": {
+      "path": "tests/search-ranking.browser.mjs",
+      "sha256": "3296ac4bc576675c9f43eafcf80045cfb01c943a2f3e50ae79af1f0a774f0548"
+    },
+    "historyBrowserTest": {
+      "path": "tests/mobile-search-history.browser.mjs",
+      "sha256": "6f1e40dd612026c6a71d141dbf89480288a03c6cbbe1273d32178cc856fb77e2"
+    }
+  },
+  "results": {
+    "searchNativeBrowser": {
+      "command": "TEST_URL=http://127.0.0.1:33431/dist node tests/search-ranking.browser.mjs",
+      "passed": 91,
+      "failed": 0,
+      "exitCode": 0
+    },
+    "mobileHistoryBrowser": {
+      "command": "TEST_URL=http://127.0.0.1:33431/dist/index.html node tests/mobile-search-history.browser.mjs",
+      "passed": 20,
+      "failed": 0,
+      "exitCode": 0
+    },
+    "unitTests": {
+      "command": "node --test tests/search-ranking.test.mjs tests/citation-context-field-owner-current.test.mjs tests/citation-context-field-owner-baseline.test.mjs",
+      "passed": 12,
+      "failed": 0,
+      "exitCode": 0,
+      "breakdown": {
+        "searchRanking": 10,
+        "ownerHistory": 2
+      }
+    },
+    "rootIndependentNodeCheck": {
+      "reportedPassed": 14,
+      "source": "parent confirmation; separate targeted command not included in this review"
+    }
+  },
+  "tableCoverage": {
+    "currentRuleId": "cleric-turning-table",
+    "currentRuleCount": 149,
+    "totalSourceEvidenceBindings": 35,
+    "renderedFactButtons": 32,
+    "factBindings": 32,
+    "contextSupportReferences": 3,
+    "rowGroups": 13,
+    "segmentsPerRowGroup": 3,
+    "checks": [
+      "all 32 rendered row/symbol/procedure/footnote/progression fact targets resolve to their exact owner/page/field/region",
+      "binding sourcePages includes printedPage; binding does not require a binding.pages property",
+      "synthetic unbound, wrong-owner, wrong-page, wrong-region, and missing-sourcePages targets fail closed",
+      "all 13 row buttons display the expected ordered three-part groups",
+      "mobile exact owner/page route, decoded images, reload and Back preserve selection"
+    ]
+  },
+  "historyAndRanking": {
+    "checks": [
+      "exact title/phrase beats body-only/token-only matches",
+      "all query terms must match a full word or prefix; diacritics/punctuation normalize consistently",
+      "counts reconcile by category; show-more and show-all expose/select all matches beyond 18",
+      "search-history reselect, persistence, normalized deduplication/MRU and localStorage-blocked fallback pass"
+    ]
+  },
+  "ownerAuditEvidence": {
+    "before": {
+      "path": "research/citation-context-field-owner-prefx.json",
+      "sha256": "77e8e92f968468313563f174bb2933328769c85817380732fb14d4084a450dc3",
+      "observations": 146,
+      "ownerNamespaceNotRouteable": 64,
+      "roundTripMisses": 141
+    },
+    "current": {
+      "path": "research/citation-context-field-owner.json.gz",
+      "sha256": "7f26e44ce00e5180c79bcc1dd5a0e012fa5bfdffc0046a382e5a5f6e57ea0241",
+      "decompressedSha256": "f6f5de141ce0e1a518f4b2c9326cb9a002a72fb3007e9da5fdaedee13ca1cdb4",
+      "sourceDataSha256": "94c40a0350dc32162642eab196176962d0ce28547ecc5829ab7fbb9008690537",
+      "inventoryBindings": 4260,
+      "observations": 146,
+      "fieldOwnerMismatch": 0,
+      "sourceOwnerMismatch": 0,
+      "ownerNamespaceNotRouteable": 0,
+      "roundTripMisses": 0,
+      "copyMismatch": 0,
+      "actualReloadChecks": 3,
+      "actualReloadMisses": 0,
+      "browserErrors": []
+    }
+  },
+  "explicitLimits": {
+    "notIndexedFromExposedCatalog": {
+      "matrices": 1,
+      "progressionExplainer": 1
+    },
+    "unrenderedClassNotesExcluded": [
+      "attackTableNote",
+      "retainedSkillsNote"
+    ],
+    "visualDeviceScope": "Chromium viewport checks, not physical-device testing",
+    "numericMechanicsGradeOrSourceValueApproval": "not part of this review"
+  },
+  "result": "PASS"
+}

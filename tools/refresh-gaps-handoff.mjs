@@ -662,6 +662,7 @@ export function currentQueueMetadata({handoff, data, dataHash, rawDataHash, repo
     nextQueues.fieldEvidenceBindingsDenominator = bindings;
     nextQueues.fieldTargetsPending = pending;
     nextQueues.regionTargetResolvedBindings = metrics.resolvedRegionTargets;
+    nextQueues.recordTargetResolvedBindings = metrics.recordTargetResolvedBindings;
     nextQueues.fieldTargetsReviewed = reviewed;
     nextQueues.regionResolvedFieldTargetsPending = metrics.resolvedButFieldTargetNotReviewed;
     nextQueues.countMeaning = fieldBindingCountMeaning(metrics);
@@ -685,6 +686,7 @@ export function currentQueueMetadata({handoff, data, dataHash, rawDataHash, repo
   if (!systemTry) {
     delete queues.classPrecisionProposals.currentPendingFieldTargets;
     delete queues.classPrecisionProposals.currentPendingInputDataSha256;
+    delete nextQueues.recordTargetResolvedBindings;
   }
   if (systemTry && visualTry) nextQueues.inputDataSha256 = dataHash;
   else if (nextQueues.inputDataSha256 === dataHash) nextQueues.inputDataSha256 = oldQueues.inputDataSha256;

@@ -4,6 +4,8 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 import {analyzeReportConsistency,fieldBindingAxisMetrics,fieldBindingCountMeaning} from '../tools/source-report-consistency-audit.mjs';
+import {fieldBindingAxisMetrics as originalAxisMetrics} from './fixtures/source-report-consistency-record-target-old-helper-before.mjs';
+import {analyzeReportConsistency as partialAnalyze,fieldBindingAxisMetrics as partialAxisMetrics,fieldBindingCountMeaning as partialCountMeaning} from './fixtures/source-report-consistency-record-target-partial-helper-before.mjs';
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const read=path=>readFileSync(new URL('../'+path,import.meta.url));
 const before=JSON.parse(read('research/source-audit-batch6-report-consistency-before.json'));
@@ -13,6 +15,8 @@ const frozen=JSON.parse(raw),args=()=>structuredClone(frozen.arguments);
 function proposedArguments(){
  const input=args(),result=analyzeReportConsistency(input);
  input.handoff.reviewQueuesNotSourceAbsences.fieldBindingAndHistoricalScopeQueues.countMeaning=fieldBindingCountMeaning(result.metrics);
+ input.handoff.reviewQueuesNotSourceAbsences.fieldBindingAndHistoricalScopeQueues.recordTargetResolvedBindings=result.metrics.recordTargetResolvedBindings;
+ input.gaps.coverage.counts.recordTargetResolvedBindings=result.metrics.recordTargetResolvedBindings;
  const count=input.handoff.summary.formalMechanicsFieldStatuses.ordinaryUncheckedFieldsExcluded;
  input.handoff.excludedFromGapCount[0]=`All ordinary unchecked mechanics fields (${count});`;
  input.gaps.coverage.exclusions[0]=`All ordinary unchecked mechanics fields (${count});`;
@@ -62,6 +66,65 @@ test('all binding rows are required and declared summaries cannot override their
  const missing=args();missing.systemic.evidenceBindings.bindings.pop();assert.throws(()=>fieldBindingAxisMetrics(missing.systemic),/complete evidence-binding denominator/);
  const summary=args();summary.systemic.evidenceBindings.reviewStatusCounts['field-target-reviewed']=733;assert.throws(()=>fieldBindingAxisMetrics(summary.systemic),/rederive from all rows/);
  const row=args();row.systemic.evidenceBindings.bindings.find(value=>value.targetStatus==='empty-region-target').targetStatus='field-target-resolved';assert.throws(()=>fieldBindingAxisMetrics(row.systemic),/rederive from all rows/);
+});
+
+test('record-level source references remain distinct from resolved and reviewed field targets',()=>{
+ const input=args(),evidence=input.systemic.evidenceBindings,base=fieldBindingAxisMetrics(input.systemic);
+ const record=structuredClone(evidence.bindings[0]);record.bindingPointer='/rules/148/evidenceBindings/0';record.attachmentPointer='/rules/148';record.attachmentRelativePointer='';record.fieldPointer='';record.targetStatus='record-target-resolved';record.reviewStatus='region-verified';record.routeOwner={collection:'rules',itemId:'cleric-turning-table',resolved:true};
+ evidence.denominator++;evidence.bindings.push(record);evidence.targetStatusCounts['record-target-resolved']=1;evidence.reviewStatusCounts['region-verified']++;
+ const metrics=fieldBindingAxisMetrics(input.systemic);
+ assert.equal(metrics.denominator,base.denominator+1);assert.equal(metrics.recordTargetResolvedBindings,1);
+ assert.equal(metrics.resolvedRegionTargets,base.resolvedRegionTargets);assert.equal(metrics.fieldTargetReviewed,base.fieldTargetReviewed);
+ assert.equal(metrics.fieldTargetNotReviewed,base.fieldTargetNotReviewed+1);assert.equal(metrics.resolvedButFieldTargetNotReviewed,base.resolvedButFieldTargetNotReviewed);
+ assert.match(fieldBindingCountMeaning(metrics),/1 whole-record references resolve to source regions/);assert.match(fieldBindingCountMeaning(metrics),/and 1 record-resolved references/);
+});
+
+test('public count consistency keeps record-resolved references separate from field targets',()=>{
+ const input=proposedArguments(),evidence=input.systemic.evidenceBindings;
+ const record=structuredClone(evidence.bindings[0]);record.bindingPointer='/rules/148/evidenceBindings/0';record.targetStatus='record-target-resolved';record.reviewStatus='region-verified';
+ evidence.denominator++;evidence.bindings.push(record);evidence.targetStatusCounts['record-target-resolved']=1;evidence.reviewStatusCounts['region-verified']++;
+ const metrics=fieldBindingAxisMetrics(input.systemic),queue=input.handoff.reviewQueuesNotSourceAbsences.fieldBindingAndHistoricalScopeQueues,counts=input.gaps.coverage.counts;
+ queue.fieldEvidenceBindingsDenominator=metrics.denominator;queue.fieldTargetsPending=metrics.fieldTargetNotReviewed;queue.recordTargetResolvedBindings=metrics.recordTargetResolvedBindings;queue.countMeaning=fieldBindingCountMeaning(metrics);
+ counts.fieldEvidenceBindingDenominator=metrics.denominator;counts.pendingFieldTargets=metrics.fieldTargetNotReviewed;counts.recordTargetResolvedBindings=metrics.recordTargetResolvedBindings;
+ const result=analyzeReportConsistency(input);assert.equal(result.validation.valid,true);assert.deepEqual(result.findings,[]);
+ queue.recordTargetResolvedBindings=0;const stale=analyzeReportConsistency(input);assert.ok(stale.findings.some(row=>row.id==='queue-recordTargetResolvedBindings'));
+});
+
+test('nonzero record-target categories cannot disappear from either public count object',()=>{
+ const input=proposedArguments(),evidence=input.systemic.evidenceBindings;
+ for(let i=0;i<2;i++){const record=structuredClone(evidence.bindings[0]);record.bindingPointer=`/rules/148/evidenceBindings/${i}`;record.targetStatus='record-target-resolved';record.reviewStatus='region-verified';evidence.bindings.push(record);}
+ evidence.denominator+=2;evidence.targetStatusCounts['record-target-resolved']=2;evidence.reviewStatusCounts['region-verified']+=2;
+ const metrics=fieldBindingAxisMetrics(input.systemic),queue=input.handoff.reviewQueuesNotSourceAbsences.fieldBindingAndHistoricalScopeQueues,counts=input.gaps.coverage.counts;
+ queue.fieldEvidenceBindingsDenominator=metrics.denominator;queue.fieldTargetsPending=metrics.fieldTargetNotReviewed;queue.countMeaning=fieldBindingCountMeaning(metrics);
+ counts.fieldEvidenceBindingDenominator=metrics.denominator;counts.pendingFieldTargets=metrics.fieldTargetNotReviewed;
+ delete queue.recordTargetResolvedBindings;assert.throws(()=>analyzeReportConsistency(input),/record-target resolution count is required in the live handoff/);
+ queue.recordTargetResolvedBindings=2;delete counts.recordTargetResolvedBindings;assert.throws(()=>analyzeReportConsistency(input),/record-target resolution count is required in the public coverage projection/);
+ counts.recordTargetResolvedBindings=2;assert.equal(analyzeReportConsistency(input).validation.valid,true);
+});
+
+test('the frozen full census reproduces the old unknown-state failure and the partial-helper omitted-axis pass',()=>{
+ const metadata=JSON.parse(read('research/source-audit-batch6-record-target-axis-before.json'));
+ const compressed=read('research/source-audit-batch6-record-target-axis-before.json.gz');assert.equal(sha(compressed),metadata.inventory.sha256);
+ const inventory=JSON.parse(gunzipSync(compressed));assert.equal(inventory.denominator,4545);assert.deepEqual(inventory.targetStatusCounts,{'empty-region-target':3772,'record-target-resolved':2,'field-target-resolved':771});
+ const systemic={evidenceBindings:{denominator:inventory.denominator,targetStatusCounts:inventory.targetStatusCounts,reviewStatusCounts:inventory.reviewStatusCounts,bindings:inventory.rows}};
+ assert.throws(()=>originalAxisMetrics(systemic),/unknown target state is unassessable/);
+ const partial=partialAxisMetrics(systemic),current=fieldBindingAxisMetrics(systemic);
+ assert.equal(partial.recordTargetResolvedBindings,2);assert.equal(current.recordTargetResolvedBindings,2);
+ assert.deepEqual([current.denominator,current.emptyRegionTargets,current.resolvedRegionTargets,current.fieldTargetReviewed,current.fieldTargetNotReviewed,current.resolvedButFieldTargetNotReviewed],[4545,3772,771,500,4045,271]);
+ assert.equal(metadata.priorHelper.sha256,sha(read('tests/fixtures/source-report-consistency-record-target-old-helper-before.mjs')));
+ assert.equal(metadata.partialHelper.sha256,sha(read('tests/fixtures/source-report-consistency-record-target-partial-helper-before.mjs')));
+
+ const input=proposedArguments(),evidence=input.systemic.evidenceBindings;
+ for(const ref of inventory.wholeRecordBindings)evidence.bindings.push({bindingPointer:ref.bindingPointer,targetStatus:ref.targetStatus,reviewStatus:ref.reviewStatus});
+ evidence.denominator+=2;evidence.targetStatusCounts['record-target-resolved']=2;evidence.reviewStatusCounts['region-verified']+=2;
+ const metrics=partialAxisMetrics(input.systemic),queue=input.handoff.reviewQueuesNotSourceAbsences.fieldBindingAndHistoricalScopeQueues,counts=input.gaps.coverage.counts;
+ queue.fieldEvidenceBindingsDenominator=metrics.denominator;queue.fieldTargetsPending=metrics.fieldTargetNotReviewed;queue.countMeaning=partialCountMeaning(metrics);
+ counts.fieldEvidenceBindingDenominator=metrics.denominator;counts.pendingFieldTargets=metrics.fieldTargetNotReviewed;
+ delete queue.recordTargetResolvedBindings;delete counts.recordTargetResolvedBindings;
+ assert.equal(partialAnalyze(input).validation.valid,true,'the incomplete helper leaves a missing public record-target axis undetected');
+ assert.throws(()=>analyzeReportConsistency(input),/record-target resolution count is required in the live handoff/);
+ queue.recordTargetResolvedBindings=2;counts.recordTargetResolvedBindings=2;queue.countMeaning=fieldBindingCountMeaning(fieldBindingAxisMetrics(input.systemic));
+ assert.equal(analyzeReportConsistency(input).validation.valid,true);
 });
 
 test('historical discovery text remains separate from current supplemental transcription and findings',()=>{

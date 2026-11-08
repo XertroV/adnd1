@@ -101,7 +101,7 @@ test('current source assembly resolves scoped citations, preserves legacy intent
   const currentReplay = buildSourceOwnerIdentityAudit({replayAssembly: true}).inMemoryCurrentAssemblyReplay;
   assert.equal(currentReplay.preAttachCrossOwnerObjectAliasCount, 0);
   assert.equal(currentReplay.foreignOwnerBindings.length, 0);
-  assert.equal(currentReplay.counts.evidenceBindings, 4489 + ua75.referenceAppends.length + 20);
+  assert.equal(currentReplay.counts.evidenceBindings, 4529 + ua75.referenceAppends.length + 20);
   assert.equal(currentReplay.counts.dispositions.validatedExplicitComparatorSource, 6);
   const currentReport = buildSourceOwnerIdentityAudit();
   assert.equal(sourceOwnerIdentityCheck(currentReport).pass, true);
@@ -259,8 +259,8 @@ test('standalone price-source inventory uses scoped owner references without rul
   const currentData = JSON.parse(readFileSync(resolve(root, 'dist/data.json'), 'utf8'));
   const historicalData = {...currentData, equipment: beforeUa75Equipment(currentData.equipment)};
   const historicalInventory = buildPriceSourceInventory({equipment: historicalData.equipment, data: historicalData});
-  assert.equal(historicalInventory.counts.fieldEvidenceBindings, 4489 + 20);
-  assert.equal(inventory.counts.fieldEvidenceBindings, 4489 + ua75.referenceAppends.length + 20);
+  assert.equal(historicalInventory.counts.fieldEvidenceBindings, 4529 + 20);
+  assert.equal(inventory.counts.fieldEvidenceBindings, 4529 + ua75.referenceAppends.length + 20);
   const joBindings=inventory.fieldEvidenceBindings.filter(binding=>binding.itemId==='ua-jo-stick');assert.equal(joBindings.length,19);assert.ok(joBindings.every(binding=>binding.collection==='equipment'&&binding.sourceOwner.itemId==='ua-jo-stick'));
   assert.equal(inventory.siteClaims.find(claim=>claim.itemId==='ua-jo-stick').missingPrice,true);
   const additions = inventory.fieldEvidenceBindings.filter(binding => binding.sourceCategory === 'equipment-price-occurrence-reference' && binding.printedPage === 75 && ua75.referenceAppends.some(row => row.itemId === binding.itemId && row.fieldPointer === binding.fieldPointer));

@@ -1,7 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {createRequire} from 'node:module';
 import vm from 'node:vm';
+const require=createRequire(import.meta.url);
+const actualSearch=require('../dist/search.js');
 const source=readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
 const part=(a,b)=>source.slice(source.indexOf(a),source.indexOf(b,source.indexOf(a)));
 function setup(){
@@ -23,7 +26,7 @@ test('suggested prices stay separate from printed prices, escape content, and ci
 });
 
 test('estimate filter and printed-price filter remain distinct',()=>{
- const c=setup();Object.assign(c,{index:[{id:'a',_view:'equipment',_title:'A',price:null,suggestedPrice:{amount:1,currency:'gp',unit:'each'}},{id:'b',_view:'equipment',_title:'B',price:null},{id:'c',_view:'equipment',_title:'C',price:{amount:2,currency:'gp'}}],filter:{q:'',book:'',price:'suggested',class:'',category:'',details:''},selectedSpellLevels:new Set(),matchesQuery:()=>true,FirstEditionSearch:{score:()=>0}});
+ const c=setup();Object.assign(c,{index:[{id:'a',_view:'equipment',_title:'A',price:null,suggestedPrice:{amount:1,currency:'gp',unit:'each'}},{id:'b',_view:'equipment',_title:'B',price:null},{id:'c',_view:'equipment',_title:'C',price:{amount:2,currency:'gp'}}],filter:{q:'',book:'',price:'suggested',class:'',category:'',details:''},selectedSpellLevels:new Set(),matchesQuery:()=>true,FirstEditionSearch:actualSearch});
  vm.runInContext(part('function filteredItems()', '\nfunction renderReference()'),c);
  assert.equal(c.filteredItems().map(x=>x.id).join(','),'a');c.filter.price='unknown';assert.equal(c.filteredItems().map(x=>x.id).join(','),'a,b');c.filter.price='known';assert.equal(c.filteredItems().map(x=>x.id).join(','),'c');
 });

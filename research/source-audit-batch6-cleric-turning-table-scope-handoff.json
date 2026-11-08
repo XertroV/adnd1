@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "batch6-cleric-turning-table-current-source-scope-handoff",
+  "capturedOn": "2026-11-08",
+  "status": "bounded-source-reviewed-table-integrated; complete-current-structural-inventory-pinned; workflow-wide-validation-pending-PD-freeze",
+  "sourceTreeCommit": "25abc149bf0cefaabe831fcf422656e030edc05f",
+  "baseline": {
+    "fullExposedUniverse": {
+      "path": "research/source-audit-batch6-full-universe-before.json",
+      "sha256": "1246160c719c5f59c63b53355d9c523f9c4828ecc06e090030152de7f7d694af",
+      "fixturePath": "tests/fixtures/source-audit-batch6-full-universe-before.json.gz",
+      "fixtureSha256": "5fa043eff6a38f3600509d21a2bf452bc2356cec242a65949938ed99f54d5fee",
+      "exposedRecords": 995,
+      "fieldEvidenceBindings": 4505,
+      "regionUsages": 3069,
+      "propertyLeaves": 198318,
+      "scope": "Repository-exposed data and catalog inventory at its recorded baseline; not a sourcebook census or semantic completeness claim."
+    },
+    "tableAbsenceBeforeIntegration": {
+      "path": "research/source-audit-batch6-turning-matrix-integration-before.json",
+      "sha256": "9f7d1c51241174a799ea89f94cbf62ee343987e806b5d1eebf8b45720e5b71e3",
+      "recordIdAbsent": "cleric-turning-table",
+      "clericPendingMechanic": "Complete turn-undead table delta",
+      "exposedRecords": 995,
+      "propertyLeaves": 198318,
+      "primarySemanticTableReferences": 478,
+      "interpretation": "The 478 value is the bounded pre-integration reference denominator, not a count of missing tables. The named table absence was not inferred from a failed text search."
+    }
+  },
+  "knownAbsenceRegression": {
+    "testPath": "tests/cleric-turning-table.test.mjs",
+    "testSha256": "6ea0230569d77f5334d17e026c57175b1467d4988be7faa4c4fc48d948323908",
+    "result": "2 tests pass",
+    "assertions": [
+      "The frozen pre-integration record absence, 995-record and 198318-leaf denominators, 478 table-reference denominator, and exact Cleric pending label remain explicit.",
+      "The current table record resolves that exact Cleric pending item only; the separate Paladin and UA Paladin pending labels remain."
+    ]
+  },
+  "sourceReview": {
+    "receiptPath": "research/source-audit-batch6-turning-matrix-root-independent-review.json",
+    "receiptSha256": "16af8935586e6ae23c3d1b8ee599967ad05315a8064c9fcb3975162bd9190d8c",
+    "independentOfAuthor": true,
+    "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+    "pageMapping": [
+      { "book": "DMG", "printedPage": 75, "pdfPage": 76 },
+      { "book": "DMG", "printedPage": 76, "pdfPage": 77 }
+    ],
+    "matrixDimensions": { "rows": 13, "columns": 10, "literalCellsReviewed": 130, "matched": 130, "mismatches": 0 },
+    "context": "Complete ordered three-part lookup context, printed labels, markers, procedure, symbols, and footnotes reviewed."
+  },
+  "currentTableIntegration": {
+    "owner": "rules:cleric-turning-table",
+    "category": "Class abilities",
+    "recordPath": "rules.json",
+    "recordSha256": "d7e11b26a7c05d3d8d3abd6a40d8fcd22e50f3b2dc45d479ac213a504c33292e",
+    "classDataPath": "classes.json",
+    "classDataSha256": "2372095ded81398370f4c760503a913814c29cb7a190a01210d4121936e2ab1f",
+    "generatedDataPath": "dist/data.json",
+    "generatedDataSha256": "4526679456fd198387e2caff56f64666b87d1a19f6ca39c3a4eb4a22919057ca",
+    "catalogPath": "dist/scans/verified/rules-cleric-turning-table.json",
+    "catalogSha256": "4915381b86e4f01c67eb06a174ae615e008046989693a3f8e6bc72e23c3c0a48",
+    "catalogRegions": 61,
+    "fieldTargetBindings": 35,
+    "visualReviewRecords": 61,
+    "continuationGroups": 14,
+    "rowSpecificThreePartGroups": 13,
+    "sourceValueGradePromoted": false,
+    "otherClassPendingItemsPreserved": true
+  },
+  "currentContinuationInventory": {
+    "pointerPath": "research/current-continuation-candidate-snapshot.json",
+    "pointerSha256": "02ad69fc4e443822bc4a6a7f15aff9a74a3f046116c96818313b719c96759671",
+    "validatorPath": "tools/continuation-candidates-validate.mjs",
+    "validatorSha256": "33124f6bb41bd7d98ee350863be16515205c8a5682b6ea395fd341a5c047ee2b",
+    "summaryPath": "research/source-audit-batch6-search-continuation-current.json",
+    "summarySha256": "15ff9f40296b80ffe0186f687f5b24f60e7000dd9c15fc01b6e5bf7b8b4b12c3",
+    "fullEvidencePath": "research/source-audit-batch6-search-continuation-current-full.json.gz",
+    "fullEvidenceSha256": "790eef3cfffb3f5cb182ddff1a6e88487a4804142a5555eec31c0ab117237217",
+    "validation": {
+      "command": "node tools/continuation-candidates-validate.mjs --current-snapshot --force-current-tree --output-dir <private-output-dir>",
+      "valid": true,
+      "errors": 0,
+      "base": "current-worktree",
+      "records": 996,
+      "propertyPointers": 201713,
+      "catalogRegionRows": 3127,
+      "regionBindingUses": 3130,
+      "sourcePageBindings": 230,
+      "verifiedImages": 1289,
+      "sourcePdfRegenerationInCI": "not available; local numeric geometry was captured using the authorized source PDFs and CI validates source/catalog/image hashes"
+    },
+    "historicalBatch5SnapshotPreserved": {
+      "summaryPath": "research/source-audit-batch5-continuation-current.json",
+      "summarySha256": "adcbb46bf013be463410f89331d9dbd095ca51da28d4208028263f93f09ef8a3",
+      "fullEvidencePath": "research/source-audit-batch5-continuation-current-full.json.gz",
+      "fullEvidenceSha256": "a14158411acc025c7225e4600da6687c9532241fbed3f8fad78c9dc252a46193"
+    }
+  },
+  "currentVisualInventory": {
+    "geometryPath": "research/source-visual-audit-batch6-current-20261108.json",
+    "geometrySha256": "77d17ad46f55171678f9857c909e53d8489bd44ab5b18ce0adcba70e6e626d26",
+    "regionUsages": 3130,
+    "catalogs": 1016,
+    "uniqueImages": 1287,
+    "warnings": 0,
+    "rasterSnapshotPath": "research/source-audit-batch6-raster-current-20261108.json.gz",
+    "rasterSnapshotSha256": "780130bba5cc27382711bf0e2f0da4d6b5db221a37d2e1c9ea50627bb09acfb3",
+    "activeRasterPointerPath": "research/current-source-raster-snapshot.json",
+    "activeRasterPointerSha256": "d956f410cb68f41d2afa4e40184fcce733afa7c1d09acbe3447aca4d4de33036",
+    "rasterCounts": { "assessedUsages": 3130, "unassessableUsages": 0, "sourcePagesRendered": 230 },
+    "semanticDefectsClaimed": false
+  },
+  "sourceAccessAndLimits": {
+    "rawPdfBytesIncluded": false,
+    "fullPagePdfRendersIncluded": false,
+    "sourceTextOrOcrTranscriptsIncluded": false,
+    "privateFilesystemPathsIncludedInThisHandoff": false,
+    "localSourceAccess": "Five authorized source PDFs were used locally; public evidence retains source hashes, printed/PDF page mappings, crop geometry identities, and numeric audit results only.",
+    "continuationInventoryMeaning": "Discovery and structural coverage over current repository-exposed properties/catalogs. Candidate edge metrics are not semantic defects, values, or source-completeness evidence.",
+    "boundedAbsenceMeaning": "The exact named Cleric table gap was resolved. Other class mechanics and the 478-reference universe remain outside that narrow adjudication; no whole-book or whole-class completeness claim is made."
+  },
+  "remainingValidation": [
+    "Run the complete 24 local workflow validation blocks after PD source/UI work is frozen.",
+    "Run the repository's current remote CI after the combined merge; the pointer-specific and table-specific tests already pass locally."
+  ]
+}

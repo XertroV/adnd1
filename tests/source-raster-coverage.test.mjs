@@ -13,8 +13,7 @@ const snapshot = JSON.parse(gunzipSync(loadRasterSnapshotInput().bytes));
 const historicalSnapshot = JSON.parse(gunzipSync(readFileSync(new URL('../research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz', import.meta.url))));
 const historicalLive = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-raster-live-b90d317-before.json.gz', import.meta.url)))).live;
 const live = collectLiveRasterUniverse();
-const currentLive=live,currentSnapshot=snapshot;
-const priorJoMasterSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research/source-raster-boundary-batch6-dmg-context.json.gz',import.meta.url))));
+const priorJoSearchSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research/source-raster-boundary-batch6-search-cleric-post-pr34.json.gz',import.meta.url))));
 const legacyFixture = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-raster-coverage-derived-metrics-before.json.gz', import.meta.url))));
 const legacySource = legacyFixture.files['tools/source-raster-coverage.mjs'];
 assert.equal(createHash('sha256').update(legacySource.utf8).digest('hex'), legacySource.sha256);
@@ -113,15 +112,16 @@ const componentIntegrityMutations = [
 ];
 
 test('the complete current catalog universe matches the preserved numeric raster snapshot', () => {
-  const report = buildSourceRasterCoverage(currentSnapshot, currentLive);
+  const report = buildSourceRasterCoverage(snapshot, live);
   assert.deepEqual(report.validation, {valid: true, errors: []});
-  assert.equal(report.liveUniverse.regionUsages, 3069+7);
-  assert.deepEqual(currentSnapshot.sourceFrames,priorJoMasterSnapshot.sourceFrames);
-  assert.deepEqual(currentSnapshot.usages.slice(0,3069),priorJoMasterSnapshot.usages);
-  assert.deepEqual(currentSnapshot.geometries.map(({uses,...row})=>row),priorJoMasterSnapshot.geometries.map(({uses,...row})=>row));
-  assert.equal(report.geometries.length, 1284);
-  assert.equal(report.currentCandidateCounts.sourcePagesRendered, 229);
-  assert.deepEqual(report.currentCandidateCounts, currentSnapshot.counts);
+  assert.equal(report.liveUniverse.regionUsages, snapshot.counts.regionUsages);
+  assert.equal(snapshot.usages.length,priorJoSearchSnapshot.usages.length+7);
+  assert.deepEqual(snapshot.sourceFrames,priorJoSearchSnapshot.sourceFrames);
+  assert.deepEqual(snapshot.usages.slice(0,priorJoSearchSnapshot.usages.length),priorJoSearchSnapshot.usages);
+  assert.deepEqual(snapshot.geometries.map(({uses,...row})=>row),priorJoSearchSnapshot.geometries.map(({uses,...row})=>row));
+  assert.equal(report.geometries.length, snapshot.counts.uniqueImageGeometryBindings);
+  assert.equal(report.currentCandidateCounts.sourcePagesRendered, snapshot.counts.sourcePagesRendered);
+  assert.deepEqual(report.currentCandidateCounts, snapshot.counts);
   assert.equal(report.semanticPass, false);
 });
 

@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "current systemic record-target category before report consistency completion",
+  "scope": "Complete 4,545-binding status inventory at the current integrated data/catalog state before public record-target count enforcement. This does not assess source semantics or promote any binding.",
+  "sourceReport": {
+    "path": "artifacts/citation-systemic-coverage/citation-systemic-current.json",
+    "sha256": "b0d3b77b939ed65b2e8ef3db7f6ec4cc365bb195ecfd7aa3db1fb74610ecf4a0"
+  },
+  "data": {
+    "parsedSha256": "4c5b8c7130a785241bf765ebc403851bf16f994ca565d60b00291dee5decfbcc"
+  },
+  "inventory": {
+    "path": "research/source-audit-batch6-record-target-axis-before.json.gz",
+    "sha256": "91dd9770620fcea029425612d19d0b911e839c7c05e81f3b2bdf9b380db6157c",
+    "rawSha256": "8d57c5cdb3000bb84c3721d09076fd86916308ea753dab80e9d90541c75674dd",
+    "denominator": 4545,
+    "targetStatusCounts": {
+      "empty-region-target": 3772,
+      "record-target-resolved": 2,
+      "field-target-resolved": 771
+    },
+    "reviewStatusCounts": {
+      "field-target-pending": 3468,
+      "region-verified": 273,
+      "field-target-reviewed": 500,
+      "source-row-transcribed-bounds-provisional": 93,
+      "source-row-value-verified-region-pending": 211
+    },
+    "crossTab": [
+      {
+        "targetStatus": "empty-region-target",
+        "reviewStatus": "field-target-pending",
+        "count": 3468
+      },
+      {
+        "targetStatus": "empty-region-target",
+        "reviewStatus": "source-row-transcribed-bounds-provisional",
+        "count": 93
+      },
+      {
+        "targetStatus": "empty-region-target",
+        "reviewStatus": "source-row-value-verified-region-pending",
+        "count": 211
+      },
+      {
+        "targetStatus": "field-target-resolved",
+        "reviewStatus": "field-target-reviewed",
+        "count": 500
+      },
+      {
+        "targetStatus": "field-target-resolved",
+        "reviewStatus": "region-verified",
+        "count": 271
+      },
+      {
+        "targetStatus": "record-target-resolved",
+        "reviewStatus": "region-verified",
+        "count": 2
+      }
+    ],
+    "recordReferences": [
+      {
+        "bindingPointer": "/rules/148/evidenceBindings/0",
+        "sourceCategory": "record-page-reference",
+        "routeOwner": {
+          "collection": "rules",
+          "itemId": "cleric-turning-table",
+          "recordPointer": "/rules/148",
+          "resolved": true
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "cleric-turning-table",
+          "recordPointer": "/rules/148",
+          "resolved": true,
+          "explicit": true
+        },
+        "targetStatus": "record-target-resolved",
+        "reviewStatus": "region-verified",
+        "requestedRegionIds": [
+          "dmg-75-turning-v2-cb9b590b2c17"
+        ],
+        "sourcePages": [
+          75,
+          76
+        ]
+      },
+      {
+        "bindingPointer": "/rules/148/evidenceBindings/1",
+        "sourceCategory": "record-page-reference",
+        "routeOwner": {
+          "collection": "rules",
+          "itemId": "cleric-turning-table",
+          "recordPointer": "/rules/148",
+          "resolved": true
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "cleric-turning-table",
+          "recordPointer": "/rules/148",
+          "resolved": true,
+          "explicit": true
+        },
+        "targetStatus": "record-target-resolved",
+        "reviewStatus": "region-verified",
+        "requestedRegionIds": [
+          "dmg-76-turning-v2-c3301320dd02",
+          "dmg-76-turning-v2-69d73be55834"
+        ],
+        "sourcePages": [
+          75,
+          76
+        ]
+      }
+    ]
+  },
+  "priorHelper": {
+    "path": "tests/fixtures/source-report-consistency-record-target-old-helper-before.mjs",
+    "sha256": "4fe4ce940f0822732b98d59f009d6ee3e0d1dd5659973b2a9a0ccc9c251b65e4",
+    "gitCommit": "25abc149bf0cefaabe831fcf422656e030edc05f",
+    "acceptedTargetStates": [
+      "empty-region-target",
+      "field-target-resolved"
+    ],
+    "observedFailure": {
+      "message": "Report consistency input: unknown target state is unassessable",
+      "trigger": "current systemic targetStatusCounts includes record-target-resolved: 2"
+    }
+  },
+  "partialHelper": {
+    "path": "tests/fixtures/source-report-consistency-record-target-partial-helper-before.mjs",
+    "sha256": "4bd65904bc1d6983ceda83e449c45a59c7873264a15f6e7869de3b37791ce7d4",
+    "behavior": "Recognizes record-target-resolved in its metric and narrative but does not require a separate record-target count field in either the live handoff or public coverage projection."
+  },
+  "interpretation": {
+    "equation": "4,545 = 3,772 empty-region + 771 field-target-resolved + 2 record-target-resolved",
+    "fieldReviewed": 500,
+    "fieldNotReviewed": 4045,
+    "regionResolvedFieldNotReviewed": 271,
+    "recordRefsNotFieldReviewed": 2,
+    "sourceGradeCountsUnchanged": true,
+    "semanticPass": false
+  }
+}
