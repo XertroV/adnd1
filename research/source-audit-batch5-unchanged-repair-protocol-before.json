@@ -1,0 +1,2287 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "full-registered-source-finding-unchanged-repair-protocol-before",
+  "scope": "All currently registered source findings, tested independently with unchanged original normalized records and explicitly synthetic review metadata. These are validator protocol probes, not real source reviews or repairs.",
+  "sourceAdapter": {
+    "path": "tools/monetary-row-identity-audit.mjs",
+    "sha256": "98cb13f6b7eb76e212fc7509deb3dc66e71e7f67527712a0536755462579a75f"
+  },
+  "sourceFindingManifest": {
+    "path": "research/monetary-row-identity-findings.json",
+    "sha256": "574d84eef3e12b99423646911dfa74e95e7de188c511cee4a224db65152023dc"
+  },
+  "inputManifest": [
+    {
+      "key": "canonical",
+      "path": "research/price-source-inventory.json",
+      "stage": "recorded-input-not-certified-by-this-audit",
+      "sha256": "f4d99ef61542e9bb9b0c26abc6478606e97636906611dbc669422a281a777bc3"
+    },
+    {
+      "key": "ua",
+      "path": "research/source-audit-batch5-ua-additional-prices.json",
+      "stage": "recorded-input-not-certified-by-this-audit",
+      "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+    },
+    {
+      "key": "phbDmg",
+      "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "stage": "recorded-input-not-certified-by-this-audit",
+      "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9"
+    },
+    {
+      "key": "passages",
+      "path": "research/source-audit-batch5-phb-dmg-price-passage-records.json",
+      "stage": "draft-independent-review-pending",
+      "sha256": "2f73f635aa04c2d55c3fe4e71cc5db6a3c55779e6db9f9e5adfe71c08ae5b707"
+    },
+    {
+      "key": "descriptions",
+      "path": "research/source-audit-batch5-price-description-records.json",
+      "stage": "recorded-input-not-certified-by-this-audit",
+      "sha256": "88c5456626a47f5a47a6cce514cb8ea2ce5338e4a9a9b13e93eedfcd265e3c8d"
+    },
+    {
+      "key": "receipts",
+      "path": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "stage": "recorded-input-not-certified-by-this-audit",
+      "sha256": "523c097624a0a91f4e3cf8aa40540a2f27d68a6136a04226e2fc3a94a941aeb8"
+    },
+    {
+      "key": "phbDmgCensus",
+      "path": "research/price-source-inventory-phb-dmg-other.json",
+      "stage": "recorded-input-not-certified-by-this-audit",
+      "sha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79"
+    },
+    {
+      "key": "uaCensus",
+      "path": "research/price-source-inventory-ua-other.json",
+      "stage": "recorded-input-not-certified-by-this-audit",
+      "sha256": "f1f797d9e8664589af5308737d9bc9d5e5dd536339349609fbeec5dc2a58c4b9"
+    },
+    {
+      "key": "monsterCensus",
+      "path": "research/price-source-inventory-monster-books.json",
+      "stage": "recorded-input-not-certified-by-this-audit",
+      "sha256": "87ea54c296d9a6b4697a997b5da1ee38b9c844668fc4fb54d5a8794d6aaef106"
+    }
+  ],
+  "denominator": {
+    "recordedMonetaryUses": 2161,
+    "registeredFindings": 164
+  },
+  "counts": {
+    "duplicate-wrong-row-focus": {
+      "findings": 3,
+      "unchangedAcceptedAsRepair": 3
+    },
+    "wrong-row-focus-independent-source-review": {
+      "findings": 110,
+      "unchangedAcceptedAsRepair": 110
+    },
+    "missing-source-marker": {
+      "findings": 3,
+      "unchangedAcceptedAsRepair": 0
+    },
+    "typed-content-mismatch": {
+      "findings": 8,
+      "unchangedAcceptedAsRepair": 8
+    },
+    "unresolved-source-scope": {
+      "findings": 2,
+      "unchangedAcceptedAsRepair": 0
+    },
+    "source-note-context-defect": {
+      "findings": 7,
+      "unchangedAcceptedAsRepair": 1
+    },
+    "source-marker-association-mismatch": {
+      "findings": 7,
+      "unchangedAcceptedAsRepair": 0
+    },
+    "source-context-crop-defect": {
+      "findings": 23,
+      "unchangedAcceptedAsRepair": 23
+    },
+    "source-provenance-metadata-mismatch": {
+      "findings": 1,
+      "unchangedAcceptedAsRepair": 0
+    }
+  },
+  "cases": [
+    {
+      "findingId": "ua-armor-duplicate-wrong-row-1",
+      "kind": "duplicate-wrong-row-focus",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r02",
+        "ua-supplement-row:ua-other-001-armor-r09"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-armor-duplicate-wrong-row-2",
+      "kind": "duplicate-wrong-row-focus",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r12",
+        "ua-supplement-row:ua-other-001-armor-r13"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-armor-duplicate-wrong-row-3",
+      "kind": "duplicate-wrong-row-focus",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r14",
+        "ua-supplement-row:ua-other-001-armor-r15"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "wrong-focus-dmg-poison-ingestive-a",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-poison-ingestive-a"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "wrong-focus-dmg-poison-ingestive-b",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-poison-ingestive-b"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "wrong-focus-dmg-poison-ingestive-c",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-poison-ingestive-c"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "wrong-focus-dmg-poison-ingestive-d",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-poison-ingestive-d"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "wrong-focus-dmg-poison-ingestive-e",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-poison-ingestive-e"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "wrong-focus-dmg-poison-insinuative-a",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-poison-insinuative-a"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "wrong-focus-dmg-poison-insinuative-b",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-poison-insinuative-b"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "wrong-focus-dmg-poison-insinuative-c",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-poison-insinuative-c"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "wrong-focus-dmg-poison-insinuative-d",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-poison-insinuative-d"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "missing-marker-ua-other-002-potion-a2-r051",
+      "kind": "missing-source-marker",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-002-potion-a2-r051"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "confirmed-source-marker-omission",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "missing-marker-ua-other-003-rings-c-r008",
+      "kind": "missing-source-marker",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-003-rings-c-r008"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "confirmed-source-marker-omission",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "missing-marker-ua-other-003-rings-c-r010",
+      "kind": "missing-source-marker",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-003-rings-c-r010"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "confirmed-source-marker-omission",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r01",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r01"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r02",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r02"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r03",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r03"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r04",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r04"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r05",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r05"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r06",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r06"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r07",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r07"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r08",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r08"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r09",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r09"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r10",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r10"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r11",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r11"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r12",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r12"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r13",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r13"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r14",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r14"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r15",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r15"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "armor-adjacent-row-overhighlight-ua-other-001-armor-r16",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-001-armor-r16"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-gem-base-focus-shift",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-gem-base-category-01",
+        "phb-dmg-supplement-row:dmg-gem-base-category-02",
+        "phb-dmg-supplement-row:dmg-gem-base-category-03",
+        "phb-dmg-supplement-row:dmg-gem-base-category-04",
+        "phb-dmg-supplement-row:dmg-gem-base-category-05",
+        "phb-dmg-supplement-row:dmg-gem-base-category-06"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-gem-progression-focus-shift",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-gem-progression-01",
+        "phb-dmg-supplement-row:dmg-gem-progression-02",
+        "phb-dmg-supplement-row:dmg-gem-progression-03",
+        "phb-dmg-supplement-row:dmg-gem-progression-04",
+        "phb-dmg-supplement-row:dmg-gem-progression-05",
+        "phb-dmg-supplement-row:dmg-gem-progression-06"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-gem-jewelry-and-lists-focus",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-jewelry-exceptional-class",
+        "phb-dmg-supplement-row:dmg-jewelry-exceptional-gem",
+        "phb-dmg-supplement-row:dmg-gem-stone-list-ornamental-10-gp",
+        "phb-dmg-supplement-row:dmg-gem-stone-list-semi-precious-50-gp",
+        "phb-dmg-supplement-row:dmg-gem-stone-list-fancy-100-500"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-fur-and-commodity-focus-shift",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-fur-beaver",
+        "phb-dmg-supplement-row:dmg-fur-ermine",
+        "phb-dmg-supplement-row:dmg-fur-fox",
+        "phb-dmg-supplement-row:dmg-fur-marten",
+        "phb-dmg-supplement-row:dmg-fur-mink",
+        "phb-dmg-supplement-row:dmg-fur-muskrat",
+        "phb-dmg-supplement-row:dmg-fur-sable",
+        "phb-dmg-supplement-row:dmg-fur-seal",
+        "phb-dmg-supplement-row:dmg-commodity-01",
+        "phb-dmg-supplement-row:dmg-commodity-02",
+        "phb-dmg-supplement-row:dmg-commodity-03",
+        "phb-dmg-supplement-row:dmg-commodity-04",
+        "phb-dmg-supplement-row:dmg-commodity-05",
+        "phb-dmg-supplement-row:dmg-commodity-06",
+        "phb-dmg-supplement-row:dmg-commodity-07",
+        "phb-dmg-supplement-row:dmg-commodity-08"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-sage-payment-focus-wrong-section",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-sage-pay-01",
+        "phb-dmg-supplement-row:dmg-sage-pay-02",
+        "phb-dmg-supplement-row:dmg-sage-pay-03",
+        "phb-dmg-supplement-row:dmg-sage-pay-04"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-sage-info-focus-shift",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-info-discovery-row-01",
+        "phb-dmg-supplement-row:dmg-info-discovery-row-02",
+        "phb-dmg-supplement-row:dmg-info-discovery-row-03",
+        "phb-dmg-supplement-row:dmg-info-discovery-row-04"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-henchman-method-focus-shift",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-henchman-search-method-01",
+        "phb-dmg-supplement-row:dmg-henchman-search-method-02",
+        "phb-dmg-supplement-row:dmg-henchman-search-method-03",
+        "phb-dmg-supplement-row:dmg-henchman-search-method-04"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-town-prose-focus-mismatch",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-town-fee-duty-normal",
+        "phb-dmg-supplement-row:dmg-town-fee-duty-foreign",
+        "phb-dmg-supplement-row:dmg-town-fee-luxury-tariff",
+        "phb-dmg-supplement-row:dmg-town-fee-entry-fee",
+        "phb-dmg-supplement-row:dmg-town-fee-annual-poll-tax",
+        "phb-dmg-supplement-row:dmg-town-fee-foreign-sales-tax",
+        "phb-dmg-supplement-row:dmg-town-fee-property-tax",
+        "phb-dmg-supplement-row:dmg-town-fee-citizenship",
+        "phb-dmg-supplement-row:dmg-town-fee-foreign-currency-fine",
+        "phb-dmg-supplement-row:dmg-town-fee-exchange-rate",
+        "phb-dmg-supplement-row:dmg-town-fee-foreign-silver-threshold-fine",
+        "phb-dmg-supplement-row:dmg-town-fee-precious-stone-transaction-surtax"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-placement-example-focus-mismatch",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-placement-11-gp",
+        "phb-dmg-supplement-row:dmg-placement-2000-cp",
+        "phb-dmg-supplement-row:dmg-placement-bracelet-20gp",
+        "phb-dmg-supplement-row:dmg-placement-ogre-wealth",
+        "phb-dmg-supplement-row:dmg-placement-not-gem-1000",
+        "phb-dmg-supplement-row:dmg-placement-goods-2000-nobles",
+        "phb-dmg-supplement-row:dmg-placement-coffer-100gp",
+        "phb-dmg-supplement-row:dmg-placement-necklace-350gp",
+        "phb-dmg-supplement-row:dmg-placement-food-100-nobles",
+        "phb-dmg-supplement-row:dmg-placement-fur-cape-50gp",
+        "phb-dmg-supplement-row:dmg-placement-sword-3x"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-spell-research-threshold-focus-shift",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-spell-research-success-expenditure-1",
+        "phb-dmg-supplement-row:dmg-spell-research-success-expenditure-2",
+        "phb-dmg-supplement-row:dmg-spell-research-success-expenditure-3",
+        "phb-dmg-supplement-row:dmg-spell-research-success-expenditure-4"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-potion-upkeep-focus-incomplete",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-potion-upkeep"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-money-table-focus-shift",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-1-2",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-3-5",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-6-10",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-11-12",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-13-15",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-16-17",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-18",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-19",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-20"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-combined-hoard-focus-shift",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-combined-hoard-01-20",
+        "phb-dmg-supplement-row:dmg-combined-hoard-21-40",
+        "phb-dmg-supplement-row:dmg-combined-hoard-41-55",
+        "phb-dmg-supplement-row:dmg-combined-hoard-56-65",
+        "phb-dmg-supplement-row:dmg-combined-hoard-66-75",
+        "phb-dmg-supplement-row:dmg-combined-hoard-76-80",
+        "phb-dmg-supplement-row:dmg-combined-hoard-81-85",
+        "phb-dmg-supplement-row:dmg-combined-hoard-86-90",
+        "phb-dmg-supplement-row:dmg-combined-hoard-91-96",
+        "phb-dmg-supplement-row:dmg-combined-hoard-97-00"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-map-focus-too-broad",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-map-to-monetary-treasure"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-purse-focus-shift",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-everfull-purse-01-50",
+        "phb-dmg-supplement-row:dmg-everfull-purse-51-90",
+        "phb-dmg-supplement-row:dmg-everfull-purse-91-00"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-treasure-level-focus-shift",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-treasure-by-level-01-25",
+        "phb-dmg-supplement-row:dmg-treasure-by-level-26-50",
+        "phb-dmg-supplement-row:dmg-treasure-by-level-51-65",
+        "phb-dmg-supplement-row:dmg-treasure-by-level-66-80",
+        "phb-dmg-supplement-row:dmg-treasure-by-level-81-90",
+        "phb-dmg-supplement-row:dmg-treasure-by-level-91-94",
+        "phb-dmg-supplement-row:dmg-treasure-by-level-95-97",
+        "phb-dmg-supplement-row:dmg-treasure-by-level-98-00"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-font-basin-focus-shared-table",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-font-basin-copper",
+        "phb-dmg-supplement-row:dmg-font-basin-silver",
+        "phb-dmg-supplement-row:dmg-font-basin-electrum",
+        "phb-dmg-supplement-row:dmg-font-basin-gold",
+        "phb-dmg-supplement-row:dmg-font-basin-platinum"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-artifact-cost-focus-shared-paragraph",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-artifact-research-b",
+        "phb-dmg-supplement-row:dmg-artifact-research-c"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-gem-adjustment-shared-focus",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-gem-increase-ladder",
+        "phb-dmg-supplement-row:dmg-gem-decrease-ladder"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-focus-sage-rest-recovery-focus-incomplete",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-sage-rest-no-fee"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-everfull-purse-51-90-absent-columns",
+      "kind": "typed-content-mismatch",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-everfull-purse-51-90"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-everfull-purse-91-00-absent-columns",
+      "kind": "typed-content-mismatch",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-everfull-purse-91-00"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-fur-cape-qualifier-reversal",
+      "kind": "typed-content-mismatch",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-placement-fur-cape-50gp"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-pepper-condition-not-a-range",
+      "kind": "typed-content-mismatch",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-commodity-04"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-commodity-adjustment-scope",
+      "kind": "unresolved-source-scope",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-commodity-01",
+        "phb-dmg-supplement-row:dmg-commodity-02",
+        "phb-dmg-supplement-row:dmg-commodity-03",
+        "phb-dmg-supplement-row:dmg-commodity-04",
+        "phb-dmg-supplement-row:dmg-commodity-05",
+        "phb-dmg-supplement-row:dmg-commodity-06",
+        "phb-dmg-supplement-row:dmg-commodity-07",
+        "phb-dmg-supplement-row:dmg-commodity-08"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "unresolved-source-scope",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-alchemist-discount-scope",
+      "kind": "unresolved-source-scope",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-potion-alchemist-discount"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "unresolved-source-scope",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-002-potion-a1-cont-r028",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-002-potion-a1-cont-r028"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-002-potion-a1-cont-r029",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-002-potion-a1-cont-r029"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-002-potion-a1-main-r004",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-002-potion-a1-main-r004"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-002-potion-a2-r037",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-002-potion-a2-r037"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-002-potion-a2-r038",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-002-potion-a2-r038"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-002-potion-a2-r043",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-002-potion-a2-r043"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-002-potion-a2-r044",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-002-potion-a2-r044"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-003-rings-c-r001",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-003-rings-c-r001"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-003-rings-c-r021",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-003-rings-c-r021"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-003-rings-c2-r029",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-003-rings-c2-r029"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-006-F1-r001",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-006-F1-r001"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-006-F1-r010",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-006-F1-r010"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-006-F1-r018",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-006-F1-r018"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-006-F1-r024",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-006-F1-r024"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-006-F1-r025",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-006-F1-r025"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-006-F2-r032",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-006-F2-r032"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-007-G1-cont-r017",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-007-G1-cont-r017"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-007-G1-cont-r018",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-007-G1-cont-r018"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-007-G1-cont-r020",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-007-G1-cont-r020"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-008-H1-cont-r034",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-008-H1-cont-r034"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-008-H2-r039",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-008-H2-r039"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-008-H2-r052",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-008-H2-r052"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-008-H2-r054",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-008-H2-r054"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-008-H2-r059",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-008-H2-r059"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-008-H2-r064",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-008-H2-r064"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-008-H2-r069",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-008-H2-r069"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-008-H2-r072",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-008-H2-r072"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-011-item-r002",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-011-item-r002"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-011-item-r003",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-011-item-r003"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-011-item-r004",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-011-item-r004"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-011-item-r005",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-011-item-r005"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-011-item-r006",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-011-item-r006"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-014-item-r002",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-014-item-r002"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-014-item-r004",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-014-item-r004"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-remaining-focus-ua-other-015-item-r003",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-015-item-r003"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-misc-focus-ua-other-005-E2-r039",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-005-E2-r039"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-misc-note-context-ua-other-005-E2-r063",
+      "kind": "source-note-context-defect",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-005-E2-r063"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "context-evidence-reference-missing-needs-source-review",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-misc-focus-ua-other-005-E3-cont-r081",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-005-E3-cont-r081"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-misc-note-context-ua-other-005-E3-cont-r089",
+      "kind": "source-note-context-defect",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-005-E3-cont-r089"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "context-evidence-reference-missing-needs-source-review",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-misc-note-context-ua-other-005-E3-cont-r090",
+      "kind": "source-note-context-defect",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-005-E3-cont-r090"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "context-evidence-reference-missing-needs-source-review",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-misc-focus-ua-other-005-E3-cont-r091",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-005-E3-cont-r091"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-misc-note-context-ua-other-005-E4-main-r120",
+      "kind": "source-note-context-defect",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-005-E4-main-r120"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "context-evidence-reference-missing-needs-source-review",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-misc-note-context-ua-other-005-E4-main-r121",
+      "kind": "source-note-context-defect",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-005-E4-main-r121"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "context-evidence-reference-missing-needs-source-review",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-misc-focus-ua-other-005-E7-r213",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-005-E7-r213"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-source-marker-ua-other-002-potion-a1-main-r001",
+      "kind": "source-marker-association-mismatch",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-002-potion-a1-main-r001"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "confirmed-source-marker-association-mismatch",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-source-marker-ua-other-002-potion-a1-main-r005",
+      "kind": "source-marker-association-mismatch",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-002-potion-a1-main-r005"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "confirmed-source-marker-association-mismatch",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-source-marker-ua-other-002-potion-a1-main-r013",
+      "kind": "source-marker-association-mismatch",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-002-potion-a1-main-r013"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "confirmed-source-marker-association-mismatch",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-source-marker-ua-other-002-potion-a1-main-r018",
+      "kind": "source-marker-association-mismatch",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-002-potion-a1-main-r018"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "confirmed-source-marker-association-mismatch",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-source-marker-ua-other-002-potion-a1-cont-r029",
+      "kind": "source-marker-association-mismatch",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-002-potion-a1-cont-r029"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "confirmed-source-marker-association-mismatch",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-source-marker-ua-other-002-potion-a1-cont-r034",
+      "kind": "source-marker-association-mismatch",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-002-potion-a1-cont-r034"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "confirmed-source-marker-association-mismatch",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "ua-source-marker-ua-other-009-item-r006",
+      "kind": "source-marker-association-mismatch",
+      "referencedUses": [
+        "ua-supplement-row:ua-other-009-item-r006"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "confirmed-source-marker-association-mismatch",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-dmg-not-gem-pair-qualifier",
+      "kind": "typed-content-mismatch",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-placement-not-gem-1000"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "preserved-focus-falsepass-dmg-fur-value-d10-adjustment",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-fur-value-d10-adjustment"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "preserved-focus-falsepass-dmg-everfull-purse-gem-value",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-everfull-purse-gem-value"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-assassination-shifted-focus-phb-assassination-fees-row-01",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-01"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-assassination-shifted-focus-phb-assassination-fees-row-02",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-02"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-assassination-shifted-focus-phb-assassination-fees-row-03",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-03"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-assassination-shifted-focus-phb-assassination-fees-row-04",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-04"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-assassination-shifted-focus-phb-assassination-fees-row-05",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-05"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-assassination-shifted-focus-phb-assassination-fees-row-06",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-06"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-assassination-shifted-focus-phb-assassination-fees-row-07",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-07"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-assassination-shifted-focus-phb-assassination-fees-row-08",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-08"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-assassination-shifted-focus-phb-assassination-fees-row-09",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-09"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-assassination-shifted-focus-phb-assassination-fees-row-10",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-10"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-assassination-shifted-focus-phb-assassination-fees-row-11",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-11"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-assassination-shifted-focus-phb-assassination-fees-row-12",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-12"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-assassination-shifted-focus-phb-assassination-fees-row-13",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-13"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-assassination-shifted-focus-phb-assassination-fees-row-14",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-14"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb-assassination-shifted-focus-phb-assassination-fees-row-15",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-15"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "old-positive-focus-falsepass-dmg-gem-stone-list-1000-plus",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-gem-stone-list-1000-plus"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "old-positive-focus-falsepass-dmg-town-fee-duty-normal",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-town-fee-duty-normal"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "old-positive-focus-falsepass-dmg-holy-water-vial",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-holy-water-vial"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "old-positive-focus-falsepass-dmg-font-order-time",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-font-order-time"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "old-positive-focus-falsepass-dmg-scroll-material-papyrus",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-scroll-material-papyrus"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "old-positive-focus-falsepass-dmg-scroll-material-parchment",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-scroll-material-parchment"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "old-positive-focus-falsepass-dmg-scroll-material-vellum",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-scroll-material-vellum"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "old-positive-focus-falsepass-dmg-wand-of-wonder-gems-88-90",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-wand-of-wonder-gems-88-90"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "old-positive-focus-falsepass-dmg-treasure-by-level-with-monster",
+      "kind": "wrong-row-focus-independent-source-review",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-treasure-by-level-with-monster"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "unqualified-derived-research-threshold-6000",
+      "kind": "typed-content-mismatch",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-spell-research-success-expenditure-3"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "source-currency-spelling-silver-nobles",
+      "kind": "typed-content-mismatch",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-town-fee-foreign-silver-threshold-fine"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-gem-and-magic-treasure-valuations-01",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-wand-of-wonder-gems-88-90"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-gem-values-by-object-01",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-everfull-purse-01-50",
+        "phb-dmg-supplement-row:dmg-everfull-purse-51-90",
+        "phb-dmg-supplement-row:dmg-everfull-purse-91-00",
+        "phb-dmg-supplement-row:dmg-everfull-purse-gem-value"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-henchman-prospect-search-table-01",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-henchman-search-method-01",
+        "phb-dmg-supplement-row:dmg-henchman-search-method-02",
+        "phb-dmg-supplement-row:dmg-henchman-search-method-03",
+        "phb-dmg-supplement-row:dmg-henchman-search-method-04",
+        "phb-dmg-supplement-row:dmg-henchman-tavern-round"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-henchman-prospect-search-table-02",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-henchman-combined-methods"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-henchman-prospect-search-table-03",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-henchman-initial-payment",
+        "phb-dmg-supplement-row:dmg-henchman-interest-increase",
+        "phb-dmg-supplement-row:dmg-henchman-equipment-interest",
+        "phb-dmg-supplement-row:dmg-henchman-quarters-interest"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-high-value-gems-01",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-deck-gem-card"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-monetary-treasure-distribution-01",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-placement-11-gp",
+        "phb-dmg-supplement-row:dmg-placement-2000-cp",
+        "phb-dmg-supplement-row:dmg-placement-bracelet-20gp",
+        "phb-dmg-supplement-row:dmg-placement-ogre-wealth",
+        "phb-dmg-supplement-row:dmg-placement-not-gem-1000",
+        "phb-dmg-supplement-row:dmg-placement-goods-2000-nobles",
+        "phb-dmg-supplement-row:dmg-placement-coffer-100gp",
+        "phb-dmg-supplement-row:dmg-placement-necklace-350gp",
+        "phb-dmg-supplement-row:dmg-placement-food-100-nobles",
+        "phb-dmg-supplement-row:dmg-placement-fur-cape-50gp",
+        "phb-dmg-supplement-row:dmg-placement-sword-3x"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-monetary-treasure-tables-01",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-1-2",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-3-5",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-6-10",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-11-12",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-13-15",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-16-17",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-18",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-19",
+        "phb-dmg-supplement-row:dmg-monetary-treasure-d100-20"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-monetary-treasure-tables-03",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-combined-hoard-01-20",
+        "phb-dmg-supplement-row:dmg-combined-hoard-21-40",
+        "phb-dmg-supplement-row:dmg-combined-hoard-41-55",
+        "phb-dmg-supplement-row:dmg-combined-hoard-56-65",
+        "phb-dmg-supplement-row:dmg-combined-hoard-66-75",
+        "phb-dmg-supplement-row:dmg-combined-hoard-76-80",
+        "phb-dmg-supplement-row:dmg-combined-hoard-81-85",
+        "phb-dmg-supplement-row:dmg-combined-hoard-86-90",
+        "phb-dmg-supplement-row:dmg-combined-hoard-91-96",
+        "phb-dmg-supplement-row:dmg-combined-hoard-97-00"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-poison-dose-and-manufacture-02",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-poison-manufacture-materials"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-poison-dose-and-manufacture-03",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-poison-study-training-fee"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-random-treasure-values-01",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-robe-useful-items-01-08",
+        "phb-dmg-supplement-row:dmg-robe-useful-items-09-15",
+        "phb-dmg-supplement-row:dmg-robe-useful-items-23-30"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-research-costs-01",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-artifact-research-b",
+        "phb-dmg-supplement-row:dmg-artifact-research-c"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-research-costs-continuation-01",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-spell-research-success-expenditure-1",
+        "phb-dmg-supplement-row:dmg-spell-research-success-expenditure-2",
+        "phb-dmg-supplement-row:dmg-spell-research-success-expenditure-3",
+        "phb-dmg-supplement-row:dmg-spell-research-success-expenditure-4"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-scroll-material-per-sheet-01",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-scroll-material-papyrus",
+        "phb-dmg-supplement-row:dmg-scroll-material-parchment",
+        "phb-dmg-supplement-row:dmg-scroll-material-vellum"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-support-research-and-information-costs-01",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-sage-pay-01",
+        "phb-dmg-supplement-row:dmg-sage-pay-02",
+        "phb-dmg-supplement-row:dmg-sage-pay-03",
+        "phb-dmg-supplement-row:dmg-sage-pay-04",
+        "phb-dmg-supplement-row:dmg-sage-20k-50pct",
+        "phb-dmg-supplement-row:dmg-sage-efficiency-step",
+        "phb-dmg-supplement-row:dmg-sage-efficiency-90-100",
+        "phb-dmg-supplement-row:dmg-sage-outside-specialty",
+        "phb-dmg-supplement-row:dmg-sage-minor-field",
+        "phb-dmg-supplement-row:dmg-sage-additional-minor-field",
+        "phb-dmg-supplement-row:dmg-sage-major-field"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-support-research-and-information-costs-03",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-sage-unknown-half",
+        "phb-dmg-supplement-row:dmg-sage-specific-unsolved",
+        "phb-dmg-supplement-row:dmg-sage-rest-no-fee"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-town-entry-and-citizenship-fees-01",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-town-fee-duty-normal",
+        "phb-dmg-supplement-row:dmg-town-fee-duty-foreign",
+        "phb-dmg-supplement-row:dmg-town-fee-luxury-tariff",
+        "phb-dmg-supplement-row:dmg-town-fee-entry-fee",
+        "phb-dmg-supplement-row:dmg-town-fee-annual-poll-tax",
+        "phb-dmg-supplement-row:dmg-town-fee-foreign-sales-tax",
+        "phb-dmg-supplement-row:dmg-town-fee-property-tax",
+        "phb-dmg-supplement-row:dmg-town-fee-citizenship",
+        "phb-dmg-supplement-row:dmg-town-fee-foreign-currency-fine",
+        "phb-dmg-supplement-row:dmg-town-fee-exchange-rate",
+        "phb-dmg-supplement-row:dmg-town-fee-foreign-silver-threshold-fine",
+        "phb-dmg-supplement-row:dmg-town-fee-precious-stone-transaction-surtax"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-treasure-per-level-table-01",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-treasure-by-level-01-25",
+        "phb-dmg-supplement-row:dmg-treasure-by-level-26-50",
+        "phb-dmg-supplement-row:dmg-treasure-by-level-51-65",
+        "phb-dmg-supplement-row:dmg-treasure-by-level-66-80",
+        "phb-dmg-supplement-row:dmg-treasure-by-level-81-90",
+        "phb-dmg-supplement-row:dmg-treasure-by-level-91-94",
+        "phb-dmg-supplement-row:dmg-treasure-by-level-95-97",
+        "phb-dmg-supplement-row:dmg-treasure-by-level-98-00",
+        "phb-dmg-supplement-row:dmg-treasure-by-level-with-monster"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-research-costs-overflow-01",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-holy-water-vial",
+        "phb-dmg-supplement-row:dmg-font-basin-copper",
+        "phb-dmg-supplement-row:dmg-font-basin-silver",
+        "phb-dmg-supplement-row:dmg-font-basin-electrum",
+        "phb-dmg-supplement-row:dmg-font-basin-gold",
+        "phb-dmg-supplement-row:dmg-font-basin-platinum",
+        "phb-dmg-supplement-row:dmg-font-composite-price",
+        "phb-dmg-supplement-row:dmg-font-order-time",
+        "phb-dmg-supplement-row:dmg-font-defilement-cost"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-research-costs-overflow-02",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-spell-research-base",
+        "phb-dmg-supplement-row:dmg-spell-research-variable",
+        "phb-dmg-supplement-row:dmg-spell-research-no-library",
+        "phb-dmg-supplement-row:dmg-spell-research-minimum-time"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-phb123-previous-p35-equipment-tables",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-reference-row-comparison:phb123-comparison-0",
+        "phb-reference-row-comparison:phb123-comparison-1",
+        "phb-reference-row-comparison:phb123-comparison-2",
+        "phb-reference-row-comparison:phb123-comparison-3",
+        "phb-reference-row-comparison:phb123-comparison-4",
+        "phb-reference-row-comparison:phb123-comparison-5",
+        "phb-reference-row-comparison:phb123-comparison-6",
+        "phb-reference-row-comparison:phb123-comparison-7",
+        "phb-reference-row-comparison:phb123-comparison-8",
+        "phb-reference-row-comparison:phb123-comparison-9",
+        "phb-reference-row-comparison:phb123-comparison-10",
+        "phb-reference-row-comparison:phb123-comparison-11",
+        "phb-reference-row-comparison:phb123-comparison-12",
+        "phb-reference-row-comparison:phb123-comparison-13",
+        "phb-reference-row-comparison:phb123-comparison-14",
+        "phb-reference-row-comparison:phb123-comparison-15",
+        "phb-reference-row-comparison:phb123-comparison-16",
+        "phb-reference-row-comparison:phb123-comparison-17",
+        "phb-reference-row-comparison:phb123-comparison-18",
+        "phb-reference-row-comparison:phb123-comparison-19",
+        "phb-reference-row-comparison:phb123-comparison-20",
+        "phb-reference-row-comparison:phb123-comparison-21",
+        "phb-reference-row-comparison:phb123-comparison-22",
+        "phb-reference-row-comparison:phb123-comparison-23",
+        "phb-reference-row-comparison:phb123-comparison-24",
+        "phb-reference-row-comparison:phb123-comparison-25",
+        "phb-reference-row-comparison:phb123-comparison-26",
+        "phb-reference-row-comparison:phb123-comparison-27",
+        "phb-reference-row-comparison:phb123-comparison-28",
+        "phb-reference-row-comparison:phb123-comparison-29",
+        "phb-reference-row-comparison:phb123-comparison-30",
+        "phb-reference-row-comparison:phb123-comparison-31",
+        "phb-reference-row-comparison:phb123-comparison-32",
+        "phb-reference-row-comparison:phb123-comparison-33",
+        "phb-reference-row-comparison:phb123-comparison-34",
+        "phb-reference-row-comparison:phb123-comparison-35",
+        "phb-reference-row-comparison:phb123-comparison-36",
+        "phb-reference-row-comparison:phb123-comparison-37",
+        "phb-reference-row-comparison:phb123-comparison-38",
+        "phb-reference-row-comparison:phb123-comparison-39",
+        "phb-reference-row-comparison:phb123-comparison-40",
+        "phb-reference-row-comparison:phb123-comparison-41",
+        "phb-reference-row-comparison:phb123-comparison-42",
+        "phb-reference-row-comparison:phb123-comparison-43",
+        "phb-reference-row-comparison:phb123-comparison-44",
+        "phb-reference-row-comparison:phb123-comparison-45",
+        "phb-reference-row-comparison:phb123-comparison-46",
+        "phb-reference-row-comparison:phb123-comparison-47",
+        "phb-reference-row-comparison:phb123-comparison-48",
+        "phb-reference-row-comparison:phb123-comparison-49",
+        "phb-reference-row-comparison:phb123-comparison-50",
+        "phb-reference-row-comparison:phb123-comparison-51",
+        "phb-reference-row-comparison:phb123-comparison-52",
+        "phb-reference-row-comparison:phb123-comparison-53",
+        "phb-reference-row-comparison:phb123-comparison-54",
+        "phb-reference-row-comparison:phb123-comparison-55",
+        "phb-reference-row-comparison:phb123-comparison-56",
+        "phb-reference-row-comparison:phb123-comparison-57",
+        "phb-reference-row-comparison:phb123-comparison-58",
+        "phb-reference-row-comparison:phb123-comparison-59",
+        "phb-reference-row-comparison:phb123-comparison-60",
+        "phb-reference-row-comparison:phb123-comparison-61",
+        "phb-reference-row-comparison:phb123-comparison-62",
+        "phb-reference-row-comparison:phb123-comparison-63",
+        "phb-reference-row-comparison:phb123-comparison-64",
+        "phb-reference-row-comparison:phb123-comparison-65",
+        "phb-reference-row-comparison:phb123-comparison-66",
+        "phb-reference-row-comparison:phb123-comparison-67",
+        "phb-reference-row-comparison:phb123-comparison-68",
+        "phb-reference-row-comparison:phb123-comparison-69",
+        "phb-reference-row-comparison:phb123-comparison-70",
+        "phb-reference-row-comparison:phb123-comparison-71",
+        "phb-reference-row-comparison:phb123-comparison-72",
+        "phb-reference-row-comparison:phb123-comparison-73",
+        "phb-reference-row-comparison:phb123-comparison-74",
+        "phb-reference-row-comparison:phb123-comparison-75",
+        "phb-reference-row-comparison:phb123-comparison-76",
+        "phb-reference-row-comparison:phb123-comparison-77",
+        "phb-reference-row-comparison:phb123-comparison-78",
+        "phb-reference-row-comparison:phb123-comparison-79"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "active-context-crop-partial-glyph-phb123-previous-p36-equipment-tables",
+      "kind": "source-context-crop-defect",
+      "referencedUses": [
+        "phb-reference-row-comparison:phb123-comparison-80",
+        "phb-reference-row-comparison:phb123-comparison-81",
+        "phb-reference-row-comparison:phb123-comparison-82",
+        "phb-reference-row-comparison:phb123-comparison-83",
+        "phb-reference-row-comparison:phb123-comparison-84",
+        "phb-reference-row-comparison:phb123-comparison-85",
+        "phb-reference-row-comparison:phb123-comparison-86",
+        "phb-reference-row-comparison:phb123-comparison-87",
+        "phb-reference-row-comparison:phb123-comparison-88",
+        "phb-reference-row-comparison:phb123-comparison-89",
+        "phb-reference-row-comparison:phb123-comparison-90",
+        "phb-reference-row-comparison:phb123-comparison-91",
+        "phb-reference-row-comparison:phb123-comparison-92",
+        "phb-reference-row-comparison:phb123-comparison-93",
+        "phb-reference-row-comparison:phb123-comparison-94",
+        "phb-reference-row-comparison:phb123-comparison-95",
+        "phb-reference-row-comparison:phb123-comparison-96",
+        "phb-reference-row-comparison:phb123-comparison-97",
+        "phb-reference-row-comparison:phb123-comparison-98",
+        "phb-reference-row-comparison:phb123-comparison-99",
+        "phb-reference-row-comparison:phb123-comparison-100",
+        "phb-reference-row-comparison:phb123-comparison-101",
+        "phb-reference-row-comparison:phb123-comparison-102",
+        "phb-reference-row-comparison:phb123-comparison-103",
+        "phb-reference-row-comparison:phb123-comparison-104",
+        "phb-reference-row-comparison:phb123-comparison-105",
+        "phb-reference-row-comparison:phb123-comparison-106",
+        "phb-reference-row-comparison:phb123-comparison-107",
+        "phb-reference-row-comparison:phb123-comparison-108",
+        "phb-reference-row-comparison:phb123-comparison-109",
+        "phb-reference-row-comparison:phb123-comparison-110",
+        "phb-reference-row-comparison:phb123-comparison-111",
+        "phb-reference-row-comparison:phb123-comparison-112",
+        "phb-reference-row-comparison:phb123-comparison-113",
+        "phb-reference-row-comparison:phb123-comparison-114",
+        "phb-reference-row-comparison:phb123-comparison-115",
+        "phb-reference-row-comparison:phb123-comparison-116",
+        "phb-reference-row-comparison:phb123-comparison-117",
+        "phb-reference-row-comparison:phb123-comparison-118",
+        "phb-reference-row-comparison:phb123-comparison-119",
+        "phb-reference-row-comparison:phb123-comparison-120",
+        "phb-reference-row-comparison:phb123-comparison-121",
+        "phb-reference-row-comparison:phb123-comparison-122",
+        "phb-reference-row-comparison:phb123-comparison-123",
+        "phb-reference-row-comparison:phb123-comparison-124",
+        "phb-reference-row-comparison:phb123-comparison-125",
+        "phb-reference-row-comparison:phb123-comparison-126",
+        "phb-reference-row-comparison:phb123-comparison-127",
+        "phb-reference-row-comparison:phb123-comparison-128",
+        "phb-reference-row-comparison:phb123-comparison-129",
+        "phb-reference-row-comparison:phb123-comparison-130",
+        "phb-reference-row-comparison:phb123-comparison-131",
+        "phb-reference-row-comparison:phb123-comparison-132",
+        "phb-reference-row-comparison:phb123-comparison-133",
+        "phb-reference-row-comparison:phb123-comparison-134",
+        "phb-reference-row-comparison:phb123-comparison-135",
+        "phb-reference-row-comparison:phb123-comparison-136",
+        "phb-reference-row-comparison:phb123-comparison-137",
+        "phb-reference-row-comparison:phb123-comparison-138",
+        "phb-reference-row-comparison:phb123-comparison-139",
+        "phb-reference-row-comparison:phb123-comparison-140",
+        "phb-reference-row-comparison:phb123-comparison-141",
+        "phb-reference-row-comparison:phb123-comparison-142",
+        "phb-reference-row-comparison:phb123-comparison-143",
+        "phb-reference-row-comparison:phb123-comparison-144",
+        "phb-reference-row-comparison:phb123-comparison-145",
+        "phb-reference-row-comparison:phb123-comparison-146",
+        "phb-reference-row-comparison:phb123-comparison-147",
+        "phb-reference-row-comparison:phb123-comparison-148",
+        "phb-reference-row-comparison:phb123-comparison-149",
+        "phb-reference-row-comparison:phb123-comparison-150",
+        "phb-reference-row-comparison:phb123-comparison-151",
+        "phb-reference-row-comparison:phb123-comparison-152",
+        "phb-reference-row-comparison:phb123-comparison-153",
+        "phb-reference-row-comparison:phb123-comparison-154",
+        "phb-reference-row-comparison:phb123-comparison-155",
+        "phb-reference-row-comparison:phb123-comparison-156",
+        "phb-reference-row-comparison:phb123-comparison-157",
+        "phb-reference-row-comparison:phb123-comparison-158",
+        "phb-reference-row-comparison:phb123-comparison-159",
+        "phb-reference-row-comparison:phb123-comparison-160",
+        "phb-reference-row-comparison:phb123-comparison-161",
+        "phb-reference-row-comparison:phb123-comparison-162",
+        "phb-reference-row-comparison:phb123-comparison-163",
+        "phb-reference-row-comparison:phb123-comparison-164"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "phb29-fee-context-required-gp-caption-missing",
+      "kind": "source-note-context-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:phb-assassination-fees-row-01",
+        "phb-dmg-supplement-row:phb-assassination-fees-row-02",
+        "phb-dmg-supplement-row:phb-assassination-fees-row-03",
+        "phb-dmg-supplement-row:phb-assassination-fees-row-04",
+        "phb-dmg-supplement-row:phb-assassination-fees-row-05",
+        "phb-dmg-supplement-row:phb-assassination-fees-row-06",
+        "phb-dmg-supplement-row:phb-assassination-fees-row-07",
+        "phb-dmg-supplement-row:phb-assassination-fees-row-08",
+        "phb-dmg-supplement-row:phb-assassination-fees-row-09",
+        "phb-dmg-supplement-row:phb-assassination-fees-row-10",
+        "phb-dmg-supplement-row:phb-assassination-fees-row-11",
+        "phb-dmg-supplement-row:phb-assassination-fees-row-12",
+        "phb-dmg-supplement-row:phb-assassination-fees-row-13",
+        "phb-dmg-supplement-row:phb-assassination-fees-row-14",
+        "phb-dmg-supplement-row:phb-assassination-fees-row-15"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "confirmed-source-note-context-defect",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "producer-gem-increase-seven-step-anchor",
+      "kind": "source-provenance-metadata-mismatch",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-gem-increase-ladder"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "provenance-artifact-unavailable-needs-source-review",
+      "acceptedAsRepair": false,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "dmg-deck-gem-explicit-choice-quantity",
+      "kind": "typed-content-mismatch",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-deck-gem-card"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    },
+    {
+      "findingId": "dmg-deck-gem-missing-owner-table-context",
+      "kind": "source-note-context-defect",
+      "referencedUses": [
+        "phb-dmg-supplement-row:dmg-deck-gem-card"
+      ],
+      "sourceRecordsChanged": false,
+      "observedStatus": "explicit-source-reviewed-repair",
+      "acceptedAsRepair": true,
+      "semanticSourceApproval": false
+    }
+  ],
+  "sourceRecordsChanged": false,
+  "actualReviewManifestChanged": false
+}

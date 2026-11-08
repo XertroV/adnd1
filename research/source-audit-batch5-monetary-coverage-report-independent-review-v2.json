@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-monetary-coverage-report-review",
+  "reviewedAt": "2026-11-08",
+  "reviewer": "class_domain",
+  "scope": "Read-only verification of coverage-report presentation fix: exhaustive exact joins, audit-only inventory, known-finding visibility, explicit review results, and no grade transfer.",
+  "inputs": {
+    "tool": {
+      "path": "tools/monetary-coverage-report.mjs",
+      "sha256": "733758b24b16afac963b41afc459b1fa9ef009765189a67f604997d9596163cf"
+    },
+    "tests": {
+      "path": "tests/monetary-coverage-report.test.mjs",
+      "sha256": "998921307d1caa9b1da4ed2b0a153547f019624f3606f7c6a7b84fb6f0dbf0d4"
+    },
+    "report": {
+      "path": "artifacts/monetary-source-inventory-before-source-corrections/coverage-v2.json",
+      "sha256": "2c0efc7fe745707070a97270aa462a2c9478a8d7460098bc81d26a9115c4c5b1"
+    },
+    "inventory": {
+      "path": "artifacts/monetary-source-inventory-before-source-corrections/index.json",
+      "sha256": "472771cc6925c176ebf4eaed5030dc35c1764d53db164a7eda2f9f86e46a004a"
+    }
+  },
+  "verification": {
+    "testCommand": "node --test tests/monetary-coverage-report.test.mjs",
+    "testStatus": "passed",
+    "testsPassed": 4,
+    "testsFailed": 0,
+    "counts": {
+      "sourceOccurrences": 1871,
+      "sourceOccurrencesExact": 1725,
+      "sourceOccurrencesUnmatched": 146,
+      "valueClaims": 2318,
+      "valueClaimsExact": 2172,
+      "valueClaimsUnmatched": 146,
+      "auditRecords": 2161,
+      "matchedAuditRecords": 1725,
+      "auditOnlyRecords": 436,
+      "knownFindings": 190,
+      "explicitReviewResults": 1,
+      "semanticPassTrue": 0
+    },
+    "uniqueAuditRowPartition": {
+      "matched": 1725,
+      "auditOnly": 436,
+      "overlap": 0,
+      "union": 2161
+    },
+    "whaleFinding": {
+      "id": "mm-whale-ambergris-per-lump-unit-editorial",
+      "indexCoverage": {
+        "findingId": "mm-whale-ambergris-per-lump-unit-editorial",
+        "status": "audit-only",
+        "indexedAuditRowUids": [],
+        "auditOnlyRowUids": [
+          "source-census-claim:mm-whale-ambergris"
+        ]
+      },
+      "auditOnlyRow": {
+        "uid": "source-census-claim:mm-whale-ambergris",
+        "inputReference": {
+          "path": "research/price-source-inventory-monster-books.json",
+          "sha256": "5b18323c4817c7c99a38cd058015f862bbc588237b655ec6c7e8375f60f8248f",
+          "jsonPointer": "/claims/36"
+        },
+        "knownFindingOutcomes": [
+          {
+            "id": "mm-whale-ambergris-per-lump-unit-editorial",
+            "kind": "typed-content-mismatch",
+            "status": "explicit-source-reviewed-repair"
+          }
+        ]
+      },
+      "explicitReviewResults": [
+        {
+          "id": "batch5-mm-whale-ambergris-unit-source-correction",
+          "index": 0,
+          "status": "current-explicit-review",
+          "disposition": "source-reviewed-repair",
+          "evidenceStatus": "hash-matched"
+        }
+      ]
+    },
+    "assessment": {
+      "exactJoinOnly": true,
+      "upstreamStatusAndCurrentFindingOutcomesSeparatelyVisible": true,
+      "auditOnlyRowsAndFindingsVisible": true,
+      "noFuzzyJoinsOrGradeTransfer": true,
+      "noSemanticPassInferred": true,
+      "structuralErrors": 0,
+      "unresolvedFindingsAreExpectedAndExplicit": true
+    }
+  },
+  "limitations": [
+    "This is coverage/navigation verification, not source semantic approval.",
+    "146 inventory occurrences and 146 claims lack exact audit-row matches; they remain visible as unmatched.",
+    "The audit itself reports unresolved known findings; this review does not clear them."
+  ]
+}

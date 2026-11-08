@@ -1,0 +1,550 @@
+{
+  "schemaVersion": 2,
+  "artifactType": "manual-source-condition-contracts-before-correction",
+  "status": "confirmed-four-row-condition-omission-held-before-correction",
+  "scope": "A deliberately explicit source-reviewed regression contract. This contract preserves four named omissions; it does not claim that generic condition-field detection discovers semantic qualifiers or that values, prices, multipliers, applicability, or all other rows have passed review. Version 2 corrects the row-audit locator projection and is authoritative for that projection; version 1 remains unchanged.",
+  "inputs": {
+    "index": {
+      "path": "artifacts/monetary-source-inventory-before-source-corrections/index.json",
+      "sha256": "472771cc6925c176ebf4eaed5030dc35c1764d53db164a7eda2f9f86e46a004a"
+    },
+    "fullRowAudit": {
+      "path": "research/source-audit-batch5-monetary-context-migration-before-v3.json",
+      "sha256": "bee94a49f34c33ef1d0c1a77da2a13e4ed56f38880fba55d352c8d42c53fef0b"
+    },
+    "sourceArtifact": {
+      "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9"
+    },
+    "conditionAndOrderedPartReview": {
+      "path": "/tmp/batch5-pd179-poison-notes-context/v4-condition-and-ordered-part-before.json",
+      "sha256": "6ddec10bdc96169e82862e384522a95ad062465ea57a55cfe3e05353dbf86a17"
+    }
+  },
+  "contracts": [
+    {
+      "contractId": "dmg-p33-information-discovery-note-conditions",
+      "contractType": "explicit-source-reviewed-shared-condition-content",
+      "reviewStatus": "confirmed-source-condition-omission-before-repair",
+      "reviewScope": "The typed /conditions field for these four rows omits this shared source note; source note applicability is independently reviewed for all four rows. This does not alter their numeric per-day values or table time-unit/dash data.",
+      "expectedSourceFieldPointer": "/conditions",
+      "source": {
+        "book": "DMG",
+        "printedPage": 33,
+        "pdfPage": 34,
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "sourceFrame": {
+          "renderSha256": "93247ce41e51eb4b1d5f70020941234d8c02f15ae90e675c7af679fb0e9e2248",
+          "renderDpi": 600,
+          "renderDimensionsPx": [
+            4928,
+            6558
+          ],
+          "renderFrame": "MediaBox",
+          "mediaBoxPoints": [
+            0,
+            0,
+            591.3599853515625,
+            786.95947265625
+          ],
+          "cropBoxPoints": [
+            9.359999656677246,
+            0,
+            582,
+            777.5994873046875
+          ]
+        },
+        "sourceNoteBlocks": [
+          {
+            "partId": "information-rate-note-left",
+            "order": 1,
+            "crop": {
+              "path": "/tmp/batch5-pd179-poison-notes-context/dmg-p34-left-note-600dpi.png",
+              "sha256": "5a96915b4b12f91253bfbe565f9b1135273a5880a5ed0084e1c8e3296eef8831",
+              "pixelLTRB": [
+                217,
+                5167,
+                2500,
+                6292
+              ],
+              "dimensionsPx": [
+                2283,
+                1125
+              ],
+              "mediaBoxPoints": [
+                26.0399999952,
+                620.0399988247,
+                300,
+                755.0399988247
+              ]
+            }
+          },
+          {
+            "partId": "information-rate-note-right-continuation",
+            "order": 2,
+            "crop": {
+              "path": "/tmp/batch5-pd179-poison-notes-context/dmg-p34-right-note-600dpi.png",
+              "sha256": "d6faf05aed7e320c999d495597e50b1879e00f19f5462e829a5550d6fce4a41f",
+              "pixelLTRB": [
+                2583,
+                292,
+                4817,
+                875
+              ],
+              "dimensionsPx": [
+                2234,
+                583
+              ],
+              "mediaBoxPoints": [
+                309.9600002563,
+                35.0400001999,
+                578.0400000426,
+                105.000000125
+              ]
+            }
+          }
+        ]
+      },
+      "sourceObservedConditionComponents": [
+        {
+          "componentId": "no-nearby-town-or-city-options",
+          "summary": "When no town or city is nearby, source offers alternatives: double time and costs, or calculate sojourn expenditure needed to reach materials and determine other expenses."
+        },
+        {
+          "componentId": "lower-20-percent-no-cost-exception",
+          "summary": "For the general/specific information discovery result, a result in the lower 20% of the spread incurs no cost when materials are on hand."
+        },
+        {
+          "componentId": "special-study-lower-80-percent-no-cost-exception",
+          "summary": "In the special study category, a spread in the lower 80% incurs no cost."
+        },
+        {
+          "componentId": "continuation-materials-and-dm-judgment",
+          "summary": "Continuation explains accumulated materials and DM judgment for related questions and non-material costs."
+        }
+      ],
+      "correctionConstraints": [
+        "Preserve the exact table time units and out-of-field dash already represented.",
+        "Represent the alternatives and no-cost exceptions as conditions; do not set an unconditional multiplier.",
+        "Keep source context and ordered continuation parts separately bound; the existing context-link finding does not resolve this typed-content omission."
+      ],
+      "sourceReviewedBefore": {
+        "path": "/tmp/batch5-pd179-poison-notes-context/v4-condition-and-ordered-part-before.json",
+        "sha256": "6ddec10bdc96169e82862e384522a95ad062465ea57a55cfe3e05353dbf86a17",
+        "conditionFinding": {
+          "recordIds": [
+            "dmg-info-discovery-row-01",
+            "dmg-info-discovery-row-02",
+            "dmg-info-discovery-row-03",
+            "dmg-info-discovery-row-04"
+          ],
+          "pointer": "/review/sourceRowsOrClaims/{rowIndex}/conditions",
+          "beforeB0d": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+          "v4BeforeRepair": "same value as b0d for all four records",
+          "sourceObserved": "DMG printed p.33 / PDF p.34 Note on source page. When no town/city is nearby: double times and costs OR calculate the sojourn expenditure to reach needed materials and determine other expenses. If the percentile result for knowing the answer falls in the lower 20% of the spread, there is no cost because materials are on hand. In the special study category, any spread in the lower 80% incurs no cost. The continuation explains accumulated materials and DM judgment, including related questions and non-material costs.",
+          "scope": "Applies as a shared condition/qualification to all four information-discovery rows; exact table time units and dash content remain intact. Do not set an unconditional multiplier; preserve the source alternatives and no-cost exceptions.",
+          "source": {
+            "book": "DMG",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "pdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "renderSha256": "93247ce41e51eb4b1d5f70020941234d8c02f15ae90e675c7af679fb0e9e2248",
+            "renderDpi": 600,
+            "renderDimensionsPx": [
+              4928,
+              6558
+            ],
+            "renderFrame": "MediaBox",
+            "pageMediaBoxPoints": [
+              0,
+              0,
+              591.3599853515625,
+              786.95947265625
+            ],
+            "pageCropBoxPoints": [
+              9.359999656677246,
+              0,
+              582,
+              777.5994873046875
+            ],
+            "leftNoteCrop": {
+              "path": "/tmp/batch5-pd179-poison-notes-context/dmg-p34-left-note-600dpi.png",
+              "sha256": "5a96915b4b12f91253bfbe565f9b1135273a5880a5ed0084e1c8e3296eef8831",
+              "pixelLTRB": [
+                217,
+                5167,
+                2500,
+                6292
+              ],
+              "dimensionsPx": [
+                2283,
+                1125
+              ],
+              "mediaBoxPoints": [
+                26.0399999952,
+                620.0399988247,
+                300,
+                755.0399988247
+              ],
+              "textBlockPdfCropBoxRelative": [
+                21.1382,
+                624.7625,
+                283.7259,
+                749.4283
+              ]
+            },
+            "rightContinuationCrop": {
+              "path": "/tmp/batch5-pd179-poison-notes-context/dmg-p34-right-note-600dpi.png",
+              "sha256": "d6faf05aed7e320c999d495597e50b1879e00f19f5462e829a5550d6fce4a41f",
+              "pixelLTRB": [
+                2583,
+                292,
+                4817,
+                875
+              ],
+              "dimensionsPx": [
+                2234,
+                583
+              ],
+              "mediaBoxPoints": [
+                309.9600002563,
+                35.0400001999,
+                578.0400000426,
+                105.000000125
+              ],
+              "textBlockPdfCropBoxRelative": [
+                305.24,
+                38.1122,
+                565.6342,
+                101.2895
+              ]
+            }
+          },
+          "overlapWithExistingFinding": "Existing sage-six-left-table-right-note-context finding covers missing ordered source context only. It does not correct the separate typed /conditions omission described here.",
+          "status": "confirmed source condition omission; typed correction must remain pending until an exact precondition finding is registered and a new candidate is independently reviewed."
+        },
+        "existingDistinctContextFindingId": "sage-six-left-table-right-note-context-dependencies"
+      },
+      "rows": [
+        {
+          "recordId": "dmg-info-discovery-row-01",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+            "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+            "jsonPointer": "/review/sourceRowsOrClaims/75"
+          },
+          "sourceRowAudit": {
+            "uid": "phb-dmg-supplement-row:dmg-info-discovery-row-01",
+            "input": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+            "inputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+            "jsonPointer": "/review/sourceRowsOrClaims/75",
+            "rowAuditIndex": 1559
+          },
+          "originalSourceIdentity": {
+            "groupId": "dmg-support-research-and-information-costs",
+            "sourceKind": "information-discovery-rate-row",
+            "objectOrSubject": "out of fields",
+            "book": "Dungeon Masters Guide",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "pdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "indexedOccurrence": {
+            "sourceOccurrenceId": "phb-dmg:dmg-info-discovery-row-01",
+            "inventoryPointer": "/sourceOccurrences/1370",
+            "conditionPointer": "/sourceOccurrences/1370/conditions",
+            "qualifierPointer": "/sourceOccurrences/1370/qualifiers",
+            "conditionState": "populated-string",
+            "conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+            "qualifierState": "empty-array",
+            "qualifiers": [],
+            "provenance": {
+              "inputArtifact": {
+                "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                "jsonPointer": "/review/sourceRowsOrClaims/75"
+              },
+              "contextCropArtifact": {
+                "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                "jsonPointer": "/review/evidenceCrops/23"
+              },
+              "sourceValueJsonPointer": "/typedValue"
+            }
+          },
+          "indexedClaims": [
+            {
+              "claimId": "phb-dmg:dmg-info-discovery-row-01#/typedValue/costPerDay",
+              "pointer": "/claims/1766",
+              "conditionPointer": "/claims/1766/conditions",
+              "conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+              "qualifierPointer": "/claims/1766/qualifiers",
+              "qualifiers": [],
+              "provenance": {
+                "inputArtifact": {
+                  "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                  "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                  "jsonPointer": "/review/sourceRowsOrClaims/75"
+                },
+                "contextCropArtifact": {
+                  "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                  "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                  "jsonPointer": "/review/evidenceCrops/23"
+                },
+                "sourceValueJsonPointer": "/review/sourceRowsOrClaims/75/typedValue/costPerDay",
+                "sourceValuePointerWithinRow": "/typedValue/costPerDay"
+              }
+            }
+          ],
+          "beforeB0d": {
+            "canonicalRecordSha256": "90b8d450a1b76e699e23ad291ac9bbc2596ee18c070d5f89cdf4fbbfbfb49cf8",
+            "conditionsSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+            "conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash"
+          },
+          "declaredStatus": "confirmed omission under source review; held from semantic promotion"
+        },
+        {
+          "recordId": "dmg-info-discovery-row-02",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+            "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+            "jsonPointer": "/review/sourceRowsOrClaims/76"
+          },
+          "sourceRowAudit": {
+            "uid": "phb-dmg-supplement-row:dmg-info-discovery-row-02",
+            "input": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+            "inputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+            "jsonPointer": "/review/sourceRowsOrClaims/76",
+            "rowAuditIndex": 1560
+          },
+          "originalSourceIdentity": {
+            "groupId": "dmg-support-research-and-information-costs",
+            "sourceKind": "information-discovery-rate-row",
+            "objectOrSubject": "in minor field",
+            "book": "Dungeon Masters Guide",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "pdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "indexedOccurrence": {
+            "sourceOccurrenceId": "phb-dmg:dmg-info-discovery-row-02",
+            "inventoryPointer": "/sourceOccurrences/1371",
+            "conditionPointer": "/sourceOccurrences/1371/conditions",
+            "qualifierPointer": "/sourceOccurrences/1371/qualifiers",
+            "conditionState": "populated-string",
+            "conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+            "qualifierState": "empty-array",
+            "qualifiers": [],
+            "provenance": {
+              "inputArtifact": {
+                "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                "jsonPointer": "/review/sourceRowsOrClaims/76"
+              },
+              "contextCropArtifact": {
+                "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                "jsonPointer": "/review/evidenceCrops/23"
+              },
+              "sourceValueJsonPointer": "/typedValue"
+            }
+          },
+          "indexedClaims": [
+            {
+              "claimId": "phb-dmg:dmg-info-discovery-row-02#/typedValue/costPerDay",
+              "pointer": "/claims/1767",
+              "conditionPointer": "/claims/1767/conditions",
+              "conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+              "qualifierPointer": "/claims/1767/qualifiers",
+              "qualifiers": [],
+              "provenance": {
+                "inputArtifact": {
+                  "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                  "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                  "jsonPointer": "/review/sourceRowsOrClaims/76"
+                },
+                "contextCropArtifact": {
+                  "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                  "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                  "jsonPointer": "/review/evidenceCrops/23"
+                },
+                "sourceValueJsonPointer": "/review/sourceRowsOrClaims/76/typedValue/costPerDay",
+                "sourceValuePointerWithinRow": "/typedValue/costPerDay"
+              }
+            }
+          ],
+          "beforeB0d": {
+            "canonicalRecordSha256": "fbe87162540972ae70e6c03bc2f29ea7fe1987847b146edc10021fd1c7a54a89",
+            "conditionsSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+            "conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash"
+          },
+          "declaredStatus": "confirmed omission under source review; held from semantic promotion"
+        },
+        {
+          "recordId": "dmg-info-discovery-row-03",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+            "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+            "jsonPointer": "/review/sourceRowsOrClaims/77"
+          },
+          "sourceRowAudit": {
+            "uid": "phb-dmg-supplement-row:dmg-info-discovery-row-03",
+            "input": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+            "inputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+            "jsonPointer": "/review/sourceRowsOrClaims/77",
+            "rowAuditIndex": 1561
+          },
+          "originalSourceIdentity": {
+            "groupId": "dmg-support-research-and-information-costs",
+            "sourceKind": "information-discovery-rate-row",
+            "objectOrSubject": "in major field",
+            "book": "Dungeon Masters Guide",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "pdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "indexedOccurrence": {
+            "sourceOccurrenceId": "phb-dmg:dmg-info-discovery-row-03",
+            "inventoryPointer": "/sourceOccurrences/1372",
+            "conditionPointer": "/sourceOccurrences/1372/conditions",
+            "qualifierPointer": "/sourceOccurrences/1372/qualifiers",
+            "conditionState": "populated-string",
+            "conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+            "qualifierState": "empty-array",
+            "qualifiers": [],
+            "provenance": {
+              "inputArtifact": {
+                "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                "jsonPointer": "/review/sourceRowsOrClaims/77"
+              },
+              "contextCropArtifact": {
+                "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                "jsonPointer": "/review/evidenceCrops/23"
+              },
+              "sourceValueJsonPointer": "/typedValue"
+            }
+          },
+          "indexedClaims": [
+            {
+              "claimId": "phb-dmg:dmg-info-discovery-row-03#/typedValue/costPerDay",
+              "pointer": "/claims/1768",
+              "conditionPointer": "/claims/1768/conditions",
+              "conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+              "qualifierPointer": "/claims/1768/qualifiers",
+              "qualifiers": [],
+              "provenance": {
+                "inputArtifact": {
+                  "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                  "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                  "jsonPointer": "/review/sourceRowsOrClaims/77"
+                },
+                "contextCropArtifact": {
+                  "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                  "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                  "jsonPointer": "/review/evidenceCrops/23"
+                },
+                "sourceValueJsonPointer": "/review/sourceRowsOrClaims/77/typedValue/costPerDay",
+                "sourceValuePointerWithinRow": "/typedValue/costPerDay"
+              }
+            }
+          ],
+          "beforeB0d": {
+            "canonicalRecordSha256": "4e4b21a9ad4223599eadaa0c6930f3eeca4d9730cc96759107a1115c0b0cc092",
+            "conditionsSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+            "conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash"
+          },
+          "declaredStatus": "confirmed omission under source review; held from semantic promotion"
+        },
+        {
+          "recordId": "dmg-info-discovery-row-04",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+            "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+            "jsonPointer": "/review/sourceRowsOrClaims/78"
+          },
+          "sourceRowAudit": {
+            "uid": "phb-dmg-supplement-row:dmg-info-discovery-row-04",
+            "input": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+            "inputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+            "jsonPointer": "/review/sourceRowsOrClaims/78",
+            "rowAuditIndex": 1562
+          },
+          "originalSourceIdentity": {
+            "groupId": "dmg-support-research-and-information-costs",
+            "sourceKind": "information-discovery-rate-row",
+            "objectOrSubject": "in special category",
+            "book": "Dungeon Masters Guide",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "pdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "indexedOccurrence": {
+            "sourceOccurrenceId": "phb-dmg:dmg-info-discovery-row-04",
+            "inventoryPointer": "/sourceOccurrences/1373",
+            "conditionPointer": "/sourceOccurrences/1373/conditions",
+            "qualifierPointer": "/sourceOccurrences/1373/qualifiers",
+            "conditionState": "populated-string",
+            "conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+            "qualifierState": "empty-array",
+            "qualifiers": [],
+            "provenance": {
+              "inputArtifact": {
+                "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                "jsonPointer": "/review/sourceRowsOrClaims/78"
+              },
+              "contextCropArtifact": {
+                "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                "jsonPointer": "/review/evidenceCrops/23"
+              },
+              "sourceValueJsonPointer": "/typedValue"
+            }
+          },
+          "indexedClaims": [
+            {
+              "claimId": "phb-dmg:dmg-info-discovery-row-04#/typedValue/costPerDay",
+              "pointer": "/claims/1769",
+              "conditionPointer": "/claims/1769/conditions",
+              "conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+              "qualifierPointer": "/claims/1769/qualifiers",
+              "qualifiers": [],
+              "provenance": {
+                "inputArtifact": {
+                  "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                  "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                  "jsonPointer": "/review/sourceRowsOrClaims/78"
+                },
+                "contextCropArtifact": {
+                  "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+                  "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+                  "jsonPointer": "/review/evidenceCrops/23"
+                },
+                "sourceValueJsonPointer": "/review/sourceRowsOrClaims/78/typedValue/costPerDay",
+                "sourceValuePointerWithinRow": "/typedValue/costPerDay"
+              }
+            }
+          ],
+          "beforeB0d": {
+            "canonicalRecordSha256": "0acf4c24a84a762c7764852874c9f76f4aaf7df66cdae900b90018f111213e55",
+            "conditionsSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+            "conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash"
+          },
+          "declaredStatus": "confirmed omission under source review; held from semantic promotion"
+        }
+      ],
+      "automaticDetection": "none; a scanner cannot derive these note semantics from null, empty, or serialized field shapes. This is a manually declared known-failure contract only."
+    }
+  ],
+  "limitations": [
+    "The source paragraphs are summarized as review obligations, not quoted.",
+    "No numeric value, price, time unit, XP or field grade is changed or approved by this contract.",
+    "All non-listed source condition and qualifier semantics remain unassessed."
+  ],
+  "supersedes": {
+    "path": "research/source-audit-batch5-monetary-condition-contract-before-info4.json",
+    "sha256": "2c957148a53a4eddb137f7c82015f4fbe806a8d9883afae33de4bb6c34a5b90d"
+  }
+}

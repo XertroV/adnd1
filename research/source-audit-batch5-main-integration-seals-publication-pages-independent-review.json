@@ -1,0 +1,86 @@
+{
+  "artifactType": "independent-final-integration-seals-publication-and-pages-review",
+  "result": "No blocking finding in the reviewed publication/seal/version wiring scope.",
+  "readOnly": true,
+  "comparisonRefs": {
+    "localHead": "679b15d1c580172e54314829c1c3c86dc78b65f3",
+    "localOriginMaster": "9b8a22651c6df3ab4df5be149512c1d48b3352e8",
+    "exactDeployedMaster": "5ba3eb81b8d856ac1c7d45ef0aea2d665ed9175b"
+  },
+  "sealManifest": {
+    "path": "research/citation-evidence-seals.json",
+    "sha256": "2089f421937717095588e513fc0ccd09ad93df1f725d6ac46568f88f4dc02308",
+    "sizeBytes": 107589,
+    "sealCount": 382,
+    "currentCheck": {
+      "status": "initial-capture",
+      "manifestPath": "research/citation-evidence-seals.json",
+      "sealCount": 382,
+      "baselineStatus": "manifest-absent-at-baseline",
+      "baselineRef": "9b8a22651c6df3ab4df5be149512c1d48b3352e8",
+      "baselineCommit": "9b8a22651c6df3ab4df5be149512c1d48b3352e8",
+      "priorSealCount": null,
+      "newSealCount": 382,
+      "appendOnlyPrefixPreserved": null
+    },
+    "guardCodeAndTestsMatchPriorIndependentReview": {
+      "tools/citation-evidence-seals.mjs": "d2ffb227a33062ca1aaab0581e954e20c1940319599b2e1e757d9d193277b7f3",
+      "research/citation-evidence-seals.schema.json": "1c305adb57e383527c65fb61229601ef691c9dc7447c1022c391c31e6ba93c9c",
+      "tests/citation-evidence-seals.test.mjs": "d2b25e686b2509c99239aa3a3ae6e09de9fc6236cd91108c78a3113b1a46311d"
+    },
+    "appendOnlyQualification": "The manifest does not exist at origin9b8, so this is a valid initial capture. All 382 current sealed files are verified; a historical Git prefix is neither available nor claimed. Future manifests are required by CI to preserve the preceding committed ordered prefix."
+  },
+  "publicationFileInventory": {
+    "actualExistingChangedOrUntrackedFiles": 798,
+    "trackedDiffCount": 228,
+    "untrackedCount": 571,
+    "rasterFiles": 16,
+    "gzipMetadataOrCodeFixtures": 67,
+    "privatePdfMagicFiles": [],
+    "gzipPdfMagicFiles": [],
+    "nonPngFilesUtf8DecodableWithoutNul": true,
+    "embeddedBase64PdfOrImagePayloads": [],
+    "newRasterHashesHaveExistingReviewOrRepairReferences": true,
+    "scope": "Read-only file/header/metadata inventory and reuse of existing crop receipts. No new pixels or source semantics reviewed. The private UA583/PD179 frame/crop files remain private; their public receipts carry metadata only.",
+    "historicalAssets": "Two earlier DMG225 excerpt assets are retained as historical evidence and have no current region references; the repair receipt explicitly preserves them.",
+    "fullNamedAssets": "UA10 filenames containing full describe complete subsection/column context. Their existing catalog recipes are partial-page rectangles, not original full-page raster renders."
+  },
+  "pagesAndVersion": {
+    "receipt": {
+      "path": "/tmp/pages-version-integration-review/pages-version-publishing-independent-review.json",
+      "sha256": "b7364cc6a2ceebae800d843b16474efa8482781605911c8ec459aa942ed00d7b"
+    },
+    "status": "PASS against both9b8 and exact5ba3",
+    "currentWorkflowSha256": "9ac1091121a55450d878bf07bf9ec0e8910f08aa39b1780b3a9d3c7acdf20f11",
+    "versionAllocatorAndStamperUnchanged": true,
+    "publishedPagesArtifactRemainsDistOnly": true,
+    "noUntrackedWorkflow": true
+  },
+  "supportingEvidence": [
+    {
+      "path": "/tmp/main-integration-publication-file-inventory.json",
+      "sha256": "469f6451b9d91d6e43f5b238bf016cbce0ea09f43b48b1ae1e03930a856ec7f0"
+    },
+    {
+      "path": "/tmp/main-integration-new-raster-catalog-bindings.json",
+      "sha256": "c99e19c6f55c310cc5758d935f041e4d03f10168f95130a3c6c556c6da56fe4a"
+    },
+    {
+      "path": "/tmp/main-integration-new-raster-existing-evidence-links.json",
+      "sha256": "77bb464da2582de0baba09314f80992d2198acb3918df3bee23cf4c3c5efd76e"
+    },
+    {
+      "path": "/tmp/pages-version-integration-review/pages-version-publishing-independent-review.json",
+      "sha256": "b7364cc6a2ceebae800d843b16474efa8482781605911c8ec459aa942ed00d7b"
+    }
+  ],
+  "remainingStages": [
+    "Parent owns final generation and CI ordering checks.",
+    "Root still owns merging the deployed interim parents, selecting the final commit file set, and publishing; this review made no Git/source/seal writes.",
+    "The working-tree inventory is bound to the recorded file hashes, not a future commit; later added or changed artifacts require their normal final checks."
+  ],
+  "limits": [
+    "Byte integrity and append-only guards do not prove source meaning or whole-book coverage.",
+    "No private PDFs were opened, no new pixel review was performed, and no source approval was promoted."
+  ]
+}

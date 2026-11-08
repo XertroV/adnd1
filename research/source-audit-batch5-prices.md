@@ -1,0 +1,31 @@
+# Source audit batch 5: equipment prices
+
+## Detection-first baseline
+
+The pre-edit snapshot is in [the batch 5 baseline](source-audit-batch5-prices-baseline.json). It pins input commit `679b15d1c580172e54314829c1c3c86dc78b65f3` and records the full canonical equipment price state, all 188 PHB p.35 / PHB p.36 / UA p.26 purchase-offer source rows, the four null-price records, existing stale or pending offer review states, and the known regression assertions. Baseline counts were 189 equipment records, 185 printed prices, four null prices, 188 named purchase offers, one additional extracted offer field, and two distinct unrepresented or unresolved offers.
+
+The pre-existing detections were preserved: `phb35-equipment-purchase-056` (`Sling & Bullets, dozen`) was `previously-confirmed-review-stale`; `ua26-equipment-supplies-011` (`Quarrels for same`) was pending with provisional bounds and unknown quantity. The existing tests that assert those states remain unchanged in this scoped work.
+
+## Extracted source offers
+
+The PHB p.35 Arms list prints two distinct rows: `Sling & Bullets, dozen` at 15 s.p. and `Sling Bullets, score` at 10 s.p. The 15 s.p. row is now represented separately as `phb-sling-bullets-dozen`, with `price.unit: "dozen"`. The existing `phb-sling-bullet` record remains the distinct score-of-bullets offer. The source image is the existing complete PHB Arms section; the new region `phb35-sling-bullets-dozen-price` selects only the dozen row and its amount. The image SHA-256 is `94c2dda8bd31e205feb2eac08920bc5044684a5eef5f515b1ea938276594e133`, dimensions 822×819, printed p.35 / PDF p.36, source bounds `[302, 334, 576, 607]` PDF points and normalized page rect `[0.5165575082, 0.4251965004, 0.4686647591, 0.3475408522]`. Its image-relative focus is `[0.5325693621, 0.5380158862, 0.4451262783, 0.0368906272]`.
+
+UA p.26 prints `Quarrels for same` at 100 g.p. directly under `Crossbow, hand` at 300 g.p. The table gives no quantity. The price amount is now represented as a separate `ua-quarrels-for-same` equipment record; it has no `price.unit`, and its note explicitly retains the unknown quantity. The image is the existing complete Basic Equipment and Supplies Costs table. The new region `ua26-quarrels-for-same-price` highlights the source label and 100 g.p. row while retaining the hand-crossbow row and complete Arms section. The image SHA-256 is `740e0e7d3c0f5ea26a54861ecebee1003109580130ebf954640439fc0f9fed61`, dimensions 837×522, printed p.26 / PDF p.27, source bounds `[10, 34, 289, 208]` PDF points and normalized page rect `[0.0175070342, 0.0444096219, 0.4884462550, 0.2272727708]`. Its image-relative focus is `[0.0131804998, 0.7354879230, 0.4489378263, 0.0703339865]`.
+
+The root independently reviewed both original page pixels, complete table contexts, and these focus rectangles on 2026-11-07; the hash-bound review is recorded in [the independent review artifact](source-audit-batch5-price-independent-review.json). Preserve the old PHB review as stale historical evidence; the fresh row bindings use the current hashes. UA quantity/equivalence remains unresolved. Do not divide 100 g.p. by an invented number of quarrels.
+
+## Four null-price records
+
+The canonical price fields for `phb-bo-stick`, `phb-club`, `phb-quarterstaff`, and `phb-sling-stone` remain `null`, with `priceState: "unextracted"`. The scope is the inspected PHB p.35 and p.123 price tables and UA p.26 cost table, plus the printed PHB/UA weapon-weight tables. Numbers such as Bo Stick 15, Club 30, Staff, Quarter 50, and Sling Stone 1 appear under “Approximate Weight in Gold Pieces.” They are encumbrance weights, not purchase prices. The PHB/UA cost tables inspected contain no purchase-price row for these four ordinary items.
+
+PHB p.35 and p.123 each print the two sling/bullets offers described above; neither is a price for a sling stone. The PHB p.124 and UA p.26 weapon tables include Sling stone / Sling Stone under a weight heading, not a cost heading. The old notes suggesting a possible price elsewhere remain bounded; this audit does not claim that any item is free or that no possible source could price it.
+
+A searchable-text phrase screen was run across the authorized PHB, UA, DMG, Monster Manual, and Monster Manual II PDFs. No additional ordinary purchase-price row for the four canonical null-price records was identified. UA “quarterstaff” hits include magic-item material and remain distinct from a mundane equipment price; DMG “sling stone” hits concern the Freezing Sphere spell; Monster Manual “club” hits describe creature weapons. Searchable text can miss degraded scan text, so this is not a whole-book absence claim. Further UA monetary page groups are being transcribed separately.
+
+## Local changes and root integration
+
+The local equipment file now has 191 records, 187 printed-price records, and the same four null-price records. All 188 source purchase rows are now representable as either canonical prices or the already separate arrow-dozen price field. The UA quantity uncertainty remains as a review issue. The updated bounded price notes on the four null records distinguish the inspected cost lists from weight-table numbers.
+
+The exact source excerpt proposals, row-binding proposals, and reconciliation updates are in [the machine-readable report](source-audit-batch5-prices.json). In brief, add `sourceExcerpts` metadata for both new catalogs; append source-row bindings for PHB record index 55 → `equipment:phb-sling-bullets-dozen` `/price` and UA record index 10 → `equipment:ua-quarrels-for-same` `/price`; map both source offers as extracted canonical offers while retaining UA quantity as unresolved. Keep the additional Arrow dozen field as-is. This worker did not edit shared citation overrides, row-binding overlays, reconciliation, gap projections, the review ledger, or assembled distribution. The root has since integrated the two source-row bindings and reconciliation dispositions; viewer metadata and assembled output remain under root validation.
+
+No tests were run in this subtask. JSON parse, catalog image SHA, region geometry, original-PDF visual comparison, and parent independent pixel review were completed. Private full-page source scans were not added to the public repository.

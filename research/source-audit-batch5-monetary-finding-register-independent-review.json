@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-monetary-findings-register-code-review",
+  "status": "approved-for-exact-scoped-checkpoint",
+  "scope": "Sealed mandatory monetary finding/register membership and source identity; no source repairs or semantic correctness certified.",
+  "reviewedFiles": [
+    {
+      "path": "tools/monetary-findings-register.mjs",
+      "sha256": "af29794b31971741615baf25fafa4c4a61e9a2e2be3e179ca5a358fd67c787ea"
+    },
+    {
+      "path": "tests/monetary-findings-register.test.mjs",
+      "sha256": "ffd373b5e6f316b24592d3d513a32491e86b70489dfad4a6e587ed15ff80d637"
+    }
+  ],
+  "preservedActualOmissionBefore": {
+    "path": "research/source-audit-batch5-monetary-finding-register-omission-before.json",
+    "sha256": "9124e3bdedb70f8e0967a0b2fe085f58e94c072ac4c6012a37c5ec78e84ba2f4"
+  },
+  "verification": {
+    "targetedTests": {
+      "command": "node --test tests/monetary-findings-register.test.mjs",
+      "passed": 4,
+      "failed": 0
+    },
+    "independentProbes": {
+      "scope": "Independent membership/identity probes only; no source or active-manifest changes and no semantic approval.",
+      "codeSha256": "af29794b31971741615baf25fafa4c4a61e9a2e2be3e179ca5a358fd67c787ea",
+      "testsSha256": "ffd373b5e6f316b24592d3d513a32491e86b70489dfad4a6e587ed15ff80d637",
+      "stableDuringExecution": true,
+      "sourceManifestSha256": "3fba3726c84d9b1fe8c745cdf7060d35fc3af0b7e7d7975ec9b3f274e7fae9b4",
+      "sealsSha256": "bfeb1c10ce420c886efe6cf59c5fa964c9383982f8c7c9a03f9c96a7a2a1bb15",
+      "checks": [
+        {
+          "id": "nominal-current-complete-register",
+          "expectedRejected": false,
+          "rejected": false,
+          "pass": true,
+          "error": null,
+          "knownFindings": 162,
+          "extensions": 8,
+          "retainedUncertainties": 8
+        },
+        {
+          "id": "omit-real-extension-0",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "Active monetary register omits sealed source findings: research/source-audit-batch5-monetary-row-identity-armor-extension.json"
+        },
+        {
+          "id": "omit-real-extension-1",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "Active monetary register omits sealed source findings: research/source-audit-batch5-monetary-row-identity-complete-qa-extension.json"
+        },
+        {
+          "id": "omit-real-extension-2",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "Active monetary register omits sealed source findings: research/source-audit-batch5-monetary-not-gem-qualifier-extension.json"
+        },
+        {
+          "id": "omit-real-extension-3",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "Active monetary register omits sealed source findings: research/source-audit-batch5-monetary-preserved-focus-falsepasses-extension.json"
+        },
+        {
+          "id": "omit-real-extension-4",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "Active monetary register omits sealed source findings: research/source-audit-batch5-monetary-assassination-focus-falsepasses-extension.json"
+        },
+        {
+          "id": "omit-real-extension-5",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "Active monetary register omits sealed source findings: research/source-audit-batch5-monetary-full179-new-findings-extension.json"
+        },
+        {
+          "id": "omit-real-extension-6",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "Active monetary register omits sealed source findings: research/source-audit-batch5-monetary-context-crop-findings-extension.json"
+        },
+        {
+          "id": "omit-real-extension-7",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "Active monetary register omits sealed source findings: research/source-audit-batch5-monetary-provenance-finding-extension.json"
+        },
+        {
+          "id": "drop-retained-uncertainty-register",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "Active monetary register omits sealed source uncertainties: research/source-audit-batch5-monetary-retained-uncertainties.json"
+        },
+        {
+          "id": "replace-baseline-sha",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "The active monetary baseline omits or replaces the sealed finding baseline."
+        },
+        {
+          "id": "duplicate-extension",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "Duplicate active monetary finding extension: research/source-audit-batch5-monetary-row-identity-armor-extension.json"
+        },
+        {
+          "id": "change-extension-sha",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "Monetary finding extension is unsealed or differs from its sealed source finding: research/source-audit-batch5-monetary-row-identity-armor-extension.json"
+        },
+        {
+          "id": "attach-unsealed-extension",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "Monetary finding extension is unsealed or differs from its sealed source finding: research/synthetic-unsealed-source-finding.json"
+        }
+      ],
+      "passed": true
+    },
+    "productionMembership": {
+      "knownFindings": 162,
+      "sourceFindingExtensions": 8,
+      "retainedUncertainties": 8,
+      "status": "pass"
+    },
+    "workflowReview": "Existing append-only seal validation remains separate; monetary CI executes both register and full row audit under set+e, saves both statuses and reports, then fails on either nonzero status."
+  },
+  "semanticPass": false,
+  "limitations": [
+    "The guard validates membership against cryptographically checked sealed evidence. It does not repair or adjudicate any finding.",
+    "Append-only seal-prefix preservation is enforced by the separate evidence-seal CI step; this membership guard alone does not claim Git history preservation.",
+    "The actual unmodified source body still retains its pending findings until exact independent source repair dispositions are integrated."
+  ]
+}

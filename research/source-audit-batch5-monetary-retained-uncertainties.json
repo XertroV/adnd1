@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "retained-monetary-source-uncertainties",
+  "baseline": {
+    "path": "research/source-audit-batch5-monetary-row-identity-baseline.json",
+    "sha256": "bd4973e1eca69a56b64adf3758ccce3683783815dea38bb8ca6ec9f33e898bb9"
+  },
+  "sourceEvidence": [
+    {
+      "path": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "sha256": "523c097624a0a91f4e3cf8aa40540a2f27d68a6136a04226e2fc3a94a941aeb8"
+    },
+    {
+      "path": "research/source-audit-batch5-monetary-row-identity-complete-qa-extension.json",
+      "sha256": "72ca57f64da14a89f3240a34e3d58585a7e2fcc8765fad16821e50220cc69fb0"
+    }
+  ],
+  "uncertainties": [
+    {
+      "id": "relative-monetary-reading-ua-census-record-006",
+      "kind": "relative-monetary-amount-or-formula-unassessable",
+      "uid": "source-census-claim:ua-census-record-006",
+      "recordSha256": "7dcd2b426dd2bc7e46ed75bb0e643fa38352ba21482c5c420c0c6e7b4372ff98",
+      "rowIdentitySha256": "9a385a0cfaa4ca716d7adec889a886001601bc2892cf63be20550a967feb6201",
+      "receiptId": "ua-census-record-006",
+      "indexClaimId": "price-discovery:ua-census-record-006#/typedClaim",
+      "sourceCensusArtifact": "research/price-source-inventory-ua-other.json",
+      "sourceJsonPointer": "/records/5",
+      "typedClaim": {
+        "printedValue": "no fixed gp amount",
+        "formula": "DMG Increase/Decrease of Worth Beyond Base Value roll with -1 modifier",
+        "currency": null,
+        "unit": "revaluation",
+        "conditions": "One revaluation only.",
+        "notes": null
+      },
+      "source": {
+        "printedPage": 46,
+        "pdfPage": 47,
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "boundsStatus": "visually-reviewed-page; exact claim coordinates not separately measured"
+      },
+      "classification": "currency-bearing relative/ambiguous reading retained unassessable",
+      "numericAmountDerived": false,
+      "sourceQuestionStatus": "unassessed-or-ambiguous",
+      "semanticPass": false,
+      "denominator": "Within the180 raw source census claims and180 receipts; no exception outside that denominator."
+    },
+    {
+      "id": "relative-monetary-reading-ua-census-record-038",
+      "kind": "relative-monetary-amount-or-formula-unassessable",
+      "uid": "source-census-claim:ua-census-record-038",
+      "recordSha256": "73191591bd70e7e2a2ae5fc4e2c8b49d6e3af32234848839b36231fab87af2fc",
+      "rowIdentitySha256": "4f2d2ce1ca14385735cae7f2218e105de9b88e12937153d03cf5de76ee4d27ae",
+      "receiptId": "ua-census-record-038",
+      "indexClaimId": "price-discovery:ua-census-record-038#/typedClaim",
+      "sourceCensusArtifact": "research/price-source-inventory-ua-other.json",
+      "sourceJsonPointer": "/records/37",
+      "typedClaim": {
+        "printedValue": "below sale value",
+        "formula": null,
+        "currency": null,
+        "unit": "magic item",
+        "conditions": "Reaction-dependent; no fixed conversion.",
+        "notes": null
+      },
+      "source": {
+        "printedPage": 80,
+        "pdfPage": 81,
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "boundsStatus": "visually-reviewed-page; exact claim coordinates not separately measured"
+      },
+      "classification": "currency-bearing relative/ambiguous reading retained unassessable",
+      "numericAmountDerived": false,
+      "sourceQuestionStatus": "unassessed-or-ambiguous",
+      "semanticPass": false,
+      "denominator": "Within the180 raw source census claims and180 receipts; no exception outside that denominator."
+    },
+    {
+      "id": "relative-monetary-reading-mm-mammoth-tusks-relative",
+      "kind": "relative-monetary-amount-or-formula-unassessable",
+      "uid": "source-census-claim:mm-mammoth-tusks-relative",
+      "recordSha256": "83d6e640a62f7bb008cd115c73383e9d1ff0a23d5b9883a6acbe8fca80904ed9",
+      "rowIdentitySha256": "3520feae814552bc7636a5beac7ca74e82aa06a53780555c7a0f380fc08fcbb3",
+      "receiptId": "mm-mammoth-tusks-relative",
+      "indexClaimId": "price-discovery:mm-mammoth-tusks-relative#/typedClaim",
+      "sourceCensusArtifact": "research/price-source-inventory-monster-books.json",
+      "sourceJsonPointer": "/claims/18",
+      "typedClaim": {
+        "amountOrFormula": "proportionately higher than elephant tusks",
+        "currency": "relative to gp valuation",
+        "unit": "per tusk",
+        "conditions": "Source supplies no numeric multiplier; baseline elephant valuation is MM printed p.38 / PDF p.39."
+      },
+      "source": [
+        {
+          "book": "Monster Manual",
+          "bookKey": "MM",
+          "sourceFile": "Monster_Manual.pdf",
+          "sourceSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+          "pdfPage": 66,
+          "printedPage": 65,
+          "printedPageStatus": "read-from-source-footer",
+          "sourcePageBounds": {
+            "coordinateSpace": "pdf-page-points-top-left",
+            "pageSizePoints": [
+              557.52,
+              779.28
+            ],
+            "rects": [
+              [
+                25.2,
+                351.21,
+                274.78,
+                367.96
+              ]
+            ],
+            "method": "ocr-text-block-bbox",
+            "status": "provisional-not-pixel-calibrated"
+          }
+        },
+        {
+          "book": "Monster Manual",
+          "bookKey": "MM",
+          "sourceFile": "Monster_Manual.pdf",
+          "sourceSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+          "pdfPage": 39,
+          "printedPage": 38,
+          "printedPageStatus": "read-from-source-footer",
+          "sourcePageBounds": {
+            "coordinateSpace": "pdf-page-points-top-left",
+            "pageSizePoints": [
+              558.72,
+              772.56
+            ],
+            "rects": [
+              [
+                288.7,
+                681.75,
+                537.99,
+                698.44
+              ]
+            ],
+            "method": "ocr-text-block-bbox",
+            "status": "provisional-not-pixel-calibrated"
+          }
+        }
+      ],
+      "classification": "currency-bearing relative/ambiguous reading retained unassessable",
+      "numericAmountDerived": false,
+      "sourceQuestionStatus": "unassessed-or-ambiguous",
+      "semanticPass": false,
+      "denominator": "Within the180 raw source census claims and180 receipts; no exception outside that denominator."
+    },
+    {
+      "id": "uncertain-scimitar-marker-ua-other-008-H1-cont-r030",
+      "kind": "source-marker-glyph-normalization-unresolved",
+      "uid": "ua-supplement-row:ua-other-008-H1-cont-r030",
+      "rowIdentitySha256": "fdb8bc4c24080464d4aa3e9f7a422b03074762b42f946e9d863d7f3e2a61ccec",
+      "annotationSha256": "2d947ad66a6d9445bb52e61385b4876a93e68f75c573473d6fe5cf13e0d3fb0f",
+      "source": {
+        "book": "UA",
+        "printedPage": 89,
+        "pdfPage": 90,
+        "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      },
+      "sourceQuestionStatus": "unresolved",
+      "reason": "Source second marker may be a solid dot; frozen input normalizes it as **. Existing note meanings remain recorded, but exact glyph-to-note identity is unresolved.",
+      "semanticPass": false
+    },
+    {
+      "id": "uncertain-scimitar-marker-ua-other-008-H2-r070",
+      "kind": "source-marker-glyph-normalization-unresolved",
+      "uid": "ua-supplement-row:ua-other-008-H2-r070",
+      "rowIdentitySha256": "1b9771c215612e2e5cf6738c5fbda08628261ed6c46689fcff131a8aa9ea068d",
+      "annotationSha256": "2d947ad66a6d9445bb52e61385b4876a93e68f75c573473d6fe5cf13e0d3fb0f",
+      "source": {
+        "book": "UA",
+        "printedPage": 89,
+        "pdfPage": 90,
+        "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      },
+      "sourceQuestionStatus": "unresolved",
+      "reason": "Source second marker may be a solid dot; frozen input normalizes it as **. Existing note meanings remain recorded, but exact glyph-to-note identity is unresolved.",
+      "semanticPass": false
+    },
+    {
+      "id": "uncertain-scimitar-marker-ua-other-008-H2-r071",
+      "kind": "source-marker-glyph-normalization-unresolved",
+      "uid": "ua-supplement-row:ua-other-008-H2-r071",
+      "rowIdentitySha256": "7f2cf015ba71e4b76c62a8bc88a59d9fbbcf94232a08e3a75bdbd4932304e635",
+      "annotationSha256": "2d947ad66a6d9445bb52e61385b4876a93e68f75c573473d6fe5cf13e0d3fb0f",
+      "source": {
+        "book": "UA",
+        "printedPage": 89,
+        "pdfPage": 90,
+        "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      },
+      "sourceQuestionStatus": "unresolved",
+      "reason": "Source second marker may be a solid dot; frozen input normalizes it as **. Existing note meanings remain recorded, but exact glyph-to-note identity is unresolved.",
+      "semanticPass": false
+    },
+    {
+      "id": "uncertain-scimitar-marker-ua-other-008-H2-r072",
+      "kind": "source-marker-glyph-normalization-unresolved",
+      "uid": "ua-supplement-row:ua-other-008-H2-r072",
+      "rowIdentitySha256": "4a8cc36e88abd0ce7edf212b9535c7b6e22cf9bbad3538adfe208f058af46532",
+      "annotationSha256": "2d947ad66a6d9445bb52e61385b4876a93e68f75c573473d6fe5cf13e0d3fb0f",
+      "source": {
+        "book": "UA",
+        "printedPage": 89,
+        "pdfPage": 90,
+        "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      },
+      "sourceQuestionStatus": "unresolved",
+      "reason": "Source second marker may be a solid dot; frozen input normalizes it as **. Existing note meanings remain recorded, but exact glyph-to-note identity is unresolved.",
+      "semanticPass": false
+    },
+    {
+      "id": "uncertain-scimitar-marker-ua-other-008-H2-r073",
+      "kind": "source-marker-glyph-normalization-unresolved",
+      "uid": "ua-supplement-row:ua-other-008-H2-r073",
+      "rowIdentitySha256": "32e31e7e324ab25648adf83c396d4fa8045e922f533f3f69de46c83868579241",
+      "annotationSha256": "2d947ad66a6d9445bb52e61385b4876a93e68f75c573473d6fe5cf13e0d3fb0f",
+      "source": {
+        "book": "UA",
+        "printedPage": 89,
+        "pdfPage": 90,
+        "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      },
+      "sourceQuestionStatus": "unresolved",
+      "reason": "Source second marker may be a solid dot; frozen input normalizes it as **. Existing note meanings remain recorded, but exact glyph-to-note identity is unresolved.",
+      "semanticPass": false
+    }
+  ],
+  "counts": {
+    "relativeMonetaryReadings": 3,
+    "unresolvedScimitarGlyphRows": 5,
+    "unresolvedSourceScopeQuestionsSeparatelyInKnownFindings": 2
+  },
+  "limits": [
+    "This register retains uncertainty and supplies no numeric sentinel, inferred amount, multiplier, source grade or semantic pass.",
+    "The2 PHB/DMG source-scope cases remain separately published in validation.unresolvedSourceScopeFindingIds even after a qualified representation is independently reviewed."
+  ]
+}

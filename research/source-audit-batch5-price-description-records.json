@@ -1,0 +1,1661 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "source-description-price-records",
+  "title": "UA item-description valuation records linked to H.2 description pointers",
+  "sourcePdf": {
+    "book": "Unearthed Arcana",
+    "fileName": "Unearthed Arcana.pdf",
+    "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+  },
+  "inputSupplement": {
+    "file": "research/source-audit-batch5-ua-additional-prices.json",
+    "sha256": "c0012f83c1652ff76e8bee5dbed33a6a663b1a8d6e921251a2be6757f0fe100e"
+  },
+  "baselinePointerFixture": {
+    "file": "tests/fixtures/price-discovery-ua-description-pointer-baseline.json",
+    "sha256": "8cce423ed0c7aa3f6ebad829ebee829c89b05bb432a666c72de90711592a3486"
+  },
+  "newSourceDescriptionRecords": [
+    {
+      "recordId": "ua-description-axe-of-hurling-values",
+      "sourceObject": "Axe of Hurling",
+      "relatedSourceOccurrenceId": "ua:ua-other-008-H2-r039",
+      "reference": "queued-next-batch-description-values",
+      "classification": "magic-item-sale-value-formula",
+      "valueRecords": {
+        "xpValue": {
+          "kind": "rate",
+          "amount": 1500,
+          "currency": "xp",
+          "denominator": "per magical-bonus point",
+          "sourceTextExcerpt": "1,500 x.p. per each point of magical bonus"
+        },
+        "gpSaleValue": {
+          "kind": "rate",
+          "amount": 15000,
+          "currency": "gp",
+          "denominator": "per magical-bonus point",
+          "sourceTextExcerpt": "15,000 gp per point of bonus"
+        },
+        "derivedBonusRange": {
+          "minimum": 15000,
+          "maximum": 75000,
+          "currency": "gp",
+          "derivation": "15,000 gp × printed +1 through +5 magical-bonus outcomes",
+          "printedAsRange": false
+        }
+      },
+      "variantConditions": {
+        "bonusTableIdentity": "Axe of Hurling magical bonus, d20",
+        "rows": [
+          {
+            "roll": "1-5",
+            "magicalBonus": 1
+          },
+          {
+            "roll": "6-10",
+            "magicalBonus": 2
+          },
+          {
+            "roll": "11-15",
+            "magicalBonus": 3
+          },
+          {
+            "roll": "16-19",
+            "magicalBonus": 4
+          },
+          {
+            "roll": "20",
+            "magicalBonus": 5
+          }
+        ]
+      },
+      "qualifiers": [
+        "XP is an experience-point value and is kept separate from gold-piece sale value.",
+        "The listed amount scales by magical-bonus point; range is calculated from the adjacent d20 bonus table."
+      ],
+      "source": {
+        "book": "Unearthed Arcana",
+        "bookKey": "UA",
+        "sourceFile": "Unearthed Arcana.pdf",
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "printedPage": 105,
+        "pdfPage": 106,
+        "pdfPageIndexZeroBased": 105,
+        "edition": "1st edition source file as identified by the existing UA census; printing not separately established",
+        "sourceArtifact": "research/source-audit-batch5-ua-additional-prices.json",
+        "sourceArtifactSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+        "sourcePassageIdentity": "Axe of Hurling description; XP/GP formula paragraph and its adjacent “Die Roll / Magic Bonus” d20 table",
+        "sourceTextExcerpt": "The experience-point value is 1,500 x.p. per point; gold-piece sale value is 15,000 gp per point of bonus.",
+        "sourceTableRowIdentity": "Axe of Hurling / Die Roll–Magic Bonus / outcomes +1 to +5",
+        "evidence": {
+          "contextCrop": {
+            "pdfPagePointsTopLeft": [
+              16,
+              388,
+              291,
+              640
+            ],
+            "renderedPagePixels150DpiTopLeft": [
+              33.33,
+              808.33,
+              606.25,
+              1333.33
+            ],
+            "coordinateSpace": "original PDF page; top-left origin; [x0,y0,x1,y1]",
+            "pageImageSha256At150Dpi": "1542cd616bda42409c6180c6da273d7fec21b07f978664fad56d1001853875fd",
+            "pixelReview": "reviewed rendered excerpt; surrounding passage and all value/variant rows legible; no relevant glyph clipped",
+            "geometryStatus": "source-page point bounds measured; exact overlay/geometry independent review pending"
+          },
+          "highlight": {
+            "coordinateSpace": "original PDF page; top-left origin; [x0,y0,x1,y1]",
+            "renderedPagePixels150DpiTopLeft": "separately recorded for each focus rectangle",
+            "cropLocalNormalizedTopLeft": "separately recorded for each focus rectangle",
+            "rectangles": [
+              {
+                "label": "XP/GP per-bonus value sentence",
+                "pdfPagePointsTopLeft": [
+                  21.8,
+                  538.28,
+                  285.38,
+                  567.11
+                ],
+                "renderedPagePixels150DpiTopLeft": [
+                  45.42,
+                  1121.42,
+                  594.54,
+                  1181.48
+                ],
+                "cropLocalNormalizedTopLeft": [
+                  0.021091,
+                  0.596349,
+                  0.979564,
+                  0.710754
+                ]
+              },
+              {
+                "label": "d20 magical-bonus variant table",
+                "pdfPagePointsTopLeft": [
+                  30.5,
+                  576.48,
+                  131.12,
+                  634.79
+                ],
+                "renderedPagePixels150DpiTopLeft": [
+                  63.54,
+                  1201.0,
+                  273.17,
+                  1322.48
+                ],
+                "cropLocalNormalizedTopLeft": [
+                  0.052727,
+                  0.747937,
+                  0.418618,
+                  0.979325
+                ]
+              }
+            ],
+            "reviewStatus": "value and variant focus visually checked; independent overlay review pending"
+          }
+        }
+      },
+      "sourceReviewStatus": {
+        "sourceIdentity": "hash-matched original UA PDF",
+        "valueAndFormula": "visually confirmed against rendered source excerpt",
+        "variantConditions": "visually confirmed against adjacent d20 table",
+        "cropCompleteness": "visually reviewed",
+        "highlightGeometry": "author-reviewed, independent review pending",
+        "sourcePrinting": "not separately established"
+      },
+      "baselinePointerCellRemains": "amount unresolved by table; this description is a separately linked source passage."
+    },
+    {
+      "recordId": "ua-description-dagger-of-throwing-values",
+      "sourceObject": "Dagger of Throwing",
+      "relatedSourceOccurrenceId": "ua:ua-other-008-H2-r052",
+      "reference": "queued-next-batch-description-values",
+      "classification": "magic-item-sale-value-formula",
+      "valueRecords": {
+        "xpValue": {
+          "kind": "formula",
+          "base": 150,
+          "increment": 100,
+          "currency": "xp",
+          "denominator": "magical plus",
+          "sourceTextExcerpt": "a base of 150, plus 100 points per magical plus"
+        },
+        "gpSaleValue": {
+          "kind": "formula",
+          "base": 1500,
+          "increment": 1000,
+          "currency": "gp",
+          "denominator": "magical plus",
+          "sourceTextExcerpt": "1,500 plus 1,000 gp per magical plus"
+        },
+        "derivedBonusRange": {
+          "minimum": 2500,
+          "maximum": 5500,
+          "currency": "gp",
+          "derivation": "1,500 + (1,000 × printed +1 through +4 magical bonuses)",
+          "printedAsRange": false
+        }
+      },
+      "variantConditions": {
+        "bonusTableIdentity": "Dagger of Throwing magical bonus, d100",
+        "rows": [
+          {
+            "roll": "01-35",
+            "magicalBonus": 1
+          },
+          {
+            "roll": "36-65",
+            "magicalBonus": 2
+          },
+          {
+            "roll": "66-90",
+            "magicalBonus": 3
+          },
+          {
+            "roll": "91-00",
+            "magicalBonus": 4
+          }
+        ]
+      },
+      "qualifiers": [
+        "XP is an experience-point value and is kept separate from gold-piece sale value.",
+        "The item description states the weapon bonus range +1 through +4; the adjacent d100 table identifies the roll bands."
+      ],
+      "source": {
+        "book": "Unearthed Arcana",
+        "bookKey": "UA",
+        "sourceFile": "Unearthed Arcana.pdf",
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "printedPage": 105,
+        "pdfPage": 106,
+        "pdfPageIndexZeroBased": 105,
+        "edition": "1st edition source file as identified by the existing UA census; printing not separately established",
+        "sourceArtifact": "research/source-audit-batch5-ua-additional-prices.json",
+        "sourceArtifactSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+        "sourcePassageIdentity": "Dagger of Throwing description; XP/GP formula paragraph and adjacent “Dice Roll / Magic Bonus” d100 table",
+        "sourceTextExcerpt": "XP value is a base of 150 plus 100 per magical plus; GP sale value is 1,500 plus 1,000 gp per magical plus.",
+        "sourceTableRowIdentity": "Dagger of Throwing / Dice Roll–Magic Bonus / outcomes +1 to +4",
+        "evidence": {
+          "contextCrop": {
+            "pdfPagePointsTopLeft": [
+              300,
+              257,
+              582,
+              431
+            ],
+            "renderedPagePixels150DpiTopLeft": [
+              625.0,
+              535.42,
+              1212.5,
+              897.92
+            ],
+            "coordinateSpace": "original PDF page; top-left origin; [x0,y0,x1,y1]",
+            "pageImageSha256At150Dpi": "1542cd616bda42409c6180c6da273d7fec21b07f978664fad56d1001853875fd",
+            "pixelReview": "reviewed rendered excerpt; surrounding passage and all value/variant rows legible; no relevant glyph clipped",
+            "geometryStatus": "source-page point bounds measured; exact overlay/geometry independent review pending"
+          },
+          "highlight": {
+            "coordinateSpace": "original PDF page; top-left origin; [x0,y0,x1,y1]",
+            "renderedPagePixels150DpiTopLeft": "separately recorded for each focus rectangle",
+            "cropLocalNormalizedTopLeft": "separately recorded for each focus rectangle",
+            "rectangles": [
+              {
+                "label": "bonus range and XP/GP formula sentence",
+                "pdfPagePointsTopLeft": [
+                  306.2,
+                  327.73,
+                  568.52,
+                  367.69
+                ],
+                "renderedPagePixels150DpiTopLeft": [
+                  637.92,
+                  682.77,
+                  1184.42,
+                  766.02
+                ],
+                "cropLocalNormalizedTopLeft": [
+                  0.021986,
+                  0.406494,
+                  0.952199,
+                  0.636149
+                ]
+              },
+              {
+                "label": "d100 magical-bonus variant table",
+                "pdfPagePointsTopLeft": [
+                  313,
+                  376.08,
+                  400.42,
+                  424.79
+                ],
+                "renderedPagePixels150DpiTopLeft": [
+                  652.08,
+                  783.5,
+                  834.21,
+                  884.98
+                ],
+                "cropLocalNormalizedTopLeft": [
+                  0.046099,
+                  0.684368,
+                  0.356099,
+                  0.96431
+                ]
+              }
+            ],
+            "reviewStatus": "value and variant focus visually checked; independent overlay review pending"
+          }
+        }
+      },
+      "sourceReviewStatus": {
+        "sourceIdentity": "hash-matched original UA PDF",
+        "valueAndFormula": "visually confirmed against rendered source excerpt",
+        "variantConditions": "visually confirmed against adjacent d100 table",
+        "cropCompleteness": "visually reviewed",
+        "highlightGeometry": "author-reviewed, independent review pending",
+        "sourcePrinting": "not separately established"
+      },
+      "baselinePointerCellRemains": "amount unresolved by table; this description is a separately linked source passage."
+    }
+  ],
+  "pointerResolutionLinks": [
+    {
+      "pointerClaimId": "ua:ua-other-005-E6-r187#/values/gpSaleValue",
+      "sourceOccurrenceId": "ua:ua-other-005-E6-r187",
+      "pointerRecordId": "ua-other-005-E6-r187",
+      "pointerCellJsonPointer": "/values/gpSaleValue",
+      "pointerCellKind": "description-pointer",
+      "pointerCellReference": "ua-other-010",
+      "sourceTableIdentity": {
+        "table": "E6",
+        "diceRoll": "55-56",
+        "segmentId": "E6",
+        "printedPage": 88,
+        "pdfPage": 89,
+        "rowIndexWithinGroup": 187
+      },
+      "tableValueStatus": "amount unresolved by table",
+      "descriptionResolutionStatus": "linked-to-existing-source-description-rows",
+      "descriptionSourceRecordIds": [
+        "ua-other-010-item-r001",
+        "ua-other-010-item-r002",
+        "ua-other-010-item-r003",
+        "ua-other-010-item-r004",
+        "ua-other-010-item-r005"
+      ],
+      "descriptionSourceValues": [
+        {
+          "recordId": "ua-other-010-item-r001",
+          "object": "Golden Egg of Desire — Black",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 5000,
+            "currency": "gp",
+            "sourceText": "5,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 500,
+            "currency": "xp",
+            "sourceText": "500"
+          },
+          "printedPage": 99,
+          "pdfPage": 100,
+          "sourceTableIdentity": "prose value list",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-010-item-r002",
+          "object": "Golden Egg of Desire — Bone",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 10000,
+            "currency": "gp",
+            "sourceText": "10,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 900,
+            "currency": "xp",
+            "sourceText": "900"
+          },
+          "printedPage": 99,
+          "pdfPage": 100,
+          "sourceTableIdentity": "prose value list",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-010-item-r003",
+          "object": "Golden Egg of Desire — Crystal",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 9000,
+            "currency": "gp",
+            "sourceText": "9,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 800,
+            "currency": "xp",
+            "sourceText": "800"
+          },
+          "printedPage": 99,
+          "pdfPage": 100,
+          "sourceTableIdentity": "prose value list",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-010-item-r004",
+          "object": "Golden Egg of Desire — Golden",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 4000,
+            "currency": "gp",
+            "sourceText": "4,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 600,
+            "currency": "xp",
+            "sourceText": "600"
+          },
+          "printedPage": 99,
+          "pdfPage": 100,
+          "sourceTableIdentity": "prose value list",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-010-item-r005",
+          "object": "Golden Egg of Desire — Scarlet",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 3500,
+            "currency": "gp",
+            "sourceText": "3,500"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 700,
+            "currency": "xp",
+            "sourceText": "700"
+          },
+          "printedPage": 99,
+          "pdfPage": 100,
+          "sourceTableIdentity": "prose value list",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        }
+      ],
+      "valueLinkage": "exact printed pointer reference and item/table identity, with distinct source row IDs and source passage; no page-only association",
+      "xpValuePointer": {
+        "jsonPointer": "/values/xpValue",
+        "kind": "description-pointer",
+        "reference": "ua-other-010",
+        "typedExperienceValueLinks": [
+          {
+            "recordId": "ua-other-010-item-r001",
+            "value": {
+              "kind": "exact",
+              "amount": 500,
+              "currency": "xp",
+              "sourceText": "500"
+            }
+          },
+          {
+            "recordId": "ua-other-010-item-r002",
+            "value": {
+              "kind": "exact",
+              "amount": 900,
+              "currency": "xp",
+              "sourceText": "900"
+            }
+          },
+          {
+            "recordId": "ua-other-010-item-r003",
+            "value": {
+              "kind": "exact",
+              "amount": 800,
+              "currency": "xp",
+              "sourceText": "800"
+            }
+          },
+          {
+            "recordId": "ua-other-010-item-r004",
+            "value": {
+              "kind": "exact",
+              "amount": 600,
+              "currency": "xp",
+              "sourceText": "600"
+            }
+          },
+          {
+            "recordId": "ua-other-010-item-r005",
+            "value": {
+              "kind": "exact",
+              "amount": 700,
+              "currency": "xp",
+              "sourceText": "700"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pointerClaimId": "ua:ua-other-005-E7-r213#/values/gpSaleValue",
+      "sourceOccurrenceId": "ua:ua-other-005-E7-r213",
+      "pointerRecordId": "ua-other-005-E7-r213",
+      "pointerCellJsonPointer": "/values/gpSaleValue",
+      "pointerCellKind": "description-pointer",
+      "pointerCellReference": "ua-other-011",
+      "sourceTableIdentity": {
+        "table": "E7",
+        "diceRoll": "49-50",
+        "segmentId": "E7",
+        "printedPage": 88,
+        "pdfPage": 89,
+        "rowIndexWithinGroup": 213
+      },
+      "tableValueStatus": "amount unresolved by table",
+      "descriptionResolutionStatus": "linked-to-existing-source-description-rows",
+      "descriptionSourceRecordIds": [
+        "ua-other-011-item-r001",
+        "ua-other-011-item-r002",
+        "ua-other-011-item-r003",
+        "ua-other-011-item-r004",
+        "ua-other-011-item-r005",
+        "ua-other-011-item-r006"
+      ],
+      "descriptionSourceValues": [
+        {
+          "recordId": "ua-other-011-item-r001",
+          "object": "Flesh",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 3200,
+            "currency": "gp",
+            "sourceText": "3,200"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 400,
+            "currency": "xp",
+            "sourceText": "400"
+          },
+          "printedPage": 102,
+          "pdfPage": 103,
+          "sourceTableIdentity": "Scarab Versus Golems embedded table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-011-item-r002",
+          "object": "Clay",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 3500,
+            "currency": "gp",
+            "sourceText": "3,500"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 500,
+            "currency": "xp",
+            "sourceText": "500"
+          },
+          "printedPage": 102,
+          "pdfPage": 103,
+          "sourceTableIdentity": "Scarab Versus Golems embedded table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-011-item-r003",
+          "object": "Stone",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 4000,
+            "currency": "gp",
+            "sourceText": "4,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 600,
+            "currency": "xp",
+            "sourceText": "600"
+          },
+          "printedPage": 102,
+          "pdfPage": 103,
+          "sourceTableIdentity": "Scarab Versus Golems embedded table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-011-item-r004",
+          "object": "Iron",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 5000,
+            "currency": "gp",
+            "sourceText": "5,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 800,
+            "currency": "xp",
+            "sourceText": "800"
+          },
+          "printedPage": 102,
+          "pdfPage": 103,
+          "sourceTableIdentity": "Scarab Versus Golems embedded table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-011-item-r005",
+          "object": "Flesh, Clay, Wood",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 6000,
+            "currency": "gp",
+            "sourceText": "6,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 900,
+            "currency": "xp",
+            "sourceText": "900"
+          },
+          "printedPage": 102,
+          "pdfPage": 103,
+          "sourceTableIdentity": "Scarab Versus Golems embedded table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-011-item-r006",
+          "object": "Any golem",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 12500,
+            "currency": "gp",
+            "sourceText": "12,500"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 1250,
+            "currency": "xp",
+            "sourceText": "1,250"
+          },
+          "printedPage": 102,
+          "pdfPage": 103,
+          "sourceTableIdentity": "Scarab Versus Golems embedded table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        }
+      ],
+      "valueLinkage": "exact printed pointer reference to ua-other-011 plus the six item-specific rows of its embedded table; each target value retains its own row and type.",
+      "xpValuePointer": {
+        "jsonPointer": "/values/xpValue",
+        "kind": "description-pointer",
+        "reference": "ua-other-011",
+        "typedExperienceValueLinks": [
+          {
+            "recordId": "ua-other-011-item-r001",
+            "value": {
+              "kind": "exact",
+              "amount": 400,
+              "currency": "xp",
+              "sourceText": "400"
+            }
+          },
+          {
+            "recordId": "ua-other-011-item-r002",
+            "value": {
+              "kind": "exact",
+              "amount": 500,
+              "currency": "xp",
+              "sourceText": "500"
+            }
+          },
+          {
+            "recordId": "ua-other-011-item-r003",
+            "value": {
+              "kind": "exact",
+              "amount": 600,
+              "currency": "xp",
+              "sourceText": "600"
+            }
+          },
+          {
+            "recordId": "ua-other-011-item-r004",
+            "value": {
+              "kind": "exact",
+              "amount": 800,
+              "currency": "xp",
+              "sourceText": "800"
+            }
+          },
+          {
+            "recordId": "ua-other-011-item-r005",
+            "value": {
+              "kind": "exact",
+              "amount": 900,
+              "currency": "xp",
+              "sourceText": "900"
+            }
+          },
+          {
+            "recordId": "ua-other-011-item-r006",
+            "value": {
+              "kind": "exact",
+              "amount": 1250,
+              "currency": "xp",
+              "sourceText": "1,250"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pointerClaimId": "ua:ua-other-008-H2-r039#/values/gpSaleValue",
+      "sourceOccurrenceId": "ua:ua-other-008-H2-r039",
+      "pointerRecordId": "ua-other-008-H2-r039",
+      "pointerCellJsonPointer": "/values/gpSaleValue",
+      "pointerCellKind": "description-pointer",
+      "pointerCellReference": "queued-next-batch-description-values",
+      "sourceTableIdentity": {
+        "table": "H2",
+        "diceRoll": "04",
+        "segmentId": "H2",
+        "printedPage": 89,
+        "pdfPage": 90,
+        "rowIndexWithinGroup": 39
+      },
+      "tableValueStatus": "amount unresolved by table",
+      "descriptionResolutionStatus": "new-source-description-record-added",
+      "descriptionRecordId": "ua-description-axe-of-hurling-values",
+      "descriptionPassageIdentity": "Axe of Hurling description; XP/GP formula paragraph and its adjacent “Die Roll / Magic Bonus” d20 table",
+      "descriptionSourcePage": {
+        "printedPage": 105,
+        "pdfPage": 106,
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      },
+      "valueLinkage": "exact table pointer name + explicit queued pointer reference + item heading/passage; no page-only association",
+      "xpValuePointer": {
+        "jsonPointer": "/values/xpValue",
+        "kind": "description-pointer",
+        "reference": "queued-next-batch-description-values",
+        "typedExperienceValueLinks": [
+          {
+            "recordId": "ua-description-axe-of-hurling-values",
+            "value": {
+              "kind": "rate",
+              "amount": 1500,
+              "currency": "xp",
+              "denominator": "per magical-bonus point",
+              "sourceTextExcerpt": "1,500 x.p. per each point of magical bonus"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pointerClaimId": "ua:ua-other-008-H2-r052#/values/gpSaleValue",
+      "sourceOccurrenceId": "ua:ua-other-008-H2-r052",
+      "pointerRecordId": "ua-other-008-H2-r052",
+      "pointerCellJsonPointer": "/values/gpSaleValue",
+      "pointerCellKind": "description-pointer",
+      "pointerCellReference": "queued-next-batch-description-values",
+      "sourceTableIdentity": {
+        "table": "H2",
+        "diceRoll": "47",
+        "segmentId": "H2",
+        "printedPage": 89,
+        "pdfPage": 90,
+        "rowIndexWithinGroup": 52
+      },
+      "tableValueStatus": "amount unresolved by table",
+      "descriptionResolutionStatus": "new-source-description-record-added",
+      "descriptionRecordId": "ua-description-dagger-of-throwing-values",
+      "descriptionPassageIdentity": "Dagger of Throwing description; XP/GP formula paragraph and adjacent “Dice Roll / Magic Bonus” d100 table",
+      "descriptionSourcePage": {
+        "printedPage": 105,
+        "pdfPage": 106,
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      },
+      "valueLinkage": "exact table pointer name + explicit queued pointer reference + item heading/passage; no page-only association",
+      "xpValuePointer": {
+        "jsonPointer": "/values/xpValue",
+        "kind": "description-pointer",
+        "reference": "queued-next-batch-description-values",
+        "typedExperienceValueLinks": [
+          {
+            "recordId": "ua-description-dagger-of-throwing-values",
+            "value": {
+              "kind": "formula",
+              "base": 150,
+              "increment": 100,
+              "currency": "xp",
+              "denominator": "magical plus",
+              "sourceTextExcerpt": "a base of 150, plus 100 points per magical plus"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pointerClaimId": "ua:ua-other-008-H2-r059#/values/gpSaleValue",
+      "sourceOccurrenceId": "ua:ua-other-008-H2-r059",
+      "pointerRecordId": "ua-other-008-H2-r059",
+      "pointerCellJsonPointer": "/values/gpSaleValue",
+      "pointerCellKind": "description-pointer",
+      "pointerCellReference": "ua-other-012",
+      "sourceTableIdentity": {
+        "table": "H2",
+        "diceRoll": "63",
+        "segmentId": "H2",
+        "printedPage": 89,
+        "pdfPage": 90,
+        "rowIndexWithinGroup": 59
+      },
+      "tableValueStatus": "amount unresolved by table",
+      "descriptionResolutionStatus": "linked-to-existing-source-description-rows",
+      "descriptionSourceRecordIds": [
+        "ua-other-012-item-r001",
+        "ua-other-012-item-r002",
+        "ua-other-012-item-r003",
+        "ua-other-012-item-r004",
+        "ua-other-012-item-r005",
+        "ua-other-012-item-r006"
+      ],
+      "descriptionSourceValues": [
+        {
+          "recordId": "ua-other-012-item-r001",
+          "object": "Hornblade, knife-sized +1",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 1500,
+            "currency": "gp",
+            "sourceText": "1,500"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 500,
+            "currency": "xp",
+            "sourceText": "500"
+          },
+          "printedPage": 105,
+          "pdfPage": 106,
+          "sourceTableIdentity": "Hornblade item table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-012-item-r002",
+          "object": "Hornblade, knife-sized +2",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 3000,
+            "currency": "gp",
+            "sourceText": "3,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 1000,
+            "currency": "xp",
+            "sourceText": "1,000"
+          },
+          "printedPage": 105,
+          "pdfPage": 106,
+          "sourceTableIdentity": "Hornblade item table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-012-item-r003",
+          "object": "Hornblade, dagger-sized +1",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 2000,
+            "currency": "gp",
+            "sourceText": "2,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 750,
+            "currency": "xp",
+            "sourceText": "750"
+          },
+          "printedPage": 105,
+          "pdfPage": 106,
+          "sourceTableIdentity": "Hornblade item table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-012-item-r004",
+          "object": "Hornblade, dagger-sized +2",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 4000,
+            "currency": "gp",
+            "sourceText": "4,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 1500,
+            "currency": "xp",
+            "sourceText": "1,500"
+          },
+          "printedPage": 105,
+          "pdfPage": 106,
+          "sourceTableIdentity": "Hornblade item table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-012-item-r005",
+          "object": "Hornblade, scimitar-sized +2",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 6000,
+            "currency": "gp",
+            "sourceText": "6,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 2000,
+            "currency": "xp",
+            "sourceText": "2,000"
+          },
+          "printedPage": 105,
+          "pdfPage": 106,
+          "sourceTableIdentity": "Hornblade item table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-012-item-r006",
+          "object": "Hornblade, scimitar-sized +3",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 9000,
+            "currency": "gp",
+            "sourceText": "9,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 3000,
+            "currency": "xp",
+            "sourceText": "3,000"
+          },
+          "printedPage": 105,
+          "pdfPage": 106,
+          "sourceTableIdentity": "Hornblade item table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        }
+      ],
+      "valueLinkage": "exact printed pointer reference and item/table identity, with distinct source row IDs and source passage; no page-only association",
+      "xpValuePointer": {
+        "jsonPointer": "/values/xpValue",
+        "kind": "description-pointer",
+        "reference": "ua-other-012",
+        "typedExperienceValueLinks": [
+          {
+            "recordId": "ua-other-012-item-r001",
+            "value": {
+              "kind": "exact",
+              "amount": 500,
+              "currency": "xp",
+              "sourceText": "500"
+            }
+          },
+          {
+            "recordId": "ua-other-012-item-r002",
+            "value": {
+              "kind": "exact",
+              "amount": 1000,
+              "currency": "xp",
+              "sourceText": "1,000"
+            }
+          },
+          {
+            "recordId": "ua-other-012-item-r003",
+            "value": {
+              "kind": "exact",
+              "amount": 750,
+              "currency": "xp",
+              "sourceText": "750"
+            }
+          },
+          {
+            "recordId": "ua-other-012-item-r004",
+            "value": {
+              "kind": "exact",
+              "amount": 1500,
+              "currency": "xp",
+              "sourceText": "1,500"
+            }
+          },
+          {
+            "recordId": "ua-other-012-item-r005",
+            "value": {
+              "kind": "exact",
+              "amount": 2000,
+              "currency": "xp",
+              "sourceText": "2,000"
+            }
+          },
+          {
+            "recordId": "ua-other-012-item-r006",
+            "value": {
+              "kind": "exact",
+              "amount": 3000,
+              "currency": "xp",
+              "sourceText": "3,000"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pointerClaimId": "ua:ua-other-008-H2-r064#/values/gpSaleValue",
+      "sourceOccurrenceId": "ua:ua-other-008-H2-r064",
+      "pointerRecordId": "ua-other-008-H2-r064",
+      "pointerCellJsonPointer": "/values/gpSaleValue",
+      "pointerCellKind": "description-pointer",
+      "pointerCellReference": "ua-other-013",
+      "sourceTableIdentity": {
+        "table": "H2",
+        "diceRoll": "79",
+        "segmentId": "H2",
+        "printedPage": 89,
+        "pdfPage": 90,
+        "rowIndexWithinGroup": 64
+      },
+      "tableValueStatus": "amount unresolved by table",
+      "descriptionResolutionStatus": "linked-to-existing-source-description-rows",
+      "descriptionSourceRecordIds": [
+        "ua-other-013-item-r001",
+        "ua-other-013-item-r002",
+        "ua-other-013-item-r003",
+        "ua-other-013-item-r004"
+      ],
+      "descriptionSourceValues": [
+        {
+          "recordId": "ua-other-013-item-r001",
+          "object": "Knife, Buckle +1",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 1000,
+            "currency": "gp",
+            "sourceText": "1,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 100,
+            "currency": "xp",
+            "sourceText": "100"
+          },
+          "printedPage": 106,
+          "pdfPage": 107,
+          "sourceTableIdentity": "Knife, Buckle item table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-013-item-r002",
+          "object": "Knife, Buckle +2",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 2000,
+            "currency": "gp",
+            "sourceText": "2,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 200,
+            "currency": "xp",
+            "sourceText": "200"
+          },
+          "printedPage": 106,
+          "pdfPage": 107,
+          "sourceTableIdentity": "Knife, Buckle item table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-013-item-r003",
+          "object": "Knife, Buckle +3",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 3000,
+            "currency": "gp",
+            "sourceText": "3,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 300,
+            "currency": "xp",
+            "sourceText": "300"
+          },
+          "printedPage": 106,
+          "pdfPage": 107,
+          "sourceTableIdentity": "Knife, Buckle item table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-013-item-r004",
+          "object": "Knife, Buckle +4",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 4000,
+            "currency": "gp",
+            "sourceText": "4,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 400,
+            "currency": "xp",
+            "sourceText": "400"
+          },
+          "printedPage": 106,
+          "pdfPage": 107,
+          "sourceTableIdentity": "Knife, Buckle item table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        }
+      ],
+      "valueLinkage": "exact printed pointer reference and item/table identity, with distinct source row IDs and source passage; no page-only association",
+      "xpValuePointer": {
+        "jsonPointer": "/values/xpValue",
+        "kind": "description-pointer",
+        "reference": "ua-other-013",
+        "typedExperienceValueLinks": [
+          {
+            "recordId": "ua-other-013-item-r001",
+            "value": {
+              "kind": "exact",
+              "amount": 100,
+              "currency": "xp",
+              "sourceText": "100"
+            }
+          },
+          {
+            "recordId": "ua-other-013-item-r002",
+            "value": {
+              "kind": "exact",
+              "amount": 200,
+              "currency": "xp",
+              "sourceText": "200"
+            }
+          },
+          {
+            "recordId": "ua-other-013-item-r003",
+            "value": {
+              "kind": "exact",
+              "amount": 300,
+              "currency": "xp",
+              "sourceText": "300"
+            }
+          },
+          {
+            "recordId": "ua-other-013-item-r004",
+            "value": {
+              "kind": "exact",
+              "amount": 400,
+              "currency": "xp",
+              "sourceText": "400"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pointerClaimId": "ua:ua-other-008-H2-r069#/values/gpSaleValue",
+      "sourceOccurrenceId": "ua:ua-other-008-H2-r069",
+      "pointerRecordId": "ua-other-008-H2-r069",
+      "pointerCellJsonPointer": "/values/gpSaleValue",
+      "pointerCellKind": "description-pointer",
+      "pointerCellReference": "ua-other-014",
+      "sourceTableIdentity": {
+        "table": "H2",
+        "diceRoll": "88-89",
+        "segmentId": "H2",
+        "printedPage": 89,
+        "pdfPage": 90,
+        "rowIndexWithinGroup": 69
+      },
+      "tableValueStatus": "amount unresolved by table",
+      "descriptionResolutionStatus": "linked-to-existing-source-description-rows",
+      "descriptionSourceRecordIds": [
+        "ua-other-014-item-r001",
+        "ua-other-014-item-r002",
+        "ua-other-014-item-r003",
+        "ua-other-014-item-r004",
+        "ua-other-014-item-r005"
+      ],
+      "descriptionSourceValues": [
+        {
+          "recordId": "ua-other-014-item-r001",
+          "object": "Magic Quarterstaff +1",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 1500,
+            "currency": "gp",
+            "sourceText": "1,500"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 250,
+            "currency": "xp",
+            "sourceText": "250"
+          },
+          "printedPage": 106,
+          "pdfPage": 107,
+          "sourceTableIdentity": "Magic Quarterstaff item table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-014-item-r002",
+          "object": "Magic Quarterstaff +2",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 3000,
+            "currency": "gp",
+            "sourceText": "3,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 500,
+            "currency": "xp",
+            "sourceText": "500"
+          },
+          "printedPage": 106,
+          "pdfPage": 107,
+          "sourceTableIdentity": "Magic Quarterstaff item table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-014-item-r003",
+          "object": "Magic Quarterstaff +3",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 4500,
+            "currency": "gp",
+            "sourceText": "4,500"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 750,
+            "currency": "xp",
+            "sourceText": "750"
+          },
+          "printedPage": 106,
+          "pdfPage": 107,
+          "sourceTableIdentity": "Magic Quarterstaff item table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-014-item-r004",
+          "object": "Magic Quarterstaff +4",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 6000,
+            "currency": "gp",
+            "sourceText": "6,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 1000,
+            "currency": "xp",
+            "sourceText": "1,000"
+          },
+          "printedPage": 106,
+          "pdfPage": 107,
+          "sourceTableIdentity": "Magic Quarterstaff item table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-014-item-r005",
+          "object": "Magic Quarterstaff +5",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 7500,
+            "currency": "gp",
+            "sourceText": "7,500"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 1250,
+            "currency": "xp",
+            "sourceText": "1,250"
+          },
+          "printedPage": 106,
+          "pdfPage": 107,
+          "sourceTableIdentity": "Magic Quarterstaff item table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        }
+      ],
+      "valueLinkage": "exact printed pointer reference and item/table identity, with distinct source row IDs and source passage; no page-only association",
+      "xpValuePointer": {
+        "jsonPointer": "/values/xpValue",
+        "kind": "description-pointer",
+        "reference": "ua-other-014",
+        "typedExperienceValueLinks": [
+          {
+            "recordId": "ua-other-014-item-r001",
+            "value": {
+              "kind": "exact",
+              "amount": 250,
+              "currency": "xp",
+              "sourceText": "250"
+            }
+          },
+          {
+            "recordId": "ua-other-014-item-r002",
+            "value": {
+              "kind": "exact",
+              "amount": 500,
+              "currency": "xp",
+              "sourceText": "500"
+            }
+          },
+          {
+            "recordId": "ua-other-014-item-r003",
+            "value": {
+              "kind": "exact",
+              "amount": 750,
+              "currency": "xp",
+              "sourceText": "750"
+            }
+          },
+          {
+            "recordId": "ua-other-014-item-r004",
+            "value": {
+              "kind": "exact",
+              "amount": 1000,
+              "currency": "xp",
+              "sourceText": "1,000"
+            }
+          },
+          {
+            "recordId": "ua-other-014-item-r005",
+            "value": {
+              "kind": "exact",
+              "amount": 1250,
+              "currency": "xp",
+              "sourceText": "1,250"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pointerClaimId": "ua:ua-other-008-H2-r072#/values/gpSaleValue",
+      "sourceOccurrenceId": "ua:ua-other-008-H2-r072",
+      "pointerRecordId": "ua-other-008-H2-r072",
+      "pointerCellJsonPointer": "/values/gpSaleValue",
+      "pointerCellKind": "description-pointer",
+      "pointerCellReference": "ua-other-015",
+      "sourceTableIdentity": {
+        "table": "H2",
+        "diceRoll": "95",
+        "segmentId": "H2",
+        "printedPage": 89,
+        "pdfPage": 90,
+        "rowIndexWithinGroup": 72
+      },
+      "tableValueStatus": "amount unresolved by table",
+      "descriptionResolutionStatus": "linked-to-existing-source-description-rows",
+      "descriptionSourceRecordIds": [
+        "ua-other-015-item-r001",
+        "ua-other-015-item-r002",
+        "ua-other-015-item-r003",
+        "ua-other-015-item-r004",
+        "ua-other-015-item-r005"
+      ],
+      "descriptionSourceValues": [
+        {
+          "recordId": "ua-other-015-item-r001",
+          "object": "Scimitar of Speed +1 (variant)",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 9000,
+            "currency": "gp",
+            "sourceText": "9,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 2500,
+            "currency": "xp",
+            "sourceText": "2,500"
+          },
+          "printedPage": 106,
+          "pdfPage": 107,
+          "sourceTableIdentity": "Scimitar of Speed bonus/value table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-015-item-r002",
+          "object": "Scimitar of Speed +2 (normal form)",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 12000,
+            "currency": "gp",
+            "sourceText": "12,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 3000,
+            "currency": "xp",
+            "sourceText": "3,000"
+          },
+          "printedPage": 106,
+          "pdfPage": 107,
+          "sourceTableIdentity": "Scimitar of Speed bonus/value table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-015-item-r003",
+          "object": "Scimitar of Speed +3 (variant)",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 15000,
+            "currency": "gp",
+            "sourceText": "15,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 3500,
+            "currency": "xp",
+            "sourceText": "3,500"
+          },
+          "printedPage": 106,
+          "pdfPage": 107,
+          "sourceTableIdentity": "Scimitar of Speed bonus/value table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-015-item-r004",
+          "object": "Scimitar of Speed +4 (variant)",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 18000,
+            "currency": "gp",
+            "sourceText": "18,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 4000,
+            "currency": "xp",
+            "sourceText": "4,000"
+          },
+          "printedPage": 106,
+          "pdfPage": 107,
+          "sourceTableIdentity": "Scimitar of Speed bonus/value table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        },
+        {
+          "recordId": "ua-other-015-item-r005",
+          "object": "Scimitar of Speed +5 (variant)",
+          "gpSaleValue": {
+            "kind": "exact",
+            "amount": 21000,
+            "currency": "gp",
+            "sourceText": "21,000"
+          },
+          "xpValue": {
+            "kind": "exact",
+            "amount": 4500,
+            "currency": "xp",
+            "sourceText": "4,500"
+          },
+          "printedPage": 106,
+          "pdfPage": 107,
+          "sourceTableIdentity": "Scimitar of Speed bonus/value table",
+          "sourceReviewStatus": {
+            "sourcePageAndTable": "visual-pixel-reviewed",
+            "rowLabelAndValues": "checked against rendered original page",
+            "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+          }
+        }
+      ],
+      "valueLinkage": "exact printed pointer reference and item/table identity, with distinct source row IDs and source passage; no page-only association",
+      "xpValuePointer": {
+        "jsonPointer": "/values/xpValue",
+        "kind": "description-pointer",
+        "reference": "ua-other-015",
+        "typedExperienceValueLinks": [
+          {
+            "recordId": "ua-other-015-item-r001",
+            "value": {
+              "kind": "exact",
+              "amount": 2500,
+              "currency": "xp",
+              "sourceText": "2,500"
+            }
+          },
+          {
+            "recordId": "ua-other-015-item-r002",
+            "value": {
+              "kind": "exact",
+              "amount": 3000,
+              "currency": "xp",
+              "sourceText": "3,000"
+            }
+          },
+          {
+            "recordId": "ua-other-015-item-r003",
+            "value": {
+              "kind": "exact",
+              "amount": 3500,
+              "currency": "xp",
+              "sourceText": "3,500"
+            }
+          },
+          {
+            "recordId": "ua-other-015-item-r004",
+            "value": {
+              "kind": "exact",
+              "amount": 4000,
+              "currency": "xp",
+              "sourceText": "4,000"
+            }
+          },
+          {
+            "recordId": "ua-other-015-item-r005",
+            "value": {
+              "kind": "exact",
+              "amount": 4500,
+              "currency": "xp",
+              "sourceText": "4,500"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "aggregate": {
+    "pointerClaims": 8,
+    "newItemDescriptionPassages": 2,
+    "linkedToPreviouslyTypedDescriptionRows": 6,
+    "tablePointerCellsStillRemainUnresolvedByTable": 8,
+    "xpRowsKeptSeparateFromGp": true,
+    "xpPointersLinkedAsExperienceValues": 8,
+    "xpValuesRemainDistinctFromGpSaleValues": true
+  },
+  "limitations": [
+    "Source table values remain asterisks/pointers; no table amount is inferred.",
+    "The computed ranges use the source formula plus its exact bonus table; ranges are derived and are explicitly not printed range strings.",
+    "Independent overlay review remains pending; the excerpt and focus spaces are separately represented, and no full-page image is published."
+  ]
+}

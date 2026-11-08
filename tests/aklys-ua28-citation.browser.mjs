@@ -64,11 +64,11 @@ try{
  const rateLink=await page.evaluate(()=>location.hash),rateParams=new URLSearchParams(rateLink.split('?',2)[1]);
  assert.equal(rateParams.get('source'),'UA:28');assert.equal(rateParams.get('region'),rateRegionId);assert.equal(rateParams.get('field'),ratePointer);
  await page.locator(`.source-viewer-scan[src$="${region(rateRegionId).image}"]`).waitFor({state:'visible'});
- assert.match(await page.locator('.source-viewer-labels').innerText(),/^Field target: Aklys rate of fire/);
+ assert.match(await page.locator('.source-viewer-labels').innerText(), /^Field target: (?:Aklys rate of fire|Rate of fire \(UA p\.28\))/);
  await page.reload();await page.locator('dialog.source-viewer[open]').waitFor();
  await page.locator(`.source-viewer-scan[src$="${region(rateRegionId).image}"]`).waitFor({state:'visible'});
  assert.equal(new URL(page.url()).hash,rateLink,'the UA 28 field target survives reload with its exact first segment');
- assert.match(await page.locator('.source-viewer-labels').innerText(),/^Field target: Aklys rate of fire/);
+ assert.match(await page.locator('.source-viewer-labels').innerText(), /^Field target: (?:Aklys rate of fire|Rate of fire \(UA p\.28\))/);
 
  await page.goto(base);await page.locator('#referenceDetail .detail-card').waitFor();
  await page.locator('#referenceDetail details').evaluateAll(elements=>elements.forEach(element=>{element.open=true;}));

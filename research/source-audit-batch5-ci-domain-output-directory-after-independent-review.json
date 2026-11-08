@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-ci-output-parent-correction-review",
+  "scope": "The captured actual missing-parent failure and exactoneworkflowmkdir correction. Fresh isolatedparent replay ofthethreeexistingCIcommands, no new testclass or source/code/seal edits by reviewer.",
+  "beforeFixture": {
+    "path": "research/source-audit-batch5-ci-domain-output-directory-before.json.gz",
+    "sha256": "42ecde9d6256134cf7c48af4238558560dbf980dcebe4e9c2572d6a3bf161c51"
+  },
+  "beforeOutputOrderingInventory": {
+    "path": "research/source-audit-batch5-ci-output-directory-before-inventory.json",
+    "sha256": "32d80f93ef9cbddcaf19293e7870ec7e319d2c30e30ca2af266527844dbb17aa"
+  },
+  "workflowBeforeSha256": "9ac1091121a55450d878bf07bf9ec0e8910f08aa39b1780b3a9d3c7acdf20f11",
+  "workflowAfterSha256": "dbf7c7aeba7e345ffc4f8770661fc90de551d065e444e97bd21b3f6a1c6ef8d1",
+  "exactDiff": "Add mkdir -p artifacts/source-domain-audits as first line of class/qualifier audit step; every other workflow byte unchanged.",
+  "inputDataSha256": "2b803d29cccd83ffd8418818abddf04b66204c82cebb8afba13f7a8226c6583c",
+  "freshIsolatedParent": "/tmp/ci-domain-after-fresh-kt4g2evr",
+  "runs": [
+    {
+      "command": [
+        "node",
+        "tools/class-progression-audit.mjs",
+        "--input",
+        "dist/data.json",
+        "--output",
+        "/tmp/ci-domain-after-fresh-kt4g2evr/class-progression.json",
+        "--check"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "a9fa783c0d9e44d01ef102f71d01583e97ccfea17e2edce9a8d8a5207dae6a22",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "tools/source-qualifier-coverage.mjs",
+        "--input",
+        "dist/data.json",
+        "--output",
+        "/tmp/ci-domain-after-fresh-kt4g2evr/source-qualifiers.json",
+        "--check"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "efa20348bdc0efba7e99cd99dbd9c0faf809c82bdad789bd1480daf6328a23f2",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "tools/ua26-note-marker-audit.mjs"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "38c9e695cb49778b85588ac233217dbfea81685ac567665e38c5e168c4eda417",
+      "stderr": ""
+    }
+  ],
+  "outputFiles": [
+    {
+      "path": "/tmp/ci-domain-after-fresh-kt4g2evr/class-progression.json",
+      "sha256": "a4805952c34aa2c8ecc58d0ae146cb18dd75a7de543d3ef9c05c14b623cf1c55"
+    },
+    {
+      "path": "/tmp/ci-domain-after-fresh-kt4g2evr/source-qualifiers.json",
+      "sha256": "3442343f2f271d144ebfdd48a02f2fb8fb39e001e02df62b9944f8e38d25389c"
+    },
+    {
+      "path": "/tmp/ci-domain-after-fresh-kt4g2evr/ua26-note-markers.json",
+      "sha256": "38c9e695cb49778b85588ac233217dbfea81685ac567665e38c5e168c4eda417"
+    }
+  ],
+  "verdict": "Confirmed CI missing-parent blocker fixed; all three existing commands exit0 from a newly created parent. Pages/version deployment stanza unchanged."
+}

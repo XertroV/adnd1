@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "monetary-condition-coverage-fix-review-handoff",
+  "reviewStatus": "implementation-complete-awaiting-independent-review",
+  "scope": "Condition coverage tool and tests only. No source data, monetary index, row identity tool, seal, or interim worktree changes.",
+  "implementation": {
+    "tool": {"path": "tools/monetary-condition-coverage.mjs", "sha256": "a1c3b32cfa0cc88cc968ed2def131763f1fea5100320c18aa0e3e2a9bba92c73"},
+    "tests": {"path": "tests/monetary-condition-coverage.test.mjs", "sha256": "14b8c5068b6e939e0edb5cce82d4d885e90487b5dd601bde3f61eb74bb932e38"},
+    "testCommand": "node --test tests/monetary-condition-coverage.test.mjs",
+    "testResult": {"passed": 13, "failed": 0}
+  },
+  "frozenBeforeInputs": {
+    "archivedOriginalCodeAndTests": {"path": "tests/fixtures/monetary-condition-contract-binding-before.json.gz", "sha256": "28ba5ebf22b176acba478812d92c2d55c967ec40cbff70f4aace5538d46c5d5a"},
+    "compactBeforeReport": {"path": "research/source-audit-batch5-monetary-condition-coverage-before-source-corrections-v2.json", "sha256": "dba0ba6426fbf99b669f8058765bbab3511eb979672ed6ae9e77fc6ab8c5d5e7"},
+    "manualContract": {"path": "research/source-audit-batch5-monetary-condition-contract-before-info4-v2.json", "sha256": "935cbe0d33613a29cf359e334a4886ac1dc522d4a7daf823c3b6d46fee72e1cd"},
+    "index": {"path": "artifacts/monetary-source-inventory-before-source-corrections/index.json", "sha256": "472771cc6925c176ebf4eaed5030dc35c1764d53db164a7eda2f9f86e46a004a"},
+    "rowAudit": {"path": "research/source-audit-batch5-monetary-context-migration-before-v3.json", "sha256": "bee94a49f34c33ef1d0c1a77da2a13e4ed56f38880fba55d352c8d42c53fef0b"},
+    "originalDmGSource": {"path": "research/source-audit-batch5-phb-dmg-additional-prices.json", "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9"}
+  },
+  "verifiedBehavior": {
+    "beforeSourceBindings": "All four contract rows match full sourceInput path/SHA/pointer, explicit row-audit UID plus declared and actual row-audit triples, current index position, and before condition values. --before writes only to a fresh explicit output; frozen V2 SHA stayed unchanged.",
+    "negativeControls": "Source path/SHA/pointer drift, declared row-audit UID/triple/index drift, and actual row-audit input/hash/pointer drift cannot produce an exact binding.",
+    "currentMode": "Validates research/monetary-source-inventory.json with the existing inventory CLI --check and loads the live audit with loadMonetaryRowIdentityAudit. Changed condition, source hash, and current path/pointer mismatches are needs-independent-review. The four frozen contract statuses remain present; current row-audit findings and review outcomes are emitted as distinct dimensions.",
+    "fieldAbsence": "Null, deleted, empty, or rephrased condition values never confer a semantic pass. All general semantic completeness remains unassessed.",
+    "liveRowAudit": {"records": 2161, "knownFindings": 195, "reviewResults": 1},
+    "fourInfoRows": "Each exact row UID reports the typed-content finding dmg-p33-information-discovery-note-conditions as confirmed-typed-content-mismatch, separately from row-focus and source-context findings.",
+    "currentCliExecution": "Default CLI was exercised. The current index artifact is absent in this checkout, so inventory validation stopped before creating artifacts/monetary-condition-coverage/report.json; no frozen artifact was overwritten."
+  },
+  "limits": [
+    "This tool is a projection and exact-reference checker, not a generic source-semantic detector.",
+    "The current default report cannot be generated until research/monetary-source-inventory.json exists and passes its canonical --check."
+  ]
+}

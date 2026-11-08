@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "monetary-secondary-source-frame-dpi-coordinate-normalization-proof",
+  "status": "implementation-frozen; full-class independent review pending",
+  "scope": "Index normalization changes for ordered source-context part render frames: strict DPI declaration parsing, six-node declaration preservation, and explicit page/global/focus coordinate-space labels. This receipt does not certify value semantics, pixel highlights, source completeness, or a 179-row semantic grade.",
+  "before": {
+    "fixture": {
+      "path": "tests/fixtures/monetary-declaration-full-class-c63-d896-before.tar.gz",
+      "sha256": "9e97bc94497238394647045a093d8f27340cece4c5f3b0b24799f00294ef87f2"
+    },
+    "matrix": {
+      "path": "/tmp/pd-dpi-independent-review/full-class-before-c63/declaration-node-field-value-matrix-before.json",
+      "sha256": "5a48ae9819f1c052601725041b323c12adc7549580084ccfbc3d18f42a2979ff",
+      "cases": 352,
+      "indexFalsePassesBefore": 15,
+      "rowStatusFalsePassesBefore": 94,
+      "rowAuditFalsePassesBefore": 65,
+      "sameRecordForcedLinkedFalsePassesBefore": 65,
+      "throwsBefore": 3
+    }
+  },
+  "inputs": {
+    "v5Candidate": {
+      "path": "/tmp/batch5-phbdmg-money-corrections-v5/proposal-v5/phb-dmg-additional-prices-correction-candidate-v5.json",
+      "sha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6"
+    },
+    "unchangedOriginalPhbDmgSource": {
+      "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9"
+    },
+    "sourceRenderFrameRegistry": {
+      "path": "research/monetary-source-render-frames.json",
+      "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+    }
+  },
+  "code": {
+    "indexBuilder": {
+      "path": "tools/monetary-source-inventory.mjs",
+      "sha256": "e805a03e6dd0828d6f066e68b9070b0e2df1065b3a83028d0c8038f467423ba2"
+    },
+    "regressionTest": {
+      "path": "tests/monetary-source-inventory.test.mjs",
+      "sha256": "feb76188508eccf4243b431dd82360ecc2036755e3bd09feba31ffb727c5eaa7"
+    },
+    "rowIdentityAudit": {
+      "path": "tools/monetary-row-identity-audit.mjs",
+      "sha256": "f666dd837a1a08ffd7ca926766f85b8af4b60e24724a8b2c7b60a1a61943dfa8"
+    },
+    "sourceRenderFrameResolver": {
+      "path": "tools/monetary-source-render-frames.mjs",
+      "sha256": "44dc5c4d5233fdf2a8b1a36742712f1b36f69ebcc8d2b6d8208303cdb9b41a39"
+    }
+  },
+  "normalization": {
+    "declarationNodes": [
+      "part",
+      "part.focus",
+      "part.crop",
+      "part.sourceRender",
+      "crop",
+      "crop.sourceRender"
+    ],
+    "declarationFields": [
+      "renderDpi",
+      "sourceRenderDpi",
+      "coordinateSpace",
+      "sourceCropFrame"
+    ],
+    "coordinateSpaces": {
+      "sourceRender.coordinateSpace": "original source-render page pixels; top-left origin; [left,top,right,bottom] half-open",
+      "crop.coordinateSpace": "source-page-global source-render pixels; top-left origin; [left,top,right,bottom] half-open",
+      "crop.cropBoundsPixelsCoordinateSpace": "source-page-global source-render pixels; top-left origin; [left,top,right,bottom] half-open",
+      "part.focusCoordinateSpaceWithFocus": "crop-local ${dpi}-dpi source-render pixels; left,top,right,bottom; half-open",
+      "part.focusCoordinateSpaceWithoutFocus": null,
+      "supplemental.sourceRender.coordinateSpace": "original source-render page pixels; top-left origin; [left,top,right,bottom] half-open",
+      "supplemental.metadata.coordinateSpace": "source-page-global source-render pixels; top-left origin; [left,top,right,bottom] half-open",
+      "supplemental.metadata.cropBoundsPixelsCoordinateSpace": "source-page-global source-render pixels; top-left origin; [left,top,right,bottom] half-open"
+    },
+    "guards": [
+      "Every authored numeric DPI and every numeric DPI token across the six nodes must be a positive integer and agree.",
+      "An explicitly empty sourceCropFrame is invalid; a nonempty descriptive sourceCropFrame without a DPI token is allowed.",
+      "Coordinate-space strings may differ by page/global/focus frame; their numeric DPI declarations must agree.",
+      "Only a hash-bound reviewed source-render frame may resolve missing DPI across a separate crop frame."
+    ]
+  },
+  "verification": {
+    "localCommand": "node --test tests/monetary-source-inventory.test.mjs",
+    "localTests": 16,
+    "localPassed": 16,
+    "localFailed": 0,
+    "integratedSourceInventoryAndAdapterProtocol": {
+      "status": "passed as reported by the row-identity tool author",
+      "tests": 34,
+      "passed": 34,
+      "failed": 0,
+      "adapterProtocolTest": {
+        "path": "tests/monetary-context-adapter-protocol.test.mjs",
+        "sha256": "fd473104af50b40d6aaf6b131ba6aea635b79905de81d1d1fabfc23a14d5c744"
+      }
+    },
+    "currentFullClassMatrix": {
+      "status": "pending independent replay against the frozen index hash",
+      "expectedCases": 352,
+      "priorMatrixIsBeforeEvidenceOnly": true
+    }
+  },
+  "limitations": [
+    "The before matrix records the prior implementation only; its false-pass counts are not represented as post-fix results.",
+    "No original source, candidate values, crop pixels, claims, or seals were modified by this implementation."
+  ]
+}

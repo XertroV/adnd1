@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "scope": "Two validation gaps; current995-record corpus has zero progression-explainer collisions. Synthetic before cases do not claim active source defects.",
+  "beforeHashes": {
+    "tools/citation-override-identity.mjs": "14f7972712fc9c40355f3bcd0882b1cac0ed68b04c039f00175cd27846a318f7",
+    "tools/assemble.mjs": "7457b3cf62f1264e02695fff9fafdb7db8d4558371b442e75f2c1986c39a7eb9",
+    "tools/price-source-inventory.mjs": "68ec3b679615c90c329aa801d4f558d3b060cebacb945e262d972918745a6809",
+    "tools/source-owner-identity-audit.mjs": "f93da20491e079044b260389f5fe3910cc98b563501e7eb384e33861efa33fca"
+  },
+  "cases": [
+    {
+      "kind": "pending-singleton-owner-omitted",
+      "data": {
+        "rules": [
+          {
+            "id": "progression-explainer"
+          }
+        ]
+      },
+      "pendingExplainer": {
+        "title": "Explainer without author ID"
+      },
+      "beforeAmbiguousIds": [],
+      "expectedAmbiguousIds": [
+        "progression-explainer"
+      ]
+    },
+    {
+      "kind": "malformed-record-summary-accepted",
+      "input": {
+        "report": {
+          "denominator": {
+            "recordCount": 1
+          },
+          "records": [
+            {}
+          ],
+          "evidenceBindings": {
+            "denominator": 1,
+            "dispositions": {
+              "ownerMatched": 1,
+              "validatedExplicitComparatorSource": 0,
+              "foreignOwner": 0
+            }
+          },
+          "ambiguousActiveItemOverrideCount": 0
+        },
+        "currentOwnerIdentity": {
+          "crossOwnerSharedObjectAliases": []
+        }
+      },
+      "beforeResult": {
+        "pass": true,
+        "schemaValid": true,
+        "errors": [],
+        "foreignOwnerBindingCount": 0,
+        "crossOwnerSharedObjectAliasCount": 0,
+        "ambiguousActiveItemOverrideCount": 0
+      },
+      "expectedPass": false
+    }
+  ]
+}

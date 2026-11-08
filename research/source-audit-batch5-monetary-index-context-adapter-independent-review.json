@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-UA-active-context-index-adapter-code-review",
+  "status": "approved-for-the-exact-scoped-code-checkpoint",
+  "scope": "UA active-context declarations, exact row/group/segment joins, ordered complete target consumption, occurrence/claim evidence serialization, and structural source/render/crop validation in tools/monetary-source-inventory.mjs. This is code/protocol review, not original-source or candidate approval.",
+  "reviewedFiles": [
+    {
+      "path": "tools/monetary-source-inventory.mjs",
+      "sha256": "8cebc229d3c6564c5d5ce81a7f69acd0b3f18871cb2b0e2453ee2ae35c142d8b"
+    },
+    {
+      "path": "tests/monetary-source-inventory.test.mjs",
+      "sha256": "724368bd23dcb637e028c83c385857ac49b382e8feafcdcdcf8fe4d8382e807f"
+    }
+  ],
+  "preservedBefore": {
+    "path": "research/source-audit-batch5-monetary-context-adapter-falsepasses-before.json",
+    "sha256": "12e49bbd00e91a042479937bdb07bcde41a013f3cd53bbfb21e2bb5e6416d950"
+  },
+  "closedBeforeCases": [
+    "conflicting-link-role",
+    "missing-link-role",
+    "missing-target-role",
+    "foreign-original-PDF-sha",
+    "zero-PDF-page",
+    "negative-raster-origin",
+    "raster-crop-outside-source-render",
+    "raster-crop-dimensions-off-by-one"
+  ],
+  "additionalPreFixObservations": {
+    "codeSha256": "84f3ab3b6860723d01ca7b232428cbc71df6dd3e46cb4df07335d1cfc51b0901",
+    "testsSha256": "d7bee7ec15b65fe2971a4a842060ff1214d61f94ed4921a92974bee56977a4a1",
+    "cases": [
+      {
+        "id": "missing-link-segment",
+        "expectedRejected": true,
+        "observedRejected": false,
+        "observedCoverageStatus": "all-declared-active-context-targets-consumed-in-source-rows"
+      },
+      {
+        "id": "missing-render-frame-ID",
+        "expectedRejected": true,
+        "observedRejected": false,
+        "observedCoverageStatus": "all-declared-active-context-targets-consumed-in-source-rows"
+      }
+    ],
+    "supersededBy": "Both now rejected at exact reviewed8cebc229 checkpoint; original eight-before receipt remains immutable."
+  },
+  "verification": {
+    "nodeTests": {
+      "command": "node --test tests/monetary-source-inventory.test.mjs",
+      "passed": 12,
+      "failed": 0
+    },
+    "independentProbes": {
+      "scope": "Independent synthetic index context-interface probes only; no source/candidate approvals or changes.",
+      "codeSha256": "8cebc229d3c6564c5d5ce81a7f69acd0b3f18871cb2b0e2453ee2ae35c142d8b",
+      "testsSha256": "724368bd23dcb637e028c83c385857ac49b382e8feafcdcdcf8fe4d8382e807f",
+      "checks": [
+        {
+          "id": "nominal-active-array",
+          "expectedRejected": false,
+          "rejected": false,
+          "pass": true,
+          "error": null,
+          "coverageStatus": "all-declared-active-context-targets-consumed-in-source-rows"
+        },
+        {
+          "id": "link-role-conflicts-with-target",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "UA row ua-other-001-armor-r01 active context link synthetic-armor-table must carry the target's exact role."
+        },
+        {
+          "id": "missing-link-role",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "UA row ua-other-001-armor-r01 active context link synthetic-armor-table must carry the target's exact role."
+        },
+        {
+          "id": "missing-target-role",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "UA active context target synthetic-armor-table lacks source/page/render/crop hashes, dimensions, bounds, scale, or a pixel-review disposition."
+        },
+        {
+          "id": "wrong-original-PDF-sha",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "UA active context target synthetic-armor-table lacks source/page/render/crop hashes, dimensions, bounds, scale, or a pixel-review disposition."
+        },
+        {
+          "id": "zero-source-PDF-page",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "UA active context target synthetic-armor-table lacks source/page/render/crop hashes, dimensions, bounds, scale, or a pixel-review disposition."
+        },
+        {
+          "id": "negative-crop-origin",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "UA active context target synthetic-armor-table lacks source/page/render/crop hashes, dimensions, bounds, scale, or a pixel-review disposition."
+        },
+        {
+          "id": "crop-outside-render",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "UA active context target synthetic-armor-table lacks source/page/render/crop hashes, dimensions, bounds, scale, or a pixel-review disposition."
+        },
+        {
+          "id": "inconsistent-crop-dimensions",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "UA active context target synthetic-armor-table lacks source/page/render/crop hashes, dimensions, bounds, scale, or a pixel-review disposition."
+        },
+        {
+          "id": "missing-target-link",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "UA row ua-other-001-armor-r01 does not link every applicable active context target in declared order."
+        },
+        {
+          "id": "wrong-link-segment",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "UA row ua-other-001-armor-r01 context link synthetic-armor-table changes its declared segment identity."
+        },
+        {
+          "id": "missing-target-id",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "UA active context target ua-other-001[0] lacks a stable targetId."
+        },
+        {
+          "id": "missing-link-segment",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "UA row ua-other-001-armor-r01 context link synthetic-armor-table changes its declared segment identity."
+        },
+        {
+          "id": "missing-render-frame-ID",
+          "expectedRejected": true,
+          "rejected": true,
+          "pass": true,
+          "error": "UA active context target synthetic-armor-table lacks source/page/render/crop hashes, dimensions, bounds, scale, or a pixel-review disposition."
+        },
+        {
+          "id": "shared-cross-page-required-note",
+          "expectedRejected": false,
+          "rejected": false,
+          "pass": true,
+          "error": null,
+          "coverageStatus": "all-declared-active-context-targets-consumed-in-source-rows"
+        }
+      ],
+      "passed": true
+    },
+    "beforeAndAfterExecutionHashesStable": true
+  },
+  "sourceInputsUnmodified": [
+    {
+      "path": "research/source-audit-batch5-ua-additional-prices.json",
+      "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+    },
+    {
+      "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9"
+    }
+  ],
+  "semanticPass": false,
+  "limitations": [
+    "No actual UA583 corrected source/crop/highlight/marker/value candidate is approved here. The33+5 source-context proof and source-candidate exact hashes remain separate.",
+    "No value, quantity, precise-highlight, default-selection, or original-source semantic grade is promoted.",
+    "Per-binding contextual fingerprints and legacy5 migration bridge are provided by the separately reviewed row-identity auditor, not this index adapter."
+  ]
+}

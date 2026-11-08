@@ -1,0 +1,209 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "class-progression-event-retirement",
+  "scope": "Retirement receipt for the structurally unsupported Assassin level-17 proficiency event. The input finding and full 16-class denominator remain in the baseline report.",
+  "baseline": {
+    "commit": "679b15d1c580172e54314829c1c3c86dc78b65f3",
+    "assembledDataSha256": "47908c8ddc8b68c09e11f600ed0d0dc24b2a3749f8e3f452e245c7ee6635053b",
+    "sourceSha256": {
+      "classesJson": "962ccd8b33c32b865926698cb90f3f0fd7e843abc8a0309cea2220a32c37c0d1",
+      "progressionOverridesJson": "eeeae4a09dc0555835dfeed00f9e0f50804387449ad242a01990c82abcee43a4"
+    },
+    "counts": {
+      "exposedCollections": {
+        "rules": 148,
+        "spells": 638,
+        "equipment": 189,
+        "matrices": 1,
+        "classes": 16,
+        "sources": 3
+      },
+      "classRecords": 16,
+      "progressionDomainCounts": {
+        "advanced-reset-track": 1,
+        "class-revision": 1,
+        "class-track": 12,
+        "special-sequential": 1,
+        "specialist-path": 1
+      },
+      "levelChangeEvents": 1082,
+      "xpRows": 206,
+      "recordsWithXpContinuation": 11,
+      "recordsWithExplicitMaxLevel": 4,
+      "recordsWithExplicitLevelLimit": 4,
+      "eventCoverageDisposition": {
+        "outside-declared-maximum": 0,
+        "outside-tabulated-xp-without-continuation": 1,
+        "otherwise-covered": 1081,
+        "unclassified": 0
+      },
+      "eventXpDisposition": {
+        "declared-xp-continuation": 303,
+        "outside-tabulated-xp-without-continuation": 1,
+        "tabulated-xp-row": 778
+      }
+    }
+  },
+  "retired": {
+    "source": {
+      "file": "classes.json",
+      "collection": "classes",
+      "itemId": "assassin",
+      "pointer": "/levelChanges/50"
+    },
+    "assembled": {
+      "file": "dist/data.json",
+      "collection": "classes",
+      "itemId": "assassin",
+      "pointer": "/levelChanges/50"
+    },
+    "level": 17,
+    "event": {
+      "level": 17,
+      "book": "PHB",
+      "pages": [
+        37
+      ],
+      "changes": [
+        "Gain proficiency with one additional permitted weapon: total proficiency allotment 6 → 7. The interval counts levels gained above 1st, not multiples of the interval from zero."
+      ],
+      "status": "OCR checked · visual review pending",
+      "incomplete": true
+    },
+    "structuralFinding": {
+      "classId": "assassin",
+      "pointer": "/levelChanges/50",
+      "level": 17,
+      "code": "outside-tabulated-xp-without-continuation",
+      "xpDisposition": "outside-tabulated-xp-without-continuation",
+      "declaredMaximumDisposition": "no-explicit-maximum",
+      "evidence": {
+        "level": 17,
+        "book": "PHB",
+        "pages": [
+          37
+        ],
+        "changes": [
+          "Gain proficiency with one additional permitted weapon: total proficiency allotment 6 → 7. The interval counts levels gained above 1st, not multiples of the interval from zero."
+        ],
+        "status": "OCR checked · visual review pending",
+        "incomplete": true
+      },
+      "interpretation": "Structural comparison of exposed event levels, explicit maximums, XP rows and declared continuation only. This does not independently establish the printed source meaning or completeness."
+    }
+  },
+  "disposition": {
+    "status": "removed-from-current-progression",
+    "reason": "The PHB p.30 assassin rank/XP table stops at 15 and no XP continuation is declared; the level-17 proficiency event has no documented advancement basis in that progression.",
+    "reviewEvidence": {
+      "independentReview": {
+        "file": "research/source-audit-batch5-class-independent-review.json",
+        "array": "targetChecks",
+        "decision": "do-not-promote",
+        "reason": "Assassin level17 is not authorized by its PHB30 rank/XP table, which stops at15. Generic proficiency arithmetic does not establish a class advancement beyond that scope.",
+        "withinDocumentedClassProgression": false
+      },
+      "contextReview": {
+        "file": "research/source-audit-batch5-class-context-review.json",
+        "array": "proficiencyProposalStatus",
+        "proposalDisposition": "source-value/context confirmed by the assigned review; catalog context/foci applied; new hashes await root review; field binding remains pending",
+        "fieldBindingStatus": "still-pending; field bindings intentionally unchanged"
+      }
+    },
+    "action": "Removed only the final level-17 event from classes.json and the matching assembled dist/data.json event. No maxLevel or levelLimit was added."
+  },
+  "after": {
+    "assembledDataSha256": "8ab2a68bdec2e0d5e243d381871685adaddbb731913d8d03f65b6664f1bcb3fd",
+    "sourceSha256": {
+      "classesJson": "2e3a87c78cb7ff14f426b6711c4773fc99d51beb01fc3cbb8684cfa814537030",
+      "progressionOverridesJson": "eeeae4a09dc0555835dfeed00f9e0f50804387449ad242a01990c82abcee43a4"
+    },
+    "counts": {
+      "exposedCollections": {
+        "rules": 148,
+        "spells": 638,
+        "equipment": 189,
+        "matrices": 1,
+        "classes": 16,
+        "sources": 3
+      },
+      "classRecords": 16,
+      "progressionDomainCounts": {
+        "advanced-reset-track": 1,
+        "class-revision": 1,
+        "class-track": 12,
+        "special-sequential": 1,
+        "specialist-path": 1
+      },
+      "levelChangeEvents": 1081,
+      "xpRows": 206,
+      "recordsWithXpContinuation": 11,
+      "recordsWithExplicitMaxLevel": 4,
+      "recordsWithExplicitLevelLimit": 4,
+      "eventCoverageDisposition": {
+        "outside-declared-maximum": 0,
+        "outside-tabulated-xp-without-continuation": 0,
+        "otherwise-covered": 1081,
+        "unclassified": 0
+      },
+      "eventXpDisposition": {
+        "declared-xp-continuation": 303,
+        "tabulated-xp-row": 778
+      }
+    },
+    "assassin": {
+      "levelChangeEvents": 50,
+      "lastEventLevel": 15,
+      "lastXpRowLevel": 15,
+      "xpContinuation": null,
+      "maxLevel": null,
+      "levelLimit": null
+    }
+  },
+  "verification": {
+    "baselineDetectorCommand": "node tools/class-progression-audit.mjs --input dist/data.json --commit 679b15d1c580172e54314829c1c3c86dc78b65f3 --check",
+    "baselineDetectorExitCode": 1,
+    "baselineFindingCount": 1,
+    "currentDetectorCommand": "node tools/class-progression-audit.mjs --input dist/data.json --commit 679b15d1c580172e54314829c1c3c86dc78b65f3 --check",
+    "currentDetectorExitCode": 0,
+    "currentFindingCount": 0,
+    "focusedTestCommand": "node --test tests/class-progression-audit.test.mjs",
+    "focusedTestExitCode": 0,
+    "focusedTestPasses": 3,
+    "focusedTestFailures": 0
+  },
+  "uncertainty": {
+    "sourceTruth": "The structural detector compares exposed events, explicit limits, tabulated XP rows and declared continuations; it does not independently prove whole-source completeness. The assigned independent review explicitly declines promotion of the event.",
+    "capConflict": "Assassin has no explicit maxLevel or levelLimit in current data. The PHB p.19 limit of 14 and PHB p.30 15th-level Grandfather rank remain a source conflict recorded for campaign/source disposition; this edit does not infer a 15th-level cap.",
+    "knownReviewLedgerReferences": [
+      {
+        "file": "research/mechanics-audit-progress.json",
+        "fields": [
+          {
+            "path": "/levelChanges/50/level",
+            "status": "source-checked",
+            "checkers": [
+              "mechanics-illusionist-classes"
+            ]
+          },
+          {
+            "path": "/levelChanges/50/changes/0",
+            "status": "source-checked",
+            "checkers": [
+              "mechanics-illusionist-classes"
+            ]
+          }
+        ]
+      },
+      {
+        "file": "research/source-audit-batch5-class-context-review.json",
+        "pointer": "proficiencyProposalStatus entry for classes:assassin /levelChanges/50"
+      },
+      {
+        "file": "tests/class-source-context-batch5.test.mjs",
+        "assertion": "Assassin /levelChanges/50 is excluded from promoted field bindings"
+      }
+    ],
+    "ledgerOwner": "Root owns updating the shared mechanics ledger and related integration artifacts."
+  }
+}

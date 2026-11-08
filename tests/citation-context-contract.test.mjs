@@ -1,12 +1,27 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {gunzipSync} from 'node:zlib';
 import {containsContext,focusCoversEvidence,reportContextContracts} from '../tools/citation-context-contract.mjs';
 const read=p=>JSON.parse(readFileSync(p,'utf8'));
 const manifest=read('research/citation-context-contracts.json'),data=read('dist/data.json');
 test('current reviewed price tables retain their independently recorded context extent',()=>{
   const report=reportContextContracts(data,p=>read('dist/'+p),manifest);
-  assert.equal(report.total,35);
+  const historical=JSON.parse(execFileSync('git',['show','679b15d1c580172e54314829c1c3c86dc78b65f3:research/citation-context-contracts.json'],{encoding:'utf8'}));
+  assert.equal(historical.requirements.length,35,'frozen 679 contract denominator');
+  const beforeUa10=JSON.parse(gunzipSync(readFileSync('tests/fixtures/ua10-ledger-triage-manifest-before.json.gz')));
+  const reviewedPrefix=JSON.parse(beforeUa10.files['research/citation-context-contracts.json'].utf8).requirements;
+  const ua10Integration=read('research/source-audit-batch5-ua10-crop-integration.json');
+  assert.equal(reviewedPrefix.length,175,'preserved contract denominator before the seven UA10 passage contracts');
+  assert.deepEqual(manifest.requirements.slice(0,reviewedPrefix.length),reviewedPrefix);
+  assert.equal(manifest.requirements.length,reviewedPrefix.length+ua10Integration.updates.length);
+  assert.equal(report.total,manifest.requirements.length);
+  for(const requirement of historical.requirements){
+    const current=manifest.requirements.find(candidate=>candidate.id===requirement.id);
+    assert.ok(current,`${requirement.id} remains in the current contract set`);
+    assert.deepEqual(current,requirement,`${requirement.id} remains byte-for-byte equivalent to the frozen contract`);
+  }
   assert.deepEqual(report.violations,[]);
 });
 test('the six calibrated weapon tables retain their exact reviewed source extents',()=>{

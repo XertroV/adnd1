@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
-import {withoutPriceCompletionEquipment,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
+import {createHash} from 'node:crypto';
+import {gunzipSync} from 'node:zlib';
+import {withoutBatch5OfferEquipment,withoutPriceCompletionEquipment,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 const read=p=>JSON.parse(readFileSync(new URL(p,import.meta.url)));
 const data=read('../dist/data.json');
 const nextFixture=read('./fixtures/mechanics-next-corrections.json');
@@ -29,6 +31,9 @@ for(const ref of dependencyReferences){
 }
 
 const reviewed=read('./fixtures/remaining-reviewed-rows.json').rows;
+const ua28HistoricalFixture=JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/ua28-dagger-baseline-679.json.gz',import.meta.url))).toString('utf8'));
+const ua28Recipes=new Map(ua28HistoricalFixture.recipes.map(recipe=>[`${recipe.catalogPath}|${recipe.regionId}`,recipe]));
+const sourceOwnerIdentity=read('../research/source-owner-identity-baseline.json');
 const dir=new URL('../dist/scans/dagger/',import.meta.url);
 const catalogs=readdirSync(dir).filter(f=>f.endsWith('.json')).map(f=>read('../dist/scans/dagger/'+f));
 const sourceQuestionReferences=[
@@ -37,13 +42,47 @@ const sourceQuestionReferences=[
  {id:'phb-illusionist-first-level-magic-user-spells',book:'PHB',pages:[94],label:'Conflicting illusionist spell-list introduction',status:'Source excerpt checked'}
 ];
 const newIds=['phb-composite-long-bow','phb-composite-short-bow','phb-long-bow','phb-short-bow','phb-silver-arrow','ua-aklys-hurled','ua-atlatl-javelin','ua-blowgun-needle'];
+const sourceQualifierReferences=[
+ {id:'phb-magic-user-esp',book:'PHB',pages:[70],label:'ESP probe timing wording',status:'Literal source wording independently reviewed; interpretation or omission remains unresolved'},
+ {id:'phb-magic-user-enchanted-weapon',book:'PHB',pages:[76],label:'Enchanted Weapon reverse wording',status:'Literal source wording independently reviewed; interpretation or omission remains unresolved'},
+ {id:'phb-magic-user-animal-growth',book:'PHB',pages:[79],label:'Animal Growth component wording',status:'Header and material passage independently reviewed; printed difference retained'},
+ {id:'phb-magic-user-repulsion',book:'PHB',pages:[86],label:'Repulsion movement-rate wording',status:'Literal source wording independently reviewed; interpretation or omission remains unresolved'},
+ {id:'phb-magic-user-mass-invisibility',book:'PHB',pages:[70,88],label:'Mass Invisibility ending behavior sources',status:'Literal source wording independently reviewed; interpretation or omission remains unresolved'},
+ {id:'phb-magic-user-reverse-gravity',book:'PHB',pages:[88],label:'Reverse Gravity duration wording',status:'Literal source wording independently reviewed; interpretation or omission remains unresolved'},
+ {id:'phb-magic-user-permanency',book:'PHB',pages:[91],label:'Permanency material component wording',status:'Literal source wording independently reviewed; interpretation or omission remains unresolved'},
+];
+function canonical(value){
+ if(Array.isArray(value))return `[${value.map(canonical).join(',')}]`;
+ if(value!==null&&typeof value==='object')return `{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${canonical(value[key])}`).join(',')}}`;
+ return JSON.stringify(value);
+}
+const hashValue=value=>createHash('sha256').update(canonical(value)).digest('hex');
 const item=id=>{const v=data.equipment.find(x=>x.id===id);assert.ok(v,id);return v};
 const catalog=id=>{const c=catalogs.find(x=>x.itemId===id);assert.ok(c,id);return c};
 test('all 29 newly reviewed rows preserve exact image, focus, numeric values and source binding',()=>{
  assert.equal(reviewed.length,29);assert.equal(new Set(reviewed.map(r=>r.id)).size,29);
  for(const row of reviewed){
-  const region=catalog(row.itemId).regions.find(r=>r.id===row.id);assert.ok(region,row.id);
-  for(const key of ['book','printedPage','pdfPage','image','sha256','width','height','focusRects','checkedFields'])assert.deepEqual(region[key],row[key],row.id+' '+key);
+  const ownerCatalog=catalog(row.itemId),region=ownerCatalog.regions.find(r=>r.id===row.id);assert.ok(region,row.id);
+  if(row.book==='UA'&&row.printedPage===28){
+   const catalogPath=`dist/scans/dagger/${row.itemId}.json`,recipe=ua28Recipes.get(`${catalogPath}|${row.id}`);
+   assert.ok(recipe,`${row.id}: frozen 679 fixture contains the before and current recipe`);
+   const historicalBytes=ua28HistoricalFixture.baselineCatalogs[catalogPath];assert.ok(historicalBytes,catalogPath);
+   const historicalCatalog=JSON.parse(Buffer.from(historicalBytes.contentBase64,'base64').toString('utf8'));
+   const historicalRegion=historicalCatalog.regions.find(r=>r.id===row.id);assert.ok(historicalRegion,row.id+' frozen679 source region');
+   for(const key of ['book','printedPage','pdfPage','image','sha256','width','height','focusRects','checkedFields'])
+    assert.deepEqual(historicalRegion[key],row[key],row.id+' frozen679 '+key);
+   for(const [key,expected] of Object.entries(recipe.expectedRegion))assert.deepEqual(region[key],expected,row.id+' current '+key);
+   const table=ua28HistoricalFixture.fullTableAsset;
+   assert.equal(recipe.expectedRegion.image,table.filename,row.id+' current table image');
+   assert.equal(recipe.expectedRegion.sha256,table.sha256,row.id+' current table image hash');
+   assert.deepEqual([recipe.expectedRegion.width,recipe.expectedRegion.height],[table.width,table.height],row.id+' current table dimensions');
+   const tableBytes=readFileSync(new URL(`../dist/scans/dagger/${table.filename}`,import.meta.url));
+   assert.equal(createHash('sha256').update(tableBytes).digest('hex'),table.sha256,row.id+' current table PNG bytes');
+   assert.equal(region.book,'UA',row.id);assert.equal(region.printedPage,28,row.id);assert.equal(region.pdfPage,29,row.id);
+   assert.deepEqual(region.checkedFields,row.checkedFields,row.id+' current numeric review inputs remain unchanged');
+  }else{
+   for(const key of ['book','printedPage','pdfPage','image','sha256','width','height','focusRects','checkedFields'])assert.deepEqual(region[key],row[key],row.id+' '+key);
+  }
   assert.equal(region.verification,'visually-checked-crop');
   assert.equal(region.pdfPage,region.printedPage+1);
   const gear=item(row.itemId);assert.equal(gear.incomplete,true);
@@ -68,9 +107,13 @@ test('all 29 newly reviewed rows preserve exact image, focus, numeric values and
 });
 test('reviewed inventory adds eight distinct items and preserves price quantities',()=>{
  const previousEquipment=withoutSourceFirstEquipment(data.equipment);
+ const preOfferCheckpoint=withoutBatch5OfferEquipment(data.equipment);
  assert.equal(withoutPriceCompletionEquipment(data.equipment).length,116);
- assert.equal(previousEquipment.length,88);assert.equal(new Set(data.equipment.map(i=>i.id)).size,189);
- assert.equal(data.equipment.filter(i=>i.price!==null).length,185);
+ assert.equal(previousEquipment.length,88);
+ assert.equal(new Set(preOfferCheckpoint.map(i=>i.id)).size,189);
+ assert.equal(preOfferCheckpoint.filter(i=>i.price!==null).length,185);
+ assert.equal(new Set(data.equipment.map(i=>i.id)).size,191);
+ assert.equal(data.equipment.filter(i=>i.price!==null).length,187);
  assert.equal(withoutPriceCompletionEquipment(data.equipment).filter(i=>i.price!==null).length,112);
  assert.equal(catalogs.length,20);assert.equal(previousEquipment.filter(i=>i.price!==null).length,84);assert.equal(data.equipment.filter(i=>i.price===null).length,4);
  for(const id of newIds){assert.equal(data.equipment.filter(i=>i.id===id).length,1);catalog(id)}
@@ -96,20 +139,33 @@ test('unreviewed scale and UA axe damage retain their OCR pending grade',()=>{
   const s=item(id).fieldSources[key];assert.deepEqual([s.book,s.pages],['UA',[26]]);assert.match(s.status,/OCR checked.*visual.*pending/i);assert.equal(s.verification,undefined);
  }
 });
-test('spell reference additions retain source pages and OCR-pending grading',()=>{
+test('spell references retain OCR-pending grades except the exact source-reviewed qualifier citations',()=>{
+ for(const expected of sourceQualifierReferences){
+  const spell=data.spells.find(entry=>entry.id===expected.id);assert.ok(spell,expected.id);
+  const ref=spell.references.find(candidate=>candidate.book===expected.book&&candidate.label===expected.label&&JSON.stringify(candidate.pages)===JSON.stringify(expected.pages));
+  assert.ok(ref,`${expected.id}: exact source qualifier reference remains present`);
+  assert.equal(ref.status,expected.status,`${expected.id}: only the exact source-reviewed status is permitted`);
+  const owner=sourceOwnerIdentity.report.overrideApplications.items.entries.find(entry=>entry.key===expected.id);
+  assert.ok(owner,`${expected.id}: source-owner identity record`);
+  const pinned=owner.references.find(candidate=>candidate.label===expected.label&&JSON.stringify(candidate.pages)===JSON.stringify(expected.pages));
+  assert.ok(pinned,`${expected.id}: reference hash appears in the source-owner identity receipt`);
+  const displayReference={...ref};delete displayReference.evidenceBindings;
+  assert.equal(hashValue(displayReference),pinned.referenceSha256,`${expected.id}: current citation matches exact pinned source qualifier object`);
+ }
  for(const spell of data.spells){
   const seen=new Set();
   for(const ref of spell.references||[]){
    const limits={PHB:128,UA:128,DMG:240,MM:112,MM2:160};assert.ok(Object.hasOwn(limits,ref.book),spell.id);
    assert.ok(ref.pages?.length,spell.id);
-   const reviewed=[...sourceQuestionReferences,...nextReferences,...closureReferences,...dependencyReferences].find(known=>known.id===spell.id&&known.book===ref.book&&known.label===ref.label&&JSON.stringify(known.pages)===JSON.stringify(ref.pages));
+   const reviewed=[...sourceQuestionReferences,...nextReferences,...closureReferences,...dependencyReferences,...sourceQualifierReferences].find(known=>known.id===spell.id&&known.book===ref.book&&known.label===ref.label&&JSON.stringify(known.pages)===JSON.stringify(ref.pages));
    if(reviewed){assert.deepEqual(ref.pages,reviewed.pages);assert.equal(ref.status,reviewed.status);}
    else assert.match(ref.status,/OCR checked.*visual review pending/,spell.id);
    assert.equal(ref.verification,undefined,spell.id);
    for(const page of ref.pages){
     assert.ok(Number.isInteger(page)&&page>0&&page<=limits[ref.book],spell.id);
     assert.ok(!(ref.book==='DMG'&&[175,239,240].includes(page)),spell.id);
-    assert.ok(!(ref.book===spell.book&&spell.pages.includes(page)),`${spell.id}: primary page duplicated`);
+    const exactSelfPageQualifier=sourceQualifierReferences.some(known=>known.id===spell.id&&known.book===ref.book&&known.pages.includes(page)&&known.label===ref.label);
+    assert.ok(exactSelfPageQualifier||!(ref.book===spell.book&&spell.pages.includes(page)),`${spell.id}: primary page duplicated outside an exact source-reviewed qualifier`);
     const key=ref.book+':'+page;assert.ok(!seen.has(key),`${spell.id}: repeated reference ${key}`);seen.add(key);
    }
   }
@@ -140,7 +196,7 @@ test('assembled spell citations exactly match the baseline plus independently ap
  const key=x=>JSON.stringify([x.id,x.book,x.pages,x.label,x.status]);
  const corrections=read('./fixtures/uploaded-source-reference-corrections.json');
  assert.deepEqual(corrections,[{id:'ua-magic-user-eyebite',book:'PHB',label:'Magic-user charm person procedure',oldPages:[65,66],pages:[65]}]);
- const reviewed=[...baseline,...fixture.additions,...uploaded,...sourceQuestionReferences,...nextReferences,...closureReferences,...dependencyReferences].map(ref=>({...ref}));
+ const reviewed=[...baseline,...fixture.additions,...uploaded,...sourceQuestionReferences,...nextReferences,...closureReferences,...dependencyReferences,...sourceQualifierReferences].map(ref=>({...ref}));
  for(const correction of corrections) {
   const matches=reviewed.filter(ref=>ref.id===correction.id&&ref.book===correction.book&&ref.label===correction.label);
   assert.equal(matches.length,1);

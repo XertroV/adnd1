@@ -1,0 +1,3472 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "source-audit-batch5-detect-first-baseline",
+  "phase": "before-source-review-or-fixes",
+  "capturedAt": "2026-11-07",
+  "repository": {
+    "path": "/workspace/adnd1",
+    "branch": "codex/source-audit-batch-5",
+    "commit": "679b15d1c580172e54314829c1c3c86dc78b65f3"
+  },
+  "inputs": {
+    "dataPath": "dist/data.json",
+    "dataSha256": "48b892af40e17e112eb424e5fe10b859bf05b24eb9e8973da6f0181406415823",
+    "auditPath": "research/mechanics-audit-progress.json",
+    "auditInputSha256": "48b892af40e17e112eb424e5fe10b859bf05b24eb9e8973da6f0181406415823",
+    "auditFileSha256": "8d2383c7cad7c1a6c1fdd90fc8e5e6b4e8963fde6cac7f89de899c22e62406e5",
+    "gapsPath": "research/gaps-limitations-next-task.json",
+    "gapsFileSha256": "a1965cc181460b9a0a3a9dcbb78cb7ce0265f5cbb5918a881f582bbd585829b6"
+  },
+  "fullFieldBaseline": {
+    "records": 993,
+    "totalFields": 13418,
+    "inspectedFields": 13309,
+    "sourceCheckedFields": 12722,
+    "unchangedSourceCheckedFields": 10091,
+    "correctedAndCheckedFields": 2631,
+    "correctionPendingFields": 0,
+    "notExtractedFields": 11,
+    "sourceConflictFields": 22,
+    "editorialReviewedFields": 559,
+    "staleProposalFields": 0,
+    "uncheckedFields": 104
+  },
+  "formalConflicts": {
+    "count": 22,
+    "identitySha256": "96cc3a815e16ee225be885bf4eb96e1641dfe1acdc8c6cf7d8359595ffd4d80a",
+    "items": [
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-hold-portal",
+        "fieldPointer": "/fields/Range",
+        "status": "source-conflict",
+        "value": "2″/level (header; see exception)",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-phb-magic",
+            "path": "/fields/Range",
+            "reason": "Printed 2″/level header conflicts with 2 feet/level in the paragraph."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 66,
+            "pdfPage": 67,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-mirror-image",
+        "fieldPointer": "/exceptions/0",
+        "status": "source-conflict",
+        "value": "The printed image-count bands overlap at 75: both 51–75 and 75 or more include that result. The outcome at 75 remains unresolved.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-phb-magic",
+            "path": "/exceptions/0",
+            "reason": "Printed image-count bands overlap at 75; the ambiguity remains in the source."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 71,
+            "pdfPage": 72,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-hallucinatory-terrain",
+        "fieldPointer": "/exceptions/0",
+        "status": "source-conflict",
+        "value": "The printed area header gives 1″ × 1″ square per level, while its 10th- and 12th-level examples give 10″ × 10″ and 12″ × 12″ squares. Their scaling is inconsistent; the intended area remains unresolved.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-phb-magic",
+            "path": "/exceptions/0",
+            "reason": "Printed source ambiguity: the area header and level examples imply different scaling; interpretation remains unresolved."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 77,
+            "pdfPage": 78,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-massmorph",
+        "fieldPointer": "/exceptions/2",
+        "status": "source-conflict",
+        "value": "The printed area header appears to read 11′ × 1″ square per level. This unusual dimensional expression remains unresolved.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-phb-magic",
+            "path": "/exceptions/2",
+            "reason": "Printed source ambiguity: the header gives an anomalous 11 feet by 1 inch per level; intended dimensions remain unresolved."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 77,
+            "pdfPage": 78,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-plant-growth",
+        "fieldPointer": "/exceptions/0",
+        "status": "source-conflict",
+        "value": "Gap: the inherited druid examples scale square dimensions differently from a literal reading of the area header; verify the intended area with the DM/source.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-phb-magic",
+            "path": "/exceptions",
+            "reason": "The druid header and worked examples use square-dimension scaling differently; the source conflict remains."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 78,
+            "pdfPage": 79,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 57,
+            "pdfPage": 58,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 58,
+            "pdfPage": 59,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-spiritwrack",
+        "fieldPointer": "/fields/Duration",
+        "status": "source-conflict",
+        "value": "Three-round reading sequence; special",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-phb-magic",
+            "path": "/fields/Duration",
+            "reason": "The printed second interval is called both a minute and a round; the total timing is a source conflict."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 86,
+            "pdfPage": 87,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-illusionist-light",
+        "fieldPointer": "/fields/Saving throw",
+        "status": "source-conflict",
+        "value": "Special if cast on a creature",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-illusionist-classes",
+            "path": "/fields/Saving throw",
+            "reason": "Printed source conflict: the illusionist header says None, while the inherited cleric text requires a creature saving throw."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 95,
+            "pdfPage": 96,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 67,
+            "pdfPage": 68,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 44,
+            "pdfPage": 45,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-illusionist-continual-light",
+        "fieldPointer": "/fields/Saving throw",
+        "status": "source-conflict",
+        "value": "Special when cast on a creature",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-illusionist-classes",
+            "path": "/fields/Saving throw",
+            "reason": "Printed source conflict: the illusionist header says None, while the inherited cleric text requires a creature saving throw."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 96,
+            "pdfPage": 97,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 46,
+            "pdfPage": 47,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-illusionist-emotion",
+        "fieldPointer": "/effect/0",
+        "status": "source-conflict",
+        "value": "Choose fear, hate, hopelessness or rage. Fear uses the fear effect; hopelessness uses its symbol effect.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-illusionist-classes",
+            "path": "/effect/0",
+            "reason": "Source ambiguity: PHB p.97 does not identify whether the cleric or magic-user Symbol hopelessness effect is intended."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 97,
+            "pdfPage": 98,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 53,
+            "pdfPage": 54,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 76,
+            "pdfPage": 77,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 91,
+            "pdfPage": 92,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-illusionist-first-level-magic-user-spells",
+        "fieldPointer": "/exceptions/0",
+        "status": "source-conflict",
+        "value": "PHB p.100 directs selection from its 20 named spells. The introductory note on p.94 instead says the seventh-level list includes all first-level magic-user spells; the sources conflict, so the referee must decide how to apply the broader statement.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-illusionist-classes",
+            "path": "/exceptions/0",
+            "reason": "Printed source conflict: PHB p.94 says all first-level magic-user spells, while PHB p.100 gives a list of twenty."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 100,
+            "pdfPage": 101,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 94,
+            "pdfPage": 95,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-cleric-invisibility-to-undead",
+        "fieldPointer": "/exceptions/1",
+        "status": "source-conflict",
+        "value": "The text describes its effect on the caster despite the header allowing one touched individual; application to another recipient needs adjudication.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-ua-spells",
+            "path": "/exceptions/1",
+            "reason": "Source ambiguity, UA p.33: the header gives touch range and one individual as the area, while the description repeatedly identifies the caster as the person the undead ignore or attack; application to another touched recipient requires adjudication."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-cleric-withdraw",
+        "fieldPointer": "/fields/Duration",
+        "status": "source-conflict",
+        "value": "Special; printed duration formula and fifth-level example conflict",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-ua-spells",
+            "path": "/fields/Duration",
+            "reason": "Source ambiguity, UA p.35: the stated base is two segments plus one additional increment per caster level, whereas the fifth-level example says six segments; the duration calculation requires adjudication."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 35,
+            "pdfPage": 36,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-cleric-withdraw",
+        "fieldPointer": "/exceptions/1",
+        "status": "source-conflict",
+        "value": "The stated time-budget formula and 5th-level example conflict; no general duration calculation is supplied here.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-ua-spells",
+            "path": "/exceptions/1",
+            "reason": "Source ambiguity, UA p.35: the stated base is two segments plus one additional increment per caster level, whereas the fifth-level example says six segments; the duration calculation requires adjudication."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 35,
+            "pdfPage": 36,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-druid-ceremony",
+        "fieldPointer": "/exceptions/0",
+        "status": "source-conflict",
+        "value": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-ua-spells",
+            "path": "/exceptions/0",
+            "reason": "Source ambiguity, UA p.41: the printed introduction says the listed rites can be cast by a druid of the indicated or lower level, while its escalating ranks associate initiation with 7th level and other rites with 9th and 12th level; do not silently replace lower with higher."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 32,
+            "pdfPage": 33,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 41,
+            "pdfPage": 42,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 42,
+            "pdfPage": 43,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-magic-user-melfs-acid-arrow",
+        "fieldPointer": "/exceptions/1",
+        "status": "source-conflict",
+        "value": "The printed duration rule and its 4th–6th-level example conflict; the exact duration progression is unresolved.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-ua-spells",
+            "path": "/exceptions/1",
+            "reason": "Source ambiguity, UA p.54: the description adds one round of acid damage per three caster levels above third, but the example gives two rounds for a 4th–6th-level caster; the progression and example require adjudication."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 54,
+            "pdfPage": 55,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 82,
+            "pdfPage": 83,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-magic-user-zephyr",
+        "fieldPointer": "/fields/Materials",
+        "status": "source-conflict",
+        "value": "Accordion-folded fine parchment and a pin",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-ua-spells",
+            "path": "/fields/Materials",
+            "reason": "Printed wording ambiguity, UA p.55: the parchment is tacked with a “pin or ivory or silver”; the intended relationship between the pin and the named materials is not clear."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 55,
+            "pdfPage": 56,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-magic-user-zephyr",
+        "fieldPointer": "/exceptions/0",
+        "status": "source-conflict",
+        "value": "The printed pin-material wording is ambiguous.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-ua-spells",
+            "path": "/exceptions/0",
+            "reason": "Printed wording ambiguity, UA p.55: the parchment is tacked with a “pin or ivory or silver”; the intended relationship between the pin and the named materials is not clear."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 55,
+            "pdfPage": 56,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-magic-user-magic-mirror",
+        "fieldPointer": "/fields/Scrying detection",
+        "status": "source-conflict",
+        "value": "Check each round. The DMG states an Intelligence 12+ minimum, but its spell-user detection table contains lower-Intelligence entries; how these interact is unresolved. For non-spell-users, base chances are fighter 2%, paladin 6%, ranger 4%, thief 6%, assassin 5%, monk 1%, bard 3%; UA adds cavalier 5% and barbarian 1%. Add 1% per experience level and cumulative Intelligence bonuses above 12: 13–18 give +1%, +3%, +6%, +10%, +15%, +21% respectively. Treat monsters as the most applicable class. Spell-users use the detection-of-invisibility table instead.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-ua-spells",
+            "path": "/fields/Scrying detection",
+            "reason": "Printed source ambiguity: the stated Intelligence 12 minimum and lower-Intelligence spell-user table entries have an unresolved relationship."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 57,
+            "pdfPage": 58,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 141,
+            "pdfPage": 142,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          {
+            "book": "DMG",
+            "page": 60,
+            "pdfPage": 61,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-illusionist-magic-mirror",
+        "fieldPointer": "/fields/Scrying detection",
+        "status": "source-conflict",
+        "value": "Check each round. The DMG states an Intelligence 12+ minimum, but its spell-user detection table contains lower-Intelligence entries; how these interact is unresolved. For non-spell-users, base chances are fighter 2%, paladin 6%, ranger 4%, thief 6%, assassin 5%, monk 1%, bard 3%; UA adds cavalier 5% and barbarian 1%. Add 1% per experience level and cumulative Intelligence bonuses above 12: 13–18 give +1%, +3%, +6%, +10%, +15%, +21% respectively. Treat monsters as the most applicable class. Spell-users use the detection-of-invisibility table instead.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-ua-spells",
+            "path": "/fields/Scrying detection",
+            "reason": "Printed source ambiguity: the stated Intelligence 12 minimum and lower-Intelligence spell-user table entries have an unresolved relationship."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 57,
+            "pdfPage": 58,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 70,
+            "pdfPage": 71,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 141,
+            "pdfPage": 142,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          {
+            "book": "DMG",
+            "page": 60,
+            "pdfPage": 61,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ]
+      },
+      {
+        "collection": "classes",
+        "itemId": "monk",
+        "fieldPointer": "/attackTableNote",
+        "status": "source-conflict",
+        "value": "Printing conflict: PHB p. 30 says monks attack as thieves; the DMG p. 74 cleric/druid matrix explicitly includes monks. Confirm which table the campaign uses.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-illusionist-classes",
+            "path": "/attackTableNote",
+            "reason": "Printed source conflict: PHB p.30 assigns monks the thief attack table, but DMG p.74 labels monks on the cleric/druid attack matrix."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 31,
+            "pdfPage": 32,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 12,
+            "pdfPage": 13,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 19,
+            "pdfPage": 20,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 30,
+            "pdfPage": 31,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 32,
+            "pdfPage": 33,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "DMG",
+            "page": 74,
+            "pdfPage": 75,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ]
+      },
+      {
+        "collection": "classes",
+        "itemId": "ua-cavalier",
+        "fieldPointer": "/errata/0",
+        "status": "source-conflict",
+        "value": "Project-supplied correction: cavalier hit dice are d10. This correction is kept separate from the original printing’s conflicting hit-die heading. An authoritative errata document has not yet been checked in this release.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-illusionist-classes",
+            "path": "/errata/0",
+            "reason": "Printed source conflict: the cavalier table is headed d12 while its introductory first-level text says d10; the project-supplied d10 correction lacks an independently checked authoritative errata source."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 15,
+            "pdfPage": 16,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "PHB",
+            "page": 12,
+            "pdfPage": 13,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 19,
+            "pdfPage": 20,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 22,
+            "pdfPage": 23,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 24,
+            "pdfPage": 25,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 25,
+            "pdfPage": 26,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 13,
+            "pdfPage": 14,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 14,
+            "pdfPage": 15,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 16,
+            "pdfPage": 17,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 22,
+            "pdfPage": 23,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 74,
+            "pdfPage": 75,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ]
+      },
+      {
+        "collection": "classes",
+        "itemId": "ua-thief-acrobat",
+        "fieldPointer": "/retainedSkillsNote",
+        "status": "source-conflict",
+        "value": "UA p. 23 explicitly continues climbing, but describes move silently, hide, hear noise, and read languages as retained from fifth level. Their later progression is ambiguous; no automatic increases are supplied here.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "unresolved": [
+          {
+            "checker": "mechanics-illusionist-classes",
+            "path": "/retainedSkillsNote",
+            "reason": "Source ambiguity: UA p.23 explicitly continues climbing while describing other skills as retained from fifth level without clearly saying whether they continue to improve."
+          }
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 23,
+            "pdfPage": 24,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "PHB",
+            "page": 12,
+            "pdfPage": 13,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 19,
+            "pdfPage": 20,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 27,
+            "pdfPage": 28,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 29,
+            "pdfPage": 30,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 30,
+            "pdfPage": 31,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 24,
+            "pdfPage": 25,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 25,
+            "pdfPage": 26,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 74,
+            "pdfPage": 75,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ]
+      }
+    ]
+  },
+  "recordCautionCandidates": {
+    "count": 78,
+    "denominatorRule": "Exact recorded reviewRecord.unresolved notes matching explicit ambiguity/conflict, under-specification, unextracted, or referenced-not-transcribed language; generic broad-scope/non-exhaustive notes excluded. Not a formal gap count. Records can overlap the 22 source-conflict and 11 not-extracted field statuses and each other.",
+    "byCollection": {
+      "spells": 40,
+      "equipment": 18,
+      "rules": 13,
+      "classes": 7,
+      "matrices": 0,
+      "progressionExplainer": 0
+    },
+    "identitySha256": "035a65387c5a1fc7c74eaf639ba4ade7a45750b052fe712c1cb49fa31a7f5c63",
+    "items": [
+      {
+        "collection": "equipment",
+        "itemId": "phb-banded-mail",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The printed plus sign after the listed weight is retained without interpreting it.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 35,
+            "pdfPage": 36,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 36,
+            "pdfPage": 37,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 75,
+            "pdfPage": 76,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 27,
+            "pdfPage": 28,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          85
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "phb-chain-mail",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The printed plus sign after the listed weight is retained without interpreting it.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 35,
+            "pdfPage": 36,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 36,
+            "pdfPage": 37,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 75,
+            "pdfPage": 76,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 27,
+            "pdfPage": 28,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          86
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "ua-bronze-plate",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The plus sign following the printed weight is retained without assuming its meaning.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 26,
+            "pdfPage": 27,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 75,
+            "pdfPage": 76,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ],
+        "reviewRecordIndexes": [
+          97
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "phb-bo-stick",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Purchase price remains unextracted: no matching price was found in the visually reviewed equipment costs.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 35,
+            "pdfPage": 36,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 38,
+            "pdfPage": 39,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 27,
+            "pdfPage": 28,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ],
+        "reviewRecordIndexes": [
+          109
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "phb-club",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Purchase price remains unextracted: no matching price was found in the visually reviewed equipment costs.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 35,
+            "pdfPage": 36,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 38,
+            "pdfPage": 39,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 27,
+            "pdfPage": 28,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "PHB",
+            "page": 39,
+            "pdfPage": 40,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          110
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "phb-quarterstaff",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Purchase price remains unextracted: no matching price was found in the visually reviewed equipment costs.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 35,
+            "pdfPage": 36,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 38,
+            "pdfPage": 39,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 27,
+            "pdfPage": 28,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ],
+        "reviewRecordIndexes": [
+          124
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "phb-sling-stone",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Purchase price remains unextracted: no matching price was found in the visually reviewed equipment costs.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 35,
+            "pdfPage": 36,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ],
+        "reviewRecordIndexes": [
+          130
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "phb-bullseye-lantern",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Printed row does not identify this subtype or capacity; applicability of the generic figure remains unresolved.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 36,
+            "pdfPage": 37,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 102,
+            "pdfPage": 103,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "DMG",
+            "page": 225,
+            "pdfPage": 225,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          136
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "phb-bullseye-lantern",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The lantern row does not identify the type or state whether it contains oil.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 36,
+            "pdfPage": 37,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 102,
+            "pdfPage": 103,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "DMG",
+            "page": 225,
+            "pdfPage": 225,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          136
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "phb-silver-mirror",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Printed row does not identify this subtype or capacity; applicability of the generic figure remains unresolved.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 36,
+            "pdfPage": 37,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "DMG",
+            "page": 60,
+            "pdfPage": 61,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          {
+            "book": "DMG",
+            "page": 225,
+            "pdfPage": 225,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          137
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "phb-silver-mirror",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The generic mirror row does not identify material or dimensions.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 36,
+            "pdfPage": 37,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "DMG",
+            "page": 60,
+            "pdfPage": 61,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          {
+            "book": "DMG",
+            "page": 225,
+            "pdfPage": 225,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          137
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "phb-arrow-quiver-12",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Printed row does not identify this subtype or capacity; applicability of the generic figure remains unresolved.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 36,
+            "pdfPage": 37,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "DMG",
+            "page": 225,
+            "pdfPage": 225,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          146
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "phb-arrow-quiver-20",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Printed row does not identify this subtype or capacity; applicability of the generic figure remains unresolved.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 36,
+            "pdfPage": 37,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "DMG",
+            "page": 225,
+            "pdfPage": 225,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          147
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "phb-bolt-quiver-20",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Printed row does not identify this subtype or capacity; applicability of the generic figure remains unresolved.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 36,
+            "pdfPage": 37,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "DMG",
+            "page": 225,
+            "pdfPage": 225,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          148
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "phb-bolt-quiver-40",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Printed row does not identify this subtype or capacity; applicability of the generic figure remains unresolved.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 36,
+            "pdfPage": 37,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "DMG",
+            "page": 225,
+            "pdfPage": 225,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          149
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "phb-standard-rations",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The row does not identify a quantity or duration, so applicability to the one-week item is unresolved.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 36,
+            "pdfPage": 37,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "DMG",
+            "page": 225,
+            "pdfPage": 225,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          155
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "phb-standard-rations",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The printed standard-rations row gives no quantity or duration, so the value cannot be assigned to a particular supply period.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 36,
+            "pdfPage": 37,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "DMG",
+            "page": 225,
+            "pdfPage": 225,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          155
+        ]
+      },
+      {
+        "collection": "equipment",
+        "itemId": "ua-blowgun-needle",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "UA p.26 lists 15 gp-weight for blowgun and needle together; the needle-only weight remains unextracted.",
+        "checkers": [
+          "mechanics-equipment"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 26,
+            "pdfPage": 27,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "PHB",
+            "page": 39,
+            "pdfPage": 40,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          172
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-illusionist-light",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Direct header says Saving Throw: None; card describes a special target save inherited from another spell. Resolve conflict against the referenced spell, without silently replacing either reading.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 95,
+            "pdfPage": 96,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 67,
+            "pdfPage": 68,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 44,
+            "pdfPage": 45,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          182
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-illusionist-light",
+        "fieldPointer": "/fields/Saving throw",
+        "annotationType": "path-reason-object",
+        "reason": "Printed source conflict: the illusionist header says None, while the inherited cleric text requires a creature saving throw.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 95,
+            "pdfPage": 96,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 67,
+            "pdfPage": 68,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 44,
+            "pdfPage": 45,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          182
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-illusionist-continual-light",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Direct header says Saving Throw: None; card describes a special target save inherited from another spell. Resolve conflict against the referenced spell, without silently replacing either reading.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 96,
+            "pdfPage": 97,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 46,
+            "pdfPage": 47,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          198
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-illusionist-continual-light",
+        "fieldPointer": "/fields/Saving throw",
+        "annotationType": "path-reason-object",
+        "reason": "Printed source conflict: the illusionist header says None, while the inherited cleric text requires a creature saving throw.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 96,
+            "pdfPage": 97,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 46,
+            "pdfPage": 47,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          198
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-illusionist-emotion",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Hopelessness Symbol identity remains ambiguous; PHB 97 does not select cleric or magic-user Symbol.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 97,
+            "pdfPage": 98,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 53,
+            "pdfPage": 54,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 76,
+            "pdfPage": 77,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 91,
+            "pdfPage": 92,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          211
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-illusionist-emotion",
+        "fieldPointer": "/effect/0",
+        "annotationType": "path-reason-object",
+        "reason": "Source ambiguity: PHB p.97 does not identify whether the cleric or magic-user Symbol hopelessness effect is intended.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 97,
+            "pdfPage": 98,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 53,
+            "pdfPage": 54,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 76,
+            "pdfPage": 77,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 91,
+            "pdfPage": 92,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          211
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-illusionist-first-level-magic-user-spells",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The PHB 94 introductory wording and PHB 100 list remain in conflict; do not silently choose one.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 100,
+            "pdfPage": 101,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 94,
+            "pdfPage": 95,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          238
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-illusionist-first-level-magic-user-spells",
+        "fieldPointer": "/exceptions/0",
+        "annotationType": "path-reason-object",
+        "reason": "Printed source conflict: PHB p.94 says all first-level magic-user spells, while PHB p.100 gives a list of twenty.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 100,
+            "pdfPage": 101,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 94,
+            "pdfPage": 95,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          238
+        ]
+      },
+      {
+        "collection": "classes",
+        "itemId": "assassin",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The printed class limit and level progression conflict; no rule is selected.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 30,
+            "pdfPage": 31,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 12,
+            "pdfPage": 13,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 19,
+            "pdfPage": 20,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 27,
+            "pdfPage": 28,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 29,
+            "pdfPage": 30,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 23,
+            "pdfPage": 24,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 24,
+            "pdfPage": 25,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 25,
+            "pdfPage": 26,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 74,
+            "pdfPage": 75,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          247
+        ]
+      },
+      {
+        "collection": "classes",
+        "itemId": "monk",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Monk attack matrix: PHB p.30 says use the thief table, while DMG p.74 labels monks in the cleric/druid table; retain the printed conflict rather than choose a universal rule.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 31,
+            "pdfPage": 32,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 12,
+            "pdfPage": 13,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 19,
+            "pdfPage": 20,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 30,
+            "pdfPage": 31,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 32,
+            "pdfPage": 33,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "DMG",
+            "page": 74,
+            "pdfPage": 75,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          248
+        ]
+      },
+      {
+        "collection": "classes",
+        "itemId": "monk",
+        "fieldPointer": "/attackTableNote",
+        "annotationType": "path-reason-object",
+        "reason": "Printed source conflict: PHB p.30 assigns monks the thief attack table, but DMG p.74 labels monks on the cleric/druid attack matrix.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 31,
+            "pdfPage": 32,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 12,
+            "pdfPage": 13,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 19,
+            "pdfPage": 20,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 30,
+            "pdfPage": 31,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 32,
+            "pdfPage": 33,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "DMG",
+            "page": 74,
+            "pdfPage": 75,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          248
+        ]
+      },
+      {
+        "collection": "classes",
+        "itemId": "ua-cavalier",
+        "fieldPointer": "/errata/0",
+        "annotationType": "path-reason-object",
+        "reason": "Printed source conflict: the cavalier table is headed d12 while its introductory first-level text says d10; the project-supplied d10 correction lacks an independently checked authoritative errata source.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 15,
+            "pdfPage": 16,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "PHB",
+            "page": 12,
+            "pdfPage": 13,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 19,
+            "pdfPage": 20,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 22,
+            "pdfPage": 23,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 24,
+            "pdfPage": 25,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 25,
+            "pdfPage": 26,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 13,
+            "pdfPage": 14,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 14,
+            "pdfPage": 15,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 16,
+            "pdfPage": 17,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 22,
+            "pdfPage": 23,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 74,
+            "pdfPage": 75,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          250
+        ]
+      },
+      {
+        "collection": "classes",
+        "itemId": "ua-thief-acrobat",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The advancement of thief-acrobat retained silent movement, hiding, hearing and language abilities remains genuinely ambiguous in UA p.23; climbing is explicitly advanced.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 23,
+            "pdfPage": 24,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "PHB",
+            "page": 12,
+            "pdfPage": 13,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 19,
+            "pdfPage": 20,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 27,
+            "pdfPage": 28,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 29,
+            "pdfPage": 30,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 30,
+            "pdfPage": 31,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 24,
+            "pdfPage": 25,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 25,
+            "pdfPage": 26,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 74,
+            "pdfPage": 75,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          252
+        ]
+      },
+      {
+        "collection": "classes",
+        "itemId": "ua-thief-acrobat",
+        "fieldPointer": "/retainedSkillsNote",
+        "annotationType": "path-reason-object",
+        "reason": "Source ambiguity: UA p.23 explicitly continues climbing while describing other skills as retained from fifth level without clearly saying whether they continue to improve.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 23,
+            "pdfPage": 24,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "PHB",
+            "page": 12,
+            "pdfPage": 13,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 19,
+            "pdfPage": 20,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 27,
+            "pdfPage": 28,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 29,
+            "pdfPage": 30,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 30,
+            "pdfPage": 31,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 24,
+            "pdfPage": 25,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 25,
+            "pdfPage": 26,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 74,
+            "pdfPage": 75,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          252
+        ]
+      },
+      {
+        "collection": "classes",
+        "itemId": "ua-paladin",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "UA p.22 gives overlapping paladin ordinary-attack bands 7–12 and 12–18; PHB p.25 uses 7–12 and 13+. The exact 12th-level boundary needs an explicit conflict note.",
+        "checkers": [
+          "mechanics-illusionist-classes"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 24,
+            "pdfPage": 25,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 12,
+            "pdfPage": 13,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 19,
+            "pdfPage": 20,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 22,
+            "pdfPage": 23,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 25,
+            "pdfPage": 26,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 13,
+            "pdfPage": 14,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 14,
+            "pdfPage": 15,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 15,
+            "pdfPage": 16,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 16,
+            "pdfPage": 17,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 22,
+            "pdfPage": 23,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 74,
+            "pdfPage": 75,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          253
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-cleric-speak-with-the-dead",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Printed range 1 lacks a visible unit; table overlaps at level 7.",
+        "checkers": [
+          "mechanics-phb-divine"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 48,
+            "pdfPage": 49,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 40,
+            "pdfPage": 41,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          291
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-cleric-exorcise",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Printed range 1 lacks a visible unit.",
+        "checkers": [
+          "mechanics-phb-divine"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 48,
+            "pdfPage": 49,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 40,
+            "pdfPage": 41,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          295
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-cleric-wind-walk",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Passenger capacity is ambiguous in the printed source.",
+        "checkers": [
+          "mechanics-phb-divine"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 54,
+            "pdfPage": 55,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 40,
+            "pdfPage": 41,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          330
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-druid-wall-of-thorns",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Printed volume statements and examples conflict; no total volume inferred.",
+        "checkers": [
+          "mechanics-phb-divine"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 54,
+            "pdfPage": 55,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 62,
+            "pdfPage": 63,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 41,
+            "pdfPage": 42,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          397
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-find-familiar",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "PHB Find Familiar also states a hit-point loss when a familiar dies, while MM imp/quasit entries state a four-level loss; whether both apply is not decided here. The Monster Manual contains additional creature-specific powers outside this bounded familiar-benefits summary.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 66,
+            "pdfPage": 67,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 67,
+            "pdfPage": 68,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "MM",
+            "page": 54,
+            "pdfPage": 55,
+            "sourceSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81"
+          },
+          {
+            "book": "MM",
+            "page": 79,
+            "pdfPage": 80,
+            "sourceSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81"
+          },
+          {
+            "book": "MM",
+            "page": 80,
+            "pdfPage": 81,
+            "sourceSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81"
+          }
+        ],
+        "reviewRecordIndexes": [
+          419
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-hold-portal",
+        "fieldPointer": "/fields/Range",
+        "annotationType": "path-reason-object",
+        "reason": "Printed 2″/level header conflicts with 2 feet/level in the paragraph.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 66,
+            "pdfPage": 67,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          421
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-esp",
+        "fieldPointer": "/exceptions",
+        "annotationType": "path-reason-object",
+        "reason": "The paragraph uses both per-turn and round-to-round probe timing; their relationship remains ambiguous.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 70,
+            "pdfPage": 71,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          445
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-mirror-image",
+        "fieldPointer": "/exceptions/0",
+        "annotationType": "path-reason-object",
+        "reason": "Printed image-count bands overlap at 75; the ambiguity remains in the source.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 71,
+            "pdfPage": 72,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          454
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-mirror-image",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The source ambiguity remains unresolved; no numerical interpretation is selected.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 71,
+            "pdfPage": 72,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          454
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-hallucinatory-terrain",
+        "fieldPointer": "/exceptions/0",
+        "annotationType": "path-reason-object",
+        "reason": "Printed source ambiguity: the area header and level examples imply different scaling; interpretation remains unresolved.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 77,
+            "pdfPage": 78,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          498
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-hallucinatory-terrain",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The source ambiguity remains unresolved; no numerical interpretation is selected.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 77,
+            "pdfPage": 78,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          498
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-massmorph",
+        "fieldPointer": "/exceptions/2",
+        "annotationType": "path-reason-object",
+        "reason": "Printed source ambiguity: the header gives an anomalous 11 feet by 1 inch per level; intended dimensions remain unresolved.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 77,
+            "pdfPage": 78,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          500
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-massmorph",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The source ambiguity remains unresolved; no numerical interpretation is selected.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 77,
+            "pdfPage": 78,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          500
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-plant-growth",
+        "fieldPointer": "/exceptions",
+        "annotationType": "path-reason-object",
+        "reason": "The druid header and worked examples use square-dimension scaling differently; the source conflict remains.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 78,
+            "pdfPage": 79,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 57,
+            "pdfPage": 58,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 58,
+            "pdfPage": 59,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          503
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-spiritwrack",
+        "fieldPointer": "/effect",
+        "annotationType": "path-reason-object",
+        "reason": "Printed description calls the second interval both a minute and a round; the existing round timing requires referee resolution.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 86,
+            "pdfPage": 87,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          555
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-spiritwrack",
+        "fieldPointer": "/fields/Duration",
+        "annotationType": "path-reason-object",
+        "reason": "The printed second interval is called both a minute and a round; the total timing is a source conflict.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 86,
+            "pdfPage": 87,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          555
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-mass-invisibility",
+        "fieldPointer": "/exceptions",
+        "annotationType": "path-reason-object",
+        "reason": "The short mass spell and inherited invisibility do not explicitly resolve whether one attacker reveals an entire group.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 88,
+            "pdfPage": 89,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 70,
+            "pdfPage": 71,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 71,
+            "pdfPage": 72,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          565
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-mass-charm",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The source does not explicitly address every possible mixed person/monster classification; use the applicable underlying spell without inventing a new classification.",
+        "checkers": [
+          "mechanics-phb-magic"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 90,
+            "pdfPage": 91,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 55,
+            "pdfPage": 56,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 56,
+            "pdfPage": 57,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 65,
+            "pdfPage": 66,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 75,
+            "pdfPage": 76,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 76,
+            "pdfPage": 77,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          579
+        ]
+      },
+      {
+        "collection": "rules",
+        "itemId": "strength-exceptional",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "General-information race and class eligibility rows are not transcribed in this adjustment-table batch.",
+        "checkers": [
+          "mechanics-rules"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 9,
+            "pdfPage": 10,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          606
+        ]
+      },
+      {
+        "collection": "rules",
+        "itemId": "intelligence-learning",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "General-information race and class eligibility rows are not transcribed in this adjustment-table batch.",
+        "checkers": [
+          "mechanics-rules"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 10,
+            "pdfPage": 11,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          607
+        ]
+      },
+      {
+        "collection": "rules",
+        "itemId": "wisdom-bonus-spells",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "General-information race and class eligibility rows are not transcribed in this adjustment-table batch.",
+        "checkers": [
+          "mechanics-rules"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 11,
+            "pdfPage": 12,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          608
+        ]
+      },
+      {
+        "collection": "rules",
+        "itemId": "dexterity-adjustments",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "General-information race and class eligibility rows are not transcribed in this adjustment-table batch.",
+        "checkers": [
+          "mechanics-rules"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 11,
+            "pdfPage": 12,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 12,
+            "pdfPage": 13,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          609
+        ]
+      },
+      {
+        "collection": "rules",
+        "itemId": "constitution-hp",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "General-information race and class eligibility rows are not transcribed in this adjustment-table batch.",
+        "checkers": [
+          "mechanics-rules"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 12,
+            "pdfPage": 13,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          610
+        ]
+      },
+      {
+        "collection": "rules",
+        "itemId": "charisma-henchmen",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "General-information race and class eligibility rows are not transcribed in this adjustment-table batch.",
+        "checkers": [
+          "mechanics-rules"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 13,
+            "pdfPage": 14,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          612
+        ]
+      },
+      {
+        "collection": "rules",
+        "itemId": "encounter-types",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The class distribution, maximums and all other encounter-generator steps are not transcribed here.",
+        "checkers": [
+          "mechanics-rules"
+        ],
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 103,
+            "pdfPage": 104,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "DMG",
+            "page": 175,
+            "pdfPage": null,
+            "sourceSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+            "sourceKind": "separately-supplied-private-image",
+            "availability": "private-unpublished",
+            "printing": "unestablished",
+            "originalPdfPage": "missing"
+          }
+        ],
+        "reviewRecordIndexes": [
+          639
+        ]
+      },
+      {
+        "collection": "rules",
+        "itemId": "training-qualifications",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The source lists four class cost headings and does not explicitly map their subclasses in this passage.",
+        "checkers": [
+          "mechanics-rules"
+        ],
+        "sourceReferences": [
+          {
+            "book": "DMG",
+            "page": 86,
+            "pdfPage": 87,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          658
+        ]
+      },
+      {
+        "collection": "rules",
+        "itemId": "ua-specialization",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Crossbow point-blank may overlap the ordinary short range; preserve the printed ranges for adjudication.",
+        "checkers": [
+          "mechanics-rules"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 18,
+            "pdfPage": 19,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ],
+        "reviewRecordIndexes": [
+          660
+        ]
+      },
+      {
+        "collection": "rules",
+        "itemId": "ua-duergar-defenses",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The detailed standard dwarven underground and combat rules are referenced but not re-transcribed here.",
+        "checkers": [
+          "mechanics-rules"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 10,
+            "pdfPage": 11,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ],
+        "reviewRecordIndexes": [
+          694
+        ]
+      },
+      {
+        "collection": "rules",
+        "itemId": "ua-drow-pc-exceptions",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The Fiend Folio score-generation method is referenced but not transcribed; UA class level limits are separate.",
+        "checkers": [
+          "mechanics-rules"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 10,
+            "pdfPage": 11,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 11,
+            "pdfPage": 12,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ],
+        "reviewRecordIndexes": [
+          696
+        ]
+      },
+      {
+        "collection": "rules",
+        "itemId": "ua-deep-gnome-pc-exceptions",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The underlying conjure elemental spell procedure and monster statistics are referenced, not transcribed or fully reviewed.",
+        "checkers": [
+          "mechanics-rules"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 11,
+            "pdfPage": 12,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ],
+        "reviewRecordIndexes": [
+          698
+        ]
+      },
+      {
+        "collection": "rules",
+        "itemId": "detecting-scrying",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "The printed table leaves lower levels and dashes without numeric chances; do not infer zero.",
+        "checkers": [
+          "mechanics-rules"
+        ],
+        "sourceReferences": [
+          {
+            "book": "DMG",
+            "page": 119,
+            "pdfPage": 120,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          {
+            "book": "DMG",
+            "page": 60,
+            "pdfPage": 61,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          751
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-cleric-aid",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Whether bless’s normal casting eligibility restriction independently applies to this derived effect is not established by the benefit reference.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 34,
+            "pdfPage": 35,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 35,
+            "pdfPage": 36,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "PHB",
+            "page": 43,
+            "pdfPage": 44,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          753
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-magic-user-melfs-acid-arrow",
+        "fieldPointer": "/exceptions/1",
+        "annotationType": "path-reason-object",
+        "reason": "Source ambiguity, UA p.54: the description adds one round of acid damage per three caster levels above third, but the example gives two rounds for a 4th–6th-level caster; the progression and example require adjudication.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 54,
+            "pdfPage": 55,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 82,
+            "pdfPage": 83,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ],
+        "reviewRecordIndexes": [
+          770
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-cleric-heroes-feast",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "Whether bless’s normal casting eligibility restriction independently applies to this derived effect is not established by the benefit reference.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 40,
+            "pdfPage": 41,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 41,
+            "pdfPage": 42,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "PHB",
+            "page": 43,
+            "pdfPage": 44,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "reviewRecordIndexes": [
+          785
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-cleric-invisibility-to-undead",
+        "fieldPointer": "/exceptions/1",
+        "annotationType": "path-reason-object",
+        "reason": "Source ambiguity, UA p.33: the header gives touch range and one individual as the area, while the description repeatedly identifies the caster as the person the undead ignore or attack; application to another touched recipient requires adjudication.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 33,
+            "pdfPage": 34,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ],
+        "reviewRecordIndexes": [
+          809
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-cleric-withdraw",
+        "fieldPointer": "/fields/Duration",
+        "annotationType": "path-reason-object",
+        "reason": "Source ambiguity, UA p.35: the stated base is two segments plus one additional increment per caster level, whereas the fifth-level example says six segments; the duration calculation requires adjudication.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 35,
+            "pdfPage": 36,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ],
+        "reviewRecordIndexes": [
+          817
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-cleric-withdraw",
+        "fieldPointer": "/exceptions/1",
+        "annotationType": "path-reason-object",
+        "reason": "Source ambiguity, UA p.35: the stated base is two segments plus one additional increment per caster level, whereas the fifth-level example says six segments; the duration calculation requires adjudication.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 35,
+            "pdfPage": 36,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ],
+        "reviewRecordIndexes": [
+          817
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-druid-ceremony",
+        "fieldPointer": "/exceptions/0",
+        "annotationType": "path-reason-object",
+        "reason": "Source ambiguity, UA p.41: the printed introduction says the listed rites can be cast by a druid of the indicated or lower level, while its escalating ranks associate initiation with 7th level and other rites with 9th and 12th level; do not silently replace lower with higher.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 32,
+            "pdfPage": 33,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 41,
+            "pdfPage": 42,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 42,
+            "pdfPage": 43,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ],
+        "reviewRecordIndexes": [
+          833
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-illusionist-magic-mirror",
+        "fieldPointer": "/fields/Scrying detection",
+        "annotationType": "path-reason-object",
+        "reason": "Printed source ambiguity: the stated Intelligence 12 minimum and lower-Intelligence spell-user table entries have an unresolved relationship.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 57,
+            "pdfPage": 58,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 70,
+            "pdfPage": 71,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 141,
+            "pdfPage": 142,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          {
+            "book": "DMG",
+            "page": 60,
+            "pdfPage": 61,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          857
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-illusionist-magic-mirror",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "DMG p.141 first states an Intelligence 12 minimum, but refers spell-users to the p.60 table, which contains entries below 12; whether the general minimum also applies to spell-users is not explicit.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 57,
+            "pdfPage": 58,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 70,
+            "pdfPage": 71,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 141,
+            "pdfPage": 142,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          {
+            "book": "DMG",
+            "page": 60,
+            "pdfPage": 61,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          857
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-magic-user-zephyr",
+        "fieldPointer": "/fields/Materials",
+        "annotationType": "path-reason-object",
+        "reason": "Printed wording ambiguity, UA p.55: the parchment is tacked with a “pin or ivory or silver”; the intended relationship between the pin and the named materials is not clear.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 55,
+            "pdfPage": 56,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ],
+        "reviewRecordIndexes": [
+          940
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-magic-user-zephyr",
+        "fieldPointer": "/exceptions/0",
+        "annotationType": "path-reason-object",
+        "reason": "Printed wording ambiguity, UA p.55: the parchment is tacked with a “pin or ivory or silver”; the intended relationship between the pin and the named materials is not clear.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 55,
+            "pdfPage": 56,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ],
+        "reviewRecordIndexes": [
+          940
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-magic-user-magic-mirror",
+        "fieldPointer": "/fields/Scrying detection",
+        "annotationType": "path-reason-object",
+        "reason": "Printed source ambiguity: the stated Intelligence 12 minimum and lower-Intelligence spell-user table entries have an unresolved relationship.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 57,
+            "pdfPage": 58,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 141,
+            "pdfPage": 142,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          {
+            "book": "DMG",
+            "page": 60,
+            "pdfPage": 61,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          949
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-magic-user-magic-mirror",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "DMG p.141 first states an Intelligence 12 minimum, but refers spell-users to the p.60 table, which contains entries below 12; whether the general minimum also applies to spell-users is not explicit.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 57,
+            "pdfPage": 58,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 141,
+            "pdfPage": 142,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          {
+            "book": "DMG",
+            "page": 60,
+            "pdfPage": 61,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          949
+        ]
+      },
+      {
+        "collection": "spells",
+        "itemId": "ua-magic-user-forcecage",
+        "fieldPointer": null,
+        "annotationType": "record-note",
+        "reason": "UA does not identify how selectable faces, charges, movement, and the device’s attack-charge costs transfer to the cast forcecube; do not impose the item’s mechanics unqualified.",
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "sourceReferences": [
+          {
+            "book": "UA",
+            "page": 61,
+            "pdfPage": 62,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 62,
+            "pdfPage": 63,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 81,
+            "pdfPage": 82,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "DMG",
+            "page": 142,
+            "pdfPage": 143,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          }
+        ],
+        "reviewRecordIndexes": [
+          962
+        ]
+      }
+    ]
+  },
+  "detectorValidation": {
+    "liveBaseline": "PASS: recomputed from complete durable review log over all included paths and fields",
+    "fullRecordEquality": "PASS: regenerated 13,418 field records exactly equal saved log",
+    "syntheticKnownFailure": {
+      "fixture": "downgrade Mirror Image /exceptions/0 from source-conflict to source-checked",
+      "result": "DETECTED",
+      "missingCount": 1,
+      "missing": [
+        "spells\u0000phb-magic-user-mirror-image\u0000/exceptions/0"
+      ]
+    },
+    "syntheticCautionDenominatorLoss": {
+      "fixture": "remove final recorded review note candidate",
+      "result": "DETECTED",
+      "baselineCount": 78,
+      "mutatedCount": 77
+    }
+  },
+  "semanticReview": {
+    "sourceReviewComplete": false,
+    "confirmedErrors": [],
+    "genuineAmbiguities": [],
+    "notAssessable": [],
+    "note": "This is a detection baseline, not a semantic pass or a claim that the 78 candidates are independent errors."
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "batch5-reviewed-price-integration-readonly-review",
+  "status": "bounded read-only review green; no apply performed by reviewer",
+  "scope": "Independent post-apply verification of the exact preparation script, sealed mirror plan, six current dependency pins, historical references, candidate payloads, and actual integration receipt. This is not a source-semantic review or approval of full monetary index coverage.",
+  "script": {
+    "path": "/tmp/apply-batch5-reviewed-price-integration.mjs",
+    "sha256": "2f150f719ffa0590d266616c143f53642db093530dcd84e10e69450063caba4e",
+    "dryRunStatus": "dry-run/prepared; no files written",
+    "v4ContextMigrationBridge": {
+      "path": "research/source-audit-batch5-ua-context-fingerprint-migration-bridge-v4.json",
+      "sha256": "b7d4c2e1d1bfd57fca4870c8da6beaba42fcf45a3df1e236454b0413cb3dd880"
+    }
+  },
+  "evidence": {
+    "mirrorPlan": {
+      "path": "research/source-audit-batch5-monetary-mirror-update-plan.json",
+      "sha256": "47e3109e90c73caf9d1a9cb63a4842fd727b4c3f55cef87d3bfe951dc6c40bcf",
+      "independentReview": {
+        "path": "research/source-audit-batch5-monetary-mirror-update-plan-independent-review.json",
+        "sha256": "97263ad603b7670b21273d9864935ae017ad0ddbc1aec396e834ae60230cd779"
+      }
+    },
+    "producerDependencyAdjudication": {
+      "path": "research/source-audit-batch5-monetary-producer-dependency-adjudication.json",
+      "sha256": "d9b9ef77ad966f09f9e54e63e9415ebe121e33da6a50c640d26f6019fe8aeece"
+    },
+    "uaReadinessReview": {
+      "path": "research/source-audit-batch5-ua-v3k-integration-readiness-independent-review.json",
+      "sha256": "1c8f53a21fbf95239b59c24a8bd4067a740ae57b93993cf31b79ee79a4487f3b"
+    },
+    "pdReadinessReview": {
+      "path": "research/source-audit-batch5-pd179-v5-aggregate-readiness-independent-review.json",
+      "sha256": "418c49fe2647734015e81c8256b136a2277714b5abfc0e037fcaf1c27a211fb2"
+    },
+    "actualIntegrationReceipt": {
+      "path": "research/source-audit-batch5-reviewed-price-source-integration.json",
+      "sha256": "cf18a91213dbcb1c2ab58b934582cd0b7384103d500671b98db919b0a8ede10e"
+    }
+  },
+  "candidateAndSourcePayloads": {
+    "ua": {
+      "beforeSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "candidateAndCurrentSha256": "c0012f83c1652ff76e8bee5dbed33a6a663b1a8d6e921251a2be6757f0fe100e",
+      "rows": 583
+    },
+    "phbDmg": {
+      "beforeSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "candidateAndCurrentSha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6",
+      "rows": 179
+    },
+    "descriptions": {
+      "beforeSha256": "88c5456626a47f5a47a6cce514cb8ea2ce5338e4a9a9b13e93eedfcd265e3c8d",
+      "candidateAndCurrentSha256": "d156779ea7184b6d878e52c12ecad52b2ab6bd3c1cf55a8a580771f5cec422ab",
+      "changeScope": "inputSupplement SHA pin only"
+    },
+    "passageFile": {
+      "beforeSha256": "2f73f635aa04c2d55c3fe4e71cc5db6a3c55779e6db9f9e5adfe71c08ae5b707",
+      "afterSha256": "aab6b6e515179a5773f569aa9a2156522dcce7e10e6fa5a217a1c76a4a158e0d",
+      "reversingPdInputPinReproducesBeforeBytes": true
+    }
+  },
+  "mirrorOperations": {
+    "planned": 28,
+    "distinctPointers": 28,
+    "currentLeavesMatchPlanAfterValues": 28,
+    "candidateLeavesMatchPlanAfterValues": 28,
+    "fieldCounts": {
+      "conditions": 14,
+      "typedValue": 11,
+      "quantityOrScale": 3
+    },
+    "pointerRoots": {
+      "claimReceipts": 24,
+      "untypedMoneyCandidateAdjudications": 4
+    },
+    "operationSourceLookupsPassed": 28,
+    "uniqueSourceRows": 21
+  },
+  "currentDependencyPins": [
+    {"slot":"descriptions.inputSupplement.sha256","sha256":"c0012f83c1652ff76e8bee5dbed33a6a663b1a8d6e921251a2be6757f0fe100e"},
+    {"slot":"receipts.inputArtifacts.uaSupplement583.sha256","sha256":"c0012f83c1652ff76e8bee5dbed33a6a663b1a8d6e921251a2be6757f0fe100e"},
+    {"slot":"receipts.inputArtifacts.phbDmgSupplement179.sha256","sha256":"e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6"},
+    {"slot":"receipts.inputArtifacts.newDescriptionRecords.sha256","sha256":"d156779ea7184b6d878e52c12ecad52b2ab6bd3c1cf55a8a580771f5cec422ab"},
+    {"slot":"receipts.descriptionResolutionArtifact.sha256","sha256":"d156779ea7184b6d878e52c12ecad52b2ab6bd3c1cf55a8a580771f5cec422ab"},
+    {"slot":"passages.inputArtifacts[PD179].sha256","sha256":"e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6"}
+  ],
+  "historicalAndFailureEvidence": {
+    "descriptionSourceArtifactSha256Values": [
+      "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+    ],
+    "passageOriginalCanonical710Sha256": "cdb03407d6d063a9203fa065bef8f8ee65a75b6f48aaa406806cecf0cab87a04",
+    "receiptsOriginalSourceInventory710Sha256": "f2a02d1e990cf9bd30135f7dc2fcd2f10f9e1f2e172ee594e396677c32fb3852",
+    "baselineFixtureReferencesRetained": true,
+    "prior189Vs191FailureText": "The current tool invocation failed before emitting a report: Invalid price source inventory: site-claim denominator 189 != equipment records 191. No output from that run is used as a completeness result.",
+    "priorFailureArchivedVerbatim": true,
+    "priorFailureReceiptSha256": "d94f8e59dd34955292ab2d9d85ebc29c9ff634d4f70b38a20a91bdd4084f588e",
+    "currentToolMismatchRemovedFromBlockers": true,
+    "falseSuccessAvoided": "The receipt says current equipment count verified and the monetary index execution is recorded separately after integration."
+  },
+  "equipmentShape": {
+    "rootType": "object",
+    "equipmentPropertyType": "array",
+    "equipmentRecords": 191
+  },
+  "limits": [
+    "No source semantic pass, 179-row review completion, or post-integration index execution is certified by this receipt.",
+    "No repository source, code, integration receipt, seal, or review input was changed by this reviewer; this private /tmp review receipt was created."
+  ]
+}

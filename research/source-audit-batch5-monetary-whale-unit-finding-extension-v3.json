@@ -1,0 +1,351 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independently confirmed Whale typed-content mismatch finding extension before correction",
+  "capturedBeforeSourceCorrections": true,
+  "baseline": {
+    "path": "research/source-audit-batch5-monetary-row-identity-baseline.json",
+    "sha256": "bd4973e1eca69a56b64adf3758ccce3683783815dea38bb8ca6ec9f33e898bb9"
+  },
+  "unitInventoryBaseline": {
+    "path": "research/quantity-unit-provenance-before-v1.json",
+    "sha256": "984fd892d09dd7d6330b0f12f79280d4e17f0aac69de3b3dd37ebb432c51ffcd"
+  },
+  "sourceInput": {
+    "path": "research/price-source-inventory-monster-books.json",
+    "sha256": "87ea54c296d9a6b4697a997b5da1ee38b9c844668fc4fb54d5a8794d6aaef106"
+  },
+  "mirrorInputs": [
+    {
+      "path": "research/price-source-inventory.json",
+      "sha256": "3415ed60e597232f503ff767434b9c282b8da8c7b0661bc0e927f743d136bad9"
+    },
+    {
+      "path": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "sha256": "523c097624a0a91f4e3cf8aa40540a2f27d68a6136a04226e2fc3a94a941aeb8"
+    },
+    {
+      "path": "research/price-source-inventory-monster-books.json",
+      "sha256": "87ea54c296d9a6b4697a997b5da1ee38b9c844668fc4fb54d5a8794d6aaef106"
+    }
+  ],
+  "sourcePixelWitness": {
+    "privatePath": "/tmp/whale-unit-review/mm101.png",
+    "sha256": "9f619442e28828ef11ee21b45c9ce0a9eab875390f05e86b42eb6bb0e835a379",
+    "widthPx": 1416,
+    "heightPx": 1936,
+    "dpi": 180,
+    "book": "MM",
+    "printedPage": 100,
+    "pdfPage": 101,
+    "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+    "sourceTextWindowPdfPointsLTRB": [
+      284.2,
+      283.3,
+      534.43,
+      343.02
+    ],
+    "captureCommand": "pdftoppm -f 101 -l 101 -r 180 -png -singlefile Monster_Manual.pdf mm101"
+  },
+  "rootIndependentReviewReceipt": {
+    "path": "research/source-audit-batch5-whale-unit-root-independent-review-v3.json",
+    "sha256": "ff213c5708557968e757ebb270c8380d8d27b0237902d36123bfc99523af5c2f",
+    "status": "approved-exact-unit-correction"
+  },
+  "counts": {
+    "priorRegisteredFindingCount": 176,
+    "newFindingRecords": 1,
+    "totalIfRegistered": 177,
+    "typedFieldMismatches": 1,
+    "sourceMirrorBindings": 4,
+    "logicalSourceClaims": 1
+  },
+  "knownFindings": [
+    {
+      "id": "mm-whale-ambergris-per-lump-unit-editorial",
+      "kind": "typed-content-mismatch",
+      "independent": true,
+      "subject": "MM Whale ambergris typed unit is unsupported as a source-printed per-lump unit",
+      "records": [
+        {
+          "uid": "source-census-claim:mm-whale-ambergris",
+          "rowIdentitySha256": "64cda5f42289529a62d24e7be77a4fc1f0d6764856858f5d4da98f232da6dea4",
+          "focusGeometrySha256": "2d68dd474cf34a74d66cb2e2e77a934a55d61c8af9b54beab4921bf2f4a02743",
+          "contextGeometrySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recordSha256": "3139b0ac614ebedaa3417024b874c0af9fae464863467676bcfc95319babd507",
+          "sourceValueSha256ByPointer": {
+            "/amountOrFormula": "af80ed25e6d25fc5cab287cc85490c49bb1dca8ad0b773ed6cb359bd84fed5a0",
+            "/currency": "ce552f91e9dc79133d2c327dcc006de9fe02e1411e44d1a012f5e9451c0a34c2",
+            "/unit": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+            "/conditions": "164b8e680c00ecdd75d4d79369b4ded85e2a620936e04ae28f921a93e29e1fff"
+          }
+        }
+      ],
+      "confirmedPointers": [
+        {
+          "pointer": "/unit",
+          "beforeValueSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+          "expectedValue": null,
+          "expectedValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "expectedEditorialUnit": null,
+          "historicalEditorialValue": "per ambergris lump (size unspecified)",
+          "historicalEditorialValueSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d"
+        }
+      ],
+      "typedFieldExpectations": [
+        {
+          "pointer": "/unit",
+          "field": "unit",
+          "expectedValue": null,
+          "expectedValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "expectedEditorialUnit": null,
+          "editorialHistory": {
+            "priorValue": "per ambergris lump (size unspecified)",
+            "priorValueSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+            "disposition": "retain-only-in-history-as-editorial-normalization"
+          }
+        }
+      ],
+      "observed": {
+        "unit": "per ambergris lump (size unspecified)",
+        "unitSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d"
+      },
+      "sourceExpected": {
+        "unit": null,
+        "editorialMetadata": {
+          "expectedEditorialUnit": null,
+          "priorEditorialUnitRetainedInHistory": true
+        }
+      },
+      "reason": "Original MM p.100/PDF p.101 pixels support the ambergris value range and large-city context but do not print a per-lump unit. The current unit is editorial normalization. A future correction should set only the source-typed unit to null while preserving amount, currency, conditions and the adjacent printed whale-carcass unit unchanged.",
+      "mirrorFieldBindings": [
+        {
+          "inputKey": "canonical",
+          "path": "research/price-source-inventory.json",
+          "jsonPointer": "/sourcePageCensuses/2/claims/36/unit",
+          "inputSha256": "3415ed60e597232f503ff767434b9c282b8da8c7b0661bc0e927f743d136bad9",
+          "currentValueSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+          "expectedTypedValue": null,
+          "expectedTypedValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "expectedEditorialUnit": null,
+          "historicalEditorialUnit": {
+            "value": "per ambergris lump (size unspecified)",
+            "valueSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+            "retainInFindingHistory": true
+          },
+          "collectorUid": "source-census-claim:mm-whale-ambergris",
+          "collectorInputPath": "research/price-source-inventory-monster-books.json",
+          "collectorInputSha256": "87ea54c296d9a6b4697a997b5da1ee38b9c844668fc4fb54d5a8794d6aaef106",
+          "collectorRecordPointer": "/claims/36",
+          "collectorTypedFieldPointer": "/unit",
+          "collectorRecordSha256": "3139b0ac614ebedaa3417024b874c0af9fae464863467676bcfc95319babd507"
+        },
+        {
+          "inputKey": "canonical",
+          "path": "research/price-source-inventory.json",
+          "jsonPointer": "/sourcePageCensuses/2/sourceArtifact/claims/36/unit",
+          "inputSha256": "3415ed60e597232f503ff767434b9c282b8da8c7b0661bc0e927f743d136bad9",
+          "currentValueSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+          "expectedTypedValue": null,
+          "expectedTypedValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "expectedEditorialUnit": null,
+          "historicalEditorialUnit": {
+            "value": "per ambergris lump (size unspecified)",
+            "valueSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+            "retainInFindingHistory": true
+          },
+          "collectorUid": "source-census-claim:mm-whale-ambergris",
+          "collectorInputPath": "research/price-source-inventory-monster-books.json",
+          "collectorInputSha256": "87ea54c296d9a6b4697a997b5da1ee38b9c844668fc4fb54d5a8794d6aaef106",
+          "collectorRecordPointer": "/claims/36",
+          "collectorTypedFieldPointer": "/unit",
+          "collectorRecordSha256": "3139b0ac614ebedaa3417024b874c0af9fae464863467676bcfc95319babd507"
+        },
+        {
+          "inputKey": "receipts",
+          "path": "research/source-audit-batch5-price-discovery-reconciliation.json",
+          "jsonPointer": "/claimReceipts/153/typedClaim/unit",
+          "inputSha256": "523c097624a0a91f4e3cf8aa40540a2f27d68a6136a04226e2fc3a94a941aeb8",
+          "currentValueSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+          "expectedTypedValue": null,
+          "expectedTypedValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "expectedEditorialUnit": null,
+          "historicalEditorialUnit": {
+            "value": "per ambergris lump (size unspecified)",
+            "valueSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+            "retainInFindingHistory": true
+          },
+          "collectorUid": "source-census-claim:mm-whale-ambergris",
+          "collectorInputPath": "research/price-source-inventory-monster-books.json",
+          "collectorInputSha256": "87ea54c296d9a6b4697a997b5da1ee38b9c844668fc4fb54d5a8794d6aaef106",
+          "collectorRecordPointer": "/claims/36",
+          "collectorTypedFieldPointer": "/unit",
+          "collectorRecordSha256": "3139b0ac614ebedaa3417024b874c0af9fae464863467676bcfc95319babd507"
+        },
+        {
+          "inputKey": "monsterCensus",
+          "path": "research/price-source-inventory-monster-books.json",
+          "jsonPointer": "/claims/36/unit",
+          "inputSha256": "87ea54c296d9a6b4697a997b5da1ee38b9c844668fc4fb54d5a8794d6aaef106",
+          "currentValueSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+          "expectedTypedValue": null,
+          "expectedTypedValueSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "expectedEditorialUnit": null,
+          "historicalEditorialUnit": {
+            "value": "per ambergris lump (size unspecified)",
+            "valueSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+            "retainInFindingHistory": true
+          },
+          "collectorUid": "source-census-claim:mm-whale-ambergris",
+          "collectorInputPath": "research/price-source-inventory-monster-books.json",
+          "collectorInputSha256": "87ea54c296d9a6b4697a997b5da1ee38b9c844668fc4fb54d5a8794d6aaef106",
+          "collectorRecordPointer": "/claims/36",
+          "collectorTypedFieldPointer": "/unit",
+          "collectorRecordSha256": "3139b0ac614ebedaa3417024b874c0af9fae464863467676bcfc95319babd507"
+        }
+      ],
+      "sourcePixelWitness": {
+        "privatePath": "/tmp/whale-unit-review/mm101.png",
+        "sha256": "9f619442e28828ef11ee21b45c9ce0a9eab875390f05e86b42eb6bb0e835a379",
+        "widthPx": 1416,
+        "heightPx": 1936,
+        "dpi": 180,
+        "book": "MM",
+        "printedPage": 100,
+        "pdfPage": 101,
+        "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+        "sourceTextWindowPdfPointsLTRB": [
+          284.2,
+          283.3,
+          534.43,
+          343.02
+        ],
+        "captureCommand": "pdftoppm -f 101 -l 101 -r 180 -png -singlefile Monster_Manual.pdf mm101"
+      },
+      "rootIndependentReviewReceipt": {
+        "path": "research/source-audit-batch5-whale-unit-root-independent-review-receipt-v2.json",
+        "sha256": "5eef7bebdfcb7ddc23d1a67ee19004d8b19686c6d0bab440bc35fa7657795e4e",
+        "status": "awaiting-root-review"
+      },
+      "expectedDisposition": "source-reviewed-correction-to-null-unit-after-root-independent-review",
+      "status": "confirmed-source-typed-unit-mismatch",
+      "independentReview": {
+        "path": "research/source-audit-batch5-whale-unit-root-independent-review-v3.json",
+        "sha256": "ff213c5708557968e757ebb270c8380d8d27b0237902d36123bfc99523af5c2f",
+        "status": "approved-exact-unit-correction"
+      }
+    }
+  ],
+  "records": [
+    {
+      "uid": "source-census-claim:mm-whale-ambergris",
+      "surface": "source-census-claim",
+      "id": "mm-whale-ambergris",
+      "input": "research/price-source-inventory-monster-books.json",
+      "inputSha256": "87ea54c296d9a6b4697a997b5da1ee38b9c844668fc4fb54d5a8794d6aaef106",
+      "inputStage": "recorded-input-not-certified-by-this-audit",
+      "pointer": "/claims/36",
+      "recordSha256": "3139b0ac614ebedaa3417024b874c0af9fae464863467676bcfc95319babd507",
+      "sourceValueSha256ByPointer": {
+        "/amountOrFormula": "af80ed25e6d25fc5cab287cc85490c49bb1dca8ad0b773ed6cb359bd84fed5a0",
+        "/currency": "ce552f91e9dc79133d2c327dcc006de9fe02e1411e44d1a012f5e9451c0a34c2",
+        "/unit": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+        "/conditions": "164b8e680c00ecdd75d4d79369b4ded85e2a620936e04ae28f921a93e29e1fff"
+      },
+      "label": "Ambergris from sick whales",
+      "source": {
+        "book": "MM",
+        "printedPage": 100,
+        "pdfPage": 101,
+        "sourceSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81"
+      },
+      "identity": {
+        "label": "Ambergris from sick whales",
+        "group": "Whale entry",
+        "ordinal": null,
+        "diceRoll": null,
+        "variant": null,
+        "kind": "market-value",
+        "sourceRowIds": []
+      },
+      "identityStatus": "recorded-unverified",
+      "notApplicable": null,
+      "geometry": [
+        {
+          "path": "/sourcePages/0/sourcePageBounds/rects/0",
+          "role": "passage-locator",
+          "space": "pdf-page-points",
+          "format": "ltrb",
+          "bounds": [
+            284.2,
+            283.3,
+            534.43,
+            343.02
+          ],
+          "source": {
+            "book": "MM",
+            "printedPage": 100,
+            "pdfPage": 101,
+            "sourceSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81"
+          },
+          "frame": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81|MM|pdf:101|pdf-page-points",
+          "derivation": null,
+          "status": "provisional-not-pixel-calibrated",
+          "geometrySha256": "50d495f4edf23e465413f6d9e7f543ec1f7f6cca14e1d30112a4a8e7448becac",
+          "validShape": true
+        }
+      ],
+      "annotations": {
+        "/unit": "per ambergris lump (size unspecified)",
+        "/conditions": "Value applies in a large city."
+      },
+      "unhandledGeometry": [],
+      "rowIdentitySha256": "64cda5f42289529a62d24e7be77a4fc1f0d6764856858f5d4da98f232da6dea4",
+      "receiptJoin": {
+        "receiptId": "mm-whale-ambergris",
+        "receiptStatus": "direct-typed-census-claim",
+        "linkedTypedSourceRecords": []
+      },
+      "focusGeometrySha256": "2d68dd474cf34a74d66cb2e2e77a934a55d61c8af9b54beab4921bf2f4a02743",
+      "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+      "focusPhysicalGeometrySha256": null,
+      "contextGeometrySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "annotationSha256": "a57e252ab542a84a0f166c2d2bcef74346aca268dd8f1a290079f37fa90efea6",
+      "identityCompleteness": {
+        "label": true,
+        "group": true,
+        "ordinalOrDice": false,
+        "sourceHash": true,
+        "sourceBook": true,
+        "sourcePdfPage": true
+      },
+      "geometryStatus": "focus-or-row-locator-recorded",
+      "physicalRowIdentityReview": "unassessed-by-programmatic-inventory"
+    }
+  ],
+  "positiveFixture": {
+    "uid": "source-census-claim:mm-whale-carcass",
+    "inputPath": "research/price-source-inventory-monster-books.json",
+    "inputSha256": "87ea54c296d9a6b4697a997b5da1ee38b9c844668fc4fb54d5a8794d6aaef106",
+    "recordPointer": "/claims/37",
+    "recordSha256": "2be0ffb6f170b3476ae4ccaf2b1ca3415aadb5f4c9ad49b9422f79bb8ccecc1b",
+    "rowIdentitySha256": "7ec3da493a6b937660a07bfa8314a7e91a8fbbac39c87782d0598c80c961c92e",
+    "focusGeometrySha256": "2d68dd474cf34a74d66cb2e2e77a934a55d61c8af9b54beab4921bf2f4a02743",
+    "typedFieldPointer": "/unit",
+    "valueSha256": "1b68d1ff64b72310eca7dd8e9e3f98c931f707aecf7a2ad8194a69f3dff2fc3d",
+    "source": {
+      "book": "MM",
+      "printedPage": 100,
+      "pdfPage": 101,
+      "sourceSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81"
+    },
+    "classification": "explicit-printed-unit-retained-unchanged"
+  },
+  "supersededPendingProposal": {
+    "path": "research/source-audit-batch5-monetary-whale-unit-finding-extension-v2.json",
+    "sha256": "c9ead3737524346a2e0dd64cabc4d8dbbe11824b1a52a15352c4cd99222079a1",
+    "exactByteArchive": {
+      "path": "tests/fixtures/whale-unit-exact-inputs-and-proposal-before-root.json.gz",
+      "sha256": "c9dfe390c9711da9f3569b3fd927c22bc35c4424aaa7344e0f4ee3047f686a38"
+    }
+  }
+}

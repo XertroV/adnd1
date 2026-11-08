@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "scope": "Detector precision comparison only, rerun on frozen 679b15d baseline inputs. It leaves the 73-page/887-region source-pixel review immutable and does not convert any no-signal result into semantic clearance.",
+  "input": {
+    "gitCommit": "679b15d1c580172e54314829c1c3c86dc78b65f3",
+    "dataSha256": "47908c8ddc8b68c09e11f600ed0d0dc24b2a3749f8e3f452e245c7ee6635053b",
+    "catalogUniverseSha256": "c992dc8a87478bc0d65ee3441ff7917944dddcc6bc3a50216f1bf06aff53c708",
+    "continuationManifestSha256": "9504a11f432fd7531f95d0bea4b81a8f50c67e9607c6bfc6faf4aa67b3ef5001",
+    "sourcePdfSha256ByBook": {
+      "PHB": null,
+      "DMG": null,
+      "UA": null,
+      "MM": null,
+      "MM2": null
+    },
+    "inputFilesEqualExceptDetectorCodeHash": true,
+    "legacySummaryPath": "research/source-audit-batch5-continuation.json",
+    "legacySummarySha256": "bef82bbff53ae7924f4dc6e169d3700a145aca9bfb41dd75103b0632d286b65e",
+    "legacyFullEvidencePath": "research/source-audit-batch5-continuation-full.json.gz",
+    "legacyFullEvidenceSha256": "9bda77ce4816f6c6b4f57bc8ea5afaa9469e8411c21a7411a6ac3f05644cca38",
+    "orthogonalSummarySha256": "ca0ca5b9f8b2460b70167461eeff2948c52c21dfd9f856942fbc799915f96f90",
+    "orthogonalFullEvidenceSha256": "03bc04c79d2c8fa86cc853296fb6550ddba65d3600b740b5740cf77cb3a3f643",
+    "legacyDetectorSha256": "bfc41f16d34b06a4762be6e206c7d2ae05772d72a9001c59d780bacde4df1068",
+    "orthogonalDetectorSha256": "359eec092837ec25ccc180c860271faaa5901a92fe9e83fbb7a3e54e4a16ce11",
+    "orthogonalSummaryPath": "research/source-audit-batch5-continuation-orthogonal-baseline-summary.json",
+    "orthogonalFullEvidencePath": "research/source-audit-batch5-continuation-orthogonal-baseline-full.json.gz"
+  },
+  "universe": {
+    "assessedRegionRowsBeforeAndAfter": 2742,
+    "invalidOrMissingGeometryBeforeAndAfter": 249,
+    "catalogUniverseSha256Unchanged": true,
+    "sourceReviewPath": "research/source-audit-batch5-continuation-review.json",
+    "sourceReviewSha256": "300cf300c142e5adc1a4b8bdf95d1bdbd7102c9aaa2e593d0fa7c40c36d4d5df",
+    "reviewedElevatedPages": 73,
+    "reviewedRegionRows": 887,
+    "sourceReviewMutated": false
+  },
+  "algorithmChange": {
+    "legacy": "Test each word-box x/y edge independently; did not require overlap on the perpendicular axis.",
+    "orthogonal": "A left/right edge requires positive vertical overlap with the crop; a top/bottom edge requires positive horizontal overlap with the crop. Existing 0.5pt edge-crossing tolerance remains.",
+    "legacyAndCorrectedFunctions": "tools/continuation-candidates.py: legacy_box_crossing_edges (regression-only), box_crossing_edges (used by detector)."
+  },
+  "counts": {
+    "heuristicSignalCounts": {
+      "word-crosses-crop-boundary": {
+        "before": 2257,
+        "after": 664
+      },
+      "otherEndpointCuesUnchanged": true
+    },
+    "regionsWithWordBoxCrossing": {
+      "before": 2257,
+      "after": 664,
+      "removed": 1593,
+      "added": 0
+    },
+    "regionsWithAnyCropSignal": {
+      "before": 2383,
+      "after": 1617,
+      "lostAllSignals": 766,
+      "added": 0,
+      "lostCrossingButRetainOtherCue": 827
+    },
+    "wordBoxEdgeObservations": {
+      "legacy": {
+        "wordBoxEdgeObservations": {
+          "left": 2198,
+          "right": 2704,
+          "top": 12556,
+          "bottom": 13519
+        },
+        "regionRowsWithAnyCrossing": 2257
+      },
+      "orthogonal": {
+        "wordBoxEdgeObservations": {
+          "left": 239,
+          "right": 247,
+          "top": 1754,
+          "bottom": 2776
+        },
+        "regionRowsWithAnyCrossing": 664
+      }
+    },
+    "wordBoxGeometryOnlyPages": {
+      "before": 11,
+      "after": 7
+    },
+    "unchangedCandidateUniverse": {
+      "sourcePageFlowCandidateCount": [
+        190,
+        190
+      ],
+      "sameCatalogLeftBottomToRightTopPairs": [
+        42,
+        42
+      ],
+      "unlinkedPairCandidates": [
+        41,
+        41
+      ]
+    }
+  },
+  "ua60HistoricalControl": {
+    "regionId": "ua-60-b42c889225a311fa",
+    "catalog": "scans/verified/spells-ua-magic-user-contingency.json",
+    "historicalCropRect": [
+      0.04,
+      0.035,
+      0.45,
+      0.4
+    ],
+    "legacySignals": [
+      "lowercase-text-at-crop-top",
+      "word-crosses-crop-boundary"
+    ],
+    "orthogonalSignals": [
+      "lowercase-text-at-crop-top",
+      "word-crosses-crop-boundary"
+    ],
+    "legacyCrossingEdges": {
+      "wordBoxEdgeObservations": {
+        "left": 68,
+        "right": 1,
+        "top": 12,
+        "bottom": 12
+      },
+      "regionRowsWithAnyCrossing": 1
+    },
+    "orthogonalCrossingEdges": {
+      "wordBoxEdgeObservations": {
+        "left": 30,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "regionRowsWithAnyCrossing": 1
+    },
+    "scope": "This comparison is against the original 679 crop only. The separately source-reviewed repaired current crop and its PNG hash/bounds are recorded in the continuation integration receipt."
+  },
+  "interpretation": "The candidate reduction is solely from rejecting word boxes that do not intersect the crop on the perpendicular axis. 827 region rows lost their generic edge-crossing flag but still carry another weak text-shape cue; 766 lost all implemented crop cues. This is detector geometry precision, not source-passage review. All 249 invalid-geometry rows remain not assessable; output with no remaining cue is not a semantic pass.",
+  "privateSourceTextIncluded": false
+}

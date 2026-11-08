@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 import {equipmentCorrections,equipmentAdditionalCorrections,reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
+import {priorReviewedBatch5Value} from './helpers/batch5-semantic-history.mjs';
 const read=p=>JSON.parse(readFileSync(new URL(p,import.meta.url),'utf8'));
 const data=read('../dist/data.json'),require=createRequire(import.meta.url),citations=require('../dist/citations.js');
 const item=id=>{const x=data.equipment.find(x=>x.id===id);assert.ok(x,id);return x};
@@ -16,7 +17,7 @@ test('approved correction fixture validates every current value before restoring
  assert.equal(equipmentCorrections.records.flatMap(x=>x.changes).length,78);
  const reversed=reverseApprovedEquipmentChanges(data.equipment);
  for(const row of equipmentCorrections.records)for(const c of row.changes){
-  assert.deepEqual(withoutGeneratedCitationTransport(get(item(row.id),c.path)),withoutGeneratedCitationTransport(c.newValue),`${row.id} ${c.path} approved current value`);
+  assert.deepEqual(withoutGeneratedCitationTransport(priorReviewedBatch5Value('equipment',row.id,c.path,get(item(row.id),c.path),c.newValue)),withoutGeneratedCitationTransport(c.newValue),`${row.id} ${c.path} approved current value`);
   assert.deepEqual(withoutGeneratedCitationTransport(get(reversed.find(x=>x.id===row.id),c.path)),withoutGeneratedCitationTransport(c.oldValue),`${row.id} ${c.path} original value`);
  }
  const tampered=structuredClone(data.equipment);tampered.find(x=>x.id==='phb-oil-flask').price.currency='cp';

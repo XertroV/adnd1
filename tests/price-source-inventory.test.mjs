@@ -11,6 +11,24 @@ const books=require('../dist/books.js');
 const inventory=buildPriceSourceInventory();
 const equipment=JSON.parse(readFileSync(new URL('../equipment.json',import.meta.url),'utf8')).equipment;
 
+const FROZEN_679='679b15d1c580172e54314829c1c3c86dc78b65f3';
+function frozen679CatalogMap(){
+  const paths=execFileSync('git',['ls-tree','-r','--name-only',FROZEN_679,'dist/scans'],{encoding:'utf8'}).trim().split('\n').filter(path=>path.endsWith('.json'));
+  const requests=paths.map(path=>`${FROZEN_679}:${path}`).join('\n')+'\n';
+  const batch=execFileSync('git',['cat-file','--batch'],{input:requests,maxBuffer:256*1024*1024});
+  const catalogs=new Map();let offset=0;
+  for(const path of paths){
+    const headerEnd=batch.indexOf(0x0a,offset);assert.notEqual(headerEnd,-1,`${path}: Git batch header`);
+    const [oid,type,sizeText]=batch.subarray(offset,headerEnd).toString('utf8').split(' ');
+    const size=Number(sizeText),start=headerEnd+1,end=start+size;
+    assert.equal(type,'blob',`${path}: frozen object type`);assert.ok(Number.isInteger(size)&&size>=0,`${path}: frozen object size`);
+    catalogs.set(path.slice('dist/'.length),JSON.parse(batch.subarray(start,end).toString('utf8')));
+    offset=end+1;
+  }
+  assert.equal(catalogs.size,paths.length);
+  return catalogs;
+}
+
 test('source-first inventory covers every current equipment object without promoting estimates to printed prices',()=>{
   validatePriceSourceInventory(inventory);
   assert.equal(inventory.siteClaims.length,equipment.length);
@@ -157,8 +175,8 @@ test('optional equipment source-row overlay requires pinned identity and indepen
 
 test('pinned 189-item overlay baseline clears the identity-only conflicts without weakening price checks',()=>{
   const fixture=JSON.parse(readFileSync(new URL('./fixtures/equipment-source-row-overlay-prefx-189.json',import.meta.url),'utf8'));
-  const overlayBytes=readFileSync(new URL('../research/equipment-source-row-bindings.json',import.meta.url));
-  const rawEquipmentBytes=readFileSync(new URL('../equipment.json',import.meta.url));
+  const overlayBytes=execFileSync('git',['show','679b15d1c580172e54314829c1c3c86dc78b65f3:research/equipment-source-row-bindings.json']);
+  const rawEquipmentBytes=execFileSync('git',['show','679b15d1c580172e54314829c1c3c86dc78b65f3:equipment.json']);
   assert.equal(createHash('sha256').update(rawEquipmentBytes).digest('hex'),fixture.inputs.equipmentSha256);
   assert.equal(createHash('sha256').update(overlayBytes).digest('hex'),fixture.inputs.overlaySha256);
   for(const [file,expected] of Object.entries(fixture.inputs.independentReviewFileHashes)){
@@ -170,8 +188,11 @@ test('pinned 189-item overlay baseline clears the identity-only conflicts withou
     fixture.denominator.overlayBindings,fixture.denominator.falseConflict,
   ],[189,185,84,185,101]);
 
-  const current=buildPriceSourceInventory();
-  validatePriceSourceInventory(current);
+  const baselineData=JSON.parse(execFileSync('git',['show',`${FROZEN_679}:dist/data.json`],{maxBuffer:32*1024*1024}));
+  const baselineBindings=JSON.parse(execFileSync('git',['show','679b15d1c580172e54314829c1c3c86dc78b65f3:research/field-evidence-bindings.json'],{maxBuffer:8*1024*1024}));
+  const catalogs=frozen679CatalogMap();
+  const current=buildPriceSourceInventory({equipment:baselineData.equipment,data:baselineData,catalogs,sourceRowBindings:JSON.parse(overlayBytes),manualBindings:baselineBindings});
+  validatePriceSourceInventory(current,{equipment:baselineData.equipment,data:baselineData,catalogs});
   assert.equal(current.counts.siteEquipmentObjects,189);
   assert.equal(current.counts.sitePrintedPrices,185);
   assert.equal(current.sourceRowBindings.total,185);
@@ -262,6 +283,9 @@ test('validator rejects stale inventory files, broken field targets, missing reg
   const missingRegion=structuredClone(inventory);
   const bindingToChange=missingRegion.fieldEvidenceBindings.find(binding=>binding.itemId===regionBinding.itemId&&binding.fieldPointer===regionBinding.fieldPointer);
   bindingToChange.regionIds[0]='missing-region';
+  for(const key of ['regionEvidence','cropCoordinates','highlightCoordinates']){
+    bindingToChange[key][0].regionId='missing-region';
+  }
   assert.throws(()=>validatePriceSourceInventory(missingRegion),/region missing-region missing/);
 
   const changedHash=structuredClone(inventory);
@@ -414,6 +438,12 @@ test('equipment field evidence attaches to its cited source object while preserv
   assert.equal(sourceRef.evidenceBindings[0].sourceObjectPointer,'/fieldSources/Weight');
   assert.equal(data.equipment[0].fields.Weight,'10 lb');
   assert.ok(!Object.hasOwn(data.equipment[0].fields.Weight,'evidenceBindings'));
+});
+
+test('array source objects are rejected before JSON transport silently loses attached evidence',()=>{
+  const data={equipment:[],spells:[{id:'source-array-fixture',exceptions:['A cited caution']}]};
+  const synthetic={fieldEvidenceBindings:[{collection:'spells',itemId:'source-array-fixture',fieldPointer:'/exceptions/0',sourceObjectPointer:'/exceptions'}]};
+  assert.throws(()=>attachEvidenceBindings(data,synthetic),/non-array source object/);
 });
 
 test('attaching rebuilt evidence bindings replaces stale catalog and owner transport idempotently',()=>{

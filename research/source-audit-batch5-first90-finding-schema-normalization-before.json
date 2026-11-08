@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "active finding schema normalization before formal two-finding registration",
+  "status": "non-normative review declarations preserved; normalization pending",
+  "activeManifestBeforeSha256": "d22c7401fc17150e11a00a0b0c765fb0ff2713c7720ed9c5865256c32cade738",
+  "incorrectlyAddedReference": {
+    "path": "research/source-audit-batch5-pd179-confirmed-findings-extension-v2.json",
+    "sha256": "cc23ab631b1d752c85460ec2a8ac591d1525e522c60ffa9a3e7b29ac5447d58f"
+  },
+  "reason": "The independent report contains findings, not the mandatory knownFindings/baseline schema. The mistaken active reference cannot be consumed by the register. Removing it does not remove an accepted finding. Both source obligations must be normalized and registered before their corrections.",
+  "sourceDeclarations": {
+    "schemaVersion": 1,
+    "artifactType": "pd179-first90-two-confirmed-findings-before-correction",
+    "status": "before evidence frozen by hash; no correction applied by this reviewer; producer must supply a new candidate and focus overlay for fresh review",
+    "scope": {
+      "sourceRowsReviewed": 90,
+      "candidateRows": 179,
+      "frozenCandidateSha256": "e4b6e39315ae1a0615364e0ad6d1f9ced6109067a9601f3d92603b8ff6931b0a",
+      "frozenOverlayIndexSha256": "8e6cbdf3afa39e979e94108ae6b92ff169d47db42ed12010f1202974e80951f1",
+      "first90ReviewPath": "research/source-audit-batch5-pd179-first90-independent-review-v2.json",
+      "first90ReviewSha256": "97f768958efefba231e05e3c2bcc528ff4d2aec063b25b65275e314117a33d51"
+    },
+    "findings": [
+      {
+        "findingId": "dmg-henchman-initial-payment-base-interest-5-vs-25",
+        "kind": "source transcription defect in condition",
+        "findingPath": "research/source-audit-batch5-pd179-henchman-initial-payment-correction.json",
+        "findingSha256": "7f1800b19b6b0de4eab792eff6aaef6a6f3d7d23eb6adabf599b3ef3789f590d",
+        "completeBeforeAfterReceipt": {
+          "schemaVersion": 1,
+          "artifactType": "source-row-correction-finding",
+          "status": "confirmed source transcription defect; proposed correction only, not applied",
+          "scope": "One condition field on the initial successful-employment offer on DMG p35/PDF36; review of row90 determines focus is kept separate, not reassigned.",
+          "baseline": {
+            "candidatePath": "/tmp/batch5-phbdmg-money-corrections-v2/proposal-v2/phb-dmg-additional-prices-correction-candidate-v2.json",
+            "candidateSha256": "e4b6e39315ae1a0615364e0ad6d1f9ced6109067a9601f3d92603b8ff6931b0a",
+            "candidateInputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+            "overlayIndexPath": "/tmp/batch5-phbdmg-money-corrections-v2/proposal-v2/overlay-index-v2.json",
+            "overlayIndexSha256": "8e6cbdf3afa39e979e94108ae6b92ff169d47db42ed12010f1202974e80951f1",
+            "recordId": "dmg-henchman-initial-payment",
+            "recordIndex": 89,
+            "candidateRecordPointer": "/review/sourceRowsOrClaims/88",
+            "recordCanonicalSha256": "14d9aa9c7da94554e4a9935fb66af1dd72e4605560b218cbd7af9f7de8d7560c",
+            "typedConditionBefore": "base offer establishes 5% interest",
+            "focusRectsCropPixelsLTRB": [
+              [
+                30,
+                151,
+                569,
+                170
+              ],
+              [
+                156,
+                170,
+                569,
+                189
+              ],
+              [
+                30,
+                189,
+                69,
+                208
+              ]
+            ],
+            "focusOverlaySha256": "4ea0e71a6f49199a9eb11dc4dcb413f7a2ad8f4c9232a25ba6ab354e4f06185b",
+            "sourceCropId": "crop-dmg-henchman-prospect-search-table-03",
+            "sourceCropSha256": "9e1cf9da434db0aca27d2fe41489525b9d25947ae0b5938f11cfba6c74e84172",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceProof": {
+            "book": "Dungeon Masters Guide",
+            "printedPage": 35,
+            "pdfPage": 36,
+            "pdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "directRaster": "PyMuPDF render of original PDF page36 at 300 dpi",
+            "sourceFramePathPrivate": "/tmp/pd35-src300.png",
+            "sourceFrameDimensionsPx": [
+              2376,
+              3234
+            ],
+            "sourceFrameSha256": "af5d7b4ddd9156778090173b9c8ca0058fd39aebece4b1cd1602bb7a2b3b5d6b",
+            "limitedSourceProofCropPathPrivate": "/tmp/pd35-offer-source-proof-v2.png",
+            "cropPixelBoundsHalfOpen": [
+              1220,
+              1730,
+              2376,
+              1995
+            ],
+            "cropDimensionsPx": [
+              1156,
+              265
+            ],
+            "cropSha256": "70ab064f79a8344e04e650a1439438567bc59e78bdfb9b559f24ae69136594b8",
+            "pixelObservation": "The source says that the initial payment \u201cwill give a base 25% interest\u201d and, for each additional 100 gold pieces, interest increases 10% to a maximum 55%."
+          },
+          "finding": {
+            "kind": "incorrect typed percentage",
+            "before": "base offer establishes 5% interest",
+            "sourceObserved": "base 25% interest",
+            "proposedAfter": "base offer establishes 25% interest",
+            "proposedRecordCanonicalSha256": "e671df5cb1da2a11900efa4bce7079dc6025f4ebbe98104ecce979937fa3671d",
+            "changedPointer": "/conditions",
+            "typedValueUnchanged": true,
+            "focusDisposition": "Keep row89 focus: its later rectangles include the relevant base-interest condition tied to the initial offer. Keep row90 focus on its own increment/max formula; it selects the additional-100-gp rule to 55%. Both are readable in the same complete crop. No focus reassignment or removal is justified.",
+            "sourceInterpretation": "Source-observed 25% is directly legible in a high-resolution render. The proposed wording is normalized from the observed line; no new rule is inferred."
+          },
+          "relatedRow90": {
+            "recordId": "dmg-henchman-interest-increase",
+            "candidateRecordCanonicalSha256": "10895c0288b47436e894caf71e872b6b430788bfef61202f2cbb4b117c3bb754",
+            "focusRectsCropPixelsLTRB": [
+              [
+                71,
+                189,
+                569,
+                208
+              ],
+              [
+                30,
+                208,
+                165,
+                227
+              ]
+            ],
+            "focusOverlaySha256": "cd7a041d809f5d9fe464d6f0e0c8ac633479314a5b8ebef016dcfc9b3c8b0a62",
+            "reviewDisposition": "source values, focus and context match incremental formula; base25 remains on the initial offer as a separate relevant condition; no extra condition is proposed here."
+          },
+          "reviewLimit": "This finding is not approval of the full candidate or any other record."
+        }
+      },
+      {
+        "findingId": "dmg-jewelry-exceptional-gem-focus-overlap-with-workmanship-tail",
+        "kind": "focus overselection; semantic source text/value correct",
+        "source": {
+          "book": "Dungeon Masters Guide",
+          "printedPage": 26,
+          "pdfPage": 27,
+          "pdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "sourceRenderPathPrivate": "/tmp/batch5-independent-phbdmg-money/render/dmg-pdf-027.png",
+          "sourceRenderSha256": "52fa3a0605be19e8a02978318c243ee00e11a1d79ae29496edbe60d0c2b429ea",
+          "sourceRenderDimensionsPx": [
+            1217,
+            1638
+          ],
+          "sourceCropPathPrivate": "/tmp/batch5-private-crop-edge-audit/phbdmg-context-replacements-v4/crop-dmg-gem-value-progression-01-clean-source-v3.png",
+          "sourceCropId": "crop-dmg-gem-value-progression-01",
+          "sourceCropSha256": "d6e00dd6f4fdef0f02a61429e784dd9dffff85e9d926e7c41a8a96b85d110fff",
+          "cropBoundsSourceRenderPixelsLTRB": [
+            0,
+            55,
+            1210,
+            1615
+          ],
+          "cropDimensionsPx": [
+            1210,
+            1560
+          ]
+        },
+        "before": {
+          "candidateRecordId": "dmg-jewelry-exceptional-gem",
+          "candidateRecordPointer": "/review/sourceRowsOrClaims/41",
+          "candidateRecordCanonicalSha256": "7abd21d2ad20b47989e9b17fbcce633768bd9ca549f15164b8d81aa8d6862b97",
+          "candidateValueUnchanged": true,
+          "rowFocusOverlayPathPrivate": "/tmp/batch5-phbdmg-money-corrections-v2/proposal-v2/overlays/dmg-jewelry-exceptional-gem.png",
+          "rowFocusOverlaySha256": "e6b8e4ea3fa5075d4db10e5796f696d3bdc52e75adb46b8c83eb1b2063d3c666",
+          "rowFocusCropLocalLTRB": [
+            [
+              608,
+              925,
+              1150,
+              1057
+            ]
+          ],
+          "rowFocusSourceRenderPixelsLTRB": [
+            [
+              608,
+              980,
+              1150,
+              1112
+            ]
+          ],
+          "precedingRecordId": "dmg-jewelry-exceptional-class",
+          "precedingRecordPointer": "/review/sourceRowsOrClaims/40",
+          "precedingRecordCanonicalSha256": "a77de7caaada909fafdc88cf7bef7c65227c4c81e1339b23048ddd326b3c18f7",
+          "precedingFocusOverlayPathPrivate": "/tmp/batch5-phbdmg-money-corrections-v2/proposal-v2/overlays/dmg-jewelry-exceptional-class.png",
+          "precedingFocusOverlaySha256": "14d29185c4844f37388a7b6aae60982b4f8db9f753c85c3722c5e3592dfa5950",
+          "precedingLastFocusSourceRenderPixelsLTRB": [
+            606,
+            980,
+            789,
+            999
+          ]
+        },
+        "sourceObservation": {
+          "pixelReading": "The row42 passage begins with the new sentence \u201cAny piece of jewelry set with gems ...\u201d; the prior workmanship sentence ends \u201c...design are again checked).\u201d immediately before it on the same line.",
+          "screeningMethod": "Visually inspected the exact 1210\u00d71560 source crop and all-row/individual overlays; also checked the original DMG PDF text geometry and the matching 1217\u00d71638 source render. The output focuses are not inferred from text geometry alone.",
+          "textLayerWordBoundsPdfPoints": {
+            "word": "Any",
+            "bbox": [
+              379.9000549316406,
+              470.8544006347656,
+              393.66961669921875,
+              478.56170654296875
+            ],
+            "blockIndex": 36,
+            "lineIndex": 5,
+            "wordIndex": 4
+          }
+        },
+        "confirmedIssue": {
+          "overlapPixelsLTRB": [
+            608,
+            980,
+            789,
+            999
+          ],
+          "overlapWidthPx": 181,
+          "overlapHeightPx": 19,
+          "reason": "row42\u2019s single rectangle starts at x608 on the same first line; row41 separately selects x606\u2013789 for its sentence tail. Therefore row42 selects the row41 tail as well as the start of its own jewelry-gem rule."
+        },
+        "proposedCorrection": {
+          "kind": "replace row42 focus geometry only after producer replay",
+          "sourceRenderPixelRectsLTRB": [
+            [
+              790,
+              980,
+              1150,
+              999
+            ],
+            [
+              608,
+              999,
+              1150,
+              1112
+            ]
+          ],
+          "cropLocalPixelRectsLTRB": [
+            [
+              790,
+              925,
+              1150,
+              944
+            ],
+            [
+              608,
+              944,
+              1150,
+              1057
+            ]
+          ],
+          "coordinateSpace": "source-render/crop pixels LTRB half-open; crop bounds [0,55,1210,1615]",
+          "geometryIntent": "Begin the first row42 rectangle at the source-render start of \u201cAny\u201d (pixel x790, immediately after the preceding focus\u2019s exclusive right edge x789), then cover the remaining wrapped lines. The proposed top-line x is derived from the PDF word box and checked on source pixels; the fresh candidate must render without text clipping/overlap before any approval.",
+          "typedValuesOrSourceGradeChanges": false
+        },
+        "disposition": "Confirmed focus overselect; proposed narrowed geometry needs fresh independent overlay review. The current full source context and row42 formula are otherwise adequate and source-supported."
+      }
+    ],
+    "unresolvedPoisonMarkerRows": [
+      "dmg-poison-ingestive-c",
+      "dmg-poison-ingestive-d",
+      "dmg-poison-insinuative-c",
+      "dmg-poison-insinuative-d"
+    ],
+    "reviewLimit": "This extension records two findings only; it does not approve the complete candidate or the remaining 89 source rows."
+  },
+  "knownFindingCountBeforeNormalization": 187,
+  "normalizationRequiredFor": [
+    "dmg-henchman-initial-payment-base-interest-5-vs-25",
+    "dmg-jewelry-exceptional-gem-focus-overlap-with-workmanship-tail"
+  ]
+}

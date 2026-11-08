@@ -15,6 +15,7 @@
   let excerptCatalog, excerptSource = null, excerptError = '', excerptLoading = false, catalogRequest = 0;
   let requestedMode = 'pdf', regionIndex = 0, showHighlights = true, actualSize = false, session = 0;
   let copySourceLink = null, onViewerClose = null, onSourceChange = null, requestedInitialRegion = null;
+  let navigationClose = false;
   let targets = [], targetStatus = '', pendingTargetPage = null, unavailableTarget = null, targetDismissed = false;
   let activeTarget = null;
   let imageFit = false, privacyDismissed = false;
@@ -219,7 +220,8 @@
       renderTask?.cancel();
       document.body.classList.remove('source-viewer-open');
       if (returnFocus?.isConnected) returnFocus.focus({ preventScroll: true });
-      const callback = onViewerClose; onViewerClose = null; callback?.();
+      const callback = onViewerClose, fromRoute = navigationClose;
+      onViewerClose = null; navigationClose = false; callback?.({ fromRoute });
     });
     dialog.addEventListener('cancel', event => { event.stopPropagation(); });
     dialog.addEventListener('keydown', event => {
@@ -245,6 +247,7 @@
   function open({ item, references, contextItemId, initialReference, targets: requestedTargets, activeTarget: requestedActiveTarget, targetStatus: requestedTargetStatus, onCopyLink, onClose, onChange } = {}) {
     setup();
     copySourceLink = typeof onCopyLink === 'function' ? onCopyLink : null; onViewerClose = typeof onClose === 'function' ? onClose : null; onSourceChange = typeof onChange === 'function' ? onChange : null;
+    navigationClose = false;
     el.copyLink.hidden = !copySourceLink;
     session++;
     catalogRequest++;
@@ -385,9 +388,37 @@
   }
   function fieldTargetLabel(target) {
     if (!target) return '';
-    const pointerLabel = String(target.fieldPointer || '').split('/').filter(Boolean).at(-1)?.replace(/~1/g, '/').replace(/~0/g, '~') || '';
+    const segments = String(target.fieldPointer || '').split('/').filter(Boolean).map(segment => segment.replace(/~1/g, '/').replace(/~0/g, '~'));
+    const indexLabel = key => ({
+      xpRows: 'XP', levelChanges: 'Level change', additionalSources: 'Additional source', references: 'Reference',
+      notes: 'Note', noteRows: 'Note', rows: 'Row', entries: 'Entry', sources: 'Source',
+    }[key] || key.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/[_-]+/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase()));
+    const pathLabel = () => {
+      const parts = [];
+      for (let index = 0; index < segments.length; index++) {
+        const segment = segments[index];
+        if (/^(0|[1-9]\d*)$/.test(segment) && Number.isSafeInteger(Number(segment))) {
+          const key = segments[index - 1];
+          const label = key && !/^(0|[1-9]\d*)$/.test(key) ? indexLabel(key) : 'Entry';
+          parts.push(`${label} entry ${Number(segment) + 1}`);
+        } else if (parts.length && !/^(0|[1-9]\d*)$/.test(segments[index + 1] || '')) {
+          parts.push(indexLabel(segment));
+        }
+      }
+      return parts.join(' › ');
+    };
+    const pointerLabel = segments.at(-1) || '';
     const label = String(target.label || '').trim();
-    return target.fieldPointer && (!label || label === target.sourceObject || label === excerptSource?.name) ? pointerLabel || label : label || pointerLabel || 'Citation target';
+    const pointerPathLabel = pathLabel();
+    const isIndexedPointer = segments.some(segment => /^(0|[1-9]\d*)$/.test(segment) && Number.isSafeInteger(Number(segment)));
+    const explicitReferenceLabel = isIndexedPointer
+      && /reference|context|comparison|comparator/i.test(String(target.sourceCategory || ''))
+      && label
+      && !/^\d+$/.test(label);
+    if (explicitReferenceLabel) return label;
+    const genericLabel = !label || label === target.sourceObject || label === excerptSource?.name || /^\d+$/.test(label);
+    if (target.fieldPointer && genericLabel) return pointerPathLabel || pointerLabel || label || 'Citation target';
+    return label || pointerPathLabel || pointerLabel || 'Citation target';
   }
   function targetRegionIds(ref) {
     if (targetDismissed || !activeTarget?.fieldPointer) return [];
@@ -522,6 +553,27 @@
     }
     try { return await cached.promise; } catch { return null; }
   }
+  function validatedOwnerPassageRelationship(value) {
+    const kinds = ['cross-reference', 'editorial-comparison', 'similarity', 'related-source-rules'];
+    if (!value || typeof value !== 'object' || Array.isArray(value)
+        || !kinds.includes(value.kind)
+        || typeof value.label !== 'string' || !value.label.trim() || value.label.length > 160
+        || typeof value.reason !== 'string' || !value.reason.trim() || value.reason.length > 600
+        || !value.ownerPage || typeof value.ownerPage !== 'object' || Array.isArray(value.ownerPage)
+        || !['PHB', 'UA', 'DMG'].includes(value.ownerPage.book)
+        || !Number.isInteger(value.ownerPage.printedPage) || value.ownerPage.printedPage < 1) return null;
+    return {
+      kind: value.kind,
+      label: value.label.trim(),
+      reason: value.reason.trim(),
+      ownerPage: {book: value.ownerPage.book, printedPage: value.ownerPage.printedPage},
+    };
+  }
+  function ownerPassageRelationshipText(value) {
+    const relationship = validatedOwnerPassageRelationship(value);
+    if (!relationship) return '';
+    return `Related passage: ${relationship.label}. ${relationship.reason} Owner entry: ${title(relationship.ownerPage.book)} printed p. ${relationship.ownerPage.printedPage}.`;
+  }
   function validatedContinuationParts(ref, selectedRegion) {
     const manifest = root.FirstEditionSourceContinuations?.schemaVersion === 1 && Array.isArray(root.FirstEditionSourceContinuations.groups)
       ? root.FirstEditionSourceContinuations : continuationManifest;
@@ -548,7 +600,7 @@
             || !Object.hasOwn(books().books, segment.book) || books().pdfPage(segment.book, segment.printedPage) !== segment.pdfPage) { valid = false; break; }
         parts.push({ segment, region, selected: segment === selectedSegment });
       }
-      if (valid && parts.some(part => part.selected)) return { group, parts };
+      if (valid && parts.some(part => part.selected)) return { group, parts, relationship: validatedOwnerPassageRelationship(group.relationship) };
     }
     return null;
   }
@@ -915,6 +967,8 @@
         el.stage.classList.add('is-linked');
         el.linkedParts.hidden = false;
         el.linkedParts.replaceChildren();
+        const relationshipText = ownerPassageRelationshipText(linked.relationship);
+        if (relationshipText) el.linkedParts.append(node('p', {class: 'source-viewer-linked-relationship', role: 'note'}, relationshipText));
         for (const part of loadedParts) {
           const partRegion = part.region, selected = part.selected;
           const figure = node('figure', { class: 'source-viewer-linked-part', 'data-region-id': partRegion.id, 'data-printed-page': partRegion.printedPage, 'data-selected': String(selected), 'data-role': part.segment.role });
@@ -968,6 +1022,9 @@
       requestedMode = 'pdf'; resetZoom(); update();
     }
   }
-  function close() { if (dialog?.open) dialog.close(); }
+  function close({ fromRoute = false } = {}) {
+    navigationClose = fromRoute;
+    if (dialog?.open) dialog.close();
+  }
   root.FirstEditionSourceViewer = Object.freeze({ open, close });
 })(globalThis);

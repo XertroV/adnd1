@@ -1,0 +1,51 @@
+{
+  "scope": "Synthetic schema/owner/binding identity only; no real source semantic or value grade.",
+  "toolSha256": "96abb14ce2b640b784753b58c8706a1817b8e10ee8cc93999d18c4acfb0bb0c2",
+  "stable": true,
+  "checks": [
+    {
+      "id": "exact equipment owner and binding attached",
+      "pass": true
+    },
+    {
+      "id": "same ID other collection gets no inherited review",
+      "pass": true
+    },
+    {
+      "id": "same owner other binding gets no inherited review",
+      "pass": true
+    },
+    {
+      "id": "missing collection rejected",
+      "pass": true
+    },
+    {
+      "id": "missing itemId rejected",
+      "pass": true
+    },
+    {
+      "id": "missing binding rejected",
+      "pass": true
+    },
+    {
+      "id": "missing regionId rejected",
+      "pass": true
+    }
+  ],
+  "passed": true,
+  "schemaVersion": 1,
+  "artifactType": "independent-source-review-owner-identity-schema-guard-review",
+  "status": "approved-for-exact-scoped-checkpoint",
+  "reviewedFile": "tools/price-source-inventory.mjs#attachSourceVisualReviewMetadata",
+  "targetedTests": {
+    "path": "tests/source-review-owner-identity.test.mjs",
+    "sha256": "7d925db02656d229640ccd3ce400352efec029cc8671fe64e2b8a72f6dfa74d9",
+    "passed": 2,
+    "failed": 0
+  },
+  "limits": [
+    "Only collection/item/binding/region identity validation and owner-specific attachment reviewed.",
+    "The existing sixteen missing-owner ledger integration records are rejected by the preserved regression fixture.",
+    "No source image, field value, precision, default selection or whole-module correctness grade is granted."
+  ]
+}

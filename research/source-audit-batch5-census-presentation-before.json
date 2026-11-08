@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "scope": "All3source-census UI entries;2 incorrectly claim no structured output despite current typed reports. Transcription is separate from review.",
+  "inputs": {
+    "gapsSha256": "5399a0658c592ca39059bd86e06a739de8c4b458dd9b8259600c37d0f793adeb",
+    "handoffSha256": "88ee301a4106a49ef1f78d8fc12f18cf3844df05abcec36ae49b0ee8fffcb391"
+  },
+  "entries": [
+    {
+      "id": "phb-dmg-other",
+      "title": "PHB and DMG discovery census",
+      "status": "bounded-discovery-not-completeness",
+      "description": "A bounded 370-page PHB/DMG discovery census recorded 52 page/group claims and 18 discovery-only table groups. None of those new table groups has been transcribed row by row. Text-screened noncandidate and unreviewed pages do not establish that no price exists. This is a monetary discovery census, not a source-row transcription or whole-book semantic completeness claim. The 370-page denominator counts only the PHB and DMG PDFs. The separate DMG printed-p.175 image is a supplement and is excluded from that count. Counts distinguish screened pages, visually screened thumbnails, and previously inventoried scoped pages; these are not interchangeable denominators. Starting wealth, currency conversion, ordinary purchase prices, hireling wages, service fees, construction costs, spell/component costs, treasure generation, market valuations and item values are typed separately rather than treated as equivalent “prices.” Any exact amount in discoverySummary or locatorAmountCue is a locator note only pending source-scale verification; it must not be consumed as a normalized/verified source fact.",
+      "sourceLocations": [],
+      "links": [],
+      "handoffPointers": [
+        "/sourcePriceDiscoveryCensuses/censuses/0"
+      ]
+    },
+    {
+      "id": "ua-other",
+      "title": "UA discovery census",
+      "status": "bounded-discovery-not-completeness",
+      "description": "A bounded 130-page UA census recorded 65 discovery claims and 15 table-level groups; no new table group is transcribed row by row. The basic equipment table is covered by a separate scoped inventory. The source census is additional to the existing p.26 equipment table inventory; that page is not duplicated. No whole-book visual-completeness claim: many noncandidate pages are text-screen-only and OCR/text screening can miss currency values. Table rows and object/value pairings for the random magic-item price tables are not fully transcribed. Bounds are deliberately whole-page and page-level only. Every recorded claim was visually associated with its source page, but fine-grained claim-specific rectangles were not measured. The printed-p.97 continuation has a visible value but unresolved object identity. Sale value, component value, creation price, repair fee, treasure cap, behavior threshold, weight, and starting wealth remain typed distinctly; they are not interchangeable claims.",
+      "sourceLocations": [],
+      "links": [],
+      "handoffPointers": [
+        "/sourcePriceDiscoveryCensuses/censuses/1"
+      ]
+    },
+    {
+      "id": "monster-books",
+      "title": "Monster book discovery census",
+      "status": "bounded-discovery-not-completeness",
+      "description": "A bounded MM/MMII census screened 276 PDF pages and recorded 63 visually reviewed claims plus 4 unresolved candidates. This inventory does not define a table-group denominator or claim whole-book completeness. ",
+      "sourceLocations": [],
+      "links": [],
+      "handoffPointers": [
+        "/sourcePriceDiscoveryCensuses/censuses/2"
+      ]
+    }
+  ],
+  "structuredReports": [
+    {
+      "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "source": "PHB and DMG authorized source PDFs",
+      "sourceIdentities": {
+        "PHB": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "DMG": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "sourceCensusPath": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "groups": 18,
+      "rows": 179,
+      "monetaryRowsOrClaims": 179,
+      "monetaryCountUnit": "structured source-monetary rows or claims; not amount cells",
+      "xpReferenceRows": 1,
+      "tableRowsOrOutcomesReviewed": 201,
+      "referencePriceRows": 165,
+      "referencePriceMatches": 165,
+      "referencePriceDiscrepancies": 0,
+      "additionalQualifierDifferences": 1,
+      "independentOverlayReviewPending": true,
+      "status": "typed-extraction-complete; root-independent-review-pending"
+    },
+    {
+      "path": "research/source-audit-batch5-ua-additional-prices.json",
+      "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "source": "Unearthed Arcana.pdf",
+      "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+      "sourceCensusPath": "research/price-source-inventory-ua-other.json",
+      "sourceCensusSha256": "f1f797d9e8664589af5308737d9bc9d5e5dd536339349609fbeec5dc2a58c4b9",
+      "groups": 15,
+      "rows": 583,
+      "monetaryCells": 583,
+      "xpReferenceCells": 566,
+      "independentOverlayReviewPending": true,
+      "status": "source-first-extraction; independent overlay review pending"
+    }
+  ],
+  "currentSummary": {
+    "totalPdfPages": 776,
+    "claims": 180,
+    "tableGroups": 33,
+    "newTableGroupsRowTranscribed": 0,
+    "tableGroupDenominatorScope": "18 PHB/DMG groups plus 15 UA groups; MM/MMII inventory does not define a table-group denominator.",
+    "rowTranscribedNewTableGroups": {
+      "phb-dmg-other": 0,
+      "ua-other": 0,
+      "monster-books": "not-applicable/none enumerated"
+    }
+  }
+}

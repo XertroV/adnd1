@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-phbdmg-v3-review-erratum",
+  "reviewer": "/root/batch5_integration_review",
+  "supersededReview": {
+    "path": "research/source-audit-batch5-phbdmg-final-v3-independent-review.json",
+    "sha256": "cab0ad37f587bf946362923fbdf47434fbce19e3d0f52626ab8ce4090a833bb3"
+  },
+  "error": "Reviewer conflated the reconstructed archived0451 proof and its9c638 operations reference with the current17c82 proof. The current17c82 proof embeds the correct4f753 operations SHA; its hash is unchanged. The earlier assertion of an in-place current proof mutation is unsupported and withdrawn.",
+  "corrections": [
+    {
+      "pointer": "/independentReplay/producerOldReplayProofContainsStaleOpsHash",
+      "before": true,
+      "corrected": false
+    },
+    {
+      "pointer": "/independentReplay/correctedVersionedLineageReceiptPending",
+      "before": true,
+      "corrected": false
+    }
+  ],
+  "currentProof": {
+    "path": "/tmp/batch5-phbdmg-money-corrections-v3/proposal-v3/replay-proof-v3.json",
+    "sha256": "17c82de33b97761128a2f406a9dfe0cc4c0f0d870d9e6ea10251e750ef412b8f",
+    "embeddedOperationsSha256": "4f75315aebc4198f32de0981d33222fa5052578418944c91ce4dd0d93e7df521",
+    "matchesActualOperationsBytes": true
+  },
+  "archivedProof": {
+    "path": "/tmp/batch5-phbdmg-money-corrections-v3/archive-before-reason-enrichment/replay-proof-v3.json",
+    "sha256": "0451ebc02588920b34253e5f48adad969cf2642fc40d6cc7dea0fde6f373aab0",
+    "embeddedOperationsSha256": "9c638402ab6938e0e65cb53bdd3cf1d5dd64989faa5a8b02a5a92d4f9c42ce98",
+    "history": "Reconstructed after the earlier enrichment overwrite; not misrepresented as a contemporaneous archive."
+  },
+  "separateVersionedLineageReceipt": {
+    "path": "/tmp/batch5-phbdmg-money-corrections-v3-proof-lineage-v1/metadata-lineage-v3-review-discrepancy-resolution.json",
+    "sha256": "86f9543a06c379770805b24280739e87fe02f477649e36d7d2bb7a458d11b70a"
+  },
+  "separateIndependentReplayProof": {
+    "path": "/tmp/batch5-phbdmg-money-corrections-v3-proof-lineage-v1/replay-proof-v3-independent-check.json",
+    "sha256": "45db151c92c7c68f5d54eef2e7428c45b093bb886baa047302a3db925edb3c47"
+  },
+  "independentReplayOutcome": "All4759 actual4f753 operations still independently reproduce exactdef5 bytes. No source/candidate/PNG or narrow89-focus/36-component/16-part/165-comparison review conclusion changes.",
+  "newSourceFinding": false,
+  "actualSourceMutations": false,
+  "reviewedArtifactsModified": false
+}

@@ -6,11 +6,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {gunzipSync} from 'node:zlib';
 
 const read=p=>JSON.parse(readFileSync(new URL(p,import.meta.url)));
 const data=read('../dist/data.json'),dir=new URL('../dist/scans/dagger/',import.meta.url);
 const catalogs=readdirSync(dir).filter(f=>f.endsWith('.json')).map(f=>read('../dist/scans/dagger/'+f));
 const reviewed=read('./fixtures/batch2-reviewed-rows.json').rows;
+const ua28History=JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/ua28-dagger-baseline-679.json.gz',import.meta.url))));
 const changed=['phb-arrow','phb-club','phb-composite-long-bow','phb-composite-short-bow','phb-hand-axe','phb-heavy-crossbow','phb-light-crossbow','phb-long-bow','phb-short-bow','phb-silver-arrow','ua-aklys-hurled','ua-atlatl-javelin','ua-blowgun-needle','ua-hand-crossbow'];
 const items=['phb-dagger','phb-battle-axe','phb-hand-axe','phb-bardiche','phb-bec-de-corbin','phb-bill-guisarme','phb-bo-stick','phb-club'];
 const canonical=v=>Array.isArray(v)?v.map(canonical):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,canonical(v[k])])):v;
@@ -24,11 +26,13 @@ const pngs={
  'phb38-missile-notes.png':[1716,100,'488de56f7ded8b5ef7e51226cf976c23a3a2d1bd65b1e810aedc43ce95f0d669'],
  'ua28-dagger-thrown.png':[1700,510,'124c61dff155f4b1d59fd442846d7eef584c8606ef7b05e671839544757444c3'],
  'ua28-missile-notes.png':[1608,136,'0ff1fd747b85152d2dca21de68bcf49a08c84f6817c05574cb5729e0f89c350a'],
+ 'ua28-full-table-f9e1d616b1cec48a.png':[1130,726,'f9e1d616b1cec48a76d66507bc7e05e2877b6cf4df520dbdb905a69e9aa17e6b'],
 };
-test('twenty scoped catalogs reuse exactly seven unchanged images without private metadata',()=>{
+const ua28Recipes=new Map(ua28History.recipes.map(recipe=>[recipe.regionId,recipe.expectedRegion]));
+test('twenty scoped catalogs preserve seven historical PNGs and add one pinned full-table asset',()=>{
  assert.equal(catalogs.length,20);for(const id of items) assert.ok(catalogs.some(c=>c.itemId===id),id);
  assert.deepEqual(readdirSync(dir).filter(f=>f.endsWith('.png')).sort(),Object.keys(pngs).sort());
- assert.equal(readdirSync(dir).length,27);
+ assert.equal(readdirSync(dir).length,28);
  for(const [name,[width,height,sha]] of Object.entries(pngs)){
   const bytes=readFileSync(new URL(name,dir));assert.equal(hash(bytes),sha,name);assert.equal(bytes.readUInt32BE(16),width);assert.equal(bytes.readUInt32BE(20),height);
  }
@@ -40,10 +44,10 @@ test('twenty scoped catalogs reuse exactly seven unchanged images without privat
 });
 test('all twenty independently read rows retain exact source, values and focus rectangles',()=>{
  assert.equal(reviewed.length,20);
- for(const row of reviewed){const catalog=catalogs.find(c=>c.itemId===row.itemId),region=catalog.regions.find(r=>r.id===row.id);assert.ok(region,row.id);for(const key of ['book','printedPage','pdfPage','image','focusRects','checkedFields'])assert.deepEqual(region[key],row[key],row.id+' '+key);}
+ for(const row of reviewed){const catalog=catalogs.find(c=>c.itemId===row.itemId),region=catalog.regions.find(r=>r.id===row.id);assert.ok(region,row.id);const recipe=ua28Recipes.get(row.id);for(const key of ['book','printedPage','pdfPage','image','focusRects','checkedFields']){const expected=recipe?(key==='image'?recipe.image:key==='focusRects'?recipe.focusRects:row[key]):row[key];assert.deepEqual(region[key],expected,row.id+' '+key);}}
  const scoped=catalogs.flatMap(c=>c.regions),unique=new Set(scoped.map(r=>r.id));assert.equal(scoped.length,76);assert.equal(unique.size,56);
  const shared=scoped.filter(r=>r.id==='ua28-missile-notes');assert.ok(shared.length>=2);for(const note of shared)assert.deepEqual(note,shared[0]);
- assert.equal(new Set(scoped.map(r=>r.image)).size,7);
+ assert.equal(new Set(scoped.map(r=>r.image)).size,6);
  // Legacy catalog counts are checked above; release totals include additional catalogs.
  for(const catalog of catalogs) assert.ok(data.release.excerpts.itemIds.includes(catalog.itemId),catalog.itemId);
 });
@@ -64,9 +68,10 @@ test('UA26 axe damage retains OCR grade despite matching visible PHB damage',()=
 test('new selected-value evidence belongs to its item and exact cited page',()=>{
  for(const item of data.equipment.filter(e=>items.includes(e.id))){
   const catalog=catalogs.find(c=>c.itemId===item.id);assert.ok(catalog);assert.equal(item.scanVerification.regionCount,catalog.regions.length);assert.equal(item.incomplete,true);
+  const selected=read('../dist/'+(item.sourceExcerpts||item.scanVerification).catalog);
   for(const source of [item.price,...Object.values(item.fieldSources||{}),...(item.references||[])].filter(Boolean)){
    if(!source.verification)continue;
-   for(const id of source.verification.regions){const region=catalog.regions.find(r=>r.id===id);assert.ok(region,item.id+' '+id);assert.equal(region.book,source.book);assert.ok(source.pages.includes(region.printedPage));}
+   for(const id of source.verification.regions){const region=selected.regions.find(r=>r.id===id);assert.ok(region,item.id+' '+id);assert.equal(region.book,source.book);assert.ok(source.pages.includes(region.printedPage));}
   }
  }
  for(const [id,weight,speed,sm,large]of [['phb-bardiche',125,9,'2–8','3–12'],['phb-bec-de-corbin',100,9,'1–8','1–6'],['phb-bill-guisarme',150,10,'2–8','1–10'],['phb-bo-stick',15,3,'1–6','1–3'],['phb-club',30,4,'1–6','1–3']]){

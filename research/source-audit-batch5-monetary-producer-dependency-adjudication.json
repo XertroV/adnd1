@@ -1,0 +1,770 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "monetary-current-producer-dependency-adjudication",
+  "status": "read-only; no UA/PD source apply, authored source edits, or seals performed",
+  "scope": "Read-only current-versus-historical dependency adjudication; no UA/PD apply, no authored source edit, and no seals.",
+  "baselineEvidence": {
+    "mirrorBeforeStorageReceipt": {
+      "path": "research/source-audit-batch5-monetary-mirror-before-storage.json",
+      "sha256": "75f5835a4e60a6c47094de795492f99bd647563eb8120e952a2ce7e49642b749"
+    },
+    "mirrorArchive": {
+      "path": "research/source-audit-batch5-monetary-mirror-inventory-before-ua-c001.json.gz",
+      "compressedSha256": "83bd9be75689275f97504eea3dcd3e2a006855213bd7c3b04c2cc7663ab3f565",
+      "uncompressedSha256": "f10a702f77b3318d95c3204ba8ed92f5a7ebce927b03c30f763bc5e477bf1702",
+      "uncompressedSizeBytes": 134958011
+    },
+    "historicalReferenceLimit": "The broader forensic scan retains 20,368 mismatched references to earlier reports and snapshots as unadjudicated references. These are not classified as current data defects and are not rewritten. Current producer-input dependencies are reconciled separately.",
+    "originalsUnchanged": {
+      "uaPath": "research/source-audit-batch5-ua-additional-prices.json",
+      "uaSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "pdPath": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "pdSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9"
+    },
+    "nineCurrentAuthoredInputs": [
+      {
+        "key": "canonical",
+        "path": "research/price-source-inventory.json",
+        "currentRawOrAuthoredSha256": "71b9ce72027624dd6af658616129b6fc475ea4e43c689758ceb1e165436204ea",
+        "entityCount": 721,
+        "status": "live exact mirror input"
+      },
+      {
+        "key": "ua",
+        "path": "research/source-audit-batch5-ua-additional-prices.json",
+        "currentRawOrAuthoredSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+        "entityCount": 598,
+        "status": "live exact mirror input"
+      },
+      {
+        "key": "phbDmg",
+        "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+        "currentRawOrAuthoredSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+        "entityCount": 197,
+        "status": "live exact mirror input"
+      },
+      {
+        "key": "passages",
+        "path": "research/source-audit-batch5-phb-dmg-price-passage-records.json",
+        "currentRawOrAuthoredSha256": "2f73f635aa04c2d55c3fe4e71cc5db6a3c55779e6db9f9e5adfe71c08ae5b707",
+        "entityCount": 34,
+        "status": "live exact mirror input"
+      },
+      {
+        "key": "descriptions",
+        "path": "research/source-audit-batch5-price-description-records.json",
+        "currentRawOrAuthoredSha256": "88c5456626a47f5a47a6cce514cb8ea2ce5338e4a9a9b13e93eedfcd265e3c8d",
+        "entityCount": 10,
+        "status": "live exact mirror input"
+      },
+      {
+        "key": "receipts",
+        "path": "research/source-audit-batch5-price-discovery-reconciliation.json",
+        "currentRawOrAuthoredSha256": "d94f8e59dd34955292ab2d9d85ebc29c9ff634d4f70b38a20a91bdd4084f588e",
+        "entityCount": 322,
+        "status": "live exact mirror input"
+      },
+      {
+        "key": "phbDmgCensus",
+        "path": "research/price-source-inventory-phb-dmg-other.json",
+        "currentRawOrAuthoredSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+        "entityCount": 70,
+        "status": "live exact mirror input"
+      },
+      {
+        "key": "uaCensus",
+        "path": "research/price-source-inventory-ua-other.json",
+        "currentRawOrAuthoredSha256": "f1f797d9e8664589af5308737d9bc9d5e5dd536339349609fbeec5dc2a58c4b9",
+        "entityCount": 80,
+        "status": "live exact mirror input"
+      },
+      {
+        "key": "monsterCensus",
+        "path": "research/price-source-inventory-monster-books.json",
+        "currentRawOrAuthoredSha256": "5b18323c4817c7c99a38cd058015f862bbc588237b655ec6c7e8375f60f8248f",
+        "entityCount": 67,
+        "status": "live exact mirror input"
+      }
+    ]
+  },
+  "currentPinWhitelist": [
+    {
+      "path": "research/price-source-inventory.json",
+      "sha256": "71b9ce72027624dd6af658616129b6fc475ea4e43c689758ceb1e165436204ea",
+      "role": "current canonical inventory; 721 top-level canonical entities, 191 site claims; this is the active index input"
+    },
+    {
+      "path": "research/price-source-inventory-phb-dmg-other.json",
+      "sha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "role": "current PHB/DMG discovery census"
+    },
+    {
+      "path": "research/price-source-inventory-ua-other.json",
+      "sha256": "f1f797d9e8664589af5308737d9bc9d5e5dd536339349609fbeec5dc2a58c4b9",
+      "role": "current UA discovery census"
+    },
+    {
+      "path": "research/price-source-inventory-monster-books.json",
+      "sha256": "5b18323c4817c7c99a38cd058015f862bbc588237b655ec6c7e8375f60f8248f",
+      "role": "current monster census"
+    },
+    {
+      "path": "research/source-audit-batch5-ua-additional-prices.json",
+      "liveRawSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "plannedCandidateSha256": "c0012f83c1652ff76e8bee5dbed33a6a663b1a8d6e921251a2be6757f0fe100e",
+      "candidatePath": "/tmp/batch5-ua-context-v3k-proposal-20261108/ua-additional-prices-corrected-candidate-v3k.json",
+      "action": "after authorized apply, current supplemental input should point to exact V3k candidate hash; retain live raw hash as preimage provenance"
+    },
+    {
+      "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "liveRawSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "plannedCandidateSha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6",
+      "candidatePath": "/tmp/batch5-phbdmg-money-corrections-v5/proposal-v5/phb-dmg-additional-prices-correction-candidate-v5.json",
+      "action": "after authorized apply, current supplemental input should point to exact V5 candidate hash; retain b0d raw hash as preimage provenance"
+    },
+    {
+      "path": "research/source-audit-batch5-phb-dmg-price-passage-records.json",
+      "liveSha256": "2f73f635aa04c2d55c3fe4e71cc5db6a3c55779e6db9f9e5adfe71c08ae5b707",
+      "action": "rebind its PD179 inputArtifacts entry to e4cf after apply; keep old b0d in versioned historical input provenance; passage rows contain zero PD row IDs so do not copy or rewrite their values"
+    },
+    {
+      "path": "research/source-audit-batch5-price-description-records.json",
+      "liveSha256": "88c5456626a47f5a47a6cce514cb8ea2ce5338e4a9a9b13e93eedfcd265e3c8d",
+      "plannedReboundCandidateSha256": "d156779ea7184b6d878e52c12ecad52b2ab6bd3c1cf55a8a580771f5cec422ab",
+      "plannedReboundCandidatePath": "/tmp/batch5-final-money-candidate-index/descriptions-rebound-proposal.json",
+      "action": "current inputSupplement should reference c001; do not change the two source.sourceArtifactSha256 values from original 8ec"
+    },
+    {
+      "path": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "currentLiveSha256": "d94f8e59dd34955292ab2d9d85ebc29c9ff634d4f70b38a20a91bdd4084f588e",
+      "plannedAfterApply": "rebind exact UA/PD/description current inputs, refresh 21 stale claim receipt row mirrors and three stale adjudication copies, preserve baselineFixture history; then recompute receipt hash"
+    }
+  ],
+  "historicalReferencesToPreserve": [
+    {
+      "file": "research/source-audit-batch5-price-description-records.json",
+      "pointer": "/newSourceDescriptionRecords/*/source/sourceArtifactSha256",
+      "count": 2,
+      "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "reason": "original source-extraction provenance; distinct from the current inputSupplement dependency, which should target c001 after apply"
+    },
+    {
+      "file": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "pointer": "/inputArtifacts/originalSourceInventory710",
+      "sha256": "f2a02d1e990cf9bd30135f7dc2fcd2f10f9e1f2e172ee594e396677c32fb3852",
+      "reason": "explicit original-710 baseline"
+    },
+    {
+      "file": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "pointer": "/baselineFixtures/* and /untypedMoneyCandidateAdjudications/baselineFixture",
+      "reason": "frozen pre-description/pre-adjudication baselines; preserve exact old hashes (including 8ec/b0d) as history, do not globally repin"
+    },
+    {
+      "file": "research/source-audit-batch5-phb-dmg-price-passage-records.json",
+      "pointer": "/inputArtifacts/2",
+      "sha256": "cdb03407d6d063a9203fa065bef8f8ee65a75b6f48aaa406806cecf0cab87a04",
+      "reason": "original canonical 710-row source-inventory lineage; the 710 source-row objects remain exact in current canonical 71b9 (full object comparison below); preserve as original input, not current canonical snapshot"
+    },
+    {
+      "file": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "pointer": "/structuralStatus/knownInputMismatches/monetaryIndexTool",
+      "reason": "the 189-vs-191 failure text is historical evidence, not a live blocker; retain it in history and supersede current blocker status"
+    }
+  ],
+  "rebindAfterApplyPlan": {
+    "descriptions": {
+      "inputSupplementSha256": "c0012f83c1652ff76e8bee5dbed33a6a663b1a8d6e921251a2be6757f0fe100e",
+      "sourceArtifactSha256": [
+        "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+        "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+      ],
+      "preparedCandidateSha256": "d156779ea7184b6d878e52c12ecad52b2ab6bd3c1cf55a8a580771f5cec422ab"
+    },
+    "receipts": {
+      "inputArtifacts.uaSupplement583": "c0012f83c1652ff76e8bee5dbed33a6a663b1a8d6e921251a2be6757f0fe100e",
+      "inputArtifacts.phbDmgSupplement179": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6",
+      "inputArtifacts.newDescriptionRecords": "d156779ea7184b6d878e52c12ecad52b2ab6bd3c1cf55a8a580771f5cec422ab",
+      "descriptionResolutionArtifact.sha256": "d156779ea7184b6d878e52c12ecad52b2ab6bd3c1cf55a8a580771f5cec422ab",
+      "recomputeReceiptHashAfterUpdatingPinsAndInlineCopies": true
+    },
+    "passages": {
+      "inputArtifacts.phbDmgSupplement179": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6",
+      "inputArtifacts.canonical710": "retain cdb original lineage; add current 71b9 as separate current pin only if the consumer requires current-canonical provenance",
+      "recomputePassageArtifactHashAfterPinVersioning": true
+    },
+    "noGlobalReplacement": "Only the exact named current dependency slots are candidates for rebind. Preserve baseline, source-origin, and archive references verbatim."
+  },
+  "pdSourceFieldChanges": {
+    "rawSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+    "candidateSha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6",
+    "stableRowCount": 179,
+    "counts": {
+      "typedValue": 8,
+      "conditions": 14,
+      "quantityOrScale": 2
+    },
+    "fieldChanges": [
+      {
+        "recordId": "dmg-commodity-01",
+        "pointer": "/review/sourceRowsOrClaims/56/conditions",
+        "field": "conditions",
+        "oldCanonicalValueSha256": "81703ce5a71678dd50672b7226da49d0a1964da400cc4e78cf9dd9c8fbff5876",
+        "candidateCanonicalValueSha256": "7591d16a6ec16c1b0e4d062b91b0133cf3d46c878b7b8bd70bc74d0fd7f195b7",
+        "changeSummary": "retracts blanket d10 applicability; preserves amount and states scope unresolved"
+      },
+      {
+        "recordId": "dmg-commodity-02",
+        "pointer": "/review/sourceRowsOrClaims/57/conditions",
+        "field": "conditions",
+        "oldCanonicalValueSha256": "81703ce5a71678dd50672b7226da49d0a1964da400cc4e78cf9dd9c8fbff5876",
+        "candidateCanonicalValueSha256": "7130a0d0a0ebe345cf0d09767e7da7e27157b4fc58ff1d6e25283ca2550098e1",
+        "changeSummary": "retracts blanket d10 applicability; preserves amount and states scope unresolved"
+      },
+      {
+        "recordId": "dmg-commodity-03",
+        "pointer": "/review/sourceRowsOrClaims/58/conditions",
+        "field": "conditions",
+        "oldCanonicalValueSha256": "81703ce5a71678dd50672b7226da49d0a1964da400cc4e78cf9dd9c8fbff5876",
+        "candidateCanonicalValueSha256": "5c5ecd1ecfd7948456222f42db3406a7936ba83d49072ea5044c4c5173c05c16",
+        "changeSummary": "retracts blanket d10 applicability; preserves amount and states scope unresolved"
+      },
+      {
+        "recordId": "dmg-commodity-04",
+        "pointer": "/review/sourceRowsOrClaims/59/conditions",
+        "field": "conditions",
+        "oldCanonicalValueSha256": "81703ce5a71678dd50672b7226da49d0a1964da400cc4e78cf9dd9c8fbff5876",
+        "candidateCanonicalValueSha256": "029523ccae12c93ea8b7edacd1012380943e18a47a66f240e1777869a1969a9e",
+        "changeSummary": "retracts blanket d10 applicability; preserves amount and states scope unresolved"
+      },
+      {
+        "recordId": "dmg-commodity-05",
+        "pointer": "/review/sourceRowsOrClaims/60/conditions",
+        "field": "conditions",
+        "oldCanonicalValueSha256": "81703ce5a71678dd50672b7226da49d0a1964da400cc4e78cf9dd9c8fbff5876",
+        "candidateCanonicalValueSha256": "79bdb49820d876a51a89ceb0414ee120a3ef4740e8efb7e04e5e21b85176bc18",
+        "changeSummary": "retracts blanket d10 applicability; preserves amount and states scope unresolved"
+      },
+      {
+        "recordId": "dmg-commodity-06",
+        "pointer": "/review/sourceRowsOrClaims/61/conditions",
+        "field": "conditions",
+        "oldCanonicalValueSha256": "81703ce5a71678dd50672b7226da49d0a1964da400cc4e78cf9dd9c8fbff5876",
+        "candidateCanonicalValueSha256": "5069c72bc5cb7016823bab1a26508897d6443bb04dde3ed3ad613ac431ff2884",
+        "changeSummary": "retracts blanket d10 applicability; preserves amount and states scope unresolved"
+      },
+      {
+        "recordId": "dmg-commodity-07",
+        "pointer": "/review/sourceRowsOrClaims/62/conditions",
+        "field": "conditions",
+        "oldCanonicalValueSha256": "81703ce5a71678dd50672b7226da49d0a1964da400cc4e78cf9dd9c8fbff5876",
+        "candidateCanonicalValueSha256": "11b5ebbcff5b5eccb376703111e1c90dce9c76d900a60225c84e1a60c142ff2b",
+        "changeSummary": "retracts blanket d10 applicability; preserves amount and states scope unresolved"
+      },
+      {
+        "recordId": "dmg-commodity-08",
+        "pointer": "/review/sourceRowsOrClaims/63/conditions",
+        "field": "conditions",
+        "oldCanonicalValueSha256": "81703ce5a71678dd50672b7226da49d0a1964da400cc4e78cf9dd9c8fbff5876",
+        "candidateCanonicalValueSha256": "8d359c1761bf8e1b460c58678c3a7065abd7163fc6dee021228a8c878e65269e",
+        "changeSummary": "retracts blanket d10 applicability; preserves amount and states scope unresolved"
+      },
+      {
+        "recordId": "dmg-info-discovery-row-01",
+        "pointer": "/review/sourceRowsOrClaims/75/conditions",
+        "field": "conditions",
+        "oldCanonicalValueSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+        "candidateCanonicalValueSha256": "5e1fae587e3a42407bed64f564e28a82196ddcd25b987bedadf304b9b5b10ce1",
+        "changeSummary": "adds shared Note qualifiers, row-scoped no-cost rule, example and expense assumptions; preserves table units/dash and numeric table values"
+      },
+      {
+        "recordId": "dmg-info-discovery-row-02",
+        "pointer": "/review/sourceRowsOrClaims/76/conditions",
+        "field": "conditions",
+        "oldCanonicalValueSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+        "candidateCanonicalValueSha256": "fa612f8fcd7e7e972df13df2f7cc2500bf94af088c4f45d3ff242b8ece263f8e",
+        "changeSummary": "adds shared Note qualifiers, row-scoped no-cost rule, example and expense assumptions; preserves table units/dash and numeric table values"
+      },
+      {
+        "recordId": "dmg-info-discovery-row-03",
+        "pointer": "/review/sourceRowsOrClaims/77/conditions",
+        "field": "conditions",
+        "oldCanonicalValueSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+        "candidateCanonicalValueSha256": "9e2b5d6bcc3fa836152e90fac95e35343212438d2ad7b72099df07ebf493b001",
+        "changeSummary": "adds shared Note qualifiers, row-scoped no-cost rule, example and expense assumptions; preserves table units/dash and numeric table values"
+      },
+      {
+        "recordId": "dmg-info-discovery-row-04",
+        "pointer": "/review/sourceRowsOrClaims/78/conditions",
+        "field": "conditions",
+        "oldCanonicalValueSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+        "candidateCanonicalValueSha256": "81810331bae241be9f886c4cdd2636b583d1ec375dd6cc130552386211a53e73",
+        "changeSummary": "adds shared Note qualifiers, row-scoped no-cost rule, example and expense assumptions; preserves table units/dash and numeric table values"
+      },
+      {
+        "recordId": "dmg-henchman-initial-payment",
+        "pointer": "/review/sourceRowsOrClaims/88/conditions",
+        "field": "conditions",
+        "oldCanonicalValueSha256": "98f27acf5c9d3bfd8a5119034ae3581c94bebb56dc140719ab8b2b374c94f390",
+        "candidateCanonicalValueSha256": "3db5cb6ae069ccf822e16f75df1c55d8d3f243c230a746bd97d9c7b2a88c9655",
+        "changeSummary": "corrects base-offer interest 5% → 25%"
+      },
+      {
+        "recordId": "dmg-town-fee-foreign-silver-threshold-fine",
+        "pointer": "/review/sourceRowsOrClaims/102/typedValue",
+        "field": "typedValue",
+        "oldCanonicalValueSha256": "c770d0e55718081690d3a3df44aa640293a8465989d8503562074857fe385db1",
+        "candidateCanonicalValueSha256": "9a343ea14952c448303cedc4d50ffbaf963d32885a8dfe7b45d6ec91ff6de274",
+        "changeSummary": "corrects “silver nobbles” → “silver nobles”; 100 threshold and 50% fine remain"
+      },
+      {
+        "recordId": "dmg-placement-not-gem-1000",
+        "pointer": "/review/sourceRowsOrClaims/108/typedValue",
+        "field": "typedValue",
+        "oldCanonicalValueSha256": "b9a4fc616eee8ebf20989596644dd614e192fdebb091376c4bb6dea136e0119e",
+        "candidateCanonicalValueSha256": "d09aed1b37136713cc645a0a8bf96f099a711e9183e957595d4bd2550a7e3866",
+        "changeSummary": "clarifies the source excludes a pair of 1,000-gp gems; 1,000 gp remains the referenced amount"
+      },
+      {
+        "recordId": "dmg-placement-not-gem-1000",
+        "pointer": "/review/sourceRowsOrClaims/108/quantityOrScale",
+        "field": "quantityOrScale",
+        "oldCanonicalValueSha256": "82851e292b22e96fd05581245c5894c2257d945360a453344961fcd60a371153",
+        "candidateCanonicalValueSha256": "4bc72c793610a90d683779d7b5e14a8b117d30b59701a44823b0a757c19e4573",
+        "changeSummary": "updates ogre-hoard scope to the source’s pair-of-gems wording"
+      },
+      {
+        "recordId": "dmg-placement-fur-cape-50gp",
+        "pointer": "/review/sourceRowsOrClaims/113/typedValue",
+        "field": "typedValue",
+        "oldCanonicalValueSha256": "91539688914b0989f511ce64ed3fa5b1bf0c4017f2912b7cb332bbd83b2429e7",
+        "candidateCanonicalValueSha256": "8262ae5d35b8b9683396bd25a96e84d9b80f5f5c7e940516213322026af7ca1d",
+        "changeSummary": "retains 50 gp; clarifies it fetches that amount despite poor tanning"
+      },
+      {
+        "recordId": "dmg-spell-research-success-expenditure-3",
+        "pointer": "/review/sourceRowsOrClaims/132/typedValue",
+        "field": "typedValue",
+        "oldCanonicalValueSha256": "704221fe1828c3190567e42c2d9f9762d437be2a298950b205244300838da32f",
+        "candidateCanonicalValueSha256": "1101f90c0cdc337f6731221bf8e5075c6f4145ed023811fc9f2ae941eeaa4bff",
+        "changeSummary": "retains 6,000 gp per level; marks the 10%-to-40% intermediate as derived, not a printed row"
+      },
+      {
+        "recordId": "dmg-potion-alchemist-discount",
+        "pointer": "/review/sourceRowsOrClaims/137/typedValue",
+        "field": "typedValue",
+        "oldCanonicalValueSha256": "a1b90c0ab76b4a3f37bd88776b0c1a03813c9b7a96bb3542d7d713ef9848e6a3",
+        "candidateCanonicalValueSha256": "0dfefd89a2d03f1fb4e80024374f6018b26051af7e25555c284450c0417f7e8e",
+        "changeSummary": "removes unsupported 50% money-reduction claim; retains 50% time reduction"
+      },
+      {
+        "recordId": "dmg-potion-alchemist-discount",
+        "pointer": "/review/sourceRowsOrClaims/137/conditions",
+        "field": "conditions",
+        "oldCanonicalValueSha256": "4d4d452b52a1ed1385ef6d6fa1418c2f0e796eb44ad6759a73fccd71761cfc00",
+        "candidateCanonicalValueSha256": "2329ce895c10b893769a18d62acd65b0fe70da44e5320f9928ca089720cf6468",
+        "changeSummary": "limits the explicit 50% statement to time; monetary breadth remains unresolved"
+      },
+      {
+        "recordId": "dmg-everfull-purse-51-90",
+        "pointer": "/review/sourceRowsOrClaims/163/typedValue",
+        "field": "typedValue",
+        "oldCanonicalValueSha256": "263efd70e63283614397a2d5579533669ba8ea96c0178e3f9ef848402acfe690",
+        "candidateCanonicalValueSha256": "0762c9ab5b9f151a7c905f8b2f9a56332d8fa03c3aff78faf609b8c102f90d61",
+        "changeSummary": "corrects absent columns while retaining cp/ep/pp counts of 26"
+      },
+      {
+        "recordId": "dmg-everfull-purse-91-00",
+        "pointer": "/review/sourceRowsOrClaims/164/typedValue",
+        "field": "typedValue",
+        "oldCanonicalValueSha256": "804ceb1d2b9b2e690b1f2b7a5afab15ca8e1c78342ce6ef66733a962c08a97de",
+        "candidateCanonicalValueSha256": "444590fefc0a1f6cfdc99b45ce75f6132602abbf372300fe6e3f8a83711f9787",
+        "changeSummary": "corrects absent columns while retaining cp/ep/gem counts of 26"
+      },
+      {
+        "recordId": "dmg-deck-gem-card",
+        "pointer": "/review/sourceRowsOrClaims/166/typedValue",
+        "field": "typedValue",
+        "oldCanonicalValueSha256": "b2e07bcca327c9afa9c958e6c98033c2065d39d36cdc019c4d5ba299b9136c65",
+        "candidateCanonicalValueSha256": "77d402c3488239517a4e89bbee363d588f7ef64bb13981e2c7bd4cf1d669a971",
+        "changeSummary": "represents 20 gold-jewelry pieces or 50 gems at 1,000 gp base each; no total inferred"
+      },
+      {
+        "recordId": "dmg-deck-gem-card",
+        "pointer": "/review/sourceRowsOrClaims/166/quantityOrScale",
+        "field": "quantityOrScale",
+        "oldCanonicalValueSha256": "1053e5d4e7c5fff1e7752d1db5523d144155e6a92e171dc783e3118137bc393d",
+        "candidateCanonicalValueSha256": "c1dbba34a4bb8ff06c4d5b8caea7e88ed20da11ae014db09632932205d9e5d9f",
+        "changeSummary": "records the 20-jewelry / 50-gem alternatives; total remains unstated"
+      }
+    ]
+  },
+  "pdInlineMirrorAudit": {
+    "claimReceipts": {
+      "uniquePDRows": 179,
+      "exactlyMatchesCandidate": 158,
+      "staleRows": 21,
+      "rowFieldComparisons": [
+        "objectOrSubject",
+        "typedValue",
+        "quantityOrScale",
+        "conditions",
+        "source"
+      ],
+      "staleCopies": [
+        {
+          "recordId": "dmg-commodity-01",
+          "pointer": "/claimReceipts/25/linkedTypedSourceRecords/9",
+          "mismatchedFields": [
+            "conditions"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-commodity-02",
+          "pointer": "/claimReceipts/25/linkedTypedSourceRecords/10",
+          "mismatchedFields": [
+            "conditions"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-commodity-03",
+          "pointer": "/claimReceipts/25/linkedTypedSourceRecords/11",
+          "mismatchedFields": [
+            "conditions"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-commodity-04",
+          "pointer": "/claimReceipts/25/linkedTypedSourceRecords/12",
+          "mismatchedFields": [
+            "conditions"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-commodity-05",
+          "pointer": "/claimReceipts/25/linkedTypedSourceRecords/13",
+          "mismatchedFields": [
+            "conditions"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-commodity-06",
+          "pointer": "/claimReceipts/25/linkedTypedSourceRecords/14",
+          "mismatchedFields": [
+            "conditions"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-commodity-07",
+          "pointer": "/claimReceipts/25/linkedTypedSourceRecords/15",
+          "mismatchedFields": [
+            "conditions"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-commodity-08",
+          "pointer": "/claimReceipts/25/linkedTypedSourceRecords/16",
+          "mismatchedFields": [
+            "conditions"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-info-discovery-row-01",
+          "pointer": "/claimReceipts/28/linkedTypedSourceRecords/11",
+          "mismatchedFields": [
+            "conditions"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-info-discovery-row-02",
+          "pointer": "/claimReceipts/28/linkedTypedSourceRecords/12",
+          "mismatchedFields": [
+            "conditions"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-info-discovery-row-03",
+          "pointer": "/claimReceipts/28/linkedTypedSourceRecords/13",
+          "mismatchedFields": [
+            "conditions"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-info-discovery-row-04",
+          "pointer": "/claimReceipts/28/linkedTypedSourceRecords/14",
+          "mismatchedFields": [
+            "conditions"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-henchman-initial-payment",
+          "pointer": "/claimReceipts/30/linkedTypedSourceRecords/6",
+          "mismatchedFields": [
+            "conditions"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-town-fee-foreign-silver-threshold-fine",
+          "pointer": "/claimReceipts/35/linkedTypedSourceRecords/10",
+          "mismatchedFields": [
+            "typedValue"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-placement-not-gem-1000",
+          "pointer": "/claimReceipts/36/linkedTypedSourceRecords/4",
+          "mismatchedFields": [
+            "typedValue",
+            "quantityOrScale"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-placement-fur-cape-50gp",
+          "pointer": "/claimReceipts/36/linkedTypedSourceRecords/9",
+          "mismatchedFields": [
+            "typedValue"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-spell-research-success-expenditure-3",
+          "pointer": "/claimReceipts/39/linkedTypedSourceRecords/2",
+          "mismatchedFields": [
+            "typedValue"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-potion-alchemist-discount",
+          "pointer": "/claimReceipts/39/linkedTypedSourceRecords/7",
+          "mismatchedFields": [
+            "typedValue",
+            "conditions"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-everfull-purse-51-90",
+          "pointer": "/claimReceipts/44/linkedTypedSourceRecords/1",
+          "mismatchedFields": [
+            "typedValue"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-everfull-purse-91-00",
+          "pointer": "/claimReceipts/44/linkedTypedSourceRecords/2",
+          "mismatchedFields": [
+            "typedValue"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        },
+        {
+          "recordId": "dmg-deck-gem-card",
+          "pointer": "/claimReceipts/45/linkedTypedSourceRecords/0",
+          "mismatchedFields": [
+            "typedValue",
+            "quantityOrScale"
+          ],
+          "matchesCandidate": false,
+          "copiedChangedFieldsMatchRawBeforeCandidate": true
+        }
+      ],
+      "staleCopyPreimageCheck": "All stale copied fields equal the raw b0d row preimage, proving these are old copies rather than divergent independent values.",
+      "all179CopiesMatchRawPreimage": true,
+      "all179CurrentRecordPointersAreUnique": true
+    },
+    "untypedMoneyCandidateAdjudications": {
+      "exactLinkedRecordCopies": 14,
+      "exactlyMatchesCandidate": 11,
+      "staleExactLinkedRecordCopies": [
+        {
+          "recordId": "dmg-everfull-purse-51-90",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/89/exactLinkedRecords/0",
+          "mismatchedFields": [
+            "typedValue"
+          ],
+          "matchesCandidate": false
+        },
+        {
+          "recordId": "dmg-everfull-purse-91-00",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/90/exactLinkedRecords/0",
+          "mismatchedFields": [
+            "typedValue"
+          ],
+          "matchesCandidate": false
+        },
+        {
+          "recordId": "dmg-deck-gem-card",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/92/exactLinkedRecords/0",
+          "mismatchedFields": [
+            "typedValue",
+            "quantityOrScale"
+          ],
+          "matchesCandidate": false
+        }
+      ],
+      "baselineFixtureShouldRemainHistorical": true,
+      "adjudicationMirrorChecks": [
+        {
+          "recordId": "dmg-gem-increase-ladder",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/79/exactLinkedRecords/0",
+          "mismatchedFields": [],
+          "matchesCandidate": true
+        },
+        {
+          "recordId": "dmg-gem-decrease-ladder",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/80/exactLinkedRecords/0",
+          "mismatchedFields": [],
+          "matchesCandidate": true
+        },
+        {
+          "recordId": "dmg-gem-stone-list-fancy-100-500",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/81/exactLinkedRecords/0",
+          "mismatchedFields": [],
+          "matchesCandidate": true
+        },
+        {
+          "recordId": "dmg-gem-stone-list-1000-plus",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/82/exactLinkedRecords/0",
+          "mismatchedFields": [],
+          "matchesCandidate": true
+        },
+        {
+          "recordId": "dmg-henchman-tavern-round",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/83/exactLinkedRecords/0",
+          "mismatchedFields": [],
+          "matchesCandidate": true
+        },
+        {
+          "recordId": "dmg-henchman-combined-methods",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/84/exactLinkedRecords/0",
+          "mismatchedFields": [],
+          "matchesCandidate": true
+        },
+        {
+          "recordId": "dmg-henchman-interest-increase",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/85/exactLinkedRecords/0",
+          "mismatchedFields": [],
+          "matchesCandidate": true
+        },
+        {
+          "recordId": "dmg-potion-experience-cost",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/86/exactLinkedRecords/0",
+          "mismatchedFields": [],
+          "matchesCandidate": true
+        },
+        {
+          "recordId": "dmg-wand-of-wonder-gems-88-90",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/87/exactLinkedRecords/0",
+          "mismatchedFields": [],
+          "matchesCandidate": true
+        },
+        {
+          "recordId": "dmg-everfull-purse-01-50",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/88/exactLinkedRecords/0",
+          "mismatchedFields": [],
+          "matchesCandidate": true
+        },
+        {
+          "recordId": "dmg-everfull-purse-51-90",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/89/exactLinkedRecords/0",
+          "mismatchedFields": [
+            "typedValue"
+          ],
+          "matchesCandidate": false
+        },
+        {
+          "recordId": "dmg-everfull-purse-91-00",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/90/exactLinkedRecords/0",
+          "mismatchedFields": [
+            "typedValue"
+          ],
+          "matchesCandidate": false
+        },
+        {
+          "recordId": "dmg-everfull-purse-gem-value",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/91/exactLinkedRecords/0",
+          "mismatchedFields": [],
+          "matchesCandidate": true
+        },
+        {
+          "recordId": "dmg-deck-gem-card",
+          "pointer": "/untypedMoneyCandidateAdjudications/records/92/exactLinkedRecords/0",
+          "mismatchedFields": [
+            "typedValue",
+            "quantityOrScale"
+          ],
+          "matchesCandidate": false
+        }
+      ]
+    },
+    "passageRecords": {
+      "recordCount": 34,
+      "directPDRowIdReferences": 0,
+      "action": "no inline PD value copies in this artifact; update only its declared PD input pin after apply"
+    },
+    "valueSummary": "Among the copied typed values, numeric amounts/rates remain the same except the unsupported 50% moneyReductionPct on dmg-potion-alchemist-discount must be removed. Other changes correct qualifiers, an absent-column set, and derived-value annotation; quantity semantics change for dmg-placement-not-gem-1000 and dmg-deck-gem-card. The stale copies are not safe to leave as current post-apply mirrors."
+  },
+  "passageCanonicalLineageCheck": {
+    "oldInputSha256": "cdb03407d6d063a9203fa065bef8f8ee65a75b6f48aaa406806cecf0cab87a04",
+    "currentCanonicalSha256": "71b9ce72027624dd6af658616129b6fc475ea4e43c689758ceb1e165436204ea",
+    "sourceInventoryGroups": 8,
+    "sourceRowsInOriginal": 710,
+    "sourceRowsInCurrent": 710,
+    "sharedRowObjectsExactlyEqual": 710,
+    "all710SourceRowObjectsExactlyEqual": true,
+    "decision": "preserve cdb as original row-source lineage; current canonical 71b9 remains a separate current input"
+  },
+  "resolvedHistoricalToolMismatch": {
+    "oldReceiptText": "The current tool invocation failed before emitting a report: Invalid price source inventory: site-claim denominator 189 != equipment records 191. No output from that run is used as a completeness result.",
+    "currentCanonicalSiteClaimCount": 191,
+    "currentEquipmentRecordCount": 191,
+    "currentBeforeSourceCorrectionsIndex": {
+      "path": "artifacts/monetary-source-inventory-before-source-corrections/index.json",
+      "sha256": "472771cc6925c176ebf4eaed5030dc35c1764d53db164a7eda2f9f86e46a004a",
+      "status": "successfully generated with current 71b9 canonical input and 191 site claims"
+    },
+    "decision": "keep old failure text as history; remove it from the current blocker set in the next receipt version"
+  },
+  "limitations": [
+    "This is a dependency and copy-consistency audit only; no source values were applied or independently re-reviewed here.",
+    "V3k and PD V5 are private candidates; source files remain 8ec/b0d until separately authorized application.",
+    "No seals were created or modified.",
+    "The 20,368 older mirror references remain unadjudicated historical references and are not new current data defects."
+  ]
+}

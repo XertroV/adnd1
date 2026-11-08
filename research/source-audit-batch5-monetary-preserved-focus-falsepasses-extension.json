@@ -1,0 +1,309 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "immutable-source-focus-falsepositive-findings-before-candidate-v2",
+  "capturedBeforeSourceCorrections": true,
+  "baseline": {
+    "path": "research/source-audit-batch5-monetary-row-identity-baseline.json",
+    "sha256": "bd4973e1eca69a56b64adf3758ccce3683783815dea38bb8ca6ec9f33e898bb9"
+  },
+  "inputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+  "sourceQa": {
+    "privatePath": "/tmp/batch5-independent-phbdmg-money/independent-review.json",
+    "sha256": "5a831694d473375ce9c9dc3d4766564e080bdf398cc88d2ca6c9d9a38bd715a4"
+  },
+  "candidateV1": {
+    "privatePath": "/tmp/batch5-independent-phbdmg-candidate/phb-dmg-additional-prices-correction-candidate.json",
+    "sha256": "48d390c18d7b5635400f22efe61fc6079da585affdce925666c13d3bb6bc060a",
+    "unchangedFocusCount": 39
+  },
+  "knownFindings": [
+    {
+      "id": "preserved-focus-falsepass-dmg-fur-value-d10-adjustment",
+      "kind": "wrong-row-focus-independent-source-review",
+      "independent": true,
+      "records": [
+        {
+          "uid": "phb-dmg-supplement-row:dmg-fur-value-d10-adjustment",
+          "rowIdentitySha256": "3effeb3c810008528009e9b9596d75e53643e04007d5ba0b4d166de325c5b827",
+          "focusGeometrySha256": "1aae2d1c3634e495fc7b9af207de4c1d27122bd0e91509f2225c65c26045a5fe"
+        }
+      ],
+      "reason": "The focus begins at the seal row and includes context above the adjustment, but stops through the top of the d10 outcome block and excludes the remaining percentage outcomes. The complete context crop contains the whole correct table.",
+      "supersededSourceQaDisposition": {
+        "sourceRowOrClaimId": "dmg-fur-value-d10-adjustment",
+        "groupId": "dmg-furs-clothing-rare-commodities",
+        "sourceKind": "value-adjustment-table",
+        "contextCropId": "crop-dmg-furs-clothing-rare-commodities-01",
+        "semanticDisposition": "reviewed-no-discrepancy",
+        "semanticNote": null,
+        "focusDisposition": "source-focus-reviewed",
+        "focusBoundsCropPixelsLTRB": [
+          5,
+          265,
+          555,
+          385
+        ]
+      },
+      "candidateFocusByteIdenticalToBefore": true,
+      "sourcePixelEvidence": {
+        "privatePath": "/tmp/batch5-independent-phbdmg-candidate/overlays/00.png",
+        "sha256": "f37c3ccdc209360109791e3876a03a5596455ff407cb0773d483e79339d8df43"
+      },
+      "failureDimension": "precise-focus source relevance/completeness; values and context crop are separate",
+      "detectionLesson": "Valid in-bounds geometry and correct values visible in the context crop cannot establish that a recorded focus selects its claimed table/footnote. The earlier source-focus-reviewed disposition was false for this exact focus."
+    },
+    {
+      "id": "preserved-focus-falsepass-dmg-everfull-purse-gem-value",
+      "kind": "wrong-row-focus-independent-source-review",
+      "independent": true,
+      "records": [
+        {
+          "uid": "phb-dmg-supplement-row:dmg-everfull-purse-gem-value",
+          "rowIdentitySha256": "0951553d7db67bcbac6be59d915160c3a4ef42deb9ee8c7d3b3bc9d51d9a1333",
+          "focusGeometrySha256": "3a9dc7c01c25839241f560521d41684aa33fc63087c0fcf03b60275934fd6372"
+        }
+      ],
+      "reason": "The focus selects the final Everfull Purse coin/gem result row. The separate footnote that supplies10gp base and100gp maximum is below and outside the highlight.",
+      "supersededSourceQaDisposition": {
+        "sourceRowOrClaimId": "dmg-everfull-purse-gem-value",
+        "groupId": "dmg-gem-values-by-object",
+        "sourceKind": "base-value-qualifier",
+        "contextCropId": "crop-dmg-gem-values-by-object-01",
+        "semanticDisposition": "reviewed-no-discrepancy",
+        "semanticNote": null,
+        "focusDisposition": "source-focus-reviewed",
+        "focusBoundsCropPixelsLTRB": [
+          0,
+          260,
+          595,
+          300
+        ]
+      },
+      "candidateFocusByteIdenticalToBefore": true,
+      "sourcePixelEvidence": {
+        "privatePath": "/tmp/batch5-independent-phbdmg-candidate/overlays/04.png",
+        "sha256": "892a7d049324456e8bab9ea16681d49d548a7c2865ade78fdf6aec36686459da"
+      },
+      "failureDimension": "precise-focus source relevance/completeness; values and context crop are separate",
+      "detectionLesson": "Valid in-bounds geometry and correct values visible in the context crop cannot establish that a recorded focus selects its claimed table/footnote. The earlier source-focus-reviewed disposition was false for this exact focus."
+    }
+  ],
+  "records": [
+    {
+      "uid": "phb-dmg-supplement-row:dmg-fur-value-d10-adjustment",
+      "surface": "phb-dmg-supplement-row",
+      "id": "dmg-fur-value-d10-adjustment",
+      "input": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "inputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "inputStage": "recorded-input-not-certified-by-this-audit",
+      "pointer": "/review/sourceRowsOrClaims/55",
+      "recordSha256": "6540b7f0463e7e036329ad8c7ab960829c865019e8bfa34c77772cc4c987c27e",
+      "label": "Fur/commodity d10 adjustment",
+      "source": {
+        "book": "DMG",
+        "printedPage": 27,
+        "pdfPage": 28,
+        "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "identity": {
+        "label": "Fur/commodity d10 adjustment",
+        "group": "dmg-furs-clothing-rare-commodities",
+        "ordinal": null,
+        "diceRoll": null,
+        "variant": null,
+        "kind": "value-adjustment-table",
+        "sourceRowIds": []
+      },
+      "identityStatus": "recorded-unverified",
+      "notApplicable": null,
+      "geometry": [
+        {
+          "path": "/focus/focusBoundsCropPixelsLTRB",
+          "role": "row-or-passage-focus",
+          "space": "crop-local-pixels",
+          "format": "ltrb",
+          "bounds": [
+            5,
+            265,
+            555,
+            385
+          ],
+          "source": {
+            "book": "DMG",
+            "printedPage": 27,
+            "pdfPage": 28,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "frame": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669|DMG|pdf:28|crop-local-pixels|c3d2a60d232e96c780f881960643ba5e78a682b246929c817a85e861895440b7",
+          "derivation": null,
+          "status": "precise-row-focus; pixel-checked",
+          "geometrySha256": "a05e5ec76e794f9f444cd03e98dbb7059aacf1690cff152ff81232441e926726",
+          "validShape": true
+        },
+        {
+          "path": "/focus/focusBoundsCropPixelsLTRB",
+          "role": "row-or-passage-focus",
+          "space": "rendered-page-pixels",
+          "format": "ltrb",
+          "bounds": [
+            50,
+            1195,
+            600,
+            1315
+          ],
+          "source": {
+            "book": "DMG",
+            "printedPage": 27,
+            "pdfPage": 28,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "frame": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669|DMG|pdf:28|rendered-page-pixels|c19905f07c933049d7c1089dd87cd437efa1b0f8ec35b9e3f0a89cae874f0e68",
+          "derivation": {
+            "kind": "crop-local-plus-recorded-source-render-offset",
+            "cropId": "crop-dmg-furs-clothing-rare-commodities-01",
+            "sourceRenderDimensionsPx": [
+              1231,
+              1658
+            ],
+            "renderDpi": 150
+          },
+          "status": "recorded-unverified",
+          "geometrySha256": "fa5def234c806a166e545a439521e292e6b454468c25e4ffb10a482fcda3761d",
+          "validShape": true
+        }
+      ],
+      "annotations": {
+        "/quantityOrScale": "one roll per item",
+        "/conditions": "5-8 retains displayed value"
+      },
+      "unhandledGeometry": [],
+      "rowIdentitySha256": "3effeb3c810008528009e9b9596d75e53643e04007d5ba0b4d166de325c5b827",
+      "focusGeometrySha256": "1aae2d1c3634e495fc7b9af207de4c1d27122bd0e91509f2225c65c26045a5fe",
+      "contextGeometrySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "annotationSha256": "43b51b008b0b646a1c97a6457bdca3a8cc6bae8f118d1acea145e7cb1fb7dec7",
+      "identityCompleteness": {
+        "label": true,
+        "group": true,
+        "ordinalOrDice": false,
+        "sourceHash": true,
+        "sourceBook": true,
+        "sourcePdfPage": true
+      },
+      "geometryStatus": "focus-or-row-locator-recorded",
+      "physicalRowIdentityReview": "unassessed-by-programmatic-inventory"
+    },
+    {
+      "uid": "phb-dmg-supplement-row:dmg-everfull-purse-gem-value",
+      "surface": "phb-dmg-supplement-row",
+      "id": "dmg-everfull-purse-gem-value",
+      "input": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "inputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "inputStage": "recorded-input-not-certified-by-this-audit",
+      "pointer": "/review/sourceRowsOrClaims/165",
+      "recordSha256": "c72f8605ffa3ba5c25f7f99d304908324a0a03e304cc1a90837fa3863880318b",
+      "label": "Gem value footnote",
+      "source": {
+        "book": "DMG",
+        "printedPage": 140,
+        "pdfPage": 141,
+        "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "identity": {
+        "label": "Gem value footnote",
+        "group": "dmg-gem-values-by-object",
+        "ordinal": null,
+        "diceRoll": null,
+        "variant": null,
+        "kind": "base-value-qualifier",
+        "sourceRowIds": []
+      },
+      "identityStatus": "recorded-unverified",
+      "notApplicable": null,
+      "geometry": [
+        {
+          "path": "/focus/focusBoundsCropPixelsLTRB",
+          "role": "row-or-passage-focus",
+          "space": "crop-local-pixels",
+          "format": "ltrb",
+          "bounds": [
+            0,
+            260,
+            595,
+            300
+          ],
+          "source": {
+            "book": "DMG",
+            "printedPage": 140,
+            "pdfPage": 141,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "frame": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669|DMG|pdf:141|crop-local-pixels|30fc5c65fe8fdfdb186c4eeda3b5445223667db6d25c2b0b325a19e0ade86b2c",
+          "derivation": null,
+          "status": "footnote focus includes base and maximum per gem",
+          "geometrySha256": "9d61e48e8edbe9732cb123179d2941c5cc52c24f653cac37471fff3a662e0dea",
+          "validShape": true
+        },
+        {
+          "path": "/focus/focusBoundsCropPixelsLTRB",
+          "role": "row-or-passage-focus",
+          "space": "rendered-page-pixels",
+          "format": "ltrb",
+          "bounds": [
+            0,
+            1280,
+            595,
+            1320
+          ],
+          "source": {
+            "book": "DMG",
+            "printedPage": 140,
+            "pdfPage": 141,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "frame": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669|DMG|pdf:141|rendered-page-pixels|b957417b21aefbcf7e18fa991f24f3a44175cdfccd0bfcea30ecd208e3b914f1",
+          "derivation": {
+            "kind": "crop-local-plus-recorded-source-render-offset",
+            "cropId": "crop-dmg-gem-values-by-object-01",
+            "sourceRenderDimensionsPx": [
+              1230,
+              1626
+            ],
+            "renderDpi": 150
+          },
+          "status": "recorded-unverified",
+          "geometrySha256": "affea27a53e9eb1f6cf3dc1b76cf7c303df3f3e8a585195e48df6b49e0db662b",
+          "validShape": true
+        }
+      ],
+      "annotations": {
+        "/quantityOrScale": "only the gems result",
+        "/conditions": "maximum gem value is 100 gp"
+      },
+      "unhandledGeometry": [],
+      "rowIdentitySha256": "0951553d7db67bcbac6be59d915160c3a4ef42deb9ee8c7d3b3bc9d51d9a1333",
+      "focusGeometrySha256": "3a9dc7c01c25839241f560521d41684aa33fc63087c0fcf03b60275934fd6372",
+      "contextGeometrySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "annotationSha256": "c119c8ea38104b3bd4687b19eaec3a37f5d14d418dd8eae25a06d8ac56e9b0ab",
+      "identityCompleteness": {
+        "label": true,
+        "group": true,
+        "ordinalOrDice": false,
+        "sourceHash": true,
+        "sourceBook": true,
+        "sourcePdfPage": true
+      },
+      "geometryStatus": "focus-or-row-locator-recorded",
+      "physicalRowIdentityReview": "unassessed-by-programmatic-inventory"
+    }
+  ],
+  "counts": {
+    "newFindingRecords": 2,
+    "totalKnownFindingRecords": 111,
+    "totalReferencedDistinctRows": 195
+  },
+  "limits": [
+    "The original source input,QAartifact,v1candidate and earlier baselines remain unchanged.",
+    "These are two newly confirmed false positive source-focus reviews among39 unchanged candidate foci. They are not inherited approvals and are not repaired by unrelated corrected rows.",
+    "Typed values are not changed by these findings."
+  ]
+}

@@ -1,0 +1,366 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-correction-of-poison-registration-blocker-diagnosis",
+  "scope": "Read-only original/current coordinate and existing source-review evidence interpretation. No new pixelQA, geometry mutation or finding waiver.",
+  "conclusion": "All4 original wrong-focus findings remain valid. Currentprimaryfocus actuallychanged; helper rejects the repair because legitimate PDF22 supporting factfocus expands the set of current sourceframes. Do not reclassify the original findings as false.",
+  "sourceBefore": {
+    "path": "tests/fixtures/monetary-source-phbdmg-179-before.json.gz",
+    "uncompressedSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9"
+  },
+  "sourceAfter": {
+    "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+    "sha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6"
+  },
+  "existingFirst90Review": {
+    "path": "research/source-audit-batch5-pd179-v5-first90-independent-source-review.json",
+    "sha256": "3290a2c498f1f3b6caa6c25cd7696aed1bd152716bac65a9f8a0444184fbd286",
+    "priorReview": {
+      "path": "research/source-audit-batch5-pd179-first90-independent-review-v2.json",
+      "sha256": "97f768958efefba231e05e3c2bcc528ff4d2aec063b25b65275e314117a33d51",
+      "first90Denominator": 90
+    },
+    "supportingNotesPointer": "/poisonMarkerSupportingContextReview"
+  },
+  "currentHelper": {
+    "path": "tools/monetary-row-identity-audit.mjs",
+    "sha256": "f666dd837a1a08ffd7ca926766f85b8af4b60e24724a8b2c7b60a1a61943dfa8",
+    "functionsUtf8": "function focusPhysicalWindowsChanged(uid,record){\n const before=frozenFocusPhysicalWindows(uid),after=recordFocusPhysicalWindows(record);if(!before.length||!after.length)return false;\n const key=window=>canonical({source:window.source,space:window.space}),beforeFrames=[...new Set(before.map(key))].sort(),afterFrames=[...new Set(after.map(key))].sort();\n if(canonical(beforeFrames)!==canonical(afterFrames))return false;\n const group=windows=>{const out={};for(const window of windows)(out[key(window)]||=([])).push(window.bounds);for(const bounds of Object.values(out))bounds.sort((a,b)=>canonical(a).localeCompare(canonical(b)));return out;};\n return canonical(group(before))!==canonical(group(after));\n}\nfunction focusChangedSinceFinding(f,current){\n const changed=current.map((record,index)=>Boolean(record&&focusPhysicalWindowsChanged(f.records[index].uid,record)));\n if(f.kind==='duplicate-wrong-row-focus')return changed.some(Boolean)&&current.length===2&&current.every(Boolean)&&canonical(recordFocusPhysicalWindows(current[0]))!==canonical(recordFocusPhysicalWindows(current[1]));\n return changed.length>0&&changed.every(Boolean);\n}\n"
+  },
+  "rows": [
+    {
+      "recordId": "dmg-poison-ingestive-c",
+      "findingId": "wrong-focus-dmg-poison-ingestive-c",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "printedPage": 20,
+        "pdfPage": 21,
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourceFileSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "sourceRenderSha256": "896afc91f2a4fe868970ff08397452cfadf1a9a3986a47cf05a69376891e7c0b",
+      "sourceRenderDimensionsPx": [
+        1232,
+        1650
+      ],
+      "cropBoundsPixelsLTRB": [
+        600,
+        1170,
+        1210,
+        1580
+      ],
+      "beforePrimaryCropPixels": [
+        8,
+        112,
+        602,
+        130
+      ],
+      "afterPrimaryCropPixels": [
+        10,
+        155,
+        535,
+        174
+      ],
+      "beforePrimarySourcePagePixels": [
+        608,
+        1282,
+        1202,
+        1300
+      ],
+      "afterPrimarySourcePagePixels": [
+        610,
+        1325,
+        1135,
+        1344
+      ],
+      "physicalPrimaryFocusChanged": true,
+      "beforePrimaryPdfPages": [
+        21
+      ],
+      "afterActualFocusPdfPages": [
+        21,
+        22
+      ],
+      "first90ExistingAuthorityPointer": "/unchangedPrimaryTransfers/19",
+      "first90TransferBasis": "Prior reviewed V2(97f) toV5; NOT originalb0d toV5.",
+      "currentSupportingNotePart": {
+        "partId": "poison-marker-note-3-p21",
+        "order": 2,
+        "role": "supporting-note-definition",
+        "factPointers": [
+          "/conditions/footnoteMarker"
+        ],
+        "contextCropId": "crop-dmg-poison-dose-and-manufacture-04",
+        "source": {
+          "bookKey": "DMG",
+          "book": "Dungeon Masters Guide",
+          "printedPage": 21,
+          "pdfPage": 22,
+          "sourceFile": "DMG_1stEd.pdf",
+          "sourceFileSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        "focusBoundsCropPixelsLTRB": [
+          49,
+          54,
+          1095,
+          93
+        ],
+        "appliesDefinitionId": "dmg-poison-marker-note-3"
+      }
+    },
+    {
+      "recordId": "dmg-poison-ingestive-d",
+      "findingId": "wrong-focus-dmg-poison-ingestive-d",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "printedPage": 20,
+        "pdfPage": 21,
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourceFileSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "sourceRenderSha256": "896afc91f2a4fe868970ff08397452cfadf1a9a3986a47cf05a69376891e7c0b",
+      "sourceRenderDimensionsPx": [
+        1232,
+        1650
+      ],
+      "cropBoundsPixelsLTRB": [
+        600,
+        1170,
+        1210,
+        1580
+      ],
+      "beforePrimaryCropPixels": [
+        8,
+        132,
+        602,
+        150
+      ],
+      "afterPrimaryCropPixels": [
+        10,
+        174,
+        535,
+        193
+      ],
+      "beforePrimarySourcePagePixels": [
+        608,
+        1302,
+        1202,
+        1320
+      ],
+      "afterPrimarySourcePagePixels": [
+        610,
+        1344,
+        1135,
+        1363
+      ],
+      "physicalPrimaryFocusChanged": true,
+      "beforePrimaryPdfPages": [
+        21
+      ],
+      "afterActualFocusPdfPages": [
+        21,
+        22
+      ],
+      "first90ExistingAuthorityPointer": "/unchangedPrimaryTransfers/20",
+      "first90TransferBasis": "Prior reviewed V2(97f) toV5; NOT originalb0d toV5.",
+      "currentSupportingNotePart": {
+        "partId": "poison-marker-note-4-p21",
+        "order": 2,
+        "role": "supporting-note-definition",
+        "factPointers": [
+          "/conditions/footnoteMarker"
+        ],
+        "contextCropId": "crop-dmg-poison-dose-and-manufacture-04",
+        "source": {
+          "bookKey": "DMG",
+          "book": "Dungeon Masters Guide",
+          "printedPage": 21,
+          "pdfPage": 22,
+          "sourceFile": "DMG_1stEd.pdf",
+          "sourceFileSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        "focusBoundsCropPixelsLTRB": [
+          34,
+          128,
+          1095,
+          168
+        ],
+        "appliesDefinitionId": "dmg-poison-marker-note-4"
+      }
+    },
+    {
+      "recordId": "dmg-poison-insinuative-c",
+      "findingId": "wrong-focus-dmg-poison-insinuative-c",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "printedPage": 20,
+        "pdfPage": 21,
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourceFileSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "sourceRenderSha256": "896afc91f2a4fe868970ff08397452cfadf1a9a3986a47cf05a69376891e7c0b",
+      "sourceRenderDimensionsPx": [
+        1232,
+        1650
+      ],
+      "cropBoundsPixelsLTRB": [
+        600,
+        1170,
+        1210,
+        1580
+      ],
+      "beforePrimaryCropPixels": [
+        8,
+        252,
+        602,
+        270
+      ],
+      "afterPrimaryCropPixels": [
+        10,
+        286,
+        535,
+        305
+      ],
+      "beforePrimarySourcePagePixels": [
+        608,
+        1422,
+        1202,
+        1440
+      ],
+      "afterPrimarySourcePagePixels": [
+        610,
+        1456,
+        1135,
+        1475
+      ],
+      "physicalPrimaryFocusChanged": true,
+      "beforePrimaryPdfPages": [
+        21
+      ],
+      "afterActualFocusPdfPages": [
+        21,
+        22
+      ],
+      "first90ExistingAuthorityPointer": "/unchangedPrimaryTransfers/24",
+      "first90TransferBasis": "Prior reviewed V2(97f) toV5; NOT originalb0d toV5.",
+      "currentSupportingNotePart": {
+        "partId": "poison-marker-note-3-p21",
+        "order": 2,
+        "role": "supporting-note-definition",
+        "factPointers": [
+          "/conditions/footnoteMarker"
+        ],
+        "contextCropId": "crop-dmg-poison-dose-and-manufacture-04",
+        "source": {
+          "bookKey": "DMG",
+          "book": "Dungeon Masters Guide",
+          "printedPage": 21,
+          "pdfPage": 22,
+          "sourceFile": "DMG_1stEd.pdf",
+          "sourceFileSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        "focusBoundsCropPixelsLTRB": [
+          49,
+          54,
+          1095,
+          93
+        ],
+        "appliesDefinitionId": "dmg-poison-marker-note-3"
+      }
+    },
+    {
+      "recordId": "dmg-poison-insinuative-d",
+      "findingId": "wrong-focus-dmg-poison-insinuative-d",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "printedPage": 20,
+        "pdfPage": 21,
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourceFileSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "sourceRenderSha256": "896afc91f2a4fe868970ff08397452cfadf1a9a3986a47cf05a69376891e7c0b",
+      "sourceRenderDimensionsPx": [
+        1232,
+        1650
+      ],
+      "cropBoundsPixelsLTRB": [
+        600,
+        1170,
+        1210,
+        1580
+      ],
+      "beforePrimaryCropPixels": [
+        8,
+        272,
+        602,
+        290
+      ],
+      "afterPrimaryCropPixels": [
+        10,
+        305,
+        535,
+        324
+      ],
+      "beforePrimarySourcePagePixels": [
+        608,
+        1442,
+        1202,
+        1460
+      ],
+      "afterPrimarySourcePagePixels": [
+        610,
+        1475,
+        1135,
+        1494
+      ],
+      "physicalPrimaryFocusChanged": true,
+      "beforePrimaryPdfPages": [
+        21
+      ],
+      "afterActualFocusPdfPages": [
+        21,
+        22
+      ],
+      "first90ExistingAuthorityPointer": "/unchangedPrimaryTransfers/25",
+      "first90TransferBasis": "Prior reviewed V2(97f) toV5; NOT originalb0d toV5.",
+      "currentSupportingNotePart": {
+        "partId": "poison-marker-note-4-p21",
+        "order": 2,
+        "role": "supporting-note-definition",
+        "factPointers": [
+          "/conditions/footnoteMarker"
+        ],
+        "contextCropId": "crop-dmg-poison-dose-and-manufacture-04",
+        "source": {
+          "bookKey": "DMG",
+          "book": "Dungeon Masters Guide",
+          "printedPage": 21,
+          "pdfPage": 22,
+          "sourceFile": "DMG_1stEd.pdf",
+          "sourceFileSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+        },
+        "focusBoundsCropPixelsLTRB": [
+          34,
+          128,
+          1095,
+          168
+        ],
+        "appliesDefinitionId": "dmg-poison-marker-note-4"
+      }
+    }
+  ],
+  "actualHelperFailure": "focusPhysicalWindowsChanged requires canonical(beforeFrames)===canonical(afterFrames) before testing windows. Originalb0d hasDMGpdf21, currente4 hasDMGpdf21plusreviewednoteDMGpdf22. This frame expansion returnsfalse despite the changedprimary physicalwindow.",
+  "boundedRepairRequirements": [
+    "Keep original finding ID/kind/history intact; register current exact source/focus/context evidence as repair.",
+    "Require every original focus sourceframe to remain present and bound to exact original source identity.",
+    "Compare changedwindows on those originalframes only. Additional reviewed supportingframes remain inventoried and validated separately.",
+    "An unchanged originalprimary plusnewnote must not count as focusrepair. Missing/replaced originalframe must stayheld."
+  ],
+  "limitations": [
+    "This document does not clear a finding or supply a disposition. It identifies the actual helper integration blocker and preserves original source-review meaning.",
+    "Original122focus/full195baseline capture and code changes are owned by root/rowtool author, not this reviewer."
+  ]
+}

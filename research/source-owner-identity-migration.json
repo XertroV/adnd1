@@ -1,0 +1,493 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "source-owner-identity-migration-receipt",
+  "scope": "Move the exact two UA26 equipment-owned armor-class references from ambiguous bare item keys to collection-qualified equipment keys. Keep the pre-migration bare entry values in this receipt as historical evidence; do not leave any active ambiguous reference override.",
+  "frozenBeforeFixBaseline": {
+    "path": "research/source-owner-identity-baseline.json",
+    "sha256": "029fc6193118405bb5a9afe38d4ae052aae95c4d4fa5cd2a205a182fe9b02ecd",
+    "inputCommit": "679b15d1c580172e54314829c1c3c86dc78b65f3",
+    "distDataSha256": "7b26061cfb83c72b8a4fbeead43055866af52e68589557db8af32f3c407dea7e",
+    "citationOverridesAt679Sha256": "02ff4a396d1bd0e8cf8da06e168494b1f9fbe515af5894e9764b3209aa035f57"
+  },
+  "centralSourceReceipt": {
+    "path": "research/source-audit-batch5-ua26-central-integration.json",
+    "sha256": "aac6f093b31b10a0b9329e1075dad7cdcc0b7c4b5192cc4368aba8712d34fe1d",
+    "items": [
+      "equipment:ua-field-plate",
+      "equipment:ua-full-plate"
+    ]
+  },
+  "overrides": {
+    "path": "citation-overrides.json",
+    "beforeScopedMigrationSha256": "dcadd00a5790feb6f40a9059716d26a53d6ed32e7bbf9aa5e69707cb187ecfe9",
+    "afterScopedMigrationSha256": "08af7f52f28a19dc4bc9ecbc242a698ada7d547b33a5560fea073edda9787e9e",
+    "removedLegacyBareEntries": [
+      {
+        "legacyBareKey": "ua-field-plate",
+        "exactPriorValue": {
+          "references": [
+            {
+              "book": "UA",
+              "pages": [
+                26
+              ],
+              "label": "UA p.26 Armor Class Table",
+              "status": "Source identity and row/note context independently reviewed; existing field-value grades and purchase-price quantities remain separate.",
+              "verification": {
+                "regions": [
+                  "ua-26-ac-row-ab8a47e30af79c9d",
+                  "ua-26-ac-row-fd97d491e3807bd7"
+                ]
+              }
+            }
+          ]
+        },
+        "priorValueSha256": "4c31ee001f8eb853cf42d4fea30b5558e84704f74d9593f782c38e2dee8de89b",
+        "reason": "Every legacy reference in this ambiguous bare entry is exactly the equipment-owned UA26 armor-class reference recorded by the independent UA26 central integration receipt; no other intent remains in the object."
+      },
+      {
+        "legacyBareKey": "ua-full-plate",
+        "exactPriorValue": {
+          "references": [
+            {
+              "book": "UA",
+              "pages": [
+                26
+              ],
+              "label": "UA p.26 Armor Class Table",
+              "status": "Source identity and row/note context independently reviewed; existing field-value grades and purchase-price quantities remain separate.",
+              "verification": {
+                "regions": [
+                  "ua-26-ac-row-fd97d491e3807bd7",
+                  "ua-26-ac-row-fe811b336c9d1f01"
+                ]
+              }
+            }
+          ]
+        },
+        "priorValueSha256": "94987a164546402a6aed2e8ab57c1a1b6bc11003df4925f0018efede9f1545bf",
+        "reason": "Every legacy reference in this ambiguous bare entry is exactly the equipment-owned UA26 armor-class reference recorded by the independent UA26 central integration receipt; no other intent remains in the object."
+      }
+    ],
+    "addedCollectionScopedEntries": [
+      {
+        "scopedKey": "equipment:ua-field-plate",
+        "collection": "equipment",
+        "itemId": "ua-field-plate",
+        "reference": {
+          "book": "UA",
+          "pages": [
+            26
+          ],
+          "label": "UA p.26 Armor Class Table",
+          "status": "Source identity and row/note context independently reviewed; existing field-value grades and purchase-price quantities remain separate.",
+          "verification": {
+            "regions": [
+              "ua-26-ac-row-ab8a47e30af79c9d",
+              "ua-26-ac-row-fd97d491e3807bd7"
+            ]
+          }
+        },
+        "centralReceiptPointer": "/addedReferences/134"
+      },
+      {
+        "scopedKey": "equipment:ua-full-plate",
+        "collection": "equipment",
+        "itemId": "ua-full-plate",
+        "reference": {
+          "book": "UA",
+          "pages": [
+            26
+          ],
+          "label": "UA p.26 Armor Class Table",
+          "status": "Source identity and row/note context independently reviewed; existing field-value grades and purchase-price quantities remain separate.",
+          "verification": {
+            "regions": [
+              "ua-26-ac-row-fd97d491e3807bd7",
+              "ua-26-ac-row-fe811b336c9d1f01"
+            ]
+          }
+        },
+        "centralReceiptPointer": "/addedReferences/135"
+      }
+    ]
+  },
+  "capturedPreRegenerationApplications": [
+    {
+      "itemId": "ua-field-plate",
+      "collection": "rules",
+      "fieldPath": "/references/0",
+      "recordSha256Before": "75b18b2b3c890b305f986c6d6aedd4dedf7d25a6a03503f3f871a153f0054b64",
+      "appliedReferenceSha256WithoutGeneratedBindings": "dc2f85537310213a7eaddbca84e7a942215df48d516b646cf57ea6f1d90159eb",
+      "matchesLegacyOverride": true,
+      "attachedEvidenceBindingPathsBefore": [
+        "/references/0/evidenceBindings/0",
+        "/references/0/evidenceBindings/1",
+        "/evidenceBindings/0"
+      ],
+      "sourceExcerptCatalog": "scans/verified/rules-ua-field-plate.json",
+      "catalogSha256Before": "cf13f8d46ce61ac5ba9f37d700db6aa619715e140b3ea54dc5053584a1eae166"
+    },
+    {
+      "itemId": "ua-field-plate",
+      "collection": "equipment",
+      "fieldPath": "/references/0",
+      "recordSha256Before": "1e0a3b04c8c1a671e95eed06ed240b4f3394bdb3adbfc6bf538abe66306f6920",
+      "appliedReferenceSha256WithoutGeneratedBindings": "dc2f85537310213a7eaddbca84e7a942215df48d516b646cf57ea6f1d90159eb",
+      "matchesLegacyOverride": true,
+      "attachedEvidenceBindingPathsBefore": [
+        "/price/evidenceBindings/0",
+        "/fieldSources/Armor class without shield/evidenceBindings/0",
+        "/fieldSources/Weight/evidenceBindings/0",
+        "/fieldSources/Bulk/evidenceBindings/0",
+        "/fieldSources/Base movement/evidenceBindings/0",
+        "/fieldSources/Fit/evidenceBindings/0",
+        "/fieldSources/Damage absorption/evidenceBindings/0",
+        "/fieldSources/Repair/evidenceBindings/0",
+        "/fieldSources/Pummeling vulnerability/evidenceBindings/0",
+        "/references/0/evidenceBindings/0",
+        "/references/0/evidenceBindings/1",
+        "/evidenceBindings/0"
+      ],
+      "sourceExcerptCatalog": "scans/verified/equipment-ua-field-plate.json",
+      "catalogSha256Before": "7a82a0cda118b7df384af53c81249d53b8493b16d6765c0535483eec1bb470c1"
+    },
+    {
+      "itemId": "ua-full-plate",
+      "collection": "rules",
+      "fieldPath": "/references/0",
+      "recordSha256Before": "d61fd01813347fae75e969f45c4edcc920da41b3061f0c79e7bc668943a14517",
+      "appliedReferenceSha256WithoutGeneratedBindings": "0365ed978ab4e907846ec4ee1653246949c8d96b2294627333f1d261b6a5a03d",
+      "matchesLegacyOverride": true,
+      "attachedEvidenceBindingPathsBefore": [
+        "/references/0/evidenceBindings/0",
+        "/references/0/evidenceBindings/1",
+        "/evidenceBindings/0"
+      ],
+      "sourceExcerptCatalog": "scans/verified/rules-ua-full-plate.json",
+      "catalogSha256Before": "4e6b72a55f870280731211037a1b9f8cd750c81599a144f8e74f69a7b787b2fe"
+    },
+    {
+      "itemId": "ua-full-plate",
+      "collection": "equipment",
+      "fieldPath": "/references/0",
+      "recordSha256Before": "e10010652d036991204095ac4fb6fd301c3e577c62a311c52d3e9bed5e931600",
+      "appliedReferenceSha256WithoutGeneratedBindings": "0365ed978ab4e907846ec4ee1653246949c8d96b2294627333f1d261b6a5a03d",
+      "matchesLegacyOverride": true,
+      "attachedEvidenceBindingPathsBefore": [
+        "/price/evidenceBindings/0",
+        "/fieldSources/Armor class without shield/evidenceBindings/0",
+        "/fieldSources/Weight/evidenceBindings/0",
+        "/fieldSources/Bulk/evidenceBindings/0",
+        "/fieldSources/Base movement/evidenceBindings/0",
+        "/fieldSources/Fit/evidenceBindings/0",
+        "/fieldSources/Damage absorption/evidenceBindings/0",
+        "/fieldSources/Repair/evidenceBindings/0",
+        "/fieldSources/Pummeling vulnerability/evidenceBindings/0",
+        "/references/0/evidenceBindings/0",
+        "/references/0/evidenceBindings/1",
+        "/evidenceBindings/0"
+      ],
+      "sourceExcerptCatalog": "scans/verified/equipment-ua-full-plate.json",
+      "catalogSha256Before": "13fd44d224081e7e09c288e20bb7558b5f3ee177b1890c52d733ea008b36e14e"
+    }
+  ],
+  "decision": "Both legacy bare entries contain only exact UA26 Armor Class Table references listed in the independently reviewed UA26 central receipt under collection=equipment, and each matches one original reference path on both colliding records. Preserve their original values here, apply the same references only to equipment:<id>, and leave the rules:<id> record without the equipment reference. No other ambiguous citation item entries are migrated by this change.",
+  "expectedCurrentBehavior": "For unique item IDs, legacy bare and collection-scoped references are additive in legacy-then-scoped order, with deep-cloned reference objects per owner. For cross-collection duplicate IDs, a nonempty unscoped item-reference or metadata override is an error unless sourceExcerpts carries an explicit collection declaration; no cross-owner fallback is silently applied. The equipment-only priceStates map remains equipment-scoped by consumer.",
+  "equipmentOnlyPriceStateScopeCorrection": {
+    "map": "citation-overrides.json#/priceStates",
+    "semantics": "Equipment purchase-price metadata. The same bare ID is valid for equipment; it must not be applied to duplicate rules records.",
+    "frozenBaseline": {
+      "path": "research/source-owner-identity-baseline.json",
+      "sha256": "029fc6193118405bb5a9afe38d4ae052aae95c4d4fa5cd2a205a182fe9b02ecd",
+      "distDataSha256": "7b26061cfb83c72b8a4fbeead43055866af52e68589557db8af32f3c407dea7e"
+    },
+    "currentAfterAssembly": {
+      "distDataSha256": "9fcb82bdefbefa49b15c10a5ea458e1c0fdbd32424fb3077ca853dae3ca0a8fb",
+      "records": [
+        {
+          "collection": "rules",
+          "itemId": "ua-field-plate",
+          "recordSha256": "29f0fd3fd4e8a93a0bd8bc5360fbfd81c35b3f9d778a18fb388374faeae26527",
+          "rootProperties": [
+            "book",
+            "bullets",
+            "category",
+            "evidenceBindings",
+            "id",
+            "pages",
+            "sourceExcerpts",
+            "status",
+            "summary",
+            "tags",
+            "title"
+          ]
+        },
+        {
+          "collection": "rules",
+          "itemId": "ua-full-plate",
+          "recordSha256": "8655c1c3131e560e274043aaa05e1f29a725f36f2d29cdce2de137794052f806",
+          "rootProperties": [
+            "book",
+            "bullets",
+            "category",
+            "evidenceBindings",
+            "id",
+            "pages",
+            "sourceExcerpts",
+            "status",
+            "summary",
+            "tags",
+            "title"
+          ]
+        },
+        {
+          "collection": "rules",
+          "itemId": "ua-buckler",
+          "recordSha256": "c397dbefa3c1189d6967583c01c56ce9807ca6b41ee2362ee16898da1ce20c78",
+          "rootProperties": [
+            "book",
+            "bullets",
+            "category",
+            "evidenceBindings",
+            "id",
+            "pages",
+            "sourceExcerpts",
+            "status",
+            "summary",
+            "tags",
+            "title"
+          ]
+        },
+        {
+          "collection": "equipment",
+          "itemId": "ua-field-plate",
+          "recordSha256": "0e3e0a40ecb89252e168cc1d8760893ff08dbcaadc97591f8fee7b38b849a212",
+          "rootProperties": [
+            "aliases",
+            "book",
+            "category",
+            "evidenceBindings",
+            "fieldSources",
+            "fields",
+            "id",
+            "incomplete",
+            "name",
+            "pages",
+            "price",
+            "priceState",
+            "references",
+            "sourceExcerpts",
+            "status",
+            "summary"
+          ]
+        },
+        {
+          "collection": "equipment",
+          "itemId": "ua-full-plate",
+          "recordSha256": "7ac4ff100be4aab46a15a989c68622bf70d776bb27aa5a05d3f48aab8f3b2914",
+          "rootProperties": [
+            "aliases",
+            "book",
+            "category",
+            "evidenceBindings",
+            "fieldSources",
+            "fields",
+            "id",
+            "incomplete",
+            "name",
+            "pages",
+            "price",
+            "priceState",
+            "references",
+            "sourceExcerpts",
+            "status",
+            "summary"
+          ]
+        },
+        {
+          "collection": "equipment",
+          "itemId": "ua-buckler",
+          "recordSha256": "7bb9f0f03b7f6b900c37884378ddb46de431276f7ca7b40278aecfdf710c231a",
+          "rootProperties": [
+            "aliases",
+            "book",
+            "category",
+            "evidenceBindings",
+            "fieldSources",
+            "fields",
+            "id",
+            "incomplete",
+            "name",
+            "pages",
+            "price",
+            "priceState",
+            "sourceExcerpts",
+            "status",
+            "summary"
+          ]
+        }
+      ]
+    },
+    "entries": [
+      {
+        "itemId": "ua-buckler",
+        "legacyBarePriceStateOverride": "source_listed",
+        "before": {
+          "distDataSha256": "7b26061cfb83c72b8a4fbeead43055866af52e68589557db8af32f3c407dea7e",
+          "rulesRecordSha256": "ac335a50d13abc8f6d10af41181d7f59b8927d725e84ad8f9d7cba617863f3b9",
+          "rulesRootProperties": [
+            "book",
+            "bullets",
+            "category",
+            "evidenceBindings",
+            "id",
+            "pages",
+            "priceState",
+            "sourceExcerpts",
+            "status",
+            "summary",
+            "tags",
+            "title"
+          ],
+          "rulesPriceState": "source_listed",
+          "equipmentRecordSha256": "7bb9f0f03b7f6b900c37884378ddb46de431276f7ca7b40278aecfdf710c231a",
+          "equipmentRootProperties": [
+            "aliases",
+            "book",
+            "category",
+            "evidenceBindings",
+            "fieldSources",
+            "fields",
+            "id",
+            "incomplete",
+            "name",
+            "pages",
+            "price",
+            "priceState",
+            "sourceExcerpts",
+            "status",
+            "summary"
+          ],
+          "equipmentPriceState": "source_listed",
+          "sourceEvidence": "Frozen pre-fix owner inventory records the rules record priceState property and exact record hash; the bare override value is preserved in the active equipment-price-state override map and its source-owner application was global by item ID."
+        },
+        "after": {
+          "distDataSha256": "9fcb82bdefbefa49b15c10a5ea458e1c0fdbd32424fb3077ca853dae3ca0a8fb",
+          "rulesRecordSha256": "c397dbefa3c1189d6967583c01c56ce9807ca6b41ee2362ee16898da1ce20c78",
+          "rulesHasPriceStateProperty": false,
+          "equipmentRecordSha256": "7bb9f0f03b7f6b900c37884378ddb46de431276f7ca7b40278aecfdf710c231a",
+          "equipmentPriceState": "source_listed",
+          "expected": "The override remains active for equipment only; the same-ID rules excerpt keeps no priceState."
+        }
+      },
+      {
+        "itemId": "ua-field-plate",
+        "legacyBarePriceStateOverride": "source_listed",
+        "before": {
+          "distDataSha256": "7b26061cfb83c72b8a4fbeead43055866af52e68589557db8af32f3c407dea7e",
+          "rulesRecordSha256": "75b18b2b3c890b305f986c6d6aedd4dedf7d25a6a03503f3f871a153f0054b64",
+          "rulesRootProperties": [
+            "book",
+            "bullets",
+            "category",
+            "evidenceBindings",
+            "id",
+            "pages",
+            "priceState",
+            "references",
+            "sourceExcerpts",
+            "status",
+            "summary",
+            "tags",
+            "title"
+          ],
+          "rulesPriceState": "source_listed",
+          "equipmentRecordSha256": "1e0a3b04c8c1a671e95eed06ed240b4f3394bdb3adbfc6bf538abe66306f6920",
+          "equipmentRootProperties": [
+            "aliases",
+            "book",
+            "category",
+            "evidenceBindings",
+            "fieldSources",
+            "fields",
+            "id",
+            "incomplete",
+            "name",
+            "pages",
+            "price",
+            "priceState",
+            "references",
+            "sourceExcerpts",
+            "status",
+            "summary"
+          ],
+          "equipmentPriceState": "source_listed",
+          "sourceEvidence": "Frozen pre-fix owner inventory records the rules record priceState property and exact record hash; the bare override value is preserved in the active equipment-price-state override map and its source-owner application was global by item ID."
+        },
+        "after": {
+          "distDataSha256": "9fcb82bdefbefa49b15c10a5ea458e1c0fdbd32424fb3077ca853dae3ca0a8fb",
+          "rulesRecordSha256": "29f0fd3fd4e8a93a0bd8bc5360fbfd81c35b3f9d778a18fb388374faeae26527",
+          "rulesHasPriceStateProperty": false,
+          "equipmentRecordSha256": "0e3e0a40ecb89252e168cc1d8760893ff08dbcaadc97591f8fee7b38b849a212",
+          "equipmentPriceState": "source_listed",
+          "expected": "The override remains active for equipment only; the same-ID rules excerpt keeps no priceState."
+        }
+      },
+      {
+        "itemId": "ua-full-plate",
+        "legacyBarePriceStateOverride": "source_listed",
+        "before": {
+          "distDataSha256": "7b26061cfb83c72b8a4fbeead43055866af52e68589557db8af32f3c407dea7e",
+          "rulesRecordSha256": "d61fd01813347fae75e969f45c4edcc920da41b3061f0c79e7bc668943a14517",
+          "rulesRootProperties": [
+            "book",
+            "bullets",
+            "category",
+            "evidenceBindings",
+            "id",
+            "pages",
+            "priceState",
+            "references",
+            "sourceExcerpts",
+            "status",
+            "summary",
+            "tags",
+            "title"
+          ],
+          "rulesPriceState": "source_listed",
+          "equipmentRecordSha256": "e10010652d036991204095ac4fb6fd301c3e577c62a311c52d3e9bed5e931600",
+          "equipmentRootProperties": [
+            "aliases",
+            "book",
+            "category",
+            "evidenceBindings",
+            "fieldSources",
+            "fields",
+            "id",
+            "incomplete",
+            "name",
+            "pages",
+            "price",
+            "priceState",
+            "references",
+            "sourceExcerpts",
+            "status",
+            "summary"
+          ],
+          "equipmentPriceState": "source_listed",
+          "sourceEvidence": "Frozen pre-fix owner inventory records the rules record priceState property and exact record hash; the bare override value is preserved in the active equipment-price-state override map and its source-owner application was global by item ID."
+        },
+        "after": {
+          "distDataSha256": "9fcb82bdefbefa49b15c10a5ea458e1c0fdbd32424fb3077ca853dae3ca0a8fb",
+          "rulesRecordSha256": "8655c1c3131e560e274043aaa05e1f29a725f36f2d29cdce2de137794052f806",
+          "rulesHasPriceStateProperty": false,
+          "equipmentRecordSha256": "7ac4ff100be4aab46a15a989c68622bf70d776bb27aa5a05d3f48aab8f3b2914",
+          "equipmentPriceState": "source_listed",
+          "expected": "The override remains active for equipment only; the same-ID rules excerpt keeps no priceState."
+        }
+      }
+    ],
+    "result": "Three historical rules records inherited equipment-only source_listed status through the old all-collections bare-ID consumer. Current assembled rules records have no priceState; corresponding equipment records remain source_listed."
+  }
+}

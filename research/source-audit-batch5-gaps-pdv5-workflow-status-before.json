@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "actual-PD179-V5-workflow-status-gate-before",
+  "scope": "Actual exact V5 bytes passed to the current production validator before removing the editorial workflow-status gate. This fixture preserves metadata and validator source, not source transcription or source-grade approval.",
+  "validatorCodeSha256": "08d02fb1a2d581a5dc7afd64ad18f13f288fcf16cf1fbdaa4652d28ce0837e7d",
+  "validatorSource": "export function validateSupplementalMonetaryReport({path, json, bytes, repoRoot = root, hashes = {}}) {\n  hashes[path] = sha256(bytes);\n  const report = json;\n  if (report.artifactType === 'ua-additional-prices-row-normalized-audit') {\n    const censusPath = report.scope?.inventoryArtifact;\n    if (!censusPath || sha256(readFileSync(resolve(repoRoot, censusPath))) !== report.scope.inventorySha256 || report.source?.sha256 !== report.baseline?.source?.sha256 || report.inputCommit !== report.baseline?.inputCommit || report.baseline?.inputHashesSha256?.[censusPath] !== report.scope.inventorySha256) fail(`${path} baseline source identity/census hash is invalid`);\n    hashes[censusPath] = report.scope.inventorySha256;\n    hashes[`${path}#authorized-source`] = report.source.sha256;\n    if (!Array.isArray(report.groupReviews) || !Array.isArray(report.rowRecords) || report.aggregate?.groupCount !== report.groupReviews.length || report.aggregate?.rowRecordCount !== report.rowRecords.length || report.aggregate?.rowRecordCount !== report.aggregate.sourceRowDenominator) fail(`${path} row-normalized denominators do not validate`);\n    if (report.aggregate?.structuredValueCellCount !== report.aggregate?.structuredGpMonetaryCellCount + report.aggregate?.xpReferenceValueCellCount) fail(`${path} XP and money cell totals must remain separately reconciled`);\n    const a = report.aggregate;\n    return {path, sha256: hashes[path], source: report.source.fileName, sourceSha256: report.source.sha256, sourceCensusPath: censusPath, sourceCensusSha256: report.scope.inventorySha256, groups: a.groupCount, rows: a.rowRecordCount, monetaryCells: a.structuredGpMonetaryCellCount, xpReferenceCells: a.xpReferenceValueCellCount, upstreamIndependentOverlayReviewPending: a.independentOverlayReviewNeeded === true, upstreamReviewStatus: report.status ?? null, status: 'bounded-source-transcription'};\n  }\n  if (report.artifactType === 'source-audit-batch5-phb-dmg-additional-prices') {\n    const base = report.baseline;\n    if (!base?.censusFile || sha256(readFileSync(resolve(repoRoot, base.censusFile))) !== base.censusFileSha256) fail(`${path} captured PHB/DMG census identity is stale`);\n    hashes[base.censusFile] = base.censusFileSha256;\n    const historicalInventory = execFileSync('git', ['show', `${base.inputCommit}:${base.priceInventoryFile}`], {cwd: repoRoot, maxBuffer: 32 * 1024 * 1024});\n    if (sha256(historicalInventory) !== base.priceInventoryFileSha256) fail(`${path} captured canonical inventory baseline hash is invalid`);\n    hashes[`git:${base.inputCommit}:${base.priceInventoryFile}`] = sha256(historicalInventory);\n    const groups = report.review?.groups, records = report.review?.sourceRowsOrClaims, d = report.review?.denominators;\n    if (report.status !== 'typed-extraction-complete; root-independent-review-pending' || !Array.isArray(groups) || groups.length !== 18 || !Array.isArray(records) || records.length !== d?.sourceMonetaryRowsOrClaimsStructurallyRecorded || d.groupsWithTypedOutput !== 18 || d.groupsStillUnreviewed !== 0) fail(`${path} PHB/DMG typed extraction denominators are incomplete or schema changed`);\n    const xpCount = records.filter(row => containsXpKey(row.typedValue)).length;\n    for (const source of Object.values(base.sources || {})) if (source.sourceHashMatches === false || source.sourceFileSha256 !== source.censusDeclaredSourceSha256) fail(`${path} contains an unverified PHB/DMG source identity`);\n    for (const [book, source] of Object.entries(base.sources || {})) hashes[`${path}#authorized-source-${book}`] = source.sourceFileSha256;\n    const refRows = report.additionalReferenceSheetReview?.denominators;\n    if (!refRows || refRows.p123EquipmentPurchaseRows !== refRows.p35EquivalentRows + refRows.p36EquivalentRows || refRows.valueAndCurrencyMatches + refRows.numericAmountOrCurrencyDiscrepancies !== refRows.p123EquipmentPurchaseRows) fail(`${path} additional PHB equipment reference-row comparison denominator is incomplete`);\n    return {path, sha256: hashes[path], source: 'PHB and DMG authorized source PDFs', sourceIdentities: Object.fromEntries(Object.entries(base.sources).map(([book, source]) => [book, source.sourceFileSha256])), sourceCensusPath: base.censusFile, sourceCensusSha256: base.censusFileSha256, groups: groups.length, rows: records.length, monetaryRowsOrClaims: d.sourceMonetaryRowsOrClaimsStructurallyRecorded, monetaryCountUnit: 'structured source-monetary rows or claims; not amount cells', xpReferenceRows: xpCount, tableRowsOrOutcomesReviewed: d.tableRowsOrOutcomesReviewed, referencePriceRows: refRows.p123EquipmentPurchaseRows, referencePriceMatches: refRows.valueAndCurrencyMatches, referencePriceDiscrepancies: refRows.numericAmountOrCurrencyDiscrepancies, additionalQualifierDifferences: refRows.additionalSourceQualifierDifferences, upstreamIndependentOverlayReviewPending: true, upstreamReviewStatus: report.status, status: 'bounded-source-transcription'};\n  }\n  fail(`${path} has unknown supplemental monetary report schema`);\n}",
+  "priorIndependentReproductionSha256": "d10495bed0ce73680cf2f09973173d0dd97b08a753e86c2c98e72d7df7dbd51e",
+  "sourceArtifact": {
+    "intendedPublicPath": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+    "sha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6",
+    "artifactType": "source-audit-batch5-phb-dmg-additional-prices",
+    "workflowStatus": "private V5 proposal only; not applied; exact V5 source, condition and context review pending",
+    "baselineCensus": "research/price-source-inventory-phb-dmg-other.json",
+    "baselineCensusSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+    "groups": 18,
+    "rows": 179,
+    "denominators": {
+      "discoveredGroups": 18,
+      "groupsPixelReviewed": 18,
+      "groupsWithTypedOutput": 18,
+      "groupsStillUnreviewed": 0,
+      "rowTranscribedGroupsAtBaseline": 0,
+      "tableOnlyGroups": 7,
+      "mixedTableAndProseGroups": 7,
+      "proseOnlyGroups": 4,
+      "tableGroupsContainingActualTables": 14,
+      "tableRowsOrOutcomesReviewed": 201,
+      "sourceMonetaryRowsOrClaimsStructurallyRecorded": 179,
+      "distinctSourcePdfPagesForPrimaryGroups": 18,
+      "additionalContinuationPagesReviewed": 1,
+      "sourceHashesVerified": {
+        "PHB": {
+          "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "matchesCensus": true
+        },
+        "DMG": {
+          "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "matchesCensus": true
+        }
+      },
+      "denominatorCaveat": "Mixed table/list rows, numeric price cells, prose claims and source table outcomes are distinct units. Per-group denominators are authoritative; totals above count structured records, not amount cells."
+    },
+    "referenceDenominators": {
+      "p123EquipmentPurchaseRows": 165,
+      "p35EquivalentRows": 80,
+      "p36EquivalentRows": 85,
+      "existingPHB35SourceRows": 80,
+      "existingPHB36SourceRows": 85,
+      "valueAndCurrencyMatches": 165,
+      "numericAmountOrCurrencyDiscrepancies": 0,
+      "additionalSourceQualifierDifferences": 1,
+      "p123StartingMoneyRows": 5,
+      "p123CurrencyConversionEquivalences": 4,
+      "excludedNonPurchaseRows": 9
+    }
+  },
+  "beforeOutcome": {
+    "accepted": false,
+    "error": "Cannot refresh gaps handoff: research/source-audit-batch5-phb-dmg-additional-prices.json PHB/DMG typed extraction denominators are incomplete or schema changed"
+  },
+  "expectedAfter": {
+    "accepted": true,
+    "upstreamWorkflowStatusPreserved": true,
+    "sourceReviewGradeGranted": false
+  },
+  "negativeControls": [
+    "wrong group/row denominator",
+    "changed census hash",
+    "changed authorized source identity"
+  ],
+  "semanticPass": false
+}

@@ -6,6 +6,7 @@ import vm from 'node:vm';
 const app = readFileSync(new URL('../dist/app.js', import.meta.url), 'utf8');
 const payloadUrl = new URL('../dist/coverage-gaps.json', import.meta.url);
 const payload = existsSync(payloadUrl) ? JSON.parse(readFileSync(payloadUrl, 'utf8')) : null;
+const handoff = JSON.parse(readFileSync(new URL('../research/gaps-limitations-next-task.json', import.meta.url), 'utf8'));
 const source = app.slice(app.indexOf('function coverageGapsHTML(payload) {'), app.indexOf('\nfunction coverageGapsPanelHTML(payload) {'));
 assert.ok(source.startsWith('function coverageGapsHTML(payload) {'), 'coverageGapsHTML should stay a pure named renderer for isolated CI checks');
 const context = vm.createContext({});
@@ -37,14 +38,14 @@ test('coverage gaps renderer emits every payload group and entry exactly once wi
       assert.ok(groupMarkup.includes(`data-gap-id="${escapeAttribute(entry.id)}"`), `${entry.id} should stay inside ${group.id}`);
     }
   }
-  for (const [groupId, expectedCount] of [['formal-field-statuses', 33], ['recorded-review-notes', 78]]) {
+  for (const [groupId, expectedCount] of [['formal-field-statuses', handoff.mechanicsAudit.formalFieldIssues.notExtracted.length + handoff.mechanicsAudit.formalFieldIssues.sourceConflict.length], ['recorded-review-notes', handoff.mechanicsAudit.specificReviewNoteCandidates.notes.length]]) {
     const group = payload.groups.find(entry => entry.id === groupId);
     assert.ok(group, `missing ${groupId} payload group`);
     assert.equal(group.entries.length, expectedCount, `${groupId} canonical payload count`);
   }
 });
 
-test('offer rows preserve the two unresolved source readings and the separate arrow field', () => {
+test('offer rows preserve the extracted readings, unresolved quantity and separate arrow field', () => {
   assert.ok(payload, 'dist/coverage-gaps.json must be generated and committed');
   const groups = new Map(payload.groups.map(group => [group.id, group]));
   const offers = groups.get('equipment-offers')?.entries || [];
@@ -52,12 +53,12 @@ test('offer rows preserve the two unresolved source readings and the separate ar
   const quarrels = offers.find(entry => entry.id === 'ua-quarrels-for-same');
   const arrow = offers.find(entry => entry.id === 'phb-arrow-dozen-already-extracted');
   assert.equal(offers.filter(entry => ['phb-sling-bullets-dozen', 'ua-quarrels-for-same'].includes(entry.id)).length, 2,
-    'only Sling & Bullets and Quarrels are unresolved/unrepresented offers');
-  assert.equal(sling?.status, 'previously-confirmed-review-stale');
+    'both formerly unrepresented offers remain documented');
+  assert.equal(sling?.status, 'extracted-canonical-offer');
   assert.match(`${sling?.title} ${sling?.description}`, /Sling\s*&\s*Bullets/i);
   assert.match(sling.description, /15\s*sp/i);
   assert.match(sling.description, /dozen/i);
-  assert.equal(quarrels?.status, 'source-review-pending-provisional-bounds');
+  assert.equal(quarrels?.status, 'extracted-quantity-unresolved');
   assert.match(`${quarrels?.title} ${quarrels?.description}`, /Quarrels for same/i);
   assert.match(quarrels.description, /100\s*gp/i);
   assert.match(quarrels.description, /quantity|equivalence|unit/i);

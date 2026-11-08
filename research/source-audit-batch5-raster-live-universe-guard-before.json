@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent full raster universe reconciliation and missing-map guard before",
+  "actualSnapshot": {
+    "pathPrivate": "/tmp/ua-global-raster-boundary-20261107/source-raster-boundary-audit-current-v5.json.gz",
+    "sha256": "4b8a72687a3c0d41430e414c68ad6da485111c44c6581efce890b6d43a9e9e37"
+  },
+  "actualReconciliation": {
+    "currentCatalogs": 1015,
+    "currentUsageMultiset": 3069,
+    "allCurrentCatalogHashesMatch": true,
+    "allPublishedImageHashesMatch": true,
+    "usageMapAndSnapshotBothEqualLiveCatalogUniverse": true,
+    "renderedSourcePages": 229,
+    "notAssessableUsages": 0,
+    "scope": "Exact graph, identities and hashes; no independent replay of all source pixels or semantic crop review."
+  },
+  "codeBefore": {
+    "path": "research/source-raster-boundary-audit.py",
+    "sha256": "3ffb453a43a966e41e9b417ec51545a3044877035b7925dea432698a470532ca",
+    "archivePath": "tests/fixtures/source-raster-boundary-3ff-before-universe-guard.py.gz",
+    "archiveSha256": "77074f615f5005953969522f086323caa9515fa6b3984a76ff49d02b57c958f8"
+  },
+  "syntheticControl": {
+    "description": "Empty catalog/usage lists with the genuine current data and all five source hashes.",
+    "input": {
+      "inputDataSha256": "2b803d29cccd83ffd8418818abddf04b66204c82cebb8afba13f7a8226c6583c",
+      "sourcePdfSha256": {
+        "PHB": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "DMG": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "UA": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "MM": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+        "MM2": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24"
+      },
+      "catalogSha256": {},
+      "usages": []
+    },
+    "observedAccepted": true,
+    "observedRegionUsages": 0,
+    "actualLiveRegionUsages": 3069,
+    "sourcePagesRendered": 0,
+    "reason": "No independent reconciliation against current linked catalogs/regions before rendering.",
+    "actualSourceOrSnapshotDefect": false
+  },
+  "requiredRepair": "Validate complete current catalog and usage multisets against the supplied map before rendering; retain missing/duplicate/changed usages as errors.",
+  "sourceMutations": []
+}

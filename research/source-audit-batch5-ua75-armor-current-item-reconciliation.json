@@ -1,0 +1,825 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "bounded-UA-p75-armor-offer-to-current-equipment-reconciliation",
+  "scope": "The 17 typed UA p.75 armor-table rows reconciled to a pinned 191-record current equipment target inventory. This maps occurrences to plausible current equipment identities only; it does not add or alter catalog items, imply a p.75 binding, or certify whole-book offer coverage.",
+  "inputCommit": "679b15d1c580172e54314829c1c3c86dc78b65f3",
+  "inputArtifacts": {
+    "uaSupplement": {
+      "path": "research/source-audit-batch5-ua-additional-prices.json",
+      "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+    },
+    "equipment": {
+      "path": "equipment.json",
+      "sha256": "469c3d6643a209473e1ee5d052ad9e9320d00e69172130b151ada877e3846edf"
+    },
+    "printedPageMap": {
+      "path": "dist/books.js",
+      "sha256": "eec2bf53b19e6f131f06032f7f17c86d004b93798c8cb476129e4ff852b61877"
+    }
+  },
+  "denominators": {
+    "sourceRows": 17,
+    "printedPage": 75,
+    "pdfPage": 76,
+    "currentEquipmentRecords": 191,
+    "currentItemOffersMatchedByExplicitReviewMap": 16,
+    "rowsWithP75ItemSourceBinding": 0
+  },
+  "source": {
+    "book": "UA",
+    "sourceFile": "Unearthed Arcana.pdf",
+    "printedPage": 75,
+    "pdfPage": 76,
+    "printedPageMappingStatus": "mapping-consistent-from-unique-book-page-map; row bounds remain separately pending row-identity review"
+  },
+  "sourceRowMappings": [
+    {
+      "sourceRowId": "ua-other-001-armor-r01",
+      "sourceRowJsonPointer": "/rowRecords/0",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Banded",
+        "rowIndexWithinGroup": 1,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 90,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "phb-banded-mail",
+        "name": "Banded Mail",
+        "currentPrice": {
+          "amount": 90,
+          "currency": "gp",
+          "book": "PHB",
+          "printedPages": [
+            35
+          ],
+          "pdfPages": [
+            36
+          ],
+          "status": "Selected purchase-price row visually checked"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [],
+      "disposition": "current-item-and-price-match; UA p.75 occurrence has no row-specific current-item binding"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r02",
+      "sourceRowJsonPointer": "/rowRecords/1",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Bronze Plate Mail",
+        "rowIndexWithinGroup": 2,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 100,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "ua-bronze-plate",
+        "name": "Bronze Plate Mail",
+        "currentPrice": {
+          "amount": 100,
+          "currency": "gp",
+          "book": "UA",
+          "printedPages": [
+            26
+          ],
+          "pdfPages": [
+            27
+          ],
+          "status": "OCR checked · visual verification pending"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [],
+      "disposition": "current-item-and-price-match; UA p.75 occurrence has no row-specific current-item binding"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r03",
+      "sourceRowJsonPointer": "/rowRecords/2",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Chain Mail",
+        "rowIndexWithinGroup": 3,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 75,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "phb-chain-mail",
+        "name": "Chain Mail",
+        "currentPrice": {
+          "amount": 75,
+          "currency": "gp",
+          "book": "PHB",
+          "printedPages": [
+            35
+          ],
+          "pdfPages": [
+            36
+          ],
+          "status": "Selected purchase-price row visually checked"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [],
+      "disposition": "current-item-and-price-match; UA p.75 occurrence has no row-specific current-item binding"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r04",
+      "sourceRowJsonPointer": "/rowRecords/3",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Elfin Chain Mail",
+        "rowIndexWithinGroup": 4,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "not-for-sale-or-unavailable",
+        "reason": "Printed **; footnote says never available on open market."
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": null,
+      "excludedNearMatches": [],
+      "disposition": "unavailable-open-market; no numeric purchase price and no current item mapping asserted"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r05",
+      "sourceRowJsonPointer": "/rowRecords/4",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Field Plate",
+        "rowIndexWithinGroup": 5,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 2000,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "ua-field-plate",
+        "name": "Field Plate Armor",
+        "currentPrice": {
+          "amount": 2000,
+          "currency": "gp",
+          "book": "UA",
+          "printedPages": [
+            26
+          ],
+          "pdfPages": [
+            27
+          ],
+          "status": "OCR checked · visual verification pending"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [],
+      "disposition": "current-item-and-price-match; UA p.75 occurrence has no row-specific current-item binding"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r06",
+      "sourceRowJsonPointer": "/rowRecords/5",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Full Plate",
+        "rowIndexWithinGroup": 6,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 4000,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "ua-full-plate",
+        "name": "Full Plate Armor",
+        "currentPrice": {
+          "amount": 4000,
+          "currency": "gp",
+          "book": "UA",
+          "printedPages": [
+            26
+          ],
+          "pdfPages": [
+            27
+          ],
+          "status": "OCR checked · visual verification pending"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [],
+      "disposition": "current-item-and-price-match; UA p.75 occurrence has no row-specific current-item binding"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r07",
+      "sourceRowJsonPointer": "/rowRecords/6",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Leather",
+        "rowIndexWithinGroup": 7,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 5,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "phb-leather-armor",
+        "name": "Leather Armor",
+        "currentPrice": {
+          "amount": 5,
+          "currency": "gp",
+          "book": "PHB",
+          "printedPages": [
+            35
+          ],
+          "pdfPages": [
+            36
+          ],
+          "status": "Selected purchase-price row visually checked"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [],
+      "disposition": "current-item-and-price-match; UA p.75 occurrence has no row-specific current-item binding"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r08",
+      "sourceRowJsonPointer": "/rowRecords/7",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Padded",
+        "rowIndexWithinGroup": 8,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 4,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "phb-padded-armor",
+        "name": "Padded Armor",
+        "currentPrice": {
+          "amount": 4,
+          "currency": "gp",
+          "book": "PHB",
+          "printedPages": [
+            35
+          ],
+          "pdfPages": [
+            36
+          ],
+          "status": "Selected purchase-price row visually checked"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [],
+      "disposition": "current-item-and-price-match; UA p.75 occurrence has no row-specific current-item binding"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r09",
+      "sourceRowJsonPointer": "/rowRecords/8",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Plate Mail",
+        "rowIndexWithinGroup": 9,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 400,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "phb-plate-mail",
+        "name": "Plate Mail",
+        "currentPrice": {
+          "amount": 400,
+          "currency": "gp",
+          "book": "PHB",
+          "printedPages": [
+            35
+          ],
+          "pdfPages": [
+            36
+          ],
+          "status": "Selected purchase-price row visually checked"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [],
+      "disposition": "current-item-and-price-match; UA p.75 occurrence has no row-specific current-item binding"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r10",
+      "sourceRowJsonPointer": "/rowRecords/9",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Ring Mail",
+        "rowIndexWithinGroup": 10,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 30,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "phb-ring-mail",
+        "name": "Ring Mail",
+        "currentPrice": {
+          "amount": 30,
+          "currency": "gp",
+          "book": "PHB",
+          "printedPages": [
+            35
+          ],
+          "pdfPages": [
+            36
+          ],
+          "status": "OCR checked · visual verification pending"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [],
+      "disposition": "current-item-and-price-match; UA p.75 occurrence has no row-specific current-item binding"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r11",
+      "sourceRowJsonPointer": "/rowRecords/10",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Scale Mail",
+        "rowIndexWithinGroup": 11,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 45,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "phb-scale-mail",
+        "name": "Scale Mail",
+        "currentPrice": {
+          "amount": 45,
+          "currency": "gp",
+          "book": "PHB",
+          "printedPages": [
+            35
+          ],
+          "pdfPages": [
+            36
+          ],
+          "status": "OCR checked · visual verification pending"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [],
+      "disposition": "current-item-and-price-match; UA p.75 occurrence has no row-specific current-item binding"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r12",
+      "sourceRowJsonPointer": "/rowRecords/11",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Shield, Buckler",
+        "rowIndexWithinGroup": 12,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 5,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "ua-buckler",
+        "name": "Buckler",
+        "currentPrice": {
+          "amount": 5,
+          "currency": "gp",
+          "book": "UA",
+          "printedPages": [
+            26
+          ],
+          "pdfPages": [
+            27
+          ],
+          "status": "OCR checked · visual verification pending"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [
+        "ua-spiked-buckler"
+      ],
+      "disposition": "candidate-current-regular-buckler-price-match; UA p.75 binding not recorded; must remain distinct from Spiked Buckler"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r13",
+      "sourceRowJsonPointer": "/rowRecords/12",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Shield, Large",
+        "rowIndexWithinGroup": 13,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 15,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "phb-large-shield",
+        "name": "Large Shield",
+        "currentPrice": {
+          "amount": 15,
+          "currency": "gp",
+          "book": "PHB",
+          "printedPages": [
+            35
+          ],
+          "pdfPages": [
+            36
+          ],
+          "status": "OCR checked · visual verification pending"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [],
+      "disposition": "current-item-and-price-match; UA p.75 occurrence has no row-specific current-item binding"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r14",
+      "sourceRowJsonPointer": "/rowRecords/13",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Shield, Small",
+        "rowIndexWithinGroup": 14,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 10,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "phb-small-shield",
+        "name": "Small Shield",
+        "currentPrice": {
+          "amount": 10,
+          "currency": "gp",
+          "book": "PHB",
+          "printedPages": [
+            35
+          ],
+          "pdfPages": [
+            36
+          ],
+          "status": "OCR checked · visual verification pending"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [],
+      "disposition": "current-item-and-price-match; UA p.75 occurrence has no row-specific current-item binding"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r15",
+      "sourceRowJsonPointer": "/rowRecords/14",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Shield, Small, Wood",
+        "rowIndexWithinGroup": 15,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 1,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "phb-small-wooden-shield",
+        "name": "Small Wooden Shield",
+        "currentPrice": {
+          "amount": 1,
+          "currency": "gp",
+          "book": "PHB",
+          "printedPages": [
+            35
+          ],
+          "pdfPages": [
+            36
+          ],
+          "status": "OCR checked · visual verification pending"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [],
+      "disposition": "current-item-and-price-match; UA p.75 occurrence has no row-specific current-item binding"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r16",
+      "sourceRowJsonPointer": "/rowRecords/15",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Splint Mail",
+        "rowIndexWithinGroup": 16,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 80,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "phb-splint-mail",
+        "name": "Splint Mail",
+        "currentPrice": {
+          "amount": 80,
+          "currency": "gp",
+          "book": "PHB",
+          "printedPages": [
+            35
+          ],
+          "pdfPages": [
+            36
+          ],
+          "status": "OCR checked · visual verification pending"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [],
+      "disposition": "current-item-and-price-match; UA p.75 occurrence has no row-specific current-item binding"
+    },
+    {
+      "sourceRowId": "ua-other-001-armor-r17",
+      "sourceRowJsonPointer": "/rowRecords/16",
+      "sourceRowIdentity": {
+        "table": "Expanded armor & encumbrance",
+        "rowLabel": "Studded Leather",
+        "rowIndexWithinGroup": 17,
+        "printedPage": 75,
+        "pdfPage": 76
+      },
+      "sourceValue": {
+        "kind": "exact",
+        "amount": 15,
+        "currency": "gp"
+      },
+      "sourceRowTranscriptionStatus": {
+        "sourcePageAndTable": "visual-pixel-reviewed",
+        "rowLabelAndValues": "checked against rendered original page",
+        "highlightGeometry": "computed from original PDF word rectangles; independent overlay review remains pending"
+      },
+      "sourceGeometryState": "Uses the recorded UA 583-row artifact identity only; row-highlight/source-row identity audit remains pending and no geometry is promoted here.",
+      "currentItem": {
+        "id": "phb-studded-leather",
+        "name": "Studded Leather Armor",
+        "currentPrice": {
+          "amount": 15,
+          "currency": "gp",
+          "book": "PHB",
+          "printedPages": [
+            35
+          ],
+          "pdfPages": [
+            36
+          ],
+          "status": "OCR checked · visual verification pending"
+        },
+        "comparison": {
+          "sameCurrency": true,
+          "sameAmount": true,
+          "nameMappingBasis": "explicit row-to-item reconciliation map; names normalized manually",
+          "p75SourceBindingPresent": false
+        }
+      },
+      "excludedNearMatches": [],
+      "disposition": "current-item-and-price-match; UA p.75 occurrence has no row-specific current-item binding"
+    }
+  ],
+  "summary": {
+    "typedOpenMarketPriceRows": 16,
+    "currentItemPriceMatches": 16,
+    "sameValueMatches": 16,
+    "rowSpecificP75Bindings": 0,
+    "nonMarketUnavailableRows": 1,
+    "ordinaryBucklerCurrentItemPresent": true,
+    "ordinaryBucklerExistingSource": {
+      "itemId": "ua-buckler",
+      "printedPages": [
+        26
+      ],
+      "pdfPages": [
+        27
+      ],
+      "amount": 5,
+      "currency": "gp"
+    },
+    "spikedBucklerSeparateItemId": "ua-spiked-buckler"
+  },
+  "review": {
+    "semantic": "candidate maps and amount equality are recorded; independent price-offer review pending",
+    "geometry": "row identity/bounds detector review pending; no row source geometry promoted",
+    "catalogMutation": "none",
+    "nextAction": "review per-row source identities, then add explicit source-row/catalog bindings in a later authorized integration; leave the current catalog unchanged"
+  }
+}

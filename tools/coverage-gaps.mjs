@@ -178,6 +178,24 @@ function verifyReviewNotes(data, handoff, mechanics) {
   return notes;
 }
 
+function verifyClassPrecision(data,handoff,readFile){
+  const queue=handoff.reviewQueuesNotSourceAbsences.classPrecisionProposals;
+  if(queue.breakdown.productBindingsApplied!==true)return;
+  const bytes=readBytes(readFile,queue.proof?.path);
+  if(sha256(bytes)!==queue.proof?.sha256)fail('class citation integration receipt is stale');
+  const proof=JSON.parse(bytes),reviewBytes=readBytes(readFile,proof.independentReview.path);
+  if(sha256(reviewBytes)!==proof.independentReview.sha256)fail('independent class citation review is stale');
+  const review=JSON.parse(reviewBytes);
+  if(proof.promotedSemanticFields!==queue.breakdown.validFieldsApplied||proof.promotedPageBindings!==queue.breakdown.pageBindingsApplied||proof.retiredOrBlockedFields.length!==queue.breakdown.retiredUnsupportedFields)fail('class citation disposition counts changed');
+  for(const target of proof.promoted){
+    const item=itemFor(data,'classes',target.itemId),actual=pointerValue(item,target.fieldPointer);
+    const expected=target.itemId==='assassin'&&target.fieldPointer==='/levelChanges/35'?review.assassinCompoundTarget:review.targetChecks.find(row=>row.itemId===target.itemId&&row.fieldPointer===target.fieldPointer);
+    if(!actual.found||!expected||!sameValue(semanticSnapshot(actual.value),semanticSnapshot(expected.authoredField)))fail(`reviewed class fact changed: ${target.itemId}${target.fieldPointer}`);
+    const bound=actual.value.evidenceBindings?.some(binding=>binding.book===target.book&&binding.printedPage===target.printedPage&&binding.regionIds?.includes(target.regionId)&&binding.reviewStatus==='field-target-reviewed');
+    if(!bound)fail(`reviewed class citation is missing: ${target.itemId}${target.fieldPointer}`);
+  }
+}
+
 function verifyPriceInventory(data, handoff, readFile) {
   const inventoryPath = 'research/price-source-inventory.json';
   const inventoryBytes = readBytes(readFile, inventoryPath);
@@ -213,6 +231,18 @@ function verifyEquipmentOffers(data, handoff, readFile) {
   const reconciliation = JSON.parse(reconciliationBytes.toString('utf8'));
   if (!sameValue(reconciliation.denominator, offers.denominator)) fail('source-offer denominator differs from the reconciliation');
   const nuanceById = new Map((offers.rowReviewStateNuance || []).map(row => [row.sourceRowId, row]));
+  const verifyCurrentMapping = offer => {
+    const receipt=offer.currentMappingReview;
+    if(!receipt?.path||!receipt.sha256||!Number.isInteger(receipt.recordIndex))fail(`current offer mapping lacks a review receipt: ${offer.sourceRowId}`);
+    const bytes=readBytes(readFile,receipt.path);
+    if(sha256(bytes)!==receipt.sha256)fail(`current offer review is stale: ${offer.sourceRowId}`);
+    const reviewed=JSON.parse(bytes.toString('utf8')).records?.[receipt.recordIndex];
+    const item=itemFor(data,'equipment',offer.itemId);
+    if(!reviewed||reviewed.independent!==true||reviewed.verdict!=='confirmed'||reviewed.sourceRowId!==offer.sourceRowId||reviewed.itemId!==offer.itemId||reviewed.sourceSha256!==offer.source.sourceSha256||offer.fieldPointer!=='/price'||!item?.price)fail(`current offer review identity differs: ${offer.sourceRowId}`);
+    const actual={amount:item.price.amount,currency:item.price.currency,unit:item.price.unit??null};
+    if(!sameValue(actual,reviewed.expectedPrice)||actual.amount!==offer.price.amount||actual.currency!==offer.price.currency||item.price.book!==offer.source.book||!item.price.pages?.includes(offer.source.page))fail(`current extracted offer differs from its review: ${offer.sourceRowId}`);
+    if(offer.sourceRowId==='ua26-equipment-supplies-011'&&(actual.unit!==null||reviewed.quantityStatus!=='not-stated-in-source-table'))fail('Quarrels quantity must remain explicitly unresolved');
+  };
   for (const offer of offers.records) {
     const inventoryBytes = readBytes(readFile, offer.sourceInventoryFile);
     if (sha256(inventoryBytes) !== offer.sourceInventorySha256) fail(`source inventory hash is stale for ${offer.sourceRowId}`);
@@ -233,12 +263,16 @@ function verifyEquipmentOffers(data, handoff, readFile) {
     } else if (offer.sourceRowId === 'phb35-equipment-purchase-056') {
       const nuance = nuanceById.get(offer.sourceRowId);
       const bullets = itemFor(data, 'equipment', 'phb-sling-bullet');
-      if (offer.disposition !== 'unrepresented-distinct-package' || offer.itemId !== null || offer.fieldPointer !== null || offer.price?.amount !== 15 || offer.price?.currency !== 'sp') fail('Sling & Bullets dozen offer mapping changed');
+      if (offer.price?.amount !== 15 || offer.price?.currency !== 'sp') fail('Sling & Bullets dozen source amount changed');
+      if(offer.disposition==='extracted-canonical-offer')verifyCurrentMapping(offer);
+      else if(offer.disposition!=='unrepresented-distinct-package'||offer.itemId!==null||offer.fieldPointer!==null)fail('Sling & Bullets dozen offer mapping changed');
       if (nuance.currentInventoryReviewStatus !== 'previously-confirmed-review-stale' || nuance.inventoryFresh !== false) fail('Sling & Bullets source-row review grade changed');
       if (!bullets || bullets.price?.amount !== 10 || bullets.price?.currency !== 'sp' || bullets.price?.unit !== 'score of sling bullets') fail('existing sling-bullet score price changed');
     } else if (offer.sourceRowId === 'ua26-equipment-supplies-011') {
       const nuance = nuanceById.get(offer.sourceRowId);
-      if (offer.disposition !== 'unresolved-source-offer' || offer.itemId !== null || offer.fieldPointer !== null || offer.price?.amount !== 100 || offer.price?.currency !== 'gp' || offer.price?.unit != null) fail('Quarrels for same offer interpretation changed');
+      if (offer.price?.amount !== 100 || offer.price?.currency !== 'gp' || offer.price?.unit != null) fail('Quarrels for same source amount/quantity changed');
+      if(offer.disposition==='extracted-quantity-unspecified-offer')verifyCurrentMapping(offer);
+      else if(offer.disposition!=='unresolved-source-offer'||offer.itemId!==null||offer.fieldPointer!==null)fail('Quarrels for same offer interpretation changed');
       if (nuance.currentInventoryReviewStatus !== 'source-review-pending' || nuance.boundsStatus !== 'provisional') fail('Quarrels for same review grade changed');
     }
   }
@@ -388,6 +422,8 @@ function equipmentOfferEntries(data, handoff) {
   const quarrels = rowById.get('ua26-equipment-supplies-011');
   if (!arrow || !sling || !quarrels) fail('the Arrow, Sling & Bullets, and Quarrels offer records are required');
   const slingBullet = offers.contrastingExistingSlingBulletPrice;
+  const slingExtracted=sling.disposition==='extracted-canonical-offer';
+  const quarrelsExtracted=quarrels.disposition==='extracted-quantity-unspecified-offer';
   return [
     entry({
       id: 'phb-arrow-dozen-already-extracted',
@@ -401,19 +437,21 @@ function equipmentOfferEntries(data, handoff) {
     entry({
       id: 'phb-sling-bullets-dozen',
       title: 'Sling & Bullets · dozen package',
-      status: 'previously-confirmed-review-stale',
-      description: `The PHB p. 35 list gives 15 sp for “Sling & Bullets, dozen.” It is a distinct unrepresented package. The existing sling-bullet entry is 10 sp per score, which is not an equivalent quantity. The prior inventory review is marked stale; refresh that review before treating this package as newly confirmed.`,
+      status: slingExtracted?'extracted-canonical-offer':'previously-confirmed-review-stale',
+      description: slingExtracted?'The independently reviewed PHB p. 35 offer “Sling & Bullets, dozen” is now recorded separately at 15 sp per dozen. The existing sling-bullet entry remains 10 sp per score. These are distinct printed offers; the older source-inventory review remains preserved as historical evidence.':`The PHB p. 35 list gives 15 sp for “Sling & Bullets, dozen.” It is a distinct unrepresented package. The existing sling-bullet entry is 10 sp per score, which is not an equivalent quantity. The prior inventory review is marked stale; refresh that review before treating this package as newly confirmed.`,
       sourceLocations: [{book: sling.source.book, printedPage: sling.source.page, pdfPage: sling.source.pdfPage}],
-      links: openEntryLink(data, slingBullet.collection, slingBullet.itemId, 'Open existing sling-bullet entry'),
+      links: [...(slingExtracted?openEntryLink(data,'equipment',sling.itemId,'Open dozen offer'):[]),...openEntryLink(data, slingBullet.collection, slingBullet.itemId, 'Open existing sling-bullet entry')],
       handoffPointers: ['/equipmentOffers/records/1', '/equipmentOffers/rowReviewStateNuance/1', '/equipmentOffers/contrastingExistingSlingBulletPrice'],
+      ...(slingExtracted?{sourceArtifacts:[{path:sling.currentMappingReview.path,pointer:`/records/${sling.currentMappingReview.recordIndex}`,sha256:sling.currentMappingReview.sha256}]}:{}),
     }),
     entry({
       id: 'ua-quarrels-for-same',
       title: 'Quarrels for same · quantity unclear',
-      status: 'source-review-pending-provisional-bounds',
-      description: `The UA p. 26 row reads “Quarrels for same” at 100 gp. Its quantity or equivalence remains unresolved in the current review; do not infer a per-bolt price or map it to the site’s light/heavy bolts. Source review is pending and the current source bounds are provisional.`,
+      status: quarrelsExtracted?'extracted-quantity-unresolved':'source-review-pending-provisional-bounds',
+      description: quarrelsExtracted?'The independently reviewed UA p. 26 amount of 100 gp for “Quarrels for same” is recorded as a separate printed offer. The table states no quantity. Its quantity and equivalence remain unresolved; this is not a per-bolt price and is not substituted for light or heavy bolts.':`The UA p. 26 row reads “Quarrels for same” at 100 gp. Its quantity or equivalence remains unresolved in the current review; do not infer a per-bolt price or map it to the site’s light/heavy bolts. Source review is pending and the current source bounds are provisional.`,
       sourceLocations: [{book: quarrels.source.book, printedPage: quarrels.source.page, pdfPage: quarrels.source.pdfPage}],
       handoffPointers: ['/equipmentOffers/records/2', '/equipmentOffers/rowReviewStateNuance/2'],
+      ...(quarrelsExtracted?{links:openEntryLink(data,'equipment',quarrels.itemId,'Open quantity-unspecified offer'),sourceArtifacts:[{path:quarrels.currentMappingReview.path,pointer:`/records/${quarrels.currentMappingReview.recordIndex}`,sha256:quarrels.currentMappingReview.sha256}]}:{}),
     }),
   ];
 }
@@ -421,11 +459,13 @@ function equipmentOfferEntries(data, handoff) {
 function sourceCensusEntries(handoff) {
   return handoff.sourcePriceDiscoveryCensuses.censuses.map(census => {
     const detail = census.screeningSummary || {};
+    const reports=(handoff.reviewQueuesNotSourceAbsences.rowNormalizedMonetaryReview?.reports||[]).filter(report=>census.sourceFiles.includes(report.sourceCensusPath));
+    const structured=reports.length?` Structured output exists for ${reports.reduce((sum,report)=>sum+report.groups,0)} declared groups, covering ${reports.reduce((sum,report)=>sum+report.rows,0)} logical records. Transcription, focus/context review and item-citation mapping are separate; the linked review queue records their current status.`:'';
     let description;
     if (census.id === 'phb-dmg-other') {
-      description = `A bounded ${census.pageDenominator}-page PHB/DMG discovery census recorded ${Object.values(census.claimStatuses).reduce((a, b) => a + b, 0)} page/group claims and ${Object.values(census.tableStatuses).reduce((a, b) => a + b, 0)} discovery-only table groups. None of those new table groups has been transcribed row by row. Text-screened noncandidate and unreviewed pages do not establish that no price exists.`;
+      description = `A bounded ${census.pageDenominator}-page PHB/DMG discovery census recorded ${Object.values(census.claimStatuses).reduce((a, b) => a + b, 0)} page/group claims and ${Object.values(census.tableStatuses).reduce((a, b) => a + b, 0)} declared source groups.${structured||' None of those new groups has structured row/claim output.'} Text-screened noncandidate and unreviewed pages do not establish that no price exists.`;
     } else if (census.id === 'ua-other') {
-      description = `A bounded ${census.pageDenominator}-page UA census recorded ${Object.values(census.claimStatuses).reduce((a, b) => a + b, 0)} discovery claims and ${Object.values(census.tableStatuses).reduce((a, b) => a + b, 0)} table-level groups; no new table group is transcribed row by row. The basic equipment table is covered by a separate scoped inventory.`;
+      description = `A bounded ${census.pageDenominator}-page UA census recorded ${Object.values(census.claimStatuses).reduce((a, b) => a + b, 0)} discovery claims and ${Object.values(census.tableStatuses).reduce((a, b) => a + b, 0)} declared source groups.${structured||' No new group has structured row/claim output.'} The basic equipment table is covered by a separate scoped inventory.`;
     } else {
       description = `A bounded MM/MMII census screened ${census.pageDenominator} PDF pages and recorded ${Object.values(census.claimStatuses).reduce((a, b) => a + b, 0)} visually reviewed claims plus ${census.unresolved.length} unresolved candidates. This inventory does not define a table-group denominator or claim whole-book completeness.`;
     }
@@ -435,6 +475,7 @@ function sourceCensusEntries(handoff) {
       status: 'bounded-discovery-not-completeness',
       description: `${description} ${census.limitations.join(' ')}`,
       handoffPointers: [`/sourcePriceDiscoveryCensuses/censuses/${handoff.sourcePriceDiscoveryCensuses.censuses.indexOf(census)}`],
+      sourceArtifacts:reports.map(report=>({path:report.path,sha256:report.sha256,pointer:report.monetaryRowsOrClaims!=null?'/review/sourceRowsOrClaims':'/rowRecords'})),
     });
   });
 }
@@ -460,17 +501,60 @@ function openQuestionEntries(data, handoff) {
   });
 }
 
+export function supplementalMonetaryPresentation(report) {
+  const current = report.currentReview;
+  if (!current) return {status: report.independentOverlayReviewPending || report.upstreamIndependentOverlayReviewPending ? 'transcribed-independent-review-pending' : 'general-source-review-pending', description: 'General source and field-highlight review remain pending.'};
+  const sum = values => Object.values(values || {}).reduce((total, count) => total + count, 0);
+  if (current.sourceInput?.path !== report.path || current.sourceInput?.sha256 !== report.sha256 || current.sourceRows !== report.rows || current.exactAuditRows !== report.rows
+      || current.semanticPass !== false || current.sourceAbsence !== false || current.generalReviewPending !== true || current.generalSourceReviewStatus !== 'pending' || !Array.isArray(current.retainedUncertainties)
+      || sum(current.knownFindingStatuses) !== current.knownFindings || sum(current.explicitReviewStatuses) !== current.explicitReviews
+      || !Number.isInteger(current.globalAudit?.retainedUncertainties)
+      || !Array.isArray(current.underlyingSourceQuestions)
+      || current.underlyingSourceQuestions.length !== (current.knownFindingKinds?.['unresolved-source-scope'] || 0)
+      || current.underlyingSourceQuestions.some(question => question.status !== 'unresolved' || question.semanticPass !== false || !Array.isArray(question.affectedAuditUids) || !question.affectedAuditUids.length)
+      || current.underlyingSourceQuestionRows !== new Set(current.underlyingSourceQuestions.flatMap(question => question.affectedAuditUids)).size) fail('supplemental monetary current review identity/counts are invalid');
+  const repaired = ['explicit-source-reviewed-repair', 'explicit-source-reviewed-provenance-repair'].reduce((total, status) => total + (current.knownFindingStatuses[status] || 0), 0);
+  const qualified = current.knownFindingStatuses['explicit-source-reviewed-qualified-representation'] || 0;
+  const pending = current.knownFindings - repaired - qualified;
+  const stale = current.explicitReviewStatuses['stale-or-incomplete-review'] || 0;
+  if (current.status !== (pending || stale ? 'current-scoped-review-queue' : 'current-scoped-finding-reviews-recorded')) fail('supplemental monetary current review status cannot waive pending findings');
+  let description = `Source review has corrected ${repaired} known issues; ${pending} still need review.`;
+  if (current.underlyingSourceQuestions.length) description += ` ${current.underlyingSourceQuestions.length} source interpretation questions remain unresolved across ${current.underlyingSourceQuestionRows} records, including any values now explicitly qualified in the extraction.`;
+  if (stale) description += ` ${stale} earlier assessments need fresh review.`;
+  description += ` A separate uncertainty register retains ${current.retainedUncertainties.length} questions for these records and ${current.globalAudit.retainedUncertainties} across all monetary records.`;
+  if (current.contextMeaning) {
+    const meaning = current.contextMeaning, dispositions = meaning.dispositions || {};
+    if (meaning.sourceInputSha256 !== report.sha256 || meaning.semanticPass !== false || sum(dispositions) !== meaning.rowDefinitionLinks || !Array.isArray(meaning.unresolvedGlyphAssociations)) fail('supplemental monetary note-meaning review is invalid');
+    description += ` Of ${meaning.rowDefinitionLinks} row-to-note links reviewed separately, ${dispositions['source-applicable'] || 0} apply directly, ${dispositions.qualified || 0} need qualifications, and ${dispositions.uncertain || 0} remain uncertain. ${meaning.unresolvedGlyphAssociations.length} Scimitar note-marker associations still need source review.`;
+    const retainedUids = new Set(current.retainedUncertainties.map(question => question.uid));
+    if (meaning.unresolvedGlyphAssociations.length && meaning.unresolvedGlyphAssociations.every(question => retainedUids.has(`ua-supplement-row:${question.recordId}`))) description += ' Those Scimitar cases are also tracked in the uncertainty register.';
+  }
+  description += ' General source review remains pending. These results do not verify every row or field highlight or establish complete source coverage. Open review questions do not establish that source material is missing.';
+  return {status: pending || stale ? 'source-review-pending' : repaired || qualified ? 'known-issues-reviewed-general-review-pending' : 'general-source-review-pending', description};
+}
+
 function reviewQueueEntries(data, handoff) {
   const queue = handoff.reviewQueuesNotSourceAbsences;
+  const applied=queue.classPrecisionProposals.breakdown.productBindingsApplied===true;
   const entries = [{
     id: 'class-precision-proposals',
     title: 'Class source-link proposals',
-    status: 'proposal-not-applied',
-    description: 'Some class abilities and proficiencies have proposed precise source links. The proposals have not been applied to product entries, and none approves a precise highlight or changes a field-value grade.',
+    status: applied?'bounded-links-reviewed-other-facts-pending':'proposal-not-applied',
+    description: applied?`Precise citations are applied to ${queue.classPrecisionProposals.breakdown.validFieldsApplied} reviewed class facts. ${queue.classPrecisionProposals.breakdown.retiredUnsupportedFields} unsupported advancement event was removed after source review. Other class facts and citations remain under review.`:'Some class abilities and proficiencies have proposed precise source links. The proposals have not been applied to product entries, and none approves a precise highlight or changes a field-value grade.',
     sourceLocations: [],
     links: [],
     handoffPointers: ['/reviewQueuesNotSourceAbsences/classPrecisionProposals'],
   }];
+  if(queue.sourceTableCitationReview){
+    const table=queue.sourceTableCitationReview;
+    entries.push(entry({id:'source-table-citation-review',title:'Source-table rows and item references',status:'bounded-row-reconciliation',description:`The current source-table inventory reconciles ${table.sourceRows} rows. ${table.confirmedMissingReferenceTargets} confirmed item references still need repair; ${table.uncertainTargets} row-to-item mappings remain uncertain and ${table.rowsWithoutItemTargets} rows have no verified item mapping. These are separate review counts and do not establish complete book coverage.`,handoffPointers:['/reviewQueuesNotSourceAbsences/sourceTableCitationReview']}));
+  }
+  for(const [index,report]of (queue.rowNormalizedMonetaryReview?.reports||[]).entries()){
+    const extra=report.referencePriceRows?` A separate ${report.referencePriceRows}-row reference sheet was reconciled, with ${report.additionalQualifierDifferences} qualifier difference${report.additionalQualifierDifferences===1?'':'s'}.`:'';
+    const xp=Number.isInteger(report.xpReferenceCells)?` Its ${report.xpReferenceCells} XP cells are recorded separately from money.`:Number.isInteger(report.xpReferenceRows)?' XP references remain separate from monetary values.':'';
+    const current = supplementalMonetaryPresentation(report);
+    entries.push(entry({id:`supplemental-monetary-review-${index+1}`,title:report.sourceIdentities?'PHB and DMG monetary records':'UA monetary records',status:current.status,description:`The supplemental inventory records ${report.rows} source rows or passages across ${report.groups} identified groups.${extra}${xp} Amounts, formulas, unavailable values and source references remain distinct; transcription does not prove complete book coverage. ${current.description}`,handoffPointers:[`/reviewQueuesNotSourceAbsences/rowNormalizedMonetaryReview/reports/${index}`],sourceArtifacts:[{path:report.path,pointer:report.sourceIdentities?'/review/sourceRowsOrClaims':'/rowRecords',sha256:report.sha256}]}));
+  }
   for (const [index, record] of queue.sourceEdgeCropDefects.records.entries()) {
     entries.push(entry({
       id: `source-edge-crop-${record.itemId}`,
@@ -512,7 +596,8 @@ function continuationEntry(manifest, manifestSha256) {
     label: `Open Abjure ${segment.role} excerpt`,
     href: `#spells/ua-cleric-abjure?source=UA%3A37&region=${encodeURIComponent(segment.regionId)}`,
   }));
-  const description = `This list tracks ${manifest.groups.length} known continuation groups across ${segments.length} required excerpt segments; all ${manifest.groups.length} declared groups currently place required segments on the same printed page. Navigation supports the listed parts together, but this list is not an exhaustive check that every cited passage is complete. Synthetic cross-page navigation has been tested; discovery and review of real cross-page continuations remain unresolved. Segment context does not certify field values or a precise highlight. Abjure has two selectable UA p. 37 excerpts and a separate PHB p. 47 related-mechanics reference; its precise focus and procedure conflict remain unresolved.`;
+  const pageScope=multipageRequiredGroups.length?`${multipageRequiredGroups.length} declared passage${multipageRequiredGroups.length===1?' crosses':'s cross'} printed pages. Other declared groups link portions on the same page.`:`All ${manifest.groups.length} declared groups currently place required segments on the same printed page. Real cross-page discovery and review remain unresolved.`;
+  const description = `This list tracks ${manifest.groups.length} known continuation groups across ${segments.length} required excerpt segments. ${pageScope} Navigation supports the listed parts together, but this list is not an exhaustive check that every cited passage is complete. Unknown continuations remain a source-review queue; generic flow cues are not semantic proof. Segment context does not certify field values or a precise highlight. Abjure has two selectable UA p. 37 excerpts and a separate PHB p. 47 related-mechanics reference; its precise focus and procedure conflict remain unresolved.`;
   return {entry: entry({
     id: 'known-continuation-cases',
     title: 'Known passage continuations and excerpt limits',
@@ -544,6 +629,7 @@ function verifyOutputTraceability(groups, handoff, readFile) {
 function buildGroups({data, handoff, readFile, mechanics, continuationManifest}) {
   const issues = verifyFormalIssues(data, handoff);
   const notes = verifyReviewNotes(data, handoff, mechanics);
+  verifyClassPrecision(data,handoff,readFile);
   const price = verifyPriceInventory(data, handoff, readFile);
   const offerData = verifyEquipmentOffers(data, handoff, readFile);
   const censuses = verifyCensuses(handoff, readFile, price.inventory);

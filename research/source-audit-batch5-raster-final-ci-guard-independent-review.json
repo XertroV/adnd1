@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-final-raster-and-six-ci-command-guard-review",
+  "status": "approved-for-the-exact-scoped-code-checkpoint; canonical-monetary-index-generation-pending",
+  "scope": "Read-only final raster checker/property regression and six CI command/options/output-directory review. No source geometry, pixels, values, seals or code changed. New review artifact only.",
+  "reviewedArtifacts": [
+    {
+      "path": "tools/source-raster-coverage.mjs",
+      "sha256": "5de40c0f5148777963ea8fb9f8cbbe1aec2f310dd870b0b0ebda9520c0640250"
+    },
+    {
+      "path": "tests/source-raster-coverage.test.mjs",
+      "sha256": "622b3b870dc7db13461a095155a50ca0516b22025be39e823a0a974fe7469b6c"
+    },
+    {
+      "path": "tests/fixtures/source-raster-coverage-window-binding-before.json.gz",
+      "sha256": "be23f28ffa14e6748b77f86c1ee8fd45befb2fcdb2eeaf19f58d4eb15a6800b4"
+    },
+    {
+      "path": "research/source-raster-window-binding-correction-review.json",
+      "sha256": "976d240a36159abe5f70e852d28409d460a329211bbb8534d1a2fc98d7923a06"
+    },
+    {
+      "path": ".github/workflows/pages.yml",
+      "sha256": "9ac1091121a55450d878bf07bf9ec0e8910f08aa39b1780b3a9d3c7acdf20f11"
+    },
+    {
+      "path": "agent-docs/citation-checks.md",
+      "sha256": "38eecff3ae0121c9d4a3b8c5e312b7185a18f45836d415eebabc43f1d42fbbfa"
+    },
+    {
+      "path": "agent-docs/citation-images-and-verification.md",
+      "sha256": "e65e71fafcbab672775f85279dd8fec53befc8f00997bc1c9ef3c3fbc0dc67d6"
+    },
+    {
+      "path": "agent-docs/gaps-and-limitations.md",
+      "sha256": "602f18bc2dfe3eda9d7f463745afab6cf27a85500b987822577fb21904eaef8b"
+    },
+    {
+      "path": "tools/monetary-group-focus-audit.mjs",
+      "sha256": "886cb99c017a81c2005c24d56eb69e4d8c1801e7aefbb8c125f1c3bb8b50c7db"
+    },
+    {
+      "path": "tools/monetary-condition-coverage.mjs",
+      "sha256": "a1c3b32cfa0cc88cc968ed2def131763f1fea5100320c18aa0e3e2a9bba92c73"
+    },
+    {
+      "path": "tools/source-target-label-audit.mjs",
+      "sha256": "3687d8ab1c5b61f38acef68d53296b8007b9f29ecec1797dcdb8b73552258218"
+    },
+    {
+      "path": "tools/quantity-source-absence-audit.mjs",
+      "sha256": "27371033b6649bcddab5720b863fe37b73ad10d6a6cefa9a839b5508b5d8c428"
+    },
+    {
+      "path": "tools/monetary-unit-provenance-audit.mjs",
+      "sha256": "34e432e7968db28cfa8efca7ef6a19b9180051182b1e2ace452b48cc770b1420"
+    }
+  ],
+  "raster": {
+    "tests": {
+      "passed": 8,
+      "failed": 0,
+      "logSha256": "7944214d8a112a48d6aaecad0e3e07b5e686212b75cf60ad0a0c9d5953cd9cc4"
+    },
+    "fullCurrentCli": {
+      "passed": true,
+      "errors": [],
+      "regionUsages": 3069,
+      "catalogs": 1015,
+      "geometries": 1284,
+      "sourceFrames": 229,
+      "reportSha256": "bbd7c7a4f4a95515c6dcaca1f2b0d49423384be217120d0509dc2fa29ed74a17",
+      "snapshotSha256": "4b8a72687a3c0d41430e414c68ad6da485111c44c6581efce890b6d43a9e9e37",
+      "dataSha256": "2b803d29cccd83ffd8418818abddf04b66204c82cebb8afba13f7a8226c6583c",
+      "catalogSnapshotSha256": "5ebb7c139c3b3243c136938cd334ad726b9646bf0ca2e67ca5bf876715bd4fff",
+      "semanticPass": false
+    },
+    "independentOldNewCalibration": {
+      "scope": "Exact preserved old checker replay and full-source-delta proof; numeric protocol only, not source pixels or semantics.",
+      "fixtureSha256": "be23f28ffa14e6748b77f86c1ee8fd45befb2fcdb2eeaf19f58d4eb15a6800b4",
+      "beforeCheckerSha256": "0628a446e236e44b1b170d6732a7e282bb89da90391fb8ba66a06724d083dfd7",
+      "currentCheckerSha256": "5de40c0f5148777963ea8fb9f8cbbe1aec2f310dd870b0b0ebda9520c0640250",
+      "fullSourceDeltaExactlyOnePropertyName": true,
+      "beforeDistinctWindows": {
+        "valid": false,
+        "errors": [
+          "Duplicate raster geometry binding."
+        ]
+      },
+      "afterDistinctWindows": {
+        "valid": true,
+        "errors": []
+      },
+      "afterExactRepeatedWindow": {
+        "valid": false,
+        "errors": [
+          "Duplicate raster geometry binding."
+        ]
+      },
+      "semanticPass": false
+    }
+  },
+  "ciCommands": [
+    {
+      "step": "Verify duplicated monetary focus declarations",
+      "command": "node tools/monetary-group-focus-audit.mjs --output artifacts/monetary-group-focus/report.json --check",
+      "optionsValid": true,
+      "outputDirectory": "workflow mkdir required and present",
+      "equivalentTmpRun": "pass",
+      "validation": {
+        "consistent": true,
+        "semanticCompleteness": false
+      }
+    },
+    {
+      "step": "Inventory monetary conditions and source contracts",
+      "command": "node tools/monetary-condition-coverage.mjs --output artifacts/monetary-condition-coverage/report.json",
+      "optionsValid": true,
+      "outputDirectory": "tool creates parent directories",
+      "equivalentTmpRun": "failed closed before output: research/monetary-source-inventory.json is absent",
+      "dependency": "Generate validated canonical monetary index after final source inputs, then rerun. This inventory does not itself certify conditions; known findings gate is separate."
+    },
+    {
+      "step": "Validate raster boundary coverage snapshot",
+      "command": "node tools/source-raster-coverage.mjs --output artifacts/source-raster-coverage/report.json --check",
+      "optionsValid": true,
+      "outputDirectory": "tool creates parent directories",
+      "equivalentTmpRun": "pass"
+    },
+    {
+      "step": "Check current citation field captions",
+      "command": "node tools/source-target-label-audit.mjs --current --check --output-dir artifacts/citation-target-labels",
+      "optionsValid": true,
+      "outputDirectory": "tool creates output directory",
+      "equivalentTmpRun": "pass",
+      "collectorTargets": 4505,
+      "numericOnlyFieldCaptions": 0
+    },
+    {
+      "step": "Inventory quantity and source absence assertions",
+      "command": "node tools/quantity-source-absence-audit.mjs --output-dir artifacts/quantity-source-absence --check",
+      "optionsValid": true,
+      "outputDirectory": "tool creates output directory",
+      "equivalentTmpRun": "pass",
+      "reportSha256": "57a655631f12d4143db9c37e883c3e93b3716ae1ae978edde639b36c03456d2f"
+    },
+    {
+      "step": "Verify monetary unit provenance",
+      "command": "node tools/monetary-unit-provenance-audit.mjs --output-dir artifacts/monetary-unit-provenance --check",
+      "optionsValid": true,
+      "outputDirectory": "tool creates output directory and report.md consumed by summary",
+      "equivalentTmpRun": "pass",
+      "reportSha256": "f9bc3f1a623f9312e1e6a9b2a78305dcbb1125005d2341149e5463ef41ba2199",
+      "markdownExists": true
+    }
+  ],
+  "documentationReview": {
+    "commandsAndOutputDirectoriesMatchTools": true,
+    "sixStepsDoNotInvokePrivatePdfRerender": true,
+    "offlineRasterPythonNotInvokedByNewSteps": true,
+    "metricAndSemanticLimitsAccuratelyDistinguished": true,
+    "uploadsUseExactGeneratedDirectories": true
+  },
+  "blockingCodeFindings": [],
+  "remainingIntegrationDependencies": [
+    "Generate the validated current research/monetary-source-inventory.json after final canonical source inputs; the condition inventory currently fails closed without it.",
+    "Rerun current generators/checks after any source/catalog/input change; this approval binds the exact artifacts and input hashes listed above."
+  ],
+  "limits": [
+    "The sole property correction fixes duplicate window identity, not any source pixels.",
+    "Snapshot component metrics are internally reconciled but cannot establish source semantics or detector exhaustiveness.",
+    "CI consumes sealed numeric raster evidence and current public catalog/image hashes; it does not read private PDFs.",
+    "Synthetic same-image/two-window calibration does not establish that arbitrary crop PNGs are exact source replays.",
+    "No general monetary condition, caption, quantity or unit semantic completeness pass is implied."
+  ]
+}

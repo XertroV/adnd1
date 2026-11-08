@@ -1,0 +1,2063 @@
+{
+  "artifactType": "mandatory original-UA crop-boundary findings after complete exposed raster candidate baseline",
+  "schemaVersion": 1,
+  "proposalStatus": "before source correction; independently confirmed boundary defects; not source/focus/value approval",
+  "createdAtUtc": "2026-11-08T00:09:45.513Z",
+  "scope": {
+    "sourceBook": "Unearthed Arcana",
+    "sourceRowsInSource": 583,
+    "sourceGroups": 15,
+    "physicalRowGroups": 578,
+    "proseGroups": 5,
+    "boundaryTargetsInOriginalSource": 4,
+    "affectedRowsAcrossThoseTargets": 66,
+    "sourceInputUnmodified": true,
+    "sourceValueOrGradeClaims": "none",
+    "unresolvedSemanticsAndMarkerApplicabilityRemainUnchanged": true
+  },
+  "findingDenominatorAndClassification": {
+    "v3iV3jActiveContextTargets": 43,
+    "independentNativeBoundaryCensusTargets": 43,
+    "candidateCropV3iDefectsReported": 5,
+    "originalInputConfirmedTargetBoundaries": [
+      "ua-other-007:G1-cont:v2-primary-context",
+      "ua-other-007:G2:v2-primary-context",
+      "ua-other-008:H1-main:v2-primary-context",
+      "ua-other-008:H1-cont:v2-primary-context"
+    ],
+    "v3iCandidateOnlyRegression": {
+      "targetId": "ua-other-005:E1-cont:v2-primary-context",
+      "targetRole": "non-normative candidate-only regression, excluded from original-source finding count",
+      "originalBoundsPdfPointsLTRB": [
+        305,
+        30,
+        585,
+        230
+      ],
+      "v3iBoundsPdfPointsLTRB": [
+        305,
+        25,
+        585,
+        252
+      ],
+      "v3iCropSha256": "471a4331fdab7e53d64b54ffb76c962ab22107bc58e366a6afe8adddd66093a4",
+      "v3iSourcePixelFinding": {
+        "kind": "crop-through-unrelated-row",
+        "edge": "bottom",
+        "finding": "The active V3i crop includes the start of the next unrelated E2 row \u201c09\u201310 Censer Controlling Air Elementals (M)\u201d but omits the remaining row and values. E1 note 1 ends at page y=191.505pt; the E2 title begins y=201.076pt; the first E2 row begins y=230.076pt. The V3i bottom y=252pt cuts through that row.",
+        "sourceBoundaryWitness": {
+          "v3iCropBottomPdfPagePt": 252,
+          "sourceRenderSha256": "b8bae14a73d019b9e30b4e999dfef3affa6bf960b644bb633b87be5363831379",
+          "pdfPage": 87
+        }
+      },
+      "v3jBoundsPdfPointsLTRB": [
+        305,
+        25,
+        585,
+        197
+      ],
+      "v3jCropSha256": "fc438beaac25b692de637b4715b5ad053fb7f76e64bdb7fe8dccb44771ee87f7",
+      "disposition": "V3i proposal-only enlargement cut through the first unrelated E2 row; V3j trims before the E2 title and independent review found no remaining observed boundary defect. Do not register as an 8ec original-input failure."
+    }
+  },
+  "knownFindingsAndDeduplication": {
+    "currentFindingSnapshotPath": "/workspace/adnd1/research/source-audit-batch5-monetary-context-migration-before-v3.json",
+    "currentFindingSnapshotSha256": "bee94a49f34c33ef1d0c1a77da2a13e4ed56f38880fba55d352c8d42c53fef0b",
+    "allCurrentKnownFindingsRetained": 190,
+    "overlappingIds": [
+      "ua-h1-cont-note-context-unlinked",
+      "ua-remaining-focus-ua-other-007-G1-cont-r017",
+      "ua-remaining-focus-ua-other-007-G1-cont-r018",
+      "ua-remaining-focus-ua-other-007-G1-cont-r020",
+      "ua-remaining-focus-ua-other-008-H1-cont-r034"
+    ],
+    "dedupPolicy": "These four source-context targets create context-boundary dimensions. Existing row-focus, marker, row-note-link, and provenance findings on overlapping row UIDs remain retained and distinct; no row UID is counted twice within any one target finding. Root should normalize IDs against the append-only register and confirm exact target-level duplicate status before sealing.",
+    "unresolvedApplicabilityDenominator": 103,
+    "unresolvedApplicabilityDisposition": "All 103 row-definition applicability joins remain uncertain; this boundary receipt does not adjudicate them."
+  },
+  "limitations": [
+    "Private proposal only; not sealed or registered and not an instruction to apply changes to the source record.",
+    "V3j remains an unapproved private candidate. Its two reviewed trims do not change or resolve the original 8ec source input until independently approved and applied through the authorized integration sequence.",
+    "The native image census is a pixel-boundary review, not a substitute for full table semantic or price-value review.",
+    "The current source-page raster and crop identifiers are recorded separately; no conversion of legacy nominal DPI or focus geometry is asserted.",
+    "The preserved 2161-record monetary inventory is the full-catalog row/source baseline; the 43-context pixel census is only the current UA candidate target denominator. This draft does not claim the separate 3069/1284 global context census is complete; no source correction should proceed until root captures and reconciles that global before denominator."
+  ],
+  "sourceBaselines": {
+    "fullCatalogBefore": {
+      "path": "/workspace/adnd1/research/source-audit-batch5-monetary-row-identity-baseline.json",
+      "sha256": "bd4973e1eca69a56b64adf3758ccce3683783815dea38bb8ca6ec9f33e898bb9",
+      "artifactType": "immutable-before-monetary-row-identity-baseline",
+      "records": 2161,
+      "uaRows": 583,
+      "knownFindings": 15
+    },
+    "currentOriginalSourceContextProjection": {
+      "path": "/workspace/adnd1/research/source-audit-batch5-monetary-context-migration-before-v3.json",
+      "sha256": "bee94a49f34c33ef1d0c1a77da2a13e4ed56f38880fba55d352c8d42c53fef0b",
+      "adapterPath": "tools/monetary-row-identity-audit.mjs",
+      "adapterSha256": "9695ee58246dc0dbebab6d1f5f3c18b0262badec20cf0eed5d9efe39a2108787",
+      "records": 2161,
+      "uaRows": 583,
+      "knownFindings": 190
+    },
+    "originalUaSource": {
+      "path": "/workspace/adnd1/research/source-audit-batch5-ua-additional-prices.json",
+      "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+    },
+    "retainedContextObligationExtension": {
+      "path": "/workspace/adnd1/research/source-audit-batch5-ua-context-obligations-extension.json",
+      "sha256": "e3b866e11ca94ec7626a03287301e9870fbc55d7a6c6858c12f31539ee730335",
+      "knownFindings": 9
+    },
+    "sourcePixelReview": {
+      "path": "/tmp/ua-v3i-independent-pixel-qa-20261107/ua-v3i-v3j-independent-review-v2.json",
+      "sha256": "a93f32a8db549b23be06bd86c7af359c835edd3c01bd05c8824f3e6fe81a7f87"
+    },
+    "sourceBoundaryCensus": {
+      "path": "/tmp/ua-v3i-independent-pixel-qa-20261107/all43-native-boundary-pixel-census.json",
+      "sha256": "f88d519a2c219d4a24c5cfa50d83f7b9d50b31a7fb021f1f3c92d151ff80671f"
+    }
+  },
+  "baseline": {
+    "path": "research/source-audit-batch5-monetary-row-identity-baseline.json",
+    "sha256": "bd4973e1eca69a56b64adf3758ccce3683783815dea38bb8ca6ec9f33e898bb9"
+  },
+  "normalization": {
+    "originalDraftArchive": {
+      "path": "tests/fixtures/ua-four-source-boundary-finding-draft-before-normalization.json.gz",
+      "sha256": "dccf84b2621fb00cf1fc2b8d9ecd99e488ae9e70a937af45f296fa776ee76b06",
+      "uncompressedSha256": "c9fb91a65f67beb07072ffc2373b1b2b06acf2e711b97d8abe938ae8fc2b5a05"
+    },
+    "globalRasterBefore": {
+      "path": "research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz",
+      "sha256": "4b8a72687a3c0d41430e414c68ad6da485111c44c6581efce890b6d43a9e9e37"
+    },
+    "independentLiveUniverseCheck": {
+      "path": "research/source-audit-batch5-raster-live-universe-guard-before.json",
+      "sha256": "ca8c5109b86bc30354d193d9a63721776e1b682d37c29c1ea034df99ebd18bce"
+    },
+    "scope": "Four source-crop boundaries across66 unique row uses. Existing note-link, marker and row-focus findings remain separate. E1 candidate-only regression is not a new original-source finding. The global candidate metric does not establish semantic crop correctness."
+  },
+  "knownFindings": [
+    {
+      "id": "ua-context-boundary-ua-other-007-G1-cont-left-heading-cut",
+      "kind": "source-context-crop-defect",
+      "independent": true,
+      "status": "independently confirmed before source repair",
+      "reviewScope": "Original-source crop boundary/context only; no row identity, source value, price, XP, row focus, marker applicability, semantic, or default-selection approval.",
+      "sourceInput": {
+        "path": "research/source-audit-batch5-ua-additional-prices.json",
+        "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+      },
+      "sourceFrame": {
+        "book": "UA",
+        "printedPage": 89,
+        "pdfPage": 90,
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "originalPageRenderSha256": "aa4c458c69853f907bbb515a9f2389636b3c86960d7bdbd6dfaa3641d7911428",
+        "originalPageRenderDimensionsPx": [
+          1498,
+          1950
+        ]
+      },
+      "originalLegacyContextTargetId": "legacy:ua-other-007:G1-cont",
+      "sourceGroupId": "ua-other-007",
+      "segmentId": "G1-cont",
+      "targetId": "ua-other-007:G1-cont:v2-primary-context",
+      "requiredContextLabel": "III.G., Continued",
+      "originalContextBoundsPdfPagePointsLTRB": [
+        25,
+        25,
+        305,
+        300
+      ],
+      "originalContextBoundsRenderedPagePixelsLTRB": [
+        62.52,
+        62.5,
+        762.7,
+        750
+      ],
+      "affectedSourceRowUids": [
+        "ua-supplement-row:ua-other-007-G1-cont-r004",
+        "ua-supplement-row:ua-other-007-G1-cont-r005",
+        "ua-supplement-row:ua-other-007-G1-cont-r006",
+        "ua-supplement-row:ua-other-007-G1-cont-r007",
+        "ua-supplement-row:ua-other-007-G1-cont-r008",
+        "ua-supplement-row:ua-other-007-G1-cont-r009",
+        "ua-supplement-row:ua-other-007-G1-cont-r010",
+        "ua-supplement-row:ua-other-007-G1-cont-r011",
+        "ua-supplement-row:ua-other-007-G1-cont-r012",
+        "ua-supplement-row:ua-other-007-G1-cont-r013",
+        "ua-supplement-row:ua-other-007-G1-cont-r014",
+        "ua-supplement-row:ua-other-007-G1-cont-r015",
+        "ua-supplement-row:ua-other-007-G1-cont-r016",
+        "ua-supplement-row:ua-other-007-G1-cont-r017",
+        "ua-supplement-row:ua-other-007-G1-cont-r018",
+        "ua-supplement-row:ua-other-007-G1-cont-r019",
+        "ua-supplement-row:ua-other-007-G1-cont-r020"
+      ],
+      "records": [
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r004",
+          "recordId": "ua-other-007-G1-cont-r004",
+          "sourceRecordPointer": "/rowRecords/441",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "5f433d7ad61851dc80ce7e86f71ccbc9d679e94e715f5e0e1477097b0da7f36e",
+          "rowIdentitySha256": "179dfa08f408de7d76aa2f52c532b4dc4b256c6033eafc027578565edb399ce5",
+          "focusGeometrySha256": "60baf38fc1dde0006e1b53b853c7cebea02fba2bd5ed934bf9272122655d501c",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "1ecc35910f6a9f1870ab158cefda58925579f8c6a7172c2589fdfa9ba24250b6",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [],
+          "recordSha256": "5f433d7ad61851dc80ce7e86f71ccbc9d679e94e715f5e0e1477097b0da7f36e"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r005",
+          "recordId": "ua-other-007-G1-cont-r005",
+          "sourceRecordPointer": "/rowRecords/442",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "a2f73269fa9054a2339487941355dabc1803653687bf456b95063b6ff4cd8e42",
+          "rowIdentitySha256": "a96bcefbb3a3dfe4fbf0a3e61674f6a75bb039802eb079707a1bc3202e261b8d",
+          "focusGeometrySha256": "6eb3a552fc730d6c3f8167e6d1d74f3aa804df68f0e35944e8ac0df0f023ee74",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "9cd33313b588f0f357389c1a609df41152bab1c431861de28570e0ebebca025a",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [],
+          "recordSha256": "a2f73269fa9054a2339487941355dabc1803653687bf456b95063b6ff4cd8e42"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r006",
+          "recordId": "ua-other-007-G1-cont-r006",
+          "sourceRecordPointer": "/rowRecords/443",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "a5f26aafe0c21ec65cc019d3ce28f1f61205548410bb447c77fde9d040880c5c",
+          "rowIdentitySha256": "79b0384d55dd499084374d723dda322f0d43e42cdeafffae5865b704f1c11d57",
+          "focusGeometrySha256": "8ed77b6723e416e30727732515272af77d6fccc831c23792049fcb8af07d4276",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "92b72ab3ee15364d9c11fc666ecb4e13879e33111957fdd59b188a24dd233558",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [],
+          "recordSha256": "a5f26aafe0c21ec65cc019d3ce28f1f61205548410bb447c77fde9d040880c5c"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r007",
+          "recordId": "ua-other-007-G1-cont-r007",
+          "sourceRecordPointer": "/rowRecords/444",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "0501f86f8fcc2528df3a0a7a9047cf87303351bc98c3d85b2de1b73c066bf667",
+          "rowIdentitySha256": "121a73579e4c490c211144adab192489876d95c36a24de8ba14186ec86a2564f",
+          "focusGeometrySha256": "57447049bc1650ac97a1ee3f7f537630fad4aa47bf7d70178aa77e85a36b2f21",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "7d9f27498d9d5750129a46e9bef1dda0bb28e6339888acdef045e68bf6d24635",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [],
+          "recordSha256": "0501f86f8fcc2528df3a0a7a9047cf87303351bc98c3d85b2de1b73c066bf667"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r008",
+          "recordId": "ua-other-007-G1-cont-r008",
+          "sourceRecordPointer": "/rowRecords/445",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "987cc5e667fee43e0700f9db9d9f32b438d3f8b9ca36c375703bc892bf4a513c",
+          "rowIdentitySha256": "bdff64cfcca7c4dd6608ee75ba72b932a1cf3ccfb3d4c7b1cff126837e256427",
+          "focusGeometrySha256": "caa73865a06ec893123741a4d8c40f8e14b392cea617f6eff87a1684278e4596",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "8184c565c2e7761e0c31a25ecf288e24cfccbcb5f5eaa3fdac3d82c67d99380f",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [],
+          "recordSha256": "987cc5e667fee43e0700f9db9d9f32b438d3f8b9ca36c375703bc892bf4a513c"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r009",
+          "recordId": "ua-other-007-G1-cont-r009",
+          "sourceRecordPointer": "/rowRecords/446",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "a7e750d1f18ed18280fae96bfa30d6fcad8d75bf9cf57e1ad874b34c6cd31db5",
+          "rowIdentitySha256": "05bfac35283baddf55ec50e8b835f3b2166604c4de0b75187d5c889db3fe1f89",
+          "focusGeometrySha256": "066e325be261a8ff652bc621e54e02c7a62a32734a949f8d180fef80aa1f3953",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "26ab57c1203d46cb4d2615157d8da893733e43d57d086fd766e3bfb236b4ec59",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [],
+          "recordSha256": "a7e750d1f18ed18280fae96bfa30d6fcad8d75bf9cf57e1ad874b34c6cd31db5"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r010",
+          "recordId": "ua-other-007-G1-cont-r010",
+          "sourceRecordPointer": "/rowRecords/447",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "68025d6fd34cabaee8a21b259282cf7bb5d6afa67449c65f03f98a9a9d08d74c",
+          "rowIdentitySha256": "3bc29f8d1036268d570552b3a388a8265ccf5c6861a3dcf60f3bb2c9ddf8da7a",
+          "focusGeometrySha256": "aada6372f91cf01e432a3cab00405808f35ff61ac7ae06ac156f30b65518ef34",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "9bb6e3e9af5f898b7298a39c69d7780c6a51da683578246e3dee0e0ce2bc0336",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [],
+          "recordSha256": "68025d6fd34cabaee8a21b259282cf7bb5d6afa67449c65f03f98a9a9d08d74c"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r011",
+          "recordId": "ua-other-007-G1-cont-r011",
+          "sourceRecordPointer": "/rowRecords/448",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "9360d307c3d3376def1dc1f51540ff2b87a2956559d1c446e2568aeccb5548ad",
+          "rowIdentitySha256": "0d609d40a531a7ed9efdf7c4a08bc892d512904b24d0465a7fa22d38bc8b9de5",
+          "focusGeometrySha256": "88a5c4771fb2c073789be2984210bdb47f0ed7f401e9a21c625fbe01772984a3",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "947f05e88e10387d9310c90551aae75300881d1ec3e50aa5a2a3df0c49b9fce6",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [],
+          "recordSha256": "9360d307c3d3376def1dc1f51540ff2b87a2956559d1c446e2568aeccb5548ad"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r012",
+          "recordId": "ua-other-007-G1-cont-r012",
+          "sourceRecordPointer": "/rowRecords/449",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "28ac6d450a74023e620ff61d64c5ccfe771bba354c773a68c4cd26164c93150d",
+          "rowIdentitySha256": "93aacafd7d713bc73eea7239813e8d006ffaabee2ed840844bf0e53be9faaff6",
+          "focusGeometrySha256": "af532f0ed5241e60a35c795d588824c8ff72110c1b5d8e36a13846b1139a9140",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "500584015b66d4f3d84d02be562e67b13f7c56e83abb914bc3900c5835bcd852",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [],
+          "recordSha256": "28ac6d450a74023e620ff61d64c5ccfe771bba354c773a68c4cd26164c93150d"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r013",
+          "recordId": "ua-other-007-G1-cont-r013",
+          "sourceRecordPointer": "/rowRecords/450",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "057c9a724fa2bab04fdf602302fdf81d5f36f8daf230ec0a471ef18e9bde6195",
+          "rowIdentitySha256": "fd3b83020404d1cc1fa263b926ac51e7d9a6c5b367e87c3f657f4b08caeda610",
+          "focusGeometrySha256": "19df65e514f2a1570cd84d5469e956d85ee78f941fbe345c94402df0f4d7803d",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "1eb3af034a070f0196d9d29a8b56847f78273e064261efb037855e975d94c3ef",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [],
+          "recordSha256": "057c9a724fa2bab04fdf602302fdf81d5f36f8daf230ec0a471ef18e9bde6195"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r014",
+          "recordId": "ua-other-007-G1-cont-r014",
+          "sourceRecordPointer": "/rowRecords/451",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "b6d7558a0fc28f5a86de083c31581848f7d94847f9d52bef4579b58393b22ef7",
+          "rowIdentitySha256": "fd7416463f2f05a05ef37a6ee0c5a5ced3d19404c410e07a66ed288848946cd7",
+          "focusGeometrySha256": "f34c186d46b9a2adbfcf687d2111d4cb233e95488af6b3f40951082f1c492231",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "c5781070c80aa8dd3fe35879204aaafc03f522a863c69ca09c036afda462156c",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [],
+          "recordSha256": "b6d7558a0fc28f5a86de083c31581848f7d94847f9d52bef4579b58393b22ef7"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r015",
+          "recordId": "ua-other-007-G1-cont-r015",
+          "sourceRecordPointer": "/rowRecords/452",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "83d928eb31076a9d918a2ad4c56ee7d1f803ef08b960bb58fefa3eb01d967045",
+          "rowIdentitySha256": "5990512564ef3eb8bc6a838d5f7fec86c8d2c4a05409942d8378bc3673e70f21",
+          "focusGeometrySha256": "491c319238c167dcd69288551a9e1f95a9748a2efef658fda817a6f481f51089",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "a281c4bf6d55c5e56581b6a0bd6799485a821b738dc9980e1afae2c3f628c3b7",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [],
+          "recordSha256": "83d928eb31076a9d918a2ad4c56ee7d1f803ef08b960bb58fefa3eb01d967045"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r016",
+          "recordId": "ua-other-007-G1-cont-r016",
+          "sourceRecordPointer": "/rowRecords/453",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "60abeedd4f2aebc45f03743c2e3ae7b70aff87c4f8ea97d56b35999581953556",
+          "rowIdentitySha256": "6aac665ba372fbd5d53376a9f2cc6a458c8f2dd99e14ab6541f7484d89c95c68",
+          "focusGeometrySha256": "5d8e2bd8d7ff2b190679667d8828d9ddf226a838f7b93e5438003ff85d6aac2d",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "c5c4bff77516b9d39852d9c68a798c6596b63a728df91a4a13af4418599cc91a",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [],
+          "recordSha256": "60abeedd4f2aebc45f03743c2e3ae7b70aff87c4f8ea97d56b35999581953556"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r017",
+          "recordId": "ua-other-007-G1-cont-r017",
+          "sourceRecordPointer": "/rowRecords/454",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "81bf3c7c230cc339ec68d89be953e0e9e2784ffe0c3b8c0a0ebf2a1031d9b94e",
+          "rowIdentitySha256": "2b2055ad8fa8729749ff39a67d3f5beae55de12e7ce3311f2329ff84dd52074f",
+          "focusGeometrySha256": "ad7bbe204546a757ebc5ea4da1c91f0daf8a98f61b5efd5fbd99e7a52b4217d6",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "958c3c30abc6710a42c9db2d183735a1e4e6c05df766b04dcd28ef5844d6371d",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [
+            "ua-remaining-focus-ua-other-007-G1-cont-r017"
+          ],
+          "recordSha256": "81bf3c7c230cc339ec68d89be953e0e9e2784ffe0c3b8c0a0ebf2a1031d9b94e"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r018",
+          "recordId": "ua-other-007-G1-cont-r018",
+          "sourceRecordPointer": "/rowRecords/455",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "d66abc145e8b2e427009c8eaa95d9d6f4db746ffc6c1f84c0e718e4a1c436125",
+          "rowIdentitySha256": "2480d9043625c237c995aa6bc3fc0d3a563357351b701dc13faa40372fde43c0",
+          "focusGeometrySha256": "c15cb48a9f54ad47d3f867791a0ee28f5973706baad67466977f01cdb86b5ef1",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "f83faf6b1156dd458e5e7613e3dc4f3f26cc2819d241fdf652148c3af526949b",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [
+            "ua-remaining-focus-ua-other-007-G1-cont-r018"
+          ],
+          "recordSha256": "d66abc145e8b2e427009c8eaa95d9d6f4db746ffc6c1f84c0e718e4a1c436125"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r019",
+          "recordId": "ua-other-007-G1-cont-r019",
+          "sourceRecordPointer": "/rowRecords/456",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "b90bc9cb3bee9420d9c1626002ca7c1ebb48900c68046758db700be95a9c5ae0",
+          "rowIdentitySha256": "9e8530b848ebeb99d0363d29128b45e6cbbd60ebe82620231084d33c61c1afbf",
+          "focusGeometrySha256": "7a30cab992097be700980e4cdace8a5998ef78aaadd60113629829800923aad0",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "71faffbb03c49fdd03898311d111b8ddc1fe2fad7979238dfe77f9add9ab0d3f",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [],
+          "recordSha256": "b90bc9cb3bee9420d9c1626002ca7c1ebb48900c68046758db700be95a9c5ae0"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G1-cont-r020",
+          "recordId": "ua-other-007-G1-cont-r020",
+          "sourceRecordPointer": "/rowRecords/457",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "5f0d9caf93eae1bec59f478cd354046e27d6cd006cf339faa873f0be2c46eecd",
+          "rowIdentitySha256": "e6ea1dce2f0ac9469d84ff80f3b235ebd83af1321e76aff3767a90ecee8e39c0",
+          "focusGeometrySha256": "638fbe49a8a9c97468161f91d0bad073466830d43515380a30127e1694e8bd6f",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "f363265172c9555fa1991af9657aef1e129efb54a7d6b47f3f5aa674c1fb1f03",
+          "contextGeometrySha256": "f2634b969f9d000467da8725ab3c008b581438ac4842469956dcc158cd284baa",
+          "contextEvidenceSha256": "934aecd1f92c60e4a10272677ddfa3f020552796d7ee165cb74c829bd8a8be83",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "1d7ab0c08a6b7670da1dc604646b4b88dc0c9adfb6e3e9162820e7e51369e095",
+          "existingFindingIds": [
+            "ua-remaining-focus-ua-other-007-G1-cont-r020"
+          ],
+          "recordSha256": "5f0d9caf93eae1bec59f478cd354046e27d6cd006cf339faa873f0be2c46eecd"
+        }
+      ],
+      "sourcePixelWitness": {
+        "receipt": {
+          "path": "research/source-audit-batch5-ua-v3i-v3j-independent-review.json",
+          "sha256": "a93f32a8db549b23be06bd86c7af359c835edd3c01bd05c8824f3e6fe81a7f87"
+        },
+        "nativeBoundaryCensus": {
+          "path": "research/source-audit-batch5-ua-43-native-boundary-before.json",
+          "sha256": "f88d519a2c219d4a24c5cfa50d83f7b9d50b31a7fb021f1f3c92d151ff80671f"
+        },
+        "nativeFullPageRenderSha256": "8402900dd531720b7d1b8f1263317863dc57650874c12566b24e6c813804fca7",
+        "nativeFullPageRenderDimensionsPx": [
+          2496,
+          3250
+        ],
+        "nativeRenderDpi": 300,
+        "v3iBoundsPdfPagePointsLTRB": [
+          25,
+          25,
+          305,
+          300
+        ],
+        "v3iBoundsPixelsLTRB": [
+          104,
+          104,
+          1271,
+          1250
+        ],
+        "v3iCropSha256": "c38207f8ca5ec99312f12a05219cb8411ccf4feffeffbe5209227b0fe7c97bc1",
+        "v3jBoundsPdfPagePointsLTRB": [
+          25,
+          25,
+          305,
+          300
+        ],
+        "v3jBoundsPixelsLTRB": [
+          104,
+          104,
+          1271,
+          1250
+        ],
+        "v3jCropSha256": "c38207f8ca5ec99312f12a05219cb8411ccf4feffeffbe5209227b0fe7c97bc1",
+        "reviewFinding": {
+          "kind": "crop-through-heading-glyph",
+          "edge": "left",
+          "finding": "The V3i crop starts at x=25pt (source raster crop start x=104). The leading glyphs in \u201cIII.G., Continued\u201d extend into x=100\u2013103 outside the crop boundary; visible antialiased ink in these excluded pixels shows the heading is clipped.",
+          "sourceBoundaryWitness": {
+            "sourceRenderSha256": "8402900dd531720b7d1b8f1263317863dc57650874c12566b24e6c813804fca7",
+            "pdfPage": 90,
+            "cropLeftPdfPagePt": 25,
+            "cropLeftRasterPixel": 104,
+            "excludedInkPixelBounds": [
+              100,
+              135,
+              104,
+              180
+            ],
+            "outsidePixelCountsByMaxGray": {
+              "lt254": 94,
+              "lt250": 54,
+              "lt240": 12,
+              "lt220": 0,
+              "lt180": 0
+            }
+          }
+        }
+      },
+      "priorV3jState": "V3j retains the same left bound; this original-input defect remains open.",
+      "overlapDisposition": {
+        "uniqueSourceRowsInThisFinding": 17,
+        "existingFindingIdsForOverlappingRows": [
+          "ua-remaining-focus-ua-other-007-G1-cont-r017",
+          "ua-remaining-focus-ua-other-007-G1-cont-r018",
+          "ua-remaining-focus-ua-other-007-G1-cont-r020"
+        ],
+        "rowOverlapDoesNotMergeFailureDimensions": "Existing row-focus, marker, and row-linked-note findings remain separate. Row UIDs are deduplicated within this context finding; values and grades are not implicated.",
+        "knownFindingDenominatorSnapshot": 190
+      }
+    },
+    {
+      "id": "ua-context-boundary-ua-other-007-G2-left-heading-cut",
+      "kind": "source-context-crop-defect",
+      "independent": true,
+      "status": "independently confirmed before source repair",
+      "reviewScope": "Original-source crop boundary/context only; no row identity, source value, price, XP, row focus, marker applicability, semantic, or default-selection approval.",
+      "sourceInput": {
+        "path": "research/source-audit-batch5-ua-additional-prices.json",
+        "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+      },
+      "sourceFrame": {
+        "book": "UA",
+        "printedPage": 89,
+        "pdfPage": 90,
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "originalPageRenderSha256": "aa4c458c69853f907bbb515a9f2389636b3c86960d7bdbd6dfaa3641d7911428",
+        "originalPageRenderDimensionsPx": [
+          1498,
+          1950
+        ]
+      },
+      "originalLegacyContextTargetId": "legacy:ua-other-007:G2",
+      "sourceGroupId": "ua-other-007",
+      "segmentId": "G2",
+      "targetId": "ua-other-007:G2:v2-primary-context",
+      "requiredContextLabel": "III.G.2. SWORDS",
+      "originalContextBoundsPdfPagePointsLTRB": [
+        25,
+        295,
+        305,
+        525
+      ],
+      "originalContextBoundsRenderedPagePixelsLTRB": [
+        62.52,
+        737.5,
+        762.7,
+        1312.5
+      ],
+      "affectedSourceRowUids": [
+        "ua-supplement-row:ua-other-007-G2-r021",
+        "ua-supplement-row:ua-other-007-G2-r022",
+        "ua-supplement-row:ua-other-007-G2-r023",
+        "ua-supplement-row:ua-other-007-G2-r024",
+        "ua-supplement-row:ua-other-007-G2-r025",
+        "ua-supplement-row:ua-other-007-G2-r026",
+        "ua-supplement-row:ua-other-007-G2-r027",
+        "ua-supplement-row:ua-other-007-G2-r028",
+        "ua-supplement-row:ua-other-007-G2-r029",
+        "ua-supplement-row:ua-other-007-G2-r030",
+        "ua-supplement-row:ua-other-007-G2-r031",
+        "ua-supplement-row:ua-other-007-G2-r032",
+        "ua-supplement-row:ua-other-007-G2-r033"
+      ],
+      "records": [
+        {
+          "uid": "ua-supplement-row:ua-other-007-G2-r021",
+          "recordId": "ua-other-007-G2-r021",
+          "sourceRecordPointer": "/rowRecords/458",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "55fd606eb01ff574dc6ea2236b6e7898c58fa786fe605f163e2121ba71b35faa",
+          "rowIdentitySha256": "983073ceaa759fe312270aa8c28b483bea381971cc02775ae824b690f711696c",
+          "focusGeometrySha256": "5831cdfd22b3700eb86cd7ddf54ba7afd54475f1893d48a25f9ef2d8e67b2a6b",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "b5f07cfd77ea900376ce8970ecb0e7e11a3488e170595c319edaef55e0d33d60",
+          "contextGeometrySha256": "e1116607c9c9816316b95a69a32d5c6d9fb155521fc02a299cc0c1aa4de7bc2c",
+          "contextEvidenceSha256": "c19bfff8ca458f0e26384aace65f0295ef9a4d18cc067527d8f101ee8e73cdee",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "d60e1846a4ecc82dc59386840edd5a6b73e0a4934b20ff4aeaab717079f7ebb9",
+          "existingFindingIds": [],
+          "recordSha256": "55fd606eb01ff574dc6ea2236b6e7898c58fa786fe605f163e2121ba71b35faa"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G2-r022",
+          "recordId": "ua-other-007-G2-r022",
+          "sourceRecordPointer": "/rowRecords/459",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "04b87702d13028b934d6507619312e388a8cf8604eeeebb14d1d8f11a5d25bd0",
+          "rowIdentitySha256": "7b5e788d366169fbc7d19e9603962c0cf8646e62bffed3627a56c026a9e1c157",
+          "focusGeometrySha256": "a755e58608a11df82880ed81892606dbb7318f0665dafe27ae5f1732cc4c9962",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "11384558e3c9fd9284e32d56a7243863a1946ede1b1c88613307ce5159f0689a",
+          "contextGeometrySha256": "e1116607c9c9816316b95a69a32d5c6d9fb155521fc02a299cc0c1aa4de7bc2c",
+          "contextEvidenceSha256": "c19bfff8ca458f0e26384aace65f0295ef9a4d18cc067527d8f101ee8e73cdee",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "d60e1846a4ecc82dc59386840edd5a6b73e0a4934b20ff4aeaab717079f7ebb9",
+          "existingFindingIds": [],
+          "recordSha256": "04b87702d13028b934d6507619312e388a8cf8604eeeebb14d1d8f11a5d25bd0"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G2-r023",
+          "recordId": "ua-other-007-G2-r023",
+          "sourceRecordPointer": "/rowRecords/460",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "d7c75a9fd012b2c7db6494d4788a28363a46cc2fbe2138567c3d8138444a3d5f",
+          "rowIdentitySha256": "7666f0813000b7c19b4e5d3a08c98d5c50cfa75742f43b30a782636cd5f250dd",
+          "focusGeometrySha256": "351c5f497d3ccd0d72c7dbd23edfbdae0f0bf927ad47656f282c2ce794015433",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "3ce5ec70fa0a6fca2fa6829aac94a2b95474b49e55e1eb16d9b9578a6cd56869",
+          "contextGeometrySha256": "e1116607c9c9816316b95a69a32d5c6d9fb155521fc02a299cc0c1aa4de7bc2c",
+          "contextEvidenceSha256": "c19bfff8ca458f0e26384aace65f0295ef9a4d18cc067527d8f101ee8e73cdee",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "d60e1846a4ecc82dc59386840edd5a6b73e0a4934b20ff4aeaab717079f7ebb9",
+          "existingFindingIds": [],
+          "recordSha256": "d7c75a9fd012b2c7db6494d4788a28363a46cc2fbe2138567c3d8138444a3d5f"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G2-r024",
+          "recordId": "ua-other-007-G2-r024",
+          "sourceRecordPointer": "/rowRecords/461",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "5ff5fcfb068cc00ddc45ae31dd90cfd62e25ac3e3b4637ce802d65da4e580695",
+          "rowIdentitySha256": "d6af7f5a7d7e899ca30f9a2b83ebeae9cbe3adcac49b9620c3d73f42900ecc3e",
+          "focusGeometrySha256": "93896013856f27e235e1c04602f257db82758f063e0dfae535a6af95dd4805d1",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "2ef841420f6c5706639ebe18eae0dcd0c16e4c59a84c5df7337784352b2f6941",
+          "contextGeometrySha256": "e1116607c9c9816316b95a69a32d5c6d9fb155521fc02a299cc0c1aa4de7bc2c",
+          "contextEvidenceSha256": "c19bfff8ca458f0e26384aace65f0295ef9a4d18cc067527d8f101ee8e73cdee",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "d60e1846a4ecc82dc59386840edd5a6b73e0a4934b20ff4aeaab717079f7ebb9",
+          "existingFindingIds": [],
+          "recordSha256": "5ff5fcfb068cc00ddc45ae31dd90cfd62e25ac3e3b4637ce802d65da4e580695"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G2-r025",
+          "recordId": "ua-other-007-G2-r025",
+          "sourceRecordPointer": "/rowRecords/462",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "de6766d4dca3e585059133a1a95c6aa032d913007e9d3b99669867f9fdc48f58",
+          "rowIdentitySha256": "bde0cb92a57460454a9b38f40059a51309776cb4992a70dd4f4576905a276df8",
+          "focusGeometrySha256": "7b60d7855e6590ae962e051ae934649f0d5256ab7e3d26083dfa6baf2b6f1f74",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "556edb44a24efba36e3208d15fa0610033f305c457ac92c3cdf6db2fae04c3be",
+          "contextGeometrySha256": "e1116607c9c9816316b95a69a32d5c6d9fb155521fc02a299cc0c1aa4de7bc2c",
+          "contextEvidenceSha256": "c19bfff8ca458f0e26384aace65f0295ef9a4d18cc067527d8f101ee8e73cdee",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "d60e1846a4ecc82dc59386840edd5a6b73e0a4934b20ff4aeaab717079f7ebb9",
+          "existingFindingIds": [],
+          "recordSha256": "de6766d4dca3e585059133a1a95c6aa032d913007e9d3b99669867f9fdc48f58"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G2-r026",
+          "recordId": "ua-other-007-G2-r026",
+          "sourceRecordPointer": "/rowRecords/463",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "3b4ca50fec60df20eb09ec255580ca7a4a6a6d661fcd0abd28abcea110b10a78",
+          "rowIdentitySha256": "c17da65bc77cda9f1d3be5f24af4018c4243d8c78546dfbd60e09f131fa89824",
+          "focusGeometrySha256": "3e2a9bbdfb354270a2e29efef2005c10ca8b8d8d54261cf44f33d515c9ccfacb",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "5e7b821d4f65d58f5d332fa54e0e87142a171f06a9cbb66e155d5e077b30167d",
+          "contextGeometrySha256": "e1116607c9c9816316b95a69a32d5c6d9fb155521fc02a299cc0c1aa4de7bc2c",
+          "contextEvidenceSha256": "c19bfff8ca458f0e26384aace65f0295ef9a4d18cc067527d8f101ee8e73cdee",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "d60e1846a4ecc82dc59386840edd5a6b73e0a4934b20ff4aeaab717079f7ebb9",
+          "existingFindingIds": [],
+          "recordSha256": "3b4ca50fec60df20eb09ec255580ca7a4a6a6d661fcd0abd28abcea110b10a78"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G2-r027",
+          "recordId": "ua-other-007-G2-r027",
+          "sourceRecordPointer": "/rowRecords/464",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "13216dfd2e8ca86c113e690c59258ca7cdf6f554e626ecf1c9e843d4b4be00f1",
+          "rowIdentitySha256": "f7d36976173cfcf19969bcc996d165dbf67dc7cd6ec0a5c386a96208a79ccc2e",
+          "focusGeometrySha256": "0f92c1842d1dc22544ddafab999fc510217db19e774980c0d0d5a559def67947",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "8489f3e9006649a296401f1ff62e302498fb75f51d810684d406e200d7444385",
+          "contextGeometrySha256": "e1116607c9c9816316b95a69a32d5c6d9fb155521fc02a299cc0c1aa4de7bc2c",
+          "contextEvidenceSha256": "c19bfff8ca458f0e26384aace65f0295ef9a4d18cc067527d8f101ee8e73cdee",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "d60e1846a4ecc82dc59386840edd5a6b73e0a4934b20ff4aeaab717079f7ebb9",
+          "existingFindingIds": [],
+          "recordSha256": "13216dfd2e8ca86c113e690c59258ca7cdf6f554e626ecf1c9e843d4b4be00f1"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G2-r028",
+          "recordId": "ua-other-007-G2-r028",
+          "sourceRecordPointer": "/rowRecords/465",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "5a2dd4caf7625a988cfb9344d179931778b8c903e7ddb1728b8edf55e47aa3f2",
+          "rowIdentitySha256": "ab6795bd0bea2c5cae778a7f635875bb184df927927c85699875815832438598",
+          "focusGeometrySha256": "bae9c93d999ffe0f184eb75ff1352d0db6e468f1e9911540b8e88ab4602b035b",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "a522bee8f09c1c6958178c8b93f7097b7f89ae5377b0c2a8a3b4cd1c315bf3e8",
+          "contextGeometrySha256": "e1116607c9c9816316b95a69a32d5c6d9fb155521fc02a299cc0c1aa4de7bc2c",
+          "contextEvidenceSha256": "c19bfff8ca458f0e26384aace65f0295ef9a4d18cc067527d8f101ee8e73cdee",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "d60e1846a4ecc82dc59386840edd5a6b73e0a4934b20ff4aeaab717079f7ebb9",
+          "existingFindingIds": [],
+          "recordSha256": "5a2dd4caf7625a988cfb9344d179931778b8c903e7ddb1728b8edf55e47aa3f2"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G2-r029",
+          "recordId": "ua-other-007-G2-r029",
+          "sourceRecordPointer": "/rowRecords/466",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "4e26d0dae8cf4c83decfa956c1074ceaec35bd07852bd31b73a8b86be1ab6d32",
+          "rowIdentitySha256": "654ac69d9193ecfee154b32e6cce6e3d836a4fe405e6fe4d410059482918b62a",
+          "focusGeometrySha256": "49ac8b62e7f1f2c396a0a32e05f1f2c91698d398ab30561417991019cb42aaba",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "dc4456d6357e2f6bd4a8cb8378ed660aa33e1535aeb2d95769066b49cdbdb74b",
+          "contextGeometrySha256": "e1116607c9c9816316b95a69a32d5c6d9fb155521fc02a299cc0c1aa4de7bc2c",
+          "contextEvidenceSha256": "c19bfff8ca458f0e26384aace65f0295ef9a4d18cc067527d8f101ee8e73cdee",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "d60e1846a4ecc82dc59386840edd5a6b73e0a4934b20ff4aeaab717079f7ebb9",
+          "existingFindingIds": [],
+          "recordSha256": "4e26d0dae8cf4c83decfa956c1074ceaec35bd07852bd31b73a8b86be1ab6d32"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G2-r030",
+          "recordId": "ua-other-007-G2-r030",
+          "sourceRecordPointer": "/rowRecords/467",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "0a4a2f8fe2944b990af88478eeb693f056ca123032e2d63cef71a062a1e75d9b",
+          "rowIdentitySha256": "caebcfcdd9ba3221924d4a33df88b901f10d75a542791b7571f42a6bbbaae9f8",
+          "focusGeometrySha256": "c6ba052536994205e69b594d9cabddd269d4a95991c6c98cb6b3f8327ac93577",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "144287b8a04c0f94186edb228a092184cb2d8b325dadda7580501a61346b1d0a",
+          "contextGeometrySha256": "e1116607c9c9816316b95a69a32d5c6d9fb155521fc02a299cc0c1aa4de7bc2c",
+          "contextEvidenceSha256": "c19bfff8ca458f0e26384aace65f0295ef9a4d18cc067527d8f101ee8e73cdee",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "d60e1846a4ecc82dc59386840edd5a6b73e0a4934b20ff4aeaab717079f7ebb9",
+          "existingFindingIds": [],
+          "recordSha256": "0a4a2f8fe2944b990af88478eeb693f056ca123032e2d63cef71a062a1e75d9b"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G2-r031",
+          "recordId": "ua-other-007-G2-r031",
+          "sourceRecordPointer": "/rowRecords/468",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "55eb81372d21bbd718af0ce7e217e58080ba694b50f8bcfd14bf9e551ed9404f",
+          "rowIdentitySha256": "0efab4e63f80ec04e01e946c0ca36d829f840a3e09c552705ee0ad74d49f11be",
+          "focusGeometrySha256": "9d9bde8215a758e0707d37da3b88d1b55832135d9ddef737fac00f59b8a3bfc4",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "8f97f55c4f24d79e9d2ba115813f996779904e51100269e68df70d4695b75b0c",
+          "contextGeometrySha256": "e1116607c9c9816316b95a69a32d5c6d9fb155521fc02a299cc0c1aa4de7bc2c",
+          "contextEvidenceSha256": "c19bfff8ca458f0e26384aace65f0295ef9a4d18cc067527d8f101ee8e73cdee",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "d60e1846a4ecc82dc59386840edd5a6b73e0a4934b20ff4aeaab717079f7ebb9",
+          "existingFindingIds": [],
+          "recordSha256": "55eb81372d21bbd718af0ce7e217e58080ba694b50f8bcfd14bf9e551ed9404f"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G2-r032",
+          "recordId": "ua-other-007-G2-r032",
+          "sourceRecordPointer": "/rowRecords/469",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "530dad8ff8b2e2c3146806c012c0f0d512b345254bef94343e51bce97d3967a7",
+          "rowIdentitySha256": "8dfa6894a8f4748af426ae7b02dd8ac93c63204664a2f569d5bcd3390943882c",
+          "focusGeometrySha256": "a3c239a0444af43501a0b1449d1e6b6864348766999eed6abfca95f64c55523f",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "99a3e8a1d78023252d797b473566f84394ea80eb7fc68700ce1720e817e10a50",
+          "contextGeometrySha256": "e1116607c9c9816316b95a69a32d5c6d9fb155521fc02a299cc0c1aa4de7bc2c",
+          "contextEvidenceSha256": "c19bfff8ca458f0e26384aace65f0295ef9a4d18cc067527d8f101ee8e73cdee",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "d60e1846a4ecc82dc59386840edd5a6b73e0a4934b20ff4aeaab717079f7ebb9",
+          "existingFindingIds": [],
+          "recordSha256": "530dad8ff8b2e2c3146806c012c0f0d512b345254bef94343e51bce97d3967a7"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-007-G2-r033",
+          "recordId": "ua-other-007-G2-r033",
+          "sourceRecordPointer": "/rowRecords/470",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "102db43089a9fb483d91e42fcaf70fa9cc47118f0b22421540a4e4888e6c48b9",
+          "rowIdentitySha256": "b01cafddd1a4614e07df53edeb313de75b340adf580bdb05029ab815285eeb12",
+          "focusGeometrySha256": "20db831d3b2aef6f0147910bf82d437c52ffdc7a7a48303ed611e3b4c626a1cd",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "ca770ea6ff36439b6375cb58e223f992df9c478f0515a04f20a1f5ad0a3d64e8",
+          "contextGeometrySha256": "e1116607c9c9816316b95a69a32d5c6d9fb155521fc02a299cc0c1aa4de7bc2c",
+          "contextEvidenceSha256": "c19bfff8ca458f0e26384aace65f0295ef9a4d18cc067527d8f101ee8e73cdee",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "d60e1846a4ecc82dc59386840edd5a6b73e0a4934b20ff4aeaab717079f7ebb9",
+          "existingFindingIds": [],
+          "recordSha256": "102db43089a9fb483d91e42fcaf70fa9cc47118f0b22421540a4e4888e6c48b9"
+        }
+      ],
+      "sourcePixelWitness": {
+        "receipt": {
+          "path": "research/source-audit-batch5-ua-v3i-v3j-independent-review.json",
+          "sha256": "a93f32a8db549b23be06bd86c7af359c835edd3c01bd05c8824f3e6fe81a7f87"
+        },
+        "nativeBoundaryCensus": {
+          "path": "research/source-audit-batch5-ua-43-native-boundary-before.json",
+          "sha256": "f88d519a2c219d4a24c5cfa50d83f7b9d50b31a7fb021f1f3c92d151ff80671f"
+        },
+        "nativeFullPageRenderSha256": "8402900dd531720b7d1b8f1263317863dc57650874c12566b24e6c813804fca7",
+        "nativeFullPageRenderDimensionsPx": [
+          2496,
+          3250
+        ],
+        "nativeRenderDpi": 300,
+        "v3iBoundsPdfPagePointsLTRB": [
+          25,
+          295,
+          305,
+          532
+        ],
+        "v3iBoundsPixelsLTRB": [
+          104,
+          1229,
+          1271,
+          2217
+        ],
+        "v3iCropSha256": "8636d859eaf4ffb101a8ce025cd68818549f14cc5d889ad7c49890f2ff26311a",
+        "v3jBoundsPdfPagePointsLTRB": [
+          25,
+          295,
+          305,
+          532
+        ],
+        "v3jBoundsPixelsLTRB": [
+          104,
+          1229,
+          1271,
+          2217
+        ],
+        "v3jCropSha256": "8636d859eaf4ffb101a8ce025cd68818549f14cc5d889ad7c49890f2ff26311a",
+        "reviewFinding": {
+          "kind": "crop-through-heading-glyph",
+          "edge": "left",
+          "finding": "The V3i crop starts at x=25pt (source raster crop start x=104). The leftmost antialiased strokes of the \u201cIII\u201d in \u201cIII.G.2. SWORDS\u201d occupy x=100\u2013103 outside the crop.",
+          "sourceBoundaryWitness": {
+            "sourceRenderSha256": "8402900dd531720b7d1b8f1263317863dc57650874c12566b24e6c813804fca7",
+            "pdfPage": 90,
+            "cropLeftPdfPagePt": 25,
+            "cropLeftRasterPixel": 104,
+            "excludedInkPixelBounds": [
+              100,
+              1287,
+              104,
+              1330
+            ],
+            "outsidePixelCountsByMaxGray": {
+              "lt254": 72,
+              "lt250": 46,
+              "lt240": 18,
+              "lt220": 4,
+              "lt180": 0
+            }
+          }
+        }
+      },
+      "priorV3jState": "V3j retains the same left bound; this original-input defect remains open. The separately reviewed bottom edge is not included as a defect.",
+      "overlapDisposition": {
+        "uniqueSourceRowsInThisFinding": 13,
+        "existingFindingIdsForOverlappingRows": [],
+        "rowOverlapDoesNotMergeFailureDimensions": "Existing row-focus, marker, and row-linked-note findings remain separate. Row UIDs are deduplicated within this context finding; values and grades are not implicated.",
+        "knownFindingDenominatorSnapshot": 190
+      }
+    },
+    {
+      "id": "ua-context-boundary-ua-other-008-H1-main-left-heading-cut",
+      "kind": "source-context-crop-defect",
+      "independent": true,
+      "status": "independently confirmed before source repair",
+      "reviewScope": "Original-source crop boundary/context only; no row identity, source value, price, XP, row focus, marker applicability, semantic, or default-selection approval.",
+      "sourceInput": {
+        "path": "research/source-audit-batch5-ua-additional-prices.json",
+        "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+      },
+      "sourceFrame": {
+        "book": "UA",
+        "printedPage": 89,
+        "pdfPage": 90,
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "originalPageRenderSha256": "aa4c458c69853f907bbb515a9f2389636b3c86960d7bdbd6dfaa3641d7911428",
+        "originalPageRenderDimensionsPx": [
+          1498,
+          1950
+        ]
+      },
+      "originalLegacyContextTargetId": "legacy:ua-other-008:H1-main",
+      "sourceGroupId": "ua-other-008",
+      "segmentId": "H1-main",
+      "targetId": "ua-other-008:H1-main:v2-primary-context",
+      "requiredContextLabel": "III.H. MISCELLANEOUS WEAPONS",
+      "originalContextBoundsPdfPagePointsLTRB": [
+        25,
+        530,
+        305,
+        780
+      ],
+      "originalContextBoundsRenderedPagePixelsLTRB": [
+        62.52,
+        1325,
+        762.7,
+        1950
+      ],
+      "affectedSourceRowUids": [
+        "ua-supplement-row:ua-other-008-H1-main-r001",
+        "ua-supplement-row:ua-other-008-H1-main-r002",
+        "ua-supplement-row:ua-other-008-H1-main-r003",
+        "ua-supplement-row:ua-other-008-H1-main-r004",
+        "ua-supplement-row:ua-other-008-H1-main-r005",
+        "ua-supplement-row:ua-other-008-H1-main-r006",
+        "ua-supplement-row:ua-other-008-H1-main-r007",
+        "ua-supplement-row:ua-other-008-H1-main-r008",
+        "ua-supplement-row:ua-other-008-H1-main-r009",
+        "ua-supplement-row:ua-other-008-H1-main-r010",
+        "ua-supplement-row:ua-other-008-H1-main-r011",
+        "ua-supplement-row:ua-other-008-H1-main-r012",
+        "ua-supplement-row:ua-other-008-H1-main-r013",
+        "ua-supplement-row:ua-other-008-H1-main-r014",
+        "ua-supplement-row:ua-other-008-H1-main-r015",
+        "ua-supplement-row:ua-other-008-H1-main-r016",
+        "ua-supplement-row:ua-other-008-H1-main-r017"
+      ],
+      "records": [
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r001",
+          "recordId": "ua-other-008-H1-main-r001",
+          "sourceRecordPointer": "/rowRecords/471",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "24586cd7439df8dfa54a698dad919ac6eb6e4b8f647737e250d0023ed732dc3b",
+          "rowIdentitySha256": "c8f3b703a311583077534261df91bc21d69f5f353f4143e40fd092089c11ab69",
+          "focusGeometrySha256": "552bab001acaf2864d2fac7b8074def2f6e12f4578bd83e2885695e862a4340c",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "b2056890a30975a847b71b372e349bd8221718ca5c89d08234193631726c324a",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "24586cd7439df8dfa54a698dad919ac6eb6e4b8f647737e250d0023ed732dc3b"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r002",
+          "recordId": "ua-other-008-H1-main-r002",
+          "sourceRecordPointer": "/rowRecords/472",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "99d7a41c79d530ade31f474eb6091085b5f2768a530311e049a80c812102a2b0",
+          "rowIdentitySha256": "d7d79e96b2770c0759025e614de0cee01819e1156af7e0bdc1883f612d8867a7",
+          "focusGeometrySha256": "8aafac34702831b74fcedbe2c13d7b7105d6db9fbb0cfcd81cc67d8d1dbccb4c",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "f5fe828076f53bdbd2065fd31341a67ce48c098b59b43ca88900b998d46f9fdf",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "99d7a41c79d530ade31f474eb6091085b5f2768a530311e049a80c812102a2b0"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r003",
+          "recordId": "ua-other-008-H1-main-r003",
+          "sourceRecordPointer": "/rowRecords/473",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "667bc716bb3cc02a3b65101cc10cb1d7c8fb421ccd84b7743f03954f4ea9f91b",
+          "rowIdentitySha256": "ac0f00f0a23126cd8bb55ec97d038dbafa0a3f7a0783a1cade4ae0b1e1186159",
+          "focusGeometrySha256": "5f44cffa2740057ce7327df72a5465d47f92bfdbf2aecb0bf7cdf55d5bb63313",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "339618ab868b8ef380b3954d1618049ceb6fb5b099a91fcbd80c3f8826aefb23",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "667bc716bb3cc02a3b65101cc10cb1d7c8fb421ccd84b7743f03954f4ea9f91b"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r004",
+          "recordId": "ua-other-008-H1-main-r004",
+          "sourceRecordPointer": "/rowRecords/474",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "121934b58ed6c4a49698e8b627c663ed7cb0d941763c1d399ab25502768817fd",
+          "rowIdentitySha256": "2bbd86fe73c2f12c0365544edbfad595b488beebc716943da73abcd38a3462ce",
+          "focusGeometrySha256": "f6a3b72260408fecbfa7d4c3ab1282be4df5a01e28aa5100de64dd9de34af31d",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "8f019fb49932a3be939267bf4f8ab3c61b46c3f4618abb471f47a503677e4973",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "121934b58ed6c4a49698e8b627c663ed7cb0d941763c1d399ab25502768817fd"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r005",
+          "recordId": "ua-other-008-H1-main-r005",
+          "sourceRecordPointer": "/rowRecords/475",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "9dfca2e4ed980658cf27f8f5f15ffa0ed78b8b2a6fd166b9d5dcef93355e6642",
+          "rowIdentitySha256": "b5f91cee0633019f731eee6c779d038448da708f8834fd3920ce137f47d6c388",
+          "focusGeometrySha256": "b3857e4d61b1558dea548169796bd28be8285ed5ac7087636902b47248c6bf35",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "f09db175ab2451a4a5e891e9d3a0d3a814576a0a44bc9e31bcd181edf78ce627",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "9dfca2e4ed980658cf27f8f5f15ffa0ed78b8b2a6fd166b9d5dcef93355e6642"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r006",
+          "recordId": "ua-other-008-H1-main-r006",
+          "sourceRecordPointer": "/rowRecords/476",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "c54cc1ebca30fe511fe80df771e2afde85d24ed2aa13aed6fe1f4eb36ec9470b",
+          "rowIdentitySha256": "57da47a792da55eb9adf5a29139571a1c8fe14c29ce780a97a99115fdf6f822a",
+          "focusGeometrySha256": "0873664d19e53bcd5c4ed4604972717404932d43e411e594d9ada52f3dd8a6ec",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "4cffbeb5c25c98e08dc2a2f67fb0736c04381f3f1998a5740b863720300a6953",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "c54cc1ebca30fe511fe80df771e2afde85d24ed2aa13aed6fe1f4eb36ec9470b"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r007",
+          "recordId": "ua-other-008-H1-main-r007",
+          "sourceRecordPointer": "/rowRecords/477",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "a7f35ec4179eebc7427e0410a986331c2f83c400f7a47548fdeaedfddb065f02",
+          "rowIdentitySha256": "857f0caec3d6948ec2165d229adabcc9f82b92bc2e0d8bba6a81ced595c0c2a7",
+          "focusGeometrySha256": "f106fc91e9be5b2dd30a4c81d7981e198ed08d20a294c62f01226be80016ea1d",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "b64fee9c5d59aada36f02161be981f4c5089896aa71a6a05fb97fcb3c9583c4a",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "a7f35ec4179eebc7427e0410a986331c2f83c400f7a47548fdeaedfddb065f02"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r008",
+          "recordId": "ua-other-008-H1-main-r008",
+          "sourceRecordPointer": "/rowRecords/478",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "f9f91c6b880a0f43e5f6a41fafbe6cc7e99750fcc962b75fbb54018b641f9ffe",
+          "rowIdentitySha256": "71879dd5f23a49c377dae097c652d61a7c5047e68ae3d445e063cb7a145e44a6",
+          "focusGeometrySha256": "52d63130bcb871112d3d20f4290fef72d3a25ae3ce52f2162064edd7142fb5f0",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "aac923028a053caf685588d67ddf57b264a73b20a4226d5cecc016e946424139",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "f9f91c6b880a0f43e5f6a41fafbe6cc7e99750fcc962b75fbb54018b641f9ffe"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r009",
+          "recordId": "ua-other-008-H1-main-r009",
+          "sourceRecordPointer": "/rowRecords/479",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "d7827bf40d0b87703ff1dcb89022930f3e214b25d4cef70009731a93d684e319",
+          "rowIdentitySha256": "6d76604f6a28a59b66a909ba91ebd374968145c791343c5b298d45cc78a3c7ac",
+          "focusGeometrySha256": "afd1d54c32f38044fba4169770816a5603fd503274b7021c9226992846d0ee16",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "52edceae5326fcd57fe237601d740673ee9763e9026c722e45d4134946b1447b",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "d7827bf40d0b87703ff1dcb89022930f3e214b25d4cef70009731a93d684e319"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r010",
+          "recordId": "ua-other-008-H1-main-r010",
+          "sourceRecordPointer": "/rowRecords/480",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "ad9b21daecf454df48e13c6af233ed0ff69f3c3a39cc1e31e5726a581b69d98f",
+          "rowIdentitySha256": "d55915749b48a5acac728f318e1c8d7ecde8c7c606d1bacc76b2c5b9ff2b8bb9",
+          "focusGeometrySha256": "297d62027de596a95238ef642a4e55eb8cc8e7369db6f2ac3f76d543338ae805",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "fcf317b13b204a92238e6bbb2b777ab326b9a20d793ae1ecd0bbb94dc2315e09",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "ad9b21daecf454df48e13c6af233ed0ff69f3c3a39cc1e31e5726a581b69d98f"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r011",
+          "recordId": "ua-other-008-H1-main-r011",
+          "sourceRecordPointer": "/rowRecords/481",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "87fccc3e1a22d1d2aab823c601203ca24411c11836eff54f606d82d152f7a771",
+          "rowIdentitySha256": "7e44ce5abd5d4c3922775ca594fdcba55288799f95dddb1df185ac46fb1b6604",
+          "focusGeometrySha256": "fdff0a7dec365f53539a7b4cbbc2393d7d75440882f3de2a6f54b8c995ef56b7",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "5e33b41eac926597c024203fc39d0e20cd4a61cc87280ade8c7c0e04bea7749a",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "87fccc3e1a22d1d2aab823c601203ca24411c11836eff54f606d82d152f7a771"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r012",
+          "recordId": "ua-other-008-H1-main-r012",
+          "sourceRecordPointer": "/rowRecords/482",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "000d666ac2490c43e255503de018a5167e303e41a83edfc07912383bfe7d23f3",
+          "rowIdentitySha256": "9ee82b1489835d2fd1d95a72505b5d2b931004136a49860cd5d0ecde83234b5b",
+          "focusGeometrySha256": "66c86e7cfba38b7df80fad8767eed9ca5c8cb1e10722adcadf73b5edae018483",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "f8075bb2f5668bbf8ff852ba0d8d9bd56526ee9fc6aafa7df823680ceb469815",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "000d666ac2490c43e255503de018a5167e303e41a83edfc07912383bfe7d23f3"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r013",
+          "recordId": "ua-other-008-H1-main-r013",
+          "sourceRecordPointer": "/rowRecords/483",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "a199ffc43796ca4baec138b15a34656d8dcebc7ac6e01e0938c39b6ba3c03b08",
+          "rowIdentitySha256": "1865d31a312cf0c9187f6001b6ab2a7b53d49375590e078538b5435b3155ba67",
+          "focusGeometrySha256": "0cf858620005a8f526ea98c54deaaf354178a51cf968f3470bea725046c6e009",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "811b11bbee6df3f3173a06ffc550cee719457e538f7dffd25aec94c10a47024a",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "a199ffc43796ca4baec138b15a34656d8dcebc7ac6e01e0938c39b6ba3c03b08"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r014",
+          "recordId": "ua-other-008-H1-main-r014",
+          "sourceRecordPointer": "/rowRecords/484",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "7a17e5ee65c8021de592792dd8b8b74a2e97ba99a5f57f38f16a690853aa7994",
+          "rowIdentitySha256": "fdda3ca68d7cf3967a5347e3cb1f2540213513fc111105264350aa813f7571e2",
+          "focusGeometrySha256": "8710bda1d224495c13f27d3e7f2635582276a691ee7bcd99034cc11f5b119781",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "00bc77db83c6cc8c2faff82e3f8a19774766588a289c4d03bc9bf3b862c5b37e",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "7a17e5ee65c8021de592792dd8b8b74a2e97ba99a5f57f38f16a690853aa7994"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r015",
+          "recordId": "ua-other-008-H1-main-r015",
+          "sourceRecordPointer": "/rowRecords/485",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "953887f3f834f956ba45ca258f28dda1655cccff75058d60dfbb36df3efdb2d4",
+          "rowIdentitySha256": "df8eb14cf4fc6b10bd99cb6ccf4601a570a3e6f24ca4f3811abc0c0626b1c426",
+          "focusGeometrySha256": "9b2f9209b8cbde2fd209a404fe1ad33851e0b376cd2d9ee48a3315098b63bbc3",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "eaee1fb32470a39b550e3c8b020b0f1fa9631c57de0cd7bbf134a69a6ac78acf",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "953887f3f834f956ba45ca258f28dda1655cccff75058d60dfbb36df3efdb2d4"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r016",
+          "recordId": "ua-other-008-H1-main-r016",
+          "sourceRecordPointer": "/rowRecords/486",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "3f6f1dccaa7743bf828a63513e8d47afe017b9e0947a8a0c57e949c86e9f8882",
+          "rowIdentitySha256": "c9fb08cdb6c45218ef562efe387f5b5d4d138ab3e31ae9fc23b0beedc8971acc",
+          "focusGeometrySha256": "d277cc21d7bc3885c45eef0e65092dfc9e06e277769796d7234afc9de3ffe567",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "36ec651674f8d22e8111c56b2856fc42754e50cf33de27a24a9a7f31b734c997",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "3f6f1dccaa7743bf828a63513e8d47afe017b9e0947a8a0c57e949c86e9f8882"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-main-r017",
+          "recordId": "ua-other-008-H1-main-r017",
+          "sourceRecordPointer": "/rowRecords/487",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "340becd088614de1502c81db91c0d9f1f6adb70099f427dfd6ca1889798103da",
+          "rowIdentitySha256": "e07c5357461d2ddc4cd393bb26e35b389e8c95d3984f75255f7cc85b38b8ee5f",
+          "focusGeometrySha256": "98d564bb8eff0680bcef37ac59857c3184470944b3616ab10aad0f654311bdf0",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "0dd2190f32f10e74046b092ea1323712dabdd517b879328ae5d3d43f7e29bbc4",
+          "contextGeometrySha256": "0704a0af2432828898767f169b22faf0e4ed3c607eae99ac79c3108a509c34d9",
+          "contextEvidenceSha256": "0e2e7b6e2f4c5a3811d56554a9b1af420c8ee4353438db67e2e66784ea6e8b43",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "2ea8bd38b0b772620af6d1aa4c1f85087fff9d63f722e77fb098e922485ffc04",
+          "existingFindingIds": [],
+          "recordSha256": "340becd088614de1502c81db91c0d9f1f6adb70099f427dfd6ca1889798103da"
+        }
+      ],
+      "sourcePixelWitness": {
+        "receipt": {
+          "path": "research/source-audit-batch5-ua-v3i-v3j-independent-review.json",
+          "sha256": "a93f32a8db549b23be06bd86c7af359c835edd3c01bd05c8824f3e6fe81a7f87"
+        },
+        "nativeBoundaryCensus": {
+          "path": "research/source-audit-batch5-ua-43-native-boundary-before.json",
+          "sha256": "f88d519a2c219d4a24c5cfa50d83f7b9d50b31a7fb021f1f3c92d151ff80671f"
+        },
+        "nativeFullPageRenderSha256": "8402900dd531720b7d1b8f1263317863dc57650874c12566b24e6c813804fca7",
+        "nativeFullPageRenderDimensionsPx": [
+          2496,
+          3250
+        ],
+        "nativeRenderDpi": 300,
+        "v3iBoundsPdfPagePointsLTRB": [
+          25,
+          530,
+          305,
+          779.9996337890625
+        ],
+        "v3iBoundsPixelsLTRB": [
+          104,
+          2208,
+          1271,
+          3250
+        ],
+        "v3iCropSha256": "414f16855a710f611a80f37fd4b216ca2ef3b923cf2ff9cba22b34f34763a170",
+        "v3jBoundsPdfPagePointsLTRB": [
+          25,
+          530,
+          305,
+          779.9996337890625
+        ],
+        "v3jBoundsPixelsLTRB": [
+          104,
+          2208,
+          1271,
+          3250
+        ],
+        "v3jCropSha256": "414f16855a710f611a80f37fd4b216ca2ef3b923cf2ff9cba22b34f34763a170",
+        "reviewFinding": {
+          "kind": "crop-through-heading-glyph",
+          "edge": "left",
+          "finding": "The V3i crop starts at x=25pt (source raster crop start x=104). The leading \u201cIII\u201d in \u201cIII.H. MISCELLANEOUS WEAPONS\u201d extends into x=100\u2013103 beyond the crop boundary.",
+          "sourceBoundaryWitness": {
+            "sourceRenderSha256": "8402900dd531720b7d1b8f1263317863dc57650874c12566b24e6c813804fca7",
+            "pdfPage": 90,
+            "cropLeftPdfPagePt": 25,
+            "cropLeftRasterPixel": 104,
+            "excludedInkPixelBounds": [
+              100,
+              2235,
+              104,
+              2283
+            ],
+            "outsidePixelCountsByMaxGray": {
+              "lt254": 94,
+              "lt250": 58,
+              "lt240": 8,
+              "lt220": 0,
+              "lt180": 0
+            }
+          }
+        }
+      },
+      "priorV3jState": "V3j retains the same left bound; this original-input defect remains open.",
+      "overlapDisposition": {
+        "uniqueSourceRowsInThisFinding": 17,
+        "existingFindingIdsForOverlappingRows": [],
+        "rowOverlapDoesNotMergeFailureDimensions": "Existing row-focus, marker, and row-linked-note findings remain separate. Row UIDs are deduplicated within this context finding; values and grades are not implicated.",
+        "knownFindingDenominatorSnapshot": 190
+      }
+    },
+    {
+      "id": "ua-context-boundary-ua-other-008-H1-cont-next-table-incomplete-at-bottom",
+      "kind": "source-context-crop-defect",
+      "independent": true,
+      "status": "independently confirmed before source repair",
+      "reviewScope": "Original-source crop boundary/context only; no row identity, source value, price, XP, row focus, marker applicability, semantic, or default-selection approval.",
+      "sourceInput": {
+        "path": "research/source-audit-batch5-ua-additional-prices.json",
+        "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+      },
+      "sourceFrame": {
+        "book": "UA",
+        "printedPage": 89,
+        "pdfPage": 90,
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "originalPageRenderSha256": "aa4c458c69853f907bbb515a9f2389636b3c86960d7bdbd6dfaa3641d7911428",
+        "originalPageRenderDimensionsPx": [
+          1498,
+          1950
+        ]
+      },
+      "originalLegacyContextTargetId": "legacy:ua-other-008:H1-cont",
+      "sourceGroupId": "ua-other-008",
+      "segmentId": "H1-cont",
+      "targetId": "ua-other-008:H1-cont:v2-primary-context",
+      "requiredContextLabel": "III.H.1 continuation followed by III.H.2",
+      "originalContextBoundsPdfPagePointsLTRB": [
+        305,
+        25,
+        590,
+        270
+      ],
+      "originalContextBoundsRenderedPagePixelsLTRB": [
+        762.7,
+        62.5,
+        1475.4,
+        675
+      ],
+      "affectedSourceRowUids": [
+        "ua-supplement-row:ua-other-008-H1-cont-r018",
+        "ua-supplement-row:ua-other-008-H1-cont-r019",
+        "ua-supplement-row:ua-other-008-H1-cont-r020",
+        "ua-supplement-row:ua-other-008-H1-cont-r021",
+        "ua-supplement-row:ua-other-008-H1-cont-r022",
+        "ua-supplement-row:ua-other-008-H1-cont-r023",
+        "ua-supplement-row:ua-other-008-H1-cont-r024",
+        "ua-supplement-row:ua-other-008-H1-cont-r025",
+        "ua-supplement-row:ua-other-008-H1-cont-r026",
+        "ua-supplement-row:ua-other-008-H1-cont-r027",
+        "ua-supplement-row:ua-other-008-H1-cont-r028",
+        "ua-supplement-row:ua-other-008-H1-cont-r029",
+        "ua-supplement-row:ua-other-008-H1-cont-r030",
+        "ua-supplement-row:ua-other-008-H1-cont-r031",
+        "ua-supplement-row:ua-other-008-H1-cont-r032",
+        "ua-supplement-row:ua-other-008-H1-cont-r033",
+        "ua-supplement-row:ua-other-008-H1-cont-r034",
+        "ua-supplement-row:ua-other-008-H1-cont-r035",
+        "ua-supplement-row:ua-other-008-H1-cont-r036"
+      ],
+      "records": [
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r018",
+          "recordId": "ua-other-008-H1-cont-r018",
+          "sourceRecordPointer": "/rowRecords/488",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "0c91001a6e52445f65336a549d460e24f87c879db32b2191d31653b69330fcc6",
+          "rowIdentitySha256": "d2f1d5f486136a3dc4dbb6dceb0ec2523f18d73f1164560fd8c743c4e8bf1201",
+          "focusGeometrySha256": "61d9b3e4d07cd76e2c9d795b7a464fb1e5826c75b37bfd46cc2af026dc8e6aa0",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "4ddfaa995a5c368d41fbf9961a5753732172a783f1c9b5e2a98ad99184b85e20",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "0c91001a6e52445f65336a549d460e24f87c879db32b2191d31653b69330fcc6"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r019",
+          "recordId": "ua-other-008-H1-cont-r019",
+          "sourceRecordPointer": "/rowRecords/489",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "6027b7909a0bbf3efc5c5d4ad0ab266ba1f3c9932fe6af5821df1bfed9c7af12",
+          "rowIdentitySha256": "632690dd035a8aa6105365a5e4b8f76186b000fb72f370a52c15bf7c5d7bca43",
+          "focusGeometrySha256": "bcc3489cbe91686c15c8f2c5d536c34f1379530ce6a2fee5c2d42cccf668eaaf",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "2ed336e1066e06c1398a3b8ba4d941c9d415ee9f632a9ab11a99a550982295b0",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "6027b7909a0bbf3efc5c5d4ad0ab266ba1f3c9932fe6af5821df1bfed9c7af12"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r020",
+          "recordId": "ua-other-008-H1-cont-r020",
+          "sourceRecordPointer": "/rowRecords/490",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "be0409fb2229d1ed780323a4f821e9b4028f6cd7929960013cce713247418785",
+          "rowIdentitySha256": "a8cc37c9405b6b6ddec9944224601196e9a0b2577729b132dfadf5e0a7e54266",
+          "focusGeometrySha256": "abb648a3f55fb53d35158ae66dc7a95258804d87fca816f501f9b24dd571ae83",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "00b7916c7c303ac31cf38458003fe5cb30162ad2d12ace0f3ac020aba04e41dc",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "be0409fb2229d1ed780323a4f821e9b4028f6cd7929960013cce713247418785"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r021",
+          "recordId": "ua-other-008-H1-cont-r021",
+          "sourceRecordPointer": "/rowRecords/491",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "c7ce6e6bae631212e9f3f5f454e6d216e1653f54074e0a3390e6a5176b391807",
+          "rowIdentitySha256": "910c79333027bf64d78238e92a46d760864927a819733436992fb072fdc24044",
+          "focusGeometrySha256": "59d1cb6d275dc52829cbcdcdce9ff97eb94b6e2a978ced32935110e741c262f8",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "dabaa8eb01cdc271fcb6d2bfbe63cc76ec46303936e797eb26aa2fc1912ec0d6",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "c7ce6e6bae631212e9f3f5f454e6d216e1653f54074e0a3390e6a5176b391807"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r022",
+          "recordId": "ua-other-008-H1-cont-r022",
+          "sourceRecordPointer": "/rowRecords/492",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "a84fb60a54013a10818ce8b3f8baa9b36edf8932ce9e52d0d2cb1d144b2086c7",
+          "rowIdentitySha256": "f7ad831025601ed41dfd6db8a2c084f77eb4b4c6374028fdee8346f3cc0048a2",
+          "focusGeometrySha256": "25b3f5973793c481d5c3a200aea60ac51a0c9a1df049fa16c36911f1c00bc65b",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "339a9bec17d42b6dac1d47e64daebc04505f71df5410f59c712f61d3407b15c0",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "a84fb60a54013a10818ce8b3f8baa9b36edf8932ce9e52d0d2cb1d144b2086c7"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r023",
+          "recordId": "ua-other-008-H1-cont-r023",
+          "sourceRecordPointer": "/rowRecords/493",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "0d7af77c4d2cc53d18f6ad7883fe28dd2a8484fdd43b5f7e7fde368cd27e04a4",
+          "rowIdentitySha256": "bbfd15ed5212f26271f4f338270929462881963db9e88926a4de118e9ad86009",
+          "focusGeometrySha256": "6dcc3c779d2c13cef48dd7381eb5bae8985e977ea140b5efb81d426a015a14c2",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "93761345e789ef9bcae8bce6289578ed2308161a254295edbd1810855cc14d8e",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "0d7af77c4d2cc53d18f6ad7883fe28dd2a8484fdd43b5f7e7fde368cd27e04a4"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r024",
+          "recordId": "ua-other-008-H1-cont-r024",
+          "sourceRecordPointer": "/rowRecords/494",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "e7707e2d6048b98d353f1ee62072be5b261b9902ccee356f0d794c884c54086c",
+          "rowIdentitySha256": "c2282679084cb449a92a44ce4aa4dbdfbb52d0b35a1a79baa998ace80de3d592",
+          "focusGeometrySha256": "1bb2938e29063229c3ba8dc941398e0f3d263d29c28396834345a486acb733f7",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "e4a99695e8ca676a4b22b8b42bab9957f3fa5a5ba0d0dd1d997dfbaee3442f4a",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "e7707e2d6048b98d353f1ee62072be5b261b9902ccee356f0d794c884c54086c"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r025",
+          "recordId": "ua-other-008-H1-cont-r025",
+          "sourceRecordPointer": "/rowRecords/495",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "c3fcee0b3e2e7cb4dbccd61aa3ea7c38b202765c69076921789a88995cc2f6cb",
+          "rowIdentitySha256": "34a0d4740cd79f1455acdf48b01ff2a64887b61852acd62a08932995174a49d6",
+          "focusGeometrySha256": "50d3afc39b6ea4581a33efcb93b530c08540cc558e1f27486d8dc5901d99372b",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "d092e02aa32a2b2676f2ffad3ce5a0b4908fabf11a35bd3c3aef6f9a12938db0",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "c3fcee0b3e2e7cb4dbccd61aa3ea7c38b202765c69076921789a88995cc2f6cb"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r026",
+          "recordId": "ua-other-008-H1-cont-r026",
+          "sourceRecordPointer": "/rowRecords/496",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "c78d2912304b66d34d908d8c37ecd8d2f471f48dfdaacf3ca48944635a70906f",
+          "rowIdentitySha256": "02d0874401859e1eaabb8247861a913b24322004692d0b2dcbe1db9d1b951d86",
+          "focusGeometrySha256": "acdec6560c8abb63636e3edb6c539e5dfd4e6e345d82546cc387fe3511fc6f95",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "fd843019f83b0f381c6f26b74b3707343b8363a4ac75e0a3f9aed841881fa449",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "c78d2912304b66d34d908d8c37ecd8d2f471f48dfdaacf3ca48944635a70906f"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r027",
+          "recordId": "ua-other-008-H1-cont-r027",
+          "sourceRecordPointer": "/rowRecords/497",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "9eae64409a58b836acbe380d57e00f5c4ca045a2a3deba45067bdbd10d47b1cb",
+          "rowIdentitySha256": "7752c4f84d1c9346649902cb69a2b2a6357f13d46a0418dcb9352b033f9972c2",
+          "focusGeometrySha256": "8436eff7a9969ec3821ea9a9539ed6fc65c12f31c9ca1a212b06dbb1c4d49246",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "8f38a90319ed1d4ab88d6e40fff8584a38b333d96848b887d46267d54400cc46",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "9eae64409a58b836acbe380d57e00f5c4ca045a2a3deba45067bdbd10d47b1cb"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r028",
+          "recordId": "ua-other-008-H1-cont-r028",
+          "sourceRecordPointer": "/rowRecords/498",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "9b9453142e1c00bf134adceb95ad6d7cc9e8eedf2d0531f253839d94a1d3ef24",
+          "rowIdentitySha256": "7dedc8560c63c5e9bc04b265d093b53fc6cddc4e936c2ccaca64c0abfd02c20c",
+          "focusGeometrySha256": "779a4c3f5b1be0359a9224dd139f1d63d1bb33cd09e9cf3d8fd1a791a2831bde",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "ec4d810194c7533f8f6853644ab3f8e60481556c0aca701cc872d4fb4e097c3c",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "9b9453142e1c00bf134adceb95ad6d7cc9e8eedf2d0531f253839d94a1d3ef24"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r029",
+          "recordId": "ua-other-008-H1-cont-r029",
+          "sourceRecordPointer": "/rowRecords/499",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "08228442767907bb40fd8d8562012005d90179632fc521c3d2b69df3c2a4cd7b",
+          "rowIdentitySha256": "c665e1350c157cc4e5310f8fc9cd2bfdd469166d82ae4068c2ba504ddc467f1e",
+          "focusGeometrySha256": "d2852df3b003deee5be8f4d36f061e0ccca79a3e430d86e8bb76253743316179",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "e610e0ffcc2fac278044275359b7fb8aa6dd3c0b0b78fc8ef06bb0f66ee15c84",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "08228442767907bb40fd8d8562012005d90179632fc521c3d2b69df3c2a4cd7b"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r030",
+          "recordId": "ua-other-008-H1-cont-r030",
+          "sourceRecordPointer": "/rowRecords/500",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "d63dd3b6f624d0c48b48095d974d5dd187fc6fff1ac1e6d6f7f11fad4b32a037",
+          "rowIdentitySha256": "fdb8bc4c24080464d4aa3e9f7a422b03074762b42f946e9d863d7f3e2a61ccec",
+          "focusGeometrySha256": "a5cd339236beb72fb601699740fb8289dbf2d395444f75c88c4bcef81499f432",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "e07446837e3e1b1a45b25985ec3766045fba394ec2057936648dd3bf10120c7c",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [
+            "ua-h1-cont-note-context-unlinked"
+          ],
+          "recordSha256": "d63dd3b6f624d0c48b48095d974d5dd187fc6fff1ac1e6d6f7f11fad4b32a037"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r031",
+          "recordId": "ua-other-008-H1-cont-r031",
+          "sourceRecordPointer": "/rowRecords/501",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "3cfa45bf8992e1c692aef3766a9d4223f77380bf8f94846a29b1d386e1587a79",
+          "rowIdentitySha256": "3223933f174961fc7a89100f72e5105121f640427c66b2749bfa62faac03756d",
+          "focusGeometrySha256": "4c375e36222b1810cc6f1659fbac0c450d91e1c31aefa706e39528acebfb4ae4",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "8493321b5592bf3b5b7e7102e0bb1dcd26d0fbfe6211dd009c67d5256561619d",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "3cfa45bf8992e1c692aef3766a9d4223f77380bf8f94846a29b1d386e1587a79"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r032",
+          "recordId": "ua-other-008-H1-cont-r032",
+          "sourceRecordPointer": "/rowRecords/502",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "c8b806bb3813b0c35500040191b9a23b8fb015a9c2c63d3e9e8d59c3fc5c06cd",
+          "rowIdentitySha256": "15fe50fd46df7879bb910e4ce6cdc955fbf964a97b7a74d72a1472198b4e5ef7",
+          "focusGeometrySha256": "ba1b1023e43f713867586f4864992b31bd8466dea57325eb66d961ee9df48ad5",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "8b64438c972ae3fefd4a15cf81ee2f368d8bcdf115e580a622ee10549aa22938",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "c8b806bb3813b0c35500040191b9a23b8fb015a9c2c63d3e9e8d59c3fc5c06cd"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r033",
+          "recordId": "ua-other-008-H1-cont-r033",
+          "sourceRecordPointer": "/rowRecords/503",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "5e58b901a7bfd802e3b54e650cc457d04dbcc1d5c9549974f186137cd4899727",
+          "rowIdentitySha256": "57035149b3e720435894dfe5801b9b7b6e66a57892c6c03fcfad83035f7ee327",
+          "focusGeometrySha256": "e0e974062f4a0c29e8ed91ffeab86a2920a799b529890b080469bffd9bc4930d",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "c97664815af3d6fefbe8df8f060845138697e05231ea319cf39ed10dd1c5276f",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "5e58b901a7bfd802e3b54e650cc457d04dbcc1d5c9549974f186137cd4899727"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r034",
+          "recordId": "ua-other-008-H1-cont-r034",
+          "sourceRecordPointer": "/rowRecords/504",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "87df067974f2d3be5ea390f84b02088145b82064cfea5adef2fe9c01188e5c9a",
+          "rowIdentitySha256": "19d70aaa003d98b411fac0d628720ca295f929fed39d23e35ad1b535d79a4c2c",
+          "focusGeometrySha256": "5a061333afb1d3739336b4f8f5baba3cec991b78477c045819ccd5070314130f",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "fa586cf29af84ee80cd17fb2db6b23be6c16bcd57c556918457f85f6a1c6fa3d",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [
+            "ua-remaining-focus-ua-other-008-H1-cont-r034"
+          ],
+          "recordSha256": "87df067974f2d3be5ea390f84b02088145b82064cfea5adef2fe9c01188e5c9a"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r035",
+          "recordId": "ua-other-008-H1-cont-r035",
+          "sourceRecordPointer": "/rowRecords/505",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "af2b111c89d8b311ae4c28b5c7fd5fa224cbc060d9c398d4ae664d40241b4159",
+          "rowIdentitySha256": "36c9846f7e540018a4035f40f19cd2ce2c6d826e822f911e9367faf25127dc8f",
+          "focusGeometrySha256": "65a6d3654edff79ba7fe49cf8ccd4e5a6b57d7b9be08d3309b02e1a5c9b3d9af",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "b414bb0d20c72f384f6635c66d4dca0e1eb6e868ac0aa0e91cd0247d59f2f0df",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "af2b111c89d8b311ae4c28b5c7fd5fa224cbc060d9c398d4ae664d40241b4159"
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r036",
+          "recordId": "ua-other-008-H1-cont-r036",
+          "sourceRecordPointer": "/rowRecords/506",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "7543da84f5b1a256d3d6a52b4a756bbf4aded6023dfe1fff18d25554b7549ecc",
+          "rowIdentitySha256": "963d7c866dfcdfc9c62e4e867878b8f1779b865b9c1b7158b60107219499fba9",
+          "focusGeometrySha256": "8d1b0bb0b79784eb943bad0b6a2ecd01d35eae00ecb270c161c5d7c3c49d102b",
+          "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+          "focusPhysicalGeometrySha256": "88058c662b31a4bbcbcfb34e3a0bd2318b2ae74da45e6a2cd2274b03599fc0b3",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "contextPhysicalFingerprintVersion": "source-context-physical-window-v2",
+          "contextPhysicalEvidenceSha256": "e54ad89ae16d40f5f0b328feb21eced59039709568b0832c4a319bcedbc76fe1",
+          "existingFindingIds": [],
+          "recordSha256": "7543da84f5b1a256d3d6a52b4a756bbf4aded6023dfe1fff18d25554b7549ecc"
+        }
+      ],
+      "sourcePixelWitness": {
+        "receipt": {
+          "path": "research/source-audit-batch5-ua-v3i-v3j-independent-review.json",
+          "sha256": "a93f32a8db549b23be06bd86c7af359c835edd3c01bd05c8824f3e6fe81a7f87"
+        },
+        "nativeBoundaryCensus": {
+          "path": "research/source-audit-batch5-ua-43-native-boundary-before.json",
+          "sha256": "f88d519a2c219d4a24c5cfa50d83f7b9d50b31a7fb021f1f3c92d151ff80671f"
+        },
+        "nativeFullPageRenderSha256": "8402900dd531720b7d1b8f1263317863dc57650874c12566b24e6c813804fca7",
+        "nativeFullPageRenderDimensionsPx": [
+          2496,
+          3250
+        ],
+        "nativeRenderDpi": 300,
+        "v3iBoundsPdfPagePointsLTRB": [
+          305,
+          25,
+          590,
+          270
+        ],
+        "v3iBoundsPixelsLTRB": [
+          1271,
+          104,
+          2458,
+          1125
+        ],
+        "v3iCropSha256": "e757d445e3ed2eb2bc3822c9aeb63643197ce28562fb6273d429317a53b8bbe7",
+        "v3jBoundsPdfPagePointsLTRB": [
+          305,
+          25,
+          590,
+          255
+        ],
+        "v3jBoundsPixelsLTRB": [
+          1271,
+          104,
+          2458,
+          1063
+        ],
+        "v3jCropSha256": "f77f148d937a9eabeb128179bf2e238e244adffbe4d8c6e4d8ea685da7077193",
+        "reviewFinding": {
+          "kind": "crop-through-unrelated-heading",
+          "edge": "bottom",
+          "finding": "The active V3i crop includes the beginning of the next unrelated III.H.2 title/table heading, then cuts it at bottom y=270pt. H1 final row ends y=243.85pt; H2 title begins y=261.336pt; column heading begins y=280.536pt.",
+          "sourceBoundaryWitness": {
+            "v3iCropBottomPdfPagePt": 270,
+            "sourceRenderSha256": "8402900dd531720b7d1b8f1263317863dc57650874c12566b24e6c813804fca7",
+            "pdfPage": 90
+          }
+        }
+      },
+      "priorV3jState": "V3j proposes y=255, which the independent reviewer checked as ending after the last H1 row and before the H2 title. The original 8ec input remains unchanged.",
+      "overlapDisposition": {
+        "uniqueSourceRowsInThisFinding": 19,
+        "existingFindingIdsForOverlappingRows": [
+          "ua-h1-cont-note-context-unlinked",
+          "ua-remaining-focus-ua-other-008-H1-cont-r034"
+        ],
+        "rowOverlapDoesNotMergeFailureDimensions": "Existing row-focus, marker, and row-linked-note findings remain separate. Row UIDs are deduplicated within this context finding; values and grades are not implicated.",
+        "knownFindingDenominatorSnapshot": 190
+      }
+    }
+  ]
+}

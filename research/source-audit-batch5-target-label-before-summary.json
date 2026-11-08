@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "scope": "All collected citation targets over 995 current records, plus all distinct payload targets observed by the full 993-route rendered sweep. Numeric labels are candidates; other labels remain semantically unassessed.",
+  "provenance": {
+    "sourceDataSha256": "9fcb82bdefbefa49b15c10a5ea458e1c0fdbd32424fb3077ca853dae3ca0a8fb",
+    "viewerSha256": "ef39cb49604b99a87aeb6c3223f8961369cd2f4d23e62671124fedfe69126341",
+    "renderedInventorySha256": "2770e3b3f1decefadd86772696dbe77dafd9ecbba90189cbe508487ab6aeb576",
+    "oldFunction": "function fieldTargetLabel(target) {\n    if (!target) return '';\n    const pointerLabel = String(target.fieldPointer || '').split('/').filter(Boolean).at(-1)?.replace(/~1/g, '/').replace(/~0/g, '~') || '';\n    const label = String(target.label || '').trim();\n    return target.fieldPointer && (!label || label === target.sourceObject || label === excerptSource?.name) ? pointerLabel || label : label || pointerLabel || 'Citation target';\n  }"
+  },
+  "denominator": {
+    "contentRecords": 995,
+    "routeRecords": 993,
+    "renderedControls": 5641,
+    "collectedTargets": 4489,
+    "renderedDistinctPayloads": 2850
+  },
+  "categories": {
+    "collected": {
+      "page-reference-not-applicable": 1550,
+      "numeric-only-field-label-candidate": 2222,
+      "no-numeric-pattern-observed-semantic-unassessed": 717
+    },
+    "rendered": {
+      "numeric-only-field-label-candidate": 2033,
+      "no-numeric-pattern-observed-semantic-unassessed": 717,
+      "page-reference-not-applicable": 100
+    }
+  },
+  "fullSnapshot": {
+    "path": "research/source-audit-batch5-target-label-before.json.gz",
+    "sha256": "63b8df53e6f8b0fd981a0466d316974adc76e4779ec103a6893ab2adec862200",
+    "uncompressedSha256": "3db0551f84bca65bf0b9f335bd69e0cf7fd5257637bfaa2176b1aeaa4b073835"
+  },
+  "confirmedExample": {
+    "route": "#equipment/ua-aklys-hurled?source=UA%3A27&region=ua-aklys-hurled-ua27-notes-context&field=%2Freferences%2F0",
+    "observedCaption": "Field target: 0 · Source context location reviewed; no Aklys-specific numbered footnote or fact value is inferred.",
+    "status": "confirmed-uninformative-caption",
+    "sourceMeaningNotAssessed": true
+  }
+}

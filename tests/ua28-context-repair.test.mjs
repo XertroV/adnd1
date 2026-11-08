@@ -2,13 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
 import {gunzipSync} from 'node:zlib';
 import {containsContext,focusCoversEvidence,sourceRect} from '../tools/citation-context-contract.mjs';
+import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';
 
 const read=p=>JSON.parse(readFileSync(p,'utf8'));
 const calibration=read('research/ua28-geometry-focus-calibration.json');
 const catalog=read('dist/scans/verified/equipment-ua-aklys-hurled.json');
 const requirement=read('research/citation-context-contracts.json').requirements.find(x=>x.id==='equipment:ua-aklys-hurled:ua28-missile-table-context');
+const historicalCatalog=JSON.parse(execFileSync('git',['show','679b15d1c580172e54314829c1c3c86dc78b65f3:dist/scans/verified/equipment-ua-aklys-hurled.json'],{encoding:'utf8'}));
+const ua26Review=read('research/source-audit-batch5-ua26-independent-review.json');
 const targeted=[
   'ua-aklys-hurled-ua28-thrown',
   'ua28-missile-notes',
@@ -48,7 +52,22 @@ test('UA p.28 Aklys context uses the exact reviewed complete-table crop and stab
     assert.equal(region.verificationScope,'source-excerpt',id);
     assert.equal(containsContext(region.normalizedPageRect,expected),true,id);
   }
-  assert.equal(catalog.regions.length,10,'the bounded repair keeps the catalog’s region inventory stable');
+  assert.equal(historicalCatalog.regions.length,10,'the frozen 679 catalog has ten regions before the later append');
+  assert.deepEqual(catalog.regions.slice(0,historicalCatalog.regions.length).map(region=>region.id),historicalCatalog.regions.map(region=>region.id),
+    'the UA28 repair retains all ten historical region IDs and their order');
+  const laterRegionId='ua26-notes-01-ua-aklys-hurled';
+  assert.deepEqual(catalog.regions.slice(historicalCatalog.regions.length).map(region=>region.id),[laterRegionId],
+    'the sole later append is the separately reviewed UA26 facing-note context');
+  const laterRegion=catalog.regions.find(region=>region.id===laterRegionId);
+  const reviewed=ua26Review.records.find(record=>record.itemId==='ua-aklys-hurled'&&record.regionId===laterRegionId);
+  assert.ok(reviewed,'the appended UA26 context has a source-review record');
+  assert.equal(laterRegion.image,reviewed.image);
+  assert.equal(laterRegion.sha256,reviewed.imageSha256);
+  assert.deepEqual(laterRegion.focusRects,reviewed.focusRects);
+  assert.deepEqual(sourceVisualRegionHashes(laterRegion),{focusSha256:reviewed.focusSha256,contentSha256:reviewed.contentSha256});
+  assert.equal(laterRegion.role,'context');
+  assert.equal(laterRegion.sourceRowId,'ua26-weight-damage-01-aklys');
+  assert.equal(catalog.regions.length,11,'ten historical region IDs plus one exact receipt-backed UA26 note context');
 });
 
 test('all six old narrow Aklys p.28 crops fail the complete-table extent',()=>{

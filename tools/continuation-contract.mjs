@@ -2,6 +2,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {dirname, isAbsolute, relative, resolve, sep} from 'node:path';
 import {auditContinuationOrder} from './continuation-order-audit.mjs';
+import {sourceVisualRegionHashes} from './price-source-inventory.mjs';
 
 function requireValue(condition, message) {
   if (!condition) throw new Error(message);
@@ -245,10 +246,21 @@ export function validateAssassinContextAudit(audit, {data, catalogRoot}) {
   const catalog = readJson(catalogRoot, record.catalog, 'Assassin context catalog');
   requireValue(catalog.itemId === record.itemId && catalog.collection === record.collection, 'Assassin context catalog owner changed');
   requireValue(record.catalogSha256 === sha256(readFileSync(safePath(catalogRoot, record.catalog, 'Assassin context catalog'))), 'Assassin catalog bytes changed since this audit');
+  const hasIndependentFocusReview = record.regions.some(entry => entry.independentFocusReview);
+  let independentClassProof = null;
+  if (hasIndependentFocusReview) {
+    const proofRef = record.independentClassReview;
+    requireValue(proofRef?.path === 'research/source-audit-batch5-class-independent-review.json', 'Assassin independent class review path changed');
+    const repositoryRoot = resolve(import.meta.dirname, '..');
+    const proofBytes = readFileSync(safePath(repositoryRoot, proofRef.path, 'Assassin independent class review'));
+    requireValue(proofRef.sha256 === sha256(proofBytes), 'Assassin independent class review file hash is stale');
+    independentClassProof = JSON.parse(proofBytes);
+    requireValue(independentClassProof?.source?.sha256 === catalog.sources?.PHB?.sha256, 'Assassin independent class review source identity changed');
+  }
   requireValue(Array.isArray(record.regions) && record.regions.length === catalog.regions.length, 'Assassin audit must enumerate every current region');
   const currentIds = new Set(catalog.regions.map(region => region.id));
   const auditedIds = new Set();
-  let priorContextConfirmed = 0, sourceComparedPendingIndependent = 0, repairedPendingIndependent = 0, contextAdequateFocusPending = 0, repairContextAdequateFocusPending = 0, followupPendingCalibration = 0, followupPendingContinuation = 0, priorCropConfirmed = 0;
+  let priorContextConfirmed = 0, sourceComparedPendingIndependent = 0, repairedPendingIndependent = 0, contextAdequateFocusPending = 0, repairContextAdequateFocusPending = 0, independentlyReviewedContextAndFocus = 0, followupPendingCalibration = 0, followupPendingContinuation = 0, priorCropConfirmed = 0;
   for (const entry of record.regions) {
     requireValue(!auditedIds.has(entry.regionId), `Assassin region ${entry.regionId} is duplicated in the audit`);
     auditedIds.add(entry.regionId);
@@ -258,7 +270,28 @@ export function validateAssassinContextAudit(audit, {data, catalogRoot}) {
     requireValue(entry.image === region.image && entry.imageSha256 === region.sha256 && entry.width === region.width && entry.height === region.height, `Assassin region ${entry.regionId} image binding changed`);
     requireValue(catalog.sources?.[entry.book]?.sha256 === entry.sourceSha256, `Assassin region ${entry.regionId} source identity changed`);
     requireValue(entry.sourceComparison?.status === 'compared-to-original-page' && typeof entry.sourceComparison.finding === 'string', `Assassin region ${entry.regionId} needs a source comparison finding`);
-    requireValue(entry.highlightStatus === 'unreviewed-full-image-sentinel' && JSON.stringify(region.focusRects) === JSON.stringify([[0, 0, 1, 1]]), `Assassin region ${entry.regionId} highlight status changed`);
+    if (entry.independentFocusReview) {
+      const review = entry.independentFocusReview;
+      requireValue(independentClassProof, `Assassin region ${entry.regionId} has a focus review without its verified review receipt`);
+      requireValue(entry.contextStatus === 'source-reviewed-context-and-focus-confirmed-independent' && entry.highlightStatus === 'source-reviewed-precise-focus-confirmed', `Assassin region ${entry.regionId} independent focus status changed`);
+      requireValue(review.status === 'confirmed' && review.independent === true && review.scope === 'source-image-crop-context-and-highlight-location-only', `Assassin region ${entry.regionId} review scope is unsupported`);
+      requireValue(review.evidence === record.independentClassReview.path && review.evidenceSha256 === record.independentClassReview.sha256, `Assassin region ${entry.regionId} independent review evidence hash changed`);
+      const proofBinding = independentClassProof.bindings?.find(binding => binding.collection === 'classes' && binding.itemId === 'assassin' && binding.catalog === `dist/${record.catalog}` && binding.regionId === entry.regionId);
+      requireValue(proofBinding, `Assassin region ${entry.regionId} is absent from the independent class review`);
+      const hashes = sourceVisualRegionHashes(region);
+      requireValue(proofBinding.catalogSha256 === record.catalogSha256 && proofBinding.sourceSha256 === entry.sourceSha256, `Assassin region ${entry.regionId} independent review source/catalog binding changed`);
+      requireValue(proofBinding.image === region.image && proofBinding.imageSha256 === region.sha256 && proofBinding.focusSha256 === hashes.focusSha256 && proofBinding.contentSha256 === hashes.contentSha256, `Assassin region ${entry.regionId} independent review image/focus/content hashes changed`);
+      requireValue(review.sourceSha256 === proofBinding.sourceSha256 && review.imageSha256 === proofBinding.imageSha256 && review.focusSha256 === proofBinding.focusSha256 && review.contentSha256 === proofBinding.contentSha256, `Assassin region ${entry.regionId} audit review hashes differ from the independent proof`);
+      requireValue(JSON.stringify(entry.focusRects) === JSON.stringify(region.focusRects) && JSON.stringify(region.focusRects) !== JSON.stringify([[0, 0, 1, 1]]), `Assassin region ${entry.regionId} precise focus is absent or stale`);
+      for (const assessmentName of ['crop', 'context', 'highlight']) {
+        const assessment = proofBinding.assessments?.[assessmentName];
+        requireValue(assessment?.status === 'confirmed' && assessment.independent === true && typeof assessment.reason === 'string' && assessment.reason.length > 0, `Assassin region ${entry.regionId} lacks independently confirmed ${assessmentName} evidence`);
+      }
+      requireValue(proofBinding.defaultSelection === 'unassessed', `Assassin region ${entry.regionId} review must not imply default-selection approval`);
+      independentlyReviewedContextAndFocus++;
+    } else {
+      requireValue(entry.highlightStatus === 'unreviewed-full-image-sentinel' && JSON.stringify(region.focusRects) === JSON.stringify([[0, 0, 1, 1]]), `Assassin region ${entry.regionId} highlight status changed`);
+    }
     requireValue(entry.citationPurpose !== 'price' && entry.priceEvidence === false, `Assassin region ${entry.regionId} is incorrectly treated as price evidence`);
     const imagePath = safePath(resolve(catalogRoot, dirname(record.catalog)), region.image, `Assassin image ${entry.regionId}`);
     requireValue(sha256(readFileSync(imagePath)) === region.sha256, `Assassin image bytes changed for ${entry.regionId}`);
@@ -305,11 +338,14 @@ export function validateAssassinContextAudit(audit, {data, catalogRoot}) {
       requireValue(Array.isArray(opening.rect) && opening.rect.length === 4 && Array.isArray(continuation.rect) && continuation.rect.length === 4, `Assassin region ${entry.regionId} candidate segment geometry is incomplete`);
       requireValue(Array.isArray(review.headingDarkPixelBoundsPoints) && review.headingDarkPixelBoundsPoints.length === 4 && Number.isFinite(review.existingTopWordBoxOverlapPoints) && review.existingTopToDarkGlyphClearancePoints > 0, `Assassin region ${entry.regionId} word-box and pixel findings are not distinguished`);
       followupPendingContinuation++;
+    } else if (entry.contextStatus === 'source-reviewed-context-and-focus-confirmed-independent') {
+      requireValue(Boolean(entry.independentFocusReview), `Assassin region ${entry.regionId} has no independent focus review`);
+      requireValue(['adequate', 'repair-applied'].includes(entry.sourceComparison.disposition), `Assassin region ${entry.regionId} lacks a complete reviewed source crop`);
     } else throw new Error(`Assassin region ${entry.regionId} has an unsupported context status`);
     if (entry.priorCropReview === 'confirmed') priorCropConfirmed++;
   }
   requireValue(auditedIds.size === currentIds.size && [...currentIds].every(id => auditedIds.has(id)), 'Assassin context audit does not cover the exact current region set');
-  requireValue(record.summary?.regions === catalog.regions.length && record.summary?.sourceCompared === catalog.regions.length && record.summary?.priorContextConfirmed === priorContextConfirmed && record.summary?.sourceComparedPendingIndependent === sourceComparedPendingIndependent && record.summary?.repairedPendingIndependent === repairedPendingIndependent && record.summary?.contextAdequateFocusPending === contextAdequateFocusPending && record.summary?.repairContextAdequateFocusPending === repairContextAdequateFocusPending && record.summary?.followupPendingCalibration === followupPendingCalibration && record.summary?.followupPendingContinuation === followupPendingContinuation && record.summary?.priorCropConfirmed === priorCropConfirmed, 'Assassin context summary does not match its bindings');
+  requireValue(record.summary?.regions === catalog.regions.length && record.summary?.sourceCompared === catalog.regions.length && record.summary?.priorContextConfirmed === priorContextConfirmed && record.summary?.sourceComparedPendingIndependent === sourceComparedPendingIndependent && record.summary?.repairedPendingIndependent === repairedPendingIndependent && record.summary?.contextAdequateFocusPending === contextAdequateFocusPending && record.summary?.repairContextAdequateFocusPending === repairContextAdequateFocusPending && record.summary?.independentlyReviewedContextAndFocus === independentlyReviewedContextAndFocus && record.summary?.followupPendingCalibration === followupPendingCalibration && record.summary?.followupPendingContinuation === followupPendingContinuation && record.summary?.priorCropConfirmed === priorCropConfirmed, 'Assassin context summary does not match its bindings');
   const findingIds = new Set();
   for (const finding of record.coverageFindings || []) {
     requireValue(typeof finding.id === 'string' && finding.id && !findingIds.has(finding.id), 'Assassin coverage finding id is missing or duplicated');
@@ -322,5 +358,5 @@ export function validateAssassinContextAudit(audit, {data, catalogRoot}) {
   }
   requireValue(record.summary?.priceEvidence === record.regions.filter(entry => entry.priceEvidence).length, 'Assassin price-evidence count does not match its regions');
   requireValue(record.sourceAccess?.status === 'verified' && record.sourceAccess?.sourceHashes?.PHB === catalog.sources?.PHB?.sha256 && record.sourceAccess?.sourceHashes?.DMG === catalog.sources?.DMG?.sha256, 'Assassin audit must bind verified source identities');
-  return {regions: catalog.regions.length, sourceCompared: record.regions.filter(entry => entry.sourceComparison.status === 'compared-to-original-page').length, priorContextConfirmed, sourceComparedPendingIndependent, repairedPendingIndependent, contextAdequateFocusPending, repairContextAdequateFocusPending, followupPendingCalibration, followupPendingContinuation, priorCropConfirmed, priceRegions: record.regions.filter(entry => entry.priceEvidence).length};
+  return {regions: catalog.regions.length, sourceCompared: record.regions.filter(entry => entry.sourceComparison.status === 'compared-to-original-page').length, priorContextConfirmed, sourceComparedPendingIndependent, repairedPendingIndependent, contextAdequateFocusPending, repairContextAdequateFocusPending, independentlyReviewedContextAndFocus, followupPendingCalibration, followupPendingContinuation, priorCropConfirmed, priceRegions: record.regions.filter(entry => entry.priceEvidence).length};
 }

@@ -1,0 +1,3532 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "monetary-secondary-source-frame-dpi-index-proof",
+  "status": "implementation-frozen; independent review pending",
+  "scope": "Exact source-frame DPI and ordered-context declaration validation by the monetary index builder and row-identity audit. This proof does not grade PHB/DMG value semantics, transcription, highlight correctness, or the complete 179-row semantic review.",
+  "inputs": {
+    "v5Candidate": {
+      "path": "/tmp/batch5-phbdmg-money-corrections-v5/proposal-v5/phb-dmg-additional-prices-correction-candidate-v5.json",
+      "sha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6"
+    },
+    "unchangedOriginalPhbDmgSource": {
+      "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9"
+    },
+    "sourceRenderFrameRegistry": {
+      "path": "research/monetary-source-render-frames.json",
+      "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+    },
+    "reviewedRegistryFrameCount": 22,
+    "sourceInputs": [
+      {
+        "path": "research/price-source-inventory.json@679b15d1c580172e54314829c1c3c86dc78b65f3",
+        "sha256": "f2a02d1e990cf9bd30135f7dc2fcd2f10f9e1f2e172ee594e396677c32fb3852"
+      },
+      {
+        "path": "equipment.json",
+        "sha256": "469c3d6643a209473e1ee5d052ad9e9320d00e69172130b151ada877e3846edf"
+      },
+      {
+        "path": "research/equipment-source-row-bindings.json",
+        "sha256": "38b34185adb60b5643ec0c24dff9de95292a34f70d1ef9d5d652f96325a36831"
+      },
+      {
+        "path": "research/source-audit-batch5-ua-additional-prices.json",
+        "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+      },
+      {
+        "path": "research/source-audit-batch5-price-description-records.json",
+        "sha256": "88c5456626a47f5a47a6cce514cb8ea2ce5338e4a9a9b13e93eedfcd265e3c8d"
+      },
+      {
+        "path": "/tmp/batch5-phbdmg-money-corrections-v5/proposal-v5/phb-dmg-additional-prices-correction-candidate-v5.json",
+        "sha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6"
+      },
+      {
+        "path": "research/source-audit-batch5-price-discovery-reconciliation.json",
+        "sha256": "d94f8e59dd34955292ab2d9d85ebc29c9ff634d4f70b38a20a91bdd4084f588e"
+      },
+      {
+        "path": "research/source-audit-batch5-phb-dmg-price-passage-records.json",
+        "sha256": "2f73f635aa04c2d55c3fe4e71cc5db6a3c55779e6db9f9e5adfe71c08ae5b707"
+      }
+    ]
+  },
+  "code": {
+    "indexBuilder": {
+      "path": "tools/monetary-source-inventory.mjs",
+      "sha256": "d8962ee53ca3d262b55e0f0de546afd2bf9d9d127070f4b18d0ac112e5144269"
+    },
+    "regressionTest": {
+      "path": "tests/monetary-source-inventory.test.mjs",
+      "sha256": "6c24bd4e673eea3c2ef539c7499cd7f3c92a0634c9a1ad232ab4d982d44d5c6a"
+    },
+    "registryResolver": {
+      "path": "tools/monetary-source-render-frames.mjs",
+      "sha256": "44dc5c4d5233fdf2a8b1a36742712f1b36f69ebcc8d2b6d8208303cdb9b41a39"
+    }
+  },
+  "counts": {
+    "sourceOccurrences": 1871,
+    "sourceValueClaims": 2317,
+    "phbDmgOccurrences": 179,
+    "orderedContextRows": 12,
+    "linkedContextRows": 12,
+    "unassessableContextRows": 0,
+    "orderedContextParts": 28,
+    "registry150DpiParts": 24,
+    "registry300DpiParts": 4,
+    "poisonP21NoteParts": 4,
+    "poisonP21NotePartsAt300Dpi": 4
+  },
+  "rawMutationControls": {
+    "count": 39,
+    "unassessable": 38,
+    "linkedByExactRegistry": 1,
+    "claimsAndPartsRetained": true,
+    "unassessableCasesRejectForcedLinkedStatus": true,
+    "cases": [
+      {
+        "name": "part source absent",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part source empty",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part source missing book",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part source missing PDF hash",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part source missing printed page",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part source missing PDF page",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part source conflicting book aliases",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part source conflicting hash aliases",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part source conflicting printed page aliases",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part source null PDF page",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part source null hash alias alongside valid hash",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part source null printed page alias alongside valid page",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part source empty book alias alongside valid book",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "crop source mismatched PDF page",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "crop source mismatched printed page",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "crop source mismatched book",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "crop source conflicting hash aliases",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "crop nested source conflicting page",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "crop renderDpi conflicts with sourceRenderDpi",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "crop sourceRenderDpi zero",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "crop sourceRenderDpi string",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "crop sourceRenderDpi null",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "crop own DPI/frame missing must not borrow row",
+        "indexStatus": "declared-source-context-parts-linked",
+        "rowtoolStatus": "declared-source-context-parts-linked",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "unknown secondary frame without own DPI must not borrow row",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "known render hash wrong dimensions without own DPI",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "known render hash wrong source page without own DPI",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part coordinate DPI conflicts",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part focus coordinate DPI conflicts",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part crop renderDpi conflicts",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part crop sourceRenderDpi conflicts",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "part sourceRender renderDpi conflicts",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "crop coordinate DPI conflicts",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "crop source frame DPI conflicts",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "primary row focus DPI conflicts with its own registered crop",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "primary row focus declares incompatible units without DPI",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "primary row focus has malformed DPI text",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "single source frame string has contradictory DPI values",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "declared coordinate space has malformed DPI text",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      },
+      {
+        "name": "declared coordinate space uses incompatible units without DPI",
+        "indexStatus": "declared-source-context-parts-unassessable",
+        "rowtoolStatus": "declared-source-context-parts-unassessable",
+        "sourceClaimIdsRetained": true,
+        "partsRetained": true,
+        "forcedLinkedStatusAuditValid": false
+      }
+    ],
+    "filenameLabelPositive": {
+      "indexStatus": "declared-source-context-parts-linked",
+      "rowtoolStatus": "declared-source-context-parts-linked",
+      "dpi": 300,
+      "unchangedKnownRegistryFrame": true
+    }
+  },
+  "normalizedDeclarationForgeries": [
+    {
+      "name": "rewrite both normalized note DPI to150",
+      "auditValid": false
+    },
+    {
+      "name": "rewrite normalized note source page toprimary",
+      "auditValid": false
+    },
+    {
+      "name": "rewrite note normalized render identity",
+      "auditValid": false
+    },
+    {
+      "name": "rewrite normalized declared DPI alias",
+      "auditValid": false
+    },
+    {
+      "name": "rewrite normalized declared frame text alias",
+      "auditValid": false
+    },
+    {
+      "name": "rewrite normalized declared source page alias",
+      "auditValid": false
+    }
+  ],
+  "validation": {
+    "testCommand": "node --test tests/monetary-source-inventory.test.mjs",
+    "tests": 16,
+    "passed": 16,
+    "failed": 0
+  },
+  "coordinateLabelReview": {
+    "status": "pending-read-only-assessment",
+    "scope": "DPI proof uses exact registry source-render identity. A separate review is checking the normalized coordinate-space labels for global cropBoundsPixelsLTRB versus crop-local focusBoundsCropPixelsLTRB; this proof does not certify those labels as interchangeable."
+  },
+  "rows": [
+    {
+      "rowId": "dmg-poison-ingestive-c",
+      "status": "declared-source-context-parts-linked",
+      "parts": [
+        {
+          "partId": "dmg-poison-ingestive-c-p20-primary",
+          "order": 1,
+          "cropId": "crop-dmg-poison-dose-and-manufacture-01",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 20,
+            "pdfPage": 21,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "896afc91f2a4fe868970ff08397452cfadf1a9a3986a47cf05a69376891e7c0b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1650
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-896afc91f2a4fe86",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-896afc91f2a4fe86",
+              "book": "DMG",
+              "printedPage": 20,
+              "pdfPage": 21,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "896afc91f2a4fe868970ff08397452cfadf1a9a3986a47cf05a69376891e7c0b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1650
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  792
+                ],
+                "cropBoxPoints": [
+                  1.440000057220459,
+                  3.60003662109375,
+                  582,
+                  774
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  580.5599975585938,
+                  770.3999633789062
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  1.440000057220459,
+                  3.60003662109375
+                ]
+              },
+              "freshRgbSha256": "0d50ca2e322b5a65def16ccfc031c30b2165d04ef586197c779e0dceaaad368a",
+              "reviewedCropIds": [
+                "crop-dmg-poison-dose-and-manufacture-01",
+                "crop-dmg-poison-dose-and-manufacture-02",
+                "crop-dmg-poison-dose-and-manufacture-03"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            600,
+            1170,
+            1210,
+            1580
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            10,
+            155,
+            535,
+            174
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "poison-marker-note-3-p21",
+          "order": 2,
+          "cropId": "crop-dmg-poison-dose-and-manufacture-04",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 21,
+            "pdfPage": 22,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a176aeff2eec447e92ce1a0ea93e34b9b134276e7af3b307528b88869812839b",
+          "sourceRenderDimensionsPx": [
+            2440,
+            3194
+          ],
+          "renderDpi": 300,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a176aeff2eec447e",
+          "normalizedCoordinateSpaceLabel": "crop-local 300-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "explicit-part-or-crop-declaration",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a176aeff2eec447e",
+              "book": "DMG",
+              "printedPage": 21,
+              "pdfPage": 22,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a176aeff2eec447e92ce1a0ea93e34b9b134276e7af3b307528b88869812839b",
+              "sourceRenderDimensionsPx": [
+                2440,
+                3194
+              ],
+              "renderDpi": 300,
+              "renderMode": "PyMuPDF CropBox-relative PageRect",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  585.599853515625,
+                  793.9193115234375
+                ],
+                "cropBoxPoints": [
+                  0,
+                  9.3599853515625,
+                  585.599853515625,
+                  775.9193115234375
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  585.599853515625,
+                  766.559326171875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  0,
+                  9.3599853515625
+                ]
+              },
+              "freshRgbSha256": "08b14bff8b1d0912455b7915c41cff69efa05fa32257b0ad4460a90fe6536f9d",
+              "reviewedCropIds": [
+                "crop-dmg-poison-dose-and-manufacture-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            91,
+            908,
+            1230,
+            1105
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            49,
+            54,
+            1095,
+            93
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": 300,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": "PyMuPDF CropBox-relative PageRect rendered at 300dpi; integer crop/focus bounds remain in this source-render pixel frame; MediaBox/CropBox geometry and offset are recorded separately.",
+            "partCropSourceCropFrame": null
+          }
+        }
+      ]
+    },
+    {
+      "rowId": "dmg-poison-ingestive-d",
+      "status": "declared-source-context-parts-linked",
+      "parts": [
+        {
+          "partId": "dmg-poison-ingestive-d-p20-primary",
+          "order": 1,
+          "cropId": "crop-dmg-poison-dose-and-manufacture-01",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 20,
+            "pdfPage": 21,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "896afc91f2a4fe868970ff08397452cfadf1a9a3986a47cf05a69376891e7c0b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1650
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-896afc91f2a4fe86",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-896afc91f2a4fe86",
+              "book": "DMG",
+              "printedPage": 20,
+              "pdfPage": 21,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "896afc91f2a4fe868970ff08397452cfadf1a9a3986a47cf05a69376891e7c0b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1650
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  792
+                ],
+                "cropBoxPoints": [
+                  1.440000057220459,
+                  3.60003662109375,
+                  582,
+                  774
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  580.5599975585938,
+                  770.3999633789062
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  1.440000057220459,
+                  3.60003662109375
+                ]
+              },
+              "freshRgbSha256": "0d50ca2e322b5a65def16ccfc031c30b2165d04ef586197c779e0dceaaad368a",
+              "reviewedCropIds": [
+                "crop-dmg-poison-dose-and-manufacture-01",
+                "crop-dmg-poison-dose-and-manufacture-02",
+                "crop-dmg-poison-dose-and-manufacture-03"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            600,
+            1170,
+            1210,
+            1580
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            10,
+            174,
+            535,
+            193
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "poison-marker-note-4-p21",
+          "order": 2,
+          "cropId": "crop-dmg-poison-dose-and-manufacture-04",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 21,
+            "pdfPage": 22,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a176aeff2eec447e92ce1a0ea93e34b9b134276e7af3b307528b88869812839b",
+          "sourceRenderDimensionsPx": [
+            2440,
+            3194
+          ],
+          "renderDpi": 300,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a176aeff2eec447e",
+          "normalizedCoordinateSpaceLabel": "crop-local 300-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "explicit-part-or-crop-declaration",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a176aeff2eec447e",
+              "book": "DMG",
+              "printedPage": 21,
+              "pdfPage": 22,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a176aeff2eec447e92ce1a0ea93e34b9b134276e7af3b307528b88869812839b",
+              "sourceRenderDimensionsPx": [
+                2440,
+                3194
+              ],
+              "renderDpi": 300,
+              "renderMode": "PyMuPDF CropBox-relative PageRect",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  585.599853515625,
+                  793.9193115234375
+                ],
+                "cropBoxPoints": [
+                  0,
+                  9.3599853515625,
+                  585.599853515625,
+                  775.9193115234375
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  585.599853515625,
+                  766.559326171875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  0,
+                  9.3599853515625
+                ]
+              },
+              "freshRgbSha256": "08b14bff8b1d0912455b7915c41cff69efa05fa32257b0ad4460a90fe6536f9d",
+              "reviewedCropIds": [
+                "crop-dmg-poison-dose-and-manufacture-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            91,
+            908,
+            1230,
+            1105
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            34,
+            128,
+            1095,
+            168
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": 300,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": "PyMuPDF CropBox-relative PageRect rendered at 300dpi; integer crop/focus bounds remain in this source-render pixel frame; MediaBox/CropBox geometry and offset are recorded separately.",
+            "partCropSourceCropFrame": null
+          }
+        }
+      ]
+    },
+    {
+      "rowId": "dmg-poison-insinuative-c",
+      "status": "declared-source-context-parts-linked",
+      "parts": [
+        {
+          "partId": "dmg-poison-insinuative-c-p20-primary",
+          "order": 1,
+          "cropId": "crop-dmg-poison-dose-and-manufacture-01",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 20,
+            "pdfPage": 21,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "896afc91f2a4fe868970ff08397452cfadf1a9a3986a47cf05a69376891e7c0b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1650
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-896afc91f2a4fe86",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-896afc91f2a4fe86",
+              "book": "DMG",
+              "printedPage": 20,
+              "pdfPage": 21,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "896afc91f2a4fe868970ff08397452cfadf1a9a3986a47cf05a69376891e7c0b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1650
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  792
+                ],
+                "cropBoxPoints": [
+                  1.440000057220459,
+                  3.60003662109375,
+                  582,
+                  774
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  580.5599975585938,
+                  770.3999633789062
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  1.440000057220459,
+                  3.60003662109375
+                ]
+              },
+              "freshRgbSha256": "0d50ca2e322b5a65def16ccfc031c30b2165d04ef586197c779e0dceaaad368a",
+              "reviewedCropIds": [
+                "crop-dmg-poison-dose-and-manufacture-01",
+                "crop-dmg-poison-dose-and-manufacture-02",
+                "crop-dmg-poison-dose-and-manufacture-03"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            600,
+            1170,
+            1210,
+            1580
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            10,
+            286,
+            535,
+            305
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "poison-marker-note-3-p21",
+          "order": 2,
+          "cropId": "crop-dmg-poison-dose-and-manufacture-04",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 21,
+            "pdfPage": 22,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a176aeff2eec447e92ce1a0ea93e34b9b134276e7af3b307528b88869812839b",
+          "sourceRenderDimensionsPx": [
+            2440,
+            3194
+          ],
+          "renderDpi": 300,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a176aeff2eec447e",
+          "normalizedCoordinateSpaceLabel": "crop-local 300-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "explicit-part-or-crop-declaration",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a176aeff2eec447e",
+              "book": "DMG",
+              "printedPage": 21,
+              "pdfPage": 22,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a176aeff2eec447e92ce1a0ea93e34b9b134276e7af3b307528b88869812839b",
+              "sourceRenderDimensionsPx": [
+                2440,
+                3194
+              ],
+              "renderDpi": 300,
+              "renderMode": "PyMuPDF CropBox-relative PageRect",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  585.599853515625,
+                  793.9193115234375
+                ],
+                "cropBoxPoints": [
+                  0,
+                  9.3599853515625,
+                  585.599853515625,
+                  775.9193115234375
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  585.599853515625,
+                  766.559326171875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  0,
+                  9.3599853515625
+                ]
+              },
+              "freshRgbSha256": "08b14bff8b1d0912455b7915c41cff69efa05fa32257b0ad4460a90fe6536f9d",
+              "reviewedCropIds": [
+                "crop-dmg-poison-dose-and-manufacture-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            91,
+            908,
+            1230,
+            1105
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            49,
+            54,
+            1095,
+            93
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": 300,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": "PyMuPDF CropBox-relative PageRect rendered at 300dpi; integer crop/focus bounds remain in this source-render pixel frame; MediaBox/CropBox geometry and offset are recorded separately.",
+            "partCropSourceCropFrame": null
+          }
+        }
+      ]
+    },
+    {
+      "rowId": "dmg-poison-insinuative-d",
+      "status": "declared-source-context-parts-linked",
+      "parts": [
+        {
+          "partId": "dmg-poison-insinuative-d-p20-primary",
+          "order": 1,
+          "cropId": "crop-dmg-poison-dose-and-manufacture-01",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 20,
+            "pdfPage": 21,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "896afc91f2a4fe868970ff08397452cfadf1a9a3986a47cf05a69376891e7c0b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1650
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-896afc91f2a4fe86",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-896afc91f2a4fe86",
+              "book": "DMG",
+              "printedPage": 20,
+              "pdfPage": 21,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "896afc91f2a4fe868970ff08397452cfadf1a9a3986a47cf05a69376891e7c0b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1650
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  792
+                ],
+                "cropBoxPoints": [
+                  1.440000057220459,
+                  3.60003662109375,
+                  582,
+                  774
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  580.5599975585938,
+                  770.3999633789062
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  1.440000057220459,
+                  3.60003662109375
+                ]
+              },
+              "freshRgbSha256": "0d50ca2e322b5a65def16ccfc031c30b2165d04ef586197c779e0dceaaad368a",
+              "reviewedCropIds": [
+                "crop-dmg-poison-dose-and-manufacture-01",
+                "crop-dmg-poison-dose-and-manufacture-02",
+                "crop-dmg-poison-dose-and-manufacture-03"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            600,
+            1170,
+            1210,
+            1580
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            10,
+            305,
+            535,
+            324
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "poison-marker-note-4-p21",
+          "order": 2,
+          "cropId": "crop-dmg-poison-dose-and-manufacture-04",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 21,
+            "pdfPage": 22,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a176aeff2eec447e92ce1a0ea93e34b9b134276e7af3b307528b88869812839b",
+          "sourceRenderDimensionsPx": [
+            2440,
+            3194
+          ],
+          "renderDpi": 300,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a176aeff2eec447e",
+          "normalizedCoordinateSpaceLabel": "crop-local 300-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "explicit-part-or-crop-declaration",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a176aeff2eec447e",
+              "book": "DMG",
+              "printedPage": 21,
+              "pdfPage": 22,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a176aeff2eec447e92ce1a0ea93e34b9b134276e7af3b307528b88869812839b",
+              "sourceRenderDimensionsPx": [
+                2440,
+                3194
+              ],
+              "renderDpi": 300,
+              "renderMode": "PyMuPDF CropBox-relative PageRect",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  585.599853515625,
+                  793.9193115234375
+                ],
+                "cropBoxPoints": [
+                  0,
+                  9.3599853515625,
+                  585.599853515625,
+                  775.9193115234375
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  585.599853515625,
+                  766.559326171875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  0,
+                  9.3599853515625
+                ]
+              },
+              "freshRgbSha256": "08b14bff8b1d0912455b7915c41cff69efa05fa32257b0ad4460a90fe6536f9d",
+              "reviewedCropIds": [
+                "crop-dmg-poison-dose-and-manufacture-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            91,
+            908,
+            1230,
+            1105
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            34,
+            128,
+            1095,
+            168
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": 300,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": "PyMuPDF CropBox-relative PageRect rendered at 300dpi; integer crop/focus bounds remain in this source-render pixel frame; MediaBox/CropBox geometry and offset are recorded separately.",
+            "partCropSourceCropFrame": null
+          }
+        }
+      ]
+    },
+    {
+      "rowId": "dmg-info-discovery-row-01",
+      "status": "declared-source-context-parts-linked",
+      "parts": [
+        {
+          "partId": "information-rate-table-left",
+          "order": 1,
+          "cropId": "crop-dmg-support-research-and-information-costs-02",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            0,
+            970,
+            610,
+            1580
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            63,
+            174,
+            590,
+            191
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "information-rate-condition-note-left",
+          "order": 2,
+          "cropId": "crop-dmg-support-research-and-information-costs-04",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "explicit-part-or-crop-declaration",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            50,
+            1290,
+            620,
+            1570
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            10,
+            10,
+            560,
+            276
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": 150,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": "Poppler MediaBox-rendered page pixels at 150dpi; preserve CropBox offset as metadata; bounds/foci remain in the MediaBox raster frame.",
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "information-rate-note-right",
+          "order": 3,
+          "cropId": "crop-dmg-support-research-and-information-costs-03",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            635,
+            39,
+            1205,
+            799
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            16,
+            37,
+            562,
+            174
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        }
+      ]
+    },
+    {
+      "rowId": "dmg-info-discovery-row-02",
+      "status": "declared-source-context-parts-linked",
+      "parts": [
+        {
+          "partId": "information-rate-table-left",
+          "order": 1,
+          "cropId": "crop-dmg-support-research-and-information-costs-02",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            0,
+            970,
+            610,
+            1580
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            63,
+            193,
+            590,
+            210
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "information-rate-condition-note-left",
+          "order": 2,
+          "cropId": "crop-dmg-support-research-and-information-costs-04",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "explicit-part-or-crop-declaration",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            50,
+            1290,
+            620,
+            1570
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            10,
+            10,
+            560,
+            276
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": 150,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": "Poppler MediaBox-rendered page pixels at 150dpi; preserve CropBox offset as metadata; bounds/foci remain in the MediaBox raster frame.",
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "information-rate-note-right",
+          "order": 3,
+          "cropId": "crop-dmg-support-research-and-information-costs-03",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            635,
+            39,
+            1205,
+            799
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            16,
+            37,
+            562,
+            174
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        }
+      ]
+    },
+    {
+      "rowId": "dmg-info-discovery-row-03",
+      "status": "declared-source-context-parts-linked",
+      "parts": [
+        {
+          "partId": "information-rate-table-left",
+          "order": 1,
+          "cropId": "crop-dmg-support-research-and-information-costs-02",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            0,
+            970,
+            610,
+            1580
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            63,
+            211,
+            590,
+            230
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "information-rate-condition-note-left",
+          "order": 2,
+          "cropId": "crop-dmg-support-research-and-information-costs-04",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "explicit-part-or-crop-declaration",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            50,
+            1290,
+            620,
+            1570
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            10,
+            10,
+            560,
+            276
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": 150,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": "Poppler MediaBox-rendered page pixels at 150dpi; preserve CropBox offset as metadata; bounds/foci remain in the MediaBox raster frame.",
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "information-rate-note-right",
+          "order": 3,
+          "cropId": "crop-dmg-support-research-and-information-costs-03",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            635,
+            39,
+            1205,
+            799
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            16,
+            37,
+            562,
+            174
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        }
+      ]
+    },
+    {
+      "rowId": "dmg-info-discovery-row-04",
+      "status": "declared-source-context-parts-linked",
+      "parts": [
+        {
+          "partId": "information-rate-table-left",
+          "order": 1,
+          "cropId": "crop-dmg-support-research-and-information-costs-02",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            0,
+            970,
+            610,
+            1580
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            63,
+            230,
+            590,
+            250
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "information-rate-condition-note-left",
+          "order": 2,
+          "cropId": "crop-dmg-support-research-and-information-costs-04",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "explicit-part-or-crop-declaration",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            50,
+            1290,
+            620,
+            1570
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            10,
+            10,
+            560,
+            276
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": 150,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": "Poppler MediaBox-rendered page pixels at 150dpi; preserve CropBox offset as metadata; bounds/foci remain in the MediaBox raster frame.",
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "information-rate-note-right",
+          "order": 3,
+          "cropId": "crop-dmg-support-research-and-information-costs-03",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            635,
+            39,
+            1205,
+            799
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            16,
+            37,
+            562,
+            174
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        }
+      ]
+    },
+    {
+      "rowId": "dmg-sage-unknown-half",
+      "status": "declared-source-context-parts-linked",
+      "parts": [
+        {
+          "partId": "information-rate-table-context",
+          "order": 1,
+          "cropId": "crop-dmg-support-research-and-information-costs-02",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            0,
+            970,
+            610,
+            1580
+          ],
+          "focusBoundsCropPixelsLTRB": null,
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "information-rate-note-primary",
+          "order": 2,
+          "cropId": "crop-dmg-support-research-and-information-costs-03",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            635,
+            39,
+            1205,
+            799
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            20,
+            339,
+            557,
+            396
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        }
+      ]
+    },
+    {
+      "rowId": "dmg-sage-specific-unsolved",
+      "status": "declared-source-context-parts-linked",
+      "parts": [
+        {
+          "partId": "information-rate-table-context",
+          "order": 1,
+          "cropId": "crop-dmg-support-research-and-information-costs-02",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            0,
+            970,
+            610,
+            1580
+          ],
+          "focusBoundsCropPixelsLTRB": null,
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "information-rate-note-primary",
+          "order": 2,
+          "cropId": "crop-dmg-support-research-and-information-costs-03",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 33,
+            "pdfPage": 34,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+          "sourceRenderDimensionsPx": [
+            1232,
+            1640
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a0190a14ff805fbd",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a0190a14ff805fbd",
+              "book": "DMG",
+              "printedPage": 33,
+              "pdfPage": 34,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+              "sourceRenderDimensionsPx": [
+                1232,
+                1640
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  591.3599853515625,
+                  786.95947265625
+                ],
+                "cropBoxPoints": [
+                  9.359999656677246,
+                  0,
+                  582,
+                  777.5994873046875
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  572.6400146484375,
+                  777.5994873046875
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  9.359999656677246,
+                  0
+                ]
+              },
+              "freshRgbSha256": "e5e75cc6159c2bf98ab91ff65836375548b6d855e78f7f0eed8540a914247455",
+              "reviewedCropIds": [
+                "crop-dmg-support-research-and-information-costs-01",
+                "crop-dmg-support-research-and-information-costs-02",
+                "crop-dmg-support-research-and-information-costs-03",
+                "crop-dmg-support-research-and-information-costs-04"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            635,
+            39,
+            1205,
+            799
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            20,
+            488,
+            557,
+            584
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        }
+      ]
+    },
+    {
+      "rowId": "dmg-wand-of-wonder-gems-88-90",
+      "status": "declared-source-context-parts-linked",
+      "parts": [
+        {
+          "partId": "wand-table-opening-left",
+          "order": 1,
+          "cropId": "crop-dmg-wand-of-wonder-opening-table-left-01",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 136,
+            "pdfPage": 137,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-32c207a18b736ccf",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-32c207a18b736ccf",
+              "book": "DMG",
+              "printedPage": 136,
+              "pdfPage": 137,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+              "sourceRenderDimensionsPx": [
+                1230,
+                1644
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  590.3997802734375,
+                  788.8798828125
+                ],
+                "cropBoxPoints": [
+                  1.440000057220459,
+                  9.3599853515625,
+                  572.3997802734375,
+                  779.5198974609375
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  570.9597778320312,
+                  770.159912109375
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  1.440000057220459,
+                  9.3599853515625
+                ]
+              },
+              "freshRgbSha256": "d4dc72d4ab536d21a141c8b7f6d65fc3ecae5810d0411dd9a2286077e5e058a7",
+              "reviewedCropIds": [
+                "crop-dmg-gem-and-magic-treasure-valuations-01",
+                "crop-dmg-wand-of-wonder-opening-table-left-01",
+                "crop-dmg-wand-of-wonder-table-continuation-right-01"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            8,
+            1236,
+            598,
+            1586
+          ],
+          "focusBoundsCropPixelsLTRB": null,
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "wand-table-continuation-right",
+          "order": 2,
+          "cropId": "crop-dmg-wand-of-wonder-table-continuation-right-01",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 136,
+            "pdfPage": 137,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-32c207a18b736ccf",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-32c207a18b736ccf",
+              "book": "DMG",
+              "printedPage": 136,
+              "pdfPage": 137,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+              "sourceRenderDimensionsPx": [
+                1230,
+                1644
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  590.3997802734375,
+                  788.8798828125
+                ],
+                "cropBoxPoints": [
+                  1.440000057220459,
+                  9.3599853515625,
+                  572.3997802734375,
+                  779.5198974609375
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  570.9597778320312,
+                  770.159912109375
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  1.440000057220459,
+                  9.3599853515625
+                ]
+              },
+              "freshRgbSha256": "d4dc72d4ab536d21a141c8b7f6d65fc3ecae5810d0411dd9a2286077e5e058a7",
+              "reviewedCropIds": [
+                "crop-dmg-gem-and-magic-treasure-valuations-01",
+                "crop-dmg-wand-of-wonder-opening-table-left-01",
+                "crop-dmg-wand-of-wonder-table-continuation-right-01"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            600,
+            75,
+            1195,
+            516
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            23,
+            249,
+            548,
+            308
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        }
+      ]
+    },
+    {
+      "rowId": "dmg-deck-gem-card",
+      "status": "declared-source-context-parts-linked",
+      "parts": [
+        {
+          "partId": "deck-owner-table",
+          "order": 1,
+          "cropId": "crop-dmg-deck-gem-card-table-01",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 142,
+            "pdfPage": 143,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "a7644732d9f27787ae77ae7ac4ee51783ab1a3ec4ce8147ac81b4ef146600293",
+          "sourceRenderDimensionsPx": [
+            1209,
+            1644
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-a7644732d9f27787",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-a7644732d9f27787",
+              "book": "DMG",
+              "printedPage": 142,
+              "pdfPage": 143,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "a7644732d9f27787ae77ae7ac4ee51783ab1a3ec4ce8147ac81b4ef146600293",
+              "sourceRenderDimensionsPx": [
+                1209,
+                1644
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  580.31982421875,
+                  788.8798828125
+                ],
+                "cropBoxPoints": [
+                  0,
+                  0,
+                  570.9598388671875,
+                  779.5198974609375
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  570.9598388671875,
+                  779.5198974609375
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  0,
+                  0
+                ]
+              },
+              "freshRgbSha256": "b8a8df65a7b2ae6c06072f67e6a858c69c3660bee24225a311cbcf5502d035fc",
+              "reviewedCropIds": [
+                "crop-dmg-deck-gem-card-table-01"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            600,
+            444,
+            1195,
+            1335
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            22,
+            482,
+            462,
+            503
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        },
+        {
+          "partId": "deck-value-paragraph",
+          "order": 2,
+          "cropId": "crop-dmg-high-value-gems-01",
+          "source": {
+            "book": "DMG",
+            "sourceFile": "DMG_1stEd.pdf",
+            "printedPage": 143,
+            "pdfPage": 144,
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "sourceRenderSha256": "bd2634dd48d83af1e1008da18d2efa2e9c61d60ed504e3a9faa1009b9e93cf47",
+          "sourceRenderDimensionsPx": [
+            1211,
+            1636
+          ],
+          "renderDpi": 150,
+          "sourceRenderCoordinateSpace": "registry-frame:monetary-frame-bd2634dd48d83af1",
+          "normalizedCoordinateSpaceLabel": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+          "resolutionMethod": "hash-bound-reviewed-frame-registry",
+          "registryResolution": {
+            "status": "matched",
+            "registry": {
+              "path": "research/monetary-source-render-frames.json",
+              "sha256": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7"
+            },
+            "frame": {
+              "id": "monetary-frame-bd2634dd48d83af1",
+              "book": "DMG",
+              "printedPage": 143,
+              "pdfPage": 144,
+              "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "sourceRenderSha256": "bd2634dd48d83af1e1008da18d2efa2e9c61d60ed504e3a9faa1009b9e93cf47",
+              "sourceRenderDimensionsPx": [
+                1211,
+                1636
+              ],
+              "renderDpi": 150,
+              "renderMode": "Poppler MediaBox default; no -cropbox",
+              "coordinateSpace": "original source-render page pixels; top-left origin; render mode and PDF page boxes identify the frame",
+              "actualPdfGeometry": {
+                "mediaBoxPoints": [
+                  0,
+                  0,
+                  581.2789306640625,
+                  785.2796630859375
+                ],
+                "cropBoxPoints": [
+                  0,
+                  0,
+                  574.0789184570312,
+                  775.919677734375
+                ],
+                "pageRectPoints": [
+                  0,
+                  0,
+                  574.0789184570312,
+                  775.919677734375
+                ],
+                "cropBoxPositionOffsetPoints": [
+                  0,
+                  0
+                ]
+              },
+              "freshRgbSha256": "cdee15fd03c46bc1c2319638e54af6740839c6954718dc2823cd498dcbd66d79",
+              "reviewedCropIds": [
+                "crop-dmg-high-value-gems-01"
+              ],
+              "verification": "independent original-PDF rerender; exact RGB and source/page/frame geometry match"
+            }
+          },
+          "cropBoundsPixelsLTRB": [
+            65,
+            386,
+            605,
+            478
+          ],
+          "focusBoundsCropPixelsLTRB": [
+            2,
+            2,
+            537,
+            90
+          ],
+          "declaredDpi": {
+            "partRenderDpi": null,
+            "partSourceRenderDpi": null,
+            "partSourceRenderRenderDpi": null,
+            "partSourceRenderSourceRenderDpi": null,
+            "partCropRenderDpi": null,
+            "partCropSourceRenderDpi": null,
+            "cropRenderDpi": null,
+            "cropSourceRenderDpi": null,
+            "cropSourceRenderRenderDpi": null
+          },
+          "declaredCoordinateSpaces": {
+            "part": null,
+            "partFocus": null,
+            "partSourceRender": null,
+            "partCrop": null,
+            "crop": null,
+            "cropSourceRender": null,
+            "cropSourceRenderFrame": null,
+            "cropSourceCropFrame": null,
+            "partCropSourceCropFrame": null
+          }
+        }
+      ]
+    }
+  ]
+}

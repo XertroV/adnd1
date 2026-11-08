@@ -5,6 +5,7 @@ import {validScanCatalogPath, scanStates, validateScanCatalog} from './scan-cata
 import {attachEvidenceBindings, attachSourceVisualReviewMetadata, buildPriceSourceInventory, validatePriceSourceInventory, writePriceSourceInventory} from './price-source-inventory.mjs';
 import {buildCoverageGaps} from './coverage-gaps.mjs';
 import {buildPublishedContinuations} from './published-continuations.mjs';
+import {ambiguousItemOverrideIds, appendOverrideReferences, classProgressionOverride, cloneOverrideJson, collectionOverride, collectionReferenceOverrides, equipmentPriceStateOverride} from './citation-override-identity.mjs';
 const root = resolve(import.meta.dirname, '..');
 const {default: books} = await import('../dist/books.js');
 const load = name => existsSync(resolve(root,name)) ? JSON.parse(readFileSync(resolve(root,name),'utf8')) : {};
@@ -29,22 +30,24 @@ data.spells=[...spellMap.values()];
 // Keep reviewed cross-book references and provenance separate from original extraction files.
 const citations=load('citation-overrides.json');
 const progression=load('progression-overrides.json');
+const ambiguousCitationIds=ambiguousItemOverrideIds(data,progression.explainer);
 for(const [collection,items] of Object.entries({rules:data.rules,spells:data.spells,classes:data.classes,equipment:data.equipment,matrices:data.matrices}))for(const item of items){
-  const override=citations.items?.[item.id];
-  if(override?.references){
-    const refs=[...(item.references||[]),...override.references];
-    item.references=refs.filter((ref,index)=>refs.findIndex(other=>JSON.stringify(other)===JSON.stringify(ref))===index);
-  }
-  const sourceExcerpts=citations.sourceExcerpts?.[`${collection}:${item.id}`]||citations.sourceExcerpts?.[item.id];
-  if(sourceExcerpts){if(sourceExcerpts.collection && sourceExcerpts.collection!==collection)throw new Error(`Wrong scan collection for ${collection}:${item.id}`);item.sourceExcerpts=sourceExcerpts;}
-  if(citations.scanVerification?.[item.id])item.scanVerification=citations.scanVerification[item.id];
-  if(citations.priceStates?.[item.id])item.priceState=citations.priceStates[item.id];
-  if(progression.classes?.[item.id])Object.assign(item,progression.classes[item.id]);
+  const referenceOverrides=collectionReferenceOverrides(citations.items,collection,item.id,ambiguousCitationIds);
+  appendOverrideReferences(item,referenceOverrides);
+  const sourceExcerpts=collectionOverride(citations.sourceExcerpts,collection,item.id,ambiguousCitationIds,{allowDeclaredCollection:true,mapName:'sourceExcerpts'});
+  if(sourceExcerpts){if(sourceExcerpts.collection && sourceExcerpts.collection!==collection)throw new Error(`Wrong scan collection for ${collection}:${item.id}`);item.sourceExcerpts=cloneOverrideJson(sourceExcerpts);}
+  const scanVerification=collectionOverride(citations.scanVerification,collection,item.id,ambiguousCitationIds);
+  if(scanVerification)item.scanVerification=cloneOverrideJson(scanVerification);
+  const priceState=equipmentPriceStateOverride(citations.priceStates,collection,item.id);
+  if(priceState)item.priceState=priceState;
+  const classOverride=classProgressionOverride(progression.classes,collection,item.id);
+  if(classOverride)Object.assign(item,cloneOverrideJson(classOverride));
 }
 if(progression.explainer){data.progressionExplainer=progression.explainer;
-  if(citations.scanVerification?.['progression-explainer'])data.progressionExplainer.scanVerification=citations.scanVerification['progression-explainer'];
-  const sourceExcerpts=citations.sourceExcerpts?.['progressionExplainer:progression-explainer']||citations.sourceExcerpts?.['progression-explainer'];
-  if(sourceExcerpts){if(sourceExcerpts.collection&&sourceExcerpts.collection!=='progressionExplainer')throw new Error('Wrong scan collection for progression explainer');data.progressionExplainer.sourceExcerpts=sourceExcerpts;}
+  const scanVerification=collectionOverride(citations.scanVerification,'progressionExplainer','progression-explainer',ambiguousCitationIds);
+  if(scanVerification)data.progressionExplainer.scanVerification=cloneOverrideJson(scanVerification);
+  const sourceExcerpts=collectionOverride(citations.sourceExcerpts,'progressionExplainer','progression-explainer',ambiguousCitationIds,{allowDeclaredCollection:true,mapName:'sourceExcerpts'});
+  if(sourceExcerpts){if(sourceExcerpts.collection&&sourceExcerpts.collection!=='progressionExplainer')throw new Error('Wrong scan collection for progression explainer');data.progressionExplainer.sourceExcerpts=cloneOverrideJson(sourceExcerpts);}
 }
 const excerptItems=[...data.rules,...data.spells,...data.classes,...data.equipment,...data.matrices,...(data.progressionExplainer?[{...data.progressionExplainer,id:'progression-explainer'}]:[])].filter(item=>scanStates.has(item.scanVerification?.state)||item.sourceExcerpts?.state==='source-excerpt-checked');
 const uniqueRegions=new Set(),imageFiles=new Set(),imageMetadata=new Map();let scopedRegions=0;

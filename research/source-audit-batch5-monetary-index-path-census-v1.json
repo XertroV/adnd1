@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "monetary-index-path-and-claim-preservation-census",
+  "generatedBy": "tools/monetary-source-inventory.mjs with direct deterministic candidate build",
+  "purpose": "Machine-generated claim-path and row-delta inventory for independent review. It verifies extraction boundaries and preservation counts; it does not certify source semantics or pixels.",
+  "inputs": [
+    {
+      "path": "research/price-source-inventory.json@679b15d1c580172e54314829c1c3c86dc78b65f3",
+      "sha256": "f2a02d1e990cf9bd30135f7dc2fcd2f10f9e1f2e172ee594e396677c32fb3852"
+    },
+    {
+      "path": "equipment.json",
+      "sha256": "469c3d6643a209473e1ee5d052ad9e9320d00e69172130b151ada877e3846edf"
+    },
+    {
+      "path": "research/equipment-source-row-bindings.json",
+      "sha256": "38b34185adb60b5643ec0c24dff9de95292a34f70d1ef9d5d652f96325a36831"
+    },
+    {
+      "path": "research/source-audit-batch5-ua-additional-prices.json",
+      "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+    },
+    {
+      "path": "research/source-audit-batch5-price-description-records.json",
+      "sha256": "88c5456626a47f5a47a6cce514cb8ea2ce5338e4a9a9b13e93eedfcd265e3c8d"
+    },
+    {
+      "path": "tests/fixtures/monetary-phbdmg-v3-index-candidate.json.gz#decompressed-candidate",
+      "sha256": "def5f2857a92336391bfce5bf5664958a902db9d17b1ac9392252f173aa2ca83"
+    },
+    {
+      "path": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "sha256": "d94f8e59dd34955292ab2d9d85ebc29c9ff634d4f70b38a20a91bdd4084f588e"
+    },
+    {
+      "path": "research/source-audit-batch5-phb-dmg-price-passage-records.json",
+      "sha256": "2f73f635aa04c2d55c3fe4e71cc5db6a3c55779e6db9f9e5adfe71c08ae5b707"
+    },
+    {
+      "path": "research/price-source-inventory-phb-dmg-other.json",
+      "sha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79"
+    },
+    {
+      "path": "research/price-source-inventory-ua-other.json",
+      "sha256": "f1f797d9e8664589af5308737d9bc9d5e5dd536339349609fbeec5dc2a58c4b9"
+    },
+    {
+      "path": "research/price-source-inventory-monster-books.json",
+      "sha256": "5b18323c4817c7c99a38cd058015f862bbc588237b655ec6c7e8375f60f8248f"
+    }
+  ],
+  "candidateArchive": {
+    "path": "tests/fixtures/monetary-phbdmg-v3-index-candidate.json.gz",
+    "gzipSha256": "641db71e88edf5e52597ee2fa91c9e00de57b69b25c304e0314ef740d629144a",
+    "decompressedSha256": "def5f2857a92336391bfce5bf5664958a902db9d17b1ac9392252f173aa2ca83"
+  },
+  "implementation": {
+    "path": "tools/monetary-source-inventory.mjs",
+    "sha256": "4330ecfa8414f1f0772d4aeb791d6804d878b1816b8ab40bf4355ca24f3a2d72"
+  },
+  "tests": {
+    "path": "tests/monetary-source-inventory.test.mjs",
+    "sha256": "de7e02ff7089fc234075827363086c418b2d2b5f28c54d36bb845fae313f9203"
+  },
+  "scope": {
+    "sourceRows": 179,
+    "sourceOccurrences": 1871,
+    "valueClaims": 2317,
+    "phbDmgOccurrences": 179,
+    "phbDmgClaims": 389,
+    "ordinaryRowsWithUnchangedClaimIdentityAndMeaning": 165,
+    "rowsWithClaimIdentityOrMeaningChanges": 14,
+    "changedRowIds": [
+      "phb-dmg:dmg-commodity-01",
+      "phb-dmg:dmg-commodity-02",
+      "phb-dmg:dmg-commodity-03",
+      "phb-dmg:dmg-commodity-04",
+      "phb-dmg:dmg-commodity-05",
+      "phb-dmg:dmg-commodity-06",
+      "phb-dmg:dmg-commodity-07",
+      "phb-dmg:dmg-commodity-08",
+      "phb-dmg:dmg-deck-gem-card",
+      "phb-dmg:dmg-henchman-initial-payment",
+      "phb-dmg:dmg-placement-not-gem-1000",
+      "phb-dmg:dmg-potion-alchemist-discount",
+      "phb-dmg:dmg-spell-research-success-expenditure-3",
+      "phb-dmg:dmg-town-fee-foreign-silver-threshold-fine"
+    ],
+    "metadataPathPattern": "/(?:^|\\/)(?:derivation|method|sourceBasis|unit|conditions?|quantity)(?:\\/|$)/i",
+    "metadataSourcedClaimCount": 0,
+    "metadataSourcedClaimIds": [],
+    "sourceReview": "pending independent source/semantic review"
+  }
+}

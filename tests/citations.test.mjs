@@ -6,10 +6,13 @@ const require=createRequire(import.meta.url),citations=require('../dist/citation
 const data=JSON.parse(readFileSync(new URL('../dist/data.json',import.meta.url)));
 test('dagger combines primary, individual fields and cross-book references',()=>{
  const groups=citations.collect(data.equipment.find(x=>x.id==='phb-dagger'));
- assert.deepEqual(groups.map(g=>[g.book,g.pages]),[['PHB',[35,37,38,39]],['UA',[27,28]]]);
+ assert.deepEqual(groups.map(g=>[g.book,g.pages]),[['PHB',[35,37,38,39]],['UA',[26,27,28]]]);
  assert.ok(groups[1].contexts.some(c=>c.label==='Thrown rate (UA p.28)'));
  assert.ok(groups[1].contexts.some(c=>c.label==='Hand-held AC adjustments (UA p.27)'));
- assert.equal(citations.pages(data.equipment.find(x=>x.id==='phb-dagger')).length,6);
+ assert.equal(citations.pages(data.equipment.find(x=>x.id==='phb-dagger')).length,7);
+ const receipt=JSON.parse(readFileSync(new URL('../research/source-audit-batch5-ua26-central-integration.json',import.meta.url)));
+ const added=receipt.addedReferences.find(reference=>reference.itemId==='phb-dagger'&&reference.reference.book==='UA'&&reference.reference.pages.includes(26));
+ assert.ok(added,'the additional page is an explicitly reviewed UA26 row citation');
 });
 test('reviewed override citations retain the actual secondary source identity',()=>{
  const expected={'phb-partisan':['UA',26],'ua-druid-know-alignment':['PHB',45],'ua-magic-user-know-alignment':['PHB',45],'ua-magic-user-detect-illusion':['PHB',94],'ua-magic-user-dispel-illusion':['PHB',96],'ua-magic-user-shine':['DMG',26]};

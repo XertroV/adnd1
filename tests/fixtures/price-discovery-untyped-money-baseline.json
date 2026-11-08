@@ -1,0 +1,839 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "pre-reconciliation-untyped-money-candidate-baseline",
+  "title": "Currency and XP text in bounded source-inventory qualifiers, footnotes, and passages",
+  "capturedBeforeAddingDescriptionRecords": true,
+  "captureMethod": {
+    "regex": "Currency/XP unit or symbol adjacent to numeric amount in selected free-text fields. Typed numeric value fields and source census locator cues are excluded; the 180 census claims are reconciled in the main receipt ledger.",
+    "selectedFields": [
+      "conditions",
+      "discoverySummary",
+      "disposition",
+      "dispositionNotes",
+      "distinction",
+      "exclusions",
+      "footnoteConditions",
+      "notes",
+      "price",
+      "quantityCondition",
+      "quantityOrScale",
+      "reason",
+      "sourcePassage",
+      "sourceReading",
+      "sourceTableContext",
+      "summary",
+      "text",
+      "unresolved"
+    ],
+    "limitations": [
+      "Literal patterns can miss OCR corruption/abbreviations outside the pattern.",
+      "Candidate occurrence is discovery only; every amount is classified against source identity and typed claims.",
+      "Source pages outside the three page-discovery censuses or unreviewed noncandidates remain unknown, not passes."
+    ]
+  },
+  "inputArtifacts": {
+    "phb-dmg-census": {
+      "path": "research/price-source-inventory-phb-dmg-other.json",
+      "sha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "selectedProseOrQualifierStringLeaves": 58,
+      "detectedCurrencyOrXpAmountStrings": 2
+    },
+    "ua-census": {
+      "path": "research/price-source-inventory-ua-other.json",
+      "sha256": "f1f797d9e8664589af5308737d9bc9d5e5dd536339349609fbeec5dc2a58c4b9",
+      "selectedProseOrQualifierStringLeaves": 100,
+      "detectedCurrencyOrXpAmountStrings": 48
+    },
+    "monster-census": {
+      "path": "research/price-source-inventory-monster-books.json",
+      "sha256": "87ea54c296d9a6b4697a997b5da1ee38b9c844668fc4fb54d5a8794d6aaef106",
+      "selectedProseOrQualifierStringLeaves": 86,
+      "detectedCurrencyOrXpAmountStrings": 11
+    },
+    "source-inventory-710": {
+      "path": "research/price-source-inventory.json",
+      "sha256": "f2a02d1e990cf9bd30135f7dc2fcd2f10f9e1f2e172ee594e396677c32fb3852",
+      "selectedProseOrQualifierStringLeaves": 43,
+      "detectedCurrencyOrXpAmountStrings": 7
+    },
+    "ua-supplement-583": {
+      "path": "research/source-audit-batch5-ua-additional-prices.json",
+      "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "selectedProseOrQualifierStringLeaves": 202,
+      "detectedCurrencyOrXpAmountStrings": 4
+    },
+    "phb-dmg-supplement-179-and-reference-165": {
+      "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "selectedProseOrQualifierStringLeaves": 306,
+      "detectedCurrencyOrXpAmountStrings": 22
+    }
+  },
+  "uaFootnoteDenominator": {
+    "rowRecords": 583,
+    "rowsWithFootnoteConditions": 86,
+    "footnoteConditionEntries": 91,
+    "rowsWithQuantityCondition": 15,
+    "typedConditionalFootnoteValues": 2
+  },
+  "candidateOccurrenceCount": 94,
+  "pointerFailureBaseline": {
+    "path": "tests/fixtures/price-discovery-ua-description-pointer-baseline.json",
+    "sha256": "8cce423ed0c7aa3f6ebad829ebee829c89b05bb432a666c72de90711592a3486",
+    "stableGpPointerCount": 8
+  },
+  "candidates": [
+    {
+      "candidateId": "phb-dmg-census-candidate-001",
+      "sourceArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "jsonPointer": "/24/discoverySummary",
+      "field": "discoverySummary",
+      "text": "A progression raises values above 5,000 gp through a stated maximum.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-census-candidate-002",
+      "sourceArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "jsonPointer": "/45/discoverySummary",
+      "field": "discoverySummary",
+      "text": "A gem passage/table includes a 1,000 gp base value.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-001",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/1/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Material components include at least 500 gp of powdered ruby.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-002",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/2/sourcePassage",
+      "field": "sourcePassage",
+      "text": "If no rainbow is nearby, a diamond of not less than 1,000 gp value may substitute, prepared in sight of a rainbow using bless and prayer.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-003",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/3/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Preparing the special item for either version of the spell costs 2,000 to 5,000 gold pieces.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-004",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/4/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Either use requires diamond dust worth at least 500 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-005",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/6/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Requires about 50 gp worth of diamond dust.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-006",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/7/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Garment must be worth at least 300 gp; garment with 100 or more pockets costs at least 1,000 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-007",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/8/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Fine gold tube costs at least 1,000 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-008",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/9/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Requires 100 gp worth of powdered amber.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-009",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/10/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Requires a polished silver mirror costing at least 1,000 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-010",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/11/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Requires crushed amethyst worth at least 500 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-011",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/12/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Requires 100 gp worth of quicksilver.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-012",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/13/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Special pigments cost 1,000 gp per turn; each turn reduces the subject’s break-free chance by 1%.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-013",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/14/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Inlaid or inscribed protective stone adds at least 50,000 gp and takes at least one month to prepare.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-014",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/15/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Powdered diamond worth at least 1,000 gp is expended when studying/memorizing; the casting itself has no material component.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-015",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/16/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Special inks cost at least 1,000 gp per target Hit Die.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-016",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/17/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Diamond or corundum worth at least 1,000 gp per subject Hit Die.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-017",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/18/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Gem material must be worth at least 5,000 gp; the item can be enchanted monthly.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-018",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/19/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Mithral plate is worth 10 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-019",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/20/sourcePassage",
+      "field": "sourcePassage",
+      "text": "The appropriate colored gem must be worth at least 50 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-020",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/21/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Requires a square of finest black silk worth at least 100 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-021",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/23/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Field plate repair costs 100 gp plus one day for each point of absorbing power restored.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-022",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/24/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Full plate repair costs 200 gp plus two days for each point of absorbing power restored.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-023",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/26/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Hand-held crossbow price is 300 gp outside the drow domain; it may be as little as 30 gp in a drow domain.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-024",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/27/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Special quarrels cost 10 gp each in the drow domain.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-025",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/28/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Standard spellbook materials cost 1,000 gp plus 100 gp per total spell level; cantrips count as first-level spells.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-026",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/29/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Traveling spellbook materials cost 500 gp plus the same per-level inscription cost.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-027",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/31/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Standard spellbook sale value is 1,000 gp per spell level.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-028",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/32/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Willing caster charges 200 gp per spell level plus doubled material components/equivalent.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-029",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/45/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Residual jewelry is worth 100–600 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-030",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/46/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Created garb totals 7,000–10,000 gp: fabric 1,000 gp, furs 5,000 gp, trim 1,000–4,000 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-031",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/47/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Sale value varies by bonus: +1 5,000; +2 7,500; +3 10,000; +4 15,000; +5 20,000 gp; special +3 form 25,000 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-032",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/48/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Visible continuation gives a sale value of 1,000 gp per effective cleric level, but item name is missing at page break.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-033",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/49/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Black 5,000 gp; Bone 10,000 gp; Crystal 9,000 gp; Golden 4,000 gp; Scarlet 3,500 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-034",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/50/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Value is at least 5,000 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-035",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/51/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Worth at least 1,000 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-036",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/52/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Sale values: Flesh 3,200; Clay 3,500; Stone 4,000; Iron 5,000; Flesh/Clay/Wood 6,000; Any golem 12,500 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-037",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/53/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Sale value is 1,000 gp times uses per day, listed as 2,000–7,000 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-038",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/54/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Each pommel gem is worth 10,000 gp; this is the gem’s value, not a sale value for the sword.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-039",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/55/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Sale value is 15,000 gp per magical bonus; +1 through +5 correspond to 15,000–75,000 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-040",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/56/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Sale value is 1,500 gp plus 1,000 gp times bonus; +1 through +4 gives 2,500–5,500 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-041",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/57/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Sale values: knife +1 1,500; knife +2 3,000; dagger +1 2,000; dagger +2 4,000; scimitar +2 6,000; scimitar +3 9,000 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-042",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/58/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Sale values for +1 through +4 are 1,000, 2,000, 3,000, and 4,000 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-043",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/59/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Sale values for +1 through +5 are 1,500, 3,000, 4,500, 6,000, and 7,500 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-044",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/60/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Sale values: +1 9,000; +2 12,000; +3 15,000; +4 18,000; +5 21,000 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-045",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/61/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Treasure taken as combat prize is capped at 1,000 gp times loser Hit Dice or level, plus one weapon, armor, or shield.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-046",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/62/sourcePassage",
+      "field": "sourcePassage",
+      "text": "A small gemstone offering has a value of 10 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-047",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/63/sourcePassage",
+      "field": "sourcePassage",
+      "text": "Treasure worth more than 1,000 gp can trigger theft or killing; the listed behavioral chance is 50%.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-census-candidate-048",
+      "sourceArtifact": "research/price-source-inventory-ua-other.json",
+      "jsonPointer": "/64/sourcePassage",
+      "field": "sourcePassage",
+      "text": "A cut braid turns to gold worth 10,000–40,000 gp, subject to rarity/restrictions.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "monster-census-candidate-001",
+      "sourceArtifact": "research/price-source-inventory-monster-books.json",
+      "jsonPointer": "/unresolvedCandidates/0/sourceReading",
+      "field": "sourceReading",
+      "text": "Text layer claims a 5,000 gp market value per egg.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "monster-census-candidate-002",
+      "sourceArtifact": "research/price-source-inventory-monster-books.json",
+      "jsonPointer": "/unresolvedCandidates/1/sourceReading",
+      "field": "sourceReading",
+      "text": "Nuggets are described as “the size of 5 gold pieces.”",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "monster-census-candidate-003",
+      "sourceArtifact": "research/price-source-inventory-monster-books.json",
+      "jsonPointer": "/unresolvedCandidates/1/disposition",
+      "field": "disposition",
+      "text": "Do not interpret “5 gold pieces” as monetary value; source wording may describe physical size/weight.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "monster-census-candidate-004",
+      "sourceArtifact": "research/price-source-inventory-monster-books.json",
+      "jsonPointer": "/unresolvedCandidates/2/sourceReading",
+      "field": "sourceReading",
+      "text": "Source mentions 5–30 pieces of jewelry of low base worth and an average weight of 150 gp each.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "monster-census-candidate-005",
+      "sourceArtifact": "research/price-source-inventory-monster-books.json",
+      "jsonPointer": "/unresolvedCandidates/2/disposition",
+      "field": "disposition",
+      "text": "Do not treat 150 gp as a monetary value; the source explicitly labels it average weight. The low-base-worth wording gives no numeric price.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "monster-census-candidate-006",
+      "sourceArtifact": "research/price-source-inventory-monster-books.json",
+      "jsonPointer": "/unresolvedCandidates/3/sourceReading",
+      "field": "sourceReading",
+      "text": "These are “a hundred times” the average 50 gp feather value.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "monster-census-candidate-007",
+      "sourceArtifact": "research/price-source-inventory-monster-books.json",
+      "jsonPointer": "/unresolvedCandidates/3/disposition",
+      "field": "disposition",
+      "text": "Retained as relative formula; do not infer a separate 5,000 gp price for each part because the unit scope is not explicit.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "monster-census-candidate-008",
+      "sourceArtifact": "research/price-source-inventory-monster-books.json",
+      "jsonPointer": "/exclusions/0/reason",
+      "field": "reason",
+      "text": "“10,000 gold pieces” is explicitly weight/carrying capacity, not price or value.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "monster-census-candidate-009",
+      "sourceArtifact": "research/price-source-inventory-monster-books.json",
+      "jsonPointer": "/exclusions/1/reason",
+      "field": "reason",
+      "text": "“2,500 GP wt.” is a weight limit, not a monetary amount.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "monster-census-candidate-010",
+      "sourceArtifact": "research/price-source-inventory-monster-books.json",
+      "jsonPointer": "/exclusions/6/reason",
+      "field": "reason",
+      "text": "Randomly generated 3–18 platinum pieces and 5–20 gems have no stated monetary valuation; not price claims.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "monster-census-candidate-011",
+      "sourceArtifact": "research/price-source-inventory-monster-books.json",
+      "jsonPointer": "/exclusions/7/reason",
+      "field": "reason",
+      "text": "Random treasure quantities (10–40 gp, 5–20 pp) are treasure-generation results, not prices or valuations.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "source-inventory-710-candidate-001",
+      "sourceArtifact": "research/price-source-inventory.json",
+      "jsonPointer": "/4/conditions/0/price",
+      "field": "price",
+      "text": "10–100 gp bonus, well-stocked laboratory, and assurance of at least one year’s employment",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "source-inventory-710-candidate-002",
+      "sourceArtifact": "research/price-source-inventory.json",
+      "jsonPointer": "/4/conditions/1/price",
+      "field": "price",
+      "text": "310–400 gp workroom and forge must be available",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "source-inventory-710-candidate-003",
+      "sourceArtifact": "research/price-source-inventory.json",
+      "jsonPointer": "/4/conditions/11/price",
+      "field": "price",
+      "text": "100 gp per level per month",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "source-inventory-710-candidate-004",
+      "sourceArtifact": "research/price-source-inventory.json",
+      "jsonPointer": "/4/conditions/12/price",
+      "field": "price",
+      "text": "100 gp per level per month",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "source-inventory-710-candidate-005",
+      "sourceArtifact": "research/price-source-inventory.json",
+      "jsonPointer": "/5/conditions/2/text",
+      "field": "text",
+      "text": "The stone building’s listed price includes one 1-ft stone course, 120 ft of outside walls 20 ft high, two wooden floors, two flights of stairs, roof and one wooden door; cellar excavation, ground flooring, windows, interior walls and extra doors cost extra. Each additional 1-ft course adds 10% of initial cost. A 10-ft-thick example is 500 gp plus 90%, or 950 gp. An earth rampart immediately above one side of a ditch costs 20% of the listed rampart amount.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "source-inventory-710-candidate-006",
+      "sourceArtifact": "research/price-source-inventory.json",
+      "jsonPointer": "/5/conditions/3/text",
+      "field": "text",
+      "text": "Iron door: add or subtract 2 gp per square foot of half-inch iron altered. Secret door: no reduction for smaller portals; larger ones add 5 gp per square foot of increased size. Trap door: each additional square foot costs 1 sp. Wooden door: one square foot of added or reduced wood is 2 sp. Reinforced wooden door: each square foot alteration is 5 sp. Drawbridge: each square foot alteration is valued at 2 gp. Portcullis: adjust cost by 2 gp per square foot alteration.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "source-inventory-710-candidate-007",
+      "sourceArtifact": "research/price-source-inventory.json",
+      "jsonPointer": "/5/conditions/6/text",
+      "field": "text",
+      "text": "The listed receptacle figures are suggested costs. A specially blessed/cursed empty crystal or special leaded-glass vial is worth 2–5 gp. Combination-metal vessel capacity may be interpolated: the printed half-copper, half-silver example holds 8 vials and costs 50% of each vessel price. Fonts and basins require special order and take 4–10 (2d4+2) weeks. A defiled font/basin is smelted and remade at 20%–50% of normal figures, taking 4–6 weeks.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-supplement-583-candidate-001",
+      "sourceArtifact": "research/source-audit-batch5-ua-additional-prices.json",
+      "jsonPointer": "/rowRecords/168/footnoteConditions/0",
+      "field": "footnoteConditions",
+      "text": "Printed row points to the DMG p.124 Special table; it is a reference, not a numeric price.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-supplement-583-candidate-002",
+      "sourceArtifact": "research/source-audit-batch5-ua-additional-prices.json",
+      "jsonPointer": "/rowRecords/186/footnoteConditions/0",
+      "field": "footnoteConditions",
+      "text": "Printed footnote 1: value applies per armor-class step better than AC 10; the source example gives AC 6 as four steps (2,000 XP; 12,000 gp if sold).",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-supplement-583-candidate-003",
+      "sourceArtifact": "research/source-audit-batch5-ua-additional-prices.json",
+      "jsonPointer": "/groupReviews/0/distinction",
+      "field": "distinction",
+      "text": "The adjacent field-plate repair passage is 100 gp per point of absorbing power restored plus one day per point; this is not an armor purchase row and remains separately represented in the original source inventory.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "ua-supplement-583-candidate-004",
+      "sourceArtifact": "research/source-audit-batch5-ua-additional-prices.json",
+      "jsonPointer": "/groupReviews/0/sourceRows/exclusions/0",
+      "field": "exclusions",
+      "text": "Adjacent Field Plate repair passage is not an armor purchase-table row: 100 gp per point of absorbing power restored, plus one day per point. It remains a separate passage claim.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-001",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/groups/4/dispositionNotes/1",
+      "field": "dispositionNotes",
+      "text": "Right-column armor prose includes “about 2,000 gp” for unusual armor; excluded as adjacent, unrelated armor equipment, not a fur/clothing/rare-commodity line.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-002",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/groups/6/dispositionNotes/1",
+      "field": "dispositionNotes",
+      "text": "The worked example uses 500 gp in tavern/in payments and calculates 63% final effectiveness after overlap.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-003",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/groups/10/dispositionNotes/0",
+      "field": "dispositionNotes",
+      "text": "Spell success-probability cost schedule lists 2,000/4,000/6,000/8,000 gp additional per spell level with corresponding chance increments; formula preserved as written.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-004",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/groups/13/dispositionNotes/0",
+      "field": "dispositionNotes",
+      "text": "Original title suggests a valuation table but source pixels show a wand-effect table. The sole priced outcome is d100 88-90, yielding 10-40 gems at 1 gp base value each.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-005",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/groups/14/dispositionNotes/0",
+      "field": "dispositionNotes",
+      "text": "Table produces 26 coins of listed denomination(s), not a gem valuation by object. Gem footnote says 10-gp base, up to 100 gp.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-006",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/groups/15/dispositionNotes/0",
+      "field": "dispositionNotes",
+      "text": "Source specifies 1,000 gp base per gem but no quantity or total.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-007",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/groups/16/dispositionNotes/0",
+      "field": "dispositionNotes",
+      "text": "Values are: bag of 100 gp; silver coffer valued at 500 gp; 10 gems of 100-gp value each (1,000 gp combined base).",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-008",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/sourceRowsOrClaims/38/quantityOrScale",
+      "field": "quantityOrScale",
+      "text": "stones initially over 5000 gp",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-009",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/sourceRowsOrClaims/39/quantityOrScale",
+      "field": "quantityOrScale",
+      "text": "stones initially below 10 gp",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-010",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/sourceRowsOrClaims/44/conditions",
+      "field": "conditions",
+      "text": "category heading states base value range 100–500 gp; parentheses give exact types; “most prized” variants attach to displayed alternatives",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-011",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/sourceRowsOrClaims/45/conditions",
+      "field": "conditions",
+      "text": "only four entries print 5000 gp; other entries retain the heading lower bound, not invented exact values",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-012",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/sourceRowsOrClaims/86/conditions",
+      "field": "conditions",
+      "text": "10 gp fee yields 1%-4% chance to reach a henchman; max total fee 50 gp",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-013",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/sourceRowsOrClaims/87/conditions",
+      "field": "conditions",
+      "text": "additional establishments reduce efficiency 1% each; up to ten; specified payments above 20 gp if visiting more than a few",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-014",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/sourceRowsOrClaims/89/conditions",
+      "field": "conditions",
+      "text": "for each additional 100 gp; maximum 55% interest",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-015",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/sourceRowsOrClaims/136/conditions",
+      "field": "conditions",
+      "text": "listed XP point award sets GP cost and time; if no XP shown, use 200 gp base",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-016",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/sourceRowsOrClaims/161/conditions",
+      "field": "conditions",
+      "text": "each gem base value 1 gp; this is the only monetary statement found in this group page",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-017",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/sourceRowsOrClaims/162/quantityOrScale",
+      "field": "quantityOrScale",
+      "text": "26 coins of each listed denomination; 26 gems in last result",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-018",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/sourceRowsOrClaims/163/quantityOrScale",
+      "field": "quantityOrScale",
+      "text": "26 coins of each listed denomination; 26 gems in last result",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-019",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/sourceRowsOrClaims/164/quantityOrScale",
+      "field": "quantityOrScale",
+      "text": "26 coins of each listed denomination; 26 gems in last result",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-020",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/sourceRowsOrClaims/165/conditions",
+      "field": "conditions",
+      "text": "maximum gem value is 100 gp",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-021",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/review/sourceRowsOrClaims/166/quantityOrScale",
+      "field": "quantityOrScale",
+      "text": "gems all at 1,000 gp base each; number of pieces not given",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    },
+    {
+      "candidateId": "phb-dmg-supplement-179-and-reference-165-candidate-022",
+      "sourceArtifact": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "jsonPointer": "/additionalReferenceSheetReview/unholyWaterVariantOfferReview/sourceClaim/conditions",
+      "field": "conditions",
+      "text": "The p123 Religious Items row reads “Water, Holy*, vial” at 25 g.p.; the footnote says “* or Unholy”. The price is therefore expressly attached to the unholy variant as well. No unholy-water use or mechanics are inferred.",
+      "baselineDisposition": "detected-untyped-money-or-xp-text; pending explicit linkage/adjudication"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-monetary-condition-coverage-review",
+  "reviewer": "independent delegated review",
+  "reviewDate": "2026-11-08",
+  "reviewStatus": "needs-fix-before-approval",
+  "scope": "Review monetary-condition coverage code and tests, frozen before-correction input reproducibility, full record retention, exact joins, null/empty handling, and the four manually declared DMG p.33 condition-omission regression contracts. This review does not assess source condition semantics beyond the supplied contract.",
+  "reviewedArtifacts": {
+    "tool": {"path": "tools/monetary-condition-coverage.mjs", "sha256": "5866f46d762acfc4220142e8bcb0ccfeceb507b44b07c213604483fd4926ea06"},
+    "tests": {"path": "tests/monetary-condition-coverage.test.mjs", "sha256": "c7c7786e6914e9a05550f2408a6ba1bdc82606d770156de4e0fee90143353fdf"},
+    "beforeReport": {"path": "research/source-audit-batch5-monetary-condition-coverage-before-source-corrections-v2.json", "sha256": "dba0ba6426fbf99b669f8058765bbab3511eb979672ed6ae9e77fc6ab8c5d5e7"},
+    "index": {"path": "artifacts/monetary-source-inventory-before-source-corrections/index.json", "sha256": "472771cc6925c176ebf4eaed5030dc35c1764d53db164a7eda2f9f86e46a004a"},
+    "rowAudit": {"path": "research/source-audit-batch5-monetary-context-migration-before-v3.json", "sha256": "bee94a49f34c33ef1d0c1a77da2a13e4ed56f38880fba55d352c8d42c53fef0b"},
+    "sourceConditionContracts": {"path": "research/source-audit-batch5-monetary-condition-contract-before-info4-v2.json", "sha256": "935cbe0d33613a29cf359e334a4886ac1dc522d4a7daf823c3b6d46fee72e1cd"}
+  },
+  "checks": {
+    "unitTests": {"result": "pass", "passed": 5, "failed": 0},
+    "frozenBeforeReport": {"result": "byte-for-byte reproducible", "sha256": "dba0ba6426fbf99b669f8058765bbab3511eb979672ed6ae9e77fc6ab8c5d5e7"},
+    "recordCoverage": {
+      "indexedOccurrences": 1871,
+      "indexedClaims": 2318,
+      "fullAuditRows": 2161,
+      "exactAuditMatches": 1725,
+      "auditOnlyRowsRetained": 436,
+      "indexReceiptsWithoutExactAuditRowRetained": 146,
+      "auditUidCount": 2161,
+      "uniqueAuditUidCount": 2161
+    },
+    "conditionFieldStates": {"occurrenceNull": 1570, "occurrenceStrings": 263, "occurrenceObjects": 38},
+    "nullEmptyAndAbsent": "All records remain source-semantic-unassessed; no null, empty, or absent field is used as proof of printed-source absence.",
+    "fourManualContractRows": {
+      "result": "baseline identity confirmed against index and row audit",
+      "rows": 4,
+      "allIndexPointerAndConditionValuesMatch": true,
+      "allSourcePathShaAndJsonPointerTriplesMatchIndexAndRowAudit": true,
+      "automaticSemanticDetectionClaim": false
+    },
+    "conditionChangeProbes": {
+      "null": "contract-to-index-identity-mismatch",
+      "removed": "contract-to-index-identity-mismatch",
+      "rephrased": "contract-to-index-identity-mismatch",
+      "findingDisposition": "the held pre-repair contract status remained present; none was automatically cleared"
+    }
+  },
+  "findings": [
+    {
+      "id": "MCOV-1",
+      "severity": "must-fix",
+      "summary": "Declared contract exact binding omits source path, hash, and pointer comparison.",
+      "evidence": "Changed only one contract row's sourceInput.sha256, path, or jsonPointer; each probe still returned exact-pointer-and-before-value-match. Current baseline rows happen to match all three fields in index provenance and the row-audit record.",
+      "recommendation": "Require exact equality for the complete contract sourceInput triple against the indexed occurrence provenance and exact row-audit reference (and report mismatch as needs-review); add negative tests for each changed field."
+    },
+    {
+      "id": "MCOV-2",
+      "severity": "recommendation-for-current-CI",
+      "summary": "CLI defaults and output labels are frozen before-correction even when current inputs are supplied by override.",
+      "evidence": "CLI can accept --index and --row-audit overrides, but the contract artifact and output artifact name remain before-correction. A changed condition becomes a generic contract-to-index-identity-mismatch while the confirmed-source-condition-omission-before-repair status persists.",
+      "recommendation": "For post-source-fix CI, add an explicit current mode that compares current rows to the frozen source contract, reports changed rows as needs-review, and retains each of the four findings until an independent disposition explicitly resolves it. Do not treat any text change, deletion, null, or rephrase as an automatic semantic pass."
+    }
+  ],
+  "limitations": [
+    "This review checks the declared contracts and data plumbing, not printed-source completeness or semantic interpretation for all other rows.",
+    "The source row audit annotations are serialized evidence fields and are not independently source-validated by this tool.",
+    "The four source contracts remain manual reviewed obligations; the generic scanner does not discover semantic omissions."
+  ]
+}

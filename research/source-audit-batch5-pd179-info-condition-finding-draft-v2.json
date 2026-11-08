@@ -1,0 +1,916 @@
+{
+  "schemaVersion": 2,
+  "artifactType": "source-audit-batch5-phbdmg-typed-condition-finding-draft",
+  "status": "private source-QA draft complete; root normalization and finding registration/sealing pending; no source or candidate mutation",
+  "proposedFindingId": "dmg-p33-information-discovery-note-conditions",
+  "findingKind": "source-omitted-typed-condition-qualifiers",
+  "baselineInputs": {
+    "originalSourceAudit": {
+      "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "description": "Immutable original source-row audit input; four affected records are addressed by exact JSON pointers below."
+    },
+    "wholeConditionBeforeV1": {
+      "path": "research/source-audit-batch5-monetary-condition-coverage-before-source-corrections.json",
+      "sha256": "555b6b7a1b872aed1c6f6852172024209ba452b6625ae52b5f13e4c497db1ac4"
+    },
+    "wholeConditionBeforeV2": {
+      "path": "research/source-audit-batch5-monetary-condition-coverage-before-source-corrections-v2.json",
+      "sha256": "dba0ba6426fbf99b669f8058765bbab3511eb979672ed6ae9e77fc6ab8c5d5e7"
+    },
+    "sourceConditionContract": {
+      "path": "research/source-audit-batch5-monetary-condition-contract-before-info4-v2.json",
+      "sha256": "935cbe0d33613a29cf359e334a4886ac1dc522d4a7daf823c3b6d46fee72e1cd"
+    },
+    "v4BeforeMatrix": {
+      "path": "research/source-audit-batch5-pd179-v4-condition-and-ordered-part-before.json",
+      "sha256": "6ddec10bdc96169e82862e384522a95ad062465ea57a55cfe3e05353dbf86a17"
+    },
+    "v4Candidate": {
+      "path": "/tmp/batch5-phbdmg-money-corrections-v4/proposal-v4/phb-dmg-additional-prices-correction-candidate-v4.json",
+      "sha256": "299c1a3eb5c2f5be7866ed2304038698f1a4e092b09f6e24132655227b03119b"
+    },
+    "v4Parts": {
+      "path": "/tmp/batch5-phbdmg-money-corrections-v4/proposal-v4/ordered-source-context-parts-v4.json",
+      "sha256": "35f02947dc893e4bde1fdeb273f6b60e0e6f8784551922cacb0be98ed7c285a5"
+    },
+    "v4ContextManifest": {
+      "path": "/tmp/batch5-phbdmg-money-corrections-v4/proposal-v4/candidate-manifest-v7.json",
+      "sha256": "254510214815c50a13973ca7b719cef6f0f159d61d47dcc4f1691811844e60a8"
+    },
+    "globalRowIdentityBaseline": {
+      "path": "research/source-audit-batch5-monetary-row-identity-baseline.json",
+      "sha256": "bd4973e1eca69a56b64adf3758ccce3683783815dea38bb8ca6ec9f33e898bb9",
+      "capturedBeforeSourceFixes": true,
+      "scope": "Original global recorded-monetary-source baseline; 2,161 records and 15 findings at that baseline. This is provenance for the finding register, not a current ledger count."
+    }
+  },
+  "fullUniverseBefore": {
+    "v1Path": "research/source-audit-batch5-monetary-condition-coverage-before-source-corrections.json",
+    "v1Sha256": "555b6b7a1b872aed1c6f6852172024209ba452b6625ae52b5f13e4c497db1ac4",
+    "v2Path": "research/source-audit-batch5-monetary-condition-coverage-before-source-corrections-v2.json",
+    "v2Sha256": "dba0ba6426fbf99b669f8058765bbab3511eb979672ed6ae9e77fc6ab8c5d5e7",
+    "denominators": {
+      "indexedSourceOccurrences": 1871,
+      "indexedValueClaims": 2318,
+      "fullRowAuditRecords": 2161,
+      "auditRowsWithExactIndexedOccurrence": 1725,
+      "auditRowsWithoutExactIndexedOccurrence": 436,
+      "indexOccurrencesWithoutExactAuditRow": 146,
+      "indexedOccurrencesByClaimCount": {
+        "1": 1593,
+        "2": 240,
+        "3": 7,
+        "4": 9,
+        "5": 2,
+        "7": 3,
+        "8": 15,
+        "14": 1,
+        "23": 1
+      },
+      "occurrenceKinds": {
+        "canonical-source-row": 710,
+        "ua-supplement-source-row": 583,
+        "ua-source-description-passage": 2,
+        "phb-dmg-typed-source-row-or-passage": 179,
+        "phb123-repeated-equipment-purchase-row": 165,
+        "phb123-auxiliary-starting-money-row-outside-purchase-table": 5,
+        "phb123-auxiliary-currency-equivalence": 4,
+        "removable-hireling-reference-duplicate-row": 43,
+        "bounded-price-discovery-census-receipt": 180
+      },
+      "auditSurfacesWithoutExactIndexMatch": {
+        "site-price-claim": 191,
+        "description-variant-row": 9,
+        "description-pointer-link": 8,
+        "source-census-claim": 180,
+        "census-adjacent-review-issue": 48
+      },
+      "directFieldStates": {
+        "occurrence.conditions": {
+          "null": 1570,
+          "populated-object": 38,
+          "populated-string": 263
+        },
+        "occurrence.qualifiers": {
+          "empty-array": 1669,
+          "populated-array": 202
+        },
+        "claim.conditions": {
+          "null": 1791,
+          "populated-string": 487,
+          "populated-object": 40
+        },
+        "claim.qualifiers": {
+          "empty-array": 2085,
+          "populated-array": 233
+        }
+      },
+      "nestedConditionQualifierFieldPathCounts": {
+        "occurrence:/quantityOrScale/printedCondition": 15,
+        "occurrence:/conditions/printedCondition": 15,
+        "occurrence:/sourceRecord/variantConditions": 2,
+        "occurrence:/sourceRecord/typedValue/condition": 1,
+        "occurrence:/sourceRecord/typedValue/qualifier": 4,
+        "occurrence:/sourceRecord/typedValue/priceQualifier": 3,
+        "occurrence:/sourceIdentity/additionalVariantQualifier": 165,
+        "occurrence:/sourceRecord/additionalVariantQualifier": 165,
+        "occurrence:/sourceRecord/typedClaim/conditions": 128,
+        "claim:/valueSemantics/unit/printedCondition": 15,
+        "claim:/quantityOrScale/printedCondition": 15,
+        "claim:/conditions/printedCondition": 15,
+        "claim:/valueSemantics/condition": 398,
+        "claim:/valueSemantics/rawStructuredValue/qualifier": 1,
+        "claim:/sourceIdentity/additionalVariantQualifier": 165,
+        "claim:/valueSemantics/rawStructuredValue/condition": 7,
+        "claim:/valueSemantics/alternatives/*/condition": 22,
+        "claim:/valueSemantics/alternatives/*/value/condition": 18,
+        "claim:/valueSemantics/alternatives/*/value/rawStructuredValue/conditions": 18,
+        "claim:/valueSemantics/alternatives/*/value/alternatives/*/value/condition": 4,
+        "claim:/valueSemantics/alternatives/*/value/alternatives/*/value/rawStructuredValue/conditions": 4,
+        "claim:/valueSemantics/rawStructuredValue/conditions": 111
+      },
+      "auditAnnotationFieldNameCounts": {
+        "/sourceRecord/qualifier": 4,
+        "/sourceRecord/qualifiers": 43,
+        "/quantityCondition": 583,
+        "/footnoteConditions": 86,
+        "/conditionalFootnoteValues": 1,
+        "/conditionalFootnoteValues/0/condition": 1,
+        "/conditionalFootnoteValues/1/condition": 1,
+        "/quantityCondition/printedCondition": 15,
+        "/quantityCondition/unit": 15,
+        "/quantityCondition/perUnitPriceDerived": 15,
+        "/conditions": 307,
+        "/conditions/footnoteMarker": 9,
+        "/typedValue/condition": 1,
+        "/typedValue/qualifier": 4,
+        "/typedValue/priceQualifier": 3,
+        "/additionalVariantQualifier": 165,
+        "/valueRecords/0/condition": 5,
+        "/valueRecords/3/condition": 1,
+        "/valueRecords/1/condition": 1,
+        "/variantConditions": 2,
+        "/qualifiers": 2
+      },
+      "indexOnlyOccurrenceKinds": {
+        "bounded-price-discovery-census-receipt": 146
+      }
+    },
+    "interpretation": "Full 1,871-occurrence / 2,318-claim / 2,161-row annotation-state projection. The report explicitly does not treat missing or empty fields as semantic negative passes."
+  },
+  "scope": {
+    "sourceBook": "DMG",
+    "printedPage": 33,
+    "pdfPage": 34,
+    "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+    "rowCount": 4,
+    "recordIds": [
+      "dmg-info-discovery-row-01",
+      "dmg-info-discovery-row-02",
+      "dmg-info-discovery-row-03",
+      "dmg-info-discovery-row-04"
+    ],
+    "sourceRowsAndClaims": 4,
+    "pointer": "/conditions",
+    "currentTypedValuesUnchanged": true
+  },
+  "sourceObservation": {
+    "assumptions": "All times assume the sage can conduct research and obtain necessary equipment within a day or two after discovering the need; the costs shown assume these activities.",
+    "locationAlternative": {
+      "scope": "Shared note for the four information-discovery rows when no town or city is nearby.",
+      "alternatives": [
+        "Double times and costs.",
+        "Compute the sojourn expenditure necessary to reach a locale where the needed materials are available, and determine other expenses as well."
+      ],
+      "doNotInfer": "The source presents alternatives. Do not encode a universal or unconditional 2x multiplier."
+    },
+    "noCostRules": [
+      {
+        "scopeRecordIds": [
+          "dmg-info-discovery-row-01",
+          "dmg-info-discovery-row-02",
+          "dmg-info-discovery-row-03"
+        ],
+        "scope": "Out of fields, minor field, and major field rows.",
+        "condition": "If the percentile dice score for knowing the answer falls in the lower 20% of the spread, no costs are incurred because the material is on hand."
+      },
+      {
+        "scopeRecordIds": [
+          "dmg-info-discovery-row-04"
+        ],
+        "scope": "Special category of study only.",
+        "condition": "Any spread within the lower 80% has no cost."
+      }
+    ],
+    "workedExample": {
+      "status": "source illustration; retain as illustration, not a general threshold rule",
+      "text": "The source example gives a 31%-to-40% chance of knowing a question; if the dice indicate a 32% chance, a following roll of 32% or less indicates knowledge, while a roll of 06% or less indicates the sage already has the information and incurs no additional expense."
+    },
+    "rightColumnContinuation": "The sage accumulates materials in this area. The DM judges whether a closely related later query can be answered from the same previously obtained materials. Some costs are payments, fees, or bribes rather than materials.",
+    "adjacentSeparateParagraph": "The following paragraph separately allows the DM to extend time for unusually difficult specific or exacting questions. It is not part of the left Note/right-column continuation and remains outside this finding unless root adjudicates otherwise."
+  },
+  "sourcePixelEvidence": {
+    "fullPageRender": {
+      "path": "/tmp/batch5-pd179-poison-notes-context/dmg-p34-600dpi.png",
+      "sha256": "93247ce41e51eb4b1d5f70020941234d8c02f15ae90e675c7af679fb0e9e2248",
+      "dimensionsPx": [
+        4928,
+        6558
+      ],
+      "dpi": 600,
+      "frame": "MediaBox",
+      "mediaBoxPoints": [
+        0,
+        0,
+        591.3599853515625,
+        786.95947265625
+      ],
+      "cropBoxPoints": [
+        9.359999656677246,
+        0,
+        582,
+        777.5994873046875
+      ]
+    },
+    "leftNoteOriginalCrop": {
+      "path": "/tmp/batch5-pd179-poison-notes-context/dmg-p34-left-note-600dpi.png",
+      "sha256": "5a96915b4b12f91253bfbe565f9b1135273a5880a5ed0084e1c8e3296eef8831",
+      "pixelBoundsLTRB": [
+        217,
+        5167,
+        2500,
+        6292
+      ],
+      "dimensionsPx": [
+        2283,
+        1125
+      ],
+      "mediaBoxPoints": [
+        26.04,
+        620.04,
+        300,
+        755.04
+      ],
+      "contains": "Complete left Note block through lower-80% rule ending with a comma that continues on the right."
+    },
+    "rightContinuationOriginalCrop": {
+      "path": "/tmp/batch5-pd179-poison-notes-context/dmg-p34-right-note-600dpi.png",
+      "sha256": "d6faf05aed7e320c999d495597e50b1879e00f19f5462e829a5550d6fce4a41f",
+      "pixelBoundsLTRB": [
+        2583,
+        292,
+        4817,
+        875
+      ],
+      "dimensionsPx": [
+        2234,
+        583
+      ],
+      "mediaBoxPoints": [
+        309.96,
+        35.04,
+        578.04,
+        105
+      ],
+      "contains": "Complete continuation sentence and discussion of DM judgment/related queries/non-material costs."
+    },
+    "leftNoteProposedCrop": {
+      "newCropId": "crop-dmg-support-research-and-information-costs-04",
+      "path": "/tmp/batch5-pd179-poison-notes-context/dmg-p34-left-note-focused-crop-150dpi.png",
+      "sha256": "a7c1a04122ce450d2cf168309901f69a843fc39838eb129f63c09894fa715376",
+      "sourceRenderPath": "/tmp/batch5-independent-phbdmg-candidate/original-renders/dmg-pdf-034.png",
+      "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+      "sourceRenderDimensionsPx": [
+        1232,
+        1640
+      ],
+      "sourceDpi": 150,
+      "cropBoundsSourceRenderPixelsLTRB": [
+        50,
+        1290,
+        620,
+        1570
+      ],
+      "cropBoundsMediaBoxPdfPointsLTRB": [
+        24,
+        619.2,
+        297.6,
+        753.6
+      ],
+      "dimensionsPx": [
+        570,
+        280
+      ],
+      "focusBoundsCropPixelsLTRB": [
+        10,
+        10,
+        560,
+        276
+      ],
+      "overlayPath": "/tmp/batch5-pd179-poison-notes-context/dmg-p34-left-note-focused-overlay-150dpi.png",
+      "overlaySha256": "a438ddacdcb3583e3ca18e7d3c593f51eb6089116efcc0a32357f0f3cf92772f",
+      "assessment": "Viewed overlay; complete left Note passage, full glyph lines, no unrelated table row."
+    },
+    "rightNoteActiveCrop": {
+      "existingCropId": "crop-dmg-support-research-and-information-costs-03",
+      "path": "/tmp/batch5-private-crop-edge-audit/phbdmg-context-replacements-v6/crop-dmg-support-research-and-information-costs-03-clean-source-v3.png",
+      "sha256": "573556e1e4565b09974adb4ba0643083fcde08f635e462ef80cdeace6dfce289",
+      "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+      "cropBoundsSourceRenderPixelsLTRB": [
+        635,
+        39,
+        1205,
+        799
+      ],
+      "dimensionsPx": [
+        570,
+        760
+      ],
+      "focusBoundsCropPixelsLTRB": [
+        16,
+        37,
+        562,
+        174
+      ],
+      "overlayPath": "/tmp/batch5-pd179-poison-notes-context/conditions-right-continuation-focus-overlay.png",
+      "overlaySha256": "177e260fcbf3452d3b7bc868544ac5519c2dbe4befe26cfa65e642dbf55fbd5c",
+      "assessment": "Viewed overlay; complete Note continuation highlighted; heading and following paragraph excluded."
+    }
+  },
+  "rows": [
+    {
+      "recordId": "dmg-info-discovery-row-01",
+      "sourceAuditPointer": "/review/sourceRowsOrClaims/75",
+      "sourceAuditSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "sourceRowAuditUid": "phb-dmg-supplement-row:dmg-info-discovery-row-01",
+      "sourceRowAuditIndex": 1559,
+      "sourceOccurrenceId": "phb-dmg:dmg-info-discovery-row-01",
+      "sourceOccurrencePointer": "/sourceOccurrences/1370",
+      "sourceValueClaimId": "phb-dmg:dmg-info-discovery-row-01#/typedValue/costPerDay",
+      "sourceValueClaimPointer": "/claims/1766",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "printedPage": 33,
+        "pdfPage": 34,
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourceFileSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "objectOrSubject": "out of fields",
+      "typedValue": {
+        "currency": "gp",
+        "costPerDay": 100,
+        "timeByQuestionNature": {
+          "general": "1-6 rounds",
+          "specific": "2-24 days",
+          "exact": null
+        }
+      },
+      "b0dConditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+      "b0dConditionsSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+      "currentV4Conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+      "currentV4ConditionsSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+      "currentV4RecordSha256": "41fbbd6d1835a2ac9545a7d3c5df0a18ed83cf733ade4e9f39a0d0bd58bffb1c",
+      "currentTableFocus": {
+        "cropId": "crop-dmg-support-research-and-information-costs-02",
+        "boundsCropPixelsLTRB": [
+          63,
+          174,
+          590,
+          191
+        ]
+      },
+      "currentV4OrderedParts": [
+        {
+          "partId": "information-rate-table-left",
+          "order": 1,
+          "role": "information-discovery-table-primary",
+          "factPointers": [
+            "/objectOrSubject",
+            "/typedValue",
+            "/conditions"
+          ],
+          "primaryPartIdByFact": {
+            "/objectOrSubject": "information-rate-table-left",
+            "/typedValue": "information-rate-table-left",
+            "/conditions": "information-rate-table-left"
+          },
+          "contextCropId": "crop-dmg-support-research-and-information-costs-02",
+          "contextCropSha256": "69f757bc11d5ead1dfdec380df84712f6e099804f9fd0cf03062ddedd14108a3",
+          "focusBoundsCropPixelsLTRB": null
+        },
+        {
+          "partId": "information-rate-note-right",
+          "order": 2,
+          "role": "continued-rate-table-note-context",
+          "factPointers": [],
+          "primaryPartIdByFact": {
+            "/objectOrSubject": "information-rate-table-left",
+            "/typedValue": "information-rate-table-left",
+            "/conditions": "information-rate-table-left"
+          },
+          "contextCropId": "crop-dmg-support-research-and-information-costs-03",
+          "contextCropSha256": "573556e1e4565b09974adb4ba0643083fcde08f635e462ef80cdeace6dfce289",
+          "focusBoundsCropPixelsLTRB": null
+        }
+      ]
+    },
+    {
+      "recordId": "dmg-info-discovery-row-02",
+      "sourceAuditPointer": "/review/sourceRowsOrClaims/76",
+      "sourceAuditSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "sourceRowAuditUid": "phb-dmg-supplement-row:dmg-info-discovery-row-02",
+      "sourceRowAuditIndex": 1560,
+      "sourceOccurrenceId": "phb-dmg:dmg-info-discovery-row-02",
+      "sourceOccurrencePointer": "/sourceOccurrences/1371",
+      "sourceValueClaimId": "phb-dmg:dmg-info-discovery-row-02#/typedValue/costPerDay",
+      "sourceValueClaimPointer": "/claims/1767",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "printedPage": 33,
+        "pdfPage": 34,
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourceFileSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "objectOrSubject": "in minor field",
+      "typedValue": {
+        "currency": "gp",
+        "costPerDay": 1000,
+        "timeByQuestionNature": {
+          "general": "1-4 rounds",
+          "specific": "2-20 days",
+          "exact": "5-40 days"
+        }
+      },
+      "b0dConditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+      "b0dConditionsSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+      "currentV4Conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+      "currentV4ConditionsSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+      "currentV4RecordSha256": "aa9e83c7d184ebb10758b3adc642b64874392468141d31c9b6ebc06d4fa09fbf",
+      "currentTableFocus": {
+        "cropId": "crop-dmg-support-research-and-information-costs-02",
+        "boundsCropPixelsLTRB": [
+          63,
+          193,
+          590,
+          210
+        ]
+      },
+      "currentV4OrderedParts": [
+        {
+          "partId": "information-rate-table-left",
+          "order": 1,
+          "role": "information-discovery-table-primary",
+          "factPointers": [
+            "/objectOrSubject",
+            "/typedValue",
+            "/conditions"
+          ],
+          "primaryPartIdByFact": {
+            "/objectOrSubject": "information-rate-table-left",
+            "/typedValue": "information-rate-table-left",
+            "/conditions": "information-rate-table-left"
+          },
+          "contextCropId": "crop-dmg-support-research-and-information-costs-02",
+          "contextCropSha256": "69f757bc11d5ead1dfdec380df84712f6e099804f9fd0cf03062ddedd14108a3",
+          "focusBoundsCropPixelsLTRB": null
+        },
+        {
+          "partId": "information-rate-note-right",
+          "order": 2,
+          "role": "continued-rate-table-note-context",
+          "factPointers": [],
+          "primaryPartIdByFact": {
+            "/objectOrSubject": "information-rate-table-left",
+            "/typedValue": "information-rate-table-left",
+            "/conditions": "information-rate-table-left"
+          },
+          "contextCropId": "crop-dmg-support-research-and-information-costs-03",
+          "contextCropSha256": "573556e1e4565b09974adb4ba0643083fcde08f635e462ef80cdeace6dfce289",
+          "focusBoundsCropPixelsLTRB": null
+        }
+      ]
+    },
+    {
+      "recordId": "dmg-info-discovery-row-03",
+      "sourceAuditPointer": "/review/sourceRowsOrClaims/77",
+      "sourceAuditSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "sourceRowAuditUid": "phb-dmg-supplement-row:dmg-info-discovery-row-03",
+      "sourceRowAuditIndex": 1561,
+      "sourceOccurrenceId": "phb-dmg:dmg-info-discovery-row-03",
+      "sourceOccurrencePointer": "/sourceOccurrences/1372",
+      "sourceValueClaimId": "phb-dmg:dmg-info-discovery-row-03#/typedValue/costPerDay",
+      "sourceValueClaimPointer": "/claims/1768",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "printedPage": 33,
+        "pdfPage": 34,
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourceFileSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "objectOrSubject": "in major field",
+      "typedValue": {
+        "currency": "gp",
+        "costPerDay": 500,
+        "timeByQuestionNature": {
+          "general": "1-3 rounds",
+          "specific": "1-12 days",
+          "exact": "3-30 days"
+        }
+      },
+      "b0dConditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+      "b0dConditionsSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+      "currentV4Conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+      "currentV4ConditionsSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+      "currentV4RecordSha256": "b23677fae936cdb8b11632c92f9c4643ec7afb6f280bf0913b367c24ac3683bb",
+      "currentTableFocus": {
+        "cropId": "crop-dmg-support-research-and-information-costs-02",
+        "boundsCropPixelsLTRB": [
+          63,
+          211,
+          590,
+          230
+        ]
+      },
+      "currentV4OrderedParts": [
+        {
+          "partId": "information-rate-table-left",
+          "order": 1,
+          "role": "information-discovery-table-primary",
+          "factPointers": [
+            "/objectOrSubject",
+            "/typedValue",
+            "/conditions"
+          ],
+          "primaryPartIdByFact": {
+            "/objectOrSubject": "information-rate-table-left",
+            "/typedValue": "information-rate-table-left",
+            "/conditions": "information-rate-table-left"
+          },
+          "contextCropId": "crop-dmg-support-research-and-information-costs-02",
+          "contextCropSha256": "69f757bc11d5ead1dfdec380df84712f6e099804f9fd0cf03062ddedd14108a3",
+          "focusBoundsCropPixelsLTRB": null
+        },
+        {
+          "partId": "information-rate-note-right",
+          "order": 2,
+          "role": "continued-rate-table-note-context",
+          "factPointers": [],
+          "primaryPartIdByFact": {
+            "/objectOrSubject": "information-rate-table-left",
+            "/typedValue": "information-rate-table-left",
+            "/conditions": "information-rate-table-left"
+          },
+          "contextCropId": "crop-dmg-support-research-and-information-costs-03",
+          "contextCropSha256": "573556e1e4565b09974adb4ba0643083fcde08f635e462ef80cdeace6dfce289",
+          "focusBoundsCropPixelsLTRB": null
+        }
+      ]
+    },
+    {
+      "recordId": "dmg-info-discovery-row-04",
+      "sourceAuditPointer": "/review/sourceRowsOrClaims/78",
+      "sourceAuditSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "sourceRowAuditUid": "phb-dmg-supplement-row:dmg-info-discovery-row-04",
+      "sourceRowAuditIndex": 1562,
+      "sourceOccurrenceId": "phb-dmg:dmg-info-discovery-row-04",
+      "sourceOccurrencePointer": "/sourceOccurrences/1373",
+      "sourceValueClaimId": "phb-dmg:dmg-info-discovery-row-04#/typedValue/costPerDay",
+      "sourceValueClaimPointer": "/claims/1769",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "printedPage": 33,
+        "pdfPage": 34,
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourceFileSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "objectOrSubject": "in special category",
+      "typedValue": {
+        "currency": "gp",
+        "costPerDay": 200,
+        "timeByQuestionNature": {
+          "general": "1-2 rounds",
+          "specific": "1-10 hours",
+          "exact": "2-12 days"
+        }
+      },
+      "b0dConditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+      "b0dConditionsSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+      "currentV4Conditions": "table time units: r rounds, h hours, d days; exact out-of-field cell is dash",
+      "currentV4ConditionsSha256": "eab92d1dafc84c01bf7d43cd61cc141bc26921498fac38c978e13a36bab711ea",
+      "currentV4RecordSha256": "cee1013bb49fc03db60f23d93cdd9997ccffc974ece6d4561cd4ce53a31d0743",
+      "currentTableFocus": {
+        "cropId": "crop-dmg-support-research-and-information-costs-02",
+        "boundsCropPixelsLTRB": [
+          63,
+          230,
+          590,
+          250
+        ]
+      },
+      "currentV4OrderedParts": [
+        {
+          "partId": "information-rate-table-left",
+          "order": 1,
+          "role": "information-discovery-table-primary",
+          "factPointers": [
+            "/objectOrSubject",
+            "/typedValue",
+            "/conditions"
+          ],
+          "primaryPartIdByFact": {
+            "/objectOrSubject": "information-rate-table-left",
+            "/typedValue": "information-rate-table-left",
+            "/conditions": "information-rate-table-left"
+          },
+          "contextCropId": "crop-dmg-support-research-and-information-costs-02",
+          "contextCropSha256": "69f757bc11d5ead1dfdec380df84712f6e099804f9fd0cf03062ddedd14108a3",
+          "focusBoundsCropPixelsLTRB": null
+        },
+        {
+          "partId": "information-rate-note-right",
+          "order": 2,
+          "role": "continued-rate-table-note-context",
+          "factPointers": [],
+          "primaryPartIdByFact": {
+            "/objectOrSubject": "information-rate-table-left",
+            "/typedValue": "information-rate-table-left",
+            "/conditions": "information-rate-table-left"
+          },
+          "contextCropId": "crop-dmg-support-research-and-information-costs-03",
+          "contextCropSha256": "573556e1e4565b09974adb4ba0643083fcde08f635e462ef80cdeace6dfce289",
+          "focusBoundsCropPixelsLTRB": null
+        }
+      ]
+    }
+  ],
+  "proposedConditionStructure": {
+    "preserveExisting": "Keep the current table unit legend (r=rounds, h=hours, d=days) and the exact out-of-fields “—” cell condition verbatim in all four records.",
+    "sharedConditions": [
+      "The one-to-two-day research/equipment assumption and corresponding cost assumption.",
+      "When no town or city is nearby, preserve the two source alternatives: double times and costs, or compute sojourn expenditure to obtain the needed materials and determine other expenses.",
+      "Materials accumulate where the sage works; the DM determines whether related later questions can use existing materials; costs may include payments, fees, or bribes."
+    ],
+    "rowScopedNoCostConditions": [
+      {
+        "recordIds": [
+          "dmg-info-discovery-row-01",
+          "dmg-info-discovery-row-02",
+          "dmg-info-discovery-row-03"
+        ],
+        "condition": "Lower 20% of spread: no cost because materials are on hand."
+      },
+      {
+        "recordIds": [
+          "dmg-info-discovery-row-04"
+        ],
+        "condition": "Special category only: any spread within lower 80% has no cost."
+      }
+    ],
+    "workedExample": "Retain the 31%-40%, 32%, and 06% example as a source illustration, separate from general threshold logic.",
+    "schemaDecision": "Proposed normalized shape only. Root may map this semantic structure to the project condition schema. Do not change typed values, GP/day amounts, table time ranges, unit legend, or dash."
+  },
+  "proposedSourceParts": {
+    "partsPerRow": 3,
+    "partRoles": "Existing table primary for label/value; left Note focus primary for /conditions; right-column Note continuation focused as secondary support for /conditions.",
+    "primaryPartByField": {
+      "/objectOrSubject": "information-rate-table-left",
+      "/typedValue": "information-rate-table-left",
+      "/conditions": "information-rate-condition-note-left"
+    },
+    "orderedParts": [
+      {
+        "order": 1,
+        "partId": "information-rate-table-left",
+        "cropId": "crop-dmg-support-research-and-information-costs-02",
+        "cropSha256": "69f757bc11d5ead1dfdec380df84712f6e099804f9fd0cf03062ddedd14108a3",
+        "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+        "cropBoundsSourceRenderPixelsLTRB": [
+          0,
+          970,
+          610,
+          1580
+        ],
+        "role": "primary-information-rate-table-row",
+        "factPointers": [
+          "/objectOrSubject",
+          "/typedValue"
+        ],
+        "rowFocusByRecordId": {
+          "dmg-info-discovery-row-01": [
+            63,
+            174,
+            590,
+            191
+          ],
+          "dmg-info-discovery-row-02": [
+            63,
+            193,
+            590,
+            210
+          ],
+          "dmg-info-discovery-row-03": [
+            63,
+            211,
+            590,
+            230
+          ],
+          "dmg-info-discovery-row-04": [
+            63,
+            230,
+            590,
+            250
+          ]
+        }
+      },
+      {
+        "order": 2,
+        "partId": "information-rate-condition-note-left",
+        "cropId": "crop-dmg-support-research-and-information-costs-04",
+        "cropSha256": "a7c1a04122ce450d2cf168309901f69a843fc39838eb129f63c09894fa715376",
+        "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+        "cropBoundsSourceRenderPixelsLTRB": [
+          50,
+          1290,
+          620,
+          1570
+        ],
+        "role": "primary-shared-condition-note-left",
+        "factPointers": [
+          "/conditions"
+        ],
+        "focusBoundsCropPixelsLTRB": [
+          10,
+          10,
+          560,
+          276
+        ],
+        "overlaySha256": "a438ddacdcb3583e3ca18e7d3c593f51eb6089116efcc0a32357f0f3cf92772f"
+      },
+      {
+        "order": 3,
+        "partId": "information-rate-note-right",
+        "cropId": "crop-dmg-support-research-and-information-costs-03",
+        "cropSha256": "573556e1e4565b09974adb4ba0643083fcde08f635e462ef80cdeace6dfce289",
+        "sourceRenderSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+        "cropBoundsSourceRenderPixelsLTRB": [
+          635,
+          39,
+          1205,
+          799
+        ],
+        "role": "supporting-shared-condition-note-continuation",
+        "factPointers": [
+          "/conditions"
+        ],
+        "primaryPartIdByFact": {
+          "/conditions": "information-rate-condition-note-left"
+        },
+        "focusBoundsCropPixelsLTRB": [
+          16,
+          37,
+          562,
+          174
+        ],
+        "overlaySha256": "177e260fcbf3452d3b7bc868544ac5519c2dbe4befe26cfa65e642dbf55fbd5c"
+      }
+    ],
+    "status": "proposal only; no V5 candidate or active source changes",
+    "contextAndHeaderPlan": {
+      "orderedMeaning": "Table primary -> focused left Note primary for /conditions -> focused right-column Note continuation as supporting evidence for /conditions.",
+      "tablePrimaryContext": "Retain the full information-discovery table title, column headings, all four row labels and values, and the r/h/d legend in the table crop. Keep that table crop primary for /objectOrSubject and /typedValue.",
+      "leftNoteContext": "Use the complete left-column Note crop as the /conditions primary. Its lower edge retains the ending comma that continues in the right column; no line or glyph is cut.",
+      "rightContinuationContext": "The active right-column crop retains the HIRELINGS (EXPERT HIRELINGS) running header and full continuation. The focused overlay selects the continuation sentence through payments/fees/bribes and excludes the next paragraph about discretionary time extension.",
+      "focusScope": "The table row highlights stay per-row. Both Note focuses cover the relevant complete text, while the complete crop images preserve surrounding page/section headers and continuation context."
+    }
+  },
+  "deduplication": {
+    "existingContextFindingId": "sage-six-left-table-right-note-context-dependencies",
+    "existingFindingSha256": "757d17a67f905f39084e10152df61c8d48fd97e4ab75667ba3aaaa6d495f33b7",
+    "dimensionDifference": "Existing finding covers missing ordered image/crop context; this draft covers missing typed /conditions content. Keep findings separate.",
+    "currentRegisterAction": "Append as one new mandatory typed-content finding only after root normalizes and seals the finding. Keep the existing sage-six-left-table-right-note-context-dependencies finding as the separate citation-context issue; do not count it as resolving this condition-content defect."
+  },
+  "actualSourceMutations": 0,
+  "actualCandidateMutations": 0,
+  "limitations": [
+    "No source condition schema has been applied.",
+    "The separate paragraph about discretionary extension of time remains flagged for scope adjudication, not silently attached.",
+    "V4 poison p21 focus defect is separately pending a corrected, versioned candidate."
+  ],
+  "sourceVisualReview": {
+    "status": "preliminary direct pixel inspection complete; independent root review and registration remain pending",
+    "reviewedEvidence": "Viewed the original 600-dpi left and right note crops, the proposed 150-dpi left-note crop with focus overlay, the active right-note crop with focus overlay, and the original 150-dpi full-page render. Confirmed the left note ends with a comma, the right-column crop begins with its continuation, the continuation ends at payments/fees/bribes, and the following time-extension paragraph is distinct.",
+    "fullPageRender": {
+      "path": "/tmp/batch5-pd179-poison-notes-context/dmg-p34-600dpi.png",
+      "sha256": "93247ce41e51eb4b1d5f70020941234d8c02f15ae90e675c7af679fb0e9e2248",
+      "dimensionsPx": [
+        4928,
+        6558
+      ],
+      "dpi": 600
+    },
+    "sourceRender": {
+      "path": "/tmp/batch5-independent-phbdmg-candidate/original-renders/dmg-pdf-034.png",
+      "sha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+      "dimensionsPx": [
+        1232,
+        1640
+      ],
+      "dpi": 150
+    },
+    "tablePrimary": {
+      "cropId": "crop-dmg-support-research-and-information-costs-02",
+      "path": "/tmp/batch5-private-crop-edge-audit/phbdmg-context-replacements-v6/crop-dmg-support-research-and-information-costs-02-clean-source-v3.png",
+      "sha256": "69f757bc11d5ead1dfdec380df84712f6e099804f9fd0cf03062ddedd14108a3",
+      "dimensionsPx": [
+        610,
+        610
+      ],
+      "cropBoundsSourceRenderPixelsLTRB": [
+        0,
+        970,
+        610,
+        1580
+      ],
+      "description": "Contains the Information Discovery subsection/table, table headings, all four rows and units; unchanged row-focus rectangles are recorded under each affected row."
+    },
+    "leftNote": {
+      "sourceCrop": {
+        "path": "/tmp/batch5-pd179-poison-notes-context/dmg-p34-left-note-600dpi.png",
+        "sha256": "5a96915b4b12f91253bfbe565f9b1135273a5880a5ed0084e1c8e3296eef8831",
+        "dimensionsPx": [
+          2283,
+          1125
+        ]
+      },
+      "proposedFocusedCrop": {
+        "cropId": "crop-dmg-support-research-and-information-costs-04",
+        "path": "/tmp/batch5-pd179-poison-notes-context/dmg-p34-left-note-focused-crop-150dpi.png",
+        "sha256": "a7c1a04122ce450d2cf168309901f69a843fc39838eb129f63c09894fa715376",
+        "dimensionsPx": [
+          570,
+          280
+        ],
+        "cropBoundsSourceRenderPixelsLTRB": [
+          50,
+          1290,
+          620,
+          1570
+        ],
+        "focusBoundsCropPixelsLTRB": [
+          10,
+          10,
+          560,
+          276
+        ],
+        "overlayPath": "/tmp/batch5-pd179-poison-notes-context/dmg-p34-left-note-focused-overlay-150dpi.png",
+        "overlaySha256": "a438ddacdcb3583e3ca18e7d3c593f51eb6089116efcc0a32357f0f3cf92772f",
+        "role": "Proposed primary /conditions evidence; complete left Note including no-town/city alternatives, lower-20% exception, example, and lower-80% special-category rule; ends at continuation comma."
+      }
+    },
+    "rightNote": {
+      "sourceCrop": {
+        "path": "/tmp/batch5-pd179-poison-notes-context/dmg-p34-right-note-600dpi.png",
+        "sha256": "d6faf05aed7e320c999d495597e50b1879e00f19f5462e829a5550d6fce4a41f",
+        "dimensionsPx": [
+          2234,
+          583
+        ]
+      },
+      "activeFocusedCrop": {
+        "cropId": "crop-dmg-support-research-and-information-costs-03",
+        "path": "/tmp/batch5-private-crop-edge-audit/phbdmg-context-replacements-v6/crop-dmg-support-research-and-information-costs-03-clean-source-v3.png",
+        "sha256": "573556e1e4565b09974adb4ba0643083fcde08f635e462ef80cdeace6dfce289",
+        "dimensionsPx": [
+          570,
+          760
+        ],
+        "cropBoundsSourceRenderPixelsLTRB": [
+          635,
+          39,
+          1205,
+          799
+        ],
+        "focusBoundsCropPixelsLTRB": [
+          16,
+          37,
+          562,
+          174
+        ],
+        "overlayPath": "/tmp/batch5-pd179-poison-notes-context/conditions-right-continuation-focus-overlay.png",
+        "overlaySha256": "177e260fcbf3452d3b7bc868544ac5519c2dbe4befe26cfa65e642dbf55fbd5c",
+        "role": "Supporting /conditions evidence; crop retains the section running header and page context, focus covers the complete Note continuation through non-material costs and excludes the next paragraph."
+      }
+    },
+    "scopeLimit": "This visual/source review is limited to these four condition records and the listed DMG p.33/PDF p.34 Note. It is not a whole-179 semantic approval or candidate approval."
+  },
+  "artifactHistory": {
+    "supersedes": "research/source-audit-batch5-pd179-info-condition-finding-draft-v1.json",
+    "supersedesSha256": "e0c91f367cfc83332aaf83f6dddad6b0850c59208625b44e87519a67a7392678",
+    "reason": "Adds the original global bd4973 monetary-row baseline, explicit row-scoped no-cost conditions, complete original/active source crop paths and hashes, and source-pixel QA/context-header boundaries."
+  }
+}

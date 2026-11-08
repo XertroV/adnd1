@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "source-row-correction-finding",
+  "status": "confirmed source transcription defect; proposed correction only, not applied",
+  "scope": "One condition field on the initial successful-employment offer on DMG p35/PDF36; review of row90 determines focus is kept separate, not reassigned.",
+  "baseline": {
+    "candidatePath": "/tmp/batch5-phbdmg-money-corrections-v2/proposal-v2/phb-dmg-additional-prices-correction-candidate-v2.json",
+    "candidateSha256": "e4b6e39315ae1a0615364e0ad6d1f9ced6109067a9601f3d92603b8ff6931b0a",
+    "candidateInputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+    "overlayIndexPath": "/tmp/batch5-phbdmg-money-corrections-v2/proposal-v2/overlay-index-v2.json",
+    "overlayIndexSha256": "8e6cbdf3afa39e979e94108ae6b92ff169d47db42ed12010f1202974e80951f1",
+    "recordId": "dmg-henchman-initial-payment",
+    "recordIndex": 89,
+    "candidateRecordPointer": "/review/sourceRowsOrClaims/88",
+    "recordCanonicalSha256": "14d9aa9c7da94554e4a9935fb66af1dd72e4605560b218cbd7af9f7de8d7560c",
+    "typedConditionBefore": "base offer establishes 5% interest",
+    "focusRectsCropPixelsLTRB": [
+      [
+        30,
+        151,
+        569,
+        170
+      ],
+      [
+        156,
+        170,
+        569,
+        189
+      ],
+      [
+        30,
+        189,
+        69,
+        208
+      ]
+    ],
+    "focusOverlaySha256": "4ea0e71a6f49199a9eb11dc4dcb413f7a2ad8f4c9232a25ba6ab354e4f06185b",
+    "sourceCropId": "crop-dmg-henchman-prospect-search-table-03",
+    "sourceCropSha256": "9e1cf9da434db0aca27d2fe41489525b9d25947ae0b5938f11cfba6c74e84172",
+    "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+  },
+  "sourceProof": {
+    "book": "Dungeon Masters Guide",
+    "printedPage": 35,
+    "pdfPage": 36,
+    "pdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+    "directRaster": "PyMuPDF render of original PDF page36 at 300 dpi",
+    "sourceFramePathPrivate": "/tmp/pd35-src300.png",
+    "sourceFrameDimensionsPx": [
+      2376,
+      3234
+    ],
+    "sourceFrameSha256": "af5d7b4ddd9156778090173b9c8ca0058fd39aebece4b1cd1602bb7a2b3b5d6b",
+    "limitedSourceProofCropPathPrivate": "/tmp/pd35-offer-source-proof-v2.png",
+    "cropPixelBoundsHalfOpen": [
+      1220,
+      1730,
+      2376,
+      1995
+    ],
+    "cropDimensionsPx": [
+      1156,
+      265
+    ],
+    "cropSha256": "70ab064f79a8344e04e650a1439438567bc59e78bdfb9b559f24ae69136594b8",
+    "pixelObservation": "The source says that the initial payment “will give a base 25% interest” and, for each additional 100 gold pieces, interest increases 10% to a maximum 55%."
+  },
+  "finding": {
+    "kind": "incorrect typed percentage",
+    "before": "base offer establishes 5% interest",
+    "sourceObserved": "base 25% interest",
+    "proposedAfter": "base offer establishes 25% interest",
+    "proposedRecordCanonicalSha256": "e671df5cb1da2a11900efa4bce7079dc6025f4ebbe98104ecce979937fa3671d",
+    "changedPointer": "/conditions",
+    "typedValueUnchanged": true,
+    "focusDisposition": "Keep row89 focus: its later rectangles include the relevant base-interest condition tied to the initial offer. Keep row90 focus on its own increment/max formula; it selects the additional-100-gp rule to 55%. Both are readable in the same complete crop. No focus reassignment or removal is justified.",
+    "sourceInterpretation": "Source-observed 25% is directly legible in a high-resolution render. The proposed wording is normalized from the observed line; no new rule is inferred."
+  },
+  "relatedRow90": {
+    "recordId": "dmg-henchman-interest-increase",
+    "candidateRecordCanonicalSha256": "10895c0288b47436e894caf71e872b6b430788bfef61202f2cbb4b117c3bb754",
+    "focusRectsCropPixelsLTRB": [
+      [
+        71,
+        189,
+        569,
+        208
+      ],
+      [
+        30,
+        208,
+        165,
+        227
+      ]
+    ],
+    "focusOverlaySha256": "cd7a041d809f5d9fe464d6f0e0c8ac633479314a5b8ebef016dcfc9b3c8b0a62",
+    "reviewDisposition": "source values, focus and context match incremental formula; base25 remains on the initial offer as a separate relevant condition; no extra condition is proposed here."
+  },
+  "reviewLimit": "This finding is not approval of the full candidate or any other record."
+}

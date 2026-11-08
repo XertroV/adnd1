@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-native-source-viewer-rapid-history-behavior-and-invariance-review",
+  "status": "scoped behavior/invariance review against current post-setter code; not a whole application/browser timing sweep",
+  "reviewerRole": "/root/interim_tests; independent behavior and target-invariance reviewer",
+  "reviewedAtUtc": "2026-11-08T01:46:00Z",
+  "repairScope": {
+    "beforeEvidence": {
+      "path": "research/source-audit-batch5-rapid-history-before.json.gz",
+      "compressedSha256": "bf8a2894c4d9cf198ce46820970d04858cb5f4497ee1bdcf8ba1fa007e4d8496",
+      "uncompressedSha256": "4806c4e73dd034a5870838b44a8786ce1efe5568cdc9350dd5f15ec5ec77465d",
+      "baseCommit": "679b15d1c580172e54314829c1c3c86dc78b65f3",
+      "sourceDataSha256": "2b803d29cccd83ffd8418818abddf04b66204c82cebb8afba13f7a8226c6583c",
+      "embeddedPreRepairSourceSha256s": {
+        "dist/app.js": "3ede9b67309791b3505b32843e5e624c019ae0486730674bfb2d5b2792f13272",
+        "dist/source-viewer.js": "c3841d210553095cdc823b21b94e45011f52965bdade2e693b08ec4558fa6257"
+      }
+    },
+    "currentFinalHashes": {
+      "dist/app.js": "a548795c5436fefecd44388194ac4264c3cc744edf2ab6867d97063dfbe4aaf1",
+      "dist/source-viewer.js": "2bcd568da598999036594d670e826f715b782643074d21fbed0cfab5233283e4",
+      "dist/data.json": "2b803d29cccd83ffd8418818abddf04b66204c82cebb8afba13f7a8226c6583c"
+    },
+    "expectedNativeBefore": {
+      "sequences": 16,
+      "failed": 5
+    },
+    "reviewedCurrentCodeDiff": [
+      "app route(): route loss now calls FirstEditionSourceViewer.close({fromRoute:true}).",
+      "app openScanViewer onClose: accepts close metadata and skips source-query replaceState only for fromRoute=true; normal user-close cleanup and focus restoration remain.",
+      "viewer: stores navigationClose; close event captures it, resets it, and passes {fromRoute} to the callback; open resets it; close({fromRoute=false}) sets it before checking dialog.open, so a route close can classify an already-queued prior close event."
+    ],
+    "closeEventGuardRetained": "close listener still returns when dialog.open, protecting a newly opened viewer from an older queued close event."
+  },
+  "behaviorAssessment": {
+    "oldFailureReproducedInCurrentTest": "The current regression test runs the embedded old captured code and confirms it erases the Forward source URL in the queued-close schedule.",
+    "currentFocusedTest": {
+      "command": "node --test tests/citation-rapid-history.test.mjs",
+      "pass": 5,
+      "fail": 0,
+      "covered": [
+        "old captured failure reproduces",
+        "queued navigation close preserves Forward citation URL",
+        "explicit user Close removes source URL after route close",
+        "older queued close cannot dismiss a reopened viewer or consume its user-close callback",
+        "route close while dialog already closed supersedes a queued user-close classification"
+      ]
+    },
+    "ordinaryNativeDismissal": "The code leaves native Close/cancel with navigationClose=false; the app therefore retains same-owner query cleanup. This review does not claim exhaustive native-event schedule coverage.",
+    "finalNativeBrowserRun": "Pending parent-run against final viewer hash 2bcd568…; do not treat earlier after-report as proof for the final setter move."
+  },
+  "invariance": {
+    "fieldTargetLabel": {
+      "capturedPreRepairFunctionSha256": "488ce2733e10ce4c7eb028ddf4a38b82f7f8f1e77a38bb5c6a308019c115333b",
+      "currentFunctionSha256": "488ce2733e10ce4c7eb028ddf4a38b82f7f8f1e77a38bb5c6a308019c115333b",
+      "byteIdentical": true,
+      "scope": "Function is unchanged from the exact embedded pre-repair viewer; this is label-function identity, not semantic approval of every caption."
+    },
+    "sourceLinkHash": {
+      "capturedPreRepairFunctionSha256": "118591aaa9adfb0c12e6dd4ff0d18acfee0ec086037a635e5c961dd4788eb8f7",
+      "currentFunctionSha256": "118591aaa9adfb0c12e6dd4ff0d18acfee0ec086037a635e5c961dd4788eb8f7",
+      "byteIdentical": true
+    },
+    "currentDataSha256": "2b803d29cccd83ffd8418818abddf04b66204c82cebb8afba13f7a8226c6583c",
+    "sourceDataSha256Before": "2b803d29cccd83ffd8418818abddf04b66204c82cebb8afba13f7a8226c6583c",
+    "targetSnapshots": {
+      "beforePath": "/tmp/main-caption-review-knPBfV/before-all-runtime-targets.json",
+      "beforeSha256": "5303675e4be6ef571c1bdf33ef92132034ea8e2453f181b70cc89e6ed1f25ca2",
+      "afterPath": "/tmp/main-caption-review-knPBfV/after-all-runtime-targets.json",
+      "afterSha256": "e02f2cfa6c2685e46ddba82369a781f4db0fc8667e246ae03c64885fcccb501d",
+      "targetsBefore": 4505,
+      "targetsAfter": 4505,
+      "targetPayloadDifferences": 0,
+      "ownerOrdinalDifferences": 0,
+      "labelDifferences": 6,
+      "labelDifferencesWerePreExistingBeforeRapidHistoryFix": true,
+      "changedCaptions": [
+        {
+          "collection": "equipment",
+          "itemId": "phb-bo-stick",
+          "targetOrdinal": 12,
+          "before": "Comparisons entry 1",
+          "after": "Comparison: Spear (not this item price)",
+          "fieldPointer": "/suggestedPrice/comparisons/0"
+        },
+        {
+          "collection": "equipment",
+          "itemId": "phb-bo-stick",
+          "targetOrdinal": 16,
+          "before": "Comparisons entry 2",
+          "after": "Comparison: Sap (not this item price)",
+          "fieldPointer": "/suggestedPrice/comparisons/1"
+        },
+        {
+          "collection": "equipment",
+          "itemId": "phb-club",
+          "targetOrdinal": 20,
+          "before": "Comparisons entry 1",
+          "after": "Comparison: Sap (not this item price)",
+          "fieldPointer": "/suggestedPrice/comparisons/0"
+        },
+        {
+          "collection": "equipment",
+          "itemId": "phb-quarterstaff",
+          "targetOrdinal": 10,
+          "before": "Comparisons entry 1",
+          "after": "Comparison: Spear (not this item price)",
+          "fieldPointer": "/suggestedPrice/comparisons/0"
+        },
+        {
+          "collection": "equipment",
+          "itemId": "phb-quarterstaff",
+          "targetOrdinal": 14,
+          "before": "Comparisons entry 2",
+          "after": "Comparison: Staff sling (not this item price)",
+          "fieldPointer": "/suggestedPrice/comparisons/1"
+        },
+        {
+          "collection": "equipment",
+          "itemId": "phb-sling-stone",
+          "targetOrdinal": 4,
+          "before": "Comparisons entry 1",
+          "after": "Comparison: Sling bullets (not this item price)",
+          "fieldPointer": "/suggestedPrice/comparisons/0"
+        }
+      ]
+    },
+    "canonicalUrlAudit": {
+      "reviewPath": "research/source-audit-batch5-comparator-target-label-independent-review.json",
+      "reviewSha256": "7f4e0dd6b2bd88bfef0b6fcb151b42029dd90424374aac8b8703488f4c7c74e5",
+      "beforeSha256": "15b34b45521d7206f63a710d8098a90ad45cd8d27a8eadf4e19d602cdc50524a",
+      "afterSha256": "15b34b45521d7206f63a710d8098a90ad45cd8d27a8eadf4e19d602cdc50524a",
+      "unchanged": true,
+      "canonicalUrlInventorySha256FromPriorSnapshot": "15b34b45521d7206f63a710d8098a90ad45cd8d27a8eadf4e19d602cdc50524a",
+      "priorSnapshotPath": "/tmp/main-caption-review-knPBfV/before-transport-and-catalogs.json",
+      "priorSnapshotSha256": "2d2428f3ef3cfe278f75d82540dc0cedab69f0b3e3cb1eda5a4d0f61c370d68a",
+      "basis": "All 4,505 target payloads/owners/ordinals match and sourceLinkHash is byte-identical across the rapid-history fix."
+    },
+    "catalogImages": {
+      "baselineCatalogCount": 995,
+      "currentCatalogCount": 995,
+      "changedCatalogCount": 0,
+      "baselineAndCurrentSortedManifestSha256": "a647bd0187ba51892fe497b20e87d6f2f813a616104162fc115d83b06ef836df",
+      "scope": "Exact 995 catalog-file SHA comparison against the pre/post comparator-label transport snapshot. This confirms catalog image payloads stayed unchanged in this code review; it does not certify the semantic quality of those images."
+    }
+  },
+  "baselineIntegrity": {
+    "finding": "The embedded pre-repair app source hash matches baseCommit 679b15d…, but embedded viewer SHA c3841d… does not match `git show 679b15d:dist/source-viewer.js` (536eb5…). The embedded viewer is the exact immediate pre-route-fix source and includes field-label/relationship changes already present before the route fix; comparisons here are against those captured bytes. Do not describe that viewer as byte-identical to the Git base commit."
+  },
+  "staleAfterArtifact": {
+    "path": "research/source-audit-batch5-rapid-history-after.json",
+    "sha256": "0f5ad9b794674cf16fb15e1920f6492ae25d175f893fa38b58f46c38f31924ec",
+    "inputViewerSha256": "c887fa88518ea794a323d7030e1748db3a2550b03fdf04556c9200fbcd0dfa8d",
+    "currentViewerSha256": "2bcd568da598999036594d670e826f715b782643074d21fbed0cfab5233283e4",
+    "counts": {
+      "sequences": 16,
+      "failed": 0
+    },
+    "usedAsFinalProof": false,
+    "reason": "The after artifact binds the preceding c887fa… viewer, before the final navigationClose assignment was moved ahead of the dialog.open guard."
+  },
+  "limitations": [
+    "The sixteen-sequence native after run has not yet been regenerated for current final viewer hash 2bcd568…; root is running it.",
+    "The prior before probe is a representative timing set, not exhaustive coverage of all event schedules or all 4,505 targets.",
+    "The 4,505 target and 995 catalog checks establish invariant transport/payload/image hashes, not semantic correctness of every citation or image."
+  ]
+}

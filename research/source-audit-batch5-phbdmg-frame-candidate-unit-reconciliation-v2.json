@@ -1,0 +1,1163 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "phbdmg-frame-and-candidate-unit-reconciliation-v2",
+  "status": "fresh PDF-to-source-frame reconstruction; old artifacts retained unchanged; no crop/catalog changes",
+  "inputArtifacts": {
+    "old whole71 scan": {
+      "path": "wordbox-edge-candidates.json",
+      "sha256": "75351a8476e1a32dd72bb34f69a9b29275587fa35adc5742977da833bcb9772a"
+    },
+    "prior count reconciliation (claim being corrected)": {
+      "path": "phbdmg-wordbox-count-reconciliation.json",
+      "sha256": "074f6046f56b286d84d1c11a46f55b5b7e73e499687fcee6147c55c25eb3c2d6"
+    },
+    "frozen 232 census": {
+      "path": "crop-boundary-census.json",
+      "sha256": "c3b4e157814875194c7124fbc3ad0103e8e62a28efcfe02d444b34117bb01933"
+    },
+    "corrected all71 v2 scan": {
+      "path": "wordbox-edge-candidates-v2.json",
+      "sha256": "10b83f85894078eb29bcae8438de924f38d21102bf8d5407733abacd12b9c02e"
+    }
+  },
+  "unitDefinitions": {
+    "legacy424": "424 native wordboxes whose rectangles intersected at least one crop edge in the PHB/DMG current 32 assets. This is a geometry-only candidate count and does not require source pixels on both sides. It is not comparable to the 232 count as if both measured cuts.",
+    "v2Geometry424": "same type of geometry-only wordbox count, recalculated from fresh PyMuPDF text and explicit measured CropBox-position→MediaBox mapping. It has 429 edge events because some wordboxes cross more than one edge.",
+    "v2InkBoth232": "unique wordboxes with actual source-render pixels below grayscale 128 on both sides of a crop boundary within the same mapped word rectangle; count once per wordbox, regardless of edge count. It is a visual candidate signal, not a human glyph judgment.",
+    "frozen232": "prior independent census with the same <128 both-sides condition and 32 crop bounds; compared per crop, not just in aggregate."
+  },
+  "summary": {
+    "currentCropCount": 32,
+    "oldScanGeometryCandidates": 424,
+    "v2GeometryCandidates": 424,
+    "v2GeometryEdgeEvents": 429,
+    "v2Threshold128InkBothSides": 232,
+    "frozen232Candidates": 232,
+    "everyV2PerCropCountMatchesFrozen232": true,
+    "perCropGeometryCountDiscrepancies": [],
+    "oldGeometryCandidatesAreNotInkCuts": true
+  },
+  "coordinateFrameReconstruction": {
+    "method": "For PHB/DMG, source images are Poppler MediaBox page renders at 150dpi; PyMuPDF text-word bounds are read on the original page CropBox frame, translated by the measured page.cropbox_position, then scaled by 150/72 into source pixels.",
+    "example": {
+      "sourcePage": "DMG PDF page 28",
+      "wordIndex": 270,
+      "word": "to",
+      "rawNativeCropBoxRelativeBoundsPoints": [
+        26.139785766601562,
+        430.8348693847656,
+        32.80730438232422,
+        438.54217529296875
+      ],
+      "cropBoxPositionOffsetPdfPoints": [
+        9.359999656677246,
+        9.3599853515625
+      ],
+      "mappedMediaBoxBoundsPoints": [
+        35.49978542327881,
+        440.1948547363281,
+        42.167304039001465,
+        447.90216064453125
+      ],
+      "mappedSourceRenderBoundsPx": [
+        73.9579,
+        917.0726,
+        87.8486,
+        933.1295
+      ],
+      "oldSerializedCandidateBoundsPoints": [
+        35.49978542327881,
+        440.1948547363281,
+        42.167304039001465,
+        447.90216064453125
+      ],
+      "oldSerializedCandidateBoundsPx": [
+        73.9579,
+        917.0726,
+        87.8486,
+        933.1295
+      ],
+      "serializedBoundsEqualFreshMappedBounds": true,
+      "pageCropBoxPoints": [
+        9.359999656677246,
+        9.3599853515625,
+        590.8798828125,
+        777.8397216796875
+      ],
+      "pageMediaBoxPoints": [
+        0.0,
+        0.0,
+        590.8798828125,
+        795.8397216796875
+      ],
+      "sourcePageRenderDimensionsPx": [
+        1231,
+        1658
+      ]
+    }
+  },
+  "priorProvenanceCorrection": {
+    "priorArtifactPath": "phbdmg-wordbox-count-reconciliation.json",
+    "priorArtifactSha256": "074f6046f56b286d84d1c11a46f55b5b7e73e499687fcee6147c55c25eb3c2d6",
+    "priorTextClaim": "It claimed the serialized new scan omitted the CropBox offset. Fresh PDF extraction shows p.28 serialized candidate bounds equal raw crop-local bounds plus measured CropBox offset; the old candidate identities and geometry counts also match V2 across the 32 current crops. Therefore this specific offset-omission claim is not supported by the preserved serialized data and is corrected here. The new V2 is still an independent explicit-offset rebuild, and 424 geometry candidates remain separate from 232 ink-both-sides candidates.",
+    "priorArtifactPreservedUnmodified": true
+  },
+  "perCrop": [
+    {
+      "cropId": "crop-dmg-furs-clothing-rare-commodities-01",
+      "pdfPage": 28,
+      "printedPage": 27,
+      "oldScanGeometryCandidateWordboxes": 3,
+      "v2GeometryCrossingWordboxes": 3,
+      "v2GeometryEdgeEvents": 3,
+      "oldScanDarkOutsideAtThreshold180": 3,
+      "v2Threshold128InkBothSides": 0,
+      "frozen232Threshold128InkBothSides": 0,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "c19905f07c933049d7c1089dd87cd437efa1b0f8ec35b9e3f0a89cae874f0e68",
+      "sourcePageRasterDimensionsPx": [
+        1231,
+        1658
+      ],
+      "cropImageSha256": "c3d2a60d232e96c780f881960643ba5e78a682b246929c817a85e861895440b7",
+      "cropImageDimensionsPx": [
+        565,
+        625
+      ],
+      "cropBoundsPixels": [
+        45.0,
+        930.0,
+        610.0,
+        1555.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        9.359999656677246,
+        9.3599853515625
+      ],
+      "candidateFrameIndex": 0
+    },
+    {
+      "cropId": "crop-dmg-gem-and-magic-treasure-valuations-01",
+      "pdfPage": 137,
+      "printedPage": 136,
+      "oldScanGeometryCandidateWordboxes": 14,
+      "v2GeometryCrossingWordboxes": 14,
+      "v2GeometryEdgeEvents": 14,
+      "oldScanDarkOutsideAtThreshold180": 14,
+      "v2Threshold128InkBothSides": 1,
+      "frozen232Threshold128InkBothSides": 1,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+      "sourcePageRasterDimensionsPx": [
+        1230,
+        1644
+      ],
+      "cropImageSha256": "009681674119786cae3855f98b6307ee937406eb8d072649d384f38f25a5d5d3",
+      "cropImageDimensionsPx": [
+        610,
+        275
+      ],
+      "cropBoundsPixels": [
+        585.0,
+        190.0,
+        1195.0,
+        465.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        1.440000057220459,
+        9.3599853515625
+      ],
+      "candidateFrameIndex": 1
+    },
+    {
+      "cropId": "crop-dmg-gem-base-value-categories-01",
+      "pdfPage": 26,
+      "printedPage": 25,
+      "oldScanGeometryCandidateWordboxes": 1,
+      "v2GeometryCrossingWordboxes": 1,
+      "v2GeometryEdgeEvents": 1,
+      "oldScanDarkOutsideAtThreshold180": 1,
+      "v2Threshold128InkBothSides": 0,
+      "frozen232Threshold128InkBothSides": 0,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "8fe2c7535573fe61c8b53eb6fae5029d950d68273581243b4675d3000bfed3c4",
+      "sourcePageRasterDimensionsPx": [
+        1214,
+        1651
+      ],
+      "cropImageSha256": "f214471c473ddaaa42850bf32a4e6c80c6e96cde06f599f2c85cddac25fdaa1d",
+      "cropImageDimensionsPx": [
+        565,
+        300
+      ],
+      "cropBoundsPixels": [
+        630.0,
+        1000.0,
+        1195.0,
+        1300.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        9.3599853515625
+      ],
+      "candidateFrameIndex": 2
+    },
+    {
+      "cropId": "crop-dmg-gem-value-progression-01",
+      "pdfPage": 27,
+      "printedPage": 26,
+      "oldScanGeometryCandidateWordboxes": 8,
+      "v2GeometryCrossingWordboxes": 8,
+      "v2GeometryEdgeEvents": 8,
+      "oldScanDarkOutsideAtThreshold180": 8,
+      "v2Threshold128InkBothSides": 0,
+      "frozen232Threshold128InkBothSides": 0,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "52fa3a0605be19e8a02978318c243ee00e11a1d79ae29496edbe60d0c2b429ea",
+      "sourcePageRasterDimensionsPx": [
+        1217,
+        1638
+      ],
+      "cropImageSha256": "cabb39c4cc1ab9818558458d8ba6714396dfc5f933fbea936022040d9559c6f6",
+      "cropImageDimensionsPx": [
+        1210,
+        1560
+      ],
+      "cropBoundsPixels": [
+        0.0,
+        55.0,
+        1210.0,
+        1615.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        0.0
+      ],
+      "candidateFrameIndex": 3
+    },
+    {
+      "cropId": "crop-dmg-gem-values-by-object-01",
+      "pdfPage": 141,
+      "printedPage": 140,
+      "oldScanGeometryCandidateWordboxes": 25,
+      "v2GeometryCrossingWordboxes": 25,
+      "v2GeometryEdgeEvents": 25,
+      "oldScanDarkOutsideAtThreshold180": 25,
+      "v2Threshold128InkBothSides": 17,
+      "frozen232Threshold128InkBothSides": 17,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "b957417b21aefbcf7e18fa991f24f3a44175cdfccd0bfcea30ecd208e3b914f1",
+      "sourcePageRasterDimensionsPx": [
+        1230,
+        1626
+      ],
+      "cropImageSha256": "30fc5c65fe8fdfdb186c4eeda3b5445223667db6d25c2b0b325a19e0ade86b2c",
+      "cropImageDimensionsPx": [
+        600,
+        410
+      ],
+      "cropBoundsPixels": [
+        0.0,
+        1020.0,
+        600.0,
+        1430.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        0.0
+      ],
+      "candidateFrameIndex": 4
+    },
+    {
+      "cropId": "crop-dmg-henchman-prospect-search-table-01",
+      "pdfPage": 36,
+      "printedPage": 35,
+      "oldScanGeometryCandidateWordboxes": 14,
+      "v2GeometryCrossingWordboxes": 14,
+      "v2GeometryEdgeEvents": 14,
+      "oldScanDarkOutsideAtThreshold180": 14,
+      "v2Threshold128InkBothSides": 14,
+      "frozen232Threshold128InkBothSides": 14,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "f985824c4d1905bd04dedf492a73218bb296c958c35d1ad67bae0701c792e240",
+      "sourcePageRasterDimensionsPx": [
+        1208,
+        1637
+      ],
+      "cropImageSha256": "69e8307b84f5ada957e6a13adc83cb66903d18ff877f94d94a542d4b12fb4e83",
+      "cropImageDimensionsPx": [
+        565,
+        325
+      ],
+      "cropBoundsPixels": [
+        35.0,
+        445.0,
+        600.0,
+        770.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        0.0
+      ],
+      "candidateFrameIndex": 5
+    },
+    {
+      "cropId": "crop-dmg-henchman-prospect-search-table-02",
+      "pdfPage": 36,
+      "printedPage": 35,
+      "oldScanGeometryCandidateWordboxes": 15,
+      "v2GeometryCrossingWordboxes": 15,
+      "v2GeometryEdgeEvents": 15,
+      "oldScanDarkOutsideAtThreshold180": 15,
+      "v2Threshold128InkBothSides": 5,
+      "frozen232Threshold128InkBothSides": 5,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "f985824c4d1905bd04dedf492a73218bb296c958c35d1ad67bae0701c792e240",
+      "sourcePageRasterDimensionsPx": [
+        1208,
+        1637
+      ],
+      "cropImageSha256": "90236d6af913b258616d2f5c60221ad70b320d2c60a00c6f6c70a64b4957d6e5",
+      "cropImageDimensionsPx": [
+        570,
+        395
+      ],
+      "cropBoundsPixels": [
+        35.0,
+        1120.0,
+        605.0,
+        1515.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        0.0
+      ],
+      "candidateFrameIndex": 6
+    },
+    {
+      "cropId": "crop-dmg-henchman-prospect-search-table-03",
+      "pdfPage": 36,
+      "printedPage": 35,
+      "oldScanGeometryCandidateWordboxes": 19,
+      "v2GeometryCrossingWordboxes": 19,
+      "v2GeometryEdgeEvents": 19,
+      "oldScanDarkOutsideAtThreshold180": 19,
+      "v2Threshold128InkBothSides": 2,
+      "frozen232Threshold128InkBothSides": 2,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "f985824c4d1905bd04dedf492a73218bb296c958c35d1ad67bae0701c792e240",
+      "sourcePageRasterDimensionsPx": [
+        1208,
+        1637
+      ],
+      "cropImageSha256": "7e3fcc3fbc517740950920c364f4844b9760650b111f0de629fa7995e3cf655f",
+      "cropImageDimensionsPx": [
+        590,
+        420
+      ],
+      "cropBoundsPixels": [
+        610.0,
+        740.0,
+        1200.0,
+        1160.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        0.0
+      ],
+      "candidateFrameIndex": 7
+    },
+    {
+      "cropId": "crop-dmg-high-value-gems-01",
+      "pdfPage": 144,
+      "printedPage": 143,
+      "oldScanGeometryCandidateWordboxes": 15,
+      "v2GeometryCrossingWordboxes": 15,
+      "v2GeometryEdgeEvents": 16,
+      "oldScanDarkOutsideAtThreshold180": 12,
+      "v2Threshold128InkBothSides": 2,
+      "frozen232Threshold128InkBothSides": 2,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "bd2634dd48d83af1e1008da18d2efa2e9c61d60ed504e3a9faa1009b9e93cf47",
+      "sourcePageRasterDimensionsPx": [
+        1211,
+        1636
+      ],
+      "cropImageSha256": "bdc985d4a0e846d0bfa03b7417204c1bb0af480166c124c6af198d04024687be",
+      "cropImageDimensionsPx": [
+        595,
+        170
+      ],
+      "cropBoundsPixels": [
+        0.0,
+        340.0,
+        595.0,
+        510.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        0.0
+      ],
+      "candidateFrameIndex": 8
+    },
+    {
+      "cropId": "crop-dmg-monetary-treasure-distribution-01",
+      "pdfPage": 93,
+      "printedPage": 92,
+      "oldScanGeometryCandidateWordboxes": 79,
+      "v2GeometryCrossingWordboxes": 79,
+      "v2GeometryEdgeEvents": 80,
+      "oldScanDarkOutsideAtThreshold180": 79,
+      "v2Threshold128InkBothSides": 70,
+      "frozen232Threshold128InkBothSides": 70,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "79db1c52f882e440d9c3c645b00a4dd9b39549e683e6ce6dd4eeef211a1f7c36",
+      "sourcePageRasterDimensionsPx": [
+        1239,
+        1637
+      ],
+      "cropImageSha256": "8c919ba37d5f00367530285906d25d2b577833a544f59e185093e46cb30cecae",
+      "cropImageDimensionsPx": [
+        585,
+        1545
+      ],
+      "cropBoundsPixels": [
+        25.0,
+        55.0,
+        610.0,
+        1600.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        9.3599853515625
+      ],
+      "candidateFrameIndex": 9
+    },
+    {
+      "cropId": "crop-dmg-monetary-treasure-tables-01",
+      "pdfPage": 121,
+      "printedPage": 120,
+      "oldScanGeometryCandidateWordboxes": 13,
+      "v2GeometryCrossingWordboxes": 13,
+      "v2GeometryEdgeEvents": 13,
+      "oldScanDarkOutsideAtThreshold180": 13,
+      "v2Threshold128InkBothSides": 12,
+      "frozen232Threshold128InkBothSides": 12,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "3d83237972244f9712b2dda32e810c2f2e8364dcafde2c5f15f07790648339aa",
+      "sourcePageRasterDimensionsPx": [
+        1224,
+        1642
+      ],
+      "cropImageSha256": "a66794631716dc01499f0cce9777282ac0aaf6a206045f6699ebcd88abb8c5d0",
+      "cropImageDimensionsPx": [
+        595,
+        575
+      ],
+      "cropBoundsPixels": [
+        600.0,
+        45.0,
+        1195.0,
+        620.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        3.6000099182128906,
+        0.0
+      ],
+      "candidateFrameIndex": 10
+    },
+    {
+      "cropId": "crop-dmg-monetary-treasure-tables-02",
+      "pdfPage": 121,
+      "printedPage": 120,
+      "oldScanGeometryCandidateWordboxes": 4,
+      "v2GeometryCrossingWordboxes": 4,
+      "v2GeometryEdgeEvents": 4,
+      "oldScanDarkOutsideAtThreshold180": 0,
+      "v2Threshold128InkBothSides": 0,
+      "frozen232Threshold128InkBothSides": 0,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "3d83237972244f9712b2dda32e810c2f2e8364dcafde2c5f15f07790648339aa",
+      "sourcePageRasterDimensionsPx": [
+        1224,
+        1642
+      ],
+      "cropImageSha256": "08b60f7256a5d62d912a8b8577abb86718696fdbd36bd412d058521ef60820d6",
+      "cropImageDimensionsPx": [
+        610,
+        170
+      ],
+      "cropBoundsPixels": [
+        0.0,
+        385.0,
+        610.0,
+        555.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        3.6000099182128906,
+        0.0
+      ],
+      "candidateFrameIndex": 11
+    },
+    {
+      "cropId": "crop-dmg-monetary-treasure-tables-03",
+      "pdfPage": 121,
+      "printedPage": 120,
+      "oldScanGeometryCandidateWordboxes": 11,
+      "v2GeometryCrossingWordboxes": 11,
+      "v2GeometryEdgeEvents": 11,
+      "oldScanDarkOutsideAtThreshold180": 11,
+      "v2Threshold128InkBothSides": 10,
+      "frozen232Threshold128InkBothSides": 10,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "3d83237972244f9712b2dda32e810c2f2e8364dcafde2c5f15f07790648339aa",
+      "sourcePageRasterDimensionsPx": [
+        1224,
+        1642
+      ],
+      "cropImageSha256": "c5935691f961e794919c03be43924b5a937b41f59c8c14d6e9b75b8afd798d63",
+      "cropImageDimensionsPx": [
+        595,
+        555
+      ],
+      "cropBoundsPixels": [
+        600.0,
+        1060.0,
+        1195.0,
+        1615.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        3.6000099182128906,
+        0.0
+      ],
+      "candidateFrameIndex": 12
+    },
+    {
+      "cropId": "crop-dmg-poison-dose-and-manufacture-01",
+      "pdfPage": 21,
+      "printedPage": 20,
+      "oldScanGeometryCandidateWordboxes": 4,
+      "v2GeometryCrossingWordboxes": 4,
+      "v2GeometryEdgeEvents": 4,
+      "oldScanDarkOutsideAtThreshold180": 4,
+      "v2Threshold128InkBothSides": 0,
+      "frozen232Threshold128InkBothSides": 0,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "896afc91f2a4fe868970ff08397452cfadf1a9a3986a47cf05a69376891e7c0b",
+      "sourcePageRasterDimensionsPx": [
+        1232,
+        1650
+      ],
+      "cropImageSha256": "a9321ef9a403af36566a6371fa00fc0dc700629f28706fcb5a2b6d65d7672cde",
+      "cropImageDimensionsPx": [
+        610,
+        410
+      ],
+      "cropBoundsPixels": [
+        600.0,
+        1170.0,
+        1210.0,
+        1580.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        1.440000057220459,
+        3.60003662109375
+      ],
+      "candidateFrameIndex": 13
+    },
+    {
+      "cropId": "crop-dmg-poison-dose-and-manufacture-02",
+      "pdfPage": 21,
+      "printedPage": 20,
+      "oldScanGeometryCandidateWordboxes": 26,
+      "v2GeometryCrossingWordboxes": 26,
+      "v2GeometryEdgeEvents": 26,
+      "oldScanDarkOutsideAtThreshold180": 14,
+      "v2Threshold128InkBothSides": 13,
+      "frozen232Threshold128InkBothSides": 13,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "896afc91f2a4fe868970ff08397452cfadf1a9a3986a47cf05a69376891e7c0b",
+      "sourcePageRasterDimensionsPx": [
+        1232,
+        1650
+      ],
+      "cropImageSha256": "cff3f73d3490599adb1fb6b3594bbea43b93012440c6c414344a6f9848b3e476",
+      "cropImageDimensionsPx": [
+        610,
+        195
+      ],
+      "cropBoundsPixels": [
+        600.0,
+        430.0,
+        1210.0,
+        625.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        1.440000057220459,
+        3.60003662109375
+      ],
+      "candidateFrameIndex": 14
+    },
+    {
+      "cropId": "crop-dmg-poison-dose-and-manufacture-03",
+      "pdfPage": 21,
+      "printedPage": 20,
+      "oldScanGeometryCandidateWordboxes": 22,
+      "v2GeometryCrossingWordboxes": 22,
+      "v2GeometryEdgeEvents": 23,
+      "oldScanDarkOutsideAtThreshold180": 23,
+      "v2Threshold128InkBothSides": 14,
+      "frozen232Threshold128InkBothSides": 14,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "896afc91f2a4fe868970ff08397452cfadf1a9a3986a47cf05a69376891e7c0b",
+      "sourcePageRasterDimensionsPx": [
+        1232,
+        1650
+      ],
+      "cropImageSha256": "3174b191471dac74d2016c1c57d845f684d1e3ffe02c082c2737cfadde051cb8",
+      "cropImageDimensionsPx": [
+        580,
+        360
+      ],
+      "cropBoundsPixels": [
+        20.0,
+        1220.0,
+        600.0,
+        1580.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        1.440000057220459,
+        3.60003662109375
+      ],
+      "candidateFrameIndex": 15
+    },
+    {
+      "cropId": "crop-dmg-random-treasure-values-01",
+      "pdfPage": 154,
+      "printedPage": 153,
+      "oldScanGeometryCandidateWordboxes": 25,
+      "v2GeometryCrossingWordboxes": 25,
+      "v2GeometryEdgeEvents": 25,
+      "oldScanDarkOutsideAtThreshold180": 25,
+      "v2Threshold128InkBothSides": 12,
+      "frozen232Threshold128InkBothSides": 12,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "fe22bc27fe08c7a0f286dc474277000046b0a6a6dc9ad42dfac540e4c1df5689",
+      "sourcePageRasterDimensionsPx": [
+        1213,
+        1638
+      ],
+      "cropImageSha256": "4d0d265afeefd287437ce7094eafee91aa14bf2dc19f30bab08b188736afc90b",
+      "cropImageDimensionsPx": [
+        590,
+        730
+      ],
+      "cropBoundsPixels": [
+        30.0,
+        660.0,
+        620.0,
+        1390.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        1.440000057220459,
+        0.0
+      ],
+      "candidateFrameIndex": 16
+    },
+    {
+      "cropId": "crop-dmg-research-costs-01",
+      "pdfPage": 115,
+      "printedPage": 114,
+      "oldScanGeometryCandidateWordboxes": 25,
+      "v2GeometryCrossingWordboxes": 25,
+      "v2GeometryEdgeEvents": 25,
+      "oldScanDarkOutsideAtThreshold180": 18,
+      "v2Threshold128InkBothSides": 8,
+      "frozen232Threshold128InkBothSides": 8,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "4c78cc5c75e0cc0f2249df98f4a4f79a243a525f2404ea92d9216bcce2315c3e",
+      "sourcePageRasterDimensionsPx": [
+        1229,
+        1633
+      ],
+      "cropImageSha256": "aec940a4e13c1c9d1b9936dafb0f4ab4517b538dd09cbeedb95124151ba12fa9",
+      "cropImageDimensionsPx": [
+        605,
+        460
+      ],
+      "cropBoundsPixels": [
+        600.0,
+        730.0,
+        1205.0,
+        1190.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        0.0
+      ],
+      "candidateFrameIndex": 17
+    },
+    {
+      "cropId": "crop-dmg-research-costs-02",
+      "pdfPage": 115,
+      "printedPage": 114,
+      "oldScanGeometryCandidateWordboxes": 1,
+      "v2GeometryCrossingWordboxes": 1,
+      "v2GeometryEdgeEvents": 1,
+      "oldScanDarkOutsideAtThreshold180": 1,
+      "v2Threshold128InkBothSides": 0,
+      "frozen232Threshold128InkBothSides": 0,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "4c78cc5c75e0cc0f2249df98f4a4f79a243a525f2404ea92d9216bcce2315c3e",
+      "sourcePageRasterDimensionsPx": [
+        1229,
+        1633
+      ],
+      "cropImageSha256": "28fab011ed95ade004067cdaa23a56c008b366d3a210b998a711be26ce3be8ac",
+      "cropImageDimensionsPx": [
+        605,
+        350
+      ],
+      "cropBoundsPixels": [
+        600.0,
+        1270.0,
+        1205.0,
+        1620.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        0.0
+      ],
+      "candidateFrameIndex": 18
+    },
+    {
+      "cropId": "crop-dmg-research-costs-continuation-01",
+      "pdfPage": 117,
+      "printedPage": 116,
+      "oldScanGeometryCandidateWordboxes": 12,
+      "v2GeometryCrossingWordboxes": 12,
+      "v2GeometryEdgeEvents": 13,
+      "oldScanDarkOutsideAtThreshold180": 13,
+      "v2Threshold128InkBothSides": 4,
+      "frozen232Threshold128InkBothSides": 4,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "f1905218bac0e15703df5c5c92a3274362809f3dc5dffd09bd4ee29d6421402a",
+      "sourcePageRasterDimensionsPx": [
+        1220,
+        1647
+      ],
+      "cropImageSha256": "e1b9b32d6dd17d7473bbe3417d45a76fe97551030b91063bcfe20c03dabec085",
+      "cropImageDimensionsPx": [
+        605,
+        575
+      ],
+      "cropBoundsPixels": [
+        0.0,
+        55.0,
+        605.0,
+        630.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        0.0
+      ],
+      "candidateFrameIndex": 19
+    },
+    {
+      "cropId": "crop-dmg-research-costs-continuation-02",
+      "pdfPage": 117,
+      "printedPage": 116,
+      "oldScanGeometryCandidateWordboxes": 12,
+      "v2GeometryCrossingWordboxes": 12,
+      "v2GeometryEdgeEvents": 12,
+      "oldScanDarkOutsideAtThreshold180": 1,
+      "v2Threshold128InkBothSides": 0,
+      "frozen232Threshold128InkBothSides": 0,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "f1905218bac0e15703df5c5c92a3274362809f3dc5dffd09bd4ee29d6421402a",
+      "sourcePageRasterDimensionsPx": [
+        1220,
+        1647
+      ],
+      "cropImageSha256": "9199769b1bfa925919f370f0314c86e8d3b85ce348e48871d6dfebf7b3c64c4e",
+      "cropImageDimensionsPx": [
+        625,
+        940
+      ],
+      "cropBoundsPixels": [
+        580.0,
+        250.0,
+        1205.0,
+        1190.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        0.0
+      ],
+      "candidateFrameIndex": 20
+    },
+    {
+      "cropId": "crop-dmg-scroll-material-per-sheet-01",
+      "pdfPage": 118,
+      "printedPage": 117,
+      "oldScanGeometryCandidateWordboxes": 1,
+      "v2GeometryCrossingWordboxes": 1,
+      "v2GeometryEdgeEvents": 1,
+      "oldScanDarkOutsideAtThreshold180": 1,
+      "v2Threshold128InkBothSides": 1,
+      "frozen232Threshold128InkBothSides": 1,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "c9999691600eb01990c7a9709381ae2cc7a6d5ad6b4df3ab9c47319c0f20cb30",
+      "sourcePageRasterDimensionsPx": [
+        1219,
+        1629
+      ],
+      "cropImageSha256": "b9156a48e8d679c9c68cbc9e7cc9eb13c596fb2d9d48741aed4ea9ce007512e6",
+      "cropImageDimensionsPx": [
+        585,
+        140
+      ],
+      "cropBoundsPixels": [
+        600.0,
+        5.0,
+        1185.0,
+        145.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        9.359999656677246,
+        0.0
+      ],
+      "candidateFrameIndex": 21
+    },
+    {
+      "cropId": "crop-dmg-support-research-and-information-costs-01",
+      "pdfPage": 34,
+      "printedPage": 33,
+      "oldScanGeometryCandidateWordboxes": 3,
+      "v2GeometryCrossingWordboxes": 3,
+      "v2GeometryEdgeEvents": 3,
+      "oldScanDarkOutsideAtThreshold180": 3,
+      "v2Threshold128InkBothSides": 2,
+      "frozen232Threshold128InkBothSides": 2,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+      "sourcePageRasterDimensionsPx": [
+        1232,
+        1640
+      ],
+      "cropImageSha256": "b7c51e012f4ca56935373328f9bc5165c6a1df4cbc9cbcfc6c08ce2cd37531d8",
+      "cropImageDimensionsPx": [
+        575,
+        1025
+      ],
+      "cropBoundsPixels": [
+        35.0,
+        45.0,
+        610.0,
+        1070.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        9.359999656677246,
+        0.0
+      ],
+      "candidateFrameIndex": 22
+    },
+    {
+      "cropId": "crop-dmg-support-research-and-information-costs-02",
+      "pdfPage": 34,
+      "printedPage": 33,
+      "oldScanGeometryCandidateWordboxes": 0,
+      "v2GeometryCrossingWordboxes": 0,
+      "v2GeometryEdgeEvents": 0,
+      "oldScanDarkOutsideAtThreshold180": 0,
+      "v2Threshold128InkBothSides": 0,
+      "frozen232Threshold128InkBothSides": 0,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+      "sourcePageRasterDimensionsPx": [
+        1232,
+        1640
+      ],
+      "cropImageSha256": "31f8cbf4a08f368627a589774f158aef25f4bf52adc77e4e67da1f8da6b9fadf",
+      "cropImageDimensionsPx": [
+        610,
+        610
+      ],
+      "cropBoundsPixels": [
+        0.0,
+        970.0,
+        610.0,
+        1580.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        9.359999656677246,
+        0.0
+      ],
+      "candidateFrameIndex": 23
+    },
+    {
+      "cropId": "crop-dmg-support-research-and-information-costs-03",
+      "pdfPage": 34,
+      "printedPage": 33,
+      "oldScanGeometryCandidateWordboxes": 31,
+      "v2GeometryCrossingWordboxes": 31,
+      "v2GeometryEdgeEvents": 32,
+      "oldScanDarkOutsideAtThreshold180": 29,
+      "v2Threshold128InkBothSides": 24,
+      "frozen232Threshold128InkBothSides": 24,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "a0190a14ff805fbd4dccee1067f6ad485fd8c29263c3ea2cfa59588b5c82530b",
+      "sourcePageRasterDimensionsPx": [
+        1232,
+        1640
+      ],
+      "cropImageSha256": "3a68ada9731fe48eba2cadf79ae2c0d67528d91dff68f642cddfed87dbb54dec",
+      "cropImageDimensionsPx": [
+        625,
+        745
+      ],
+      "cropBoundsPixels": [
+        580.0,
+        45.0,
+        1205.0,
+        790.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        9.359999656677246,
+        0.0
+      ],
+      "candidateFrameIndex": 24
+    },
+    {
+      "cropId": "crop-dmg-town-entry-and-citizenship-fees-01",
+      "pdfPage": 91,
+      "printedPage": 90,
+      "oldScanGeometryCandidateWordboxes": 13,
+      "v2GeometryCrossingWordboxes": 13,
+      "v2GeometryEdgeEvents": 13,
+      "oldScanDarkOutsideAtThreshold180": 13,
+      "v2Threshold128InkBothSides": 5,
+      "frozen232Threshold128InkBothSides": 5,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "b0ee423ff757c3b3559341bdd9e09033488e5a0ad05953c305aaed12cf71baab",
+      "sourcePageRasterDimensionsPx": [
+        1236,
+        1639
+      ],
+      "cropImageSha256": "cf79af2d590de5497776d5c11c94a137eadaeed4c31ec4bf4755c7deaff13d43",
+      "cropImageDimensionsPx": [
+        595,
+        860
+      ],
+      "cropBoundsPixels": [
+        610.0,
+        540.0,
+        1205.0,
+        1400.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        1.440000057220459,
+        9.3599853515625
+      ],
+      "candidateFrameIndex": 25
+    },
+    {
+      "cropId": "crop-dmg-treasure-per-level-table-01",
+      "pdfPage": 172,
+      "printedPage": 171,
+      "oldScanGeometryCandidateWordboxes": 6,
+      "v2GeometryCrossingWordboxes": 6,
+      "v2GeometryEdgeEvents": 6,
+      "oldScanDarkOutsideAtThreshold180": 6,
+      "v2Threshold128InkBothSides": 5,
+      "frozen232Threshold128InkBothSides": 5,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "bc7e9294bce67054ad988b6cfec5c34afaeb4ced523f3d358a3c73fe947371b5",
+      "sourcePageRasterDimensionsPx": [
+        1240,
+        1652
+      ],
+      "cropImageSha256": "793735e6e58772912949ba1d94c2c4fa2a125fddd5fb68a87d2e1220212029cf",
+      "cropImageDimensionsPx": [
+        605,
+        370
+      ],
+      "cropBoundsPixels": [
+        605.0,
+        45.0,
+        1210.0,
+        415.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        9.359999656677246,
+        0.0
+      ],
+      "candidateFrameIndex": 26
+    },
+    {
+      "cropId": "crop-phb-assassination-fees-01",
+      "pdfPage": 30,
+      "printedPage": 29,
+      "oldScanGeometryCandidateWordboxes": 0,
+      "v2GeometryCrossingWordboxes": 0,
+      "v2GeometryEdgeEvents": 0,
+      "oldScanDarkOutsideAtThreshold180": 0,
+      "v2Threshold128InkBothSides": 0,
+      "frozen232Threshold128InkBothSides": 0,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "cebd4ef9fd5a97c9dbe34b29374a0c40dc359f06dce4427e640ce6acdc38e735",
+      "sourcePageRasterDimensionsPx": [
+        1201,
+        1638
+      ],
+      "cropImageSha256": "edc950c2d2bc52969b270e65d69e3fb90feb413047e8c9f28dea50bed477c3d6",
+      "cropImageDimensionsPx": [
+        1150,
+        540
+      ],
+      "cropBoundsPixels": [
+        25.0,
+        1060.0,
+        1175.0,
+        1600.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        0.0
+      ],
+      "candidateFrameIndex": 27
+    },
+    {
+      "cropId": "crop-dmg-research-costs-overflow-01",
+      "pdfPage": 116,
+      "printedPage": 115,
+      "oldScanGeometryCandidateWordboxes": 13,
+      "v2GeometryCrossingWordboxes": 13,
+      "v2GeometryEdgeEvents": 13,
+      "oldScanDarkOutsideAtThreshold180": 8,
+      "v2Threshold128InkBothSides": 2,
+      "frozen232Threshold128InkBothSides": 2,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "6911f1c1dddc0cf2573348f2e152cfdc814b19b47f9fbf1729af3b3cd08a24ef",
+      "sourcePageRasterDimensionsPx": [
+        1208,
+        1644
+      ],
+      "cropImageSha256": "b427a7c6d079390bde28203e5e1e75195bcf439e1e3bda13c3ddf9c9f6445f27",
+      "cropImageDimensionsPx": [
+        610,
+        1115
+      ],
+      "cropBoundsPixels": [
+        0.0,
+        0.0,
+        610.0,
+        1115.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        0.0
+      ],
+      "candidateFrameIndex": 28
+    },
+    {
+      "cropId": "crop-dmg-research-costs-overflow-02",
+      "pdfPage": 116,
+      "printedPage": 115,
+      "oldScanGeometryCandidateWordboxes": 7,
+      "v2GeometryCrossingWordboxes": 7,
+      "v2GeometryEdgeEvents": 7,
+      "oldScanDarkOutsideAtThreshold180": 7,
+      "v2Threshold128InkBothSides": 7,
+      "frozen232Threshold128InkBothSides": 7,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "6911f1c1dddc0cf2573348f2e152cfdc814b19b47f9fbf1729af3b3cd08a24ef",
+      "sourcePageRasterDimensionsPx": [
+        1208,
+        1644
+      ],
+      "cropImageSha256": "abaa4d57176f09cdaa301e5d25cfd16e70f4a4caa94c0f45b657bf2a01be6563",
+      "cropImageDimensionsPx": [
+        608,
+        810
+      ],
+      "cropBoundsPixels": [
+        600.0,
+        450.0,
+        1208.0,
+        1260.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        0.0
+      ],
+      "candidateFrameIndex": 29
+    },
+    {
+      "cropId": "phb123-previous-p35-equipment-tables",
+      "pdfPage": 124,
+      "printedPage": 123,
+      "oldScanGeometryCandidateWordboxes": 1,
+      "v2GeometryCrossingWordboxes": 1,
+      "v2GeometryEdgeEvents": 1,
+      "oldScanDarkOutsideAtThreshold180": 1,
+      "v2Threshold128InkBothSides": 1,
+      "frozen232Threshold128InkBothSides": 1,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "17f4278e8d4ee19257f23ce51972e478408c47ed25c7cafd46f7bd19accf0ffa",
+      "sourcePageRasterDimensionsPx": [
+        1201,
+        1642
+      ],
+      "cropImageSha256": "0feb3138729ae353961abb1c69e6a4e10ebc4b03e9191cc2c18c113403c2654e",
+      "cropImageDimensionsPx": [
+        605,
+        940
+      ],
+      "cropBoundsPixels": [
+        20.0,
+        650.0,
+        625.0,
+        1590.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        0.0
+      ],
+      "candidateFrameIndex": 30
+    },
+    {
+      "cropId": "phb123-previous-p36-equipment-tables",
+      "pdfPage": 124,
+      "printedPage": 123,
+      "oldScanGeometryCandidateWordboxes": 1,
+      "v2GeometryCrossingWordboxes": 1,
+      "v2GeometryEdgeEvents": 1,
+      "oldScanDarkOutsideAtThreshold180": 1,
+      "v2Threshold128InkBothSides": 1,
+      "frozen232Threshold128InkBothSides": 1,
+      "v2MatchesFrozenPerCrop": true,
+      "sourcePageRasterSha256": "17f4278e8d4ee19257f23ce51972e478408c47ed25c7cafd46f7bd19accf0ffa",
+      "sourcePageRasterDimensionsPx": [
+        1201,
+        1642
+      ],
+      "cropImageSha256": "39fe35c1ed7b4f1a985b7de04917fd085a8fe0023e7f6552e5e0358b2251a4be",
+      "cropImageDimensionsPx": [
+        580,
+        1540
+      ],
+      "cropBoundsPixels": [
+        615.0,
+        30.0,
+        1195.0,
+        1570.0
+      ],
+      "measuredCropBoxPositionOffsetPdfPoints": [
+        0.0,
+        0.0
+      ],
+      "candidateFrameIndex": 31
+    }
+  ]
+}
