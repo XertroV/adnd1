@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 import {readFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
 import test from 'node:test';
 
 const root=new URL('../',import.meta.url);
@@ -110,9 +111,17 @@ test('DMG source qualifiers and the monk conflict retain their exact limited sco
  }
 });
 
-test('each new matrix owner has one exact limited crop and pending hash-bound owner review',()=>{
+test('each new matrix owner has one exact limited crop and scoped independent hash-bound owner review',()=>{
  const overrides=readJson('citation-overrides.json');
  const visual=readJson('research/source-visual-reviews.json');
+ const ownerPath='research/source-completeness-matrix-owner-review.json',ownerBytes=readFileSync(new URL(ownerPath,root)),ownerPeer=JSON.parse(ownerBytes);
+ assert.equal(sha(ownerBytes),'bc8bc1c6d1dcbfb3e8c87f02c52a95c60358a190fa1b4d612bc78e270942e957');
+ const activation=readJson('research/source-completeness-matrix-owner-activation.json');
+ assert.equal(activation.assessmentsActivated,12);
+ assert.equal(activation.fieldTargetsActivated,0);
+ assert.equal(activation.sourcePeer.sha256,sha(ownerBytes));
+ const prior=JSON.parse(execFileSync('git',['show','db7d10957dd4d50e9bab063cffb3b503a16144c2:research/source-visual-reviews.json'],{cwd:root,encoding:'utf8',maxBuffer:8*1024*1024}));
+ assert.deepEqual(visual.reviews.filter(record=>!(record.collection==='matrices'&&ids.includes(record.itemId))),prior.reviews,'every prior visual review remains exact');
  const regionHashes={
   [ids[0]]:['089185837cda315595cef5d4edccfe58cf7e83d00911531f91a289a020648d50','2438904197b6a555cc7152c1e31678fe3a9fcd0b6af911f31ecaf50e5a2f2a48'],
   [ids[1]]:['34094120de6c10747964f0180a62ec038b50cef46285957183fe5d60f67abd57','d307af1cf600da65313127324984952f94c02e8fe755abb8f5829ebad9078c7f'],
@@ -156,7 +165,19 @@ test('each new matrix owner has one exact limited crop and pending hash-bound ow
   assert.deepEqual([record.sourceSha256,record.imageSha256],['7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669',region.sha256]);
   assert.equal(record.focusSha256,expectedFocus);
   assert.equal(record.contentSha256,expectedContent);
-  assert.equal(record.ownerBindingReviewPending.status,'pending-independent-review');
-  assert.deepEqual(record.assessments,{},'no final owner-binding assessment is claimed');
+  const peer=ownerPeer.reviewedOwners.find(owner=>owner.itemId===id);
+  assert.equal(record.defaultOrderSha256,peer.region.defaultOrderSha256);
+  assert.equal(record.ownerBindingReview.status,'independently-confirmed');
+  assert.equal(record.ownerBindingReview.evidenceSha256,sha(ownerBytes));
+  assert.equal(Object.hasOwn(record,'ownerBindingReviewPending'),false);
+  for(const dimension of ['crop','context','highlight','default']){
+   assert.equal(record.assessments[dimension].status,'confirmed');
+   assert.equal(record.assessments[dimension].independent,true);
+   assert.ok(record.assessments[dimension].evidence.includes(ownerPath));
+  }
+  const transition=activation.transitions.find(row=>row.identity.itemId===id);
+  assert.deepEqual(transition.before.assessments,{});
+  assert.equal(transition.before.ownerBindingReviewPending.status,'pending-independent-review');
+  assert.deepEqual(record,transition.after);
  }
 });

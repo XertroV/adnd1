@@ -1,5 +1,5 @@
 import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
-import {reverseMatrixCellReview} from './fixtures/matrix-baseline.mjs';
+import {reverseMatrixCellReview} from './helpers/dmg74-matrix-batch.mjs';
 import {reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
 import {withoutBatch5OfferEquipment,withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import test from 'node:test';

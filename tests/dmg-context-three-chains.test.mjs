@@ -9,7 +9,7 @@ import {withoutBatch6JoManifest,withoutBatch6XpManifest,beforeJoSearchOverridesF
 import {auditRequiredSegmentPresence,validateContinuationManifest} from '../tools/continuation-contract.mjs';
 import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';
 import {reverseApprovedXpExcerptCounts} from './helpers/batch6-xp-source-history.mjs';
-import {withoutDmg74MatrixSourceExcerptOverrides} from './fixtures/matrix-baseline.mjs';
+import {withoutDmg74MatrixSourceExcerptOverrides} from './helpers/dmg74-matrix-batch.mjs';
 
 const read = path => JSON.parse(readFileSync(path,'utf8'));
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');

@@ -10,7 +10,7 @@ import {readdirSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import test from 'node:test';
 import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';
-import {withoutDmg74MatrixAdditions} from './fixtures/matrix-baseline.mjs';
+import {withoutDmg74MatrixAdditions} from './helpers/dmg74-matrix-batch.mjs';
 
 const root = new URL('../', import.meta.url);
 const load = name => JSON.parse(readFileSync(new URL(name, root), 'utf8'));

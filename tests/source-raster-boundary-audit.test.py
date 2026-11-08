@@ -80,6 +80,72 @@ class SourceRasterBoundaryTests(unittest.TestCase):
         source_map_path.write_text(json.dumps(source_map))
         return data_root, source_map_path, source_map, usage
 
+    def _write_supplemental_fixture(self, root, artifact_id="dmg175-user-confirmed-supplement"):
+        data_root = root / "dist"
+        catalog_relpath = "scans/verified/rules-supplement.json"
+        catalog_path = data_root / catalog_relpath
+        catalog_path.parent.mkdir(parents=True)
+        source_bytes = b"synthetic authorized source image"
+        crop_bytes = b"synthetic published crop"
+        source_sha = hashlib.sha256(source_bytes).hexdigest()
+        crop_sha = hashlib.sha256(crop_bytes).hexdigest()
+        canonical_pdf_sha = "d" * 64
+        region = {
+            "id": "supplement-region", "book": "DMG", "printedPage": 175, "pdfPage": None,
+            "sourceArtifactId": artifact_id, "sourceCropBoundsPx": [10, 20, 40, 60],
+            "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open",
+            "width": 30, "height": 40, "image": "supplement.png", "sha256": crop_sha,
+            "normalizedPageRect": {"x": 0.1, "y": 0.2, "width": 0.3, "height": 0.4},
+        }
+        catalog = {
+            "sources": {"DMG": {"sha256": canonical_pdf_sha}},
+            "regions": [region],
+        }
+        catalog_bytes = json.dumps(catalog).encode()
+        catalog_path.write_bytes(catalog_bytes)
+        image_path = catalog_path.parent / region["image"]
+        image_path.write_bytes(crop_bytes)
+        source_dir = root / "sources"
+        source_dir.mkdir()
+        (source_dir / "dmg175.jpg").write_bytes(source_bytes)
+        data = {"rules": [{"id": "supplement", "sourceExcerpts": {"catalog": catalog_relpath}}]}
+        data_path = data_root / "data.json"
+        data_path.write_text(json.dumps(data))
+        pdf_hashes = {book: hashlib.sha256(book.encode()).hexdigest() for book in audit.PDF_FILENAMES}
+        pdf_hashes["DMG"] = canonical_pdf_sha
+        usage = {
+            "collection": "rules", "itemId": "supplement", "binding": "sourceExcerpts",
+            "catalog": catalog_relpath, "regionId": region["id"], "book": "DMG",
+            "printedPage": 175, "pdfPage": None,
+            "image": "scans/verified/supplement.png", "imageSha256": crop_sha,
+            "sourceHashMatches": True, "boundsType": "object", "pdfBounds": None,
+            "sourceKind": "supplemental-image", "sourceArtifactId": artifact_id,
+            "sourceSha256": source_sha, "sourceArtifactSha256": source_sha,
+            "canonicalPdfSha256": canonical_pdf_sha, "sourcePdfSha256": canonical_pdf_sha,
+            "canonicalPdfContainsPrintedPage": False, "sourceFrameDimensionsPx": [100, 100],
+            "sourceCropBoundsPx": [10, 20, 40, 60],
+            "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open",
+            "sourceArtifactHashMatches": True, "normalizedImageRectMatches": True,
+            "notAssessableReason": audit.SUPPLEMENTAL_NA_REASON,
+        }
+        catalog_hashes = {catalog_relpath: hashlib.sha256(catalog_bytes).hexdigest()}
+        source_map = {
+            "inputDataSha256": hashlib.sha256(data_path.read_bytes()).hexdigest(),
+            "catalogSha256": catalog_hashes,
+            "catalogSnapshotSha256": hashlib.sha256(json.dumps(catalog_hashes, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest(),
+            "sourcePdfSha256": pdf_hashes,
+            "usages": [usage],
+        }
+        source_map_path = root / "source-map.json"
+        source_map_path.write_text(json.dumps(source_map))
+        identity = {
+            "valid": True, "sourceKind": "supplemental-image", "sourceArtifactId": "dmg175-user-confirmed-supplement",
+            "sourceSha256": source_sha, "canonicalPdfSha256": canonical_pdf_sha,
+            "sourceDimensionsPx": [100, 100], "sourceCropBoundsPx": [10, 20, 40, 60],
+            "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open",
+        }
+        return data_root, source_map_path, source_map, source_dir, identity
+
     def test_rejects_empty_catalog_and_usage_map_against_live_data(self):
         """A self-consistent empty map must not turn live catalog coverage into zero uses."""
         with tempfile.TemporaryDirectory() as temp:
@@ -126,6 +192,16 @@ class SourceRasterBoundaryTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "multiset"):
                 audit.reconcile_live_catalog_usage(source_map, data_root, source_map_path, {})
 
+    def test_rejects_supplemental_identity_forged_onto_pdf_region(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            data_root, source_map_path, source_map, _ = self._write_small_live_fixture(root)
+            source_map["usages"][0]["sourceKind"] = "supplemental-image"
+            source_map["usages"][0]["sourceArtifactId"] = "dmg175-user-confirmed-supplement"
+            source_map_path.write_text(json.dumps(source_map))
+            with self.assertRaisesRegex(ValueError, "assigns a supplemental identity"):
+                audit.reconcile_live_catalog_usage(source_map, data_root, source_map_path, {})
+
     def test_missing_source_remains_an_explicit_not_assessable_use(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
@@ -135,6 +211,48 @@ class SourceRasterBoundaryTests(unittest.TestCase):
             self.assertEqual(report["counts"]["assessedUsages"], 0)
             self.assertEqual(report["counts"]["notAssessableUsages"], 1)
             self.assertEqual(report["notAssessableUsages"][0]["notAssessableReason"], "source-hash-mismatch-or-source-unavailable")
+
+    def test_supplemental_image_is_preserved_as_typed_pdf_raster_na(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            data_root, source_map_path, _, source_dir, identity = self._write_supplemental_fixture(root)
+            with mock.patch.object(audit, "supplemental_region_identity", return_value=identity):
+                report = audit.build_audit(source_map_path, source_dir, data_root)
+            self.assertEqual(report["counts"]["regionUsages"], 1)
+            self.assertEqual(report["counts"]["notAssessableUsages"], 1)
+            self.assertEqual(report["counts"]["assessedUsages"], 0)
+            self.assertEqual(report["sourceFrames"], [])
+            row = report["notAssessableUsages"][0]
+            self.assertEqual(row["notAssessableReason"], audit.SUPPLEMENTAL_NA_REASON)
+            self.assertEqual(row["sourceKind"], "supplemental-image")
+            self.assertEqual(row["sourceArtifactId"], "dmg175-user-confirmed-supplement")
+            self.assertEqual(row["sourceArtifactSha256"], identity["sourceSha256"])
+            self.assertEqual(row["sourcePdfSha256"], identity["canonicalPdfSha256"])
+            self.assertIsNone(row["pdfPage"])
+
+    def test_supplemental_identity_rejects_corrupt_source_crop_and_unknown_artifact(self):
+        for case in ("source", "crop", "unknown-artifact"):
+            with self.subTest(case=case), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                data_root, source_map_path, source_map, source_dir, identity = self._write_supplemental_fixture(root)
+                catalog_path = data_root / "scans/verified/rules-supplement.json"
+                if case == "source":
+                    (source_dir / "dmg175.jpg").write_bytes(b"changed source bytes")
+                elif case == "crop":
+                    (data_root / "scans/verified/supplement.png").write_bytes(b"changed crop bytes")
+                else:
+                    catalog = json.loads(catalog_path.read_text())
+                    catalog["regions"][0]["sourceArtifactId"] = "unrecognized-supplement"
+                    catalog_bytes = json.dumps(catalog).encode()
+                    catalog_path.write_bytes(catalog_bytes)
+                    source_map["catalogSha256"]["scans/verified/rules-supplement.json"] = hashlib.sha256(catalog_bytes).hexdigest()
+                    source_map["catalogSnapshotSha256"] = hashlib.sha256(json.dumps(source_map["catalogSha256"], separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
+                    source_map["usages"][0]["sourceArtifactId"] = "unrecognized-supplement"
+                    source_map_path.write_text(json.dumps(source_map))
+                with mock.patch.object(audit, "supplemental_region_identity", return_value=identity):
+                    expected = "unknown supplemental" if case == "unknown-artifact" else "SHA mismatch"
+                    with self.assertRaisesRegex(ValueError, expected):
+                        audit.reconcile_live_catalog_usage(source_map, data_root, source_map_path, {}, source_dir)
 
     def test_cli_refuses_to_overwrite_existing_immutable_output(self):
         with tempfile.TemporaryDirectory() as temp:

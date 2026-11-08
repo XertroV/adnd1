@@ -265,12 +265,19 @@ function pageHeading(eyebrow, title, description, actions = '') {
  return `<div class="page-heading"><div><span class="eyebrow">${esc(eyebrow)}</span><h1>${esc(title)}</h1><p>${esc(description)}</p></div>${actions || '<div class="heading-flourish" aria-hidden="true">✧</div>'}</div>`;
 }
 function buildIndex() {
+ const matrixConflictGuideLabel = matrix => {
+  const guideId = matrix?.sourceConflict?.relatedClassGuideId;
+  if (typeof guideId !== 'string') return '';
+  const guide = (data.classes || []).find(item => item?.id === guideId);
+  const name = guide?.name || guide?.title || guide?.id;
+  return typeof name === 'string' && name.trim() ? `Open ${name} class guide` : '';
+ };
  index = [
   ...data.spells.map(x => ({...x, _view:'spells', _title:x.name || x.title || '', _subtitle:`${classText(x)} · ${levelText(x)} · ${bookCode(x.book)}`})),
   ...data.rules.map(x => ({...x, _view:'rules', _title:x.title || '', _subtitle:`${x.category || 'Rule'} · ${bookCode(x.book)}`})),
   ...data.equipment.map(x => ({...x, _view:'equipment', _title:x.name || '', _subtitle:`${x.category || 'Equipment'} · ${equipmentPriceLabel(x)} · ${bookCode(x.book)}`})),
   ...data.classes.map(x => ({...x, _view:'classes', _title:x.name || '', _subtitle:`Class & advancement · ${bookCode(x.book)}`})),
-  ...data.matrices.map(x => ({...x, _view:'matrices', _title:x.title || x.name || '', _subtitle:`${bookCode(x.book)} · Combat matrix`})),
+  ...data.matrices.map(x => ({...x, _view:'matrices', _title:x.title || x.name || '', _subtitle:`${bookCode(x.book)} · Combat matrix`, _sourceConflictClassGuideLabel:matrixConflictGuideLabel(x)})),
   ...(data.progressionExplainer?[{...data.progressionExplainer,_view:'progressionExplainer',_title:data.progressionExplainer.title||'Class progression paths',_subtitle:'Class progression reference'}]:[]),
   ...notes.map(x => ({...x, _view:'notebook', _title:x.title, _subtitle:'Personal annotation'}))
  ].map(x => FirstEditionSearch.prepare({...x,_bookName:bookName(x.book)}));
@@ -541,9 +548,24 @@ function matrixDetailHTML(matrix){
  const coverage=FirstEditionCombat.coverage(matrix),rowHeader=matrix.attackerLabel||'Attacker level';
  const verification=matrix.coverage?.label||matrix.cellVerification?.scope||'Cell review scope is not recorded.';
  const notes=Array.isArray(matrix.notes)&&matrix.notes.length?`<section class="matrix-authored-notes"><h3>Table notes</h3><ul>${matrix.notes.map(note=>`<li>${esc(note)}</li>`).join('')}</ul></section>`:'';
+ const conflict=matrixSourceConflictHTML(matrix);
  const ruleNotes=Array.isArray(matrix.ruleNotes)&&matrix.ruleNotes.length?`<section class="matrix-rule-notes"><h3>Related rules and options</h3>${matrix.ruleNotes.map(note=>`<article class="matrix-rule-note"><h4>${esc(note.title||'Source note')}</h4><p>${esc(note.text||'')}</p>${inlineSourceChip(note,`${matrix.title||'Matrix'} · ${note.title||'source note'}`)}${note.status?`<span class="status-chip">${esc(note.status)}</span>`:''}</article>`).join('')}</section>`:'';
  const examples=Array.isArray(matrix.comparisonExamples)&&matrix.comparisonExamples.length?`<section class="matrix-examples-section"><h3>Recorded examples</h3><div class="table-scroll" tabindex="0" role="region" aria-label="${esc(matrix.title||'Matrix')} comparison examples, horizontally scrollable"><table class="matrix-examples"><thead><tr><th scope="col">Level band</th><th scope="col">Defender AC</th><th scope="col">Matrix target</th><th scope="col">AC0 subtraction</th><th scope="col">Explanation</th></tr></thead><tbody>${matrix.comparisonExamples.map(example=>`<tr><th scope="row">${esc(example.levelMin)}${example.levelMax!==example.levelMin?`–${esc(example.levelMax)}`:''}</th><td>${esc(example.armorClass)}</td><td>${esc(example.matrixTarget)}</td><td>${esc(example.simpleSubtractionTarget)}</td><td>${esc(example.explanation||'')}</td></tr>`).join('')}</tbody></table></div></section>`:'';
- return `<article class="detail-card auxiliary-record matrix-record" data-source-context="${esc(matrix.id)}" data-source-view="matrices" data-annotation-target="${esc(matrix.id)}" data-annotation-title="${esc(matrix.title||matrix.name||matrix.id)}"><header class="detail-header compact-header"><div class="detail-heading-group"><div class="detail-heading-text"><span class="eyebrow">${esc(bookCode(matrix.book))} SOURCE MATRIX</span><h2>${esc(matrix.title||matrix.name||matrix.id)}</h2></div>${noteButton(matrix)}</div><div class="detail-subtitle">${sourceChip(matrix)}<span class="status-chip unverified">${esc(matrix.status||'Source status not recorded')}</span></div></header><div class="detail-body"><p class="matrix-review-scope">${esc(verification)} ${coverage.total?`${coverage.known} of ${coverage.total} current table cells are transcribed.`:''}</p>${matrixTableHTML(matrix,{rowHeader,tableTitle:matrix.title||'Source matrix',ariaLabel:matrix.title||'Source matrix'})}${notes}${ruleNotes}${examples}</div><footer class="detail-footer"><span>${icon('book')}${esc(matrix.status||'Source status not recorded')}</span>${originalScansButton(matrix)}<button class="source-chip" data-copy-link="${esc(matrix.id)}">Copy reference link ↗</button></footer></article>`;
+ return `<article class="detail-card auxiliary-record matrix-record" data-source-context="${esc(matrix.id)}" data-source-view="matrices" data-annotation-target="${esc(matrix.id)}" data-annotation-title="${esc(matrix.title||matrix.name||matrix.id)}"><header class="detail-header compact-header"><div class="detail-heading-group"><div class="detail-heading-text"><span class="eyebrow">${esc(bookCode(matrix.book))} SOURCE MATRIX</span><h2>${esc(matrix.title||matrix.name||matrix.id)}</h2></div>${noteButton(matrix)}</div><div class="detail-subtitle">${sourceChip(matrix)}<span class="status-chip unverified">${esc(matrix.status||'Source status not recorded')}</span></div></header><div class="detail-body"><p class="matrix-review-scope">${esc(verification)} ${coverage.total?`${coverage.known} of ${coverage.total} current table cells are transcribed.`:''}</p>${matrixTableHTML(matrix,{rowHeader,tableTitle:matrix.title||'Source matrix',ariaLabel:matrix.title||'Source matrix'})}${notes}${conflict}${ruleNotes}${examples}</div><footer class="detail-footer"><span>${icon('book')}${esc(matrix.status||'Source status not recorded')}</span>${originalScansButton(matrix)}<button class="source-chip" data-copy-link="${esc(matrix.id)}">Copy reference link ↗</button></footer></article>`;
+}
+function matrixSourceConflictHTML(matrix){
+ const conflict=matrix?.sourceConflict;
+ if(!conflict||typeof conflict!=='object'||Array.isArray(conflict))return '';
+ const topic=typeof conflict.topic==='string'&&conflict.topic.trim()?conflict.topic:null;
+ const disposition=typeof conflict.disposition==='string'&&conflict.disposition.trim()?conflict.disposition:null;
+ const references=Array.isArray(conflict.references)?conflict.references.filter(value=>typeof value==='string'&&value.trim()):[];
+ if(!topic&&!disposition&&!references.length)return '';
+ const relatedId=typeof conflict.relatedClassGuideId==='string'?conflict.relatedClassGuideId:'';
+ const classGuide=relatedId?(data.classes||[]).find(item=>item?.id===relatedId):null;
+ const classGuideName=classGuide?.name||classGuide?.title||classGuide?.id;
+ const classGuideLink=classGuide&&typeof classGuideName==='string'&&classGuideName.trim()
+  ?`<a class="matrix-record-link matrix-conflict-class-guide" href="#classes/${esc(encodeURIComponent(classGuide.id))}">Open ${esc(classGuideName)} class guide ↗</a>`:'';
+ return `<section class="matrix-source-conflict" aria-label="Recorded source conflict"><h3>Recorded source conflict</h3>${topic?`<p><strong>Topic:</strong> ${esc(topic)}</p>`:''}${references.length?`<div class="matrix-conflict-references"><h4>Source locations</h4><ul>${references.map(reference=>`<li>${esc(reference)}</li>`).join('')}</ul></div>`:''}${disposition?`<p><strong>Disposition:</strong> ${esc(disposition)}</p>`:''}${classGuideLink}</section>`;
 }
 function detailHTML(x) {
  if(view==='equipment')return equipmentDetailHTML(x);

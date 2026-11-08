@@ -97,10 +97,10 @@ try {
   await page.locator('#source-viewer-file').setInputFiles(fixture);
   await page.locator('.source-viewer-status').filter({ hasText: 'Showing printed p. 174' }).waitFor();
   await page.getByRole('button', { name: 'Next cited page', exact: true }).click();
-  await page.getByText('Known source gap', { exact: false }).waitFor();
+  await page.getByText('This page uses the accepted supplemental image', { exact: false }).waitFor();
   check(!await page.locator('.source-viewer-stage canvas').isVisible(), 'DMG175 gap shows no substitute page');
   const dmg175Notice=(await page.locator('.source-viewer-placeholder').innerText()).replace(/\s+/g,' ');
-  check(/absent from the supplied DMG PDF.*user confirmed.*correct edition.*(?:available|usable) as source evidence/i.test(dmg175Notice)&&!/printing (?:is )?(?:unknown|unverified)/i.test(dmg175Notice), 'DMG175 notice preserves the PDF omission and correctly describes accepted supplemental evidence');
+  check(dmg175Notice==='This page uses the accepted supplemental image. Open source excerpts to view the reviewed evidence; no corresponding page exists in this PDF.'&&!/PDF page\s+\d+/i.test(dmg175Notice), 'DMG175 PDF mode names the accepted supplement without assigning a page number or substituting adjacent PDF content');
   await page.getByRole('button', { name: 'Next cited page', exact: true }).click();
   await page.locator('.source-viewer-status').filter({ hasText: 'Showing printed p. 176' }).waitFor();
   await page.locator('.source-viewer-text p').filter({ hasText: 'PDF PAGE 176' }).waitFor({ state: 'attached' });
@@ -154,8 +154,8 @@ try {
   const secondCrop=await secondImage.evaluate(async image=>{await image.decode();return {region:image.dataset.regionId,width:image.naturalWidth,height:image.naturalHeight};});
   check(secondCrop.region==='dmg-175-level-others-context-5aa02e91e35c4c28'&&secondCrop.width===659&&secondCrop.height===372,`actual encounter-types viewer exposes the second approved DMG175 excerpt: ${JSON.stringify(secondCrop)}`);
   await page.getByRole('button',{name:'Your PDF',exact:true}).click();
-  await page.getByText('Known source gap',{exact:false}).waitFor();
-  check(!await page.locator('.source-viewer-stage canvas').isVisible()&&/absent from the supplied DMG PDF/i.test(await page.locator('.source-viewer-placeholder').innerText()),'canonical-PDF mode keeps DMG175 unavailable and never substitutes a neighboring page');
+  await page.getByText('This page uses the accepted supplemental image',{exact:false}).waitFor();
+  check(!await page.locator('.source-viewer-stage canvas').isVisible()&&await page.locator('.source-viewer-placeholder').innerText()==='This page uses the accepted supplemental image. Open source excerpts to view the reviewed evidence; no corresponding page exists in this PDF.'&&!/PDF page\s+\d+/i.test(await page.locator('.source-viewer-placeholder').innerText()),'canonical-PDF mode keeps DMG175 unavailable and never substitutes a neighboring page or invents a PDF ordinal');
   await page.setViewportSize({width:390,height:844});await page.waitForTimeout(150);
   check(await page.locator('.source-viewer-main').evaluate(n=>n.scrollWidth<=n.clientWidth+1),'actual DMG175 supplement view fits mobile width');
   await page.keyboard.press('Escape');

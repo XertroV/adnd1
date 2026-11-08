@@ -65,9 +65,10 @@ export function buildSourceCompletenessCoverage({pageBaseline,siteBaseline,ledge
       physicalPagesWithoutNamedUnitAssignments,
       crosslinkScope:'Declared page-to-unit links are checked where supplied. Source-unit span backreferences and missing assignments are structural metadata, not independent visual verification of each source unit.',
       unitCountMeaning:'Named source units/candidates can overlap by section, table, heading, procedure and page. This is not a complete atom, row, stat-profile or prose census.',
-      siteDispositionOccurrences:dispositions,
+      baselineCommit:ledger.inputCommit,
+      baselineSiteDispositionOccurrences:dispositions,
       dispositionCountMeaning:'A unit can have different dispositions on different repository, rendered, search and citation surfaces. Counts overlap and are not an error total.',
-      findings:ledger.findings,checkedNegativeScope:ledger.checkedNegativeScope,
+      baselineFindings:ledger.findings,checkedNegativeScope:ledger.checkedNegativeScope,
       unassessed,mappingHandoff:ledger.mappingHandoff});
   }
   const ownerCollections=['rules','spells','equipment','matrices','classes'];
@@ -87,6 +88,7 @@ export function buildSourceCompletenessCoverage({pageBaseline,siteBaseline,ledge
       scope:'Captured before repair. Current dispositions belong to the separate repair register; the historical site/property denominator is not a source denominator.'},
     repairs,
     interpretation:['Physical-page accounting is complete for these exact bytes; source-unit semantic completeness is not established.',
+      'Book dispositions and finding records are frozen baseline observations at baselineCommit. Current repair and publication states are recorded separately in repairs; baseline open labels are not current unresolved totals.',
       'A no-candidate OCR/lexical/geometry result is not a source-completeness pass.',
       'Documented product exclusions, internal-index omissions, incomplete summaries, citation-only links and unassessable source meaning remain separate.',
       'Present in data, rendered to users and searchable are independent axes. A parent document can be findable while an exact numeric field is omitted from direct search.',
@@ -100,9 +102,15 @@ export function markdownSourceCompleteness(report){
   text+='| Book | Physical PDF pages | Named units/candidates | Complete semantic unit denominator |\n|---|---:|---:|---|\n';
   for(const book of report.bookReports)text+=`| ${book.book} | ${book.physicalPdfPages} | ${book.namedSourceUnits} | Not established |\n`;
   text+='\nNamed units overlap by section, table, heading and procedure; they are not additive rule atoms. See the JSON and individual source ledgers for every page, scope, source identity, site disposition, checked-negative boundary, and remaining review item.\n\n';
+  text+='## Current repair batches\n\n';
+  for(const batch of report.repairs?.batches||[]){
+    const release=batch.release;
+    text+=`- **${batch.id}**: ${batch.status}${release?` — [PR](${release.pullRequest}), Version ${release.version}, merge \`${release.mergeCommit}\``:''}.\n`;
+  }
+  text+='\nThe following book findings and disposition counts describe the frozen baseline. They preserve before evidence; use the repair batches above for current publication status.\n\n';
   for(const book of report.bookReports){
     text+=`## ${book.book}\n\n`;
-    for(const finding of book.findings||[])text+=`- **${finding.id}**: ${finding.summary||finding.title||finding.finding||finding.description||finding.status||'See source ledger for exact evidence.'}\n`;
+    for(const finding of book.baselineFindings||[])text+=`- **${finding.id}** (baseline): ${finding.summary||finding.title||finding.finding||finding.description||finding.status||'See source ledger for exact evidence.'}\n`;
     text+='\n';
   }
   text+='## Interpretation\n\n'+report.interpretation.map(line=>'- '+line).join('\n')+'\n';
