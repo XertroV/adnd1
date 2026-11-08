@@ -7,6 +7,7 @@ import {validateLedger, dataHash as mechanicsDataHash} from './mechanics-audit.m
 import {validatePriceSourceInventory} from './price-source-inventory.mjs';
 import {buildCoverageGaps} from './coverage-gaps.mjs';
 import {loadMonetaryRowIdentityAudit} from './monetary-row-identity-audit.mjs';
+import {fieldBindingAxisMetrics, fieldBindingCountMeaning, historicalProducerMetadata, sourceIntegrationDescriptor, currentUncheckedExclusions, uncheckedExclusionTemplate} from './source-report-consistency-audit.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BASELINE_COMMIT = '679b15d1c580172e54314829c1c3c86dc78b65f3';
@@ -32,7 +33,7 @@ export function handoffTemplateSnapshot(handoff) {
     schemaVersion: handoff.schemaVersion, artifactType: handoff.artifactType, title: handoff.title, state: handoff.state,
     scope, classificationRules: handoff.classificationRules, missingReferencedContent: handoff.missingReferencedContent,
     sourcePriceDiscoveryCensuses: handoff.sourcePriceDiscoveryCensuses,
-    otherDocumentedOpenQuestions: handoff.otherDocumentedOpenQuestions, excludedFromGapCount: handoff.excludedFromGapCount,
+    otherDocumentedOpenQuestions: handoff.otherDocumentedOpenQuestions, excludedFromGapCount: uncheckedExclusionTemplate(handoff.excludedFromGapCount),
     primaryEvidencePaths: handoff.primaryEvidencePaths, staticQueues,
     classPrecisionProposalPath: queue.classPrecisionProposals?.path,
     historicalOfferReviewGrades: offerNuance,
@@ -451,7 +452,13 @@ function loadCurrentMonetaryReview({repoRoot, read, hashFile, hashes}) {
   if (audit.contextMigrationBridgeStatus?.snapshot) bind(audit.contextMigrationBridgeStatus.snapshot);
   const meaningReview = read(UA_MEANING_REVIEW_PATH);
   if (hashes[UA_MEANING_REVIEW_PATH] !== UA_MEANING_REVIEW_SHA256) fail('UA context-meaning evidence hash is stale');
-  return {audit, reviewManifest, meaningReview, meaningReviewSha256: hashes[UA_MEANING_REVIEW_PATH]};
+  const registrationPath = 'research/source-audit-batch5-current-finding-disposition-registration.json';
+  const registration = read(registrationPath);
+  bind(registration.migrationBridge);
+  bind(registration.authorityAvailability);
+  bind({path: 'tools/monetary-row-identity-audit.mjs', sha256: registration.currentCode?.rowToolSha256});
+  bind({path: 'tools/monetary-context-extent-contract.mjs', sha256: registration.currentCode?.extentSha256});
+  return {audit, reviewManifest, meaningReview, meaningReviewSha256: hashes[UA_MEANING_REVIEW_PATH], registration, registrationRef: {path: registrationPath, sha256: hashes[registrationPath]}};
 }
 
 function exposedRecords(data) {
@@ -641,15 +648,17 @@ export function currentQueueMetadata({handoff, data, dataHash, rawDataHash, repo
   const systemTry = checkReport(systemPath, 'systemic', true);
   const visualTry = checkReport(visualPath, 'visual', true);
   if (systemTry) {
-    const empty = systemTry.evidenceBindings?.targetStatusCounts?.['empty-region-target'];
-    const bindings = systemTry.evidenceBindings?.denominator;
-    const reviewed = systemTry.evidenceBindings?.reviewStatusCounts?.['field-target-reviewed'];
-    const pending = Number.isInteger(bindings) && Number.isInteger(reviewed) ? bindings - reviewed : null;
+    const metrics = fieldBindingAxisMetrics(systemTry);
+    const {emptyRegionTargets: empty, denominator: bindings, fieldTargetReviewed: reviewed, fieldTargetNotReviewed: pending} = metrics;
     if (![empty, bindings, pending].every(Number.isInteger)) fail('hash-current systemic report lacks explicit evidence-binding counts');
     nextQueues.bindingsInputDataSha256 = dataHash;
     nextQueues.emptyRegionTargetBindings = empty;
     nextQueues.fieldEvidenceBindingsDenominator = bindings;
     nextQueues.fieldTargetsPending = pending;
+    nextQueues.regionTargetResolvedBindings = metrics.resolvedRegionTargets;
+    nextQueues.fieldTargetsReviewed = reviewed;
+    nextQueues.regionResolvedFieldTargetsPending = metrics.resolvedButFieldTargetNotReviewed;
+    nextQueues.countMeaning = fieldBindingCountMeaning(metrics);
     nextQueues.systemicReportPath = systemPath;
     const citationObjects = systemTry.citationObjects?.objects;
     if (!Array.isArray(citationObjects)) fail('hash-current systemic report lacks current class citation-target records');
@@ -738,6 +747,8 @@ export function buildRefreshedHandoff({repoRoot = root, handoff: currentHandoff,
     const metadata=validateSupplementalMonetaryReport({path, json: file.json, bytes: file.bytes, repoRoot, hashes});
     metadata.currentReview = projectCurrentMonetaryReview({metadata, ...monetaryCurrent, sourceReport: file.json});
     metadata.status = metadata.currentReview.status;
+    metadata.historicalProducerMetadata = historicalProducerMetadata(metadata);
+    metadata.currentIntegration = sourceIntegrationDescriptor(metadata, {registration: monetaryCurrent.registration, registrationRef: monetaryCurrent.registrationRef, currentHashes: hashes});
     if(reportMetadata.some(previous=>previous.sourceCensusPath===metadata.sourceCensusPath))fail(`duplicate supplemental census report: ${metadata.sourceCensusPath}`);
     reportMetadata.push(metadata);
   }
@@ -748,6 +759,7 @@ export function buildRefreshedHandoff({repoRoot = root, handoff: currentHandoff,
   handoff.snapshot = {...handoff.snapshot, dataRecordCount: parsedRecordCount, parsedDataSha256: dataSha, rawDistDataFileSha256: hashes['dist/data.json'], mechanicsAuditInputSha256: mechanicsSha, mechanicsAuditFileSha256: hashes['research/mechanics-audit-progress.json'], sourceScanInputSha256: scan.input.sha256, sourceScanFileSha256: hashes['tests/fixtures/source-scan-inventory.json'], canonicalPriceInventoryFileSha256: hashes['research/price-source-inventory.json'], sourceOfferReconciliationFileSha256: hashes['research/equipment-source-offer-reconciliation.json'], refreshBaselineCommit: BASELINE_COMMIT, refreshTemplateSha256: handoffTemplateSha256, refreshInputHashes: hashes};
   handoff.scope = {...handoff.scope, currentExposedRecords: parsedRecordCount};
   handoff.mechanicsAudit.counts = clone(mechanics.counts);
+  handoff.excludedFromGapCount = currentUncheckedExclusions(handoff.excludedFromGapCount, mechanics.counts.uncheckedFields);
   handoff.mechanicsAudit.validation = clone(mechanics.validation);
   handoff.mechanicsAudit.formalFieldIssues = issues;
   // `active` is the reconciler's internal partition; the published schema and

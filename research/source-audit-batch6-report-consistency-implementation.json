@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "batch6-report-consistency-code-freeze-and-private-after-replay",
+  "status": "code-frozen; generated live handoff/dist unchanged pending root review/application",
+  "baseCommit": "ae5195a2efe56f25fe9903f788a3c4c98b4e2064",
+  "before": {
+    "path": "research/source-audit-batch6-report-consistency-before.json",
+    "sha256": "982be309b6aa63247a6118cc9929926b4f4b87d857f72ff6b01e25f50d134e3f",
+    "sizeBytes": 18964
+  },
+  "beforeFixture": {
+    "path": "tests/fixtures/source-report-consistency-ae5195a-before.json.gz",
+    "sha256": "9b8790958c9747b0edcbdf57bc5ca30dfbed6e630b9a0af492f9b0de37fa39ab",
+    "sizeBytes": 194406
+  },
+  "changedCodeAndTests": [
+    {
+      "path": "tools/refresh-gaps-handoff.mjs",
+      "sha256": "328b2b6cef04cdeb5a938a89451532e999a4037789f72dab8641b5e151d26063",
+      "sizeBytes": 78074
+    },
+    {
+      "path": "tools/coverage-gaps.mjs",
+      "sha256": "75ab1046768b0dd19b975761a1e50790908e9269703562e5f9438a70c0b7d594",
+      "sizeBytes": 59150
+    },
+    {
+      "path": "tools/source-report-consistency-audit.mjs",
+      "sha256": "67d848e04682dbdb87f108faac22726b7e8f96da058f0539786352c9f8a986bb",
+      "sizeBytes": 14047
+    },
+    {
+      "path": "tests/refresh-gaps-handoff.test.mjs",
+      "sha256": "d89dc7b03d5cb77bb0e350fb24d3eecfd32491799322150d85fd894c857dc929",
+      "sizeBytes": 41125
+    },
+    {
+      "path": "tests/source-report-consistency-audit.test.mjs",
+      "sha256": "517bd93f6cbaa5708dd66041243cc5cca1a3ca1807b6ab1ed209f83d5ce748ae",
+      "sizeBytes": 7828
+    }
+  ],
+  "changes": [
+    "Derive region binding presence, field-target review and pending totals separately from every binding row; emit733/3772 and465/4040 axes, with268 resolved but not field-target-reviewed.",
+    "Generate current countMeaning and unchecked exclusion from current validated counts; only the generated exclusion number is normalized in the template fingerprint, while static wording/history remain bound.",
+    "Preserve producer phase/status/overlay-needed flag verbatim in explicitly historical metadata. Add separate exact source-registration/current-scoped-review linkage; keep general review pending and semanticPass:false.",
+    "Expose three distinct resolved/reviewed counter fields in the public coverage projection; no app/DOM changes."
+  ],
+  "targetedTests": {
+    "command": "node --test tests/source-report-consistency-audit.test.mjs tests/refresh-gaps-handoff.test.mjs tests/coverage-gaps.test.mjs",
+    "exitCode": 0,
+    "tests": 41,
+    "passed": 41,
+    "failed": 0,
+    "stdout": {
+      "path": "/tmp/batch6-report-consistency-audit/implementation-targeted-tests-final.log",
+      "sha256": "18ce6a69d2033e8fe85b31af3c557e4edbb04f6e939c62c8b6c84f4e3866d498",
+      "sizeBytes": 4507
+    },
+    "stderr": {
+      "path": "/tmp/batch6-report-consistency-audit/implementation-targeted-tests-final.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sizeBytes": 0
+    }
+  },
+  "privateAfterReplay": {
+    "method": "Production buildRefreshedHandoff then production buildCoverageGaps, using full exact current sources/reports; outputs written only to private paths. Detector passes the complete4505 census against these proposed outputs. A second full generation is byte-identical after preserving the existing date.",
+    "handoff": {
+      "path": "/tmp/batch6-report-consistency-audit/after-handoff-proposal.json",
+      "sha256": "b22fef40ef61892f533343278ea8b485ea724bc0cd9a78ce5b6a715e1ccf8303",
+      "sizeBytes": 374153
+    },
+    "gaps": {
+      "path": "/tmp/batch6-report-consistency-audit/after-coverage-gaps-proposal.json",
+      "sha256": "e04c2c96d6945a7698e64a3146abd8bdc307020b5a1327e2beb5530b9c6e6fa4",
+      "sizeBytes": 160907
+    },
+    "consistency": {
+      "path": "/tmp/batch6-report-consistency-audit/after-consistency-report.json",
+      "sha256": "ccd636ac55ac3cce7a507b68f26f88738b92e193ba3c11b4b823ac54435abfa7",
+      "sizeBytes": 4752
+    },
+    "buildLog": {
+      "path": "/tmp/batch6-report-consistency-audit/after-proposal-build-final.log",
+      "sha256": "67ed95e9fd280522ccc7d4a998b3267302266e74c8d31ac5480d3fd05a9114a9",
+      "sizeBytes": 1756
+    },
+    "handoffChangedPointers": 15,
+    "handoffDiff": {
+      "path": "/tmp/batch6-report-consistency-audit/after-handoff-proposal-changes.json",
+      "sha256": "66046e96577541b98a774c883cd9fd057655b274ff6367647490ee4450263905",
+      "sizeBytes": 5644
+    },
+    "publicGapsChangedPointers": 5,
+    "publicGapsDiff": {
+      "path": "/tmp/batch6-report-consistency-audit/after-public-gaps-proposal-changes.json",
+      "sha256": "01798da8b83732f40a57889ec839e2e40ff811f3868d6c832bd0b17d1652a45e",
+      "sizeBytes": 719
+    },
+    "idempotentSecondGeneration": true,
+    "liveSourceOrReportFilesWritten": false
+  },
+  "unchangedCurrentSourceAndReviewPins": [
+    {
+      "path": "dist/data.json",
+      "sha256": "2b803d29cccd83ffd8418818abddf04b66204c82cebb8afba13f7a8226c6583c",
+      "sizeBytes": 13049579
+    },
+    {
+      "path": "research/source-audit-batch5-ua-additional-prices.json",
+      "sha256": "c0012f83c1652ff76e8bee5dbed33a6a663b1a8d6e921251a2be6757f0fe100e",
+      "sizeBytes": 3028019
+    },
+    {
+      "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "sha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6",
+      "sizeBytes": 752906
+    },
+    {
+      "path": "research/monetary-row-identity-reviews.json",
+      "sha256": "5b5f1297fe0a5db9b6b70f78c4fc456a9c177f9a864b744d2b14c4ca652be8e7",
+      "sizeBytes": 1209336
+    }
+  ],
+  "limits": [
+    "No producer/source payload or frozen discovery census/status/history is rewritten.",
+    "Exact195 known dimensions do not establish complete179/583/global overlay QA. Both source interpretation questions across9rows, additional8 uncertainties and UA meaning/glyph qualifications remain unchanged.",
+    "No central seal manifest, app.js, source-viewer, workflow, source/review rows, commit or generated live payload edits by this worker. Root owns code review, live regeneration, new CI guard wiring, full checks and deployment."
+  ]
+}
