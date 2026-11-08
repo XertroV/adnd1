@@ -281,7 +281,7 @@ jobs:
       - name: Verify current continuation candidate snapshot
         if: always()
         run: |
-          node tools/continuation-candidates-validate.mjs --summary research/source-audit-batch5-continuation-current.json --force-current-tree --output-dir artifacts/continuation-candidate-coverage
+          node tools/continuation-candidates-validate.mjs --current-snapshot --force-current-tree --output-dir artifacts/continuation-candidate-coverage
           cat artifacts/continuation-candidate-coverage/validation.md >> "$GITHUB_STEP_SUMMARY"
       - name: Verify declared continuation aliases
         if: always()

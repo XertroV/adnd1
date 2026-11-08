@@ -1,3 +1,4 @@
+import {frozenDmgBeforeManifest,dmgContextBefore} from './helpers/dmg-context-frozen-manifest.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -61,11 +62,11 @@ test('frozen Git 679 baseline preserves all owner-binding consecutive-page pairs
   assert.equal(c.expectedSourceReportCueStatus, 'no-adjacent-PDF-flow-cue-on-first-PDF-page');
 });
 
-test('current-tree snapshot inventories every pair usage and retains the historical Druid control separately', () => {
+test('preserved Batch5 current-tree snapshot retains its exact190-group lineage and historical Druid control', () => {
   const snapshot = json('research/source-audit-batch5-cross-page-pairs-current.json');
   assert.equal(snapshot.input.treeSelection, 'current-worktree');
-  assert.equal(snapshot.input.continuationGroupCount, json('research/citation-continuations.json').groups.length);
-  assert.equal(snapshot.input.continuationManifestSha256, createHash('sha256').update(read('research/citation-continuations.json')).digest('hex'));
+  assert.equal(snapshot.input.continuationGroupCount, frozenDmgBeforeManifest.groups.length);
+  assert.equal(snapshot.input.continuationManifestSha256, dmgContextBefore.files['research/citation-continuations.json'].sha256);
   assert.equal(snapshot.universe.bindingResolutionIssueCount, 0);
   assert.equal(snapshot.summary.allConsecutivePagePairUsages, snapshot.pairs.length);
   assert.deepEqual(snapshot.summary.geometryClasses, {

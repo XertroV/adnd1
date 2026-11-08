@@ -7,9 +7,11 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {gunzipSync} from 'node:zlib';
-import {buildSourceRasterCoverage, collectLiveRasterUniverse} from '../tools/source-raster-coverage.mjs';
+import {buildSourceRasterCoverage, collectLiveRasterUniverse, loadRasterSnapshotInput} from '../tools/source-raster-coverage.mjs';
 
-const snapshot = JSON.parse(gunzipSync(readFileSync(new URL('../research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz', import.meta.url))));
+const snapshot = JSON.parse(gunzipSync(loadRasterSnapshotInput().bytes));
+const historicalSnapshot = JSON.parse(gunzipSync(readFileSync(new URL('../research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz', import.meta.url))));
+const historicalLive = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-raster-live-b90d317-before.json.gz', import.meta.url)))).live;
 const live = collectLiveRasterUniverse();
 const legacyFixture = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-raster-coverage-derived-metrics-before.json.gz', import.meta.url))));
 const legacySource = legacyFixture.files['tools/source-raster-coverage.mjs'];
@@ -155,9 +157,9 @@ test('stale input hashes retain historical evidence without presenting its candi
 
 test('the sealed pre-fix checker accepts every coordinated mutation used as a regression', () => {
   for (const [name, mutate] of coordinatedMutations) {
-    const copy = structuredClone(snapshot);
+    const copy = structuredClone(historicalSnapshot);
     mutate(copy);
-    assert.equal(buildLegacyCoverage(copy, live).validation.valid, true, `sealed checker should reproduce prior acceptance: ${name}`);
+    assert.equal(buildLegacyCoverage(copy, historicalLive).validation.valid, true, `sealed checker should reproduce prior acceptance: ${name}`);
   }
 });
 

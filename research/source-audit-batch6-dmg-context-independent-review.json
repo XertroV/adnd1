@@ -1,0 +1,374 @@
+{
+  "artifactType": "independent-private-dmg-continuation-source-review",
+  "reviewerRole": "independent source/crop/focus review; read-only",
+  "reviewedProposal": {
+    "path": "/tmp/batch6-continuation-review/dmg-three-owner-proposal-v1/proposal.json",
+    "sha256": "b66618f89e85a4963e10435bcc62e8cfdfcaff1543bdbee0281d94581808c7e6",
+    "artifactType": "batch6-private-dmg-source-continuation-crop-proposal",
+    "scope": "Three rules owners, six existing region IDs, three two-part chains. Two source crop replacements, four retained segment images and six passage-focus proposals. No production changes.",
+    "baselineManifestSha256": "e093ae75e9f2c50a6a117374e930fe2147bd55e0d67c23b581c098bd458e4df5",
+    "beforeCandidateUniverseSha256": "54847eaf32eadfe62fa6d92da50dcdb73102702583359d2a9054bfb3fa109d6c",
+    "HEAD": "ae5195a2efe56f25fe9903f788a3c4c98b4e2064",
+    "branch": "codex/source-audit-batch-6"
+  },
+  "source": {
+    "book": "DMG",
+    "path": "/workspace/private-adnd1-sources/DMG_1stEd.pdf",
+    "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+    "bytes": 46298255,
+    "edition": "DMG 1st Edition, as represented by pinned source",
+    "sourcePdfHashMatchesProposal": true
+  },
+  "reviewedChains": [
+    {
+      "id": "batch6-cleric-spell-acquisition-dmg-38-39",
+      "regions": [
+        "dmg-38-e68ffc7f26916726",
+        "dmg-39-93379f0c88bb7731"
+      ],
+      "assessment": "Source flow and crop coverage confirmed. Printed p38 crop begins at the DAY-TO-DAY ACQUISITION OF CLERIC SPELLS heading and includes the opening/preamble, relevant teaching/standing paragraphs, and complete former-case atonement paragraph to its sentence end. Printed p39 retained crop starts with the latter-case continuation, then contains the complete deity-change paragraph and paladin/ranger applicability note; next subsection heading is outside the crop. Focus overlays cover the relevant paragraphs and do not clip their text. The p38 heading is present in segment 1, so p39 need not duplicate it.",
+      "limitation": "No inference about broader cleric mechanics, field binding, or default selection."
+    },
+    {
+      "id": "batch6-aerial-maneuverability-dmg-50-51",
+      "regions": [
+        "dmg-50-94f04345fe476441",
+        "dmg-50-cd1e86900a12538e"
+      ],
+      "assessment": "Source flow and crop coverage confirmed. Printed p50 crop contains the Maneuverability heading, general rule, complete Class A entry, and Class B sentence ending at “full stop in” at the page break. Printed p51 crop resumes with “the air”, completes that sentence, and contains complete Classes C, D, and E. Proposed focus overlays cover the intended segments and exclude neighboring passages.",
+      "limitation": "The break itself is a printed page continuation; segment 2 has a running section header and is correctly linked by sentence completion, not adjacency alone."
+    },
+    {
+      "id": "batch6-levitation-combat-dmg-51-52",
+      "regions": [
+        "dmg-51-ee15928a9331f7fa",
+        "dmg-52-a91de37286b88b70"
+      ],
+      "assessment": "Source flow and crop coverage confirmed. Printed p51 crop contains the Levitation heading and the archery paragraph ending “Continued”; printed p52 crop begins “firing will not lower”, completes the archery/crossbow paragraph, and includes both following Levitation paragraphs (targets and caster-height control) through the line before the separate “Fly spell:” heading. I verified the crop starts before the opening glyphs, extends below the final caster-control line, and excludes the Fly heading. Focus is on the connected combat paragraph; following tail paragraphs are included as source context and remain unhighlighted. No glyphs are clipped by the proposed crop or focus bounds.",
+      "limitation": "Only the continuation paragraph is precisely focused; the two tail paragraphs are context, not independently promoted facts."
+    }
+  ],
+  "regions": [
+    {
+      "owner": "cleric-spell-acquisition",
+      "regionId": "dmg-38-e68ffc7f26916726",
+      "change": "replace-crop-and-rebase-focus",
+      "imagePath": "proposed-images/dmg-38-cleric-opening-300dpi.png",
+      "imageSha256": "e15fa99f4b9c17c74b80a679527266bbee7d57c01152645e95f6fb9421f340b6",
+      "dimensionsPx": [
+        1138,
+        2563
+      ],
+      "overlayPath": "proof/focus-overlays/dmg-38-e68ffc7f26916726.png",
+      "overlaySha256": "2c6a722bd5b486d0fca2f6b160f8bc580bd6e5d1236e833e00b23101ca52cdeb",
+      "focusBoundsPixelsXYXY": [
+        [
+          12,
+          87,
+          1121,
+          434
+        ],
+        [
+          12,
+          458,
+          1121,
+          1092
+        ],
+        [
+          12,
+          1116,
+          1121,
+          1467
+        ],
+        [
+          12,
+          1491,
+          1121,
+          2180
+        ],
+        [
+          12,
+          2195,
+          1121,
+          2555
+        ]
+      ],
+      "focusRectCount": 5,
+      "focusScope": "Prayer/meditation; basic training and second-level service; intermediary versus deity spell levels; fidelity and atonement. The section heading remains context."
+    },
+    {
+      "owner": "cleric-spell-acquisition",
+      "regionId": "dmg-39-93379f0c88bb7731",
+      "change": "retain-image-propose-passage-focus",
+      "imagePath": "before-images/dmg-39-348d6ab9a6ba9a5b.png",
+      "imageSha256": "348d6ab9a6ba9a5b21ca786a669a215d46244dbd5f4b8ed1e6a7575fd93a8709",
+      "dimensionsPx": [
+        540,
+        446
+      ],
+      "overlayPath": "proof/focus-overlays/dmg-39-93379f0c88bb7731.png",
+      "overlaySha256": "d3379b2ec237c074a3ba15a7c6c74c03783b2e350fff6c301b434195b76deb8c",
+      "focusBoundsPixelsXYXY": [
+        [
+          7,
+          6,
+          533,
+          189
+        ],
+        [
+          7,
+          205,
+          533,
+          386
+        ],
+        [
+          7,
+          401,
+          533,
+          439
+        ]
+      ],
+      "focusRectCount": 3,
+      "focusScope": "Higher-level atonement continuation, deity-change consequences and paladin/ranger application; three complete prose paragraphs."
+    },
+    {
+      "owner": "aerial-climbing-diving",
+      "regionId": "dmg-50-94f04345fe476441",
+      "change": "retain-image-propose-passage-focus",
+      "imagePath": "before-images/dmg-50-94f04345fe476441.png",
+      "imageSha256": "94f04345fe476441b81bb18b50ce104f44d70c0c2bee1bb9d4bcacc43b5f825d",
+      "dimensionsPx": [
+        701,
+        470
+      ],
+      "overlayPath": "proof/focus-overlays/dmg-50-94f04345fe476441.png",
+      "overlaySha256": "fbb4f8ad582450a2b36bf878c3ae7a2350a7c069ef2f8422c54dbf751e9e52b2",
+      "focusBoundsPixelsXYXY": [
+        [
+          11,
+          53,
+          674,
+          234
+        ],
+        [
+          11,
+          253,
+          675,
+          370
+        ],
+        [
+          11,
+          392,
+          675,
+          443
+        ]
+      ],
+      "focusRectCount": 3,
+      "focusScope": "General maneuverability/half-speed qualifier; class A and class B opening. B continues in the next segment."
+    },
+    {
+      "owner": "aerial-climbing-diving",
+      "regionId": "dmg-50-cd1e86900a12538e",
+      "change": "retain-image-propose-passage-focus",
+      "imagePath": "before-images/dmg-51-cd1e86900a12538e.png",
+      "imageSha256": "cd1e86900a12538e3610fef9ad4f09d951141b6921ff058a9bbd9720caee607b",
+      "dimensionsPx": [
+        668,
+        328
+      ],
+      "overlayPath": "proof/focus-overlays/dmg-50-cd1e86900a12538e.png",
+      "overlaySha256": "a042313b9bc631d2d40ede1ea03a03c38924afbc3d54669ed33e27170fc5c2b5",
+      "focusBoundsPixelsXYXY": [
+        [
+          15,
+          47,
+          665,
+          93
+        ],
+        [
+          15,
+          113,
+          666,
+          180
+        ],
+        [
+          15,
+          202,
+          666,
+          251
+        ],
+        [
+          15,
+          269,
+          666,
+          316
+        ]
+      ],
+      "focusRectCount": 4,
+      "focusScope": "Class B sentence completion and hovering, then full class C, D and E entries. Running heading remains context."
+    },
+    {
+      "owner": "aerial-missile-penalties",
+      "regionId": "dmg-51-ee15928a9331f7fa",
+      "change": "retain-image-propose-passage-focus",
+      "imagePath": "before-images/dmg-51-ee15928a9331f7fa.png",
+      "imageSha256": "ee15928a9331f7fabb88029b376bd7a1ddc8708ad73a0a9a243cd3fcb9f8006e",
+      "dimensionsPx": [
+        668,
+        309
+      ],
+      "overlayPath": "proof/focus-overlays/dmg-51-ee15928a9331f7fa.png",
+      "overlaySha256": "be5eb35f86350c8200903a9f1ff4ff135289bed82e785801afdc78d7491872df",
+      "focusBoundsPixelsXYXY": [
+        [
+          139,
+          151,
+          666,
+          175
+        ],
+        [
+          40,
+          175,
+          666,
+          289
+        ]
+      ],
+      "focusRectCount": 2,
+      "focusScope": "Recipients of levitation using bows: unstable platform, -1 successive fire penalty to -3; ends Continued and requires p52."
+    },
+    {
+      "owner": "aerial-missile-penalties",
+      "regionId": "dmg-52-a91de37286b88b70",
+      "change": "replace-crop-and-rebase-focus",
+      "imagePath": "proposed-images/dmg-52-levitation-continuation-300dpi.png",
+      "imageSha256": "86b2e2fe9c132ee42fcaf93d0aedf92734a5a6c074eb3c39f75f3d465c4269f8",
+      "dimensionsPx": [
+        1155,
+        667
+      ],
+      "overlayPath": "proof/focus-overlays/dmg-52-a91de37286b88b70.png",
+      "overlaySha256": "6a88424734c1670f832a2435ddb8dd3e6d7972677e75a310decf955579aeda62",
+      "focusBoundsPixelsXYXY": [
+        [
+          58,
+          8,
+          1122,
+          280
+        ]
+      ],
+      "focusRectCount": 1,
+      "focusScope": "Completion of archery penalty/reset, doubled sling/javelin/spear/melee penalties and crossbow restriction. Target vulnerability and caster-height control remain complete context."
+    }
+  ],
+  "cropReproduction": {
+    "new300DpiCrops": [
+      {
+        "key": "cleric-opening",
+        "printedPage": 38,
+        "pdfPage": 39,
+        "dpi": 300,
+        "sourceRenderRgbSha256": "1a5a27cde44bcc957b0e7d9777458ed199b7bcca05565648c109b80d7d83a996",
+        "cropImageSha256": "e15fa99f4b9c17c74b80a679527266bbee7d57c01152645e95f6fb9421f340b6",
+        "cropPixelSha256": "c55f5d7c4f4f80fce8de314d37db33a1a3f283455fe013bde293c6f296293a2f",
+        "exactCropPixelMatch": true,
+        "dimensionsPx": [
+          1138,
+          2563
+        ]
+      },
+      {
+        "key": "levitation-continuation",
+        "printedPage": 52,
+        "pdfPage": 53,
+        "dpi": 300,
+        "sourceRenderRgbSha256": "9205b1f20c00df7f2314b6a04acbc450ddf278ff3987a224ee114e888d8ae0e1",
+        "cropImageSha256": "86b2e2fe9c132ee42fcaf93d0aedf92734a5a6c074eb3c39f75f3d465c4269f8",
+        "cropPixelSha256": "a19cc30eb0a834d755922c08077e35bc929d0e095b7e328f57d28063945ed9ac",
+        "exactCropPixelMatch": true,
+        "dimensionsPx": [
+          1155,
+          667
+        ]
+      }
+    ],
+    "retained150DpiCrops": [
+      {
+        "key": "cleric-tail",
+        "printedPage": 39,
+        "pdfPage": 40,
+        "dpi": 150,
+        "imageSha256": "a5703f923506aae2d03f77dfe802e5bede5fc07c385352fcbfcc1087ba253ee5",
+        "dimensionsPx": [
+          568,
+          465
+        ],
+        "exactCropPixelMatch": true
+      },
+      {
+        "key": "speed-and-maneuverability",
+        "printedPage": 50,
+        "pdfPage": 51,
+        "dpi": 150,
+        "imageSha256": "e66a9f627bb80d5616790f965b4d19cf7435c04d07b4fa8423e880b0cc6870d6",
+        "dimensionsPx": [
+          576,
+          794
+        ],
+        "exactCropPixelMatch": true
+      },
+      {
+        "key": "class-b-tail-through-e",
+        "printedPage": 51,
+        "pdfPage": 52,
+        "dpi": 150,
+        "imageSha256": "a2a0e7afb23bad30640ede06cf9bddf85505458ef3f9d56ded32064d794d3eca",
+        "dimensionsPx": [
+          565,
+          245
+        ],
+        "exactCropPixelMatch": true
+      },
+      {
+        "key": "levitation-opening",
+        "printedPage": 51,
+        "pdfPage": 52,
+        "dpi": 150,
+        "imageSha256": "7d6ba420c4c79dc5ea1cc2119921e06e96f50376060e41fad2107e785dda9119",
+        "dimensionsPx": [
+          537,
+          240
+        ],
+        "exactCropPixelMatch": true
+      },
+      {
+        "key": "aerial-missile-fire-independent",
+        "printedPage": 53,
+        "pdfPage": 54,
+        "dpi": 150,
+        "imageSha256": "bc5182061f5857e7b6c668204a079a8a33c1b16bd6cb522c0a7b94c627eeca81",
+        "dimensionsPx": [
+          568,
+          228
+        ],
+        "exactCropPixelMatch": true
+      }
+    ],
+    "exactFullRenderAndSourceCropPixelMatches": true,
+    "retainedCropScopeNote": "Four retained 150dpi crops are chain segments (cleric p39, maneuverability p50, maneuverability p51, levitation p51). The fifth is the separately headed aerial-missile-fire p53 clip used as a non-link control; it is not an ordered segment in these three chains."
+  },
+  "catalogSnapshotIdentity": {
+    "allThreeCurrentCatalogsStillByteEqualToProposalSnapshots": true,
+    "sha256": {
+      "dist/scans/verified/rules-cleric-spell-acquisition.json": "b11d85ad0b99c951e8682704499a5f091a1ff8f5585280afeecc820f5762168b",
+      "dist/scans/verified/rules-aerial-climbing-diving.json": "ca068d8db7d276057f272cfdd944dc53ec18b4dc87959914958583c2c63531b3",
+      "dist/scans/verified/rules-aerial-missile-penalties.json": "38967035084540a9765c46d724e4d98e2f2ee407cfc8a173ed3614dd0edd8b36"
+    }
+  },
+  "sourceDefectsAndScopeLimits": [
+    "The proposal carries forward previously recorded UA10 fold/shadow and DMG11 page-edge defect uses (four recorded uses); those unrelated source defects were not re-reviewed or cleared in this task.",
+    "No broader source-value, field-evidence grade, default-selection, full-book, or unrelated-owner approval.",
+    "Proposal is not applied; original production files, crops, and catalogs remain unchanged.",
+    "The proposal requires root independent approval before any application."
+  ],
+  "blockers": []
+}

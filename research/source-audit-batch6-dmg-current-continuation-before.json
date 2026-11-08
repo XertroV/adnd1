@@ -1,0 +1,86 @@
+{
+  "artifactType": "append-only-actual-PR34-required-workflow-check-gap-before",
+  "status": "actual-CI-failure-preserved-before-selection-repair",
+  "head": "a5a265744e116a767a4bd98c04d7edc731cc18c9",
+  "ciUrl": "https://github.com/XertroV/adnd1/actions/runs/42456569570",
+  "beforeFixture": {
+    "path": "tests/fixtures/dmg-current-continuation-a5a-before.json.gz",
+    "sha256": "7c1af89d36234a04f37cd27f384f65efec5e9cceb1af9c82db17638a1e7a4087",
+    "bytes": 1606146
+  },
+  "ciLog": {
+    "path": "tests/fixtures/dmg-current-continuation-ci-failure.log.gz",
+    "sha256": "5b95e05aff25d7f639d7237f856ec1fdd67645f0f5de6bd76cc9ecb840a56a2b",
+    "bytes": 470
+  },
+  "errors": [
+    {
+      "code": "stale-data-input",
+      "detail": "Current dist/data.json differs from the report input hash. Regenerate the current snapshot or validate the baseline against its pinned tree."
+    },
+    {
+      "code": "stale-continuation-manifest",
+      "detail": "The continuation manifest differs from the snapshot input hash."
+    },
+    {
+      "code": "stale-catalog-hash",
+      "detail": "scans/verified/rules-aerial-climbing-diving.json differs from the catalog bytes pinned by the report."
+    },
+    {
+      "code": "stale-catalog-hash",
+      "detail": "scans/verified/rules-aerial-missile-penalties.json differs from the catalog bytes pinned by the report."
+    },
+    {
+      "code": "stale-catalog-hash",
+      "detail": "scans/verified/rules-cleric-spell-acquisition.json differs from the catalog bytes pinned by the report."
+    },
+    {
+      "code": "stale-catalog-universe",
+      "detail": "The catalog JSON file/hash universe differs from the report."
+    },
+    {
+      "code": "stale-image-hash",
+      "detail": "scans/verified/rules-aerial-missile-penalties.json:dmg-52-a91de37286b88b70 image hash changed."
+    },
+    {
+      "code": "stale-crop-geometry",
+      "detail": "scans/verified/rules-aerial-missile-penalties.json:dmg-52-a91de37286b88b70 crop geometry changed."
+    },
+    {
+      "code": "stale-image-hash",
+      "detail": "scans/verified/rules-cleric-spell-acquisition.json:dmg-38-e68ffc7f26916726 image hash changed."
+    },
+    {
+      "code": "stale-crop-geometry",
+      "detail": "scans/verified/rules-cleric-spell-acquisition.json:dmg-38-e68ffc7f26916726 crop geometry changed."
+    },
+    {
+      "code": "property-pointer-stale",
+      "detail": "rules:cleric-spell-acquisition/sourceExcerpts/regionReviews/1/review no longer resolves to a scalar/null property."
+    },
+    {
+      "code": "property-pointer-denominator-stale",
+      "detail": "Report has 5540 unique pointers; current exposed data has 197296."
+    }
+  ],
+  "validationCounts": {
+    "catalogFiles": 1015,
+    "exposedCatalogBindings": {
+      "sourceExcerpts": 994,
+      "scanVerification": 22
+    },
+    "regionBindingUses": {
+      "sourceExcerpts": 2989,
+      "scanVerification": 80
+    },
+    "catalogRegionRows": 3066,
+    "distinctSourcePageBindings": 229,
+    "propertyRecords": 995,
+    "propertyPointers": 5540,
+    "mechanicsFields": 13428,
+    "verifiedImageFiles": 1286
+  },
+  "existingSeals": 457,
+  "scopeCorrection": "The previous752clean Node/static checks passed but did not run every mandatory workflow CLI. The forced-current continuation check correctly rejected the stale Batch5 inventory. Original readiness2353 and all457 seals stay unchanged; this is an additive correction.",
+  "plannedCorrection": "New full current inventory from all five exact private PDFs plus a safe hash-pinned current snapshot selector. Keep force-current-tree, all old snapshots and all completeness/alias/property guards. No semantic clear."
+}
