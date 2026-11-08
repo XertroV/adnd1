@@ -14,6 +14,47 @@ spec.loader.exec_module(detector)
 
 
 class ContinuationCandidateFixtures(unittest.TestCase):
+    def test_user_confirmed_supplemental_page_has_typed_identity_not_pdf_page_status(self):
+        catalog = json.loads((ROOT / "dist/scans/verified/rules-encounter-types.json").read_text())
+        regions = [region for region in catalog["regions"] if region.get("printedPage") == 175]
+        self.assertEqual(len(regions), 2)
+        for region in regions:
+            identity = detector.supplemental_region_identity(catalog, region)
+            self.assertIsNotNone(identity)
+            self.assertTrue(identity["valid"])
+            self.assertEqual(identity["sourceKind"], "supplemental-image")
+            self.assertEqual(identity["sourceArtifactId"], "dmg175-user-confirmed-supplement")
+            self.assertEqual(identity["sourceSha256"], "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7")
+            self.assertEqual(identity["canonicalPdfSha256"], catalog["sources"]["DMG"]["sha256"])
+            self.assertEqual(identity["sourceDimensionsPx"], [1329, 1796])
+            self.assertIsNone(region["pdfPage"])
+
+        ordinary = json.loads((ROOT / "dist/scans/verified/spells-phb-cleric-animate-object.json").read_text())
+        pdf_region = next(region for region in ordinary["regions"] if region.get("pdfPage") is not None)
+        self.assertIsNone(detector.supplemental_region_identity(ordinary, pdf_region))
+
+        for field, value in [
+            ("sourceArtifactId", "unknown-artifact"),
+            ("sourceArtifactId", None),
+            ("sourceArtifactId", {"id": "dmg175-user-confirmed-supplement"}),
+            ("sourceCropBoundsPx", [0, 0, 635, 490]),
+            ("sourceCropBoundsPx", [1250, 1700, 1400, 1800]),
+            ("sourceCoordinateSpace", "PDF page points"),
+            ("pdfPage", 176),
+        ]:
+            changed = dict(regions[0])
+            changed[field] = value
+            rejected = detector.supplemental_region_identity(catalog, changed)
+            self.assertIsNotNone(rejected, field)
+            self.assertFalse(rejected["valid"], field)
+
+    def test_pdf_crop_flow_grouping_keeps_null_page_supplements_out_of_pdf_sort(self):
+        entries = [
+            {"region": {"book": "DMG", "printedPage": 175, "pdfPage": None}, "catalogPath": "scans/verified/rules-encounter-types.json"},
+            {"region": {"book": "DMG", "printedPage": 76, "pdfPage": 77}, "catalogPath": "scans/verified/rules-example.pdf-crop.json"},
+        ]
+        self.assertEqual(detector.linked_crop_flow_candidates(ROOT, entries, {}), [])
+
     def test_historical_ua60_contingency_crop_clips_left_edge_and_candidate_extent_clears_it(self):
         receipt = json.loads((ROOT / "research/source-audit-batch5-continuation-integration.json").read_text())
         case = receipt["historicalCropRegression"]

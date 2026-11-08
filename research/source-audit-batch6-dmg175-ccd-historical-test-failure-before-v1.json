@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "dmg175-targeted-historical-ccd-hash-assertion-failure-before-repair",
+  "capturedAt": "2026-11-08",
+  "command": "node --test --test-name-pattern='orthogonal detector precision delta is hash-bound' tests/continuation-candidates.test.mjs",
+  "exitCode": null,
+  "logPath": "/tmp/batch6-dmg175-ccd-historical-test-failure-before-v1.log",
+  "logSha256": "d778f2f9688a7545faf8a9e1ef340fa7a3f45e1c1049161d2114c3b4338ceb33",
+  "deltaPath": "research/source-audit-batch5-continuation-orthogonal-delta.json",
+  "deltaSha256": "d38c65494c2712772522a86c0f73f2d27157a2a962ec23de29b0a24bc68e406d",
+  "deltaExpectedDetectorSha256": "359eec092837ec25ccc180c860271faaa5901a92fe9e83fbb7a3e54e4a16ce11",
+  "currentDetectorPath": "tools/continuation-candidates.py",
+  "currentDetectorSha256": "9f328092dae99674002c8820ba322d415bdf8441bd66efa30d0ee85bcb2645bb",
+  "preservedBeforeReceiptPath": "research/source-audit-batch6-dmg175-ccd-source-identity-before-v1.json",
+  "preservedBeforeReceiptSha256": "cf3b54db8d04bc6dbcc203925fc1ccc9426e2e45ce3b2dfacf385fded8297b9f",
+  "actualPreFixDetectorSha256": "359eec092837ec25ccc180c860271faaa5901a92fe9e83fbb7a3e54e4a16ce11",
+  "actualPreFixBytesInBeforeReceipt": true,
+  "diagnosis": "The historical orthogonal-detector delta remains correctly pinned to the pre-DMG175 detector bytes; the current detector has a bounded supplement-only change, so the test incorrectly compares a historical proof input to current code. The correction will compare against exact preserved pre-fix bytes, not rebind the historical delta."
+}

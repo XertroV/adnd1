@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {projectDmg175Books} from './helpers/batch6-dmg175-source-history.mjs';
 import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {test} from 'node:test';
@@ -48,7 +49,7 @@ test('five-book inventory covers every supplied PDF page and keeps candidate cla
     MM: 'c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81',
     MM2: 'b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24',
   });
-  assert.equal(artifact.inputArtifacts.printedPageMap.sha256, sha256(readFileSync(resolve(root, 'dist/books.js'))));
+  assert.equal(artifact.inputArtifacts.printedPageMap.sha256, sha256(projectDmg175Books(readFileSync(resolve(root, 'dist/books.js')))));
   const byBook = new Map(artifact.sourcePdfs.map(source => [source.book, source]));
   const linesById = new Map(artifact.candidateLines.map(row => [row.lineCandidateId, row]));
   const pagesByBookAndPdfPage = new Map(artifact.pages.map(page => [`${page.book}:${page.pdfPage}`, page]));

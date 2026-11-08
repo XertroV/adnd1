@@ -1,0 +1,1021 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Jo-after-published-search079-final-local-author-readiness-v1",
+  "status": "791tests-all24-build-checks-and-browser-regressions-pass; root-final-seals-and-publication-go-pending",
+  "candidate": {
+    "headBeforePendingMerge": "695e4fe7d88afd4be1436a4bde28b6a3ec823cde",
+    "mergeParent": "079f4ec03924b32d8b340ee349012c9a8237066e",
+    "testedStagedTree": "b87cf3c94512db5207b107ebb0ab2bf5d41e34b0",
+    "commitState": "Merge remains uncommitted under root instruction; all prepared paths are explicit staged files."
+  },
+  "scope": {
+    "newJoOwner": "equipment:ua-jo-stick",
+    "joSourceValues": 14,
+    "joSourceRows": 4,
+    "joRegions": 5,
+    "purchasePrice": null,
+    "priceState": "unextracted",
+    "boEstimateInherited": false,
+    "sourcePriceAbsenceGradeAdded": false,
+    "contextDefaultOrWholeItemGradeAdded": false,
+    "exposedOwners": 997,
+    "incomingBindingRowsPreservedExactly": 4545,
+    "onlyAddedJoCaltropBindings": 20,
+    "joBindings": 19,
+    "caltropBindings": 1,
+    "currentBindings": 4565,
+    "currentContinuationGroups": 208,
+    "incoming207GroupsPreservedExactly": true,
+    "currentContinuationMembers": 406,
+    "oldMonetaryRecordsPreserved": 2161,
+    "soleNewMonetaryUID": "site-price-claim:ua-jo-stick",
+    "currentMonetaryRecords": 2162,
+    "knownFindingReviewRecordsPreserved": 195,
+    "historicalSourceQuestions": 8,
+    "currentUnresolvedQuestions": 7,
+    "sourceBackedDerivedAdjudications": 1,
+    "mammothDerivedValue": {
+      "kind": "range",
+      "currency": "gp",
+      "minimumAmount": 150,
+      "maximumAmount": 900,
+      "formula": "(100\u2013600 gp per elephant tusk) \u00d7 (1 + 0.50)",
+      "unit": "per tusk",
+      "condition": "Mammoth tusks are 50% heavier and their value is proportionately higher. Apply the explicit proportional value relation to the Elephant value of 100\u2013600 gp each. The resulting 150\u2013900 gp per mammoth tusk is derived, not a printed range.",
+      "sourceText": "(100\u2013600 gp per elephant tusk) \u00d7 1.5 = 150\u2013900 gp per mammoth tusk (derived)",
+      "reason": "Arithmetic from the explicit proportionate value relation and the separate Elephant per-tusk baseline; this range is not printed in the source.",
+      "normalizationStatus": "source-backed-derived-range-not-printed",
+      "rawStructuredValue": {
+        "amountOrFormula": "(100\u2013600 gp per elephant tusk) \u00d7 1.5 = 150\u2013900 gp per mammoth tusk (derived)",
+        "currency": "gp",
+        "unit": "per tusk",
+        "conditions": "Mammoth tusks are 50% heavier and their value is proportionately higher. Apply the explicit proportional value relation to the Elephant value of 100\u2013600 gp each. The resulting 150\u2013900 gp per mammoth tusk is derived, not a printed range.",
+        "valuationDerivation": {
+          "kind": "source-proportional-value-range",
+          "factor": 1.5,
+          "increasePercentage": 50,
+          "relation": "explicit-value-proportionate-to-tusk-weight-increase",
+          "baseline": {
+            "claimId": "mm-elephant-tusks",
+            "minimumAmount": 100,
+            "maximumAmount": 600,
+            "currency": "gp",
+            "unit": "each"
+          },
+          "derivedRange": {
+            "minimumAmount": 150,
+            "maximumAmount": 900,
+            "currency": "gp",
+            "unit": "per tusk"
+          },
+          "formula": "(100\u2013600 gp per elephant tusk) \u00d7 (1 + 0.50)",
+          "printedAsRange": false,
+          "isSourcePrinted": false,
+          "sourceDependencies": [
+            {
+              "book": "MM",
+              "printedPage": 65,
+              "pdfPage": 66,
+              "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+              "role": "explicit-proportional-value-relation"
+            },
+            {
+              "book": "MM",
+              "printedPage": 38,
+              "pdfPage": 39,
+              "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+              "role": "elephant-per-tusk-valuation-baseline"
+            }
+          ],
+          "sourceProofs": [
+            {
+              "path": "research/source-audit-batch6-mammoth-source-proof.json",
+              "sha256": "6e0b3cacd78475c6c7dc38ae40834a13a6996af56dd9afc45c9cf57a19b7ad1b"
+            },
+            {
+              "path": "research/source-audit-batch6-retained-source-first-review.json",
+              "sha256": "3e3c02c5c0f139417375fbd675fe169571dcdc691fcfd7dd2d8fe59c417a7d34"
+            }
+          ]
+        }
+      },
+      "derivation": {
+        "kind": "source-proportional-value-range",
+        "factor": 1.5,
+        "increasePercentage": 50,
+        "relation": "explicit-value-proportionate-to-tusk-weight-increase",
+        "baseline": {
+          "claimId": "mm-elephant-tusks",
+          "minimumAmount": 100,
+          "maximumAmount": 600,
+          "currency": "gp",
+          "unit": "each"
+        },
+        "derivedRange": {
+          "minimumAmount": 150,
+          "maximumAmount": 900,
+          "currency": "gp",
+          "unit": "per tusk"
+        },
+        "formula": "(100\u2013600 gp per elephant tusk) \u00d7 (1 + 0.50)",
+        "printedAsRange": false,
+        "isSourcePrinted": false,
+        "sourceDependencies": [
+          {
+            "book": "MM",
+            "printedPage": 65,
+            "pdfPage": 66,
+            "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+            "role": "explicit-proportional-value-relation"
+          },
+          {
+            "book": "MM",
+            "printedPage": 38,
+            "pdfPage": 39,
+            "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+            "role": "elephant-per-tusk-valuation-baseline"
+          }
+        ],
+        "sourceProofs": [
+          {
+            "path": "research/source-audit-batch6-mammoth-source-proof.json",
+            "sha256": "6e0b3cacd78475c6c7dc38ae40834a13a6996af56dd9afc45c9cf57a19b7ad1b"
+          },
+          {
+            "path": "research/source-audit-batch6-retained-source-first-review.json",
+            "sha256": "3e3c02c5c0f139417375fbd675fe169571dcdc691fcfd7dd2d8fe59c417a7d34"
+          }
+        ]
+      },
+      "derivationStatus": "source-backed-derived-interpretation",
+      "printedAsRange": false,
+      "isSourcePrinted": false
+    },
+    "semanticPass": false,
+    "generalSourceReviewPending": true
+  },
+  "fieldBindingAxes": {
+    "metrics": {
+      "denominator": 4565,
+      "emptyRegionTargets": 3777,
+      "resolvedRegionTargets": 786,
+      "recordTargetResolvedBindings": 2,
+      "fieldTargetReviewed": 500,
+      "fieldTargetNotReviewed": 4065,
+      "resolvedButFieldTargetNotReviewed": 286,
+      "targetStatusCounts": {
+        "empty-region-target": 3777,
+        "record-target-resolved": 2,
+        "field-target-resolved": 786
+      },
+      "reviewStatusCounts": {
+        "field-target-pending": 3471,
+        "region-verified": 288,
+        "field-target-reviewed": 500,
+        "source-row-transcribed-bounds-provisional": 93,
+        "source-row-value-verified-region-pending": 211,
+        "source-excerpt-only": 2
+      },
+      "crossTab": [
+        {
+          "targetStatus": "empty-region-target",
+          "reviewStatus": "field-target-pending",
+          "count": 3471
+        },
+        {
+          "targetStatus": "empty-region-target",
+          "reviewStatus": "source-excerpt-only",
+          "count": 2
+        },
+        {
+          "targetStatus": "empty-region-target",
+          "reviewStatus": "source-row-transcribed-bounds-provisional",
+          "count": 93
+        },
+        {
+          "targetStatus": "empty-region-target",
+          "reviewStatus": "source-row-value-verified-region-pending",
+          "count": 211
+        },
+        {
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "field-target-reviewed",
+          "count": 500
+        },
+        {
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "region-verified",
+          "count": 286
+        },
+        {
+          "targetStatus": "record-target-resolved",
+          "reviewStatus": "region-verified",
+          "count": 2
+        }
+      ]
+    },
+    "recordReferences": [
+      {
+        "bindingPointer": "/rules/148/evidenceBindings/0",
+        "attachmentPointer": "/rules/148",
+        "attachmentRelativePointer": "",
+        "sourceCategory": "record-page-reference",
+        "sourceObject": "Cleric Turning Undead Matrix",
+        "routeOwner": {
+          "collection": "rules",
+          "itemId": "cleric-turning-table",
+          "recordPointer": "/rules/148",
+          "resolved": true
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "cleric-turning-table",
+          "recordPointer": "/rules/148",
+          "resolved": true,
+          "explicit": true
+        },
+        "fieldPointer": "",
+        "fieldPointerExists": true,
+        "valuePathStatus": "value-present",
+        "sourceObjectPointer": "",
+        "sourceObjectPointerExists": true,
+        "sourceObjectPointerStructured": true,
+        "sourceObjectPointerMatchesAttachment": true,
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "valueReview": null,
+        "reviewStatus": "region-verified",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 75,
+        "pdfPage": 76,
+        "bindingCatalog": "scans/verified/rules-cleric-turning-table.json",
+        "selectedOwnerCatalog": "scans/verified/rules-cleric-turning-table.json",
+        "catalogMatchesSelectedOwner": true,
+        "requestedRegionIds": [
+          "dmg-75-turning-v2-cb9b590b2c17"
+        ],
+        "pendingUnmappedRegionIds": [],
+        "regionChecks": [
+          {
+            "regionId": "dmg-75-turning-v2-cb9b590b2c17",
+            "state": "resolved",
+            "book": "DMG",
+            "printedPage": 75,
+            "pdfPage": 76
+          }
+        ],
+        "structuralIssues": [],
+        "targetStatus": "record-target-resolved",
+        "auditClass": "confirmed",
+        "coordinateSpace": "excerpt-image-normalized-top-left-xywh",
+        "cropCoordinates": [
+          {
+            "regionId": "dmg-75-turning-v2-cb9b590b2c17",
+            "coordinateSpace": "rendered-source-page-normalized-top-left-xywh",
+            "format": "xywh",
+            "rect": [
+              0.502302,
+              0.744761,
+              0.497698,
+              0.253363
+            ]
+          }
+        ],
+        "highlightCoordinates": [
+          {
+            "regionId": "dmg-75-turning-v2-cb9b590b2c17",
+            "coordinateSpace": "excerpt-image-normalized-top-left-xywh",
+            "origin": "top-left",
+            "format": "xywh",
+            "rects": [
+              [
+                0.079899,
+                0.024691,
+                0.769554,
+                0.051852
+              ],
+              [
+                0.079899,
+                0.11358,
+                0.895711,
+                0.097531
+              ],
+              [
+                0.079899,
+                0.211111,
+                0.895711,
+                0.048148
+              ],
+              [
+                0.079899,
+                0.259259,
+                0.895711,
+                0.046914
+              ],
+              [
+                0.079899,
+                0.306173,
+                0.895711,
+                0.046914
+              ],
+              [
+                0.079899,
+                0.353086,
+                0.895711,
+                0.046914
+              ],
+              [
+                0.079899,
+                0.4,
+                0.895711,
+                0.048148
+              ],
+              [
+                0.079899,
+                0.448148,
+                0.895711,
+                0.045679
+              ],
+              [
+                0.079899,
+                0.493827,
+                0.895711,
+                0.045679
+              ],
+              [
+                0.079899,
+                0.539506,
+                0.895711,
+                0.045679
+              ],
+              [
+                0.079899,
+                0.585185,
+                0.895711,
+                0.044444
+              ],
+              [
+                0.079899,
+                0.62963,
+                0.895711,
+                0.045679
+              ],
+              [
+                0.079899,
+                0.675309,
+                0.895711,
+                0.045679
+              ],
+              [
+                0.079899,
+                0.720988,
+                0.895711,
+                0.046914
+              ],
+              [
+                0.079899,
+                0.767901,
+                0.895711,
+                0.053086
+              ],
+              [
+                0.079899,
+                0.833333,
+                0.828427,
+                0.062963
+              ]
+            ]
+          }
+        ],
+        "sourcePages": [
+          75,
+          76
+        ]
+      },
+      {
+        "bindingPointer": "/rules/148/evidenceBindings/1",
+        "attachmentPointer": "/rules/148",
+        "attachmentRelativePointer": "",
+        "sourceCategory": "record-page-reference",
+        "sourceObject": "Cleric Turning Undead Matrix",
+        "routeOwner": {
+          "collection": "rules",
+          "itemId": "cleric-turning-table",
+          "recordPointer": "/rules/148",
+          "resolved": true
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "cleric-turning-table",
+          "recordPointer": "/rules/148",
+          "resolved": true,
+          "explicit": true
+        },
+        "fieldPointer": "",
+        "fieldPointerExists": true,
+        "valuePathStatus": "value-present",
+        "sourceObjectPointer": "",
+        "sourceObjectPointerExists": true,
+        "sourceObjectPointerStructured": true,
+        "sourceObjectPointerMatchesAttachment": true,
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "valueReview": null,
+        "reviewStatus": "region-verified",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 76,
+        "pdfPage": 77,
+        "bindingCatalog": "scans/verified/rules-cleric-turning-table.json",
+        "selectedOwnerCatalog": "scans/verified/rules-cleric-turning-table.json",
+        "catalogMatchesSelectedOwner": true,
+        "requestedRegionIds": [
+          "dmg-76-turning-v2-c3301320dd02",
+          "dmg-76-turning-v2-69d73be55834"
+        ],
+        "pendingUnmappedRegionIds": [],
+        "regionChecks": [
+          {
+            "regionId": "dmg-76-turning-v2-c3301320dd02",
+            "state": "resolved",
+            "book": "DMG",
+            "printedPage": 76,
+            "pdfPage": 77
+          },
+          {
+            "regionId": "dmg-76-turning-v2-69d73be55834",
+            "state": "resolved",
+            "book": "DMG",
+            "printedPage": 76,
+            "pdfPage": 77
+          }
+        ],
+        "structuralIssues": [],
+        "targetStatus": "record-target-resolved",
+        "auditClass": "confirmed",
+        "coordinateSpace": "excerpt-image-normalized-top-left-xywh",
+        "cropCoordinates": [
+          {
+            "regionId": "dmg-76-turning-v2-c3301320dd02",
+            "coordinateSpace": "rendered-source-page-normalized-top-left-xywh",
+            "format": "xywh",
+            "rect": [
+              0.00631,
+              0.03325,
+              0.500631,
+              0.381117
+            ]
+          },
+          {
+            "regionId": "dmg-76-turning-v2-69d73be55834",
+            "coordinateSpace": "rendered-source-page-normalized-top-left-xywh",
+            "format": "xywh",
+            "rect": [
+              0.506942,
+              0.03325,
+              0.493058,
+              0.381117
+            ]
+          }
+        ],
+        "highlightCoordinates": [
+          {
+            "regionId": "dmg-76-turning-v2-c3301320dd02",
+            "coordinateSpace": "excerpt-image-normalized-top-left-xywh",
+            "origin": "top-left",
+            "format": "xywh",
+            "rects": [
+              [
+                0.012605,
+                0.024691,
+                0.94958,
+                0.032099
+              ],
+              [
+                0.012605,
+                0.08642,
+                0.94958,
+                0.123457
+              ],
+              [
+                0.012605,
+                0.274074,
+                0.94958,
+                0.034568
+              ],
+              [
+                0.012605,
+                0.331687,
+                0.94958,
+                0.034568
+              ],
+              [
+                0.012605,
+                0.397531,
+                0.94958,
+                0.034568
+              ],
+              [
+                0.012605,
+                0.455144,
+                0.94958,
+                0.036214
+              ],
+              [
+                0.012605,
+                0.520165,
+                0.94958,
+                0.034568
+              ],
+              [
+                0.012605,
+                0.578601,
+                0.94958,
+                0.034568
+              ],
+              [
+                0.012605,
+                0.683128,
+                0.94958,
+                0.098765
+              ],
+              [
+                0.046218,
+                0.858436,
+                0.928571,
+                0.133333
+              ]
+            ]
+          },
+          {
+            "regionId": "dmg-76-turning-v2-69d73be55834",
+            "coordinateSpace": "excerpt-image-normalized-top-left-xywh",
+            "origin": "top-left",
+            "format": "xywh",
+            "rects": [
+              [
+                0.012799,
+                0.01893,
+                0.987201,
+                0.16214
+              ],
+              [
+                0.012799,
+                0.19177,
+                0.987201,
+                0.129218
+              ],
+              [
+                0.012799,
+                0.320988,
+                0.987201,
+                0.074074
+              ],
+              [
+                0.012799,
+                0.415638,
+                0.987201,
+                0.106996
+              ],
+              [
+                0.012799,
+                0.539095,
+                0.987201,
+                0.032922
+              ],
+              [
+                0.012799,
+                0.580247,
+                0.987201,
+                0.407407
+              ]
+            ]
+          }
+        ],
+        "sourcePages": [
+          75,
+          76
+        ]
+      }
+    ]
+  },
+  "evidenceBoundary": "Exact previously approved source bindings/values are transported; this receipt adds structural/runtime and regression evidence only. Fourteen Jo values remain bounded book/row-specific approvals; Jo price, source-price absence, context/default and whole-item judgments remain outside that approval. All195 scoped finding dispositions remain distinct from whole-corpus source QA.",
+  "inputAndProofRefs": [
+    {
+      "path": "research/source-audit-batch6-jo-integration.json",
+      "sha256": "26c1c2e6962e4e02e0c34441fcfcc9f31ecbf5e75c0bb0e3baf54c4d24519c7c",
+      "sizeBytes": 40457
+    },
+    {
+      "path": "research/source-audit-batch6-jo-integration-v2.json",
+      "sha256": "47e08d49d236fe2f6138fe76e4f293592460e6070fbd29e61242c2b4e6b0a3a4",
+      "sizeBytes": 42087
+    },
+    {
+      "path": "research/source-audit-batch6-jo-integration-v3.json",
+      "sha256": "58c9fd04af5d62b67efde95a73d816dd09ebc60b804734f4fdb11f02ac2334a0",
+      "sizeBytes": 57906
+    },
+    {
+      "path": "research/source-audit-batch6-jo-integration-v4.json",
+      "sha256": "bd9de08fa5ef7e3a7dfc6019dc33f5cca912ac2f69e22950dcd6eef1b7148faa",
+      "sizeBytes": 133438
+    },
+    {
+      "path": "research/source-audit-batch6-jo-integration-root-independent-review.json",
+      "sha256": "cac9dd2220a99be4b4f108bdc06af2dfc64fd829d575675eced12eab4486f34f",
+      "sizeBytes": 16782
+    },
+    {
+      "path": "research/source-audit-batch6-jo-unit-root-independent-review.json",
+      "sha256": "521089564dd54ca6a2cb83f54d625d36ca9e9bfaba7a293d0ea431538c417c3c",
+      "sizeBytes": 2723
+    },
+    {
+      "path": "research/source-audit-batch6-jo-search079-monetary-input-addendum-v3.json",
+      "sha256": "9c8d9bb62296dabb3b0dc6f9d668f3d09fc778824b438cd546d21a826f0ffe6b",
+      "sizeBytes": 14236
+    },
+    {
+      "path": "research/source-audit-batch6-jo-search079-raster-binding-extension-v1.json",
+      "sha256": "7f4487ef18f79b354fe6cb11be8a5c5fe22f58858ac56c95e243b8c510e2a2b5",
+      "sizeBytes": 6570
+    },
+    {
+      "path": "research/current-source-raster-snapshot.json",
+      "sha256": "5afe1ffc779a5d1334e46c7cf331af84d2bbf458c9f1949e752e963452e886b1",
+      "sizeBytes": 385
+    },
+    {
+      "path": "research/current-continuation-candidate-snapshot.json",
+      "sha256": "ecfb4bd4a84d274dffad6930487910ffcb53ccf5edc85a7867a633d583a7b309",
+      "sizeBytes": 412
+    },
+    {
+      "path": "tests/fixtures/jo-search079-production-runtime-before.json.gz",
+      "sha256": "853a598fc9c786d7e3df26c34799d49ffdeda26892c37f862eb73b97eebc5115",
+      "sizeBytes": 224405
+    },
+    {
+      "path": "tests/fixtures/jo-search079-field-binding-universe-before.json.gz",
+      "sha256": "efbe2e81d729c7e582542f32f577f2403a3cb99bd9c74be45748ad165febe316",
+      "sizeBytes": 206176
+    },
+    {
+      "path": "tests/fixtures/jo-search079-three-history-tests-before.json.gz",
+      "sha256": "8c290c9dc21427f26617e50aff8fc17346b76992a7b78a9686c06156427bde0d",
+      "sizeBytes": 12963
+    },
+    {
+      "path": "tests/fixtures/jo-search079-workflow24-v1-node-failures.log.gz",
+      "sha256": "190bde917f570cee8f6fc3c6df113e3934d14f812956fd0eed28972d78e0e81a",
+      "sizeBytes": 29052
+    }
+  ],
+  "upstreamSeals": {
+    "count": 509,
+    "manifest": {
+      "path": "research/citation-evidence-seals.json",
+      "sha256": "b76b982ebf7da2aeb29f25486a9c98712f2450c4996315d504d1419bc648ab7e",
+      "sizeBytes": 144713
+    },
+    "all509ExistingSealedPathsUnchanged": true,
+    "gitattributesExactPublishedMaster": true
+  },
+  "implementationTransfer": {
+    "exactPublishedMasterFiles": [
+      {
+        "path": "dist/app.js",
+        "sha256": "e96f442f5b2310495971868f19052245fad9ad54b82a939b8d7f6d9adce642ab",
+        "sizeBytes": 132375
+      },
+      {
+        "path": "dist/search.js",
+        "sha256": "5c341a8bf2d132830574d6f6f1806d4bcc279a64bc140dd126c1fe79fc31744b",
+        "sizeBytes": 8040
+      },
+      {
+        "path": "dist/styles.css",
+        "sha256": "722f0e9abdc4e912fd886ee2519b403bf56f04d45308d9916b0e8b70a31b615b",
+        "sizeBytes": 54153
+      },
+      {
+        "path": "dist/index.html",
+        "sha256": "0b5a1670f6521b6af2a352d78f587e8f11f3e55942352290f7d44ed054571fed",
+        "sizeBytes": 6889
+      },
+      {
+        "path": "dist/source-viewer.js",
+        "sha256": "2bcd568da598999036594d670e826f715b782643074d21fbed0cfab5233283e4",
+        "sizeBytes": 72996
+      },
+      {
+        "path": "dist/books.js",
+        "sha256": "eec2bf53b19e6f131f06032f7f17c86d004b93798c8cb476129e4ff852b61877",
+        "sizeBytes": 2903
+      },
+      {
+        "path": "dist/citations.js",
+        "sha256": "dec36d9e039c2ed4f53fd07a34f5ad8f60473dcf74b11173d18183928f4a5b22",
+        "sizeBytes": 7995
+      },
+      {
+        "path": "tools/source-report-consistency-audit.mjs",
+        "sha256": "8f10a0dfa96047f19c53deb3283505a42954092323c2bbf698d8e8091e8e25f5",
+        "sizeBytes": 15047
+      },
+      {
+        "path": "tools/coverage-gaps.mjs",
+        "sha256": "d5a9ffac8e68798aae6594326d572dac895329f0fef6fde294e9da7c74291801",
+        "sizeBytes": 61854
+      },
+      {
+        "path": "tools/monetary-source-inventory.mjs",
+        "sha256": "b092d34304d71d145101c559e7a889d9963aa5fb152f5c713f63833076d3457c",
+        "sizeBytes": 211059
+      },
+      {
+        "path": "tools/source-raster-coverage.mjs",
+        "sha256": "a95657c9822f5db8b5562b5f27748805faa287403d69a11ca3f9cebea99f2d7f",
+        "sizeBytes": 31974
+      },
+      {
+        "path": "tools/quantity-source-absence-audit.mjs",
+        "sha256": "77bf676538e5b64beb8046f921feebef5451376be67c9ad9e635fa1531625b97",
+        "sizeBytes": 31124
+      },
+      {
+        "path": "tools/monetary-current-source-questions.mjs",
+        "sha256": "3e81d85e3ae0f6989ecca05655af780ecc8d2a4347f3e0cdfdd7a328ffe17a5c",
+        "sizeBytes": 11284
+      },
+      {
+        "path": "tools/citation-navigation-coverage.mjs",
+        "sha256": "9b1892ae702822f1afde1aad0de497cc8b4180d7d4371a57e32aea7bcce892f6",
+        "sizeBytes": 22355
+      },
+      {
+        "path": "tools/source-visual-coverage.mjs",
+        "sha256": "c7742b7f418f961acc4ef2d007ebf60243174c30f9597fc072c9a904322e5f61",
+        "sizeBytes": 62702
+      },
+      {
+        "path": "classes.json",
+        "sha256": "2372095ded81398370f4c760503a913814c29cb7a190a01210d4121936e2ab1f",
+        "sizeBytes": 527434
+      },
+      {
+        "path": "rules.json",
+        "sha256": "d7e11b26a7c05d3d8d3abd6a40d8fcd22e50f3b2dc45d479ac213a504c33292e",
+        "sizeBytes": 206394
+      },
+      {
+        "path": "research/field-evidence-bindings.json",
+        "sha256": "b19d8558ec0f5df250faca979ea533039cdc6b14492819b936510d06d30d0f42",
+        "sizeBytes": 1065617
+      },
+      {
+        "path": "research/source-visual-reviews.json",
+        "sha256": "9fe3df201bc0ee912f0685249d1e49f9dae0c60fcb08c87ec29d6d6c41ff8948",
+        "sizeBytes": 2722399
+      },
+      {
+        "path": ".gitattributes",
+        "sha256": "616fe165710003384cea80829aa918fb5a7df80f7344eaf8ff79fb1bba13a615",
+        "sizeBytes": 178
+      }
+    ],
+    "exactOriginallyApprovedJoFiles": [
+      {
+        "path": "tools/monetary-unit-provenance-audit.mjs",
+        "sha256": "58d0af2b07c18c86fc2b11c63e12a5cb3402f49f4c5ab4d7ed1ff3feec5d351d",
+        "sizeBytes": 48663
+      },
+      {
+        "path": "tools/ua26-note-marker-audit.mjs",
+        "sha256": "4cd3e158451d842c4b097a0ddc726b5c248dfe2b0428cae719f1e4b27a85c49c",
+        "sizeBytes": 17747
+      },
+      {
+        "path": "tools/jo-unextracted-price-registration.mjs",
+        "sha256": "dc939de98ff9f796f6a1ec910aa8f0fc287508d6fbe5729c824af1ed4046f7c2",
+        "sizeBytes": 4811
+      },
+      {
+        "path": "equipment.json",
+        "sha256": "9c831f319a8d58bd3c943c610a89326975f622015b760073217ecf0f7b55e6f7",
+        "sizeBytes": 341979
+      },
+      {
+        "path": "research/source-table-citation-contracts.json",
+        "sha256": "b4ce0d78f6380a121969e53fd4227264b4a72258e126ede395e409ea8974e8e6",
+        "sizeBytes": 737536
+      },
+      {
+        "path": "dist/scans/verified/equipment-ua-jo-stick.json",
+        "sha256": "2f3c3c550067ebe6bd194ab1e11a339467827446c767d8811d2165d1b0927399",
+        "sizeBytes": 9143
+      },
+      {
+        "path": "dist/scans/verified/equipment-ua-caltrop.json",
+        "sha256": "d1888665bc90d8cf3b2dd226cfa67a27295a9d10da3c6c67313810b5bd5331fb",
+        "sizeBytes": 10654
+      },
+      {
+        "path": "research/source-audit-batch6-jo-field-value-activation.json",
+        "sha256": "e74b232e0796d4508bd74d97e0379adda2a0dfe92c6bd0a5f3cfd489e5c66022",
+        "sizeBytes": 13002
+      },
+      {
+        "path": "research/source-audit-batch6-jo-mapping-independent-review.json",
+        "sha256": "2393845114b9a2b9d29518c8464374b1e7312efd61dfbf68ace17afd4e3ed95c",
+        "sizeBytes": 37863
+      },
+      {
+        "path": "research/source-audit-batch6-jo-locator-frame-derivation.json",
+        "sha256": "44dc37708820df9041b8b2012187f1988385214732c3e4484d80727d63d68168",
+        "sizeBytes": 2979
+      }
+    ],
+    "protectedHistoricalArtifacts": [
+      {
+        "path": "research/monetary-row-identity-reviews.json",
+        "sha256": "5b5f1297fe0a5db9b6b70f78c4fc456a9c177f9a864b744d2b14c4ca652be8e7",
+        "sizeBytes": 1209336
+      },
+      {
+        "path": "research/monetary-row-identity-findings.json",
+        "sha256": "7a4cff06dfc79c9c202e559aa13f6009961baad4f8467bd3120fcae4b15ab362",
+        "sizeBytes": 4395
+      },
+      {
+        "path": "research/source-audit-batch5-monetary-retained-uncertainties.json",
+        "sha256": "93c9547479b8632bc8631c83a5e5496118b3580f516aa2c4cbb2a5515d19ee00",
+        "sizeBytes": 11195
+      },
+      {
+        "path": "research/source-audit-batch5-ua-context-fingerprint-migration-bridge-v5.json",
+        "sha256": "9b7ea194e9bbb3d4441dc2cf877b4e3bd8db9e3fdbfa170c40e23c339ec574da",
+        "sizeBytes": 11480
+      },
+      {
+        "path": "research/source-audit-batch5-monetary-context-migration-before-v5.json",
+        "sha256": "b2021c1b040a0fa3b0d16e19b5b25d2efba2a96d3d87bc12600dca1015619b04",
+        "sizeBytes": 21935898
+      },
+      {
+        "path": "research/source-audit-batch5-null-price-notes.json",
+        "sha256": "af5cece0d237b0b70f774ff8254414d4701074121c61f1719487a3f01f96b44b",
+        "sizeBytes": 5986
+      },
+      {
+        "path": "research/quantity-unit-provenance-before-v1.json",
+        "sha256": "984fd892d09dd7d6330b0f12f79280d4e17f0aac69de3b3dd37ebb432c51ffcd",
+        "sizeBytes": 6944180
+      },
+      {
+        "path": "tools/monetary-row-identity-audit.mjs",
+        "sha256": "75dd1b6b1177c848c85b148bb806e6653ab6517979d3c7a3a1946f1021b63276",
+        "sizeBytes": 165175
+      }
+    ],
+    "parserDpiRasterMetricSemanticsChanged": false
+  },
+  "rasterTransfer": {
+    "snapshot": {
+      "path": "research/source-raster-boundary-batch6-jo-search079-v1.json.gz",
+      "sha256": "f37c71a79924e574ffe09c9ec6fe96a7ff4d969efa72cbba2849937fe37722e8"
+    },
+    "geometry": {
+      "path": "research/source-visual-audit-batch6-jo-search079-v1.json",
+      "sha256": "70facb87d17313237b8435712d6c441f20618274ef44fd3de237b48e9ee3fd89"
+    },
+    "incomingNumericGeometryScansPreserved": 1287,
+    "incomingSourceFramesPreserved": 230,
+    "onlyNewAliases": 7,
+    "currentUsages": 3137,
+    "freshRasterSourceRenderingClaim": false,
+    "semanticPass": false
+  },
+  "validation": {
+    "workflow": {
+      "path": "/tmp/batch6-jo-search079-workflow24-v2/receipt.json",
+      "sha256": "537451f88bec44f0b177c41e9d65146f9a44aa668b034a491c2bd9695a3cb859",
+      "sizeBytes": 9913
+    },
+    "actualBuildBlocksPassed": 24,
+    "actualBuildBlocksFailed": 0,
+    "fullNodeSuite": {
+      "tests": 791,
+      "pass": 791,
+      "fail": 0,
+      "log": {
+        "path": "/tmp/batch6-jo-search079-workflow24-v2/01.log",
+        "sha256": "04ff2c7ff61f78391de547fa53cd37e4491aa0f18ccb130ea01d6071c7622d4f",
+        "sizeBytes": 81313
+      }
+    },
+    "focusedHistoricalRepairs": {
+      "tests": 21,
+      "pass": 21,
+      "log": {
+        "path": "/tmp/batch6-jo-search079-three-history-tests-after-final.log",
+        "sha256": "b39e9bccabac84301e37b2fc7d93ed2c69f705d83cbc2dd93536077cea0c4a8d",
+        "sizeBytes": 2163
+      }
+    },
+    "strictCurrentBindingsAndMetrics": {
+      "tests": 56,
+      "pass": 56,
+      "log": {
+        "path": "/tmp/batch6-jo-search079-strict-current-targeted.log",
+        "sha256": "983201da6964d5bb41e91ac9a106ff7d428c6733ad8bfc0ba1f9772c719f76bb",
+        "sizeBytes": 6344
+      }
+    },
+    "joBrowser": {
+      "cases": 4,
+      "receipt": {
+        "path": "/tmp/batch6-jo-search079-browser/receipt.json",
+        "sha256": "4cddacc8a2cf01f3034fa2f70273aafafafd4ee8f94d7414a610c62f79d02712",
+        "sizeBytes": 5299
+      }
+    },
+    "searchAndTurningBrowser": {
+      "checks": 91,
+      "log": {
+        "path": "/tmp/batch6-jo-search079-search-browser.log",
+        "sha256": "f53c2c3e9e100ea2adb462e3824fbc4a3b75e3b6f228cbff87521bcea741dddc",
+        "sizeBytes": 6485
+      }
+    },
+    "contextOwnerRoundtrips": {
+      "checks": 146,
+      "actualReloads": 3,
+      "misses": 0,
+      "receipt": {
+        "path": "/tmp/batch6-jo-search079-owner-roundtrip-browser.json",
+        "sha256": "adc75fc086ef4179ef4f326f460bf7968efa404579eaa5483e44cffb7430b30d",
+        "sizeBytes": 365519
+      }
+    },
+    "worktreeAndStagedDiffChecks": "both passed after explicit staging; raw failure logs preserved as exact gzip bytes",
+    "earlierFailureInventory": {
+      "path": "/tmp/batch6-jo-search079-workflow24-v1/receipt.json",
+      "sha256": "9144ab7b7c4e32c77b72e33f25223b708a8adaef9b9510d63cfc9e73d4a246ff",
+      "sizeBytes": 9919
+    }
+  },
+  "runtimeCatalog": {
+    "path": "dist/scans/verified/equipment-ua-jo-stick.json",
+    "sha256": "2f3c3c550067ebe6bd194ab1e11a339467827446c767d8811d2165d1b0927399",
+    "sizeBytes": 9143
+  },
+  "fiveCurrentJoImageReferences": [
+    {
+      "regionId": "jo-stick-ua26-row",
+      "book": "UA",
+      "printedPage": 26,
+      "pdfPage": 27,
+      "path": "dist/scans/verified/ua-26-9e9c6750d95af018.png",
+      "sha256": "9e9c6750d95af0181d01d52138e1f773f951b46fae6d75a719b7f0caa1cb3162",
+      "sizeBytes": 529605
+    },
+    {
+      "regionId": "jo-stick-ua26-facing-general-note",
+      "book": "UA",
+      "printedPage": 27,
+      "pdfPage": 28,
+      "path": "dist/scans/verified/ua-27-facingside-notes-19783dde2e5c0bb3.png",
+      "sha256": "19783dde2e5c0bb3c31c0e5b0417af2444cc8ecc22d3a411bf7df99e8c8f5db4",
+      "sizeBytes": 270384
+    },
+    {
+      "regionId": "jo-stick-ua27-row",
+      "book": "UA",
+      "printedPage": 27,
+      "pdfPage": 28,
+      "path": "dist/scans/verified/ua-27-ac5c72afd1d4dae7.png",
+      "sha256": "ac5c72afd1d4dae7712c0d95b0c4004b009f27c366a24208b8a0d924102d1c9f",
+      "sizeBytes": 1114766
+    },
+    {
+      "regionId": "jo-stick-phb37-row",
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "path": "dist/scans/verified/phb-37-a0447e9e609ad119.png",
+      "sha256": "a0447e9e609ad1191beda38a39a6f3673a0fb11bbfd72472f3f21df7f8445a31",
+      "sizeBytes": 687868
+    },
+    {
+      "regionId": "jo-stick-phb38-row",
+      "book": "PHB",
+      "printedPage": 38,
+      "pdfPage": 39,
+      "path": "dist/scans/verified/phb-38-b827f0f8f94a9dca.png",
+      "sha256": "b827f0f8f94a9dca9c16c26cd7bedfb688c17756f7dd4bfd519a59d2b30d7d05",
+      "sizeBytes": 635804
+    }
+  ],
+  "publication": "No remote push, PR, remote merge, version allocation or deployment performed. Root owns final seals/GO; Sol owns subsequent clean checkout, CI, merge and normal Pages Version14."
+}

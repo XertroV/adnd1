@@ -1,3 +1,4 @@
+import {readBeforeJoFile} from './helpers/batch6-jo-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -7,13 +8,13 @@ import {fileURLToPath} from 'node:url';
 import {auditUa26MarkerReceipt,markerTokensFor,noteIdsForTokens} from '../tools/ua26-note-marker-audit.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel),'utf8'));
+const read=rel=>JSON.parse(readBeforeJoFile(path.join(root,rel),'utf8'));
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 
 test('post-application, pre-correction all-66 note-association snapshot preserves the five source-marker divergences',()=>{
   const receipt=read('research/source-audit-batch5-ua26-marker-correction.json');
   const before=read(receipt.beforeCorrection.associationSnapshot.path);
-  assert.equal(sha(fs.readFileSync(path.join(root,receipt.beforeCorrection.associationSnapshot.path))),receipt.beforeCorrection.associationSnapshot.sha256);
+  assert.equal(sha(readBeforeJoFile(path.join(root,receipt.beforeCorrection.associationSnapshot.path))),receipt.beforeCorrection.associationSnapshot.sha256);
   // 679 is the historical source/page baseline. The 66 linked aliases did not
   // exist there: they were introduced by this branch's catalog application
   // and were captured in the working tree immediately before marker correction.
@@ -45,10 +46,10 @@ test('literal marker tokenization keeps 2* and 6* distinct from asterisk-pair no
   assert.throws(()=>markerTokensFor('**'),/Unsupported/);
 });
 
-test('all 68 source markers and 66 current aliases map to exact note lines plus General Note',()=>{
+test('all 68 source markers, corrective66 aliases and registered current appends retain exact note associations',()=>{
   const result=auditUa26MarkerReceipt(root);
   assert.equal(result.ok,true,JSON.stringify(result.failures));
-  assert.deepEqual(result.counts,{physicalRows:68,marked:17,unmarked:51,corrective66Aliases:66,currentTargetAppends:1,currentWDAliases:67,explicitMarkerRows:17,baselineWrongSpecificAssignments:2,previouslyUnresolvedNowSourceAdjudicated:3,correctedCatalogs:5,checkedCatalogs:64});
+  assert.deepEqual(result.counts,{physicalRows:68,marked:17,unmarked:51,corrective66Aliases:66,currentTargetAppends:2,currentWDAliases:68,explicitMarkerRows:17,baselineWrongSpecificAssignments:2,previouslyUnresolvedNowSourceAdjudicated:3,correctedCatalogs:5,checkedCatalogs:65});
   assert.equal(result.sourceMarkerCensusSha256,'28573d886140523dafd6b2a21060932751a72b090773371ecbb4807942ecc2b0');
   const receipt=read('research/source-audit-batch5-ua26-marker-correction.json');
   const sourceMarkers=receipt.sourceMarkerCensus.filter(row=>row.sourceMarkerRaw!==null);
@@ -80,7 +81,7 @@ test('all 68 source markers and 66 current aliases map to exact note lines plus 
   assert.match(asterisk.printedText,/^\* These weapons/,'corrected literal text for the one-star line');
   assert.match(double.printedText,/^\*\* These weapons/,'the separate dismount line begins with two stars');
   const markerReview=read('research/source-audit-batch5-ua26-marker-independent-review.json');
-  assert.equal(markerReview.correctionReceipt.sha256,sha(fs.readFileSync('research/source-audit-batch5-ua26-marker-correction.json')));
+  assert.equal(markerReview.correctionReceipt.sha256,sha(readBeforeJoFile('research/source-audit-batch5-ua26-marker-correction.json')));
   assert.equal(markerReview.summary.independentlyRecheckedOriginalMarkerRows,68);
   assert.equal(markerReview.summary.remainingNoteAssociationBlockers,0);
   assert.equal(markerReview.summary.fieldValuesPromoted,0);
@@ -118,7 +119,7 @@ test('current hand-quarrel owner is an explicit post-correction append with its 
   assert.equal(append.row.continuationGroupProposal.sourceValueScope.perQuarrelPriceInferred,false);
   assert.equal(append.row.continuationGroupProposal.sourceValueScope.launcherStatisticsAssigned,false);
   const review=read('research/source-audit-batch5-ua26-hand-quarrel-independent-review.json');
-  assert.equal(review.receipt.sha256,sha(fs.readFileSync('research/source-audit-batch5-ua26-current-row-append.json')));
+  assert.equal(review.receipt.sha256,sha(readBeforeJoFile('research/source-audit-batch5-ua26-current-row-append.json')));
   assert.equal(review.summary.oldPriceCatalogPrefixPreserved,true);
   assert.equal(review.summary.fieldValuesPromoted,0);
   assert.equal(review.summary.quantityInferred,false);

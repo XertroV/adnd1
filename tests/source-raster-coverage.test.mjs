@@ -10,11 +10,13 @@ import {gunzipSync} from 'node:zlib';
 import {buildSourceRasterCoverage, collectLiveRasterUniverse, loadRasterSnapshotInput} from '../tools/source-raster-coverage.mjs';
 
 const snapshot = JSON.parse(gunzipSync(loadRasterSnapshotInput().bytes));
-const dmg175MapperBeforeBytes=readFileSync(new URL('./fixtures/source-raster-dmg175-live-mapper-reconstruction-v1.json.gz',import.meta.url));
-const dmg175MapperBefore=JSON.parse(gunzipSync(dmg175MapperBeforeBytes));
 const historicalSnapshot = JSON.parse(gunzipSync(readFileSync(new URL('../research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz', import.meta.url))));
 const historicalLive = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-raster-live-b90d317-before.json.gz', import.meta.url)))).live;
 const live = collectLiveRasterUniverse();
+const releasedJoSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research/source-raster-boundary-batch6-jo-search079-v1.json.gz',import.meta.url))));
+const priorJoSearchSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research/source-raster-boundary-batch6-search-cleric-post-pr34.json.gz',import.meta.url))));
+const dmg175MapperBeforeBytes=readFileSync(new URL('./fixtures/source-raster-dmg175-live-mapper-reconstruction-v1.json.gz',import.meta.url));
+const dmg175MapperBefore=JSON.parse(gunzipSync(dmg175MapperBeforeBytes));
 const legacyFixture = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-raster-coverage-derived-metrics-before.json.gz', import.meta.url))));
 const legacySource = legacyFixture.files['tools/source-raster-coverage.mjs'];
 assert.equal(createHash('sha256').update(legacySource.utf8).digest('hex'), legacySource.sha256);
@@ -112,14 +114,34 @@ const componentIntegrityMutations = [
   }],
 ];
 
-test('the complete current catalog universe matches the preserved numeric raster snapshot', () => {
+test('the frozen historical catalog universe retains3069 uses and1284 source windows', () => {
+  const report = buildSourceRasterCoverage(historicalSnapshot, historicalLive);
+  assert.deepEqual(report.validation, {valid: true, errors: []});
+  assert.equal(report.liveUniverse.regionUsages, 3069);
+  assert.equal(report.geometries.length, 1284);
+  assert.equal(report.currentCandidateCounts.sourcePagesRendered, 229);
+  assert.deepEqual(report.currentCandidateCounts, historicalSnapshot.counts);
+  assert.equal(report.semanticPass, false);
+});
+
+test('the active pointer snapshot covers the complete actual current catalog universe', () => {
   const report = buildSourceRasterCoverage(snapshot, live);
   assert.deepEqual(report.validation, {valid: true, errors: []});
-  assert.equal(report.liveUniverse.regionUsages, snapshot.counts.regionUsages);
-  assert.equal(report.geometries.length, snapshot.counts.uniqueImageGeometryBindings);
-  assert.equal(report.currentCandidateCounts.sourcePagesRendered, snapshot.counts.sourcePagesRendered);
+  assert.equal(report.liveUniverse.regionUsages, live.usages.length);
+  const pdfFrameUsages=live.usages.filter(row=>row.sourceKind==='pdf'||row.sourceKind===undefined);
+  assert.equal(report.currentCandidateCounts.sourcePagesRendered, new Set(pdfFrameUsages.map(row => `${row.book}:${row.pdfPage}`)).size);
+  assert.equal(pdfFrameUsages.length, snapshot.counts.assessedUsages);
+  assert.equal(live.usages.length, pdfFrameUsages.length + snapshot.counts.notAssessableUsages);
   assert.deepEqual(report.currentCandidateCounts, snapshot.counts);
   assert.equal(report.semanticPass, false);
+});
+
+test('the frozen released Jo snapshot preserves its exact seven-use extension and source windows', () => {
+  assert.equal(releasedJoSnapshot.usages.length,priorJoSearchSnapshot.usages.length+7);
+  assert.deepEqual(releasedJoSnapshot.sourceFrames,priorJoSearchSnapshot.sourceFrames);
+  assert.deepEqual(releasedJoSnapshot.usages.slice(0,priorJoSearchSnapshot.usages.length),priorJoSearchSnapshot.usages);
+  assert.deepEqual(releasedJoSnapshot.geometries.map(({uses,...row})=>row),priorJoSearchSnapshot.geometries.map(({uses,...row})=>row));
+  assert.equal(releasedJoSnapshot.geometries.length,releasedJoSnapshot.counts.uniqueImageGeometryBindings);
 });
 
 test('the reconstructed pre-fix mapper omits page 175; the current live mapper carries both typed supplemental crops',()=>{
@@ -215,7 +237,7 @@ test('coordinated omissions, orphan evidence, hash substitutions and altered met
     assert.equal(report.currentCandidateCounts, null, name);
     if (name.startsWith('all live rows')) {
       assert.equal(report.notAssessableUsages.length, snapshot.usages.length);
-      assert.ok(report.notAssessableUsages.length < live.usages.length, 'the frozen historical snapshot omits the two later supplemental uses');
+      assert.ok(report.notAssessableUsages.length < live.usages.length, 'the snapshot counts assessed PDF uses, not later supplement usages');
     }
   }
 });

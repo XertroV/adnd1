@@ -13,6 +13,7 @@ const manifest=read('research/citation-continuations.json');
 const published=buildPublishedContinuations({manifest,data,catalogRoot:'dist'});
 const require=createRequire(import.meta.url);
 const citations=require('../dist/citations.js');
+const books=require('../dist/books.js');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const normalized=value=>JSON.parse(JSON.stringify(value));
 
@@ -48,14 +49,7 @@ function viewerVM(){
     document:{currentScript:{src:'https://unit.test/dist/source-viewer.js'},baseURI:'https://unit.test/dist/'},
     location:{origin:'https://unit.test'},
     URL,
-    FirstEditionBooks:{
-      books:{PHB:{lastPage:238},UA:{lastPage:160},DMG:{lastPage:240},MM:{lastPage:112},MM2:{lastPage:160}},
-      code:value=>value,
-      pdfPage:(book,page)=>book==='MM'&&page===112?113:book==='MM2'&&page===83?92:page+1,
-      privateEvidence:()=>null,
-      title:book=>book,
-      mapping:()=>'',
-    },
+    FirstEditionBooks:books,
     FirstEditionSourceContinuations:published,
   };
   vm.createContext(context);
@@ -66,7 +60,7 @@ function viewerVM(){
 function fixtureCatalog(){
   return {
     schemaVersion:1,itemId:'navigation-fixture',collection:'equipment',scope:'Synthetic unit-test catalog.',
-    sources:{PHB:{sha256:'a'.repeat(64),hashStatus:'computed-local'},UA:{sha256:'b'.repeat(64),hashStatus:'computed-local'}},
+    sources:{PHB:{sha256:'e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095',hashStatus:'computed-local'},UA:{sha256:'e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4',hashStatus:'computed-local'}},
     regions:[
       {id:'phb-35-row-one',book:'PHB',printedPage:35,pdfPage:36,role:'source',image:'phb-35-row-one.png',sha256:'1'.repeat(64),focusRects:[[.1,.1,.2,.1]]},
       {id:'phb-35-row-two',book:'PHB',printedPage:35,pdfPage:36,role:'source',image:'phb-35-row-two.png',sha256:'2'.repeat(64),focusRects:[[.4,.2,.2,.1]]},
@@ -143,7 +137,7 @@ test('bounded full-data selected-catalog navigation has no missing stops, cycles
   assert.equal(typeof hooks.navigationDestination,'function','navigationDestination(direction) is required');
   const names=['rules','spells','equipment','classes','matrices'];
   const catalogCache=new Map();
-  let recordsInspected=0,catalogItems=0,selectedCatalogPageStops=0,selectedCatalogExcerptStops=0,totalStops=0,missingExcerptPageStops=0;
+  let recordsInspected=0,catalogItems=0,selectedCatalogPageStops=0,selectedCatalogExcerptStops=0,totalStops=0,missingExcerptPageStops=0,p175SupplementExcerptStops=0;
   const refsFor=item=>citations.collect(item).flatMap(group=>group.pages.map(page=>({book:group.book,page,labels:[]})));
   const owners=names.flatMap(collection=>(data[collection]||[]).map(item=>({collection,item}))).concat([{collection:'progressionExplainer',item:data.progressionExplainer}]);
   for(const {collection,item} of owners){
@@ -162,6 +156,11 @@ test('bounded full-data selected-catalog navigation has no missing stops, cycles
       refs.forEach((ref,referenceIndex)=>{
         const pageRegions=catalog.regions.filter(region=>region.book===ref.book&&region.printedPage===ref.page).sort((a,b)=>Number(a.role==='context')-Number(b.role==='context'));
         selectedCatalogPageStops++;
+        if(collection==='rules'&&item.id==='encounter-types'&&ref.book==='DMG'&&ref.page===175){
+          assert.deepEqual(pageRegions.map(region=>region.id),['dmg-175-party-table-context-78c4c383c38c7d10','dmg-175-level-others-context-5aa02e91e35c4c28'],'the current typed DMG p.175 citation exposes both approved supplemental excerpts');
+          assert.ok(pageRegions.every(region=>region.pdfPage===null),'supplemental p.175 excerpts do not invent a PDF page');
+          p175SupplementExcerptStops+=pageRegions.length;
+        }
         if(pageRegions.length){
           pageRegions.forEach((_,regionIndex)=>expected.push({referenceIndex,regionIndex}));
           selectedCatalogExcerptStops+=pageRegions.length;
@@ -185,7 +184,8 @@ test('bounded full-data selected-catalog navigation has no missing stops, cycles
   assert.equal(recordsInspected,owners.length,'the denominator covers every current core exposed record');
   assert.equal(catalogItems,owners.length,'all current owners have one selected catalog');
   assert.equal(selectedCatalogPageStops,owners.reduce((sum,{item})=>sum+citations.pages(item).length,0),'every current cited book/page is visited');
-  assert.equal(missingExcerptPageStops,1,'the known cited page without a published crop remains explicit');
+  assert.equal(p175SupplementExcerptStops,2,'the two current p.175 excerpts are represented as navigation stops');
+  assert.equal(missingExcerptPageStops,0,'every current cited page has at least one excerpt, including supplemental p.175');
   assert.equal(totalStops,selectedCatalogExcerptStops+missingExcerptPageStops,'every excerpt and unavailable-page stop is visited');
 });
 

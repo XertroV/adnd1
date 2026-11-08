@@ -2,14 +2,20 @@ import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
-import test from 'node:test';
-import {readFileSync} from 'node:fs';
+import test,{after} from 'node:test';
+import {existsSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
 import {attachEvidenceBindings, attachSourceVisualReviewMetadata, buildPriceSourceInventory, sourceVisualRegionHashes, validatePriceSourceInventory} from '../tools/price-source-inventory.mjs';
 
 const require=createRequire(import.meta.url);
 const books=require('../dist/books.js');
 const inventory=buildPriceSourceInventory();
 const equipment=JSON.parse(readFileSync(new URL('../equipment.json',import.meta.url),'utf8')).equipment;
+const classXpProofTempFiles=[
+  `research/.price-source-inventory-xp-proof-test-${process.pid}.json`,
+  `research/.price-source-inventory-xp-source-test-${process.pid}.json`,
+  `research/.price-source-inventory-xp-peer-test-${process.pid}.json`,
+];
+after(()=>{for(const path of classXpProofTempFiles){const file=new URL(`../${path}`,import.meta.url);if(existsSync(file))rmSync(file);}});
 
 const FROZEN_679='679b15d1c580172e54314829c1c3c86dc78b65f3';
 function frozen679CatalogMap(){
@@ -544,16 +550,24 @@ test('bindings resolve only through the viewer-selected catalog, including compa
 });
 
 test('manual target review requires a persisted evidence-file digest and current source, image, focus and content hashes',()=>{
-  const classRow={level:1,xp:0,book:'PHB',pages:[22]};
+  const classRow={level:1,xp:0,book:'PHB',pages:[22],track:'main'};
   const catalogPath='scans/verified/classes-fighter.json';
   const data={rules:[],spells:[],classes:[{id:'fighter',name:'Fighter',xpRows:[classRow],sourceExcerpts:{catalog:catalogPath}}],equipment:[],matrices:[]};
-  const region={id:'fighter-xp-row',book:'PHB',printedPage:22,pdfPage:23,sha256:'b'.repeat(64),focusRects:[[0.1,0.2,0.3,0.1]],normalizedPageRect:{x:0.1,y:0.2,width:0.3,height:0.1},verificationScope:'source-excerpt'};
-  const catalog={sources:{PHB:{sha256:'a'.repeat(64)}},regions:[region]};
+  const region={id:'fighter-xp-row',book:'PHB',printedPage:22,pdfPage:23,sha256:'b'.repeat(64),focusRects:[[0.1,0.2,0.3,0.1]],normalizedPageRect:{x:0.1,y:0.2,width:0.3,height:0.1},verificationScope:'source-excerpt',role:'row',sourceTableId:'fighter-xp-test-table',sourceRowId:'fighter-xp-test-row-01'};
+  const catalog={sources:{PHB:{sha256:'a'.repeat(64),hashStatus:'computed-local'}},regions:[region]};
   const catalogs=new Map([[catalogPath,catalog]]);
   const hashes=sourceVisualRegionHashes(region);
-  const evidenceFile='research/source-visual-reviews.json';
-  const evidenceSha256=createHash('sha256').update(readFileSync(new URL(`../${evidenceFile}`,import.meta.url))).digest('hex');
-  const manualBindings={bindings:[{collection:'classes',itemId:'fighter',fieldPointer:'/xpRows/0',sourceObject:'Fighter level 1 XP threshold',sourceCategory:'class-xp-row',book:'PHB',printedPage:22,catalog:catalogPath,regionIds:[region.id],reviewStatus:'field-target-reviewed',contextStatus:'context-not-assessed',targetReview:{status:'confirmed',independent:true,evidence:evidenceFile,evidenceSha256},expectedRegionEvidence:[{regionId:region.id,sourceSha256:catalog.sources.PHB.sha256,imageSha256:region.sha256,...hashes}]}]};
+  const evidenceFile=classXpProofTempFiles[0],sourceEvidenceFile=classXpProofTempFiles[1],peerEvidenceFile=classXpProofTempFiles[2];
+  const identity={kind:'class-xp-row',collection:'classes',itemId:'fighter',fieldPointer:'/xpRows/0',sourceObjectPointer:'/xpRows/0',value:{level:1,xp:0,book:'PHB',pages:[22],track:'main'}};
+  const regionEvidence=[{regionId:region.id,sourceSha256:catalog.sources.PHB.sha256,imageSha256:region.sha256,...hashes}];
+  const sourceRecord=Buffer.from(`${JSON.stringify({rows:[{fieldPointer:'/xpRows/0',sourceObjectPointer:'/xpRows/0'}]},null,2)}\n`);
+  const peerRecord=Buffer.from(`${JSON.stringify({rows:[{fieldPointer:'/xpRows/0',sourceObjectPointer:'/xpRows/0'}]},null,2)}\n`);
+  writeFileSync(new URL(`../${sourceEvidenceFile}`,import.meta.url),sourceRecord);
+  writeFileSync(new URL(`../${peerEvidenceFile}`,import.meta.url),peerRecord);
+  const proofBytes=Buffer.from(`${JSON.stringify({schemaVersion:1,artifactType:'class-xp-row-target-review',reviewedTargets:[{expectedTargetIdentity:identity,status:'confirmed',independent:true,sourceEvidence:[{path:sourceEvidenceFile,sha256:createHash('sha256').update(sourceRecord).digest('hex'),pointer:'/rows/0'},{path:peerEvidenceFile,sha256:createHash('sha256').update(peerRecord).digest('hex'),pointer:'/rows/0'}],regionEvidence,sourceValueGrade:'NOT PROMOTED'}]},null,2)}\n`);
+  writeFileSync(new URL(`../${evidenceFile}`,import.meta.url),proofBytes);
+  const evidenceSha256=createHash('sha256').update(proofBytes).digest('hex');
+  const manualBindings={bindings:[{collection:'classes',itemId:'fighter',fieldPointer:'/xpRows/0',sourceObjectPointer:'/xpRows/0',sourceOwner:{collection:'classes',itemId:'fighter'},sourceObject:'Fighter level 1 XP threshold',sourceCategory:'class-xp-row',book:'PHB',printedPage:22,catalog:catalogPath,regionIds:[region.id],requiresRowEvidence:true,reviewStatus:'field-target-reviewed',contextStatus:'context-not-assessed',targetReview:{status:'confirmed',independent:true,evidence:evidenceFile,evidenceSha256,expectedTargetIdentity:identity},expectedRegionEvidence:regionEvidence}]};
   const inventory=buildPriceSourceInventory({equipment:[],data,manualBindings,catalogs});
   validatePriceSourceInventory(inventory,{equipment:[],data,catalogs});
   const wrongPdfPage=structuredClone(inventory);
@@ -571,7 +585,7 @@ test('manual target review requires a persisted evidence-file digest and current
 test('independent printed-price value review is hash-bound to an exact amount currency and unit snapshot',()=>{
   const catalogPath='scans/verified/equipment-price-review-fixture.json';
   const region={id:'price-row',book:'PHB',printedPage:35,pdfPage:36,sha256:'b'.repeat(64),focusRects:[[0.1,0.2,0.4,0.1]],normalizedPageRect:{x:0.1,y:0.2,width:0.4,height:0.1}};
-  const catalog={sources:{PHB:{sha256:'a'.repeat(64)}},regions:[region]};
+  const catalog={sources:{PHB:{sha256:'a'.repeat(64),hashStatus:'computed-local'}},regions:[region]};
   const catalogs=new Map([[catalogPath,catalog]]);
   const item={id:'reviewed-price-fixture',name:'Reviewed price fixture',book:'PHB',pages:[35],sourceExcerpts:{catalog:catalogPath},
     price:{amount:10,currency:'gp',book:'PHB',pages:[35],verification:{regions:[region.id]}}};
@@ -604,7 +618,7 @@ test('independent printed-price value review is hash-bound to an exact amount cu
 test('whole-image highlight exceptions are exposed only after exact independent hashes and retain explicit scope',()=>{
   const wholeSpell={id:'whole-spell',book:'PHB',printedPage:45,pdfPage:46,sha256:'b'.repeat(64),focusRects:[[0,0,1,1]],verificationScope:'source-excerpt'};
   const confirmedSentinel={id:'confirmed-sentinel',book:'PHB',printedPage:46,pdfPage:47,sha256:'d'.repeat(64),focusRects:[[0,0,1,1]],verificationScope:'source-excerpt'};
-  const catalog={sources:{PHB:{sha256:'a'.repeat(64)}},regions:[wholeSpell,confirmedSentinel]};
+  const catalog={sources:{PHB:{sha256:'a'.repeat(64),hashStatus:'computed-local'}},regions:[wholeSpell,confirmedSentinel]};
   const saved=(region,status,extra={})=>({collection:'spells',itemId:'example',binding:'sourceExcerpts',regionId:region.id,sourceSha256:catalog.sources.PHB.sha256,imageSha256:region.sha256,...sourceVisualRegionHashes(region),assessments:{highlight:{status,independent:true,evidence:'independent fixture review',...extra}}});
   const data={spells:[{id:'example',sourceExcerpts:{catalog:'scans/verified/example.json'}}],rules:[],classes:[],equipment:[],matrices:[]};
   attachSourceVisualReviewMetadata(data,{catalogs:new Map([['scans/verified/example.json',catalog]]),ledger:{reviews:[saved(wholeSpell,'exception',{scope:'whole-spell'}),saved(confirmedSentinel,'confirmed',{scope:'whole-spell'})]}});

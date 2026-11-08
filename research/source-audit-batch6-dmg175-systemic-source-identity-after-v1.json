@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "dmg175-systemic-catalog-region-source-identity-after-fix",
+  "capturedAt": "2026-11-08",
+  "scope": "Bounded producer correction: selected catalog-region actual source identity is resolved by the shared typed resolver; canonical PDF identity is retained separately. No source values, crops, citations, or grades changed.",
+  "inputs": {
+    "beforeReceiptPath": "research/source-audit-batch6-dmg175-systemic-source-identity-before-v2.json",
+    "beforeReceiptSha256": "984ca08bfcf3caed211ceb53cb772989a3166d39eb3063cca8b2f561f107b35b",
+    "previousProducerSha256": "333806f2b84b3491597b5a29fddb176e8a65a4d53c103deb8348497c4ca42762",
+    "afterProducerPath": "tools/citation-systemic-inventory.mjs",
+    "afterProducerSha256": "f36e20a1b62e466184f2cf7f3dfc7e663a98aeada6739db559265968c5b3f58d",
+    "regressionTestPath": "tests/citation-systemic-inventory.test.mjs",
+    "regressionTestSha256": "ced9c6c3e53a88f2aff5531bb1830f2142a8c0ead947a506d3e02d5ac893b046",
+    "reportPath": "artifacts/citation-systemic-coverage/citation-systemic-current.json",
+    "reportSha256": "9495f109b48103bcf3d6e13726188dd2b64de664536546c4844d6464eb48be5c",
+    "reportInput": {
+      "path": "dist/data.json",
+      "sha256": "a863d8f4dc3f5968e3a45f48f81c71e9ab6dc9f6321c37b898338688fa3a1e2c",
+      "hashFormat": "SHA-256 of JSON.stringify(parsed data)",
+      "rawFileSha256": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d",
+      "rawFileHashFormat": "SHA-256 of exact dist/data.json bytes"
+    },
+    "dataSha256": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d",
+    "sharedResolverPath": "dist/books.js",
+    "sharedResolverSha256": "6284977531e38b3184a15939bb8a68e31b37d1dad61c91392bb57d443045d98d"
+  },
+  "counts": {
+    "beforeSelectedRegions": 3317,
+    "afterSelectedRegions": 3317,
+    "afterResolvedIdentityValid": 3317,
+    "normalPdfRegions": 3315,
+    "supplementalImageRegions": 2,
+    "beforeReportDisagreements": 2,
+    "afterLiveVisualUsages": 3396,
+    "afterNormalPdfVisualUsages": 3394,
+    "afterSupplementalVisualUsages": 2,
+    "preexistingRegionIdentityOrLocationChanges": 0,
+    "producerSourceHashDiffCount": 2
+  },
+  "changedRegionSourceProjection": [
+    {
+      "regionPointer": "scans/verified/rules-encounter-types.json#/regions/1",
+      "regionId": "dmg-175-party-table-context-78c4c383c38c7d10",
+      "beforeProducerSourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "sourceSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+      "sourceKind": "supplemental-image",
+      "sourceArtifactId": "dmg175-user-confirmed-supplement",
+      "canonicalPdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+    },
+    {
+      "regionPointer": "scans/verified/rules-encounter-types.json#/regions/2",
+      "regionId": "dmg-175-level-others-context-5aa02e91e35c4c28",
+      "beforeProducerSourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "sourceSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+      "sourceKind": "supplemental-image",
+      "sourceArtifactId": "dmg175-user-confirmed-supplement",
+      "canonicalPdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+    }
+  ],
+  "checks": {
+    "allRegionIdentitiesResolved": true,
+    "regionLocationIdentityInventoryUnchanged": true,
+    "allNormalPdfHashesRemainCanonical": true,
+    "bothSupplementalActualHashesUseE4ac": true,
+    "bothSupplementalCanonicalHashesRemain705": true,
+    "sourceHashDeltasAreExactlyTheTwoPriorMismatchRows": true,
+    "structuralValidation": {
+      "valid": true,
+      "confirmedFailureCount": 0,
+      "failuresByCode": {},
+      "failures": [],
+      "unresolvedCount": 0,
+      "unresolved": [],
+      "pendingSemanticReviewIsNonFailing": true,
+      "scope": "Fails only for confirmed structural owner/catalog/region/page/source-object joins. Pending semantic review, empty targets, explicitly unmapped candidate IDs, context/qualifier incompleteness, full-image sentinels, and unannotated obligations remain visible but do not fail this structural gate."
+    }
+  },
+  "limitations": [
+    "Before full report is hash-bound; the durable pre-fix artifact preserves all 3,317 selected-region identity rows and the 3,396 live visual-usage rows, not a second copy of the original 51 MB report."
+  ]
+}

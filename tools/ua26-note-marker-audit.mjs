@@ -2,10 +2,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import zlib from 'node:zlib';
 import {fileURLToPath} from 'node:url';
 
 const repoRoot=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const DEFAULT_RECEIPT='research/source-audit-batch5-ua26-marker-correction.json';
+const DEFAULT_JO_APPEND='research/source-audit-batch6-jo-ua26-alias-append.json';
 const DEFAULT_CURRENT_APPEND='research/source-audit-batch5-ua26-current-row-append.json';
 
 const readJson=(root,rel)=>JSON.parse(fs.readFileSync(path.join(root,rel),'utf8'));
@@ -59,6 +61,21 @@ export function auditUa26MarkerReceipt(root=repoRoot,receiptPath=DEFAULT_RECEIPT
   }
   if(tokenCounts.marked!==17||tokenCounts.unmarked!==51) fail(`expected 17 marked and 51 unmarked rows; got ${tokenCounts.marked}/${tokenCounts.unmarked}`);
 
+  let joAppend=null,joCatalog=null,caltropExtensionValid=false;
+  if(fs.existsSync(path.join(root,DEFAULT_JO_APPEND))){
+    try{
+      joAppend=readJson(root,DEFAULT_JO_APPEND);
+      const bind=ref=>{if(!ref||typeof ref.path!=='string'||ref.path.startsWith('/')||ref.path.split('/').includes('..'))throw Error('unsafe Jo evidence path');const bytes=fs.readFileSync(path.join(root,ref.path));if(sha256(bytes)!==ref.sha256)throw Error('stale Jo evidence '+ref.path);return bytes;};
+      if(joAppend.schemaVersion!==1||joAppend.sourceRowId!=='ua26-weight-damage-31-jo-stick'||joAppend.itemId!=='ua-jo-stick'||joAppend.collection!=='equipment'||joAppend.catalog?.path!=='dist/scans/verified/equipment-ua-jo-stick.json'||joAppend.sourcePeer?.path!=='research/source-audit-batch6-jo-mapping-independent-review.json'||joAppend.sourcePeer.sha256!=='2393845114b9a2b9d29518c8464374b1e7312efd61dfbf68ace17afd4e3ed95c'||joAppend.sourceValueReview!==false||joAppend.defaultSelectionReview!==false)throw Error('Jo append identity/scope');
+      bind(joAppend.sourcePeer);bind(joAppend.frameDerivation);joCatalog=JSON.parse(bind(joAppend.catalog));if(joCatalog.collection!=='equipment'||joCatalog.itemId!=='ua-jo-stick'||joCatalog.sources?.UA?.sha256!=='e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4')throw Error('Jo catalog/source identity');
+      const ext=joAppend.caltropCatalogExtension,beforeBytes=zlib.gunzipSync(bind(ext.before));
+      if(sha256(beforeBytes)!==ext.before.uncompressedSha256)throw Error('Caltrop original bytes');
+      const old=JSON.parse(beforeBytes),current=JSON.parse(bind(ext.after));
+      if(ext.before.uncompressedSha256!=='f0eb5c844829ed7eceaabe4c419bb29a58b8b49e0efbac6de648d3502f6d0379'||ext.after.path!=='dist/scans/verified/equipment-ua-caltrop.json'||ext.after.sha256!=='d1888665bc90d8cf3b2dd226cfa67a27295a9d10da3c6c67313810b5bd5331fb'||current.regions.length!==old.regions.length+2||digest(current.regions.slice(0,old.regions.length))!==digest(old.regions)||Object.entries(old.sources).some(([book,source])=>digest(current.sources[book])!==digest(source))||JSON.stringify(current.regions.slice(old.regions.length).map(region=>region.id))!==JSON.stringify(ext.additionalRegionIds)||JSON.stringify(ext.additionalRegionIds)!==JSON.stringify(['caltrop-dmg225-row','caltrop-dmg225-context-explanation'])||current.regions.slice(old.regions.length).some(region=>region.book!=='DMG'||region.printedPage!==225))throw Error('Caltrop exact append changes old marker evidence');
+      caltropExtensionValid=true;
+    }catch(error){fail(error.message);}
+  }else if(fs.existsSync(path.join(root,'dist/data.json'))&&readJson(root,'dist/data.json').equipment?.some(item=>item.id==='ua-jo-stick'))fail('current Jo owner lacks its explicit note-alias append');
+
   const noteRects=new Map((receipt.noteDefinitions||[]).filter(note=>note.id!=='general-note').map(note=>[note.id,note.focusRect]));
   const generalRect=(receipt.noteDefinitions||[]).find(note=>note.id==='general-note')?.focusRect;
   let checkedAliases=0;
@@ -74,7 +91,7 @@ export function auditUa26MarkerReceipt(root=repoRoot,receiptPath=DEFAULT_RECEIPT
     const catalogBytes=fs.readFileSync(path.join(root,catalogPath));
     const catalogSha=sha256(catalogBytes);
     const expectedCatalogSha=receipt.currentCatalogHashes?.[catalogPath];
-    if(!expectedCatalogSha||catalogSha!==expectedCatalogSha) fail(`${catalogPath}: current catalog hash differs from correction receipt`);
+    if(!expectedCatalogSha||catalogSha!==expectedCatalogSha){const ext=joAppend?.caltropCatalogExtension;if(!(caltropExtensionValid&&catalogPath===ext.after.path&&expectedCatalogSha===ext.before.uncompressedSha256&&catalogSha===ext.after.sha256))fail(`${catalogPath}: current catalog hash differs from correction receipt`);}
     const catalog=JSON.parse(catalogBytes.toString('utf8'));
     if(catalog.sources?.UA?.sha256!==receipt.source.sourcePdfSha256) fail(`${catalogPath}: source PDF metadata mismatch`);
     const region=catalog.regions.find(candidate=>candidate.id===alias.noteContextRegionId);
@@ -122,13 +139,20 @@ export function auditUa26MarkerReceipt(root=repoRoot,receiptPath=DEFAULT_RECEIPT
     appendedTargetAliases=1;
   }
 
+  let joContextAliases=0;
+  if(joAppend&&joCatalog){
+    const row=joCatalog.regions.find(region=>region.id===joAppend.rowRegionId),note=joCatalog.regions.find(region=>region.id===joAppend.noteRegionId),source=receipt.sourceMarkerCensus.find(row=>row.sourceRowId===joAppend.sourceRowId);
+    if(!source||source.sourceMarkerRaw!==null||!row||row.sourceRowId!==source.sourceRowId||row.role!=='row'||row.book!=='UA'||row.printedPage!==26||row.pdfPage!==27||row.sha256!=='9e9c6750d95af0181d01d52138e1f773f951b46fae6d75a719b7f0caa1cb3162'||digest(row)!==joAppend.rowRegionObjectSha256||!note||note.sourceRowId!==source.sourceRowId||note.contextForRegionId!==row.id||note.role!=='context'||note.book!=='UA'||note.printedPage!==27||note.pdfPage!==28||note.sha256!=='19783dde2e5c0bb3c31c0e5b0417af2444cc8ecc22d3a411bf7df99e8c8f5db4'||digest(note)!==joAppend.noteRegionObjectSha256||note.noteAssociation?.marker!==null||note.noteAssociation?.generalNoteId!=='general-note'||note.noteAssociation?.specificNoteId!==null||(note.noteAssociation?.specificNoteIds||[]).length||digest(note.focusRects)!==digest([generalRect]))fail('Jo context alias does not preserve the reviewed unmarked source row and General Note');
+    else joContextAliases=1;
+  }
+
   const beforeMatches=receipt.beforeCorrection?.specificAssociationMismatches||[];
   const wrongExisting=beforeMatches.filter(row=>row.kind==='wrong-specific-note').length;
   const oldUnresolved=beforeMatches.filter(row=>row.kind==='previously-unresolved').length;
   if(wrongExisting!==2||oldUnresolved!==3||beforeMatches.length!==5) fail(`baseline correction census mismatch: wrong-existing=${wrongExisting}, previously-unresolved=${oldUnresolved}`);
   if(sha256(Buffer.from(canonical(receipt.sourceMarkerCensus)))!==receipt.sourceMarkerCensusSha256) fail('source marker census hash mismatch');
   if(failures.length) return {ok:false,failures,counts:{physicalRows:sourceRows.length,marked:tokenCounts.marked,unmarked:tokenCounts.unmarked,aliases:checkedAliases}};
-  return {ok:true,receiptPath,counts:{physicalRows:sourceRows.length,marked:tokenCounts.marked,unmarked:tokenCounts.unmarked,corrective66Aliases:checkedAliases,currentTargetAppends:appendedTargetAliases,currentWDAliases:checkedAliases+appendedTargetAliases,explicitMarkerRows:tokenCounts.marked,baselineWrongSpecificAssignments:wrongExisting,previouslyUnresolvedNowSourceAdjudicated:oldUnresolved,correctedCatalogs:(receipt.affectedCatalogs||[]).length,checkedCatalogs:Object.keys(receipt.currentCatalogHashes||{}).length+(appendedTargetAliases?1:0)},sourceMarkerCensusSha256:receipt.sourceMarkerCensusSha256};
+  return {scope:'Frozen68 marker rows and corrective66 aliases with separately registered current context appends; no new context or default-selection grade',semanticPass:false,ok:true,receiptPath,counts:{physicalRows:sourceRows.length,marked:tokenCounts.marked,unmarked:tokenCounts.unmarked,corrective66Aliases:checkedAliases,currentTargetAppends:appendedTargetAliases+joContextAliases,currentWDAliases:checkedAliases+appendedTargetAliases+joContextAliases,explicitMarkerRows:tokenCounts.marked,baselineWrongSpecificAssignments:wrongExisting,previouslyUnresolvedNowSourceAdjudicated:oldUnresolved,correctedCatalogs:(receipt.affectedCatalogs||[]).length,checkedCatalogs:Object.keys(receipt.currentCatalogHashes||{}).length+(appendedTargetAliases?1:0)+joContextAliases},sourceMarkerCensusSha256:receipt.sourceMarkerCensusSha256};
 }
 
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){

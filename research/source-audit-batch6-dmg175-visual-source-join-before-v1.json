@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "dmg175-current-visual-dependency-join-before-fix",
+  "capturedAt": "2026-11-08T00:00:00Z",
+  "reproCommand": "node tools/refresh-gaps-handoff.mjs",
+  "observedError": "Cannot refresh gaps handoff: visual report has stale sourceSha256 for rules|encounter-types|sourceExcerpts|scans/verified/rules-encounter-types.json|dmg-175-party-table-context-78c4c383c38c7d10",
+  "fileSha256": {
+    "tools/refresh-gaps-handoff.mjs": "ead85c138b717252da555b59808f65373260fa81d1edde44a5315ebf6e89d633",
+    "tools/source-visual-coverage.mjs": "07f8dc9cf47003289dde99fc90ff94255e610923ee3052a065c3c04f2ec76861",
+    "artifacts/source-visual-coverage/report.json": "4227378719bb54cfcbaf86eca518045a2384039c75ed8a31141657ca4659d56a",
+    "dist/data.json": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d",
+    "dist/scans/verified/rules-encounter-types.json": "906ce41c1cb2c6691048231a2123977b7b27421487e7a0bca6f8ae0aa25c86dd"
+  },
+  "case": {
+    "usageKey": "rules|encounter-types|sourceExcerpts|scans/verified/rules-encounter-types.json|dmg-175-party-table-context-78c4c383c38c7d10",
+    "reportSourceSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+    "expectedFromCurrentValidator": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+    "region": {
+      "book": "DMG",
+      "printedPage": 175,
+      "pdfPage": null,
+      "sourceArtifact": null
+    },
+    "catalogSource": {
+      "title": "Dungeon Masters Guide",
+      "edition": "Revised December 1979",
+      "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "hashStatus": "computed-local"
+    },
+    "dataSource": {
+      "id": "DMG",
+      "title": "Dungeon Masters Guide",
+      "edition": "AD&D first edition · revised December 1979",
+      "mapping": "Printed pages 1–174 correspond to PDF page N + 1. Printed pages 176–238 correspond to PDF page N. Printed page 175 is missing; pages 239 and 240 are unverified end matter. PDF page 239 is unnumbered and PDF page 240 is the back cover.",
+      "gaps": [
+        175
+      ],
+      "unverified": [
+        239,
+        240
+      ],
+      "coverage": "Selected combat, advancement and referee procedures. Coverage is incomplete. The supplied canonical PDF omits printed p.175; the user-confirmed correct-edition supplement provides two limited reviewed excerpts, not complete Appendix C coverage. Other missing or unverified pages remain excluded; tables require visual review before a verified label."
+    }
+  },
+  "counts": {
+    "visualUsages": 3396,
+    "regions": 3,
+    "liveUsageCount": 3396,
+    "expectedCurrentSourceIdentityModel": "normal PDF crops use catalog.sources[book]; the two explicitly typed DMG p.175 supplemental crops use region.sourceArtifact, while canonical DMG PDF mapping remains absent"
+  }
+}

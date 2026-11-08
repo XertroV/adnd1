@@ -230,7 +230,7 @@ test('visual catalog-region focus hash is checked against current region data', 
   const catalogPath='scans/verified/rules-fixture.json', sourcePath=`dist/${catalogPath}`;
   const imageBytes=Buffer.from('current fixture pixels'), imageHash=sha(imageBytes);
   const region={id:'fixture-p10',book:'PHB',printedPage:10,pdfPage:11,image:'p10.png',sha256:imageHash,width:100,height:50,title:'Fixture passage',focusRects:[[0.1,0.2,0.3,0.4]],normalizedPageRect:{x:0.05,y:0.1,width:0.9,height:0.8},role:'row'};
-  const catalog={sources:{PHB:{sha256:'a'.repeat(64)}},regions:[region]};
+  const catalog={sources:{PHB:{sha256:'a'.repeat(64),hashStatus:'computed-local'}},regions:[region]};
   const catalogBytes=Buffer.from(JSON.stringify(catalog));
   const data={rules:[{id:'fixture',sourceExcerpts:{catalog:catalogPath}}]};
   const hashFile=path=>path==='dist/data.json'?freshRawHash:path===sourcePath?sha(catalogBytes):path==='dist/scans/verified/p10.png'?imageHash:fixtureHashFile(path);

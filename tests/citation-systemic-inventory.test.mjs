@@ -22,6 +22,29 @@ function hasCommit(commit) {
   return spawnSync('git', ['cat-file', '-e', `${commit}^{commit}`], {cwd: root}).status === 0;
 }
 
+test('systemic catalog regions report typed actual source and retain canonical PDF identity separately', () => {
+  const data = JSON.parse(readFileSync(path.join(root, 'dist/data.json'), 'utf8'));
+  const report = buildSystemicInventory(data, file => readFileSync(path.join(root, file)));
+  const regions = report.selectedCatalogRegions.regions;
+  assert.ok(regions.length > 0);
+  assert.ok(regions.every(region => region.sourceIdentityValid === true), 'every selected region is resolved through the shared typed source-identity resolver');
+
+  const supplement = regions.filter(region => region.book === 'DMG' && region.printedPage === 175);
+  assert.equal(supplement.length, 2);
+  for (const region of supplement) {
+    assert.equal(region.pdfPage, null, region.regionId);
+    assert.equal(region.sourceKind, 'supplemental-image', region.regionId);
+    assert.equal(region.sourceArtifactId, 'dmg175-user-confirmed-supplement', region.regionId);
+    assert.equal(region.sourceSha256, 'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7', region.regionId);
+    assert.equal(region.canonicalPdfSha256, '7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669', region.regionId);
+  }
+
+  const ordinaryPdf = regions.find(region => region.sourceKind === 'pdf');
+  assert.ok(ordinaryPdf);
+  assert.equal(ordinaryPdf.sourceSha256, ordinaryPdf.canonicalPdfSha256);
+  assert.equal(ordinaryPdf.sourceArtifactId, null);
+});
+
 test('pinned Git baseline inventories every JSON node and exposed record', {
   skip: hasCommit(BASELINE_COMMIT) ? false : 'Pinned Git objects are absent in this shallow checkout; baseline numeric artifact assertions still run.'
 }, () => {
