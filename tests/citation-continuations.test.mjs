@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync} from 'node:fs';
+import {copyFileSync,mkdtempSync,mkdirSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {dirname,join} from 'node:path';
 import {validateAssassinContextAudit,validateContinuationManifest} from '../tools/continuation-contract.mjs';
 
 const read=path=>JSON.parse(readFileSync(path,'utf8'));
@@ -169,7 +171,8 @@ test('Animate Object and Animate Rock retain the same corrected PHB p.51 crop',(
 
 test('Assassin audit enumerates every region and distinguishes crop repairs, field coverage and prices',()=>{
   const summary=validateAssassinContextAudit(assassinAudit,context);
-  assert.deepEqual(summary,{regions:15,sourceCompared:15,priorContextConfirmed:0,sourceComparedPendingIndependent:6,repairedPendingIndependent:0,contextAdequateFocusPending:3,repairContextAdequateFocusPending:2,independentlyReviewedContextAndFocus:4,followupPendingCalibration:0,followupPendingContinuation:0,priorCropConfirmed:5,priceRegions:0});
+  assert.equal(sha(bytes('research/assassin-context-audit.json')),'ee74e99b488e819961270935669d7f03c5e8fa47efb84dcd07527eddeafbb715','the historical audit remains byte-for-byte unchanged');
+  assert.deepEqual(summary,{regions:15,sourceCompared:15,priorContextConfirmed:0,sourceComparedPendingIndependent:6,repairedPendingIndependent:0,contextAdequateFocusPending:3,repairContextAdequateFocusPending:2,independentlyReviewedContextAndFocus:4,followupPendingCalibration:0,followupPendingContinuation:0,priorCropConfirmed:5,priceRegions:0,currentCatalogRegions:30,appendedXpTargets:15});
   const record=assassinAudit.records[0];
   assert.equal(record.regions.length,15);
   assert.ok(record.regions.every(region=>region.priceEvidence===false));
@@ -189,6 +192,28 @@ test('Assassin audit enumerates every region and distinguishes crop repairs, fie
   assert.ok(record.coverageFindings.some(finding=>finding.id==='assassin-phb-37-proficiency-interval-note'));
   assert.equal(record.openFindings.find(finding=>finding.id==='assassin-phb-33-heading-edge-calibration')?.status,'resolved-wordbox-only-hit');
   assert.ok(record.openFindings.some(finding=>finding.id==='assassin-phb-33-example-continuation'&&finding.status==='source-continuation-applied-focus-pending'));
+});
+
+test('Assassin XP catalog append rejects changed old-prefix or appended-region bytes without repinning',()=>{
+  const tempRoot=mkdtempSync(join(tmpdir(),'assassin-xp-catalog-transfer-'));
+  const currentCatalog=read('dist/scans/verified/classes-assassin.json');
+  const catalogFile=join(tempRoot,'scans/verified/classes-assassin.json');
+  const imageDir=dirname(catalogFile);
+  mkdirSync(imageDir,{recursive:true});
+  for(const image of new Set(currentCatalog.regions.map(region=>region.image)))copyFileSync(join('dist/scans/verified',image),join(imageDir,image));
+  try{
+    const prefixMutation=structuredClone(currentCatalog);
+    prefixMutation.regions[0].title+=' changed';
+    writeFileSync(catalogFile,JSON.stringify(prefixMutation));
+    assert.throws(()=>validateAssassinContextAudit(assassinAudit,{data,catalogRoot:tempRoot}),/current catalog bytes do not match the append-only transfer/);
+
+    const appendedMutation=structuredClone(currentCatalog);
+    appendedMutation.regions[29].focusRects[0][0]+=0.001;
+    writeFileSync(catalogFile,JSON.stringify(appendedMutation));
+    assert.throws(()=>validateAssassinContextAudit(assassinAudit,{data,catalogRoot:tempRoot}),/current catalog bytes do not match the append-only transfer/);
+  }finally{
+    rmSync(tempRoot,{recursive:true,force:true});
+  }
 });
 
 test('Assassin precise-focus approvals fail closed on stale proof hashes or unreviewed sentinel changes',()=>{

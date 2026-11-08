@@ -1,0 +1,4628 @@
+{
+  "artifactType": "batch6-ua-class-xp-source-first-target-proposal-v1",
+  "status": "private-independent-source-proposal-not-applied",
+  "baselineCommit": "ae5195a2efe56f25fe9903f788a3c4c98b4e2064",
+  "baselineDistDataSha256": "2b803d29cccd83ffd8418818abddf04b66204c82cebb8afba13f7a8226c6583c",
+  "sourceValueGrade": "NOT PROMOTED",
+  "scope": {
+    "currentTargets": 50,
+    "classItems": [
+      "ua-cavalier",
+      "ua-barbarian",
+      "ua-thief-acrobat",
+      "ua-paladin",
+      "ua-druid"
+    ],
+    "physicalRowsAcrossRelevantTables": 53,
+    "mappedToThese50Targets": 50,
+    "sourceRowsOutsideThese50Targets": 3,
+    "sourceOnlyCavalierZeroLevelRows": 2,
+    "uaDruidLevel14OutsideHighLevelTargetSubset": 1
+  },
+  "targetIdentityGuard": "Before field-target approval, match collection, itemId, fieldPointer, current level, current XP lower bound, book/pages, and track. A generic /xpRows/i pointer alone does not detect row swaps or reordering.",
+  "tables": {
+    "ua-cavalier": {
+      "name": "Cavalier",
+      "tableTitle": "CAVALIERS TABLE I",
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "regionId": "ua-15-867ce1268a9778e4",
+      "catalogPath": "dist/scans/verified/classes-ua-cavalier.json",
+      "image": "dist/scans/verified/ua-15-867ce1268a9778e4.png",
+      "imageSha256": "867ce1268a9778e47b0a5aa250a3141366bad901214f6c71733bed280e0c1a6f",
+      "dimensions": [
+        533,
+        543
+      ],
+      "rows": [
+        {
+          "level": 0,
+          "xpMin": -1500,
+          "xpMax": -501,
+          "title": "Horseman (zero-level grade)",
+          "sourceOnly": true,
+          "rawBand": "(-1,500 — -501",
+          "qualification": "Parentheses surround the sublevel row; -501 is printed as a shared endpoint with Lancer. No boundary interpretation."
+        },
+        {
+          "level": 0,
+          "xpMin": -501,
+          "xpMax": -1,
+          "title": "Lancer (zero-level grade)",
+          "sourceOnly": true,
+          "rawBand": "(-501 — -1",
+          "qualification": "Parentheses surround the sublevel row; -501 is printed as a shared endpoint with Horseman. No boundary interpretation."
+        },
+        {
+          "level": 1,
+          "xpMin": 0,
+          "xpMax": 2500,
+          "title": "Armiger"
+        },
+        {
+          "level": 2,
+          "xpMin": 2501,
+          "xpMax": 5000,
+          "title": "Scutifer"
+        },
+        {
+          "level": 3,
+          "xpMin": 5001,
+          "xpMax": 10000,
+          "title": "Esquire"
+        },
+        {
+          "level": 4,
+          "xpMin": 10001,
+          "xpMax": 18500,
+          "title": "Knight Errant"
+        },
+        {
+          "level": 5,
+          "xpMin": 18501,
+          "xpMax": 37000,
+          "title": "Knight Bachelor"
+        },
+        {
+          "level": 6,
+          "xpMin": 37001,
+          "xpMax": 85000,
+          "title": "Knight"
+        },
+        {
+          "level": 7,
+          "xpMin": 85001,
+          "xpMax": 140000,
+          "title": "Grand Knight"
+        },
+        {
+          "level": 8,
+          "xpMin": 140001,
+          "xpMax": 220000,
+          "title": "Banneret"
+        },
+        {
+          "level": 9,
+          "xpMin": 220001,
+          "xpMax": 300000,
+          "title": "Chevalier"
+        },
+        {
+          "level": 10,
+          "xpMin": 300001,
+          "xpMax": 600000,
+          "title": "Cavalier"
+        },
+        {
+          "level": 11,
+          "xpMin": 600001,
+          "xpMax": 900000,
+          "title": "Cavalier, 11th"
+        },
+        {
+          "level": 12,
+          "xpMin": 900001,
+          "xpMax": 1200000,
+          "title": "Cavalier, 12th"
+        }
+      ],
+      "targetLevels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "rowTops": [
+        150,
+        169,
+        188,
+        208,
+        227,
+        245,
+        264,
+        284,
+        303,
+        322,
+        337,
+        356
+      ],
+      "xpColumnBounds": [
+        20,
+        205
+      ],
+      "levelColumnBounds": [
+        205,
+        260
+      ],
+      "extensionRule": "300,000 experience points per level beyond the 12th; level title becomes Cavalier Commander at 13th and above.",
+      "markerCensus": "Two parenthesized zero-level Horseman/Lancer rows share the printed -501 endpoint; no boundary interpretation. Level 1 hit-point cell carries 1+3* and a separate hit-die footnote; that marker is outside XP/level target focus.",
+      "privateOverlay": {
+        "path": "/tmp/batch6-ua50-xp-ua-cavalier-overlay.png",
+        "sha256": "2627ddaa2519c2cd960ddd80ef488c6aa7abb07030cb1edbe0385617b9807b41",
+        "dimensions": [
+          533,
+          543
+        ]
+      },
+      "targetCount": 12,
+      "physicalRowCount": 14,
+      "existingRegionIdentityVerified": true,
+      "catalogCropCoordinatesRecorded": false
+    },
+    "ua-barbarian": {
+      "name": "Barbarian",
+      "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+      "book": "UA",
+      "printedPage": 19,
+      "pdfPage": 20,
+      "regionId": "ua-19-23b7a8f3989ec7b0",
+      "catalogPath": "dist/scans/verified/classes-ua-barbarian.json",
+      "image": "dist/scans/verified/ua-19-23b7a8f3989ec7b0.png",
+      "imageSha256": "23b7a8f3989ec7b0c65bba1f46c7223bc7db47ebcd9944182614e063287f73a7",
+      "dimensions": [
+        525,
+        451
+      ],
+      "rows": [
+        {
+          "level": 1,
+          "xpMin": 0,
+          "xpMax": 6000,
+          "title": "Barbarian"
+        },
+        {
+          "level": 2,
+          "xpMin": 6001,
+          "xpMax": 12000,
+          "title": "Barbarian"
+        },
+        {
+          "level": 3,
+          "xpMin": 12001,
+          "xpMax": 24000,
+          "title": "Barbarian"
+        },
+        {
+          "level": 4,
+          "xpMin": 24001,
+          "xpMax": 48000,
+          "title": "Barbarian"
+        },
+        {
+          "level": 5,
+          "xpMin": 48001,
+          "xpMax": 80000,
+          "title": "Barbarian"
+        },
+        {
+          "level": 6,
+          "xpMin": 80001,
+          "xpMax": 150000,
+          "title": "Barbarian"
+        },
+        {
+          "level": 7,
+          "xpMin": 150001,
+          "xpMax": 275000,
+          "title": "Barbarian"
+        },
+        {
+          "level": 8,
+          "xpMin": 275001,
+          "xpMax": 500000,
+          "title": "Barbarian"
+        },
+        {
+          "level": 9,
+          "xpMin": 500001,
+          "xpMax": 1000000,
+          "title": "Barbarian"
+        },
+        {
+          "level": 10,
+          "xpMin": 1000001,
+          "xpMax": 1500000,
+          "title": "Barbarian"
+        },
+        {
+          "level": 11,
+          "xpMin": 1500001,
+          "xpMax": 2000000,
+          "title": "Barbarian"
+        }
+      ],
+      "targetLevels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "rowTops": [
+        122,
+        138,
+        160,
+        180,
+        199,
+        218,
+        232,
+        255,
+        275,
+        294,
+        313
+      ],
+      "xpColumnBounds": [
+        5,
+        216
+      ],
+      "levelColumnBounds": [
+        219,
+        274
+      ],
+      "extensionRule": "500,000 experience points per level above the 11th.",
+      "markerCensus": "No XP/experience-level superscript or footnote marker observed in the 11 rows; extension rule is prose below the table.",
+      "privateOverlay": {
+        "path": "/tmp/batch6-ua50-xp-ua-barbarian-overlay.png",
+        "sha256": "cbd4d6e02527245af0892ea285648757e4e5d0151435b1821a1bfef6ca9c51d5",
+        "dimensions": [
+          525,
+          451
+        ]
+      },
+      "targetCount": 11,
+      "physicalRowCount": 11,
+      "existingRegionIdentityVerified": true,
+      "catalogCropCoordinatesRecorded": false
+    },
+    "ua-thief-acrobat": {
+      "name": "Thief-acrobat",
+      "tableTitle": "THIEF-ACROBAT TABLE I",
+      "book": "UA",
+      "printedPage": 23,
+      "pdfPage": 24,
+      "regionId": "ua-23-6cd65e8830580469",
+      "catalogPath": "dist/scans/verified/classes-ua-thief-acrobat.json",
+      "image": "dist/scans/verified/ua-23-6cd65e8830580469.png",
+      "imageSha256": "6cd65e8830580469e58dd7dbddc981c320e4444b71270718162757da77484d3b",
+      "dimensions": [
+        538,
+        287
+      ],
+      "rows": [
+        {
+          "level": 6,
+          "xpMin": 20001,
+          "xpMax": 45000,
+          "title": "Burglar-Acrobat"
+        },
+        {
+          "level": 7,
+          "xpMin": 45001,
+          "xpMax": 75000,
+          "title": "Second-Story Thief"
+        },
+        {
+          "level": 8,
+          "xpMin": 75001,
+          "xpMax": 125000,
+          "title": "Cat Burglar"
+        },
+        {
+          "level": 9,
+          "xpMin": 125001,
+          "xpMax": 180000,
+          "title": "Master Cat Burglar"
+        },
+        {
+          "level": 10,
+          "xpMin": 180001,
+          "xpMax": 250000,
+          "title": "Thief-Acrobat"
+        },
+        {
+          "level": 11,
+          "xpMin": 250001,
+          "xpMax": 500000,
+          "title": "Master Thief-Acrobat"
+        },
+        {
+          "level": 12,
+          "xpMin": 500001,
+          "xpMax": 750000,
+          "title": "Master Thief-Acrobat (12th)"
+        }
+      ],
+      "targetLevels": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "rowTops": [
+        98,
+        117,
+        136,
+        156,
+        175,
+        194,
+        213
+      ],
+      "xpColumnBounds": [
+        20,
+        220
+      ],
+      "levelColumnBounds": [
+        235,
+        301
+      ],
+      "extensionRule": "250,000 experience points per additional level beyond the 12th.",
+      "markerCensus": "No XP/experience-level superscript or footnote marker observed in the seven rows; extension rule is prose below the table.",
+      "privateOverlay": {
+        "path": "/tmp/batch6-ua50-xp-ua-thief-acrobat-overlay.png",
+        "sha256": "673f5cb004372620ffbd2493153e0985563011f6ee1f28118e2567ffdacb3f57",
+        "dimensions": [
+          538,
+          287
+        ]
+      },
+      "targetCount": 7,
+      "physicalRowCount": 7,
+      "existingRegionIdentityVerified": true,
+      "catalogCropCoordinatesRecorded": false
+    },
+    "ua-paladin": {
+      "name": "Paladin · UA revision",
+      "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+      "book": "PHB",
+      "printedPage": 24,
+      "pdfPage": 25,
+      "regionId": "phb-24-dad754a51acbc11d",
+      "catalogPath": "dist/scans/verified/classes-ua-paladin.json",
+      "image": "dist/scans/verified/phb-24-58fc3434ffde34c9.png",
+      "imageSha256": "58fc3434ffde34c934c84763b5b4f734e0a60776fca1caa6ff342e4e67ae7732",
+      "dimensions": [
+        702,
+        525
+      ],
+      "rows": [
+        {
+          "level": 1,
+          "xpMin": 0,
+          "xpMax": 2750,
+          "title": "Gallant"
+        },
+        {
+          "level": 2,
+          "xpMin": 2751,
+          "xpMax": 5500,
+          "title": "Keeper"
+        },
+        {
+          "level": 3,
+          "xpMin": 5501,
+          "xpMax": 12000,
+          "title": "Protector"
+        },
+        {
+          "level": 4,
+          "xpMin": 12001,
+          "xpMax": 24000,
+          "title": "Defender"
+        },
+        {
+          "level": 5,
+          "xpMin": 24001,
+          "xpMax": 45000,
+          "title": "Warder"
+        },
+        {
+          "level": 6,
+          "xpMin": 45001,
+          "xpMax": 95000,
+          "title": "Guardian"
+        },
+        {
+          "level": 7,
+          "xpMin": 95001,
+          "xpMax": 175000,
+          "title": "Chevalier"
+        },
+        {
+          "level": 8,
+          "xpMin": 175001,
+          "xpMax": 350000,
+          "title": "Justicior"
+        },
+        {
+          "level": 9,
+          "xpMin": 350001,
+          "xpMax": 700000,
+          "title": "Paladin"
+        },
+        {
+          "level": 10,
+          "xpMin": 700001,
+          "xpMax": 1050000,
+          "title": "Paladin (10th level)"
+        },
+        {
+          "level": 11,
+          "xpMin": 1050001,
+          "xpMax": 1400000,
+          "title": "Paladin (11th level, etc.)"
+        }
+      ],
+      "targetLevels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "rowTops": [
+        152,
+        175,
+        198,
+        221,
+        243,
+        265,
+        288,
+        311,
+        332,
+        356,
+        378
+      ],
+      "xpColumnBounds": [
+        55,
+        238
+      ],
+      "levelColumnBounds": [
+        244,
+        365
+      ],
+      "extensionRule": "350,000 experience points per level above the 11th.",
+      "markerCensus": "No XP/experience-level superscript or footnote marker observed; hit-point and spell tables below are unrelated.",
+      "privateOverlay": {
+        "path": "/tmp/batch6-ua50-xp-ua-paladin-overlay.png",
+        "sha256": "fe07c2419bca39bb5dec1ab3ccf59b5c993659530d86a688888e9ec67e9a7862",
+        "dimensions": [
+          702,
+          525
+        ]
+      },
+      "targetCount": 11,
+      "physicalRowCount": 11,
+      "existingRegionIdentityVerified": true,
+      "catalogCropCoordinatesRecorded": false
+    },
+    "ua-druid": {
+      "name": "Druid · UA high levels",
+      "tableTitle": "DRUIDS (CLERICS) TABLE I",
+      "book": "UA",
+      "printedPage": 17,
+      "pdfPage": 18,
+      "regionId": "ua-17-90150e88255094b6",
+      "catalogPath": "dist/scans/verified/classes-ua-druid.json",
+      "image": "dist/scans/verified/ua-17-90150e88255094b6.png",
+      "imageSha256": "90150e88255094b6b3a9b50a1a0f6d4dad445496e85cfc90db5124633b6fcc70",
+      "dimensions": [
+        525,
+        389
+      ],
+      "rows": [
+        {
+          "level": 14,
+          "xpMin": 1500001,
+          "xpMax": 3000000,
+          "title": "The Great Druid"
+        },
+        {
+          "level": 15,
+          "xpMin": 3000001,
+          "xpMax": 3500000,
+          "title": "The Grand Druid"
+        },
+        {
+          "level": 16,
+          "xpMin": 1,
+          "xpMax": 500000,
+          "title": "Hierophant Druid"
+        },
+        {
+          "level": 17,
+          "xpMin": 500001,
+          "xpMax": 1000000,
+          "title": "Hierophant Initiate"
+        },
+        {
+          "level": 18,
+          "xpMin": 1000001,
+          "xpMax": 1500000,
+          "title": "Hierophant Adept"
+        },
+        {
+          "level": 19,
+          "xpMin": 1500001,
+          "xpMax": 2000000,
+          "title": "Hierophant Master"
+        },
+        {
+          "level": 20,
+          "xpMin": 2000001,
+          "xpMax": 2500000,
+          "title": "Numinous Hierophant"
+        },
+        {
+          "level": 21,
+          "xpMin": 2500001,
+          "xpMax": 3000000,
+          "title": "Mystic Hierophant"
+        },
+        {
+          "level": 22,
+          "xpMin": 3000001,
+          "xpMax": 3500000,
+          "title": "Arcane Hierophant"
+        },
+        {
+          "level": 23,
+          "xpMin": 3500001,
+          "xpMax": null,
+          "title": "Hierophant of the Cabal"
+        }
+      ],
+      "targetLevels": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "rowTops": [
+        140,
+        183,
+        194,
+        213,
+        239,
+        258,
+        278,
+        297,
+        316
+      ],
+      "xpColumnBounds": [
+        4,
+        207
+      ],
+      "levelColumnBounds": [
+        214,
+        276
+      ],
+      "extensionRule": "No post-23 level formula; level 23 is 3,500,001 and up.",
+      "markerCensus": "Level 14 row precedes target set. Dotted divider separates levels 14–15 from reset levels 16–23. A faint vertical scan mark lies in the gap beside levels 17–18; no legend assigns meaning, so it is not selected or interpreted.",
+      "privateOverlay": {
+        "path": "/tmp/batch6-ua50-xp-ua-druid-overlay.png",
+        "sha256": "67f863dd87147049f2fd68495336ff62ce18b234a47e90df57478a66dc597225",
+        "dimensions": [
+          525,
+          389
+        ]
+      },
+      "targetCount": 9,
+      "physicalRowCount": 10,
+      "existingRegionIdentityVerified": true,
+      "catalogCropCoordinatesRecorded": false
+    }
+  },
+  "sourceFirstPhysicalRows": [
+    {
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "tableTitle": "CAVALIERS TABLE I",
+      "physicalRowNumber": 1,
+      "level": 0,
+      "sourceXPInterval": {
+        "minimum": -1500,
+        "maximumInclusive": -501,
+        "upperBoundOpen": false
+      },
+      "title": "Horseman (zero-level grade)",
+      "mapping": "source-only zero-level row, no target among the 50",
+      "rawBand": "(-1,500 — -501",
+      "qualification": "Parentheses surround the sublevel row; -501 is printed as a shared endpoint with Lancer. No boundary interpretation."
+    },
+    {
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "tableTitle": "CAVALIERS TABLE I",
+      "physicalRowNumber": 2,
+      "level": 0,
+      "sourceXPInterval": {
+        "minimum": -501,
+        "maximumInclusive": -1,
+        "upperBoundOpen": false
+      },
+      "title": "Lancer (zero-level grade)",
+      "mapping": "source-only zero-level row, no target among the 50",
+      "rawBand": "(-501 — -1",
+      "qualification": "Parentheses surround the sublevel row; -501 is printed as a shared endpoint with Horseman. No boundary interpretation."
+    },
+    {
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "tableTitle": "CAVALIERS TABLE I",
+      "physicalRowNumber": 3,
+      "level": 1,
+      "sourceXPInterval": {
+        "minimum": 0,
+        "maximumInclusive": 2500,
+        "upperBoundOpen": false
+      },
+      "title": "Armiger",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/0",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "tableTitle": "CAVALIERS TABLE I",
+      "physicalRowNumber": 4,
+      "level": 2,
+      "sourceXPInterval": {
+        "minimum": 2501,
+        "maximumInclusive": 5000,
+        "upperBoundOpen": false
+      },
+      "title": "Scutifer",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/1",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "tableTitle": "CAVALIERS TABLE I",
+      "physicalRowNumber": 5,
+      "level": 3,
+      "sourceXPInterval": {
+        "minimum": 5001,
+        "maximumInclusive": 10000,
+        "upperBoundOpen": false
+      },
+      "title": "Esquire",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/2",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "tableTitle": "CAVALIERS TABLE I",
+      "physicalRowNumber": 6,
+      "level": 4,
+      "sourceXPInterval": {
+        "minimum": 10001,
+        "maximumInclusive": 18500,
+        "upperBoundOpen": false
+      },
+      "title": "Knight Errant",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/3",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "tableTitle": "CAVALIERS TABLE I",
+      "physicalRowNumber": 7,
+      "level": 5,
+      "sourceXPInterval": {
+        "minimum": 18501,
+        "maximumInclusive": 37000,
+        "upperBoundOpen": false
+      },
+      "title": "Knight Bachelor",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/4",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "tableTitle": "CAVALIERS TABLE I",
+      "physicalRowNumber": 8,
+      "level": 6,
+      "sourceXPInterval": {
+        "minimum": 37001,
+        "maximumInclusive": 85000,
+        "upperBoundOpen": false
+      },
+      "title": "Knight",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/5",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "tableTitle": "CAVALIERS TABLE I",
+      "physicalRowNumber": 9,
+      "level": 7,
+      "sourceXPInterval": {
+        "minimum": 85001,
+        "maximumInclusive": 140000,
+        "upperBoundOpen": false
+      },
+      "title": "Grand Knight",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/6",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "tableTitle": "CAVALIERS TABLE I",
+      "physicalRowNumber": 10,
+      "level": 8,
+      "sourceXPInterval": {
+        "minimum": 140001,
+        "maximumInclusive": 220000,
+        "upperBoundOpen": false
+      },
+      "title": "Banneret",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/7",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "tableTitle": "CAVALIERS TABLE I",
+      "physicalRowNumber": 11,
+      "level": 9,
+      "sourceXPInterval": {
+        "minimum": 220001,
+        "maximumInclusive": 300000,
+        "upperBoundOpen": false
+      },
+      "title": "Chevalier",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/8",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "tableTitle": "CAVALIERS TABLE I",
+      "physicalRowNumber": 12,
+      "level": 10,
+      "sourceXPInterval": {
+        "minimum": 300001,
+        "maximumInclusive": 600000,
+        "upperBoundOpen": false
+      },
+      "title": "Cavalier",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/9",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "tableTitle": "CAVALIERS TABLE I",
+      "physicalRowNumber": 13,
+      "level": 11,
+      "sourceXPInterval": {
+        "minimum": 600001,
+        "maximumInclusive": 900000,
+        "upperBoundOpen": false
+      },
+      "title": "Cavalier, 11th",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/10",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "tableTitle": "CAVALIERS TABLE I",
+      "physicalRowNumber": 14,
+      "level": 12,
+      "sourceXPInterval": {
+        "minimum": 900001,
+        "maximumInclusive": 1200000,
+        "upperBoundOpen": false
+      },
+      "title": "Cavalier, 12th",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/11",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 19,
+      "pdfPage": 20,
+      "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 1,
+      "level": 1,
+      "sourceXPInterval": {
+        "minimum": 0,
+        "maximumInclusive": 6000,
+        "upperBoundOpen": false
+      },
+      "title": "Barbarian",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/0",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 19,
+      "pdfPage": 20,
+      "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 2,
+      "level": 2,
+      "sourceXPInterval": {
+        "minimum": 6001,
+        "maximumInclusive": 12000,
+        "upperBoundOpen": false
+      },
+      "title": "Barbarian",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/1",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 19,
+      "pdfPage": 20,
+      "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 3,
+      "level": 3,
+      "sourceXPInterval": {
+        "minimum": 12001,
+        "maximumInclusive": 24000,
+        "upperBoundOpen": false
+      },
+      "title": "Barbarian",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/2",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 19,
+      "pdfPage": 20,
+      "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 4,
+      "level": 4,
+      "sourceXPInterval": {
+        "minimum": 24001,
+        "maximumInclusive": 48000,
+        "upperBoundOpen": false
+      },
+      "title": "Barbarian",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/3",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 19,
+      "pdfPage": 20,
+      "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 5,
+      "level": 5,
+      "sourceXPInterval": {
+        "minimum": 48001,
+        "maximumInclusive": 80000,
+        "upperBoundOpen": false
+      },
+      "title": "Barbarian",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/4",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 19,
+      "pdfPage": 20,
+      "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 6,
+      "level": 6,
+      "sourceXPInterval": {
+        "minimum": 80001,
+        "maximumInclusive": 150000,
+        "upperBoundOpen": false
+      },
+      "title": "Barbarian",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/5",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 19,
+      "pdfPage": 20,
+      "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 7,
+      "level": 7,
+      "sourceXPInterval": {
+        "minimum": 150001,
+        "maximumInclusive": 275000,
+        "upperBoundOpen": false
+      },
+      "title": "Barbarian",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/6",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 19,
+      "pdfPage": 20,
+      "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 8,
+      "level": 8,
+      "sourceXPInterval": {
+        "minimum": 275001,
+        "maximumInclusive": 500000,
+        "upperBoundOpen": false
+      },
+      "title": "Barbarian",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/7",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 19,
+      "pdfPage": 20,
+      "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 9,
+      "level": 9,
+      "sourceXPInterval": {
+        "minimum": 500001,
+        "maximumInclusive": 1000000,
+        "upperBoundOpen": false
+      },
+      "title": "Barbarian",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/8",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 19,
+      "pdfPage": 20,
+      "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 10,
+      "level": 10,
+      "sourceXPInterval": {
+        "minimum": 1000001,
+        "maximumInclusive": 1500000,
+        "upperBoundOpen": false
+      },
+      "title": "Barbarian",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/9",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 19,
+      "pdfPage": 20,
+      "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 11,
+      "level": 11,
+      "sourceXPInterval": {
+        "minimum": 1500001,
+        "maximumInclusive": 2000000,
+        "upperBoundOpen": false
+      },
+      "title": "Barbarian",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/10",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 23,
+      "pdfPage": 24,
+      "tableTitle": "THIEF-ACROBAT TABLE I",
+      "physicalRowNumber": 1,
+      "level": 6,
+      "sourceXPInterval": {
+        "minimum": 20001,
+        "maximumInclusive": 45000,
+        "upperBoundOpen": false
+      },
+      "title": "Burglar-Acrobat",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/0",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 23,
+      "pdfPage": 24,
+      "tableTitle": "THIEF-ACROBAT TABLE I",
+      "physicalRowNumber": 2,
+      "level": 7,
+      "sourceXPInterval": {
+        "minimum": 45001,
+        "maximumInclusive": 75000,
+        "upperBoundOpen": false
+      },
+      "title": "Second-Story Thief",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/1",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 23,
+      "pdfPage": 24,
+      "tableTitle": "THIEF-ACROBAT TABLE I",
+      "physicalRowNumber": 3,
+      "level": 8,
+      "sourceXPInterval": {
+        "minimum": 75001,
+        "maximumInclusive": 125000,
+        "upperBoundOpen": false
+      },
+      "title": "Cat Burglar",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/2",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 23,
+      "pdfPage": 24,
+      "tableTitle": "THIEF-ACROBAT TABLE I",
+      "physicalRowNumber": 4,
+      "level": 9,
+      "sourceXPInterval": {
+        "minimum": 125001,
+        "maximumInclusive": 180000,
+        "upperBoundOpen": false
+      },
+      "title": "Master Cat Burglar",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/3",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 23,
+      "pdfPage": 24,
+      "tableTitle": "THIEF-ACROBAT TABLE I",
+      "physicalRowNumber": 5,
+      "level": 10,
+      "sourceXPInterval": {
+        "minimum": 180001,
+        "maximumInclusive": 250000,
+        "upperBoundOpen": false
+      },
+      "title": "Thief-Acrobat",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/4",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 23,
+      "pdfPage": 24,
+      "tableTitle": "THIEF-ACROBAT TABLE I",
+      "physicalRowNumber": 6,
+      "level": 11,
+      "sourceXPInterval": {
+        "minimum": 250001,
+        "maximumInclusive": 500000,
+        "upperBoundOpen": false
+      },
+      "title": "Master Thief-Acrobat",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/5",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 23,
+      "pdfPage": 24,
+      "tableTitle": "THIEF-ACROBAT TABLE I",
+      "physicalRowNumber": 7,
+      "level": 12,
+      "sourceXPInterval": {
+        "minimum": 500001,
+        "maximumInclusive": 750000,
+        "upperBoundOpen": false
+      },
+      "title": "Master Thief-Acrobat (12th)",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/6",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "PHB",
+      "printedPage": 24,
+      "pdfPage": 25,
+      "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 1,
+      "level": 1,
+      "sourceXPInterval": {
+        "minimum": 0,
+        "maximumInclusive": 2750,
+        "upperBoundOpen": false
+      },
+      "title": "Gallant",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/0",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "PHB",
+      "printedPage": 24,
+      "pdfPage": 25,
+      "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 2,
+      "level": 2,
+      "sourceXPInterval": {
+        "minimum": 2751,
+        "maximumInclusive": 5500,
+        "upperBoundOpen": false
+      },
+      "title": "Keeper",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/1",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "PHB",
+      "printedPage": 24,
+      "pdfPage": 25,
+      "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 3,
+      "level": 3,
+      "sourceXPInterval": {
+        "minimum": 5501,
+        "maximumInclusive": 12000,
+        "upperBoundOpen": false
+      },
+      "title": "Protector",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/2",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "PHB",
+      "printedPage": 24,
+      "pdfPage": 25,
+      "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 4,
+      "level": 4,
+      "sourceXPInterval": {
+        "minimum": 12001,
+        "maximumInclusive": 24000,
+        "upperBoundOpen": false
+      },
+      "title": "Defender",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/3",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "PHB",
+      "printedPage": 24,
+      "pdfPage": 25,
+      "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 5,
+      "level": 5,
+      "sourceXPInterval": {
+        "minimum": 24001,
+        "maximumInclusive": 45000,
+        "upperBoundOpen": false
+      },
+      "title": "Warder",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/4",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "PHB",
+      "printedPage": 24,
+      "pdfPage": 25,
+      "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 6,
+      "level": 6,
+      "sourceXPInterval": {
+        "minimum": 45001,
+        "maximumInclusive": 95000,
+        "upperBoundOpen": false
+      },
+      "title": "Guardian",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/5",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "PHB",
+      "printedPage": 24,
+      "pdfPage": 25,
+      "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 7,
+      "level": 7,
+      "sourceXPInterval": {
+        "minimum": 95001,
+        "maximumInclusive": 175000,
+        "upperBoundOpen": false
+      },
+      "title": "Chevalier",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/6",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "PHB",
+      "printedPage": 24,
+      "pdfPage": 25,
+      "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 8,
+      "level": 8,
+      "sourceXPInterval": {
+        "minimum": 175001,
+        "maximumInclusive": 350000,
+        "upperBoundOpen": false
+      },
+      "title": "Justicior",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/7",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "PHB",
+      "printedPage": 24,
+      "pdfPage": 25,
+      "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 9,
+      "level": 9,
+      "sourceXPInterval": {
+        "minimum": 350001,
+        "maximumInclusive": 700000,
+        "upperBoundOpen": false
+      },
+      "title": "Paladin",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/8",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "PHB",
+      "printedPage": 24,
+      "pdfPage": 25,
+      "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 10,
+      "level": 10,
+      "sourceXPInterval": {
+        "minimum": 700001,
+        "maximumInclusive": 1050000,
+        "upperBoundOpen": false
+      },
+      "title": "Paladin (10th level)",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/9",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "PHB",
+      "printedPage": 24,
+      "pdfPage": 25,
+      "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+      "physicalRowNumber": 11,
+      "level": 11,
+      "sourceXPInterval": {
+        "minimum": 1050001,
+        "maximumInclusive": 1400000,
+        "upperBoundOpen": false
+      },
+      "title": "Paladin (11th level, etc.)",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/10",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 17,
+      "pdfPage": 18,
+      "tableTitle": "DRUIDS (CLERICS) TABLE I",
+      "physicalRowNumber": 1,
+      "level": 14,
+      "sourceXPInterval": {
+        "minimum": 1500001,
+        "maximumInclusive": 3000000,
+        "upperBoundOpen": false
+      },
+      "title": "The Great Druid",
+      "mapping": "outside ua-druid high-level target subset; cross-source lower-threshold target exists in base Druid",
+      "crossRecordTarget": {
+        "collection": "classes",
+        "itemId": "druid",
+        "fieldPointer": "/xpRows/13",
+        "level": 14,
+        "xpLowerBound": 1500001,
+        "book": "PHB",
+        "printedPage": 21
+      },
+      "scopeNote": "UA table caps level14 at 3,000,000; PHB base table presents a lower threshold only. Keep separate source tracks."
+    },
+    {
+      "book": "UA",
+      "printedPage": 17,
+      "pdfPage": 18,
+      "tableTitle": "DRUIDS (CLERICS) TABLE I",
+      "physicalRowNumber": 2,
+      "level": 15,
+      "sourceXPInterval": {
+        "minimum": 3000001,
+        "maximumInclusive": 3500000,
+        "upperBoundOpen": false
+      },
+      "title": "The Grand Druid",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/0",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 17,
+      "pdfPage": 18,
+      "tableTitle": "DRUIDS (CLERICS) TABLE I",
+      "physicalRowNumber": 3,
+      "level": 16,
+      "sourceXPInterval": {
+        "minimum": 1,
+        "maximumInclusive": 500000,
+        "upperBoundOpen": false
+      },
+      "title": "Hierophant Druid",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/1",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 17,
+      "pdfPage": 18,
+      "tableTitle": "DRUIDS (CLERICS) TABLE I",
+      "physicalRowNumber": 4,
+      "level": 17,
+      "sourceXPInterval": {
+        "minimum": 500001,
+        "maximumInclusive": 1000000,
+        "upperBoundOpen": false
+      },
+      "title": "Hierophant Initiate",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/2",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 17,
+      "pdfPage": 18,
+      "tableTitle": "DRUIDS (CLERICS) TABLE I",
+      "physicalRowNumber": 5,
+      "level": 18,
+      "sourceXPInterval": {
+        "minimum": 1000001,
+        "maximumInclusive": 1500000,
+        "upperBoundOpen": false
+      },
+      "title": "Hierophant Adept",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/3",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 17,
+      "pdfPage": 18,
+      "tableTitle": "DRUIDS (CLERICS) TABLE I",
+      "physicalRowNumber": 6,
+      "level": 19,
+      "sourceXPInterval": {
+        "minimum": 1500001,
+        "maximumInclusive": 2000000,
+        "upperBoundOpen": false
+      },
+      "title": "Hierophant Master",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/4",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 17,
+      "pdfPage": 18,
+      "tableTitle": "DRUIDS (CLERICS) TABLE I",
+      "physicalRowNumber": 7,
+      "level": 20,
+      "sourceXPInterval": {
+        "minimum": 2000001,
+        "maximumInclusive": 2500000,
+        "upperBoundOpen": false
+      },
+      "title": "Numinous Hierophant",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/5",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 17,
+      "pdfPage": 18,
+      "tableTitle": "DRUIDS (CLERICS) TABLE I",
+      "physicalRowNumber": 8,
+      "level": 21,
+      "sourceXPInterval": {
+        "minimum": 2500001,
+        "maximumInclusive": 3000000,
+        "upperBoundOpen": false
+      },
+      "title": "Mystic Hierophant",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/6",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 17,
+      "pdfPage": 18,
+      "tableTitle": "DRUIDS (CLERICS) TABLE I",
+      "physicalRowNumber": 9,
+      "level": 22,
+      "sourceXPInterval": {
+        "minimum": 3000001,
+        "maximumInclusive": 3500000,
+        "upperBoundOpen": false
+      },
+      "title": "Arcane Hierophant",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/7",
+      "levelAndLowerBoundMatch": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 17,
+      "pdfPage": 18,
+      "tableTitle": "DRUIDS (CLERICS) TABLE I",
+      "physicalRowNumber": 10,
+      "level": 23,
+      "sourceXPInterval": {
+        "minimum": 3500001,
+        "maximumInclusive": null,
+        "upperBoundOpen": true
+      },
+      "title": "Hierophant of the Cabal",
+      "mapping": "matched current target",
+      "fieldPointer": "/xpRows/8",
+      "levelAndLowerBoundMatch": true
+    }
+  ],
+  "targets": [
+    {
+      "collection": "classes",
+      "itemId": "ua-cavalier",
+      "fieldPointer": "/xpRows/0",
+      "sourceObjectPointer": "/xpRows/0",
+      "currentSemanticValue": {
+        "level": 1,
+        "xpLowerBound": 0,
+        "book": "UA",
+        "pages": [
+          15
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 3,
+        "level": 1,
+        "experiencePointsMinimum": 0,
+        "experiencePointsMaximumInclusive": 2500,
+        "upperBoundOpen": false,
+        "title": "Armiger",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 15,
+        "pdfPage": 16,
+        "tableTitle": "CAVALIERS TABLE I",
+        "regionId": "ua-15-867ce1268a9778e4",
+        "catalogPath": "dist/scans/verified/classes-ua-cavalier.json",
+        "image": "dist/scans/verified/ua-15-867ce1268a9778e4.png",
+        "imageSha256": "867ce1268a9778e47b0a5aa250a3141366bad901214f6c71733bed280e0c1a6f",
+        "dimensions": [
+          533,
+          543
+        ],
+        "focusRects": [
+          [
+            0.133208,
+            0.27256,
+            0.155722,
+            0.036832
+          ],
+          [
+            0.427767,
+            0.274401,
+            0.020638,
+            0.031308
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-cavalier",
+      "fieldPointer": "/xpRows/1",
+      "sourceObjectPointer": "/xpRows/1",
+      "currentSemanticValue": {
+        "level": 2,
+        "xpLowerBound": 2501,
+        "book": "UA",
+        "pages": [
+          15
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 4,
+        "level": 2,
+        "experiencePointsMinimum": 2501,
+        "experiencePointsMaximumInclusive": 5000,
+        "upperBoundOpen": false,
+        "title": "Scutifer",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 15,
+        "pdfPage": 16,
+        "tableTitle": "CAVALIERS TABLE I",
+        "regionId": "ua-15-867ce1268a9778e4",
+        "catalogPath": "dist/scans/verified/classes-ua-cavalier.json",
+        "image": "dist/scans/verified/ua-15-867ce1268a9778e4.png",
+        "imageSha256": "867ce1268a9778e47b0a5aa250a3141366bad901214f6c71733bed280e0c1a6f",
+        "dimensions": [
+          533,
+          543
+        ],
+        "focusRects": [
+          [
+            0.071295,
+            0.309392,
+            0.21576,
+            0.034991
+          ],
+          [
+            0.427767,
+            0.309392,
+            0.02439,
+            0.031308
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-cavalier",
+      "fieldPointer": "/xpRows/2",
+      "sourceObjectPointer": "/xpRows/2",
+      "currentSemanticValue": {
+        "level": 3,
+        "xpLowerBound": 5001,
+        "book": "UA",
+        "pages": [
+          15
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 5,
+        "level": 3,
+        "experiencePointsMinimum": 5001,
+        "experiencePointsMaximumInclusive": 10000,
+        "upperBoundOpen": false,
+        "title": "Esquire",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 15,
+        "pdfPage": 16,
+        "tableTitle": "CAVALIERS TABLE I",
+        "regionId": "ua-15-867ce1268a9778e4",
+        "catalogPath": "dist/scans/verified/classes-ua-cavalier.json",
+        "image": "dist/scans/verified/ua-15-867ce1268a9778e4.png",
+        "imageSha256": "867ce1268a9778e47b0a5aa250a3141366bad901214f6c71733bed280e0c1a6f",
+        "dimensions": [
+          533,
+          543
+        ],
+        "focusRects": [
+          [
+            0.073171,
+            0.344383,
+            0.232645,
+            0.034991
+          ],
+          [
+            0.427767,
+            0.344383,
+            0.02439,
+            0.031308
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-cavalier",
+      "fieldPointer": "/xpRows/3",
+      "sourceObjectPointer": "/xpRows/3",
+      "currentSemanticValue": {
+        "level": 4,
+        "xpLowerBound": 10001,
+        "book": "UA",
+        "pages": [
+          15
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 6,
+        "level": 4,
+        "experiencePointsMinimum": 10001,
+        "experiencePointsMaximumInclusive": 18500,
+        "upperBoundOpen": false,
+        "title": "Knight Errant",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 15,
+        "pdfPage": 16,
+        "tableTitle": "CAVALIERS TABLE I",
+        "regionId": "ua-15-867ce1268a9778e4",
+        "catalogPath": "dist/scans/verified/classes-ua-cavalier.json",
+        "image": "dist/scans/verified/ua-15-867ce1268a9778e4.png",
+        "imageSha256": "867ce1268a9778e47b0a5aa250a3141366bad901214f6c71733bed280e0c1a6f",
+        "dimensions": [
+          533,
+          543
+        ],
+        "focusRects": [
+          [
+            0.056285,
+            0.379374,
+            0.249531,
+            0.034991
+          ],
+          [
+            0.427767,
+            0.381215,
+            0.022514,
+            0.029466
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-cavalier",
+      "fieldPointer": "/xpRows/4",
+      "sourceObjectPointer": "/xpRows/4",
+      "currentSemanticValue": {
+        "level": 5,
+        "xpLowerBound": 18501,
+        "book": "UA",
+        "pages": [
+          15
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 7,
+        "level": 5,
+        "experiencePointsMinimum": 18501,
+        "experiencePointsMaximumInclusive": 37000,
+        "upperBoundOpen": false,
+        "title": "Knight Bachelor",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 15,
+        "pdfPage": 16,
+        "tableTitle": "CAVALIERS TABLE I",
+        "regionId": "ua-15-867ce1268a9778e4",
+        "catalogPath": "dist/scans/verified/classes-ua-cavalier.json",
+        "image": "dist/scans/verified/ua-15-867ce1268a9778e4.png",
+        "imageSha256": "867ce1268a9778e47b0a5aa250a3141366bad901214f6c71733bed280e0c1a6f",
+        "dimensions": [
+          533,
+          543
+        ],
+        "focusRects": [
+          [
+            0.054409,
+            0.414365,
+            0.253283,
+            0.036832
+          ],
+          [
+            0.425891,
+            0.414365,
+            0.026266,
+            0.033149
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-cavalier",
+      "fieldPointer": "/xpRows/5",
+      "sourceObjectPointer": "/xpRows/5",
+      "currentSemanticValue": {
+        "level": 6,
+        "xpLowerBound": 37001,
+        "book": "UA",
+        "pages": [
+          15
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 8,
+        "level": 6,
+        "experiencePointsMinimum": 37001,
+        "experiencePointsMaximumInclusive": 85000,
+        "upperBoundOpen": false,
+        "title": "Knight",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 15,
+        "pdfPage": 16,
+        "tableTitle": "CAVALIERS TABLE I",
+        "regionId": "ua-15-867ce1268a9778e4",
+        "catalogPath": "dist/scans/verified/classes-ua-cavalier.json",
+        "image": "dist/scans/verified/ua-15-867ce1268a9778e4.png",
+        "imageSha256": "867ce1268a9778e47b0a5aa250a3141366bad901214f6c71733bed280e0c1a6f",
+        "dimensions": [
+          533,
+          543
+        ],
+        "focusRects": [
+          [
+            0.052533,
+            0.449355,
+            0.253283,
+            0.036832
+          ],
+          [
+            0.425891,
+            0.449355,
+            0.026266,
+            0.033149
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-cavalier",
+      "fieldPointer": "/xpRows/6",
+      "sourceObjectPointer": "/xpRows/6",
+      "currentSemanticValue": {
+        "level": 7,
+        "xpLowerBound": 85001,
+        "book": "UA",
+        "pages": [
+          15
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 9,
+        "level": 7,
+        "experiencePointsMinimum": 85001,
+        "experiencePointsMaximumInclusive": 140000,
+        "upperBoundOpen": false,
+        "title": "Grand Knight",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 15,
+        "pdfPage": 16,
+        "tableTitle": "CAVALIERS TABLE I",
+        "regionId": "ua-15-867ce1268a9778e4",
+        "catalogPath": "dist/scans/verified/classes-ua-cavalier.json",
+        "image": "dist/scans/verified/ua-15-867ce1268a9778e4.png",
+        "imageSha256": "867ce1268a9778e47b0a5aa250a3141366bad901214f6c71733bed280e0c1a6f",
+        "dimensions": [
+          533,
+          543
+        ],
+        "focusRects": [
+          [
+            0.052533,
+            0.484346,
+            0.272045,
+            0.036832
+          ],
+          [
+            0.425891,
+            0.484346,
+            0.026266,
+            0.033149
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-cavalier",
+      "fieldPointer": "/xpRows/7",
+      "sourceObjectPointer": "/xpRows/7",
+      "currentSemanticValue": {
+        "level": 8,
+        "xpLowerBound": 140001,
+        "book": "UA",
+        "pages": [
+          15
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 10,
+        "level": 8,
+        "experiencePointsMinimum": 140001,
+        "experiencePointsMaximumInclusive": 220000,
+        "upperBoundOpen": false,
+        "title": "Banneret",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 15,
+        "pdfPage": 16,
+        "tableTitle": "CAVALIERS TABLE I",
+        "regionId": "ua-15-867ce1268a9778e4",
+        "catalogPath": "dist/scans/verified/classes-ua-cavalier.json",
+        "image": "dist/scans/verified/ua-15-867ce1268a9778e4.png",
+        "imageSha256": "867ce1268a9778e47b0a5aa250a3141366bad901214f6c71733bed280e0c1a6f",
+        "dimensions": [
+          533,
+          543
+        ],
+        "focusRects": [
+          [
+            0.0394,
+            0.521179,
+            0.283302,
+            0.033149
+          ],
+          [
+            0.427767,
+            0.521179,
+            0.022514,
+            0.031308
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-cavalier",
+      "fieldPointer": "/xpRows/8",
+      "sourceObjectPointer": "/xpRows/8",
+      "currentSemanticValue": {
+        "level": 9,
+        "xpLowerBound": 220001,
+        "book": "UA",
+        "pages": [
+          15
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 11,
+        "level": 9,
+        "experiencePointsMinimum": 220001,
+        "experiencePointsMaximumInclusive": 300000,
+        "upperBoundOpen": false,
+        "title": "Chevalier",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 15,
+        "pdfPage": 16,
+        "tableTitle": "CAVALIERS TABLE I",
+        "regionId": "ua-15-867ce1268a9778e4",
+        "catalogPath": "dist/scans/verified/classes-ua-cavalier.json",
+        "image": "dist/scans/verified/ua-15-867ce1268a9778e4.png",
+        "imageSha256": "867ce1268a9778e47b0a5aa250a3141366bad901214f6c71733bed280e0c1a6f",
+        "dimensions": [
+          533,
+          543
+        ],
+        "focusRects": [
+          [
+            0.035647,
+            0.556169,
+            0.287054,
+            0.033149
+          ],
+          [
+            0.427767,
+            0.556169,
+            0.022514,
+            0.031308
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-cavalier",
+      "fieldPointer": "/xpRows/9",
+      "sourceObjectPointer": "/xpRows/9",
+      "currentSemanticValue": {
+        "level": 10,
+        "xpLowerBound": 300001,
+        "book": "UA",
+        "pages": [
+          15
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 12,
+        "level": 10,
+        "experiencePointsMinimum": 300001,
+        "experiencePointsMaximumInclusive": 600000,
+        "upperBoundOpen": false,
+        "title": "Cavalier",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 15,
+        "pdfPage": 16,
+        "tableTitle": "CAVALIERS TABLE I",
+        "regionId": "ua-15-867ce1268a9778e4",
+        "catalogPath": "dist/scans/verified/classes-ua-cavalier.json",
+        "image": "dist/scans/verified/ua-15-867ce1268a9778e4.png",
+        "imageSha256": "867ce1268a9778e47b0a5aa250a3141366bad901214f6c71733bed280e0c1a6f",
+        "dimensions": [
+          533,
+          543
+        ],
+        "focusRects": [
+          [
+            0.035647,
+            0.59116,
+            0.287054,
+            0.036832
+          ],
+          [
+            0.412758,
+            0.59116,
+            0.0394,
+            0.031308
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-cavalier",
+      "fieldPointer": "/xpRows/10",
+      "sourceObjectPointer": "/xpRows/10",
+      "currentSemanticValue": {
+        "level": 11,
+        "xpLowerBound": 600001,
+        "book": "UA",
+        "pages": [
+          15
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 13,
+        "level": 11,
+        "experiencePointsMinimum": 600001,
+        "experiencePointsMaximumInclusive": 900000,
+        "upperBoundOpen": false,
+        "title": "Cavalier, 11th",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 15,
+        "pdfPage": 16,
+        "tableTitle": "CAVALIERS TABLE I",
+        "regionId": "ua-15-867ce1268a9778e4",
+        "catalogPath": "dist/scans/verified/classes-ua-cavalier.json",
+        "image": "dist/scans/verified/ua-15-867ce1268a9778e4.png",
+        "imageSha256": "867ce1268a9778e47b0a5aa250a3141366bad901214f6c71733bed280e0c1a6f",
+        "dimensions": [
+          533,
+          543
+        ],
+        "focusRects": [
+          [
+            0.035647,
+            0.624309,
+            0.288931,
+            0.036832
+          ],
+          [
+            0.410882,
+            0.616943,
+            0.037523,
+            0.05709
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-cavalier",
+      "fieldPointer": "/xpRows/11",
+      "sourceObjectPointer": "/xpRows/11",
+      "currentSemanticValue": {
+        "level": 12,
+        "xpLowerBound": 900001,
+        "book": "UA",
+        "pages": [
+          15
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 14,
+        "level": 12,
+        "experiencePointsMinimum": 900001,
+        "experiencePointsMaximumInclusive": 1200000,
+        "upperBoundOpen": false,
+        "title": "Cavalier, 12th",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 15,
+        "pdfPage": 16,
+        "tableTitle": "CAVALIERS TABLE I",
+        "regionId": "ua-15-867ce1268a9778e4",
+        "catalogPath": "dist/scans/verified/classes-ua-cavalier.json",
+        "image": "dist/scans/verified/ua-15-867ce1268a9778e4.png",
+        "imageSha256": "867ce1268a9778e47b0a5aa250a3141366bad901214f6c71733bed280e0c1a6f",
+        "dimensions": [
+          533,
+          543
+        ],
+        "focusRects": [
+          [
+            0.035647,
+            0.6593,
+            0.315197,
+            0.036832
+          ],
+          [
+            0.410882,
+            0.661142,
+            0.041276,
+            0.031308
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-barbarian",
+      "fieldPointer": "/xpRows/0",
+      "sourceObjectPointer": "/xpRows/0",
+      "currentSemanticValue": {
+        "level": 1,
+        "xpLowerBound": 0,
+        "book": "UA",
+        "pages": [
+          19
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 1,
+        "level": 1,
+        "experiencePointsMinimum": 0,
+        "experiencePointsMaximumInclusive": 6000,
+        "upperBoundOpen": false,
+        "title": "Barbarian",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+        "regionId": "ua-19-23b7a8f3989ec7b0",
+        "catalogPath": "dist/scans/verified/classes-ua-barbarian.json",
+        "image": "dist/scans/verified/ua-19-23b7a8f3989ec7b0.png",
+        "imageSha256": "23b7a8f3989ec7b0c65bba1f46c7223bc7db47ebcd9944182614e063287f73a7",
+        "dimensions": [
+          525,
+          451
+        ],
+        "focusRects": [
+          [
+            0.137143,
+            0.268293,
+            0.158095,
+            0.042129
+          ],
+          [
+            0.426667,
+            0.266075,
+            0.017143,
+            0.039911
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-barbarian",
+      "fieldPointer": "/xpRows/1",
+      "sourceObjectPointer": "/xpRows/1",
+      "currentSemanticValue": {
+        "level": 2,
+        "xpLowerBound": 6001,
+        "book": "UA",
+        "pages": [
+          19
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 2,
+        "level": 2,
+        "experiencePointsMinimum": 6001,
+        "experiencePointsMaximumInclusive": 12000,
+        "upperBoundOpen": false,
+        "title": "Barbarian",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+        "regionId": "ua-19-23b7a8f3989ec7b0",
+        "catalogPath": "dist/scans/verified/classes-ua-barbarian.json",
+        "image": "dist/scans/verified/ua-19-23b7a8f3989ec7b0.png",
+        "imageSha256": "23b7a8f3989ec7b0c65bba1f46c7223bc7db47ebcd9944182614e063287f73a7",
+        "dimensions": [
+          525,
+          451
+        ],
+        "focusRects": [
+          [
+            0.074286,
+            0.308204,
+            0.238095,
+            0.044346
+          ],
+          [
+            0.415238,
+            0.301552,
+            0.034286,
+            0.066519
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-barbarian",
+      "fieldPointer": "/xpRows/2",
+      "sourceObjectPointer": "/xpRows/2",
+      "currentSemanticValue": {
+        "level": 3,
+        "xpLowerBound": 12001,
+        "book": "UA",
+        "pages": [
+          19
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 3,
+        "level": 3,
+        "experiencePointsMinimum": 12001,
+        "experiencePointsMaximumInclusive": 24000,
+        "upperBoundOpen": false,
+        "title": "Barbarian",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+        "regionId": "ua-19-23b7a8f3989ec7b0",
+        "catalogPath": "dist/scans/verified/classes-ua-barbarian.json",
+        "image": "dist/scans/verified/ua-19-23b7a8f3989ec7b0.png",
+        "imageSha256": "23b7a8f3989ec7b0c65bba1f46c7223bc7db47ebcd9944182614e063287f73a7",
+        "dimensions": [
+          525,
+          451
+        ],
+        "focusRects": [
+          [
+            0.057143,
+            0.350333,
+            0.255238,
+            0.044346
+          ],
+          [
+            0.422857,
+            0.35255,
+            0.024762,
+            0.037694
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-barbarian",
+      "fieldPointer": "/xpRows/3",
+      "sourceObjectPointer": "/xpRows/3",
+      "currentSemanticValue": {
+        "level": 4,
+        "xpLowerBound": 24001,
+        "book": "UA",
+        "pages": [
+          19
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 4,
+        "level": 4,
+        "experiencePointsMinimum": 24001,
+        "experiencePointsMaximumInclusive": 48000,
+        "upperBoundOpen": false,
+        "title": "Barbarian",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+        "regionId": "ua-19-23b7a8f3989ec7b0",
+        "catalogPath": "dist/scans/verified/classes-ua-barbarian.json",
+        "image": "dist/scans/verified/ua-19-23b7a8f3989ec7b0.png",
+        "imageSha256": "23b7a8f3989ec7b0c65bba1f46c7223bc7db47ebcd9944182614e063287f73a7",
+        "dimensions": [
+          525,
+          451
+        ],
+        "focusRects": [
+          [
+            0.057143,
+            0.394678,
+            0.255238,
+            0.042129
+          ],
+          [
+            0.422857,
+            0.394678,
+            0.024762,
+            0.037694
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-barbarian",
+      "fieldPointer": "/xpRows/4",
+      "sourceObjectPointer": "/xpRows/4",
+      "currentSemanticValue": {
+        "level": 5,
+        "xpLowerBound": 48001,
+        "book": "UA",
+        "pages": [
+          19
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 5,
+        "level": 5,
+        "experiencePointsMinimum": 48001,
+        "experiencePointsMaximumInclusive": 80000,
+        "upperBoundOpen": false,
+        "title": "Barbarian",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+        "regionId": "ua-19-23b7a8f3989ec7b0",
+        "catalogPath": "dist/scans/verified/classes-ua-barbarian.json",
+        "image": "dist/scans/verified/ua-19-23b7a8f3989ec7b0.png",
+        "imageSha256": "23b7a8f3989ec7b0c65bba1f46c7223bc7db47ebcd9944182614e063287f73a7",
+        "dimensions": [
+          525,
+          451
+        ],
+        "focusRects": [
+          [
+            0.057143,
+            0.436807,
+            0.255238,
+            0.042129
+          ],
+          [
+            0.424762,
+            0.439024,
+            0.022857,
+            0.035477
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-barbarian",
+      "fieldPointer": "/xpRows/5",
+      "sourceObjectPointer": "/xpRows/5",
+      "currentSemanticValue": {
+        "level": 6,
+        "xpLowerBound": 80001,
+        "book": "UA",
+        "pages": [
+          19
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 6,
+        "level": 6,
+        "experiencePointsMinimum": 80001,
+        "experiencePointsMaximumInclusive": 150000,
+        "upperBoundOpen": false,
+        "title": "Barbarian",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+        "regionId": "ua-19-23b7a8f3989ec7b0",
+        "catalogPath": "dist/scans/verified/classes-ua-barbarian.json",
+        "image": "dist/scans/verified/ua-19-23b7a8f3989ec7b0.png",
+        "imageSha256": "23b7a8f3989ec7b0c65bba1f46c7223bc7db47ebcd9944182614e063287f73a7",
+        "dimensions": [
+          525,
+          451
+        ],
+        "focusRects": [
+          [
+            0.055238,
+            0.478936,
+            0.27619,
+            0.039911
+          ],
+          [
+            0.422857,
+            0.478936,
+            0.024762,
+            0.037694
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-barbarian",
+      "fieldPointer": "/xpRows/6",
+      "sourceObjectPointer": "/xpRows/6",
+      "currentSemanticValue": {
+        "level": 7,
+        "xpLowerBound": 150001,
+        "book": "UA",
+        "pages": [
+          19
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 7,
+        "level": 7,
+        "experiencePointsMinimum": 150001,
+        "experiencePointsMaximumInclusive": 275000,
+        "upperBoundOpen": false,
+        "title": "Barbarian",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+        "regionId": "ua-19-23b7a8f3989ec7b0",
+        "catalogPath": "dist/scans/verified/classes-ua-barbarian.json",
+        "image": "dist/scans/verified/ua-19-23b7a8f3989ec7b0.png",
+        "imageSha256": "23b7a8f3989ec7b0c65bba1f46c7223bc7db47ebcd9944182614e063287f73a7",
+        "dimensions": [
+          525,
+          451
+        ],
+        "focusRects": [
+          [
+            0.04,
+            0.518847,
+            0.291429,
+            0.044346
+          ],
+          [
+            0.422857,
+            0.509978,
+            0.030476,
+            0.068736
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-barbarian",
+      "fieldPointer": "/xpRows/7",
+      "sourceObjectPointer": "/xpRows/7",
+      "currentSemanticValue": {
+        "level": 8,
+        "xpLowerBound": 275001,
+        "book": "UA",
+        "pages": [
+          19
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 8,
+        "level": 8,
+        "experiencePointsMinimum": 275001,
+        "experiencePointsMaximumInclusive": 500000,
+        "upperBoundOpen": false,
+        "title": "Barbarian",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+        "regionId": "ua-19-23b7a8f3989ec7b0",
+        "catalogPath": "dist/scans/verified/classes-ua-barbarian.json",
+        "image": "dist/scans/verified/ua-19-23b7a8f3989ec7b0.png",
+        "imageSha256": "23b7a8f3989ec7b0c65bba1f46c7223bc7db47ebcd9944182614e063287f73a7",
+        "dimensions": [
+          525,
+          451
+        ],
+        "focusRects": [
+          [
+            0.03619,
+            0.560976,
+            0.295238,
+            0.044346
+          ],
+          [
+            0.422857,
+            0.563193,
+            0.024762,
+            0.037694
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-barbarian",
+      "fieldPointer": "/xpRows/8",
+      "sourceObjectPointer": "/xpRows/8",
+      "currentSemanticValue": {
+        "level": 9,
+        "xpLowerBound": 500001,
+        "book": "UA",
+        "pages": [
+          19
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 9,
+        "level": 9,
+        "experiencePointsMinimum": 500001,
+        "experiencePointsMaximumInclusive": 1000000,
+        "upperBoundOpen": false,
+        "title": "Barbarian",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+        "regionId": "ua-19-23b7a8f3989ec7b0",
+        "catalogPath": "dist/scans/verified/classes-ua-barbarian.json",
+        "image": "dist/scans/verified/ua-19-23b7a8f3989ec7b0.png",
+        "imageSha256": "23b7a8f3989ec7b0c65bba1f46c7223bc7db47ebcd9944182614e063287f73a7",
+        "dimensions": [
+          525,
+          451
+        ],
+        "focusRects": [
+          [
+            0.03619,
+            0.605322,
+            0.32381,
+            0.042129
+          ],
+          [
+            0.422857,
+            0.605322,
+            0.026667,
+            0.039911
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-barbarian",
+      "fieldPointer": "/xpRows/9",
+      "sourceObjectPointer": "/xpRows/9",
+      "currentSemanticValue": {
+        "level": 10,
+        "xpLowerBound": 1000001,
+        "book": "UA",
+        "pages": [
+          19
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 10,
+        "level": 10,
+        "experiencePointsMinimum": 1000001,
+        "experiencePointsMaximumInclusive": 1500000,
+        "upperBoundOpen": false,
+        "title": "Barbarian",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+        "regionId": "ua-19-23b7a8f3989ec7b0",
+        "catalogPath": "dist/scans/verified/classes-ua-barbarian.json",
+        "image": "dist/scans/verified/ua-19-23b7a8f3989ec7b0.png",
+        "imageSha256": "23b7a8f3989ec7b0c65bba1f46c7223bc7db47ebcd9944182614e063287f73a7",
+        "dimensions": [
+          525,
+          451
+        ],
+        "focusRects": [
+          [
+            0.013333,
+            0.64745,
+            0.344762,
+            0.042129
+          ],
+          [
+            0.407619,
+            0.64745,
+            0.04,
+            0.037694
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-barbarian",
+      "fieldPointer": "/xpRows/10",
+      "sourceObjectPointer": "/xpRows/10",
+      "currentSemanticValue": {
+        "level": 11,
+        "xpLowerBound": 1500001,
+        "book": "UA",
+        "pages": [
+          19
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 11,
+        "level": 11,
+        "experiencePointsMinimum": 1500001,
+        "experiencePointsMaximumInclusive": 2000000,
+        "upperBoundOpen": false,
+        "title": "Barbarian",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "tableTitle": "BARBARIANS (FIGHTERS) TABLE I",
+        "regionId": "ua-19-23b7a8f3989ec7b0",
+        "catalogPath": "dist/scans/verified/classes-ua-barbarian.json",
+        "image": "dist/scans/verified/ua-19-23b7a8f3989ec7b0.png",
+        "imageSha256": "23b7a8f3989ec7b0c65bba1f46c7223bc7db47ebcd9944182614e063287f73a7",
+        "dimensions": [
+          525,
+          451
+        ],
+        "focusRects": [
+          [
+            0.013333,
+            0.689579,
+            0.344762,
+            0.042129
+          ],
+          [
+            0.407619,
+            0.691796,
+            0.034286,
+            0.035477
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-thief-acrobat",
+      "fieldPointer": "/xpRows/0",
+      "sourceObjectPointer": "/xpRows/0",
+      "currentSemanticValue": {
+        "level": 6,
+        "xpLowerBound": 20001,
+        "book": "UA",
+        "pages": [
+          23
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 1,
+        "level": 6,
+        "experiencePointsMinimum": 20001,
+        "experiencePointsMaximumInclusive": 45000,
+        "upperBoundOpen": false,
+        "title": "Burglar-Acrobat",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 23,
+        "pdfPage": 24,
+        "tableTitle": "THIEF-ACROBAT TABLE I",
+        "regionId": "ua-23-6cd65e8830580469",
+        "catalogPath": "dist/scans/verified/classes-ua-thief-acrobat.json",
+        "image": "dist/scans/verified/ua-23-6cd65e8830580469.png",
+        "imageSha256": "6cd65e8830580469e58dd7dbddc981c320e4444b71270718162757da77484d3b",
+        "dimensions": [
+          538,
+          287
+        ],
+        "focusRects": [
+          [
+            0.063197,
+            0.334495,
+            0.252788,
+            0.069686
+          ],
+          [
+            0.468401,
+            0.337979,
+            0.024164,
+            0.059233
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-thief-acrobat",
+      "fieldPointer": "/xpRows/1",
+      "sourceObjectPointer": "/xpRows/1",
+      "currentSemanticValue": {
+        "level": 7,
+        "xpLowerBound": 45001,
+        "book": "UA",
+        "pages": [
+          23
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 2,
+        "level": 7,
+        "experiencePointsMinimum": 45001,
+        "experiencePointsMaximumInclusive": 75000,
+        "upperBoundOpen": false,
+        "title": "Second-Story Thief",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 23,
+        "pdfPage": 24,
+        "tableTitle": "THIEF-ACROBAT TABLE I",
+        "regionId": "ua-23-6cd65e8830580469",
+        "catalogPath": "dist/scans/verified/classes-ua-thief-acrobat.json",
+        "image": "dist/scans/verified/ua-23-6cd65e8830580469.png",
+        "imageSha256": "6cd65e8830580469e58dd7dbddc981c320e4444b71270718162757da77484d3b",
+        "dimensions": [
+          538,
+          287
+        ],
+        "focusRects": [
+          [
+            0.065056,
+            0.400697,
+            0.250929,
+            0.066202
+          ],
+          [
+            0.466543,
+            0.404181,
+            0.026022,
+            0.059233
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-thief-acrobat",
+      "fieldPointer": "/xpRows/2",
+      "sourceObjectPointer": "/xpRows/2",
+      "currentSemanticValue": {
+        "level": 8,
+        "xpLowerBound": 75001,
+        "book": "UA",
+        "pages": [
+          23
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 3,
+        "level": 8,
+        "experiencePointsMinimum": 75001,
+        "experiencePointsMaximumInclusive": 125000,
+        "upperBoundOpen": false,
+        "title": "Cat Burglar",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 23,
+        "pdfPage": 24,
+        "tableTitle": "THIEF-ACROBAT TABLE I",
+        "regionId": "ua-23-6cd65e8830580469",
+        "catalogPath": "dist/scans/verified/classes-ua-thief-acrobat.json",
+        "image": "dist/scans/verified/ua-23-6cd65e8830580469.png",
+        "imageSha256": "6cd65e8830580469e58dd7dbddc981c320e4444b71270718162757da77484d3b",
+        "dimensions": [
+          538,
+          287
+        ],
+        "focusRects": [
+          [
+            0.065056,
+            0.466899,
+            0.269517,
+            0.069686
+          ],
+          [
+            0.468401,
+            0.470383,
+            0.024164,
+            0.059233
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-thief-acrobat",
+      "fieldPointer": "/xpRows/3",
+      "sourceObjectPointer": "/xpRows/3",
+      "currentSemanticValue": {
+        "level": 9,
+        "xpLowerBound": 125001,
+        "book": "UA",
+        "pages": [
+          23
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 4,
+        "level": 9,
+        "experiencePointsMinimum": 125001,
+        "experiencePointsMaximumInclusive": 180000,
+        "upperBoundOpen": false,
+        "title": "Master Cat Burglar",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 23,
+        "pdfPage": 24,
+        "tableTitle": "THIEF-ACROBAT TABLE I",
+        "regionId": "ua-23-6cd65e8830580469",
+        "catalogPath": "dist/scans/verified/classes-ua-thief-acrobat.json",
+        "image": "dist/scans/verified/ua-23-6cd65e8830580469.png",
+        "imageSha256": "6cd65e8830580469e58dd7dbddc981c320e4444b71270718162757da77484d3b",
+        "dimensions": [
+          538,
+          287
+        ],
+        "focusRects": [
+          [
+            0.050186,
+            0.536585,
+            0.282528,
+            0.062718
+          ],
+          [
+            0.468401,
+            0.536585,
+            0.024164,
+            0.059233
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-thief-acrobat",
+      "fieldPointer": "/xpRows/4",
+      "sourceObjectPointer": "/xpRows/4",
+      "currentSemanticValue": {
+        "level": 10,
+        "xpLowerBound": 180001,
+        "book": "UA",
+        "pages": [
+          23
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 5,
+        "level": 10,
+        "experiencePointsMinimum": 180001,
+        "experiencePointsMaximumInclusive": 250000,
+        "upperBoundOpen": false,
+        "title": "Thief-Acrobat",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 23,
+        "pdfPage": 24,
+        "tableTitle": "THIEF-ACROBAT TABLE I",
+        "regionId": "ua-23-6cd65e8830580469",
+        "catalogPath": "dist/scans/verified/classes-ua-thief-acrobat.json",
+        "image": "dist/scans/verified/ua-23-6cd65e8830580469.png",
+        "imageSha256": "6cd65e8830580469e58dd7dbddc981c320e4444b71270718162757da77484d3b",
+        "dimensions": [
+          538,
+          287
+        ],
+        "focusRects": [
+          [
+            0.050186,
+            0.602787,
+            0.282528,
+            0.062718
+          ],
+          [
+            0.453532,
+            0.602787,
+            0.039033,
+            0.059233
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-thief-acrobat",
+      "fieldPointer": "/xpRows/5",
+      "sourceObjectPointer": "/xpRows/5",
+      "currentSemanticValue": {
+        "level": 11,
+        "xpLowerBound": 250001,
+        "book": "UA",
+        "pages": [
+          23
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 6,
+        "level": 11,
+        "experiencePointsMinimum": 250001,
+        "experiencePointsMaximumInclusive": 500000,
+        "upperBoundOpen": false,
+        "title": "Master Thief-Acrobat",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 23,
+        "pdfPage": 24,
+        "tableTitle": "THIEF-ACROBAT TABLE I",
+        "regionId": "ua-23-6cd65e8830580469",
+        "catalogPath": "dist/scans/verified/classes-ua-thief-acrobat.json",
+        "image": "dist/scans/verified/ua-23-6cd65e8830580469.png",
+        "imageSha256": "6cd65e8830580469e58dd7dbddc981c320e4444b71270718162757da77484d3b",
+        "dimensions": [
+          538,
+          287
+        ],
+        "focusRects": [
+          [
+            0.048327,
+            0.66899,
+            0.284387,
+            0.066202
+          ],
+          [
+            0.453532,
+            0.672474,
+            0.033457,
+            0.055749
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-thief-acrobat",
+      "fieldPointer": "/xpRows/6",
+      "sourceObjectPointer": "/xpRows/6",
+      "currentSemanticValue": {
+        "level": 12,
+        "xpLowerBound": 500001,
+        "book": "UA",
+        "pages": [
+          23
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 7,
+        "level": 12,
+        "experiencePointsMinimum": 500001,
+        "experiencePointsMaximumInclusive": 750000,
+        "upperBoundOpen": false,
+        "title": "Master Thief-Acrobat (12th)",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 23,
+        "pdfPage": 24,
+        "tableTitle": "THIEF-ACROBAT TABLE I",
+        "regionId": "ua-23-6cd65e8830580469",
+        "catalogPath": "dist/scans/verified/classes-ua-thief-acrobat.json",
+        "image": "dist/scans/verified/ua-23-6cd65e8830580469.png",
+        "imageSha256": "6cd65e8830580469e58dd7dbddc981c320e4444b71270718162757da77484d3b",
+        "dimensions": [
+          538,
+          287
+        ],
+        "focusRects": [
+          [
+            0.048327,
+            0.735192,
+            0.284387,
+            0.062718
+          ],
+          [
+            0.453532,
+            0.738676,
+            0.037175,
+            0.055749
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-paladin",
+      "fieldPointer": "/xpRows/0",
+      "sourceObjectPointer": "/xpRows/0",
+      "currentSemanticValue": {
+        "level": 1,
+        "xpLowerBound": 0,
+        "book": "PHB",
+        "pages": [
+          24
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 1,
+        "level": 1,
+        "experiencePointsMinimum": 0,
+        "experiencePointsMaximumInclusive": 2750,
+        "upperBoundOpen": false,
+        "title": "Gallant",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "PHB",
+        "printedPage": 24,
+        "pdfPage": 25,
+        "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+        "regionId": "phb-24-dad754a51acbc11d",
+        "catalogPath": "dist/scans/verified/classes-ua-paladin.json",
+        "image": "dist/scans/verified/phb-24-58fc3434ffde34c9.png",
+        "imageSha256": "58fc3434ffde34c934c84763b5b4f734e0a60776fca1caa6ff342e4e67ae7732",
+        "dimensions": [
+          702,
+          525
+        ],
+        "focusRects": [
+          [
+            0.116809,
+            0.285714,
+            0.121083,
+            0.064762
+          ],
+          [
+            0.371795,
+            0.297143,
+            0.012821,
+            0.034286
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-paladin",
+      "fieldPointer": "/xpRows/1",
+      "sourceObjectPointer": "/xpRows/1",
+      "currentSemanticValue": {
+        "level": 2,
+        "xpLowerBound": 2751,
+        "book": "PHB",
+        "pages": [
+          24
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 2,
+        "level": 2,
+        "experiencePointsMinimum": 2751,
+        "experiencePointsMaximumInclusive": 5500,
+        "upperBoundOpen": false,
+        "title": "Keeper",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "PHB",
+        "printedPage": 24,
+        "pdfPage": 25,
+        "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+        "regionId": "phb-24-dad754a51acbc11d",
+        "catalogPath": "dist/scans/verified/classes-ua-paladin.json",
+        "image": "dist/scans/verified/phb-24-58fc3434ffde34c9.png",
+        "imageSha256": "58fc3434ffde34c934c84763b5b4f734e0a60776fca1caa6ff342e4e67ae7732",
+        "dimensions": [
+          702,
+          525
+        ],
+        "focusRects": [
+          [
+            0.07265,
+            0.329524,
+            0.17094,
+            0.059048
+          ],
+          [
+            0.367521,
+            0.339048,
+            0.021368,
+            0.03619
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-paladin",
+      "fieldPointer": "/xpRows/2",
+      "sourceObjectPointer": "/xpRows/2",
+      "currentSemanticValue": {
+        "level": 3,
+        "xpLowerBound": 5501,
+        "book": "PHB",
+        "pages": [
+          24
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 3,
+        "level": 3,
+        "experiencePointsMinimum": 5501,
+        "experiencePointsMaximumInclusive": 12000,
+        "upperBoundOpen": false,
+        "title": "Protector",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "PHB",
+        "printedPage": 24,
+        "pdfPage": 25,
+        "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+        "regionId": "phb-24-dad754a51acbc11d",
+        "catalogPath": "dist/scans/verified/classes-ua-paladin.json",
+        "image": "dist/scans/verified/phb-24-58fc3434ffde34c9.png",
+        "imageSha256": "58fc3434ffde34c934c84763b5b4f734e0a60776fca1caa6ff342e4e67ae7732",
+        "dimensions": [
+          702,
+          525
+        ],
+        "focusRects": [
+          [
+            0.07265,
+            0.373333,
+            0.183761,
+            0.062857
+          ],
+          [
+            0.368946,
+            0.382857,
+            0.019943,
+            0.03619
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-paladin",
+      "fieldPointer": "/xpRows/3",
+      "sourceObjectPointer": "/xpRows/3",
+      "currentSemanticValue": {
+        "level": 4,
+        "xpLowerBound": 12001,
+        "book": "PHB",
+        "pages": [
+          24
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 4,
+        "level": 4,
+        "experiencePointsMinimum": 12001,
+        "experiencePointsMaximumInclusive": 24000,
+        "upperBoundOpen": false,
+        "title": "Defender",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "PHB",
+        "printedPage": 24,
+        "pdfPage": 25,
+        "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+        "regionId": "phb-24-dad754a51acbc11d",
+        "catalogPath": "dist/scans/verified/classes-ua-paladin.json",
+        "image": "dist/scans/verified/phb-24-58fc3434ffde34c9.png",
+        "imageSha256": "58fc3434ffde34c934c84763b5b4f734e0a60776fca1caa6ff342e4e67ae7732",
+        "dimensions": [
+          702,
+          525
+        ],
+        "focusRects": [
+          [
+            0.061254,
+            0.417143,
+            0.196581,
+            0.059048
+          ],
+          [
+            0.368946,
+            0.428571,
+            0.018519,
+            0.032381
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-paladin",
+      "fieldPointer": "/xpRows/4",
+      "sourceObjectPointer": "/xpRows/4",
+      "currentSemanticValue": {
+        "level": 5,
+        "xpLowerBound": 24001,
+        "book": "PHB",
+        "pages": [
+          24
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 5,
+        "level": 5,
+        "experiencePointsMinimum": 24001,
+        "experiencePointsMaximumInclusive": 45000,
+        "upperBoundOpen": false,
+        "title": "Warder",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "PHB",
+        "printedPage": 24,
+        "pdfPage": 25,
+        "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+        "regionId": "phb-24-dad754a51acbc11d",
+        "catalogPath": "dist/scans/verified/classes-ua-paladin.json",
+        "image": "dist/scans/verified/phb-24-58fc3434ffde34c9.png",
+        "imageSha256": "58fc3434ffde34c934c84763b5b4f734e0a60776fca1caa6ff342e4e67ae7732",
+        "dimensions": [
+          702,
+          525
+        ],
+        "focusRects": [
+          [
+            0.058405,
+            0.459048,
+            0.19943,
+            0.060952
+          ],
+          [
+            0.368946,
+            0.468571,
+            0.019943,
+            0.034286
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-paladin",
+      "fieldPointer": "/xpRows/5",
+      "sourceObjectPointer": "/xpRows/5",
+      "currentSemanticValue": {
+        "level": 6,
+        "xpLowerBound": 45001,
+        "book": "PHB",
+        "pages": [
+          24
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 6,
+        "level": 6,
+        "experiencePointsMinimum": 45001,
+        "experiencePointsMaximumInclusive": 95000,
+        "upperBoundOpen": false,
+        "title": "Guardian",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "PHB",
+        "printedPage": 24,
+        "pdfPage": 25,
+        "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+        "regionId": "phb-24-dad754a51acbc11d",
+        "catalogPath": "dist/scans/verified/classes-ua-paladin.json",
+        "image": "dist/scans/verified/phb-24-58fc3434ffde34c9.png",
+        "imageSha256": "58fc3434ffde34c934c84763b5b4f734e0a60776fca1caa6ff342e4e67ae7732",
+        "dimensions": [
+          702,
+          525
+        ],
+        "focusRects": [
+          [
+            0.058405,
+            0.500952,
+            0.19943,
+            0.064762
+          ],
+          [
+            0.368946,
+            0.512381,
+            0.019943,
+            0.034286
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-paladin",
+      "fieldPointer": "/xpRows/6",
+      "sourceObjectPointer": "/xpRows/6",
+      "currentSemanticValue": {
+        "level": 7,
+        "xpLowerBound": 95001,
+        "book": "PHB",
+        "pages": [
+          24
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 7,
+        "level": 7,
+        "experiencePointsMinimum": 95001,
+        "experiencePointsMaximumInclusive": 175000,
+        "upperBoundOpen": false,
+        "title": "Chevalier",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "PHB",
+        "printedPage": 24,
+        "pdfPage": 25,
+        "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+        "regionId": "phb-24-dad754a51acbc11d",
+        "catalogPath": "dist/scans/verified/classes-ua-paladin.json",
+        "image": "dist/scans/verified/phb-24-58fc3434ffde34c9.png",
+        "imageSha256": "58fc3434ffde34c934c84763b5b4f734e0a60776fca1caa6ff342e4e67ae7732",
+        "dimensions": [
+          702,
+          525
+        ],
+        "focusRects": [
+          [
+            0.051282,
+            0.544762,
+            0.219373,
+            0.060952
+          ],
+          [
+            0.367521,
+            0.554286,
+            0.021368,
+            0.03619
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-paladin",
+      "fieldPointer": "/xpRows/7",
+      "sourceObjectPointer": "/xpRows/7",
+      "currentSemanticValue": {
+        "level": 8,
+        "xpLowerBound": 175001,
+        "book": "PHB",
+        "pages": [
+          24
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 8,
+        "level": 8,
+        "experiencePointsMinimum": 175001,
+        "experiencePointsMaximumInclusive": 350000,
+        "upperBoundOpen": false,
+        "title": "Justicior",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "PHB",
+        "printedPage": 24,
+        "pdfPage": 25,
+        "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+        "regionId": "phb-24-dad754a51acbc11d",
+        "catalogPath": "dist/scans/verified/classes-ua-paladin.json",
+        "image": "dist/scans/verified/phb-24-58fc3434ffde34c9.png",
+        "imageSha256": "58fc3434ffde34c934c84763b5b4f734e0a60776fca1caa6ff342e4e67ae7732",
+        "dimensions": [
+          702,
+          525
+        ],
+        "focusRects": [
+          [
+            0.045584,
+            0.588571,
+            0.225071,
+            0.059048
+          ],
+          [
+            0.367521,
+            0.59619,
+            0.021368,
+            0.038095
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-paladin",
+      "fieldPointer": "/xpRows/8",
+      "sourceObjectPointer": "/xpRows/8",
+      "currentSemanticValue": {
+        "level": 9,
+        "xpLowerBound": 350001,
+        "book": "PHB",
+        "pages": [
+          24
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 9,
+        "level": 9,
+        "experiencePointsMinimum": 350001,
+        "experiencePointsMaximumInclusive": 700000,
+        "upperBoundOpen": false,
+        "title": "Paladin",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "PHB",
+        "printedPage": 24,
+        "pdfPage": 25,
+        "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+        "regionId": "phb-24-dad754a51acbc11d",
+        "catalogPath": "dist/scans/verified/classes-ua-paladin.json",
+        "image": "dist/scans/verified/phb-24-58fc3434ffde34c9.png",
+        "imageSha256": "58fc3434ffde34c934c84763b5b4f734e0a60776fca1caa6ff342e4e67ae7732",
+        "dimensions": [
+          702,
+          525
+        ],
+        "focusRects": [
+          [
+            0.037037,
+            0.628571,
+            0.233618,
+            0.064762
+          ],
+          [
+            0.367521,
+            0.64,
+            0.021368,
+            0.034286
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-paladin",
+      "fieldPointer": "/xpRows/9",
+      "sourceObjectPointer": "/xpRows/9",
+      "currentSemanticValue": {
+        "level": 10,
+        "xpLowerBound": 700001,
+        "book": "PHB",
+        "pages": [
+          24
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 10,
+        "level": 10,
+        "experiencePointsMinimum": 700001,
+        "experiencePointsMaximumInclusive": 1050000,
+        "upperBoundOpen": false,
+        "title": "Paladin (10th level)",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "PHB",
+        "printedPage": 24,
+        "pdfPage": 25,
+        "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+        "regionId": "phb-24-dad754a51acbc11d",
+        "catalogPath": "dist/scans/verified/classes-ua-paladin.json",
+        "image": "dist/scans/verified/phb-24-58fc3434ffde34c9.png",
+        "imageSha256": "58fc3434ffde34c934c84763b5b4f734e0a60776fca1caa6ff342e4e67ae7732",
+        "dimensions": [
+          702,
+          525
+        ],
+        "focusRects": [
+          [
+            0.04416,
+            0.674286,
+            0.249288,
+            0.060952
+          ],
+          [
+            0.356125,
+            0.68381,
+            0.032764,
+            0.034286
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-paladin",
+      "fieldPointer": "/xpRows/10",
+      "sourceObjectPointer": "/xpRows/10",
+      "currentSemanticValue": {
+        "level": 11,
+        "xpLowerBound": 1050001,
+        "book": "PHB",
+        "pages": [
+          24
+        ],
+        "track": "main"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 11,
+        "level": 11,
+        "experiencePointsMinimum": 1050001,
+        "experiencePointsMaximumInclusive": 1400000,
+        "upperBoundOpen": false,
+        "title": "Paladin (11th level, etc.)",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "PHB",
+        "printedPage": 24,
+        "pdfPage": 25,
+        "tableTitle": "PALADINS (FIGHTERS) TABLE I",
+        "regionId": "phb-24-dad754a51acbc11d",
+        "catalogPath": "dist/scans/verified/classes-ua-paladin.json",
+        "image": "dist/scans/verified/phb-24-58fc3434ffde34c9.png",
+        "imageSha256": "58fc3434ffde34c934c84763b5b4f734e0a60776fca1caa6ff342e4e67ae7732",
+        "dimensions": [
+          702,
+          525
+        ],
+        "focusRects": [
+          [
+            0.024217,
+            0.71619,
+            0.269231,
+            0.060952
+          ],
+          [
+            0.35755,
+            0.727619,
+            0.025641,
+            0.032381
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED"
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-druid",
+      "fieldPointer": "/xpRows/0",
+      "sourceObjectPointer": "/xpRows/0",
+      "currentSemanticValue": {
+        "level": 15,
+        "xpLowerBound": 3000001,
+        "book": "UA",
+        "pages": [
+          16
+        ],
+        "track": "Grand Druid office"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 2,
+        "level": 15,
+        "experiencePointsMinimum": 3000001,
+        "experiencePointsMaximumInclusive": 3500000,
+        "upperBoundOpen": false,
+        "title": "The Grand Druid",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "tableTitle": "DRUIDS (CLERICS) TABLE I",
+        "regionId": "ua-17-90150e88255094b6",
+        "catalogPath": "dist/scans/verified/classes-ua-druid.json",
+        "image": "dist/scans/verified/ua-17-90150e88255094b6.png",
+        "imageSha256": "90150e88255094b6b3a9b50a1a0f6d4dad445496e85cfc90db5124633b6fcc70",
+        "dimensions": [
+          525,
+          389
+        ],
+        "focusRects": [
+          [
+            0.015238,
+            0.362468,
+            0.350476,
+            0.051414
+          ],
+          [
+            0.424762,
+            0.367609,
+            0.04,
+            0.041131
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED",
+      "supplementalContext": {
+        "book": "UA",
+        "printedPages": [
+          16,
+          17
+        ],
+        "reason": "p.16 narrative supports 3,000,001; p.17 table directly prints the full level-15 interval."
+      }
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-druid",
+      "fieldPointer": "/xpRows/1",
+      "sourceObjectPointer": "/xpRows/1",
+      "currentSemanticValue": {
+        "level": 16,
+        "xpLowerBound": 1,
+        "book": "UA",
+        "pages": [
+          17
+        ],
+        "track": "Hierophant after XP reset"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 3,
+        "level": 16,
+        "experiencePointsMinimum": 1,
+        "experiencePointsMaximumInclusive": 500000,
+        "upperBoundOpen": false,
+        "title": "Hierophant Druid",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "tableTitle": "DRUIDS (CLERICS) TABLE I",
+        "regionId": "ua-17-90150e88255094b6",
+        "catalogPath": "dist/scans/verified/classes-ua-druid.json",
+        "image": "dist/scans/verified/ua-17-90150e88255094b6.png",
+        "imageSha256": "90150e88255094b6b3a9b50a1a0f6d4dad445496e85cfc90db5124633b6fcc70",
+        "dimensions": [
+          525,
+          389
+        ],
+        "focusRects": [
+          [
+            0.144762,
+            0.465296,
+            0.192381,
+            0.046272
+          ],
+          [
+            0.405714,
+            0.465296,
+            0.059048,
+            0.048843
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED",
+      "supplementalContext": {
+        "book": "UA",
+        "printedPage": 17,
+        "reason": "p.17 reset prose says the 16th-level Hierophant returns to 1 XP; p.17 table gives the post-reset intervals."
+      }
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-druid",
+      "fieldPointer": "/xpRows/2",
+      "sourceObjectPointer": "/xpRows/2",
+      "currentSemanticValue": {
+        "level": 17,
+        "xpLowerBound": 500001,
+        "book": "UA",
+        "pages": [
+          17
+        ],
+        "track": "Hierophant after XP reset"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 4,
+        "level": 17,
+        "experiencePointsMinimum": 500001,
+        "experiencePointsMaximumInclusive": 1000000,
+        "upperBoundOpen": false,
+        "title": "Hierophant Initiate",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "tableTitle": "DRUIDS (CLERICS) TABLE I",
+        "regionId": "ua-17-90150e88255094b6",
+        "catalogPath": "dist/scans/verified/classes-ua-druid.json",
+        "image": "dist/scans/verified/ua-17-90150e88255094b6.png",
+        "imageSha256": "90150e88255094b6b3a9b50a1a0f6d4dad445496e85cfc90db5124633b6fcc70",
+        "dimensions": [
+          525,
+          389
+        ],
+        "focusRects": [
+          [
+            0.04381,
+            0.511568,
+            0.32,
+            0.048843
+          ],
+          [
+            0.424762,
+            0.514139,
+            0.04,
+            0.041131
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED",
+      "supplementalContext": {
+        "book": "UA",
+        "printedPage": 17,
+        "reason": "p.17 reset prose says the 16th-level Hierophant returns to 1 XP; p.17 table gives the post-reset intervals."
+      }
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-druid",
+      "fieldPointer": "/xpRows/3",
+      "sourceObjectPointer": "/xpRows/3",
+      "currentSemanticValue": {
+        "level": 18,
+        "xpLowerBound": 1000001,
+        "book": "UA",
+        "pages": [
+          17
+        ],
+        "track": "Hierophant after XP reset"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 5,
+        "level": 18,
+        "experiencePointsMinimum": 1000001,
+        "experiencePointsMaximumInclusive": 1500000,
+        "upperBoundOpen": false,
+        "title": "Hierophant Adept",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "tableTitle": "DRUIDS (CLERICS) TABLE I",
+        "regionId": "ua-17-90150e88255094b6",
+        "catalogPath": "dist/scans/verified/classes-ua-druid.json",
+        "image": "dist/scans/verified/ua-17-90150e88255094b6.png",
+        "imageSha256": "90150e88255094b6b3a9b50a1a0f6d4dad445496e85cfc90db5124633b6fcc70",
+        "dimensions": [
+          525,
+          389
+        ],
+        "focusRects": [
+          [
+            0.019048,
+            0.560411,
+            0.344762,
+            0.048843
+          ],
+          [
+            0.424762,
+            0.562982,
+            0.04,
+            0.041131
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED",
+      "supplementalContext": {
+        "book": "UA",
+        "printedPage": 17,
+        "reason": "p.17 reset prose says the 16th-level Hierophant returns to 1 XP; p.17 table gives the post-reset intervals."
+      }
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-druid",
+      "fieldPointer": "/xpRows/4",
+      "sourceObjectPointer": "/xpRows/4",
+      "currentSemanticValue": {
+        "level": 19,
+        "xpLowerBound": 1500001,
+        "book": "UA",
+        "pages": [
+          17
+        ],
+        "track": "Hierophant after XP reset"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 6,
+        "level": 19,
+        "experiencePointsMinimum": 1500001,
+        "experiencePointsMaximumInclusive": 2000000,
+        "upperBoundOpen": false,
+        "title": "Hierophant Master",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "tableTitle": "DRUIDS (CLERICS) TABLE I",
+        "regionId": "ua-17-90150e88255094b6",
+        "catalogPath": "dist/scans/verified/classes-ua-druid.json",
+        "image": "dist/scans/verified/ua-17-90150e88255094b6.png",
+        "imageSha256": "90150e88255094b6b3a9b50a1a0f6d4dad445496e85cfc90db5124633b6fcc70",
+        "dimensions": [
+          525,
+          389
+        ],
+        "focusRects": [
+          [
+            0.019048,
+            0.609254,
+            0.346667,
+            0.051414
+          ],
+          [
+            0.422857,
+            0.609254,
+            0.041905,
+            0.046272
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED",
+      "supplementalContext": {
+        "book": "UA",
+        "printedPage": 17,
+        "reason": "p.17 reset prose says the 16th-level Hierophant returns to 1 XP; p.17 table gives the post-reset intervals."
+      }
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-druid",
+      "fieldPointer": "/xpRows/5",
+      "sourceObjectPointer": "/xpRows/5",
+      "currentSemanticValue": {
+        "level": 20,
+        "xpLowerBound": 2000001,
+        "book": "UA",
+        "pages": [
+          17
+        ],
+        "track": "Hierophant after XP reset"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 7,
+        "level": 20,
+        "experiencePointsMinimum": 2000001,
+        "experiencePointsMaximumInclusive": 2500000,
+        "upperBoundOpen": false,
+        "title": "Numinous Hierophant",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "tableTitle": "DRUIDS (CLERICS) TABLE I",
+        "regionId": "ua-17-90150e88255094b6",
+        "catalogPath": "dist/scans/verified/classes-ua-druid.json",
+        "image": "dist/scans/verified/ua-17-90150e88255094b6.png",
+        "imageSha256": "90150e88255094b6b3a9b50a1a0f6d4dad445496e85cfc90db5124633b6fcc70",
+        "dimensions": [
+          525,
+          389
+        ],
+        "focusRects": [
+          [
+            0.015238,
+            0.658098,
+            0.350476,
+            0.053985
+          ],
+          [
+            0.422857,
+            0.660668,
+            0.041905,
+            0.043702
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED",
+      "supplementalContext": {
+        "book": "UA",
+        "printedPage": 17,
+        "reason": "p.17 reset prose says the 16th-level Hierophant returns to 1 XP; p.17 table gives the post-reset intervals."
+      }
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-druid",
+      "fieldPointer": "/xpRows/6",
+      "sourceObjectPointer": "/xpRows/6",
+      "currentSemanticValue": {
+        "level": 21,
+        "xpLowerBound": 2500001,
+        "book": "UA",
+        "pages": [
+          17
+        ],
+        "track": "Hierophant after XP reset"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 8,
+        "level": 21,
+        "experiencePointsMinimum": 2500001,
+        "experiencePointsMaximumInclusive": 3000000,
+        "upperBoundOpen": false,
+        "title": "Mystic Hierophant",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "tableTitle": "DRUIDS (CLERICS) TABLE I",
+        "regionId": "ua-17-90150e88255094b6",
+        "catalogPath": "dist/scans/verified/classes-ua-druid.json",
+        "image": "dist/scans/verified/ua-17-90150e88255094b6.png",
+        "imageSha256": "90150e88255094b6b3a9b50a1a0f6d4dad445496e85cfc90db5124633b6fcc70",
+        "dimensions": [
+          525,
+          389
+        ],
+        "focusRects": [
+          [
+            0.015238,
+            0.709512,
+            0.350476,
+            0.048843
+          ],
+          [
+            0.420952,
+            0.709512,
+            0.04,
+            0.046272
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED",
+      "supplementalContext": {
+        "book": "UA",
+        "printedPage": 17,
+        "reason": "p.17 reset prose says the 16th-level Hierophant returns to 1 XP; p.17 table gives the post-reset intervals."
+      }
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-druid",
+      "fieldPointer": "/xpRows/7",
+      "sourceObjectPointer": "/xpRows/7",
+      "currentSemanticValue": {
+        "level": 22,
+        "xpLowerBound": 3000001,
+        "book": "UA",
+        "pages": [
+          17
+        ],
+        "track": "Hierophant after XP reset"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 9,
+        "level": 22,
+        "experiencePointsMinimum": 3000001,
+        "experiencePointsMaximumInclusive": 3500000,
+        "upperBoundOpen": false,
+        "title": "Arcane Hierophant",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "tableTitle": "DRUIDS (CLERICS) TABLE I",
+        "regionId": "ua-17-90150e88255094b6",
+        "catalogPath": "dist/scans/verified/classes-ua-druid.json",
+        "image": "dist/scans/verified/ua-17-90150e88255094b6.png",
+        "imageSha256": "90150e88255094b6b3a9b50a1a0f6d4dad445496e85cfc90db5124633b6fcc70",
+        "dimensions": [
+          525,
+          389
+        ],
+        "focusRects": [
+          [
+            0.017143,
+            0.758355,
+            0.348571,
+            0.048843
+          ],
+          [
+            0.422857,
+            0.760925,
+            0.041905,
+            0.041131
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED",
+      "supplementalContext": {
+        "book": "UA",
+        "printedPage": 17,
+        "reason": "p.17 reset prose says the 16th-level Hierophant returns to 1 XP; p.17 table gives the post-reset intervals."
+      }
+    },
+    {
+      "collection": "classes",
+      "itemId": "ua-druid",
+      "fieldPointer": "/xpRows/8",
+      "sourceObjectPointer": "/xpRows/8",
+      "currentSemanticValue": {
+        "level": 23,
+        "xpLowerBound": 3500001,
+        "book": "UA",
+        "pages": [
+          17
+        ],
+        "track": "Hierophant after XP reset"
+      },
+      "sourceRow": {
+        "physicalRowNumber": 10,
+        "level": 23,
+        "experiencePointsMinimum": 3500001,
+        "experiencePointsMaximumInclusive": null,
+        "upperBoundOpen": true,
+        "title": "Hierophant of the Cabal",
+        "supportedCurrentFields": [
+          "level",
+          "xp lower bound"
+        ]
+      },
+      "candidateSource": {
+        "book": "UA",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "tableTitle": "DRUIDS (CLERICS) TABLE I",
+        "regionId": "ua-17-90150e88255094b6",
+        "catalogPath": "dist/scans/verified/classes-ua-druid.json",
+        "image": "dist/scans/verified/ua-17-90150e88255094b6.png",
+        "imageSha256": "90150e88255094b6b3a9b50a1a0f6d4dad445496e85cfc90db5124633b6fcc70",
+        "dimensions": [
+          525,
+          389
+        ],
+        "focusRects": [
+          [
+            0.060952,
+            0.807198,
+            0.260952,
+            0.051414
+          ],
+          [
+            0.422857,
+            0.809769,
+            0.041905,
+            0.041131
+          ]
+        ]
+      },
+      "sourceLevelAndLowerBoundMatch": true,
+      "sourceValueGrade": "NOT PROMOTED",
+      "supplementalContext": {
+        "book": "UA",
+        "printedPage": 17,
+        "reason": "p.17 reset prose says the 16th-level Hierophant returns to 1 XP; p.17 table gives the post-reset intervals."
+      }
+    }
+  ],
+  "crossSourceChecks": [
+    {
+      "collection": "classes",
+      "itemId": "druid",
+      "fieldPointer": "/xpRows/13",
+      "book": "PHB",
+      "printedPage": 21,
+      "pdfPage": 22,
+      "level": 14,
+      "currentXpLowerBound": 1500001,
+      "finding": "PHB table has the 14th-level threshold 1,500,001. UA p.17 separately gives level14 a 1,500,001–3,000,000 interval; do not merge PHB and UA scopes."
+    }
+  ],
+  "supplementalSources": [
+    {
+      "item": "ua-paladin",
+      "book": "UA",
+      "printedPage": 16,
+      "pdfPage": 17,
+      "regionId": "ua-16-73a314c55d8d5fee",
+      "image": "dist/scans/verified/ua-16-73a314c55d8d5fee.png",
+      "sha256": "73a314c55d8d5feef892eaa9c844bb44e5ea556895a9356f0fd4cadd9a85d85c",
+      "finding": "UA states Paladin level advancement as described in the PHB remains unchanged."
+    },
+    {
+      "item": "ua-druid",
+      "book": "UA",
+      "printedPage": 16,
+      "pdfPage": 17,
+      "regionId": "ua-16-7354215a4bdb46ab",
+      "image": "dist/scans/verified/ua-16-7354215a4bdb46ab.png",
+      "sha256": "7354215a4bdb46ab84540c066d9896fb8d39f6f925ce03676b9f63de05c02922",
+      "finding": "Narrative identifies 15th-level Grand Druid at 3,000,001 XP or more; p.17 table gives the full interval."
+    },
+    {
+      "item": "druid",
+      "book": "PHB",
+      "printedPage": 21,
+      "pdfPage": 22,
+      "regionId": "phb-21-61550eafe1bb5412",
+      "image": "dist/scans/verified/phb-21-52999a172810fcb6.png",
+      "sha256": "52999a172810fcb66724bb851e29aec9f044f2d63866bb105e42f5c75552a3eb",
+      "finding": "Base Druid row 14 in current data has XP lower threshold 1,500,001; PHB table does not display a finite upper limit."
+    }
+  ],
+  "sourceIdentities": {
+    "UA": {
+      "path": "/workspace/private-adnd1-sources/Unearthed Arcana.pdf",
+      "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+    },
+    "PHB": {
+      "path": "/workspace/private-adnd1-sources/tsr2010-players-handbook.pdf",
+      "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+    }
+  },
+  "privateFullPageRenders": [
+    {
+      "book": "UA",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "path": "/tmp/batch6-xp-source-pages/ua-pdf-16.png",
+      "sha256": "527f9992b6b9a5308ecad1fc6aa97317794c0fe126e7ad8530b98de9f570e770",
+      "dimensions": [
+        868,
+        1162
+      ],
+      "privateReviewOnly": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 16,
+      "pdfPage": 17,
+      "path": "/tmp/batch6-xp-source-pages/ua-pdf-17.png",
+      "sha256": "e3760f129422e91ae59c65b4d966c93efd585e486aa3984aecdd6000618ea345",
+      "dimensions": [
+        870,
+        1177
+      ],
+      "privateReviewOnly": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 19,
+      "pdfPage": 20,
+      "path": "/tmp/batch6-xp-source-pages/ua-pdf-20.png",
+      "sha256": "90f8d8e4756a3e095adc1473f4722cd8769670b0f1dac44eb7674dcb8971510d",
+      "dimensions": [
+        855,
+        1164
+      ],
+      "privateReviewOnly": true
+    },
+    {
+      "book": "UA",
+      "printedPage": 23,
+      "pdfPage": 24,
+      "path": "/tmp/batch6-xp-source-pages/ua-pdf-24.png",
+      "sha256": "516f28b91337f9f717c811ddfe3152f994866bfd8ac0b7cd48ecd39b25a1fd38",
+      "dimensions": [
+        857,
+        1160
+      ],
+      "privateReviewOnly": true
+    },
+    {
+      "book": "PHB",
+      "printedPage": 21,
+      "pdfPage": 22,
+      "path": "/tmp/batch6-xp-source-pages/phb-pdf-22.png",
+      "sha256": "01f18e8b292bd689733c2cdb7370c3f3818502db17449b2ec9d798646423c196",
+      "dimensions": [
+        868,
+        1181
+      ],
+      "privateReviewOnly": true
+    },
+    {
+      "book": "PHB",
+      "printedPage": 24,
+      "pdfPage": 25,
+      "path": "/tmp/batch6-xp-source-pages/phb-pdf-25.png",
+      "sha256": "450d7b4d28648716288be78eff9295a6c3d62b1da4542379cc88d01ff30435a6",
+      "dimensions": [
+        874,
+        1183
+      ],
+      "privateReviewOnly": true
+    }
+  ],
+  "resetContextCrop": {
+    "sourceBook": "UA",
+    "printedPage": 17,
+    "pdfPage": 18,
+    "cropRectPdfPoints": [
+      8,
+      116,
+      282,
+      466
+    ],
+    "path": "/tmp/batch6-ua-druid-reset-context-crop.png",
+    "sha256": "6f26dfc2647daac82a32f319700055e48585790b15a10dba34aa28c549238065",
+    "dimensions": [
+      822,
+      1050
+    ],
+    "scope": "Complete abdication/reset paragraphs plus complete Druid table; private review context only."
+  },
+  "limitations": [
+    "Only XP lower bound and experience-level identity are in scope; upper intervals are source context and not proposed data fields.",
+    "No prerequisites, hit dice, accumulated hit points, titles, spells or class completeness grade.",
+    "Current regions remain unchanged full-image sentinels; overlays are private review aids.",
+    "No source, data, catalog, ledger, audit or tool file was edited."
+  ]
+}

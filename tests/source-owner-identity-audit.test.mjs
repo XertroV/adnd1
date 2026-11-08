@@ -98,10 +98,30 @@ test('current source assembly resolves scoped citations, preserves legacy intent
     const historical = migration.overrides.removedLegacyBareEntries.find(row => row.legacyBareKey === itemId);
     assert.deepEqual(historical.exactPriorValue, {references: baseline.knownCollisionCases.find(row => row.itemId === itemId).unscopedItemOverride.references});
   }
+  const currentData = JSON.parse(readFileSync(resolve(root, 'dist/data.json'), 'utf8'));
+  const grandDruidLevel15 = currentData.classes.find(item => item.id === 'ua-druid').levelChanges[0];
+  const grandDruidPage16Companion = grandDruidLevel15.evidenceBindings.filter(binding => binding.sourceCategory === 'class-level-change');
+  assert.equal(grandDruidPage16Companion.length, 1);
+  assert.deepEqual({
+    collection: grandDruidPage16Companion[0].collection,
+    itemId: grandDruidPage16Companion[0].itemId,
+    fieldPointer: grandDruidPage16Companion[0].fieldPointer,
+    sourceObjectPointer: grandDruidPage16Companion[0].sourceObjectPointer,
+    book: grandDruidPage16Companion[0].book,
+    printedPage: grandDruidPage16Companion[0].printedPage,
+    pdfPage: grandDruidPage16Companion[0].pdfPage,
+    regionIds: grandDruidPage16Companion[0].regionIds,
+    reviewStatus: grandDruidPage16Companion[0].reviewStatus,
+    contextStatus: grandDruidPage16Companion[0].contextStatus,
+  }, {
+    collection: 'classes', itemId: 'ua-druid', fieldPointer: '/levelChanges/0', sourceObjectPointer: '/levelChanges/0',
+    book: 'UA', printedPage: 16, pdfPage: 17, regionIds: [],
+    reviewStatus: 'field-target-pending', contextStatus: 'context-not-assessed',
+  });
   const currentReplay = buildSourceOwnerIdentityAudit({replayAssembly: true}).inMemoryCurrentAssemblyReplay;
   assert.equal(currentReplay.preAttachCrossOwnerObjectAliasCount, 0);
   assert.equal(currentReplay.foreignOwnerBindings.length, 0);
-  assert.equal(currentReplay.counts.evidenceBindings, 4489 + ua75.referenceAppends.length);
+  assert.equal(currentReplay.counts.evidenceBindings, 4489 + ua75.referenceAppends.length + 1);
   assert.equal(currentReplay.counts.dispositions.validatedExplicitComparatorSource, 6);
   const currentReport = buildSourceOwnerIdentityAudit();
   assert.equal(sourceOwnerIdentityCheck(currentReport).pass, true);
@@ -109,7 +129,6 @@ test('current source assembly resolves scoped citations, preserves legacy intent
   assert.equal(currentReport.currentOwnerIdentity.progressionClassOverrideApplications.intendedClassOwnerCount, 16);
   assert.equal(currentReport.currentOwnerIdentity.progressionClassOverrideApplications.nonClassOwnerCountPreviouslyEligible, 0);
   const stateCorrection = migration.equipmentOnlyPriceStateScopeCorrection;
-  const currentData = JSON.parse(readFileSync(resolve(root, 'dist/data.json'), 'utf8'));
   const historicalEquipment = beforeUa75Equipment(currentData.equipment);
   const lineage = JSON.parse(readFileSync(resolve(root, 'research/source-owner-identity-baseline-lineage-recovery.json'), 'utf8'));
   const baselineBytes = readFileSync(resolve(root, 'research/source-owner-identity-baseline.json'));
@@ -259,8 +278,26 @@ test('standalone price-source inventory uses scoped owner references without rul
   const currentData = JSON.parse(readFileSync(resolve(root, 'dist/data.json'), 'utf8'));
   const historicalData = {...currentData, equipment: beforeUa75Equipment(currentData.equipment)};
   const historicalInventory = buildPriceSourceInventory({equipment: historicalData.equipment, data: historicalData});
-  assert.equal(historicalInventory.counts.fieldEvidenceBindings, 4489);
-  assert.equal(inventory.counts.fieldEvidenceBindings, 4489 + ua75.referenceAppends.length);
+  const grandDruidCompanion = inventory.fieldEvidenceBindings.filter(binding => binding.collection === 'classes' && binding.itemId === 'ua-druid' && binding.fieldPointer === '/levelChanges/0' && binding.sourceCategory === 'class-level-change');
+  assert.equal(grandDruidCompanion.length, 1);
+  assert.deepEqual({
+    sourceObjectPointer: grandDruidCompanion[0].sourceObjectPointer,
+    book: grandDruidCompanion[0].book,
+    printedPage: grandDruidCompanion[0].printedPage,
+    pdfPage: grandDruidCompanion[0].pdfPage,
+    regionIds: grandDruidCompanion[0].regionIds,
+    reviewStatus: grandDruidCompanion[0].reviewStatus,
+    contextStatus: grandDruidCompanion[0].contextStatus,
+    sourceSha256: grandDruidCompanion[0].sourceSha256,
+    targetReview: grandDruidCompanion[0].targetReview,
+  }, {
+    sourceObjectPointer: '/levelChanges/0', book: 'UA', printedPage: 16, pdfPage: 17, regionIds: [],
+    reviewStatus: 'field-target-pending', contextStatus: 'context-not-assessed', sourceSha256: null, targetReview: null,
+  });
+  const historicalGrandDruidCompanion = historicalInventory.fieldEvidenceBindings.filter(binding => binding.collection === 'classes' && binding.itemId === 'ua-druid' && binding.fieldPointer === '/levelChanges/0' && binding.sourceCategory === 'class-level-change');
+  assert.deepEqual(historicalGrandDruidCompanion, grandDruidCompanion);
+  assert.equal(historicalInventory.counts.fieldEvidenceBindings, 4489 + 1);
+  assert.equal(inventory.counts.fieldEvidenceBindings, 4489 + 1 + ua75.referenceAppends.length);
   const additions = inventory.fieldEvidenceBindings.filter(binding => binding.sourceCategory === 'equipment-price-occurrence-reference' && binding.printedPage === 75 && ua75.referenceAppends.some(row => row.itemId === binding.itemId && row.fieldPointer === binding.fieldPointer));
   assert.equal(additions.length, 16);
   for (const addition of ua75.referenceAppends) {
