@@ -1,10 +1,12 @@
+import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
+import {readFileSync as readCurrentFileSync} from 'node:fs';
 import {withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import {reverseMechanicsBatchTwo} from './mechanics-batch-two-fixture.mjs';
 import {reverseMatrixCellReview} from './fixtures/matrix-baseline.mjs';
 import {reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync,readdirSync} from 'node:fs';
+import {readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 
@@ -83,10 +85,11 @@ test('the untouched equipment entries, Dagger and matrices match the v9 semantic
 });
 test('other spells and pre-existing rules retain their semantics; the current table is additive',()=>{
  assert.equal(hash(stripExcerpts(reverseMechanicsBatchTwo(data.spells,'spells').filter(s=>!['ua-cleric-endure-cold-endure-heat','ua-illusionist-mirage-arcane','ua-magic-user-dusty','phb-magic-user-pyrotechnics','phb-illusionist-emotion','phb-illusionist-first-level-magic-user-spells','phb-cleric-speak-with-animals','phb-druid-speak-with-animals'].includes(s.id)).map(({references,...item})=>item))),'cd920ade0f945463be0737a0f4da43eed0f6edd0c899f33b8504affd94941f73');assert.equal(hash(stripExcerpts(reverseMechanicsBatchTwo(data.rules.filter(rule=>rule.id!=='cleric-turning-table'),'rules'))),'ad9db274e4f158d9f931c0eba3b52878b432754318b6b8e120e68f148a035de6');
- const classesBeforeResolvedTable=structuredClone(data.classes),cleric=classesBeforeResolvedTable.find(row=>row.id==='cleric');cleric.pendingMechanics.push('Complete turn-undead table delta');
- assert.equal(hash(stripExcerpts(reverseMechanicsBatchTwo(classesBeforeResolvedTable,'classes'))),'2dc47b8a22e59046c76d9f1fe00b75c86ee973c9af0180363d9bde423a94f820');
- assert.equal(data.classes.find(row=>row.id==='cleric').pendingMechanics.includes('Complete turn-undead table delta'),false);
- assert.ok(data.rules.some(rule=>rule.id==='cleric-turning-table'));
+ assert.equal(data.classes.find(row=>row.id==='cleric').pendingMechanics.includes('Complete turn-undead table delta'),true,'the exact historical reader has already restored the original unresolved table once');
+ assert.equal(hash(stripExcerpts(reverseMechanicsBatchTwo(data.classes,'classes'))),'2dc47b8a22e59046c76d9f1fe00b75c86ee973c9af0180363d9bde423a94f820');
+ const currentData=JSON.parse(readCurrentFileSync(new URL('../dist/data.json',import.meta.url)));
+ assert.equal(currentData.classes.find(row=>row.id==='cleric').pendingMechanics.includes('Complete turn-undead table delta'),false);
+ assert.ok(currentData.rules.some(rule=>rule.id==='cleric-turning-table'));
  const refs={
   'ua-cleric-ceremony':[['PHB',43]],'ua-cleric-aid':[['PHB',43]],'ua-cleric-heroes-feast':[['PHB',43]],'ua-druid-slow-poison':[['PHB',45]],'ua-illusionist-dispel-magic':[['PHB',47]],'ua-cleric-abjure':[['PHB',47]],'ua-magic-user-mordenkainens-disjunction':[['PHB',47],['PHB',73]],'ua-magic-user-yawn':[['PHB',68]],'ua-magic-user-bind':[['PHB',54]],'ua-magic-user-teleport-without-error':[['PHB',82]],'ua-cleric-spike-growth':[['DMG',74]],'ua-druid-spike-growth':[['DMG',74]],'ua-cleric-spike-stones':[['DMG',74]],'ua-druid-spike-stones':[['DMG',74]],'ua-magic-user-magic-mirror':[['DMG',141]],'ua-illusionist-magic-mirror':[['DMG',141]],'ua-druid-reflecting-pool':[['DMG',141]],'ua-magic-user-leomunds-secure-shelter':[['PHB',69],['PHB',72]],'ua-illusionist-read-illusionist-magic':[['PHB',68]],'ua-magic-user-melfs-minute-meteors':[['DMG',64]],
  };

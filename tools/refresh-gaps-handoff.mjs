@@ -7,6 +7,7 @@ import {validateLedger, dataHash as mechanicsDataHash} from './mechanics-audit.m
 import {validatePriceSourceInventory} from './price-source-inventory.mjs';
 import {buildCoverageGaps} from './coverage-gaps.mjs';
 import {loadMonetaryRowIdentityAudit} from './monetary-row-identity-audit.mjs';
+import {loadJoUnextractedPriceRegistration} from './jo-unextracted-price-registration.mjs';
 import {fieldBindingAxisMetrics, fieldBindingCountMeaning, historicalProducerMetadata, sourceIntegrationDescriptor, currentUncheckedExclusions, uncheckedExclusionTemplate} from './source-report-consistency-audit.mjs';
 import {loadCurrentMonetarySourceQuestions,validateCurrentMonetarySourceQuestionProjection} from './monetary-current-source-questions.mjs';
 
@@ -220,12 +221,13 @@ function formalIssues(data, mechanics) {
   return output;
 }
 
-function sourcePriceGaps({data, inventory, receipt, existing}) {
+function sourcePriceGaps({data, inventory, receipt, existing, joAddition}) {
   const byId = new Map((receipt.records || []).map(record => [record.itemId, record]));
   const claims = inventory.siteClaims.filter(claim => claim.missingPrice);
-  if (claims.length !== 4 || claims.length !== Object.keys(Object.fromEntries(byId)).length) fail('canonical inventory and null-price receipt must identify the same four current gaps');
+  if (byId.size !== 4 || claims.length !== byId.size + 1 || !joAddition) fail('canonical inventory must preserve the historical four gaps plus the registered unextracted Jo field');
   const oldById = new Map((existing.records || []).map(record => [record.itemId, record]));
   return claims.map(claim => {
+    if(claim.itemId===joAddition.itemId)return {collection:'equipment',itemId:joAddition.itemId,name:joAddition.name,fieldPointer:'/price',claimType:'unextracted-price',priceState:'unextracted',reviewStatus:'unextracted-gap',priceNote:joAddition.priceNote,estimate:null,sourceRowIds:[...(claim.sourceRowIds||[])],registration:joAddition.registryRef,sourceAbsenceReviewed:false};
     const sourceReview = byId.get(claim.itemId), item = itemFor(data, 'equipment', claim.itemId);
     if (!item || item.price != null || !sourceReview || item.priceNote !== sourceReview.currentValue || claim.priceNote !== item.priceNote) fail(`null-price receipt does not match current item/inventory: ${claim.itemId}`);
     const old = oldById.get(claim.itemId);
@@ -721,12 +723,14 @@ export function buildRefreshedHandoff({repoRoot = root, handoff: currentHandoff,
   const mechanics = mechanicsBytes, scan = scanBytes, inventory = inventoryBytes, reconciliation = reconciliationBytes;
   if (mechanics.input?.sha256 !== mechanicsSha || validateLedger(mechanics, data).length) fail('mechanics ledger is not current and validated');
   if (scan.input?.sha256 !== dataSha || scan.counts?.records !== exposedRecordCount(data)) fail('source-scan fixture is stale or its record denominator changed');
-  if (inventory.counts?.siteEquipmentObjects !== data.equipment?.length || inventory.counts?.sitePriceGaps !== 4 || inventory.counts?.sitePrintedPrices + inventory.counts?.sitePriceGaps !== data.equipment?.length) fail('canonical price inventory does not match the current equipment denominator');
+  if (inventory.counts?.siteEquipmentObjects !== data.equipment?.length || inventory.counts?.sitePriceGaps !== 5 || inventory.counts?.sitePrintedPrices + inventory.counts?.sitePriceGaps !== data.equipment?.length) fail('canonical price inventory does not match the current equipment denominator');
   try { validatePriceSourceInventory(inventory, {data, equipment: data.equipment}); } catch (error) { fail(`canonical price inventory is not validated: ${error.message}`); }
   const historical = historicalInputs(repoRoot);
   for (const [path, hash] of Object.entries(historical.hashes)) hashes[path] = hash;
   const conflictReceipt = read('research/source-audit-batch5-conflict-integration.json');
   const nullPriceReceipt = read('research/source-audit-batch5-null-price-notes.json');
+  const joAddition=loadJoUnextractedPriceRegistration({repoRoot,data,inventory});
+  for(const ref of joAddition.inputRefs){assertCurrentFileHash({path:ref.path,expected:ref.sha256,hashFile,label:'Jo unextracted-price registration'});hashes[ref.path]=ref.sha256;}
   const animalReceipt = read('research/source-audit-batch5-unextracted.json');
   const classIntegration = read('research/source-audit-batch5-class-integration.json');
   const classRetirementReceipt = read('research/source-audit-batch5-class-retired-ledger.json');
@@ -744,7 +748,7 @@ export function buildRefreshedHandoff({repoRoot = root, handoff: currentHandoff,
   const noteProjection = reconcileCuratedNotes({curatedNotes: historical.handoff.mechanicsAudit.specificReviewNoteCandidates.notes, currentHandoff, baselineData: historical.data, currentData: data, mechanics, conflictReceipt, conflictReceiptSha256: hashes['research/source-audit-batch5-conflict-integration.json'], classRetirementReceipt, classRetirementReceiptSha256: hashes['research/source-audit-batch5-class-retired-ledger.json'], animalReceipt, animalReceiptSha256: hashes['research/source-audit-batch5-unextracted.json']});
   const issues = formalIssues(data, mechanics);
   validateNullPriceTransitions({baselineData: historical.data, currentData: data, receipt: nullPriceReceipt});
-  const priceGaps = sourcePriceGaps({data, inventory, receipt: nullPriceReceipt, existing: currentHandoff.currentSitePriceGaps});
+  const priceGaps = sourcePriceGaps({data, inventory, receipt: nullPriceReceipt, existing: currentHandoff.currentSitePriceGaps,joAddition});
   const offer = offerHandoff({data, reconciliation, reconciliationSha256: hashes['research/equipment-source-offer-reconciliation.json'], existing: currentHandoff.equipmentOffers, readJson, hashFile});
   const reportMetadata = [];
   const monetaryCurrent = supplementalMonetary.length ? loadCurrentMonetaryReview({repoRoot, read, hashFile, hashes}) : null;

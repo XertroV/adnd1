@@ -1,3 +1,4 @@
+import {readBeforeJoFile} from './helpers/batch6-jo-fixture.mjs';
 import {frozenDmgBeforeManifest,dmgContextBefore} from './helpers/dmg-context-frozen-manifest.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -6,17 +7,17 @@ import crypto from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 import {validateContinuationManifest} from '../tools/continuation-contract.mjs';
 
-const read = path => JSON.parse(fs.readFileSync(path, 'utf8'));
+const read = path => JSON.parse(readBeforeJoFile(path, 'utf8'));
 const sha = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const bundle = read('research/source-audit-batch5-continuation-final-proposal.json');
 const reconciliation = read('research/source-audit-batch5-continuation-reconciliation.json');
-const manifestBytes = fs.readFileSync('research/citation-continuations.json');
+const manifestBytes = readBeforeJoFile('research/citation-continuations.json');
 const manifest = JSON.parse(manifestBytes);
 const data = read('dist/data.json');
 const activation = read('research/source-audit-batch5-continuation-final-integration.json');
 const ua10 = read('research/source-audit-batch5-ua10-crop-integration.json');
 const alias = read('research/source-audit-batch5-continuation-alias-integration.json');
-const frozenInputs = JSON.parse(gunzipSync(fs.readFileSync(ua10.before.additionalExactInputs.path)));
+const frozenInputs = JSON.parse(gunzipSync(readBeforeJoFile(ua10.before.additionalExactInputs.path)));
 const activated187 = JSON.parse(frozenInputs.files['research/citation-continuations.json'].utf8);
 const laterGroups = [...ua10.addedGroups, alias.addedGroup];
 
@@ -24,7 +25,7 @@ test('final continuation proposal preserves the frozen denominators and reconstr
   assert.equal(bundle.lineage.frozenSamePageDenominator.pairs, 32);
   assert.equal(bundle.lineage.frozenSamePageDenominator.ownerRows, 44);
   assert.equal(bundle.lineage.frozenManifest.groupCount, 60);
-  assert.equal(activation.proposal.sha256, sha(fs.readFileSync(activation.proposal.path)));
+  assert.equal(activation.proposal.sha256, sha(readBeforeJoFile(activation.proposal.path)));
   assert.equal(bundle.lineage.currentIntegrationPoint.manifestSha256, activation.priorManifestSha256);
   assert.deepEqual(frozenDmgBeforeManifest.groups, [...activated187.groups, ...laterGroups]);
   const before = structuredClone(activated187);

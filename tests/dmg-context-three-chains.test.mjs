@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
+import {withoutBatch6JoManifest,readBeforeJoBytes,joIntegration} from './helpers/batch6-jo-fixture.mjs';
 import {auditRequiredSegmentPresence,validateContinuationManifest} from '../tools/continuation-contract.mjs';
 import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';
 
@@ -63,7 +64,7 @@ test('live six stable regions and three ordered groups match the exact independe
   }
   const manifest=liveManifest();
   assert.deepEqual(manifest.groups.slice(0,oldManifest.groups.length),oldManifest.groups,'historical190 groups unchanged');
-  const currentBatchGroups=manifest.groups.slice(oldManifest.groups.length);
+  const currentBatchGroups=withoutBatch6JoManifest(manifest).groups.slice(oldManifest.groups.length);
   assert.deepEqual(currentBatchGroups.filter(group=>plan.groups.some(expected=>expected.id===group.id)),plan.groups,'the three reviewed DMG chains retain their exact order and data');
   const tableGroups=currentBatchGroups.filter(group=>group.id.startsWith('cleric-turning-'));
   assert.equal(tableGroups.length,14,'the complete matrix lookup and thirteen row-context groups are retained');
@@ -71,8 +72,8 @@ test('live six stable regions and three ordered groups match the exact independe
   assert.equal(tableGroups.filter(group=>group.id.startsWith('cleric-turning-row-context-')).length,13);
   assert.equal(currentBatchGroups.length,17,'the three DMG continuation groups and fourteen Cleric table groups are both retained');
   const validation=validateContinuationManifest(manifest,{data:read('dist/data.json'),catalogRoot:'dist'});
-  assert.equal(validation.groups,207);
-  assert.equal(validation.segments,404);
+  assert.equal(validation.groups,207+1);
+  assert.equal(validation.segments,404+joIntegration.addedContinuationGroup.segments.length);
 });
 
 test('source owners, values, unrelated crops and prior PNGs stay unchanged',()=>{
@@ -80,7 +81,7 @@ test('source owners, values, unrelated crops and prior PNGs stay unchanged',()=>
   const currentOverrides=JSON.parse(readFileSync('citation-overrides.json'));
   const addedTableCitation=currentOverrides.sourceExcerpts['rules:cleric-turning-table'];
   delete currentOverrides.sourceExcerpts['rules:cleric-turning-table'];
-  assert.deepEqual(currentOverrides,JSON.parse(before.files['citation-overrides.json'].utf8),'the one new source owner citation is additive; all previous overrides are byte-semantic unchanged');
+  assert.deepEqual(JSON.parse(readBeforeJoBytes('citation-overrides.json')),JSON.parse(before.files['citation-overrides.json'].utf8),'the one new source owner citation is additive; all previous overrides are byte-semantic unchanged');
   assert.deepEqual(addedTableCitation,{collection:'rules',state:'source-excerpt-checked',catalog:'scans/verified/rules-cleric-turning-table.json',regionCount:61,scope:'Complete source excerpt for the bounded Cleric turning matrix and its printed p.76 continuation. This verifies the literal table and linked procedure notes only; other Cleric abilities and whole-book completeness remain outside scope.'});
   assert.ok(JSON.parse(readFileSync('rules.json')).rules.some(row=>row.id==='cleric-turning-table'));
   const data=read('dist/data.json');

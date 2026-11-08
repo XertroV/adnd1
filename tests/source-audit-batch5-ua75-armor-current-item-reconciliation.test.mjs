@@ -1,6 +1,7 @@
+import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync} from 'node:fs';
+
 import {gunzipSync} from 'node:zlib';
 import {test} from 'node:test';
 import {dirname, resolve} from 'node:path';

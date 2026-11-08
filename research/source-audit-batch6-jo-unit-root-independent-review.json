@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "root-independent-Jo-unit-universe-admission-code-review",
+  "reviewer": "/root",
+  "independent": true,
+  "reviewedAt": "2026-11-08",
+  "scope": "Strict admission of one source-unknown Jo price claim to the raw monetary unit inventory. This is not a purchase-price/unit value or source-absence review.",
+  "inputs": [
+    {
+      "path": "tools/monetary-unit-provenance-audit.mjs",
+      "sha256": "58d0af2b07c18c86fc2b11c63e12a5cb3402f49f4c5ab4d7ed1ff3feec5d351d"
+    },
+    {
+      "path": "tests/monetary-unit-provenance-audit.test.mjs",
+      "sha256": "9d0220e150be928cd47cde2fd42d655b4a9525797b840fcd217a0181e9efaba4"
+    },
+    {
+      "path": "tools/jo-unextracted-price-registration.mjs",
+      "sha256": "dc939de98ff9f796f6a1ec910aa8f0fc287508d6fbe5729c824af1ed4046f7c2"
+    },
+    {
+      "path": "research/source-audit-batch6-jo-unextracted-price.json",
+      "sha256": "1e24b97d355cf2502a2f775d093652cf37675907aae8ffdc63d432d8908df5f5"
+    },
+    {
+      "path": "tests/fixtures/monetary-unit-provenance-jo-2162-before.json.gz",
+      "sha256": "ea0bac57fffec3b8d449d65ee67f15cc772ba98b1641876405844d612621f723"
+    }
+  ],
+  "counts": {
+    "historicalUIDs": 2161,
+    "currentUIDs": 2162,
+    "additionalUIDs": 1,
+    "unitFieldLeaves": 7771
+  },
+  "checks": {
+    "exactOldUIDUnionPlusJo": true,
+    "allCaptured2162RecordHashesStillMatch": true,
+    "currentReportValidationPassed": true,
+    "JoHasNoTypedUnitFields": true,
+    "JoPriceAndUnitRemainUnassessed": true,
+    "sourceAbsenceProofFalse": true
+  },
+  "testExecution": {
+    "command": "node --test tests/monetary-unit-provenance-audit.test.mjs",
+    "pass": 10,
+    "fail": 0,
+    "runner": "root direct independent execution",
+    "mutationCoverage": [
+      "Missing Jo and unregistered substitution rejected.",
+      "Changed Jo record hash and invented source book rejected.",
+      "Claimed source absence and altered registration hash rejected.",
+      "Existing Whale correction and unrelated-unit/hash negative cases retained."
+    ]
+  },
+  "reviewedCodeProperties": [
+    "Closed old UID union; exact source-unknown Jo record, pointer, row identity and typed-null value hashes required.",
+    "Real registration helper and exact captured registry SHA required; no per-unit price inference.",
+    "Current raw ten-input scan and all historical Whale source review checks remain active."
+  ],
+  "limits": [
+    "The pending Jo viewer-group role repair is outside this unit admission review.",
+    "Current catalog/registry integration and full pipeline freshness must be revalidated after merging later master changes.",
+    "Raw field-name inventory is not a semantic completeness proof."
+  ]
+}

@@ -1,7 +1,8 @@
+import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
 import {withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 import {equipmentCorrections,equipmentAdditionalCorrections,reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';

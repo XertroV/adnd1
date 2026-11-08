@@ -1,3 +1,4 @@
+import {readBeforeJoFile} from './helpers/batch6-jo-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -18,7 +19,7 @@ const LONG_PATH = path.join(ROOT, 'dist/scans/verified/equipment-phb-long-sword.
 const SHORT_PATH = path.join(ROOT, 'dist/scans/verified/equipment-phb-short-sword.json');
 const EQUIPMENT_PATH = path.join(ROOT, 'equipment.json');
 const REGION_IMAGE_PATH = path.join(ROOT, 'dist/scans/verified/phb-37-a0447e9e609ad119.png');
-const REPORT = JSON.parse(fs.readFileSync(REPORT_PATH, 'utf8'));
+const REPORT = JSON.parse(readBeforeJoFile(REPORT_PATH, 'utf8'));
 const sha256 = (bytes) => crypto.createHash('sha256').update(bytes).digest('hex');
 function stableJson(value) {
   if (Array.isArray(value)) return value.map(stableJson);
@@ -30,7 +31,7 @@ function stableJson(value) {
 const canonicalSha = (value) => sha256(Buffer.from(JSON.stringify(stableJson(value))));
 
 function findRegion(file, id) {
-  const doc = JSON.parse(fs.readFileSync(file, 'utf8'));
+  const doc = JSON.parse(readBeforeJoFile(file, 'utf8'));
   return doc.regions.find((region) => region.id === id);
 }
 
@@ -90,11 +91,11 @@ test('region IDs, source image and field grades remain fixed while separate sour
     assert.deepEqual(region.checkedFields, snapshot.checkedFields);
     assert.deepEqual(withoutFocusCopyText(region), withoutFocusCopyText(snapshot));
   }
-  assert.equal(sha256(fs.readFileSync(REGION_IMAGE_PATH)), REPORT.sourcePixelEvidence.regionImage.expectedImageSha256);
+  assert.equal(sha256(readBeforeJoFile(REGION_IMAGE_PATH)), REPORT.sourcePixelEvidence.regionImage.expectedImageSha256);
   assert.equal(REPORT.baseline.sourceTableContractsSha256,'da3c6b801322876aac8c91a0963b69e71072c329335e70b95c4a1dc5e5253040');
-  const contracts=JSON.parse(fs.readFileSync(CONTRACT_PATH,'utf8'));
-  const swordConditions=JSON.parse(fs.readFileSync(path.join(ROOT,'research/source-audit-batch5-source-condition-integration.json'),'utf8'));
-  const italicConditions=JSON.parse(fs.readFileSync(path.join(ROOT,'research/source-audit-batch5-phb37-italic-integration.json'),'utf8'));
+  const contracts=JSON.parse(readBeforeJoFile(CONTRACT_PATH,'utf8'));
+  const swordConditions=JSON.parse(readBeforeJoFile(path.join(ROOT,'research/source-audit-batch5-source-condition-integration.json'),'utf8'));
+  const italicConditions=JSON.parse(readBeforeJoFile(path.join(ROOT,'research/source-audit-batch5-phb37-italic-integration.json'),'utf8'));
   assert.equal(swordConditions.sourceValueGradesChanged,false);
   for(const previous of REPORT.sourceTableAnnotationInventory.rows){
     const current=contracts.tables.find(table=>table.id===previous.tableId)?.rows.find(row=>row.id===previous.rowId);
@@ -104,7 +105,7 @@ test('region IDs, source image and field grades remain fixed while separate sour
     assert.equal(current.sourceConditions??'',sword?.sourceConditions??italic?.after??previous.sourceConditions,previous.rowId);
   }
 
-  const equipment = JSON.parse(fs.readFileSync(EQUIPMENT_PATH, 'utf8'));
+  const equipment = JSON.parse(readBeforeJoFile(EQUIPMENT_PATH, 'utf8'));
   for (const snapshot of before.targetBodies) {
     const current = equipment.equipment.find((entry) => entry.id === snapshot.itemId);
     assert.ok(current);

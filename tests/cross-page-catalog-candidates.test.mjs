@@ -1,7 +1,8 @@
+import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
 import {frozenDmgBeforeManifest,dmgContextBefore} from './helpers/dmg-context-frozen-manifest.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
 import {edgeGeometry, normalizeSourcePageRect, buildSourceReportCueUniverse} from '../tools/cross-page-catalog-candidates.mjs';
