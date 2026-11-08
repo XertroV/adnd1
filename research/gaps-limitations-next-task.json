@@ -1155,10 +1155,19 @@
         "ua-other": 15,
         "monster-books": "not-applicable/none enumerated"
       }
+    },
+    "currentSupplementalSourcePage": {
+      "book": "DMG",
+      "printedPage": 175,
+      "canonicalPdfPage": null,
+      "userConfirmedCorrectEdition": true,
+      "reviewedCropCount": 2,
+      "availability": "two limited excerpts are staged in the current candidate",
+      "sourceValueScope": "Two existing encounter-procedure bullets and page-context only; no new table-cell transcription or global grade."
     }
   },
   "classificationRules": [
-    "DMG printed p.175 is absent from the supplied canonical PDF and is currently cited; a private, unpublished supplemental image exists but printing is unknown.",
+    "DMG printed p.175 remains absent from the supplied canonical PDF and is still a PDF page gap. The user confirmed a separate supplemental image is from the correct edition; two limited source excerpts are available, but this does not make the page part of the PDF or establish whole-page/table completeness.",
     "DMG printed pp.239–240 are unverified, uncited page identities/end matter, not confirmed missing pages.",
     "A source-inventory amount is not necessarily freshly and independently reviewed; preserve its per-row review state.",
     "Package quantities are distinct; do not convert UA26 “Quarrels for same” to a per-bolt price.",
@@ -1171,7 +1180,7 @@
         "book": "DMG",
         "printedPage": 175,
         "pdfPage": null,
-        "status": "missing-from-supplied-canonical-PDF; current reference exists; private supplemental image is unpublished and printing unknown",
+        "status": "missing-from-supplied-canonical-PDF; user-confirmed correct-edition supplemental image is usable as source evidence; two limited excerpts are staged for the existing scoped reference",
         "canonicalSource": {
           "file": "DMG_1stEd.pdf",
           "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
@@ -1185,9 +1194,10 @@
             1329,
             1796
           ],
-          "printing": "unknown",
+          "printing": "not specified",
           "published": false,
-          "note": "Content/placement matches adjacent printed pages, but exact printing is unestablished."
+          "note": "The user confirmed the separate image is from the correct edition. The canonical PDF still omits printed p.175. Two limited excerpts are staged with distinct supplemental-image and canonical-PDF provenance; the full image is not published.",
+          "limitedCropsStaged": 2
         },
         "currentReference": {
           "collection": "rules",
@@ -1195,13 +1205,16 @@
           "recordIndex": 35,
           "jsonPointer": "/references/0",
           "sourceObjectPointer": "/references/0",
-          "label": "Private page 175 encounter procedure; printing unestablished",
-          "status": "Privately checked image · printing unestablished",
+          "label": "DMG p.175 encounter procedure · supplemental source image; absent from canonical PDF",
+          "status": "User-confirmed correct-edition source; two limited excerpts reviewed",
           "catalog": "scans/verified/rules-encounter-types.json",
-          "regionIds": [],
-          "sourceSha256": null,
-          "reviewStatus": "field-target-pending",
-          "contextStatus": "context-not-assessed",
+          "regionIds": [
+            "dmg-175-party-table-context-78c4c383c38c7d10",
+            "dmg-175-level-others-context-5aa02e91e35c4c28"
+          ],
+          "sourceSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+          "reviewStatus": "field-target-reviewed",
+          "contextStatus": "context-reviewed-for-existing-facts-only",
           "sourceValueStatus": "not-assessed-by-field-target-review"
         },
         "contentScope": "A bounded Appendix C random character-party procedure was added; it does not transcribe the complete class-limit or magic-item encounter tables.",
@@ -1342,7 +1355,9 @@
         ],
         "cited": true
       },
-      "interpretation": "DMG 175 is the sole missing referenced page and only cited page without supplied crop pixels. DMG 239 and 240 have unverified page identity and no current record references."
+      "interpretation": "DMG 175 is the sole missing referenced page and only cited page without supplied crop pixels. DMG 239 and 240 have unverified page identity and no current record references.",
+      "snapshotStatus": "historical-pre-supplement-crop-activation",
+      "supersededForCurrentSupplementalAvailabilityBy": "research/source-audit-batch6-dmg175-supplement-status-addendum-v1.json"
     }
   },
   "mechanicsAudit": {
@@ -5952,7 +5967,8 @@
           },
           {
             "topic": "DMG missing printed p.175 image",
-            "status": "separate image supplement was visually screened but clipped text/unknown printing prevents an exhaustive no-claim assertion."
+            "status": "Historical finding at the original census capture; superseded for p.175 image availability and the alleged clipped-word limitation by research/source-audit-batch6-dmg175-supplement-status-addendum-v1.json. The supplemental page remains outside the 370-page PDF denominator.",
+            "historicalStatus": "separate image supplement was visually screened but clipped text/unknown printing prevents an exhaustive no-claim assertion."
           }
         ],
         "limitations": [
@@ -5960,7 +5976,8 @@
           "The 370-page denominator counts only the PHB and DMG PDFs. The separate DMG printed-p.175 image is a supplement and is excluded from that count.",
           "Counts distinguish screened pages, visually screened thumbnails, and previously inventoried scoped pages; these are not interchangeable denominators.",
           "Starting wealth, currency conversion, ordinary purchase prices, hireling wages, service fees, construction costs, spell/component costs, treasure generation, market valuations and item values are typed separately rather than treated as equivalent “prices.”",
-          "Any exact amount in discoverySummary or locatorAmountCue is a locator note only pending source-scale verification; it must not be consumed as a normalized/verified source fact."
+          "Any exact amount in discoverySummary or locatorAmountCue is a locator note only pending source-scale verification; it must not be consumed as a normalized/verified source fact.",
+          "One user-confirmed supplemental image page has been separately screened: no direct price/GP, fee/cost, XP point, or weight/encumbrance claims were found. This supplemental screen is not part of, and does not change, the unchanged 370-PDF-page denominator."
         ],
         "pageStateCounts": {
           "not-visually-reviewed": 145,
@@ -6387,6 +6404,72 @@
           },
           "interpretation": "Counts describe this bounded audit and its documented records only; they do not estimate all-book completeness or error rates."
         }
+      }
+    ],
+    "supplementalPageScreens": [
+      {
+        "id": "dmg-175-user-confirmed-supplement",
+        "book": "DMG",
+        "printedPage": 175,
+        "canonicalPdfPage": null,
+        "canonicalPdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "supplementalImageSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+        "sourceDimensionsPx": [
+          1329,
+          1796
+        ],
+        "editionStatus": "user-confirmed-correct-edition",
+        "printingStatus": "not-specified",
+        "cropRegions": [
+          {
+            "regionId": "dmg-175-party-table-context-78c4c383c38c7d10",
+            "imageSha256": "78c4c383c38c7d100a9e66bec4f36de1fdb9453d6e44d1eec53120e849a36e89",
+            "dimensionsPx": [
+              635,
+              490
+            ],
+            "sourceCropBoundsPx": [
+              0,
+              1145,
+              635,
+              1635
+            ]
+          },
+          {
+            "regionId": "dmg-175-level-others-context-5aa02e91e35c4c28",
+            "imageSha256": "5aa02e91e35c4c28152caccd947096943b74889b8596376cb86cb0c7170291b8",
+            "dimensionsPx": [
+              659,
+              372
+            ],
+            "sourceCropBoundsPx": [
+              670,
+              120,
+              1329,
+              492
+            ]
+          }
+        ],
+        "boundedScreen": {
+          "directPricesOrMonetaryAmounts": 0,
+          "explicitGpAmounts": 0,
+          "feesOrCosts": 0,
+          "explicitXpPointValues": 0,
+          "weightOrEncumbranceValues": 0,
+          "uncertainClaimReadings": 0
+        },
+        "denominator": "One supplemental image page, separately screened; excluded from the unchanged 370-page PHB/DMG PDF denominator.",
+        "scope": "Availability, crop/context, and the existing two encounter-procedure facts only. The Character Subtable is context and was not transcribed; this does not establish complete Appendix C coverage.",
+        "sourceReview": {
+          "path": "research/source-audit-batch6-dmg175-source-review.json",
+          "sha256": "1111c521f9882cac11104df0c3cdc1a2f1da374b3fad79cf4c0490d7d97ffb1c"
+        },
+        "rootGeometryReview": {
+          "path": "research/source-audit-batch6-dmg175-v2-focus-root-independent-review.json",
+          "sha256": "2319330608c7e2ad768428e225f4baad7d81067dd067f831d0fea4e5bb9f1f0c"
+        },
+        "historicalCorrection": "The supplement begins with intact “imum”; original PDF printed p.174 ends the split word at “max-”. This is normal page-break hyphenation, not clipped text.",
+        "cropStatus": "two approved native crop files are staged in the current candidate; external release not yet represented by this report"
       }
     ]
   },

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "dmg175-raster-denominator-test-before-fix",
+  "scope": "Regression diagnosis for the actual-current universe (3,130 PDF usages plus two DMG p.175 supplemental image uses) versus the preserved 3,130-usage historical snapshot.",
+  "beforeTest": {
+    "path": "tests/source-raster-coverage.test.mjs",
+    "sha256": "898e252b13bfb9253ea0729fa9ea42393770c7eee4b2aebbd3f010a9c083d1b3",
+    "sourceFixtureSha256": "130e8413219bd689cbd4734783ca9d7433496e473af7e99e6f1b1f73d6eec0ff",
+    "captureMode": "test source bytes are stored as a reconstructed before version; the observed failure was reproduced by node --test against that source in a temporary tests/ file",
+    "test": "coordinated omissions, orphan evidence, hash substitutions and altered metrics are rejected",
+    "observedFailure": "A coordinated mutation reclassifies the 3,130 usages present in the historical snapshot. The assertion incorrectly compares that 3,130-row result to the current 3,132 live uses: 3130 !== 3132.",
+    "failureLogSha256": "36de74bb439a12a2a293c077e87d09db775ee16ca61b86a0ea989fe95113f354",
+    "failureLogPath": "research/source-audit-batch6-dmg175-raster-denominator-before-v1.log"
+  },
+  "staticInventory": {
+    "command": "rg -n notAssessableUsages assignment/push in tests and tools",
+    "hits": [
+      {
+        "path": "tests/source-raster-coverage.test.mjs",
+        "line": 38,
+        "role": "intentional adversarial negative: reclassify every snapshot assessed row to arbitrary not-assessable and reject it"
+      },
+      {
+        "path": "tests/source-raster-coverage.test.mjs",
+        "line": 157,
+        "role": "ensure both actual p.175 supplement rows absent from the historical snapshot are appended with explicit not-assessable reason"
+      },
+      {
+        "path": "tests/source-raster-coverage.test.mjs",
+        "line": 159,
+        "role": "append one synthetic row after preserving the two actual supplement rows"
+      },
+      {
+        "path": "tests/source-raster-coverage.test.mjs",
+        "line": 161,
+        "role": "derive counts from actual combined arrays"
+      }
+    ],
+    "conclusion": "No synthetic test was replacing or overwriting the two actual supplemental rows; only the coordinated-mutator length assertion used the wrong temporal denominator."
+  },
+  "change": {
+    "path": "tests/source-raster-coverage.test.mjs",
+    "scope": "Changed only the coordinated-mutator assertion to equal snapshot.usages.length and assert this historical count is below live.usages.length; the malicious mutation and rejection check are unchanged.",
+    "syntheticSupplementTest": "Unchanged; it appends both actual p.175 supplement rows plus one synthetic row and validates a 3-supplemental-use not-assessable denominator."
+  },
+  "afterTests": {
+    "target": "node --test tests/source-raster-coverage.test.mjs",
+    "summary": "9 pass, 1 expected current-pointer blocker: preserved active raster snapshot has pre-supplement data/catalog hashes and therefore must be refreshed after final XP/data integration.",
+    "otherRegressionTests": "actual-live mapper, supplemental synthetic append, and coordinated-mutator rejection all pass."
+  },
+  "noSnapshotRefreshPerformed": true
+}

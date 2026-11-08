@@ -11,7 +11,7 @@ import {buildPriceSourceInventory,validatePriceSourceInventory} from './price-so
 import {loadRasterSnapshotInput} from './source-raster-coverage.mjs';
 
 const root=path.resolve(fileURLToPath(new URL('..',import.meta.url)));
-const require=createRequire(import.meta.url),citations=require('../dist/citations.js');
+const require=createRequire(import.meta.url),citations=require('../dist/citations.js'),books=require('../dist/books.js');
 const sha=value=>createHash('sha256').update(value).digest('hex');
 export function canonical(value){
   if(Array.isArray(value))return `[${value.map(canonical).join(',')}]`;
@@ -113,7 +113,8 @@ export function buildVisualCoverage(data,loadCatalog,ledger={reviews:[]},geometr
         const ordered=[...regions].sort((a,b)=>Number(a.role==='context')-Number(b.role==='context'));
         const orderSha256=sha(canonical(ordered.map(region=>({id:region.id,role:region.role||null,imageSha256:region.sha256,...regionHashes(region)}))));
         for(const [ordinal,region] of ordered.entries()){
-          const usage={collection,itemId:item.id,binding,catalog:catalogPath,regionId:region.id,book:region.book,page:region.printedPage,printedPage:region.printedPage,pdfPage:region.pdfPage,image:region.image,imageSha256:region.sha256,width:region.width,height:region.height,title:region.title||null,focusRects:region.focusRects||[],cropBounds:region.normalizedPageRect||null,...regionHashes(region),viewerSelected,default:viewerSelected&&ordinal===0,defaultOrderSha256:viewerSelected&&ordinal===0?orderSha256:null,sourceSha256:catalog.sources?.[region.book]?.sha256||null,role:region.role||null};
+          const sourceIdentity=books.resolveRegionSourceIdentity(catalog,region);
+          const usage={collection,itemId:item.id,binding,catalog:catalogPath,regionId:region.id,book:region.book,page:region.printedPage,printedPage:region.printedPage,pdfPage:region.pdfPage,image:region.image,imageSha256:region.sha256,width:region.width,height:region.height,title:region.title||null,focusRects:region.focusRects||[],cropBounds:region.normalizedPageRect||null,...regionHashes(region),viewerSelected,default:viewerSelected&&ordinal===0,defaultOrderSha256:viewerSelected&&ordinal===0?orderSha256:null,sourceSha256:sourceIdentity?.valid?sourceIdentity.sourceSha256:null,sourceKind:sourceIdentity?.sourceKind||'invalid-source-identity',sourceArtifactId:sourceIdentity?.sourceArtifactId||null,canonicalPdfSha256:sourceIdentity?.valid?sourceIdentity.canonicalPdfSha256:null,role:region.role||null};
           images.add(region.sha256);
           const imageKey=`${catalogPath}|${region.image}`;
           if(loadImage&&!imageHashCache.has(imageKey))imageHashCache.set(imageKey,sha(loadImage(catalogPath,region.image)));

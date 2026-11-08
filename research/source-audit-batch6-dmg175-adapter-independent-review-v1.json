@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Independent DMG p.175 source-adapter and live-coverage review",
+  "status": "bounded-functional-review-pass-with-ordered-snapshot-refresh-pending",
+  "scope": "Read-only review of the user-confirmed DMG printed page 175 supplemental-source adapter, approved crop identity gate, actual live raster mapper, strict normal-PDF schema parity, and browser access. No repository files were changed by this reviewer.",
+  "input": {
+    "repository": "/workspace/adnd1-dmg175-supplement",
+    "baselineCommit": "0e6932468ae4ef8593c20f34dc8d44af87bb0a85",
+    "baselineDataSha256": "ff4cf9b944f6584f2b3ea219068c552fd554a586e449ffc6999e93bf01343470",
+    "currentDataSha256": "2adf579c9a5d1baa88d7db8ea8323d243adc6c33c4449bba78d343121018dc0c",
+    "currentEncounterTypesCatalogSha256": "906ce41c1cb2c6691048231a2123977b7b27421487e7a0bca6f8ae0aa25c86dd",
+    "currentLiveCatalogSnapshotSha256": "1efc34c542f6a977fee83ad88ae8ae1b5d2e7f6495f6227072f1ef5728025812",
+    "currentSourceRasterPointerSha256": "ab82367633e6ec3459ac343f89adf63b8c8e4f01f0419f5d7e55c34667864ac3"
+  },
+  "reviewedFiles": {
+    "dist/books.js": "6284977531e38b3184a15939bb8a68e31b37d1dad61c91392bb57d443045d98d",
+    "tools/source-raster-coverage.mjs": "d502abe849e15264945c45725814b9428f4149d0318f9aa21e146e739a9ad50b",
+    "tests/source-raster-coverage.test.mjs": "2fa279adefb1ff7b702a4fa08eaa12503a37e0f97bf8c689b44b05cde8d51d9f",
+    "tests/scan-catalog.test.mjs": "548af8636d75532f856d00581edf38b801fb68b2fc5f9288f47ee1798212c9c1",
+    "tests/source-viewer.browser.mjs": "33cc9c3473674965d02b1cef820b5b0fe4f984d2d2ed22d4019ffbf2dea813f7",
+    "tests/fixtures/source-raster-dmg175-live-mapper-before.json.gz": "130e8413219bd689cbd4734783ca9d7433496e473af7e99e6f1b1f73d6eec0ff"
+  },
+  "sourceIdentity": {
+    "artifactId": "dmg175-user-confirmed-supplement",
+    "book": "DMG",
+    "printedPage": 175,
+    "pdfPage": null,
+    "supplementalImageSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+    "nativeDimensionsPx": [1329, 1796],
+    "canonicalPdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+    "editionStatus": "user-confirmed-correct-edition",
+    "printingStatus": "not-specified",
+    "pdfContainsPrintedPage": false,
+    "publishedFullPageImage": false,
+    "publishedCrops": [
+      {"regionId":"dmg-175-party-table-context-78c4c383c38c7d10","boundsPx":[0,1145,635,1635],"dimensionsPx":[635,490],"sha256":"78c4c383c38c7d100a9e66bec4f36de1fdb9453d6e44d1eec53120e849a36e89"},
+      {"regionId":"dmg-175-level-others-context-5aa02e91e35c4c28","boundsPx":[670,120,1329,492],"dimensionsPx":[659,372],"sha256":"5aa02e91e35c4c28152caccd947096943b74889b8596376cb86cb0c7170291b8"}
+    ],
+    "negativeControls": "Adapter and catalog tests reject wrong or absent artifact identity, wrong page/PDF mapping, wrong source/canonical-PDF hashes, wrong dimensions/media type, full-page and arbitrary in-frame crops, out-of-frame or empty crops, changed crop IDs/hashes/dimensions, bad coordinate label, and supplement frames without artifact identity."
+  },
+  "denominators": {
+    "activeCatalogs": 1016,
+    "uniqueRegionsInActiveCatalogs": 3129,
+    "strictPdfRegions": 3127,
+    "supplementRegions": 2,
+    "currentLiveUsageRows": 3132,
+    "currentLivePdfUsageRows": 3130,
+    "currentLiveSupplementUsageRows": 2,
+    "previousPdfUsageRowsPreservedFromBaseline": 3130,
+    "baselinePdfUsageRowsMissingOrChanged": 0,
+    "baselinePdfUsageIdentityFields": ["collection", "itemId", "binding", "catalog", "regionId", "book", "printedPage", "pdfPage", "imageSha256"],
+    "normalPdfMutationControls": 9381,
+    "normalPdfMutationControlsRejected": 9381
+  },
+  "tests": [
+    {"command":"node --test tests/books.test.mjs tests/scan-catalog.test.mjs","result":"PASS 13/13"},
+    {"command":"node --test --test-name-pattern='reconstructed pre-fix mapper|typed DMG 175 supplemental rows' tests/source-raster-coverage.test.mjs","result":"PASS 2/2"},
+    {"command":"node tests/source-viewer.browser.mjs","result":"PASS 51/51; exercises both approved crops, provenance, canonical-PDF no-substitution, and mobile layout"}
+  ],
+  "historicalMapperEvidenceLimit": "The mapper-before fixture is explicitly marked retrospective reconstruction, not an actual pre-fix source/run capture. It reconstructs current helper bytes with only printedPage:region.printedPage removed, preserves the two actual current crop inputs and reproduced audit failure, and asserts actualPreFixCapture=false. No claim is made that the pre-fix output was captured during the original run.",
+  "orderedRemainingGate": "The active current-source-raster-snapshot.json still points to the pre-supplement ff4cf9 data and a 3,130-assessed-use snapshot. This is expected pending the post-XP ordered refresh. Full current-raster snapshot/index freshness has not been claimed or certified by this bounded review; the targeted mapper test passed using current live rows and a controlled candidate snapshot.",
+  "contentScope": "The p.175 source remains a separate user-confirmed image outside the canonical PDF. The limited excerpts are context evidence only; no Character Subtable values or page-wide semantics are promoted. Printed p.239–240 remain unverified."
+}

@@ -517,8 +517,9 @@
         || source?.legacyPath && catalog.itemId === 'phb-dagger' && catalog.regions.length !== 7 || source?.regionCount != null && catalog.regions.length !== source.regionCount || typeof catalog.scope !== 'string') throw new Error('Unsupported excerpt catalog.');
     const seen = new Set();
     for (const region of catalog.regions) {
-      const pageOK = source?.legacyPath ? (region.book === 'PHB' ? [35,37,38].includes(region.printedPage) : region.book === 'UA' && region.printedPage === 28) : Object.hasOwn(books().books, region.book) && Number.isInteger(region.printedPage) && books().pdfPage(region.book, region.printedPage) !== null;
-      if (!pageOK || region.pdfPage !== books().pdfPage(region.book, region.printedPage) || (source?.legacyPath ? !imageNames.has(region.image) || !region.image.startsWith(`${region.book.toLowerCase()}${region.printedPage}-`) : !/^[a-z0-9][a-z0-9-]{0,150}\.png$/.test(region.image || ''))
+      const sourceIdentity = books().resolveRegionSourceIdentity(catalog, region);
+      const pageOK = sourceIdentity?.valid && (source?.legacyPath ? (region.book === 'PHB' ? [35,37,38].includes(region.printedPage) : region.book === 'UA' && region.printedPage === 28) : true);
+      if (!pageOK || (source?.legacyPath ? !imageNames.has(region.image) || !region.image.startsWith(`${region.book.toLowerCase()}${region.printedPage}-`) : !/^[a-z0-9][a-z0-9-]{0,150}\.png$/.test(region.image || ''))
           || typeof region.id !== 'string' || !/^[a-z0-9][a-z0-9-]{0,100}$/.test(region.id) || seen.has(region.id)
           || !Number.isInteger(region.width) || !Number.isInteger(region.height) || region.width < 1 || region.height < 1 || region.width > 8192 || region.height > 8192
           || region.verification !== 'visually-checked-crop' || source?.state === 'source-excerpt-checked' && !['source-excerpt','selected-values'].includes(region.verificationScope) || !/^[a-f0-9]{64}$/.test(region.sha256 || '')
@@ -592,12 +593,12 @@
       let valid = true;
       for (const segment of ordered) {
         const region = catalog.regions.find(candidate => candidate.id === segment.regionId);
-        const sourceRecord = catalog.sources?.[segment.book];
-        if (!region || !sourceRecord || segment.book !== region.book || segment.printedPage !== region.printedPage || segment.pdfPage !== region.pdfPage
-            || segment.image !== region.image || segment.imageSha256 !== region.sha256 || segment.sourceSha256 !== sourceRecord.sha256
+        const sourceIdentity = region ? books().resolveRegionSourceIdentity(catalog, region) : null;
+        if (!region || segment.book !== region.book || segment.printedPage !== region.printedPage || segment.pdfPage !== region.pdfPage
+            || !sourceIdentity?.valid || segment.image !== region.image || segment.imageSha256 !== region.sha256 || segment.sourceSha256 !== sourceIdentity.sourceSha256
             || !/^[a-f0-9]{64}$/.test(segment.imageSha256 || '') || !/^[a-f0-9]{64}$/.test(segment.sourceSha256 || '')
             || typeof segment.role !== 'string' || !segment.role || !/^[a-z0-9][a-z0-9-]{0,150}\.png$/.test(segment.image || '')
-            || !Object.hasOwn(books().books, segment.book) || books().pdfPage(segment.book, segment.printedPage) !== segment.pdfPage) { valid = false; break; }
+            || !Object.hasOwn(books().books, segment.book)) { valid = false; break; }
         parts.push({ segment, region, selected: segment === selectedSegment });
       }
       if (valid && parts.some(part => part.selected)) return { group, parts, relationship: validatedOwnerPassageRelationship(group.relationship) };
@@ -674,7 +675,7 @@
     el.excerptMode.setAttribute('aria-pressed', String(excerpts));
     el.pdfMode.setAttribute('aria-pressed', String(!excerpts));
     el.privacy.textContent = excerpts && privateOnly
-      ? 'No public excerpt is available for this page. The separately supplied private image is not published, and its printing is unknown.'
+      ? 'No approved excerpt is available in this view. The user-confirmed supplemental image is a separate source artifact; the supplied PDF omits printed p.175, and the full image is not published.'
       : excerpts ? excerptSource.state === 'source-excerpt-checked' ? `${excerptSource.name}: these limited source excerpts have been checked for the cited passage; the entry's extracted values retain their existing status. Complete source PDFs are not hosted. Your own PDF can be opened privately.` : `${excerptSource.name}: only the selected values and accompanying notes in these limited excerpts have been checked. Complete source PDFs are not hosted. Your own PDF can be opened privately.`
       : 'Open your own PDF to read the cited pages. Your file stays in this tab; it is never uploaded or saved by this site.';
     el.fileRow.hidden = el.editionHelp.hidden = excerpts;
@@ -971,8 +972,12 @@
         if (relationshipText) el.linkedParts.append(node('p', {class: 'source-viewer-linked-relationship', role: 'note'}, relationshipText));
         for (const part of loadedParts) {
           const partRegion = part.region, selected = part.selected;
+          const partSourceIdentity = books().resolveRegionSourceIdentity(catalog, partRegion);
+          if (!partSourceIdentity?.valid) throw new Error('Linked source identity failed validation.');
           const figure = node('figure', { class: 'source-viewer-linked-part', 'data-region-id': partRegion.id, 'data-printed-page': partRegion.printedPage, 'data-selected': String(selected), 'data-role': part.segment.role });
-          const pageLabel = node('p', { class: 'source-viewer-linked-page' }, `${title(partRegion.book)} printed p. ${partRegion.printedPage} · PDF page ${partRegion.pdfPage} · ${part.segment.role}`);
+          const pageLabel = node('p', { class: 'source-viewer-linked-page' }, partSourceIdentity.sourceKind === 'supplemental-image'
+            ? `${title(partRegion.book)} printed p. ${partRegion.printedPage} · supplemental source image; original PDF omits this page · ${part.segment.role}`
+            : `${title(partRegion.book)} printed p. ${partRegion.printedPage} · PDF page ${partRegion.pdfPage} · ${part.segment.role}`);
           figure.append(pageLabel);
           if (selected) {
             el.imageFrame.hidden = false;
@@ -1001,10 +1006,16 @@
         el.imageFrame.hidden = false;
       }
       applyHighlightVisibility();
-      const source = catalog.sources[ref.book];
-      el.provenanceText.textContent = `Checked crop: ${region.checkedOn}. PNG SHA-256: ${region.sha256}. Source PDF SHA-256 (${source.hashStatus === 'computed-local' ? 'computed locally' : 'supplied with the handoff'}): ${source.sha256}. ${catalog.scope} This does not verify the whole page or book.`;
+      const sourceIdentity = books().resolveRegionSourceIdentity(catalog, region);
+      if (!sourceIdentity?.valid) throw new Error('Source identity failed validation.');
+      if (sourceIdentity.sourceKind === 'supplemental-image') {
+        el.provenanceText.textContent = `Checked crop: ${region.checkedOn}. Published PNG SHA-256: ${region.sha256}. Supplemental source image SHA-256: ${sourceIdentity.sourceSha256}. The canonical DMG PDF SHA-256 is ${sourceIdentity.canonicalPdfSha256}; the PDF omits printed p. 175. The image is a separate user-confirmed correct-edition source, not a PDF page. ${catalog.scope} This does not verify the whole page or book.`;
+        el.status.textContent = `DMG printed p. ${ref.page} · supplemental source image · no corresponding PDF page · excerpt ${regionIndex + 1} of ${regions.length}${linked ? ` · ${loadedParts.length} linked passage parts` : ''}. ${actualSize ? zoom === 1 ? 'Actual image pixels' : 'Zoom from actual size' : imageFit ? zoom === 1 ? 'Fit width' : 'Zoom from fit width' : 'Readable view'}; scroll or use arrow keys to pan.`;
+      } else {
+        el.provenanceText.textContent = `Checked crop: ${region.checkedOn}. PNG SHA-256: ${region.sha256}. Source PDF SHA-256 (${catalog.sources[ref.book].hashStatus === 'computed-local' ? 'computed locally' : 'supplied with the handoff'}): ${sourceIdentity.sourceSha256}. ${catalog.scope} This does not verify the whole page or book.`;
+        el.status.textContent = `${ref.book} printed p. ${ref.page} · PDF page ${region.pdfPage} · excerpt ${regionIndex + 1} of ${regions.length}${linked ? ` · ${loadedParts.length} linked passage parts` : ''}. ${actualSize ? zoom === 1 ? 'Actual image pixels' : 'Zoom from actual size' : imageFit ? zoom === 1 ? 'Fit width' : 'Zoom from fit width' : 'Readable view'}; scroll or use arrow keys to pan.`;
+      }
       el.provenance.hidden = false;
-      el.status.textContent = `${ref.book} printed p. ${ref.page} · PDF page ${region.pdfPage} · excerpt ${regionIndex + 1} of ${regions.length}${linked ? ` · ${loadedParts.length} linked passage parts` : ''}. ${actualSize ? zoom === 1 ? 'Actual image pixels' : 'Zoom from actual size' : imageFit ? zoom === 1 ? 'Fit width' : 'Zoom from fit width' : 'Readable view'}; scroll or use arrow keys to pan.`;
       if (linked) {
         const selectedFigure = el.linkedParts.querySelector('.source-viewer-linked-part[data-selected="true"]');
         el.stage.scrollTo(0, Math.max(0, (selectedFigure?.offsetTop || 0) - 12));

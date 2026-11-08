@@ -17,7 +17,7 @@ test('fixture is reproducible and includes every assembled reference-bearing rec
  const expectedPages=owners.flatMap(item=>citations.pages(item));
  assert.equal(inventory.counts.recordPagePairs,expectedPages.length);
  assert.equal(inventory.counts.citedPages,new Set(expectedPages.map(page=>`${page.book}:${page.page}`)).size);
- assert.equal(inventory.counts.knownGapPages,1);assert.equal(inventory.counts.unverifiedPages,2);
+ assert.equal(inventory.counts.knownGapPages,1);assert.equal(inventory.counts.pdfOmittedCitedPages,1);assert.equal(inventory.counts.supplementedCitedPages,1);assert.equal(inventory.counts.evidenceUnavailableCitedPages,0);assert.equal(inventory.counts.unverifiedPages,2);
  assert.equal(inventory.counts.pagesWithSomeSuppliedCropPixels,inventory.pages.filter(p=>p.suppliedCropPixels).length);
  assert.equal(inventory.counts.citedPagesWithoutSuppliedCropPixels,inventory.pages.filter(p=>p.records.length&&!p.suppliedCropPixels).length);
  assert.equal(inventory.counts.batches,inventory.queue.batches.length);
@@ -39,6 +39,7 @@ test('queue covers all available cited pages exactly once and blocks the missing
  assert.equal(new Set(queued).size,queued.length);
  assert.deepEqual(inventory.queue.blocked.map(p=>`${p.book}:${p.page}`),['DMG:175','DMG:239','DMG:240']);
  assert.deepEqual(inventory.queue.blocked.map(p=>p.availability),['missing','unverified','unverified']);
+ assert.deepEqual(inventory.queue.blocked.map(p=>p.evidenceAvailability),['supplemental','unverified','unverified']);
 });
 test('crop pixels and scoped catalog checks never imply that a page or unrelated record is verified',()=>{
  const pixels=new Set(inventory.pages.filter(p=>p.suppliedCropPixels).map(p=>`${p.book}:${p.page}`));
@@ -68,5 +69,5 @@ test('cited DMG end matter stays blocked as unverified rather than missing',()=>
  const cited=result.records[0].pages;
  assert.deepEqual(cited.map(p=>[p.page,p.pdfPage,p.missing,p.availability]),[[238,238,false,'available'],[239,null,false,'unverified'],[240,null,false,'unverified']]);
  assert.deepEqual(result.queue.batches.flatMap(b=>b.pages),[238]);
- assert.deepEqual(result.queue.blocked.map(p=>[p.page,p.availability]),[[175,'missing'],[239,'unverified'],[240,'unverified']]);
+ assert.deepEqual(result.queue.blocked.map(p=>[p.page,p.availability,p.evidenceAvailability]),[[175,'missing','supplemental'],[239,'unverified','unverified'],[240,'unverified','unverified']]);
 });

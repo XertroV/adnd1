@@ -100,7 +100,7 @@
   return [...groups.values()].sort((a,b)=>order.indexOf(a.book)-order.indexOf(b.book)).map(g=>({...g,pages:g.pages.sort((a,b)=>a-b)}));
  }
  function targets(item,rootContext=''){return collect(item,rootContext).flatMap(group=>group.targets);}
- function pages(item){return collect(item).flatMap(g=>g.pages.map(page=>({book:g.book,page,pdfPage:books.pdfPage(g.book,page),missing:books.availability(g.book,page)==='missing',availability:books.availability(g.book,page),labels:[...new Set(g.contexts.filter(c=>c.page===page).map(c=>c.label))],statuses:[...new Set(g.contexts.filter(c=>c.page===page&&c.status).map(c=>c.status))],targets:g.targets.filter(target=>target.page===page)})));}
+ function pages(item){return collect(item).flatMap(g=>g.pages.map(page=>({book:g.book,page,pdfPage:books.pdfPage(g.book,page),missing:books.availability(g.book,page)==='missing',availability:books.availability(g.book,page),evidenceAvailability:books.evidenceAvailability(g.book,page),labels:[...new Set(g.contexts.filter(c=>c.page===page).map(c=>c.label))],statuses:[...new Set(g.contexts.filter(c=>c.page===page&&c.status).map(c=>c.status))],targets:g.targets.filter(target=>target.page===page)})));}
  const api=Object.freeze({collect,pages,targets});
  root.FirstEditionCitations=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(globalThis);

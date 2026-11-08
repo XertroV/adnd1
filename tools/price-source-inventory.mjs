@@ -12,6 +12,11 @@ const EQUIPMENT_SOURCE_ROW_BINDINGS_FILE = 'research/equipment-source-row-bindin
 const hashFile = path => createHash('sha256').update(readFileSync(resolve(root, path))).digest('hex');
 const BOOKS_JS_SHA256 = hashFile('dist/books.js');
 const readJson = path => JSON.parse(readFileSync(resolve(root, path), 'utf8'));
+function regionSourceIdentity(catalog,region){
+  const identity=books.resolveRegionSourceIdentity(catalog,region);
+  return identity?.valid?identity:null;
+}
+function regionSourceSha256(catalog,region){return regionSourceIdentity(catalog,region)?.sourceSha256??null;}
 const jsonPointer = path => `/${path.map(part => String(part).replaceAll('~', '~0').replaceAll('/', '~1')).join('/')}`;
 const sha = value => createHash('sha256').update(value).digest('hex');
 function canonical(value){
@@ -54,7 +59,7 @@ export function attachSourceVisualReviewMetadata(data,{ledger=readJson('research
     binding.regionReviews=(catalog.regions||[]).map(region=>{
       const key=[collection,item.id,bindingName,region.id].join('|');
       const recorded=reviews.get(key)||null;
-      const sourceSha256=catalog.sources?.[region.book]?.sha256??null;
+      const sourceSha256=regionSourceSha256(catalog,region);
       const {focusSha256,contentSha256}=sourceVisualRegionHashes(region);
       const hashes={sourceSha256,imageSha256:region.sha256,focusSha256,contentSha256};
       const matches=!!recorded&&recorded.sourceSha256===sourceSha256&&recorded.imageSha256===region.sha256&&recorded.focusSha256===focusSha256&&recorded.contentSha256===contentSha256;
@@ -301,6 +306,9 @@ function rectValues(value) {
 }
 
 function regionCropCoordinate(region) {
+  if(region.sourceArtifactId){
+    return {regionId:region.id,coordinateSpace:region.sourceCoordinateSpace??'supplement-image-pixels',format:'LTRB-half-open',rect:rectValues(region.sourceCropBoundsPx)};
+  }
   if(region.boundsPdfPoints){
     return {regionId:region.id,coordinateSpace:'catalog-bounds-pdf-points-as-recorded',format:'x0-y0-x1-y1',rect:rectValues(region.boundsPdfPoints)};
   }
@@ -682,7 +690,7 @@ function itemBinding(item, {rootBindings, catalogs}) {
       contextStatus:manualRef?.contextStatus ?? 'context-not-assessed',
       contextLimitations:manualRef?.contextLimitations ?? (valuePathMissing?['The source reference is retained, but no value is currently present at its semantic field path.']:regionIds.length ? ['Field-to-region selection does not by itself establish complete table or passage context.'] : []),
       sourcePages,
-      sourceSha256:matchedRegions.length ? catalogs.get(catalog)?.sources?.[matchedRegions[0].book]?.sha256 ?? null : null,
+      sourceSha256:matchedRegions.length ? regionSourceSha256(catalogs.get(catalog),matchedRegions[0]) : null,
       cropCoordinates:matchedRegions.map(regionCropCoordinate),
       highlightCoordinates:matchedRegions.map(region=>({regionId:region.id, coordinateSpace:'excerpt-image-normalized-top-left-xywh', origin:'top-left', format:'xywh', rects:region.focusRects||[]})),
       regionEvidence:matchedRegions.map(region=>({
@@ -690,7 +698,7 @@ function itemBinding(item, {rootBindings, catalogs}) {
         book:region.book,
         printedPage:region.printedPage,
         pdfPage:region.pdfPage,
-        sourceSha256:catalogs.get(catalog)?.sources?.[region.book]?.sha256??null,
+        sourceSha256:regionSourceSha256(catalogs.get(catalog),region),
         imageSha256:region.sha256,
         focusRectsSha256:createHash('sha256').update(JSON.stringify(region.focusRects||[])).digest('hex'),
         ...sourceVisualRegionHashes(region),
@@ -763,10 +771,10 @@ function comparatorBinding(owner, index, comparison, comparatorItem, {rootBindin
     contextStatus:manual?.contextStatus??'context-not-assessed',
     contextLimitations:manual?.contextLimitations??(regionIds.length?['Comparator region selection does not verify the estimate itself or complete table context.']:[]),
     sourcePages:pages,
-    sourceSha256:refs.length?catalogs.get(catalog)?.sources?.[refs[0].book]?.sha256??null:null,
+    sourceSha256:refs.length?regionSourceSha256(catalogs.get(catalog),refs[0]):null,
     cropCoordinates:refs.map(regionCropCoordinate),
     highlightCoordinates:refs.map(region=>({regionId:region.id,coordinateSpace:'excerpt-image-normalized-top-left-xywh',origin:'top-left',format:'xywh',rects:region.focusRects||[]})),
-    regionEvidence:refs.map(region=>({regionId:region.id,book:region.book,printedPage:region.printedPage,pdfPage:region.pdfPage,sourceSha256:catalogs.get(catalog)?.sources?.[region.book]?.sha256??null,imageSha256:region.sha256,focusRectsSha256:createHash('sha256').update(JSON.stringify(region.focusRects||[])).digest('hex'),...sourceVisualRegionHashes(region)})),
+    regionEvidence:refs.map(region=>({regionId:region.id,book:region.book,printedPage:region.printedPage,pdfPage:region.pdfPage,sourceSha256:regionSourceSha256(catalogs.get(catalog),region),imageSha256:region.sha256,focusRectsSha256:createHash('sha256').update(JSON.stringify(region.focusRects||[])).digest('hex'),...sourceVisualRegionHashes(region)})),
     sourceRowIds:(sourceRowsByItem.get(comparatorItem.id)||[]).filter(row=>rowMatchesSitePrice(row,comparatorItem)).map(row=>row.id),
   };
 }
@@ -975,10 +983,10 @@ function structuredCitationBindings(collections,{knownBindings,catalogs}) {
         contextLimitations:regionIds.length?['Legacy region IDs match this cited source page; contextual adequacy is not certified.']:['No independently reviewed field-to-region binding is recorded.'],
         sourceValueStatus:'not-assessed-by-field-target-review',
         valuePathStatus,
-        sourceSha256:regions.length?catalog?.sources?.[book]?.sha256??null:null,
+        sourceSha256:regions.length?regionSourceSha256(catalog,regions[0]):null,
         cropCoordinates:regions.map(regionCropCoordinate),
         highlightCoordinates:regions.map(region=>({regionId:region.id,coordinateSpace:'excerpt-image-normalized-top-left-xywh',origin:'top-left',format:'xywh',rects:region.focusRects||[]})),
-        regionEvidence:regions.map(region=>({regionId:region.id,book:region.book,printedPage:region.printedPage,pdfPage:region.pdfPage,sourceSha256:catalog?.sources?.[region.book]?.sha256??null,imageSha256:region.sha256,focusRectsSha256:createHash('sha256').update(JSON.stringify(region.focusRects||[])).digest('hex'),...sourceVisualRegionHashes(region)})),
+        regionEvidence:regions.map(region=>({regionId:region.id,book:region.book,printedPage:region.printedPage,pdfPage:region.pdfPage,sourceSha256:regionSourceSha256(catalog,region),imageSha256:region.sha256,focusRectsSha256:createHash('sha256').update(JSON.stringify(region.focusRects||[])).digest('hex'),...sourceVisualRegionHashes(region)})),
         targetReview:null,
         ...(rawLegacyIds.length&&!regionIds.length?{legacyRegionStatus:'unmapped-or-source-page-mismatch'}:{}),
       };
@@ -1015,12 +1023,12 @@ function manualBindingFor(binding,{collections,catalogs}) {
   const book=binding.book??sourceObject.book??target?.book??null;
   const printedPage=binding.printedPage??sourceObject.printedPage??sourceObject.pages?.[0]??sourceObject.page??target?.printedPage??target?.pages?.[0]??target?.page??null;
   const pdfPage=binding.pdfPage??(regions.length?regions[0].pdfPage:(book&&printedPage?sourcePdfPage(book,printedPage):null));
-  const bindingSourceSha=binding.sourceSha256??(book?catalog?.sources?.[book]?.sha256:null);
+  const bindingSourceSha=binding.sourceSha256??(regions.length?regionSourceSha256(catalog,regions[0]):null);
   const reviewStatus=valuePathMissing?'field-target-pending':binding.reviewStatus??'field-target-pending';
   const targetReview=boundTargetReview(binding.targetReview);
   const evidence=regions.map(region=>({
     regionId:region.id,book:region.book,printedPage:region.printedPage,pdfPage:region.pdfPage,
-    sourceSha256:catalog?.sources?.[region.book]?.sha256??null,imageSha256:region.sha256,
+    sourceSha256:regionSourceSha256(catalog,region),imageSha256:region.sha256,
     focusRectsSha256:createHash('sha256').update(JSON.stringify(region.focusRects||[])).digest('hex'),
     ...sourceVisualRegionHashes(region),
   }));
@@ -1329,7 +1337,7 @@ export function validatePriceSourceInventory(inventory, {equipment=applyAssembly
         const evidence=binding.regionEvidence?.find(candidate=>candidate.regionId===id);
         if(evidence){
           const actualHashes=sourceVisualRegionHashes(region);
-          if(evidence.sourceSha256!==catalog.sources?.[region.book]?.sha256) fail(`${binding.itemId}${binding.fieldPointer}: source hash is stale for ${id}`);
+          if(evidence.sourceSha256!==regionSourceSha256(catalog,region)) fail(`${binding.itemId}${binding.fieldPointer}: source hash is stale for ${id}`);
           if(evidence.imageSha256!==region.sha256) fail(`${binding.itemId}${binding.fieldPointer}: image hash is stale for ${id}`);
           if(evidence.focusRectsSha256!==createHash('sha256').update(JSON.stringify(region.focusRects||[])).digest('hex')) fail(`${binding.itemId}${binding.fieldPointer}: highlight geometry is stale for ${id}`);
           if(evidence.focusSha256!==actualHashes.focusSha256) fail(`${binding.itemId}${binding.fieldPointer}: canonical highlight geometry is stale for ${id}`);
@@ -1338,7 +1346,7 @@ export function validatePriceSourceInventory(inventory, {equipment=applyAssembly
         const expectedEvidence=binding.expectedRegionEvidence?.find(candidate=>candidate.regionId===id);
         if(expectedEvidence){
           const actualHashes=sourceVisualRegionHashes(region);
-          if(expectedEvidence.sourceSha256!==catalog.sources?.[region.book]?.sha256) fail(`${binding.itemId}${binding.fieldPointer}: recorded source hash is stale for ${id}`);
+          if(expectedEvidence.sourceSha256!==regionSourceSha256(catalog,region)) fail(`${binding.itemId}${binding.fieldPointer}: recorded source hash is stale for ${id}`);
           if(expectedEvidence.imageSha256!==region.sha256) fail(`${binding.itemId}${binding.fieldPointer}: recorded image hash is stale for ${id}`);
           if(expectedEvidence.focusSha256!==actualHashes.focusSha256) fail(`${binding.itemId}${binding.fieldPointer}: recorded canonical highlight geometry is stale for ${id}`);
           if(expectedEvidence.contentSha256!==actualHashes.contentSha256) fail(`${binding.itemId}${binding.fieldPointer}: recorded region content hash is stale for ${id}`);
@@ -1354,7 +1362,7 @@ export function validatePriceSourceInventory(inventory, {equipment=applyAssembly
       }
       if(binding.coordinateSpace!=='excerpt-image-normalized-top-left-xywh') fail(`${binding.itemId}${binding.fieldPointer}: region target coordinate space missing`);
     } else if(binding.reviewStatus==='field-target-reviewed') fail(`${binding.itemId}${binding.fieldPointer}: reviewed target has no region IDs`);
-    if(binding.sourceSha256&&binding.catalog&&binding.sourceSha256!==catalogs.get(binding.catalog)?.sources?.[binding.book]?.sha256) fail(`${binding.itemId}${binding.fieldPointer}: cited source hash is stale`);
+    if(binding.sourceSha256&&binding.catalog){const sourceRegion=(catalogs.get(binding.catalog)?.regions||[]).find(region=>region.book===binding.book&&region.printedPage===binding.printedPage);if(!sourceRegion||binding.sourceSha256!==regionSourceSha256(catalogs.get(binding.catalog),sourceRegion))fail(`${binding.itemId}${binding.fieldPointer}: cited source hash is stale`);}
   }
   for(const claim of inventory.siteClaims){
     const item=items.get(claim.itemId);

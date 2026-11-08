@@ -3,8 +3,10 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {gunzipSync} from 'node:zlib';
+import {createRequire} from 'node:module';
 import {containsContext,focusCoversEvidence,reportContextContracts} from '../tools/citation-context-contract.mjs';
 const read=p=>JSON.parse(readFileSync(p,'utf8'));
+const books=createRequire(import.meta.url)('../dist/books.js');
 const manifest=read('research/citation-context-contracts.json'),data=read('dist/data.json');
 test('current reviewed price tables retain their independently recorded context extent',()=>{
   const report=reportContextContracts(data,p=>read('dist/'+p),manifest);
@@ -77,7 +79,7 @@ test('source and region rebinding cannot inherit a context contract pass',()=>{
 test('singleton progression context uses its synthetic owner and nested source rectangle',()=>{
   const required={...manifest.requirements[0],id:'progression-context',collection:'progressionExplainer',itemId:'progression-explainer',fieldPointer:'/sections/0'};
   const singleton={progressionExplainer:{sections:['Progression passage'],sourceExcerpts:{catalog:required.catalog}}};
-  const catalog={sources:{[required.book]:{sha256:required.sourceSha256}},regions:[{id:required.regionId,book:required.book,printedPage:required.printedPage,normalizedPageRect:[required.requiredBounds.values]}]};
+  const catalog={sources:{[required.book]:{sha256:required.sourceSha256,hashStatus:'computed-local'}},regions:[{id:required.regionId,book:required.book,printedPage:required.printedPage,pdfPage:books.pdfPage(required.book,required.printedPage),normalizedPageRect:[required.requiredBounds.values]}]};
   assert.deepEqual(reportContextContracts(singleton,()=>catalog,{requirements:[required]}).violations,[]);
 });
 test('focus coverage includes separately annotated qualifiers and does not assess semantic precision',()=>{

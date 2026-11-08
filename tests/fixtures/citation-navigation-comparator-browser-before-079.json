@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "scope": "Exact pre-adaptation baseline for the legacy comparator browser script at 079. The script is preserved byte-for-byte as a fixture. This captures a stale pending-state expectation; it does not indicate a current caption failure.",
+  "baseHead": "079f4ec03924b32d8b340ee349012c9a8237066e",
+  "currentCommitAtCapture": "cc7367791806e5e37b330e209b8706269e5c3417",
+  "inputs": {
+    "dataSha256": "ff4cf9b944f6584f2b3ea219068c552fd554a586e449ffc6999e93bf01343470",
+    "appSha256": "e96f442f5b2310495971868f19052245fad9ad54b82a939b8d7f6d9adce642ab",
+    "citationsSha256": "dec36d9e039c2ed4f53fd07a34f5ad8f60473dcf74b11173d18183928f4a5b22",
+    "sourceViewerSha256": "2bcd568da598999036594d670e826f715b782643074d21fbed0cfab5233283e4",
+    "originalBrowserScriptPath": "tests/citation-navigation-comparator.browser.mjs",
+    "originalBrowserScriptSha256": "e3105402f069392e375cf38315a81ff79721c26a3f756e9cfbcfb582f750b6e0",
+    "preservedScriptFixturePath": "tests/fixtures/citation-navigation-comparator.browser-before-079.mjs",
+    "preservedScriptFixtureSha256": "e3105402f069392e375cf38315a81ff79721c26a3f756e9cfbcfb582f750b6e0"
+  },
+  "actualCurrentComparatorInventory": {
+    "denominator": 6,
+    "allSixTargets": "Resolved field-target-reviewed mappings with a source-owner, page, and one region each. Exact entries and input pins are in tests/fixtures/citation-comparator-captions-base-079.json.",
+    "pendingExpectationsInOldScript": [
+      {
+        "scenario": "direct chip click",
+        "expectedRouteTarget": "pending",
+        "expectedRegion": null,
+        "caption": "Comparison: Spear (not this item price)"
+      },
+      {
+        "scenario": "reload/back-forward/copy of direct link",
+        "expectedRouteTarget": "pending",
+        "expectedRegion": null,
+        "caption": "Comparison: Spear (not this item price)"
+      },
+      {
+        "scenario": "missing source-owner query",
+        "expectedRouteTarget": "pending",
+        "expectedRegion": null,
+        "expectedDisplayedSource": "Bo Stick"
+      },
+      {
+        "scenario": "canonical copied owner link",
+        "expectedRouteTarget": "pending",
+        "expectedRegion": null,
+        "expectedDisplayedSource": "Spear"
+      }
+    ],
+    "currentStateForAllSix": "resolved; labels remain descriptive; exact owner/page/region baseline is pinned in the 079 fixture"
+  },
+  "failure": {
+    "exitCode": 1,
+    "logPath": "/tmp/batch5-comparator-navigation-before-failure-079.log",
+    "logSha256": "50a1275d8f5bfb47e68d7db1495e82f27e760044cec7badd58dc22c7ecd9a9b9",
+    "assertion": "comparison link keeps estimate route identity and comparator source owner separately",
+    "expected": "#equipment/phb-bo-stick?source=PHB%3A35&target=pending&field=%2FsuggestedPrice%2Fcomparisons%2F0&owner=equipment%3Aphb-spear",
+    "actual": "#equipment/phb-bo-stick?source=PHB%3A35&region=phb-35-284953272c29bf7c&field=%2FsuggestedPrice%2Fcomparisons%2F0&owner=equipment%3Aphb-spear",
+    "reason": "The old test served a reviewed current comparator target but asserted the pending fixture URL. The product route correctly resolves the reviewed region; the pending fail-closed scenario must use a derived, explicitly unmapped test fixture."
+  }
+}

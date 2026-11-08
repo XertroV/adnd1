@@ -2,13 +2,40 @@ import assert from 'node:assert/strict';
 import http from 'node:http';
 import path from 'node:path';
 import {readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 import {attachEvidenceBindings,buildPriceSourceInventory,validatePriceSourceInventory} from '../tools/price-source-inventory.mjs';
 
 const require=createRequire(import.meta.url);let chromium;try{({chromium}=require('playwright'));}catch{({chromium}=require('/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'));}
 const root=path.resolve('dist'),data=JSON.parse(await readFile(path.join(root,'data.json'),'utf8'));
 const inventory=buildPriceSourceInventory({equipment:data.equipment,data});validatePriceSourceInventory(inventory,{equipment:data.equipment,data});attachEvidenceBindings(data,inventory);
-const appData=JSON.stringify(data);
+const baseline=JSON.parse(await readFile(new URL('./fixtures/citation-comparator-captions-base-079.json',import.meta.url),'utf8'));
+const pendingFixture=JSON.parse(await readFile(new URL('./fixtures/citation-navigation-comparator-unmapped-derived-079.json',import.meta.url),'utf8'));
+const beforeReport=JSON.parse(await readFile(new URL('./fixtures/citation-navigation-comparator-browser-before-079.json',import.meta.url),'utf8'));
+const beforeScript=await readFile(new URL('./fixtures/citation-navigation-comparator.browser-before-079.mjs',import.meta.url));
+assert.equal(baseline.base.head,pendingFixture.base.head,'the pending scenario derives from the captured 079 baseline');
+assert.equal(pendingFixture.isHistoricalDataset,false,'the pending case is explicitly synthetic, not historical product data');
+assert.equal(createHash('sha256').update(beforeScript).digest('hex'),beforeReport.inputs.preservedScriptFixtureSha256,'the actual failing 079 browser script stays preserved byte-for-byte');
+const runtimeData=structuredClone(data);
+const estimate=runtimeData.equipment.find(item=>item.id===pendingFixture.target.routeOwner.itemId);
+const comparison=estimate?.suggestedPrice?.comparisons?.[0];
+const binding=comparison?.evidenceBindings?.find(entry=>entry.fieldPointer===pendingFixture.target.fieldPointer&&entry.sourceCategory===pendingFixture.target.sourceCategory);
+assert.ok(binding,'the current comparator field target is present before deriving the pending test copy');
+assert.equal(binding.sourceOwner?.itemId,pendingFixture.target.sourceOwner.itemId);
+assert.equal(binding.sourceObject,comparison.label);
+assert.equal(binding.book,pendingFixture.target.book);
+assert.equal(binding.printedPage,pendingFixture.target.printedPage);
+assert.deepEqual(binding.regionIds,['phb-35-284953272c29bf7c'],'the real current comparator remains mapped in the baseline data');
+const comparisonValue={label:comparison.label,amount:comparison.amount,currency:comparison.currency,unit:comparison.unit};
+const mappedBinding=structuredClone(binding);
+binding.regionIds=[];
+binding.reviewStatus='field-target-pending';
+for(const key of ['targetReview','expectedRegionEvidence','regionEvidence','cropCoordinates','highlightCoordinates'])delete binding[key];
+for(const key of ['fieldPointer','sourceObject','sourceCategory','sourceOwner','book','printedPage','pdfPage','catalog','sourcePages','sourceSha256','contextStatus','contextLimitations','sourceRowIds'])assert.deepEqual(binding[key],mappedBinding[key],`synthetic fixture preserves ${key}`);
+assert.deepEqual(comparisonValue,{label:pendingFixture.target.label,amount:pendingFixture.target.amount,currency:pendingFixture.target.currency,unit:pendingFixture.target.unit},'the synthetic case keeps the source-comparison meaning and value');
+assert.deepEqual(binding.regionIds,pendingFixture.derivation.set.regionIds);
+assert.equal(binding.reviewStatus,pendingFixture.derivation.set.reviewStatus);
+const appData=JSON.stringify(runtimeData);
 const server=http.createServer(async(req,res)=>{try{
  const pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
  if(pathname==='/data.json'){res.setHeader('Content-Type','application/json');res.end(appData);return;}
@@ -55,5 +82,5 @@ try{
  assert.match(await dialog.locator('.source-viewer-labels').innerText(),/^Field target: Comparison: Spear/);
  assert.equal(await dialog.locator('.source-viewer-image-frame').isVisible(),false);
  assert.deepEqual(errors,[]);await page.close();
- console.log('Comparator target owner/field identity survives click, copy, reload and back/forward; missing owner stays pending and crop-free until a canonical owner is copied.');
+ console.log('Synthetic unmapped comparator: owner/field identity survives click, copy, reload and back/forward; missing owner stays pending and crop-free until a canonical owner is copied.');
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve));}

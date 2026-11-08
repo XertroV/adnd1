@@ -1,3 +1,6 @@
+import {createRequire} from 'node:module';
+const books=createRequire(import.meta.url)('../dist/books.js');
+
 // Preserve independently recorded source-page context; containment is not a visual verdict.
 export function sourceRect(value) {
   const raw=Array.isArray(value)?value:value&&[value.x,value.y,value.width??value.w,value.height??value.h];
@@ -32,13 +35,16 @@ export function reportContextContracts(data, loadCatalog, manifest) {
       const raw=loadCatalog(required.catalog),catalog=raw.catalog||raw;
       const region=catalog.regions.find(x=>x.id===required.regionId);
       if (!region) result.reason='Required region is missing';
-      else if (region.book!==required.book || region.printedPage!==required.printedPage || catalog.sources?.[required.book]?.sha256!==required.sourceSha256) result.reason='Source identity or printed page changed';
-      else if (!sourceRect(region.normalizedPageRect)) result.reason='No comparable normalized source-page crop bounds';
       else {
-        result.cropBounds={space:'rendered-source-page',origin:'top-left',units:'normalized',format:'xywh',values:sourceRect(region.normalizedPageRect)};
-        result.requiredBounds=bounds;
-        result.status=containsContext(region.normalizedPageRect,bounds.values)?'contains-required-context':'context-clipped';
-        result.reason=result.status==='context-clipped'?'Crop excludes part of the recorded required passage or table extent':'Recorded context extent is contained; current pixels and semantic context retain their separate review statuses';
+        const sourceIdentity=books.resolveRegionSourceIdentity(catalog,region);
+        if (region.book!==required.book || region.printedPage!==required.printedPage || !sourceIdentity?.valid || sourceIdentity.sourceSha256!==required.sourceSha256 || (required.pdfPage!==undefined&&region.pdfPage!==required.pdfPage)) result.reason='Source identity or printed page changed';
+        else if (!sourceRect(region.normalizedPageRect)) result.reason='No comparable normalized source-page crop bounds';
+        else {
+          result.cropBounds={space:'rendered-source-page',origin:'top-left',units:'normalized',format:'xywh',values:sourceRect(region.normalizedPageRect)};
+          result.requiredBounds=bounds;
+          result.status=containsContext(region.normalizedPageRect,bounds.values)?'contains-required-context':'context-clipped';
+          result.reason=result.status==='context-clipped'?'Crop excludes part of the recorded required passage or table extent':'Recorded context extent is contained; current pixels and semantic context retain their separate review statuses';
+        }
       }
     }
     checks.push(result);

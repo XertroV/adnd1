@@ -2,12 +2,18 @@
   "schemaVersion": 1,
   "collection": "rules",
   "itemId": "encounter-types",
-  "scope": "Source passage locations and legibility checked against the supplied PDFs. This does not verify every card value or the complete page. Any selected-values regions retain their narrower checked-field scope.",
+  "scope": "Three limited source excerpts: the existing PHB p.103 source crop and two approved, native-pixel DMG p.175 supplemental-image crops. DMG p.175 is absent from the canonical supplied PDF; its separate source-artifact identity is recorded independently. The supplemental crops provide context for the existing encounter-party and companion statements; no Character Subtable values are transcribed. This does not verify every entry value or the complete page.",
   "sources": {
     "PHB": {
       "title": "Players Handbook",
       "edition": "Sixth printing, January 1980",
       "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "hashStatus": "computed-local"
+    },
+    "DMG": {
+      "title": "Dungeon Masters Guide",
+      "edition": "Revised December 1979",
+      "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
       "hashStatus": "computed-local"
     }
   },
@@ -17,7 +23,7 @@
       "book": "PHB",
       "printedPage": 103,
       "pdfPage": 104,
-      "title": "PHB p. 103 \u00b7 Relevant legible source passage located",
+      "title": "PHB p. 103 · Relevant legible source passage located",
       "image": "phb-103-6f5f7f601ba2c3ef.png",
       "width": 544,
       "height": 664,
@@ -44,6 +50,120 @@
         "width": 0.48,
         "height": 0.43
       }
+    },
+    {
+      "id": "dmg-175-party-table-context-78c4c383c38c7d10",
+      "book": "DMG",
+      "printedPage": 175,
+      "pdfPage": null,
+      "sourceArtifactId": "dmg175-user-confirmed-supplement",
+      "sourceCropBoundsPx": [
+        0,
+        1145,
+        635,
+        1635
+      ],
+      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open",
+      "title": "DMG p. 175 · Character Subtable and party-size context",
+      "image": "dmg-175-party-table-context-78c4c383c38c7d10.png",
+      "width": 635,
+      "height": 490,
+      "sha256": "78c4c383c38c7d100a9e66bec4f36de1fdb9453d6e44d1eec53120e849a36e89",
+      "focusRects": [
+        [
+          0.007874015748031496,
+          0.6183673469387755,
+          0.9763779527559056,
+          0.3673469387755102
+        ]
+      ],
+      "role": "context",
+      "verification": "visually-checked-crop",
+      "verificationScope": "source-excerpt",
+      "checkedOn": "2026-11-08",
+      "alt": "Limited source excerpt from DMG printed page 175, showing the complete Character Subtable and party-size paragraph.",
+      "summary": "Context excerpt; the Character Subtable is not transcribed. The precise focus marks only the complete party-size paragraph supporting the existing party-size bullet.",
+      "checkedFields": {
+        "sourceLocation": "User-confirmed correct-edition supplemental source image; DMG printed p.175; canonical PDF omits the page.",
+        "cropCompleteness": "Complete approved crop [0,1145,635,1635] in native source-image pixels.",
+        "sourceContext": "Complete Character Subtable and complete Number Of Characters In Party paragraph are visible.",
+        "scope": "No Character Subtable cell values are newly extracted or highlighted."
+      },
+      "normalizedPageRect": {
+        "x": 0,
+        "y": 0.6375278396436526,
+        "width": 0.4778028592927013,
+        "height": 0.2728285077951002
+      }
+    },
+    {
+      "id": "dmg-175-level-others-context-5aa02e91e35c4c28",
+      "book": "DMG",
+      "printedPage": 175,
+      "pdfPage": null,
+      "sourceArtifactId": "dmg175-user-confirmed-supplement",
+      "sourceCropBoundsPx": [
+        670,
+        120,
+        1329,
+        492
+      ],
+      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open",
+      "title": "DMG p. 175 · Level Of Others With Characters context",
+      "image": "dmg-175-level-others-context-5aa02e91e35c4c28.png",
+      "width": 659,
+      "height": 372,
+      "sha256": "5aa02e91e35c4c28152caccd947096943b74889b8596376cb86cb0c7170291b8",
+      "focusRects": [
+        [
+          0.01517450682852807,
+          0.02150537634408602,
+          0.9635811836115327,
+          0.2983870967741936
+        ],
+        [
+          0.01517450682852807,
+          0.3198924731182796,
+          0.5887708649468892,
+          0.05913978494623656
+        ]
+      ],
+      "role": "context",
+      "verification": "visually-checked-crop",
+      "verificationScope": "source-excerpt",
+      "checkedOn": "2026-11-08",
+      "alt": "Limited source excerpt from DMG printed page 175, showing the complete Level Of Others With Characters paragraph.",
+      "summary": "Context excerpt; the complete paragraph includes its final 12th-level example. Two precise focus rectangles cover the complete level/compatibility lines for the existing companion-level bullet; no following paragraph is included.",
+      "checkedFields": {
+        "sourceLocation": "User-confirmed correct-edition supplemental source image; DMG printed p.175; canonical PDF omits the page.",
+        "cropCompleteness": "Complete approved crop [670,120,1329,492] in native source-image pixels.",
+        "sourceContext": "Complete Level Of Others With Characters paragraph through its final 12th-level example is visible.",
+        "highlightScope": "Merged approved focus [680,128,1315,239] and final clause [680,239,1068,261]; relevant line tails are included and following paragraph is excluded."
+      },
+      "normalizedPageRect": {
+        "x": 0.5041384499623778,
+        "y": 0.066815144766147,
+        "width": 0.4958615500376223,
+        "height": 0.2071269487750557
+      }
     }
-  ]
+  ],
+  "sourceArtifacts": {
+    "dmg175-user-confirmed-supplement": {
+      "id": "dmg175-user-confirmed-supplement",
+      "type": "supplemental-page-image",
+      "book": "DMG",
+      "printedPage": 175,
+      "sha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+      "mediaType": "image/jpeg",
+      "dimensionsPx": [
+        1329,
+        1796
+      ],
+      "canonicalPdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "originalPdfContainsPrintedPage": false,
+      "editionStatus": "user-confirmed-correct-edition",
+      "printingStatus": "not-specified"
+    }
+  }
 }

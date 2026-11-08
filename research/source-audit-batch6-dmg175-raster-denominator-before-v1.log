@@ -1,0 +1,71 @@
+✖ the complete current catalog universe matches the preserved numeric raster snapshot (140.813289ms)
+✔ the actual live mapper now carries both supplemental crop identities and printed page 175 (10.674695ms)
+✔ typed DMG 175 supplemental rows stay in the raster denominator as explicit unassessable image frames (1386.2888ms)
+✔ dropping uses cannot claim complete coverage even when reported counts and current hashes are retained (442.737023ms)
+✔ same-count identity substitutions, broken frame links and claimed semantic clearance are rejected (870.254348ms)
+✔ stale input hashes retain historical evidence without presenting its candidates as current (75.630626ms)
+✔ the sealed pre-fix checker accepts every coordinated mutation used as a regression (925.148899ms)
+✖ coordinated omissions, orphan evidence, hash substitutions and altered metrics are rejected (303.08783ms)
+✔ edge components, candidate flags, band bounds and frame geometry are internally consistent (1265.68607ms)
+✔ the same image may bind distinct source windows while a repeated exact window is rejected (3.719382ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 8
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6591.35105
+
+✖ failing tests:
+
+test at tests/source-raster-coverage-denominator-before-replay.tmp.test.mjs:115:1
+✖ the complete current catalog universe matches the preserved numeric raster snapshot (140.813289ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+    {
+  +   errors: [
+  +     'Current data hash differs from raster snapshot.',
+  +     'Current catalog hashes differ from raster snapshot.',
+  +     'Raster usage multiset differs from the complete live catalog universe.',
+  +     'Not-assessable usages must be exactly the live typed DMG p.175 supplemental-image rows with the approved unassessed reason.'
+  +   ],
+  +   valid: false
+  -   errors: [],
+  -   valid: true
+    }
+
+      at TestContext.<anonymous> (file:///workspace/adnd1-dmg175-supplement/tests/source-raster-coverage-denominator-before-replay.tmp.test.mjs:117:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { valid: false, errors: [ 'Current data hash differs from raster snapshot.', 'Current catalog hashes differ from raster snapshot.', 'Raster usage multiset differs from the complete live catalog universe.', 'Not-assessable usages must be exactly the live typed DMG p.175 supplemental-image rows with the approved unassessed reason.' ] },
+    expected: { valid: true, errors: [] },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/source-raster-coverage-denominator-before-replay.tmp.test.mjs:205:1
+✖ coordinated omissions, orphan evidence, hash substitutions and altered metrics are rejected (303.08783ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  3130 !== 3132
+
+      at TestContext.<anonymous> (file:///workspace/adnd1-dmg175-supplement/tests/source-raster-coverage-denominator-before-replay.tmp.test.mjs:212:50)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 3130,
+    expected: 3132,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

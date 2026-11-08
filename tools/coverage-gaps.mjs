@@ -374,11 +374,14 @@ function missingContentEntries(data, handoff) {
   const section = handoff.missingReferencedContent;
   const entries = [];
   for (const missing of section.missingCitedPages || []) {
+    const supplementalNotice=missing.book==='DMG'&&missing.printedPage===175
+      ? 'The user confirmed a separate image from the correct edition; two limited excerpts are available as source evidence, while the full image remains unpublished and outside the supplied PDF.'
+      : missing.privateSupplement?.published?'A supplemental excerpt is published.':'No verified supplemental page is published.';
     entries.push(entry({
       id: `missing-cited-${missing.book}-${missing.printedPage}`,
       title: `${missing.book} p. ${missing.printedPage} · cited page unavailable`,
       status: 'missing-from-supplied-canonical-pdf',
-      description: `${missing.status}. ${missing.privateSupplement?.published ? 'A supplement is published.' : 'A separate private image exists, but its printing is unknown and it is not published.'} The entry contains a bounded Appendix C random character-party procedure; it does not transcribe the complete class-limit or magic-item encounter tables.`,
+      description: `${missing.status}. ${supplementalNotice} The entry contains a bounded Appendix C random character-party procedure; it does not transcribe the complete class-limit or magic-item encounter tables.`,
       sourceLocations: [{book: missing.book, printedPage: missing.printedPage}],
       links: openEntryLink(data, missing.currentReference.collection, missing.currentReference.itemId),
       handoffPointers: ['/missingReferencedContent/missingCitedPages/0'],

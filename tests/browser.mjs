@@ -37,7 +37,7 @@ try {
  await page.locator('#xpInput').fill('9999999');check('higher XP uses only explicit source continuation',/Derived threshold.*225,000 XP per level/i.test(await page.locator('#xpOutput').innerText()));
  await route('#classes/fighter');await page.locator('#targetLevel').selectOption('2');check('missing XP is explicit',/Not yet extracted/.test(await page.locator('#advancementSummary').innerText()));
  await route('#rules/initiative-ties');await page.locator('#referenceDetail [data-source-id]').click();
- check('DMG source mapping before missing page',await page.locator('.source-viewer-main').innerText().then(t=>t.includes('63')&&t.includes('64')&&t.includes('p.175 is missing')&&t.includes('239–240 is unverified')));
+ check('DMG mapping distinguishes the PDF omission from the user-confirmed supplement',await page.locator('.source-viewer-main').innerText().then(t=>t.includes('63')&&t.includes('64')&&/p\.175 is absent from the supplied PDF/i.test(t)&&/correct edition.*source evidence/i.test(t)&&t.includes('239–240 is unverified')&&!/printing is unknown/i.test(t)));
  await page.keyboard.press('Escape');
  const note='Browser test annotation <img src=x onerror="window.__unsafe=1">';
  await page.locator('#referenceDetail [data-annotate]').first().click();await page.locator('#noteText').fill(note);await page.locator('#noteForm button[type=submit]').click();
