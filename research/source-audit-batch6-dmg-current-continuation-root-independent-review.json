@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "root-independent-PR34-current-continuation-repair-review",
+  "reviewer": "/root",
+  "independent": true,
+  "reviewedAt": "2026-11-08",
+  "headBeforeRepair": "a5a265744e116a767a4bd98c04d7edc731cc18c9",
+  "verdict": "approved-current-selection-and-exact-region-union-only",
+  "scope": "Read the final selector/validator/workflow/test diff; verify exact pins and preservation; independently execute positive and negative current-snapshot tests and the forced-current production CLI. No source/crop/focus/value repair in this correction.",
+  "codeAndTests": [
+    {
+      "path": "tools/continuation-candidates-validate.mjs",
+      "sha256": "33124f6bb41bd7d98ee350863be16515205c8a5682b6ea395fd341a5c047ee2b",
+      "bytes": 26783
+    },
+    {
+      "path": ".github/workflows/pages.yml",
+      "sha256": "d0c80f8dc9b55456bda7e774a9f117d5d4a272d45c1101c00d70fb47efc1cfdc",
+      "bytes": 20996
+    },
+    {
+      "path": "tests/current-continuation-snapshot.test.mjs",
+      "sha256": "475846c0ce52660cf79f741ee430a1ccec9fddb463c5153facda530f71c28ab7",
+      "bytes": 7546
+    }
+  ],
+  "mutableCurrentPointer": {
+    "path": "research/current-continuation-candidate-snapshot.json",
+    "sha256": "5ead88cdc3d8df271a99b82e4818c033570120ff47f87221d72c00c1d9bf5fbf",
+    "bytes": 388
+  },
+  "immutableEvidence": [
+    {
+      "path": "research/source-audit-batch6-dmg-continuation-current-full.json.gz",
+      "sha256": "3e8d6d710e773d97ec8e1d47158c16947e2935d33620ac5ce5a081121143ca4c",
+      "bytes": 1533295
+    },
+    {
+      "path": "research/source-audit-batch6-dmg-continuation-current.json",
+      "sha256": "dfc9c04398dc8fdaea0e9ed5540feae7987f0c1ca08af32c408ac25b1b94a09c",
+      "bytes": 1160244
+    },
+    {
+      "path": "research/source-audit-batch6-dmg-continuation-current.md",
+      "sha256": "c7291111e7bb4800eedf81c858c000fe55a5aa1b1fe0de3e957d2109471fda13",
+      "bytes": 77082
+    },
+    {
+      "path": "research/source-audit-batch6-dmg-continuation-region-union-before.json",
+      "sha256": "eb9a88103839e2662071cd8887d3141e63f0e7da2e37ee5a5ebeddb52a14a072",
+      "bytes": 7163
+    },
+    {
+      "path": "research/source-audit-batch6-dmg-current-continuation-before.json",
+      "sha256": "c1a244b19adfb5f3f59aa66fa696372dbdb1e2bb9113d309fbfa381749f27b9f",
+      "bytes": 3654
+    },
+    {
+      "path": "research/source-audit-batch6-dmg-current-continuation-repair.json",
+      "sha256": "adf4cdd8daa99ef5f3d1f77098eb46caf8008eb753a5ee4880ca82f8baf60700",
+      "bytes": 25607
+    },
+    {
+      "path": "tests/fixtures/dmg-current-continuation-a5a-before.json.gz",
+      "sha256": "7c1af89d36234a04f37cd27f384f65efec5e9cceb1af9c82db17638a1e7a4087",
+      "bytes": 1606146
+    },
+    {
+      "path": "tests/fixtures/dmg-current-continuation-ci-failure.log.gz",
+      "sha256": "5b95e05aff25d7f639d7237f856ec1fdd67645f0f5de6bd76cc9ecb840a56a2b",
+      "bytes": 470
+    }
+  ],
+  "executedChecks": {
+    "focusedCurrentSnapshotTests": {
+      "pass": 8,
+      "fail": 0,
+      "includes": [
+        "exact twelve-error CI before preserved",
+        "old snapshot still fails against current tree",
+        "fresh current pair passes",
+        "compensated omitted DeathFog alias passes old validator and fails repaired validator",
+        "unknown substitution rejected",
+        "paths/hashes/missing/disconnected pair rejected",
+        "symlink escape rejected",
+        "pinned history/file override/unknown flag rejected"
+      ]
+    },
+    "productionCli": {
+      "command": "node tools/continuation-candidates-validate.mjs --current-snapshot --force-current-tree --output-dir /tmp/batch6-dmg-root-current-ccd-review",
+      "valid": true,
+      "errors": 0,
+      "validationBase": "current-worktree",
+      "validationSha256": "eb85545c991ca85a1a77b64145ea953b424b1d08a7cc1dbe58a4f4d7a15d6f21"
+    },
+    "diffCheck": true,
+    "allNamedDataCropIndexQuestionAnd457SealPinsUnchanged": true
+  },
+  "authorChecksSeparatelyReported": {
+    "allRequiredWorkflowValidationBlocks": 24,
+    "fullNodePass": 760,
+    "fullNodeFail": 0,
+    "receipt": "research/source-audit-batch6-dmg-current-continuation-repair.json",
+    "rootDidNotDuplicateFullSuite": true
+  },
+  "limits": [
+    "CI validates the hash-bound numeric inventory and current exposed union; it does not regenerate private PDFs or prove semantic/source completeness.",
+    "All unresolved candidate and invalid geometry cases remain inventoried.",
+    "Remote CI, clean-head follow-up and normal Pages publication remain subsequent gates."
+  ]
+}

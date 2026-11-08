@@ -45,7 +45,7 @@ test('the exact legacy alias keeps its source, focus and relationship and opens 
 
 test('an owner change cannot inherit alias coverage from the other collection',()=>{
  const changed=structuredClone(manifest);
- changed.groups.at(-1).collection='rules';
+ changed.groups.find(group=>group.id===integration.addedGroup.id).collection='rules';
  const report=buildContinuationAliasReport({data,manifest:changed,catalogs});
  assert.equal(report.invalidGroups.length,1);
  assert.equal(report.structuralCheck.valid,false);

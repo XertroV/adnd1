@@ -1,3 +1,4 @@
+import {frozenDmgBeforeManifest,dmgContextBefore} from './helpers/dmg-context-frozen-manifest.mjs';
 import {withoutGeneratedCitationTransport,withoutBatch5OfferEquipment,withoutPriceCompletionEquipment, withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import {ambiguousItemOverrideIds, collectionReferenceOverrides} from '../tools/citation-override-identity.mjs';
 import assert from 'node:assert/strict';
@@ -726,7 +727,7 @@ test('UA26 row bindings, 91 ordered groups, and historical source grades remain 
   assert.equal(finalContinuationIntegration.before.segments,278,'the final receipt preserves the UA26-era segment checkpoint');
   assert.equal(finalContinuationIntegration.added.length,36,'the final manifest adds only its exact 36 reviewed groups');
   const laterGroups=[...load('research/source-audit-batch5-ua10-crop-integration.json').addedGroups,load('research/source-audit-batch5-continuation-alias-integration.json').addedGroup];
-  assert.deepEqual(manifest.groups.slice(finalContinuationIntegration.after.groups),laterGroups);
+  assert.deepEqual(frozenDmgBeforeManifest.groups.slice(finalContinuationIntegration.after.groups),laterGroups);
   const ua10Inputs=JSON.parse(gunzipSync(readFileSync(load('research/source-audit-batch5-ua10-crop-integration.json').before.additionalExactInputs.path)));
   const activatedManifest=JSON.parse(ua10Inputs.files['research/citation-continuations.json'].utf8);
   assert.deepEqual(manifest.groups.slice(0,finalContinuationIntegration.after.groups),activatedManifest.groups);
