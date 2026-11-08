@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {resolve} from 'node:path';
-import {readBeforeJoBytes} from './helpers/batch6-jo-fixture.mjs';
+import {readBeforeJoBytes,joIntegration} from './helpers/batch6-jo-fixture.mjs';
 import {createHash} from 'node:crypto';
 import vm from 'node:vm';
 import {hash} from '../tools/monetary-row-identity-audit.mjs';
@@ -35,11 +35,12 @@ test('every current group member retains its real runtime result while both Jo m
  const fixture=unzip('tests/fixtures/jo-stick-continuation-role-before.json.gz'),inventory=runtimeGroupInventory(path=>readFileSync(resolve(root,path))),oldById=new Map(fixture.inventory.map(g=>[g.id,g]));
  const captured=new Map(fixture.files.map(f=>[f.path,f]));for(const path of ['dist/source-viewer.js','dist/books.js','dist/scans/verified/equipment-ua-jo-stick.json'])assert.equal(createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex'),captured.get(path).sha256,`${path}: runtime correction does not change viewer, mappings, catalog or source pixels`);
  const beforeJo=JSON.parse(captured.get('equipment.json').text).equipment.find(item=>item.id==='ua-jo-stick');assert.deepEqual(jo,beforeJo,'the Jo source values and field proofs remain unchanged by the role correction');
- const expectedManifest=JSON.parse(captured.get('research/citation-continuations.json').text);expectedManifest.groups.find(g=>g.id==='ua26-wd-31-ua-jo-stick').segments[1].role='continuation';assert.deepEqual(read('research/citation-continuations.json'),expectedManifest,'exactly one Jo segment role changes across the full191-group manifest');
- assert.equal(inventory.length,191);assert.equal(inventory.reduce((n,g)=>n+g.selections.length,0),358);assert.equal(inventory.filter(g=>g.segments===1).length,24);assert.equal(inventory.filter(g=>g.segments>1).length,167);
- for(const group of inventory){if(group.segments===1)assert.ok(group.selections.every(s=>!s.linked),`${group.id}: single-part groups intentionally do not join`);else for(const selected of group.selections){assert.equal(selected.linked,true,`${group.id}: ${selected.regionId}`);assert.deepEqual(selected.result.parts.filter(p=>p.selected).map(p=>p.regionId),[selected.regionId]);if(group.id==='ua26-wd-31-ua-jo-stick'){assert.equal(selected.result.groupId,group.id);assert.deepEqual(selected.result.parts.map(p=>p.regionId),group.selections.map(s=>s.regionId));}}if(group.id!=='ua26-wd-31-ua-jo-stick')assert.deepEqual(group,oldById.get(group.id),'all other actual runtime results, including historical first-match aliases, remain unchanged');}
+ const additions=joIntegration.upstreamIntegration.groupAdditions.map(ref=>ref.group),addedIds=new Set(additions.map(g=>g.id));
+ const expectedManifest=JSON.parse(captured.get('research/citation-continuations.json').text);expectedManifest.groups.find(g=>g.id==='ua26-wd-31-ua-jo-stick').segments[1].role='continuation';expectedManifest.groups.splice(190,0,...additions);assert.deepEqual(read('research/citation-continuations.json'),expectedManifest,'preserve the exact Jo role repair and separately reviewed master groups');
+ assert.equal(inventory.length,joIntegration.currentRuntimeCounts.groups);assert.equal(inventory.reduce((n,g)=>n+g.selections.length,0),joIntegration.currentRuntimeCounts.members);assert.equal(inventory.filter(g=>g.segments===1).length,24);assert.equal(inventory.filter(g=>g.segments>1).length,joIntegration.currentRuntimeCounts.multiPartGroups);
+ for(const group of inventory){if(group.segments===1)assert.ok(group.selections.every(s=>!s.linked),`${group.id}: single-part groups intentionally do not join`);else for(const selected of group.selections){assert.equal(selected.linked,true,`${group.id}: ${selected.regionId}`);assert.deepEqual(selected.result.parts.filter(p=>p.selected).map(p=>p.regionId),[selected.regionId]);if(group.id==='ua26-wd-31-ua-jo-stick'||addedIds.has(group.id)){assert.equal(selected.result.groupId,group.id);assert.deepEqual(selected.result.parts.map(p=>p.regionId),group.selections.map(s=>s.regionId));}}if(group.id!=='ua26-wd-31-ua-jo-stick'&&!addedIds.has(group.id))assert.deepEqual(group,oldById.get(group.id),'all old actual runtime results, including historical first-match aliases, remain unchanged');}
  const note=catalog.regions.find(r=>r.id==='jo-stick-ua26-facing-general-note');assert.equal(note.role,'context');
- const receipt=read('research/source-audit-batch6-jo-integration-v2.json'),previous=readFileSync(resolve(root,receipt.supersedes.path));assert.equal(createHash('sha256').update(previous).digest('hex'),receipt.supersedes.sha256);assert.deepEqual(receipt.addedContinuationGroup,read('research/citation-continuations.json').groups.at(-1));
+ const receipt=joIntegration,previous=readFileSync(resolve(root,receipt.supersedes.path));assert.equal(createHash('sha256').update(previous).digest('hex'),receipt.supersedes.sha256);assert.deepEqual(receipt.addedContinuationGroup,read('research/citation-continuations.json').groups.at(-1));
 });
 
 test('V1 stale current-owner assertions remain a five-field regression fixture while current rows name the distinct owner',()=>{
@@ -61,11 +62,11 @@ test('the distinct Jo owner preserves all fourteen approved source-specific valu
 test('all fourteen field targets stay page-bound while the separately cited note remains ordered context',()=>{
  const bindings=inventory.fieldEvidenceBindings.filter(b=>b.itemId==='ua-jo-stick'&&b.sourceCategory==='equipment-field');assert.equal(bindings.length,14);assert.equal(catalog.regions.length,5);
  for(const binding of bindings){assert.equal(binding.regionIds.length,1);const region=catalog.regions.find(r=>r.id===binding.regionIds[0]);assert.equal(region.book,binding.book);assert.equal(region.printedPage,binding.printedPage);assert.equal(region.pdfPage,binding.pdfPage);assert.equal(region.role,'row');}
- const oldManifest=unzip('tests/fixtures/citation-continuations-before-jo.json.gz'),manifest=read('research/citation-continuations.json');assert.deepEqual(manifest.groups.slice(0,190),oldManifest.groups);assert.equal(manifest.groups.length,191);
+ const oldManifest=unzip('tests/fixtures/citation-continuations-before-jo.json.gz'),manifest=read('research/citation-continuations.json');assert.deepEqual(manifest.groups.slice(0,190),oldManifest.groups);assert.equal(manifest.groups.length,joIntegration.currentRuntimeCounts.groups);
  const group=manifest.groups.at(-1);assert.equal(group.itemId,'ua-jo-stick');assert.deepEqual(group.segments.map(s=>[s.order,s.role,s.printedPage]),[[1,'opening',26],[2,'continuation',27]]);
  assert.ok(jo.references.some(ref=>ref.book==='UA'&&ref.pages.includes(27)&&ref.role==='supporting-context'&&ref.continuationGroupId===group.id));
  const note=catalog.regions.find(r=>r.id==='jo-stick-ua26-facing-general-note');assert.equal(note.contextForRegionId,'jo-stick-ua26-row');assert.doesNotMatch(note.checkedFields.sourceExcerpt,/caltrop/i);
- const validation=validateContinuationManifest(manifest,{data,catalogRoot:resolve(root,'dist')});assert.equal(validation.groups,191);assert.equal(validation.segments,358);
+ const validation=validateContinuationManifest(manifest,{data,catalogRoot:resolve(root,'dist')});assert.equal(validation.groups,joIntegration.currentRuntimeCounts.groups);assert.equal(validation.segments,joIntegration.currentRuntimeCounts.members);
 });
 
 test('redundant Jo locators use explicit XYWH and the bound crop/page frame without changing the approved focus',()=>{

@@ -9,6 +9,7 @@ import {buildCoverageGaps} from './coverage-gaps.mjs';
 import {loadMonetaryRowIdentityAudit} from './monetary-row-identity-audit.mjs';
 import {loadJoUnextractedPriceRegistration} from './jo-unextracted-price-registration.mjs';
 import {fieldBindingAxisMetrics, fieldBindingCountMeaning, historicalProducerMetadata, sourceIntegrationDescriptor, currentUncheckedExclusions, uncheckedExclusionTemplate} from './source-report-consistency-audit.mjs';
+import {loadCurrentMonetarySourceQuestions,validateCurrentMonetarySourceQuestionProjection} from './monetary-current-source-questions.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BASELINE_COMMIT = '679b15d1c580172e54314829c1c3c86dc78b65f3';
@@ -382,7 +383,7 @@ export function projectUaMeaningReview({sourceReport, sourceSha256, review, revi
   };
 }
 
-export function projectCurrentMonetaryReview({metadata, audit, reviewManifest, sourceReport, meaningReview = null, meaningReviewSha256 = null}) {
+export function projectCurrentMonetaryReview({metadata, audit, reviewManifest, sourceReport, meaningReview = null, meaningReviewSha256 = null, currentSourceQuestions = null}) {
   if (audit?.generatedBy !== 'tools/monetary-row-identity-audit.mjs' || !Array.isArray(audit.records) || !Array.isArray(audit.knownFindings)
       || !Array.isArray(audit.reviewResults) || !Array.isArray(audit.retainedUncertainties) || !Array.isArray(reviewManifest?.reviews)
       || audit.validation?.semanticRowIdentityComplete !== false || audit.validation?.structuralErrors?.length) fail('monetary current review audit is invalid or claims semantic clearance');
@@ -410,7 +411,8 @@ export function projectCurrentMonetaryReview({metadata, audit, reviewManifest, s
   }
   const findings = audit.knownFindings.filter(finding => finding.records.some(ref => uids.has(ref.uid)));
   const reviews = audit.reviewResults.filter((result, index) => reviewManifest.reviews[index].records?.some(ref => uids.has(ref.uid)));
-  const uncertainties = audit.retainedUncertainties.filter(record => uids.has(record.uid));
+  if(currentSourceQuestions)validateCurrentMonetarySourceQuestionProjection(currentSourceQuestions);
+  const uncertainties = currentSourceQuestions ? currentSourceQuestions.records.filter(record=>record.currentDisposition==='unresolved-source-question'&&uids.has(record.uid)).map(record=>({...record,status:'retained-unresolved-source-question'})) : audit.retainedUncertainties.filter(record => uids.has(record.uid));
   const questionLabels = {
     'phb-dmg-commodity-adjustment-scope': 'Whether the fur-value adjustment also applies to the listed commodities',
     'phb-dmg-alchemist-discount-scope': 'Whether or how alchemist assistance affects potion monetary costs',
@@ -434,7 +436,7 @@ export function projectCurrentMonetaryReview({metadata, audit, reviewManifest, s
     retainedUncertainties: uncertainties.map(({id, uid, status}) => ({id, uid, status})),
     underlyingSourceQuestions: sourceQuestions,
     underlyingSourceQuestionRows: new Set(sourceQuestions.flatMap(question => question.affectedAuditUids)).size,
-    globalAudit: {knownFindings: audit.knownFindings.length, knownFindingStatuses: countBy(audit.knownFindings, 'status'), retainedUncertainties: audit.retainedUncertainties.length, retainedUncertaintyStatuses: countBy(audit.retainedUncertainties, 'status'), underlyingSourceQuestions: globalQuestions.length, underlyingSourceQuestionIds: globalQuestions.map(question => question.id), underlyingSourceQuestionRows: new Set(globalQuestions.flatMap(question => question.affectedAuditUids)).size},
+    globalAudit: {knownFindings: audit.knownFindings.length, knownFindingStatuses: countBy(audit.knownFindings, 'status'), retainedUncertainties: currentSourceQuestions?.counts.currentUnresolvedQuestions ?? audit.retainedUncertainties.length, ...(currentSourceQuestions?{legacyRegisteredQuestions:currentSourceQuestions.counts.historicalRegisteredQuestions,derivedAdjudications:currentSourceQuestions.counts.derivedAdjudications,legacyRegisteredQuestionStatuses:countBy(audit.retainedUncertainties,'status'),currentSourceQuestionRegistry:currentSourceQuestions.registry}:{}), retainedUncertaintyStatuses: currentSourceQuestions?countBy(currentSourceQuestions.records.filter(record=>record.currentDisposition==='unresolved-source-question'),'currentDisposition'):countBy(audit.retainedUncertainties, 'status'), underlyingSourceQuestions: globalQuestions.length, underlyingSourceQuestionIds: globalQuestions.map(question => question.id), underlyingSourceQuestionRows: new Set(globalQuestions.flatMap(question => question.affectedAuditUids)).size},
     status: pending.length || reviews.some(review => review.status !== 'current-explicit-review') ? 'current-scoped-review-queue' : 'current-scoped-finding-reviews-recorded',
     semanticPass: false, sourceAbsence: false, generalReviewPending: true, generalSourceReviewStatus: 'pending',
     scope: 'Exact source-input hash and audit-record joins. Finding repairs concern their declared dimensions; records touched by reviews are not a count of fully verified source rows or field highlights.',
@@ -460,7 +462,9 @@ function loadCurrentMonetaryReview({repoRoot, read, hashFile, hashes}) {
   bind(registration.authorityAvailability);
   bind({path: 'tools/monetary-row-identity-audit.mjs', sha256: registration.currentCode?.rowToolSha256});
   bind({path: 'tools/monetary-context-extent-contract.mjs', sha256: registration.currentCode?.extentSha256});
-  return {audit, reviewManifest, meaningReview, meaningReviewSha256: hashes[UA_MEANING_REVIEW_PATH], registration, registrationRef: {path: registrationPath, sha256: hashes[registrationPath]}};
+  const currentSourceQuestions=loadCurrentMonetarySourceQuestions({repoRoot,audit});
+  for(const ref of currentSourceQuestions.inputs)bind(ref);
+  return {audit, reviewManifest, meaningReview, meaningReviewSha256: hashes[UA_MEANING_REVIEW_PATH], registration, registrationRef: {path: registrationPath, sha256: hashes[registrationPath]}, currentSourceQuestions};
 }
 
 function exposedRecords(data) {
@@ -760,6 +764,7 @@ export function buildRefreshedHandoff({repoRoot = root, handoff: currentHandoff,
   const handoff = clone(currentHandoff);
   const parsedRecordCount = exposedRecordCount(data);
   handoff.generatedOn = new Date().toISOString().slice(0, 10);
+  if(monetaryCurrent)handoff.currentMonetarySourceQuestions=monetaryCurrent.currentSourceQuestions;
   handoff.snapshot = {...handoff.snapshot, dataRecordCount: parsedRecordCount, parsedDataSha256: dataSha, rawDistDataFileSha256: hashes['dist/data.json'], mechanicsAuditInputSha256: mechanicsSha, mechanicsAuditFileSha256: hashes['research/mechanics-audit-progress.json'], sourceScanInputSha256: scan.input.sha256, sourceScanFileSha256: hashes['tests/fixtures/source-scan-inventory.json'], canonicalPriceInventoryFileSha256: hashes['research/price-source-inventory.json'], sourceOfferReconciliationFileSha256: hashes['research/equipment-source-offer-reconciliation.json'], refreshBaselineCommit: BASELINE_COMMIT, refreshTemplateSha256: handoffTemplateSha256, refreshInputHashes: hashes};
   handoff.scope = {...handoff.scope, currentExposedRecords: parsedRecordCount};
   handoff.mechanicsAudit.counts = clone(mechanics.counts);

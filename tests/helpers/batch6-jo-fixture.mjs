@@ -6,8 +6,9 @@ import {hash} from '../../tools/monetary-row-identity-audit.mjs';
 import {fileURLToPath} from 'node:url';
 import {resolve,relative} from 'node:path';
 const root=new URL('../../',import.meta.url),read=p=>JSON.parse(readFileSync(new URL(p,root))),sha=b=>createHash('sha256').update(b).digest('hex');
-export const joIntegration=read('research/source-audit-batch6-jo-integration-v2.json');
+export const joIntegration=read('research/source-audit-batch6-jo-integration-v3.json');
 assert.equal(sha(readFileSync(new URL(joIntegration.supersedes.path,root))),joIntegration.supersedes.sha256,'the former Jo integration receipt remains exact historical evidence');
+for(const ref of [...joIntegration.historicalJoReceipts,joIntegration.upstreamIntegration.sourceMetadataReview,joIntegration.upstreamIntegration.continuationRepairReview])assert.equal(sha(readFileSync(new URL(ref.path,root))),ref.sha256,'exact historical and upstream integration review evidence');
 export const semanticJoFixture=value=>Array.isArray(value)?value.map(semanticJoFixture):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).filter(([key])=>!['evidenceBindings','regionReviews'].includes(key)).map(([key,child])=>[key,semanticJoFixture(child)])):value;
 function frozen(ref){const zipped=readFileSync(new URL(ref.path,root));assert.equal(sha(zipped),ref.sha256,ref.path);const bytes=gunzipSync(zipped);if(ref.uncompressedSha256)assert.equal(sha(bytes),ref.uncompressedSha256);return JSON.parse(bytes);}
 export const dataBeforeJo=frozen(joIntegration.beforeData);
@@ -28,7 +29,7 @@ export function withoutBatch6JoEquipment(equipment){
   return structuredClone(dataBeforeJo.equipment.find(old=>old.id==='ua-caltrop'));
  });
 }
-export function withoutBatch6JoData(data){const equipment=withoutBatch6JoEquipment(data.equipment);if(equipment===data.equipment)return data;assert.deepEqual(data.release.priceInventory,joIntegration.currentReleasePriceInventory,'only the declared Jo price-inventory counters may be reversed');assert.deepEqual(data.release.excerpts,joIntegration.currentReleaseExcerpts,'only the exact Jo/Caltrop excerpt-count and owner changes may be reversed');return {...data,equipment,release:{...data.release,priceInventory:structuredClone(dataBeforeJo.release.priceInventory),excerpts:structuredClone(dataBeforeJo.release.excerpts)}};}
+export function withoutBatch6JoData(data){const equipment=withoutBatch6JoEquipment(data.equipment);if(equipment===data.equipment)return data;assert.deepEqual(data.release.priceInventory,joIntegration.currentReleasePriceInventory,'only the declared current price-inventory counters may be reversed');assert.deepEqual(data.release.excerpts,joIntegration.currentReleaseExcerpts,'only the exact current excerpt-count and owner changes may be reversed');const rules=data.rules.map(item=>{const ref=joIntegration.upstreamIntegration.exactHistoricalRecordRestorations.find(r=>r.collection==='rules'&&r.itemId===item.id);if(!ref)return item;assert.equal(hash(item),ref.currentRecordSha256,'only exact reviewed upstream DMG metadata may be reversed');const old=dataBeforeJo.rules.find(r=>r.id===item.id);assert.equal(hash(old),ref.beforeRecordSha256);return structuredClone(old);});return {...data,equipment,rules,release:{...data.release,priceInventory:structuredClone(dataBeforeJo.release.priceInventory),excerpts:structuredClone(dataBeforeJo.release.excerpts)}};}
 export function withoutBatch6JoManifest(manifest){
  const matches=manifest.groups.filter(group=>group.id===joIntegration.addedContinuationGroup.id);
  if(!matches.length)return manifest;
@@ -45,7 +46,7 @@ export function readBeforeJoBytes(path){
  if(normalized==='research/source-table-citation-contracts.json'){
   assert.equal(sha(current),joIntegration.currentSourceContracts.sha256,'exact current mapping contracts before history reversal');return gunzipSync(readFileSync(new URL(joIntegration.beforeSourceContracts.path,root)));
  }
- if(normalized==='research/citation-continuations.json'){assert.deepEqual(withoutBatch6JoManifest(JSON.parse(current)),manifestBeforeJo,'the original190 groups remain unchanged');return gunzipSync(readFileSync(new URL(joIntegration.beforeContinuationManifest.path,root)));}
+ if(normalized==='research/citation-continuations.json'){let projected=withoutBatch6JoManifest(JSON.parse(current));for(const ref of joIntegration.upstreamIntegration.groupAdditions){const matches=projected.groups.filter(group=>group.id===ref.group.id);assert.equal(matches.length,1);assert.equal(hash(matches[0]),ref.sha256,'only an exact reviewed upstream DMG group may be reversed');projected={...projected,groups:projected.groups.filter(group=>group.id!==ref.group.id)};}assert.deepEqual(projected,manifestBeforeJo,'the original190 groups remain unchanged');return gunzipSync(readFileSync(new URL(joIntegration.beforeContinuationManifest.path,root)));}
  if(normalized==='citation-overrides.json'){assert.equal(sha(current),joIntegration.currentCitationOverrides.sha256,'exact current scoped overrides before history reversal');return gunzipSync(readFileSync(new URL(joIntegration.beforeCitationOverrides.path,root)));}
  const parsed=['dist/data.json','equipment.json','research/citation-continuations.json'].includes(normalized)?JSON.parse(current):null;
  const projected=normalized==='dist/data.json'?withoutBatch6JoData(parsed):normalized==='equipment.json'?{...parsed,equipment:withoutBatch6JoEquipment(parsed.equipment)}:normalized==='research/citation-continuations.json'?withoutBatch6JoManifest(parsed):null;

@@ -155,6 +155,14 @@ function canonicalBeforeJoArtifact() {
   return {path:'research/price-source-inventory.json',sha256:sha256(bytes),data:JSON.parse(bytes)};
 }
 
+function historicalMonsterCensusArtifact() {
+  const compressed = readFileSync(resolve(root, 'tests/fixtures/monetary-monster-census-before-mammoth-derived.json.gz'));
+  assert.equal(sha256(compressed), 'a805c0dcb149b42e0f720c1218605fa1bb257a81ac3e57d9ce1de373408b7173');
+  const bytes = gunzipSync(compressed);
+  assert.equal(sha256(bytes), HISTORICAL_V4_OTHER_INPUT_SHA256.monsterCensus);
+  return {path:'research/price-source-inventory-monster-books.json',sha256:sha256(bytes),data:JSON.parse(bytes)};
+}
+
 function historicalBeforeInputs() {
   const baselineBytes = gunzipSync(readFileSync(resolve(root, 'tests/fixtures/price-source-inventory-baseline-679.json.gz')));
   const historical = historicalV4InputsFixture();
@@ -173,7 +181,7 @@ function historicalBeforeInputs() {
     phbDmgPricePassageSupplement: historical.get('phbDmgPricePassageSupplement'),
     phbDmgCensus: pinnedCurrentArtifact('research/price-source-inventory-phb-dmg-other.json', HISTORICAL_V4_OTHER_INPUT_SHA256.phbDmgCensus),
     uaCensus: pinnedCurrentArtifact('research/price-source-inventory-ua-other.json', HISTORICAL_V4_OTHER_INPUT_SHA256.uaCensus),
-    monsterCensus: pinnedCurrentArtifact('research/price-source-inventory-monster-books.json', HISTORICAL_V4_OTHER_INPUT_SHA256.monsterCensus),
+    monsterCensus: historicalMonsterCensusArtifact(),
   };
 }
 

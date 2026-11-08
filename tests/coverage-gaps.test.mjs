@@ -28,8 +28,14 @@ test('coverage gaps payload has source-linked entries and traces every generated
   assert.equal(payload.schemaVersion, 1);
   assert.equal(payload.title, 'Known gaps & limitations');
   assert.equal(payload.groups.length, 8);
-  const entries=payload.groups.flatMap(group=>group.entries),jo=entries.filter(row=>row.id==='equipment-ua-jo-stick-price');
-  assert.equal(entries.length-jo.length,134,'all earlier entries remain');assert.equal(jo.length,1);assert.equal(jo[0].status,'not-extracted');assert.match(jo[0].description,/not purchase costs/);
+  const allEntries = payload.groups.flatMap(group => group.entries);
+  const currentQuestions = allEntries.filter(row => row.id.startsWith('monetary-source-question-'));
+  const jo=allEntries.filter(row=>row.id==='equipment-ua-jo-stick-price');
+  assert.equal(jo.length,1);assert.equal(jo[0].status,'not-extracted');assert.match(jo[0].description,/not purchase costs/);
+  assert.equal(allEntries.length - currentQuestions.length - jo.length, 134, 'all original entries remain alongside the eight questions and Jo');
+  assert.equal(currentQuestions.length, 8, 'all eight historical questions receive explicit current dispositions');
+  assert.equal(currentQuestions.filter(row => row.status === 'unresolved-source-question').length, 7);
+  assert.equal(currentQuestions.filter(row => row.status === 'source-backed-derived-valuation').length, 1);
 
   for (const group of payload.groups) {
     for (const row of group.entries) {

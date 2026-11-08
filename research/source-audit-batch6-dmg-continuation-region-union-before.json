@@ -1,0 +1,227 @@
+{
+  "artifactType": "required-current-region-union-calibration-before",
+  "scope": "Named existing DeathFog alias omitted from fresh current metadata. This is the explicitly required omitted-alias completeness check, not a source semantic finding.",
+  "validator": {
+    "path": "tools/continuation-candidates-validate.mjs",
+    "sha256": "65b9699164f8f2818bd0f40e762c61380e7b8d79e3393bb3f7fd0eb258ec2b3e",
+    "bytes": 23936
+  },
+  "priorCodeFixture": "tests/fixtures/dmg-current-continuation-a5a-before.json.gz",
+  "actualCompleteCurrentBefore": {
+    "schemaVersion": 1,
+    "summary": "source-audit-batch6-dmg-continuation-current.json",
+    "fullEvidence": "source-audit-batch6-dmg-continuation-current-full.json.gz",
+    "valid": true,
+    "errors": [],
+    "counts": {
+      "catalogFiles": 1015,
+      "exposedCatalogBindings": {
+        "sourceExcerpts": 994,
+        "scanVerification": 22
+      },
+      "regionBindingUses": {
+        "sourceExcerpts": 2989,
+        "scanVerification": 80
+      },
+      "catalogRegionRows": 3066,
+      "distinctSourcePageBindings": 229,
+      "propertyRecords": 995,
+      "propertyPointers": 197296,
+      "mechanicsFields": 13428,
+      "verifiedImageFiles": 1286
+    },
+    "validationBase": "current-worktree",
+    "requestedValidationMode": "current-worktree",
+    "pinnedTreeAvailability": "available",
+    "sourcePdfRegeneration": "unavailable-in-CI; local geometry snapshot is validated by input/source/catalog/image hashes, not regenerated from private PDFs"
+  },
+  "counterexample": {
+    "removedRegionId": "ua-69-b8b05ef9807ad0f8",
+    "owner": "ua-illusionist-death-fog",
+    "operation": "Remove exactly one full.regionAssessments row; decrement summary.exposedCatalogSummary.catalogRegionRows by1; recompute fullGZIP/raw hashes. Core/current catalogs and property inventory remain unchanged.",
+    "actualValidationBefore": {
+      "schemaVersion": 1,
+      "summary": "summary.json",
+      "fullEvidence": "full.json.gz",
+      "valid": true,
+      "errors": [],
+      "counts": {
+        "catalogFiles": 1015,
+        "exposedCatalogBindings": {
+          "sourceExcerpts": 994,
+          "scanVerification": 22
+        },
+        "regionBindingUses": {
+          "sourceExcerpts": 2989,
+          "scanVerification": 80
+        },
+        "catalogRegionRows": 3065,
+        "distinctSourcePageBindings": 229,
+        "propertyRecords": 995,
+        "propertyPointers": 197296,
+        "mechanicsFields": 13428,
+        "verifiedImageFiles": 1286
+      },
+      "validationBase": "current-worktree",
+      "requestedValidationMode": "current-worktree",
+      "pinnedTreeAvailability": "available",
+      "sourcePdfRegeneration": "unavailable-in-CI; local geometry snapshot is validated by input/source/catalog/image hashes, not regenerated from private PDFs"
+    },
+    "removedRow": {
+      "regionId": "ua-69-b8b05ef9807ad0f8",
+      "book": "UA",
+      "printedPage": 69,
+      "pdfPage": 70,
+      "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+      "imageSha256": "b8b05ef9807ad0f820896e4297cb5afa07f1521df5a6c709652ada10043a3d70",
+      "normalizedPageRect": [
+        0.49,
+        0.025,
+        0.49,
+        0.115
+      ],
+      "owner": {
+        "collection": "spells",
+        "itemId": "ua-illusionist-death-fog",
+        "catalog": "scans/verified/spells-ua-illusionist-death-fog.json"
+      },
+      "bindingUses": [
+        {
+          "bindingKey": "sourceExcerpts",
+          "collection": "spells",
+          "itemId": "ua-illusionist-death-fog"
+        }
+      ],
+      "textGeometryStatus": "assessed",
+      "sourceTextWordCount": 1185,
+      "signals": [
+        "lowercase-text-at-crop-top",
+        "word-crosses-crop-boundary"
+      ],
+      "geometry": {
+        "crossings": [
+          {
+            "edges": [
+              "top"
+            ],
+            "wordIndex": 0
+          },
+          {
+            "edges": [
+              "top"
+            ],
+            "wordIndex": 1
+          },
+          {
+            "edges": [
+              "top"
+            ],
+            "wordIndex": 2
+          },
+          {
+            "edges": [
+              "top"
+            ],
+            "wordIndex": 3
+          }
+        ],
+        "lineCount": 9,
+        "startClass": "lowercase-opening",
+        "endClass": "unpunctuated",
+        "firstLineBox": [
+          306.20001220703125,
+          29.515308380126953,
+          565.115234375,
+          39.34490966796875
+        ],
+        "lastLineBox": [
+          401.5,
+          9.280197143554688,
+          563.2970581054688,
+          20.46089744567871
+        ],
+        "lastLineColumn": 1
+      },
+      "adjacentFlowSignals": [
+        {
+          "kind": "same-page-column-opening-candidate",
+          "confidence": "weak-geometry-plus-text-shape",
+          "from": {
+            "boxPt": [
+              23.5,
+              714.92,
+              184.92,
+              724.74
+            ],
+            "column": 0,
+            "startClass": "capitalized-or-other-opening",
+            "endClass": "unpunctuated",
+            "wordCount": 9
+          },
+          "to": {
+            "boxPt": [
+              306.2,
+              38.82,
+              564.44,
+              48.64
+            ],
+            "column": 1,
+            "startClass": "lowercase-opening",
+            "endClass": "unpunctuated",
+            "wordCount": 13
+          },
+          "semanticReviewRequired": true
+        },
+        {
+          "kind": "adjacent-pdf-page-opening-candidate",
+          "confidence": "weak-geometry-plus-text-shape",
+          "from": {
+            "boxPt": [
+              317.0,
+              729.54,
+              575.03,
+              739.37
+            ],
+            "column": 1,
+            "startClass": "lowercase-opening",
+            "endClass": "unpunctuated",
+            "wordCount": 15
+          },
+          "to": {
+            "boxPt": [
+              23.0,
+              39.52,
+              281.75,
+              49.34
+            ],
+            "column": 0,
+            "startClass": "lowercase-opening",
+            "endClass": "unpunctuated",
+            "wordCount": 15
+          },
+          "semanticReviewRequired": true
+        }
+      ]
+    },
+    "summary": {
+      "path": "/tmp/batch6-dmg-continuation-refresh/alias-omission/summary.json",
+      "sha256": "c96dbf1b0b1cba7561a223d4a52b6f017d96fe6eac93215fe66c245be0ef9247",
+      "bytes": 1160199
+    },
+    "full": {
+      "path": "/tmp/batch6-dmg-continuation-refresh/alias-omission/full.json.gz",
+      "sha256": "74c30ae0009dcd26f09636f92d4e67975050a41c454dc10bd4efbfa71046cbf2",
+      "bytes": 1533277
+    }
+  },
+  "wholeUniverse": {
+    "sourcePageTriples": 229,
+    "catalogFiles": 1015,
+    "catalogRegionRows": 3066,
+    "propertyRecords": 995,
+    "propertyPointers": 197296,
+    "mechanicsFields": 13428
+  },
+  "requiredRepair": "Compare exact assessed-region identity union against independently derived current exposed binding-region keys; reported counters cannot hide an omitted alias. Retain existing unknown/stale and source-hash checks.",
+  "semanticPass": false
+}

@@ -1,4 +1,5 @@
 import {readBeforeJoFile} from './helpers/batch6-jo-fixture.mjs';
+import {frozenDmgBeforeManifest,dmgContextBefore} from './helpers/dmg-context-frozen-manifest.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -26,7 +27,7 @@ test('final continuation proposal preserves the frozen denominators and reconstr
   assert.equal(bundle.lineage.frozenManifest.groupCount, 60);
   assert.equal(activation.proposal.sha256, sha(readBeforeJoFile(activation.proposal.path)));
   assert.equal(bundle.lineage.currentIntegrationPoint.manifestSha256, activation.priorManifestSha256);
-  assert.deepEqual(manifest.groups, [...activated187.groups, ...laterGroups]);
+  assert.deepEqual(frozenDmgBeforeManifest.groups, [...activated187.groups, ...laterGroups]);
   const before = structuredClone(activated187);
   const additions = new Set(activation.added.map(group => group.id));
   before.groups = before.groups.filter(group => !additions.has(group.id));
@@ -72,7 +73,7 @@ test('all 36 new group proposals and five metadata recipes validate against the 
   assert.ok(newGroups.every(group => currentIds.has(group.id)), 'all 36 independently reviewed new groups are activated');
   for (const proposed of proposals) assert.deepEqual(manifest.groups.find(group => group.id === proposed.id), proposed);
   assert.equal(activated187.groups.length, activation.after.groups);
-  assert.deepEqual(manifest.groups, [...activated187.groups, ...laterGroups]);
+  assert.deepEqual(frozenDmgBeforeManifest.groups, [...activated187.groups, ...laterGroups]);
   assert.equal(activated187.groups.reduce((count, group) => count + group.segments.length, 0), activation.after.segments);
   assert.ok(relationshipRepairs.every(group => currentIds.has(group.id)), 'the five exact relationship replacements target extant groups');
   const validation = validateContinuationManifest({schemaVersion: 1, groups: proposals}, {data, catalogRoot: 'dist'});

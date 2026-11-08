@@ -1,4 +1,5 @@
 import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
+import {frozenDmgBeforeManifest,dmgContextBefore} from './helpers/dmg-context-frozen-manifest.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
@@ -98,7 +99,7 @@ test('all 38 encumbrance row continuations bind exact images, detect every missi
   assert.deepEqual(continuationManifest.groups.slice(22, 60), continuationReport.continuationGroups, 'the 38 DMG groups remain an exact immutable prefix');
   assert.equal(continuationManifest.groups.slice(0, finalContinuationIntegration.after.groups).length, finalContinuationIntegration.after.groups);
   const laterGroups = [...read('research/source-audit-batch5-ua10-crop-integration.json').addedGroups, read('research/source-audit-batch5-continuation-alias-integration.json').addedGroup];
-  assert.deepEqual(continuationManifest.groups.slice(finalContinuationIntegration.after.groups), laterGroups);
+  assert.deepEqual(frozenDmgBeforeManifest.groups.slice(finalContinuationIntegration.after.groups), laterGroups);
   assert.equal(continuationManifest.groups.slice(0, finalContinuationIntegration.after.groups).reduce((total, group) => total + group.segments.length, 0), finalContinuationIntegration.after.segments);
 
   const aliasCatalogKeys = new Set();
