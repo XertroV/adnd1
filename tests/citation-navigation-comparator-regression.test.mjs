@@ -13,6 +13,7 @@ const snapshot=JSON.parse(readFileSync(new URL('../research/citation-navigation-
 globalThis.FirstEditionBooks=books;
 const preFixCitations=require('./fixtures/citation-navigation-comparator-prefx/citations.js');
 const preFixAppRoute=readFileSync(new URL('./fixtures/citation-navigation-comparator-prefx/app-route.js',import.meta.url),'utf8');
+const recordResolverSource=app.slice(app.indexOf('function recordsForView('),app.indexOf('\nfunction pdfPage(',app.indexOf('function recordsForView(')));
 
 function routeProbe({appSource=app,citationApi=citations,hash='#equipment/phb-bo-stick?source=PHB%3A35&target=pending&field=%2FsuggestedPrice%2Fcomparisons%2F0&owner=equipment%3Aphb-spear',contextOwnerIds=['phb-spear','ua-sap']}={}){
  const data=JSON.parse(readFileSync(new URL('../dist/data.json',import.meta.url),'utf8'));
@@ -22,13 +23,14 @@ function routeProbe({appSource=app,citationApi=citations,hash='#equipment/phb-bo
  const routeSource=appSource===preFixAppRoute?appSource:appSource.slice(appSource.indexOf('function parseReferenceRoute('),appSource.indexOf('\nfunction goTo('));
  let opened;
  const context=vm.createContext({
-  data,views:['spells','rules','equipment','classes','notebook','sources'],URLSearchParams,
+  data,views:['spells','rules','equipment','classes','matrices','progressionExplainer','notebook','sources'],URLSearchParams,
   view:'equipment',selectedId:'phb-bo-stick',filter:{},selectedSpellLevels:new Set(),listLimit:50,referenceSearchTimer:null,renderedRouteHash:'',index:routeIndex,filteredItems:()=>routeIndex,
   location:{hash},
   document:{querySelectorAll:()=>contextOwnerIds.map(id=>({dataset:{sourceContext:id,sourceView:'equipment'}}))},
   FirstEditionCitations:citationApi,FirstEditionBooks:books,bookCode:books.code,render(){},clearTimeout(){},
   openScanViewer(...args){opened=args;}
  });
+ vm.runInContext(recordResolverSource,context);
  vm.runInContext(routeSource,context);
  context.route();
  return {data,inventory,opened,route:context.parseReferenceRoute(context.location.hash)};

@@ -6,6 +6,7 @@ import vm from 'node:vm';
 const viewer=readFileSync(new URL('../dist/source-viewer.js',import.meta.url),'utf8');
 const app=readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
 const before=JSON.parse(gunzipSync(readFileSync(new URL('../research/source-audit-batch5-rapid-history-before.json.gz',import.meta.url))));
+const recordResolverSource=app.slice(app.indexOf('function recordsForView('),app.indexOf('\nfunction pdfPage(',app.indexOf('function recordsForView(')));
 function harness(viewerSource=viewer,appSource=app){
  const queue=[],timers=[],doc={activeElement:null,createTextNode:text=>({textContent:text}),body:{append(){},classList:{add(){},remove(){}}}};
  class Element{
@@ -27,6 +28,7 @@ function harness(viewerSource=viewer,appSource=app){
  vm.runInContext(part(viewerSource,'  function setup()','\n  function resetZoom()'),ctx);
  vm.runInContext(part(viewerSource,'  function close(','  root.FirstEditionSourceViewer ='),ctx);
  ctx.FirstEditionSourceViewer={open:ctx.open,close:ctx.close};
+ vm.runInContext(recordResolverSource,ctx);
  vm.runInContext(part(appSource,'function openScanViewer(','\nfunction openNote('),ctx);
  const open=()=>ctx.openScanViewer(item,references,'entry',{book:'UA',page:26,region:'row'});
  return {ctx,queue,open,item,references,flush:()=>{while(queue.length)queue.shift()()}};
