@@ -6754,15 +6754,16 @@
       "book": "MM",
       "sourceObjectOrPassage": "Mammoth tusks",
       "passageIdentity": "Mammoth entry",
-      "claimType": "qualitative-valuation",
-      "amountOrFormula": "proportionately higher than elephant tusks",
-      "currency": "relative to gp valuation",
+      "claimType": "derived-relative-valuation-range",
+      "amountOrFormula": "(100–600 gp per elephant tusk) × 1.5 = 150–900 gp per mammoth tusk (derived)",
+      "currency": "gp",
       "unit": "per tusk",
-      "conditions": "Source supplies no numeric multiplier; baseline elephant valuation is MM printed p.38 / PDF p.39.",
-      "sourceReviewStatus": "source-value-visually-confirmed",
-      "interpretationStatus": "direct",
+      "conditions": "Mammoth tusks are 50% heavier and their value is proportionately higher. Apply the explicit proportional value relation to the Elephant value of 100–600 gp each. The resulting 150–900 gp per mammoth tusk is derived, not a printed range.",
+      "sourceReviewStatus": "source-relation-and-baseline-visually-confirmed",
+      "interpretationStatus": "source-backed-derived-interpretation",
       "notes": [
-        "No fixed numeric amount is asserted."
+        "The 1.5 factor follows the explicit proportional value relation; physical weight alone is not a monetary amount.",
+        "Derived per-tusk valuation only. No pair, herd, market adjustment or tusk-condition price is inferred."
       ],
       "sourcePages": [
         {
@@ -6822,6 +6823,54 @@
         "page": "original-source-page-viewed",
         "value": "visually-confirmed-or-qualifier-confirmed",
         "bounds": "provisional; generated from text-layer blocks and not manually pixel-calibrated"
+      },
+      "valuationDerivation": {
+        "kind": "source-proportional-value-range",
+        "factor": 1.5,
+        "increasePercentage": 50,
+        "relation": "explicit-value-proportionate-to-tusk-weight-increase",
+        "baseline": {
+          "claimId": "mm-elephant-tusks",
+          "minimumAmount": 100,
+          "maximumAmount": 600,
+          "currency": "gp",
+          "unit": "each"
+        },
+        "derivedRange": {
+          "minimumAmount": 150,
+          "maximumAmount": 900,
+          "currency": "gp",
+          "unit": "per tusk"
+        },
+        "formula": "(100–600 gp per elephant tusk) × (1 + 0.50)",
+        "printedAsRange": false,
+        "isSourcePrinted": false,
+        "sourceDependencies": [
+          {
+            "book": "MM",
+            "printedPage": 65,
+            "pdfPage": 66,
+            "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+            "role": "explicit-proportional-value-relation"
+          },
+          {
+            "book": "MM",
+            "printedPage": 38,
+            "pdfPage": 39,
+            "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+            "role": "elephant-per-tusk-valuation-baseline"
+          }
+        ],
+        "sourceProofs": [
+          {
+            "path": "research/source-audit-batch6-mammoth-source-proof.json",
+            "sha256": "6e0b3cacd78475c6c7dc38ae40834a13a6996af56dd9afc45c9cf57a19b7ad1b"
+          },
+          {
+            "path": "research/source-audit-batch6-retained-source-first-review.json",
+            "sha256": "3e3c02c5c0f139417375fbd675fe169571dcdc691fcfd7dd2d8fe59c417a7d34"
+          }
+        ]
       }
     },
     {
