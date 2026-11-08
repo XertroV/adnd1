@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
-import {readFileSync} from 'node:fs';
+import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-xp-continuation-history.mjs';
+// Preserve the released777 matrix-activation evidence and prior review census.
+// The new XP source assessments are independently checked on active inputs.
 import {execFileSync} from 'node:child_process';
 import test from 'node:test';
 
@@ -111,7 +113,7 @@ test('DMG source qualifiers and the monk conflict retain their exact limited sco
  }
 });
 
-test('each new matrix owner has one exact limited crop and scoped independent hash-bound owner review',()=>{
+test('each released777 matrix owner retains its exact crop and scoped independent hash-bound owner review',()=>{
  const overrides=readJson('citation-overrides.json');
  const visual=readJson('research/source-visual-reviews.json');
  const ownerPath='research/source-completeness-matrix-owner-review.json',ownerBytes=readFileSync(new URL(ownerPath,root)),ownerPeer=JSON.parse(ownerBytes);

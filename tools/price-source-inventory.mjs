@@ -4,6 +4,7 @@ import {existsSync, readFileSync, readdirSync, writeFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import {basename,resolve} from 'node:path';
 import {ambiguousItemOverrideIds, appendOverrideReferences, classProgressionOverride, cloneOverrideJson, collectionOverride, collectionReferenceOverrides, equipmentPriceStateOverride} from './citation-override-identity.mjs';
+import {assertReviewedClassXpContinuationTarget} from './class-xp-continuation-target-review.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const books = createRequire(import.meta.url)('../dist/books.js');
@@ -1413,6 +1414,7 @@ export function validatePriceSourceInventory(inventory, {equipment=applyAssembly
     if(target!==undefined&&binding.valuePathStatus==='value-path-missing') fail(`${binding.itemId}${binding.fieldPointer}: value path is marked missing but resolves`);
     if(sourceObject===undefined||sourceObject===null||typeof sourceObject!=='object') fail(`${binding.itemId}${sourceObjectPointer}: cited source object does not resolve to an object`);
     try{assertReviewedClassXpTargetIdentity(binding,{item,target,sourceOwner,sourceObjectPointer});}catch(error){fail(error.message);}
+    try{assertReviewedClassXpContinuationTarget(binding,{item,target,sourceOwner,sourceObjectPointer});}catch(error){fail(error.message);}
     if(binding.valueReview||binding.sourceValueStatus===CONFIRMED_PRICE_VALUE_STATUS){
       let derivedStatus;
       try{derivedStatus=derivePriceValueStatus({collection:binding.collection||'equipment',itemId:binding.itemId,fieldPointer:binding.fieldPointer??'',sourceObjectPointer:effectiveSourceObjectPointer,target,valueReview:binding.valueReview,claimedStatus:binding.sourceValueStatus});}

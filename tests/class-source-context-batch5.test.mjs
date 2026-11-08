@@ -1,7 +1,9 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
+import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-xp-continuation-history.mjs';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
 import {containsContext} from '../tools/citation-context-contract.mjs';
 import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';
+// Retain the exact released777 class-target census; active XP-continuation
+// bindings and current validators are checked separately without this reader.
 const root=new URL('..',import.meta.url),read=p=>JSON.parse(readFileSync(new URL(p,root)));
 const report=read('research/source-audit-batch5-class-integration.json');
 test('the actual previous proficiency table crop omits required definition context',()=>{
@@ -12,7 +14,7 @@ test('the actual previous proficiency table crop omits required definition conte
  const current=read('dist/'+contract.catalog).regions.find(r=>r.id===contract.regionId);
  assert.equal(containsContext(current.normalizedPageRect,contract.requiredBounds.values),true);
 });
-test('the frozen 49-fact class baseline and exact 206 current XP-row targets remain separately counted',()=>{
+test('the released777 49-fact class baseline and206 XP-row targets remain separately counted',()=>{
  const bindings=read('research/field-evidence-bindings.json').bindings.filter(b=>b.collection==='classes');
  const legacyBindings=bindings.filter(b=>['class-weapon-proficiency-progression','assassin-scroll-reading-ability'].includes(b.sourceCategory));
  const xpBindings=bindings.filter(b=>b.sourceCategory==='class-xp-row');

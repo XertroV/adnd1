@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "xp-continuation-monetary-metadata-refresh",
+  "scope": "Only exact canonical provenance digests and two current-input references change. No source value, unit, clause, source identity or question disposition changes.",
+  "beforeArchive": {
+    "path": "tests/fixtures/pass8-xp-continuation-metadata-before.json.gz",
+    "sha256": "e25351e6f59a1524997a34e2eef91ab4c40f237417fd6c334e064910403164d1"
+  },
+  "changedCurrentInputReferences": [
+    {
+      "key": "canonical",
+      "path": "research/price-source-inventory.json",
+      "beforeSha256": "5d2db55eb2b35985392382c183f1293b492ff0c8ade7b68c5c1a9f17f9215de6",
+      "afterSha256": "e272326ae95984015451fe88ecd91aade548eba82f026570a64f20e32ff6a542"
+    },
+    {
+      "key": "monetaryIndex",
+      "path": "research/monetary-source-inventory.json",
+      "beforeSha256": "589df0083c36dd1967a1a399818a7d892ab485ad7bb5e03252ea7cee2a76343c",
+      "afterSha256": "5083a2d378eb5c1046ae2f720b4bcaf08fefa6afd2cba1fdecb4ad4c89d4bcf3"
+    }
+  ],
+  "sourceOccurrences": 1871,
+  "claims": 2317,
+  "rawArraysDeepEqual": false,
+  "allowedDifferences": {
+    "sourceOccurrences": "710 /provenance/inputArtifact/sha256 references to research/price-source-inventory.json",
+    "claims": "728 /provenance/inputArtifact/sha256 references to the same file",
+    "beforeCanonicalSha256": "5d2db55eb2b35985392382c183f1293b492ff0c8ade7b68c5c1a9f17f9215de6",
+    "afterCanonicalSha256": "e272326ae95984015451fe88ecd91aade548eba82f026570a64f20e32ff6a542"
+  },
+  "allOtherOccurrenceAndClaimContentDeepEqual": true,
+  "questionDispositionsChanged": 0,
+  "numericOrUnitChanges": 0,
+  "initialCheck": "A raw-array equality assertion failed because these1438provenance digests changed; it was replaced with exact, counted two-path comparison, not a broad metadata strip."
+}

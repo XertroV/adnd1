@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "xp-continuation-current-integration-independent-review-addendum",
+  "supersedesLimitationsIn": "research/source-audit-pass8-xp-continuation-current-integration-independent-review.json",
+  "priorReviewSha256": "5779110afafbf493dd7a237e2fe9adfc23a4fc400f71b158f84fddf6b77f0a8e",
+  "scope": "Only two later-added integration assertions that close the prior review’s narrow remaining test-coverage limitations; no source pixel or source-value review.",
+  "inputs": [
+    {
+      "path": "tests/xp-continuation-current-integration.test.mjs",
+      "sha256": "0349de76fc09d189beca0f9c1fd75475487da223d933da887d54d88b924eb7d1"
+    },
+    {
+      "path": "tests/xp-continuation-current-integration-mutations.test.mjs",
+      "sha256": "b5e767426d6a0cb89e2a6456e5a68827fddff50549c06abf917586f2dc0b6ab5"
+    },
+    {
+      "path": "dist/data.json",
+      "sha256": "a4225fbd2015c5ba7d225738ec1a9bf4658f4a9a9700e340a37dde79317119f3"
+    },
+    {
+      "path": "dist/source-continuations.json",
+      "sha256": "18101098e2550013a090cc0fc81610392de42c037c492a9655ca23e1186961c1"
+    },
+    {
+      "path": "tests/fixtures/pass8-xp-continuation-current-integration-before.json.gz",
+      "sha256": "6f3edcf8f4576a45b7c926343b679cc18f4e5af73248d8c7c214599fb0697513"
+    }
+  ],
+  "commands": [
+    "node --test tests/xp-continuation-current-integration.test.mjs tests/xp-continuation-current-integration-mutations.test.mjs"
+  ],
+  "results": {
+    "passed": 6,
+    "failed": 0
+  },
+  "closedAssertions": [
+    {
+      "id": "target-override-region-counts",
+      "test": "The current target class sourceExcerpt override regionCount must equal its archived-before count plus the exact catalog region delta, before the test normalizes target override values for default comparison.",
+      "result": "The new assertion directly checks each target owner’s exact count; it covers stale or unrelated count edits that the earlier default comparison normalized."
+    },
+    {
+      "id": "public-continuation-projection",
+      "test": "For both new groups, compare actual dist/source-continuations.json projection against manifest collection/item/catalog/relationship and ordered per-segment order/role/book/printedPage/pdfPage/regionId/image/imageSha256/sourceSha256/state; validate segment-to-source catalog identity. Preserve all 250 old projected groups exactly.",
+      "result": "The new assertions reject wrong public segment metadata even when a matching group ID exists; prior test had checked only matching IDs."
+    }
+  ],
+  "mutationCalibration": "Retains the two earlier isolated pre-fix controls: old test accepts/current test rejects generic class field-owner-pointer scope bypass and unrelated edit to existing UA Paladin region review.",
+  "boundedConclusion": "Both remaining integration-test coverage gaps from the frozen parent review are closed in the pinned current test; the current distribution passes 6/6 tests. No source approvals or production data changes are made by this addendum."
+}

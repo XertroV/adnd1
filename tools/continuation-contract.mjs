@@ -324,6 +324,30 @@ export function auditRequiredSegmentPresence(group, catalog) {
   };
 }
 
+// Related rules can cite two books (for example UA explicitly retaining a PHB
+// advancement rule). They are not a literal continuation of one source file.
+// Each part still needs its own catalog identity and exact compared page.
+function validateCrossBookRelationship(group,catalog,item){
+  const segmentBooks=new Set(group.segments.map(segment=>segment.book));
+  if(segmentBooks.size<2)return false;
+  const relationship=group.relationship;
+  requireValue(relationship?.kind==='related-source-rules'
+    &&typeof relationship.label==='string'&&!!relationship.label.trim()
+    &&typeof relationship.reason==='string'&&!!relationship.reason.trim()
+    &&relationship.ownerPage&&typeof relationship.ownerPage.book==='string'
+    &&Number.isInteger(relationship.ownerPage.printedPage)&&relationship.ownerPage.printedPage>0
+    &&sourcePages(item).has(`${relationship.ownerPage.book}:${relationship.ownerPage.printedPage}`), `${group.id} cross-book parts require an explicit related-source-rules relationship to a cited owner page`);
+  requireValue(Number.isInteger(group.source.printedPage)&&group.source.printedPage>0
+    &&group.segments.some(segment=>segment.book===group.source.book&&segment.printedPage===group.source.printedPage
+      &&segment.sourceSha256===group.source.sourceSha256),`${group.id} cross-book group lacks its exact declared primary source page`);
+  for(const segment of group.segments){
+    requireValue(catalog.sources?.[segment.book]?.sha256===segment.sourceSha256,`${group.id} cross-book segment source identity changed`);
+    requireValue(group.sourceComparison.pages.some(page=>page.book===segment.book&&page.printedPage===segment.printedPage
+      &&page.pdfPage===segment.pdfPage&&page.sourceSha256===segment.sourceSha256),`${group.id} cross-book segment lacks its exact source comparison page`);
+  }
+  return true;
+}
+
 export function validateContinuationManifest(manifest, {data, catalogRoot}) {
   requireValue(manifest?.schemaVersion === 1 && Array.isArray(manifest.groups), 'Unsupported citation continuation manifest');
   requireValue(data && typeof data === 'object' && catalogRoot, 'Continuation validation needs assembled data and a catalog root');
@@ -357,10 +381,11 @@ export function validateContinuationManifest(manifest, {data, catalogRoot}) {
     }
     validateCitationPages(group, catalog, item);
     const ordered = [...group.segments].sort((a, b) => a.order - b.order);
+    const relatedCrossBook=validateCrossBookRelationship(group,catalog,item);
     requireValue(ordered.every((segment, i) => segment.order === i + 1), `${group.id} segment order must be contiguous from 1`);
     const regionIds = new Set();
     for (const segment of ordered) {
-      requireValue(segment.sourceSha256 === group.source.sourceSha256, `${group.id} segment source hash disagrees with its group`);
+      requireValue(segment.sourceSha256 === group.source.sourceSha256||(relatedCrossBook&&segment.book!==group.source.book), `${group.id} segment source hash disagrees with its group`);
       if (segment.regionId) {
         requireValue(!regionIds.has(segment.regionId), `${group.id} repeats segment region ${segment.regionId}`);
         regionIds.add(segment.regionId);
