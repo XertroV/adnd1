@@ -96,3 +96,23 @@
 @media(max-width:760px){.coverage-gaps-panel{padding:17px;margin-top:18px}.coverage-gaps-heading h2{font-size:25px}.coverage-gap-summary{grid-template-columns:1fr;gap:7px}.coverage-gap-count{padding:9px 11px}.coverage-gap-group>summary{font-size:12px}.coverage-gap-entry{padding:11px}.coverage-gap-entry-heading{display:block}.coverage-gap-status{max-width:100%;margin-top:6px;text-align:left}.coverage-gap-link{width:100%;min-height:44px}}
 @media(max-width:380px){.coverage-gaps-panel{padding:14px}.coverage-gaps-heading h2{font-size:23px}.coverage-gap-entry{padding:10px}}
 @media print{.coverage-gaps-panel{break-before:page;box-shadow:none}.coverage-gap-group[open] .coverage-gap-entries{break-inside:auto}}
+
+.mobile-search-open{display:none}
+.palette-history{padding:0 20px 12px;border-bottom:1px solid var(--line)}
+.palette-history-title{margin:0 0 7px;font-size:8px;letter-spacing:1.4px;font-weight:650;color:var(--muted)}
+.palette-history-list{display:flex;flex-wrap:wrap;gap:6px}
+.search-history-item{display:inline-flex;align-items:center;gap:7px;min-height:44px;max-width:100%;padding:8px 11px;border:1px solid var(--line);border-radius:4px;background:#f7f6ef;color:var(--ink);font-size:11px;text-align:left;overflow-wrap:anywhere}
+.search-history-item:hover{background:var(--green-light);border-color:#b8c3ae}
+.search-history-item .icon{width:14px;height:14px;flex:none;color:var(--brass)}
+@media(max-width:760px){
+ #paletteOpen{display:none}
+ .top-notes{margin-left:auto}
+ .brand{padding-right:56px}
+ .mobile-search-open{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:calc(env(safe-area-inset-right,0px) + 12px);z-index:80;display:grid;place-items:center;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;border:1px solid #c7b278;border-radius:50%;background:var(--green);color:#fffdf0;box-shadow:0 3px 14px #122b2540}
+ .mobile-search-open .icon{width:20px;height:20px}
+ .palette-history{padding:0 14px 10px}
+ .search-history-item{font-size:12px}
+}
+
+.mobile-footer-build{display:none}
+@media(max-width:760px){.mobile-footer-build{display:block;margin-top:4px;color:var(--muted);font-size:9px;line-height:1.5}.mobile-footer-build time{white-space:normal;overflow-wrap:anywhere}}
