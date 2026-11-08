@@ -1,0 +1,59 @@
+{
+  "artifactType": "DMG-context-derived-validation-before-refresh",
+  "chronology": "After applying approved six catalog recipes/three groups, before updating current snapshots/report dependencies and append-aware historical checks. This is not a before-source-repair capture.",
+  "sourceRepairBefore": {
+    "path": "research/source-audit-batch6-dmg-context-before.json",
+    "sha256": "5439decfe033e31639ecde5bb4673344522faec37ecfad23310b4755a535ec1b",
+    "bytes": 2742
+  },
+  "oldCheckerAndTestsFromGit": {
+    "path": "tests/fixtures/dmg-context-validation-b90d317-before.json.gz",
+    "sha256": "f10bfd4fcc4225003fb39acfbe01cbf0687a41f7107a797c38908797c222246b",
+    "bytes": 48833
+  },
+  "capturedSourceBase": "b90d31762611acc96895c66a9e8697360b39182a",
+  "actualGates": [
+    {
+      "command": [
+        "node",
+        "tools/assemble.mjs"
+      ],
+      "exitCode": 1,
+      "log": "/tmp/batch6-dmg-context-implementation/assemble-before-refresh.log",
+      "logSha256": "0c37837752aa5b43a62531e09b8100c5608bb0801411c4d1dd362bce0f786cac"
+    },
+    {
+      "command": [
+        "node",
+        "tools/source-raster-coverage.mjs",
+        "--output",
+        "/tmp/batch6-dmg-context-implementation/raster-stale-report.json",
+        "--check"
+      ],
+      "exitCode": 1,
+      "log": "/tmp/batch6-dmg-context-implementation/raster-before-refresh.log",
+      "logSha256": "b2050d6027b2dc69d9c9b95d28f4a310c1ba3c615e1141944d78b1616b8bd983"
+    }
+  ],
+  "fullNode": {
+    "tests": 741,
+    "pass": 725,
+    "fail": 16,
+    "log": {
+      "path": "tests/fixtures/dmg-context-pre-refresh-full-node-failures.log.gz",
+      "sha256": "3fc5d0928e8d811e7340d0ac5ef4bb49b0a3aac1d4a603c905a8fa75d1107d55",
+      "bytes": 52424
+    }
+  },
+  "failuresClassified": {
+    "staleHandoffSnapshots": 6,
+    "historical190GroupAssertions": 4,
+    "lastArrayElementAliasNegativeAssumption": 1,
+    "frozenCrossPageReportMistakenForLiveManifest": 1,
+    "staleRasterSnapshotCurrentAndLegacyCalibrationInputs": 2,
+    "staleMonetaryIndexValidationHashes": 1,
+    "staleSourceScanInventoryHash": 1
+  },
+  "oldNumericSnapshotUnchanged": "research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz",
+  "correctionScope": "New immutable full raster/geometry replay with a pinned active pointer; exact190 historical checks stay on frozen Git manifest; current full append is checked separately. No missing use, unsupported frame, source question or semantic review is waived."
+}

@@ -8,6 +8,7 @@ import {buildDispositionManifest,renderDispositionMarkdown,stableDispositionId} 
 import {reportContextContracts} from './citation-context-contract.mjs';
 import {validateContinuationManifest} from './continuation-contract.mjs';
 import {buildPriceSourceInventory,validatePriceSourceInventory} from './price-source-inventory.mjs';
+import {loadRasterSnapshotInput} from './source-raster-coverage.mjs';
 
 const root=path.resolve(fileURLToPath(new URL('..',import.meta.url)));
 const require=createRequire(import.meta.url),citations=require('../dist/citations.js');
@@ -350,7 +351,8 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
   const read=filename=>JSON.parse(readFileSync(path.resolve(root,filename),'utf8'));
   const fileHash=filename=>sha(readFileSync(path.resolve(root,filename)));
   const data=read('dist/data.json'),ledger=read('research/source-visual-reviews.json');
-  let geometry=null,geometryPath=null;for(const candidate of ['research/source-visual-audit-release.json','research/source-visual-audit-corrected.json']){geometry=readOptional(read,candidate);if(geometry){geometryPath=candidate;break;}}
+  const activeRaster = loadRasterSnapshotInput();
+  let geometry=null,geometryPath=null;for(const candidate of activeRaster.geometry ? [activeRaster.geometry.path] : ['research/source-visual-audit-release.json','research/source-visual-audit-corrected.json']){geometry=readOptional(read,candidate);if(geometry){geometryPath=candidate;break;}}
   const triage=collectTriage(read,fileHash);
   const canonicalPriceInventory=readOptional(read,'research/price-source-inventory.json');
   const priceInventory=canonicalPriceInventory||buildPriceSourceInventory();

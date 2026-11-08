@@ -1,4 +1,4 @@
-import {readFileSync, existsSync, readdirSync, mkdirSync, copyFileSync, writeFileSync} from 'node:fs';
+import {readFileSync, existsSync, readdirSync, mkdirSync, copyFileSync, writeFileSync, realpathSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 import {execFileSync} from 'node:child_process';
@@ -237,6 +237,9 @@ export function validateContinuationSnapshot({root, summaryPath = path.join(root
     }
   }
 
+  for (const key of expected.uses.keys()) if (!regionSeen.has(key)) fail(errors, 'current-region-assessment-missing', key.replace('\0', ':'));
+  for (const key of regionSeen) if (!expected.uses.has(key)) fail(errors, 'unexpected-region-assessment', key.replace('\0', ':'));
+
   if (full.input.distDataRawFileSha256 !== summary.input.distDataRawFileSha256 || full.input.continuationManifestSha256 !== summary.input.continuationManifestSha256 || full.input.catalogUniverseSha256 !== summary.input.catalogUniverseSha256) fail(errors, 'full-summary-input-mismatch', 'Full report and public summary refer to different data/catalog/continuation inputs.');
   const propertyStats = checkPropertyPointerInventory(full, data, errors);
   const actualMechanics = recomputeMechanics(data);
@@ -264,12 +267,34 @@ export function validateContinuationSnapshot({root, summaryPath = path.join(root
   };
 }
 
+export function loadCurrentContinuationCandidateSnapshot({root = process.cwd()} = {}) {
+  const pointerPath = 'research/current-continuation-candidate-snapshot.json';
+  const pointerBytes = readFileSync(path.resolve(root, pointerPath));
+  const pointer = JSON.parse(pointerBytes);
+  if (pointer?.schemaVersion !== 1) throw Error('Unsupported current continuation snapshot pointer.');
+  const loadPinned = (entry, label) => {
+    if (!entry || typeof entry.path !== 'string' || path.isAbsolute(entry.path) || entry.path.includes('\\') || entry.path.split('/').some(part => !part || part === '.' || part === '..') || !/^[a-f0-9]{64}$/.test(entry.sha256 || '')) throw Error(`Invalid ${label} repository path/hash.`);
+    const target = path.resolve(root, entry.path);
+    const location = path.relative(realpathSync(root), realpathSync(target));
+    if (location === '..' || location.startsWith(`..${path.sep}`) || path.isAbsolute(location)) throw Error(`${label} path escapes the repository.`);
+    const bytes = readFileSync(target);
+    if (sha256(bytes) !== entry.sha256) throw Error(`${label} bytes differ from the active pointer.`);
+    return {...entry, absolutePath: target, bytes};
+  };
+  const summary = loadPinned(pointer.summary, 'Current continuation summary');
+  const full = loadPinned(pointer.fullEvidence, 'Current continuation full report');
+  const parsed = JSON.parse(summary.bytes);
+  if (parsed.fullEvidence?.sha256 !== full.sha256 || typeof parsed.fullEvidence.path !== 'string' || path.resolve(path.dirname(summary.absolutePath), parsed.fullEvidence.path) !== full.absolutePath) throw Error('Current continuation summary/full report pair is disconnected.');
+  return {summaryPath: summary.absolutePath, fullPath: full.absolutePath, summary: parsed, pointer: {path: pointerPath, sha256: sha256(pointerBytes)}};
+}
+
 function parseCli(argv) {
-  const options = {repoRoot: process.cwd(), summary: null, full: null, outputDir: null, treeSelection: null};
+  const options = {repoRoot: process.cwd(), summary: null, full: null, outputDir: null, treeSelection: null, currentSnapshot: false};
   for (let index = 0; index < argv.length; index++) {
     const arg = argv[index];
     if (arg === '--force-current-tree') options.treeSelection = 'current-worktree';
     else if (arg === '--allow-pinned-history') options.treeSelection = 'pinned-git-commit';
+    else if (arg === '--current-snapshot') options.currentSnapshot = true;
     else if (['--repo-root', '--summary', '--full', '--output-dir'].includes(arg)) {
       const value = argv[++index];
       if (!value) throw new Error(`${arg} requires a path`);
@@ -282,7 +307,8 @@ function parseCli(argv) {
   }
   if (!options.help && !options.treeSelection) throw new Error('Choose exactly one of --force-current-tree or --allow-pinned-history.');
   if (options.treeSelection && argv.includes('--force-current-tree') && argv.includes('--allow-pinned-history')) throw new Error('Choose only one validation tree mode.');
-  if (!options.help && (!options.summary || !options.outputDir)) throw new Error('--summary and --output-dir are required.');
+  if (options.currentSnapshot && (options.summary || options.full || options.treeSelection !== 'current-worktree')) throw new Error('--current-snapshot requires --force-current-tree and cannot use --summary, --full or pinned history.');
+  if (!options.help && ((!options.summary && !options.currentSnapshot) || !options.outputDir)) throw new Error('--summary or --current-snapshot, and --output-dir, are required.');
   return options;
 }
 
@@ -311,22 +337,29 @@ function runCli(argv) {
   let options;
   try { options = parseCli(argv); }
   catch (error) {
-    process.stderr.write(`${error.message}\nUsage: node tools/continuation-candidates-validate.mjs --summary <summary.json> [--full <numeric.json.gz>] --output-dir <dir> (--force-current-tree|--allow-pinned-history) [--repo-root <dir>]\n`);
+    process.stderr.write(`${error.message}\nUsage: node tools/continuation-candidates-validate.mjs (--current-snapshot|--summary <summary.json> [--full <numeric.json.gz>]) --output-dir <dir> (--force-current-tree|--allow-pinned-history) [--repo-root <dir>]\n`);
     return 2;
   }
   if (options.help) {
-    process.stdout.write('Usage: node tools/continuation-candidates-validate.mjs --summary <summary.json> [--full <numeric.json.gz>] --output-dir <dir> (--force-current-tree|--allow-pinned-history) [--repo-root <dir>]\n');
+    process.stdout.write('Usage: node tools/continuation-candidates-validate.mjs (--current-snapshot|--summary <summary.json> [--full <numeric.json.gz>]) --output-dir <dir> (--force-current-tree|--allow-pinned-history) [--repo-root <dir>]\n');
     return 0;
   }
   const root = path.resolve(options.repoRoot);
-  const summaryPath = path.resolve(root, options.summary);
-  let summary;
-  try { summary = JSON.parse(readFileSync(summaryPath, 'utf8')); }
+  let summaryPath, fullPath, summary, selection = null;
+  try {
+    if (options.currentSnapshot) {
+      selection = loadCurrentContinuationCandidateSnapshot({root});
+      ({summaryPath, fullPath, summary} = selection);
+    } else {
+      summaryPath = path.resolve(root, options.summary);
+      summary = JSON.parse(readFileSync(summaryPath, 'utf8'));
+      fullPath = options.full ? path.resolve(root, options.full) : path.resolve(path.dirname(summaryPath), summary.fullEvidence?.path || '');
+    }
+  }
   catch (error) {
     process.stderr.write(`Unable to read summary JSON: ${error.message}\n`);
     return 2;
   }
-  const fullPath = options.full ? path.resolve(root, options.full) : path.resolve(path.dirname(summaryPath), summary.fullEvidence?.path || '');
   const outputDir = path.resolve(root, options.outputDir);
   const result = validateContinuationSnapshot({root, summaryPath, fullPath, treeSelection: options.treeSelection});
   mkdirSync(outputDir, {recursive: true});
@@ -338,6 +371,7 @@ function runCli(argv) {
     schemaVersion: 1,
     summary: path.basename(summaryCopy),
     fullEvidence: path.basename(fullCopy),
+    ...(selection ? {currentSnapshotPointer: selection.pointer} : {}),
     ...result,
   };
   const validationPath = path.join(outputDir, 'validation.json');

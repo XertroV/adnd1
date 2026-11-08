@@ -1,7 +1,7 @@
-import {readFileSync, mkdirSync, writeFileSync} from 'node:fs';
+import {readFileSync, mkdirSync, writeFileSync, realpathSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
-import {resolve, dirname} from 'node:path';
+import {resolve, dirname, isAbsolute, relative, sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {isDeepStrictEqual} from 'node:util';
 
@@ -413,17 +413,45 @@ export function buildSourceRasterCoverage(snapshot, live) {
   };
 }
 
+export function loadRasterSnapshotInput({repoRoot = root, explicitPath = null} = {}) {
+  if (explicitPath) return {path: explicitPath, bytes: readFileSync(resolve(repoRoot, explicitPath)), geometry: null, selection: 'explicit-snapshot'};
+  const pointerPath = 'research/current-source-raster-snapshot.json';
+  let pointerBytes;
+  try { pointerBytes = readFileSync(resolve(repoRoot, pointerPath)); }
+  catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+    const path = 'research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz';
+    return {path, bytes: readFileSync(resolve(repoRoot, path)), geometry: null, selection: 'historical-fallback-no-active-pointer'};
+  }
+  const pointer = JSON.parse(pointerBytes);
+  if (pointer?.schemaVersion !== 1) throw Error('Unsupported current raster snapshot pointer.');
+  const loadPinned = (entry, label) => {
+    if (!isRecord(entry) || typeof entry.path !== 'string' || isAbsolute(entry.path) || entry.path.includes('\\') || entry.path.split('/').some(part => !part || part === '.' || part === '..') || !isHash(entry.sha256)) throw Error(`Invalid ${label} repository path/hash.`);
+    const location = relative(realpathSync(repoRoot), realpathSync(resolve(repoRoot, entry.path)));
+    if (location === '..' || location.startsWith(`..${sep}`) || isAbsolute(location)) throw Error(`${label} path escapes the repository.`);
+    const bytes = readFileSync(resolve(repoRoot, entry.path));
+    if (sha(bytes) !== entry.sha256) throw Error(`${label} bytes differ from the active pointer.`);
+    return {...entry, bytes};
+  };
+  const snapshot = loadPinned(pointer.snapshot, 'Current raster snapshot');
+  const geometry = loadPinned(pointer.sourceGeometry, 'Current source geometry snapshot');
+  const parsed = JSON.parse(gunzipSync(snapshot.bytes));
+  if (parsed.inputs?.sourceUsageMapSha256 !== geometry.sha256) throw Error('Current raster snapshot does not bind the pinned source geometry snapshot.');
+  return {...snapshot, geometry, selection: 'active-pointer', pointer: {path: pointerPath, sha256: sha(pointerBytes)}};
+}
+
 export function runSourceRasterCoverage(argv = process.argv.slice(2)) {
   let output = 'artifacts/source-raster-coverage/report.json';
-  let input = 'research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz';
+  let explicitPath = null;
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--output' && argv[i + 1]) output = argv[++i];
-    else if (argv[i] === '--snapshot' && argv[i + 1]) input = argv[++i];
+    else if (argv[i] === '--snapshot' && argv[i + 1]) explicitPath = argv[++i];
     else if (argv[i] !== '--check') throw Error(`Unknown argument: ${argv[i]}`);
   }
-  const bytes = readFileSync(resolve(root, input));
+  const selected = loadRasterSnapshotInput({explicitPath});
+  const bytes = selected.bytes;
   const report = buildSourceRasterCoverage(JSON.parse(gunzipSync(bytes)), collectLiveRasterUniverse());
-  report.snapshot = {path: input, sha256: sha(bytes)};
+  report.snapshot = {path: selected.path, sha256: sha(bytes), selection: selected.selection, ...(selected.pointer ? {pointer: selected.pointer, sourceGeometry: {path: selected.geometry.path, sha256: selected.geometry.sha256}} : {})};
   const target = resolve(root, output);
   mkdirSync(dirname(target), {recursive: true});
   writeFileSync(target, JSON.stringify(report) + '\n');
