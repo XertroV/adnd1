@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-code-and-caption-inventory-review",
+  "reviewer": "root; independent of class_focus implementation",
+  "reviewedOn": "2026-11-07",
+  "status": "scoped-code-and-regression-review-passed",
+  "codeInputs": [
+    {
+      "path": "dist/source-viewer.js",
+      "sha256": "7e1996f6721ff3505b9bd32fcd3f5866fb6c6fb328191820e3bfafb0397eba9d"
+    },
+    {
+      "path": "tools/source-target-label-audit.mjs",
+      "sha256": "3624a243c03b56a577e63300180260ddb5ad9fc377a193a9eebfcc389018b2b9"
+    },
+    {
+      "path": "tests/source-target-label-audit-current.test.mjs",
+      "sha256": "eef3b68676f46535efce38a833e9931b0f2f9d8bf0a59ccacd1271cd0a51d61b"
+    },
+    {
+      "path": "tests/source-target-label-audit.test.mjs",
+      "sha256": "a6de8884d91f6bd0bf963610a2bdba7b01d123b1a3ba9a73067eb36ea094a1a0"
+    },
+    {
+      "path": "tests/source-viewer-field-target-label.test.mjs",
+      "sha256": "d00fbc08768ce55b6f2a30f9c36a80709c9daae976277b78fd3c64d992762eba"
+    },
+    {
+      "path": "tests/aklys-ua28-citation.browser.mjs",
+      "sha256": "fe170d48bd28fbcb3d7458108b8704da0e5259e5a6dac99337b341f8c49e5704"
+    }
+  ],
+  "before": {
+    "path": "research/source-audit-batch5-target-label-before.json.gz",
+    "sha256": "63b8df53e6f8b0fd981a0466d316974adc76e4779ec103a6893ab2adec862200"
+  },
+  "calibrationAfter": {
+    "path": "research/source-audit-batch5-target-label-after.json.gz",
+    "sha256": "df23a2167af90211f71854df1b0b0a1f769285ec4bdc2af53f664ba446caf160"
+  },
+  "checks": {
+    "nodeTests": {
+      "passed": 8,
+      "scope": "current collector, changed isolated data, invalid/duplicate owners, frozen calibration, context label, sparse-XP array ordinal, nested indices and pointer escapes"
+    },
+    "browser": {
+      "passed": true,
+      "scope": "Aklys UA26 exact direct/price source, UA28 rate field, UA27 context reference through click, copy and reload"
+    },
+    "currentInventory": {
+      "contentRecords": 995,
+      "collectorTargets": 4489,
+      "numericOnlyCaptions": 0,
+      "currentBrowserSweep": "not-run-by-caption-tool"
+    },
+    "frozenRenderedInventory": {
+      "routeRecords": 993,
+      "controls": 5641,
+      "distinctPayloads": 2850,
+      "status": "historical frozen before; not a new current browser sweep"
+    }
+  },
+  "limitations": [
+    "Readable captions do not verify source relevance, amounts, context, highlight precision, continuation completeness or field semantics.",
+    "Array ordinals are labeled entries and are never asserted to be character levels.",
+    "All nonnumeric labels remain semantically unassessed unless separately reviewed."
+  ],
+  "sourceSemanticsCertified": false
+}

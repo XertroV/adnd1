@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "immutable-fifth-typed-qualifier-source-finding",
+  "capturedBeforeSourceCorrections": true,
+  "baseline": {
+    "path": "research/source-audit-batch5-monetary-row-identity-baseline.json",
+    "sha256": "bd4973e1eca69a56b64adf3758ccce3683783815dea38bb8ca6ec9f33e898bb9"
+  },
+  "supersedesPendingQuestion": {
+    "artifact": "research/source-audit-batch5-monetary-row-identity-complete-qa-extension.json",
+    "sha256": "72ca57f64da14a89f3240a34e3d58585a7e2fcc8765fad16821e50220cc69fb0",
+    "questionId": "dmg-placement-not-gem-1000-fifth-typed-qualifier-question"
+  },
+  "independentProof": {
+    "privatePath": "/tmp/batch5-independent-not-gem-qualifier/independent-review.json",
+    "sha256": "83f2a666c523ec912a748110f5916cc15702c8fb84c7519464072be58891c2cf"
+  },
+  "sourceOriginalIdentity": {
+    "book": "DMG",
+    "printedPage": 92,
+    "pdfPage": 93,
+    "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+  },
+  "sourcePixelEvidence": {
+    "privatePath": "/tmp/batch5-independent-not-gem-qualifier/original-dmg92-ogre-example-288dpi.png",
+    "sha256": "03c840506ed69e7f6d5004295222c954e128825faa4a8def21306c827b5118c0",
+    "clipPdfCropBoxPointsLTRB": [
+      5,
+      525,
+      275,
+      747
+    ],
+    "coordinateFrame": "PyMuPDF page.rect/CropBox-relative original PDF points; top-left",
+    "dpi": 288
+  },
+  "knownFindings": [
+    {
+      "id": "phb-dmg-not-gem-pair-qualifier",
+      "kind": "typed-content-mismatch",
+      "independent": true,
+      "records": [
+        {
+          "uid": "phb-dmg-supplement-row:dmg-placement-not-gem-1000",
+          "rowIdentitySha256": "5aa6e97fdf06767e121c9a07c605543f340746c9d397119f55bf3cc37e13648c",
+          "focusGeometrySha256": "e785ced4a4dbbe774f83af57f3af610ef6a8eb853b1b5f7977abaef6e3301caa",
+          "contextGeometrySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "annotationSha256": "5d9fd6dc00ab74344143fcd74bf8925f73ee0951b15be7d9baf685e75cc42ba1",
+          "recordSha256": "30de571f4a7a07fa45b5259914c2e9210702337ced9a84a1b8a913deebd14ac0"
+        }
+      ],
+      "reason": "The original ogre example contrasts the hoard with a pair of1,000gp gems, while two authored qualifiers say a single gem. Amount1,000gp remains correct; narrative example scope retained.",
+      "confirmedPointers": [
+        {
+          "pointer": "/typedValue/qualifier",
+          "before": "not in form of a single gem of this value",
+          "sourceCorrection": "not in the form of a pair of 1,000-gp gems"
+        },
+        {
+          "pointer": "/quantityOrScale",
+          "before": "ogre hoard; prevents interpreting wealth as one 1,000-gp gem",
+          "sourceCorrection": "ogre hoard example; contrasts the wealth with two gems valued 1,000 gp each"
+        }
+      ],
+      "sourceInputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9"
+    }
+  ],
+  "records": [
+    {
+      "uid": "phb-dmg-supplement-row:dmg-placement-not-gem-1000",
+      "surface": "phb-dmg-supplement-row",
+      "id": "dmg-placement-not-gem-1000",
+      "input": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "inputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "inputStage": "recorded-input-not-certified-by-this-audit",
+      "pointer": "/review/sourceRowsOrClaims/108",
+      "recordSha256": "30de571f4a7a07fa45b5259914c2e9210702337ced9a84a1b8a913deebd14ac0",
+      "label": "Gem-form contrast",
+      "source": {
+        "book": "DMG",
+        "printedPage": 92,
+        "pdfPage": 93,
+        "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "identity": {
+        "label": "Gem-form contrast",
+        "group": "dmg-monetary-treasure-distribution",
+        "ordinal": null,
+        "diceRoll": null,
+        "variant": null,
+        "kind": "monetary-prose-example",
+        "sourceRowIds": []
+      },
+      "identityStatus": "recorded-unverified",
+      "notApplicable": null,
+      "geometry": [
+        {
+          "path": "/focus/focusBoundsCropPixelsLTRB",
+          "role": "row-or-passage-focus",
+          "space": "crop-local-pixels",
+          "format": "ltrb",
+          "bounds": [
+            15,
+            680,
+            570,
+            770
+          ],
+          "source": {
+            "book": "DMG",
+            "printedPage": 92,
+            "pdfPage": 93,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "frame": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669|DMG|pdf:93|crop-local-pixels|8c919ba37d5f00367530285906d25d2b577833a544f59e185093e46cb30cecae",
+          "derivation": null,
+          "status": "complete prose example; bounded to the relevant narrative segment",
+          "geometrySha256": "68281fda06224543637d21ff0eaa7fd5601ea2bc70c5761afe33f2d377886135",
+          "validShape": true
+        },
+        {
+          "path": "/focus/focusBoundsCropPixelsLTRB",
+          "role": "row-or-passage-focus",
+          "space": "rendered-page-pixels",
+          "format": "ltrb",
+          "bounds": [
+            40,
+            735,
+            595,
+            825
+          ],
+          "source": {
+            "book": "DMG",
+            "printedPage": 92,
+            "pdfPage": 93,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "frame": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669|DMG|pdf:93|rendered-page-pixels|79db1c52f882e440d9c3c645b00a4dd9b39549e683e6ce6dd4eeef211a1f7c36",
+          "derivation": {
+            "kind": "crop-local-plus-recorded-source-render-offset",
+            "cropId": "crop-dmg-monetary-treasure-distribution-01",
+            "sourceRenderDimensionsPx": [
+              1239,
+              1637
+            ],
+            "renderDpi": 150
+          },
+          "status": "recorded-unverified",
+          "geometrySha256": "2a0074679323c5690dcd4d0ee563f66c91c599c33f6e295e401bd8a8fd38c502",
+          "validShape": true
+        }
+      ],
+      "annotations": {
+        "/typedValue/qualifier": "not in form of a single gem of this value",
+        "/quantityOrScale": "ogre hoard; prevents interpreting wealth as one 1,000-gp gem",
+        "/conditions": "narrative example only; not a general price rule"
+      },
+      "unhandledGeometry": [],
+      "rowIdentitySha256": "5aa6e97fdf06767e121c9a07c605543f340746c9d397119f55bf3cc37e13648c",
+      "focusGeometrySha256": "e785ced4a4dbbe774f83af57f3af610ef6a8eb853b1b5f7977abaef6e3301caa",
+      "contextGeometrySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "annotationSha256": "5d9fd6dc00ab74344143fcd74bf8925f73ee0951b15be7d9baf685e75cc42ba1",
+      "identityCompleteness": {
+        "label": true,
+        "group": true,
+        "ordinalOrDice": false,
+        "sourceHash": true,
+        "sourceBook": true,
+        "sourcePdfPage": true
+      },
+      "geometryStatus": "focus-or-row-locator-recorded",
+      "physicalRowIdentityReview": "unassessed-by-programmatic-inventory"
+    }
+  ],
+  "counts": {
+    "newFindingRecords": 1,
+    "totalKnownFindingRecords": 109,
+    "totalReferencedDistinctRows": 193
+  },
+  "limits": [
+    "The newly confirmed typed qualifier error overlaps the existing placement-focus group; it is not a new physical row.",
+    "Original baseline and both earlier finding extensions remain byte-for-byte unchanged.",
+    "No source artifact, quantity, purchase price, value grade or focus was changed."
+  ]
+}

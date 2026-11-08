@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-monetary-dimension-isolation-protocol-before",
+  "scope": "Captured in-progress code checkpoint before matcher closure. Synthetic reviews and isolated in-memory mutations; no actual source/active review manifest changes. Observed accepts are protocol defects, not real source approvals.",
+  "codeSha256": "d305345cd60682cff0d66c0f4359338e093c20ac9c01e813f8c7739040dad55d",
+  "sourceManifestSha256": "574d84eef3e12b99423646911dfa74e95e7de188c511cee4a224db65152023dc",
+  "sourceInputs": [
+    {
+      "path": "research/price-source-inventory.json",
+      "sha256": "f4d99ef61542e9bb9b0c26abc6478606e97636906611dbc669422a281a777bc3"
+    },
+    {
+      "path": "research/source-audit-batch5-ua-additional-prices.json",
+      "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+    },
+    {
+      "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9"
+    },
+    {
+      "path": "research/source-audit-batch5-phb-dmg-price-passage-records.json",
+      "sha256": "2f73f635aa04c2d55c3fe4e71cc5db6a3c55779e6db9f9e5adfe71c08ae5b707"
+    },
+    {
+      "path": "research/source-audit-batch5-price-description-records.json",
+      "sha256": "88c5456626a47f5a47a6cce514cb8ea2ce5338e4a9a9b13e93eedfcd265e3c8d"
+    },
+    {
+      "path": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "sha256": "523c097624a0a91f4e3cf8aa40540a2f27d68a6136a04226e2fc3a94a941aeb8"
+    },
+    {
+      "path": "research/price-source-inventory-phb-dmg-other.json",
+      "sha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79"
+    },
+    {
+      "path": "research/price-source-inventory-ua-other.json",
+      "sha256": "f1f797d9e8664589af5308737d9bc9d5e5dd536339349609fbeec5dc2a58c4b9"
+    },
+    {
+      "path": "research/price-source-inventory-monster-books.json",
+      "sha256": "87ea54c296d9a6b4697a997b5da1ee38b9c844668fc4fb54d5a8794d6aaef106"
+    }
+  ],
+  "cases": [
+    {
+      "id": "typed-finding-with-focus-only-edit",
+      "findingId": "dmg-deck-gem-explicit-choice-quantity",
+      "kind": "typed-content-mismatch",
+      "expectedAccepted": false,
+      "observedAccepted": false,
+      "status": "content-changed-needs-source-review",
+      "currentActualFocusCount": 2,
+      "sourceTypedAndScopeFieldsUnchanged": true,
+      "outerRecordHashChanged": true
+    },
+    {
+      "id": "crop-finding-with-label-only-edit",
+      "findingId": "active-context-crop-partial-glyph-crop-dmg-high-value-gems-01",
+      "kind": "source-context-crop-defect",
+      "expectedAccepted": false,
+      "observedAccepted": true,
+      "status": "explicit-source-reviewed-repair",
+      "currentActualFocusCount": 2,
+      "sourceCropImageAndBoundsUnchanged": true,
+      "outerContextHashChanged": true
+    },
+    {
+      "id": "focus-finding-with-all-focus-deleted",
+      "findingId": "wrong-focus-dmg-poison-ingestive-a",
+      "kind": "wrong-row-focus-independent-source-review",
+      "expectedAccepted": false,
+      "observedAccepted": true,
+      "status": "explicit-source-reviewed-repair",
+      "currentActualFocusCount": 0
+    },
+    {
+      "id": "qualified-scope-with-focus-only-edit",
+      "findingId": "phb-dmg-commodity-adjustment-scope",
+      "kind": "unresolved-source-scope",
+      "expectedAccepted": false,
+      "observedAccepted": true,
+      "status": "explicit-source-reviewed-qualified-representation",
+      "currentActualFocusCount": 16,
+      "sourceTypedAndScopeFieldsUnchanged": true
+    }
+  ],
+  "mutationDefinitions": {
+    "typed-finding-with-focus-only-edit": "Recollect exact original raw documents after changing only the raw row first focus left coordinate by+1; typedValue, quantityOrScale and conditions remain byte-equivalent.",
+    "crop-finding-with-label-only-edit": "Recollect after changing only evidenceCrops[].label; source crop PNG SHA, source/render frame, raster bounds/dimensions, facts and focus unchanged.",
+    "focus-finding-with-all-focus-deleted": "Recollect after deleting raw focusBounds/focusRects and rowHighlightBounds; retain all source values/context.",
+    "qualified-scope-with-focus-only-edit": "Recollect all eight target rows after changing only their raw first focus left coordinate by+1; typed fields/scope conditions unchanged."
+  },
+  "note": "This captured in-progress d305 checkpoint, with pointer helper partly landed, already rejects the typed-focus-only case. Three other concrete cases still pass. Exact98cb archived-code full164 matrix is being produced separately; no current source or review manifest was mutated."
+}

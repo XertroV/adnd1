@@ -1,0 +1,24 @@
+{
+  "artifactType": "independent-qualified-source-scope-review-addendum",
+  "status": "wording update reviewed; bounded question semantics unchanged",
+  "parentReview": {
+    "path": "research/source-audit-batch5-gaps-qualified-source-scope-independent-review.json",
+    "sha256": "4062431e4403719ddf62f0183b0d55ea2a36b6c0f8975e11590ca87ff1f10216"
+  },
+  "implementation": {
+    "path": "tools/refresh-gaps-handoff.mjs",
+    "previousReviewedSha256": "89695ac3df2eae47a1e1a3798697d5ebf08f64d4cc08819e9e721596bce8c5e6",
+    "currentSha256": "b05d320909db9f00a8cb7c1c7d958be4c73120041023dd2092a67f97d70d731f",
+    "questionLabel": {
+      "id": "phb-dmg-alchemist-discount-scope",
+      "previous": "How alchemist assistance changes potion monetary costs",
+      "current": "Whether or how alchemist assistance affects potion monetary costs"
+    },
+    "review": "The current wording avoids presupposing a monetary effect. The source-question identity, immutable finding-kind derivation, unresolved status, false semantic pass, and affected record set remain the reviewed behavior."
+  },
+  "postUpdateValidation": {
+    "handoffTests": {"command":"node --test tests/refresh-gaps-handoff.test.mjs","passed":25,"failed":0},
+    "qualifiedScopePresentationTests": {"command":"node --test --test-name-pattern='supplemental presentation|qualified monetary extraction|missing current monetary review' tests/coverage-gaps.test.mjs","passed":3,"failed":0}
+  },
+  "scopeLimit": "This addendum reviews the question wording only. It does not claim current monetary source payloads or the generated handoff have been refreshed."
+}

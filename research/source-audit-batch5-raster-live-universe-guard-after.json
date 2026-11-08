@@ -1,0 +1,82 @@
+{
+  "artifactType": "private source-raster live-universe guard repair QA",
+  "schemaVersion": 1,
+  "scope": "Narrow structural guard repair for the numeric source-raster boundary audit. No raw source bytes, private page pixels, source catalog, candidate data, or central evidence registry were changed.",
+  "priorEvidence": {
+    "falsePassBefore": {
+      "path": "research/source-audit-batch5-raster-live-universe-guard-before.json",
+      "sha256": "ca8c5109b86bc30354d193d9a63721776e1b682d37c29c1ea034df99ebd18bce",
+      "oldCodeSha256": "3ffb453a43a966e41e9b417ec51545a3044877035b7925dea432698a470532ca",
+      "oldCodeArchive": {
+        "path": "tests/fixtures/source-raster-boundary-3ff-before-universe-guard.py.gz",
+        "sha256": "77074f615f5005953969522f086323caa9515fa6b3984a76ff49d02b57c958f8"
+      },
+      "rootObservedControl": {
+        "description": "The genuine current input-data SHA and all five source PDF hashes with empty catalogSha256 and usages.",
+        "observedAccepted": true,
+        "observedRegionUsages": 0,
+        "liveRegionUsages": 3069,
+        "actualNumericBaseline": {
+          "path": "research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz",
+          "sha256": "4b8a72687a3c0d41430e414c68ad6da485111c44c6581efce890b6d43a9e9e37"
+        }
+      }
+    },
+    "beforeFixRegressionRun": {
+      "test": "test_rejects_empty_catalog_and_usage_map_against_live_data",
+      "result": "failed as expected against old code: ValueError was not raised",
+      "meaning": "The guard accepted a map whose live data linked a catalog region, reproducing the documented false pass before repair."
+    }
+  },
+  "repair": {
+    "codePath": "research/source-raster-boundary-audit.py",
+    "codeSha256": "d4bccfe3f6b09d145f3d936399fd0b663ce52fcef2fe9ad1dd95136b81f8dac7",
+    "testPath": "tests/source-raster-boundary-audit.test.py",
+    "testSha256": "8d18696dd12a6c50a70fbf281ab7566fc2d1b6f4df81fb0f4d5f6b3b97e8afa0",
+    "behavior": [
+      "Enumerate every live sourceExcerpts and scanVerification link from current dist/data.json.",
+      "Require exact linked-catalog key set, current individual catalog hashes, and the recomputed catalog snapshot hash.",
+      "Require all five source PDF identities and align each usage row with its current catalog region using a multiset comparison; detect missing, duplicate, extra, and changed source identities.",
+      "When a source PDF is available, verify each map crop bound against live catalog geometry before rendering any page.",
+      "Keep missing source pages and missing/invalid geometry as explicit not-assessable records.",
+      "Refuse to overwrite an existing --output path, with exclusive creation as a race-safe final check."
+    ]
+  },
+  "verification": {
+    "command": "python tests/source-raster-boundary-audit.test.py",
+    "result": "passed",
+    "testCount": 11,
+    "regressions": [
+      "Empty map is rejected against linked live data.",
+      "Missing, duplicate, extra, and changed source-identity usage rows are rejected.",
+      "Catalog hash and source PDF hash identity changes are rejected.",
+      "Missing source remains an explicit not-assessable usage.",
+      "Existing immutable output is preserved and build_audit is not run."
+    ],
+    "otherChecks": {
+      "pythonCompile": "passed",
+      "gitDiffCheck": "passed"
+    }
+  },
+  "liveReconciliation": {
+    "dataPath": "dist/data.json",
+    "dataSha256": "2b803d29cccd83ffd8418818abddf04b66204c82cebb8afba13f7a8226c6583c",
+    "usageMapPath": "/workspace/adnd1/research/source-visual-audit-release.json",
+    "usageMapSha256": "74e86d7a4e5775a70305926cadf61f03defc0d2b3db987ef06f17b70532124d8",
+    "catalogCount": 1015,
+    "usageCount": 3069,
+    "catalogHashAndSnapshotChecks": "passed against current linked live catalogs",
+    "sourcePdfSha256": {
+      "PHB": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "DMG": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "UA": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+      "MM": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+      "MM2": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24"
+    },
+    "allFivePdfHashesMatchUsageMap": true,
+    "allUsageRowsAndAvailableCropBoundsReconciled": true,
+    "sourcePageRendersDuringThisReconciliation": 0,
+    "full229PageRasterRerun": "not performed; this is a guard-only change, and the captured full numeric baseline remains the historical pre-repair artifact above",
+    "publishedPngPixelReplay": "not performed by this reconciliation; the guard binds declared image identities but does not claim crop pixel replay"
+  }
+}

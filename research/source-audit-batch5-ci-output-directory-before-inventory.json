@@ -1,0 +1,1883 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "before-ci-complete-output-parent-ordering-inventory",
+  "scope": "Complete explicit workflow Node/filesystem output-command inventory, existing parent/CLI mkdir/runner-owned paths classified. No optional framework or source semantics; source and workflow remain unedited by reviewer.",
+  "workflow": {
+    "path": ".github/workflows/pages.yml",
+    "sha256": "9ac1091121a55450d878bf07bf9ec0e8910f08aa39b1780b3a9d3c7acdf20f11"
+  },
+  "beforeFixture": {
+    "path": "research/source-audit-batch5-ci-domain-output-directory-before.json.gz",
+    "sha256": "42ecde9d6256134cf7c48af4238558560dbf980dcebe4e9c2572d6a3bf161c51"
+  },
+  "counts": {
+    "nodeCommands": 28,
+    "outputProducingCommandLines": 55,
+    "explicitOutputDestinations": 62,
+    "missingParentCommands": 1,
+    "unclassifiedOutputs": 0
+  },
+  "findings": [
+    {
+      "step": "Check class advancement and source qualifiers",
+      "command": "node tools/class-progression-audit.mjs --input dist/data.json --output artifacts/source-domain-audits/class-progression.json --check",
+      "output": {
+        "path": "artifacts/source-domain-audits/class-progression.json",
+        "kind": "CLI output flag",
+        "parent": "artifacts/source-domain-audits",
+        "parentPolicy": "MISSING parent: direct writeFileSync without mkdir; reproduced ENOENT."
+      }
+    }
+  ],
+  "explicitWorkflowDirectoriesInOrder": [
+    {
+      "job": "build",
+      "step": 3,
+      "line": 1,
+      "directory": "artifacts/citation-evidence-seals",
+      "command": "mkdir -p artifacts/citation-evidence-seals"
+    },
+    {
+      "job": "build",
+      "step": 6,
+      "line": 8,
+      "directory": "artifacts/citation-systemic-coverage",
+      "command": "mkdir -p artifacts/citation-systemic-coverage"
+    },
+    {
+      "job": "build",
+      "step": 10,
+      "line": 1,
+      "directory": "artifacts/source-owner-identity",
+      "command": "mkdir -p artifacts/source-owner-identity"
+    },
+    {
+      "job": "build",
+      "step": 12,
+      "line": 5,
+      "directory": "artifacts/monetary-source-inventory",
+      "command": "mkdir -p artifacts/monetary-source-inventory"
+    },
+    {
+      "job": "build",
+      "step": 14,
+      "line": 1,
+      "directory": "artifacts/monetary-row-identity",
+      "command": "mkdir -p artifacts/monetary-row-identity"
+    },
+    {
+      "job": "build",
+      "step": 18,
+      "line": 1,
+      "directory": "artifacts/monetary-group-focus",
+      "command": "mkdir -p artifacts/monetary-group-focus"
+    },
+    {
+      "job": "build",
+      "step": 30,
+      "line": 1,
+      "directory": "artifacts/ua-source-context-obligations",
+      "command": "mkdir -p artifacts/ua-source-context-obligations"
+    },
+    {
+      "job": "build",
+      "step": 37,
+      "line": 9,
+      "directory": "artifacts/source-visual-coverage",
+      "command": "mkdir -p artifacts/source-visual-coverage"
+    },
+    {
+      "job": "build",
+      "step": 39,
+      "line": 1,
+      "directory": "artifacts/source-domain-audits",
+      "command": "mkdir -p artifacts/source-domain-audits"
+    }
+  ],
+  "outputCommands": [
+    {
+      "job": "build",
+      "step": 3,
+      "stepName": "Verify preserved citation evidence",
+      "runLine": 7,
+      "command": "node tools/citation-evidence-seals.mjs --check --manifest research/citation-evidence-seals.json --baseline-ref \"$evidence_base\" > artifacts/citation-evidence-seals/report.json 2> artifacts/citation-evidence-seals/errors.txt",
+      "tool": "tools/citation-evidence-seals.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/citation-evidence-seals/report.json",
+          "kind": "shell file output",
+          "parent": "artifacts/citation-evidence-seals",
+          "parentPolicy": "Workflow creates parent before this command."
+        },
+        {
+          "path": "artifacts/citation-evidence-seals/errors.txt",
+          "kind": "shell file output",
+          "parent": "artifacts/citation-evidence-seals",
+          "parentPolicy": "Workflow creates parent before this command."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 3,
+      "stepName": "Verify preserved citation evidence",
+      "runLine": 10,
+      "command": "echo \"$evidence_status\" > artifacts/citation-evidence-seals/validation-exit-status.txt",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/citation-evidence-seals/validation-exit-status.txt",
+          "kind": "shell file output",
+          "parent": "artifacts/citation-evidence-seals",
+          "parentPolicy": "Workflow creates parent before this command."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 3,
+      "stepName": "Verify preserved citation evidence",
+      "runLine": 11,
+      "command": "cat artifacts/citation-evidence-seals/report.json >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 5,
+      "stepName": "Verify committed static output is current",
+      "runLine": 1,
+      "command": "node tools/assemble.mjs",
+      "tool": "tools/assemble.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals"
+      ],
+      "outputs": [
+        {
+          "path": "dist/data.json",
+          "kind": "known fixed generator output",
+          "parent": "dist",
+          "parentPolicy": "Tracked existing repository parent directory."
+        },
+        {
+          "path": "dist/source-continuations.json",
+          "kind": "known fixed generator output",
+          "parent": "dist",
+          "parentPolicy": "Tracked existing repository parent directory."
+        },
+        {
+          "path": "dist/coverage-gaps.json",
+          "kind": "known fixed generator output",
+          "parent": "dist",
+          "parentPolicy": "Tracked existing repository parent directory."
+        },
+        {
+          "path": "research/price-source-inventory.json",
+          "kind": "known fixed generator output",
+          "parent": "research",
+          "parentPolicy": "Tracked existing repository parent directory."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 6,
+      "stepName": "Generate citation systemic inventory",
+      "runLine": 2,
+      "command": "node tools/citation-systemic-inventory.mjs --output-dir artifacts/citation-systemic-coverage",
+      "tool": "tools/citation-systemic-inventory.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/citation-systemic-coverage",
+          "kind": "CLI output flag",
+          "parent": "artifacts/citation-systemic-coverage",
+          "parentPolicy": "Tool creates output directory/parent before writing."
+        }
+      ],
+      "toolMkdirEvidence": [
+        {
+          "line": 978,
+          "text": "mkdirSync(args.outputDir, {recursive: true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 6,
+      "stepName": "Generate citation systemic inventory",
+      "runLine": 6,
+      "command": "sed -n '1,35p' artifacts/citation-systemic-coverage/citation-systemic-summary.md >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 6,
+      "stepName": "Generate citation systemic inventory",
+      "runLine": 9,
+      "command": "echo \"Citation systemic inventory unavailable: generator exited before writing its summary (status ${report_status}).\" >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 6,
+      "stepName": "Generate citation systemic inventory",
+      "runLine": 10,
+      "command": "echo \"Generator did not write citation-systemic-summary.md (exit status ${report_status}).\" > artifacts/citation-systemic-coverage/generation-error.txt",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/citation-systemic-coverage/generation-error.txt",
+          "kind": "shell file output",
+          "parent": "artifacts/citation-systemic-coverage",
+          "parentPolicy": "Workflow creates parent before this command."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 8,
+      "stepName": "Reconcile source-table row citations",
+      "runLine": 2,
+      "command": "node tools/source-table-citation-coverage.mjs artifacts/source-table-citation-coverage/report.json --check",
+      "tool": "tools/source-table-citation-coverage.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/source-table-citation-coverage/report.json",
+          "kind": "CLI positional output",
+          "parent": "artifacts/source-table-citation-coverage",
+          "parentPolicy": "Tool creates output directory/parent before writing."
+        }
+      ],
+      "toolMkdirEvidence": [
+        {
+          "line": 138,
+          "text": "const report=loadSourceTableCitationCoverage();mkdirSync(dirname(output),{recursive:true});writeFileSync(output,JSON.stringify(report,null,2)+'\\n');"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 8,
+      "stepName": "Reconcile source-table row citations",
+      "runLine": 6,
+      "command": "cat artifacts/source-table-citation-coverage/report.md >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 10,
+      "stepName": "Verify citation owner identity",
+      "runLine": 3,
+      "command": "node tools/source-owner-identity-audit.mjs --check --replay --write artifacts/source-owner-identity/report.json > artifacts/source-owner-identity/check.json",
+      "tool": "tools/source-owner-identity-audit.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/source-owner-identity/report.json",
+          "kind": "CLI output flag",
+          "parent": "artifacts/source-owner-identity",
+          "parentPolicy": "Workflow creates parent before this command."
+        },
+        {
+          "path": "artifacts/source-owner-identity/check.json",
+          "kind": "shell file output",
+          "parent": "artifacts/source-owner-identity",
+          "parentPolicy": "Workflow creates parent before this command."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 10,
+      "stepName": "Verify citation owner identity",
+      "runLine": 6,
+      "command": "echo \"$owner_status\" > artifacts/source-owner-identity/validation-exit-status.txt",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/source-owner-identity/validation-exit-status.txt",
+          "kind": "shell file output",
+          "parent": "artifacts/source-owner-identity",
+          "parentPolicy": "Workflow creates parent before this command."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 10,
+      "stepName": "Verify citation owner identity",
+      "runLine": 7,
+      "command": "echo \"Citation owners are checked by collection and entry ID; explicit comparator sources remain separately validated.\" >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 10,
+      "stepName": "Verify citation owner identity",
+      "runLine": 8,
+      "command": "cat artifacts/source-owner-identity/check.json >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 12,
+      "stepName": "Verify monetary source inventory",
+      "runLine": 6,
+      "command": "if [ -f research/monetary-source-inventory.json ]; then cp research/monetary-source-inventory.json artifacts/monetary-source-inventory/; fi",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/monetary-source-inventory/",
+          "kind": "copy into explicit workflow directory",
+          "parent": "artifacts/monetary-source-inventory",
+          "parentPolicy": "Workflow creates parent before this command."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 12,
+      "stepName": "Verify monetary source inventory",
+      "runLine": 7,
+      "command": "echo \"$monetary_status\" > artifacts/monetary-source-inventory/validation-exit-status.txt",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/monetary-source-inventory/validation-exit-status.txt",
+          "kind": "shell file output",
+          "parent": "artifacts/monetary-source-inventory",
+          "parentPolicy": "Workflow creates parent before this command."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 12,
+      "stepName": "Verify monetary source inventory",
+      "runLine": 8,
+      "command": "echo \"The monetary inventory preserves source occurrences, package quantities, unresolved pointers and separate XP values. Its declared source scopes do not certify whole-book completeness.\" >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 14,
+      "stepName": "Verify recorded monetary row identity findings",
+      "runLine": 3,
+      "command": "node tools/monetary-findings-register.mjs --check > artifacts/monetary-row-identity/finding-register.json",
+      "tool": "tools/monetary-findings-register.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/monetary-row-identity/finding-register.json",
+          "kind": "shell file output",
+          "parent": "artifacts/monetary-row-identity",
+          "parentPolicy": "Workflow creates parent before this command."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 14,
+      "stepName": "Verify recorded monetary row identity findings",
+      "runLine": 5,
+      "command": "node tools/monetary-row-identity-audit.mjs --output artifacts/monetary-row-identity/report.json --check > artifacts/monetary-row-identity/summary.json",
+      "tool": "tools/monetary-row-identity-audit.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/monetary-row-identity/report.json",
+          "kind": "CLI output flag",
+          "parent": "artifacts/monetary-row-identity",
+          "parentPolicy": "Workflow creates parent before this command."
+        },
+        {
+          "path": "artifacts/monetary-row-identity/summary.json",
+          "kind": "shell file output",
+          "parent": "artifacts/monetary-row-identity",
+          "parentPolicy": "Workflow creates parent before this command."
+        }
+      ],
+      "toolMkdirEvidence": [
+        {
+          "line": 884,
+          "text": "const report=loadMonetaryRowIdentityAudit({snapshotDir,reviewsPath:value('--reviews')||'research/monetary-row-identity-reviews.json',includeOverlaps:args.includes('--overlaps')});mkdirSync(dirname(output),{recursive:true});writeFileSync(output,JSON.stringify(report,null,2)+'\\n');"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 14,
+      "stepName": "Verify recorded monetary row identity findings",
+      "runLine": 8,
+      "command": "echo \"$register_status\" > artifacts/monetary-row-identity/finding-register-exit-status.txt",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/monetary-row-identity/finding-register-exit-status.txt",
+          "kind": "shell file output",
+          "parent": "artifacts/monetary-row-identity",
+          "parentPolicy": "Workflow creates parent before this command."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 14,
+      "stepName": "Verify recorded monetary row identity findings",
+      "runLine": 9,
+      "command": "echo \"$row_status\" > artifacts/monetary-row-identity/validation-exit-status.txt",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/monetary-row-identity/validation-exit-status.txt",
+          "kind": "shell file output",
+          "parent": "artifacts/monetary-row-identity",
+          "parentPolicy": "Workflow creates parent before this command."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 14,
+      "stepName": "Verify recorded monetary row identity findings",
+      "runLine": 10,
+      "command": "echo \"Known monetary findings require exact current independent dispositions. New duplicate-focus candidates and source ambiguities remain visible; a clean structural check does not certify source completeness.\" >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 14,
+      "stepName": "Verify recorded monetary row identity findings",
+      "runLine": 11,
+      "command": "cat artifacts/monetary-row-identity/finding-register.json >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 14,
+      "stepName": "Verify recorded monetary row identity findings",
+      "runLine": 12,
+      "command": "cat artifacts/monetary-row-identity/summary.json >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 16,
+      "stepName": "Join monetary values with current review coverage",
+      "runLine": 1,
+      "command": "node tools/monetary-coverage-report.mjs --output artifacts/monetary-review-coverage/report.json",
+      "tool": "tools/monetary-coverage-report.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/monetary-review-coverage/report.json",
+          "kind": "CLI output flag",
+          "parent": "artifacts/monetary-review-coverage",
+          "parentPolicy": "Tool creates output directory/parent before writing."
+        }
+      ],
+      "toolMkdirEvidence": [
+        {
+          "line": 139,
+          "text": "mkdirSync(dirname(target), {recursive: true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 18,
+      "stepName": "Verify duplicated monetary focus declarations",
+      "runLine": 2,
+      "command": "node tools/monetary-group-focus-audit.mjs --output artifacts/monetary-group-focus/report.json --check",
+      "tool": "tools/monetary-group-focus-audit.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/monetary-group-focus/report.json",
+          "kind": "CLI output flag",
+          "parent": "artifacts/monetary-group-focus",
+          "parentPolicy": "Workflow creates parent before this command."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 18,
+      "stepName": "Verify duplicated monetary focus declarations",
+      "runLine": 3,
+      "command": "echo \"Grouped focus declarations must match their exact primary rows. This consistency check does not certify source pixels or values.\" >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 20,
+      "stepName": "Inventory monetary conditions and source contracts",
+      "runLine": 1,
+      "command": "node tools/monetary-condition-coverage.mjs --output artifacts/monetary-condition-coverage/report.json",
+      "tool": "tools/monetary-condition-coverage.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/monetary-condition-coverage/report.json",
+          "kind": "CLI output flag",
+          "parent": "artifacts/monetary-condition-coverage",
+          "parentPolicy": "Tool creates output directory/parent before writing."
+        }
+      ],
+      "toolMkdirEvidence": [
+        {
+          "line": 514,
+          "text": "mkdirSync(dirname(target), {recursive: true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 20,
+      "stepName": "Inventory monetary conditions and source contracts",
+      "runLine": 2,
+      "command": "echo \"All recorded monetary conditions and declared source contracts remain visible. Changed conditions require independent source review; empty metadata is not source-absence evidence.\" >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 22,
+      "stepName": "Validate raster boundary coverage snapshot",
+      "runLine": 1,
+      "command": "node tools/source-raster-coverage.mjs --output artifacts/source-raster-coverage/report.json --check",
+      "tool": "tools/source-raster-coverage.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/source-raster-coverage/report.json",
+          "kind": "CLI output flag",
+          "parent": "artifacts/source-raster-coverage",
+          "parentPolicy": "Tool creates output directory/parent before writing."
+        }
+      ],
+      "toolMkdirEvidence": [
+        {
+          "line": 428,
+          "text": "mkdirSync(dirname(target), {recursive: true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 22,
+      "stepName": "Validate raster boundary coverage snapshot",
+      "runLine": 2,
+      "command": "echo \"The raster snapshot is reconciled against every live catalog use and its component-derived metrics. Boundary candidates require visual review; CI does not rerender private source PDFs or prove semantic context.\" >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 24,
+      "stepName": "Check current citation field captions",
+      "runLine": 1,
+      "command": "node tools/source-target-label-audit.mjs --current --check --output-dir artifacts/citation-target-labels",
+      "tool": "tools/source-target-label-audit.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/citation-target-labels",
+          "kind": "CLI output flag",
+          "parent": "artifacts/citation-target-labels",
+          "parentPolicy": "Tool creates output directory/parent before writing."
+        }
+      ],
+      "toolMkdirEvidence": [
+        {
+          "line": 162,
+          "text": "await mkdir(currentOutputDir, {recursive: true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 26,
+      "stepName": "Inventory quantity and source absence assertions",
+      "runLine": 1,
+      "command": "node tools/quantity-source-absence-audit.mjs --output-dir artifacts/quantity-source-absence --check",
+      "tool": "tools/quantity-source-absence-audit.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/quantity-source-absence",
+          "kind": "CLI output flag",
+          "parent": "artifacts/quantity-source-absence",
+          "parentPolicy": "Tool creates output directory/parent before writing."
+        }
+      ],
+      "toolMkdirEvidence": [
+        {
+          "line": 213,
+          "text": "mkdirSync(outputDir,{recursive:true});const jsonPath=resolve(outputDir,'report.json'),mdPath=resolve(outputDir,'report.md');"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 26,
+      "stepName": "Inventory quantity and source absence assertions",
+      "runLine": 2,
+      "command": "echo \"Quantity uncertainty is inventoried across every scalar property in the current catalog and all nine monetary inputs. Lexical candidates and null metadata do not establish what the printed source contains.\" >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 28,
+      "stepName": "Verify monetary unit provenance",
+      "runLine": 1,
+      "command": "node tools/monetary-unit-provenance-audit.mjs --output-dir artifacts/monetary-unit-provenance --check",
+      "tool": "tools/monetary-unit-provenance-audit.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/monetary-unit-provenance",
+          "kind": "CLI output flag",
+          "parent": "artifacts/monetary-unit-provenance",
+          "parentPolicy": "Tool creates output directory/parent before writing."
+        }
+      ],
+      "toolMkdirEvidence": [
+        {
+          "line": 321,
+          "text": "mkdirSync(outputDir,{recursive:true});const jsonPath=resolve(outputDir,'report.json'),mdPath=resolve(outputDir,'report.md');"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 28,
+      "stepName": "Verify monetary unit provenance",
+      "runLine": 2,
+      "command": "cat artifacts/monetary-unit-provenance/report.md >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 30,
+      "stepName": "Verify UA source context obligations",
+      "runLine": 2,
+      "command": "node tools/ua-source-context-obligations-cli.mjs --output artifacts/ua-source-context-obligations/report.json",
+      "tool": "tools/ua-source-context-obligations-cli.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/ua-source-context-obligations/report.json",
+          "kind": "CLI output flag",
+          "parent": "artifacts/ua-source-context-obligations",
+          "parentPolicy": "Workflow creates parent before this command."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 30,
+      "stepName": "Verify UA source context obligations",
+      "runLine": 4,
+      "command": "echo \"UA table contexts, source frames and note dependencies are checked structurally. Note applicability and source pixels require independent review.\" >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 32,
+      "stepName": "Verify current continuation candidate snapshot",
+      "runLine": 1,
+      "command": "node tools/continuation-candidates-validate.mjs --summary research/source-audit-batch5-continuation-current.json --force-current-tree --output-dir artifacts/continuation-candidate-coverage",
+      "tool": "tools/continuation-candidates-validate.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/continuation-candidate-coverage",
+          "kind": "CLI output flag",
+          "parent": "artifacts/continuation-candidate-coverage",
+          "parentPolicy": "Tool creates output directory/parent before writing."
+        }
+      ],
+      "toolMkdirEvidence": [
+        {
+          "line": 332,
+          "text": "mkdirSync(outputDir, {recursive: true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 32,
+      "stepName": "Verify current continuation candidate snapshot",
+      "runLine": 2,
+      "command": "cat artifacts/continuation-candidate-coverage/validation.md >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 33,
+      "stepName": "Verify declared continuation aliases",
+      "runLine": 1,
+      "command": "node tools/continuation-alias-audit.mjs --output artifacts/continuation-aliases/report.json --check",
+      "tool": "tools/continuation-alias-audit.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/continuation-aliases/report.json",
+          "kind": "CLI output flag",
+          "parent": "artifacts/continuation-aliases",
+          "parentPolicy": "Tool creates output directory/parent before writing."
+        }
+      ],
+      "toolMkdirEvidence": [
+        {
+          "line": 51,
+          "text": "if(outputIndex>=0){const output=resolve(args[outputIndex+1]);mkdirSync(dirname(output),{recursive:true});writeFileSync(output,JSON.stringify(report,null,2)+'\\n');}"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 35,
+      "stepName": "Inventory consecutive-page excerpt candidates",
+      "runLine": 1,
+      "command": "node tools/cross-page-catalog-candidates.mjs --baseline-output artifacts/continuation-candidate-coverage/cross-page-baseline.json --current-output artifacts/continuation-candidate-coverage/cross-page-current.json",
+      "tool": "tools/cross-page-catalog-candidates.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/continuation-candidate-coverage/cross-page-baseline.json",
+          "kind": "CLI output flag",
+          "parent": "artifacts/continuation-candidate-coverage",
+          "parentPolicy": "Tool creates output directory/parent before writing."
+        },
+        {
+          "path": "artifacts/continuation-candidate-coverage/cross-page-current.json",
+          "kind": "CLI output flag",
+          "parent": "artifacts/continuation-candidate-coverage",
+          "parentPolicy": "Tool creates output directory/parent before writing."
+        }
+      ],
+      "toolMkdirEvidence": [
+        {
+          "line": 289,
+          "text": "mkdirSync(path.dirname(target), {recursive: true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 37,
+      "stepName": "Generate source visual coverage",
+      "runLine": 2,
+      "command": "node tools/source-visual-coverage.mjs artifacts/source-visual-coverage",
+      "tool": "tools/source-visual-coverage.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/source-visual-coverage",
+          "kind": "CLI positional output",
+          "parent": "artifacts",
+          "parentPolicy": "Tool creates output directory/parent before writing."
+        }
+      ],
+      "toolMkdirEvidence": [
+        {
+          "line": 368,
+          "text": "const outDir=path.resolve(process.argv[2]||path.join(root,'artifacts/source-visual-coverage'));mkdirSync(outDir,{recursive:true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 37,
+      "stepName": "Generate source visual coverage",
+      "runLine": 6,
+      "command": "sed -n '1,35p' artifacts/source-visual-coverage/report.md >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 37,
+      "stepName": "Generate source visual coverage",
+      "runLine": 7,
+      "command": "echo \"Full binding-level JSON and Markdown are available in the source-visual-coverage artifact.\" >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 37,
+      "stepName": "Generate source visual coverage",
+      "runLine": 10,
+      "command": "echo \"Source visual coverage unavailable: generator exited before writing its report (status ${visual_status}).\" >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations",
+        "artifacts/source-visual-coverage"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 37,
+      "stepName": "Generate source visual coverage",
+      "runLine": 11,
+      "command": "echo \"Generator did not write report.md (exit status ${visual_status}).\" > artifacts/source-visual-coverage/generation-error.txt",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations",
+        "artifacts/source-visual-coverage"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/source-visual-coverage/generation-error.txt",
+          "kind": "shell file output",
+          "parent": "artifacts/source-visual-coverage",
+          "parentPolicy": "Workflow creates parent before this command."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 38,
+      "stepName": "Check class advancement and source qualifiers",
+      "runLine": 2,
+      "command": "node tools/class-progression-audit.mjs --input dist/data.json --output artifacts/source-domain-audits/class-progression.json --check",
+      "tool": "tools/class-progression-audit.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations",
+        "artifacts/source-visual-coverage"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/source-domain-audits/class-progression.json",
+          "kind": "CLI output flag",
+          "parent": "artifacts/source-domain-audits",
+          "parentPolicy": "MISSING parent: direct writeFileSync without mkdir; reproduced ENOENT."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 38,
+      "stepName": "Check class advancement and source qualifiers",
+      "runLine": 4,
+      "command": "node tools/source-qualifier-coverage.mjs --input dist/data.json --output artifacts/source-domain-audits/source-qualifiers.json --check",
+      "tool": "tools/source-qualifier-coverage.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations",
+        "artifacts/source-visual-coverage"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/source-domain-audits/source-qualifiers.json",
+          "kind": "CLI output flag",
+          "parent": "artifacts/source-domain-audits",
+          "parentPolicy": "Tool creates output directory/parent before writing."
+        }
+      ],
+      "toolMkdirEvidence": [
+        {
+          "line": 23,
+          "text": "if(output){mkdirSync(dirname(output),{recursive:true});writeFileSync(output,JSON.stringify(report,null,2)+'\\n');}"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 38,
+      "stepName": "Check class advancement and source qualifiers",
+      "runLine": 6,
+      "command": "node tools/ua26-note-marker-audit.mjs > artifacts/source-domain-audits/ua26-note-markers.json",
+      "tool": "tools/ua26-note-marker-audit.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations",
+        "artifacts/source-visual-coverage"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/source-domain-audits/ua26-note-markers.json",
+          "kind": "shell file output",
+          "parent": "artifacts/source-domain-audits",
+          "parentPolicy": "Prior qualifier CLI in same step creates parent; too late to prevent earlier class failure."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 38,
+      "stepName": "Check class advancement and source qualifiers",
+      "runLine": 9,
+      "command": "echo \"Class-domain and source-qualifier JSON reports are in the source-domain-audits artifact. Generic semantic qualifier completeness is not certified.\" >> \"$GITHUB_STEP_SUMMARY\"",
+      "tool": null,
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations",
+        "artifacts/source-visual-coverage"
+      ],
+      "outputs": [
+        {
+          "path": "$GITHUB_STEP_SUMMARY",
+          "kind": "runner-owned summary append",
+          "parent": "",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 39,
+      "stepName": "Verify published gaps match current coverage reports",
+      "runLine": 2,
+      "command": "node tools/refresh-gaps-handoff.mjs --check | tee artifacts/source-domain-audits/gaps-handoff-check.json",
+      "tool": "tools/refresh-gaps-handoff.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations",
+        "artifacts/source-visual-coverage",
+        "artifacts/source-domain-audits"
+      ],
+      "outputs": [
+        {
+          "path": "artifacts/source-domain-audits/gaps-handoff-check.json",
+          "kind": "shell file output",
+          "parent": "artifacts/source-domain-audits",
+          "parentPolicy": "Workflow creates parent before this command."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 42,
+      "stepName": "Capture build metadata",
+      "runLine": 1,
+      "command": "node tools/stamp-build.mjs --capture",
+      "tool": "tools/stamp-build.mjs",
+      "precedingExplicitWorkflowDirectories": [
+        "artifacts/citation-evidence-seals",
+        "artifacts/citation-systemic-coverage",
+        "artifacts/source-owner-identity",
+        "artifacts/monetary-source-inventory",
+        "artifacts/monetary-row-identity",
+        "artifacts/monetary-group-focus",
+        "artifacts/ua-source-context-obligations",
+        "artifacts/source-visual-coverage",
+        "artifacts/source-domain-audits"
+      ],
+      "outputs": [
+        {
+          "path": "tools/build-metadata.json",
+          "kind": "known existing-parent metadata output",
+          "parent": "tools",
+          "parentPolicy": "Tracked existing repository parent directory."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "deploy",
+      "step": 2,
+      "stepName": "Reserve deployment version",
+      "runLine": 1,
+      "command": "node tools/allocate-version.mjs",
+      "tool": "tools/allocate-version.mjs",
+      "precedingExplicitWorkflowDirectories": [],
+      "outputs": [
+        {
+          "path": "$GITHUB_OUTPUT / dedicated version-state branch",
+          "kind": "runner-owned output/external version state",
+          "parent": "$GITHUB_OUTPUT ",
+          "parentPolicy": "Runner-owned file/state; no repository parent creation needed."
+        }
+      ],
+      "toolMkdirEvidence": []
+    },
+    {
+      "job": "deploy",
+      "step": 3,
+      "stepName": "Stamp build details into deploy artifact",
+      "runLine": 1,
+      "command": "node tools/stamp-build.mjs",
+      "tool": "tools/stamp-build.mjs",
+      "precedingExplicitWorkflowDirectories": [],
+      "outputs": [
+        {
+          "path": "dist/index.html",
+          "kind": "known existing-parent metadata output",
+          "parent": "dist",
+          "parentPolicy": "Tracked existing repository parent directory."
+        }
+      ],
+      "toolMkdirEvidence": []
+    }
+  ],
+  "allExplicitNodeCommandsAndMkdirEvidence": [
+    {
+      "job": "build",
+      "step": 3,
+      "name": "Verify preserved citation evidence",
+      "line": 7,
+      "tool": "tools/citation-evidence-seals.mjs",
+      "command": "node tools/citation-evidence-seals.mjs --check --manifest research/citation-evidence-seals.json --baseline-ref \"$evidence_base\" > artifacts/citation-evidence-seals/report.json 2> artifacts/citation-evidence-seals/errors.txt",
+      "toolSha256": "d2ffb227a33062ca1aaab0581e954e20c1940319599b2e1e757d9d193277b7f3",
+      "mkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 5,
+      "name": "Verify committed static output is current",
+      "line": 1,
+      "tool": "tools/assemble.mjs",
+      "command": "node tools/assemble.mjs",
+      "toolSha256": "3e1924f2686121e6101b4e5337fff6607faa45be9be29444f764556d6e204a7b",
+      "mkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 6,
+      "name": "Generate citation systemic inventory",
+      "line": 2,
+      "tool": "tools/citation-systemic-inventory.mjs",
+      "command": "node tools/citation-systemic-inventory.mjs --output-dir artifacts/citation-systemic-coverage",
+      "toolSha256": "333806f2b84b3491597b5a29fddb176e8a65a4d53c103deb8348497c4ca42762",
+      "mkdirEvidence": [
+        {
+          "line": 978,
+          "text": "mkdirSync(args.outputDir, {recursive: true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 8,
+      "name": "Reconcile source-table row citations",
+      "line": 2,
+      "tool": "tools/source-table-citation-coverage.mjs",
+      "command": "node tools/source-table-citation-coverage.mjs artifacts/source-table-citation-coverage/report.json --check",
+      "toolSha256": "d18f351d5c66d39ed41d63e5dd06fbd4d2f61df65672168e374ee7edc5e32ddc",
+      "mkdirEvidence": [
+        {
+          "line": 138,
+          "text": "const report=loadSourceTableCitationCoverage();mkdirSync(dirname(output),{recursive:true});writeFileSync(output,JSON.stringify(report,null,2)+'\\n');"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 10,
+      "name": "Verify citation owner identity",
+      "line": 3,
+      "tool": "tools/source-owner-identity-audit.mjs",
+      "command": "node tools/source-owner-identity-audit.mjs --check --replay --write artifacts/source-owner-identity/report.json > artifacts/source-owner-identity/check.json",
+      "toolSha256": "ed22f219d600230b35dec15b59c16d6ed3afc2e67a65ae86ac15f60399ae32b2",
+      "mkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 12,
+      "name": "Verify monetary source inventory",
+      "line": 2,
+      "tool": "tools/monetary-source-inventory.mjs",
+      "command": "node tools/monetary-source-inventory.mjs --check research/monetary-source-inventory.json",
+      "toolSha256": "e805a03e6dd0828d6f066e68b9070b0e2df1065b3a83028d0c8038f467423ba2",
+      "mkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 14,
+      "name": "Verify recorded monetary row identity findings",
+      "line": 3,
+      "tool": "tools/monetary-findings-register.mjs",
+      "command": "node tools/monetary-findings-register.mjs --check > artifacts/monetary-row-identity/finding-register.json",
+      "toolSha256": "af29794b31971741615baf25fafa4c4a61e9a2e2be3e179ca5a358fd67c787ea",
+      "mkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 14,
+      "name": "Verify recorded monetary row identity findings",
+      "line": 5,
+      "tool": "tools/monetary-row-identity-audit.mjs",
+      "command": "node tools/monetary-row-identity-audit.mjs --output artifacts/monetary-row-identity/report.json --check > artifacts/monetary-row-identity/summary.json",
+      "toolSha256": "f666dd837a1a08ffd7ca926766f85b8af4b60e24724a8b2c7b60a1a61943dfa8",
+      "mkdirEvidence": [
+        {
+          "line": 884,
+          "text": "const report=loadMonetaryRowIdentityAudit({snapshotDir,reviewsPath:value('--reviews')||'research/monetary-row-identity-reviews.json',includeOverlaps:args.includes('--overlaps')});mkdirSync(dirname(output),{recursive:true});writeFileSync(output,JSON.stringify(report,null,2)+'\\n');"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 16,
+      "name": "Join monetary values with current review coverage",
+      "line": 1,
+      "tool": "tools/monetary-coverage-report.mjs",
+      "command": "node tools/monetary-coverage-report.mjs --output artifacts/monetary-review-coverage/report.json",
+      "toolSha256": "733758b24b16afac963b41afc459b1fa9ef009765189a67f604997d9596163cf",
+      "mkdirEvidence": [
+        {
+          "line": 139,
+          "text": "mkdirSync(dirname(target), {recursive: true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 18,
+      "name": "Verify duplicated monetary focus declarations",
+      "line": 2,
+      "tool": "tools/monetary-group-focus-audit.mjs",
+      "command": "node tools/monetary-group-focus-audit.mjs --output artifacts/monetary-group-focus/report.json --check",
+      "toolSha256": "886cb99c017a81c2005c24d56eb69e4d8c1801e7aefbb8c125f1c3bb8b50c7db",
+      "mkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 20,
+      "name": "Inventory monetary conditions and source contracts",
+      "line": 1,
+      "tool": "tools/monetary-condition-coverage.mjs",
+      "command": "node tools/monetary-condition-coverage.mjs --output artifacts/monetary-condition-coverage/report.json",
+      "toolSha256": "a1c3b32cfa0cc88cc968ed2def131763f1fea5100320c18aa0e3e2a9bba92c73",
+      "mkdirEvidence": [
+        {
+          "line": 514,
+          "text": "mkdirSync(dirname(target), {recursive: true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 22,
+      "name": "Validate raster boundary coverage snapshot",
+      "line": 1,
+      "tool": "tools/source-raster-coverage.mjs",
+      "command": "node tools/source-raster-coverage.mjs --output artifacts/source-raster-coverage/report.json --check",
+      "toolSha256": "5de40c0f5148777963ea8fb9f8cbbe1aec2f310dd870b0b0ebda9520c0640250",
+      "mkdirEvidence": [
+        {
+          "line": 428,
+          "text": "mkdirSync(dirname(target), {recursive: true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 24,
+      "name": "Check current citation field captions",
+      "line": 1,
+      "tool": "tools/source-target-label-audit.mjs",
+      "command": "node tools/source-target-label-audit.mjs --current --check --output-dir artifacts/citation-target-labels",
+      "toolSha256": "3687d8ab1c5b61f38acef68d53296b8007b9f29ecec1797dcdb8b73552258218",
+      "mkdirEvidence": [
+        {
+          "line": 162,
+          "text": "await mkdir(currentOutputDir, {recursive: true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 26,
+      "name": "Inventory quantity and source absence assertions",
+      "line": 1,
+      "tool": "tools/quantity-source-absence-audit.mjs",
+      "command": "node tools/quantity-source-absence-audit.mjs --output-dir artifacts/quantity-source-absence --check",
+      "toolSha256": "27371033b6649bcddab5720b863fe37b73ad10d6a6cefa9a839b5508b5d8c428",
+      "mkdirEvidence": [
+        {
+          "line": 213,
+          "text": "mkdirSync(outputDir,{recursive:true});const jsonPath=resolve(outputDir,'report.json'),mdPath=resolve(outputDir,'report.md');"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 28,
+      "name": "Verify monetary unit provenance",
+      "line": 1,
+      "tool": "tools/monetary-unit-provenance-audit.mjs",
+      "command": "node tools/monetary-unit-provenance-audit.mjs --output-dir artifacts/monetary-unit-provenance --check",
+      "toolSha256": "34e432e7968db28cfa8efca7ef6a19b9180051182b1e2ace452b48cc770b1420",
+      "mkdirEvidence": [
+        {
+          "line": 321,
+          "text": "mkdirSync(outputDir,{recursive:true});const jsonPath=resolve(outputDir,'report.json'),mdPath=resolve(outputDir,'report.md');"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 30,
+      "name": "Verify UA source context obligations",
+      "line": 2,
+      "tool": "tools/ua-source-context-obligations-cli.mjs",
+      "command": "node tools/ua-source-context-obligations-cli.mjs --output artifacts/ua-source-context-obligations/report.json",
+      "toolSha256": "f3e5da64af9812e0100eb576bec38419f95b42b05b3ba633c2470da7717adcad",
+      "mkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 30,
+      "name": "Verify UA source context obligations",
+      "line": 3,
+      "tool": "tools/ua-source-context-obligations-cli.mjs",
+      "command": "node tools/ua-source-context-obligations-cli.mjs --check",
+      "toolSha256": "f3e5da64af9812e0100eb576bec38419f95b42b05b3ba633c2470da7717adcad",
+      "mkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 32,
+      "name": "Verify current continuation candidate snapshot",
+      "line": 1,
+      "tool": "tools/continuation-candidates-validate.mjs",
+      "command": "node tools/continuation-candidates-validate.mjs --summary research/source-audit-batch5-continuation-current.json --force-current-tree --output-dir artifacts/continuation-candidate-coverage",
+      "toolSha256": "65b9699164f8f2818bd0f40e762c61380e7b8d79e3393bb3f7fd0eb258ec2b3e",
+      "mkdirEvidence": [
+        {
+          "line": 332,
+          "text": "mkdirSync(outputDir, {recursive: true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 33,
+      "name": "Verify declared continuation aliases",
+      "line": 1,
+      "tool": "tools/continuation-alias-audit.mjs",
+      "command": "node tools/continuation-alias-audit.mjs --output artifacts/continuation-aliases/report.json --check",
+      "toolSha256": "8ecfbd80c303d6e9e1db505f930ed64d1a5a889e9ba513f483e06f32c4987911",
+      "mkdirEvidence": [
+        {
+          "line": 51,
+          "text": "if(outputIndex>=0){const output=resolve(args[outputIndex+1]);mkdirSync(dirname(output),{recursive:true});writeFileSync(output,JSON.stringify(report,null,2)+'\\n');}"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 35,
+      "name": "Inventory consecutive-page excerpt candidates",
+      "line": 1,
+      "tool": "tools/cross-page-catalog-candidates.mjs",
+      "command": "node tools/cross-page-catalog-candidates.mjs --baseline-output artifacts/continuation-candidate-coverage/cross-page-baseline.json --current-output artifacts/continuation-candidate-coverage/cross-page-current.json",
+      "toolSha256": "0433b623ff2b63ed3aae3cf6297da47ea89f6eff56c3d7eb59ab985a609e735e",
+      "mkdirEvidence": [
+        {
+          "line": 289,
+          "text": "mkdirSync(path.dirname(target), {recursive: true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 37,
+      "name": "Generate source visual coverage",
+      "line": 2,
+      "tool": "tools/source-visual-coverage.mjs",
+      "command": "node tools/source-visual-coverage.mjs artifacts/source-visual-coverage",
+      "toolSha256": "f6f1a0a39321b541bdd85173519e8dd316215fa213f44f02300965706c1eaedc",
+      "mkdirEvidence": [
+        {
+          "line": 368,
+          "text": "const outDir=path.resolve(process.argv[2]||path.join(root,'artifacts/source-visual-coverage'));mkdirSync(outDir,{recursive:true});"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 38,
+      "name": "Check class advancement and source qualifiers",
+      "line": 2,
+      "tool": "tools/class-progression-audit.mjs",
+      "command": "node tools/class-progression-audit.mjs --input dist/data.json --output artifacts/source-domain-audits/class-progression.json --check",
+      "toolSha256": "7d47f6f7b98433ae7a0a3e08b3bdc96a53ccd664eee4d57c57e8e9b0d5662c0f",
+      "mkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 38,
+      "name": "Check class advancement and source qualifiers",
+      "line": 4,
+      "tool": "tools/source-qualifier-coverage.mjs",
+      "command": "node tools/source-qualifier-coverage.mjs --input dist/data.json --output artifacts/source-domain-audits/source-qualifiers.json --check",
+      "toolSha256": "37509981e227c2226d4f8e01799c05e4cc51a39c2a30e6f9ee653c7c1d4bd2cb",
+      "mkdirEvidence": [
+        {
+          "line": 23,
+          "text": "if(output){mkdirSync(dirname(output),{recursive:true});writeFileSync(output,JSON.stringify(report,null,2)+'\\n');}"
+        }
+      ]
+    },
+    {
+      "job": "build",
+      "step": 38,
+      "name": "Check class advancement and source qualifiers",
+      "line": 6,
+      "tool": "tools/ua26-note-marker-audit.mjs",
+      "command": "node tools/ua26-note-marker-audit.mjs > artifacts/source-domain-audits/ua26-note-markers.json",
+      "toolSha256": "265e006bdc1276b49bb048afff8e269a70a18224666830f7031fb3a4984382d2",
+      "mkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 39,
+      "name": "Verify published gaps match current coverage reports",
+      "line": 2,
+      "tool": "tools/refresh-gaps-handoff.mjs",
+      "command": "node tools/refresh-gaps-handoff.mjs --check | tee artifacts/source-domain-audits/gaps-handoff-check.json",
+      "toolSha256": "b05d320909db9f00a8cb7c1c7d958be4c73120041023dd2092a67f97d70d731f",
+      "mkdirEvidence": []
+    },
+    {
+      "job": "build",
+      "step": 42,
+      "name": "Capture build metadata",
+      "line": 1,
+      "tool": "tools/stamp-build.mjs",
+      "command": "node tools/stamp-build.mjs --capture",
+      "toolSha256": "ffed8ffe2efc180797ce344c2420f539d0bfe3bec846c9f802752814b2f0930c",
+      "mkdirEvidence": []
+    },
+    {
+      "job": "deploy",
+      "step": 2,
+      "name": "Reserve deployment version",
+      "line": 1,
+      "tool": "tools/allocate-version.mjs",
+      "command": "node tools/allocate-version.mjs",
+      "toolSha256": "87c0f57af10b95770b8ae079d86118c10db0cb91c435985ea0d8240e72625ebc",
+      "mkdirEvidence": []
+    },
+    {
+      "job": "deploy",
+      "step": 3,
+      "name": "Stamp build details into deploy artifact",
+      "line": 1,
+      "tool": "tools/stamp-build.mjs",
+      "command": "node tools/stamp-build.mjs",
+      "toolSha256": "ffed8ffe2efc180797ce344c2420f539d0bfe3bec846c9f802752814b2f0930c",
+      "mkdirEvidence": []
+    }
+  ],
+  "limits": [
+    "Tool mkdir classification records the actual output-writing path evidence; if an earlier validation throws, CI is already failing and later diagnostics may be unavailable.",
+    "Deployment summary/output files are supplied by the Actions runner; version-state branch operations retain the already reviewed deployment workflow."
+  ]
+}

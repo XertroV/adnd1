@@ -1,0 +1,79 @@
+{
+  "artifactType": "independent-condition-coverage-and-context-protocol-code-review",
+  "status": "approved-for-exact-scoped-code-checkpoint; live-generation-waits-for-current-index",
+  "scope": "Code/protocol calibration and preserved before references, not source-semantic or completeness approval. No repository changes.",
+  "files": [
+    {
+      "path": "tools/monetary-condition-coverage.mjs",
+      "sha256": "a1c3b32cfa0cc88cc968ed2def131763f1fea5100320c18aa0e3e2a9bba92c73"
+    },
+    {
+      "path": "tests/monetary-condition-coverage.test.mjs",
+      "sha256": "14b8c5068b6e939e0edb5cce82d4d885e90487b5dd601bde3f61eb74bb932e38"
+    },
+    {
+      "path": "tools/monetary-row-identity-audit.mjs",
+      "sha256": "9695ee58246dc0dbebab6d1f5f3c18b0262badec20cf0eed5d9efe39a2108787"
+    },
+    {
+      "path": "tests/monetary-context-adapter-protocol.test.mjs",
+      "sha256": "fd473104af50b40d6aaf6b131ba6aea635b79905de81d1d1fabfc23a14d5c744"
+    },
+    {
+      "path": "tools/monetary-source-inventory.mjs",
+      "sha256": "73a2b1e35bfa044908cb32f5cd9176ac5940f265f7200f1654b38c762c8daceb"
+    },
+    {
+      "path": "tests/monetary-source-inventory.test.mjs",
+      "sha256": "40ab7713e253396ac228b815cfffcf3ec697cda3e8ec21fb331f1f894d8a0999"
+    }
+  ],
+  "checks": {
+    "conditionAndAdapterProtocolTests": {
+      "pass": 31,
+      "fail": 0,
+      "log": "/tmp/monetary-condition-protocol-independent-tests.log",
+      "sha256": "c6a236a51f928c45f8a051fd8cc2bdbacf2d3dd47f28f672bbe676a4dcffca9e"
+    },
+    "sourceInventoryTests": {
+      "pass": 15,
+      "fail": 0,
+      "log": "/tmp/monetary-source-inventory-independent-tests.log",
+      "sha256": "5dc47c801535e9299d8ff76cbe223f4476bed2d407fb523674056dc407aa3f3b"
+    },
+    "independentOldNewCalibration": {
+      "path": "/tmp/monetary-condition-independent-calibrations.json",
+      "sha256": "9f68e1fbd91ac3aac011eb3fff8b3a47c8d0bdabb0aeee83fdca723b280a1710",
+      "oldSourceInputPathHashPointerFalsePasses": 3,
+      "currentRejections": 3,
+      "currentNullRemovalRephraseRemainNeedsReview": true
+    },
+    "historicalBeforeCLI": {
+      "pass": true,
+      "path": "/tmp/monetary-condition-independent-before.json",
+      "sha256": "27641b7bac31c4e3e54be74e325c698ed4bb5c97a181b093f4fa156a5981e795",
+      "occurrences": 1871,
+      "claims": 2318,
+      "auditRecords": 2161,
+      "exactAuditMatches": 1725,
+      "auditOnlyRetained": 436,
+      "indexOnlyRetained": 146,
+      "heldInfoContracts": 4,
+      "semanticPass": false
+    },
+    "liveCLI": {
+      "pass": false,
+      "state": "failed-closed; missing-index integration dependency",
+      "error": "Index output is missing: research/monetary-source-inventory.json; generate it with --output after canonical inputs are final.",
+      "reportWritten": false
+    }
+  },
+  "blockingCodeFindings": [],
+  "remainingIntegrationDependency": "Generate validated research/monetary-source-inventory.json after canonical source inputs are final, then run current CLI again.",
+  "limits": [
+    "Contracts cover four manually identified DMG33 conditions; generic scanner does not discover semantic omissions.",
+    "Null/empty/absent fields remain serialized states and never prove printed-source absence.",
+    "Synthetic context/provenance protocol passes do not approve original pixels, values, precise highlights, defaults, or completeness.",
+    "Current contract changes remain needs-independent-review; held contract status is retained separately from row-audit finding outcomes."
+  ]
+}

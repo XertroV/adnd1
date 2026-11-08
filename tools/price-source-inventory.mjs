@@ -1,7 +1,9 @@
 import {createHash} from 'node:crypto';
+import {assertPrimaryRowEvidence} from './citation-region-role.mjs';
 import {existsSync, readFileSync, readdirSync, writeFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import {basename,resolve} from 'node:path';
+import {ambiguousItemOverrideIds, appendOverrideReferences, classProgressionOverride, cloneOverrideJson, collectionOverride, collectionReferenceOverrides, equipmentPriceStateOverride} from './citation-override-identity.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const books = createRequire(import.meta.url)('../dist/books.js');
@@ -36,6 +38,10 @@ export function attachSourceVisualReviewMetadata(data,{ledger=readJson('research
   if(data.progressionExplainer){if(!data.progressionExplainer.id)data.progressionExplainer.id='progression-explainer';records.push({collection:'progressionExplainer',item:data.progressionExplainer});}
   const reviews=new Map();
   for(const review of ledger.reviews||[]){
+    if(!review||!['rules','spells','equipment','matrices','classes','progressionExplainer'].includes(review.collection)
+      ||typeof review.itemId!=='string'||!review.itemId.trim()
+      ||!['sourceExcerpts','scanVerification'].includes(review.binding)
+      ||typeof review.regionId!=='string'||!review.regionId.trim())throw new Error('Source visual review requires a collection, item owner, binding and region identity');
     const key=[review.collection,review.itemId,review.binding,review.regionId].join('|');
     if(reviews.has(key))throw new Error(`Duplicate source visual review ${key}`);
     reviews.set(key,review);
@@ -303,19 +309,33 @@ function regionCropCoordinate(region) {
   return {regionId:region.id,coordinateSpace:null,format:null,rect:null};
 }
 
+function assemblyIdentityData(equipment) {
+  const data={
+    rules:readJson('rules.json').rules||[],
+    classes:readJson('classes.json').classes||[],
+    equipment,
+    matrices:readJson('attack-matrices.json').matrices||[],
+    spells:[],
+  };
+  for(const file of ['phb-spell-index.json','ua-spell-index.json','phb-spells.json','phb-magic-user-extra.json','ua-spells.json'])data.spells.push(...(readJson(file).spells||[]));
+  const progression=readJson('progression-overrides.json');
+  if(progression.explainer)data.progressionExplainer={...progression.explainer,id:progression.explainer.id||'progression-explainer'};
+  return data;
+}
+
 function applyAssemblyMetadata(equipment) {
   const citations=readJson('citation-overrides.json');
+  const ambiguousIds=ambiguousItemOverrideIds(assemblyIdentityData(equipment));
   for(let index=0;index<equipment.length;index++){
     const item=equipment[index]={...equipment[index]};
-    const override=citations.items?.[item.id];
-    if(override?.references){
-      const refs=[...(item.references||[]),...override.references];
-      item.references=refs.filter((ref,refIndex)=>refs.findIndex(other=>JSON.stringify(other)===JSON.stringify(ref))===refIndex);
-    }
-    const sourceExcerpts=citations.sourceExcerpts?.[`equipment:${item.id}`]||citations.sourceExcerpts?.[item.id];
-    if(sourceExcerpts)item.sourceExcerpts=sourceExcerpts;
-    if(citations.scanVerification?.[item.id])item.scanVerification=citations.scanVerification[item.id];
-    if(citations.priceStates?.[item.id])item.priceState=citations.priceStates[item.id];
+    const referenceOverrides=collectionReferenceOverrides(citations.items,'equipment',item.id,ambiguousIds);
+    appendOverrideReferences(item,referenceOverrides);
+    const sourceExcerpts=collectionOverride(citations.sourceExcerpts,'equipment',item.id,ambiguousIds,{allowDeclaredCollection:true,mapName:'sourceExcerpts'});
+    if(sourceExcerpts)item.sourceExcerpts=cloneOverrideJson(sourceExcerpts);
+    const scanVerification=collectionOverride(citations.scanVerification,'equipment',item.id,ambiguousIds);
+    if(scanVerification)item.scanVerification=cloneOverrideJson(scanVerification);
+    const priceState=equipmentPriceStateOverride(citations.priceStates,'equipment',item.id);
+    if(priceState)item.priceState=priceState;
   }
   return equipment;
 }
@@ -343,20 +363,25 @@ function defaultBindingData(equipment) {
   }
   data.spells=[...spellMap.values()];
   const citations=readJson('citation-overrides.json'),progression=readJson('progression-overrides.json');
+  const ambiguousIds=ambiguousItemOverrideIds(data,progression.explainer);
   for(const [collection,items] of Object.entries({rules:data.rules,spells:data.spells,classes:data.classes,equipment:data.equipment,matrices:data.matrices})) for(const item of items){
-    const override=citations.items?.[item.id];
-    if(override?.references){const refs=[...(item.references||[]),...override.references];item.references=refs.filter((ref,index)=>refs.findIndex(other=>JSON.stringify(other)===JSON.stringify(ref))===index);}
-    const excerpts=citations.sourceExcerpts?.[`${collection}:${item.id}`]||citations.sourceExcerpts?.[item.id];
-    if(excerpts)item.sourceExcerpts=excerpts;
-    if(citations.scanVerification?.[item.id])item.scanVerification=citations.scanVerification[item.id];
-    if(citations.priceStates?.[item.id])item.priceState=citations.priceStates[item.id];
-    if(progression.classes?.[item.id])Object.assign(item,progression.classes[item.id]);
+    const referenceOverrides=collectionReferenceOverrides(citations.items,collection,item.id,ambiguousIds);
+    appendOverrideReferences(item,referenceOverrides);
+    const excerpts=collectionOverride(citations.sourceExcerpts,collection,item.id,ambiguousIds,{allowDeclaredCollection:true,mapName:'sourceExcerpts'});
+    if(excerpts)item.sourceExcerpts=cloneOverrideJson(excerpts);
+    const scanVerification=collectionOverride(citations.scanVerification,collection,item.id,ambiguousIds);
+    if(scanVerification)item.scanVerification=cloneOverrideJson(scanVerification);
+    const priceState=equipmentPriceStateOverride(citations.priceStates,collection,item.id);
+    if(priceState)item.priceState=priceState;
+    const classOverride=classProgressionOverride(progression.classes,collection,item.id);
+    if(classOverride)Object.assign(item,cloneOverrideJson(classOverride));
   }
   if(progression.explainer){
     data.progressionExplainer=progression.explainer;
     const explainerId='progression-explainer';
-    if(citations.scanVerification?.[explainerId])data.progressionExplainer.scanVerification=citations.scanVerification[explainerId];
-    const excerpts=citations.sourceExcerpts?.[`progressionExplainer:${explainerId}`]||citations.sourceExcerpts?.[explainerId];
+    const scanVerification=collectionOverride(citations.scanVerification,'progressionExplainer',explainerId,ambiguousIds);
+    if(scanVerification)data.progressionExplainer.scanVerification=cloneOverrideJson(scanVerification);
+    const excerpts=collectionOverride(citations.sourceExcerpts,'progressionExplainer',explainerId,ambiguousIds,{allowDeclaredCollection:true,mapName:'sourceExcerpts'});
     if(excerpts)data.progressionExplainer.sourceExcerpts=excerpts;
   }
   return data;
@@ -619,7 +644,7 @@ function itemBinding(item, {rootBindings, catalogs}) {
     const manualRef = manual.find(binding=>binding.fieldPointer===pointer);
     const catalog=pageCatalog;
     if(manualRef?.reviewStatus==='field-target-reviewed'&&manualRef.catalog!==catalog)throw new Error(`Reviewed target ${item.id}${pointer} catalog ${manualRef.catalog??'(missing)'} is not the viewer-selected catalog ${catalog??'(none)'}`);
-    const candidateIds=[...new Set([...(manualRef?.regionIds||[]),...directIds])];
+    const candidateIds=[...new Set(Array.isArray(manualRef?.regionIds)?manualRef.regionIds:directIds)];
     const catalogRegions=catalog&&catalogs.get(catalog)?catalogs.get(catalog).regions:[];
     const regionIds=candidateIds.filter(id=>catalogRegions.some(region=>region.id===id));
     const unmappedRegionIds=candidateIds.filter(id=>!regionIds.includes(id));
@@ -708,7 +733,7 @@ function comparatorBinding(owner, index, comparison, comparatorItem, {rootBindin
   const selectedCatalog=viewerCatalogFor(comparatorItem);
   if(manual?.reviewStatus==='field-target-reviewed'&&manual.catalog!==selectedCatalog)throw new Error(`Reviewed comparator target ${owner.id}${fieldPointer} catalog ${manual.catalog??'(missing)'} is not the viewer-selected catalog ${selectedCatalog??'(none)'}`);
   const catalog=selectedCatalog;
-  const candidateIds=[...new Set([...(manual?.regionIds||[]),...directIds])];
+  const candidateIds=[...new Set(Array.isArray(manual?.regionIds)?manual.regionIds:directIds)];
   const catalogRegions=catalog&&catalogs.get(catalog)?catalogs.get(catalog).regions:[];
   const regionIds=candidateIds.filter(id=>catalogRegions.some(region=>region.id===id));
   const unmappedRegionIds=candidateIds.filter(id=>!regionIds.includes(id));
@@ -974,7 +999,7 @@ function manualBindingFor(binding,{collections,catalogs}) {
   const valuePathMissing=target===undefined&&isPairedFieldSourcePointer(binding.fieldPointer,sourceObjectPointer);
   if(target===undefined&&!valuePathMissing) throw new Error(`Manual field evidence target ${binding.collection}:${binding.itemId}${binding.fieldPointer} does not resolve`);
   if(valuePathMissing&&binding.reviewStatus==='field-target-reviewed')throw new Error(`Reviewed target ${binding.collection}:${binding.itemId}${binding.fieldPointer} has no current value at the cited field path`);
-  if(sourceObject===undefined||sourceObject===null||typeof sourceObject!=='object') throw new Error(`Manual field evidence source object ${binding.collection}:${binding.itemId}${sourceObjectPointer} must resolve to an object`);
+  if(sourceObject===undefined||sourceObject===null||typeof sourceObject!=='object'||Array.isArray(sourceObject)) throw new Error(`Manual field evidence source object ${binding.collection}:${binding.itemId}${sourceObjectPointer} must resolve to a non-array source object`);
   const sourceOwner=binding.sourceOwner??{collection:binding.collection,itemId:binding.itemId};
   const owner=collectionItem(collections,sourceOwner.collection,sourceOwner.itemId);
   if(!owner) throw new Error(`Manual field evidence source owner ${sourceOwner.collection}:${sourceOwner.itemId} is missing`);
@@ -1007,6 +1032,8 @@ function manualBindingFor(binding,{collections,catalogs}) {
     collection:binding.collection,itemId:binding.itemId,fieldPointer:binding.fieldPointer,
     sourceObject:binding.sourceObject??sourceObject.label??sourceObject.name??sourceObject.title??null,
     sourceCategory:binding.sourceCategory??'record-reference',book,printedPage,pdfPage,
+    ...(binding.requiresRowEvidence===true?{requiresRowEvidence:true}:{}),
+    ...(binding.requiresPassageEvidence===true?{requiresPassageEvidence:true}:{}),
     catalog:selectedCatalog,regionIds,...(unmappedRegionIds.length?{unmappedRegionIds}:{}),coordinateSpace:regionIds.length?'excerpt-image-normalized-top-left-xywh':null,
     reviewStatus,contextStatus:binding.contextStatus??'context-not-assessed',
     contextLimitations:binding.contextLimitations??[],sourcePages:binding.sourcePages??sourceObject.pages??target.pages??(printedPage?[printedPage]:[]),
@@ -1277,6 +1304,9 @@ export function validatePriceSourceInventory(inventory, {equipment=applyAssembly
     if(binding.sourceCategory==='printed-price-comparator'&&sourceObject.itemId!==sourceOwner.itemId) fail(`${binding.itemId}${binding.fieldPointer}: source owner does not match the cited comparator item`);
     if(binding.sourceCategory!=='printed-price-comparator'&&sourceOwner.itemId!==binding.itemId) fail(`${binding.itemId}${binding.fieldPointer}: non-comparator source owner must be the routed item`);
     if(!binding.book||!Number.isInteger(binding.printedPage)||!Array.isArray(binding.regionIds)||typeof binding.reviewStatus!=='string') fail(`${binding.itemId}${binding.fieldPointer}: incomplete binding`);
+    for(const key of ['regionEvidence','cropCoordinates','highlightCoordinates']){
+      if(!Array.isArray(binding[key])||JSON.stringify(binding[key].map(region=>region.regionId))!==JSON.stringify(binding.regionIds)) fail(`${binding.itemId}${binding.fieldPointer}: region selection alignment differs in ${key}`);
+    }
     const targetBook=sourceObject.book??sourceObject.source?.book??null;
     const targetPages=sourceObject.pages??(Number.isInteger(sourceObject.printedPage)?[sourceObject.printedPage]:Number.isInteger(sourceObject.page)?[sourceObject.page]:null);
     if(targetBook&&targetBook!==binding.book) fail(`${binding.collection||'equipment'}:${binding.itemId}${binding.fieldPointer}: bound book does not match cited source object`);
@@ -1285,6 +1315,7 @@ export function validatePriceSourceInventory(inventory, {equipment=applyAssembly
       if(!binding.catalog) fail(`${binding.itemId}${binding.fieldPointer}: region target has no catalog`);
       const catalog=catalogs.get(binding.catalog);
       if(!catalog) fail(`${binding.catalog}: bound catalog missing`);
+      try{assertPrimaryRowEvidence(binding,catalog);}catch(error){fail(error.message);}
       for(const id of binding.regionIds){
         const region=catalog.regions?.find(candidate=>candidate.id===id);
         if(!region) fail(`${binding.itemId}${binding.fieldPointer}: region ${id} missing from ${binding.catalog}`);
@@ -1351,7 +1382,7 @@ export function attachEvidenceBindings(data, inventory) {
     const item=collectionItem(collections,binding.collection||'equipment',binding.itemId);
     if(!item)throw new Error(`Cannot attach field evidence to missing ${binding.collection||'equipment'}:${binding.itemId}`);
     const target=valueAtPointer(item,binding.sourceObjectPointer??binding.fieldPointer);
-    if(!target||typeof target!=='object')throw new Error(`Cannot attach field evidence to unresolved ${binding.collection||'equipment'}:${binding.itemId}${binding.fieldPointer}`);
+    if(!target||typeof target!=='object'||Array.isArray(target))throw new Error(`Cannot attach field evidence without a non-array source object: ${binding.collection||'equipment'}:${binding.itemId}${binding.fieldPointer}`);
     if(!bindingsBySourceObject.has(target))bindingsBySourceObject.set(target,[]);
     bindingsBySourceObject.get(target).push(binding);
   }

@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "metadata-only independent structural review receipt for continuation alias audit",
+  "reviewDate": "2026-11-07",
+  "status": "review complete; current bounded alias-link integration is structurally consistent, with validation limitations recorded",
+  "scope": {
+    "reviewed": "tools/continuation-alias-audit.mjs, tests/continuation-alias-audit.test.mjs, current manifest/inventory integration and CLI execution",
+    "notReviewed": [
+      "source page image pixels",
+      "passage semantic completeness",
+      "field/mechanics correctness",
+      "unknown unlisted continuation passages"
+    ]
+  },
+  "inputs": {
+    "tool": {
+      "path": "tools/continuation-alias-audit.mjs",
+      "sha256": "8ecfbd80c303d6e9e1db505f930ed64d1a5a889e9ba513f483e06f32c4987911"
+    },
+    "tests": {
+      "path": "tests/continuation-alias-audit.test.mjs",
+      "sha256": "c1849f39cf5ec299d2c5dec19fe46bf99a0c9bf209e34242a612230646ded"
+    },
+    "beforeInventory": {
+      "path": "research/source-audit-batch5-continuation-alias-before.json",
+      "sha256": "d9fa27419dd1e49f25032086a0bba944ee6e5f51fb347ddbcf69dcd7b1c2270e"
+    },
+    "integration": {
+      "path": "research/source-audit-batch5-continuation-alias-integration.json",
+      "sha256": "a6f120b56cae6667a072f635e6b10110bf1ab88d90cb7b3e2d5b64e90d055d69"
+    },
+    "currentManifest": {
+      "path": "research/citation-continuations.json",
+      "sha256": "03655e67300b434c9ff9b447b1ec816b0a0908cc541d5a12d2e9a6f381598be4"
+    },
+    "currentData": {
+      "path": "dist/data.json",
+      "sha256": "2b803d29cccd83ffd8418818abddf04b66204c82cebb8afba13f7a8226c6583c"
+    },
+    "beforeManifestFixture": {
+      "path": "tests/fixtures/continuation-manifest-before-legacy-alias.json.gz",
+      "sha256": "3288c21f162493bd040b41305ca71de01fe15cc7451ed43eba9ba15d10e19ab8"
+    }
+  },
+  "before": {
+    "exposedRecords": 995,
+    "referencedCatalogs": 1015,
+    "catalogRegionRows": 3066,
+    "declaredGroups": 189,
+    "declaredParts": 354,
+    "exactAliasMatches": 23,
+    "unlinkedExactAliases": 1,
+    "unassessableParts": 0
+  },
+  "current": {
+    "exposedRecords": 995,
+    "referencedCatalogs": 1015,
+    "catalogRegionRows": 3066,
+    "declaredGroups": 190,
+    "declaredParts": 356,
+    "exactAliasMatches": 24,
+    "unlinkedExactAliases": 0,
+    "unassessableParts": 0,
+    "invalidGroups": 0,
+    "structuralCheckValid": true,
+    "sourceSemanticsCertified": false
+  },
+  "baselineAlias": {
+    "groupId": "batch5-ua69-death-fog-related-solid-fog-passage",
+    "collection": "spells",
+    "itemId": "ua-illusionist-death-fog",
+    "segmentRegionId": "ua-69-7ceb51358e10f81e",
+    "previouslyUnlinkedAliasRegionId": "ua-69-b8b05ef9807ad0f8",
+    "book": "UA",
+    "printedPage": 69,
+    "pdfPage": 70,
+    "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+    "imageSha256": "b8b05ef9807ad0f820896e4297cb5afa07f1521df5a6c709652ada10043a3d70",
+    "sourceCropBoundsNormalizedXYWH": [
+      0.49,
+      0.025,
+      0.49,
+      0.115
+    ],
+    "focusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+    "result": "new declared group links stable legacy alias; original 189-group manifest prefix is preserved",
+    "semanticScope": "Related Solid Fog source context only; Death Fog p.70 and mechanics grades remain separate"
+  },
+  "review": {
+    "tests": {
+      "command": "node --test tests/continuation-alias-audit.test.mjs",
+      "passed": 3,
+      "failed": 0
+    },
+    "cli": {
+      "command": "node tools/continuation-alias-audit.mjs --output /tmp/continuation-alias-audit-review-output.json --check",
+      "exitCode": 0,
+      "outputReport": {
+        "path": "/tmp/continuation-alias-audit-review-output.json",
+        "sha256": "4d16342fb289c057dba796d9548b02e9856c9718e1ade33a3e12a8669b03f8c5"
+      },
+      "result": "24 exact matches, no missing links, no unassessable parts; structural valid true, semantic certified false"
+    }
+  },
+  "checks": {
+    "ownerScoping": {
+      "result": "Pass within the implemented declared-group scope; owner key includes collection and item ID; the owner sourceExcerpts catalog and catalog collection/item ID must agree. Existing test changes collection and observes invalidGroups=1 plus invalid structural status."
+    },
+    "sourceCropFocusComparison": {
+      "result": "Alias identity compares book, printed page, PDF page, source PDF SHA, region image SHA, normalized crop rectangle, and focusRects. Focus SHA is recorded separately; current added pair has equal source/image/crop/focus and the expected legacy region ID."
+    },
+    "emptyOrNoAlias": {
+      "result": "No semantic-pass flag is emitted: sourceSemanticsCertified remains false. However, zero groups or an empty declared universe yields structuralCheck.valid=true; CI --check is structural only, so readers must not treat valid as semantic coverage."
+    },
+    "invalidAndUnassessableParts": {
+      "result": "Current inventory has zero unassessable parts. A probe with a misspelled segment state returns unassessableParts=1 while structuralCheck.valid remains true; this is consistent with separate structural and semantic scope but is a status-reporting limitation."
+    },
+    "malformedAndMissingIds": {
+      "result": "The tool does not fully validate schemas or uniqueness. A probe with a missing exposed item ID and no groups returns valid=true; two linked groups with IDs removed can return valid=true and groupId=null. Missing/duplicate record IDs can also collapse in the owners Map. Recommendation: reject missing/duplicate exposed item IDs and group IDs before interpreting the audit."
+    },
+    "cliSafety": {
+      "result": "The CLI runs local synchronous reads/writes and no shell commands; explicit configured artifact output plus --check works. It ignores unknown flags and accepts any --output path, including source paths; recommendation: reject unknown/missing arguments and constrain output to artifacts/ or a caller-approved workspace path."
+    }
+  },
+  "limitations": [
+    "Exact aliases are discoverable only among catalog regions referenced by present parts of declared groups; no alias result is not evidence that there are no other aliases or missing continuation groups.",
+    "The output is a structural alias-link inventory, not page completeness, semantic source review, or mechanics approval.",
+    "The current root-added group is labeled as related Solid Fog context; it does not mark the passage as Death Fog text or transfer field/mechanics grades.",
+    "No source images were needed or inspected because this audit compares unchanged recorded image/source/crop/focus identities only."
+  ],
+  "noCodeOrSourceChangesMade": true
+}

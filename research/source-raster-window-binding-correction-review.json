@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "source-raster-window-binding-correction-review",
+  "scope": "One checker property-name correction. Synthetic two-window calibration verifies numeric graph behavior only; no source pixels or semantics are approved.",
+  "before": {
+    "fixturePath": "tests/fixtures/source-raster-coverage-window-binding-before.json.gz",
+    "fixtureSha256": "be23f28ffa14e6748b77f86c1ee8fd45befb2fcdb2eeaf19f58d4eb15a6800b4",
+    "checkerSha256": "0628a446e236e44b1b170d6732a7e282bb89da90391fb8ba66a06724d083dfd7",
+    "testsSha256": "3b7e537d1da8c026e6282c99cd736417b705c6f874663672826f49d13b1dd80b",
+    "syntheticDistinctWindowValidation": {
+      "valid": false,
+      "errors": [
+        "Duplicate raster geometry binding."
+      ]
+    },
+    "regressionTests": {
+      "total": 8,
+      "passed": 7,
+      "failed": 1,
+      "logSha256": "31d4769d84de3015088dbb914fd8f204d195d3acae8c9fee943e5c6a476380e3"
+    }
+  },
+  "after": {
+    "checkerPath": "tools/source-raster-coverage.mjs",
+    "checkerSha256": "5de40c0f5148777963ea8fb9f8cbbe1aec2f310dd870b0b0ebda9520c0640250",
+    "testsPath": "tests/source-raster-coverage.test.mjs",
+    "testsSha256": "622b3b870dc7db13461a095155a50ca0516b22025be39e823a0a974fe7469b6c",
+    "regressionTests": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0,
+      "logSha256": "be2e4d960997c4e74cdd39c3c0e618a6857583783249b50da7686b1d89bc0f1c"
+    }
+  },
+  "verification": {
+    "fullSourceDeltaExactlyOnePropertyName": true,
+    "distinctSourceWindowsWithSameImageAccepted": true,
+    "repeatedExactSourceWindowRejected": true,
+    "liveSnapshotCliCheckPassed": true,
+    "liveUsages": 3069,
+    "liveGeometries": 1284,
+    "sourcePages": 229,
+    "catalogs": 1015,
+    "semanticPass": false,
+    "currentCliReportPathPrivate": "/tmp/raster-window-binding-after-coverage.json",
+    "currentCliReportSha256": "bbd7c7a4f4a95515c6dcaca1f2b0d49423384be217120d0509dc2fa29ed74a17"
+  },
+  "sharedSourceDataOrSealsChanged": false,
+  "gitMutations": false
+}

@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "complete reconciliation input-artifact pin census before Whale provenance repair",
+  "status": "one stale current reference; one intentional original710 historical reference remains",
+  "source": {
+    "path": "research/source-audit-batch5-price-discovery-reconciliation.json",
+    "sha256": "74996c1c671a1cc56b4d9b5baa574cc54a4d2b2eba5409aebf625e6b096d95e2"
+  },
+  "rawArchive": {
+    "path": "tests/fixtures/price-discovery-input-pins-before-whale-provenance.json.gz",
+    "sha256": "41cf85e6d8857236dc2008d1d34f494c57ba29a40c5fa4909aea05d6307637d1",
+    "uncompressedSha256": "74996c1c671a1cc56b4d9b5baa574cc54a4d2b2eba5409aebf625e6b096d95e2"
+  },
+  "inputArtifactCount": 9,
+  "inputArtifacts": [
+    {
+      "id": "phbDmgCensus",
+      "path": "research/price-source-inventory-phb-dmg-other.json",
+      "recordedSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "currentSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "status": "current"
+    },
+    {
+      "id": "uaCensus",
+      "path": "research/price-source-inventory-ua-other.json",
+      "recordedSha256": "f1f797d9e8664589af5308737d9bc9d5e5dd536339349609fbeec5dc2a58c4b9",
+      "currentSha256": "f1f797d9e8664589af5308737d9bc9d5e5dd536339349609fbeec5dc2a58c4b9",
+      "status": "current"
+    },
+    {
+      "id": "monsterCensus",
+      "path": "research/price-source-inventory-monster-books.json",
+      "recordedSha256": "87ea54c296d9a6b4697a997b5da1ee38b9c844668fc4fb54d5a8794d6aaef106",
+      "currentSha256": "5b18323c4817c7c99a38cd058015f862bbc588237b655ec6c7e8375f60f8248f",
+      "status": "stale-current-reference"
+    },
+    {
+      "id": "originalSourceInventory710",
+      "path": "research/price-source-inventory.json",
+      "recordedSha256": "f2a02d1e990cf9bd30135f7dc2fcd2f10f9e1f2e172ee594e396677c32fb3852",
+      "currentSha256": "71b9ce72027624dd6af658616129b6fc475ea4e43c689758ceb1e165436204ea",
+      "status": "declared-historical-inventory710-reference"
+    },
+    {
+      "id": "uaSupplement583",
+      "path": "research/source-audit-batch5-ua-additional-prices.json",
+      "recordedSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "currentSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "status": "current"
+    },
+    {
+      "id": "phbDmgSupplement179",
+      "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "recordedSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "currentSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "status": "current"
+    },
+    {
+      "id": "pointerFailureBaseline",
+      "path": "tests/fixtures/price-discovery-ua-description-pointer-baseline.json",
+      "recordedSha256": "8cce423ed0c7aa3f6ebad829ebee829c89b05bb432a666c72de90711592a3486",
+      "currentSha256": "8cce423ed0c7aa3f6ebad829ebee829c89b05bb432a666c72de90711592a3486",
+      "status": "current"
+    },
+    {
+      "id": "untypedCandidateBaseline",
+      "path": "tests/fixtures/price-discovery-untyped-money-baseline.json",
+      "recordedSha256": "abe2ae135bd10b2f6c1a1f1c7032c615a762917d20f8f637ed5ebd17eec6d2f0",
+      "currentSha256": "abe2ae135bd10b2f6c1a1f1c7032c615a762917d20f8f637ed5ebd17eec6d2f0",
+      "status": "current"
+    },
+    {
+      "id": "newDescriptionRecords",
+      "path": "research/source-audit-batch5-price-description-records.json",
+      "recordedSha256": "88c5456626a47f5a47a6cce514cb8ea2ce5338e4a9a9b13e93eedfcd265e3c8d",
+      "currentSha256": "88c5456626a47f5a47a6cce514cb8ea2ce5338e4a9a9b13e93eedfcd265e3c8d",
+      "status": "current"
+    }
+  ],
+  "repair": "Update only inputArtifacts.monsterCensus.sha256 to approved source after SHA5b183. Do not reinterpret the deliberately original710 reference as a current source proof."
+}

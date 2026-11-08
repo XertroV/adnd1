@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "actual-original-fee-crop-required-extent-red-replay",
+  "contract": {
+    "path": "research/source-audit-batch5-phb29-assassination-context-required-extent-v2.json",
+    "sha256": "6133317969796ebd76f794515c5236caf710e29e69d8e3bf77eb839a8f205570"
+  },
+  "sourceBefore": {
+    "path": "tests/fixtures/monetary-source-phbdmg-179-before.json.gz",
+    "uncompressedSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9"
+  },
+  "contextEvidence": {
+    "status": "declared-context-crop-metadata-linked",
+    "sourceFrame": {
+      "book": "PHB",
+      "printedPage": 29,
+      "pdfPage": 30,
+      "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+    },
+    "crops": [
+      {
+        "cropId": "crop-phb-assassination-fees-01",
+        "metadata": {
+          "groupId": "phb-assassination-fees",
+          "cropId": "crop-phb-assassination-fees-01",
+          "label": "assassination-fee-table-and-footnote",
+          "sourceRender": "phb-pdf-030.png",
+          "sourceRenderSha256": "cebd4ef9fd5a97c9dbe34b29374a0c40dc359f06dce4427e640ce6acdc38e735",
+          "sourceRenderDimensionsPx": [
+            1201,
+            1638
+          ],
+          "cropBoundsPixelsLTRB": [
+            25,
+            1060,
+            1175,
+            1600
+          ],
+          "cropDimensionsPx": [
+            1150,
+            540
+          ],
+          "cropSha256": "edc950c2d2bc52969b270e65d69e3fb90feb413047e8c9f28dea50bed477c3d6"
+        }
+      }
+    ]
+  },
+  "result": {
+    "semanticPass": false,
+    "scope": "Calibrated numeric source-frame containment only; independent source pixels and meaning remain required.",
+    "complete": false,
+    "status": "required-context-extent-missing",
+    "rectResults": [
+      {
+        "id": "gold-piece-unit-caption",
+        "requiredBounds": [
+          629,
+          1032,
+          1017,
+          1047
+        ],
+        "coveredByCropIds": []
+      },
+      {
+        "id": "table-heading-columns-and-all15-rows",
+        "requiredBounds": [
+          46,
+          1097,
+          1126,
+          1459
+        ],
+        "coveredByCropIds": [
+          "crop-phb-assassination-fees-01"
+        ]
+      },
+      {
+        "id": "complete-important-popular-noble-footnote",
+        "requiredBounds": [
+          41,
+          1483,
+          1161,
+          1531
+        ],
+        "coveredByCropIds": [
+          "crop-phb-assassination-fees-01"
+        ]
+      }
+    ]
+  },
+  "expectedComplete": false,
+  "pixelReviewStillRequired": true,
+  "currentProducerV2Replay": "pending sealed v2 source metadata; no actual v2 pass asserted"
+}

@@ -1,0 +1,396 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "source-owner-identity-legacy-semantics-replay",
+  "capture": {
+    "reconstructedAt": "2026-11-07T19:40:28.605Z",
+    "baselinePath": "research/source-owner-identity-baseline.json",
+    "baselineSha256": "029fc6193118405bb5a9afe38d4ae052aae95c4d4fa5cd2a205a182fe9b02ecd",
+    "baselineInputCommit": "679b15d1c580172e54314829c1c3c86dc78b65f3"
+  },
+  "method": "Reconstruct the former all-collections item-ID lookup against the current raw input files. Restore the two exact ambiguous bare references from the migration receipt, append those same reference objects to all matching owners, and apply the existing bare priceStates value across every collection. This replay is evidence of the old consumer semantics and is not a restoration of the complete historical dist/data.json.",
+  "inputHashes": {
+    "currentRawInputHashes": {
+      "rules.json": "3d64d7ad625d4d986b61964f37f5e32a198bf4e4cb58f6b8d5d99bebe30e0d95",
+      "classes.json": "2e3a87c78cb7ff14f426b6711c4773fc99d51beb01fc3cbb8684cfa814537030",
+      "phb-spell-index.json": "b0994fa545864a48efb519d94758bfddc3d9925731f977860c457b399c651650",
+      "ua-spell-index.json": "edb7b59515c40d6cecbb9078b47f98530f5157a081d934092d116e1db3b47883",
+      "phb-spells.json": "253a3e8bb8af72e2989d0c5c4b3ecbdeab5ef374fa64ca0607d2514b38932393",
+      "phb-magic-user-extra.json": "83e5f81b9801c5f9509d2f5e5433e83196317f3491a26e71efc92a2d6c06e2bb",
+      "ua-spells.json": "ac65345ff0c2be92562d4f1be600f12c2cd7f70ff11b497186c8b78bce5aaad3",
+      "equipment.json": "469c3d6643a209473e1ee5d052ad9e9320d00e69172130b151ada877e3846edf",
+      "attack-matrices.json": "5abf8083068d1732bf04ffd336586f6e465bab46859b583fef516ba5408e411b",
+      "progression-overrides.json": "eeeae4a09dc0555835dfeed00f9e0f50804387449ad242a01990c82abcee43a4"
+    },
+    "baselineRawInputHashes": {
+      "rules.json": "3d64d7ad625d4d986b61964f37f5e32a198bf4e4cb58f6b8d5d99bebe30e0d95",
+      "classes.json": "2e3a87c78cb7ff14f426b6711c4773fc99d51beb01fc3cbb8684cfa814537030",
+      "phb-spell-index.json": "b0994fa545864a48efb519d94758bfddc3d9925731f977860c457b399c651650",
+      "ua-spell-index.json": "edb7b59515c40d6cecbb9078b47f98530f5157a081d934092d116e1db3b47883",
+      "phb-spells.json": "253a3e8bb8af72e2989d0c5c4b3ecbdeab5ef374fa64ca0607d2514b38932393",
+      "phb-magic-user-extra.json": "83e5f81b9801c5f9509d2f5e5433e83196317f3491a26e71efc92a2d6c06e2bb",
+      "ua-spells.json": "ac65345ff0c2be92562d4f1be600f12c2cd7f70ff11b497186c8b78bce5aaad3",
+      "equipment.json": "469c3d6643a209473e1ee5d052ad9e9320d00e69172130b151ada877e3846edf",
+      "attack-matrices.json": "5abf8083068d1732bf04ffd336586f6e465bab46859b583fef516ba5408e411b",
+      "progression-overrides.json": "eeeae4a09dc0555835dfeed00f9e0f50804387449ad242a01990c82abcee43a4"
+    },
+    "replayImplementationHashes": {
+      "tools/source-owner-identity-audit.mjs": "f93da20491e079044b260389f5fe3910cc98b563501e7eb384e33861efa33fca",
+      "tools/citation-override-identity.mjs": "14f7972712fc9c40355f3bcd0882b1cac0ed68b04c039f00175cd27846a318f7",
+      "tools/price-source-inventory.mjs": "68ec3b679615c90c329aa801d4f558d3b060cebacb945e262d972918745a6809",
+      "research/price-source-inventory.json": "f4d99ef61542e9bb9b0c26abc6478606e97636906611dbc669422a281a777bc3",
+      "research/source-owner-identity-migration.json": "3f76095628fce6426e0fd5c263aa71aeaeb5519213861a96b2fdbc8d4a171db1"
+    },
+    "rawInputsMatchBaseline": true
+  },
+  "expectedBaseline": {
+    "source": "research/source-owner-identity-baseline.json",
+    "sha256": "029fc6193118405bb5a9afe38d4ae052aae95c4d4fa5cd2a205a182fe9b02ecd",
+    "recordedOldAttachedEvidenceBindings": 4495,
+    "recordedOldForeignBindingCount": 4,
+    "recordedOldAliasCount": 2,
+    "recordedOldForeignBindings": [
+      {
+        "attachmentOwner": {
+          "collection": "rules",
+          "itemId": "ua-field-plate"
+        },
+        "attachmentPath": "/references/0/evidenceBindings/0",
+        "bindingCollection": "equipment",
+        "bindingItemId": "ua-field-plate",
+        "sourceOwner": {
+          "collection": "equipment",
+          "itemId": "ua-field-plate"
+        },
+        "sourceCategory": "record-reference",
+        "fieldPointer": "/references/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceObject": "Field Plate Armor: source reference 1",
+        "book": "UA",
+        "printedPage": 26,
+        "catalog": "scans/verified/equipment-ua-field-plate.json",
+        "regionIds": [
+          "ua-26-ac-row-ab8a47e30af79c9d",
+          "ua-26-ac-row-fd97d491e3807bd7"
+        ],
+        "reviewStatus": "region-verified",
+        "comparatorException": false,
+        "disposition": "foreign-owner-binding",
+        "bindingSha256": "c33dcfdcef1d037ffa913a386da860ac89c2f814fd48314148f4ad0d56c626b1"
+      },
+      {
+        "attachmentOwner": {
+          "collection": "rules",
+          "itemId": "ua-full-plate"
+        },
+        "attachmentPath": "/references/0/evidenceBindings/0",
+        "bindingCollection": "equipment",
+        "bindingItemId": "ua-full-plate",
+        "sourceOwner": {
+          "collection": "equipment",
+          "itemId": "ua-full-plate"
+        },
+        "sourceCategory": "record-reference",
+        "fieldPointer": "/references/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceObject": "Full Plate Armor: source reference 1",
+        "book": "UA",
+        "printedPage": 26,
+        "catalog": "scans/verified/equipment-ua-full-plate.json",
+        "regionIds": [
+          "ua-26-ac-row-fd97d491e3807bd7",
+          "ua-26-ac-row-fe811b336c9d1f01"
+        ],
+        "reviewStatus": "region-verified",
+        "comparatorException": false,
+        "disposition": "foreign-owner-binding",
+        "bindingSha256": "22e769f4ab89d86d3ad52e535a52a3ba9c48fc0af53f4315cb38c2010dbaf6d1"
+      },
+      {
+        "attachmentOwner": {
+          "collection": "equipment",
+          "itemId": "ua-field-plate"
+        },
+        "attachmentPath": "/references/0/evidenceBindings/1",
+        "bindingCollection": "rules",
+        "bindingItemId": "ua-field-plate",
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "ua-field-plate"
+        },
+        "sourceCategory": "record-reference",
+        "fieldPointer": "/references/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceObject": "UA p.26 Armor Class Table",
+        "book": "UA",
+        "printedPage": 26,
+        "catalog": "scans/verified/rules-ua-field-plate.json",
+        "regionIds": [],
+        "reviewStatus": "field-target-pending",
+        "comparatorException": false,
+        "disposition": "foreign-owner-binding",
+        "bindingSha256": "1db336398fef77fded7b6840682247f8ca2f9c418c521e64e2d4980f1642de49"
+      },
+      {
+        "attachmentOwner": {
+          "collection": "equipment",
+          "itemId": "ua-full-plate"
+        },
+        "attachmentPath": "/references/0/evidenceBindings/1",
+        "bindingCollection": "rules",
+        "bindingItemId": "ua-full-plate",
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "ua-full-plate"
+        },
+        "sourceCategory": "record-reference",
+        "fieldPointer": "/references/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceObject": "UA p.26 Armor Class Table",
+        "book": "UA",
+        "printedPage": 26,
+        "catalog": "scans/verified/rules-ua-full-plate.json",
+        "regionIds": [],
+        "reviewStatus": "field-target-pending",
+        "comparatorException": false,
+        "disposition": "foreign-owner-binding",
+        "bindingSha256": "e5f0ec7acea7902667166280027818bcadcf2fe1dada877fc5044bb68415f775"
+      }
+    ]
+  },
+  "observed": {
+    "recordCount": 995,
+    "evidenceBindingCount": 4495,
+    "bindingDispositions": {
+      "ownerMatched": 4485,
+      "validatedExplicitComparatorSource": 6,
+      "foreignOwner": 4
+    },
+    "crossOwnerSharedObjectAliasesBeforeAttach": [
+      {
+        "firstOwnerPath": "rules:ua-field-plate/references/0",
+        "secondOwnerPath": "equipment:ua-field-plate/references/0",
+        "sharedObjectSha256": "dc2f85537310213a7eaddbca84e7a942215df48d516b646cf57ea6f1d90159eb"
+      },
+      {
+        "firstOwnerPath": "rules:ua-full-plate/references/0",
+        "secondOwnerPath": "equipment:ua-full-plate/references/0",
+        "sharedObjectSha256": "0365ed978ab4e907846ec4ee1653246949c8d96b2294627333f1d261b6a5a03d"
+      }
+    ],
+    "crossOwnerSharedObjectAliasCountBeforeAttach": 2,
+    "foreignOwnerBindings": [
+      {
+        "attachmentOwner": {
+          "collection": "rules",
+          "itemId": "ua-field-plate"
+        },
+        "attachmentPath": "/references/0/evidenceBindings/0",
+        "bindingCollection": "equipment",
+        "bindingItemId": "ua-field-plate",
+        "sourceOwner": {
+          "collection": "equipment",
+          "itemId": "ua-field-plate"
+        },
+        "sourceCategory": "record-reference",
+        "fieldPointer": "/references/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceObject": "Field Plate Armor: source reference 1",
+        "book": "UA",
+        "printedPage": 26,
+        "catalog": "scans/verified/equipment-ua-field-plate.json",
+        "regionIds": [
+          "ua-26-ac-row-ab8a47e30af79c9d",
+          "ua-26-ac-row-fd97d491e3807bd7"
+        ],
+        "reviewStatus": "region-verified",
+        "comparatorException": false,
+        "disposition": "foreign-owner-binding",
+        "bindingSha256": "c33dcfdcef1d037ffa913a386da860ac89c2f814fd48314148f4ad0d56c626b1"
+      },
+      {
+        "attachmentOwner": {
+          "collection": "rules",
+          "itemId": "ua-full-plate"
+        },
+        "attachmentPath": "/references/0/evidenceBindings/0",
+        "bindingCollection": "equipment",
+        "bindingItemId": "ua-full-plate",
+        "sourceOwner": {
+          "collection": "equipment",
+          "itemId": "ua-full-plate"
+        },
+        "sourceCategory": "record-reference",
+        "fieldPointer": "/references/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceObject": "Full Plate Armor: source reference 1",
+        "book": "UA",
+        "printedPage": 26,
+        "catalog": "scans/verified/equipment-ua-full-plate.json",
+        "regionIds": [
+          "ua-26-ac-row-fd97d491e3807bd7",
+          "ua-26-ac-row-fe811b336c9d1f01"
+        ],
+        "reviewStatus": "region-verified",
+        "comparatorException": false,
+        "disposition": "foreign-owner-binding",
+        "bindingSha256": "22e769f4ab89d86d3ad52e535a52a3ba9c48fc0af53f4315cb38c2010dbaf6d1"
+      },
+      {
+        "attachmentOwner": {
+          "collection": "equipment",
+          "itemId": "ua-field-plate"
+        },
+        "attachmentPath": "/references/0/evidenceBindings/1",
+        "bindingCollection": "rules",
+        "bindingItemId": "ua-field-plate",
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "ua-field-plate"
+        },
+        "sourceCategory": "record-reference",
+        "fieldPointer": "/references/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceObject": "UA p.26 Armor Class Table",
+        "book": "UA",
+        "printedPage": 26,
+        "catalog": "scans/verified/rules-ua-field-plate.json",
+        "regionIds": [],
+        "reviewStatus": "field-target-pending",
+        "comparatorException": false,
+        "disposition": "foreign-owner-binding",
+        "bindingSha256": "1db336398fef77fded7b6840682247f8ca2f9c418c521e64e2d4980f1642de49"
+      },
+      {
+        "attachmentOwner": {
+          "collection": "equipment",
+          "itemId": "ua-full-plate"
+        },
+        "attachmentPath": "/references/0/evidenceBindings/1",
+        "bindingCollection": "rules",
+        "bindingItemId": "ua-full-plate",
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "ua-full-plate"
+        },
+        "sourceCategory": "record-reference",
+        "fieldPointer": "/references/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceObject": "UA p.26 Armor Class Table",
+        "book": "UA",
+        "printedPage": 26,
+        "catalog": "scans/verified/rules-ua-full-plate.json",
+        "regionIds": [],
+        "reviewStatus": "field-target-pending",
+        "comparatorException": false,
+        "disposition": "foreign-owner-binding",
+        "bindingSha256": "e5f0ec7acea7902667166280027818bcadcf2fe1dada877fc5044bb68415f775"
+      }
+    ],
+    "ambiguousActiveItemOverrideCount": 2,
+    "collisionOwnerRows": [
+      {
+        "itemId": "ua-buckler",
+        "owners": [
+          {
+            "collection": "rules",
+            "index": 61,
+            "priceState": "source_listed",
+            "recordSha256": "52327c495e753e56fde10ecbd938879a166d0b6f05a67ae095709a7fc27814a4",
+            "referenceObjects": []
+          },
+          {
+            "collection": "equipment",
+            "index": 15,
+            "priceState": "source_listed",
+            "recordSha256": "7c1c41fb455c01b44c590004ad7be4f9e3f391d74c66bec7337932c690a8f255",
+            "referenceObjects": []
+          }
+        ]
+      },
+      {
+        "itemId": "ua-field-plate",
+        "owners": [
+          {
+            "collection": "rules",
+            "index": 59,
+            "priceState": "source_listed",
+            "recordSha256": "b17ad024e677998be2b35fc4ac6d0bba912f8542d240775f9d05e42a7b0656ce",
+            "referenceObjects": [
+              {
+                "index": 0,
+                "referenceSha256": "8d65cafa2b807bcaaf73200ec2df53f8d6a330713e0351541e8d9b006a06bfd1",
+                "evidenceBindingCount": 2
+              }
+            ]
+          },
+          {
+            "collection": "equipment",
+            "index": 13,
+            "priceState": "source_listed",
+            "recordSha256": "2ac994ed232b39eefcb824066353a5d2bff95b98cb60715a73c2fb8c12b3d082",
+            "referenceObjects": [
+              {
+                "index": 0,
+                "referenceSha256": "8d65cafa2b807bcaaf73200ec2df53f8d6a330713e0351541e8d9b006a06bfd1",
+                "evidenceBindingCount": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "itemId": "ua-full-plate",
+        "owners": [
+          {
+            "collection": "rules",
+            "index": 60,
+            "priceState": "source_listed",
+            "recordSha256": "ae8a9e7c4f03c0cfcbbe18ece99421fabb85d6ff1dcd6668731624b6f84fb055",
+            "referenceObjects": [
+              {
+                "index": 0,
+                "referenceSha256": "171d2899506c83b411f3c3350fe7f47941295f19ab1448abe16ebd85600ca2f5",
+                "evidenceBindingCount": 2
+              }
+            ]
+          },
+          {
+            "collection": "equipment",
+            "index": 14,
+            "priceState": "source_listed",
+            "recordSha256": "0a4f18a6d6e2d055a33de87bbce97d8a6f727cb24eb684421411d2c85642fd79",
+            "referenceObjects": [
+              {
+                "index": 0,
+                "referenceSha256": "171d2899506c83b411f3c3350fe7f47941295f19ab1448abe16ebd85600ca2f5",
+                "evidenceBindingCount": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "equivalence": {
+    "oldForeignOwnerBindingCountMatchesFrozenRecord": true,
+    "oldAliasCountMatchesFrozenRecord": true,
+    "priceStateLeakRows": [
+      {
+        "itemId": "ua-buckler",
+        "collection": "rules",
+        "recordSha256": "52327c495e753e56fde10ecbd938879a166d0b6f05a67ae095709a7fc27814a4"
+      },
+      {
+        "itemId": "ua-field-plate",
+        "collection": "rules",
+        "recordSha256": "b17ad024e677998be2b35fc4ac6d0bba912f8542d240775f9d05e42a7b0656ce"
+      },
+      {
+        "itemId": "ua-full-plate",
+        "collection": "rules",
+        "recordSha256": "ae8a9e7c4f03c0cfcbbe18ece99421fabb85d6ff1dcd6668731624b6f84fb055"
+      }
+    ],
+    "note": "A legacy replay uses the current price-source inventory and current raw inputs. It is compared against the frozen old defect paths/counts, not represented as byte-identical historical assembled output."
+  }
+}

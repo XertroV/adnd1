@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-bridge-raw-before-derivation-repair-review",
+  "reviewer": "/root/batch5_integration_review",
+  "status": "approved-bridge-only-code;fresh-versioned-actual-bridge-capture-pending",
+  "sourceCode": {
+    "path": "tools/monetary-row-identity-audit.mjs",
+    "sha256": "ff24a205d6766b2f6e844c5012b1ff273364e0df897aa1d90eb64564f4078962"
+  },
+  "tests": {
+    "path": "tests/ua-context-migration-bridge.test.mjs",
+    "sha256": "ace61d395c2e4fea0b9b15eb27460807d5baa46de7fc99f857df856d49bee60a",
+    "focusedBridgeProtocolAndExtentTests": 26,
+    "passed": 26
+  },
+  "preservedBefore": {
+    "path": "research/source-audit-batch5-bridge-raw-before-derivation-protocol-before.json",
+    "sha256": "a476015ee1455288c92119fb82dd8ff4fd4a0b3b3ee0b8163f8fc29782f884a2"
+  },
+  "historicalActualSnapshot": {
+    "path": "research/source-audit-batch5-monetary-context-migration-before-v2.json",
+    "sha256": "c4985afa279b51ffb26d90284f1a1c241105da5f0ee22b204226d8b9433cf270"
+  },
+  "historicalActualBridge": {
+    "path": "research/source-audit-batch5-ua-context-fingerprint-migration-bridge-v2.json",
+    "sha256": "4332f3533906e8658cbc23f7d6f08aa6679b8f8a2eb47180852978d5b310ff7f"
+  },
+  "diffReview": {
+    "baseSha256": "4d9ea07edd641e172b39e9bbf4116416473220e414a711d2a326a6121c5218f4",
+    "changedScope": "Four added lines only in migration snapshot validator; every927 projected physical signature must match a fresh projection from immutable original8ec/b0d archives. No matcher, adapter or source dataset change.",
+    "original820MatrixReexecuted": false,
+    "original820MatrixRemainsExactPriorCodeEvidence": true
+  },
+  "checks": [
+    {
+      "id": "actual2161-unique-records",
+      "pass": true,
+      "actualRecords": 2161,
+      "uniqueUids": 2161
+    },
+    {
+      "id": "actual927-full-context-objects-and-exact-surfaces",
+      "pass": true,
+      "actualFullContextObjects": 927,
+      "surfaceCounts": {
+        "ua-supplement-row": 583,
+        "phb-dmg-supplement-row": 179,
+        "phb-reference-row-comparison": 165
+      }
+    },
+    {
+      "id": "all927-physical-fingerprints-recompute",
+      "pass": true
+    },
+    {
+      "id": "all2161-focus-physical-fingerprints-recompute",
+      "pass": true
+    },
+    {
+      "id": "all583-original-UA-context-and-containment-unassessed",
+      "pass": true
+    },
+    {
+      "id": "all927-actual-object-fingerprints-recompute-and-status-match",
+      "pass": true
+    },
+    {
+      "id": "original-UA-source-archive8ec8-and-no-active-arrays",
+      "pass": true
+    },
+    {
+      "id": "all927-current-original-projections-match-root-snapshot",
+      "pass": true
+    },
+    {
+      "id": "all2161-legacy-focus-context-fingerprints-geometry-counts-preserved",
+      "pass": true
+    },
+    {
+      "id": "nominal-actual-bridge-migrates-five-and-clears-zero",
+      "pass": true,
+      "expectedRejected": false,
+      "rejected": false,
+      "error": null,
+      "bridgeEntries": 5,
+      "migrationStatuses": [
+        "legacy-context-migration-baseline-pending-source-repair",
+        "legacy-context-migration-baseline-pending-source-repair",
+        "legacy-context-migration-baseline-pending-source-repair",
+        "legacy-context-migration-baseline-pending-source-repair",
+        "legacy-context-migration-baseline-pending-source-repair"
+      ],
+      "fullSemanticGatePass": false
+    },
+    {
+      "id": "cached-context-sha-with-one-object-deleted",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: migration snapshot does not contain 927 complete, recomputed context and physical-evidence objects"
+    },
+    {
+      "id": "all927-objects-deleted-cached-metadata-retained",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: migration snapshot does not contain 927 complete, recomputed context and physical-evidence objects"
+    },
+    {
+      "id": "actual-context-mutated-but-cached-sha-retained",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: migration snapshot does not contain 927 complete, recomputed context and physical-evidence objects"
+    },
+    {
+      "id": "actual-status-differs-from-derived-top-status",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: migration snapshot does not contain 927 complete, recomputed context and physical-evidence objects"
+    },
+    {
+      "id": "actual-version-differs-from-cached-version",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: migration snapshot does not contain 927 complete, recomputed context and physical-evidence objects"
+    },
+    {
+      "id": "duplicate-snapshot-UID",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: duplicate migration snapshot UID"
+    },
+    {
+      "id": "coordinated-changed-source-preimage-shas",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: current UA source preimage does not match unchanged original input"
+    },
+    {
+      "id": "declared927-but-actual926-context-fingerprints",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: migration snapshot does not contain 927 complete, recomputed context and physical-evidence objects"
+    },
+    {
+      "id": "new-prefingerprint-in-bridge-mismatches-snapshot",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: new UA pre-fingerprint is missing, invalid, or unbound to source snapshot"
+    },
+    {
+      "id": "old-source-geometry-preimage-in-bridge-mutated",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: old immutable finding reference mismatch"
+    },
+    {
+      "id": "legacy-finding-migration-omitted",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: legacy UA bridge must contain exactly five findings"
+    },
+    {
+      "id": "wrong-source-adapter-sha",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: source adapter hash mismatch"
+    },
+    {
+      "id": "absolute-snapshot-path-rejected",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: missing or unsafe full migration snapshot reference"
+    },
+    {
+      "id": "physical-prefingerprint-in-bridge-mismatches-snapshot",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: new UA pre-fingerprint is missing, invalid, or unbound to source snapshot"
+    },
+    {
+      "id": "snapshot-physical-cache-only-tamper",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: migration snapshot does not contain 927 complete, recomputed context and physical-evidence objects"
+    },
+    {
+      "id": "snapshot-physical-version-wrong",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: migration snapshot does not contain 927 complete, recomputed context and physical-evidence objects"
+    },
+    {
+      "id": "coordinated-five-source-before-window-tamper",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: migration snapshot physical context for ua-supplement-row:ua-other-005-E2-r063 differs from immutable original source archives"
+    },
+    {
+      "id": "coordinated-nontarget-original-source-window-tamper",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: migration snapshot physical context for ua-supplement-row:ua-other-001-armor-r01 differs from immutable original source archives"
+    },
+    {
+      "id": "coordinated-phb-dmg-supplement-row-physical-before-tamper",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: migration snapshot physical context for phb-dmg-supplement-row:phb-assassination-fees-row-01 differs from immutable original source archives"
+    },
+    {
+      "id": "coordinated-phb-reference-row-comparison-physical-before-tamper",
+      "pass": true,
+      "expectedRejected": true,
+      "rejected": true,
+      "error": "Invalid UA context migration bridge: migration snapshot physical context for phb-reference-row-comparison:phb123-comparison-0 differs from immutable original source archives"
+    },
+    {
+      "id": "reviewed-code-stable-during-execution",
+      "pass": true,
+      "before": "ff24a205d6766b2f6e844c5012b1ff273364e0df897aa1d90eb64564f4078962",
+      "after": "ff24a205d6766b2f6e844c5012b1ff273364e0df897aa1d90eb64564f4078962"
+    }
+  ],
+  "scopeNotes": [
+    "Nominal test repins only the temporary bridge sourceAdapter SHA to currentff24; the actual historical c498/4332 artifacts are preserved. Root must create and bind a fresh versioned bridge/snapshot before activation.",
+    "Physical point+authoritative-rendered-pixel substitutions are rejected on migrated UA, unrelated UA, PHB/DMG claim and comparison surfaces. Physical-equivalent metadata changes are not claimed to alter source-window coverage.",
+    "All2161 UIDs are unique; all927 full context objects, physical hashes, evidence hashes and statuses recompute;927 source windows match original inputs. All583 legacy UA contexts remain explicitly unassessed.",
+    "This is protocol approval only. A nominal migration clears zero source findings and grants no source or field-value grade."
+  ],
+  "sourceMutations": false,
+  "activeManifestMutations": false,
+  "passed": true
+}

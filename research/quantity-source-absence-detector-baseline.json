@@ -1,0 +1,549 @@
+{
+  "artifactType": "sanitized detector-first quantity/source-absence candidate inventory",
+  "version": 1,
+  "createdUtc": "2026-11-07",
+  "status": "pre-repair candidate inventory; not source adjudication; no dataset/catalog changes",
+  "scope": {
+    "wholeDistribution": "dist/data.json including every top-level property",
+    "catalogContentRecordDenominator": 995,
+    "catalogRecordCountMethod": "rules 148 + spells 638 + equipment 191 + matrices 1 + classes 16 = 994 array-backed catalog entries, plus one progressionExplainer object = 995 content records. Separate source metadata array has 3 entries; all top-level arrays sum to 997.",
+    "monetaryInputFiles": 9,
+    "allInputFiles": 10,
+    "noNegativePass": "Every candidate set is a retrieval/categorization inventory. Absence of a text match is not proof that a source specifies or omits a quantity."
+  },
+  "denominators": {
+    "allScalarLeaves": 502252,
+    "uncertaintyTextCandidatesAllInputs": 13401,
+    "uncertaintyTextCandidatesMonetaryInputs": 7038,
+    "quantityUnitContextCandidatesMonetaryInputs": 250,
+    "nullQuantityLikeMetadataLeaves": 1305,
+    "broadLexicalAbsenceHits": 20,
+    "explicitAbsenceAssertionsInTextUnverified": 17,
+    "lexicalContextOrWorkflowFalsePositives": 3,
+    "categoryCountsAll": {
+      "extraction-or-review-pending": 11482,
+      "not-assessable-or-evidence-unavailable": 1656,
+      "semantic-question-or-identity-unresolved": 191,
+      "other-uncertainty-or-workflow-status": 52,
+      "source-absence-assertion-in-text-unverified": 17,
+      "context-or-workflow-uncertainty-not-source-absence": 3
+    },
+    "categoryCountsMonetary": {
+      "semantic-question-or-identity-unresolved": 174,
+      "extraction-or-review-pending": 5294,
+      "not-assessable-or-evidence-unavailable": 1517,
+      "other-uncertainty-or-workflow-status": 39,
+      "source-absence-assertion-in-text-unverified": 11,
+      "context-or-workflow-uncertainty-not-source-absence": 3
+    }
+  },
+  "inputs": [
+    {
+      "key": "dist",
+      "path": "dist/data.json",
+      "sha256": "9fcb82bdefbefa49b15c10a5ea458e1c0fdbd32424fb3077ca853dae3ca0a8fb",
+      "bytes": 12950267,
+      "scalarLeaves": 197017,
+      "uncertaintyTextCandidates": 6363,
+      "monetaryQuantityContextUncertaintyCandidates": 0,
+      "lexicalAbsenceMatches": 6,
+      "nullQuantityLikeMetadataLeaves": 156
+    },
+    {
+      "key": "canonical",
+      "path": "research/price-source-inventory.json",
+      "sha256": "f4d99ef61542e9bb9b0c26abc6478606e97636906611dbc669422a281a777bc3",
+      "bytes": 11812432,
+      "scalarLeaves": 223065,
+      "uncertaintyTextCandidates": 5291,
+      "monetaryQuantityContextUncertaintyCandidates": 141,
+      "lexicalAbsenceMatches": 3,
+      "nullQuantityLikeMetadataLeaves": 426
+    },
+    {
+      "key": "ua",
+      "path": "research/source-audit-batch5-ua-additional-prices.json",
+      "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "bytes": 1450429,
+      "scalarLeaves": 28696,
+      "uncertaintyTextCandidates": 675,
+      "monetaryQuantityContextUncertaintyCandidates": 1,
+      "lexicalAbsenceMatches": 0,
+      "nullQuantityLikeMetadataLeaves": 568
+    },
+    {
+      "key": "phbDmg",
+      "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "bytes": 516835,
+      "scalarLeaves": 9477,
+      "uncertaintyTextCandidates": 46,
+      "monetaryQuantityContextUncertaintyCandidates": 3,
+      "lexicalAbsenceMatches": 3,
+      "nullQuantityLikeMetadataLeaves": 72
+    },
+    {
+      "key": "passages",
+      "path": "research/source-audit-batch5-phb-dmg-price-passage-records.json",
+      "sha256": "2f73f635aa04c2d55c3fe4e71cc5db6a3c55779e6db9f9e5adfe71c08ae5b707",
+      "bytes": 192052,
+      "scalarLeaves": 2937,
+      "uncertaintyTextCandidates": 77,
+      "monetaryQuantityContextUncertaintyCandidates": 0,
+      "lexicalAbsenceMatches": 0,
+      "nullQuantityLikeMetadataLeaves": 8
+    },
+    {
+      "key": "descriptions",
+      "path": "research/source-audit-batch5-price-description-records.json",
+      "sha256": "88c5456626a47f5a47a6cce514cb8ea2ce5338e4a9a9b13e93eedfcd265e3c8d",
+      "bytes": 58539,
+      "scalarLeaves": 1059,
+      "uncertaintyTextCandidates": 48,
+      "monetaryQuantityContextUncertaintyCandidates": 10,
+      "lexicalAbsenceMatches": 0,
+      "nullQuantityLikeMetadataLeaves": 0
+    },
+    {
+      "key": "receipts",
+      "path": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "sha256": "523c097624a0a91f4e3cf8aa40540a2f27d68a6136a04226e2fc3a94a941aeb8",
+      "bytes": 1352206,
+      "scalarLeaves": 23004,
+      "uncertaintyTextCandidates": 545,
+      "monetaryQuantityContextUncertaintyCandidates": 24,
+      "lexicalAbsenceMatches": 7,
+      "nullQuantityLikeMetadataLeaves": 75
+    },
+    {
+      "key": "phbDmgCensus",
+      "path": "research/price-source-inventory-phb-dmg-other.json",
+      "sha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "bytes": 346770,
+      "scalarLeaves": 7631,
+      "uncertaintyTextCandidates": 96,
+      "monetaryQuantityContextUncertaintyCandidates": 67,
+      "lexicalAbsenceMatches": 0,
+      "nullQuantityLikeMetadataLeaves": 0
+    },
+    {
+      "key": "uaCensus",
+      "path": "research/price-source-inventory-ua-other.json",
+      "sha256": "f1f797d9e8664589af5308737d9bc9d5e5dd536339349609fbeec5dc2a58c4b9",
+      "bytes": 98761,
+      "scalarLeaves": 2146,
+      "uncertaintyTextCandidates": 28,
+      "monetaryQuantityContextUncertaintyCandidates": 2,
+      "lexicalAbsenceMatches": 0,
+      "nullQuantityLikeMetadataLeaves": 0
+    },
+    {
+      "key": "monsterCensus",
+      "path": "research/price-source-inventory-monster-books.json",
+      "sha256": "87ea54c296d9a6b4697a997b5da1ee38b9c844668fc4fb54d5a8794d6aaef106",
+      "bytes": 322768,
+      "scalarLeaves": 7220,
+      "uncertaintyTextCandidates": 232,
+      "monetaryQuantityContextUncertaintyCandidates": 2,
+      "lexicalAbsenceMatches": 1,
+      "nullQuantityLikeMetadataLeaves": 0
+    }
+  ],
+  "lexicalCandidateRows": [
+    {
+      "inputKey": "dist",
+      "inputPath": "dist/data.json",
+      "inputSha256": "9fcb82bdefbefa49b15c10a5ea458e1c0fdbd32424fb3077ca853dae3ca0a8fb",
+      "jsonPointer": "/spells/103/exceptions/0",
+      "leafField": "0",
+      "owner": {
+        "pointer": "/spells/103",
+        "identity": {
+          "id": "phb-druid-plant-growth",
+          "name": "Plant Growth"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "01e1b65a204a8275f8ef8f85054682cb2b8c0661db2b3c54cf3891f4c1d92dd5",
+      "valueLength": 173,
+      "monetaryQuantityContextCandidate": false
+    },
+    {
+      "inputKey": "dist",
+      "inputPath": "dist/data.json",
+      "inputSha256": "9fcb82bdefbefa49b15c10a5ea458e1c0fdbd32424fb3077ca853dae3ca0a8fb",
+      "jsonPointer": "/equipment/19/price/status",
+      "leafField": "status",
+      "owner": {
+        "pointer": "/equipment/19",
+        "identity": {
+          "id": "ua-quarrels-for-same",
+          "name": "Quarrels for same"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "c3ec7eccf4a637b0351ed0677e65b6a53ec4feebb03b602ab8a8e60c071a2535",
+      "valueLength": 80,
+      "monetaryQuantityContextCandidate": false
+    },
+    {
+      "inputKey": "dist",
+      "inputPath": "dist/data.json",
+      "inputSha256": "9fcb82bdefbefa49b15c10a5ea458e1c0fdbd32424fb3077ca853dae3ca0a8fb",
+      "jsonPointer": "/equipment/19/fields/Printed quantity",
+      "leafField": "Printed quantity",
+      "owner": {
+        "pointer": "/equipment/19",
+        "identity": {
+          "id": "ua-quarrels-for-same",
+          "name": "Quarrels for same"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "a48f861c4bee0e79541be4dd463d8d757cca26f585a851cffdd25a954e3130aa",
+      "valueLength": 36,
+      "monetaryQuantityContextCandidate": false
+    },
+    {
+      "inputKey": "dist",
+      "inputPath": "dist/data.json",
+      "inputSha256": "9fcb82bdefbefa49b15c10a5ea458e1c0fdbd32424fb3077ca853dae3ca0a8fb",
+      "jsonPointer": "/equipment/19/scanVerification/scope",
+      "leafField": "scope",
+      "owner": {
+        "pointer": "/equipment/19",
+        "identity": {
+          "id": "ua-quarrels-for-same",
+          "name": "Quarrels for same"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "20add75574ff363409d9587ba39a003dc0078c9f21d01ecfdc520bda200294c5",
+      "valueLength": 272,
+      "monetaryQuantityContextCandidate": false
+    },
+    {
+      "inputKey": "dist",
+      "inputPath": "dist/data.json",
+      "inputSha256": "9fcb82bdefbefa49b15c10a5ea458e1c0fdbd32424fb3077ca853dae3ca0a8fb",
+      "jsonPointer": "/equipment/19/sourceExcerpts/scope",
+      "leafField": "scope",
+      "owner": {
+        "pointer": "/equipment/19",
+        "identity": {
+          "id": "ua-quarrels-for-same",
+          "name": "Quarrels for same"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "54825f069bf9aa2c8decb609e7e07952dc1b2cd55c9fef67de27094e04b4d0cf",
+      "valueLength": 233,
+      "monetaryQuantityContextCandidate": false
+    },
+    {
+      "inputKey": "dist",
+      "inputPath": "dist/data.json",
+      "inputSha256": "9fcb82bdefbefa49b15c10a5ea458e1c0fdbd32424fb3077ca853dae3ca0a8fb",
+      "jsonPointer": "/equipment/54/fields/Generic mirror encumbrance (DMG p. 225)",
+      "leafField": "Generic mirror encumbrance (DMG p. 225)",
+      "owner": {
+        "pointer": "/equipment/54",
+        "identity": {
+          "id": "phb-silver-mirror",
+          "name": "Small Silver Mirror"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "318fd132ed91d6e89701c23b7439aa1125de8f6e202a8fed48f8930b9294766b",
+      "valueLength": 75,
+      "monetaryQuantityContextCandidate": false
+    },
+    {
+      "inputKey": "canonical",
+      "inputPath": "research/price-source-inventory.json",
+      "inputSha256": "f4d99ef61542e9bb9b0c26abc6478606e97636906611dbc669422a281a777bc3",
+      "jsonPointer": "/sourcePageCensuses/2/claims/36/unit",
+      "leafField": "unit",
+      "owner": {
+        "pointer": "/sourcePageCensuses/2/claims/36",
+        "identity": {
+          "sourceObject": "Ambergris from sick whales"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+      "valueLength": 37,
+      "monetaryQuantityContextCandidate": true
+    },
+    {
+      "inputKey": "canonical",
+      "inputPath": "research/price-source-inventory.json",
+      "inputSha256": "f4d99ef61542e9bb9b0c26abc6478606e97636906611dbc669422a281a777bc3",
+      "jsonPointer": "/sourcePageCensuses/2/sourceArtifact/claims/36/unit",
+      "leafField": "unit",
+      "owner": {
+        "pointer": "/sourcePageCensuses/2/sourceArtifact/claims/36",
+        "identity": {
+          "id": "mm-whale-ambergris"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+      "valueLength": 37,
+      "monetaryQuantityContextCandidate": true
+    },
+    {
+      "inputKey": "canonical",
+      "inputPath": "research/price-source-inventory.json",
+      "inputSha256": "f4d99ef61542e9bb9b0c26abc6478606e97636906611dbc669422a281a777bc3",
+      "jsonPointer": "/siteClaims/19/printedPrice/status",
+      "leafField": "status",
+      "owner": {
+        "pointer": "/siteClaims/19",
+        "identity": {
+          "itemId": "ua-quarrels-for-same",
+          "name": "Quarrels for same"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "c3ec7eccf4a637b0351ed0677e65b6a53ec4feebb03b602ab8a8e60c071a2535",
+      "valueLength": 80,
+      "monetaryQuantityContextCandidate": true
+    },
+    {
+      "inputKey": "phbDmg",
+      "inputPath": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "inputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "jsonPointer": "/review/sourceRowsOrClaims/166/typedValue/totalValue",
+      "leafField": "totalValue",
+      "owner": {
+        "pointer": "/review/sourceRowsOrClaims/166",
+        "identity": {
+          "sourceRowOrClaimId": "dmg-deck-gem-card",
+          "rowOrPassageIdentity": "dmg-deck-gem-card",
+          "objectOrSubject": "Gem card in Deck of Many Things"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "ff9cd8791aec9a9a9c07fdf841c9f7b063cc418ed0cd2ebbe4fac4347771a1ce",
+      "valueLength": 33,
+      "monetaryQuantityContextCandidate": true
+    },
+    {
+      "inputKey": "phbDmg",
+      "inputPath": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "inputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "jsonPointer": "/review/sourceRowsOrClaims/166/quantityOrScale",
+      "leafField": "quantityOrScale",
+      "owner": {
+        "pointer": "/review/sourceRowsOrClaims/166",
+        "identity": {
+          "sourceRowOrClaimId": "dmg-deck-gem-card",
+          "rowOrPassageIdentity": "dmg-deck-gem-card",
+          "objectOrSubject": "Gem card in Deck of Many Things"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "4b0ea5d02ddd5436ffa6de7ba3427d9cf1efd6aab3f98081c61c5ca9de351d19",
+      "valueLength": 58,
+      "monetaryQuantityContextCandidate": true
+    },
+    {
+      "inputKey": "phbDmg",
+      "inputPath": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "inputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "jsonPointer": "/review/sourceRowsOrClaims/166/focus/status",
+      "leafField": "status",
+      "owner": {
+        "pointer": "/review/sourceRowsOrClaims/166",
+        "identity": {
+          "sourceRowOrClaimId": "dmg-deck-gem-card",
+          "rowOrPassageIdentity": "dmg-deck-gem-card",
+          "objectOrSubject": "Gem card in Deck of Many Things"
+        }
+      },
+      "candidateClassification": "context-or-workflow-uncertainty-not-source-absence",
+      "valueSha256": "a27142a2b86290baacc431d071a946648e16173fe8ffc6e36ba87387ba046543",
+      "valueLength": 70,
+      "monetaryQuantityContextCandidate": true
+    },
+    {
+      "inputKey": "receipts",
+      "inputPath": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "inputSha256": "523c097624a0a91f4e3cf8aa40540a2f27d68a6136a04226e2fc3a94a941aeb8",
+      "jsonPointer": "/scope/coverageRule",
+      "leafField": "coverageRule",
+      "owner": {
+        "pointer": "",
+        "identity": {
+          "title": "Price discovery census reconciliation against bounded structured source records"
+        }
+      },
+      "candidateClassification": "context-or-workflow-uncertainty-not-source-absence",
+      "valueSha256": "241d609e06af7a95d91a2c61e420db0febdae83f8a9ca3b801355f7fde1028ba",
+      "valueLength": 284,
+      "monetaryQuantityContextCandidate": true
+    },
+    {
+      "inputKey": "receipts",
+      "inputPath": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "inputSha256": "523c097624a0a91f4e3cf8aa40540a2f27d68a6136a04226e2fc3a94a941aeb8",
+      "jsonPointer": "/claimReceipts/45/linkedTypedSourceRecords/0/typedValue/totalValue",
+      "leafField": "totalValue",
+      "owner": {
+        "pointer": "/claimReceipts/45/linkedTypedSourceRecords/0",
+        "identity": {
+          "sourceRowOrClaimId": "dmg-deck-gem-card",
+          "rowOrPassageIdentity": "dmg-deck-gem-card",
+          "objectOrSubject": "Gem card in Deck of Many Things"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "ff9cd8791aec9a9a9c07fdf841c9f7b063cc418ed0cd2ebbe4fac4347771a1ce",
+      "valueLength": 33,
+      "monetaryQuantityContextCandidate": true
+    },
+    {
+      "inputKey": "receipts",
+      "inputPath": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "inputSha256": "523c097624a0a91f4e3cf8aa40540a2f27d68a6136a04226e2fc3a94a941aeb8",
+      "jsonPointer": "/claimReceipts/45/linkedTypedSourceRecords/0/quantityOrScale",
+      "leafField": "quantityOrScale",
+      "owner": {
+        "pointer": "/claimReceipts/45/linkedTypedSourceRecords/0",
+        "identity": {
+          "sourceRowOrClaimId": "dmg-deck-gem-card",
+          "rowOrPassageIdentity": "dmg-deck-gem-card",
+          "objectOrSubject": "Gem card in Deck of Many Things"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "4b0ea5d02ddd5436ffa6de7ba3427d9cf1efd6aab3f98081c61c5ca9de351d19",
+      "valueLength": 58,
+      "monetaryQuantityContextCandidate": true
+    },
+    {
+      "inputKey": "receipts",
+      "inputPath": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "inputSha256": "523c097624a0a91f4e3cf8aa40540a2f27d68a6136a04226e2fc3a94a941aeb8",
+      "jsonPointer": "/claimReceipts/153/typedClaim/unit",
+      "leafField": "unit",
+      "owner": {
+        "pointer": "",
+        "identity": {
+          "title": "Price discovery census reconciliation against bounded structured source records"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+      "valueLength": 37,
+      "monetaryQuantityContextCandidate": true
+    },
+    {
+      "inputKey": "receipts",
+      "inputPath": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "inputSha256": "523c097624a0a91f4e3cf8aa40540a2f27d68a6136a04226e2fc3a94a941aeb8",
+      "jsonPointer": "/untypedMoneyCandidateAdjudications/records/50/reason",
+      "leafField": "reason",
+      "owner": {
+        "pointer": "",
+        "identity": {
+          "title": "Price discovery census reconciliation against bounded structured source records"
+        }
+      },
+      "candidateClassification": "context-or-workflow-uncertainty-not-source-absence",
+      "valueSha256": "8467734bd8f690a36c8b0bcb38a1268e66f9ac10d548cf3694b199d8c78ac47e",
+      "valueLength": 121,
+      "monetaryQuantityContextCandidate": true
+    },
+    {
+      "inputKey": "receipts",
+      "inputPath": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "inputSha256": "523c097624a0a91f4e3cf8aa40540a2f27d68a6136a04226e2fc3a94a941aeb8",
+      "jsonPointer": "/untypedMoneyCandidateAdjudications/records/92/exactLinkedRecords/0/typedValue/totalValue",
+      "leafField": "totalValue",
+      "owner": {
+        "pointer": "/untypedMoneyCandidateAdjudications/records/92/exactLinkedRecords/0",
+        "identity": {
+          "sourceRowOrClaimId": "dmg-deck-gem-card",
+          "objectOrSubject": "Gem card in Deck of Many Things"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "ff9cd8791aec9a9a9c07fdf841c9f7b063cc418ed0cd2ebbe4fac4347771a1ce",
+      "valueLength": 33,
+      "monetaryQuantityContextCandidate": true
+    },
+    {
+      "inputKey": "receipts",
+      "inputPath": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "inputSha256": "523c097624a0a91f4e3cf8aa40540a2f27d68a6136a04226e2fc3a94a941aeb8",
+      "jsonPointer": "/untypedMoneyCandidateAdjudications/records/92/exactLinkedRecords/0/quantityOrScale",
+      "leafField": "quantityOrScale",
+      "owner": {
+        "pointer": "/untypedMoneyCandidateAdjudications/records/92/exactLinkedRecords/0",
+        "identity": {
+          "sourceRowOrClaimId": "dmg-deck-gem-card",
+          "objectOrSubject": "Gem card in Deck of Many Things"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "4b0ea5d02ddd5436ffa6de7ba3427d9cf1efd6aab3f98081c61c5ca9de351d19",
+      "valueLength": 58,
+      "monetaryQuantityContextCandidate": true
+    },
+    {
+      "inputKey": "monsterCensus",
+      "inputPath": "research/price-source-inventory-monster-books.json",
+      "inputSha256": "87ea54c296d9a6b4697a997b5da1ee38b9c844668fc4fb54d5a8794d6aaef106",
+      "jsonPointer": "/claims/36/unit",
+      "leafField": "unit",
+      "owner": {
+        "pointer": "/claims/36",
+        "identity": {
+          "id": "mm-whale-ambergris"
+        }
+      },
+      "candidateClassification": "source-absence-assertion-in-text-unverified",
+      "valueSha256": "6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d",
+      "valueLength": 37,
+      "monetaryQuantityContextCandidate": true
+    }
+  ],
+  "semantics": {
+    "candidateNotFinding": "Each listed row is either text asserting source absence or a lexical false positive. Assertion means the dataset/audit text asserts omission; this scanner has not independently verified the printed source.",
+    "null": "A null quantity/count/unit field is metadata absence only, not proof of source omission.",
+    "negativeResult": "No lexical hit is not a semantic pass.",
+    "privacy": "No source PDF, full-page render, OCR, or full text snippets are included."
+  },
+  "deckGemPreserved": {
+    "recordId": "dmg-deck-gem-card",
+    "inputPointers": [
+      {
+        "inputKey": "phbDmg",
+        "jsonPointer": "/review/sourceRowsOrClaims/166/typedValue/totalValue"
+      },
+      {
+        "inputKey": "phbDmg",
+        "jsonPointer": "/review/sourceRowsOrClaims/166/quantityOrScale"
+      },
+      {
+        "inputKey": "receipts",
+        "jsonPointer": "/claimReceipts/45/linkedTypedSourceRecords/0/typedValue/totalValue"
+      },
+      {
+        "inputKey": "receipts",
+        "jsonPointer": "/claimReceipts/45/linkedTypedSourceRecords/0/quantityOrScale"
+      },
+      {
+        "inputKey": "receipts",
+        "jsonPointer": "/untypedMoneyCandidateAdjudications/records/92/exactLinkedRecords/0/typedValue/totalValue"
+      },
+      {
+        "inputKey": "receipts",
+        "jsonPointer": "/untypedMoneyCandidateAdjudications/records/92/exactLinkedRecords/0/quantityOrScale"
+      }
+    ],
+    "repairStatus": "unchanged in this baseline; parent-supplied source review says the omitted-count assertion is contradicted by the DMG p.142 choice of 20 jewelry or 50 gems and p.143 1,000 gp per gem; do not treat this inventory as independent pixel review."
+  }
+}

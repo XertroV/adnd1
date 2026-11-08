@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "optional-offline-monetary-source-word-witness-before",
+  "notAReleaseGate": true,
+  "inputLineage": "Exact2161-use immutable pre-correction monetary input snapshot; draft34 passage input retained as draft. New776-page currency discovery is a separate unassessed corpus.",
+  "snapshot": {
+    "path": "research/source-audit-batch5-monetary-row-identity-witness-before.json.gz",
+    "sha256": "df80e0ef061b29a2a3dc2ae0985aad1e9ed8a918e35abb2f89b6c404d456b1d0",
+    "uncompressedSha256": "5b5738802e15140c84b0394b3e40d5c44a0a068a26dc90b6c88a973183ef7ecc"
+  },
+  "counts": {
+    "records": 2161,
+    "recordsBySurface": {
+      "canonical-source-row": 710,
+      "site-price-claim": 191,
+      "ua-supplement-row": 583,
+      "phb-dmg-supplement-row": 179,
+      "phb-reference-row-comparison": 165,
+      "reference-financial-context": 9,
+      "typed-passage": 34,
+      "passage-row-comparison": 43,
+      "typed-description": 2,
+      "description-variant-row": 9,
+      "description-pointer-link": 8,
+      "source-census-claim": 180,
+      "census-adjacent-review-issue": 48
+    },
+    "geometries": 3097,
+    "geometryMapping": {
+      "mapped": 1522,
+      "unsupported-coordinate-space": 565,
+      "ambiguous-normalized-page-frame": 34,
+      "source-identity-unavailable-or-mismatched": 373,
+      "render-frame-metadata-unavailable": 587,
+      "ambiguous-pdf-point-frame": 16
+    },
+    "witnessStatus": {
+      "witness-candidates": 1407,
+      "unassessed": 1575,
+      "witness-observed-no-semantic-pass": 115
+    },
+    "expectedValueRecords": 1302,
+    "expectedValueExtractionStatus": {
+      "supported-explicit-numeric-fields-extracted": 1302,
+      "no-supported-explicit-numeric-field-unknown-or-not-applicable": 859
+    },
+    "candidates": 2340
+  },
+  "semanticRowIdentityComplete": false,
+  "automaticSourceApprovals": 0,
+  "knownCalibrationSignals": {
+    "poison9": "All nine source-confirmed unique shifted poison foci yield expected-number-absent candidates.",
+    "armor16": "All16 known overbroad/wrong armor foci yield other-declared-row-label-present candidates; row17 has no foreign-label candidate. Text-layer crossings remain pixel-unassessed."
+  },
+  "limits": [
+    "All signals are candidates. Numeric matches can be hit points, dice, other columns, or neighboring rows. A matching label and amount never approves precision, variants, values, currency columns, markers, or qualifiers.",
+    "Text boxes crossing a boundary require pixel adjudication; font padding can cross without clipped ink.",
+    "Literal label witnesses are limited to declared UA row labels and canonical sourceObject labels; other logical owner labels remain unavailable.",
+    "Nonzero CropBox PDF-point declarations remain ambiguous without a producer frame contract. Render conversions require recorded dimensions and DPI.",
+    "No private source word text, full OCR, or original PDF path is included. Public tests use synthetic word boxes; original PDFs are optional offline inputs.",
+    "Expected values use an explicit partial field allowlist; missing extraction is unknown or not applicable, never proof of no monetary amount. Fields such as minimumPerApplicantLevel/basinCostGp/fontCostGp and source fraction glyphs require further adapters.",
+    "New discovery corpora outside the exact input manifest remain unassessed and are not covered by this report."
+  ],
+  "reviewStatus": "Independent framework review found no private word-text leak or semantic approval. Witness extraction is partial and optional; no broad semantic certification."
+}

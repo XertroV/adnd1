@@ -1,0 +1,1778 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-monetary-index-final-adapter-review",
+  "reviewer": "/root/batch5_integration_review",
+  "status": "approved-exact-code;source-findings-and-source-pixel-approval-separate",
+  "code": {
+    "path": "tools/monetary-source-inventory.mjs",
+    "sha256": "73a2b1e35bfa044908cb32f5cd9176ac5940f265f7200f1654b38c762c8daceb"
+  },
+  "tests": {
+    "path": "tests/monetary-source-inventory.test.mjs",
+    "sha256": "40ab7713e253396ac228b815cfffcf3ec697cda3e8ec21fb331f1f894d8a0999",
+    "passed": 15,
+    "failed": 0
+  },
+  "preservedBefore": {
+    "path": "research/source-audit-batch5-monetary-index-supplemental-guard-before.json",
+    "sha256": "089ff19d4c15f78b6a2cb7160b75e56f5e78013b3d0a3b7b290b84ba0f276f0f"
+  },
+  "privateV3CandidateSha256": "def5f2857a92336391bfce5bf5664958a902db9d17b1ac9392252f173aa2ca83",
+  "sourceOriginalSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+  "sourceInputMode": "Frozen canonical679 fixture for exact claim-identity regression; current other source inputs, original UA8ec, original or private V3 PD179 as specified. No source dataset was mutated.",
+  "diffReview": {
+    "baseCodeSha256": "4330ecfa8414f1f0772d4aeb791d6804d878b1816b8ab40bf4355ca24f3a2d72",
+    "scope": "Only supplemental ordered-context crop normalization/validation; validates source book/PDF/page consistency, hashes, raster bounds/dimensions, DPI and declared PDF bounds. No financial leaf extraction code changed.",
+    "nominalAllOtherIndexOutputExact": true,
+    "nominalAllowedDeltas": [
+      {
+        "path": "/sourceOccurrences/1456/evidence/supplementalContextCrops/0/source/sourceFile",
+        "after": "DMG_1stEd.pdf"
+      },
+      {
+        "path": "/sourceOccurrences/1456/evidence/supplementalContextCrops/0/validation",
+        "after": {
+          "status": "declared-supplemental-context-linked",
+          "reason": null
+        }
+      },
+      {
+        "path": "/claims/1865/evidence/supplementalContextCrops/0/source/sourceFile",
+        "after": "DMG_1stEd.pdf"
+      },
+      {
+        "path": "/claims/1865/evidence/supplementalContextCrops/0/validation",
+        "after": {
+          "status": "declared-supplemental-context-linked",
+          "reason": null
+        }
+      }
+    ],
+    "nominalDeltaOwner": "phb-dmg:dmg-wand-of-wonder-gems-88-90; both source occurrence and its claim gain supplemental validation plus sourceFile metadata only."
+  },
+  "syntheticControls": [
+    {
+      "id": "nominal",
+      "sourceContextPartsStatus": "declared-source-context-parts-linked",
+      "reason": "Ordered source-context parts, their exact source frames, crop metadata, fact pointers, and primary bindings are retained.",
+      "geometryAssessment": {
+        "status": "contained",
+        "reason": "1 crop-local focus rectangle(s) are contained in the recorded crop dimensions.",
+        "rectangleCount": 1
+      },
+      "valueClaimIds": [
+        "phb-dmg:dmg-wand-of-wonder-gems-88-90#/typedValue/baseValueGpEach"
+      ],
+      "partCropIds": [
+        "crop-dmg-wand-of-wonder-opening-table-left-01",
+        "crop-dmg-wand-of-wonder-table-continuation-right-01"
+      ],
+      "supplementalMetadata": {
+        "cropId": "crop-dmg-gem-and-magic-treasure-valuations-01",
+        "role": "supplemental-row-context",
+        "source": {
+          "book": "DMG",
+          "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "printedPage": 136,
+          "pdfPage": 137,
+          "sourceFile": "DMG_1stEd.pdf"
+        },
+        "sourceRender": {
+          "sourceRenderId": "dmg-pdf-137.png",
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "renderDpi": 150,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "metadata": {
+          "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "cropBoundsPdfPagePointsTopLeftLTRB": null,
+          "cropBoundsPixelsLTRB": [
+            8,
+            75,
+            1195,
+            1586
+          ],
+          "cropDimensionsPx": [
+            1187,
+            1511
+          ],
+          "cropSha256": "94dc5859446786756e87a66fb4473b4d2afea5ff7ff47022651d474287aeac95",
+          "renderDpi": 150,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "validation": {
+          "status": "declared-supplemental-context-linked",
+          "reason": null
+        },
+        "cropPointer": "/review/evidenceCrops/1",
+        "sharedReferenceSourceOccurrenceIds": [
+          "phb-dmg:dmg-wand-of-wonder-gems-88-90"
+        ]
+      }
+    },
+    {
+      "id": "supplemental-missing-render-sha",
+      "sourceContextPartsStatus": "declared-source-context-parts-unassessable",
+      "reason": "Supplemental crop crop-dmg-gem-and-magic-treasure-valuations-01 is unassessable: Crop crop-dmg-gem-and-magic-treasure-valuations-01 declares invalid render/crop hashes, dimensions, or pixel bounds.",
+      "geometryAssessment": {
+        "status": "contained",
+        "reason": "1 crop-local focus rectangle(s) are contained in the recorded crop dimensions.",
+        "rectangleCount": 1
+      },
+      "valueClaimIds": [
+        "phb-dmg:dmg-wand-of-wonder-gems-88-90#/typedValue/baseValueGpEach"
+      ],
+      "partCropIds": [
+        "crop-dmg-wand-of-wonder-opening-table-left-01",
+        "crop-dmg-wand-of-wonder-table-continuation-right-01"
+      ],
+      "supplementalMetadata": {
+        "cropId": "crop-dmg-gem-and-magic-treasure-valuations-01",
+        "role": "supplemental-row-context",
+        "source": {
+          "book": "DMG",
+          "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "printedPage": 136,
+          "pdfPage": 137,
+          "sourceFile": "DMG_1stEd.pdf"
+        },
+        "sourceRender": {
+          "sourceRenderId": "dmg-pdf-137.png",
+          "sourceRenderSha256": null,
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "renderDpi": 150,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "metadata": {
+          "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "sourceRenderSha256": null,
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "cropBoundsPdfPagePointsTopLeftLTRB": null,
+          "cropBoundsPixelsLTRB": [
+            8,
+            75,
+            1195,
+            1586
+          ],
+          "cropDimensionsPx": [
+            1187,
+            1511
+          ],
+          "cropSha256": "94dc5859446786756e87a66fb4473b4d2afea5ff7ff47022651d474287aeac95",
+          "renderDpi": 150,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "validation": {
+          "status": "declared-supplemental-context-unassessable",
+          "reason": "Crop crop-dmg-gem-and-magic-treasure-valuations-01 declares invalid render/crop hashes, dimensions, or pixel bounds."
+        },
+        "cropPointer": "/review/evidenceCrops/1",
+        "sharedReferenceSourceOccurrenceIds": [
+          "phb-dmg:dmg-wand-of-wonder-gems-88-90"
+        ]
+      }
+    },
+    {
+      "id": "supplemental-render-outside-window",
+      "sourceContextPartsStatus": "declared-source-context-parts-unassessable",
+      "reason": "Supplemental crop crop-dmg-gem-and-magic-treasure-valuations-01 is unassessable: Crop crop-dmg-gem-and-magic-treasure-valuations-01 declares invalid render/crop hashes, dimensions, or pixel bounds.",
+      "geometryAssessment": {
+        "status": "contained",
+        "reason": "1 crop-local focus rectangle(s) are contained in the recorded crop dimensions.",
+        "rectangleCount": 1
+      },
+      "valueClaimIds": [
+        "phb-dmg:dmg-wand-of-wonder-gems-88-90#/typedValue/baseValueGpEach"
+      ],
+      "partCropIds": [
+        "crop-dmg-wand-of-wonder-opening-table-left-01",
+        "crop-dmg-wand-of-wonder-table-continuation-right-01"
+      ],
+      "supplementalMetadata": {
+        "cropId": "crop-dmg-gem-and-magic-treasure-valuations-01",
+        "role": "supplemental-row-context",
+        "source": {
+          "book": "DMG",
+          "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "printedPage": 136,
+          "pdfPage": 137,
+          "sourceFile": "DMG_1stEd.pdf"
+        },
+        "sourceRender": {
+          "sourceRenderId": "dmg-pdf-137.png",
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1,
+            1
+          ],
+          "renderDpi": 150,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "metadata": {
+          "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1,
+            1
+          ],
+          "cropBoundsPdfPagePointsTopLeftLTRB": null,
+          "cropBoundsPixelsLTRB": [
+            8,
+            75,
+            1195,
+            1586
+          ],
+          "cropDimensionsPx": [
+            1187,
+            1511
+          ],
+          "cropSha256": "94dc5859446786756e87a66fb4473b4d2afea5ff7ff47022651d474287aeac95",
+          "renderDpi": 150,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "validation": {
+          "status": "declared-supplemental-context-unassessable",
+          "reason": "Crop crop-dmg-gem-and-magic-treasure-valuations-01 declares invalid render/crop hashes, dimensions, or pixel bounds."
+        },
+        "cropPointer": "/review/evidenceCrops/1",
+        "sharedReferenceSourceOccurrenceIds": [
+          "phb-dmg:dmg-wand-of-wonder-gems-88-90"
+        ]
+      }
+    },
+    {
+      "id": "supplemental-crop-dims-mismatch",
+      "sourceContextPartsStatus": "declared-source-context-parts-unassessable",
+      "reason": "Supplemental crop crop-dmg-gem-and-magic-treasure-valuations-01 is unassessable: Crop crop-dmg-gem-and-magic-treasure-valuations-01 declares invalid render/crop hashes, dimensions, or pixel bounds.",
+      "geometryAssessment": {
+        "status": "outside-crop",
+        "reason": "Focus bounds extend beyond crop-local right, bottom edge(s).",
+        "outsideEdges": [
+          "right",
+          "bottom"
+        ],
+        "rectangleCount": 1
+      },
+      "valueClaimIds": [
+        "phb-dmg:dmg-wand-of-wonder-gems-88-90#/typedValue/baseValueGpEach"
+      ],
+      "partCropIds": [
+        "crop-dmg-wand-of-wonder-opening-table-left-01",
+        "crop-dmg-wand-of-wonder-table-continuation-right-01"
+      ],
+      "supplementalMetadata": {
+        "cropId": "crop-dmg-gem-and-magic-treasure-valuations-01",
+        "role": "supplemental-row-context",
+        "source": {
+          "book": "DMG",
+          "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "printedPage": 136,
+          "pdfPage": 137,
+          "sourceFile": "DMG_1stEd.pdf"
+        },
+        "sourceRender": {
+          "sourceRenderId": "dmg-pdf-137.png",
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "renderDpi": 150,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "metadata": {
+          "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "cropBoundsPdfPagePointsTopLeftLTRB": null,
+          "cropBoundsPixelsLTRB": [
+            8,
+            75,
+            1195,
+            1586
+          ],
+          "cropDimensionsPx": [
+            1,
+            1
+          ],
+          "cropSha256": "94dc5859446786756e87a66fb4473b4d2afea5ff7ff47022651d474287aeac95",
+          "renderDpi": 150,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "validation": {
+          "status": "declared-supplemental-context-unassessable",
+          "reason": "Crop crop-dmg-gem-and-magic-treasure-valuations-01 declares invalid render/crop hashes, dimensions, or pixel bounds."
+        },
+        "cropPointer": "/review/evidenceCrops/1",
+        "sharedReferenceSourceOccurrenceIds": [
+          "phb-dmg:dmg-wand-of-wonder-gems-88-90"
+        ]
+      }
+    },
+    {
+      "id": "supplemental-invalid-pdf-source",
+      "sourceContextPartsStatus": "declared-source-context-parts-unassessable",
+      "reason": "Supplemental crop crop-dmg-gem-and-magic-treasure-valuations-01 is unassessable: Crop crop-dmg-gem-and-magic-treasure-valuations-01 declares a source book/PDF/page frame that differs from its row.",
+      "geometryAssessment": {
+        "status": "contained",
+        "reason": "1 crop-local focus rectangle(s) are contained in the recorded crop dimensions.",
+        "rectangleCount": 1
+      },
+      "valueClaimIds": [
+        "phb-dmg:dmg-wand-of-wonder-gems-88-90#/typedValue/baseValueGpEach"
+      ],
+      "partCropIds": [
+        "crop-dmg-wand-of-wonder-opening-table-left-01",
+        "crop-dmg-wand-of-wonder-table-continuation-right-01"
+      ],
+      "supplementalMetadata": {
+        "cropId": "crop-dmg-gem-and-magic-treasure-valuations-01",
+        "role": "supplemental-row-context",
+        "source": {
+          "book": "DMG",
+          "sourcePdfSha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "printedPage": 136,
+          "pdfPage": 137,
+          "sourceFile": "DMG_1stEd.pdf"
+        },
+        "sourceRender": {
+          "sourceRenderId": "dmg-pdf-137.png",
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "renderDpi": 150,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "metadata": {
+          "sourcePdfSha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "cropBoundsPdfPagePointsTopLeftLTRB": null,
+          "cropBoundsPixelsLTRB": [
+            8,
+            75,
+            1195,
+            1586
+          ],
+          "cropDimensionsPx": [
+            1187,
+            1511
+          ],
+          "cropSha256": "94dc5859446786756e87a66fb4473b4d2afea5ff7ff47022651d474287aeac95",
+          "renderDpi": 150,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "validation": {
+          "status": "declared-supplemental-context-unassessable",
+          "reason": "Crop crop-dmg-gem-and-magic-treasure-valuations-01 declares a source book/PDF/page frame that differs from its row."
+        },
+        "cropPointer": "/review/evidenceCrops/1",
+        "sharedReferenceSourceOccurrenceIds": [
+          "phb-dmg:dmg-wand-of-wonder-gems-88-90"
+        ]
+      }
+    },
+    {
+      "id": "supplemental-wrong-page",
+      "sourceContextPartsStatus": "declared-source-context-parts-unassessable",
+      "reason": "Supplemental crop crop-dmg-gem-and-magic-treasure-valuations-01 is unassessable: Crop crop-dmg-gem-and-magic-treasure-valuations-01 declares a source book/PDF/page frame that differs from its row.",
+      "geometryAssessment": {
+        "status": "contained",
+        "reason": "1 crop-local focus rectangle(s) are contained in the recorded crop dimensions.",
+        "rectangleCount": 1
+      },
+      "valueClaimIds": [
+        "phb-dmg:dmg-wand-of-wonder-gems-88-90#/typedValue/baseValueGpEach"
+      ],
+      "partCropIds": [
+        "crop-dmg-wand-of-wonder-opening-table-left-01",
+        "crop-dmg-wand-of-wonder-table-continuation-right-01"
+      ],
+      "supplementalMetadata": {
+        "cropId": "crop-dmg-gem-and-magic-treasure-valuations-01",
+        "role": "supplemental-row-context",
+        "source": {
+          "book": "DMG",
+          "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "printedPage": 136,
+          "pdfPage": 138,
+          "sourceFile": "DMG_1stEd.pdf"
+        },
+        "sourceRender": {
+          "sourceRenderId": "dmg-pdf-137.png",
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "renderDpi": 150,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "metadata": {
+          "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "cropBoundsPdfPagePointsTopLeftLTRB": null,
+          "cropBoundsPixelsLTRB": [
+            8,
+            75,
+            1195,
+            1586
+          ],
+          "cropDimensionsPx": [
+            1187,
+            1511
+          ],
+          "cropSha256": "94dc5859446786756e87a66fb4473b4d2afea5ff7ff47022651d474287aeac95",
+          "renderDpi": 150,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "validation": {
+          "status": "declared-supplemental-context-unassessable",
+          "reason": "Crop crop-dmg-gem-and-magic-treasure-valuations-01 declares a source book/PDF/page frame that differs from its row."
+        },
+        "cropPointer": "/review/evidenceCrops/1",
+        "sharedReferenceSourceOccurrenceIds": [
+          "phb-dmg:dmg-wand-of-wonder-gems-88-90"
+        ]
+      }
+    },
+    {
+      "id": "supplemental-nested-frame-contradiction",
+      "sourceContextPartsStatus": "declared-source-context-parts-unassessable",
+      "reason": "Supplemental crop crop-dmg-gem-and-magic-treasure-valuations-01 is unassessable: Crop crop-dmg-gem-and-magic-treasure-valuations-01 declares a source book/PDF/page frame that differs from its row.",
+      "geometryAssessment": {
+        "status": "contained",
+        "reason": "1 crop-local focus rectangle(s) are contained in the recorded crop dimensions.",
+        "rectangleCount": 1
+      },
+      "valueClaimIds": [
+        "phb-dmg:dmg-wand-of-wonder-gems-88-90#/typedValue/baseValueGpEach"
+      ],
+      "partCropIds": [
+        "crop-dmg-wand-of-wonder-opening-table-left-01",
+        "crop-dmg-wand-of-wonder-table-continuation-right-01"
+      ],
+      "supplementalMetadata": {
+        "cropId": "crop-dmg-gem-and-magic-treasure-valuations-01",
+        "role": "supplemental-row-context",
+        "source": {
+          "book": "DMG",
+          "sourcePdfSha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "printedPage": 136,
+          "pdfPage": 137,
+          "sourceFile": "DMG_1stEd.pdf"
+        },
+        "sourceRender": {
+          "sourceRenderId": "dmg-pdf-137.png",
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "renderDpi": 150,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "metadata": {
+          "sourcePdfSha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "cropBoundsPdfPagePointsTopLeftLTRB": null,
+          "cropBoundsPixelsLTRB": [
+            8,
+            75,
+            1195,
+            1586
+          ],
+          "cropDimensionsPx": [
+            1187,
+            1511
+          ],
+          "cropSha256": "94dc5859446786756e87a66fb4473b4d2afea5ff7ff47022651d474287aeac95",
+          "renderDpi": 150,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "validation": {
+          "status": "declared-supplemental-context-unassessable",
+          "reason": "Crop crop-dmg-gem-and-magic-treasure-valuations-01 declares a source book/PDF/page frame that differs from its row."
+        },
+        "cropPointer": "/review/evidenceCrops/1",
+        "sharedReferenceSourceOccurrenceIds": [
+          "phb-dmg:dmg-wand-of-wonder-gems-88-90"
+        ]
+      }
+    },
+    {
+      "id": "supplemental-dpi-mismatch",
+      "sourceContextPartsStatus": "declared-source-context-parts-unassessable",
+      "reason": "Supplemental crop crop-dmg-gem-and-magic-treasure-valuations-01 is unassessable: Crop crop-dmg-gem-and-magic-treasure-valuations-01 declares invalid or mismatched render DPI.",
+      "geometryAssessment": {
+        "status": "contained",
+        "reason": "1 crop-local focus rectangle(s) are contained in the recorded crop dimensions.",
+        "rectangleCount": 1
+      },
+      "valueClaimIds": [
+        "phb-dmg:dmg-wand-of-wonder-gems-88-90#/typedValue/baseValueGpEach"
+      ],
+      "partCropIds": [
+        "crop-dmg-wand-of-wonder-opening-table-left-01",
+        "crop-dmg-wand-of-wonder-table-continuation-right-01"
+      ],
+      "supplementalMetadata": {
+        "cropId": "crop-dmg-gem-and-magic-treasure-valuations-01",
+        "role": "supplemental-row-context",
+        "source": {
+          "book": "DMG",
+          "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "printedPage": 136,
+          "pdfPage": 137,
+          "sourceFile": "DMG_1stEd.pdf"
+        },
+        "sourceRender": {
+          "sourceRenderId": "dmg-pdf-137.png",
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "renderDpi": 300,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "metadata": {
+          "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "sourceRenderSha256": "32c207a18b736ccfc44b94b52ba70483f8a68f7d3dac46e177e5c6c549879ec1",
+          "sourceRenderDimensionsPx": [
+            1230,
+            1644
+          ],
+          "cropBoundsPdfPagePointsTopLeftLTRB": null,
+          "cropBoundsPixelsLTRB": [
+            8,
+            75,
+            1195,
+            1586
+          ],
+          "cropDimensionsPx": [
+            1187,
+            1511
+          ],
+          "cropSha256": "94dc5859446786756e87a66fb4473b4d2afea5ff7ff47022651d474287aeac95",
+          "renderDpi": 300,
+          "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open"
+        },
+        "validation": {
+          "status": "declared-supplemental-context-unassessable",
+          "reason": "Crop crop-dmg-gem-and-magic-treasure-valuations-01 declares invalid or mismatched render DPI."
+        },
+        "cropPointer": "/review/evidenceCrops/1",
+        "sharedReferenceSourceOccurrenceIds": [
+          "phb-dmg:dmg-wand-of-wonder-gems-88-90"
+        ]
+      }
+    }
+  ],
+  "syntheticMalformedVariantsRejected": 7,
+  "nominalValidControlAccepted": true,
+  "malformedControlsRetainSameClaimIdsAndOrderedParts": true,
+  "whole179ClaimCensus": {
+    "rows": 179,
+    "occurrences": 1871,
+    "claims": 2317,
+    "pdClaims": 389,
+    "changedRows": 14,
+    "unchangedRows": 165,
+    "metadataSourcedClaims": 0,
+    "rowsWithParts": 8,
+    "partCount": 16
+  },
+  "changedClaimRowIds": [
+    "phb-dmg:dmg-commodity-01",
+    "phb-dmg:dmg-commodity-02",
+    "phb-dmg:dmg-commodity-03",
+    "phb-dmg:dmg-commodity-04",
+    "phb-dmg:dmg-commodity-05",
+    "phb-dmg:dmg-commodity-06",
+    "phb-dmg:dmg-commodity-07",
+    "phb-dmg:dmg-commodity-08",
+    "phb-dmg:dmg-deck-gem-card",
+    "phb-dmg:dmg-henchman-initial-payment",
+    "phb-dmg:dmg-placement-not-gem-1000",
+    "phb-dmg:dmg-potion-alchemist-discount",
+    "phb-dmg:dmg-spell-research-success-expenditure-3",
+    "phb-dmg:dmg-town-fee-foreign-silver-threshold-fine"
+  ],
+  "all179ClaimProjectionChecks": [
+    {
+      "id": "phb-dmg:phb-assassination-fees-row-01",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "6f9f36e9c7072b6b29def77e8a8032f22d1e1144d772311068982f4f43f4eb69",
+      "currentClaimProjectionSha256": "6f9f36e9c7072b6b29def77e8a8032f22d1e1144d772311068982f4f43f4eb69"
+    },
+    {
+      "id": "phb-dmg:phb-assassination-fees-row-02",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "04b99334ba87e3a4de304cb43bbe369daf930830ac4f17592e9758d7d1668dd6",
+      "currentClaimProjectionSha256": "04b99334ba87e3a4de304cb43bbe369daf930830ac4f17592e9758d7d1668dd6"
+    },
+    {
+      "id": "phb-dmg:phb-assassination-fees-row-03",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "80447e65974b1c66af98c6d6b80fad4179271f3176859c75be823cc52b0a0354",
+      "currentClaimProjectionSha256": "80447e65974b1c66af98c6d6b80fad4179271f3176859c75be823cc52b0a0354"
+    },
+    {
+      "id": "phb-dmg:phb-assassination-fees-row-04",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "735c8efa4cf3d97d79994ad39a414d561cea0bb31bcac5639f62a801fc234b75",
+      "currentClaimProjectionSha256": "735c8efa4cf3d97d79994ad39a414d561cea0bb31bcac5639f62a801fc234b75"
+    },
+    {
+      "id": "phb-dmg:phb-assassination-fees-row-05",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "99c27764c0be16c013a7e14b226c144d40375a7ce36ac72a8a3e19a28a70ce5a",
+      "currentClaimProjectionSha256": "99c27764c0be16c013a7e14b226c144d40375a7ce36ac72a8a3e19a28a70ce5a"
+    },
+    {
+      "id": "phb-dmg:phb-assassination-fees-row-06",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "dbc0f474fe1683027c112b8a36e9d2c8f592e40dbd8e416fa495bba7a3d378a8",
+      "currentClaimProjectionSha256": "dbc0f474fe1683027c112b8a36e9d2c8f592e40dbd8e416fa495bba7a3d378a8"
+    },
+    {
+      "id": "phb-dmg:phb-assassination-fees-row-07",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "f4e41e17d84c5cd5fbb153a9e793947063dc2345b0fd026757a66cd72a1de86d",
+      "currentClaimProjectionSha256": "f4e41e17d84c5cd5fbb153a9e793947063dc2345b0fd026757a66cd72a1de86d"
+    },
+    {
+      "id": "phb-dmg:phb-assassination-fees-row-08",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "96c764866baf0c36bb8b6329bfd854a3204a44efbcee8bcb9e21ab98e2e662e1",
+      "currentClaimProjectionSha256": "96c764866baf0c36bb8b6329bfd854a3204a44efbcee8bcb9e21ab98e2e662e1"
+    },
+    {
+      "id": "phb-dmg:phb-assassination-fees-row-09",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "cacd2c78c5cf2019146e6e4ea62fc519f1529636aef68309574ca51396aa76a9",
+      "currentClaimProjectionSha256": "cacd2c78c5cf2019146e6e4ea62fc519f1529636aef68309574ca51396aa76a9"
+    },
+    {
+      "id": "phb-dmg:phb-assassination-fees-row-10",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "a14eae303518d6b1598c0d9e2f8a9758ce107c5d1df2a3d6f6d5f9774a696e45",
+      "currentClaimProjectionSha256": "a14eae303518d6b1598c0d9e2f8a9758ce107c5d1df2a3d6f6d5f9774a696e45"
+    },
+    {
+      "id": "phb-dmg:phb-assassination-fees-row-11",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "0e8be86c4c40d64d9581378e2f6c95ce077024258b99ace8df6c32d796d0eb1d",
+      "currentClaimProjectionSha256": "0e8be86c4c40d64d9581378e2f6c95ce077024258b99ace8df6c32d796d0eb1d"
+    },
+    {
+      "id": "phb-dmg:phb-assassination-fees-row-12",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "2ee3c3688d4a8ff509eaf2041777c5a7285a8e01cffd0f17a0e228bdaaaca0d1",
+      "currentClaimProjectionSha256": "2ee3c3688d4a8ff509eaf2041777c5a7285a8e01cffd0f17a0e228bdaaaca0d1"
+    },
+    {
+      "id": "phb-dmg:phb-assassination-fees-row-13",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "6cc97ac4682823ab281bb79ddf55c4ae09580811889e057e7cda1b0ecc113c39",
+      "currentClaimProjectionSha256": "6cc97ac4682823ab281bb79ddf55c4ae09580811889e057e7cda1b0ecc113c39"
+    },
+    {
+      "id": "phb-dmg:phb-assassination-fees-row-14",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "943ee4fecaec46b8a3f7c1e888a5460d3cf1aad631e9ebccaacda6fc21c0dba1",
+      "currentClaimProjectionSha256": "943ee4fecaec46b8a3f7c1e888a5460d3cf1aad631e9ebccaacda6fc21c0dba1"
+    },
+    {
+      "id": "phb-dmg:phb-assassination-fees-row-15",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "d6fe3576c1b81443a453e08f2484e1023163c05f5b3bb8ab6ca6fcccb2d89744",
+      "currentClaimProjectionSha256": "d6fe3576c1b81443a453e08f2484e1023163c05f5b3bb8ab6ca6fcccb2d89744"
+    },
+    {
+      "id": "phb-dmg:dmg-poison-manufacture-materials",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "ec361fd029c9b9dc327bb2d35c33368b5aaa8098b9e283d781827be8b1709569",
+      "currentClaimProjectionSha256": "ec361fd029c9b9dc327bb2d35c33368b5aaa8098b9e283d781827be8b1709569"
+    },
+    {
+      "id": "phb-dmg:dmg-poison-study-training-fee",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "5972fb487e482f4496c527eaa376a261e216c0cbf0008cffea6f6671db153c98",
+      "currentClaimProjectionSha256": "5972fb487e482f4496c527eaa376a261e216c0cbf0008cffea6f6671db153c98"
+    },
+    {
+      "id": "phb-dmg:dmg-poison-ingestive-a",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "9b25a2b6a8f4313d03c6697465878ed1c1554c0ac8a7e3517e9f95aa33e9726e",
+      "currentClaimProjectionSha256": "9b25a2b6a8f4313d03c6697465878ed1c1554c0ac8a7e3517e9f95aa33e9726e"
+    },
+    {
+      "id": "phb-dmg:dmg-poison-ingestive-b",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "04a435a2195b85b2b04a0615059ee669c581d08278d48766b24a4aaf0cf1b76c",
+      "currentClaimProjectionSha256": "04a435a2195b85b2b04a0615059ee669c581d08278d48766b24a4aaf0cf1b76c"
+    },
+    {
+      "id": "phb-dmg:dmg-poison-ingestive-c",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "7331dbddad37972650ae4d64ecff1d3330b151e163fe6ed974bb59b7a8d2624c",
+      "currentClaimProjectionSha256": "7331dbddad37972650ae4d64ecff1d3330b151e163fe6ed974bb59b7a8d2624c"
+    },
+    {
+      "id": "phb-dmg:dmg-poison-ingestive-d",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "3c5a480f6815e51072df5b73f160c4149f2883675eb5566ed941c5cc81eb0257",
+      "currentClaimProjectionSha256": "3c5a480f6815e51072df5b73f160c4149f2883675eb5566ed941c5cc81eb0257"
+    },
+    {
+      "id": "phb-dmg:dmg-poison-ingestive-e",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "73e3320823738ffeef1259e98150f736d9de064401cd1e09f61cc0d4f75b1ebe",
+      "currentClaimProjectionSha256": "73e3320823738ffeef1259e98150f736d9de064401cd1e09f61cc0d4f75b1ebe"
+    },
+    {
+      "id": "phb-dmg:dmg-poison-insinuative-a",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "0272f1bac83d21c11fe5c507187716ae534f4b64d219ccb2ce186ad96c3fb74a",
+      "currentClaimProjectionSha256": "0272f1bac83d21c11fe5c507187716ae534f4b64d219ccb2ce186ad96c3fb74a"
+    },
+    {
+      "id": "phb-dmg:dmg-poison-insinuative-b",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "3c2360b86a4f57a39e9094faffb305d5f2f4fc3c31d1b6f25f843d9b9e692874",
+      "currentClaimProjectionSha256": "3c2360b86a4f57a39e9094faffb305d5f2f4fc3c31d1b6f25f843d9b9e692874"
+    },
+    {
+      "id": "phb-dmg:dmg-poison-insinuative-c",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "e261874c4fcd2efeb1d87697e40407f5a08983ec35c56bbe77d6381c1a07ea7a",
+      "currentClaimProjectionSha256": "e261874c4fcd2efeb1d87697e40407f5a08983ec35c56bbe77d6381c1a07ea7a"
+    },
+    {
+      "id": "phb-dmg:dmg-poison-insinuative-d",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "cc3fa995956f7a24be76e561392d688bd5d7c6cae4de919c467dc02fe3b6ed58",
+      "currentClaimProjectionSha256": "cc3fa995956f7a24be76e561392d688bd5d7c6cae4de919c467dc02fe3b6ed58"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-base-category-01",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "f5f231303cc4bf02de74e127ce72b2067f6cf5a7ec0740f8b21b1a78bf3dfff4",
+      "currentClaimProjectionSha256": "f5f231303cc4bf02de74e127ce72b2067f6cf5a7ec0740f8b21b1a78bf3dfff4"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-base-category-02",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "cf57836457e7fc9a48d41090a544669a99ef3a2797bcc0563ae65a55451e5f80",
+      "currentClaimProjectionSha256": "cf57836457e7fc9a48d41090a544669a99ef3a2797bcc0563ae65a55451e5f80"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-base-category-03",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "a1d1cd0cb0307fd04014370dd6ae273eee4f3b97abebe2646302a2e450d38a6e",
+      "currentClaimProjectionSha256": "a1d1cd0cb0307fd04014370dd6ae273eee4f3b97abebe2646302a2e450d38a6e"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-base-category-04",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "7db0da3ba3bbdc32bf8c8bcbf2380b595ee48195eaaea8ceedc3103f64884b2c",
+      "currentClaimProjectionSha256": "7db0da3ba3bbdc32bf8c8bcbf2380b595ee48195eaaea8ceedc3103f64884b2c"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-base-category-05",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "dab7c9b95c3f4cb29c590dd6030dd6a77b653393c3e9ef123644225a6f790309",
+      "currentClaimProjectionSha256": "dab7c9b95c3f4cb29c590dd6030dd6a77b653393c3e9ef123644225a6f790309"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-base-category-06",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "2df63ed361916c77de4c3ed3f164024e0a16325113c9c652494bb66120e70c67",
+      "currentClaimProjectionSha256": "2df63ed361916c77de4c3ed3f164024e0a16325113c9c652494bb66120e70c67"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-progression-01",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "54d330927a6cadc69ae34353a5438da284f942368bb7e75916eb545a23f8d6ca",
+      "currentClaimProjectionSha256": "54d330927a6cadc69ae34353a5438da284f942368bb7e75916eb545a23f8d6ca"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-progression-02",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "9cd045188ba79ffd8edee8815251ab0465dcc1c763df418fdad9e8c68f50342b",
+      "currentClaimProjectionSha256": "9cd045188ba79ffd8edee8815251ab0465dcc1c763df418fdad9e8c68f50342b"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-progression-03",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "2bcddd09e0a0f272607396ebaf7cfc7f00734e1e2ee4d530befb43bba5e4421a",
+      "currentClaimProjectionSha256": "2bcddd09e0a0f272607396ebaf7cfc7f00734e1e2ee4d530befb43bba5e4421a"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-progression-04",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "8f83167e58654f409687591de9390151d0fe9611a07c4c9f4fbbb4ebcfa53994",
+      "currentClaimProjectionSha256": "8f83167e58654f409687591de9390151d0fe9611a07c4c9f4fbbb4ebcfa53994"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-progression-05",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "7d6f982a32d577871f6f4964bfef61e4209fa716704866847540377c6134b87e",
+      "currentClaimProjectionSha256": "7d6f982a32d577871f6f4964bfef61e4209fa716704866847540377c6134b87e"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-progression-06",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "567e8526bd29b17c47adbced004a8afd5eab3a38e17d6c801de7c9d05bc47147",
+      "currentClaimProjectionSha256": "567e8526bd29b17c47adbced004a8afd5eab3a38e17d6c801de7c9d05bc47147"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-increase-ladder",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "0c4a126bf8ee5c34e858d3ac50e489fb268e139515a06dd2f9e0eea9b8727fd5",
+      "currentClaimProjectionSha256": "0c4a126bf8ee5c34e858d3ac50e489fb268e139515a06dd2f9e0eea9b8727fd5"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-decrease-ladder",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "28c91a59752af2a5798c4878efa424f54d106ee63bffc703d0d1617ef509c133",
+      "currentClaimProjectionSha256": "28c91a59752af2a5798c4878efa424f54d106ee63bffc703d0d1617ef509c133"
+    },
+    {
+      "id": "phb-dmg:dmg-jewelry-exceptional-class",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "2c819422c5e46cab23a17ce2737fd9c17967398930f49bab2836ea9c81116bb7",
+      "currentClaimProjectionSha256": "2c819422c5e46cab23a17ce2737fd9c17967398930f49bab2836ea9c81116bb7"
+    },
+    {
+      "id": "phb-dmg:dmg-jewelry-exceptional-gem",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "e6385cc5055e0f78ff92eeea830a98c6a2dcbf9fde7b22642b5051fdfaad11b8",
+      "currentClaimProjectionSha256": "e6385cc5055e0f78ff92eeea830a98c6a2dcbf9fde7b22642b5051fdfaad11b8"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-stone-list-ornamental-10-gp",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "2593b7cf27ea581197088a19f4cd5b1dfcb1f3641a1b1b3d852987a4f8abf431",
+      "currentClaimProjectionSha256": "2593b7cf27ea581197088a19f4cd5b1dfcb1f3641a1b1b3d852987a4f8abf431"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-stone-list-semi-precious-50-gp",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "b97b396810afc8fc1765e79aa6190214172a3ce093b50e07dc07cbd80128bd56",
+      "currentClaimProjectionSha256": "b97b396810afc8fc1765e79aa6190214172a3ce093b50e07dc07cbd80128bd56"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-stone-list-fancy-100-500",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "1f84259ec97d62e3bc9fb751322e195f4cd52960937b4a5b7e195591e7c25317",
+      "currentClaimProjectionSha256": "1f84259ec97d62e3bc9fb751322e195f4cd52960937b4a5b7e195591e7c25317"
+    },
+    {
+      "id": "phb-dmg:dmg-gem-stone-list-1000-plus",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "d045c6c8dc502fbef96a0270f841dd9d58d549cf1675b42ae7e681af1f327189",
+      "currentClaimProjectionSha256": "d045c6c8dc502fbef96a0270f841dd9d58d549cf1675b42ae7e681af1f327189"
+    },
+    {
+      "id": "phb-dmg:dmg-jewelry-base-value-table",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "de1cc21b8e422deb7a7a74da2128acff902d99082600ab9badea1594093ae2b9",
+      "currentClaimProjectionSha256": "de1cc21b8e422deb7a7a74da2128acff902d99082600ab9badea1594093ae2b9"
+    },
+    {
+      "id": "phb-dmg:dmg-fur-beaver",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "bdf50a2ed72db280ee5b1a5a97f88cc6bbc9b98cc32ac4816e942646ed451035",
+      "currentClaimProjectionSha256": "bdf50a2ed72db280ee5b1a5a97f88cc6bbc9b98cc32ac4816e942646ed451035"
+    },
+    {
+      "id": "phb-dmg:dmg-fur-ermine",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "dcce8b559ad5ccfd590c24391adb72d7ea88e8866a244de77349ecd85e3444e0",
+      "currentClaimProjectionSha256": "dcce8b559ad5ccfd590c24391adb72d7ea88e8866a244de77349ecd85e3444e0"
+    },
+    {
+      "id": "phb-dmg:dmg-fur-fox",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "166dd990699bf6339ee5fbe502190fd9e7f25abbdbc256dae30adc2513a3bf1f",
+      "currentClaimProjectionSha256": "166dd990699bf6339ee5fbe502190fd9e7f25abbdbc256dae30adc2513a3bf1f"
+    },
+    {
+      "id": "phb-dmg:dmg-fur-marten",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "5504a67cfca2e4a8ebff3d5f2fb16caaba01977bbe79a277a5c2f2d4a35380e0",
+      "currentClaimProjectionSha256": "5504a67cfca2e4a8ebff3d5f2fb16caaba01977bbe79a277a5c2f2d4a35380e0"
+    },
+    {
+      "id": "phb-dmg:dmg-fur-mink",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "cde5e913a45d8535525363259e7de8d815bf67ad313cf84b2e5f73a1e080f258",
+      "currentClaimProjectionSha256": "cde5e913a45d8535525363259e7de8d815bf67ad313cf84b2e5f73a1e080f258"
+    },
+    {
+      "id": "phb-dmg:dmg-fur-muskrat",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "79855a4d46faef83a2a9f35e1c0b3f9a54cf43f8b40bce71ffa8cac5ff1bc9be",
+      "currentClaimProjectionSha256": "79855a4d46faef83a2a9f35e1c0b3f9a54cf43f8b40bce71ffa8cac5ff1bc9be"
+    },
+    {
+      "id": "phb-dmg:dmg-fur-sable",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "760fef3a9842131da3d258074ba4909d2e2dc9ceb36900c64c2cb8cdff7ef0e9",
+      "currentClaimProjectionSha256": "760fef3a9842131da3d258074ba4909d2e2dc9ceb36900c64c2cb8cdff7ef0e9"
+    },
+    {
+      "id": "phb-dmg:dmg-fur-seal",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "4ac74d38a737487518c2512bf6ae1dffa18125873ce4dc2dcec13fb4f288630c",
+      "currentClaimProjectionSha256": "4ac74d38a737487518c2512bf6ae1dffa18125873ce4dc2dcec13fb4f288630c"
+    },
+    {
+      "id": "phb-dmg:dmg-fur-value-d10-adjustment",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "8871810b2bb9c626fe044274f312626ded0a1c6c380f3b2b34180a563ca86946",
+      "currentClaimProjectionSha256": "8871810b2bb9c626fe044274f312626ded0a1c6c380f3b2b34180a563ca86946"
+    },
+    {
+      "id": "phb-dmg:dmg-commodity-01",
+      "sameClaimIdentityAndMeaning": false,
+      "originalClaimProjectionSha256": "873defa3a612cb0ba8b4f5471568dd294f6102e3dc016abb40baab68586b7474",
+      "currentClaimProjectionSha256": "65777e0a8316139be015e5fc3658712f8dcc712b85a571daddcbf9a42f61eab3"
+    },
+    {
+      "id": "phb-dmg:dmg-commodity-02",
+      "sameClaimIdentityAndMeaning": false,
+      "originalClaimProjectionSha256": "982ef20bec449eff2dc266350ab5f41a776e2dc545b72b488f046ef1b5479aa1",
+      "currentClaimProjectionSha256": "ee9c3f43e8d71b697490768bdbcf1493ac55d83232b2132dcb5e02196efe17aa"
+    },
+    {
+      "id": "phb-dmg:dmg-commodity-03",
+      "sameClaimIdentityAndMeaning": false,
+      "originalClaimProjectionSha256": "b1906f2f9a384a5a6dfbc4544a83d8496ea5ce63cc849e9afd2ee4756b476ead",
+      "currentClaimProjectionSha256": "473a73eb521aab63961523ae710ed54b5e255cb466c89dd49b4548654603ebb7"
+    },
+    {
+      "id": "phb-dmg:dmg-commodity-04",
+      "sameClaimIdentityAndMeaning": false,
+      "originalClaimProjectionSha256": "aa4122480e6cfbf6c392aac7ec985328ec64aa49fe01bb01e0f44deebe59edbf",
+      "currentClaimProjectionSha256": "91a870bf546b1676cba2000f2368f7ffeed63f14d858c7a7755562319c27dad4"
+    },
+    {
+      "id": "phb-dmg:dmg-commodity-05",
+      "sameClaimIdentityAndMeaning": false,
+      "originalClaimProjectionSha256": "39b31f10a3234419af8ddace1b6c98c53ef94c41e5062b9166543576de87a049",
+      "currentClaimProjectionSha256": "247999715a7e7e21c31880a3aa06ca4c0503ecd6967cd3c6dd86cd1df8a249af"
+    },
+    {
+      "id": "phb-dmg:dmg-commodity-06",
+      "sameClaimIdentityAndMeaning": false,
+      "originalClaimProjectionSha256": "54e41a46fb3082b55435030e7c4498e9777cfbe5c0e1eb3fe127db842e8855ac",
+      "currentClaimProjectionSha256": "b973d1ca9f3e3dbbe17a39f4be73ae0d71642fe76db58ab6f13b3e08fd66034b"
+    },
+    {
+      "id": "phb-dmg:dmg-commodity-07",
+      "sameClaimIdentityAndMeaning": false,
+      "originalClaimProjectionSha256": "572b2a8e83a738255a37073e8c255ece1b60db94e1fefc27c779628a09f17d5e",
+      "currentClaimProjectionSha256": "3b64cb94e27584b8ff949030e79f4bc67ca0af8050343bc5aa24e8c9ca895124"
+    },
+    {
+      "id": "phb-dmg:dmg-commodity-08",
+      "sameClaimIdentityAndMeaning": false,
+      "originalClaimProjectionSha256": "4dfaf05e26ac77efe882aa2e59909b8c41de9e40af0932f59c9ce9ce5462d450",
+      "currentClaimProjectionSha256": "ee9516dbd6561c645183115d24a7ca8b6d477444758ac5847e64e8c27c70d0dd"
+    },
+    {
+      "id": "phb-dmg:dmg-sage-pay-01",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "495e91ca170fea364fbea5b93eaaa41006cfc762d8944c454c79f55cb825cfb9",
+      "currentClaimProjectionSha256": "495e91ca170fea364fbea5b93eaaa41006cfc762d8944c454c79f55cb825cfb9"
+    },
+    {
+      "id": "phb-dmg:dmg-sage-pay-02",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "5800fb0dd3ffa7ec8b4be1c6855f9b1cf5c649be6fb5a9ec6443e6c6155e49ab",
+      "currentClaimProjectionSha256": "5800fb0dd3ffa7ec8b4be1c6855f9b1cf5c649be6fb5a9ec6443e6c6155e49ab"
+    },
+    {
+      "id": "phb-dmg:dmg-sage-pay-03",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "fc1c1ba2c05b5e67cc813d1bec3e74bc72fccdf78739b2d14f36c1f98ec6faa6",
+      "currentClaimProjectionSha256": "fc1c1ba2c05b5e67cc813d1bec3e74bc72fccdf78739b2d14f36c1f98ec6faa6"
+    },
+    {
+      "id": "phb-dmg:dmg-sage-pay-04",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "d3a3b7d76dfe48e75a20fdaacc69bc4837cf433f44a8230627d8be945923acb3",
+      "currentClaimProjectionSha256": "d3a3b7d76dfe48e75a20fdaacc69bc4837cf433f44a8230627d8be945923acb3"
+    },
+    {
+      "id": "phb-dmg:dmg-sage-20k-50pct",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "73944e7ddf9c2f07614bdd9bb4f2449e923237c06a3b14127964343bfacbc4be",
+      "currentClaimProjectionSha256": "73944e7ddf9c2f07614bdd9bb4f2449e923237c06a3b14127964343bfacbc4be"
+    },
+    {
+      "id": "phb-dmg:dmg-sage-efficiency-step",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "7ebcc39ef97fc095f2e3644745a710cf0ca324a5b0dcdfbec1fd5678b529fe98",
+      "currentClaimProjectionSha256": "7ebcc39ef97fc095f2e3644745a710cf0ca324a5b0dcdfbec1fd5678b529fe98"
+    },
+    {
+      "id": "phb-dmg:dmg-sage-efficiency-90-100",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "89583814db5bc1535f970cd0591b40db9d4566c72fa8b487164951c4479298ca",
+      "currentClaimProjectionSha256": "89583814db5bc1535f970cd0591b40db9d4566c72fa8b487164951c4479298ca"
+    },
+    {
+      "id": "phb-dmg:dmg-sage-outside-specialty",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "8cfcb19c52e0e25b94347edc405943e361d60b9e9483af6fc745605ec893791f",
+      "currentClaimProjectionSha256": "8cfcb19c52e0e25b94347edc405943e361d60b9e9483af6fc745605ec893791f"
+    },
+    {
+      "id": "phb-dmg:dmg-sage-minor-field",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "4a2bf03d2c4c08837b8587c1a8448c1987e054d761a6012b1621c84559dac3f7",
+      "currentClaimProjectionSha256": "4a2bf03d2c4c08837b8587c1a8448c1987e054d761a6012b1621c84559dac3f7"
+    },
+    {
+      "id": "phb-dmg:dmg-sage-additional-minor-field",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "38ced849350dd011fdce11fa43a80fbe51db50cf086206a04e780ec9285049c3",
+      "currentClaimProjectionSha256": "38ced849350dd011fdce11fa43a80fbe51db50cf086206a04e780ec9285049c3"
+    },
+    {
+      "id": "phb-dmg:dmg-sage-major-field",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "1d240e8962daffbbb278c2d22ed567f7c33b2b9cc3bb96c220d79e100995f3c9",
+      "currentClaimProjectionSha256": "1d240e8962daffbbb278c2d22ed567f7c33b2b9cc3bb96c220d79e100995f3c9"
+    },
+    {
+      "id": "phb-dmg:dmg-info-discovery-row-01",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "f89b14a6e0e93fedb65b716589e29294ab89e33bc19b47cbb96f4b1b3ed2feb9",
+      "currentClaimProjectionSha256": "f89b14a6e0e93fedb65b716589e29294ab89e33bc19b47cbb96f4b1b3ed2feb9"
+    },
+    {
+      "id": "phb-dmg:dmg-info-discovery-row-02",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "f98b89afcb750891e832681dd09a3d42315a33955ad19ab39958a15329fc2163",
+      "currentClaimProjectionSha256": "f98b89afcb750891e832681dd09a3d42315a33955ad19ab39958a15329fc2163"
+    },
+    {
+      "id": "phb-dmg:dmg-info-discovery-row-03",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "21d6b1e854fee147048ee6c51a523273d89c4af514896345801110173afedf10",
+      "currentClaimProjectionSha256": "21d6b1e854fee147048ee6c51a523273d89c4af514896345801110173afedf10"
+    },
+    {
+      "id": "phb-dmg:dmg-info-discovery-row-04",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "b7371b006235fdff01c7677625ecbae3b5defcc237ec4ecd4353469de652e23e",
+      "currentClaimProjectionSha256": "b7371b006235fdff01c7677625ecbae3b5defcc237ec4ecd4353469de652e23e"
+    },
+    {
+      "id": "phb-dmg:dmg-sage-unknown-half",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "5227f42a85712963073da6319449e3bd2cd2de016aed3d924b5b31a92a6c7f27",
+      "currentClaimProjectionSha256": "5227f42a85712963073da6319449e3bd2cd2de016aed3d924b5b31a92a6c7f27"
+    },
+    {
+      "id": "phb-dmg:dmg-sage-specific-unsolved",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "6edcac74981580350c009a5167213691266e01c07ef7bdf5d8d878ffc12bdcaf",
+      "currentClaimProjectionSha256": "6edcac74981580350c009a5167213691266e01c07ef7bdf5d8d878ffc12bdcaf"
+    },
+    {
+      "id": "phb-dmg:dmg-sage-rest-no-fee",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "086bcaab0efd15d25bfab92bb8056b4cbffe804e21ac1903e6e67559a41bdd47",
+      "currentClaimProjectionSha256": "086bcaab0efd15d25bfab92bb8056b4cbffe804e21ac1903e6e67559a41bdd47"
+    },
+    {
+      "id": "phb-dmg:dmg-henchman-search-method-01",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "4cc909702e2083402554cf407633ee0edefee993b36810c95b3e33ed50547465",
+      "currentClaimProjectionSha256": "4cc909702e2083402554cf407633ee0edefee993b36810c95b3e33ed50547465"
+    },
+    {
+      "id": "phb-dmg:dmg-henchman-search-method-02",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "169120c70626b016601dc899ac5fc45b1709afe3c1d25073a848cf8c2dd6a3ef",
+      "currentClaimProjectionSha256": "169120c70626b016601dc899ac5fc45b1709afe3c1d25073a848cf8c2dd6a3ef"
+    },
+    {
+      "id": "phb-dmg:dmg-henchman-search-method-03",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "e43e0e2690621adb08d18eaa990e480c5cb4df1912729b60b51d29018d210202",
+      "currentClaimProjectionSha256": "e43e0e2690621adb08d18eaa990e480c5cb4df1912729b60b51d29018d210202"
+    },
+    {
+      "id": "phb-dmg:dmg-henchman-search-method-04",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "961c16904b96224a5e8d529d6112446ec77d643a4ffa50a8904a86d84bc65aaf",
+      "currentClaimProjectionSha256": "961c16904b96224a5e8d529d6112446ec77d643a4ffa50a8904a86d84bc65aaf"
+    },
+    {
+      "id": "phb-dmg:dmg-henchman-tavern-round",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "7aec34e32ebca4ac410076161d233380b0c4100e24dcd5e88e403031f59c17ff",
+      "currentClaimProjectionSha256": "7aec34e32ebca4ac410076161d233380b0c4100e24dcd5e88e403031f59c17ff"
+    },
+    {
+      "id": "phb-dmg:dmg-henchman-combined-methods",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "93e580486df6df70787d44a375efa5fefdd3a92b4a927e35c274ae174b175f80",
+      "currentClaimProjectionSha256": "93e580486df6df70787d44a375efa5fefdd3a92b4a927e35c274ae174b175f80"
+    },
+    {
+      "id": "phb-dmg:dmg-henchman-initial-payment",
+      "sameClaimIdentityAndMeaning": false,
+      "originalClaimProjectionSha256": "41e461c654a8b89c704f0507bb48bd7da2f82194d297a6c943ec5d6023b8284b",
+      "currentClaimProjectionSha256": "2b42c0fed613a7b8599d3a4d3048a19063c9518b6ec415112eb5d39ed1de8060"
+    },
+    {
+      "id": "phb-dmg:dmg-henchman-interest-increase",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "1a8d2bd10252d31f956eb8900ff49883e7682878d4ac54c3c4ae6a9e7fcd33a4",
+      "currentClaimProjectionSha256": "1a8d2bd10252d31f956eb8900ff49883e7682878d4ac54c3c4ae6a9e7fcd33a4"
+    },
+    {
+      "id": "phb-dmg:dmg-henchman-equipment-interest",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "b941fa342f5da9c36b1c17604f6cc8cdc1800b641fb20431a8f4842ab26e4067",
+      "currentClaimProjectionSha256": "b941fa342f5da9c36b1c17604f6cc8cdc1800b641fb20431a8f4842ab26e4067"
+    },
+    {
+      "id": "phb-dmg:dmg-henchman-quarters-interest",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "0d92ea12b5ae1d034b99dc6d8070f4891d7e411348bf4d9bc05b995a6fc91179",
+      "currentClaimProjectionSha256": "0d92ea12b5ae1d034b99dc6d8070f4891d7e411348bf4d9bc05b995a6fc91179"
+    },
+    {
+      "id": "phb-dmg:dmg-town-fee-duty-normal",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "fe1412e48175485a6f78fdd8f12a3d5775f0b7588e4c129473cc8078ae0ada35",
+      "currentClaimProjectionSha256": "fe1412e48175485a6f78fdd8f12a3d5775f0b7588e4c129473cc8078ae0ada35"
+    },
+    {
+      "id": "phb-dmg:dmg-town-fee-duty-foreign",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "b1b62544dd5f070ea4fbfb6352c5155516d095d271379772f2a856567bdc72d4",
+      "currentClaimProjectionSha256": "b1b62544dd5f070ea4fbfb6352c5155516d095d271379772f2a856567bdc72d4"
+    },
+    {
+      "id": "phb-dmg:dmg-town-fee-luxury-tariff",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "09b9b46653c8a5aad41feeef09c24d84fddbace9456891f0c1a9640c81fea1eb",
+      "currentClaimProjectionSha256": "09b9b46653c8a5aad41feeef09c24d84fddbace9456891f0c1a9640c81fea1eb"
+    },
+    {
+      "id": "phb-dmg:dmg-town-fee-entry-fee",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "08e3db309acd4fe4cb07b7b4dccee1d3c6cd51484d0418218e860667ab9d6a84",
+      "currentClaimProjectionSha256": "08e3db309acd4fe4cb07b7b4dccee1d3c6cd51484d0418218e860667ab9d6a84"
+    },
+    {
+      "id": "phb-dmg:dmg-town-fee-annual-poll-tax",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "ecc67c66e4becc33478aab14e253a1b36170a8a0384e025ddbd0910ffd896644",
+      "currentClaimProjectionSha256": "ecc67c66e4becc33478aab14e253a1b36170a8a0384e025ddbd0910ffd896644"
+    },
+    {
+      "id": "phb-dmg:dmg-town-fee-foreign-sales-tax",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "036639a229d73075ef006c29e63796fc754b899cb6bed5ade23ed3ba48b47580",
+      "currentClaimProjectionSha256": "036639a229d73075ef006c29e63796fc754b899cb6bed5ade23ed3ba48b47580"
+    },
+    {
+      "id": "phb-dmg:dmg-town-fee-property-tax",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "b84eb21884e4db09690e2116ec60701b76ca5b4e542a744cbf6981a8dad6d8db",
+      "currentClaimProjectionSha256": "b84eb21884e4db09690e2116ec60701b76ca5b4e542a744cbf6981a8dad6d8db"
+    },
+    {
+      "id": "phb-dmg:dmg-town-fee-citizenship",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "5d17547791dbaf4c987eef29c0b8d76234a5383c88ca55021b605d93789c8ea2",
+      "currentClaimProjectionSha256": "5d17547791dbaf4c987eef29c0b8d76234a5383c88ca55021b605d93789c8ea2"
+    },
+    {
+      "id": "phb-dmg:dmg-town-fee-foreign-currency-fine",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "1678c5b2f1941b2e35e6cf7919fae90de55fa3006aac4e2282cb8e4724930dfd",
+      "currentClaimProjectionSha256": "1678c5b2f1941b2e35e6cf7919fae90de55fa3006aac4e2282cb8e4724930dfd"
+    },
+    {
+      "id": "phb-dmg:dmg-town-fee-exchange-rate",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "4e12db9b2b0363c41e682340d2db43d1afb91b215a58fa132b37198c2ee004d1",
+      "currentClaimProjectionSha256": "4e12db9b2b0363c41e682340d2db43d1afb91b215a58fa132b37198c2ee004d1"
+    },
+    {
+      "id": "phb-dmg:dmg-town-fee-foreign-silver-threshold-fine",
+      "sameClaimIdentityAndMeaning": false,
+      "originalClaimProjectionSha256": "01944b94532f25ae821978a4ad203adb5b5f73d24ccdd9bd593453b2d15fded8",
+      "currentClaimProjectionSha256": "ea2026e99a6caac5ad37298571c5353c68c7fd52166737013c7d7d2fb9d3d15a"
+    },
+    {
+      "id": "phb-dmg:dmg-town-fee-precious-stone-transaction-surtax",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "56ff99315fb6a4dbdeb672155baaa33896ecc28a60b5799ab3a2a5f9acbe8939",
+      "currentClaimProjectionSha256": "56ff99315fb6a4dbdeb672155baaa33896ecc28a60b5799ab3a2a5f9acbe8939"
+    },
+    {
+      "id": "phb-dmg:dmg-placement-11-gp",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "23676b50bcb7e947f8bdadda6bbe075cb0094d1314d7f75852745592c381cced",
+      "currentClaimProjectionSha256": "23676b50bcb7e947f8bdadda6bbe075cb0094d1314d7f75852745592c381cced"
+    },
+    {
+      "id": "phb-dmg:dmg-placement-2000-cp",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "9b84b52dc6f75c66c6d15c030fe56571d9cd38f9244b4d25717a0fc976e0d671",
+      "currentClaimProjectionSha256": "9b84b52dc6f75c66c6d15c030fe56571d9cd38f9244b4d25717a0fc976e0d671"
+    },
+    {
+      "id": "phb-dmg:dmg-placement-bracelet-20gp",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "b9e5395839634e812c6cf1c9ae0ea2b957c1a8f82a9ab6ea33fe7c8568c8c19f",
+      "currentClaimProjectionSha256": "b9e5395839634e812c6cf1c9ae0ea2b957c1a8f82a9ab6ea33fe7c8568c8c19f"
+    },
+    {
+      "id": "phb-dmg:dmg-placement-ogre-wealth",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "583bf27f746a9db092848bb7203df4b86133782fab4cdb98ccb3d84bf0605adb",
+      "currentClaimProjectionSha256": "583bf27f746a9db092848bb7203df4b86133782fab4cdb98ccb3d84bf0605adb"
+    },
+    {
+      "id": "phb-dmg:dmg-placement-not-gem-1000",
+      "sameClaimIdentityAndMeaning": false,
+      "originalClaimProjectionSha256": "5eed32023817028cbcffaf8fcdc402c0159a49d2eee0c3619b42bc631acba44f",
+      "currentClaimProjectionSha256": "a984414feb7e0a055f89b57e6362959306638000bc2e92646443a4524cdd7a90"
+    },
+    {
+      "id": "phb-dmg:dmg-placement-goods-2000-nobles",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "ee4262a83f0af5aa9a2db487cedb113381a5e2258979a57a858d9a0d800e92b5",
+      "currentClaimProjectionSha256": "ee4262a83f0af5aa9a2db487cedb113381a5e2258979a57a858d9a0d800e92b5"
+    },
+    {
+      "id": "phb-dmg:dmg-placement-coffer-100gp",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "fcf1b2b0807e606d5c0a81be4ba79f0dea39418c7ecc8739bd4867e925b0b2bd",
+      "currentClaimProjectionSha256": "fcf1b2b0807e606d5c0a81be4ba79f0dea39418c7ecc8739bd4867e925b0b2bd"
+    },
+    {
+      "id": "phb-dmg:dmg-placement-necklace-350gp",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "e3158ede4fd3ed1b754471d74abc7430a07ce5a9f7542d3f15bb9a4c04c978ce",
+      "currentClaimProjectionSha256": "e3158ede4fd3ed1b754471d74abc7430a07ce5a9f7542d3f15bb9a4c04c978ce"
+    },
+    {
+      "id": "phb-dmg:dmg-placement-food-100-nobles",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "c98d0ebacbcb9dd8b4da6c5c881adbe33b6b56e6185448cbfeec7946e8ac6064",
+      "currentClaimProjectionSha256": "c98d0ebacbcb9dd8b4da6c5c881adbe33b6b56e6185448cbfeec7946e8ac6064"
+    },
+    {
+      "id": "phb-dmg:dmg-placement-fur-cape-50gp",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "a47e153d5a56d3ed1e1936feb44bcaf3aacdaa3236c7735d07887ad5cf5dc2c5",
+      "currentClaimProjectionSha256": "a47e153d5a56d3ed1e1936feb44bcaf3aacdaa3236c7735d07887ad5cf5dc2c5"
+    },
+    {
+      "id": "phb-dmg:dmg-placement-sword-3x",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "515114f46cb02d573294273a00ba05ffd97ccce3cdd603672b3ecaa7d26f6157",
+      "currentClaimProjectionSha256": "515114f46cb02d573294273a00ba05ffd97ccce3cdd603672b3ecaa7d26f6157"
+    },
+    {
+      "id": "phb-dmg:dmg-artifact-research-b",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "05932e41153252df0068aea1d7bb1c354205fa777e96858ac1e0275c69832ed5",
+      "currentClaimProjectionSha256": "05932e41153252df0068aea1d7bb1c354205fa777e96858ac1e0275c69832ed5"
+    },
+    {
+      "id": "phb-dmg:dmg-artifact-research-c",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "3d219318580d0a3d07e5fe092d3ff8a8fbcf06d1d350b738ec9c81e1b721d8be",
+      "currentClaimProjectionSha256": "3d219318580d0a3d07e5fe092d3ff8a8fbcf06d1d350b738ec9c81e1b721d8be"
+    },
+    {
+      "id": "phb-dmg:dmg-holy-water-vial",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "ed8d2bb2d1062bcbc9546cc6cab6409a84418d30e3108d396f044019c636872b",
+      "currentClaimProjectionSha256": "ed8d2bb2d1062bcbc9546cc6cab6409a84418d30e3108d396f044019c636872b"
+    },
+    {
+      "id": "phb-dmg:dmg-font-basin-copper",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "68437dd832a51e5a02aa800d1c9a38b8ee80d7a7dfbfdc6f5aab4a1092f96bf6",
+      "currentClaimProjectionSha256": "68437dd832a51e5a02aa800d1c9a38b8ee80d7a7dfbfdc6f5aab4a1092f96bf6"
+    },
+    {
+      "id": "phb-dmg:dmg-font-basin-silver",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "cae73625c003d8681eb79a726d8f8ab6a4a0fa6a795d167f89a81aa53ef90910",
+      "currentClaimProjectionSha256": "cae73625c003d8681eb79a726d8f8ab6a4a0fa6a795d167f89a81aa53ef90910"
+    },
+    {
+      "id": "phb-dmg:dmg-font-basin-electrum",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "167c4c70ca4a7d7d3b25e1e2c4a616b73db3f96cc436220015637077078a86c8",
+      "currentClaimProjectionSha256": "167c4c70ca4a7d7d3b25e1e2c4a616b73db3f96cc436220015637077078a86c8"
+    },
+    {
+      "id": "phb-dmg:dmg-font-basin-gold",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "8318e19d3260613b7893ea3c5746b9c58dc4af36d4feb92a03b40bdd45685307",
+      "currentClaimProjectionSha256": "8318e19d3260613b7893ea3c5746b9c58dc4af36d4feb92a03b40bdd45685307"
+    },
+    {
+      "id": "phb-dmg:dmg-font-basin-platinum",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "e026274262fd99666dade99c7992d948ceb77552bf107aedff783c0b120b8942",
+      "currentClaimProjectionSha256": "e026274262fd99666dade99c7992d948ceb77552bf107aedff783c0b120b8942"
+    },
+    {
+      "id": "phb-dmg:dmg-font-composite-price",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "709765c345c4aa276a27dd18aac66b604ef7e9e35e518fe33ac779ad796211de",
+      "currentClaimProjectionSha256": "709765c345c4aa276a27dd18aac66b604ef7e9e35e518fe33ac779ad796211de"
+    },
+    {
+      "id": "phb-dmg:dmg-font-order-time",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "7c9996b522df79a62421483743a709789720f4e8f53feee577bb10ae862304df",
+      "currentClaimProjectionSha256": "7c9996b522df79a62421483743a709789720f4e8f53feee577bb10ae862304df"
+    },
+    {
+      "id": "phb-dmg:dmg-font-defilement-cost",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "484a6fa1977d0a1303036cc65f75af3f7142975820a359f17a39be4faa4496a9",
+      "currentClaimProjectionSha256": "484a6fa1977d0a1303036cc65f75af3f7142975820a359f17a39be4faa4496a9"
+    },
+    {
+      "id": "phb-dmg:dmg-spell-research-base",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "336ae512c38cf1b6cc41bf59faaa065150a70327af744784b7dc788309a06b95",
+      "currentClaimProjectionSha256": "336ae512c38cf1b6cc41bf59faaa065150a70327af744784b7dc788309a06b95"
+    },
+    {
+      "id": "phb-dmg:dmg-spell-research-variable",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "b3d3cfa45e3db6fbfaa78ebaa33c30f2e3f558f42a05ce12d721e32fb4f19913",
+      "currentClaimProjectionSha256": "b3d3cfa45e3db6fbfaa78ebaa33c30f2e3f558f42a05ce12d721e32fb4f19913"
+    },
+    {
+      "id": "phb-dmg:dmg-spell-research-no-library",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "d29c5db3bb5e0ac0afca74ecbb26330db5081ee7c83420891d778d113873ecaa",
+      "currentClaimProjectionSha256": "d29c5db3bb5e0ac0afca74ecbb26330db5081ee7c83420891d778d113873ecaa"
+    },
+    {
+      "id": "phb-dmg:dmg-spell-research-minimum-time",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "a174fd798c8b4502e3b153efa0550870b362cdf0342081c2e4d6cb95c6cd15a0",
+      "currentClaimProjectionSha256": "a174fd798c8b4502e3b153efa0550870b362cdf0342081c2e4d6cb95c6cd15a0"
+    },
+    {
+      "id": "phb-dmg:dmg-spell-research-success-expenditure-1",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "e7140c7320d2d156415b7c6fb2a7547d413f0ffd928184461dd897eaac3bead5",
+      "currentClaimProjectionSha256": "e7140c7320d2d156415b7c6fb2a7547d413f0ffd928184461dd897eaac3bead5"
+    },
+    {
+      "id": "phb-dmg:dmg-spell-research-success-expenditure-2",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "cda2d03bf1e66910a0da6e0e86907e38a376cac901cbfff5d72e51ecc4fa1a3e",
+      "currentClaimProjectionSha256": "cda2d03bf1e66910a0da6e0e86907e38a376cac901cbfff5d72e51ecc4fa1a3e"
+    },
+    {
+      "id": "phb-dmg:dmg-spell-research-success-expenditure-3",
+      "sameClaimIdentityAndMeaning": false,
+      "originalClaimProjectionSha256": "519fa03df754fbaf3e66c096355f493d41a05a7d2e3b059eee9317f7121dc0fa",
+      "currentClaimProjectionSha256": "bab10aec8709c125f34fef5da6fcd77598c02e322376ced4f043a51ae7a9efe4"
+    },
+    {
+      "id": "phb-dmg:dmg-spell-research-success-expenditure-4",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "cc8d045fa1e1c8c6a07c2c7e0b025ab58609ed64524353b6b3451dd262b1eba1",
+      "currentClaimProjectionSha256": "cc8d045fa1e1c8c6a07c2c7e0b025ab58609ed64524353b6b3451dd262b1eba1"
+    },
+    {
+      "id": "phb-dmg:dmg-potion-workshop",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "1ca62a38da050c6ccc703085449c1fc2b4d1bc89a9efedafd4ede342778a6c05",
+      "currentClaimProjectionSha256": "1ca62a38da050c6ccc703085449c1fc2b4d1bc89a9efedafd4ede342778a6c05"
+    },
+    {
+      "id": "phb-dmg:dmg-potion-upkeep",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "0fce6ee0a109fa7323429f722dc77b8af9390419d7ad783769cf0f75928f6527",
+      "currentClaimProjectionSha256": "0fce6ee0a109fa7323429f722dc77b8af9390419d7ad783769cf0f75928f6527"
+    },
+    {
+      "id": "phb-dmg:dmg-potion-experience-cost",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "192e3fef7772fb1ed5c8fbb40d05a20adc608c7d579aad943a3bfe441c490e49",
+      "currentClaimProjectionSha256": "192e3fef7772fb1ed5c8fbb40d05a20adc608c7d579aad943a3bfe441c490e49"
+    },
+    {
+      "id": "phb-dmg:dmg-potion-alchemist-discount",
+      "sameClaimIdentityAndMeaning": false,
+      "originalClaimProjectionSha256": "a471573355e79d16789b7b73afbfad71998a327c5c98c8864299218c36b72816",
+      "currentClaimProjectionSha256": "e98c760eca5bf21f8d3ddb3e3bea63cc1f29ea28936e3b6abd8148868306b9da"
+    },
+    {
+      "id": "phb-dmg:dmg-scroll-material-papyrus",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "176024376f3e3b2b492c1d1def30984f8f92c4ad835bb6b213d1bdf630829f84",
+      "currentClaimProjectionSha256": "176024376f3e3b2b492c1d1def30984f8f92c4ad835bb6b213d1bdf630829f84"
+    },
+    {
+      "id": "phb-dmg:dmg-scroll-material-parchment",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "71d8de772bfa41d7e8d8687bb9a4c231b5166374e5278c01b472a621cbabe966",
+      "currentClaimProjectionSha256": "71d8de772bfa41d7e8d8687bb9a4c231b5166374e5278c01b472a621cbabe966"
+    },
+    {
+      "id": "phb-dmg:dmg-scroll-material-vellum",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "b01cddee242b98e6c6ec40451d0788cb63b15de174d93799bb1703f3dd81f3cc",
+      "currentClaimProjectionSha256": "b01cddee242b98e6c6ec40451d0788cb63b15de174d93799bb1703f3dd81f3cc"
+    },
+    {
+      "id": "phb-dmg:dmg-monetary-treasure-d100-1-2",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "69f5842c95d4a9c3eef6341ddb66cdbcb07cdb426dccdcf18fa166c16e4803cd",
+      "currentClaimProjectionSha256": "69f5842c95d4a9c3eef6341ddb66cdbcb07cdb426dccdcf18fa166c16e4803cd"
+    },
+    {
+      "id": "phb-dmg:dmg-monetary-treasure-d100-3-5",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "19eed82655f1acbf8a07fe4efbbe7bf95cf005fe83d27eeeb9d32f2381267e5b",
+      "currentClaimProjectionSha256": "19eed82655f1acbf8a07fe4efbbe7bf95cf005fe83d27eeeb9d32f2381267e5b"
+    },
+    {
+      "id": "phb-dmg:dmg-monetary-treasure-d100-6-10",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "a70eddbe2160224240dce45c94174950e498111d5db031dfef89a36701897f03",
+      "currentClaimProjectionSha256": "a70eddbe2160224240dce45c94174950e498111d5db031dfef89a36701897f03"
+    },
+    {
+      "id": "phb-dmg:dmg-monetary-treasure-d100-11-12",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "f3b1b8e509a1344459312a144b072876e65c5fa7b15d6d6f1dbc72f09ae8d4c9",
+      "currentClaimProjectionSha256": "f3b1b8e509a1344459312a144b072876e65c5fa7b15d6d6f1dbc72f09ae8d4c9"
+    },
+    {
+      "id": "phb-dmg:dmg-monetary-treasure-d100-13-15",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "9716d640f66e0ce456c5b97e252711afba493f9ea37de84bce5d1fb5035df263",
+      "currentClaimProjectionSha256": "9716d640f66e0ce456c5b97e252711afba493f9ea37de84bce5d1fb5035df263"
+    },
+    {
+      "id": "phb-dmg:dmg-monetary-treasure-d100-16-17",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "aa2b9a9033089d9b28731a37cba6c232865d6a6aaffec444d233b5f1e682213d",
+      "currentClaimProjectionSha256": "aa2b9a9033089d9b28731a37cba6c232865d6a6aaffec444d233b5f1e682213d"
+    },
+    {
+      "id": "phb-dmg:dmg-monetary-treasure-d100-18",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "d8bb1bb3dfeddd13c69a99ddeefbd1de4f59781990f5083bbf68a3a0aaba921f",
+      "currentClaimProjectionSha256": "d8bb1bb3dfeddd13c69a99ddeefbd1de4f59781990f5083bbf68a3a0aaba921f"
+    },
+    {
+      "id": "phb-dmg:dmg-monetary-treasure-d100-19",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "73b06c5ce0cf5320f77f0063fd1d4c185ff062d17f59d4602e2a898857729e6d",
+      "currentClaimProjectionSha256": "73b06c5ce0cf5320f77f0063fd1d4c185ff062d17f59d4602e2a898857729e6d"
+    },
+    {
+      "id": "phb-dmg:dmg-monetary-treasure-d100-20",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "c878c714d82b3f6cf38db800a5be1b49afae872a097eb5410d75c594ef138d96",
+      "currentClaimProjectionSha256": "c878c714d82b3f6cf38db800a5be1b49afae872a097eb5410d75c594ef138d96"
+    },
+    {
+      "id": "phb-dmg:dmg-combined-hoard-01-20",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "d3791974d0f9b32bfacfc3e2454c0e077f8cb2bc6204ce2e7701021f76cde71d",
+      "currentClaimProjectionSha256": "d3791974d0f9b32bfacfc3e2454c0e077f8cb2bc6204ce2e7701021f76cde71d"
+    },
+    {
+      "id": "phb-dmg:dmg-combined-hoard-21-40",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "409c9856e26aa0f92a0b54c9540edab1e10acc9875cb531e2c948b927bcbbbe0",
+      "currentClaimProjectionSha256": "409c9856e26aa0f92a0b54c9540edab1e10acc9875cb531e2c948b927bcbbbe0"
+    },
+    {
+      "id": "phb-dmg:dmg-combined-hoard-41-55",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "c1a12803fb68d1e3f66838029505a8aa18c80fe6488037ed985e2f4213dc7577",
+      "currentClaimProjectionSha256": "c1a12803fb68d1e3f66838029505a8aa18c80fe6488037ed985e2f4213dc7577"
+    },
+    {
+      "id": "phb-dmg:dmg-combined-hoard-56-65",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "85b83ab14bca2c01d349538822b32c74127e26400a7de67d4eac918d4a2b460b",
+      "currentClaimProjectionSha256": "85b83ab14bca2c01d349538822b32c74127e26400a7de67d4eac918d4a2b460b"
+    },
+    {
+      "id": "phb-dmg:dmg-combined-hoard-66-75",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "1edabc4c12d2df04fd5e876b0b91abb3cee620431d6836896dbd7c32591c4e57",
+      "currentClaimProjectionSha256": "1edabc4c12d2df04fd5e876b0b91abb3cee620431d6836896dbd7c32591c4e57"
+    },
+    {
+      "id": "phb-dmg:dmg-combined-hoard-76-80",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "7e915fcee071bf546a2eb44bba839eaf0f94cd017ab666122609f43a2e7f5054",
+      "currentClaimProjectionSha256": "7e915fcee071bf546a2eb44bba839eaf0f94cd017ab666122609f43a2e7f5054"
+    },
+    {
+      "id": "phb-dmg:dmg-combined-hoard-81-85",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "a22a7791127229d1aa559b12ef84e702ea49f453d5573a7bd789620f25637d6b",
+      "currentClaimProjectionSha256": "a22a7791127229d1aa559b12ef84e702ea49f453d5573a7bd789620f25637d6b"
+    },
+    {
+      "id": "phb-dmg:dmg-combined-hoard-86-90",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "44ef397e5dc2d0887f8c59da1ddaaba747eb86a1c4b420fea3f42ecea20fec66",
+      "currentClaimProjectionSha256": "44ef397e5dc2d0887f8c59da1ddaaba747eb86a1c4b420fea3f42ecea20fec66"
+    },
+    {
+      "id": "phb-dmg:dmg-combined-hoard-91-96",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "381258b438fe74231c0dc36dce73810ff31096596d6a21f91e4ed8307c97e499",
+      "currentClaimProjectionSha256": "381258b438fe74231c0dc36dce73810ff31096596d6a21f91e4ed8307c97e499"
+    },
+    {
+      "id": "phb-dmg:dmg-combined-hoard-97-00",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "6135af5c5332e9f45b5ee62e1a084b3463146d58f1e4a45e91c050808d679802",
+      "currentClaimProjectionSha256": "6135af5c5332e9f45b5ee62e1a084b3463146d58f1e4a45e91c050808d679802"
+    },
+    {
+      "id": "phb-dmg:dmg-map-to-monetary-treasure",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "36eced768f7463c668329aa3dea8b816b249a8a9172d0465d2f527436fa50ebe",
+      "currentClaimProjectionSha256": "36eced768f7463c668329aa3dea8b816b249a8a9172d0465d2f527436fa50ebe"
+    },
+    {
+      "id": "phb-dmg:dmg-wand-of-wonder-gems-88-90",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "26b2e028db4aa4d954fa7dc99afa1386b3cea0bd601e81a00137a6e5482b5200",
+      "currentClaimProjectionSha256": "26b2e028db4aa4d954fa7dc99afa1386b3cea0bd601e81a00137a6e5482b5200"
+    },
+    {
+      "id": "phb-dmg:dmg-everfull-purse-01-50",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "6f3a4b2803e60249c087bd5f2e1166f8a737d2b2dc3204ffa6920e84c6882f4c",
+      "currentClaimProjectionSha256": "6f3a4b2803e60249c087bd5f2e1166f8a737d2b2dc3204ffa6920e84c6882f4c"
+    },
+    {
+      "id": "phb-dmg:dmg-everfull-purse-51-90",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "b6d89aebc9362605807668645edc197877db623139bd892b9c4b479998b44027",
+      "currentClaimProjectionSha256": "b6d89aebc9362605807668645edc197877db623139bd892b9c4b479998b44027"
+    },
+    {
+      "id": "phb-dmg:dmg-everfull-purse-91-00",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "8447c61c6c8ca85fc4f230e21177af297f83f59816230904ce488fd2a53139e8",
+      "currentClaimProjectionSha256": "8447c61c6c8ca85fc4f230e21177af297f83f59816230904ce488fd2a53139e8"
+    },
+    {
+      "id": "phb-dmg:dmg-everfull-purse-gem-value",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "717ceaa79cda934902f65c7d7c688108f87fdc3081bd65406950d566a7139d52",
+      "currentClaimProjectionSha256": "717ceaa79cda934902f65c7d7c688108f87fdc3081bd65406950d566a7139d52"
+    },
+    {
+      "id": "phb-dmg:dmg-deck-gem-card",
+      "sameClaimIdentityAndMeaning": false,
+      "originalClaimProjectionSha256": "7b2664c3874db56a4576f8d15fb9bc5f3239197f45613220c926e26f0a24cc72",
+      "currentClaimProjectionSha256": "989a9fade0813cb9486508a81d5754ea9e8cf8bb1106b402a88e6f0f749efbdd"
+    },
+    {
+      "id": "phb-dmg:dmg-robe-useful-items-01-08",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "616463ad283a52f34096529da76c9f6ade88c61b037dcd0b4f89ba9c9321e30c",
+      "currentClaimProjectionSha256": "616463ad283a52f34096529da76c9f6ade88c61b037dcd0b4f89ba9c9321e30c"
+    },
+    {
+      "id": "phb-dmg:dmg-robe-useful-items-09-15",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "57d8bb8bd3675fdfbe43f2a51a86798b1d400e0e7948bde4df45d1d1eae785fe",
+      "currentClaimProjectionSha256": "57d8bb8bd3675fdfbe43f2a51a86798b1d400e0e7948bde4df45d1d1eae785fe"
+    },
+    {
+      "id": "phb-dmg:dmg-robe-useful-items-23-30",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "3c6a1877c737ea9424be256938693675ca28d326ce5314209ee33a2bd4035744",
+      "currentClaimProjectionSha256": "3c6a1877c737ea9424be256938693675ca28d326ce5314209ee33a2bd4035744"
+    },
+    {
+      "id": "phb-dmg:dmg-treasure-by-level-01-25",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "4afc06000128e7f29d0152d8dfa7d866704199d8be5886febca0d555ca403cea",
+      "currentClaimProjectionSha256": "4afc06000128e7f29d0152d8dfa7d866704199d8be5886febca0d555ca403cea"
+    },
+    {
+      "id": "phb-dmg:dmg-treasure-by-level-26-50",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "fd7e0d80acd02029a0c0d8e6c6a340730ebbabfa52cf2ae3492390f3b02196ba",
+      "currentClaimProjectionSha256": "fd7e0d80acd02029a0c0d8e6c6a340730ebbabfa52cf2ae3492390f3b02196ba"
+    },
+    {
+      "id": "phb-dmg:dmg-treasure-by-level-51-65",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "cd07e4e2e8bb774dd186d7f07f2369d50170ce15706ef7196673137122cadd29",
+      "currentClaimProjectionSha256": "cd07e4e2e8bb774dd186d7f07f2369d50170ce15706ef7196673137122cadd29"
+    },
+    {
+      "id": "phb-dmg:dmg-treasure-by-level-66-80",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "e8457ee689abd80af6669821729ab1aa4f4a5dcbfb17dd4e190201e3987d1cd5",
+      "currentClaimProjectionSha256": "e8457ee689abd80af6669821729ab1aa4f4a5dcbfb17dd4e190201e3987d1cd5"
+    },
+    {
+      "id": "phb-dmg:dmg-treasure-by-level-81-90",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "97eab1ba3858d6baf9a2834371337a8f269044b32d86a86721fa807648418713",
+      "currentClaimProjectionSha256": "97eab1ba3858d6baf9a2834371337a8f269044b32d86a86721fa807648418713"
+    },
+    {
+      "id": "phb-dmg:dmg-treasure-by-level-91-94",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "93b7e18d5f32f22974cf9f94c2edac8ce687770d87f258e8bae3caf855ca19a3",
+      "currentClaimProjectionSha256": "93b7e18d5f32f22974cf9f94c2edac8ce687770d87f258e8bae3caf855ca19a3"
+    },
+    {
+      "id": "phb-dmg:dmg-treasure-by-level-95-97",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "4bc2db3aef4a00235b083c8491760efa07ae41cbc75da3d655604de427ed14ae",
+      "currentClaimProjectionSha256": "4bc2db3aef4a00235b083c8491760efa07ae41cbc75da3d655604de427ed14ae"
+    },
+    {
+      "id": "phb-dmg:dmg-treasure-by-level-98-00",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "39b5b71ed7fe3b6ae17a7223284527c496b5dc473664d5297fddeb900aaecf71",
+      "currentClaimProjectionSha256": "39b5b71ed7fe3b6ae17a7223284527c496b5dc473664d5297fddeb900aaecf71"
+    },
+    {
+      "id": "phb-dmg:dmg-treasure-by-level-with-monster",
+      "sameClaimIdentityAndMeaning": true,
+      "originalClaimProjectionSha256": "75c0018187aa14973895ee4d51df88f9d6b815d9cd6bc61d7e3e3400258bcbdb",
+      "currentClaimProjectionSha256": "75c0018187aa14973895ee4d51df88f9d6b815d9cd6bc61d7e3e3400258bcbdb"
+    }
+  ],
+  "partTransportChecks": [
+    {
+      "id": "phb-dmg:dmg-info-discovery-row-01",
+      "status": "declared-source-context-parts-linked",
+      "parts": 2,
+      "allClaimsRetainExactParts": true
+    },
+    {
+      "id": "phb-dmg:dmg-info-discovery-row-02",
+      "status": "declared-source-context-parts-linked",
+      "parts": 2,
+      "allClaimsRetainExactParts": true
+    },
+    {
+      "id": "phb-dmg:dmg-info-discovery-row-03",
+      "status": "declared-source-context-parts-linked",
+      "parts": 2,
+      "allClaimsRetainExactParts": true
+    },
+    {
+      "id": "phb-dmg:dmg-info-discovery-row-04",
+      "status": "declared-source-context-parts-linked",
+      "parts": 2,
+      "allClaimsRetainExactParts": true
+    },
+    {
+      "id": "phb-dmg:dmg-sage-unknown-half",
+      "status": "declared-source-context-parts-linked",
+      "parts": 2,
+      "allClaimsRetainExactParts": true
+    },
+    {
+      "id": "phb-dmg:dmg-sage-specific-unsolved",
+      "status": "declared-source-context-parts-linked",
+      "parts": 2,
+      "allClaimsRetainExactParts": true
+    },
+    {
+      "id": "phb-dmg:dmg-wand-of-wonder-gems-88-90",
+      "status": "declared-source-context-parts-linked",
+      "parts": 2,
+      "allClaimsRetainExactParts": true
+    },
+    {
+      "id": "phb-dmg:dmg-deck-gem-card",
+      "status": "declared-source-context-parts-linked",
+      "parts": 2,
+      "allClaimsRetainExactParts": true
+    }
+  ],
+  "boundedSemanticReview": [
+    "Derived6000gp appears once as derived-amount with isSourcePrinted=false; three printed basis entries/method remain evidence, never independent claims.",
+    "Deck monetary extraction retains only explicitly stated1000gp per gem; alternative20 jewelry/50 gems remain typed quantity choices and ordered table/value-page evidence, with no inferred jewelry valuation or total.",
+    "Alchemist explicit50% time becomes non-monetary; monetary percentage/components remain uncertain rather than inferred.",
+    "Silver nobles remains the literal100-unit foreign-coin threshold;50% fine remains a separate rate and24-hour exception is retained.",
+    "All eight commodity conditions retain the unresolved d10 applicability question; no source-scope ambiguity is cleared.",
+    "No derivation, method, sourceBasis, unit, conditions or quantity metadata pointer is emitted as an independent money claim anywhere in the bounded candidate index.",
+    "All165 other PHB/DMG rows preserve claim IDs and monetary meanings exactly; explicit14 changes match the corrected data scope. All16 ordered parts across8 rows survive in both occurrence and associated claims."
+  ],
+  "limits": [
+    "This is an extraction/schema/transport code review, not whole-book source verification or a field-value grade.",
+    "The real V3 supplemental metadata passes; malformed metadata cases are synthetic guard controls and are not asserted to be active source defects.",
+    "Four poison C/D source-note dependencies remain separately pending V4 source review.",
+    "The index keeps independentSemanticReview pending and all retained unresolved source questions; structural linked status is not a semantic pass."
+  ],
+  "sourceMutations": false,
+  "fieldValueGradesPromoted": false,
+  "defaultSelectionsApproved": false,
+  "passed": true
+}

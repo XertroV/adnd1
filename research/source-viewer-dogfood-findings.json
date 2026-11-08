@@ -269,6 +269,49 @@
       "followupEvidence": [
         "tests/source-viewer-header.browser.mjs"
       ]
+    },
+    {
+      "id": "dogfood-rapid-source-history-close",
+      "category": "source-navigation-event-order",
+      "status": "fixed-interim-deployment-verified",
+      "observedStartingRoute": "#equipment/ua-aklys-hurled?source=UA%3A26&region=ua-equipment-price-table&field=%2Fprice",
+      "reason": "A queued dialog close caused by Back could erase the source URL restored by Forward. Navigation closure now preserves that URL; explicit user dismissal retains normal route cleanup.",
+      "beforeEvidence": {
+        "path": "research/source-audit-batch5-rapid-history-before.json.gz",
+        "sha256": "bf8a2894c4d9cf198ce46820970d04858cb5f4497ee1bdcf8ba1fa007e4d8496"
+      },
+      "additionalSyntheticBefore": {
+        "path": "research/source-audit-batch5-user-close-navigation-before.json.gz",
+        "sha256": "837ef8cc88ce2dc00b46ca6a2a3dcd77f1fd400791e316927c78172b9273c8bb"
+      },
+      "currentEvidence": {
+        "path": "research/source-audit-batch5-rapid-history-final-native-verification.json",
+        "sha256": "864b3fe2ed1724bc1fd1729bd9b0bec05d16f873205f987cb09c55cab3e06ce5"
+      },
+      "independentReview": {
+        "path": "research/source-audit-batch5-rapid-history-final-independent-review.json",
+        "sha256": "c302ad2c5ae2d63cdaf86249315dd7d1591202140c403372e0c22ece4251a427"
+      },
+      "validation": {
+        "nativeBefore": {
+          "sequences": 16,
+          "failures": 5
+        },
+        "nativeAfter": {
+          "sequences": 16,
+          "failures": 0
+        },
+        "ordinaryDesktopMobileCases": 12,
+        "regressionNodeTests": 5,
+        "adjacentNodeTestsIncludingRegression": 33,
+        "extraUserCloseThenNavigationSchedule": "synthetic only; no exact native reproduction claimed"
+      },
+      "scope": "Source-modal URL/close lifecycle only; no field/value/image/geometry/source-semantic grades changed. Representative timing checks do not certify every possible schedule.",
+      "deploymentEvidence": {
+        "path": "research/source-audit-batch5-interim-pr28-live-verification.json",
+        "sha256": "fa05606a8c04d6296d806f19c2d3107dcec294aee48d12bd48d284a54a75f331"
+      },
+      "deploymentScope": "Rapid source-history route-close correction deployed in PR28/Version6. Complete main audit viewer source and data remain a separate release."
     }
   ],
   "contextualReviewRequests": [
@@ -297,7 +340,7 @@
       "id": "reported-long-sword-context",
       "entry": "#equipment/phb-long-sword",
       "status": "context-and-field-target-repairs-applied",
-      "reason": "PHB35 purchase price, PHB37 weight/damage, PHB38 general data and UA27 general data use complete table context and calibrated row focus. The PHB38 focus includes every AC2–10 cell. Field-value grades remain separate.",
+      "reason": "PHB35 purchase price, PHB37 weight/damage, PHB38 general data and UA27 general data use complete table context and calibrated row focus. The PHB38 focus includes every AC2\u201310 cell. Field-value grades remain separate.",
       "supersedes": {
         "record": {
           "id": "reported-long-sword-context",
@@ -348,7 +391,7 @@
       "PHB33 human two-class worked example continues in the right column on the same page.",
       "Contextual links require distinct UI route, semantic field owner and displayed source owner identities.",
       "All-price source-row overlay initially misclassified101 reviewed mappings because it required a legacy match before applying the new mapping; the failure is preserved as a regression.",
-      "The first PHB38 Long Sword focus proposal omitted AC8–10, and Arrow price focus missed terminal currency punctuation. Preserved failing focus fixtures drove the corrected bounds before application.",
+      "The first PHB38 Long Sword focus proposal omitted AC8\u201310, and Arrow price focus missed terminal currency punctuation. Preserved failing focus fixtures drove the corrected bounds before application.",
       "Holy/Unholy price rows require the shared footnote in their evidence focus; the first recipe omitted that dependency.",
       "UA Garrot is1 ep, not1 gp in the historical inventory. DMG obsidian vase is printed217/PDF217, notPDF218; both corrections retain failing source snapshots.",
       "The UA28 text layer omits visible Aklys/Atlatl/Axe rows, so pixel review is necessary even when OCR-based detection reports no boundary issue."

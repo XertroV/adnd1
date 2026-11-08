@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "pd179-first90-review-version-lineage",
+  "status": "sealed predecessor restored exactly; corrected review preserved at a new versioned path; no seal registry edits performed here",
+  "recovery": {
+    "predecessor": {
+      "path": "research/source-audit-batch5-pd179-first90-independent-review.json",
+      "sha256": "c529f2fb569762f39a0aa54992bd9210ada1f7e18852066a06d1c23289499b39",
+      "sizeBytes": 280752,
+      "markdownPath": "research/source-audit-batch5-pd179-first90-independent-review.md",
+      "markdownSha256": "decde159fde704db659235048ac46483d6251b86881c68fc7e29ef78d346d26a",
+      "markdownSizeBytes": 3089,
+      "recoveryMethod": "Reconstructed prior JSON/Markdown bytes from the V2 row report and the exact pre-correction generator inputs; both SHA-256 values matched the originally reported sealed hashes before restoring the original paths."
+    },
+    "supersedingVersion": {
+      "path": "research/source-audit-batch5-pd179-first90-independent-review-v2.json",
+      "sha256": "97f768958efefba231e05e3c2bcc528ff4d2aec063b25b65275e314117a33d51",
+      "sizeBytes": 280816,
+      "markdownPath": "research/source-audit-batch5-pd179-first90-independent-review-v2.md",
+      "markdownSha256": "4a3164766b04002ca44ffd8835be9e69d12ab5dcaadda48f35035bb9394746f1",
+      "markdownSizeBytes": 3380,
+      "changes": [
+        "Corrected poison marker uncertainty from 9 rows to the four C/D rows only; A/B definitions are explained in the source crop, ingestive E is unmarked.",
+        "Clarified method: the all-row context overlays were visually reviewed for all90 focus boxes, while individual overlays were hash-checked and individually viewed for disputed rows, avoiding an overstatement that every individual overlay PNG was opened.",
+        "Added a source-wide marker-search pending limitation."
+      ]
+    },
+    "sealRegistryObservedAtRecovery": {
+      "path": "research/citation-evidence-seals.json",
+      "note": "At inspection it still contained entries for the v2 hash under the original base filename; parent needs to reconcile/register the restored v1 base and versioned v2 paths append-only. This worker did not edit the seal registry."
+    }
+  },
+  "unchangedScope": {
+    "candidateSha256": "e4b6e39315ae1a0615364e0ad6d1f9ced6109067a9601f3d92603b8ff6931b0a",
+    "overlayIndexSha256": "8e6cbdf3afa39e979e94108ae6b92ff169d47db42ed12010f1202974e80951f1",
+    "reviewedRows": 90,
+    "candidateRows": 179
+  },
+  "historicalCaveat": "The predecessor remains preserved as historically sealed, even though the v2 review corrects its poison uncertainty denominator and clarifies its overlay-inspection method statement. Do not rewrite the predecessor or claim its assertions were retroactively changed."
+}

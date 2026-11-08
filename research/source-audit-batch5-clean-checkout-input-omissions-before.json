@@ -1,0 +1,30 @@
+{
+  "artifactType": "clean-checkout-input-omission-before-repair",
+  "commit": "8b19e8cca81e1d6c126ff064edc88ec5966b2952",
+  "sourcePayloadChanged": false,
+  "cleanTestResults": {
+    "total": 727,
+    "passed": 725,
+    "failed": 2
+  },
+  "failures": [
+    {
+      "test": "historical before CLI reproduces all four frozen source bindings to a new output",
+      "missingPath": "artifacts/monetary-source-inventory-before-source-corrections/index.json",
+      "originalSha256": "472771cc6925c176ebf4eaed5030dc35c1764d53db164a7eda2f9f86e46a004a",
+      "cause": "historical CLI test read an ignored local artifact instead of materializing its exact frozen input fixture"
+    },
+    {
+      "test": "current UA26 catalog rows, p.27 notes and group proposals preserve reviewed scopes",
+      "missingPath": "research/source-audit-batch5-ua26-continuation-group-proposals.json",
+      "originalSha256": "cb113a2dfeaee3d5592a5ce070a9ba5b269b811a277aafbbba7457c7911b78bc",
+      "cause": "referenced historical proposal excluded by proposals.json ignore rule"
+    }
+  ],
+  "failureLog": {
+    "path": "tests/fixtures/batch5-clean-checkout-missing-inputs-before.log.gz",
+    "sha256": "d53669041f006f7fa3b3d29b87353bdac522bf0773fbe8e9fa6364e6434f5efc",
+    "sizeBytes": 26449
+  },
+  "recoveryScope": "Publish exact referenced proposal; gzip exact archived index and materialize at original frozen path in isolated test root. No change to source values, frozen contracts, expected counts or current source tools."
+}

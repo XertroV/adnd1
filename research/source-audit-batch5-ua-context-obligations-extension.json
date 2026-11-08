@@ -1,0 +1,2272 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "immutable-UA source-context and row-note finding extension before V3 context corrections",
+  "capturedBeforeSourceCorrections": true,
+  "capturedAfterDetectorAndFullDenominatorBaseline": true,
+  "baseline": {
+    "path": "research/source-audit-batch5-monetary-row-identity-baseline.json",
+    "sha256": "bd4973e1eca69a56b64adf3758ccce3683783815dea38bb8ca6ec9f33e898bb9"
+  },
+  "sourceInput": {
+    "path": "research/source-audit-batch5-ua-additional-prices.json",
+    "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+  },
+  "fullDetectorBefore": {
+    "path": "/tmp/batch5-ua-source-context-obligations-v2-before-20261107/baseline-v2.3-classfocus-full-annotations.json",
+    "sha256": "062e722cda9ca017674eedd14ce806bf26108e7d702ba0432d6fadd65d4fd2f1",
+    "gzipPath": "/tmp/batch5-ua-source-context-v3-prep-20261107-v3/baseline-v2.3-classfocus-full-annotations-062e722c.json.gz",
+    "gzipSha256": "ee30b00f77d85a4b5dcf8878ddd97e7630777857cb6ba7b947dd4a03e4933c6b",
+    "decompressedSha256": "062e722cda9ca017674eedd14ce806bf26108e7d702ba0432d6fadd65d4fd2f1"
+  },
+  "independentPixelAndContextReview": {
+    "path": "/tmp/batch5-independent-ua-v2-context-review/context-obligation-inventory.json",
+    "sha256": "cde345e998f86ea30d4a048cfd4823a2377d519c196c06a5fc2f69ae0134b3f8"
+  },
+  "independentSourceNoteDefinitionInventory": {
+    "path": "/tmp/batch5-independent-ua-marker-definition-inventory/marker-resolution-before.json",
+    "sha256": "fecc944a08b27ebdc4155ffe85fd8e488b664177a6b8ab82855eba9238e1328f"
+  },
+  "preservedV2Candidate": {
+    "path": "/tmp/batch5-ua-additional-prices-corrected-candidate-v2.json",
+    "sha256": "1cfa4e30f2d1074a22cef0c688c5a2813ea749c912817eaaf1aae2cb674f89d5"
+  },
+  "preservedV2Operations": {
+    "path": "/tmp/batch5-ua-additional-prices-corrective-ops-v2.json",
+    "sha256": "28605a70d8f964e9770c417096b7c0e4054e4e55188141a656c35502e889e021"
+  },
+  "denominators": {
+    "originalRows": 583,
+    "groups": 15,
+    "physicalDefinitions": 23,
+    "originalLegacyContexts": 33,
+    "currentV2ActiveContexts": 38,
+    "rowDefinitionJoins": 103,
+    "rowsWithDefinitionJoins": 98,
+    "confirmedMissingRowLinkedDefinitionJoins": 22,
+    "uniqueRowsWithMissingDefinitionJoins": 21,
+    "confirmedBoundedSubjectContextBlocks": 6,
+    "contentBlockGroups": 4,
+    "subjectOnlyRowsBeyondNoteJoinRows": 9,
+    "uniqueAffectedSourceRowsAcrossThisExtension": 30,
+    "applicabilityReviewed": 0,
+    "applicabilityUncertain": 103,
+    "sourceValueOrPriceFindings": 0,
+    "rowFocusFindings": 0
+  },
+  "knownFindings": [
+    {
+      "id": "ua-potion-a1-note-context-unlinked",
+      "kind": "source-context-crop-defect",
+      "independent": true,
+      "reviewScope": "source-context extent and explicit row→context join only; no source-value, price, row-focus, marker applicability, or semantic approval",
+      "sourceInputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "contextReviewReceipt": {
+        "path": "/tmp/batch5-independent-ua-v2-context-review/context-obligation-inventory.json",
+        "sha256": "cde345e998f86ea30d4a048cfd4823a2377d519c196c06a5fc2f69ae0134b3f8"
+      },
+      "baselineV2": {
+        "path": "/tmp/batch5-ua-source-context-obligations-v2-before-20261107/baseline-v2.3-classfocus-full-annotations.json",
+        "sha256": "062e722cda9ca017674eedd14ce806bf26108e7d702ba0432d6fadd65d4fd2f1"
+      },
+      "sourceGroupId": "ua-other-002",
+      "originalLegacyContextTargetIds": [
+        "legacy:ua-other-002:potion-a1-main",
+        "legacy:ua-other-002:potion-a1-cont"
+      ],
+      "affectedSourceRowUids": [
+        "ua-supplement-row:ua-other-002-potion-a1-main-r001",
+        "ua-supplement-row:ua-other-002-potion-a1-main-r005",
+        "ua-supplement-row:ua-other-002-potion-a1-main-r007",
+        "ua-supplement-row:ua-other-002-potion-a1-main-r013",
+        "ua-supplement-row:ua-other-002-potion-a1-main-r014",
+        "ua-supplement-row:ua-other-002-potion-a1-main-r018",
+        "ua-supplement-row:ua-other-002-potion-a1-cont-r029",
+        "ua-supplement-row:ua-other-002-potion-a1-cont-r034"
+      ],
+      "records": [
+        {
+          "uid": "ua-supplement-row:ua-other-002-potion-a1-main-r001",
+          "recordId": "ua-other-002-potion-a1-main-r001",
+          "sourceRecordPointer": "/rowRecords/17",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "f1592b89148354d142785dafb852717dc7816969da0a671a1c00bb99b657205b",
+          "rowIdentitySha256": "89abb1eb6ddca0b5c652efbbeb0c26be9606f54086396e9e8fefee2f8906ae84",
+          "focusGeometrySha256": "403c64640566ac0aa7e20eb6b6b0cf078d45fcaee4e220eda4cc1791010017a1",
+          "contextGeometrySha256": "977f4e652727bd54ab5b0a76fbf9547f3cbf194a9df1b6482dc72aebffc618e5",
+          "contextEvidenceSha256": "8c2d6b1501e0fbadaf5679b0090bb293365f47eaf260b206f5ca0d20bbc1f2e4",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 84,
+            "pdfPage": 85,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "potion-a1-main",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            450,
+            295,
+            745
+          ],
+          "originalContextSourceRenderSha256": "81d29b373790149a353b9861e14ed438732e4ae02eda8f780cceaf153258f742",
+          "originalContextSourceRenderDimensionsPx": [
+            1501,
+            1916
+          ],
+          "existingFindingIds": [
+            "ua-source-marker-ua-other-002-potion-a1-main-r001"
+          ],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p84-potion-single-star",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                312,
+                394.56,
+                571.18,
+                413.94
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 84,
+                "pdfPage": 85
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-002:potion-a1-main:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-002-potion-a1-main-r005",
+          "recordId": "ua-other-002-potion-a1-main-r005",
+          "sourceRecordPointer": "/rowRecords/21",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "662ec1ab73ca9af5b80dd69b8dce420698754a3e54e101f9ec87e5c71408c945",
+          "rowIdentitySha256": "c3aa811e659a0006f32f96f1559f7176c9c32d7ac92ab5883d13c818cea67a9c",
+          "focusGeometrySha256": "21887d7419adfd7e6d8ffead20f56a5fbecd1a324e341f8dfac6220d1a219d8d",
+          "contextGeometrySha256": "977f4e652727bd54ab5b0a76fbf9547f3cbf194a9df1b6482dc72aebffc618e5",
+          "contextEvidenceSha256": "8c2d6b1501e0fbadaf5679b0090bb293365f47eaf260b206f5ca0d20bbc1f2e4",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 84,
+            "pdfPage": 85,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "potion-a1-main",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            450,
+            295,
+            745
+          ],
+          "originalContextSourceRenderSha256": "81d29b373790149a353b9861e14ed438732e4ae02eda8f780cceaf153258f742",
+          "originalContextSourceRenderDimensionsPx": [
+            1501,
+            1916
+          ],
+          "existingFindingIds": [
+            "ua-source-marker-ua-other-002-potion-a1-main-r005"
+          ],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p84-potion-double-star",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                311.5,
+                423.06,
+                572.45,
+                452.04
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 84,
+                "pdfPage": 85
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-002:potion-a1-main:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-002-potion-a1-main-r007",
+          "recordId": "ua-other-002-potion-a1-main-r007",
+          "sourceRecordPointer": "/rowRecords/23",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "5ca8f1fe62f92921ec25ef710ee7ad50b57f3cf48193b08f423c03ee32058c2c",
+          "rowIdentitySha256": "e59b4e91da6c60d0c66c7834e0afe1782fc13807954881d6e4837edeab86af18",
+          "focusGeometrySha256": "c2621de26b29951fe28c12dcfb0a158e8926cfb7c85e70222b77fcf4016ef1d1",
+          "contextGeometrySha256": "977f4e652727bd54ab5b0a76fbf9547f3cbf194a9df1b6482dc72aebffc618e5",
+          "contextEvidenceSha256": "8c2d6b1501e0fbadaf5679b0090bb293365f47eaf260b206f5ca0d20bbc1f2e4",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 84,
+            "pdfPage": 85,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "potion-a1-main",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            450,
+            295,
+            745
+          ],
+          "originalContextSourceRenderSha256": "81d29b373790149a353b9861e14ed438732e4ae02eda8f780cceaf153258f742",
+          "originalContextSourceRenderDimensionsPx": [
+            1501,
+            1916
+          ],
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p84-potion-single-star",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                312,
+                394.56,
+                571.18,
+                413.94
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 84,
+                "pdfPage": 85
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-002:potion-a1-main:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-002-potion-a1-main-r013",
+          "recordId": "ua-other-002-potion-a1-main-r013",
+          "sourceRecordPointer": "/rowRecords/29",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "da12c95697dfb3154eae986c4a82bde94d59e3fae7e24e5cdff41ec655e6d9b3",
+          "rowIdentitySha256": "f6c64f03185b531888657188eb83c978d883f97c66a249f569e3bc01e25e4778",
+          "focusGeometrySha256": "b6d589d731e5be3b4301c76cd6db70e2aa42dcca88a65be56fa5aafbe77c0b09",
+          "contextGeometrySha256": "977f4e652727bd54ab5b0a76fbf9547f3cbf194a9df1b6482dc72aebffc618e5",
+          "contextEvidenceSha256": "8c2d6b1501e0fbadaf5679b0090bb293365f47eaf260b206f5ca0d20bbc1f2e4",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 84,
+            "pdfPage": 85,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "potion-a1-main",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            450,
+            295,
+            745
+          ],
+          "originalContextSourceRenderSha256": "81d29b373790149a353b9861e14ed438732e4ae02eda8f780cceaf153258f742",
+          "originalContextSourceRenderDimensionsPx": [
+            1501,
+            1916
+          ],
+          "existingFindingIds": [
+            "ua-source-marker-ua-other-002-potion-a1-main-r013"
+          ],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p84-potion-single-star",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                312,
+                394.56,
+                571.18,
+                413.94
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 84,
+                "pdfPage": 85
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-002:potion-a1-main:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-002-potion-a1-main-r014",
+          "recordId": "ua-other-002-potion-a1-main-r014",
+          "sourceRecordPointer": "/rowRecords/30",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "619f2b85e9710bd0e450c3feeef535dc169ccae849a25f520e628fb11bf97933",
+          "rowIdentitySha256": "fe172d630cc25d6d5944ed7977ffc818b2b4f7c20a29c0cd6cfaed5dbddd3ee6",
+          "focusGeometrySha256": "84b976c2251f886fd8b060cd8a73757cee08a26e0a520fe119b67ee9da5f96b7",
+          "contextGeometrySha256": "977f4e652727bd54ab5b0a76fbf9547f3cbf194a9df1b6482dc72aebffc618e5",
+          "contextEvidenceSha256": "8c2d6b1501e0fbadaf5679b0090bb293365f47eaf260b206f5ca0d20bbc1f2e4",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 84,
+            "pdfPage": 85,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "potion-a1-main",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            450,
+            295,
+            745
+          ],
+          "originalContextSourceRenderSha256": "81d29b373790149a353b9861e14ed438732e4ae02eda8f780cceaf153258f742",
+          "originalContextSourceRenderDimensionsPx": [
+            1501,
+            1916
+          ],
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p84-potion-single-star",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                312,
+                394.56,
+                571.18,
+                413.94
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 84,
+                "pdfPage": 85
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-002:potion-a1-main:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-002-potion-a1-main-r018",
+          "recordId": "ua-other-002-potion-a1-main-r018",
+          "sourceRecordPointer": "/rowRecords/34",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "27c7f84cfcdd0cc339130b95fa481b4017919d4ac0be31647c409ee4d90d9ae2",
+          "rowIdentitySha256": "0197af262c516504252cd05e2340ce1a6fb02d75406da35ec4986c8b7b9282bf",
+          "focusGeometrySha256": "0c8ef26d21370f46ee3ff8a6f53b7a4921c4d195e3ac88670c82638426441702",
+          "contextGeometrySha256": "977f4e652727bd54ab5b0a76fbf9547f3cbf194a9df1b6482dc72aebffc618e5",
+          "contextEvidenceSha256": "8c2d6b1501e0fbadaf5679b0090bb293365f47eaf260b206f5ca0d20bbc1f2e4",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 84,
+            "pdfPage": 85,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "potion-a1-main",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            450,
+            295,
+            745
+          ],
+          "originalContextSourceRenderSha256": "81d29b373790149a353b9861e14ed438732e4ae02eda8f780cceaf153258f742",
+          "originalContextSourceRenderDimensionsPx": [
+            1501,
+            1916
+          ],
+          "existingFindingIds": [
+            "ua-source-marker-ua-other-002-potion-a1-main-r018"
+          ],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p84-potion-single-star",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                312,
+                394.56,
+                571.18,
+                413.94
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 84,
+                "pdfPage": 85
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-002:potion-a1-main:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-002-potion-a1-cont-r029",
+          "recordId": "ua-other-002-potion-a1-cont-r029",
+          "sourceRecordPointer": "/rowRecords/45",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "4e91cc7fa7dc9ba56ed8fd6fda0f8055eb57ed95eedd2e4b13ea052de4f8e76e",
+          "rowIdentitySha256": "5838950733c56d100a9eee1a195799b51e4880953d12c3d57b3e3906a0f32eaa",
+          "focusGeometrySha256": "c0c19f9ad00be629f80562b8a1aee06b203770d48acd8a7d545f052c5d5d2f45",
+          "contextGeometrySha256": "4f0cf2b7f06560e04939c7b8e93f0a4ef819ead0ea4eb3fda711e76e8b536ab1",
+          "contextEvidenceSha256": "3830835b5fe6fb00265ecc7b2e3b36dabcb23855372b6d25efd59416f082ef40",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 84,
+            "pdfPage": 85,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "potion-a1-cont",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            310,
+            25,
+            585,
+            160
+          ],
+          "originalContextSourceRenderSha256": "81d29b373790149a353b9861e14ed438732e4ae02eda8f780cceaf153258f742",
+          "originalContextSourceRenderDimensionsPx": [
+            1501,
+            1916
+          ],
+          "existingFindingIds": [
+            "ua-remaining-focus-ua-other-002-potion-a1-cont-r029",
+            "ua-source-marker-ua-other-002-potion-a1-cont-r029"
+          ],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p84-potion-double-star",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                311.5,
+                423.06,
+                572.45,
+                452.04
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 84,
+                "pdfPage": 85
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-002:potion-a1-cont:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-002-potion-a1-cont-r034",
+          "recordId": "ua-other-002-potion-a1-cont-r034",
+          "sourceRecordPointer": "/rowRecords/50",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "27523d618e80714f9532bb9dfcb1e5a697c4921f33fad2ba08cfe9d412c0ed35",
+          "rowIdentitySha256": "641793ce6fd015994ef7f7f83ac6a6f7b64753043d10a9747f3560e131a97fca",
+          "focusGeometrySha256": "776b30589ec7ff24fa520e48f096c9bda8b0774a5b8c94241d027a78995cb5af",
+          "contextGeometrySha256": "4f0cf2b7f06560e04939c7b8e93f0a4ef819ead0ea4eb3fda711e76e8b536ab1",
+          "contextEvidenceSha256": "3830835b5fe6fb00265ecc7b2e3b36dabcb23855372b6d25efd59416f082ef40",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 84,
+            "pdfPage": 85,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "potion-a1-cont",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            310,
+            25,
+            585,
+            160
+          ],
+          "originalContextSourceRenderSha256": "81d29b373790149a353b9861e14ed438732e4ae02eda8f780cceaf153258f742",
+          "originalContextSourceRenderDimensionsPx": [
+            1501,
+            1916
+          ],
+          "existingFindingIds": [
+            "ua-source-marker-ua-other-002-potion-a1-cont-r034"
+          ],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p84-potion-single-star",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                312,
+                394.56,
+                571.18,
+                413.94
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 84,
+                "pdfPage": 85
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-002:potion-a1-cont:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        }
+      ],
+      "sourceContentBlocks": [],
+      "confirmedBeforeClassification": "confirmed row-linked note context is missing by exact source-bound geometry",
+      "rationale": "Eight Potion A1 rows have 8 declared row-definition joins whose physical definition lines are outside the row-linked active target. The separate Potion A2 target contains the source lines, but there is no explicit A1 row→A2 target link; a separate note context is the proposed closure.",
+      "findingOverlapDisposition": {
+        "recordUidsDeduplicatedWithinThisExtension": true,
+        "repeatedSubjectNoteBlockRowsCombinedIntoSingleFinding": false,
+        "existingIndependentFindingsForSameUids": [
+          {
+            "uid": "ua-supplement-row:ua-other-002-potion-a1-main-r001",
+            "findingId": "ua-source-marker-ua-other-002-potion-a1-main-r001"
+          },
+          {
+            "uid": "ua-supplement-row:ua-other-002-potion-a1-main-r005",
+            "findingId": "ua-source-marker-ua-other-002-potion-a1-main-r005"
+          },
+          {
+            "uid": "ua-supplement-row:ua-other-002-potion-a1-main-r013",
+            "findingId": "ua-source-marker-ua-other-002-potion-a1-main-r013"
+          },
+          {
+            "uid": "ua-supplement-row:ua-other-002-potion-a1-main-r018",
+            "findingId": "ua-source-marker-ua-other-002-potion-a1-main-r018"
+          },
+          {
+            "uid": "ua-supplement-row:ua-other-002-potion-a1-cont-r029",
+            "findingId": "ua-remaining-focus-ua-other-002-potion-a1-cont-r029"
+          },
+          {
+            "uid": "ua-supplement-row:ua-other-002-potion-a1-cont-r029",
+            "findingId": "ua-source-marker-ua-other-002-potion-a1-cont-r029"
+          },
+          {
+            "uid": "ua-supplement-row:ua-other-002-potion-a1-cont-r034",
+            "findingId": "ua-source-marker-ua-other-002-potion-a1-cont-r034"
+          }
+        ],
+        "distinctFailureDimensionsRemainDistinct": "Prior marker/focus/row-identity findings on the same UID remain separate; this extension counts the source row UID once and records their IDs for deduplication."
+      }
+    },
+    {
+      "id": "ua-rings-title-and-limited-charges-context-omitted",
+      "kind": "source-context-crop-defect",
+      "independent": true,
+      "reviewScope": "source-context extent and explicit row→context join only; no source-value, price, row-focus, marker applicability, or semantic approval",
+      "sourceInputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "contextReviewReceipt": {
+        "path": "/tmp/batch5-independent-ua-v2-context-review/context-obligation-inventory.json",
+        "sha256": "cde345e998f86ea30d4a048cfd4823a2377d519c196c06a5fc2f69ae0134b3f8"
+      },
+      "baselineV2": {
+        "path": "/tmp/batch5-ua-source-context-obligations-v2-before-20261107/baseline-v2.3-classfocus-full-annotations.json",
+        "sha256": "062e722cda9ca017674eedd14ce806bf26108e7d702ba0432d6fadd65d4fd2f1"
+      },
+      "sourceGroupId": "ua-other-003",
+      "originalLegacyContextTargetIds": [
+        "legacy:ua-other-003:rings-c"
+      ],
+      "affectedSourceRowUids": [
+        "ua-supplement-row:ua-other-003-rings-c-r003",
+        "ua-supplement-row:ua-other-003-rings-c-r008",
+        "ua-supplement-row:ua-other-003-rings-c-r010",
+        "ua-supplement-row:ua-other-003-rings-c-r011",
+        "ua-supplement-row:ua-other-003-rings-c-r018",
+        "ua-supplement-row:ua-other-003-rings-c-r019",
+        "ua-supplement-row:ua-other-003-rings-c-r023"
+      ],
+      "records": [
+        {
+          "uid": "ua-supplement-row:ua-other-003-rings-c-r003",
+          "recordId": "ua-other-003-rings-c-r003",
+          "sourceRecordPointer": "/rowRecords/73",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "65ce690e4f95665b9aa532233c610229031ba6147b4ebbdf9174cfca854fb600",
+          "rowIdentitySha256": "47c2dbecdf2e812565b23e3f0f3c82872778968186d4b6baffb60ff925eac842",
+          "focusGeometrySha256": "b16e6f1aa393c383386ee9c4186057b3af350f32a1f7381904f23e37de904259",
+          "contextGeometrySha256": "d799546f50ed38b1e95de7c93e1135a873eddc56e9fd61f5f37bf18debadcceb",
+          "contextEvidenceSha256": "e87bf3d3345193368799184e4406a72cc391f44bd9e6dc4c6fbe06bffce2a52b",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 85,
+            "pdfPage": 86,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "rings-c",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            430,
+            295,
+            690
+          ],
+          "originalContextSourceRenderSha256": "a181c79421669209578456845b68db35dbf3b65a1cd490db58c7e38c5c256a18",
+          "originalContextSourceRenderDimensionsPx": [
+            1475,
+            1929
+          ],
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p85-rings-limited-charges",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                23.8,
+                692.52,
+                285.65,
+                721.37
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 85,
+                "pdfPage": 86
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-003:rings-c:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-003-rings-c-r008",
+          "recordId": "ua-other-003-rings-c-r008",
+          "sourceRecordPointer": "/rowRecords/78",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "f9e5210eef9bbd5d3c00d427a95b8182c4bd20d4d004049ff251f76c287641d8",
+          "rowIdentitySha256": "5d7a1a7d0986e2d94ed80f246c809608bd81805ec9140dad1d2f0b5b6e20e36c",
+          "focusGeometrySha256": "04783bce19a1392a035e352b0d505424dab9da03a5e5a2dfeeda00434b3e31cf",
+          "contextGeometrySha256": "d799546f50ed38b1e95de7c93e1135a873eddc56e9fd61f5f37bf18debadcceb",
+          "contextEvidenceSha256": "e87bf3d3345193368799184e4406a72cc391f44bd9e6dc4c6fbe06bffce2a52b",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 85,
+            "pdfPage": 86,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "rings-c",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            430,
+            295,
+            690
+          ],
+          "originalContextSourceRenderSha256": "a181c79421669209578456845b68db35dbf3b65a1cd490db58c7e38c5c256a18",
+          "originalContextSourceRenderDimensionsPx": [
+            1475,
+            1929
+          ],
+          "existingFindingIds": [
+            "missing-marker-ua-other-003-rings-c-r008"
+          ],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p85-rings-limited-charges",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                23.8,
+                692.52,
+                285.65,
+                721.37
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 85,
+                "pdfPage": 86
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-003:rings-c:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-003-rings-c-r010",
+          "recordId": "ua-other-003-rings-c-r010",
+          "sourceRecordPointer": "/rowRecords/80",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "3a4ab49a14ac8d947c8548db8a403d8c7bb82fe15144dbbd3deb50e3a50200db",
+          "rowIdentitySha256": "b9f9ad233e08ebeb7f31dc5c507d2a8dd333ab6356718e81b287e8d18a386421",
+          "focusGeometrySha256": "b33b1bd77631551db2bac16609c847b6c4e6a00197523e8d8729e8fcd3474f36",
+          "contextGeometrySha256": "d799546f50ed38b1e95de7c93e1135a873eddc56e9fd61f5f37bf18debadcceb",
+          "contextEvidenceSha256": "e87bf3d3345193368799184e4406a72cc391f44bd9e6dc4c6fbe06bffce2a52b",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 85,
+            "pdfPage": 86,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "rings-c",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            430,
+            295,
+            690
+          ],
+          "originalContextSourceRenderSha256": "a181c79421669209578456845b68db35dbf3b65a1cd490db58c7e38c5c256a18",
+          "originalContextSourceRenderDimensionsPx": [
+            1475,
+            1929
+          ],
+          "existingFindingIds": [
+            "missing-marker-ua-other-003-rings-c-r010"
+          ],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p85-rings-limited-charges",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                23.8,
+                692.52,
+                285.65,
+                721.37
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 85,
+                "pdfPage": 86
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-003:rings-c:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-003-rings-c-r011",
+          "recordId": "ua-other-003-rings-c-r011",
+          "sourceRecordPointer": "/rowRecords/81",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "d3c42ab3233f21153f2aa1a625cf1d50e396f82d731fe28bb14ab51422c5a056",
+          "rowIdentitySha256": "8b9c9e794198ad07546caf7da04653aa1fbb872d0dbd2f3cb7eaf3693aaf6c6f",
+          "focusGeometrySha256": "ff3c2ac07fe34ff288cbaf2e32a2ba2dd46c1d408db0305f3d0949de4eabcfb7",
+          "contextGeometrySha256": "d799546f50ed38b1e95de7c93e1135a873eddc56e9fd61f5f37bf18debadcceb",
+          "contextEvidenceSha256": "e87bf3d3345193368799184e4406a72cc391f44bd9e6dc4c6fbe06bffce2a52b",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 85,
+            "pdfPage": 86,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "rings-c",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            430,
+            295,
+            690
+          ],
+          "originalContextSourceRenderSha256": "a181c79421669209578456845b68db35dbf3b65a1cd490db58c7e38c5c256a18",
+          "originalContextSourceRenderDimensionsPx": [
+            1475,
+            1929
+          ],
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p85-rings-limited-charges",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                23.8,
+                692.52,
+                285.65,
+                721.37
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 85,
+                "pdfPage": 86
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-003:rings-c:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-003-rings-c-r018",
+          "recordId": "ua-other-003-rings-c-r018",
+          "sourceRecordPointer": "/rowRecords/88",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "79afd61ccf829ac916074ab0b681f11e976b9184d23efb3045c2f748bd3072e0",
+          "rowIdentitySha256": "789b183ff84407f1fa7dd2be00e5b2cddce014d24a1818407246a3168c7185f5",
+          "focusGeometrySha256": "577991bd30740ea2129034e1991025cfdaf65dbb894e08575d6f7c4580bf517e",
+          "contextGeometrySha256": "d799546f50ed38b1e95de7c93e1135a873eddc56e9fd61f5f37bf18debadcceb",
+          "contextEvidenceSha256": "e87bf3d3345193368799184e4406a72cc391f44bd9e6dc4c6fbe06bffce2a52b",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 85,
+            "pdfPage": 86,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "rings-c",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            430,
+            295,
+            690
+          ],
+          "originalContextSourceRenderSha256": "a181c79421669209578456845b68db35dbf3b65a1cd490db58c7e38c5c256a18",
+          "originalContextSourceRenderDimensionsPx": [
+            1475,
+            1929
+          ],
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p85-rings-limited-charges",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                23.8,
+                692.52,
+                285.65,
+                721.37
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 85,
+                "pdfPage": 86
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-003:rings-c:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-003-rings-c-r019",
+          "recordId": "ua-other-003-rings-c-r019",
+          "sourceRecordPointer": "/rowRecords/89",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "d40eea58211e0e8e2a7f629aa19badcb56647cf4c29dc02789af7fcbe66f1716",
+          "rowIdentitySha256": "037cb2ad861189e715c6c226be7ff68d1875a0ee8cb37508f45105108431c787",
+          "focusGeometrySha256": "d3d3c26b4097ee06bff64aa91c147355ba89a88cac8ab000f8b8ce7a1105a967",
+          "contextGeometrySha256": "d799546f50ed38b1e95de7c93e1135a873eddc56e9fd61f5f37bf18debadcceb",
+          "contextEvidenceSha256": "e87bf3d3345193368799184e4406a72cc391f44bd9e6dc4c6fbe06bffce2a52b",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 85,
+            "pdfPage": 86,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "rings-c",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            430,
+            295,
+            690
+          ],
+          "originalContextSourceRenderSha256": "a181c79421669209578456845b68db35dbf3b65a1cd490db58c7e38c5c256a18",
+          "originalContextSourceRenderDimensionsPx": [
+            1475,
+            1929
+          ],
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p85-rings-limited-charges",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                23.8,
+                692.52,
+                285.65,
+                721.37
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 85,
+                "pdfPage": 86
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-003:rings-c:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-003-rings-c-r023",
+          "recordId": "ua-other-003-rings-c-r023",
+          "sourceRecordPointer": "/rowRecords/93",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "79a2555f5da6a0bffea9a135501f14dfb12b401029903cdeef99b0fb910b3d25",
+          "rowIdentitySha256": "fd9fc9bbabc39680a6221d013653a3bded2f257343ce1a150ebcf0b7a3bd55cd",
+          "focusGeometrySha256": "25bafc57173991d14c8b899468c1123154ac9bc4ebd68a95d8853ecc6b9536a9",
+          "contextGeometrySha256": "d799546f50ed38b1e95de7c93e1135a873eddc56e9fd61f5f37bf18debadcceb",
+          "contextEvidenceSha256": "e87bf3d3345193368799184e4406a72cc391f44bd9e6dc4c6fbe06bffce2a52b",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 85,
+            "pdfPage": 86,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "rings-c",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            430,
+            295,
+            690
+          ],
+          "originalContextSourceRenderSha256": "a181c79421669209578456845b68db35dbf3b65a1cd490db58c7e38c5c256a18",
+          "originalContextSourceRenderDimensionsPx": [
+            1475,
+            1929
+          ],
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p85-rings-limited-charges",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                23.8,
+                692.52,
+                285.65,
+                721.37
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 85,
+                "pdfPage": 86
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-003:rings-c:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        }
+      ],
+      "sourceContentBlocks": [
+        {
+          "blockId": "ring-table-title-and-limited-charges-note:block-1",
+          "groupId": "ua-other-003",
+          "sourceBlockId": "ring-table-title-and-limited-charges-note:source-block-1",
+          "kind": "subject-heading-or-lead-in-block",
+          "label": "III.C. RINGS title",
+          "definitionId": null,
+          "boundsPdfPagePointsTopLeftLTRB": [
+            23.8,
+            416.8,
+            81.3,
+            426.7
+          ],
+          "sourceFrame": {
+            "book": "UA",
+            "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+            "printedPage": 85,
+            "pdfPage": 86
+          },
+          "affectedRecordIds": [
+            "ua-other-003-rings-c-r003",
+            "ua-other-003-rings-c-r008",
+            "ua-other-003-rings-c-r010",
+            "ua-other-003-rings-c-r011",
+            "ua-other-003-rings-c-r018",
+            "ua-other-003-rings-c-r019",
+            "ua-other-003-rings-c-r023"
+          ],
+          "currentTargetId": "ua-other-003:rings-c:v2-primary-context",
+          "legacyTargetId": "legacy:ua-other-003:rings-c",
+          "reviewStatus": "confirmed incomplete; target omits table title and note; no other active target contains note"
+        },
+        {
+          "blockId": "ring-table-title-and-limited-charges-note:block-2",
+          "groupId": "ua-other-003",
+          "sourceBlockId": "ua-p85-rings-limited-charges",
+          "kind": "note-definition-or-qualifier-block",
+          "label": "limited-charge definition",
+          "definitionId": "ua-p85-rings-limited-charges",
+          "boundsPdfPagePointsTopLeftLTRB": [
+            23.8,
+            692.52,
+            285.65,
+            721.37
+          ],
+          "sourceFrame": {
+            "book": "UA",
+            "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+            "printedPage": 85,
+            "pdfPage": 86
+          },
+          "affectedRecordIds": [
+            "ua-other-003-rings-c-r003",
+            "ua-other-003-rings-c-r008",
+            "ua-other-003-rings-c-r010",
+            "ua-other-003-rings-c-r011",
+            "ua-other-003-rings-c-r018",
+            "ua-other-003-rings-c-r019",
+            "ua-other-003-rings-c-r023"
+          ],
+          "currentTargetId": "ua-other-003:rings-c:v2-primary-context",
+          "legacyTargetId": "legacy:ua-other-003:rings-c",
+          "reviewStatus": "confirmed incomplete; target omits table title and note; no other active target contains note"
+        }
+      ],
+      "confirmedBeforeClassification": "confirmed source context omits reviewed bounded content; row and semantic relevance remain separate",
+      "rationale": "The Ring primary context omits the section title and limited-charge note. The seven missed note joins are included in this single group finding; the note block is not double-counted as a separate row/crop finding.",
+      "findingOverlapDisposition": {
+        "recordUidsDeduplicatedWithinThisExtension": true,
+        "repeatedSubjectNoteBlockRowsCombinedIntoSingleFinding": true,
+        "existingIndependentFindingsForSameUids": [
+          {
+            "uid": "ua-supplement-row:ua-other-003-rings-c-r008",
+            "findingId": "missing-marker-ua-other-003-rings-c-r008"
+          },
+          {
+            "uid": "ua-supplement-row:ua-other-003-rings-c-r010",
+            "findingId": "missing-marker-ua-other-003-rings-c-r010"
+          }
+        ],
+        "distinctFailureDimensionsRemainDistinct": "Prior marker/focus/row-identity findings on the same UID remain separate; this extension counts the source row UID once and records their IDs for deduplication."
+      }
+    },
+    {
+      "id": "ua-staff-spear-introduction-and-qualifier-context-omitted",
+      "kind": "source-context-crop-defect",
+      "independent": true,
+      "reviewScope": "source-context extent and explicit row→context join only; no source-value, price, row-focus, marker applicability, or semantic approval",
+      "sourceInputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "contextReviewReceipt": {
+        "path": "/tmp/batch5-independent-ua-v2-context-review/context-obligation-inventory.json",
+        "sha256": "cde345e998f86ea30d4a048cfd4823a2377d519c196c06a5fc2f69ae0134b3f8"
+      },
+      "baselineV2": {
+        "path": "/tmp/batch5-ua-source-context-obligations-v2-before-20261107/baseline-v2.3-classfocus-full-annotations.json",
+        "sha256": "062e722cda9ca017674eedd14ce806bf26108e7d702ba0432d6fadd65d4fd2f1"
+      },
+      "sourceGroupId": "ua-other-009",
+      "originalLegacyContextTargetIds": [
+        "legacy:ua-other-009:staff-spear"
+      ],
+      "affectedSourceRowUids": [
+        "ua-supplement-row:ua-other-009-item-r006"
+      ],
+      "records": [
+        {
+          "uid": "ua-supplement-row:ua-other-009-item-r006",
+          "recordId": "ua-other-009-item-r006",
+          "sourceRecordPointer": "/rowRecords/551",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "2b1f8866ccd9eff7f2d8e412bd101a466abc06b64a41633a1f82885f55e27136",
+          "rowIdentitySha256": "6a6be52e50ab67bfdeef2f977dad4fe1c0b087488196856494861afbc53491f1",
+          "focusGeometrySha256": "d45f68f7dff1fc783174fcf3a8d39cd21005938186579dbd787f9f0fad316af2",
+          "contextGeometrySha256": "a621da53b44ca9fdadcb7376cf79cfdc0df7b330f520643198438990906db443",
+          "contextEvidenceSha256": "c7cee25177730da29e7d1328e95ec803f6590e487dc5de6fffbe251a0695ee98",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 95,
+            "pdfPage": 96,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "staff-spear",
+          "originalContextBoundsPdfPagePointsLTRB": null,
+          "originalContextSourceRenderSha256": null,
+          "originalContextSourceRenderDimensionsPx": null,
+          "existingFindingIds": [
+            "ua-source-marker-ua-other-009-item-r006"
+          ],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p94-staff-spear-plus3",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                24.2,
+                446.79,
+                286.28,
+                468.47
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 95,
+                "pdfPage": 96
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-009:staff-spear:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        }
+      ],
+      "sourceContentBlocks": [
+        {
+          "blockId": "staff-spear-introduction-and-mode-qualifier:block-1",
+          "groupId": "ua-other-009",
+          "sourceBlockId": "staff-spear-introduction-and-mode-qualifier:source-block-1",
+          "kind": "subject-heading-or-lead-in-block",
+          "label": "Staff-Spear lead-in",
+          "definitionId": null,
+          "boundsPdfPagePointsTopLeftLTRB": [
+            23.9,
+            277.1,
+            286,
+            354
+          ],
+          "sourceFrame": {
+            "book": "UA",
+            "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+            "printedPage": 95,
+            "pdfPage": 96
+          },
+          "affectedRecordIds": [
+            "ua-other-009-item-r006"
+          ],
+          "currentTargetId": "ua-other-009:staff-spear:v2-primary-context",
+          "legacyTargetId": "legacy:ua-other-009:staff-spear",
+          "reviewStatus": "confirmed incomplete; no other active target contains definition"
+        },
+        {
+          "blockId": "staff-spear-introduction-and-mode-qualifier:block-2",
+          "groupId": "ua-other-009",
+          "sourceBlockId": "ua-p94-staff-spear-plus3",
+          "kind": "note-definition-or-qualifier-block",
+          "label": "damage as ranseur, but spear when thrust or set to receive a charge",
+          "definitionId": "ua-p94-staff-spear-plus3",
+          "boundsPdfPagePointsTopLeftLTRB": [
+            24.2,
+            446.79,
+            286.28,
+            468.47
+          ],
+          "sourceFrame": {
+            "book": "UA",
+            "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+            "printedPage": 95,
+            "pdfPage": 96
+          },
+          "affectedRecordIds": [
+            "ua-other-009-item-r006"
+          ],
+          "currentTargetId": "ua-other-009:staff-spear:v2-primary-context",
+          "legacyTargetId": "legacy:ua-other-009:staff-spear",
+          "reviewStatus": "confirmed incomplete; no other active target contains definition"
+        }
+      ],
+      "confirmedBeforeClassification": "confirmed source context omits reviewed bounded content; row and semantic relevance remain separate",
+      "rationale": "The Staff-Spear primary context omits the introductory passage and the +3 form qualifier. The single missed note join and both content blocks are included in this one row finding.",
+      "findingOverlapDisposition": {
+        "recordUidsDeduplicatedWithinThisExtension": true,
+        "repeatedSubjectNoteBlockRowsCombinedIntoSingleFinding": true,
+        "existingIndependentFindingsForSameUids": [
+          {
+            "uid": "ua-supplement-row:ua-other-009-item-r006",
+            "findingId": "ua-source-marker-ua-other-009-item-r006"
+          }
+        ],
+        "distinctFailureDimensionsRemainDistinct": "Prior marker/focus/row-identity findings on the same UID remain separate; this extension counts the source row UID once and records their IDs for deduplication."
+      }
+    },
+    {
+      "id": "ua-e3-main-note-context-unlinked",
+      "kind": "source-context-crop-defect",
+      "independent": true,
+      "reviewScope": "source-context extent and explicit row→context join only; no source-value, price, row-focus, marker applicability, or semantic approval",
+      "sourceInputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "contextReviewReceipt": {
+        "path": "/tmp/batch5-independent-ua-v2-context-review/context-obligation-inventory.json",
+        "sha256": "cde345e998f86ea30d4a048cfd4823a2377d519c196c06a5fc2f69ae0134b3f8"
+      },
+      "baselineV2": {
+        "path": "/tmp/batch5-ua-source-context-obligations-v2-before-20261107/baseline-v2.3-classfocus-full-annotations.json",
+        "sha256": "062e722cda9ca017674eedd14ce806bf26108e7d702ba0432d6fadd65d4fd2f1"
+      },
+      "sourceGroupId": "ua-other-005",
+      "originalLegacyContextTargetIds": [
+        "legacy:ua-other-005:E3-main"
+      ],
+      "affectedSourceRowUids": [
+        "ua-supplement-row:ua-other-005-E3-main-r064"
+      ],
+      "records": [
+        {
+          "uid": "ua-supplement-row:ua-other-005-E3-main-r064",
+          "recordId": "ua-other-005-E3-main-r064",
+          "sourceRecordPointer": "/rowRecords/224",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "c43c57941bdefbacabc6e54cbeafbda602e7c6e8dc7bff448a1e51f6bdfb79e7",
+          "rowIdentitySha256": "59c2aa7ecc5abd271471ec677d1857276b9a75ada0f843519c522a400a087c16",
+          "focusGeometrySha256": "afb1d1427fdef33b00aab3751c943b440762612185ba2adcedefc290f4dba8e5",
+          "contextGeometrySha256": "9a8ec4f6ed64ca94c2262140f36fa016eaaa444a02df54ed92e0d563fbe6b7c4",
+          "contextEvidenceSha256": "957efecf721aedc2bc37c8b149eef009b30d02c5f571ae6ffacbe3c740484c7b",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 86,
+            "pdfPage": 87,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "E3-main",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            305,
+            615,
+            585,
+            780
+          ],
+          "originalContextSourceRenderSha256": "d00eceb4f590f0461b6e00f52dcb517fb1844990578e96286beaba6e61c04122",
+          "originalContextSourceRenderDimensionsPx": [
+            1488,
+            1957
+          ],
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p87-misc-e3-note1",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                34.3,
+                321.22,
+                142.06,
+                331.67
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 87,
+                "pdfPage": 88
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-005:E3-main:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        }
+      ],
+      "sourceContentBlocks": [],
+      "confirmedBeforeClassification": "confirmed row-linked note context is missing by exact source-bound geometry",
+      "rationale": "One E3-main row-definition join has no row-linked target containing its physical note line; the line appearing in another segment target does not substitute for an explicit row link.",
+      "findingOverlapDisposition": {
+        "recordUidsDeduplicatedWithinThisExtension": true,
+        "repeatedSubjectNoteBlockRowsCombinedIntoSingleFinding": false,
+        "existingIndependentFindingsForSameUids": [],
+        "distinctFailureDimensionsRemainDistinct": "Prior marker/focus/row-identity findings on the same UID remain separate; this extension counts the source row UID once and records their IDs for deduplication."
+      }
+    },
+    {
+      "id": "ua-e4-main-note-context-unlinked",
+      "kind": "source-context-crop-defect",
+      "independent": true,
+      "reviewScope": "source-context extent and explicit row→context join only; no source-value, price, row-focus, marker applicability, or semantic approval",
+      "sourceInputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "contextReviewReceipt": {
+        "path": "/tmp/batch5-independent-ua-v2-context-review/context-obligation-inventory.json",
+        "sha256": "cde345e998f86ea30d4a048cfd4823a2377d519c196c06a5fc2f69ae0134b3f8"
+      },
+      "baselineV2": {
+        "path": "/tmp/batch5-ua-source-context-obligations-v2-before-20261107/baseline-v2.3-classfocus-full-annotations.json",
+        "sha256": "062e722cda9ca017674eedd14ce806bf26108e7d702ba0432d6fadd65d4fd2f1"
+      },
+      "sourceGroupId": "ua-other-005",
+      "originalLegacyContextTargetIds": [
+        "legacy:ua-other-005:E4-main"
+      ],
+      "affectedSourceRowUids": [
+        "ua-supplement-row:ua-other-005-E4-main-r115",
+        "ua-supplement-row:ua-other-005-E4-main-r116"
+      ],
+      "records": [
+        {
+          "uid": "ua-supplement-row:ua-other-005-E4-main-r115",
+          "recordId": "ua-other-005-E4-main-r115",
+          "sourceRecordPointer": "/rowRecords/275",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "8a1a488c74ceb62412f0d6c709b524f2f9c608b38c2618dc735a18df0c015889",
+          "rowIdentitySha256": "cccbe3c07ba0ee97f7b2ac6caaabf9e92177f931296c7353346a6fab9d4b8c8f",
+          "focusGeometrySha256": "452beec33c72ca173091fe28a47450a36d465b73795c5a99055ad9b9104fe2de",
+          "contextGeometrySha256": "4cd68e48a592e9315992b3b7566c25ef993353d27c113b9e13dc2ed066d7b0e8",
+          "contextEvidenceSha256": "ec1c1ef662e601230f071360ca713568f436fff9ec5c9e86ade134e102a9e669",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 87,
+            "pdfPage": 88,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "E4-main",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            400,
+            305,
+            765
+          ],
+          "originalContextSourceRenderSha256": "f586519a618641f0ed974e7f0b4becb4453276a315d2c563277ff43fc3c11ce0",
+          "originalContextSourceRenderDimensionsPx": [
+            1536,
+            1932
+          ],
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p87-misc-e4-note1",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                317.8,
+                168.44,
+                429.29,
+                179.07
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 87,
+                "pdfPage": 88
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-005:E4-main:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-005-E4-main-r116",
+          "recordId": "ua-other-005-E4-main-r116",
+          "sourceRecordPointer": "/rowRecords/276",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "1af50b27b167ecafb1beb242c47a41d435c46e9c008ee581cc388262274453dc",
+          "rowIdentitySha256": "3fcfe70377457385f941d84580dac397de340134847d58b8fd5e68a22ad79602",
+          "focusGeometrySha256": "4ad4ab300260208edac36e3b2f92a9506086c074ed195f2db58ba512392637c6",
+          "contextGeometrySha256": "4cd68e48a592e9315992b3b7566c25ef993353d27c113b9e13dc2ed066d7b0e8",
+          "contextEvidenceSha256": "ec1c1ef662e601230f071360ca713568f436fff9ec5c9e86ade134e102a9e669",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 87,
+            "pdfPage": 88,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "E4-main",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            400,
+            305,
+            765
+          ],
+          "originalContextSourceRenderSha256": "f586519a618641f0ed974e7f0b4becb4453276a315d2c563277ff43fc3c11ce0",
+          "originalContextSourceRenderDimensionsPx": [
+            1536,
+            1932
+          ],
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p87-misc-e4-note2",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                317.3,
+                187.19,
+                395.43,
+                197.95
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 87,
+                "pdfPage": 88
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-005:E4-main:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        }
+      ],
+      "sourceContentBlocks": [],
+      "confirmedBeforeClassification": "confirmed row-linked note context is missing by exact source-bound geometry",
+      "rationale": "Two E4-main row-definition joins have no row-linked target containing their physical note lines; other same-group targets do not substitute for explicit row links.",
+      "findingOverlapDisposition": {
+        "recordUidsDeduplicatedWithinThisExtension": true,
+        "repeatedSubjectNoteBlockRowsCombinedIntoSingleFinding": false,
+        "existingIndependentFindingsForSameUids": [],
+        "distinctFailureDimensionsRemainDistinct": "Prior marker/focus/row-identity findings on the same UID remain separate; this extension counts the source row UID once and records their IDs for deduplication."
+      }
+    },
+    {
+      "id": "ua-e6-note-context-unlinked",
+      "kind": "source-context-crop-defect",
+      "independent": true,
+      "reviewScope": "source-context extent and explicit row→context join only; no source-value, price, row-focus, marker applicability, or semantic approval",
+      "sourceInputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "contextReviewReceipt": {
+        "path": "/tmp/batch5-independent-ua-v2-context-review/context-obligation-inventory.json",
+        "sha256": "cde345e998f86ea30d4a048cfd4823a2377d519c196c06a5fc2f69ae0134b3f8"
+      },
+      "baselineV2": {
+        "path": "/tmp/batch5-ua-source-context-obligations-v2-before-20261107/baseline-v2.3-classfocus-full-annotations.json",
+        "sha256": "062e722cda9ca017674eedd14ce806bf26108e7d702ba0432d6fadd65d4fd2f1"
+      },
+      "sourceGroupId": "ua-other-005",
+      "originalLegacyContextTargetIds": [
+        "legacy:ua-other-005:E6"
+      ],
+      "affectedSourceRowUids": [
+        "ua-supplement-row:ua-other-005-E6-r187"
+      ],
+      "records": [
+        {
+          "uid": "ua-supplement-row:ua-other-005-E6-r187",
+          "recordId": "ua-other-005-E6-r187",
+          "sourceRecordPointer": "/rowRecords/347",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "456dd1e0cd4ba78e97ebd6e33cb36768904cbc42bdb85840946360a78e58a28e",
+          "rowIdentitySha256": "2ee12f03bfde5e6d18508c8b08270103831bbbde439aae0050707d3a64e80df3",
+          "focusGeometrySha256": "e75f3a3ac8f2971aae4ac2b559c855889bea28b4ec66af981f6bccc39b24d854",
+          "contextGeometrySha256": "55c198059cf6c13e64b813804fdfa66762064ed4b5894b697776e2a8838f1140",
+          "contextEvidenceSha256": "f838881cdf4f64b3f2c817234f9c46d1354b943241d688ba7e68d4e47319b412",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 88,
+            "pdfPage": 89,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "E6",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            25,
+            25,
+            305,
+            365
+          ],
+          "originalContextSourceRenderSha256": "0009ff0159e895b708797ab5fc9f66714158d20c7404e6a298c6cfdb23b6456b",
+          "originalContextSourceRenderDimensionsPx": [
+            1505,
+            1932
+          ],
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p87-misc-e6-e7-star-description",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                47,
+                696.62,
+                136.64,
+                706.22
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 88,
+                "pdfPage": 89
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-005:E6:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        }
+      ],
+      "sourceContentBlocks": [],
+      "confirmedBeforeClassification": "confirmed row-linked note context is missing by exact source-bound geometry",
+      "rationale": "One E6 row-definition join has no row-linked target containing its physical note line; another same-group target does not substitute for an explicit row link.",
+      "findingOverlapDisposition": {
+        "recordUidsDeduplicatedWithinThisExtension": true,
+        "repeatedSubjectNoteBlockRowsCombinedIntoSingleFinding": false,
+        "existingIndependentFindingsForSameUids": [],
+        "distinctFailureDimensionsRemainDistinct": "Prior marker/focus/row-identity findings on the same UID remain separate; this extension counts the source row UID once and records their IDs for deduplication."
+      }
+    },
+    {
+      "id": "ua-h1-cont-note-context-unlinked",
+      "kind": "source-context-crop-defect",
+      "independent": true,
+      "reviewScope": "source-context extent and explicit row→context join only; no source-value, price, row-focus, marker applicability, or semantic approval",
+      "sourceInputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "contextReviewReceipt": {
+        "path": "/tmp/batch5-independent-ua-v2-context-review/context-obligation-inventory.json",
+        "sha256": "cde345e998f86ea30d4a048cfd4823a2377d519c196c06a5fc2f69ae0134b3f8"
+      },
+      "baselineV2": {
+        "path": "/tmp/batch5-ua-source-context-obligations-v2-before-20261107/baseline-v2.3-classfocus-full-annotations.json",
+        "sha256": "062e722cda9ca017674eedd14ce806bf26108e7d702ba0432d6fadd65d4fd2f1"
+      },
+      "sourceGroupId": "ua-other-008",
+      "originalLegacyContextTargetIds": [
+        "legacy:ua-other-008:H1-cont"
+      ],
+      "affectedSourceRowUids": [
+        "ua-supplement-row:ua-other-008-H1-cont-r030"
+      ],
+      "records": [
+        {
+          "uid": "ua-supplement-row:ua-other-008-H1-cont-r030",
+          "recordId": "ua-other-008-H1-cont-r030",
+          "sourceRecordPointer": "/rowRecords/500",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "d63dd3b6f624d0c48b48095d974d5dd187fc6fff1ac1e6d6f7f11fad4b32a037",
+          "rowIdentitySha256": "fdb8bc4c24080464d4aa3e9f7a422b03074762b42f946e9d863d7f3e2a61ccec",
+          "focusGeometrySha256": "a5cd339236beb72fb601699740fb8289dbf2d395444f75c88c4bcef81499f432",
+          "contextGeometrySha256": "2780395ae863bc53ce338547f11c48948ed2673b08d633f81d84b35180a98514",
+          "contextEvidenceSha256": "c8fc67ec077ad1d44aacb41333d05d761865ec14171f8b2123abcfd51ef7402e",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 89,
+            "pdfPage": 90,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "H1-cont",
+          "originalContextBoundsPdfPagePointsLTRB": [
+            305,
+            25,
+            590,
+            270
+          ],
+          "originalContextSourceRenderSha256": "aa4c458c69853f907bbb515a9f2389636b3c86960d7bdbd6dfaa3641d7911428",
+          "originalContextSourceRenderDimensionsPx": [
+            1498,
+            1950
+          ],
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": [
+            {
+              "definitionId": "ua-p88-weapons-variable-value",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                326.4,
+                689.42,
+                474.81,
+                699.02
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 89,
+                "pdfPage": 90
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-008:H1-cont:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            },
+            {
+              "definitionId": "ua-p88-scimitar-khopesh",
+              "requiredBoundsPdfPagePointsTopLeftLTRB": [
+                326.4,
+                707.49,
+                536.24,
+                718.25
+              ],
+              "definitionSourceFrame": {
+                "book": "UA",
+                "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+                "printedPage": 89,
+                "pdfPage": 90
+              },
+              "beforeExtentClassification": "missing",
+              "applicabilityStatus": "uncertain-applicability",
+              "candidateActiveTargetIds": [
+                "ua-other-008:H1-cont:v2-primary-context"
+              ],
+              "separateDefinitionPngIsNotActiveContext": true
+            }
+          ]
+        }
+      ],
+      "sourceContentBlocks": [],
+      "confirmedBeforeClassification": "confirmed row-linked note context is missing by exact source-bound geometry",
+      "rationale": "The H1 continuation row has two missed definition joins; their physical text appears in another segment target, but no row link includes that target.",
+      "findingOverlapDisposition": {
+        "recordUidsDeduplicatedWithinThisExtension": true,
+        "repeatedSubjectNoteBlockRowsCombinedIntoSingleFinding": false,
+        "existingIndependentFindingsForSameUids": [],
+        "distinctFailureDimensionsRemainDistinct": "Prior marker/focus/row-identity findings on the same UID remain separate; this extension counts the source row UID once and records their IDs for deduplication."
+      }
+    },
+    {
+      "id": "ua-knife-buckle-subject-lead-in-context-omitted",
+      "kind": "source-context-crop-defect",
+      "independent": true,
+      "reviewScope": "source-context extent and explicit row→context join only; no source-value, price, row-focus, marker applicability, or semantic approval",
+      "sourceInputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "contextReviewReceipt": {
+        "path": "/tmp/batch5-independent-ua-v2-context-review/context-obligation-inventory.json",
+        "sha256": "cde345e998f86ea30d4a048cfd4823a2377d519c196c06a5fc2f69ae0134b3f8"
+      },
+      "baselineV2": {
+        "path": "/tmp/batch5-ua-source-context-obligations-v2-before-20261107/baseline-v2.3-classfocus-full-annotations.json",
+        "sha256": "062e722cda9ca017674eedd14ce806bf26108e7d702ba0432d6fadd65d4fd2f1"
+      },
+      "sourceGroupId": "ua-other-013",
+      "originalLegacyContextTargetIds": [
+        "legacy:ua-other-013:knife-buckle"
+      ],
+      "affectedSourceRowUids": [
+        "ua-supplement-row:ua-other-013-item-r001",
+        "ua-supplement-row:ua-other-013-item-r002",
+        "ua-supplement-row:ua-other-013-item-r003",
+        "ua-supplement-row:ua-other-013-item-r004"
+      ],
+      "records": [
+        {
+          "uid": "ua-supplement-row:ua-other-013-item-r001",
+          "recordId": "ua-other-013-item-r001",
+          "sourceRecordPointer": "/rowRecords/569",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "9725c79b4fd78efe19dd4dcc504e8d48a2f45ef3e2e9b17cf6d92d76f26e1259",
+          "rowIdentitySha256": "2e947d506f4bb7a307721cb5348eee52b207ffe88ffac7fa64606bc6d7f0c960",
+          "focusGeometrySha256": "29ec81e9e7fd13fecd35f3f890570dabf556f62483668e139032aeb76d6a4361",
+          "contextGeometrySha256": "ee01447c462c0648622c7047975fdf0aa12f0d640ebafed9331aa5ffe8c7bf74",
+          "contextEvidenceSha256": "d8b223997ec409b639e3296b5155fea3a856662ea2e7bfec2cc240b2cbf626a2",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 106,
+            "pdfPage": 107,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "knife-buckle",
+          "originalContextBoundsPdfPagePointsLTRB": null,
+          "originalContextSourceRenderSha256": null,
+          "originalContextSourceRenderDimensionsPx": null,
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": []
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-013-item-r002",
+          "recordId": "ua-other-013-item-r002",
+          "sourceRecordPointer": "/rowRecords/570",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "890be158108877004dae1a464cc4e4d69b22424b2fbbf66b6d18ef9c81e66423",
+          "rowIdentitySha256": "6b56c053b52e60bffd9b1db6b548230387f738dfaf2ed417be6241e6291f110d",
+          "focusGeometrySha256": "e05a19bb8c838e947830387e32f7857e6f320bf43c14b830e6b8cd5dfd639127",
+          "contextGeometrySha256": "ee01447c462c0648622c7047975fdf0aa12f0d640ebafed9331aa5ffe8c7bf74",
+          "contextEvidenceSha256": "d8b223997ec409b639e3296b5155fea3a856662ea2e7bfec2cc240b2cbf626a2",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 106,
+            "pdfPage": 107,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "knife-buckle",
+          "originalContextBoundsPdfPagePointsLTRB": null,
+          "originalContextSourceRenderSha256": null,
+          "originalContextSourceRenderDimensionsPx": null,
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": []
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-013-item-r003",
+          "recordId": "ua-other-013-item-r003",
+          "sourceRecordPointer": "/rowRecords/571",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "9c43e4b20c62d4b286146d8ca4d9bd8df3a5abb05163defc5a2a146b12b600c8",
+          "rowIdentitySha256": "e570eb81502f9bb7f828bfe6885505328c8bbce2e34dd46fb7a3e94c1aa60bdf",
+          "focusGeometrySha256": "14e8fc97f48b581493d2de48556d5af25844e8359a66ad57b7e926046a6805b9",
+          "contextGeometrySha256": "ee01447c462c0648622c7047975fdf0aa12f0d640ebafed9331aa5ffe8c7bf74",
+          "contextEvidenceSha256": "d8b223997ec409b639e3296b5155fea3a856662ea2e7bfec2cc240b2cbf626a2",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 106,
+            "pdfPage": 107,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "knife-buckle",
+          "originalContextBoundsPdfPagePointsLTRB": null,
+          "originalContextSourceRenderSha256": null,
+          "originalContextSourceRenderDimensionsPx": null,
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": []
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-013-item-r004",
+          "recordId": "ua-other-013-item-r004",
+          "sourceRecordPointer": "/rowRecords/572",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "ed615c406dd3ad333a15228ba8ca529390543eb9a8381333fb8ed4302ecdf5a9",
+          "rowIdentitySha256": "297942e7e208e35044f97fdc12844a1e717b8e0fc0e3fcf02a461261dd15d1f8",
+          "focusGeometrySha256": "5b12481433d8beee91d94d299bf22ca9ebc24ba29b67884b188a9e225b47fb4a",
+          "contextGeometrySha256": "ee01447c462c0648622c7047975fdf0aa12f0d640ebafed9331aa5ffe8c7bf74",
+          "contextEvidenceSha256": "d8b223997ec409b639e3296b5155fea3a856662ea2e7bfec2cc240b2cbf626a2",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 106,
+            "pdfPage": 107,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "knife-buckle",
+          "originalContextBoundsPdfPagePointsLTRB": null,
+          "originalContextSourceRenderSha256": null,
+          "originalContextSourceRenderDimensionsPx": null,
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": []
+        }
+      ],
+      "sourceContentBlocks": [
+        {
+          "blockId": "knife-buckle-subject-and-roll-basis-lead-in:block-1",
+          "groupId": "ua-other-013",
+          "sourceBlockId": "knife-buckle-subject-and-roll-basis-lead-in:source-block-1",
+          "kind": "subject-heading-or-lead-in-block",
+          "label": "Knife, Buckle introduction and four-variety lead-in",
+          "definitionId": null,
+          "boundsPdfPagePointsTopLeftLTRB": [
+            31.4,
+            126.96,
+            293.85,
+            184.28
+          ],
+          "sourceFrame": {
+            "book": "UA",
+            "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+            "printedPage": 106,
+            "pdfPage": 107
+          },
+          "affectedRecordIds": [
+            "ua-other-013-item-r001",
+            "ua-other-013-item-r002",
+            "ua-other-013-item-r003",
+            "ua-other-013-item-r004"
+          ],
+          "currentTargetId": "ua-other-013:knife-buckle:v2-primary-context",
+          "legacyTargetId": "legacy:ua-other-013:knife-buckle",
+          "reviewStatus": "confirmed incomplete; target begins below subject and roll lead-in"
+        }
+      ],
+      "confirmedBeforeClassification": "confirmed source context omits reviewed bounded content; row and semantic relevance remain separate",
+      "rationale": "The Knife, Buckle target begins below the item-identifying introduction and roll-basis lead-in for four rows.",
+      "findingOverlapDisposition": {
+        "recordUidsDeduplicatedWithinThisExtension": true,
+        "repeatedSubjectNoteBlockRowsCombinedIntoSingleFinding": false,
+        "existingIndependentFindingsForSameUids": [],
+        "distinctFailureDimensionsRemainDistinct": "Prior marker/focus/row-identity findings on the same UID remain separate; this extension counts the source row UID once and records their IDs for deduplication."
+      }
+    },
+    {
+      "id": "ua-scimitar-speed-subject-lead-in-context-omitted",
+      "kind": "source-context-crop-defect",
+      "independent": true,
+      "reviewScope": "source-context extent and explicit row→context join only; no source-value, price, row-focus, marker applicability, or semantic approval",
+      "sourceInputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "contextReviewReceipt": {
+        "path": "/tmp/batch5-independent-ua-v2-context-review/context-obligation-inventory.json",
+        "sha256": "cde345e998f86ea30d4a048cfd4823a2377d519c196c06a5fc2f69ae0134b3f8"
+      },
+      "baselineV2": {
+        "path": "/tmp/batch5-ua-source-context-obligations-v2-before-20261107/baseline-v2.3-classfocus-full-annotations.json",
+        "sha256": "062e722cda9ca017674eedd14ce806bf26108e7d702ba0432d6fadd65d4fd2f1"
+      },
+      "sourceGroupId": "ua-other-015",
+      "originalLegacyContextTargetIds": [
+        "legacy:ua-other-015:scimitar-speed"
+      ],
+      "affectedSourceRowUids": [
+        "ua-supplement-row:ua-other-015-item-r001",
+        "ua-supplement-row:ua-other-015-item-r002",
+        "ua-supplement-row:ua-other-015-item-r003",
+        "ua-supplement-row:ua-other-015-item-r004",
+        "ua-supplement-row:ua-other-015-item-r005"
+      ],
+      "records": [
+        {
+          "uid": "ua-supplement-row:ua-other-015-item-r001",
+          "recordId": "ua-other-015-item-r001",
+          "sourceRecordPointer": "/rowRecords/578",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "110a37508eb2cda65f5dd2d717b7f707b4f7676f869d9e91a990410f65d51374",
+          "rowIdentitySha256": "685f7af606c494d2d467d832fe013e376df5445106e4aaf4aa5807b514e5d158",
+          "focusGeometrySha256": "c1f89cb3a9dd9d80da1d12efd1800a4cb1f2014404fd765c448ab0527276bb38",
+          "contextGeometrySha256": "3afa82db6cf73bb084609f8d854aba764b05da5db999079999c3731a252f1ee8",
+          "contextEvidenceSha256": "4fbb2ddde2528b472fe4227b8894f02192b18eb6ccdc7d75c298fc59081feeed",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 106,
+            "pdfPage": 107,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "scimitar-speed",
+          "originalContextBoundsPdfPagePointsLTRB": null,
+          "originalContextSourceRenderSha256": null,
+          "originalContextSourceRenderDimensionsPx": null,
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": []
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-015-item-r002",
+          "recordId": "ua-other-015-item-r002",
+          "sourceRecordPointer": "/rowRecords/579",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "856c45e6139b5e8ebd1d0b288f3d888ecbf296c6bc722791def7042e61fcb0f9",
+          "rowIdentitySha256": "9bc5142e6b26d8b681b4d6a33c42d538d0cb38f7d76e3234609351ae5c243f10",
+          "focusGeometrySha256": "d4248b5385ae601e955d882983b924de4f829507829db962146fcf5d2d8f10a6",
+          "contextGeometrySha256": "3afa82db6cf73bb084609f8d854aba764b05da5db999079999c3731a252f1ee8",
+          "contextEvidenceSha256": "4fbb2ddde2528b472fe4227b8894f02192b18eb6ccdc7d75c298fc59081feeed",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 106,
+            "pdfPage": 107,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "scimitar-speed",
+          "originalContextBoundsPdfPagePointsLTRB": null,
+          "originalContextSourceRenderSha256": null,
+          "originalContextSourceRenderDimensionsPx": null,
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": []
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-015-item-r003",
+          "recordId": "ua-other-015-item-r003",
+          "sourceRecordPointer": "/rowRecords/580",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "a026c630f7a0e3a0a1499d26054ba088fb6d8f1e21dc0b2d52bb11ff381ea067",
+          "rowIdentitySha256": "db3d2a1cc7b647132a221a023fd565a2930000752a039ec9aea755f8db312ddd",
+          "focusGeometrySha256": "75ab273c2dbafa8e7c4ddcf84be4a8b251a5e90d54a1851266375b490730e758",
+          "contextGeometrySha256": "3afa82db6cf73bb084609f8d854aba764b05da5db999079999c3731a252f1ee8",
+          "contextEvidenceSha256": "4fbb2ddde2528b472fe4227b8894f02192b18eb6ccdc7d75c298fc59081feeed",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 106,
+            "pdfPage": 107,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "scimitar-speed",
+          "originalContextBoundsPdfPagePointsLTRB": null,
+          "originalContextSourceRenderSha256": null,
+          "originalContextSourceRenderDimensionsPx": null,
+          "existingFindingIds": [
+            "ua-remaining-focus-ua-other-015-item-r003"
+          ],
+          "noteDefinitionObligationsMissingFromLinkedContext": []
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-015-item-r004",
+          "recordId": "ua-other-015-item-r004",
+          "sourceRecordPointer": "/rowRecords/581",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "6c958a2306413647393ac2e5ea0e88fe10ba435f742c56ec68f71d8b947fa378",
+          "rowIdentitySha256": "a05ec147bfa5feb24ed2c8278c2f1ff3fd7aab87690993a7719b1fbc0bf34ea2",
+          "focusGeometrySha256": "12488b409057cb515fb5b44cd48c5bc0c1d23811ddf13bb07bb73e5633846834",
+          "contextGeometrySha256": "3afa82db6cf73bb084609f8d854aba764b05da5db999079999c3731a252f1ee8",
+          "contextEvidenceSha256": "4fbb2ddde2528b472fe4227b8894f02192b18eb6ccdc7d75c298fc59081feeed",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 106,
+            "pdfPage": 107,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "scimitar-speed",
+          "originalContextBoundsPdfPagePointsLTRB": null,
+          "originalContextSourceRenderSha256": null,
+          "originalContextSourceRenderDimensionsPx": null,
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": []
+        },
+        {
+          "uid": "ua-supplement-row:ua-other-015-item-r005",
+          "recordId": "ua-other-015-item-r005",
+          "sourceRecordPointer": "/rowRecords/582",
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+          },
+          "originalRecordSha256": "7f7f48aca013281717f1a50d8b81c3b38e97c83446d8e6fb502aeff901910053",
+          "rowIdentitySha256": "196f42590d4611d3ec1e399b84cccaa8f904cee2a45b3367de9142fcc70c0c1e",
+          "focusGeometrySha256": "bc7daf00a4ab31b2c1b0079f5fc7ca9ad8bfb0933946cdc2146c5a4caa1dea07",
+          "contextGeometrySha256": "3afa82db6cf73bb084609f8d854aba764b05da5db999079999c3731a252f1ee8",
+          "contextEvidenceSha256": "4fbb2ddde2528b472fe4227b8894f02192b18eb6ccdc7d75c298fc59081feeed",
+          "contextFingerprintVersion": "ua-group-active-context-targets-v1",
+          "originalSourceFrame": {
+            "book": "UA",
+            "printedPage": 106,
+            "pdfPage": 107,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          "originalSegmentId": "scimitar-speed",
+          "originalContextBoundsPdfPagePointsLTRB": null,
+          "originalContextSourceRenderSha256": null,
+          "originalContextSourceRenderDimensionsPx": null,
+          "existingFindingIds": [],
+          "noteDefinitionObligationsMissingFromLinkedContext": []
+        }
+      ],
+      "sourceContentBlocks": [
+        {
+          "blockId": "scimitar-speed-subject-and-valuation-lead-in:block-1",
+          "groupId": "ua-other-015",
+          "sourceBlockId": "scimitar-speed-subject-and-valuation-lead-in:source-block-1",
+          "kind": "subject-heading-or-lead-in-block",
+          "label": "Scimitar of Speed description/lead-in",
+          "definitionId": null,
+          "boundsPdfPagePointsTopLeftLTRB": [
+            314.9,
+            41.26,
+            576.14,
+            250.48
+          ],
+          "sourceFrame": {
+            "book": "UA",
+            "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+            "printedPage": 106,
+            "pdfPage": 107
+          },
+          "affectedRecordIds": [
+            "ua-other-015-item-r001",
+            "ua-other-015-item-r002",
+            "ua-other-015-item-r003",
+            "ua-other-015-item-r004",
+            "ua-other-015-item-r005"
+          ],
+          "currentTargetId": "ua-other-015:scimitar-speed:v2-primary-context",
+          "legacyTargetId": "legacy:ua-other-015:scimitar-speed",
+          "reviewStatus": "confirmed incomplete; target starts below subject and description"
+        }
+      ],
+      "confirmedBeforeClassification": "confirmed source context omits reviewed bounded content; row and semantic relevance remain separate",
+      "rationale": "The Scimitar of Speed target begins below the item-identifying description and valuation lead-in for five rows.",
+      "findingOverlapDisposition": {
+        "recordUidsDeduplicatedWithinThisExtension": true,
+        "repeatedSubjectNoteBlockRowsCombinedIntoSingleFinding": false,
+        "existingIndependentFindingsForSameUids": [
+          {
+            "uid": "ua-supplement-row:ua-other-015-item-r003",
+            "findingId": "ua-remaining-focus-ua-other-015-item-r003"
+          }
+        ],
+        "distinctFailureDimensionsRemainDistinct": "Prior marker/focus/row-identity findings on the same UID remain separate; this extension counts the source row UID once and records their IDs for deduplication."
+      }
+    }
+  ],
+  "sourceContentBlockDenominator": [
+    {
+      "blockId": "ring-table-title-and-limited-charges-note:block-1",
+      "groupId": "ua-other-003",
+      "sourceBlockId": "ring-table-title-and-limited-charges-note:source-block-1",
+      "kind": "subject-heading-or-lead-in-block",
+      "label": "III.C. RINGS title",
+      "definitionId": null,
+      "boundsPdfPagePointsTopLeftLTRB": [
+        23.8,
+        416.8,
+        81.3,
+        426.7
+      ],
+      "sourceFrame": {
+        "book": "UA",
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "printedPage": 85,
+        "pdfPage": 86
+      },
+      "affectedRecordIds": [
+        "ua-other-003-rings-c-r003",
+        "ua-other-003-rings-c-r008",
+        "ua-other-003-rings-c-r010",
+        "ua-other-003-rings-c-r011",
+        "ua-other-003-rings-c-r018",
+        "ua-other-003-rings-c-r019",
+        "ua-other-003-rings-c-r023"
+      ],
+      "currentTargetId": "ua-other-003:rings-c:v2-primary-context",
+      "legacyTargetId": "legacy:ua-other-003:rings-c",
+      "reviewStatus": "confirmed incomplete; target omits table title and note; no other active target contains note"
+    },
+    {
+      "blockId": "ring-table-title-and-limited-charges-note:block-2",
+      "groupId": "ua-other-003",
+      "sourceBlockId": "ua-p85-rings-limited-charges",
+      "kind": "note-definition-or-qualifier-block",
+      "label": "limited-charge definition",
+      "definitionId": "ua-p85-rings-limited-charges",
+      "boundsPdfPagePointsTopLeftLTRB": [
+        23.8,
+        692.52,
+        285.65,
+        721.37
+      ],
+      "sourceFrame": {
+        "book": "UA",
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "printedPage": 85,
+        "pdfPage": 86
+      },
+      "affectedRecordIds": [
+        "ua-other-003-rings-c-r003",
+        "ua-other-003-rings-c-r008",
+        "ua-other-003-rings-c-r010",
+        "ua-other-003-rings-c-r011",
+        "ua-other-003-rings-c-r018",
+        "ua-other-003-rings-c-r019",
+        "ua-other-003-rings-c-r023"
+      ],
+      "currentTargetId": "ua-other-003:rings-c:v2-primary-context",
+      "legacyTargetId": "legacy:ua-other-003:rings-c",
+      "reviewStatus": "confirmed incomplete; target omits table title and note; no other active target contains note"
+    },
+    {
+      "blockId": "staff-spear-introduction-and-mode-qualifier:block-1",
+      "groupId": "ua-other-009",
+      "sourceBlockId": "staff-spear-introduction-and-mode-qualifier:source-block-1",
+      "kind": "subject-heading-or-lead-in-block",
+      "label": "Staff-Spear lead-in",
+      "definitionId": null,
+      "boundsPdfPagePointsTopLeftLTRB": [
+        23.9,
+        277.1,
+        286,
+        354
+      ],
+      "sourceFrame": {
+        "book": "UA",
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "printedPage": 95,
+        "pdfPage": 96
+      },
+      "affectedRecordIds": [
+        "ua-other-009-item-r006"
+      ],
+      "currentTargetId": "ua-other-009:staff-spear:v2-primary-context",
+      "legacyTargetId": "legacy:ua-other-009:staff-spear",
+      "reviewStatus": "confirmed incomplete; no other active target contains definition"
+    },
+    {
+      "blockId": "staff-spear-introduction-and-mode-qualifier:block-2",
+      "groupId": "ua-other-009",
+      "sourceBlockId": "ua-p94-staff-spear-plus3",
+      "kind": "note-definition-or-qualifier-block",
+      "label": "damage as ranseur, but spear when thrust or set to receive a charge",
+      "definitionId": "ua-p94-staff-spear-plus3",
+      "boundsPdfPagePointsTopLeftLTRB": [
+        24.2,
+        446.79,
+        286.28,
+        468.47
+      ],
+      "sourceFrame": {
+        "book": "UA",
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "printedPage": 95,
+        "pdfPage": 96
+      },
+      "affectedRecordIds": [
+        "ua-other-009-item-r006"
+      ],
+      "currentTargetId": "ua-other-009:staff-spear:v2-primary-context",
+      "legacyTargetId": "legacy:ua-other-009:staff-spear",
+      "reviewStatus": "confirmed incomplete; no other active target contains definition"
+    },
+    {
+      "blockId": "knife-buckle-subject-and-roll-basis-lead-in:block-1",
+      "groupId": "ua-other-013",
+      "sourceBlockId": "knife-buckle-subject-and-roll-basis-lead-in:source-block-1",
+      "kind": "subject-heading-or-lead-in-block",
+      "label": "Knife, Buckle introduction and four-variety lead-in",
+      "definitionId": null,
+      "boundsPdfPagePointsTopLeftLTRB": [
+        31.4,
+        126.96,
+        293.85,
+        184.28
+      ],
+      "sourceFrame": {
+        "book": "UA",
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "printedPage": 106,
+        "pdfPage": 107
+      },
+      "affectedRecordIds": [
+        "ua-other-013-item-r001",
+        "ua-other-013-item-r002",
+        "ua-other-013-item-r003",
+        "ua-other-013-item-r004"
+      ],
+      "currentTargetId": "ua-other-013:knife-buckle:v2-primary-context",
+      "legacyTargetId": "legacy:ua-other-013:knife-buckle",
+      "reviewStatus": "confirmed incomplete; target begins below subject and roll lead-in"
+    },
+    {
+      "blockId": "scimitar-speed-subject-and-valuation-lead-in:block-1",
+      "groupId": "ua-other-015",
+      "sourceBlockId": "scimitar-speed-subject-and-valuation-lead-in:source-block-1",
+      "kind": "subject-heading-or-lead-in-block",
+      "label": "Scimitar of Speed description/lead-in",
+      "definitionId": null,
+      "boundsPdfPagePointsTopLeftLTRB": [
+        314.9,
+        41.26,
+        576.14,
+        250.48
+      ],
+      "sourceFrame": {
+        "book": "UA",
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "printedPage": 106,
+        "pdfPage": 107
+      },
+      "affectedRecordIds": [
+        "ua-other-015-item-r001",
+        "ua-other-015-item-r002",
+        "ua-other-015-item-r003",
+        "ua-other-015-item-r004",
+        "ua-other-015-item-r005"
+      ],
+      "currentTargetId": "ua-other-015:scimitar-speed:v2-primary-context",
+      "legacyTargetId": "legacy:ua-other-015:scimitar-speed",
+      "reviewStatus": "confirmed incomplete; target starts below subject and description"
+    }
+  ],
+  "deduplication": {
+    "noteDefinitionObligationsAreAssociations": "22 missing row-linked definition extents cover 21 source row UIDs because H1-cont r030 has two definitions.",
+    "overlappedRows": "The 7 Ring rows are represented once in ua-rings-title-and-limited-charges-context-omitted despite both a title block and note/7 note joins; Staff-Spear r006 is represented once in ua-staff-spear-introduction-and-qualifier-context-omitted despite both the introduction and qualifier block plus one note join.",
+    "subjectOnlyRows": "Knife-Buckle contributes 4 subject-only rows; Scimitar Speed contributes 5 subject-only rows. These are the 9 additional row UIDs beyond 21 note rows.",
+    "priorFindings": "Any UID already named in the sealed prior finding baseline retains its existing focus/marker/identity finding separately; per-UID existing finding IDs are included in each record reference. No existing finding is overwritten or removed."
+  },
+  "limitations": {
+    "sourceArtifactsWritten": 0,
+    "indexWrites": 0,
+    "sourceValuesChanged": 0,
+    "priceGradesChanged": 0,
+    "sourceValueOrSemanticPass": false,
+    "all103MarkerApplicabilityRetainedUncertain": true,
+    "contentSemanticRelevanceBeyondManualBoundedObservations": "not assessed",
+    "candidateV2RejectedForCurrentContextCompleteness": true,
+    "thisExtensionIsBeforeV3": true
+  }
+}

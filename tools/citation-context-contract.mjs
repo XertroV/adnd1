@@ -38,7 +38,7 @@ export function reportContextContracts(data, loadCatalog, manifest) {
         result.cropBounds={space:'rendered-source-page',origin:'top-left',units:'normalized',format:'xywh',values:sourceRect(region.normalizedPageRect)};
         result.requiredBounds=bounds;
         result.status=containsContext(region.normalizedPageRect,bounds.values)?'contains-required-context':'context-clipped';
-        result.reason=result.status==='context-clipped'?'Crop excludes part of the recorded complete table extent':'Recorded context extent is contained; current pixels and semantic context retain their separate review statuses';
+        result.reason=result.status==='context-clipped'?'Crop excludes part of the recorded required passage or table extent':'Recorded context extent is contained; current pixels and semantic context retain their separate review statuses';
       }
     }
     checks.push(result);

@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Exact minimal source-row detector false-pass probes: one valid positive baseline and independent invalid preferred state/path/count variants. Catalog shape validates for baseline; no semantic source assertions.",
+  "source": {
+    "book": "UA",
+    "printedPage": 28,
+    "pdfPage": 29,
+    "sourceSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "contracts": {
+    "schemaVersion": 1,
+    "tables": [
+      {
+        "id": "ua28-eligibility-fixture",
+        "book": "UA",
+        "printedPage": 28,
+        "pdfPage": 29,
+        "sourceSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "rowCount": 1,
+        "rows": [
+          {
+            "id": "source-row",
+            "label": "Fixture",
+            "targets": [
+              {
+                "collection": "equipment",
+                "itemId": "fixture",
+                "applicability": "confirmed",
+                "evidence": "Explicit fixture row-to-owner mapping",
+                "requiredRegionIds": [
+                  "row"
+                ],
+                "requiredTableImageSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "requiredEvidenceRole": "row"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "baseline": {
+    "item": {
+      "id": "fixture",
+      "book": "UA",
+      "pages": [
+        28
+      ],
+      "sourceExcerpts": {
+        "state": "source-excerpt-checked",
+        "collection": "equipment",
+        "catalog": "scans/verified/equipment-fixture.json",
+        "regionCount": 1
+      }
+    },
+    "catalog": {
+      "schemaVersion": 1,
+      "collection": "equipment",
+      "itemId": "fixture",
+      "scope": "Single source row eligibility calibration",
+      "sources": {
+        "UA": {
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "hashStatus": "computed-local"
+        }
+      },
+      "regions": [
+        {
+          "id": "row",
+          "book": "UA",
+          "printedPage": 28,
+          "pdfPage": 29,
+          "image": "ua28-fixture.png",
+          "width": 100,
+          "height": 100,
+          "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "role": "row",
+          "verification": "visually-checked-crop",
+          "verificationScope": "source-excerpt",
+          "focusRects": [
+            [
+              0.1,
+              0.1,
+              0.8,
+              0.1
+            ]
+          ],
+          "title": "UA28 Fixture row",
+          "alt": "Fixture row",
+          "summary": "Fixture row",
+          "checkedFields": {
+            "sourceExcerpt": "Fixture row"
+          }
+        }
+      ]
+    },
+    "detectorValid": true
+  },
+  "negativeCases": [
+    {
+      "kind": "invalid-state",
+      "item": {
+        "id": "fixture",
+        "book": "UA",
+        "pages": [
+          28
+        ],
+        "sourceExcerpts": {
+          "state": "unreviewed",
+          "collection": "equipment",
+          "catalog": "scans/verified/equipment-fixture.json",
+          "regionCount": 1
+        }
+      },
+      "detectorValid": true,
+      "detectorStatus": "reference-and-source-page-excerpt-present",
+      "stateEligible": false,
+      "pathEligible": true,
+      "catalogValidationError": null
+    },
+    {
+      "kind": "invalid-path",
+      "item": {
+        "id": "fixture",
+        "book": "UA",
+        "pages": [
+          28
+        ],
+        "sourceExcerpts": {
+          "state": "source-excerpt-checked",
+          "collection": "equipment",
+          "catalog": "scans/verified/equipment-other-owner.json",
+          "regionCount": 1
+        }
+      },
+      "detectorValid": true,
+      "detectorStatus": "reference-and-source-page-excerpt-present",
+      "stateEligible": true,
+      "pathEligible": false,
+      "catalogValidationError": null
+    },
+    {
+      "kind": "wrong-region-count",
+      "item": {
+        "id": "fixture",
+        "book": "UA",
+        "pages": [
+          28
+        ],
+        "sourceExcerpts": {
+          "state": "source-excerpt-checked",
+          "collection": "equipment",
+          "catalog": "scans/verified/equipment-fixture.json",
+          "regionCount": 2
+        }
+      },
+      "detectorValid": true,
+      "detectorStatus": "reference-and-source-page-excerpt-present",
+      "stateEligible": true,
+      "pathEligible": true,
+      "catalogValidationError": "Invalid scan catalog contents for fixture"
+    }
+  ]
+}

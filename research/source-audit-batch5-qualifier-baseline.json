@@ -1,0 +1,45 @@
+{
+  "inputCommit": "679b15d1c580172e54314829c1c3c86dc78b65f3",
+  "capturedBeforeRepair": true,
+  "schemaVersion": 1,
+  "scope": "Every exposed mechanics field is enumerated. Familiar death/HP lexical matches are candidates; semantic qualifier completeness outside the one declared contract is unassessed.",
+  "counts": {
+    "fields": 13418,
+    "candidates": 3,
+    "declaredContracts": 1
+  },
+  "candidates": [
+    {
+      "collection": "spells",
+      "itemId": "phb-magic-user-find-familiar",
+      "path": "/fields/Special familiar benefits",
+      "value": "Brownie (PHB p.66): the magic-user gains Dexterity equal to the brownie’s 18, is never surprised, and gains +2 on all saving throws. Pseudo-dragon (MM pp.79–80): a companion shares its 35% magic resistance while touching it; it uses limited telepathy and can convey sight and hearing to its companion within 24″. Imp or quasit familiar (MM pp.54, 80): telepathy shares the familiar’s senses up to one mile; within 1″ the master gains 25% magic resistance and regenerates 1 hit point per melee round. Within one mile the master gains one level of ability; at more than a mile the source says the character loses one level, and if the familiar is killed the character loses four levels. Once a week the familiar can contact a lower plane like commune with six questions."
+    },
+    {
+      "collection": "spells",
+      "itemId": "phb-magic-user-find-familiar",
+      "path": "/effect/1",
+      "value": "A normal familiar has 2–4 HP and AC 7; while within 12″, its HP are added to its master's total."
+    },
+    {
+      "collection": "spells",
+      "itemId": "phb-magic-user-find-familiar",
+      "path": "/exceptions/0",
+      "value": "If the familiar dies, its master permanently loses twice the familiar's HP."
+    }
+  ],
+  "contracts": [
+    {
+      "collection": "spells",
+      "itemId": "phb-magic-user-find-familiar",
+      "fieldPointer": "/exceptions/0",
+      "requiredQualifier": "normal familiar",
+      "status": "missing-required-qualifier",
+      "value": "If the familiar dies, its master permanently loses twice the familiar's HP.",
+      "source": {
+        "book": "PHB",
+        "printedPage": 66
+      }
+    }
+  ]
+}

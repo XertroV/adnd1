@@ -13,6 +13,7 @@ const readJson = path => JSON.parse(readFileSync(path, 'utf8'));
 const manifest = readJson(join(root, 'research/citation-continuations.json'));
 const history = readJson(join(root, 'tests/fixtures/citation-continuation-history.json'));
 const fixture = readJson(join(root, 'tests/fixtures/citation-continuation-order.json'));
+const historicalExpansion = readJson(join(root, 'tests/fixtures/citation-continuation-expansion-22.json'));
 const data = readJson(join(root, 'dist/data.json'));
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
 
@@ -183,6 +184,36 @@ test('duplicate required region IDs are reported and rejected', t => {
   const report = auditRequiredSegmentPresence(group, duplicated);
   assert.ok(report.duplicateRegionIds.includes(item.requiredRegionIds[0]));
   assert.throws(() => validateOneGroup(t, group, () => duplicated), /duplicate|repeated|order|catalog/i);
+});
+
+test('each newly source-reviewed pair rejects a missing part and reversed source order', t => {
+  const historicalAdditions = historicalExpansion.afterExpansion.newGroups;
+  assert.equal(historicalAdditions.length, 8, 'the frozen 22-group snapshot records eight additions after the historical 14-group prefix');
+  const additions = historicalAdditions.map(snapshot => {
+    const current = groupFor(snapshot.id);
+    assert.deepEqual(current.segments.map(segment => segment.regionId), snapshot.segments.map(segment => segment.regionId), `${snapshot.id}: current manifest retains the frozen added pair`);
+    return current;
+  });
+  for (const group of additions) {
+    const ids = group.segments.map(segment => segment.regionId);
+    const catalog = sourceCatalog(group);
+    const correct = auditRequiredSegmentPresence(group, catalog);
+    assert.deepEqual(correct.missing, [], `${group.id}: every reviewed region is present`);
+    assert.deepEqual(correct.mismatches, [], `${group.id}: every image and source binding matches`);
+    assert.deepEqual(projectedIds(correct.actualOrder), ids, `${group.id}: source catalog order matches opening-to-continuation`);
+
+    const reversed = replaceRegionPositions(catalog, ids, [...ids].reverse());
+    const reversedReport = auditRequiredSegmentPresence(group, reversed);
+    assert.deepEqual(reversedReport.missing, [], `${group.id}: reversed parts remain present`);
+    assert.ok(reversedReport.orderMismatches.some(mismatch => mismatch.dimension === 'catalog'), `${group.id}: reversed order is explicit`);
+    assert.throws(() => validateOneGroup(t, group, () => reversed), /order|sequence|display/i, `${group.id}: validator rejects reversed parts`);
+
+    const missing = structuredClone(catalog);
+    missing.regions = missing.regions.filter(region => region.id !== ids[1]);
+    const missingReport = auditRequiredSegmentPresence(group, missing);
+    assert.deepEqual(missingReport.missing.map(segment => segment.regionId), [ids[1]], `${group.id}: missing continuation is explicit`);
+    assert.throws(() => validateOneGroup(t, group, () => missing), /missing|region|absent/i, `${group.id}: validator rejects a missing part`);
+  }
 });
 
 test('the fixture pre-fix receipt matches the older missing-segment regression identity', () => {

@@ -1,0 +1,106 @@
+{
+  "artifactType": "independent-final-ci-portability-test-repair-review",
+  "result": "APPROVED; no blocker within the authorized portability and preserved-regression scope.",
+  "baseCommit": "2ee8185ac49d0d722d93f6a226ba4a46ebf4cf4e",
+  "reviewedExactFiles": [
+    {
+      "path": "tests/continuation-candidates-fixtures.py",
+      "sha256": "f3fd17b35d6e3df6731f0967ffa82b53add16cc7a1cd01862c36e13c590daacb",
+      "sizeBytes": 8684
+    },
+    {
+      "path": "tests/continuation-candidates.test.mjs",
+      "sha256": "3b50533b6d1307ac2ef5c43ef114a60e9fec3294eb14a1c5374af9638a4ba21a",
+      "sizeBytes": 13932
+    },
+    {
+      "path": "tests/continuation-reconciliation.test.mjs",
+      "sha256": "5fb01e8557ec5feb0dd4b2acf00510e464d5e903c53ede0eee797ac0b70100e0",
+      "sizeBytes": 14357
+    },
+    {
+      "path": "tests/fixtures/continuation-druid-phb55-56-proposal.json.gz",
+      "sha256": "3d0d997c7f0ec7abde7a5d79540310039bc5af8263bc06e14c6e5833e2a60025",
+      "sizeBytes": 1279
+    }
+  ],
+  "beforeArtifacts": [
+    {
+      "path": "research/source-audit-batch5-remote-ci-portability-before.json",
+      "sha256": "acc215577ba4934370d229c87a3cc87112dbe5e6d985f7277ebf23e5b6202ea4",
+      "sizeBytes": 1537
+    },
+    {
+      "path": "research/source-audit-batch5-private-continuation-test-stale-before.json",
+      "sha256": "e8b69c8a96bc7603b3c41bd9fc7036b2704feca43e7774dc89e306a8d968d915",
+      "sizeBytes": 844
+    }
+  ],
+  "pythonImportGuardAssessment": "fitz import now follows the existing explicit private-source environment and file-availability guards. Source absence produces one explicit private skip; six stdlib numeric fixtures remain active. A provided existing source still requires fitz and exact PDF SHA, rather than silently skipping an invalid source/dependency.",
+  "nodeHarnessAssessment": "The existing numeric fixture subprocess now uses python3 -S and an explicitly empty ADND1_PRIVATE_SOURCE_DIR. This prevents local private files or site-package availability from becoming an undeclared CI requirement.",
+  "animateObjectRegressionAssessment": "The same optional existing private test verifies the PDF SHA against the committed catalog; retains unpunctuated endpoint and positive line-count assertions; tests the committed historical source-page-point crop as positive crossings and the current corrected crop as zero crossings. Existing numeric calibration still covers original three word boxes. No domain detector, geometry, citation, source or semantic disposition is changed.",
+  "druidFixtureAssessment": {
+    "gzip": {
+      "path": "tests/fixtures/continuation-druid-phb55-56-proposal.json.gz",
+      "sha256": "3d0d997c7f0ec7abde7a5d79540310039bc5af8263bc06e14c6e5833e2a60025",
+      "sizeBytes": 1279
+    },
+    "rawSha256": "036cc95bef27587548ee9f4bcf66ba2a45475d93be368b46287104bbf587e527",
+    "rawSizeBytes": 3754,
+    "parsedExactCommittedProposalObject": true,
+    "committedProposal": {
+      "path": "research/source-audit-batch5-continuation-final-proposal.json",
+      "sha256": "b4502869461a39d3734f9501dfb7baee7c3ed15203e13f758d8c3cd786066226",
+      "sizeBytes": 192824
+    },
+    "sourceEvidence": {
+      "path": "research/source-audit-batch5-continuation-phb55-56.json",
+      "sha256": "2beb8d9c76dc14b32e3a64c603ce74a21952f24e7022ecd1c44fb7f727231fbb",
+      "sizeBytes": 4745
+    },
+    "metadataOnlyNoRasterOrPdfPayload": true,
+    "preservedScope": "Own-passage PHB55\u201356 cross-page proposal remains outside the fixed44 same-page owner denominator; required region ordering and endpoint roles remain unchanged."
+  },
+  "independentRuns": {
+    "node": {
+      "command": "node --test tests/continuation-candidates.test.mjs tests/continuation-reconciliation.test.mjs",
+      "exitCode": 0,
+      "passed": 15,
+      "failed": 0,
+      "stdout": {
+        "path": "/tmp/final-ci-portability-independent-node-tests.log",
+        "sha256": "6e774c62104b0700b9ae29c235057b2e9e19cc715fd814291e067fb6936f6094",
+        "sizeBytes": 1730
+      },
+      "stderr": {
+        "path": "/tmp/final-ci-portability-independent-node-tests.err",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sizeBytes": 0
+      }
+    },
+    "noSitePython": {
+      "command": "ADND1_PRIVATE_SOURCE_DIR= python3 -S tests/continuation-candidates-fixtures.py",
+      "exitCode": 0,
+      "tests": 7,
+      "passed": 6,
+      "explicitPrivateSkipped": 1,
+      "failed": 0,
+      "log": {
+        "path": "/tmp/final-ci-portability-independent-no-site-python.log",
+        "sha256": "b9619df1757f3937678b07390214714def85a6ba24017aad8f8280c33682a0a8",
+        "sizeBytes": 1488
+      }
+    }
+  },
+  "rootReportedPrivateRun": {
+    "tests": 7,
+    "passed": 7,
+    "failed": 0,
+    "independentlyRerunByThisReviewer": false,
+    "qualification": "Root explicitly reported the existing authorized private-PDF7/7 run under these final test bytes. This receipt independently reviews its assertions and runs the no-site/Node paths; root owns sealing the private-run execution evidence."
+  },
+  "noProductionModuleOrDistChangesSinceBase": true,
+  "sourcePayloadUnchanged": true,
+  "endPinsStable": true,
+  "scope": "Only the three test files and exact Druid metadata fixture reviewed. No new optional classes/matrix, pixel/source QA, production changes, source/code/seal edits or commits by this reviewer. Root owns copy/seal, commit and final clean/remote CI rerun."
+}

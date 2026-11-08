@@ -4,11 +4,13 @@ import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import vm from 'node:vm';
+import {buildPublishedContinuations} from '../tools/published-continuations.mjs';
 
 const read=path=>JSON.parse(readFileSync(path,'utf8'));
 const baseline=read('research/source-viewer-navigation-baseline.json');
 const data=read('dist/data.json');
-const published=read('dist/source-continuations.json');
+const manifest=read('research/citation-continuations.json');
+const published=buildPublishedContinuations({manifest,data,catalogRoot:'dist'});
 const require=createRequire(import.meta.url);
 const citations=require('../dist/citations.js');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
@@ -141,7 +143,7 @@ test('bounded full-data selected-catalog navigation has no missing stops, cycles
   assert.equal(typeof hooks.navigationDestination,'function','navigationDestination(direction) is required');
   const names=['rules','spells','equipment','classes','matrices'];
   const catalogCache=new Map();
-  let recordsInspected=0,catalogItems=0,selectedCatalogPageStops=0,selectedCatalogExcerptStops=0,totalStops=0;
+  let recordsInspected=0,catalogItems=0,selectedCatalogPageStops=0,selectedCatalogExcerptStops=0,totalStops=0,missingExcerptPageStops=0;
   const refsFor=item=>citations.collect(item).flatMap(group=>group.pages.map(page=>({book:group.book,page,labels:[]})));
   const owners=names.flatMap(collection=>(data[collection]||[]).map(item=>({collection,item}))).concat([{collection:'progressionExplainer',item:data.progressionExplainer}]);
   for(const {collection,item} of owners){
@@ -163,7 +165,7 @@ test('bounded full-data selected-catalog navigation has no missing stops, cycles
         if(pageRegions.length){
           pageRegions.forEach((_,regionIndex)=>expected.push({referenceIndex,regionIndex}));
           selectedCatalogExcerptStops+=pageRegions.length;
-        }else expected.push({referenceIndex,regionIndex:-1});
+        }else {expected.push({referenceIndex,regionIndex:-1});missingExcerptPageStops++;}
       });
       assert.ok(expected.length,`${collection}:${item.id} has at least one citation stop`);
       totalStops+=expected.length;
@@ -180,11 +182,11 @@ test('bounded full-data selected-catalog navigation has no missing stops, cycles
       }
       assert.equal(visited.size,expected.length,`${collection}:${item.id} every stop is reachable exactly once`);
   }
-  assert.equal(recordsInspected,993,'the denominator covers every current core exposed record');
-  assert.equal(catalogItems,993,'all current owners have one selected catalog');
-  assert.equal(selectedCatalogPageStops,1959,'the denominator covers every current cited book/page group');
-  assert.equal(selectedCatalogExcerptStops,2666,'the denominator covers every region node on those cited pages');
-  assert.equal(totalStops,2667,'one cited page with no published crop remains an explicit page-level stop');
+  assert.equal(recordsInspected,owners.length,'the denominator covers every current core exposed record');
+  assert.equal(catalogItems,owners.length,'all current owners have one selected catalog');
+  assert.equal(selectedCatalogPageStops,owners.reduce((sum,{item})=>sum+citations.pages(item).length,0),'every current cited book/page is visited');
+  assert.equal(missingExcerptPageStops,1,'the known cited page without a published crop remains explicit');
+  assert.equal(totalStops,selectedCatalogExcerptStops+missingExcerptPageStops,'every excerpt and unavailable-page stop is visited');
 });
 
 test('a target-promoted region keeps its captured ID when selecting another region clears field semantics',()=>{
@@ -238,6 +240,44 @@ test('validated continuation parts preserve independent focus metadata and rejec
   hooks.setState({continuations:stale});
   assert.equal(hooks.validatedContinuationParts({book:'UA',page:37},continuation),null,'changed segment image hash suppresses the linked continuation');
   assert.equal(hooks.validatedContinuationParts({book:'UA',page:36},continuation),null,'a wrong selected page cannot activate the pair');
+});
+
+test('source-reviewed PHB p.70, UA p.10 and UA p.59-60 groups validate against current owner catalogs',()=>{
+  const {hooks}=viewerVM();
+  // This is the original eight-group expansion. Later source-reviewed table
+  // and cross-page groups have their own exhaustive projection checks.
+  const groups=manifest.groups.slice(14,22);
+  assert.equal(groups.length,8);
+  for(const group of groups){
+    const item=(data[group.collection]||[]).find(record=>record.id===group.itemId);
+    assert.ok(item,`${group.id}: exposed owner record exists`);
+    const verification=item.sourceExcerpts||item.scanVerification;
+    assert.equal(verification.catalog,group.catalog,`${group.id}: selected source catalog is owner-bound`);
+    const catalog=read(`dist/${group.catalog}`);
+    const continuation=group.segments[1];
+    const selected=catalog.regions.find(region=>region.id===continuation.regionId);
+    assert.ok(selected,`${group.id}: continuation region is present`);
+    hooks.setState({
+      refs:group.segments.map(segment=>({book:segment.book,page:segment.printedPage,labels:[]})),
+      current:group.segments.length-1,
+      regionIndex:0,
+      requestedMode:'excerpts',
+      excerptSource:{itemId:item.id,collection:group.collection,catalog:group.catalog,url:`https://unit.test/dist/${group.catalog}`},
+      excerptCatalog:catalog,continuations:published,targets:[],activeTarget:null,
+    });
+    const linked=hooks.validatedContinuationParts({book:continuation.book,page:continuation.printedPage},selected);
+    assert.ok(linked,`${group.id}: direct continuation selection finds its declared group`);
+    assert.equal(linked.group.id,group.id);
+    assert.deepEqual(normalized(linked.parts.map(part=>({regionId:part.region.id,order:part.segment.order,role:part.segment.role,selected:part.selected}))),[
+      {regionId:group.segments[0].regionId,order:1,role:'opening',selected:false},
+      {regionId:group.segments[1].regionId,order:2,role:'continuation',selected:true},
+    ]);
+    const stale=structuredClone(published);
+    stale.groups.find(entry=>entry.id===group.id).segments[1].regionId='missing-region';
+    hooks.setState({continuations:stale});
+    assert.equal(hooks.validatedContinuationParts({book:continuation.book,page:continuation.printedPage},selected),null,`${group.id}: missing linked parts suppress the linked presentation`);
+    hooks.setState({continuations:published});
+  }
 });
 
 test('the cross-page continuation mechanism accepts only a clearly synthetic test pair',()=>{

@@ -1,0 +1,4848 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "phb-dmg-price-passage-records",
+  "title": "PHB/DMG passage receipts extracted from the bounded 180-claim price-discovery census",
+  "scope": {
+    "boundedCensusReceipts": 34,
+    "books": [
+      "PHB",
+      "DMG"
+    ],
+    "description": "Source review of the 34 PHB/DMG receipts that were outside exact-linked source groups in the pre-remediation receipt census. This artifact does not assert whole-book completeness or clear pages outside these cited passages."
+  },
+  "inputArtifacts": [
+    {
+      "path": "research/price-source-inventory-phb-dmg-other.json",
+      "sha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "role": "52-claim PHB/DMG page census"
+    },
+    {
+      "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "sha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6",
+      "role": "18-group/179-row typed source inventory"
+    },
+    {
+      "path": "research/price-source-inventory.json",
+      "sha256": "cdb03407d6d063a9203fa065bef8f8ee65a75b6f48aaa406806cecf0cab87a04",
+      "role": "710-row structured source inventory for exact row links"
+    }
+  ],
+  "sourcePdfs": [
+    {
+      "bookKey": "PHB",
+      "book": "Player’s Handbook",
+      "file": "tsr2010-players-handbook.pdf",
+      "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "storage": "private; not copied into repository",
+      "printing": "not separately established beyond supplied source scan"
+    },
+    {
+      "bookKey": "DMG",
+      "book": "Dungeon Masters Guide",
+      "file": "DMG_1stEd.pdf",
+      "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "storage": "private; not copied into repository",
+      "printing": "not separately established beyond supplied source scan"
+    }
+  ],
+  "aggregate": {
+    "records": 34,
+    "valueRecords": 52,
+    "pixelReviewedPassages": 39,
+    "independentReview": "pending",
+    "boundsStatus": "source-point context crops and focused passage bounds recorded; pixel review performed from private original-source renders; independent geometry review pending"
+  },
+  "records": [
+    {
+      "recordId": "phb-cleric-territory-revenue",
+      "receiptId": "phb-cleric-territory-revenue",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/0",
+      "claimType": "recurring-revenue-rule",
+      "sourceObjectOrPassage": "Cleric territorial income",
+      "disposition": "campaign-revenue",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          20
+        ],
+        "pdfPages": [
+          21
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-cleric-territory-revenue-passage-01",
+          "passageIdentity": "Cleric territorial income passage",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 20,
+            "pdfPage": 21,
+            "pdfPageIndexZeroBased": 20,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              285,
+              35,
+              565,
+              75
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "per inhabitant per month",
+                "bounds": [
+                  295.7,
+                  45.3,
+                  555.1,
+                  62
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-1.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "de393d947604dea44fa506caafe9219459696267ee25998cccc5240897431430"
+            },
+            "sourcePageHash": {
+              "pngSha256": "d7abd3819b1847c9eda8c223f74ef0f8b45587a836bc08564bdb19c8c6f5861a",
+              "dimensionsPx": [
+                1208,
+                1642
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-cleric-territory-revenue-value-01",
+          "kind": "rate",
+          "amount": 9,
+          "currency": "sp",
+          "unit": "per inhabitant per month",
+          "purpose": "campaign-revenue"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "Trade, taxation, and tithes are the stated revenue sources."
+      ]
+    },
+    {
+      "recordId": "phb-freehold-revenue",
+      "receiptId": "phb-freehold-revenue",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/1",
+      "claimType": "recurring-revenue-rule",
+      "sourceObjectOrPassage": "Fighter freehold income",
+      "disposition": "campaign-revenue",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          22
+        ],
+        "pdfPages": [
+          23
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-freehold-revenue-passage-01",
+          "passageIdentity": "Fighter freehold monthly revenue, item 2",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 22,
+            "pdfPage": 23,
+            "pdfPageIndexZeroBased": 22,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              10,
+              395,
+              280,
+              450
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "per inhabitant per month",
+                "bounds": [
+                  25.4,
+                  412.5,
+                  268,
+                  438.9
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-1.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "de393d947604dea44fa506caafe9219459696267ee25998cccc5240897431430"
+            },
+            "sourcePageHash": {
+              "pngSha256": "36e6324f0a491db665681a1e343a49a269cc62e5459da6d3f2db1230e410b84d",
+              "dimensionsPx": [
+                1204,
+                1637
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-freehold-revenue-value-01",
+          "kind": "rate",
+          "amount": 7,
+          "currency": "sp",
+          "unit": "per inhabitant per month",
+          "purpose": "campaign-revenue"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "Revenue is for each inhabitant of the freehold; passage names trade, tariffs, and taxes."
+      ]
+    },
+    {
+      "recordId": "phb-magic-user-territory-revenue",
+      "receiptId": "phb-magic-user-territory-revenue",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/2",
+      "claimType": "recurring-revenue-rule",
+      "sourceObjectOrPassage": "Magic-user territory income",
+      "disposition": "campaign-revenue",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          25
+        ],
+        "pdfPages": [
+          26
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-magic-user-territory-revenue-passage-01",
+          "passageIdentity": "Magic-user territory revenue paragraph",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 25,
+            "pdfPage": 26,
+            "pdfPageIndexZeroBased": 25,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              295,
+              515,
+              575,
+              585
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "per inhabitant per month",
+                "bounds": [
+                  306.2,
+                  526.2,
+                  568.7,
+                  570.6
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-1.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "de393d947604dea44fa506caafe9219459696267ee25998cccc5240897431430"
+            },
+            "sourcePageHash": {
+              "pngSha256": "4080c01447b391ae78ba85b86f23dda13a316c685e076e8fed449c092b7dba55",
+              "dimensionsPx": [
+                1208,
+                1642
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-magic-user-territory-revenue-value-01",
+          "kind": "rate",
+          "amount": 5,
+          "currency": "sp",
+          "unit": "per inhabitant per month",
+          "purpose": "campaign-revenue"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The rule applies to a 12th-level-or-higher magic-user who constructs a stronghold and clears the countryside."
+      ]
+    },
+    {
+      "recordId": "phb-guild-leader-replacement",
+      "receiptId": "phb-guild-leader-replacement",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/4",
+      "claimType": "conditional-payment",
+      "sourceObjectOrPassage": "Thieves guild leader succession",
+      "disposition": "succession-payment",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          30
+        ],
+        "pdfPages": [
+          31
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-guild-leader-replacement-passage-01",
+          "passageIdentity": "Grandfather of Assassins succession passage",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 30,
+            "pdfPage": 31,
+            "pdfPageIndexZeroBased": 30,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              0,
+              390,
+              285,
+              465
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "per experience level of each remaining follower",
+                "bounds": [
+                  15.4,
+                  439.7,
+                  275.3,
+                  448
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/guild-corrected.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "a7a5304fd4ff6abd8ef7afde10b76f4e6981b8fa9d684aeaa2d0ce4ff85ad797"
+            },
+            "sourcePageHash": {
+              "pngSha256": "07030a51ea6d11ec3495921fb8645ab9742a5bcf30bc8e83eae86022c59d7e72",
+              "dimensionsPx": [
+                1205,
+                1638
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-guild-leader-replacement-value-01",
+          "kind": "rate",
+          "amount": 1000,
+          "currency": "gp",
+          "unit": "per experience level of each remaining follower",
+          "purpose": "succession-payment"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "Payable by the new head of all assassins; destruction of the old headquarters and construction elsewhere are also stated, with no price."
+      ]
+    },
+    {
+      "recordId": "phb-monk-retreat-funding",
+      "receiptId": "phb-monk-retreat-funding",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/5",
+      "claimType": "treasure-funding-cap",
+      "sourceObjectOrPassage": "Monk stronghold/retreat",
+      "disposition": "treasure-retention-cap",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          32
+        ],
+        "pdfPages": [
+          33
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-monk-retreat-funding-passage-01",
+          "passageIdentity": "Monk headquarters / funding passage",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 32,
+            "pdfPage": 33,
+            "pdfPageIndexZeroBased": 32,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              290,
+              280,
+              575,
+              325
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "value of treasure retained for construction",
+                "bounds": [
+                  302.2,
+                  296.3,
+                  560.7,
+                  313.8
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-1.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "de393d947604dea44fa506caafe9219459696267ee25998cccc5240897431430"
+            },
+            "sourcePageHash": {
+              "pngSha256": "3c0dad63ad6b4ee58a6d6f5449a452e2b77a007d298f947ce6d033c1f1e10ce0",
+              "dimensionsPx": [
+                1213,
+                1639
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-monk-retreat-funding-value-01",
+          "kind": "upper-bound",
+          "amount": 250000,
+          "currency": "gp",
+          "unit": "value of treasure retained for construction",
+          "purpose": "treasure-retention"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "“Up to” is retained as an upper bound; not a purchase price or construction-cost quote."
+      ]
+    },
+    {
+      "recordId": "phb-pearl-spell-component",
+      "receiptId": "phb-pearl-spell-component",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/6",
+      "claimType": "component-value",
+      "sourceObjectOrPassage": "Crushed pearl spell component",
+      "disposition": "spell-component-value",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          45
+        ],
+        "pdfPages": [
+          46
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-pearl-spell-component-passage-01",
+          "passageIdentity": "Spell component paragraph: crushed pearl",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 45,
+            "pdfPage": 46,
+            "pdfPageIndexZeroBased": 45,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              10,
+              180,
+              290,
+              250
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "crushed pearl component",
+                "bounds": [
+                  22.1,
+                  203.8,
+                  282.1,
+                  212.1
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-1.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "de393d947604dea44fa506caafe9219459696267ee25998cccc5240897431430"
+            },
+            "sourcePageHash": {
+              "pngSha256": "17ae34bc129190a6035f7271c6ec8b387132ce860001a92a426be8e5d3dadc8a",
+              "dimensionsPx": [
+                1218,
+                1640
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-pearl-spell-component-value-01",
+          "kind": "lower-bound",
+          "amount": 100,
+          "currency": "gp",
+          "unit": "crushed pearl component",
+          "inclusive": true,
+          "purpose": "spell-component-value"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "Amount is a minimum value of the crushed pearl component."
+      ]
+    },
+    {
+      "recordId": "phb-glyph-diamond-component",
+      "receiptId": "phb-glyph-diamond-component",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/7",
+      "claimType": "component-value",
+      "sourceObjectOrPassage": "Glyph of Warding material component",
+      "disposition": "spell-component-value",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          47
+        ],
+        "pdfPages": [
+          48
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-glyph-diamond-component-passage-01",
+          "passageIdentity": "Glyph of Warding material component passage",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 47,
+            "pdfPage": 48,
+            "pdfPageIndexZeroBased": 47,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              10,
+              690,
+              290,
+              750
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "powdered diamond component",
+                "bounds": [
+                  22.1,
+                  712.3,
+                  283.6,
+                  729.6
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-1.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "de393d947604dea44fa506caafe9219459696267ee25998cccc5240897431430"
+            },
+            "sourcePageHash": {
+              "pngSha256": "53b1ab43c74dc4dbb751d4d7a4ade3bc0051da588db048f2fc245394aca82dd2",
+              "dimensionsPx": [
+                1212,
+                1642
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-glyph-diamond-component-value-01",
+          "kind": "lower-bound",
+          "amount": 2000,
+          "currency": "gp",
+          "unit": "powdered diamond component",
+          "inclusive": true,
+          "purpose": "spell-component-value",
+          "condition": "Area of effect exceeds 50 square feet"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "Spell passage separately describes area and damage outcomes; only the component threshold is a price/value fact."
+      ]
+    },
+    {
+      "recordId": "phb-pearl-spell-component-2",
+      "receiptId": "phb-pearl-spell-component-2",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/8",
+      "claimType": "component-value",
+      "sourceObjectOrPassage": "Pearl spell component",
+      "disposition": "spell-component-value",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          67
+        ],
+        "pdfPages": [
+          68
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-pearl-spell-component-2-passage-01",
+          "passageIdentity": "Spell material component paragraph: pearl",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 67,
+            "pdfPage": 68,
+            "pdfPageIndexZeroBased": 67,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              10,
+              280,
+              290,
+              340
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "pearl component",
+                "bounds": [
+                  24,
+                  293.5,
+                  285.8,
+                  301.8
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-1.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "de393d947604dea44fa506caafe9219459696267ee25998cccc5240897431430"
+            },
+            "sourcePageHash": {
+              "pngSha256": "33b03d6ceb6be61edecfd476f4e9419c19a9c6dd3192b2cf09a6a854cba3a975",
+              "dimensionsPx": [
+                1212,
+                1638
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-pearl-spell-component-2-value-01",
+          "kind": "lower-bound",
+          "amount": 100,
+          "currency": "gp",
+          "unit": "pearl component",
+          "inclusive": true,
+          "purpose": "spell-component-value"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "Other adjacent spell components have no stated monetary value."
+      ]
+    },
+    {
+      "recordId": "phb-silver-horn-component",
+      "receiptId": "phb-silver-horn-component",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/9",
+      "claimType": "component-value",
+      "sourceObjectOrPassage": "Silver horn material component",
+      "disposition": "spell-component-value",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          73
+        ],
+        "pdfPages": [
+          74
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-silver-horn-component-passage-01",
+          "passageIdentity": "Spell material component paragraph: silver horn",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 73,
+            "pdfPage": 74,
+            "pdfPageIndexZeroBased": 73,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              10,
+              60,
+              290,
+              115
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "small silver horn component",
+                "bounds": [
+                  17.8,
+                  87.4,
+                  278.6,
+                  96.6
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-1.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "de393d947604dea44fa506caafe9219459696267ee25998cccc5240897431430"
+            },
+            "sourcePageHash": {
+              "pngSha256": "52461619df7ea5c4ddc33df85cf0677b370d9a8ba7c11bc7d889425368df4b14",
+              "dimensionsPx": [
+                1201,
+                1642
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-silver-horn-component-value-01",
+          "kind": "lower-bound",
+          "amount": 100,
+          "currency": "gp",
+          "unit": "small silver horn component",
+          "inclusive": true,
+          "purpose": "spell-component-value"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "Horn disappears after casting, as stated nearby."
+      ]
+    },
+    {
+      "recordId": "phb-ivory-plaque-component",
+      "receiptId": "phb-ivory-plaque-component",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/10",
+      "claimType": "component-value",
+      "sourceObjectOrPassage": "Ivory plaque material component",
+      "disposition": "spell-component-value",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          78
+        ],
+        "pdfPages": [
+          79
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-ivory-plaque-component-passage-01",
+          "passageIdentity": "Spell material component passage: ivory plaque",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 78,
+            "pdfPage": 79,
+            "pdfPageIndexZeroBased": 78,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              285,
+              325,
+              570,
+              390
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "ivory plaque component",
+                "bounds": [
+                  294,
+                  343.9,
+                  553.8,
+                  361.1
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-1.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "de393d947604dea44fa506caafe9219459696267ee25998cccc5240897431430"
+            },
+            "sourcePageHash": {
+              "pngSha256": "0d6d7412032766d6494b007f219a22ffb75514689da1a7b6d440c1a43baee938",
+              "dimensionsPx": [
+                1197,
+                1638
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-ivory-plaque-component-value-01",
+          "kind": "lower-bound",
+          "amount": 100,
+          "currency": "gp",
+          "unit": "ivory plaque component",
+          "inclusive": true,
+          "purpose": "spell-component-value"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "String and ink are named additional components but receive no monetary value here."
+      ]
+    },
+    {
+      "recordId": "phb-special-chest-cost",
+      "receiptId": "phb-special-chest-cost",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/11",
+      "claimType": "creation-cost",
+      "sourceObjectOrPassage": "Specially constructed chest",
+      "disposition": "construction-cost",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          80
+        ],
+        "pdfPages": [
+          81
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-special-chest-cost-passage-01",
+          "passageIdentity": "Spell material chest construction passage",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 80,
+            "pdfPage": 81,
+            "pdfPageIndexZeroBased": 80,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              285,
+              590,
+              565,
+              640
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "special chest",
+                "bounds": [
+                  293,
+                  611.4,
+                  552.6,
+                  619.9
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-2.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "5b62f37097558acf5b159c3dfe2ad49bce9b766daf9084a2dc73e0c0a29e2ab8"
+            },
+            "sourcePageHash": {
+              "pngSha256": "8bae5def914c11696312854527416a266a6a5e1fde170633b483bb28f0092dce",
+              "dimensionsPx": [
+                1201,
+                1635
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-special-chest-cost-value-01",
+          "kind": "lower-bound",
+          "amount": 5000,
+          "currency": "gp",
+          "unit": "special chest",
+          "inclusive": true,
+          "purpose": "construction-cost"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "This is a construction-cost floor; passage also requires a tiny, detailed replica without a stated amount."
+      ]
+    },
+    {
+      "recordId": "phb-item-preparation-materials",
+      "receiptId": "phb-item-preparation-materials",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/12",
+      "claimType": "material-cost-rule",
+      "sourceObjectOrPassage": "Raw materials for item preparation",
+      "disposition": "suggested-material-cost",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          83
+        ],
+        "pdfPages": [
+          84
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-item-preparation-materials-passage-01",
+          "passageIdentity": "Item preparation material quality/cost passage",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 83,
+            "pdfPage": 84,
+            "pdfPageIndexZeroBased": 83,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              300,
+              285,
+              575,
+              340
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "raw materials for an item",
+                "bounds": [
+                  308.2,
+                  304.3,
+                  565.2,
+                  312.6
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-2.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "5b62f37097558acf5b159c3dfe2ad49bce9b766daf9084a2dc73e0c0a29e2ab8"
+            },
+            "sourcePageHash": {
+              "pngSha256": "e82d16ff0bb5539a5bbdcf60813c465c6a5262d7662095fabe8e5b349c5292be",
+              "dimensionsPx": [
+                1208,
+                1645
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-item-preparation-materials-value-01",
+          "kind": "lower-bound",
+          "amount": 100,
+          "currency": "gp",
+          "unit": "raw materials for an item",
+          "inclusive": false,
+          "purpose": "suggested-material-cost",
+          "condition": "In most cases; stated exceptions include ordinary rope, leather goods, cloth, and pottery"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The source says “in excess of,” so the threshold is strict; the item-specific value is not a universal purchase price."
+      ]
+    },
+    {
+      "recordId": "phb-document-preparation-materials",
+      "receiptId": "phb-document-preparation-materials",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/13",
+      "claimType": "material-cost",
+      "sourceObjectOrPassage": "Document preparation materials",
+      "disposition": "spell-preparation-material-cost",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          86
+        ],
+        "pdfPages": [
+          87
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-document-preparation-materials-passage-01",
+          "passageIdentity": "Spiritwrack illuminated document preparation paragraph",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 86,
+            "pdfPage": 87,
+            "pdfPageIndexZeroBased": 86,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              10,
+              390,
+              285,
+              470
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "vellum, special pens, gold leaf and other miscellaneous materials per document",
+                "bounds": [
+                  15.4,
+                  419.8,
+                  273.9,
+                  429.2
+                ]
+              },
+              {
+                "label": "powdered rubies per document",
+                "bounds": [
+                  15.1,
+                  437.8,
+                  274.1,
+                  446
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-2.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "5b62f37097558acf5b159c3dfe2ad49bce9b766daf9084a2dc73e0c0a29e2ab8"
+            },
+            "sourcePageHash": {
+              "pngSha256": "740bf583001659fceba92bf2f02bf5a370443c4e39b92007368917313646d050",
+              "dimensionsPx": [
+                1201,
+                1635
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-document-preparation-materials-value-01",
+          "kind": "exact",
+          "amount": 1000,
+          "currency": "gp",
+          "unit": "vellum, special pens, gold leaf and other miscellaneous materials per document",
+          "purpose": "spell-preparation-material-cost"
+        },
+        {
+          "valueId": "phb-document-preparation-materials-value-02",
+          "kind": "lower-bound",
+          "amount": 5000,
+          "currency": "gp",
+          "unit": "powdered rubies per document",
+          "inclusive": true,
+          "purpose": "spell-preparation-material-cost"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "Separate components; do not add into one combined total claim. The passage also gives 8–32 hours, which is time, not money."
+      ]
+    },
+    {
+      "recordId": "phb-gem-component",
+      "receiptId": "phb-gem-component",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/14",
+      "claimType": "component-value",
+      "sourceObjectOrPassage": "Gem spell component",
+      "disposition": "spell-component-value",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          87
+        ],
+        "pdfPages": [
+          88
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-gem-component-passage-01",
+          "passageIdentity": "Spell preparation paragraph: gem component",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 87,
+            "pdfPage": 88,
+            "pdfPageIndexZeroBased": 87,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              295,
+              400,
+              570,
+              455
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "gem component",
+                "bounds": [
+                  306.7,
+                  428.3,
+                  566.7,
+                  436.7
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-2.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "5b62f37097558acf5b159c3dfe2ad49bce9b766daf9084a2dc73e0c0a29e2ab8"
+            },
+            "sourcePageHash": {
+              "pngSha256": "fd152c6db5dc529fa3f994f5dcb822c75431feb203d6a3c4e0fad6dc2143bdf4",
+              "dimensionsPx": [
+                1216,
+                1655
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-gem-component-value-01",
+          "kind": "lower-bound",
+          "amount": 5000,
+          "currency": "gp",
+          "unit": "gem component",
+          "inclusive": true,
+          "purpose": "spell-component-value"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The value is required to be available in hand before the final word of the spell."
+      ]
+    },
+    {
+      "recordId": "phb-ivory-likeness-cost",
+      "receiptId": "phb-ivory-likeness-cost",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/15",
+      "claimType": "market-cost-estimate",
+      "sourceObjectOrPassage": "Specially made ivory likeness",
+      "disposition": "spell-component-cost",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          88
+        ],
+        "pdfPages": [
+          89
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-ivory-likeness-cost-passage-01",
+          "passageIdentity": "Spell component paragraph: ivory likeness",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 88,
+            "pdfPage": 89,
+            "pdfPageIndexZeroBased": 88,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              10,
+              125,
+              285,
+              200
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "average cost of ivory likeness",
+                "bounds": [
+                  14.4,
+                  148.1,
+                  275.4,
+                  174.1
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-2.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "5b62f37097558acf5b159c3dfe2ad49bce9b766daf9084a2dc73e0c0a29e2ab8"
+            },
+            "sourcePageHash": {
+              "pngSha256": "e156d8d8a2a35caaee196f60bad750e364dad7e39d8c9d2ea43041890c2f7f6c",
+              "dimensionsPx": [
+                1190,
+                1646
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-ivory-likeness-cost-value-01",
+          "kind": "range",
+          "minimum": 5000,
+          "maximum": 10000,
+          "currency": "gp",
+          "unit": "average cost of ivory likeness",
+          "purpose": "spell-component-cost"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "This is explicitly an average cost, not an exact fixed amount."
+      ]
+    },
+    {
+      "recordId": "phb-special-sword-construction",
+      "receiptId": "phb-special-sword-construction",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/16",
+      "claimType": "construction-cost",
+      "sourceObjectOrPassage": "Special sword",
+      "disposition": "construction-cost",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          88
+        ],
+        "pdfPages": [
+          89
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-special-sword-construction-passage-01",
+          "passageIdentity": "Spell material component passage: miniature platinum sword",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 88,
+            "pdfPage": 89,
+            "pdfPageIndexZeroBased": 88,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              295,
+              80,
+              570,
+              145
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "miniature platinum sword component",
+                "bounds": [
+                  298.3,
+                  112,
+                  558.4,
+                  120.7
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-2.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "5b62f37097558acf5b159c3dfe2ad49bce9b766daf9084a2dc73e0c0a29e2ab8"
+            },
+            "sourcePageHash": {
+              "pngSha256": "e156d8d8a2a35caaee196f60bad750e364dad7e39d8c9d2ea43041890c2f7f6c",
+              "dimensionsPx": [
+                1190,
+                1646
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-special-sword-construction-value-01",
+          "kind": "exact",
+          "amount": 500,
+          "currency": "gp",
+          "unit": "miniature platinum sword component",
+          "purpose": "construction-cost"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The sword is a material component and disappears after the spell."
+      ]
+    },
+    {
+      "recordId": "phb-high-value-gem-components",
+      "receiptId": "phb-high-value-gem-components",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/17",
+      "claimType": "component-value",
+      "sourceObjectOrPassage": "Black opal, diamond dust and gem components",
+      "disposition": "spell-component-value",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          92
+        ],
+        "pdfPages": [
+          93
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-high-value-gem-components-passage-01",
+          "passageIdentity": "Symbol and Trap the Soul spell component passages",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 92,
+            "pdfPage": 93,
+            "pdfPageIndexZeroBased": 92,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              5,
+              210,
+              280,
+              395
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "each of black opal and diamond dust components",
+                "bounds": [
+                  12,
+                  225.9,
+                  233.4,
+                  234.7
+                ]
+              },
+              {
+                "label": "per Hit Die or level for soul-prison gem",
+                "bounds": [
+                  11.8,
+                  360.2,
+                  271.1,
+                  386.3
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-2.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "5b62f37097558acf5b159c3dfe2ad49bce9b766daf9084a2dc73e0c0a29e2ab8"
+            },
+            "sourcePageHash": {
+              "pngSha256": "c66f7573bf939c188d110f5537e4600b022f17a7c2fcf06d0e2402f740c625f7",
+              "dimensionsPx": [
+                1212,
+                1645
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-high-value-gem-components-value-01",
+          "kind": "lower-bound",
+          "amount": 5000,
+          "currency": "gp",
+          "unit": "each of black opal and diamond dust components",
+          "inclusive": true,
+          "purpose": "spell-component-value"
+        },
+        {
+          "valueId": "phb-high-value-gem-components-value-02",
+          "kind": "rate",
+          "amount": 1000,
+          "currency": "gp",
+          "unit": "per Hit Die or level for soul-prison gem",
+          "purpose": "spell-component-value"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The 10,000-gp example for a 10-HD creature is an illustration of the rate, not an independent third amount claim."
+      ]
+    },
+    {
+      "recordId": "phb-jade-circlet-component",
+      "receiptId": "phb-jade-circlet-component",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/18",
+      "claimType": "component-value",
+      "sourceObjectOrPassage": "Jade circlet material component",
+      "disposition": "spell-component-value",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          93
+        ],
+        "pdfPages": [
+          94
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-jade-circlet-component-passage-01",
+          "passageIdentity": "Spell material component passage: jade circlet",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 93,
+            "pdfPage": 94,
+            "pdfPageIndexZeroBased": 93,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              295,
+              340,
+              575,
+              410
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "jade circlet component",
+                "bounds": [
+                  310.8,
+                  368.7,
+                  567.6,
+                  377.6
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-2.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "5b62f37097558acf5b159c3dfe2ad49bce9b766daf9084a2dc73e0c0a29e2ab8"
+            },
+            "sourcePageHash": {
+              "pngSha256": "6456351eea33b6b63c7967fc6213f86ecbc43f9fab250ae84197360cd3e96f5d",
+              "dimensionsPx": [
+                1220,
+                1651
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-jade-circlet-component-value-01",
+          "kind": "lower-bound",
+          "amount": 5000,
+          "currency": "gp",
+          "unit": "jade circlet component",
+          "inclusive": true,
+          "purpose": "spell-component-value"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The circlet shatters when the spell expires; premature shattering dispels the magic."
+      ]
+    },
+    {
+      "recordId": "phb-mail-order-postage",
+      "receiptId": "phb-mail-order-postage",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/19",
+      "claimType": "postage-and-handling",
+      "sourceObjectOrPassage": "Mail-order advertisement",
+      "disposition": "mail-order-postage",
+      "source": {
+        "bookKey": "PHB",
+        "book": "Player’s Handbook",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "printedPages": [
+          128
+        ],
+        "pdfPages": [
+          129
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "phb-mail-order-postage-passage-01",
+          "passageIdentity": "Mail-order notice: postage and handling",
+          "source": {
+            "bookKey": "PHB",
+            "book": "Player’s Handbook",
+            "sourceFile": "tsr2010-players-handbook.pdf",
+            "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+            "printedPage": 128,
+            "pdfPage": 129,
+            "pdfPageIndexZeroBased": 128,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              10,
+              310,
+              560,
+              360
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "per order, regardless of item count",
+                "bounds": [
+                  32.4,
+                  332.5,
+                  537.8,
+                  342.2
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-2.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "5b62f37097558acf5b159c3dfe2ad49bce9b766daf9084a2dc73e0c0a29e2ab8"
+            },
+            "sourcePageHash": {
+              "pngSha256": "fab6d41af5200a1457a1d1a78a96ba522ae75599e8719d2f6b43ef6c80e33a4c",
+              "dimensionsPx": [
+                1190,
+                1617
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "phb-mail-order-postage-value-01",
+          "kind": "exact",
+          "amount": 1,
+          "currency": "usd",
+          "unit": "per order, regardless of item count",
+          "purpose": "mail-order-postage"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The printed amount is a postage/handling charge, not an item price."
+      ]
+    },
+    {
+      "recordId": "dmg-upkeep-and-stronghold-maintenance",
+      "receiptId": "dmg-upkeep-and-stronghold-maintenance",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/21",
+      "claimType": "recurring-maintenance-cost",
+      "sourceObjectOrPassage": "Player-character, henchmen and stronghold maintenance",
+      "disposition": "upkeep-and-maintenance",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "printedPages": [
+          25
+        ],
+        "pdfPages": [
+          26
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "dmg-upkeep-and-stronghold-maintenance-passage-01",
+          "passageIdentity": "Player character expenses and upkeep schedule",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 25,
+            "pdfPage": 26,
+            "pdfPageIndexZeroBased": 25,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              300,
+              160,
+              580,
+              310
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "player-character upkeep threshold",
+                "bounds": [
+                  315.1,
+                  175.7,
+                  575.6,
+                  192.9
+                ]
+              },
+              {
+                "label": "henchman maintenance row",
+                "bounds": [
+                  457.9,
+                  273.7,
+                  559.7,
+                  282.4
+                ]
+              },
+              {
+                "label": "stronghold maintenance row",
+                "bounds": [
+                  457.9,
+                  283,
+                  559.7,
+                  291.2
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-3.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "bfd79cc91c4b4480b6c80198e3136a793796bcfa9d68af4a46e933e2af404d82"
+            },
+            "sourcePageHash": {
+              "pngSha256": "eab9069025e04013db34a30a7a4b0c11600dd311d61d631b36d4f44758e2d39f",
+              "dimensionsPx": [
+                1214,
+                1594
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "dmg-upkeep-and-stronghold-maintenance-value-01",
+          "kind": "lower-bound",
+          "amount": 100,
+          "currency": "gp",
+          "unit": "per player-character level per month",
+          "inclusive": true,
+          "purpose": "upkeep"
+        },
+        {
+          "valueId": "dmg-upkeep-and-stronghold-maintenance-value-02",
+          "kind": "rate",
+          "amount": 100,
+          "currency": "gp",
+          "unit": "per henchman level per month",
+          "purpose": "upkeep"
+        },
+        {
+          "valueId": "dmg-upkeep-and-stronghold-maintenance-value-03",
+          "kind": "percentage",
+          "percentage": 1,
+          "unit": "of total stronghold cost per month",
+          "purpose": "stronghold-maintenance"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The first prose threshold is “not less than”; the two maintenance schedule rows give rates. Stronghold maintenance remains proportional and is not converted to a fixed amount."
+      ]
+    },
+    {
+      "recordId": "dmg-sacrificial-treasure-threshold",
+      "receiptId": "dmg-sacrificial-treasure-threshold",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/22",
+      "claimType": "conditional-sacrifice-threshold",
+      "sourceObjectOrPassage": "Treasure sacrifice for level advancement",
+      "disposition": "sacrificial-treasure-threshold",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "printedPages": [
+          25
+        ],
+        "pdfPages": [
+          26
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "dmg-sacrificial-treasure-threshold-passage-01",
+          "passageIdentity": "Alignment restoration atonement sacrifice passage",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 25,
+            "pdfPage": 26,
+            "pdfPageIndexZeroBased": 25,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              15,
+              220,
+              300,
+              280
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "per experience level of the character",
+                "bounds": [
+                  30.7,
+                  240.5,
+                  291.3,
+                  270.8
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-2.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "5b62f37097558acf5b159c3dfe2ad49bce9b766daf9084a2dc73e0c0a29e2ab8"
+            },
+            "sourcePageHash": {
+              "pngSha256": "eab9069025e04013db34a30a7a4b0c11600dd311d61d631b36d4f44758e2d39f",
+              "dimensionsPx": [
+                1214,
+                1594
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "dmg-sacrificial-treasure-threshold-value-01",
+          "kind": "lower-bound",
+          "amount": 10000,
+          "currency": "gp",
+          "unit": "per experience level of the character",
+          "inclusive": true,
+          "purpose": "sacrificial-treasure-threshold"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The passage describes a variable sacrifice; threshold preserved as minimum."
+      ]
+    },
+    {
+      "recordId": "dmg-expert-hireling-qualifications",
+      "receiptId": "dmg-expert-hireling-qualifications",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/26",
+      "claimType": "hiring-cost-conditions",
+      "sourceObjectOrPassage": "Expert-hireling qualifications and ancillary costs",
+      "disposition": "hireling-qualifications-and-job-fees",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "printedPages": [
+          29,
+          30
+        ],
+        "pdfPages": [
+          30,
+          31
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "dmg-expert-hireling-qualifications-passage-01",
+          "passageIdentity": "Expert hireling cost footnote, alchemist recruitment, armorer qualifications/workroom",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 29,
+            "pdfPage": 30,
+            "pdfPageIndexZeroBased": 29,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              290,
+              100,
+              575,
+              380
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "per job",
+                "bounds": [
+                  320.8,
+                  120.2,
+                  568.1,
+                  129.4
+                ]
+              },
+              {
+                "label": "bonus money to attract an alchemist",
+                "bounds": [
+                  325.2,
+                  146.9,
+                  568.3,
+                  165
+                ]
+              },
+              {
+                "label": "armorer workroom and forge",
+                "bounds": [
+                  308.4,
+                  238.8,
+                  568.5,
+                  257
+                ]
+              },
+              {
+                "label": "increase in value of materials due to jeweler/gemcutter work",
+                "bounds": [
+                  308.4,
+                  346.5,
+                  568,
+                  355.7
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-3.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "bfd79cc91c4b4480b6c80198e3136a793796bcfa9d68af4a46e933e2af404d82"
+            },
+            "sourcePageHash": {
+              "pngSha256": "e3be864f32381d011cb4824885669a8733a7b5898abb210a0825d61c0cac7f7a",
+              "dimensionsPx": [
+                1194,
+                1601
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        },
+        {
+          "passageId": "dmg-expert-hireling-qualifications-passage-02",
+          "passageIdentity": "Jeweler/gemcutter value change and base-value condition",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 30,
+            "pdfPage": 31,
+            "pdfPageIndexZeroBased": 30,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              0,
+              540,
+              285,
+              610
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "per job",
+                "bounds": [
+                  5.5,
+                  561.4,
+                  267.8,
+                  569.9
+                ]
+              },
+              {
+                "label": "bonus money to attract an alchemist",
+                "bounds": [
+                  5.5,
+                  588.6,
+                  267.9,
+                  597.5
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-3.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "bfd79cc91c4b4480b6c80198e3136a793796bcfa9d68af4a46e933e2af404d82"
+            },
+            "sourcePageHash": {
+              "pngSha256": "579abc58bad5b8ed538294a567876f063b6bc9e9bbcd0d89321af6848af17120",
+              "dimensionsPx": [
+                1202,
+                1604
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "dmg-expert-hireling-qualifications-value-01",
+          "kind": "formula",
+          "currency": "gp",
+          "expression": "10% of usual cost of items handled or made, added per job",
+          "unit": "per job",
+          "purpose": "hireling-job-fee",
+          "example": {
+            "baseAmount": 400,
+            "baseCurrency": "gp",
+            "resultAmount": 40,
+            "resultCurrency": "gp",
+            "item": "plate mail"
+          },
+          "sourcePassageIndex": 0
+        },
+        {
+          "valueId": "dmg-expert-hireling-qualifications-value-02",
+          "kind": "range",
+          "minimum": 10,
+          "maximum": 100,
+          "currency": "gp",
+          "unit": "bonus money to attract an alchemist",
+          "purpose": "employment-offer",
+          "sourcePassageIndex": 0,
+          "relatedSourceRowIds": [
+            "dmg29-expert-hireling-rates-001"
+          ]
+        },
+        {
+          "valueId": "dmg-expert-hireling-qualifications-value-03",
+          "kind": "range",
+          "minimum": 310,
+          "maximum": 400,
+          "currency": "gp",
+          "unit": "armorer workroom and forge",
+          "purpose": "construction-cost",
+          "sourcePassageIndex": 0,
+          "relatedSourceRowIds": [
+            "dmg29-expert-hireling-rates-002"
+          ]
+        },
+        {
+          "valueId": "dmg-expert-hireling-qualifications-value-04",
+          "kind": "percentage-range",
+          "minimumPercentage": 10,
+          "maximumPercentage": 40,
+          "unit": "increase in value of materials due to jeweler/gemcutter work",
+          "purpose": "valuation-change",
+          "condition": "The stone has under 5,000 gp base value; gemcutter skill determines chance and amount",
+          "sourcePassageIndex": 1,
+          "relatedSourceRowIds": [
+            "dmg29-expert-hireling-rates-007"
+          ]
+        }
+      ],
+      "relatedSourceRowIds": [
+        "dmg29-expert-hireling-rates-001",
+        "dmg29-expert-hireling-rates-002",
+        "dmg29-expert-hireling-rates-003",
+        "dmg29-expert-hireling-rates-007"
+      ],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The 400→40 example is contained in the same 10%-per-job rule, not a separate general price. Gold-piece source rows for armorer, alchemist, blacksmith and jeweler are in the exact related hireling table. The source page’s printed folio is 29, while the discovery locator was printed 30/PDF31.",
+        "Exact related source rows: Alchemist 001, Armorer 002, Blacksmith 003, Jeweler-gemcutter 007 in the p.29 rate table."
+      ]
+    },
+    {
+      "recordId": "dmg-hireling-leadership-and-profession-fees",
+      "receiptId": "dmg-hireling-leadership-and-profession-fees",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/27",
+      "claimType": "wage-and-fee-conditions",
+      "sourceObjectOrPassage": "Expert hireling and mercenary costs",
+      "disposition": "hireling-wage",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "printedPages": [
+          30,
+          31
+        ],
+        "pdfPages": [
+          31,
+          32
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "dmg-hireling-leadership-and-profession-fees-passage-01",
+          "passageIdentity": "Captain monthly cost rule",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 30,
+            "pdfPage": 31,
+            "pdfPageIndexZeroBased": 30,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              285,
+              675,
+              570,
+              715
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "per level per month, captain",
+                "bounds": [
+                  291.1,
+                  695,
+                  418.8,
+                  702.7
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-3.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "bfd79cc91c4b4480b6c80198e3136a793796bcfa9d68af4a46e933e2af404d82"
+            },
+            "sourcePageHash": {
+              "pngSha256": "579abc58bad5b8ed538294a567876f063b6bc9e9bbcd0d89321af6848af17120",
+              "dimensionsPx": [
+                1202,
+                1604
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        },
+        {
+          "passageId": "dmg-hireling-leadership-and-profession-fees-passage-02",
+          "passageIdentity": "Lieutenant and serjeant monthly cost rules and examples",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 31,
+            "pdfPage": 32,
+            "pdfPageIndexZeroBased": 31,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              10,
+              460,
+              290,
+              650
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "per level per month, captain",
+                "bounds": [
+                  24.7,
+                  486.8,
+                  285.3,
+                  495.7
+                ]
+              },
+              {
+                "label": "per level per month, lieutenant",
+                "bounds": [
+                  24.4,
+                  613.4,
+                  285.2,
+                  641
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-3.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "bfd79cc91c4b4480b6c80198e3136a793796bcfa9d68af4a46e933e2af404d82"
+            },
+            "sourcePageHash": {
+              "pngSha256": "55d43fc20b64c5e1a903f25c0db4c02bc35d6e6a61641809e10a62366fbe6c28",
+              "dimensionsPx": [
+                1209,
+                1616
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "dmg-hireling-leadership-and-profession-fees-value-01",
+          "kind": "rate",
+          "amount": 100,
+          "currency": "gp",
+          "unit": "per level per month, captain",
+          "purpose": "wage",
+          "linksToSourceRows": [
+            "dmg29-expert-hireling-rates"
+          ],
+          "sourcePassageIndex": 0,
+          "relatedSourceRowIds": [
+            "dmg29-expert-hireling-rates-011"
+          ]
+        },
+        {
+          "valueId": "dmg-hireling-leadership-and-profession-fees-value-02",
+          "kind": "rate",
+          "amount": 100,
+          "currency": "gp",
+          "unit": "per level per month, lieutenant",
+          "purpose": "wage",
+          "linksToSourceRows": [
+            "dmg29-expert-hireling-rates"
+          ],
+          "sourcePassageIndex": 1,
+          "relatedSourceRowIds": [
+            "dmg29-expert-hireling-rates-023"
+          ]
+        },
+        {
+          "valueId": "dmg-hireling-leadership-and-profession-fees-value-03",
+          "kind": "formula",
+          "currency": "gp",
+          "expression": "10 × monthly rate of the troops commanded",
+          "unit": "per month, serjeant",
+          "purpose": "wage",
+          "linksToSourceRows": [
+            "dmg29-expert-hireling-rates"
+          ],
+          "sourcePassageIndex": 1,
+          "relatedSourceRowIds": [
+            "dmg29-expert-hireling-rates-025"
+          ]
+        },
+        {
+          "valueId": "dmg-hireling-leadership-and-profession-fees-value-04",
+          "kind": "exact",
+          "amount": 60,
+          "currency": "gp",
+          "unit": "per month, serjeant commanding heavy horsemen",
+          "purpose": "wage",
+          "sourcePassageIndex": 1,
+          "relatedSourceRowIds": [
+            "dmg29-expert-hireling-rates-025"
+          ]
+        },
+        {
+          "valueId": "dmg-hireling-leadership-and-profession-fees-value-05",
+          "kind": "exact",
+          "amount": 10,
+          "currency": "gp",
+          "unit": "per month, serjeant commanding light footmen",
+          "purpose": "wage",
+          "sourcePassageIndex": 1,
+          "relatedSourceRowIds": [
+            "dmg29-expert-hireling-rates-025"
+          ]
+        }
+      ],
+      "relatedSourceRowIds": [
+        "dmg29-expert-hireling-rates-011",
+        "dmg29-expert-hireling-rates-023",
+        "dmg29-expert-hireling-rates-025"
+      ],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The captain and lieutenant rows in the related table say “special”; these passages provide their numeric rates. Troop categories remain part of each example.",
+        "Exact related special-rate rows: Mercenary captain 011, lieutenant 023, and serjeant 025 in the p.29 rate table."
+      ]
+    },
+    {
+      "recordId": "dmg-hiring-leadership-and-search-fees",
+      "receiptId": "dmg-hiring-leadership-and-search-fees",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/29",
+      "claimType": "hiring-and-search-cost",
+      "sourceObjectOrPassage": "Leadership hiring and search fees",
+      "disposition": "hireling-wage-and-employment-offer",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "printedPages": [
+          34
+        ],
+        "pdfPages": [
+          35
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "dmg-hiring-leadership-and-search-fees-passage-01",
+          "passageIdentity": "Ship master/captain/lieutenant cost and spy offer paragraphs",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 34,
+            "pdfPage": 35,
+            "pdfPageIndexZeroBased": 34,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              0,
+              100,
+              280,
+              270
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "per month per experience level, ship masters/captains/lieutenants",
+                "bounds": [
+                  8.4,
+                  120.6,
+                  268.1,
+                  137
+                ]
+              },
+              {
+                "label": "spy employment offer; source allows 10,000 or more",
+                "bounds": [
+                  8.4,
+                  241.7,
+                  267.5,
+                  258.3
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-3.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "bfd79cc91c4b4480b6c80198e3136a793796bcfa9d68af4a46e933e2af404d82"
+            },
+            "sourcePageHash": {
+              "pngSha256": "25b1a819f39fed44d8499456060e898d93f4aa4cab6d1baeab13ada72b6e501e",
+              "dimensionsPx": [
+                1185,
+                1628
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        },
+        {
+          "passageId": "dmg-hiring-leadership-and-search-fees-passage-02",
+          "passageIdentity": "Mercenary captain cost paragraph",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 34,
+            "pdfPage": 35,
+            "pdfPageIndexZeroBased": 34,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              0,
+              550,
+              280,
+              595
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "per month per experience level, ship masters/captains/lieutenants",
+                "bounds": [
+                  7.4,
+                  565.9,
+                  267.7,
+                  582.8
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-3.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "bfd79cc91c4b4480b6c80198e3136a793796bcfa9d68af4a46e933e2af404d82"
+            },
+            "sourcePageHash": {
+              "pngSha256": "25b1a819f39fed44d8499456060e898d93f4aa4cab6d1baeab13ada72b6e501e",
+              "dimensionsPx": [
+                1185,
+                1628
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "dmg-hiring-leadership-and-search-fees-value-01",
+          "kind": "rate",
+          "amount": 100,
+          "currency": "gp",
+          "unit": "per month per experience level, ship masters/captains/lieutenants",
+          "purpose": "wage",
+          "sourcePassageIndex": 0,
+          "relatedSourceRowIds": [
+            "dmg29-expert-hireling-rates-011"
+          ]
+        },
+        {
+          "valueId": "dmg-hiring-leadership-and-search-fees-value-02",
+          "kind": "range",
+          "minimum": 100,
+          "maximum": 10000,
+          "currency": "gp",
+          "unit": "spy employment offer; source allows 10,000 or more",
+          "purpose": "employment-offer",
+          "maximumInclusive": false,
+          "sourceTextSummary": "100 gp to 10,000 gp or more",
+          "sourcePassageIndex": 0
+        },
+        {
+          "valueId": "dmg-hiring-leadership-and-search-fees-value-03",
+          "kind": "rate",
+          "amount": 200,
+          "currency": "gp",
+          "unit": "per level, mercenary captain in stronghold employment",
+          "purpose": "wage",
+          "sourcePassageIndex": 1,
+          "relatedSourceRowIds": [
+            "dmg29-expert-hireling-rates-011"
+          ]
+        }
+      ],
+      "relatedSourceRowIds": [
+        "dmg29-expert-hireling-rates-011"
+      ],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "Spy offers have no fixed upper ceiling; 10,000 is the stated threshold before “or more.” Ship crew remuneration shares and daily cost terminology are separate and not included as additional fixed fee."
+      ]
+    },
+    {
+      "recordId": "dmg-scroll-ink-cost",
+      "receiptId": "dmg-scroll-ink-cost",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/31",
+      "claimType": "material-cost",
+      "sourceObjectOrPassage": "Magic-user scroll ink",
+      "disposition": "material-cost",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "printedPages": [
+          45
+        ],
+        "pdfPages": [
+          46
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "dmg-scroll-ink-cost-passage-01",
+          "passageIdentity": "Scroll writing ink paragraph",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 45,
+            "pdfPage": 46,
+            "pdfPageIndexZeroBased": 45,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              10,
+              195,
+              295,
+              255
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "flask of ink sufficient for two to four spells",
+                "bounds": [
+                  26.6,
+                  224.2,
+                  286.7,
+                  231.9
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-3.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "bfd79cc91c4b4480b6c80198e3136a793796bcfa9d68af4a46e933e2af404d82"
+            },
+            "sourcePageHash": {
+              "pngSha256": "3c85d26bd78e1778d326451e991132ff4b195042122fe4f60683c8ade75e332b",
+              "dimensionsPx": [
+                1193,
+                1617
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "dmg-scroll-ink-cost-value-01",
+          "kind": "range",
+          "minimum": 200,
+          "maximum": 500,
+          "currency": "gp",
+          "unit": "flask of ink sufficient for two to four spells",
+          "purpose": "material-cost"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The source says the DM should devise a formula for manufacture; this flask range is the typed amount."
+      ]
+    },
+    {
+      "recordId": "dmg-illusionary-script-ink",
+      "receiptId": "dmg-illusionary-script-ink",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/32",
+      "claimType": "material-cost",
+      "sourceObjectOrPassage": "Illusionary Script special ink",
+      "disposition": "material-cost",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "printedPages": [
+          47
+        ],
+        "pdfPages": [
+          48
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "dmg-illusionary-script-ink-passage-01",
+          "passageIdentity": "Illusionary Script ink and alchemist profit",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 47,
+            "pdfPage": 48,
+            "pdfPageIndexZeroBased": 47,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              5,
+              115,
+              290,
+              175
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "lead-based ink",
+                "bounds": [
+                  20.6,
+                  136.9,
+                  280.3,
+                  153.9
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-3.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "bfd79cc91c4b4480b6c80198e3136a793796bcfa9d68af4a46e933e2af404d82"
+            },
+            "sourcePageHash": {
+              "pngSha256": "98678ed6abdfe8188592a70576d6c652ab3d5d2007e8b4a095fae3da1fd236bc",
+              "dimensionsPx": [
+                1177,
+                1605
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "dmg-illusionary-script-ink-value-01",
+          "kind": "range",
+          "minimum": 100,
+          "maximum": 400,
+          "currency": "gp",
+          "unit": "lead-based ink",
+          "purpose": "material-cost"
+        },
+        {
+          "valueId": "dmg-illusionary-script-ink-value-02",
+          "kind": "exact",
+          "amount": 100,
+          "currency": "gp",
+          "unit": "alchemist’s profit, additional",
+          "purpose": "service-fee"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "Ink range and alchemist’s profit are separately typed; not combined into a single total."
+      ]
+    },
+    {
+      "recordId": "dmg-aerial-mount-support",
+      "receiptId": "dmg-aerial-mount-support",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/33",
+      "claimType": "recurring-support-cost",
+      "sourceObjectOrPassage": "Aerial mount care and support",
+      "disposition": "mount-maintenance",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "printedPages": [
+          50
+        ],
+        "pdfPages": [
+          51
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "dmg-aerial-mount-support-passage-01",
+          "passageIdentity": "Griffon monthly feeding/care passage",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 50,
+            "pdfPage": 51,
+            "pdfPageIndexZeroBased": 50,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              0,
+              460,
+              280,
+              530
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "per month, griffon upkeep",
+                "bounds": [
+                  6,
+                  492.9,
+                  267.6,
+                  501.3
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-3.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "bfd79cc91c4b4480b6c80198e3136a793796bcfa9d68af4a46e933e2af404d82"
+            },
+            "sourcePageHash": {
+              "pngSha256": "c8b33e1e7f0472d1127b5b796205ac4b25b817c469705538338f82a99bfe0b92",
+              "dimensionsPx": [
+                1191,
+                1594
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "dmg-aerial-mount-support-value-01",
+          "kind": "range",
+          "minimum": 300,
+          "maximum": 600,
+          "currency": "gp",
+          "unit": "per month, griffon upkeep",
+          "purpose": "maintenance-cost"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "Special quarters, at least three grooms and keepers, and an occasional entire horse are also described without separate fixed prices."
+      ]
+    },
+    {
+      "recordId": "dmg-property-owner-tax",
+      "receiptId": "dmg-property-owner-tax",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/34",
+      "claimType": "tax-rule",
+      "sourceObjectOrPassage": "Property-owner tax",
+      "disposition": "property-tax",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "printedPages": [
+          88
+        ],
+        "pdfPages": [
+          89
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "dmg-property-owner-tax-passage-01",
+          "passageIdentity": "Aristocrat and merchant/tradesman annual property tax passage",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 88,
+            "pdfPage": 89,
+            "pdfPageIndexZeroBased": 88,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              285,
+              140,
+              565,
+              215
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "annual tax on income",
+                "bounds": [
+                  289.4,
+                  158.4,
+                  549.3,
+                  174.7
+                ]
+              },
+              {
+                "label": "taxes each year",
+                "bounds": [
+                  289.4,
+                  185.3,
+                  548.8,
+                  192.9
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-4.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "71c3cbda6d48f14fb4e07aebfd610ba7f72e6140eda60fe81077297d0e148e63"
+            },
+            "sourcePageHash": {
+              "pngSha256": "e96aa86152d75aded393d66264702f1817aec7664db372c5a32768c11976fb6e",
+              "dimensionsPx": [
+                1178,
+                1613
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "dmg-property-owner-tax-value-01",
+          "kind": "lower-bound",
+          "amount": 10,
+          "currency": "gp",
+          "unit": "annual tax on income",
+          "inclusive": true,
+          "purpose": "tax-or-duty",
+          "condition": "Aristocrats with property of 100 or more acres"
+        },
+        {
+          "valueId": "dmg-property-owner-tax-value-02",
+          "kind": "lower-bound",
+          "amount": 20,
+          "currency": "gp",
+          "unit": "taxes each year",
+          "inclusive": true,
+          "purpose": "tax-or-duty",
+          "condition": "Merchants/tradesmen in the described land-owning condition; land ownership may be waived"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "Both are minimums; the passage ties the second rule to a described business/land situation."
+      ]
+    },
+    {
+      "recordId": "dmg-sample-dungeon-treasure",
+      "receiptId": "dmg-sample-dungeon-treasure",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/37",
+      "claimType": "example-treasure",
+      "sourceObjectOrPassage": "Worked sample-dungeon treasure",
+      "disposition": "worked-treasure-example-not-price",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "printedPages": [
+          94
+        ],
+        "pdfPages": [
+          95
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "dmg-sample-dungeon-treasure-passage-01",
+          "passageIdentity": "Worked large-spider encounter treasure contents",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 94,
+            "pdfPage": 95,
+            "pdfPageIndexZeroBased": 94,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              300,
+              650,
+              565,
+              710
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "silver pieces in litter; treasure quantity",
+                "bounds": [
+                  318.7,
+                  666.6,
+                  555.1,
+                  693.4
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-4.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "71c3cbda6d48f14fb4e07aebfd610ba7f72e6140eda60fe81077297d0e148e63"
+            },
+            "sourcePageHash": {
+              "pngSha256": "a3f332a9951fdc8e1fe43e19893c10525c35741b1d92c421335cc010ef53b7c9",
+              "dimensionsPx": [
+                1213,
+                1609
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "dmg-sample-dungeon-treasure-value-01",
+          "kind": "exact",
+          "amount": 19,
+          "currency": "sp",
+          "unit": "silver pieces in litter; treasure quantity",
+          "purpose": "treasure-quantity",
+          "isPrice": false
+        },
+        {
+          "valueId": "dmg-sample-dungeon-treasure-value-02",
+          "kind": "exact",
+          "amount": 50,
+          "currency": "gp",
+          "unit": "garnet found in goblin skull; illustrative treasure valuation",
+          "purpose": "treasure-valuation",
+          "isPrice": false
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [
+        {
+          "kind": "treasure-quantity",
+          "unit": "silver pieces in litter; treasure quantity",
+          "reason": "Explicitly retained as a non-price monetary-context mention."
+        },
+        {
+          "kind": "treasure-valuation",
+          "unit": "garnet found in goblin skull; illustrative treasure valuation",
+          "reason": "Explicitly retained as a non-price monetary-context mention."
+        }
+      ],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "Both are dungeon contents, not an offer, purchase price, or sale price. The garnet has a stated valuation, distinct from the coin quantity."
+      ]
+    },
+    {
+      "recordId": "dmg-magic-item-fabrication-costs",
+      "receiptId": "dmg-magic-item-fabrication-costs",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/41",
+      "claimType": "fabrication-cost-example",
+      "sourceObjectOrPassage": "Magic-item fabrication and ring creation",
+      "disposition": "example-construction-cost-and-xp-exclusion",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "printedPages": [
+          118
+        ],
+        "pdfPages": [
+          119
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "dmg-magic-item-fabrication-costs-passage-01",
+          "passageIdentity": "Ring of spell storing example: materials and labor",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 118,
+            "pdfPage": 119,
+            "pdfPageIndexZeroBased": 118,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              0,
+              175,
+              280,
+              240
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "materials and labor for the example ring of spell storing",
+                "bounds": [
+                  7.7,
+                  176.8,
+                  268.6,
+                  220.2
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-4.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "71c3cbda6d48f14fb4e07aebfd610ba7f72e6140eda60fe81077297d0e148e63"
+            },
+            "sourcePageHash": {
+              "pngSha256": "e51733d3e1c9fd1b2e7394b2b290528c751bc395bda7dc4d65b148964a8ccae3",
+              "dimensionsPx": [
+                1205,
+                1627
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        },
+        {
+          "passageId": "dmg-magic-item-fabrication-costs-passage-02",
+          "passageIdentity": "Magic-item maker rest-time and item XP-value relation",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 118,
+            "pdfPage": 119,
+            "pdfPageIndexZeroBased": 118,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              0,
+              545,
+              280,
+              615
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "materials and labor for the example ring of spell storing",
+                "bounds": [
+                  7.2,
+                  564.1,
+                  269.2,
+                  571.7
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-4.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "71c3cbda6d48f14fb4e07aebfd610ba7f72e6140eda60fe81077297d0e148e63"
+            },
+            "sourcePageHash": {
+              "pngSha256": "e51733d3e1c9fd1b2e7394b2b290528c751bc395bda7dc4d65b148964a8ccae3",
+              "dimensionsPx": [
+                1205,
+                1627
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "dmg-magic-item-fabrication-costs-value-01",
+          "kind": "exact",
+          "amount": 5000,
+          "currency": "gp",
+          "unit": "materials and labor for the example ring of spell storing",
+          "purpose": "example-construction-cost",
+          "condition": "Worked example only; not a universal magic-item price",
+          "sourcePassageIndex": 0
+        },
+        {
+          "valueId": "dmg-magic-item-fabrication-costs-value-02",
+          "kind": "reference",
+          "amount": 100,
+          "currency": "gp-equivalent-of-item-XP-value",
+          "unit": "one day of maker rest per each 100 gp of item experience-point value",
+          "purpose": "experience-point-time-rule",
+          "isPrice": false,
+          "sourcePassageIndex": 1
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [
+        {
+          "kind": "experience-point-time-rule",
+          "unit": "one day of maker rest per each 100 gp of item experience-point value",
+          "reason": "The second passage is a rest-duration relation based on item experience-point value, not a cash cost and not a GP conversion."
+        }
+      ],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The second passage is a rest-duration relation based on item experience-point value, not a cash cost and not a GP conversion."
+      ]
+    },
+    {
+      "recordId": "dmg-artifact-market-values",
+      "receiptId": "dmg-artifact-market-values",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/47",
+      "claimType": "market-valuation",
+      "sourceObjectOrPassage": "Artifact market valuations",
+      "disposition": "market-valuation",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "printedPages": [
+          157
+        ],
+        "pdfPages": [
+          158
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "dmg-artifact-market-values-passage-01",
+          "passageIdentity": "Crown of Might market-sale valuation",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 157,
+            "pdfPage": 158,
+            "pdfPageIndexZeroBased": 157,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              10,
+              565,
+              295,
+              620
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "Crown of Might, openly sold",
+                "bounds": [
+                  24.5,
+                  583.1,
+                  285.6,
+                  608.7
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-4.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "71c3cbda6d48f14fb4e07aebfd610ba7f72e6140eda60fe81077297d0e148e63"
+            },
+            "sourcePageHash": {
+              "pngSha256": "93a3856f2fc3b0da73d56925c263fa46c43a3b36da31252c8386834c31acfbbf",
+              "dimensionsPx": [
+                1204,
+                1621
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        },
+        {
+          "passageId": "dmg-artifact-market-values-passage-02",
+          "passageIdentity": "Cup and Talisman of Al’Akbar jewelry valuations",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 157,
+            "pdfPage": 158,
+            "pdfPageIndexZeroBased": 157,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              300,
+              70,
+              580,
+              195
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "Crown of Might, openly sold",
+                "bounds": [
+                  311,
+                  82.7,
+                  571,
+                  99.4
+                ]
+              },
+              {
+                "label": "Cup of Al’Akbar jewelry value on market",
+                "bounds": [
+                  310.8,
+                  154.2,
+                  572,
+                  179.5
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-4.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "71c3cbda6d48f14fb4e07aebfd610ba7f72e6140eda60fe81077297d0e148e63"
+            },
+            "sourcePageHash": {
+              "pngSha256": "93a3856f2fc3b0da73d56925c263fa46c43a3b36da31252c8386834c31acfbbf",
+              "dimensionsPx": [
+                1204,
+                1621
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "dmg-artifact-market-values-value-01",
+          "kind": "lower-bound",
+          "amount": 50000,
+          "currency": "gp",
+          "unit": "Crown of Might, openly sold",
+          "inclusive": true,
+          "purpose": "market-valuation",
+          "linksToSourceRows": [
+            "dmg-post125-screening-001"
+          ],
+          "sourcePassageIndex": 0
+        },
+        {
+          "valueId": "dmg-artifact-market-values-value-02",
+          "kind": "lower-bound",
+          "amount": 75000,
+          "currency": "gp",
+          "unit": "Cup of Al’Akbar jewelry value on market",
+          "inclusive": true,
+          "purpose": "market-valuation",
+          "linksToSourceRows": [
+            "dmg-post125-screening-002"
+          ],
+          "sourcePassageIndex": 1
+        },
+        {
+          "valueId": "dmg-artifact-market-values-value-03",
+          "kind": "lower-bound",
+          "amount": 10000,
+          "currency": "gp",
+          "unit": "Talisman of Al’Akbar jewelry value",
+          "inclusive": true,
+          "purpose": "market-valuation",
+          "linksToSourceRows": [
+            "dmg-post125-screening-003"
+          ],
+          "sourcePassageIndex": 1
+        }
+      ],
+      "relatedSourceRowIds": [
+        "dmg-post125-screening-001",
+        "dmg-post125-screening-002",
+        "dmg-post125-screening-003"
+      ],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The 3 named claims are exactly linked to supplied p.157/PDF p.158 screening records. The broader artifact census remains partial; no unreviewed items on other pages are passed."
+      ]
+    },
+    {
+      "recordId": "dmg-artifact-activation-sacrifice",
+      "receiptId": "dmg-artifact-activation-sacrifice",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/48",
+      "claimType": "conditional-sacrifice-value",
+      "sourceObjectOrPassage": "Artifact activation sacrifice",
+      "disposition": "activation-sacrifice",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "printedPages": [
+          163
+        ],
+        "pdfPages": [
+          164
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "dmg-artifact-activation-sacrifice-passage-01",
+          "passageIdentity": "Artifact activation daily sacrifice row",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 163,
+            "pdfPage": 164,
+            "pdfPageIndexZeroBased": 163,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              20,
+              490,
+              280,
+              545
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "worth of gems and/or jewelry sacrificed to activate item for one day",
+                "bounds": [
+                  30.5,
+                  516.2,
+                  270,
+                  524
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-4.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "71c3cbda6d48f14fb4e07aebfd610ba7f72e6140eda60fe81077297d0e148e63"
+            },
+            "sourcePageHash": {
+              "pngSha256": "0cd6bf870e6c5d7d8dc7ae5e3a05321f2876f638b9d98485377374263431abc9",
+              "dimensionsPx": [
+                1172,
+                1615
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "dmg-artifact-activation-sacrifice-value-01",
+          "kind": "range",
+          "minimum": 10000,
+          "maximum": 60000,
+          "currency": "gp",
+          "unit": "worth of gems and/or jewelry sacrificed to activate item for one day",
+          "purpose": "sacrificial-treasure"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "This is an activation prerequisite, not a price for the artifact itself."
+      ]
+    },
+    {
+      "recordId": "dmg-obsidian-vase-example",
+      "receiptId": "dmg-obsidian-vase-example",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/50",
+      "claimType": "example-item-valuation",
+      "sourceObjectOrPassage": "Appendix H tricks: obsidian vase",
+      "disposition": "example-item-valuation",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "printedPages": [
+          217
+        ],
+        "pdfPages": [
+          217
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "dmg-obsidian-vase-example-passage-01",
+          "passageIdentity": "Appendix H trick: jar/obsidian vase valuation",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": 217,
+            "pdfPage": 217,
+            "pdfPageIndexZeroBased": 216,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              65,
+              125,
+              285,
+              205
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": [
+              {
+                "label": "obsidian vase of the finest workmanship in a worked trick example",
+                "bounds": [
+                  75.1,
+                  120.6,
+                  276.1,
+                  191.1
+                ]
+              }
+            ],
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/montage-4.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "71c3cbda6d48f14fb4e07aebfd610ba7f72e6140eda60fe81077297d0e148e63"
+            },
+            "sourcePageHash": {
+              "pngSha256": "5ae7ddc869051ad3e4f17f781e19f88cb8d3c7febe0322af62b6ebce3ad3e6ce",
+              "dimensionsPx": [
+                1169,
+                1610
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [
+        {
+          "valueId": "dmg-obsidian-vase-example-value-01",
+          "kind": "exact",
+          "amount": 5000,
+          "currency": "gp",
+          "unit": "obsidian vase of the finest workmanship in a worked trick example",
+          "purpose": "example-valuation",
+          "condition": "Jar/vase trick; source census reports an example value, not an offer"
+        }
+      ],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The supplied page shows PDF p.217/printed p.217. A separate post-p.125 survey artifact has a PDF-page mismatch for this fact; preserve that historical survey issue."
+      ]
+    },
+    {
+      "recordId": "dmg-removable-hireling-reference",
+      "receiptId": "dmg-removable-hireling-reference",
+      "sourceCensusArtifact": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusArtifactSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "sourceCensusJsonPointer": "/records/51",
+      "claimType": "reference-sheet-table-group",
+      "sourceObjectOrPassage": "Unnumbered removable reference sheet",
+      "disposition": "duplicate-occurrence-plus-encumbrance-exclusion",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "printedPages": [
+          null
+        ],
+        "pdfPages": [
+          239
+        ],
+        "printing": "not separately established beyond the supplied source scan"
+      },
+      "sourcePassages": [
+        {
+          "passageId": "dmg-removable-hireling-reference-passage-01",
+          "passageIdentity": "Perforated removable reference sheet: encumbrance and hireling tables",
+          "source": {
+            "bookKey": "DMG",
+            "book": "Dungeon Masters Guide",
+            "sourceFile": "DMG_1stEd.pdf",
+            "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+            "printedPage": null,
+            "pdfPage": 239,
+            "pdfPageIndexZeroBased": 238,
+            "printing": "not separately established beyond the supplied source scan"
+          },
+          "evidence": {
+            "contextCropBoundsPdfPagePointsTopLeft": [
+              0,
+              0,
+              595,
+              765
+            ],
+            "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]",
+            "highlightRectanglesPdfPagePointsTopLeft": null,
+            "pixelReview": {
+              "status": "reviewed rendered excerpt from supplied original PDF",
+              "reviewedComposite": "/tmp/adnd-pdm-crops/dmg-p239-full.png",
+              "renderScale": 1.7,
+              "renderDpi": 122.4,
+              "exactPointBoundsMeasured": true,
+              "independentGeometryReview": "pending",
+              "reviewedCompositeSha256": "1013b271835c8dbb4256bb4947d64ec6342bb6b217c7bf1c41188b741ea15e9a"
+            },
+            "sourcePageHash": {
+              "pngSha256": "e0026eb8bbeef2f04ab023ce7df505849eb69ef470e251cd6b7836d765973b5d",
+              "dimensionsPx": [
+                1206,
+                1581
+              ],
+              "renderDpi": 150,
+              "method": "SHA-256 of full-page PNG render from private original PDF"
+            },
+            "privateCropPolicy": "Full source page and crop image remain private in /tmp; only bounded page metadata and typed claims are included here."
+          }
+        }
+      ],
+      "valueRecords": [],
+      "relatedSourceRowIds": [],
+      "exclusions": [],
+      "sourceReviewStatus": "worker pixel review of private original-source excerpts recorded; independent semantic and overlay review pending",
+      "notes": [
+        "The 10 standard and 33 expert hireling rows on this sheet match row-for-row the supplied p.28/p.29 source inventories in labels, printed daily/monthly amounts or “special” markers, and listed qualifiers. These are duplicate occurrences within the supplied PDF; the exact publication printing remains unidentified. The separate “encumbrance in gold pieces” schedule expresses weight, not money."
+      ],
+      "duplicateRowComparisons": [
+        {
+          "removableSheetTable": "standard-hirelings-daily-monthly",
+          "itemOrOccupation": "Bearer / porter",
+          "originalTypedSourceRowId": "dmg28-standard-hireling-rates-001",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/3/sourceRows/0",
+          "originalPrintedSourcePage": {
+            "printedPage": 28,
+            "pdfPage": 29
+          },
+          "printedValues": [
+            {
+              "amount": 1,
+              "currency": "sp",
+              "unit": "per day",
+              "classification": "printed"
+            },
+            {
+              "amount": 1,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "standard-hirelings-daily-monthly",
+          "itemOrOccupation": "Carpenter",
+          "originalTypedSourceRowId": "dmg28-standard-hireling-rates-002",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/3/sourceRows/1",
+          "originalPrintedSourcePage": {
+            "printedPage": 28,
+            "pdfPage": 29
+          },
+          "printedValues": [
+            {
+              "amount": 3,
+              "currency": "sp",
+              "unit": "per day",
+              "classification": "printed"
+            },
+            {
+              "amount": 2,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "standard-hirelings-daily-monthly",
+          "itemOrOccupation": "Leather worker",
+          "originalTypedSourceRowId": "dmg28-standard-hireling-rates-003",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/3/sourceRows/2",
+          "originalPrintedSourcePage": {
+            "printedPage": 28,
+            "pdfPage": 29
+          },
+          "printedValues": [
+            {
+              "amount": 2,
+              "currency": "sp",
+              "unit": "per day",
+              "classification": "printed"
+            },
+            {
+              "amount": 30,
+              "currency": "sp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "standard-hirelings-daily-monthly",
+          "itemOrOccupation": "Limner",
+          "originalTypedSourceRowId": "dmg28-standard-hireling-rates-004",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/3/sourceRows/3",
+          "originalPrintedSourcePage": {
+            "printedPage": 28,
+            "pdfPage": 29
+          },
+          "printedValues": [
+            {
+              "amount": 10,
+              "currency": "sp",
+              "unit": "per day",
+              "classification": "printed"
+            },
+            {
+              "amount": 10,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "standard-hirelings-daily-monthly",
+          "itemOrOccupation": "Linkboy",
+          "originalTypedSourceRowId": "dmg28-standard-hireling-rates-005",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/3/sourceRows/4",
+          "originalPrintedSourcePage": {
+            "printedPage": 28,
+            "pdfPage": 29
+          },
+          "printedValues": [
+            {
+              "amount": 1,
+              "currency": "sp",
+              "unit": "per day",
+              "classification": "printed"
+            },
+            {
+              "amount": 1,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "standard-hirelings-daily-monthly",
+          "itemOrOccupation": "Mason",
+          "originalTypedSourceRowId": "dmg28-standard-hireling-rates-006",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/3/sourceRows/5",
+          "originalPrintedSourcePage": {
+            "printedPage": 28,
+            "pdfPage": 29
+          },
+          "printedValues": [
+            {
+              "amount": 4,
+              "currency": "sp",
+              "unit": "per day",
+              "classification": "printed"
+            },
+            {
+              "amount": 3,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "standard-hirelings-daily-monthly",
+          "itemOrOccupation": "Pack handler",
+          "originalTypedSourceRowId": "dmg28-standard-hireling-rates-007",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/3/sourceRows/6",
+          "originalPrintedSourcePage": {
+            "printedPage": 28,
+            "pdfPage": 29
+          },
+          "printedValues": [
+            {
+              "amount": 2,
+              "currency": "sp",
+              "unit": "per day",
+              "classification": "printed"
+            },
+            {
+              "amount": 30,
+              "currency": "sp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "standard-hirelings-daily-monthly",
+          "itemOrOccupation": "Tailor",
+          "originalTypedSourceRowId": "dmg28-standard-hireling-rates-008",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/3/sourceRows/7",
+          "originalPrintedSourcePage": {
+            "printedPage": 28,
+            "pdfPage": 29
+          },
+          "printedValues": [
+            {
+              "amount": 2,
+              "currency": "sp",
+              "unit": "per day",
+              "classification": "printed"
+            },
+            {
+              "amount": 30,
+              "currency": "sp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "standard-hirelings-daily-monthly",
+          "itemOrOccupation": "Teamster",
+          "originalTypedSourceRowId": "dmg28-standard-hireling-rates-009",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/3/sourceRows/8",
+          "originalPrintedSourcePage": {
+            "printedPage": 28,
+            "pdfPage": 29
+          },
+          "printedValues": [
+            {
+              "amount": 5,
+              "currency": "sp",
+              "unit": "per day",
+              "classification": "printed"
+            },
+            {
+              "amount": 5,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "standard-hirelings-daily-monthly",
+          "itemOrOccupation": "Valet / lackey",
+          "originalTypedSourceRowId": "dmg28-standard-hireling-rates-010",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/3/sourceRows/9",
+          "originalPrintedSourcePage": {
+            "printedPage": 28,
+            "pdfPage": 29
+          },
+          "printedValues": [
+            {
+              "amount": 3,
+              "currency": "sp",
+              "unit": "per day",
+              "classification": "printed"
+            },
+            {
+              "amount": 50,
+              "currency": "sp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Alchemist",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-001",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/0",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 300,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Armorer",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-002",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/1",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 100,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Blacksmith",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-003",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/2",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 30,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Engineer-architect",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-004",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/3",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 100,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Engineer-artillerist",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-005",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/4",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 150,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Engineer-sapper/miner",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-006",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/5",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 150,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Jeweler-gemcutter",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-007",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/6",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 100,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary archer (longbow)",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-008",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/7",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 4,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary archer (shortbow)",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-009",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/8",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 2,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary artillerist",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-010",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/9",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 5,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary captain",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-011",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/10",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": null,
+              "currency": null,
+              "unit": "per month",
+              "classification": "special; consult occupation description"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary crossbowman",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-012",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/11",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 2,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary footman, heavy",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-013",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/12",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 2,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary footman, light",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-014",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/13",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 1,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary footman, pikeman",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-015",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/14",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 3,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary hobilar, heavy",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-016",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/15",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 3,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary hobilar, light",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-017",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/16",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 2,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary horseman, archer",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-018",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/17",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 6,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary horseman, crossbowman",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-019",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/18",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 4,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary horseman, heavy",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-020",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/19",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 6,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary horseman, light",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-021",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/20",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 3,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary horseman, medium",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-022",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/21",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 4,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary lieutenant",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-023",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/22",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": null,
+              "currency": null,
+              "unit": "per month",
+              "classification": "special; consult occupation description"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary sapper/miner",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-024",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/23",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 4,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary serjeant",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-025",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/24",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": null,
+              "currency": null,
+              "unit": "per month",
+              "classification": "special; consult occupation description"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Mercenary slinger",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-026",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/25",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 3,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Sage",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-027",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/26",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": null,
+              "currency": null,
+              "unit": "per month",
+              "classification": "special; consult occupation description"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Scribe",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-028",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/27",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 15,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Ship crew",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-029",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/28",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": null,
+              "currency": null,
+              "unit": "per month",
+              "classification": "special; consult occupation description"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Ship master",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-030",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/29",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": null,
+              "currency": null,
+              "unit": "per month",
+              "classification": "special; consult occupation description"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Spy",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-031",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/30",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": null,
+              "currency": null,
+              "unit": "per month",
+              "classification": "special; consult occupation description"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Steward/castellan",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-032",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/31",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": null,
+              "currency": null,
+              "unit": "per month",
+              "classification": "special; consult occupation description"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        },
+        {
+          "removableSheetTable": "expert-hirelings-monthly",
+          "itemOrOccupation": "Weapon maker",
+          "originalTypedSourceRowId": "dmg29-expert-hireling-rates-033",
+          "originalTypedSourceArtifact": "research/price-source-inventory.json",
+          "originalTypedSourceJsonPointer": "/sourceInventories/4/sourceRows/32",
+          "originalPrintedSourcePage": {
+            "printedPage": 29,
+            "pdfPage": 30
+          },
+          "printedValues": [
+            {
+              "amount": 100,
+              "currency": "gp",
+              "unit": "per month",
+              "classification": "printed"
+            }
+          ],
+          "removableSheetRowReview": "exact label and each printed amount/special marker visually compared; match"
+        }
+      ],
+      "duplicateRowComparisonDenominator": {
+        "standardHirelingRows": 10,
+        "expertHirelingRows": 33,
+        "total": 43,
+        "matched": 43,
+        "unmatched": 0
+      },
+      "encumbranceExclusion": {
+        "tableIdentity": "Encumbrance of standard items",
+        "columnLabel": "Encumbrance in gold pieces",
+        "classification": "weight/encumbrance quantity; not money",
+        "pixelReviewed": true
+      },
+      "sourcePrintingAssessment": "same supplied DMG scan includes the perforated 1979 reference sheet; broader edition/printing identity is not established."
+    }
+  ],
+  "limitations": [
+    "The artifact is limited to 34 receipts in the 180-claim discovery census and the exact cited passages; pages and passages outside the census remain unknown.",
+    "No publication printing is inferred solely from file title. The DMG p.239 sheet is confirmed as a duplicate occurrence within the supplied scan, while broader printing identity remains unestablished.",
+    "Source PDFs and full-page renders/crops remain private; only source hashes, passage identities, bounds, typed facts, and short paraphrased qualifiers are published.",
+    "Independent semantic/geometry review remains pending; worker pixel review is not an independent approval."
+  ]
+}

@@ -3,8 +3,11 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {containsContext,focusCoversEvidence,sourceRect} from '../tools/citation-context-contract.mjs';
+import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';
 
 const calibration=JSON.parse(readFileSync('research/geometry-focus-calibration.json','utf8'));
+const tableCatalogPatch=JSON.parse(readFileSync('research/source-audit-batch5-phb-dmg-table-catalog-patch.json','utf8'));
+const tableIndependentReview=JSON.parse(readFileSync('research/source-audit-batch5-table-independent-review.json','utf8'));
 const crops=new Map(calibration.contextCrops.map(c=>[c.id,c]));
 const cases=new Map(calibration.focusCases.map(c=>[c.id,c]));
 
@@ -143,7 +146,7 @@ test('UA p.27 Sword Long focus excludes the prior row and covers all general-dat
   assert.match(row.noteScope,/Footnote 5 .*Sword, Bastard/);
 });
 
-test('applied excerpt assets and all selected stable row IDs use the calibrated source crops and foci',()=>{
+test('applied excerpt assets retain calibrated crops and exact reviewed current row foci',()=>{
   const cropImage=new Map();
   for(const crop of calibration.contextCrops){
     const filename=crop.image.path.split('/').at(-1);
@@ -192,10 +195,57 @@ test('applied excerpt assets and all selected stable row IDs use the calibrated 
       assert.equal(region.image,cropImage.get(cropId),`${id} image`);
       assert.equal(region.sha256,crop.image.sha256,`${id} image SHA`);
       assert.deepEqual(region.boundsPdfPoints,crop.effectiveBoundsPoints,`${id} actual source crop bounds`);
+      if(filename==='equipment-phb-arrow.json'&&id==='phb-arrow-phb37-3'){
+        const calibrationRow=cases.get('phb-arrow-weight-damage');
+        const oldRecipe=tableCatalogPatch.oldRecipes.find(recipe=>recipe.catalog==='dist/scans/verified/equipment-phb-arrow.json'&&recipe.regionId===id);
+        const binding=tableCatalogPatch.bindings.find(candidate=>candidate.itemId==='phb-arrow'&&candidate.regionId===id&&candidate.rowId==='batch5-phb37-weapon-weight-damage-001');
+        const review=tableIndependentReview.records.find(record=>record.collection==='equipment'&&record.itemId==='phb-arrow'&&record.regionId===id);
+        assert.ok(calibrationRow&&oldRecipe&&binding&&review,`${id}: historical recipe, replaced-row binding and independent current review are all explicit`);
+        assert.equal(oldRecipe.before.focusRects.length,1,`${id}: frozen calibrated pre-cleanup focus count remains recorded`);
+        oldRecipe.before.focusRects[0].forEach((value,index)=>assert.ok(Math.abs(value-calibrationRow.correctedFocusImageXYWH[index])<1e-12,`${id}: frozen calibrated pre-cleanup focus coordinate ${index} remains recorded`));
+        assert.equal(binding.regionRecipeDisposition,'stable-region-replaced-in-place');
+        assert.deepEqual(binding.oldRequiredRegionIds,[id]);
+        assert.deepEqual(binding.proposedRequiredRegionIds,[id]);
+        assert.equal(binding.applicability,'confirmed');
+        assert.deepEqual(region.focusRects,review.regionSnapshot.focusRects,`${id}: exact current focus follows the independent source-overlay review`);
+        assert.deepEqual(sourceVisualRegionHashes(region),{focusSha256:review.focusSha256,contentSha256:review.contentSha256},`${id}: current region hashes match the independent review`);
+        assert.equal(review.decision,'approved-source-excerpt-dimensions-only');
+        assert.equal(review.assessments.highlight.status,'confirmed');
+        assert.equal(review.assessments.default.status,'unassessed');
+        assert.equal(review.fieldValueGrade,'not-assessed-or-promoted');
+      }else if(filename==='equipment-phb-long-sword.json'&&id==='phb-37-2b2447ac14bb294c'){
+        const review=JSON.parse(readFileSync('research/source-audit-batch5-table-independent-review-v2.json','utf8')).records.find(record=>record.itemId==='phb-long-sword'&&record.regionId===id);
+        const oldRecipe=tableCatalogPatch.oldRecipes.find(recipe=>recipe.catalog==='dist/scans/verified/equipment-phb-long-sword.json'&&recipe.regionId===id);
+        assert.ok(review&&oldRecipe,`${id}: frozen old recipe and exact reviewed current correction are present`);
+        assert.deepEqual(oldRecipe.before.focusRects,[[0.0041322365706313955,0.781338028169014,0.5941437538729575,0.01778169014084511]],`${id}: historical narrow focus remains recorded`);
+        assert.equal(review.decision,'approved-recorded-source-excerpt-dimensions');
+        assert.equal(review.assessments.relevance.status,'confirmed');
+        assert.equal(review.assessments.highlight.status,'confirmed');
+        assert.equal(review.assessments.default.status,'unassessed');
+        assert.equal(review.fieldValueGrade,'not-assessed-or-promoted');
+        assert.deepEqual(region.focusRects,review.regionSnapshot.focusRects,`${id}: exact current Long row focus matches independent review`);
+        assert.deepEqual(sourceVisualRegionHashes(region),{focusSha256:review.focusSha256,contentSha256:review.contentSha256},`${id}: current Long row hashes match independent review`);
+      }else if(filename==='equipment-phb-long-sword.json'&&id==='phb-38-779f5d713364297a'){
+        const review=tableIndependentReview.records.find(record=>record.itemId==='phb-long-sword'&&record.regionId===id);
+        const oldRecipe=tableCatalogPatch.oldRecipes.find(recipe=>recipe.catalog==='dist/scans/verified/equipment-phb-long-sword.json'&&recipe.regionId===id);
+        const calibrationRow=cases.get('phb-long-sword-to-hit-adjustments');
+        assert.ok(review&&oldRecipe&&calibrationRow,`${id}: frozen recipe, source calibration and exact current independent proof are present`);
+        assert.equal(oldRecipe.before.focusRects.length,1,`${id}: original one-focus recipe remains recorded`);
+        oldRecipe.before.focusRects[0].forEach((value,index)=>assert.ok(Math.abs(value-calibrationRow.correctedFocusImageXYWH[index])<1e-12,`${id}: original focus coordinate ${index} remains recorded`));
+        assert.equal(review.tableId,'batch5-phb38-handheld');
+        assert.equal(review.sourceRowId,'batch5-phb38-handheld-040');
+        assert.equal(review.decision,'approved-source-excerpt-dimensions-only');
+        assert.equal(review.assessments.highlight.status,'confirmed');
+        assert.equal(review.assessments.default.status,'unassessed');
+        assert.equal(review.fieldValueGrade,'not-assessed-or-promoted');
+        assert.deepEqual(region,review.regionSnapshot,`${id}: exact current full-table row and applicable-note focus matches the independent source review`);
+        assert.deepEqual(sourceVisualRegionHashes(region),{focusSha256:review.focusSha256,contentSha256:review.contentSha256},`${id}: current scoped region hashes match independent review`);
+      }else{
       const expectedFocus=focusIds.map(focusId=>cases.get(focusId).correctedFocusImageXYWH);
       assert.equal(region.focusRects.length,expectedFocus.length,`${id} focus count`);
       for(let i=0;i<expectedFocus.length;i++)region.focusRects[i].forEach((v,j)=>assert.ok(Math.abs(v-expectedFocus[i][j])<1e-12,`${id} focus ${i} coordinate ${j}`));
       if(!focusIds.length)assert.equal(region.role,'context',`${id} is explicit context`);
+      }
     }
   }
   const ua=JSON.parse(readFileSync('dist/scans/verified/equipment-ua-aklys-hurled.json','utf8'));

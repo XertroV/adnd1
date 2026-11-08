@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "gaps-monetary-review-projection-before",
+  "scope": "Exact pre-policy validator and the two existing supplemental entry projections; raw transcription pending statuses were used as current presentation. This captures formatter behavior, not source review approval.",
+  "inputs": {
+    "tools/refresh-gaps-handoff.mjs": "1f7cc3bdd37fcb87741db0959f553dcb40ae071816855f24cf771ab293f9a758",
+    "tools/coverage-gaps.mjs": "af87fb695850939202929397bea983a842225c1761889b1b9e09f739791bb1b4",
+    "dist/coverage-gaps.json": "73a6be65e2308e0838bdc81b6b5b778c37a9d627767152dc6b56786ae4c448a4"
+  },
+  "beforeValidatorSource": "export function validateSupplementalMonetaryReport({path, json, bytes, repoRoot = root, hashes = {}}) {\n  hashes[path] = sha256(bytes);\n  const report = json;\n  if (report.artifactType === 'ua-additional-prices-row-normalized-audit') {\n    const censusPath = report.scope?.inventoryArtifact;\n    if (!censusPath || sha256(readFileSync(resolve(repoRoot, censusPath))) !== report.scope.inventorySha256 || report.source?.sha256 !== report.baseline?.source?.sha256 || report.inputCommit !== report.baseline?.inputCommit || report.baseline?.inputHashesSha256?.[censusPath] !== report.scope.inventorySha256) fail(`${path} baseline source identity/census hash is invalid`);\n    hashes[censusPath] = report.scope.inventorySha256;\n    hashes[`${path}#authorized-source`] = report.source.sha256;\n    if (!Array.isArray(report.groupReviews) || !Array.isArray(report.rowRecords) || report.aggregate?.groupCount !== report.groupReviews.length || report.aggregate?.rowRecordCount !== report.rowRecords.length || report.aggregate?.rowRecordCount !== report.aggregate.sourceRowDenominator) fail(`${path} row-normalized denominators do not validate`);\n    if (report.aggregate?.structuredValueCellCount !== report.aggregate?.structuredGpMonetaryCellCount + report.aggregate?.xpReferenceValueCellCount) fail(`${path} XP and money cell totals must remain separately reconciled`);\n    const a = report.aggregate;\n    return {path, sha256: hashes[path], source: report.source.fileName, sourceSha256: report.source.sha256, sourceCensusPath: censusPath, sourceCensusSha256: report.scope.inventorySha256, groups: a.groupCount, rows: a.rowRecordCount, monetaryCells: a.structuredGpMonetaryCellCount, xpReferenceCells: a.xpReferenceValueCellCount, independentOverlayReviewPending: a.independentOverlayReviewNeeded === true, status: 'source-first-extraction; independent overlay review pending'};\n  }\n  if (report.artifactType === 'source-audit-batch5-phb-dmg-additional-prices') {\n    const base = report.baseline;\n    if (!base?.censusFile || sha256(readFileSync(resolve(repoRoot, base.censusFile))) !== base.censusFileSha256) fail(`${path} captured PHB/DMG census identity is stale`);\n    hashes[base.censusFile] = base.censusFileSha256;\n    const historicalInventory = execFileSync('git', ['show', `${base.inputCommit}:${base.priceInventoryFile}`], {cwd: repoRoot, maxBuffer: 32 * 1024 * 1024});\n    if (sha256(historicalInventory) !== base.priceInventoryFileSha256) fail(`${path} captured canonical inventory baseline hash is invalid`);\n    hashes[`git:${base.inputCommit}:${base.priceInventoryFile}`] = sha256(historicalInventory);\n    const groups = report.review?.groups, records = report.review?.sourceRowsOrClaims, d = report.review?.denominators;\n    if (report.status !== 'typed-extraction-complete; root-independent-review-pending' || !Array.isArray(groups) || groups.length !== 18 || !Array.isArray(records) || records.length !== d?.sourceMonetaryRowsOrClaimsStructurallyRecorded || d.groupsWithTypedOutput !== 18 || d.groupsStillUnreviewed !== 0) fail(`${path} PHB/DMG typed extraction denominators are incomplete or schema changed`);\n    const xpCount = records.filter(row => containsXpKey(row.typedValue)).length;\n    for (const source of Object.values(base.sources || {})) if (source.sourceHashMatches === false || source.sourceFileSha256 !== source.censusDeclaredSourceSha256) fail(`${path} contains an unverified PHB/DMG source identity`);\n    for (const [book, source] of Object.entries(base.sources || {})) hashes[`${path}#authorized-source-${book}`] = source.sourceFileSha256;\n    const refRows = report.additionalReferenceSheetReview?.denominators;\n    if (!refRows || refRows.p123EquipmentPurchaseRows !== refRows.p35EquivalentRows + refRows.p36EquivalentRows || refRows.valueAndCurrencyMatches + refRows.numericAmountOrCurrencyDiscrepancies !== refRows.p123EquipmentPurchaseRows) fail(`${path} additional PHB equipment reference-row comparison denominator is incomplete`);\n    return {path, sha256: hashes[path], source: 'PHB and DMG authorized source PDFs', sourceIdentities: Object.fromEntries(Object.entries(base.sources).map(([book, source]) => [book, source.sourceFileSha256])), sourceCensusPath: base.censusFile, sourceCensusSha256: base.censusFileSha256, groups: groups.length, rows: records.length, monetaryRowsOrClaims: d.sourceMonetaryRowsOrClaimsStructurallyRecorded, monetaryCountUnit: 'structured source-monetary rows or claims; not amount cells', xpReferenceRows: xpCount, tableRowsOrOutcomesReviewed: d.tableRowsOrOutcomesReviewed, referencePriceRows: refRows.p123EquipmentPurchaseRows, referencePriceMatches: refRows.valueAndCurrencyMatches, referencePriceDiscrepancies: refRows.numericAmountOrCurrencyDiscrepancies, additionalQualifierDifferences: refRows.additionalSourceQualifierDifferences, independentOverlayReviewPending: true, status: report.status};\n  }\n  fail(`${path} has unknown supplemental monetary report schema`);\n}\n",
+  "reports": [
+    {
+      "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "source": "PHB and DMG authorized source PDFs",
+      "sourceIdentities": {
+        "PHB": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "DMG": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "sourceCensusPath": "research/price-source-inventory-phb-dmg-other.json",
+      "sourceCensusSha256": "a6e653a0ee4854e2d28b2cbc8049c60f038d4e8eabbcc822b10b730ef496ae79",
+      "groups": 18,
+      "rows": 179,
+      "monetaryRowsOrClaims": 179,
+      "monetaryCountUnit": "structured source-monetary rows or claims; not amount cells",
+      "xpReferenceRows": 1,
+      "tableRowsOrOutcomesReviewed": 201,
+      "referencePriceRows": 165,
+      "referencePriceMatches": 165,
+      "referencePriceDiscrepancies": 0,
+      "additionalQualifierDifferences": 1,
+      "independentOverlayReviewPending": true,
+      "status": "typed-extraction-complete; root-independent-review-pending"
+    },
+    {
+      "path": "research/source-audit-batch5-ua-additional-prices.json",
+      "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "source": "Unearthed Arcana.pdf",
+      "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+      "sourceCensusPath": "research/price-source-inventory-ua-other.json",
+      "sourceCensusSha256": "f1f797d9e8664589af5308737d9bc9d5e5dd536339349609fbeec5dc2a58c4b9",
+      "groups": 15,
+      "rows": 583,
+      "monetaryCells": 583,
+      "xpReferenceCells": 566,
+      "independentOverlayReviewPending": true,
+      "status": "source-first-extraction; independent overlay review pending"
+    }
+  ],
+  "entries": [
+    {
+      "id": "supplemental-monetary-review-1",
+      "title": "PHB and DMG monetary records",
+      "status": "transcribed-independent-review-pending",
+      "description": "The supplemental inventory records 179 source rows or passages across 18 identified groups. A separate 165-row reference sheet was reconciled, with 1 qualifier difference. XP references remain separate from monetary values. Amounts, formulas, unavailable values and source references remain distinct; transcription does not prove complete book coverage. Independent source and highlight review remains separate.",
+      "sourceLocations": [],
+      "links": [],
+      "handoffPointers": [
+        "/reviewQueuesNotSourceAbsences/rowNormalizedMonetaryReview/reports/0"
+      ],
+      "sourceArtifacts": [
+        {
+          "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+          "pointer": "/review/sourceRowsOrClaims",
+          "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9"
+        }
+      ]
+    },
+    {
+      "id": "supplemental-monetary-review-2",
+      "title": "UA monetary records",
+      "status": "transcribed-independent-review-pending",
+      "description": "The supplemental inventory records 583 source rows or passages across 15 identified groups. Its 566 XP cells are recorded separately from money. Amounts, formulas, unavailable values and source references remain distinct; transcription does not prove complete book coverage. Independent source and highlight review remains separate.",
+      "sourceLocations": [],
+      "links": [],
+      "handoffPointers": [
+        "/reviewQueuesNotSourceAbsences/rowNormalizedMonetaryReview/reports/1"
+      ],
+      "sourceArtifacts": [
+        {
+          "path": "research/source-audit-batch5-ua-additional-prices.json",
+          "pointer": "/rowRecords",
+          "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a"
+        }
+      ]
+    }
+  ],
+  "semanticCompletenessVerified": false
+}

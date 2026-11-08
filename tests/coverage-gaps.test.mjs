@@ -3,7 +3,7 @@ import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import test from 'node:test';
-import {buildCoverageGaps} from '../tools/coverage-gaps.mjs';
+import {buildCoverageGaps, supplementalMonetaryPresentation} from '../tools/coverage-gaps.mjs';
 
 const root = resolve(new URL('..', import.meta.url).pathname);
 const read = path => readFileSync(resolve(root, path));
@@ -97,13 +97,33 @@ test('offer entries preserve package quantity and distinct current site prices',
   assert.match(offers[0].description, /1 gp per dozen/);
   assert.match(offers[0].description, /2 sp per single normal arrow/);
   assert.match(offers[0].description, /not a missing item price/);
-  assert.equal(offers[1].status, 'previously-confirmed-review-stale');
+  assert.equal(offers[1].status, 'extracted-canonical-offer');
   assert.match(offers[1].description, /15 sp/);
   assert.match(offers[1].description, /10 sp per score/);
-  assert.equal(offers[2].status, 'source-review-pending-provisional-bounds');
+  assert.equal(offers[2].status, 'extracted-quantity-unresolved');
   assert.match(offers[2].description, /100 gp/);
-  assert.match(offers[2].description, /quantity or equivalence remains unresolved/);
+  assert.match(offers[2].description, /quantity and equivalence remain unresolved/);
   assert.doesNotMatch(offers[2].description, /quantity or equivalence is not stated/);
+  for(const [index,itemId] of [[1,'phb-sling-bullets-dozen'],[2,'ua-quarrels-for-same']]){
+    assert.ok(data.equipment.some(item=>item.id===itemId&&item.price));
+    assert.ok(offers[index].links.some(link=>link.href.includes(itemId)));
+    assert.ok(offers[index].sourceArtifacts.some(artifact=>artifact.path==='research/source-audit-batch5-price-independent-review.json'));
+  }
+});
+
+test('source-census presentation retains history and reports current structured output separately',()=>{
+ const before=JSON.parse(read('research/source-audit-batch5-census-presentation-before.json'));
+ assert.equal(before.entries.length,3);
+ assert.match(before.entries.find(entry=>entry.id==='phb-dmg-other').description,/None of those new table groups/);
+ assert.match(before.entries.find(entry=>entry.id==='ua-other').description,/no new table group is transcribed/);
+ const entries=build().groups.find(group=>group.id==='source-price-discovery').entries;
+ for(const [id,groups,rows]of [['phb-dmg-other',18,179],['ua-other',15,583]]){
+  const entry=entries.find(entry=>entry.id===id);
+  assert.match(entry.description,new RegExp(`${groups} declared groups, covering ${rows} logical records`));
+  assert.match(entry.description,/Transcription, focus\/context review and item-citation mapping are separate/);
+  assert.ok(entry.sourceArtifacts.length);
+ }
+ assert.equal(handoff.summary.sourceCensus.newTableGroupsRowTranscribed,33);
 });
 
 test('same-count census review changes fail the frozen source artifact hash check', () => {
@@ -126,5 +146,63 @@ test('same-input-hash mechanics and scan report edits fail frozen report-file ch
     report.extraReviewMutation = 'same input hash, changed report content';
     assert.equal(report.input.sha256, pinnedInputHash);
     assert.throws(() => build(new Map([[path, Buffer.from(JSON.stringify(report))]])), expected);
+  }
+});
+
+
+test('supplemental presentation separates current finding repairs, retained questions and bounded note meaning', () => {
+  const report = {path: 'source.json', sha256: 'a'.repeat(64), rows: 583, upstreamReviewStatus: 'author pending', currentReview: {
+    sourceInput: {path: 'source.json', sha256: 'a'.repeat(64)}, sourceRows: 583, exactAuditRows: 583,
+    knownFindings: 195, knownFindingStatuses: {'explicit-source-reviewed-repair': 195},
+    explicitReviews: 195, explicitReviewStatuses: {'current-explicit-review': 195},
+    retainedUncertainties: [{id: 'held'}], globalAudit: {retainedUncertainties: 8}, underlyingSourceQuestions: [], underlyingSourceQuestionRows: 0,
+    status: 'current-scoped-finding-reviews-recorded', semanticPass: false, sourceAbsence: false, generalReviewPending: true, generalSourceReviewStatus: 'pending',
+    contextMeaning: {sourceInputSha256: 'a'.repeat(64), semanticPass: false, rowDefinitionLinks: 103,
+      dispositions: {'source-applicable': 4, qualified: 98, uncertain: 1}, unresolvedGlyphAssociations: Array.from({length: 5}, () => ({}))},
+  }};
+  const rendered = supplementalMonetaryPresentation(report);
+  assert.equal(rendered.status, 'known-issues-reviewed-general-review-pending');
+  assert.match(rendered.description, /corrected 195 known issues/);
+  assert.match(rendered.description, /8 across all monetary records/);
+  assert.match(rendered.description, /4 apply directly, 98 need qualifications, and 1 remain uncertain/);
+  assert.match(rendered.description, /5 Scimitar note-marker associations still need source review/);
+  assert.match(rendered.description, /do not verify every row or field highlight/);
+  assert.match(rendered.description, /General source review remains pending/);
+  for (const mutate of [
+    value => {value.currentReview.sourceInput.sha256 = 'b'.repeat(64);},
+    value => {value.currentReview.sourceInput.path = 'other.json';},
+    value => {value.currentReview.knownFindingStatuses = {'focus-changed-needs-source-review': 195};},
+    value => {value.currentReview.contextMeaning.semanticPass = true;},
+    value => {value.currentReview.sourceAbsence = true;},
+    value => {value.currentReview.generalReviewPending = false;},
+  ]) {
+    const bad = structuredClone(report); mutate(bad);
+    assert.throws(() => supplementalMonetaryPresentation(bad), /identity|waive|invalid/);
+  }
+});
+
+test('qualified monetary extraction keeps the unresolved source questions visible', () => {
+  const report = {path: 'source.json', sha256: 'a'.repeat(64), rows: 179, currentReview: {
+    sourceInput: {path: 'source.json', sha256: 'a'.repeat(64)}, sourceRows: 179, exactAuditRows: 179,
+    knownFindings: 2, knownFindingKinds: {'unresolved-source-scope': 2}, knownFindingStatuses: {'explicit-source-reviewed-qualified-representation': 2},
+    explicitReviews: 2, explicitReviewStatuses: {'current-explicit-review': 2}, retainedUncertainties: [], globalAudit: {retainedUncertainties: 8},
+    underlyingSourceQuestions: [{id: 'commodity', status: 'unresolved', semanticPass: false, affectedAuditUids: Array.from({length: 8}, (_, i) => `commodity-${i}`)}, {id: 'alchemist', status: 'unresolved', semanticPass: false, affectedAuditUids: ['alchemist']}], underlyingSourceQuestionRows: 9,
+    status: 'current-scoped-finding-reviews-recorded', semanticPass: false, sourceAbsence: false, generalReviewPending: true, generalSourceReviewStatus: 'pending',
+  }};
+  const rendered = supplementalMonetaryPresentation(report);
+  assert.match(rendered.description, /corrected 0 known issues/);
+  assert.match(rendered.description, /2 source interpretation questions remain unresolved across 9 records/);
+  for (const change of [value => {delete value.currentReview.underlyingSourceQuestions;}, value => {value.currentReview.underlyingSourceQuestions.pop();}, value => {value.currentReview.underlyingSourceQuestions[0].status = 'resolved';}, value => {value.currentReview.underlyingSourceQuestionRows = 0;}]) {
+    const bad = structuredClone(report); change(bad);
+    assert.throws(() => supplementalMonetaryPresentation(bad), /invalid/);
+  }
+});
+
+
+test('missing current monetary review never turns an upstream pending assessment into a bounded review pass', () => {
+  for (const metadata of [{upstreamIndependentOverlayReviewPending: true}, {independentOverlayReviewPending: true}, {}]) {
+    const rendered = supplementalMonetaryPresentation(metadata);
+    assert.match(rendered.status, /review-pending/);
+    assert.match(rendered.description, /General source and field-highlight review remain pending/);
   }
 });

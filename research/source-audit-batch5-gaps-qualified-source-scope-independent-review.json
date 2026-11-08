@@ -1,0 +1,57 @@
+{
+  "artifactType": "independent-qualified-source-scope-code-review",
+  "status": "projection behavior passes; one nonblocking wording recommendation; live source integration not reviewed",
+  "scope": "Read-only comparison of the sealed before projection, qualified-source-scope implementation, independent source-question interpretation, and targeted regression tests. No source application, generated handoff refresh, code edit, or seal update was performed.",
+  "reviewedArtifacts": [
+    {"path":"tools/refresh-gaps-handoff.mjs","sha256":"89695ac3df2eae47a1e1a3798697d5ebf08f64d4cc08819e9e721596bce8c5e6"},
+    {"path":"tools/coverage-gaps.mjs","sha256":"c3f59a0cfa6f26123a01254ae61c22af2696da052f340afc61898730817943ee"},
+    {"path":"tests/fixtures/gaps-qualified-source-scope-before.json.gz","sha256":"63fe593d90057f691c46734c15c59fa533b2d9e73b170fde3fa5886b522571f7"},
+    {"path":"research/source-audit-batch5-underlying-source-question-interpretation.json","sha256":"6afe2f5fcfade1febf0e1b85baeaea6583475accde94f26b53d4f8612650dbde"},
+    {"path":"research/source-audit-batch5-gaps-qualified-source-scope-after.json","sha256":"2e599ae6165bbbc414f2c1fe3b78b93c4d1ab2e8bebb00591c1e9d5e9695d787"},
+    {"path":"tools/monetary-findings-register.mjs","sha256":"af29794b31971741615baf25fafa4c4a61e9a2e2be3e179ca5a358fd67c787ea"}
+  ],
+  "review": {
+    "before": {
+      "findings": 195,
+      "unresolvedSourceScopeFindings": 2,
+      "affectedPrimaryRecords": 9,
+      "underlyingSourceQuestionsProjected": 0,
+      "qualifiedFindingStatuses": 2,
+      "retainedUncertaintyRegisterRecords": 8
+    },
+    "after": {
+      "underlyingQuestions": 2,
+      "affectedPrimaryRecords": 9,
+      "retainedUncertaintyRegisterRecords": 8,
+      "semanticPass": false,
+      "sourceAbsence": false,
+      "generalReviewPending": true,
+      "generatedHandoffRefreshed": false
+    },
+    "questionUnits": [
+      {"id":"phb-dmg-commodity-adjustment-scope","affectedRecords":8,"interpretation":"Whether the neighboring d10 instruction applies to the eight commodity rates remains unresolved; no multiplier is promoted."},
+      {"id":"phb-dmg-alchemist-discount-scope","affectedRecords":1,"interpretation":"The candidate quantifies timeReductionPct=50 only; the monetary reduction percentage and covered components remain unclear."}
+    ],
+    "antiwaiver": "The projection derives questions from finding.kind === unresolved-source-scope, not qualified status or optional finding metadata. It forces question status to unresolved and semanticPass to false, while recording qualification as extractionRepresentation. The fixture regression mutates finding.underlyingSourceQuestion and finding.semanticPass to resolved/true and still gets both open questions.",
+    "deletion": "The presentation rejects a missing question array, a deleted question, a resolved question, or a wrong affected-row count. The separate sealed-register validator and its tests reject omission of a sealed finding extension or uncertainty register, and reject substitution of sealed bytes. These checks guard presentation deletion and active registry omission respectively.",
+    "separation": "The two underlying source questions remain separate from the eight retained-register records. The existing UA note applicability/glyph review remains separately qualified; neither its note-link count nor its glyph holds are folded into the monetary source-question count.",
+    "nonclaims": "The output preserves semanticPass=false, sourceAbsence=false, and general source review pending. Its description states that the review does not establish complete source coverage and that open questions do not establish missing source material."
+  },
+  "wordingRecommendation": {
+    "severity": "nonblocking",
+    "current": "How alchemist assistance changes potion monetary costs",
+    "suggested": "Whether or how alchemist assistance affects potion monetary costs",
+    "reason": "The current candidate records a 50% time reduction, while whether a monetary reduction applies and which components it covers remain unclear. The neutral form avoids presupposing a monetary effect."
+  },
+  "validation": {
+    "refreshHandoffTests": {"command":"node --test tests/refresh-gaps-handoff.test.mjs","passed":25,"failed":0},
+    "qualifiedScopePresentationTests": {"command":"node --test --test-name-pattern='supplemental presentation|qualified monetary extraction|missing current monetary review' tests/coverage-gaps.test.mjs","passed":3,"failed":0},
+    "sealedFindingRegisterTests": {"command":"node --test tests/monetary-findings-register.test.mjs","passed":4,"failed":0},
+    "broaderCoverageAndRendererRun": {"command":"node --test tests/refresh-gaps-handoff.test.mjs tests/coverage-gaps.test.mjs tests/coverage-gaps-renderer.test.mjs","passed":33,"failed":6,"failureCause":"Six coverage-gaps tests abort at verifySnapshot because current dist/data.json differs from the handoff snapshot. They do not reach the source-scope assertions; two mutation tests consequently report that earlier snapshot failure instead of their expected specific error. This checkout-level handoff/data mismatch remains outside this review."}
+  },
+  "limitations": [
+    "The before fixture is a prospective qualified-representation scenario; it does not mean current source payloads have been applied.",
+    "The after report itself records generatedHandoffRefreshed=false. The current live page and refreshed payload were not verified here.",
+    "The broader coverage-gaps run is blocked by the current data/handoff snapshot mismatch noted above."
+  ]
+}

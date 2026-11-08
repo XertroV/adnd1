@@ -12,9 +12,14 @@ const errors = [];
 const checks = [];
 const failures = [];
 const data = JSON.parse(readFileSync(new URL('../dist/data.json', import.meta.url), 'utf8'));
+const handoff = JSON.parse(readFileSync(new URL('../research/gaps-limitations-next-task.json', import.meta.url), 'utf8'));
+const expectedGroupCounts = {
+  'formal-field-statuses': handoff.mechanicsAudit.formalFieldIssues.notExtracted.length + handoff.mechanicsAudit.formalFieldIssues.sourceConflict.length,
+  'recorded-review-notes': handoff.mechanicsAudit.specificReviewNoteCandidates.notes.length
+};
 const offerSpecs = [
-  {id: 'phb-sling-bullets-dozen', title: 'Sling & Bullets, dozen', status: 'previously-confirmed-review-stale', amount: /15\s*sp/i, unit: /dozen/i},
-  {id: 'ua-quarrels-for-same', title: 'Quarrels for same', status: 'source-review-pending-provisional-bounds', amount: /100\s*gp/i, unit: /quantity|equivalence|unit.{0,20}(unknown|unresolved)|unknown.{0,20}quantity/i}
+  {id: 'phb-sling-bullets-dozen', title: 'Sling & Bullets, dozen', status: 'extracted-canonical-offer', amount: /15\s*sp/i, unit: /dozen/i},
+  {id: 'ua-quarrels-for-same', title: 'Quarrels for same', status: 'extracted-quantity-unresolved', amount: /100\s*gp/i, unit: /quantity|equivalence|unit.{0,20}(unknown|unresolved)|unknown.{0,20}quantity/i}
 ];
 const routeTo = hash => `${base}/${hash.startsWith('#') ? hash : `#${hash}`}`;
 const selectorValue = value => String(value).replaceAll('\\', '\\\\').replaceAll('"', '\\"');
@@ -110,7 +115,7 @@ async function main() {
           {status: entry?.status, title: entry?.title, description: entry?.description});
         if (entry && await entryFor(page, offer.id).count() === 1) {
           const renderedText = await entryFor(page, offer.id).innerText();
-          const readableStatus = offer.id === 'phb-sling-bullets-dozen' ? /fresh review|stale/i.test(renderedText) : /source review pending/i.test(renderedText);
+          const readableStatus = renderedText.includes(offer.status);
           const visibleValue = offer.amount.test(renderedText) && offer.unit.test(renderedText);
           const noBoltPrice = offer.id !== 'ua-quarrels-for-same' || !/100\s*gp\s*(?:per|each|\/)\s*bolt/i.test(renderedText);
           check(`${offer.id} displays its status and source reading accessibly`, readableStatus && visibleValue && noBoltPrice,
@@ -118,7 +123,6 @@ async function main() {
         }
       }
 
-      const expectedGroupCounts = {'formal-field-statuses': 33, 'recorded-review-notes': 78};
       for (const [groupId, count] of Object.entries(expectedGroupCounts)) {
         const group = groups.find(candidate => candidate.id === groupId);
         check(`${groupId} exposes the expected number of scoped entries`, !!group && groupEntries(group).length === count,
@@ -126,15 +130,15 @@ async function main() {
       }
       const formalGroup = groups.find(group => group.id === 'formal-field-statuses');
       const noteGroup = groups.find(group => group.id === 'recorded-review-notes');
-      check('all 33 formal field references remain visible after opening their group', !!formalGroup
-        && await detailsFor(page, formalGroup.id).locator('[data-gap-id]').count() === 33);
-      check('all 78 recorded review notes remain visible after opening their group', !!noteGroup
-        && await detailsFor(page, noteGroup.id).locator('[data-gap-id]').count() === 78);
+      check('all current formal field references remain visible after opening their group', !!formalGroup
+        && await detailsFor(page, formalGroup.id).locator('[data-gap-id]').count() === expectedGroupCounts['formal-field-statuses']);
+      check('all current recorded review notes remain visible after opening their group', !!noteGroup
+        && await detailsFor(page, noteGroup.id).locator('[data-gap-id]').count() === expectedGroupCounts['recorded-review-notes']);
 
       const offerGroup = groups.find(group => group.id === 'equipment-offers');
       if (offerGroup) {
         const unresolvedIds = new Set(offerSpecs.map(offer => offer.id));
-        check('equipment-offers group separates exactly two unresolved offers', groupEntries(offerGroup).filter(entry => unresolvedIds.has(entry.id)).length === 2);
+        check('equipment-offers group retains both formerly unrepresented offers', groupEntries(offerGroup).filter(entry => unresolvedIds.has(entry.id)).length === 2);
         const arrow = groupEntries(offerGroup).find(entry => entry.id === 'phb-arrow-dozen-already-extracted');
         const arrowItem = data.equipment.find(item => item.id === 'phb-arrow');
         check('arrow dozen is not counted as a missing price offer', (!arrow || arrow.status === 'extracted-separate-field')

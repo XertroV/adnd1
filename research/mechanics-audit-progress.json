@@ -2,33 +2,33 @@
   "schemaVersion": 1,
   "input": {
     "path": "dist/data.json",
-    "sha256": "48b892af40e17e112eb424e5fe10b859bf05b24eb9e8973da6f0181406415823",
+    "sha256": "fe64000a9e969b2edb7a358e3d57814c590e87864245c02b93759075d1330c9c",
     "hashFormat": "mechanics-only SHA-256 of JSON.stringify(parsed data after recursively removing generated evidenceBindings and regionReviews transport metadata; distinct from raw data.json/provenance hashes)",
     "denominator": "Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.",
     "countSemantics": "Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap."
   },
   "counts": {
-    "records": 993,
-    "totalFields": 13418,
-    "inspectedFields": 13309,
-    "sourceCheckedFields": 12722,
-    "unchangedSourceCheckedFields": 10091,
-    "correctedAndCheckedFields": 2631,
+    "records": 995,
+    "totalFields": 13428,
+    "inspectedFields": 13316,
+    "sourceCheckedFields": 12729,
+    "unchangedSourceCheckedFields": 10095,
+    "correctedAndCheckedFields": 2634,
     "correctionPendingFields": 0,
-    "notExtractedFields": 11,
+    "notExtractedFields": 10,
     "sourceConflictFields": 22,
     "editorialReviewedFields": 559,
     "staleProposalFields": 0,
-    "uncheckedFields": 104
+    "uncheckedFields": 108
   },
   "percentages": {
-    "inspectedFields": 99.19,
-    "sourceCheckedFields": 94.81,
-    "unchangedSourceCheckedFields": 75.2,
-    "correctedAndCheckedFields": 19.61,
+    "inspectedFields": 99.17,
+    "sourceCheckedFields": 94.79,
+    "unchangedSourceCheckedFields": 75.18,
+    "correctedAndCheckedFields": 19.62,
     "correctionPendingFields": 0,
-    "notExtractedFields": 0.08,
-    "uncheckedFields": 0.78
+    "notExtractedFields": 0.07,
+    "uncheckedFields": 0.8
   },
   "records": [
     {
@@ -4921,11 +4921,19 @@
         },
         {
           "path": "/exceptions/0",
-          "value": "The printed p.48 entry gives the range as “1” without a visible unit; its level table overlaps at 7th level. The referee must resolve those uncertainties.",
-          "status": "corrected-and-checked",
+          "value": "PHB p.48 table places 7th level in both “up to 7th” and “7th–8th” rows. Its range header prints bare 1 without a visible unit; retain the omission without inferring a unit.",
+          "status": "source-conflict",
           "inspected": true,
           "checkers": [
-            "mechanics-phb-divine"
+            "mechanics-phb-divine",
+            "mechanics-source-adjudication-batch5"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-source-adjudication-batch5",
+              "path": "/exceptions/0",
+              "reason": "Printed table conflict: seventh level is included in two rows with different allowances. Range unit is absent."
+            }
           ],
           "changePaths": [
             "/exceptions/0"
@@ -4947,7 +4955,8 @@
         }
       ],
       "reviewers": [
-        "mechanics-phb-divine"
+        "mechanics-phb-divine",
+        "mechanics-source-adjudication-batch5"
       ],
       "unresolvedNotes": [
         {
@@ -4964,10 +4973,32 @@
           "checker": "mechanics-phb-divine",
           "path": "/exceptions/0",
           "oldValue": "Range and the level-dependent table remain withheld: the OCR drops the range unit and has overlapping table bands. Check printed p.48.",
-          "newValue": "The printed p.48 entry gives the range as “1” without a visible unit; its level table overlaps at 7th level. The referee must resolve those uncertainties.",
-          "reason": "The printed source itself shows a range of 1 with no visible unit and overlapping 7th-level bands; this is not merely an OCR issue.",
+          "newValue": "PHB p.48 table places 7th level in both “up to 7th” and “7th–8th” rows. Its range header prints bare 1 without a visible unit; retain the omission without inferring a unit.",
+          "reason": "The printed source itself shows a range of 1 with no visible unit and overlapping 7th-level bands; this is not merely an OCR issue. Superseded field content was reconciled with the batch-5 independent source adjudication; prior change preserved.",
           "book": "PHB",
           "page": 48,
+          "supersededChanges": [
+            {
+              "path": "/exceptions/0",
+              "oldValue": "Range and the level-dependent table remain withheld: the OCR drops the range unit and has overlapping table bands. Check printed p.48.",
+              "newValue": "The printed p.48 entry gives the range as “1” without a visible unit; its level table overlaps at 7th level. The referee must resolve those uncertainties.",
+              "reason": "The printed source itself shows a range of 1 with no visible unit and overlapping 7th-level bands; this is not merely an OCR issue.",
+              "book": "PHB",
+              "page": 48
+            }
+          ],
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-source-adjudication-batch5",
+          "path": "/exceptions/0",
+          "oldValue": "The printed p.48 entry gives the range as “1” without a visible unit; its level table overlaps at 7th level. The referee must resolve those uncertainties.",
+          "newValue": "PHB p.48 table places 7th level in both “up to 7th” and “7th–8th” rows. Its range header prints bare 1 without a visible unit; retain the omission without inferring a unit.",
+          "reason": "Independently confirmed printed overlap or competing dimensional readings; no ruling selected.",
+          "book": "PHB",
+          "page": 48,
+          "pdfPage": 49,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
           "state": "corrected-and-checked"
         }
       ]
@@ -20323,11 +20354,19 @@
         },
         {
           "path": "/exceptions/0",
-          "value": "The printed p.62 volume statements and dimensional examples conflict, so total volume remains unresolved.",
-          "status": "corrected-and-checked",
+          "value": "PHB p.62 header says 10″ cube/level; prose says 10 cubic inches per level; the 14th-level example dimensions imply 14 cubic inches. Preserve all three printed readings; no total volume is inferred.",
+          "status": "source-conflict",
           "inspected": true,
           "checkers": [
-            "mechanics-phb-divine"
+            "mechanics-phb-divine",
+            "mechanics-source-adjudication-batch5"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-source-adjudication-batch5",
+              "path": "/exceptions/0",
+              "reason": "Printed source volume statements and worked example dimensions conflict; no numeric total inferred."
+            }
           ],
           "changePaths": [
             "/exceptions/0"
@@ -20355,7 +20394,8 @@
         }
       ],
       "reviewers": [
-        "mechanics-phb-divine"
+        "mechanics-phb-divine",
+        "mechanics-source-adjudication-batch5"
       ],
       "unresolvedNotes": [
         {
@@ -20372,10 +20412,32 @@
           "checker": "mechanics-phb-divine",
           "path": "/exceptions/0",
           "oldValue": "Total volume is withheld: the OCR quantity conflicts with the dimensional examples on p.62.",
-          "newValue": "The printed p.62 volume statements and dimensional examples conflict, so total volume remains unresolved.",
-          "reason": "The discrepancy is visible in the printed source itself, not only OCR.",
+          "newValue": "PHB p.62 header says 10″ cube/level; prose says 10 cubic inches per level; the 14th-level example dimensions imply 14 cubic inches. Preserve all three printed readings; no total volume is inferred.",
+          "reason": "The discrepancy is visible in the printed source itself, not only OCR. Superseded field content was reconciled with the batch-5 independent source adjudication; prior change preserved.",
           "book": "PHB",
           "page": 62,
+          "supersededChanges": [
+            {
+              "path": "/exceptions/0",
+              "oldValue": "Total volume is withheld: the OCR quantity conflicts with the dimensional examples on p.62.",
+              "newValue": "The printed p.62 volume statements and dimensional examples conflict, so total volume remains unresolved.",
+              "reason": "The discrepancy is visible in the printed source itself, not only OCR.",
+              "book": "PHB",
+              "page": 62
+            }
+          ],
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-source-adjudication-batch5",
+          "path": "/exceptions/0",
+          "oldValue": "The printed p.62 volume statements and dimensional examples conflict, so total volume remains unresolved.",
+          "newValue": "PHB p.62 header says 10″ cube/level; prose says 10 cubic inches per level; the 14th-level example dimensions imply 14 cubic inches. Preserve all three printed readings; no total volume is inferred.",
+          "reason": "Independently confirmed printed overlap or competing dimensional readings; no ruling selected.",
+          "book": "PHB",
+          "page": 62,
+          "pdfPage": 63,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
           "state": "corrected-and-checked"
         }
       ]
@@ -23492,21 +23554,16 @@
         },
         {
           "path": "/exceptions/0",
-          "value": "If the familiar dies, its master permanently loses twice the familiar's HP.",
+          "value": "If a normal familiar dies, its master permanently loses twice that familiar’s hit points.",
           "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
+            "mechanics-source-adjudication-batch5",
             "mechanics-phb-magic"
           ],
-          "unresolved": [
-            {
-              "checker": "mechanics-phb-magic",
-              "path": "/exceptions",
-              "reason": "The exact application of the d16 adjustment sentence and special-familiar powers need separate source review; the table itself is proposed."
-            }
-          ],
           "changePaths": [
-            "/exceptions"
+            "/exceptions",
+            "/exceptions/0"
           ]
         },
         {
@@ -23516,13 +23573,6 @@
           "inspected": true,
           "checkers": [
             "mechanics-phb-magic"
-          ],
-          "unresolved": [
-            {
-              "checker": "mechanics-phb-magic",
-              "path": "/exceptions",
-              "reason": "The exact application of the d16 adjustment sentence and special-familiar powers need separate source review; the table itself is proposed."
-            }
           ],
           "changePaths": [
             "/exceptions"
@@ -23536,13 +23586,6 @@
           "checkers": [
             "mechanics-phb-magic"
           ],
-          "unresolved": [
-            {
-              "checker": "mechanics-phb-magic",
-              "path": "/exceptions",
-              "reason": "The exact application of the d16 adjustment sentence and special-familiar powers need separate source review; the table itself is proposed."
-            }
-          ],
           "changePaths": [
             "/exceptions"
           ]
@@ -23554,13 +23597,6 @@
           "inspected": true,
           "checkers": [
             "mechanics-phb-magic"
-          ],
-          "unresolved": [
-            {
-              "checker": "mechanics-phb-magic",
-              "path": "/exceptions",
-              "reason": "The exact application of the d16 adjustment sentence and special-familiar powers need separate source review; the table itself is proposed."
-            }
           ],
           "changePaths": [
             "/exceptions"
@@ -23600,14 +23636,10 @@
         }
       ],
       "reviewers": [
-        "mechanics-phb-magic"
+        "mechanics-phb-magic",
+        "mechanics-source-adjudication-batch5"
       ],
-      "unresolvedNotes": [
-        {
-          "checker": "mechanics-phb-magic",
-          "note": "PHB Find Familiar also states a hit-point loss when a familiar dies, while MM imp/quasit entries state a four-level loss; whether both apply is not decided here. The Monster Manual contains additional creature-specific powers outside this bounded familiar-benefits summary."
-        }
-      ],
+      "unresolvedNotes": [],
       "proposedChanges": [
         {
           "checker": "mechanics-phb-magic",
@@ -23618,12 +23650,12 @@
             "Gap: the selection/adjustment tables and all special-familiar powers are not reproduced; consult p.66 and the referenced Monster Manual entries."
           ],
           "newValue": [
-            "If the familiar dies, its master permanently loses twice the familiar's HP.",
+            "If a normal familiar dies, its master permanently loses twice that familiar’s hit points.",
             "Special familiars have additional creature-specific rules; a successful resistance save leaves no familiar available that year.",
             "Normal familiar table on d20: 1–4 black cat, 5–6 crow, 7–8 hawk, 9–10 screech owl, 11–12 toad, 13–14 weasel, 15 special, 16–20 no familiar. The printed adjustment subtracts 1 for each three caster levels and specifies a subsequent d16 roll in the stated circumstance.",
             "For a special familiar, chaotic evil/neutral chaotic yields quasit; chaotic good/neutral/neutral good pseudo-dragon; lawful good/neutral lawful brownie; lawful evil/neutral evil imp. Selected familiar benefits are summarized in the special-familiar field; consult the Monster Manual for the creatures’ other abilities."
           ],
-          "reason": "The printed familiar tables are legible; the separately referenced special-familiar powers remain outside this transcription.",
+          "reason": "The printed familiar tables are legible; the separately referenced special-familiar powers remain outside this transcription. Superseded field content was reconciled with the batch-5 independent source adjudication; prior change preserved.",
           "book": "PHB",
           "page": 66,
           "supersededChanges": [
@@ -23643,6 +23675,23 @@
               "reason": "The printed familiar tables are legible; the separately referenced special-familiar powers remain outside this transcription.",
               "book": "PHB",
               "page": 66
+            },
+            {
+              "path": "/exceptions",
+              "oldValue": [
+                "If the familiar dies, its master permanently loses twice the familiar's HP.",
+                "Special familiars have additional creature-specific rules; a successful resistance save leaves no familiar available that year.",
+                "Gap: the selection/adjustment tables and all special-familiar powers are not reproduced; consult p.66 and the referenced Monster Manual entries."
+              ],
+              "newValue": [
+                "If the familiar dies, its master permanently loses twice the familiar's HP.",
+                "Special familiars have additional creature-specific rules; a successful resistance save leaves no familiar available that year.",
+                "Normal familiar table on d20: 1–4 black cat, 5–6 crow, 7–8 hawk, 9–10 screech owl, 11–12 toad, 13–14 weasel, 15 special, 16–20 no familiar. The printed adjustment subtracts 1 for each three caster levels and specifies a subsequent d16 roll in the stated circumstance.",
+                "For a special familiar, chaotic evil/neutral chaotic yields quasit; chaotic good/neutral/neutral good pseudo-dragon; lawful good/neutral lawful brownie; lawful evil/neutral evil imp. Selected familiar benefits are summarized in the special-familiar field; consult the Monster Manual for the creatures’ other abilities."
+              ],
+              "reason": "The printed familiar tables are legible; the separately referenced special-familiar powers remain outside this transcription.",
+              "book": "PHB",
+              "page": 66
             }
           ],
           "state": "corrected-and-checked"
@@ -23655,6 +23704,18 @@
           "reason": "PHB Find Familiar and its referenced Monster Manual entries directly state these familiar-specific benefits.",
           "book": "PHB",
           "page": 66,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-source-adjudication-batch5",
+          "path": "/exceptions/0",
+          "oldValue": "If the familiar dies, its master permanently loses twice the familiar's HP.",
+          "newValue": "If a normal familiar dies, its master permanently loses twice that familiar’s hit points.",
+          "reason": "The PHB66 paragraph explicitly concerns normal familiars; MM special familiar penalties are separately scoped.",
+          "book": "PHB",
+          "page": 66,
+          "pdfPage": 67,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
           "state": "corrected-and-checked"
         }
       ]
@@ -35134,17 +35195,18 @@
         },
         {
           "path": "/exceptions/2",
-          "value": "The printed area header appears to read 11′ × 1″ square per level. This unusual dimensional expression remains unresolved.",
+          "value": "PHB p.77 Massmorph’s first area-unit glyph remains unclear in the supplied scan: the first dimension may read 11′ × 1″ or 11″ × 1″ square per level. Preserve both readings pending clearer source evidence.",
           "status": "source-conflict",
           "inspected": true,
           "checkers": [
-            "mechanics-phb-magic"
+            "mechanics-phb-magic",
+            "mechanics-source-adjudication-batch5"
           ],
           "unresolved": [
             {
-              "checker": "mechanics-phb-magic",
+              "checker": "mechanics-source-adjudication-batch5",
               "path": "/exceptions/2",
-              "reason": "Printed source ambiguity: the header gives an anomalous 11 feet by 1 inch per level; intended dimensions remain unresolved."
+              "reason": "Printed source unit ambiguity: first unit may be 11′ or 11″; independent review cannot resolve the supplied scan."
             }
           ],
           "changePaths": [
@@ -35161,7 +35223,8 @@
         }
       ],
       "reviewers": [
-        "mechanics-phb-magic"
+        "mechanics-phb-magic",
+        "mechanics-source-adjudication-batch5"
       ],
       "unresolvedNotes": [
         {
@@ -35174,10 +35237,32 @@
           "checker": "mechanics-phb-magic",
           "path": "/exceptions/2",
           "oldValue": "Gap: the area header is corrupted in OCR.",
-          "newValue": "The printed area header appears to read 11′ × 1″ square per level. This unusual dimensional expression remains unresolved.",
-          "reason": "Original scan confirms the ambiguity is present in print, not merely an OCR artifact.",
+          "newValue": "PHB p.77 Massmorph’s first area-unit glyph remains unclear in the supplied scan: the first dimension may read 11′ × 1″ or 11″ × 1″ square per level. Preserve both readings pending clearer source evidence.",
+          "reason": "Original scan confirms the ambiguity is present in print, not merely an OCR artifact. Superseded field content was reconciled with the batch-5 independent source adjudication; prior change preserved.",
           "book": "PHB",
           "page": 77,
+          "supersededChanges": [
+            {
+              "path": "/exceptions/2",
+              "oldValue": "Gap: the area header is corrupted in OCR.",
+              "newValue": "The printed area header appears to read 11′ × 1″ square per level. This unusual dimensional expression remains unresolved.",
+              "reason": "Original scan confirms the ambiguity is present in print, not merely an OCR artifact.",
+              "book": "PHB",
+              "page": 77
+            }
+          ],
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-source-adjudication-batch5",
+          "path": "/exceptions/2",
+          "oldValue": "The printed area header appears to read 11′ × 1″ square per level. This unusual dimensional expression remains unresolved.",
+          "newValue": "PHB p.77 Massmorph’s first area-unit glyph remains unclear in the supplied scan: the first dimension may read 11′ × 1″ or 11″ × 1″ square per level. Preserve both readings pending clearer source evidence.",
+          "reason": "Independent review preserves both visible unit readings; no area is inferred.",
+          "book": "PHB",
+          "page": 77,
+          "pdfPage": 78,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
           "state": "corrected-and-checked"
         }
       ]
@@ -35576,19 +35661,15 @@
           ]
         },
         {
-          "path": "/exceptions/0",
-          "value": "Gap: the inherited druid examples scale square dimensions differently from a literal reading of the area header; verify the intended area with the DM/source.",
-          "status": "source-conflict",
+          "path": "/exceptions",
+          "value": [],
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
-            "mechanics-phb-magic"
+            "mechanics-source-adjudication-batch5"
           ],
-          "unresolved": [
-            {
-              "checker": "mechanics-phb-magic",
-              "path": "/exceptions",
-              "reason": "The druid header and worked examples use square-dimension scaling differently; the source conflict remains."
-            }
+          "changePaths": [
+            "/exceptions"
           ]
         }
       ],
@@ -35613,10 +35694,26 @@
         }
       ],
       "reviewers": [
-        "mechanics-phb-magic"
+        "mechanics-phb-magic",
+        "mechanics-source-adjudication-batch5"
       ],
       "unresolvedNotes": [],
-      "proposedChanges": []
+      "proposedChanges": [
+        {
+          "checker": "mechanics-source-adjudication-batch5",
+          "path": "/exceptions",
+          "oldValue": [
+            "Gap: the inherited druid examples scale square dimensions differently from a literal reading of the area header; verify the intended area with the DM/source."
+          ],
+          "newValue": [],
+          "reason": "The magic-user header and except-as-noted qualification override inherited dimensional examples; remove the stale warning.",
+          "book": "PHB",
+          "page": 78,
+          "pdfPage": 79,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "spells",
@@ -36893,10 +36990,11 @@
         },
         {
           "path": "/exceptions/2",
-          "value": "Gap: the header omits M although the paragraph explicitly requires powdered bone.",
-          "status": "not-extracted",
-          "inspected": false,
+          "value": "Source note: PHB p.79 lists Components V, S; the description separately names a pinch of powdered bone as the material component.",
+          "status": "corrected-and-checked",
+          "inspected": true,
           "checkers": [
+            "mechanics-unextracted-source-review-batch5",
             "mechanics-phb-magic"
           ],
           "unresolved": [
@@ -36905,6 +37003,9 @@
               "path": "/exceptions",
               "reason": "Printed magic-user header omits M while its paragraph requires powdered bone."
             }
+          ],
+          "changePaths": [
+            "/exceptions/2"
           ]
         }
       ],
@@ -36920,13 +37021,33 @@
           "page": 60,
           "pdfPage": 61,
           "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "PHB",
+          "page": 79,
+          "pdfPage": 80,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "reviewFile": "research/source-audit-batch5-unextracted.json",
+          "reviewSha256": "a32669c74e35c84df7d902a2671308b4551c9c783b1b025550dbf4ac9c46c5de"
         }
       ],
       "reviewers": [
-        "mechanics-phb-magic"
+        "mechanics-phb-magic",
+        "mechanics-unextracted-source-review-batch5"
       ],
       "unresolvedNotes": [],
-      "proposedChanges": []
+      "proposedChanges": [
+        {
+          "checker": "mechanics-unextracted-source-review-batch5",
+          "path": "/exceptions/2",
+          "oldValue": "Gap: the header omits M although the paragraph explicitly requires powdered bone.",
+          "newValue": "Source note: PHB p.79 lists Components V, S; the description separately names a pinch of powdered bone as the material component.",
+          "reason": "Original PHB p.79 visually shows V,S in the header and names powdered bone in the description. The existing Material field already extracts powdered bone, so replace only the false Gap wording with a source caution preserving the header/body difference.",
+          "book": "PHB",
+          "page": 79,
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "spells",
@@ -66529,18 +66650,12 @@
         },
         {
           "path": "/exceptions/0",
-          "value": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
-          "status": "source-conflict",
+          "value": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
-            "mechanics-ua-spells"
-          ],
-          "unresolved": [
-            {
-              "checker": "mechanics-ua-spells",
-              "path": "/exceptions/0",
-              "reason": "Source ambiguity, UA p.41: the printed introduction says the listed rites can be cast by a druid of the indicated or lower level, while its escalating ranks associate initiation with 7th level and other rites with 9th and 12th level; do not silently replace lower with higher."
-            }
+            "mechanics-ua-spells",
+            "mechanics-source-adjudication-batch5"
           ],
           "changePaths": [
             "/exceptions/0"
@@ -66577,7 +66692,8 @@
         }
       ],
       "reviewers": [
-        "mechanics-ua-spells"
+        "mechanics-ua-spells",
+        "mechanics-source-adjudication-batch5"
       ],
       "unresolvedNotes": [
         {
@@ -66600,10 +66716,32 @@
           "checker": "mechanics-ua-spells",
           "path": "/exceptions/0",
           "oldValue": "The OCR says the listed ranks are 'indicated or lower'; this contradicts the hierarchy implied by the rites, so minimum-rank wording is not resolved here.",
-          "newValue": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
-          "reason": "The lower-level wording is visible in the original scan.",
+          "newValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
+          "reason": "The lower-level wording is visible in the original scan. Superseded field content was reconciled with the batch-5 independent source adjudication; prior change preserved.",
           "book": "UA",
           "page": 41,
+          "supersededChanges": [
+            {
+              "path": "/exceptions/0",
+              "oldValue": "The OCR says the listed ranks are 'indicated or lower'; this contradicts the hierarchy implied by the rites, so minimum-rank wording is not resolved here.",
+              "newValue": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
+              "reason": "The lower-level wording is visible in the original scan.",
+              "book": "UA",
+              "page": 41
+            }
+          ],
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-source-adjudication-batch5",
+          "path": "/exceptions/0",
+          "oldValue": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
+          "newValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
+          "reason": "Include the rite-specific caster procedure on the continuation; retire the contradiction inferred from hierarchy alone.",
+          "book": "UA",
+          "page": 41,
+          "pdfPage": 42,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
           "state": "corrected-and-checked"
         }
       ]
@@ -82617,18 +82755,22 @@
         },
         {
           "path": "/fields/Materials",
-          "value": "Accordion-folded fine parchment and a pin",
+          "value": "Piece of fine parchment, accordion-folded and tacked near the bottom with a pin or ivory or silver.",
           "status": "source-conflict",
           "inspected": true,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-spells",
+            "mechanics-source-adjudication-batch5"
           ],
           "unresolved": [
             {
-              "checker": "mechanics-ua-spells",
+              "checker": "mechanics-source-adjudication-batch5",
               "path": "/fields/Materials",
-              "reason": "Printed wording ambiguity, UA p.55: the parchment is tacked with a “pin or ivory or silver”; the intended relationship between the pin and the named materials is not clear."
+              "reason": "Printed source wording ambiguity: pin or ivory or silver leaves their grammatical relationship unresolved."
             }
+          ],
+          "changePaths": [
+            "/fields/Materials"
           ]
         },
         {
@@ -82658,21 +82800,23 @@
         },
         {
           "path": "/exceptions/0",
-          "value": "The printed pin-material wording is ambiguous.",
+          "value": "The printed wording is “a pin or ivory or silver”; preserve these alternatives without deciding whether ivory or silver describes the pin or are separate alternatives.",
           "status": "source-conflict",
           "inspected": true,
           "checkers": [
+            "mechanics-source-adjudication-batch5",
             "mechanics-ua-spells"
           ],
           "unresolved": [
             {
-              "checker": "mechanics-ua-spells",
+              "checker": "mechanics-source-adjudication-batch5",
               "path": "/exceptions/0",
-              "reason": "Printed wording ambiguity, UA p.55: the parchment is tacked with a “pin or ivory or silver”; the intended relationship between the pin and the named materials is not clear."
+              "reason": "Printed source wording ambiguity: pin or ivory or silver leaves their grammatical relationship unresolved."
             }
           ],
           "changePaths": [
-            "/exceptions"
+            "/exceptions",
+            "/exceptions/0"
           ]
         }
       ],
@@ -82685,7 +82829,8 @@
         }
       ],
       "reviewers": [
-        "mechanics-ua-spells"
+        "mechanics-ua-spells",
+        "mechanics-source-adjudication-batch5"
       ],
       "unresolvedNotes": [
         {
@@ -82711,11 +82856,49 @@
             "Path length and the pin-material wording are unclear in OCR and withheld."
           ],
           "newValue": [
-            "The printed pin-material wording is ambiguous."
+            "The printed wording is “a pin or ivory or silver”; preserve these alternatives without deciding whether ivory or silver describes the pin or are separate alternatives."
           ],
-          "reason": "Path length is legible; retain ambiguity about the printed pin wording.",
+          "reason": "Path length is legible; retain ambiguity about the printed pin wording. Superseded field content was reconciled with the batch-5 independent source adjudication; prior change preserved.",
           "book": "UA",
           "page": 55,
+          "supersededChanges": [
+            {
+              "path": "/exceptions",
+              "oldValue": [
+                "Path length and the pin-material wording are unclear in OCR and withheld."
+              ],
+              "newValue": [
+                "The printed pin-material wording is ambiguous."
+              ],
+              "reason": "Path length is legible; retain ambiguity about the printed pin wording.",
+              "book": "UA",
+              "page": 55
+            }
+          ],
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-source-adjudication-batch5",
+          "path": "/fields/Materials",
+          "oldValue": "Accordion-folded fine parchment and a pin",
+          "newValue": "Piece of fine parchment, accordion-folded and tacked near the bottom with a pin or ivory or silver.",
+          "reason": "Restore all printed material alternatives without normalizing or to of.",
+          "book": "UA",
+          "page": 55,
+          "pdfPage": 56,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-source-adjudication-batch5",
+          "path": "/exceptions/0",
+          "oldValue": "The printed pin-material wording is ambiguous.",
+          "newValue": "The printed wording is “a pin or ivory or silver”; preserve these alternatives without deciding whether ivory or silver describes the pin or are separate alternatives.",
+          "reason": "Restore all printed material alternatives without normalizing or to of.",
+          "book": "UA",
+          "page": 55,
+          "pdfPage": 56,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
           "state": "corrected-and-checked"
         }
       ]
@@ -100086,6 +100269,82 @@
     },
     {
       "collection": "equipment",
+      "id": "ua-quarrels-for-same",
+      "fields": [
+        {
+          "path": "/price/amount",
+          "value": 100,
+          "status": "source-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment-offers-batch5"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-equipment-offers-batch5",
+              "path": "/price",
+              "reason": "The original table states100 gp but no quantity; no per-quarrel price is inferred. The amount is source-checked and quantity remains unspecified."
+            }
+          ]
+        },
+        {
+          "path": "/price/currency",
+          "value": "gp",
+          "status": "source-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment-offers-batch5"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-equipment-offers-batch5",
+              "path": "/price",
+              "reason": "The original table states100 gp but no quantity; no per-quarrel price is inferred. The amount is source-checked and quantity remains unspecified."
+            }
+          ]
+        },
+        {
+          "path": "/fields/Printed quantity",
+          "value": "Not stated in the UA p.26 Arms table",
+          "status": "source-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment-offers-batch5"
+          ]
+        },
+        {
+          "path": "/summary",
+          "value": "UA p.26 lists “Quarrels for same” directly beneath “Crossbow, hand” at 100 gp. The row gives no package quantity.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/priceNote",
+          "value": "The printed row amount is 100 gp, but the UA p.26 table states no quantity. This record preserves the source offer without assigning a package size or per-quarrel price.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [
+        {
+          "book": "UA",
+          "printedPage": 26,
+          "pdfPage": 27,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+          "reviewFile": "research/source-audit-batch5-price-independent-review.json",
+          "reviewSha256": "e1e87f0eb7cfab17422c3c02e18c1950cd07f4a4a55cbbe6cc2d0972195bbc35"
+        }
+      ],
+      "reviewers": [
+        "mechanics-equipment-offers-batch5"
+      ],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "equipment",
       "id": "phb-battle-axe",
       "fields": [
         {
@@ -101801,7 +102060,7 @@
         },
         {
           "path": "/priceNote",
-          "value": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
+          "value": "No purchase-price row for Bo Stick was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. PHB p.37 and UA p.26 list its number under Approximate Weight in Gold Pieces, which is encumbrance rather than purchase cost. A price outside these bounded lists has not been ruled out.",
           "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
@@ -101857,10 +102116,20 @@
           "checker": "mechanics-equipment",
           "path": "/priceNote",
           "oldValue": "The purchase price is not visible in the supplied crops and remains unextracted. This does not establish that the book omits a price; no estimate has been substituted.",
-          "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
-          "reason": "Record the visual inspection without asserting a price elsewhere.",
+          "newValue": "No purchase-price row for Bo Stick was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. PHB p.37 and UA p.26 list its number under Approximate Weight in Gold Pieces, which is encumbrance rather than purchase cost. A price outside these bounded lists has not been ruled out.",
+          "reason": "Record the visual inspection without asserting a price elsewhere. Bounded source recheck clarified cost-list exclusions; original correction preserved.",
           "book": "PHB",
           "page": 35,
+          "supersededChanges": [
+            {
+              "path": "/priceNote",
+              "oldValue": "The purchase price is not visible in the supplied crops and remains unextracted. This does not establish that the book omits a price; no estimate has been substituted.",
+              "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
+              "reason": "Record the visual inspection without asserting a price elsewhere.",
+              "book": "PHB",
+              "page": 35
+            }
+          ],
           "state": "corrected-and-checked"
         },
         {
@@ -102219,7 +102488,7 @@
         },
         {
           "path": "/priceNote",
-          "value": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
+          "value": "No purchase-price row for Club was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. PHB p.37, PHB p.124, and UA p.26 show its number under a weapon-weight column, not a purchase-price column. A price outside these bounded lists has not been ruled out.",
           "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
@@ -102287,10 +102556,20 @@
           "checker": "mechanics-equipment",
           "path": "/priceNote",
           "oldValue": "Purchase price is not visible in the supplied crops and remains unextracted; no estimate is supplied.",
-          "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
-          "reason": "Record the visual inspection without asserting a price elsewhere.",
+          "newValue": "No purchase-price row for Club was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. PHB p.37, PHB p.124, and UA p.26 show its number under a weapon-weight column, not a purchase-price column. A price outside these bounded lists has not been ruled out.",
+          "reason": "Record the visual inspection without asserting a price elsewhere. Bounded source recheck clarified cost-list exclusions; original correction preserved.",
           "book": "PHB",
           "page": 35,
+          "supersededChanges": [
+            {
+              "path": "/priceNote",
+              "oldValue": "Purchase price is not visible in the supplied crops and remains unextracted; no estimate is supplied.",
+              "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
+              "reason": "Record the visual inspection without asserting a price elsewhere.",
+              "book": "PHB",
+              "page": 35
+            }
+          ],
           "state": "corrected-and-checked"
         },
         {
@@ -107276,7 +107555,7 @@
         },
         {
           "path": "/priceNote",
-          "value": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
+          "value": "No purchase-price row for Quarterstaff was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. The PHB p.124 and UA p.26 entries labelled Staff, Quarter are in weapon-weight tables, not purchase-price tables. A price outside these bounded lists has not been ruled out.",
           "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
@@ -107332,10 +107611,20 @@
           "checker": "mechanics-equipment",
           "path": "/priceNote",
           "oldValue": "The PHB p.35 weapon-price column is unreadable in the OCR. No purchase price has been substituted.",
-          "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
-          "reason": "Record the visual inspection without asserting a price elsewhere.",
+          "newValue": "No purchase-price row for Quarterstaff was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. The PHB p.124 and UA p.26 entries labelled Staff, Quarter are in weapon-weight tables, not purchase-price tables. A price outside these bounded lists has not been ruled out.",
+          "reason": "Record the visual inspection without asserting a price elsewhere. Bounded source recheck clarified cost-list exclusions; original correction preserved.",
           "book": "PHB",
           "page": 35,
+          "supersededChanges": [
+            {
+              "path": "/priceNote",
+              "oldValue": "The PHB p.35 weapon-price column is unreadable in the OCR. No purchase price has been substituted.",
+              "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
+              "reason": "Record the visual inspection without asserting a price elsewhere.",
+              "book": "PHB",
+              "page": 35
+            }
+          ],
           "state": "corrected-and-checked"
         },
         {
@@ -108601,6 +108890,77 @@
     },
     {
       "collection": "equipment",
+      "id": "phb-sling-bullets-dozen",
+      "fields": [
+        {
+          "path": "/price/amount",
+          "value": 15,
+          "status": "source-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment-offers-batch5"
+          ]
+        },
+        {
+          "path": "/price/currency",
+          "value": "sp",
+          "status": "source-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment-offers-batch5"
+          ]
+        },
+        {
+          "path": "/price/unit",
+          "value": "dozen",
+          "status": "source-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment-offers-batch5"
+          ]
+        },
+        {
+          "path": "/fields/Printed offer quantity",
+          "value": "dozen, as named in the PHB row",
+          "status": "source-checked",
+          "inspected": true,
+          "checkers": [
+            "mechanics-equipment-offers-batch5"
+          ]
+        },
+        {
+          "path": "/summary",
+          "value": "The PHB p.35 Arms list prints a separate “Sling & Bullets, dozen” offer at 15 sp. The adjacent “Sling Bullets, score” row is a different 10 sp package.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/priceNote",
+          "value": "15 sp for the PHB “Sling & Bullets, dozen” offer. Keep its printed dozen quantity distinct from the separate 10 sp per score of sling bullets.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [
+        {
+          "book": "PHB",
+          "printedPage": 35,
+          "pdfPage": 36,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "reviewFile": "research/source-audit-batch5-price-independent-review.json",
+          "reviewSha256": "e1e87f0eb7cfab17422c3c02e18c1950cd07f4a4a55cbbe6cc2d0972195bbc35"
+        }
+      ],
+      "reviewers": [
+        "mechanics-equipment-offers-batch5"
+      ],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "equipment",
       "id": "phb-sling-bullet",
       "fields": [
         {
@@ -108979,7 +109339,7 @@
         },
         {
           "path": "/priceNote",
-          "value": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
+          "value": "No purchase-price row for Sling Stone was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. The PHB p.124 and UA p.26 entries labelled Sling Stone are in weapon-weight tables. The PHB p.35 “Sling & Bullets, dozen” offer (15 sp) and “Sling Bullets, score” offer (10 sp) are distinct packages and do not state a stone price.",
           "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
@@ -109029,10 +109389,20 @@
           "checker": "mechanics-equipment",
           "path": "/priceNote",
           "oldValue": "A purchase price was not extracted for sling stones from the read source pages.",
-          "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
-          "reason": "Record the visual inspection without asserting a price elsewhere.",
+          "newValue": "No purchase-price row for Sling Stone was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. The PHB p.124 and UA p.26 entries labelled Sling Stone are in weapon-weight tables. The PHB p.35 “Sling & Bullets, dozen” offer (15 sp) and “Sling Bullets, score” offer (10 sp) are distinct packages and do not state a stone price.",
+          "reason": "Record the visual inspection without asserting a price elsewhere. Bounded source recheck clarified cost-list exclusions; original correction preserved.",
           "book": "PHB",
           "page": 35,
+          "supersededChanges": [
+            {
+              "path": "/priceNote",
+              "oldValue": "A purchase price was not extracted for sling stones from the read source pages.",
+              "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
+              "reason": "Record the visual inspection without asserting a price elsewhere.",
+              "book": "PHB",
+              "page": 35
+            }
+          ],
           "state": "corrected-and-checked"
         },
         {
@@ -153225,24 +153595,6 @@
           ]
         },
         {
-          "path": "/levelChanges/50/level",
-          "value": 17,
-          "status": "source-checked",
-          "inspected": true,
-          "checkers": [
-            "mechanics-illusionist-classes"
-          ]
-        },
-        {
-          "path": "/levelChanges/50/changes/0",
-          "value": "Gain proficiency with one additional permitted weapon: total proficiency allotment 6 → 7. The interval counts levels gained above 1st, not multiples of the interval from zero.",
-          "status": "source-checked",
-          "inspected": true,
-          "checkers": [
-            "mechanics-illusionist-classes"
-          ]
-        },
-        {
           "path": "/guidance/0",
           "value": "Requires Strength 12, Intelligence 11, and Dexterity 12; high abilities grant no XP bonus.",
           "status": "source-checked",
@@ -173105,11 +173457,15 @@
         },
         {
           "path": "/guidance/3",
-          "value": "Use the specialist acrobatics tables and the continuing climb-walls ability; the future growth of the other retained thief skills needs a campaign ruling on UA p. 23.",
-          "status": "source-checked",
+          "value": "Use the specialist acrobatics tables and explicit climbing progression. UA pp.23 and 25 describe stopped, retained and generally inherited thief abilities; later progression of the four retained skills remains a campaign interpretation.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
-            "mechanics-illusionist-classes"
+            "mechanics-illusionist-classes",
+            "mechanics-source-adjudication-batch5"
+          ],
+          "changePaths": [
+            "/guidance/3"
           ]
         },
         {
@@ -173166,18 +173522,22 @@
         },
         {
           "path": "/retainedSkillsNote",
-          "value": "UA p. 23 explicitly continues climbing, but describes move silently, hide, hear noise, and read languages as retained from fifth level. Their later progression is ambiguous; no automatic increases are supplied here.",
-          "status": "source-conflict",
+          "value": "UA p.23 explicitly freezes pick pockets, opening locks, and finding/removing traps at fifth-level ability, and reading magical writings is never gained. It says the acrobat retains move silently, hide in shadows, hear noise, and read languages acquired through fifth level, while climb walls increases with experience level. UA p.25 generally treats the acrobat as a thief except as indicated. These passages do not expressly give a new progression for the four retained abilities; no categorical freeze or automatic increases are supplied here.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
-            "mechanics-illusionist-classes"
+            "mechanics-illusionist-classes",
+            "mechanics-source-adjudication-batch5"
           ],
           "unresolved": [
             {
-              "checker": "mechanics-illusionist-classes",
+              "checker": "mechanics-source-adjudication-batch5",
               "path": "/retainedSkillsNote",
-              "reason": "Source ambiguity: UA p.23 explicitly continues climbing while describing other skills as retained from fifth level without clearly saying whether they continue to improve."
+              "reason": "Interpretation pending: UA23 retained abilities and UA25 general thief carryover do not expressly supply a new progression for all four retained skills."
             }
+          ],
+          "changePaths": [
+            "/retainedSkillsNote"
           ]
         },
         {
@@ -173301,7 +173661,8 @@
         }
       ],
       "reviewers": [
-        "mechanics-illusionist-classes"
+        "mechanics-illusionist-classes",
+        "mechanics-source-adjudication-batch5"
       ],
       "unresolvedNotes": [
         {
@@ -175144,6 +175505,30 @@
           "reason": "UA p.24 prints level-by-level base values throughout levels 6–23; current guide contains only selected transitions and examples. Add each printed row, preserving existing explanations and qualifying racial, procedural and footnote rules.",
           "book": "UA",
           "page": 24,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-source-adjudication-batch5",
+          "path": "/retainedSkillsNote",
+          "oldValue": "UA p. 23 explicitly continues climbing, but describes move silently, hide, hear noise, and read languages as retained from fifth level. Their later progression is ambiguous; no automatic increases are supplied here.",
+          "newValue": "UA p.23 explicitly freezes pick pockets, opening locks, and finding/removing traps at fifth-level ability, and reading magical writings is never gained. It says the acrobat retains move silently, hide in shadows, hear noise, and read languages acquired through fifth level, while climb walls increases with experience level. UA p.25 generally treats the acrobat as a thief except as indicated. These passages do not expressly give a new progression for the four retained abilities; no categorical freeze or automatic increases are supplied here.",
+          "reason": "Retain literal stopped skills, retained abilities, explicit climbing growth and UA25 carryover without inventing a freeze or automatic progression.",
+          "book": "UA",
+          "page": 23,
+          "pdfPage": 24,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-source-adjudication-batch5",
+          "path": "/guidance/3",
+          "oldValue": "Use the specialist acrobatics tables and the continuing climb-walls ability; the future growth of the other retained thief skills needs a campaign ruling on UA p. 23.",
+          "newValue": "Use the specialist acrobatics tables and explicit climbing progression. UA pp.23 and 25 describe stopped, retained and generally inherited thief abilities; later progression of the four retained skills remains a campaign interpretation.",
+          "reason": "Keep the unresolved interpretation visible with both source dependencies.",
+          "book": "UA",
+          "page": 23,
+          "pdfPage": 24,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
           "state": "corrected-and-checked"
         }
       ]
@@ -178891,6 +179276,25 @@
           ]
         },
         {
+          "path": "/guidance/4",
+          "value": "Source conflict in the ordinary thrusting/striking weapon attack table: UA p.22 puts level 12 in both 7–12 at 3 attacks/2 rounds and 12–18 at 2/round. The stated under-one-HD/normal-human melee case and fighter/ranger specialization use separate rules. PHB p.25 instead begins 2/round at 13th. Preserve the internal UA overlap without choosing a universal level-12 rate.",
+          "status": "source-conflict",
+          "inspected": true,
+          "checkers": [
+            "mechanics-source-adjudication-batch5"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-source-adjudication-batch5",
+              "path": "/guidance/4",
+              "reason": "Printed table conflict: UA22 ordinary weapon attack bands overlap at paladin level12; no adjacent footnote selects one rate."
+            }
+          ],
+          "changePaths": [
+            "/guidance/4"
+          ]
+        },
+        {
           "path": "/xpContinuation/afterLevel",
           "value": 11,
           "status": "source-checked",
@@ -179061,7 +179465,8 @@
         }
       ],
       "reviewers": [
-        "mechanics-illusionist-classes"
+        "mechanics-illusionist-classes",
+        "mechanics-source-adjudication-batch5"
       ],
       "unresolvedNotes": [
         {
@@ -183179,6 +183584,18 @@
           "reason": "UA p.16 grants paladins cavalier horsemanship; UA p.15 gives these abilities at the specified levels. The proposal does not resolve the separate printed unicorn or attack-rate conflicts.",
           "book": "UA",
           "page": 16,
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-source-adjudication-batch5",
+          "path": "/guidance/4",
+          "oldValue": null,
+          "newValue": "Source conflict in the ordinary thrusting/striking weapon attack table: UA p.22 puts level 12 in both 7–12 at 3 attacks/2 rounds and 12–18 at 2/round. The stated under-one-HD/normal-human melee case and fighter/ranger specialization use separate rules. PHB p.25 instead begins 2/round at 13th. Preserve the internal UA overlap without choosing a universal level-12 rate.",
+          "reason": "Independent pixels confirm an internal overlapping band with explicit applicability limits.",
+          "book": "UA",
+          "page": 22,
+          "pdfPage": 23,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
           "state": "corrected-and-checked"
         }
       ]
@@ -193037,7 +193454,8 @@
         "/fields/Space required (PHB p.38)": "3 ft",
         "/fields/Hand-held AC adjustments (PHB p.38)": "AC 2 through 10: -9, -7, -5, -3, -1, 0, +1, 0, +3",
         "/fields/Hand-held AC adjustments (UA p.27)": "AC 0 through 10: -13, -11, -9, -7, -5, -3, -1, 0, +1, 0, +3",
-        "/summary": "Weapon weight uses gold-piece encumbrance units. Damage is shown as the source's numeric range for the indicated target size."
+        "/summary": "Weapon weight uses gold-piece encumbrance units. Damage is shown as the source's numeric range for the indicated target size.",
+        "/priceNote": "No purchase-price row for Bo Stick was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. PHB p.37 and UA p.26 list its number under Approximate Weight in Gold Pieces, which is encumbrance rather than purchase cost. A price outside these bounded lists has not been ruled out."
       },
       "reviewedPaths": [
         {
@@ -193079,10 +193497,20 @@
         {
           "path": "/priceNote",
           "oldValue": "The purchase price is not visible in the supplied crops and remains unextracted. This does not establish that the book omits a price; no estimate has been substituted.",
-          "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
-          "reason": "Record the visual inspection without asserting a price elsewhere.",
+          "newValue": "No purchase-price row for Bo Stick was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. PHB p.37 and UA p.26 list its number under Approximate Weight in Gold Pieces, which is encumbrance rather than purchase cost. A price outside these bounded lists has not been ruled out.",
+          "reason": "Record the visual inspection without asserting a price elsewhere. Bounded source recheck clarified cost-list exclusions; original correction preserved.",
           "book": "PHB",
-          "page": 35
+          "page": 35,
+          "supersededChanges": [
+            {
+              "path": "/priceNote",
+              "oldValue": "The purchase price is not visible in the supplied crops and remains unextracted. This does not establish that the book omits a price; no estimate has been substituted.",
+              "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
+              "reason": "Record the visual inspection without asserting a price elsewhere.",
+              "book": "PHB",
+              "page": 35
+            }
+          ]
         },
         {
           "path": "/fields/Length (PHB p.38)",
@@ -193247,7 +193675,8 @@
         "/fields/Hand-held AC adjustments (PHB p.38)": "AC 2 through 10: -5, -4, -3, -2, -1, -1, 0, 0, +1",
         "/fields/Hand-held AC adjustments (UA p.27)": "AC 0 through 10: -7, -6, -5, -4, -3, -2, -1, -1, 0, 0, +1",
         "/fields/Range scale (PHB p.39)": "1″ = 10 feet indoors; 10 yards outdoors",
-        "/summary": "Weapon weight uses gold-piece encumbrance units. Damage is shown as the source's numeric range for the indicated target size."
+        "/summary": "Weapon weight uses gold-piece encumbrance units. Damage is shown as the source's numeric range for the indicated target size.",
+        "/priceNote": "No purchase-price row for Club was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. PHB p.37, PHB p.124, and UA p.26 show its number under a weapon-weight column, not a purchase-price column. A price outside these bounded lists has not been ruled out."
       },
       "reviewedPaths": [
         {
@@ -193301,10 +193730,20 @@
         {
           "path": "/priceNote",
           "oldValue": "Purchase price is not visible in the supplied crops and remains unextracted; no estimate is supplied.",
-          "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
-          "reason": "Record the visual inspection without asserting a price elsewhere.",
+          "newValue": "No purchase-price row for Club was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. PHB p.37, PHB p.124, and UA p.26 show its number under a weapon-weight column, not a purchase-price column. A price outside these bounded lists has not been ruled out.",
+          "reason": "Record the visual inspection without asserting a price elsewhere. Bounded source recheck clarified cost-list exclusions; original correction preserved.",
           "book": "PHB",
-          "page": 35
+          "page": 35,
+          "supersededChanges": [
+            {
+              "path": "/priceNote",
+              "oldValue": "Purchase price is not visible in the supplied crops and remains unextracted; no estimate is supplied.",
+              "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
+              "reason": "Record the visual inspection without asserting a price elsewhere.",
+              "book": "PHB",
+              "page": 35
+            }
+          ]
         },
         {
           "path": "/fields/Length (PHB p.38)",
@@ -196010,7 +196449,8 @@
         "/fields/Damage vs S~1M": "1–6",
         "/fields/Damage vs Large": "1–6",
         "/fields/Hand-held AC adjustments (PHB p.38)": "AC 2 through 10: -7, -5, -3, -1, 0, 0, +1, +1, +1",
-        "/fields/Hand-held AC adjustments (UA p.27)": "AC 0 through 10: -9, -8, -7, -5, -3, -1, 0, 0, +1, +1, +1"
+        "/fields/Hand-held AC adjustments (UA p.27)": "AC 0 through 10: -9, -8, -7, -5, -3, -1, 0, 0, +1, +1, +1",
+        "/priceNote": "No purchase-price row for Quarterstaff was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. The PHB p.124 and UA p.26 entries labelled Staff, Quarter are in weapon-weight tables, not purchase-price tables. A price outside these bounded lists has not been ruled out."
       },
       "reviewedPaths": [
         {
@@ -196056,10 +196496,20 @@
         {
           "path": "/priceNote",
           "oldValue": "The PHB p.35 weapon-price column is unreadable in the OCR. No purchase price has been substituted.",
-          "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
-          "reason": "Record the visual inspection without asserting a price elsewhere.",
+          "newValue": "No purchase-price row for Quarterstaff was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. The PHB p.124 and UA p.26 entries labelled Staff, Quarter are in weapon-weight tables, not purchase-price tables. A price outside these bounded lists has not been ruled out.",
+          "reason": "Record the visual inspection without asserting a price elsewhere. Bounded source recheck clarified cost-list exclusions; original correction preserved.",
           "book": "PHB",
-          "page": 35
+          "page": 35,
+          "supersededChanges": [
+            {
+              "path": "/priceNote",
+              "oldValue": "The PHB p.35 weapon-price column is unreadable in the OCR. No purchase price has been substituted.",
+              "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
+              "reason": "Record the visual inspection without asserting a price elsewhere.",
+              "book": "PHB",
+              "page": 35
+            }
+          ]
         },
         {
           "path": "/fields/Length (PHB p.38)",
@@ -196919,7 +197369,8 @@
         "/fields/Damage vs Large": "1–4",
         "/fields/Sling with stone AC adjustments at short range (UA p.28)": "AC 0 through 10: -7, -6, -5, -4, -2, -1, 0, 0, +2, +1, +3",
         "/fields/Additional missile range adjustments (UA p.28)": "−2 at medium range; −5 at long range",
-        "/summary": "The weapon table provides the listed ammunition's approximate weight and any legible damage values. Packaging in the price table is a separate quantity."
+        "/summary": "The weapon table provides the listed ammunition's approximate weight and any legible damage values. Packaging in the price table is a separate quantity.",
+        "/priceNote": "No purchase-price row for Sling Stone was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. The PHB p.124 and UA p.26 entries labelled Sling Stone are in weapon-weight tables. The PHB p.35 “Sling & Bullets, dozen” offer (15 sp) and “Sling Bullets, score” offer (10 sp) are distinct packages and do not state a stone price."
       },
       "reviewedPaths": [
         {
@@ -196955,10 +197406,20 @@
         {
           "path": "/priceNote",
           "oldValue": "A purchase price was not extracted for sling stones from the read source pages.",
-          "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
-          "reason": "Record the visual inspection without asserting a price elsewhere.",
+          "newValue": "No purchase-price row for Sling Stone was found in the inspected PHB p.35 or p.123 cost tables or the UA p.26 cost table. The PHB p.124 and UA p.26 entries labelled Sling Stone are in weapon-weight tables. The PHB p.35 “Sling & Bullets, dozen” offer (15 sp) and “Sling Bullets, score” offer (10 sp) are distinct packages and do not state a stone price.",
+          "reason": "Record the visual inspection without asserting a price elsewhere. Bounded source recheck clarified cost-list exclusions; original correction preserved.",
           "book": "PHB",
-          "page": 35
+          "page": 35,
+          "supersededChanges": [
+            {
+              "path": "/priceNote",
+              "oldValue": "A purchase price was not extracted for sling stones from the read source pages.",
+              "newValue": "No matching purchase-price row was found in the PHB p.35 arms list; a price elsewhere has not been ruled out.",
+              "reason": "Record the visual inspection without asserting a price elsewhere.",
+              "book": "PHB",
+              "page": 35
+            }
+          ]
         },
         {
           "path": "/fields/Sling with stone AC adjustments at short range (UA p.28)",
@@ -212023,7 +212484,6 @@
         "/levelChanges/47/changes/0",
         "/levelChanges/48/changes/0",
         "/levelChanges/49/changes/0",
-        "/levelChanges/50/changes/0",
         "/guidance/0",
         "/guidance/1",
         "/guidance/2",
@@ -212080,8 +212540,7 @@
         "/levelChanges/46/level",
         "/levelChanges/47/level",
         "/levelChanges/48/level",
-        "/levelChanges/49/level",
-        "/levelChanges/50/level"
+        "/levelChanges/49/level"
       ],
       "checkedValues": {
         "/hitDie": "d6",
@@ -212201,8 +212660,6 @@
         "/levelChanges/48/changes/0": "Using the effective-thief-level rule, base ordinary-language reading increases 60% → 65%. This is separate from alignment-language learning.",
         "/levelChanges/49/level": 15,
         "/levelChanges/49/changes/0": "To claim Grandfather/Grandmother rank, defeat the current head of all assassins by the stated assassination or duel procedure.",
-        "/levelChanges/50/level": 17,
-        "/levelChanges/50/changes/0": "Gain proficiency with one additional permitted weapon: total proficiency allotment 6 → 7. The interval counts levels gained above 1st, not multiples of the interval from zero.",
         "/guidance/0": "Requires Strength 12, Intelligence 11, and Dexterity 12; high abilities grant no XP bonus.",
         "/guidance/1": "Most thieving functions are performed two levels below assassin level; backstab is an exception.",
         "/guidance/2": "At level 9 and above, Intelligence 15+ can permit additional alignment languages.",
@@ -220352,13 +220809,13 @@
         "/guidance/0": "Requires Strength 15 and Dexterity 16, and five completed thief levels.",
         "/guidance/1": "On qualifying for level 6, train for six weeks under a thief-acrobat of at least level 10.",
         "/guidance/2": "Pick pockets, opening locks, and finding/removing traps stop improving at their level-5 ability; magical writing is never gained.",
-        "/guidance/3": "Use the specialist acrobatics tables and the continuing climb-walls ability; the future growth of the other retained thief skills needs a campaign ruling on UA p. 23.",
+        "/guidance/3": "Use the specialist acrobatics tables and explicit climbing progression. UA pp.23 and 25 describe stopped, retained and generally inherited thief abilities; later progression of the four retained skills remains a campaign interpretation.",
         "/xpContinuation/afterLevel": 12,
         "/xpContinuation/increment": 250000,
         "/xpContinuation/anchorLevel": 12,
         "/xpContinuation/anchorXp": 500001,
         "/minLevel": 6,
-        "/retainedSkillsNote": "UA p. 23 explicitly continues climbing, but describes move silently, hide, hear noise, and read languages as retained from fifth level. Their later progression is ambiguous; no automatic increases are supplied here.",
+        "/retainedSkillsNote": "UA p.23 explicitly freezes pick pockets, opening locks, and finding/removing traps at fifth-level ability, and reading magical writings is never gained. It says the acrobat retains move silently, hide in shadows, hear noise, and read languages acquired through fifth level, while climb walls increases with experience level. UA p.25 generally treats the acrobat as a thief except as indicated. These passages do not expressly give a new progression for the four retained abilities; no categorical freeze or automatic increases are supplied here.",
         "/progression/description": "After five ordinary thief levels, a character with Strength 15+ and Dexterity 16+ may specialize on qualifying for level 6. Training takes six weeks with a thief-acrobat of at least level 10. UA calls this a “split-class” specialist and otherwise treats it as a thief except for the stated changes; it has its own specialist advancement table."
       },
       "reviewedPaths": [
@@ -220499,10 +220956,6 @@
         "/pendingMechanics",
         "The advancement of thief-acrobat retained silent movement, hiding, hearing and language abilities remains genuinely ambiguous in UA p.23; climbing is explicitly advanced.",
         "/description",
-        {
-          "path": "/retainedSkillsNote",
-          "reason": "Source ambiguity: UA p.23 explicitly continues climbing while describing other skills as retained from fifth level without clearly saying whether they continue to improve."
-        },
         "Table footnotes and procedures are not reproduced in full; verify each printed number independently before applying."
       ],
       "changes": [
@@ -229558,7 +230011,7 @@
         "/fields/Material": "Holy symbol and burning incense",
         "/effect/0": "Asks questions of a dead creature, answered according to what it knew in life.",
         "/conditions/0": "Caster must know a language the creature used. Maximum time dead, question count and questioning duration depend on cleric level.",
-        "/exceptions/0": "Range and the level-dependent table remain withheld: the OCR drops the range unit and has overlapping table bands. Check printed p.48."
+        "/exceptions/0": "PHB p.48 table places 7th level in both “up to 7th” and “7th–8th” rows. Its range header prints bare 1 without a visible unit; retain the omission without inferring a unit."
       },
       "reviewedPaths": [],
       "sources": [
@@ -229583,10 +230036,20 @@
         {
           "path": "/exceptions/0",
           "oldValue": "Range and the level-dependent table remain withheld: the OCR drops the range unit and has overlapping table bands. Check printed p.48.",
-          "newValue": "The printed p.48 entry gives the range as “1” without a visible unit; its level table overlaps at 7th level. The referee must resolve those uncertainties.",
-          "reason": "The printed source itself shows a range of 1 with no visible unit and overlapping 7th-level bands; this is not merely an OCR issue.",
+          "newValue": "PHB p.48 table places 7th level in both “up to 7th” and “7th–8th” rows. Its range header prints bare 1 without a visible unit; retain the omission without inferring a unit.",
+          "reason": "The printed source itself shows a range of 1 with no visible unit and overlapping 7th-level bands; this is not merely an OCR issue. Superseded field content was reconciled with the batch-5 independent source adjudication; prior change preserved.",
           "book": "PHB",
-          "page": 48
+          "page": 48,
+          "supersededChanges": [
+            {
+              "path": "/exceptions/0",
+              "oldValue": "Range and the level-dependent table remain withheld: the OCR drops the range unit and has overlapping table bands. Check printed p.48.",
+              "newValue": "The printed p.48 entry gives the range as “1” without a visible unit; its level table overlaps at 7th level. The referee must resolve those uncertainties.",
+              "reason": "The printed source itself shows a range of 1 with no visible unit and overlapping 7th-level bands; this is not merely an OCR issue.",
+              "book": "PHB",
+              "page": 48
+            }
+          ]
         }
       ]
     },
@@ -235974,7 +236437,7 @@
         "/fields/Material": "Mistletoe",
         "/effect/0": "Creates dense thorny brush. Impacting or crossing each 1″ thickness deals 8 + armor class damage, with negative AC reducing the amount. Creatures caught as it appears count as impacting and must break through to move.",
         "/conditions/0": "Cutting through 1″ thickness takes at least 4 turns. Ordinary fire fails; magical fire burns it away in 2 turns while acting as wall of fire.",
-        "/exceptions/0": "Total volume is withheld: the OCR quantity conflicts with the dimensional examples on p.62."
+        "/exceptions/0": "PHB p.62 header says 10″ cube/level; prose says 10 cubic inches per level; the 14th-level example dimensions imply 14 cubic inches. Preserve all three printed readings; no total volume is inferred."
       },
       "reviewedPaths": [],
       "sources": [
@@ -236005,10 +236468,20 @@
         {
           "path": "/exceptions/0",
           "oldValue": "Total volume is withheld: the OCR quantity conflicts with the dimensional examples on p.62.",
-          "newValue": "The printed p.62 volume statements and dimensional examples conflict, so total volume remains unresolved.",
-          "reason": "The discrepancy is visible in the printed source itself, not only OCR.",
+          "newValue": "PHB p.62 header says 10″ cube/level; prose says 10 cubic inches per level; the 14th-level example dimensions imply 14 cubic inches. Preserve all three printed readings; no total volume is inferred.",
+          "reason": "The discrepancy is visible in the printed source itself, not only OCR. Superseded field content was reconciled with the batch-5 independent source adjudication; prior change preserved.",
           "book": "PHB",
-          "page": 62
+          "page": 62,
+          "supersededChanges": [
+            {
+              "path": "/exceptions/0",
+              "oldValue": "Total volume is withheld: the OCR quantity conflicts with the dimensional examples on p.62.",
+              "newValue": "The printed p.62 volume statements and dimensional examples conflict, so total volume remains unresolved.",
+              "reason": "The discrepancy is visible in the printed source itself, not only OCR.",
+              "book": "PHB",
+              "page": 62
+            }
+          ]
         }
       ]
     },
@@ -237339,13 +237812,7 @@
           "sourceSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81"
         }
       ],
-      "unresolved": [
-        {
-          "path": "/exceptions",
-          "reason": "The exact application of the d16 adjustment sentence and special-familiar powers need separate source review; the table itself is proposed."
-        },
-        "PHB Find Familiar also states a hit-point loss when a familiar dies, while MM imp/quasit entries state a four-level loss; whether both apply is not decided here. The Monster Manual contains additional creature-specific powers outside this bounded familiar-benefits summary."
-      ],
+      "unresolved": [],
       "changes": [
         {
           "path": "/exceptions",
@@ -237355,12 +237822,12 @@
             "Gap: the selection/adjustment tables and all special-familiar powers are not reproduced; consult p.66 and the referenced Monster Manual entries."
           ],
           "newValue": [
-            "If the familiar dies, its master permanently loses twice the familiar's HP.",
+            "If a normal familiar dies, its master permanently loses twice that familiar’s hit points.",
             "Special familiars have additional creature-specific rules; a successful resistance save leaves no familiar available that year.",
             "Normal familiar table on d20: 1–4 black cat, 5–6 crow, 7–8 hawk, 9–10 screech owl, 11–12 toad, 13–14 weasel, 15 special, 16–20 no familiar. The printed adjustment subtracts 1 for each three caster levels and specifies a subsequent d16 roll in the stated circumstance.",
             "For a special familiar, chaotic evil/neutral chaotic yields quasit; chaotic good/neutral/neutral good pseudo-dragon; lawful good/neutral lawful brownie; lawful evil/neutral evil imp. Selected familiar benefits are summarized in the special-familiar field; consult the Monster Manual for the creatures’ other abilities."
           ],
-          "reason": "The printed familiar tables are legible; the separately referenced special-familiar powers remain outside this transcription.",
+          "reason": "The printed familiar tables are legible; the separately referenced special-familiar powers remain outside this transcription. Superseded field content was reconciled with the batch-5 independent source adjudication; prior change preserved.",
           "book": "PHB",
           "page": 66,
           "supersededChanges": [
@@ -237376,6 +237843,23 @@
                 "Special familiars have additional creature-specific rules; a successful resistance save leaves no familiar available that year.",
                 "Normal familiar table on d20: 1–4 black cat, 5–6 crow, 7–8 hawk, 9–10 screech owl, 11–12 toad, 13–14 weasel, 15 special, 16–20 no familiar. The printed adjustment subtracts 1 for each three caster levels and specifies a subsequent d16 roll in the stated circumstance.",
                 "For a special familiar, chaotic evil/neutral chaotic yields quasit; chaotic good/neutral good pseudo-dragon; lawful good/neutral lawful brownie; lawful evil/neutral evil imp. Consult the referenced Monster Manual for special-familiar powers."
+              ],
+              "reason": "The printed familiar tables are legible; the separately referenced special-familiar powers remain outside this transcription.",
+              "book": "PHB",
+              "page": 66
+            },
+            {
+              "path": "/exceptions",
+              "oldValue": [
+                "If the familiar dies, its master permanently loses twice the familiar's HP.",
+                "Special familiars have additional creature-specific rules; a successful resistance save leaves no familiar available that year.",
+                "Gap: the selection/adjustment tables and all special-familiar powers are not reproduced; consult p.66 and the referenced Monster Manual entries."
+              ],
+              "newValue": [
+                "If the familiar dies, its master permanently loses twice the familiar's HP.",
+                "Special familiars have additional creature-specific rules; a successful resistance save leaves no familiar available that year.",
+                "Normal familiar table on d20: 1–4 black cat, 5–6 crow, 7–8 hawk, 9–10 screech owl, 11–12 toad, 13–14 weasel, 15 special, 16–20 no familiar. The printed adjustment subtracts 1 for each three caster levels and specifies a subsequent d16 roll in the stated circumstance.",
+                "For a special familiar, chaotic evil/neutral chaotic yields quasit; chaotic good/neutral/neutral good pseudo-dragon; lawful good/neutral lawful brownie; lawful evil/neutral evil imp. Selected familiar benefits are summarized in the special-familiar field; consult the Monster Manual for the creatures’ other abilities."
               ],
               "reason": "The printed familiar tables are legible; the separately referenced special-familiar powers remain outside this transcription.",
               "book": "PHB",
@@ -241497,7 +241981,7 @@
         "/conditions/0": "Recipients must be within the spell's area.",
         "/exceptions/0": "Others may pass among and touch the apparent trees without exposing the illusion.",
         "/exceptions/1": "Blows reveal their living nature through wounds and blood.",
-        "/exceptions/2": "The printed area header appears to read 11′ × 1″ square per level. This unusual dimensional expression remains unresolved."
+        "/exceptions/2": "PHB p.77 Massmorph’s first area-unit glyph remains unclear in the supplied scan: the first dimension may read 11′ × 1″ or 11″ × 1″ square per level. Preserve both readings pending clearer source evidence."
       },
       "reviewedPaths": [],
       "sources": [
@@ -241509,20 +241993,26 @@
         }
       ],
       "unresolved": [
-        {
-          "path": "/exceptions/2",
-          "reason": "Printed source ambiguity: the header gives an anomalous 11 feet by 1 inch per level; intended dimensions remain unresolved."
-        },
         "The source ambiguity remains unresolved; no numerical interpretation is selected."
       ],
       "changes": [
         {
           "path": "/exceptions/2",
           "oldValue": "Gap: the area header is corrupted in OCR.",
-          "newValue": "The printed area header appears to read 11′ × 1″ square per level. This unusual dimensional expression remains unresolved.",
-          "reason": "Original scan confirms the ambiguity is present in print, not merely an OCR artifact.",
+          "newValue": "PHB p.77 Massmorph’s first area-unit glyph remains unclear in the supplied scan: the first dimension may read 11′ × 1″ or 11″ × 1″ square per level. Preserve both readings pending clearer source evidence.",
+          "reason": "Original scan confirms the ambiguity is present in print, not merely an OCR artifact. Superseded field content was reconciled with the batch-5 independent source adjudication; prior change preserved.",
           "book": "PHB",
-          "page": 77
+          "page": 77,
+          "supersededChanges": [
+            {
+              "path": "/exceptions/2",
+              "oldValue": "Gap: the area header is corrupted in OCR.",
+              "newValue": "The printed area header appears to read 11′ × 1″ square per level. This unusual dimensional expression remains unresolved.",
+              "reason": "Original scan confirms the ambiguity is present in print, not merely an OCR artifact.",
+              "book": "PHB",
+              "page": 77
+            }
+          ]
         }
       ]
     },
@@ -241684,12 +242174,7 @@
           "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
         }
       ],
-      "unresolved": [
-        {
-          "path": "/exceptions",
-          "reason": "The druid header and worked examples use square-dimension scaling differently; the source conflict remains."
-        }
-      ],
+      "unresolved": [],
       "changes": []
     },
     {
@@ -259472,7 +259957,7 @@
         "/effect/2": "Hallowed ground protects a permanent grove from disease and natural disaster; cast out makes natural creatures react negatively.",
         "/conditions/0": "Dedication requires true neutrality; special vows apply to cavaliers of any alignment, not paladins.",
         "/conditions/1": "Cast out needs hierarchical permission; unwilling targets save versus spell at −4.",
-        "/exceptions/0": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
+        "/exceptions/0": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
         "/exceptions/1": "Only a Hierophant Druid can fully cancel casting out; other reversals merely lessen it."
       },
       "reviewedPaths": [],
@@ -259497,11 +259982,7 @@
         }
       ],
       "unresolved": [
-        "External spell comparisons or textual contradictions not independently resolved.",
-        {
-          "path": "/exceptions/0",
-          "reason": "Source ambiguity, UA p.41: the printed introduction says the listed rites can be cast by a druid of the indicated or lower level, while its escalating ranks associate initiation with 7th level and other rites with 9th and 12th level; do not silently replace lower with higher."
-        }
+        "External spell comparisons or textual contradictions not independently resolved."
       ],
       "changes": [
         {
@@ -259515,10 +259996,20 @@
         {
           "path": "/exceptions/0",
           "oldValue": "The OCR says the listed ranks are 'indicated or lower'; this contradicts the hierarchy implied by the rites, so minimum-rank wording is not resolved here.",
-          "newValue": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
-          "reason": "The lower-level wording is visible in the original scan.",
+          "newValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
+          "reason": "The lower-level wording is visible in the original scan. Superseded field content was reconciled with the batch-5 independent source adjudication; prior change preserved.",
           "book": "UA",
-          "page": 41
+          "page": 41,
+          "supersededChanges": [
+            {
+              "path": "/exceptions/0",
+              "oldValue": "The OCR says the listed ranks are 'indicated or lower'; this contradicts the hierarchy implied by the rites, so minimum-rank wording is not resolved here.",
+              "newValue": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
+              "reason": "The lower-level wording is visible in the original scan.",
+              "book": "UA",
+              "page": 41
+            }
+          ]
         }
       ]
     },
@@ -266060,7 +266551,7 @@
         "/fields/Components": "V, S, M",
         "/fields/Casting time": "2 segments",
         "/fields/Saving throw": "None",
-        "/fields/Materials": "Accordion-folded fine parchment and a pin",
+        "/fields/Materials": "Piece of fine parchment, accordion-folded and tacked near the bottom with a pin or ivory or silver.",
         "/effect/0": "Fans larger fires for +1 per damage die; holds moving vapor such as cloudkill back for one round.",
         "/effect/1": "Halves fog cloud/wall of fog duration, or pushes stagnant air/gas back 1″ and halves its duration/potency unless replenished."
       },
@@ -266079,15 +266570,7 @@
         }
       ],
       "unresolved": [
-        "External spell and item comparisons remain independently unchecked.",
-        {
-          "path": "/fields/Materials",
-          "reason": "Printed wording ambiguity, UA p.55: the parchment is tacked with a “pin or ivory or silver”; the intended relationship between the pin and the named materials is not clear."
-        },
-        {
-          "path": "/exceptions/0",
-          "reason": "Printed wording ambiguity, UA p.55: the parchment is tacked with a “pin or ivory or silver”; the intended relationship between the pin and the named materials is not clear."
-        }
+        "External spell and item comparisons remain independently unchecked."
       ],
       "changes": [
         {
@@ -266104,11 +266587,25 @@
             "Path length and the pin-material wording are unclear in OCR and withheld."
           ],
           "newValue": [
-            "The printed pin-material wording is ambiguous."
+            "The printed wording is “a pin or ivory or silver”; preserve these alternatives without deciding whether ivory or silver describes the pin or are separate alternatives."
           ],
-          "reason": "Path length is legible; retain ambiguity about the printed pin wording.",
+          "reason": "Path length is legible; retain ambiguity about the printed pin wording. Superseded field content was reconciled with the batch-5 independent source adjudication; prior change preserved.",
           "book": "UA",
-          "page": 55
+          "page": 55,
+          "supersededChanges": [
+            {
+              "path": "/exceptions",
+              "oldValue": [
+                "Path length and the pin-material wording are unclear in OCR and withheld."
+              ],
+              "newValue": [
+                "The printed pin-material wording is ambiguous."
+              ],
+              "reason": "Path length is legible; retain ambiguity about the printed pin wording.",
+              "book": "UA",
+              "page": 55
+            }
+          ]
         }
       ]
     },
@@ -277069,6 +277566,536 @@
       ],
       "unresolved": [],
       "changes": []
+    },
+    {
+      "checker": "mechanics-equipment-offers-batch5",
+      "collection": "equipment",
+      "id": "phb-sling-bullets-dozen",
+      "checkedPaths": [
+        "/price/amount",
+        "/price/currency",
+        "/price/unit",
+        "/fields/Printed offer quantity"
+      ],
+      "checkedValues": {
+        "/price/amount": 15,
+        "/price/currency": "sp",
+        "/price/unit": "dozen",
+        "/fields/Printed offer quantity": "dozen, as named in the PHB row"
+      },
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "PHB",
+          "printedPage": 35,
+          "pdfPage": 36,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "reviewFile": "research/source-audit-batch5-price-independent-review.json",
+          "reviewSha256": "e1e87f0eb7cfab17422c3c02e18c1950cd07f4a4a55cbbe6cc2d0972195bbc35"
+        }
+      ],
+      "unresolved": [],
+      "changes": []
+    },
+    {
+      "checker": "mechanics-equipment-offers-batch5",
+      "collection": "equipment",
+      "id": "ua-quarrels-for-same",
+      "checkedPaths": [
+        "/price/amount",
+        "/price/currency",
+        "/fields/Printed quantity"
+      ],
+      "checkedValues": {
+        "/price/amount": 100,
+        "/price/currency": "gp",
+        "/fields/Printed quantity": "Not stated in the UA p.26 Arms table"
+      },
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "UA",
+          "printedPage": 26,
+          "pdfPage": 27,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+          "reviewFile": "research/source-audit-batch5-price-independent-review.json",
+          "reviewSha256": "e1e87f0eb7cfab17422c3c02e18c1950cd07f4a4a55cbbe6cc2d0972195bbc35"
+        }
+      ],
+      "unresolved": [
+        {
+          "path": "/price",
+          "reason": "The original table states100 gp but no quantity; no per-quarrel price is inferred. The amount is source-checked and quantity remains unspecified."
+        }
+      ],
+      "changes": []
+    },
+    {
+      "checker": "mechanics-unextracted-source-review-batch5",
+      "collection": "spells",
+      "id": "phb-magic-user-animal-growth",
+      "checkedPaths": [
+        "/exceptions/2"
+      ],
+      "checkedValues": {
+        "/exceptions/2": "Source note: PHB p.79 lists Components V, S; the description separately names a pinch of powdered bone as the material component."
+      },
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 79,
+          "pdfPage": 80,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "reviewFile": "research/source-audit-batch5-unextracted.json",
+          "reviewSha256": "a32669c74e35c84df7d902a2671308b4551c9c783b1b025550dbf4ac9c46c5de"
+        }
+      ],
+      "unresolved": [],
+      "changes": [
+        {
+          "path": "/exceptions/2",
+          "oldValue": "Gap: the header omits M although the paragraph explicitly requires powdered bone.",
+          "newValue": "Source note: PHB p.79 lists Components V, S; the description separately names a pinch of powdered bone as the material component.",
+          "reason": "Original PHB p.79 visually shows V,S in the header and names powdered bone in the description. The existing Material field already extracts powdered bone, so replace only the false Gap wording with a source caution preserving the header/body difference.",
+          "book": "PHB",
+          "page": 79
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-adjudication-batch5",
+      "collection": "spells",
+      "id": "phb-magic-user-massmorph",
+      "checkedPaths": [
+        "/exceptions/2"
+      ],
+      "checkedValues": {
+        "/exceptions/2": "PHB p.77 Massmorph’s first area-unit glyph remains unclear in the supplied scan: the first dimension may read 11′ × 1″ or 11″ × 1″ square per level. Preserve both readings pending clearer source evidence."
+      },
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 77,
+          "pdfPage": 78,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "unresolved": [
+        {
+          "path": "/exceptions/2",
+          "reason": "Printed source unit ambiguity: first unit may be 11′ or 11″; independent review cannot resolve the supplied scan."
+        }
+      ],
+      "changes": [
+        {
+          "path": "/exceptions/2",
+          "oldValue": "The printed area header appears to read 11′ × 1″ square per level. This unusual dimensional expression remains unresolved.",
+          "newValue": "PHB p.77 Massmorph’s first area-unit glyph remains unclear in the supplied scan: the first dimension may read 11′ × 1″ or 11″ × 1″ square per level. Preserve both readings pending clearer source evidence.",
+          "reason": "Independent review preserves both visible unit readings; no area is inferred.",
+          "book": "PHB",
+          "page": 77,
+          "pdfPage": 78,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-adjudication-batch5",
+      "collection": "spells",
+      "id": "phb-magic-user-plant-growth",
+      "checkedPaths": [
+        "/exceptions"
+      ],
+      "checkedValues": {},
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 78,
+          "pdfPage": 79,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "PHB",
+          "page": 57,
+          "pdfPage": 58,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "PHB",
+          "page": 58,
+          "pdfPage": 59,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "unresolved": [],
+      "changes": [
+        {
+          "path": "/exceptions",
+          "oldValue": [
+            "Gap: the inherited druid examples scale square dimensions differently from a literal reading of the area header; verify the intended area with the DM/source."
+          ],
+          "newValue": [],
+          "reason": "The magic-user header and except-as-noted qualification override inherited dimensional examples; remove the stale warning.",
+          "book": "PHB",
+          "page": 78,
+          "pdfPage": 79,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-adjudication-batch5",
+      "collection": "classes",
+      "id": "ua-thief-acrobat",
+      "checkedPaths": [
+        "/retainedSkillsNote"
+      ],
+      "checkedValues": {
+        "/retainedSkillsNote": "UA p.23 explicitly freezes pick pockets, opening locks, and finding/removing traps at fifth-level ability, and reading magical writings is never gained. It says the acrobat retains move silently, hide in shadows, hear noise, and read languages acquired through fifth level, while climb walls increases with experience level. UA p.25 generally treats the acrobat as a thief except as indicated. These passages do not expressly give a new progression for the four retained abilities; no categorical freeze or automatic increases are supplied here."
+      },
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "UA",
+          "page": 23,
+          "pdfPage": 24,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 25,
+          "pdfPage": 26,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ],
+      "unresolved": [
+        {
+          "path": "/retainedSkillsNote",
+          "reason": "Interpretation pending: UA23 retained abilities and UA25 general thief carryover do not expressly supply a new progression for all four retained skills."
+        }
+      ],
+      "changes": [
+        {
+          "path": "/retainedSkillsNote",
+          "oldValue": "UA p. 23 explicitly continues climbing, but describes move silently, hide, hear noise, and read languages as retained from fifth level. Their later progression is ambiguous; no automatic increases are supplied here.",
+          "newValue": "UA p.23 explicitly freezes pick pockets, opening locks, and finding/removing traps at fifth-level ability, and reading magical writings is never gained. It says the acrobat retains move silently, hide in shadows, hear noise, and read languages acquired through fifth level, while climb walls increases with experience level. UA p.25 generally treats the acrobat as a thief except as indicated. These passages do not expressly give a new progression for the four retained abilities; no categorical freeze or automatic increases are supplied here.",
+          "reason": "Retain literal stopped skills, retained abilities, explicit climbing growth and UA25 carryover without inventing a freeze or automatic progression.",
+          "book": "UA",
+          "page": 23,
+          "pdfPage": 24,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-adjudication-batch5",
+      "collection": "classes",
+      "id": "ua-thief-acrobat",
+      "checkedPaths": [
+        "/guidance/3"
+      ],
+      "checkedValues": {
+        "/guidance/3": "Use the specialist acrobatics tables and explicit climbing progression. UA pp.23 and 25 describe stopped, retained and generally inherited thief abilities; later progression of the four retained skills remains a campaign interpretation."
+      },
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "UA",
+          "page": 23,
+          "pdfPage": 24,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 25,
+          "pdfPage": 26,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ],
+      "unresolved": [],
+      "changes": [
+        {
+          "path": "/guidance/3",
+          "oldValue": "Use the specialist acrobatics tables and the continuing climb-walls ability; the future growth of the other retained thief skills needs a campaign ruling on UA p. 23.",
+          "newValue": "Use the specialist acrobatics tables and explicit climbing progression. UA pp.23 and 25 describe stopped, retained and generally inherited thief abilities; later progression of the four retained skills remains a campaign interpretation.",
+          "reason": "Keep the unresolved interpretation visible with both source dependencies.",
+          "book": "UA",
+          "page": 23,
+          "pdfPage": 24,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-adjudication-batch5",
+      "collection": "spells",
+      "id": "ua-druid-ceremony",
+      "checkedPaths": [
+        "/exceptions/0"
+      ],
+      "checkedValues": {
+        "/exceptions/0": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure."
+      },
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "UA",
+          "page": 41,
+          "pdfPage": 42,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 42,
+          "pdfPage": 43,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ],
+      "unresolved": [],
+      "changes": [
+        {
+          "path": "/exceptions/0",
+          "oldValue": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
+          "newValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
+          "reason": "Include the rite-specific caster procedure on the continuation; retire the contradiction inferred from hierarchy alone.",
+          "book": "UA",
+          "page": 41,
+          "pdfPage": 42,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-adjudication-batch5",
+      "collection": "spells",
+      "id": "ua-magic-user-zephyr",
+      "checkedPaths": [
+        "/fields/Materials"
+      ],
+      "checkedValues": {
+        "/fields/Materials": "Piece of fine parchment, accordion-folded and tacked near the bottom with a pin or ivory or silver."
+      },
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "UA",
+          "page": 55,
+          "pdfPage": 56,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ],
+      "unresolved": [
+        {
+          "path": "/fields/Materials",
+          "reason": "Printed source wording ambiguity: pin or ivory or silver leaves their grammatical relationship unresolved."
+        }
+      ],
+      "changes": [
+        {
+          "path": "/fields/Materials",
+          "oldValue": "Accordion-folded fine parchment and a pin",
+          "newValue": "Piece of fine parchment, accordion-folded and tacked near the bottom with a pin or ivory or silver.",
+          "reason": "Restore all printed material alternatives without normalizing or to of.",
+          "book": "UA",
+          "page": 55,
+          "pdfPage": 56,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-adjudication-batch5",
+      "collection": "spells",
+      "id": "ua-magic-user-zephyr",
+      "checkedPaths": [
+        "/exceptions/0"
+      ],
+      "checkedValues": {
+        "/exceptions/0": "The printed wording is “a pin or ivory or silver”; preserve these alternatives without deciding whether ivory or silver describes the pin or are separate alternatives."
+      },
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "UA",
+          "page": 55,
+          "pdfPage": 56,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ],
+      "unresolved": [
+        {
+          "path": "/exceptions/0",
+          "reason": "Printed source wording ambiguity: pin or ivory or silver leaves their grammatical relationship unresolved."
+        }
+      ],
+      "changes": [
+        {
+          "path": "/exceptions/0",
+          "oldValue": "The printed pin-material wording is ambiguous.",
+          "newValue": "The printed wording is “a pin or ivory or silver”; preserve these alternatives without deciding whether ivory or silver describes the pin or are separate alternatives.",
+          "reason": "Restore all printed material alternatives without normalizing or to of.",
+          "book": "UA",
+          "page": 55,
+          "pdfPage": 56,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-adjudication-batch5",
+      "collection": "spells",
+      "id": "phb-magic-user-find-familiar",
+      "checkedPaths": [
+        "/exceptions/0"
+      ],
+      "checkedValues": {
+        "/exceptions/0": "If a normal familiar dies, its master permanently loses twice that familiar’s hit points."
+      },
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 66,
+          "pdfPage": 67,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "unresolved": [],
+      "changes": [
+        {
+          "path": "/exceptions/0",
+          "oldValue": "If the familiar dies, its master permanently loses twice the familiar's HP.",
+          "newValue": "If a normal familiar dies, its master permanently loses twice that familiar’s hit points.",
+          "reason": "The PHB66 paragraph explicitly concerns normal familiars; MM special familiar penalties are separately scoped.",
+          "book": "PHB",
+          "page": 66,
+          "pdfPage": 67,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-adjudication-batch5",
+      "collection": "classes",
+      "id": "ua-paladin",
+      "checkedPaths": [
+        "/guidance/4"
+      ],
+      "checkedValues": {
+        "/guidance/4": "Source conflict in the ordinary thrusting/striking weapon attack table: UA p.22 puts level 12 in both 7–12 at 3 attacks/2 rounds and 12–18 at 2/round. The stated under-one-HD/normal-human melee case and fighter/ranger specialization use separate rules. PHB p.25 instead begins 2/round at 13th. Preserve the internal UA overlap without choosing a universal level-12 rate."
+      },
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "UA",
+          "page": 22,
+          "pdfPage": 23,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 25,
+          "pdfPage": 26,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "unresolved": [
+        {
+          "path": "/guidance/4",
+          "reason": "Printed table conflict: UA22 ordinary weapon attack bands overlap at paladin level12; no adjacent footnote selects one rate."
+        }
+      ],
+      "changes": [
+        {
+          "path": "/guidance/4",
+          "oldValue": null,
+          "newValue": "Source conflict in the ordinary thrusting/striking weapon attack table: UA p.22 puts level 12 in both 7–12 at 3 attacks/2 rounds and 12–18 at 2/round. The stated under-one-HD/normal-human melee case and fighter/ranger specialization use separate rules. PHB p.25 instead begins 2/round at 13th. Preserve the internal UA overlap without choosing a universal level-12 rate.",
+          "reason": "Independent pixels confirm an internal overlapping band with explicit applicability limits.",
+          "book": "UA",
+          "page": 22,
+          "pdfPage": 23,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-adjudication-batch5",
+      "collection": "spells",
+      "id": "phb-cleric-speak-with-the-dead",
+      "checkedPaths": [
+        "/exceptions/0"
+      ],
+      "checkedValues": {
+        "/exceptions/0": "PHB p.48 table places 7th level in both “up to 7th” and “7th–8th” rows. Its range header prints bare 1 without a visible unit; retain the omission without inferring a unit."
+      },
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 48,
+          "pdfPage": 49,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "unresolved": [
+        {
+          "path": "/exceptions/0",
+          "reason": "Printed table conflict: seventh level is included in two rows with different allowances. Range unit is absent."
+        }
+      ],
+      "changes": [
+        {
+          "path": "/exceptions/0",
+          "oldValue": "The printed p.48 entry gives the range as “1” without a visible unit; its level table overlaps at 7th level. The referee must resolve those uncertainties.",
+          "newValue": "PHB p.48 table places 7th level in both “up to 7th” and “7th–8th” rows. Its range header prints bare 1 without a visible unit; retain the omission without inferring a unit.",
+          "reason": "Independently confirmed printed overlap or competing dimensional readings; no ruling selected.",
+          "book": "PHB",
+          "page": 48,
+          "pdfPage": 49,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-adjudication-batch5",
+      "collection": "spells",
+      "id": "phb-druid-wall-of-thorns",
+      "checkedPaths": [
+        "/exceptions/0"
+      ],
+      "checkedValues": {
+        "/exceptions/0": "PHB p.62 header says 10″ cube/level; prose says 10 cubic inches per level; the 14th-level example dimensions imply 14 cubic inches. Preserve all three printed readings; no total volume is inferred."
+      },
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 62,
+          "pdfPage": 63,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "unresolved": [
+        {
+          "path": "/exceptions/0",
+          "reason": "Printed source volume statements and worked example dimensions conflict; no numeric total inferred."
+        }
+      ],
+      "changes": [
+        {
+          "path": "/exceptions/0",
+          "oldValue": "The printed p.62 volume statements and dimensional examples conflict, so total volume remains unresolved.",
+          "newValue": "PHB p.62 header says 10″ cube/level; prose says 10 cubic inches per level; the 14th-level example dimensions imply 14 cubic inches. Preserve all three printed readings; no total volume is inferred.",
+          "reason": "Independently confirmed printed overlap or competing dimensional readings; no ruling selected.",
+          "book": "PHB",
+          "page": 62,
+          "pdfPage": 63,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ]
     }
   ],
   "validation": {

@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "monetary-coverage-report-independent-review",
+  "reviewStatus": "review-findings-identified; no source or coverage-report edits performed",
+  "implementation": {
+    "path": "tools/monetary-coverage-report.mjs",
+    "sha256": "356ac2ecf62eba911a000a14e4ae836a12b3116312d20d283c486e94b46b2714"
+  },
+  "tests": {
+    "path": "tests/monetary-coverage-report.test.mjs",
+    "sha256": "bb3176a0c41d76cb718d5700bd45ba8267ce628fe7d92ce030705e1e2d73aa54",
+    "result": "3/3 passing"
+  },
+  "inputs": {
+    "indexArtifact": {
+      "path": "/tmp/coverage-current-index-final.json",
+      "sha256": "472771cc6925c176ebf4eaed5030dc35c1764d53db164a7eda2f9f86e46a004a",
+      "sourceOccurrences": 1871,
+      "claims": 2318
+    },
+    "generatedReport": {
+      "path": "/tmp/coverage-current-report-final.json",
+      "sha256": "f8358568cbd1692e70e27b12f8ae001147319ae6f6bb797ffac4d50b734232fa"
+    },
+    "currentSourceCheck": "passed using runMonetarySourceInventoryCli(--check)",
+    "staleIndexProbe": {
+      "result": "rejected before output creation",
+      "message": "Index output differs from the current inputs; report file was not created"
+    }
+  },
+  "observedDenominators": {
+    "sourceOccurrences": 1871,
+    "occurrencesWithExactAuditJoin": 1725,
+    "occurrencesWithoutExactAuditJoin": 146,
+    "claims": 2318,
+    "claimsWithExactAuditJoin": 2172,
+    "claimsWithoutExactAuditJoin": 146,
+    "auditRecords": 2161,
+    "auditRecordsMatchedToAnOccurrence": 1725,
+    "auditRecordsWithoutAnOccurrence": 436,
+    "knownFindings": 190,
+    "knownFindingOutcomesAttachedToExactJoinedRows": 189,
+    "explicitReviewStatuses": {
+      "current-explicit-review": 1
+    },
+    "semanticPass": false,
+    "auditSemanticIdentityComplete": false
+  },
+  "findings": [
+    {
+      "id": "audit-only-record-denominator-is-not-listed",
+      "severity": "review-gap",
+      "evidence": {
+        "auditRecords": 2161,
+        "matchedAuditRecords": 1725,
+        "unmatchedAuditRecords": 436
+      },
+      "details": "All indexed occurrences and claims are emitted, but the 436 audit records with no exact index occurrence are not listed or counted by audit-record join status. The output denominator reports 2161 total only. Add a reverse exact-join count and an audit-only record queue with exact refs; do not fuzzy-join."
+    },
+    {
+      "id": "unmatched-resolved-finding-is-only-a-status-count",
+      "severity": "review-gap",
+      "evidence": {
+        "unmatchedFindings": [
+          {
+            "id": "mm-whale-ambergris-per-lump-unit-editorial",
+            "kind": "typed-content-mismatch",
+            "status": "explicit-source-reviewed-repair",
+            "recordUids": [
+              "source-census-claim:mm-whale-ambergris"
+            ]
+          }
+        ],
+        "knownFindingStatusCounts": {
+          "confirmed-wrong-row-focus": 122,
+          "confirmed-source-marker-omission": 3,
+          "confirmed-typed-content-mismatch": 9,
+          "unresolved-source-scope": 2,
+          "legacy-context-migration-baseline-pending-source-repair": 5,
+          "confirmed-source-marker-association-mismatch": 7,
+          "confirmed-source-context-crop-defect": 24,
+          "confirmed-source-note-context-defect": 6,
+          "confirmed-source-provenance-metadata-mismatch": 1,
+          "current-context-evidence-unassessable-needs-source-review": 9,
+          "content-changed-needs-source-review": 1,
+          "explicit-source-reviewed-repair": 1
+        }
+      },
+      "details": "The current mm-whale-ambergris finding is an explicit-source-reviewed-repair on a census audit row whose input reference differs from the canonical index row. Correctly no exact match is made, but the resolved finding ID/kind/ref is absent from the report and only contributes to status counts. Preserve it in a separate unjoined finding queue rather than transferring the review to the canonical row."
+    },
+    {
+      "id": "joined-audit-row-proof-tuple-omitted",
+      "severity": "provenance-transparency",
+      "evidence": {
+        "joinedAuditRowDetailKeys": [
+          "contextEvidenceSha256",
+          "focusGeometrySha256",
+          "knownFindingOutcomes",
+          "physicalRowIdentityReview",
+          "rowIdentitySha256",
+          "uid"
+        ],
+        "sourceOccurrenceHasExactReference": true,
+        "auditRowHasInputPathHashPointer": false
+      },
+      "details": "Each joined audit row omits its own input path, byte hash, and JSON pointer, and the report has no audit-input manifest. The producer performs the exact join correctly, but a saved report consumer cannot independently replay that equality. Include the audit-side exact reference and source-input manifest."
+    },
+    {
+      "id": "review-results-are-counted-only",
+      "severity": "provenance-transparency",
+      "evidence": {
+        "explicitReviewStatuses": {
+          "current-explicit-review": 1
+        },
+        "reportContainsReviewResults": false
+      },
+      "details": "The report counts current review result statuses but omits their records; current reports with a nonempty count cannot inspect the review ID/evidence/record bindings from this artifact."
+    }
+  ],
+  "unmatchedOccurrenceInputPaths": {
+    "research/source-audit-batch5-price-discovery-reconciliation.json": 146
+  },
+  "reportAuditValidation": {
+    "valid": false,
+    "structuralErrors": 0,
+    "unresolvedKnownFindingIds": 189
+  },
+  "scopeLimit": "No source semantic correctness or pixel approval is inferred by this review."
+}

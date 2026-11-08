@@ -1,0 +1,85 @@
+{
+  "artifactType": "independent-final-ordered-context-extent-contract-review",
+  "result": "APPROVED within calibrated numeric containment scope; no blocking finding.",
+  "readOnlyRepositoryReview": true,
+  "module": {
+    "path": "tools/monetary-context-extent-contract.mjs",
+    "sha256": "64838c56e5303a6a63f4ff0e33c3ee2bb15cd445c4fca50c276dc2906af3074d",
+    "imports": []
+  },
+  "tests": {
+    "path": "tests/monetary-context-extent-contract.test.mjs",
+    "sha256": "ba531adc1510164145610f01bfe5cc3305281436a17ba6d1497c9134cb8fe5ce",
+    "existingTestsPassed": 10,
+    "existingTestsFailed": 0,
+    "testRun": {
+      "path": "/tmp/monetary-context-extent-648-independent-existing-tests.json",
+      "sha256": "2a2d86412c3966d927f870838e8105ee1540bd3134f6fe4af4230b31677162ff"
+    }
+  },
+  "frozenBeforeClass": {
+    "registeredFindings": 195,
+    "findingsWithExtentContracts": 4,
+    "findingsWithoutExtentContracts": 191,
+    "recordOutcomes": 28,
+    "composition": "15 PHB29 +1 brocade +6 sage +6 gem; six sage are included in28, never an additional six.",
+    "oldModuleReproducesAllStoredOutcomes": true,
+    "afterPreserves22ContainedOutcomesExactly": true,
+    "afterSixSageOrderedOutcomesContained": true,
+    "all28SemanticPassFalse": true,
+    "unexpectedOutcomeChanges": 0,
+    "pairedReplay": {
+      "path": "/tmp/extent-final-64838-independent-review/existing-28-extent-outcomes-independent-review.json",
+      "sha256": "81fb4e2dfeb70e5b06699e2272b95e3ca2002593ab7ad8a5592cbcb87f60f72b"
+    }
+  },
+  "implementationReview": {
+    "orderedEvidenceVersions": [
+      "ordered-source-context-parts-v1",
+      "ordered-source-context-parts-v2"
+    ],
+    "matchingScope": "Each ordered part is matched by source book/PDF/hash and its exact source-render hash/dimensions. The record top-level primary frame does not stand in for cross-page supporting parts.",
+    "structuralChecks": [
+      "nonempty ordered list with unique part and crop IDs, contiguous order and exact declaredLinks",
+      "v2 requires matching ordered crop projection; present v1 projection must also match",
+      "consistent source aliases, internal source/render/crop identity, positive integer dimensions and crop extents",
+      "matching-frame render conflicts reject; well-formed unrelated-page parts are allowed and cannot satisfy expected-frame rectangles",
+      "one complete crop must contain each required rectangle; crop fragments are not unioned"
+    ],
+    "legacyComparison": "The legacy single-frame path keeps89c behavior, apart from shared result construction and removal of an unreachable crop-list fallback.",
+    "sourceGrade": "Every result retains semanticPass:false; numeric containment does not approve pixels, source meaning, crop ink, values, defaults or findings lacking an extent contract."
+  },
+  "exactDependenciesAndInputPins": {
+    "tools/monetary-context-extent-contract.mjs": "64838c56e5303a6a63f4ff0e33c3ee2bb15cd445c4fca50c276dc2906af3074d",
+    "tests/monetary-context-extent-contract.test.mjs": "ba531adc1510164145610f01bfe5cc3305281436a17ba6d1497c9134cb8fe5ce",
+    "research/source-audit-batch5-phb29-assassination-context-required-extent-v2.json": "6133317969796ebd76f794515c5236caf710e29e69d8e3bf77eb839a8f205570",
+    "tests/fixtures/monetary-source-phbdmg-179-before.json.gz": "43b0846cfadd33479f032552950cb18318527d5fbe748e6c5a1e46e9a099bcdb",
+    "research/source-audit-batch5-final-registration-before-denominators.json": "c0b7e9aea96e085151a47cca34e1ecb96bb34c1812af91a2a20df2ed943d1d63"
+  },
+  "testCollectorDependencyHashes": {
+    "tools/monetary-context-extent-contract.mjs": "64838c56e5303a6a63f4ff0e33c3ee2bb15cd445c4fca50c276dc2906af3074d",
+    "tests/monetary-context-extent-contract.test.mjs": "ba531adc1510164145610f01bfe5cc3305281436a17ba6d1497c9134cb8fe5ce",
+    "tools/monetary-row-identity-audit.mjs": "a811188473a5e23df587f1fdaf267c0fc0857cfa7777262f14078156633952b2",
+    "tools/monetary-source-render-frames.mjs": "44dc5c4d5233fdf2a8b1a36742712f1b36f69ebcc8d2b6d8208303cdb9b41a39",
+    "research/monetary-source-render-frames.json": "29e0ee3ae3cdaf304b67ca99fe7c51a391e7a1b44b63f12aa9258ce02fed3af7",
+    "research/source-audit-batch5-final-registration-before-denominators.json": "c0b7e9aea96e085151a47cca34e1ecb96bb34c1812af91a2a20df2ed943d1d63",
+    "research/source-audit-batch5-phb-dmg-additional-prices.json": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6",
+    "research/source-audit-batch5-ua-additional-prices.json": "c0012f83c1652ff76e8bee5dbed33a6a663b1a8d6e921251a2be6757f0fe100e"
+  },
+  "dependencyQualification": "The extent module has no imports. Existing tests use a scoped collector with findingsPath:null, baselinePath:null and reviewsPath:null; no active V4 migration bridge/global registered loader was invoked. Row module a811 is recorded as a test dependency, not approved by this receipt. Parent owns final row-module review, all195 exact current candidate references and V5 bridge binding of this extent hash.",
+  "priorDraftTestQualification": "The requested9b20 draft and observedaf0 draft were superseded before execution. The final10-test run is bound only toba531; no failedaf execution is claimed.",
+  "supportingEvidence": [
+    {
+      "path": "/tmp/monetary-context-extent-648-independent-existing-tests.json",
+      "sha256": "2a2d86412c3966d927f870838e8105ee1540bd3134f6fe4af4230b31677162ff"
+    },
+    {
+      "path": "/tmp/extent-final-64838-independent-review/existing-28-extent-outcomes-independent-review.json",
+      "sha256": "81fb4e2dfeb70e5b06699e2272b95e3ca2002593ab7ad8a5592cbcb87f60f72b"
+    }
+  ],
+  "limits": [
+    "No new test/detector classes, pixel reviews, code/source/seal writes or Git mutations.",
+    "The paired replay uses exactly the sealed preserved28 case objects; this receipt does not add source or semantic review to191 findings without required-extent contracts."
+  ]
+}

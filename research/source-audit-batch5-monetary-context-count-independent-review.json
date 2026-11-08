@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-monetary-context-diagnostic-count-review",
+  "reviewer": "/root/batch5_integration_review",
+  "status": "approved-count-aggregation-only",
+  "code": {
+    "path": "tools/monetary-row-identity-audit.mjs",
+    "sha256": "9695ee58246dc0dbebab6d1f5f3c18b0262badec20cf0eed5d9efe39a2108787"
+  },
+  "priorCodeSha256": "ff24a205d6766b2f6e844c5012b1ff273364e0df897aa1d90eb64564f4078962",
+  "before": {
+    "path": "research/source-audit-batch5-monetary-context-assets-before-count-fix.json",
+    "sha256": "721e4f2f40ea50a5d30e61d78acb4a93c729134b581ef405a61bc7053d5ff8c1"
+  },
+  "diffScope": "Only contextEvidenceCoverage aggregation: union crops, ordered source parts and supplemental context crops; normalized complete source page identity, no null sentinel. No matcher, input, record, geometry or fingerprint logic changes.",
+  "independentFullReportComparisons": [
+    {
+      "name": "original",
+      "actualRecords": 2161,
+      "actualContextRecords": 927,
+      "entireOtherReportAndEveryRecordHashIdentical": true,
+      "before": {
+        "cropIds": 31,
+        "sourcePageFrames": 33
+      },
+      "after": {
+        "cropIds": 31,
+        "sourcePageFrames": 32
+      }
+    },
+    {
+      "name": "privateV3",
+      "actualRecords": 2161,
+      "actualContextRecords": 927,
+      "entireOtherReportAndEveryRecordHashIdentical": true,
+      "before": {
+        "cropIds": 34,
+        "sourcePageFrames": 34
+      },
+      "after": {
+        "cropIds": 35,
+        "sourcePageFrames": 33
+      }
+    }
+  ],
+  "tests": {
+    "paths": [
+      "tests/monetary-row-identity-audit.test.mjs",
+      "tests/ua-context-migration-bridge.test.mjs"
+    ],
+    "passed": 38,
+    "failed": 0
+  },
+  "old820MatrixReexecuted": false,
+  "old820MatrixScopePreserved": "Exact4d9 code only. Prior ff24 bridge-only approval plus this isolated count diff establish current9695 scope.",
+  "sourceSemanticsOrPixelsApprovedByThisReceipt": false,
+  "sourceMutations": false,
+  "passed": true
+}

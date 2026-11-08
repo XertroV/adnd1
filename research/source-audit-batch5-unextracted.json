@@ -1,0 +1,1425 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "batch5-unextracted-source-review-and-patch-proposals",
+  "createdOn": "2026-11-07",
+  "baseline": {
+    "gitCommit": "679b15d1c580172e54314829c1c3c86dc78b65f3",
+    "mechanicsAuditInputSha256": "48b892af40e17e112eb424e5fe10b859bf05b24eb9e8973da6f0181406415823",
+    "parsedDataSha256": "b617db17b85a468b36ceda4e570bc5c8b4d85557c2b67f42e567ba1780e4bae6",
+    "rawDistDataFileSha256": "47908c8ddc8b68c09e11f600ed0d0dc24b2a3749f8e3f452e245c7ee6635053b",
+    "mechanicsAuditFileSha256": "8d2383c7cad7c1a6c1fdd90fc8e5e6b4e8963fde6cac7f89de899c22e62406e5",
+    "gapsFileSha256": "a1965cc181460b9a0a3a9dcbb78cb7ce0265f5cbb5918a881f582bbd585829b6",
+    "fieldStatusInventory": "research/source-audit-batch5-unextracted-field-baseline.json.gz",
+    "fieldStatusInventorySha256": "c70869a7c4e1c5669c82f69e9c3a854d8a87cadc9101ce8e0a92c96759f57be0",
+    "systemicInventory": {
+      "input": {
+        "path": "dist/data.json",
+        "sha256": "b617db17b85a468b36ceda4e570bc5c8b4d85557c2b67f42e567ba1780e4bae6",
+        "hashFormat": "SHA-256 of JSON.stringify(parsed data)",
+        "rawFileSha256": "47908c8ddc8b68c09e11f600ed0d0dc24b2a3749f8e3f452e245c7ee6635053b",
+        "rawFileHashFormat": "SHA-256 of exact dist/data.json bytes"
+      },
+      "summary": {
+        "collectionDenominator": {
+          "exposedCollections": [
+            "rules",
+            "spells",
+            "equipment",
+            "matrices",
+            "classes",
+            "progressionExplainer"
+          ],
+          "exposedRecordCount": 993,
+          "recordsByCollection": {
+            "rules": 148,
+            "spells": 638,
+            "equipment": 189,
+            "matrices": 1,
+            "classes": 16,
+            "progressionExplainer": 1
+          },
+          "auxiliaryTopLevelArrayRecords": 3,
+          "auxiliaryCollectionCounts": {
+            "rules": 148,
+            "spells": 638,
+            "equipment": 189,
+            "matrices": 1,
+            "classes": 16,
+            "sources": 3
+          },
+          "progressionExplainerIncludedAsRecord": true
+        }
+      },
+      "jsonTreeCounts": {
+        "totalNodes": 232390,
+        "objectNodes": 20079,
+        "arrayNodes": 42216,
+        "scalarLeaves": 170095,
+        "kinds": {
+          "total": 232390,
+          "object": 20079,
+          "array": 42216,
+          "string": 116084,
+          "number": 30192,
+          "boolean": 7177,
+          "null": 16642,
+          "properties": 232389
+        },
+        "propertyEdges": 232389,
+        "nodeClassificationDenominator": 232390,
+        "nodeClassificationCounts": {
+          "confirmed": 0,
+          "candidate": 6896,
+          "uncertain": 5012,
+          "not-assessable": 220482
+        },
+        "nodeRoleCounts": {
+          "structure": 1133,
+          "metadata": 4261,
+          "citation-metadata": 200029,
+          "fact": 21955,
+          "free-text-fact": 375,
+          "unclassified": 4637
+        },
+        "tupleSchema": [
+          "jsonPointer",
+          "kindCode",
+          "semanticRoleCode",
+          "inventoryClassificationCode"
+        ],
+        "classificationMeaning": "Syntactic inventory class only; semantic verification is recorded in separate source-value/target/context contracts.",
+        "codes": {
+          "kind": {
+            "object": 0,
+            "array": 1,
+            "string": 2,
+            "number": 3,
+            "boolean": 4,
+            "null": 5
+          },
+          "semanticRole": {
+            "structure": 0,
+            "metadata": 1,
+            "citation-metadata": 2,
+            "fact": 3,
+            "free-text-fact": 4,
+            "unclassified": 5
+          },
+          "classification": {
+            "confirmed": 0,
+            "candidate": 1,
+            "uncertain": 2,
+            "not-assessable": 3
+          }
+        }
+      },
+      "fullBeforeInventory": "private complete systemic baseline retained outside repository; exact source input hash above"
+    },
+    "fieldStatusInventoryGzipSha256": "2800ef5ab11f1adbd6df25173df45be88f19ed7cba07ddef44e932d4c6148eb3"
+  },
+  "scope": {
+    "notExtractedBefore": 11,
+    "spellsReviewed": 7,
+    "equipmentNullPriceFieldsExcludedByOwner": 4,
+    "reviewMethod": "Manually compared existing catalog excerpt pixels with newly rendered exact crop clips from authorized original PHB PDF pages; source text extraction used only to derive candidate coordinates, not as semantic review.",
+    "privatePixelPolicy": "Original PDFs and full-page renders were not copied. The single retained review crop is a limited PHB p.79 Animal Growth excerpt in scratch for root review."
+  },
+  "exposedStatusCounts": {
+    "source-checked": 10091,
+    "editorial-reviewed": 559,
+    "corrected-and-checked": 2631,
+    "source-conflict": 22,
+    "not-extracted": 11,
+    "unchecked": 104
+  },
+  "fullFieldUniverse": {
+    "allFieldStatusRows": "research/source-audit-batch5-unextracted-field-baseline.json.gz",
+    "systemicInputParsedDataSha256": "b617db17b85a468b36ceda4e570bc5c8b4d85557c2b67f42e567ba1780e4bae6",
+    "totalMechanicsFields": 13418,
+    "exposedRecords": 993,
+    "notExtractedFieldsBefore": 11
+  },
+  "fieldReviews": [
+    {
+      "collection": "spells",
+      "itemId": "phb-magic-user-esp",
+      "fieldPointer": "/exceptions/0",
+      "statusBefore": "not-extracted",
+      "valueBefore": "Gap: the paragraph uses both one-creature-per-turn and round-to-round probe timing; this needs source review.",
+      "valueAfter": "Gap: the paragraph uses both one-creature-per-turn and round-to-round probe timing; this needs source review.",
+      "proposedDataChange": false,
+      "disposition": "source-text-extracted; timing relationship remains underdetermined",
+      "sourceReviewFinding": "The PHB passage states one creature per turn and separately says probing can continue on the same creature from round to round. Both statements are transcribed; the source does not explain the procedure or limit interaction further.",
+      "sourceReferences": [
+        {
+          "book": "PHB",
+          "printedPage": 70,
+          "pdfPage": 71,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "evidenceTargets": [
+        {
+          "regionId": "phb-70-2676d5fbb45576ff",
+          "book": "PHB",
+          "printedPage": 70,
+          "pdfPage": 71,
+          "image": "phb-70-2676d5fbb45576ff.png",
+          "imageWidth": 570,
+          "imageHeight": 349,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "catalogPath": "dist/scans/verified/spells-phb-magic-user-esp.json",
+          "catalogFileSha256": "7e1b6568083c21cd0df8d23a33272096031886118c6f371bf3e1d7d4b97853a3",
+          "imageSha256": "2676d5fbb45576ffb7ce0488769d555d292ccb3f8e747067c43e1ece241c0fa0",
+          "currentFocusRects": [
+            [
+              0,
+              0,
+              1,
+              1
+            ]
+          ],
+          "currentFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+          "proposedFocusRects": [
+            [
+              0.025661,
+              0.684117,
+              0.598558,
+              0.069994
+            ],
+            [
+              0.508505,
+              0.736711,
+              0.446073,
+              0.064755
+            ],
+            [
+              0.025661,
+              0.787868,
+              0.406094,
+              0.064755
+            ]
+          ],
+          "proposedFocusSha256": "9f96ceba74232f229b81202a51bc24bf2d2b257bc26391483ae8444a63cda2a2",
+          "contentSha256": "c75685cccad4b3df129eb9c9e026e6aaf4a526b6f4651b527cd0cfd313d54ef5",
+          "normalizedPageRect": {
+            "x": 0.01,
+            "y": 0.04,
+            "w": 0.49,
+            "h": 0.22
+          },
+          "focusPurpose": "The two distinct probe-timing statements.",
+          "verificationScope": "source-excerpt",
+          "completeCropReviewed": true
+        }
+      ],
+      "retainOpenStatus": true,
+      "rootIndependentReviewRequired": false
+    },
+    {
+      "collection": "spells",
+      "itemId": "phb-magic-user-enchanted-weapon",
+      "fieldPointer": "/exceptions/0",
+      "statusBefore": "not-extracted",
+      "valueBefore": "Gap: the header marks the spell reversible, but this paragraph does not explain the reverse's operation.",
+      "valueAfter": "Gap: the header marks the spell reversible, but this paragraph does not explain the reverse's operation.",
+      "proposedDataChange": false,
+      "disposition": "genuinely absent from supplied passage",
+      "sourceReviewFinding": "The PHB p.76 heading marks Enchanted Weapon reversible, but its complete description gives no operation for the reverse. No reverse effect can be extracted from this passage.",
+      "sourceReferences": [
+        {
+          "book": "PHB",
+          "printedPage": 76,
+          "pdfPage": 77,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "evidenceTargets": [
+        {
+          "regionId": "phb-76-de4338b8a813a25d",
+          "book": "PHB",
+          "printedPage": 76,
+          "pdfPage": 77,
+          "image": "phb-76-de4338b8a813a25d.png",
+          "imageWidth": 565,
+          "imageHeight": 353,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "catalogPath": "dist/scans/verified/spells-phb-magic-user-enchanted-weapon.json",
+          "catalogFileSha256": "88418c84ca782a07c66bb6ec1ae67b2a8d4889f72d59f6cfc3083bd196bf5251",
+          "imageSha256": "de4338b8a813a25dffb82ff3b8c9881075c0df050e909b8c7eb519e17feb5411",
+          "currentFocusRects": [
+            [
+              0,
+              0,
+              1,
+              1
+            ]
+          ],
+          "currentFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+          "proposedFocusRects": [
+            [
+              0.427048,
+              0.014188,
+              0.139341,
+              0.063938
+            ],
+            [
+              0.02897,
+              0.371169,
+              0.936657,
+              0.570179
+            ]
+          ],
+          "proposedFocusSha256": "b67b5a8275dac3a6b7750a32556ae2ca0ea0ab16f8ed30a2bb67e2d0110193ff",
+          "contentSha256": "17c6ba7f4a673d7ef6f1caa4e1f236a78319f8567a67199cdcbff09527521f6d",
+          "normalizedPageRect": {
+            "x": 0.5,
+            "y": 0.10599834225569918,
+            "w": 0.49,
+            "h": 0.22458480347378687
+          },
+          "focusPurpose": "Reversible label plus complete spell description.",
+          "verificationScope": "source-excerpt",
+          "completeCropReviewed": true
+        }
+      ],
+      "retainOpenStatus": true,
+      "rootIndependentReviewRequired": false
+    },
+    {
+      "collection": "spells",
+      "itemId": "phb-magic-user-animal-growth",
+      "fieldPointer": "/exceptions/2",
+      "statusBefore": "not-extracted",
+      "valueBefore": "Gap: the header omits M although the paragraph explicitly requires powdered bone.",
+      "valueAfter": "Source note: PHB p.79 lists Components V, S; the description separately names a pinch of powdered bone as the material component.",
+      "proposedDataChange": true,
+      "disposition": "already extracted; remove false missing-material implication while retaining source caution",
+      "sourceReviewFinding": "The PHB p.79 header lists V, S; the description names a pinch of powdered bone as the material component. The current record already has Components=\"V, S; material also specified in text\" and Material=\"Pinch of powdered bone\". Only the gap wording is false; preserve the printed header/body difference as a source note.",
+      "sourceReferences": [
+        {
+          "book": "PHB",
+          "printedPage": 79,
+          "pdfPage": 80,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "evidenceTargets": [
+        {
+          "regionId": "phb-79-79f670b40253907e",
+          "book": "PHB",
+          "printedPage": 79,
+          "pdfPage": 80,
+          "image": "phb-79-79f670b40253907e.png",
+          "imageWidth": 570,
+          "imageHeight": 220,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "catalogPath": "dist/scans/verified/spells-phb-magic-user-animal-growth.json",
+          "catalogFileSha256": "f698bc2a0f2181e7e9d958f0a908c917f019016eb67aac9fd6d0b53d0e1f0a84",
+          "imageSha256": "79f670b40253907eff0c9e63f77902bbe6e626160011aa9efcf632a16e0b3a30",
+          "currentFocusRects": [
+            [
+              0,
+              0,
+              1,
+              1
+            ]
+          ],
+          "currentFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+          "proposedFocusRects": [
+            [
+              0.520686,
+              0.187563,
+              0.226429,
+              0.119816
+            ],
+            [
+              0.52139,
+              0.770143,
+              0.317381,
+              0.103168
+            ]
+          ],
+          "proposedFocusSha256": "88ab55d7857c1fe6cbd81a5db97295d7d92ded9942ee6ad665db3d64e519b891",
+          "contentSha256": "9ae733f3c8c624f431b79f5635a1ba5b7b5fc399d147e3f7aacf8bb24aee6d35",
+          "normalizedPageRect": {
+            "x": 0.01,
+            "y": 0.6214569891115896,
+            "w": 0.49,
+            "h": 0.139397372594815
+          },
+          "focusPurpose": "Header component line and prose material component.",
+          "verificationScope": "source-excerpt",
+          "completeCropReviewed": true
+        }
+      ],
+      "retainOpenStatus": false,
+      "rootIndependentReviewRequired": true
+    },
+    {
+      "collection": "spells",
+      "itemId": "phb-magic-user-repulsion",
+      "fieldPointer": "/exceptions/0",
+      "statusBefore": "not-extracted",
+      "valueBefore": "Gap: the source's alternative movement-rate wording needs adjudication; no universal choice between the two rates is added here.",
+      "valueAfter": "Gap: the source's alternative movement-rate wording needs adjudication; no universal choice between the two rates is added here.",
+      "proposedDataChange": false,
+      "disposition": "source wording extracted; rate-selection criterion absent",
+      "sourceReviewFinding": "The PHB gives 3 inches per round or the approaching creature’s own motive speed, without specifying a condition for choosing between the rates. Do not select one rate.",
+      "sourceReferences": [
+        {
+          "book": "PHB",
+          "printedPage": 86,
+          "pdfPage": 87,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "evidenceTargets": [
+        {
+          "regionId": "phb-86-d99d94d01b2afe44",
+          "book": "PHB",
+          "printedPage": 86,
+          "pdfPage": 87,
+          "image": "phb-86-d99d94d01b2afe44.png",
+          "imageWidth": 566,
+          "imageHeight": 290,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "catalogPath": "dist/scans/verified/spells-phb-magic-user-repulsion.json",
+          "catalogFileSha256": "0964a5410cd1dc28cc520601de6eb237ee7e12e7677c175a18f7327916dee9d6",
+          "imageSha256": "d99d94d01b2afe44fe60dd300f2930bddac7b4d9d79868cb6928ab9160b5a02f",
+          "currentFocusRects": [
+            [
+              0,
+              0,
+              1,
+              1
+            ]
+          ],
+          "currentFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+          "proposedFocusRects": [
+            [
+              0.209701,
+              0.581215,
+              0.745141,
+              0.077856
+            ],
+            [
+              0.027738,
+              0.641341,
+              0.727795,
+              0.077854
+            ]
+          ],
+          "proposedFocusSha256": "3b5e6f4edae381ae83f1ede39cd364c11736f61626ef73d6ee79a55f0b78c64c",
+          "contentSha256": "74d70a6ff91c33c74429d27f279f4d3f53ed307cf2c9c9b045d4b172ea82d255",
+          "normalizedPageRect": {
+            "x": 0.01,
+            "y": 0.16475108863132354,
+            "w": 0.49,
+            "h": 0.1844412462714562
+          },
+          "focusPurpose": "The complete two-line alternative movement-rate clause.",
+          "verificationScope": "source-excerpt",
+          "completeCropReviewed": true
+        }
+      ],
+      "retainOpenStatus": true,
+      "rootIndependentReviewRequired": false
+    },
+    {
+      "collection": "spells",
+      "itemId": "phb-magic-user-mass-invisibility",
+      "fieldPointer": "/exceptions/0",
+      "statusBefore": "not-extracted",
+      "valueBefore": "Gap: the short mass-spell paragraph does not resolve group-wide ending behavior separately; use the underlying invisibility rules with the DM.",
+      "valueAfter": "Gap: the short mass-spell paragraph does not resolve group-wide ending behavior separately; use the underlying invisibility rules with the DM.",
+      "proposedDataChange": false,
+      "disposition": "referenced base rule extracted; group-wide behavior remains unresolved",
+      "sourceReviewFinding": "Mass Invisibility says it works as Invisibility except for affected area and capacity. The PHB p.70 Invisibility passage says an attack ends invisibility, but Mass Invisibility does not say whether one creature’s attack ends the effect for all recipients or only that creature. Keep the scope question open.",
+      "sourceReferences": [
+        {
+          "book": "PHB",
+          "printedPage": 70,
+          "pdfPage": 71,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "PHB",
+          "printedPage": 88,
+          "pdfPage": 89,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "evidenceTargets": [
+        {
+          "regionId": "phb-70-bebc3ac3e6bdc455",
+          "book": "PHB",
+          "printedPage": 70,
+          "pdfPage": 71,
+          "image": "phb-70-bebc3ac3e6bdc455.png",
+          "imageWidth": 570,
+          "imageHeight": 207,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "catalogPath": "dist/scans/verified/spells-phb-magic-user-mass-invisibility.json",
+          "catalogFileSha256": "0765921013be04a302d12aec4f3f25a166c861e39e4e39dd5b00fdd28bd4c9a0",
+          "imageSha256": "bebc3ac3e6bdc455d71716adac8ff001a2b74f4ee2b3e138fd2ba0b3f48d63d7",
+          "currentFocusRects": [
+            [
+              0,
+              0,
+              1,
+              1
+            ]
+          ],
+          "currentFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+          "proposedFocusRects": [
+            [
+              0.348495,
+              0.6444,
+              0.606856,
+              0.109585
+            ],
+            [
+              0.029881,
+              0.730973,
+              0.609962,
+              0.109585
+            ]
+          ],
+          "proposedFocusSha256": "7b17260ff0f6bdaf006066ff48a60c92de5cb2b7bd67ac57eeb15cbe3fb57d55",
+          "contentSha256": "4e175767d9942aca89023a83340adedacb1cb5003add051daa045fa2efe329e2",
+          "normalizedPageRect": {
+            "x": 0.01,
+            "y": 0.82,
+            "width": 0.49,
+            "height": 0.13
+          },
+          "focusPurpose": "Opening of the complete referenced Invisibility passage; context segment.",
+          "verificationScope": "source-excerpt",
+          "completeCropReviewed": true
+        },
+        {
+          "regionId": "phb-70-16f42449b4d7283c",
+          "book": "PHB",
+          "printedPage": 70,
+          "pdfPage": 71,
+          "image": "phb-70-5dd0adab2e6f98c5.png",
+          "imageWidth": 712,
+          "imageHeight": 326,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "catalogPath": "dist/scans/verified/spells-phb-magic-user-mass-invisibility.json",
+          "catalogFileSha256": "0765921013be04a302d12aec4f3f25a166c861e39e4e39dd5b00fdd28bd4c9a0",
+          "imageSha256": "5dd0adab2e6f98c5371f4f828d2ec8e7e95219f409826355daa1db8199c8f9d5",
+          "currentFocusRects": [
+            [
+              0,
+              0,
+              1,
+              1
+            ]
+          ],
+          "currentFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+          "proposedFocusRects": [
+            [
+              0.264949,
+              0.056194,
+              0.684912,
+              0.086453
+            ],
+            [
+              0.023,
+              0.124493,
+              0.91568,
+              0.086446
+            ],
+            [
+              0.022648,
+              0.192785,
+              0.358998,
+              0.086446
+            ],
+            [
+              0.449577,
+              0.262611,
+              0.499667,
+              0.086448
+            ],
+            [
+              0.023351,
+              0.330905,
+              0.595884,
+              0.086446
+            ]
+          ],
+          "proposedFocusSha256": "df21d0d1f67dd9145537c073d60bba3ffe53de092af215c659cdddc3662097bf",
+          "contentSha256": "ce9c4737a130215ca2058d3982d183b10d17b19bfe56cf8de60e62f3e453a777",
+          "normalizedPageRect": {
+            "x": 0.49999998,
+            "y": 0.03500004,
+            "width": 0.48999998,
+            "height": 0.16479784
+          },
+          "focusPurpose": "Ending-on-attack rule and its stated result in the continued base passage.",
+          "verificationScope": "source-excerpt",
+          "completeCropReviewed": true
+        },
+        {
+          "regionId": "phb-88-46f1287a5584da3f",
+          "book": "PHB",
+          "printedPage": 88,
+          "pdfPage": 89,
+          "image": "phb-88-46f1287a5584da3f.png",
+          "imageWidth": 561,
+          "imageHeight": 209,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "catalogPath": "dist/scans/verified/spells-phb-magic-user-mass-invisibility.json",
+          "catalogFileSha256": "0765921013be04a302d12aec4f3f25a166c861e39e4e39dd5b00fdd28bd4c9a0",
+          "imageSha256": "46f1287a5584da3f0d4f175ecd7b5e40684b892ea17886580b9e5f329c1eaab7",
+          "currentFocusRects": [
+            [
+              0,
+              0,
+              1,
+              1
+            ]
+          ],
+          "currentFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+          "proposedFocusRects": [
+            [
+              0.025682,
+              0.621178,
+              0.945978,
+              0.282199
+            ]
+          ],
+          "proposedFocusSha256": "626e108459b28067bec2e709a5241cbcb698bf96dd70cbd21030dbee612aa01a",
+          "contentSha256": "1cadf8d71c886c4812b80208b6297866af029de42a36bcbf3f61051edd01e431",
+          "normalizedPageRect": {
+            "x": 0.01,
+            "y": 0.5286588744211514,
+            "w": 0.49,
+            "h": 0.13183103864264067
+          },
+          "focusPurpose": "Complete Mass Invisibility paragraph.",
+          "verificationScope": "source-excerpt",
+          "completeCropReviewed": true
+        }
+      ],
+      "retainOpenStatus": true,
+      "rootIndependentReviewRequired": false
+    },
+    {
+      "collection": "spells",
+      "itemId": "phb-magic-user-reverse-gravity",
+      "fieldPointer": "/exceptions/0",
+      "statusBefore": "not-extracted",
+      "valueBefore": "Gap: the header gives one segment but the paragraph gives one second (one-sixth segment); the duration needs direct source/DM review.",
+      "valueAfter": "Gap: the header gives one segment but the paragraph gives one second (one-sixth segment); the duration needs direct source/DM review.",
+      "proposedDataChange": false,
+      "disposition": "genuine source duration conflict",
+      "sourceReviewFinding": "The PHB p.88 header says 1 segment; the explanation says 1 second, identified as one-sixth of a segment. The source supplies both values and does not resolve them.",
+      "sourceReferences": [
+        {
+          "book": "PHB",
+          "printedPage": 88,
+          "pdfPage": 89,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "evidenceTargets": [
+        {
+          "regionId": "phb-88-dcfc54363d0a4acc",
+          "book": "PHB",
+          "printedPage": 88,
+          "pdfPage": 89,
+          "image": "phb-88-dcfc54363d0a4acc.png",
+          "imageWidth": 560,
+          "imageHeight": 330,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "catalogPath": "dist/scans/verified/spells-phb-magic-user-reverse-gravity.json",
+          "catalogFileSha256": "1d399e8e374be99e0cba8f7727e11cbf06223174d07180fc8739167f002468f7",
+          "imageSha256": "dcfc54363d0a4accac0545f8a51563e43c3f8414230f1f0a2a4f8eae3206e51a",
+          "currentFocusRects": [
+            [
+              0,
+              0,
+              1,
+              1
+            ]
+          ],
+          "currentFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+          "proposedFocusRects": [
+            [
+              0.045376,
+              0.232643,
+              0.260103,
+              0.06861
+            ],
+            [
+              0.920013,
+              0.501827,
+              0.063625,
+              0.06861
+            ],
+            [
+              0.041804,
+              0.556029,
+              0.633052,
+              0.068611
+            ]
+          ],
+          "proposedFocusSha256": "c8d1d801a384ca937fb9d23d78fd6cbcd71c07c46a082815c8888a3161464006",
+          "contentSha256": "5edbd8abf763fe0d7e2ca9124460cb7cbe512aed27eb2a252931afea2828e239",
+          "normalizedPageRect": {
+            "x": 0.5,
+            "y": 0.592196792438954,
+            "w": 0.49,
+            "h": 0.20782714020232584
+          },
+          "focusPurpose": "Header duration and complete body duration phrase across its line break.",
+          "verificationScope": "source-excerpt",
+          "completeCropReviewed": true
+        }
+      ],
+      "retainOpenStatus": true,
+      "rootIndependentReviewRequired": false
+    },
+    {
+      "collection": "spells",
+      "itemId": "phb-magic-user-permanency",
+      "fieldPointer": "/exceptions/2",
+      "statusBefore": "not-extracted",
+      "valueBefore": "Gap: the header requires M but this paragraph names no material component.",
+      "valueAfter": "Gap: the header requires M but this paragraph names no material component.",
+      "proposedDataChange": false,
+      "disposition": "genuinely absent from supplied passage",
+      "sourceReviewFinding": "The PHB p.91 header requires V, S, M. The complete Permanency description identifies no material component. The material remains unavailable from this supplied passage; do not infer one.",
+      "sourceReferences": [
+        {
+          "book": "PHB",
+          "printedPage": 91,
+          "pdfPage": 92,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "evidenceTargets": [
+        {
+          "regionId": "phb-91-a86629b2a40eced7",
+          "book": "PHB",
+          "printedPage": 91,
+          "pdfPage": 92,
+          "image": "phb-91-a86629b2a40eced7.png",
+          "imageWidth": 565,
+          "imageHeight": 630,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "catalogPath": "dist/scans/verified/spells-phb-magic-user-permanency.json",
+          "catalogFileSha256": "fb29a9f7dacff465cef2082846e6e57af9824fee0d7c7f82cffe646e7f7c51e1",
+          "imageSha256": "a86629b2a40eced7cd98811ef3a83c1e6fde6e52ee29b3982109cf366ff9bdf1",
+          "currentFocusRects": [
+            [
+              0,
+              0,
+              1,
+              1
+            ]
+          ],
+          "currentFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+          "proposedFocusRects": [
+            [
+              0.541165,
+              0.065114,
+              0.233653,
+              0.036138
+            ]
+          ],
+          "proposedFocusSha256": "1c22d73042b3b8379edbdf970603c696d68aa06e3bbc3d74092f24a56e215ef1",
+          "contentSha256": "b42779e5b31c5aa41d63c7f8bb1abbde871603eeef1e4524ae2f01853e509ef0",
+          "normalizedPageRect": {
+            "x": 0.01,
+            "y": 0.033852556844189356,
+            "w": 0.49,
+            "h": 0.4001906500152836
+          },
+          "focusPurpose": "Header states V, S, M. The full spell description is included in the crop to review the omission; no absent text is highlighted.",
+          "verificationScope": "source-excerpt",
+          "completeCropReviewed": true
+        }
+      ],
+      "retainOpenStatus": true,
+      "rootIndependentReviewRequired": false
+    }
+  ],
+  "patchProposals": {
+    "dataJson": [
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-animal-growth",
+        "fieldPointer": "/exceptions/2",
+        "oldValue": "Gap: the header omits M although the paragraph explicitly requires powdered bone.",
+        "newValue": "Source note: PHB p.79 lists Components V, S; the description separately names a pinch of powdered bone as the material component.",
+        "reason": "Original PHB p.79 visually shows V,S in the header and names powdered bone in the description. The existing Material field already extracts powdered bone, so replace only the false Gap wording with a source caution preserving the header/body difference."
+      }
+    ],
+    "mechanicsAuditProgress": [
+      {
+        "checker": "mechanics-phb-magic-batch5-root-independent-review",
+        "collection": "spells",
+        "itemId": "phb-magic-user-animal-growth",
+        "addCheckedPath": "/exceptions/2",
+        "checkedValue": "Source note: PHB p.79 lists Components V, S; the description separately names a pinch of powdered bone as the material component.",
+        "sources": [
+          {
+            "book": "PHB",
+            "page": 79,
+            "pdfPage": 80,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ],
+        "unresolved": [],
+        "addChange": {
+          "path": "/exceptions/2",
+          "oldValue": "Gap: the header omits M although the paragraph explicitly requires powdered bone.",
+          "newValue": "Source note: PHB p.79 lists Components V, S; the description separately names a pinch of powdered bone as the material component.",
+          "reason": "Root independently reviewed the original PHB p.79 crop: the header lists V,S and the description specifies powdered bone; the existing Material field already extracts it. Preserve the header/body difference as a source note.",
+          "book": "PHB",
+          "page": 79
+        },
+        "preserveExistingCheckerRecord": true,
+        "preserveExistingUnresolvedNote": "The existing mechanics-phb-magic checker record and its header/body note remain unchanged as historical/current source caution."
+      }
+    ],
+    "catalogFocusRects": [
+      {
+        "catalogPath": "dist/scans/verified/spells-phb-magic-user-esp.json",
+        "regionId": "phb-70-2676d5fbb45576ff",
+        "oldFocusRects": [
+          [
+            0,
+            0,
+            1,
+            1
+          ]
+        ],
+        "newFocusRects": [
+          [
+            0.025661,
+            0.684117,
+            0.598558,
+            0.069994
+          ],
+          [
+            0.508505,
+            0.736711,
+            0.446073,
+            0.064755
+          ],
+          [
+            0.025661,
+            0.787868,
+            0.406094,
+            0.064755
+          ]
+        ],
+        "oldFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+        "newFocusSha256": "9f96ceba74232f229b81202a51bc24bf2d2b257bc26391483ae8444a63cda2a2",
+        "reason": "Precise focus for phb-magic-user-esp /exceptions/0: The two distinct probe-timing statements."
+      },
+      {
+        "catalogPath": "dist/scans/verified/spells-phb-magic-user-enchanted-weapon.json",
+        "regionId": "phb-76-de4338b8a813a25d",
+        "oldFocusRects": [
+          [
+            0,
+            0,
+            1,
+            1
+          ]
+        ],
+        "newFocusRects": [
+          [
+            0.427048,
+            0.014188,
+            0.139341,
+            0.063938
+          ],
+          [
+            0.02897,
+            0.371169,
+            0.936657,
+            0.570179
+          ]
+        ],
+        "oldFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+        "newFocusSha256": "b67b5a8275dac3a6b7750a32556ae2ca0ea0ab16f8ed30a2bb67e2d0110193ff",
+        "reason": "Precise focus for phb-magic-user-enchanted-weapon /exceptions/0: Reversible label plus complete spell description."
+      },
+      {
+        "catalogPath": "dist/scans/verified/spells-phb-magic-user-animal-growth.json",
+        "regionId": "phb-79-79f670b40253907e",
+        "oldFocusRects": [
+          [
+            0,
+            0,
+            1,
+            1
+          ]
+        ],
+        "newFocusRects": [
+          [
+            0.520686,
+            0.187563,
+            0.226429,
+            0.119816
+          ],
+          [
+            0.52139,
+            0.770143,
+            0.317381,
+            0.103168
+          ]
+        ],
+        "oldFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+        "newFocusSha256": "88ab55d7857c1fe6cbd81a5db97295d7d92ded9942ee6ad665db3d64e519b891",
+        "reason": "Precise focus for phb-magic-user-animal-growth /exceptions/2: Header component line and prose material component."
+      },
+      {
+        "catalogPath": "dist/scans/verified/spells-phb-magic-user-repulsion.json",
+        "regionId": "phb-86-d99d94d01b2afe44",
+        "oldFocusRects": [
+          [
+            0,
+            0,
+            1,
+            1
+          ]
+        ],
+        "newFocusRects": [
+          [
+            0.209701,
+            0.581215,
+            0.745141,
+            0.077856
+          ],
+          [
+            0.027738,
+            0.641341,
+            0.727795,
+            0.077854
+          ]
+        ],
+        "oldFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+        "newFocusSha256": "3b5e6f4edae381ae83f1ede39cd364c11736f61626ef73d6ee79a55f0b78c64c",
+        "reason": "Precise focus for phb-magic-user-repulsion /exceptions/0: The complete two-line alternative movement-rate clause."
+      },
+      {
+        "catalogPath": "dist/scans/verified/spells-phb-magic-user-mass-invisibility.json",
+        "regionId": "phb-70-bebc3ac3e6bdc455",
+        "oldFocusRects": [
+          [
+            0,
+            0,
+            1,
+            1
+          ]
+        ],
+        "newFocusRects": [
+          [
+            0.348495,
+            0.6444,
+            0.606856,
+            0.109585
+          ],
+          [
+            0.029881,
+            0.730973,
+            0.609962,
+            0.109585
+          ]
+        ],
+        "oldFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+        "newFocusSha256": "7b17260ff0f6bdaf006066ff48a60c92de5cb2b7bd67ac57eeb15cbe3fb57d55",
+        "reason": "Precise focus for phb-magic-user-mass-invisibility /exceptions/0: Opening of the complete referenced Invisibility passage; context segment."
+      },
+      {
+        "catalogPath": "dist/scans/verified/spells-phb-magic-user-mass-invisibility.json",
+        "regionId": "phb-70-16f42449b4d7283c",
+        "oldFocusRects": [
+          [
+            0,
+            0,
+            1,
+            1
+          ]
+        ],
+        "newFocusRects": [
+          [
+            0.264949,
+            0.056194,
+            0.684912,
+            0.086453
+          ],
+          [
+            0.023,
+            0.124493,
+            0.91568,
+            0.086446
+          ],
+          [
+            0.022648,
+            0.192785,
+            0.358998,
+            0.086446
+          ],
+          [
+            0.449577,
+            0.262611,
+            0.499667,
+            0.086448
+          ],
+          [
+            0.023351,
+            0.330905,
+            0.595884,
+            0.086446
+          ]
+        ],
+        "oldFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+        "newFocusSha256": "df21d0d1f67dd9145537c073d60bba3ffe53de092af215c659cdddc3662097bf",
+        "reason": "Precise focus for phb-magic-user-mass-invisibility /exceptions/0: Ending-on-attack rule and its stated result in the continued base passage."
+      },
+      {
+        "catalogPath": "dist/scans/verified/spells-phb-magic-user-mass-invisibility.json",
+        "regionId": "phb-88-46f1287a5584da3f",
+        "oldFocusRects": [
+          [
+            0,
+            0,
+            1,
+            1
+          ]
+        ],
+        "newFocusRects": [
+          [
+            0.025682,
+            0.621178,
+            0.945978,
+            0.282199
+          ]
+        ],
+        "oldFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+        "newFocusSha256": "626e108459b28067bec2e709a5241cbcb698bf96dd70cbd21030dbee612aa01a",
+        "reason": "Precise focus for phb-magic-user-mass-invisibility /exceptions/0: Complete Mass Invisibility paragraph."
+      },
+      {
+        "catalogPath": "dist/scans/verified/spells-phb-magic-user-reverse-gravity.json",
+        "regionId": "phb-88-dcfc54363d0a4acc",
+        "oldFocusRects": [
+          [
+            0,
+            0,
+            1,
+            1
+          ]
+        ],
+        "newFocusRects": [
+          [
+            0.045376,
+            0.232643,
+            0.260103,
+            0.06861
+          ],
+          [
+            0.920013,
+            0.501827,
+            0.063625,
+            0.06861
+          ],
+          [
+            0.041804,
+            0.556029,
+            0.633052,
+            0.068611
+          ]
+        ],
+        "oldFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+        "newFocusSha256": "c8d1d801a384ca937fb9d23d78fd6cbcd71c07c46a082815c8888a3161464006",
+        "reason": "Precise focus for phb-magic-user-reverse-gravity /exceptions/0: Header duration and complete body duration phrase across its line break."
+      },
+      {
+        "catalogPath": "dist/scans/verified/spells-phb-magic-user-permanency.json",
+        "regionId": "phb-91-a86629b2a40eced7",
+        "oldFocusRects": [
+          [
+            0,
+            0,
+            1,
+            1
+          ]
+        ],
+        "newFocusRects": [
+          [
+            0.541165,
+            0.065114,
+            0.233653,
+            0.036138
+          ]
+        ],
+        "oldFocusSha256": "47d62cf50f4414a1b6669e711cbaf7bb5a21a6196ba5fa67bbd8e2b43a977b48",
+        "newFocusSha256": "1c22d73042b3b8379edbdf970603c696d68aa06e3bbc3d74092f24a56e215ef1",
+        "reason": "Precise focus for phb-magic-user-permanency /exceptions/2: Header states V, S, M. The full spell description is included in the crop to review the omission; no absent text is highlighted."
+      }
+    ],
+    "fieldTargetBindings": [
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-esp",
+        "fieldPointer": "/exceptions/0",
+        "book": "PHB",
+        "printedPages": [
+          70
+        ],
+        "catalog": "dist/scans/verified/spells-phb-magic-user-esp.json",
+        "regionIds": [
+          "phb-70-2676d5fbb45576ff"
+        ],
+        "proposedStatus": "field-target-reviewed-after-catalog-patch",
+        "contextStatus": "complete-relevant-passage-context-reviewed",
+        "sourceValueStatus": "source-text-reviewed-issue-remains-open",
+        "scope": "The target proves the recorded source wording or source omission; it does not resolve retained ambiguity or conflict."
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-enchanted-weapon",
+        "fieldPointer": "/exceptions/0",
+        "book": "PHB",
+        "printedPages": [
+          76
+        ],
+        "catalog": "dist/scans/verified/spells-phb-magic-user-enchanted-weapon.json",
+        "regionIds": [
+          "phb-76-de4338b8a813a25d"
+        ],
+        "proposedStatus": "field-target-reviewed-after-catalog-patch",
+        "contextStatus": "complete-relevant-passage-context-reviewed",
+        "sourceValueStatus": "source-text-reviewed-issue-remains-open",
+        "scope": "The target proves the recorded source wording or source omission; it does not resolve retained ambiguity or conflict."
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-animal-growth",
+        "fieldPointer": "/exceptions/2",
+        "book": "PHB",
+        "printedPages": [
+          79
+        ],
+        "catalog": "dist/scans/verified/spells-phb-magic-user-animal-growth.json",
+        "regionIds": [
+          "phb-79-79f670b40253907e"
+        ],
+        "proposedStatus": "field-target-reviewed-after-catalog-patch",
+        "contextStatus": "complete-relevant-passage-context-reviewed",
+        "sourceValueStatus": "source-text-complete",
+        "scope": "The target proves the recorded source wording or source omission; it does not resolve retained ambiguity or conflict."
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-repulsion",
+        "fieldPointer": "/exceptions/0",
+        "book": "PHB",
+        "printedPages": [
+          86
+        ],
+        "catalog": "dist/scans/verified/spells-phb-magic-user-repulsion.json",
+        "regionIds": [
+          "phb-86-d99d94d01b2afe44"
+        ],
+        "proposedStatus": "field-target-reviewed-after-catalog-patch",
+        "contextStatus": "complete-relevant-passage-context-reviewed",
+        "sourceValueStatus": "source-text-reviewed-issue-remains-open",
+        "scope": "The target proves the recorded source wording or source omission; it does not resolve retained ambiguity or conflict."
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-mass-invisibility",
+        "fieldPointer": "/exceptions/0",
+        "book": "PHB",
+        "printedPages": [
+          70,
+          88
+        ],
+        "catalog": "dist/scans/verified/spells-phb-magic-user-mass-invisibility.json",
+        "regionIds": [
+          "phb-70-bebc3ac3e6bdc455",
+          "phb-70-16f42449b4d7283c",
+          "phb-88-46f1287a5584da3f"
+        ],
+        "proposedStatus": "field-target-reviewed-after-catalog-patch",
+        "contextStatus": "complete-relevant-passage-context-reviewed",
+        "sourceValueStatus": "source-text-reviewed-issue-remains-open",
+        "scope": "The target proves the recorded source wording or source omission; it does not resolve retained ambiguity or conflict."
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-reverse-gravity",
+        "fieldPointer": "/exceptions/0",
+        "book": "PHB",
+        "printedPages": [
+          88
+        ],
+        "catalog": "dist/scans/verified/spells-phb-magic-user-reverse-gravity.json",
+        "regionIds": [
+          "phb-88-dcfc54363d0a4acc"
+        ],
+        "proposedStatus": "field-target-reviewed-after-catalog-patch",
+        "contextStatus": "complete-relevant-passage-context-reviewed",
+        "sourceValueStatus": "source-text-reviewed-issue-remains-open",
+        "scope": "The target proves the recorded source wording or source omission; it does not resolve retained ambiguity or conflict."
+      },
+      {
+        "collection": "spells",
+        "itemId": "phb-magic-user-permanency",
+        "fieldPointer": "/exceptions/2",
+        "book": "PHB",
+        "printedPages": [
+          91
+        ],
+        "catalog": "dist/scans/verified/spells-phb-magic-user-permanency.json",
+        "regionIds": [
+          "phb-91-a86629b2a40eced7"
+        ],
+        "proposedStatus": "field-target-reviewed-after-catalog-patch",
+        "contextStatus": "complete-relevant-passage-context-reviewed",
+        "sourceValueStatus": "source-text-reviewed-issue-remains-open",
+        "scope": "The target proves the recorded source wording or source omission; it does not resolve retained ambiguity or conflict."
+      }
+    ],
+    "expectedMechanicsCountsAfterAnimalOnly": {
+      "totalFields": 13418,
+      "inspectedFields": 13310,
+      "sourceCheckedFields": 12723,
+      "unchangedSourceCheckedFields": 10091,
+      "correctedAndCheckedFields": 2632,
+      "correctionPendingFields": 0,
+      "notExtractedFields": 10,
+      "sourceConflictFields": 22,
+      "editorialReviewedFields": 559,
+      "staleProposalFields": 0,
+      "uncheckedFields": 104
+    }
+  },
+  "preservedKnownMissing": {
+    "unresolvedSpells": [
+      {
+        "itemId": "phb-magic-user-esp",
+        "fieldPointer": "/exceptions/0",
+        "reason": "source-text-extracted; timing relationship remains underdetermined"
+      },
+      {
+        "itemId": "phb-magic-user-enchanted-weapon",
+        "fieldPointer": "/exceptions/0",
+        "reason": "genuinely absent from supplied passage"
+      },
+      {
+        "itemId": "phb-magic-user-repulsion",
+        "fieldPointer": "/exceptions/0",
+        "reason": "source wording extracted; rate-selection criterion absent"
+      },
+      {
+        "itemId": "phb-magic-user-mass-invisibility",
+        "fieldPointer": "/exceptions/0",
+        "reason": "referenced base rule extracted; group-wide behavior remains unresolved"
+      },
+      {
+        "itemId": "phb-magic-user-reverse-gravity",
+        "fieldPointer": "/exceptions/0",
+        "reason": "genuine source duration conflict"
+      },
+      {
+        "itemId": "phb-magic-user-permanency",
+        "fieldPointer": "/exceptions/2",
+        "reason": "genuinely absent from supplied passage"
+      }
+    ],
+    "equipmentPriceFields": [
+      {
+        "itemId": "phb-bo-stick",
+        "fieldPointer": "/price",
+        "value": null,
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 35,
+            "pdfPage": 36,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 38,
+            "pdfPage": 39,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 27,
+            "pdfPage": 28,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ]
+      },
+      {
+        "itemId": "phb-club",
+        "fieldPointer": "/price",
+        "value": null,
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 35,
+            "pdfPage": 36,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 38,
+            "pdfPage": 39,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "UA",
+            "page": 27,
+            "pdfPage": 28,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          },
+          {
+            "book": "PHB",
+            "page": 39,
+            "pdfPage": 40,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          }
+        ]
+      },
+      {
+        "itemId": "phb-quarterstaff",
+        "fieldPointer": "/price",
+        "value": null,
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 35,
+            "pdfPage": 36,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 38,
+            "pdfPage": 39,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 27,
+            "pdfPage": 28,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ]
+      },
+      {
+        "itemId": "phb-sling-stone",
+        "fieldPointer": "/price",
+        "value": null,
+        "sourceReferences": [
+          {
+            "book": "PHB",
+            "page": 37,
+            "pdfPage": 38,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "PHB",
+            "page": 35,
+            "pdfPage": 36,
+            "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+          },
+          {
+            "book": "UA",
+            "page": 28,
+            "pdfPage": 29,
+            "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+          }
+        ]
+      }
+    ]
+  },
+  "rootIndependentReviewPayload": {
+    "itemId": "phb-magic-user-animal-growth",
+    "fieldPointer": "/exceptions/2",
+    "baselineValue": "Gap: the header omits M although the paragraph explicitly requires powdered bone.",
+    "proposedValue": "Source note: PHB p.79 lists Components V, S; the description separately names a pinch of powdered bone as the material component.",
+    "currentMaterialValue": "Pinch of powdered bone",
+    "originalPdfClipPath": "dist/scans/verified/phb-79-79f670b40253907e.png",
+    "clipSha256": "79f670b40253907eff0c9e63f77902bbe6e626160011aa9efcf632a16e0b3a30",
+    "clipDimensions": [
+      570,
+      220
+    ],
+    "source": "tsr2010-players-handbook.pdf",
+    "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+    "sourcePage": {
+      "printedPage": 79,
+      "pdfPage": 80,
+      "cropNormalizedPageRect": {
+        "x": 0.01,
+        "y": 0.6214569891115896,
+        "w": 0.49,
+        "h": 0.139397372594815
+      }
+    },
+    "reviewQuestion": "Does the original page show the header omits M while the spell description explicitly names powdered bone, and does the full crop preserve all relevant text?",
+    "status": "root-independent-original-source-and-focus-overlay-review-passed",
+    "reviewer": "root",
+    "reviewEvidence": "Root visually reviewed the original PHB p.79 clip and confirmed the V,S header and prose powdered-bone material component."
+  },
+  "proposedMechanicsCountsAfterAnimalOnly": {
+    "totalFields": 13418,
+    "inspectedFields": 13310,
+    "sourceCheckedFields": 12723,
+    "unchangedSourceCheckedFields": 10091,
+    "correctedAndCheckedFields": 2632,
+    "correctionPendingFields": 0,
+    "notExtractedFields": 10,
+    "sourceConflictFields": 22,
+    "editorialReviewedFields": 559,
+    "staleProposalFields": 0,
+    "uncheckedFields": 104
+  },
+  "integrationState": "proposed-only; root source clip review passed; no shared product or mechanics files edited",
+  "rootIndependentReview": {
+    "reviewer": "root-independent-of-unextracted-fields-worker",
+    "status": "confirmed-source-wording-and-proposed-focus",
+    "scope": "All9proposed target overlays individually inspected against the cited passage text. AnimalGrowth original source clip independently inspected. Source ambiguity/absence in the other6 remains unresolved. Original AnimalGrowth header/body caution is retained; only its false missing-extraction marker changes.",
+    "legacyCautionPolicy": "Retain the true original header/body note in the previous mechanics review; append a current correction record rather than erasing it."
+  }
+}

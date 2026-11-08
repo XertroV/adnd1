@@ -553,6 +553,27 @@
     }
     try { return await cached.promise; } catch { return null; }
   }
+  function validatedOwnerPassageRelationship(value) {
+    const kinds = ['cross-reference', 'editorial-comparison', 'similarity', 'related-source-rules'];
+    if (!value || typeof value !== 'object' || Array.isArray(value)
+        || !kinds.includes(value.kind)
+        || typeof value.label !== 'string' || !value.label.trim() || value.label.length > 160
+        || typeof value.reason !== 'string' || !value.reason.trim() || value.reason.length > 600
+        || !value.ownerPage || typeof value.ownerPage !== 'object' || Array.isArray(value.ownerPage)
+        || !['PHB', 'UA', 'DMG'].includes(value.ownerPage.book)
+        || !Number.isInteger(value.ownerPage.printedPage) || value.ownerPage.printedPage < 1) return null;
+    return {
+      kind: value.kind,
+      label: value.label.trim(),
+      reason: value.reason.trim(),
+      ownerPage: {book: value.ownerPage.book, printedPage: value.ownerPage.printedPage},
+    };
+  }
+  function ownerPassageRelationshipText(value) {
+    const relationship = validatedOwnerPassageRelationship(value);
+    if (!relationship) return '';
+    return `Related passage: ${relationship.label}. ${relationship.reason} Owner entry: ${title(relationship.ownerPage.book)} printed p. ${relationship.ownerPage.printedPage}.`;
+  }
   function validatedContinuationParts(ref, selectedRegion) {
     const manifest = root.FirstEditionSourceContinuations?.schemaVersion === 1 && Array.isArray(root.FirstEditionSourceContinuations.groups)
       ? root.FirstEditionSourceContinuations : continuationManifest;
@@ -579,7 +600,7 @@
             || !Object.hasOwn(books().books, segment.book) || books().pdfPage(segment.book, segment.printedPage) !== segment.pdfPage) { valid = false; break; }
         parts.push({ segment, region, selected: segment === selectedSegment });
       }
-      if (valid && parts.some(part => part.selected)) return { group, parts };
+      if (valid && parts.some(part => part.selected)) return { group, parts, relationship: validatedOwnerPassageRelationship(group.relationship) };
     }
     return null;
   }
@@ -946,6 +967,8 @@
         el.stage.classList.add('is-linked');
         el.linkedParts.hidden = false;
         el.linkedParts.replaceChildren();
+        const relationshipText = ownerPassageRelationshipText(linked.relationship);
+        if (relationshipText) el.linkedParts.append(node('p', {class: 'source-viewer-linked-relationship', role: 'note'}, relationshipText));
         for (const part of loadedParts) {
           const partRegion = part.region, selected = part.selected;
           const figure = node('figure', { class: 'source-viewer-linked-part', 'data-region-id': partRegion.id, 'data-printed-page': partRegion.printedPage, 'data-selected': String(selected), 'data-role': part.segment.role });

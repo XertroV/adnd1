@@ -28,6 +28,32 @@ jobs:
           node-version: '24'
       - name: Verify reference data and scan integrity
         run: node --test tests/*.test.mjs
+      - name: Verify preserved citation evidence
+        if: always()
+        env:
+          EVIDENCE_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          mkdir -p artifacts/citation-evidence-seals
+          evidence_base="$EVIDENCE_BASE_SHA"
+          if [ -z "$evidence_base" ] || [ "$evidence_base" = "0000000000000000000000000000000000000000" ]; then
+            evidence_base="$(git rev-parse HEAD^)"
+          fi
+          set +e
+          node tools/citation-evidence-seals.mjs --check --manifest research/citation-evidence-seals.json --baseline-ref "$evidence_base" > artifacts/citation-evidence-seals/report.json 2> artifacts/citation-evidence-seals/errors.txt
+          evidence_status=$?
+          set -e
+          echo "$evidence_status" > artifacts/citation-evidence-seals/validation-exit-status.txt
+          cat artifacts/citation-evidence-seals/report.json >> "$GITHUB_STEP_SUMMARY"
+          cat artifacts/citation-evidence-seals/errors.txt
+          exit "$evidence_status"
+      - name: Upload citation evidence seal check
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: citation-evidence-seals
+          overwrite: true
+          path: artifacts/citation-evidence-seals/
+          if-no-files-found: warn
       - name: Verify committed static output is current
         run: |
           node tools/assemble.mjs
@@ -56,6 +82,223 @@ jobs:
           overwrite: true
           path: artifacts/citation-systemic-coverage/
           if-no-files-found: warn
+      - name: Reconcile source-table row citations
+        if: always()
+        run: |
+          set +e
+          node tools/source-table-citation-coverage.mjs artifacts/source-table-citation-coverage/report.json --check
+          table_status=$?
+          set -e
+          if [ -f artifacts/source-table-citation-coverage/report.md ]; then
+            cat artifacts/source-table-citation-coverage/report.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+          exit "$table_status"
+      - name: Upload source-table citation reconciliation
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: source-table-citation-coverage
+          overwrite: true
+          path: artifacts/source-table-citation-coverage/
+          if-no-files-found: warn
+      - name: Verify citation owner identity
+        if: always()
+        run: |
+          mkdir -p artifacts/source-owner-identity
+          set +e
+          node tools/source-owner-identity-audit.mjs --check --replay --write artifacts/source-owner-identity/report.json > artifacts/source-owner-identity/check.json
+          owner_status=$?
+          set -e
+          echo "$owner_status" > artifacts/source-owner-identity/validation-exit-status.txt
+          echo "Citation owners are checked by collection and entry ID; explicit comparator sources remain separately validated." >> "$GITHUB_STEP_SUMMARY"
+          cat artifacts/source-owner-identity/check.json >> "$GITHUB_STEP_SUMMARY"
+          exit "$owner_status"
+      - name: Upload citation owner identity audit
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: source-owner-identity
+          overwrite: true
+          path: artifacts/source-owner-identity/
+          if-no-files-found: warn
+      - name: Verify monetary source inventory
+        if: always()
+        run: |
+          set +e
+          node tools/monetary-source-inventory.mjs --check research/monetary-source-inventory.json
+          monetary_status=$?
+          set -e
+          mkdir -p artifacts/monetary-source-inventory
+          if [ -f research/monetary-source-inventory.json ]; then cp research/monetary-source-inventory.json artifacts/monetary-source-inventory/; fi
+          echo "$monetary_status" > artifacts/monetary-source-inventory/validation-exit-status.txt
+          echo "The monetary inventory preserves source occurrences, package quantities, unresolved pointers and separate XP values. Its declared source scopes do not certify whole-book completeness." >> "$GITHUB_STEP_SUMMARY"
+          exit "$monetary_status"
+      - name: Upload monetary source inventory
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: monetary-source-inventory
+          overwrite: true
+          path: artifacts/monetary-source-inventory/
+          if-no-files-found: warn
+      - name: Verify recorded monetary row identity findings
+        if: always()
+        run: |
+          mkdir -p artifacts/monetary-row-identity
+          set +e
+          node tools/monetary-findings-register.mjs --check > artifacts/monetary-row-identity/finding-register.json
+          register_status=$?
+          node tools/monetary-row-identity-audit.mjs --output artifacts/monetary-row-identity/report.json --check > artifacts/monetary-row-identity/summary.json
+          row_status=$?
+          set -e
+          echo "$register_status" > artifacts/monetary-row-identity/finding-register-exit-status.txt
+          echo "$row_status" > artifacts/monetary-row-identity/validation-exit-status.txt
+          echo "Known monetary findings require exact current independent dispositions. New duplicate-focus candidates and source ambiguities remain visible; a clean structural check does not certify source completeness." >> "$GITHUB_STEP_SUMMARY"
+          cat artifacts/monetary-row-identity/finding-register.json >> "$GITHUB_STEP_SUMMARY"
+          cat artifacts/monetary-row-identity/summary.json >> "$GITHUB_STEP_SUMMARY"
+          if [ "$register_status" -ne 0 ]; then exit "$register_status"; fi
+          exit "$row_status"
+      - name: Upload monetary row identity audit
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: monetary-row-identity
+          overwrite: true
+          path: artifacts/monetary-row-identity/
+          if-no-files-found: warn
+      - name: Join monetary values with current review coverage
+        if: always()
+        run: node tools/monetary-coverage-report.mjs --output artifacts/monetary-review-coverage/report.json
+      - name: Upload monetary values and review coverage
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: monetary-review-coverage
+          overwrite: true
+          path: |
+            artifacts/monetary-review-coverage/report.json
+            artifacts/monetary-row-identity/report.json
+            research/monetary-source-inventory.json
+          if-no-files-found: warn
+      - name: Verify duplicated monetary focus declarations
+        if: always()
+        run: |
+          mkdir -p artifacts/monetary-group-focus
+          node tools/monetary-group-focus-audit.mjs --output artifacts/monetary-group-focus/report.json --check
+          echo "Grouped focus declarations must match their exact primary rows. This consistency check does not certify source pixels or values." >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload duplicated monetary focus audit
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: monetary-group-focus
+          overwrite: true
+          path: artifacts/monetary-group-focus/
+          if-no-files-found: warn
+      - name: Inventory monetary conditions and source contracts
+        if: always()
+        run: |
+          node tools/monetary-condition-coverage.mjs --output artifacts/monetary-condition-coverage/report.json
+          echo "All recorded monetary conditions and declared source contracts remain visible. Changed conditions require independent source review; empty metadata is not source-absence evidence." >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload monetary condition coverage
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: monetary-condition-coverage
+          overwrite: true
+          path: artifacts/monetary-condition-coverage/
+          if-no-files-found: warn
+      - name: Validate raster boundary coverage snapshot
+        if: always()
+        run: |
+          node tools/source-raster-coverage.mjs --output artifacts/source-raster-coverage/report.json --check
+          echo "The raster snapshot is reconciled against every live catalog use and its component-derived metrics. Boundary candidates require visual review; CI does not rerender private source PDFs or prove semantic context." >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload raster boundary coverage
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: source-raster-coverage
+          overwrite: true
+          path: artifacts/source-raster-coverage/
+          if-no-files-found: warn
+      - name: Check current citation field captions
+        if: always()
+        run: node tools/source-target-label-audit.mjs --current --check --output-dir artifacts/citation-target-labels
+      - name: Upload citation field caption inventory
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: citation-target-labels
+          overwrite: true
+          path: artifacts/citation-target-labels/
+          if-no-files-found: warn
+      - name: Inventory quantity and source absence assertions
+        if: always()
+        run: |
+          node tools/quantity-source-absence-audit.mjs --output-dir artifacts/quantity-source-absence --check
+          echo "Quantity uncertainty is inventoried across every scalar property in the current catalog and all nine monetary inputs. Lexical candidates and null metadata do not establish what the printed source contains." >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload quantity and source absence inventory
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: quantity-source-absence
+          overwrite: true
+          path: artifacts/quantity-source-absence/
+          if-no-files-found: warn
+      - name: Verify monetary unit provenance
+        if: always()
+        run: |
+          node tools/monetary-unit-provenance-audit.mjs --output-dir artifacts/monetary-unit-provenance --check
+          cat artifacts/monetary-unit-provenance/report.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload monetary unit provenance
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: monetary-unit-provenance
+          overwrite: true
+          path: artifacts/monetary-unit-provenance/
+          if-no-files-found: warn
+      - name: Verify UA source context obligations
+        if: always()
+        run: |
+          mkdir -p artifacts/ua-source-context-obligations
+          node tools/ua-source-context-obligations-cli.mjs --output artifacts/ua-source-context-obligations/report.json
+          node tools/ua-source-context-obligations-cli.mjs --check
+          echo "UA table contexts, source frames and note dependencies are checked structurally. Note applicability and source pixels require independent review." >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload UA source context obligations
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ua-source-context-obligations
+          overwrite: true
+          path: artifacts/ua-source-context-obligations/
+          if-no-files-found: warn
+      - name: Verify current continuation candidate snapshot
+        if: always()
+        run: |
+          node tools/continuation-candidates-validate.mjs --summary research/source-audit-batch5-continuation-current.json --force-current-tree --output-dir artifacts/continuation-candidate-coverage
+          cat artifacts/continuation-candidate-coverage/validation.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Verify declared continuation aliases
+        if: always()
+        run: node tools/continuation-alias-audit.mjs --output artifacts/continuation-aliases/report.json --check
+      - name: Upload continuation alias inventory
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: continuation-aliases
+          overwrite: true
+          path: artifacts/continuation-aliases/
+          if-no-files-found: warn
+      - name: Inventory consecutive-page excerpt candidates
+        if: always()
+        run: node tools/cross-page-catalog-candidates.mjs --baseline-output artifacts/continuation-candidate-coverage/cross-page-baseline.json --current-output artifacts/continuation-candidate-coverage/cross-page-current.json
+      - name: Upload continuation candidate coverage
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: continuation-candidate-coverage
+          overwrite: true
+          path: artifacts/continuation-candidate-coverage/
+          if-no-files-found: warn
       - name: Generate source visual coverage
         if: always()
         run: |
@@ -73,6 +316,34 @@ jobs:
             if [ "$visual_status" -eq 0 ]; then visual_status=1; fi
           fi
           exit "$visual_status"
+      - name: Check class advancement and source qualifiers
+        if: always()
+        run: |
+          mkdir -p artifacts/source-domain-audits
+          set +e
+          node tools/class-progression-audit.mjs --input dist/data.json --output artifacts/source-domain-audits/class-progression.json --check
+          class_status=$?
+          node tools/source-qualifier-coverage.mjs --input dist/data.json --output artifacts/source-domain-audits/source-qualifiers.json --check
+          qualifier_status=$?
+          node tools/ua26-note-marker-audit.mjs > artifacts/source-domain-audits/ua26-note-markers.json
+          marker_status=$?
+          set -e
+          echo "Class-domain and source-qualifier JSON reports are in the source-domain-audits artifact. Generic semantic qualifier completeness is not certified." >> "$GITHUB_STEP_SUMMARY"
+          if [ "$class_status" -ne 0 ] || [ "$qualifier_status" -ne 0 ] || [ "$marker_status" -ne 0 ]; then exit 1; fi
+      - name: Verify published gaps match current coverage reports
+        if: always()
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/source-domain-audits
+          node tools/refresh-gaps-handoff.mjs --check | tee artifacts/source-domain-audits/gaps-handoff-check.json
+      - name: Upload class and qualifier audits
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: source-domain-audits
+          overwrite: true
+          path: artifacts/source-domain-audits/
+          if-no-files-found: warn
       - name: Upload source visual coverage
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

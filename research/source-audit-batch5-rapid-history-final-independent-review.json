@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent rapid citation-history close-cause review",
+  "status": "code and VM regression approved; final native rerun owned by root",
+  "scope": "Read-only inspection of close-cause routing, queued close events, callback ownership, explicit user Close cleanup and focus guards. Browser timing coverage is representative, not exhaustive over all4505targets or event schedules.",
+  "files": {
+    "dist/app.js": "a548795c5436fefecd44388194ac4264c3cc744edf2ab6867d97063dfbe4aaf1",
+    "dist/source-viewer.js": "2bcd568da598999036594d670e826f715b782643074d21fbed0cfab5233283e4",
+    "tests/citation-rapid-history.test.mjs": "cb6fb973acb30753fc8ae2ec38fc51b6663adfe5c002a4d11fe3c2dc781e005e",
+    "research/source-audit-batch5-rapid-history-before.json.gz": "bf8a2894c4d9cf198ce46820970d04858cb5f4497ee1bdcf8ba1fa007e4d8496",
+    "research/source-audit-batch5-user-close-navigation-before.json.gz": "837ef8cc88ce2dc00b46ca6a2a3dcd77f1fd400791e316927c78172b9273c8bb"
+  },
+  "codeReview": {
+    "routeClosuresPassFromRoute": true,
+    "routeClosuresSkipUrlCleanup": true,
+    "navigationCloseIntentRecordedEvenWhenDialogAlreadyClosed": true,
+    "causeResetsOnOpen": true,
+    "oldQueuedCloseIgnoresOpenDialogAndPreservesCurrentCallback": true,
+    "explicitUserCloseRetainsUrlCleanupAndFocusBehavior": true,
+    "newSetterDeltaExactlyTwoLineReplacementAgainstSealed837": true
+  },
+  "tests": {
+    "currentVmTests": {
+      "passed": 5,
+      "failed": 0,
+      "logPrivate": "/tmp/rapid-history-final-independent-tests.log",
+      "sha256": "dd88b45a833531eb96295220625125555a45be1403d5f2684cfb52340777049a"
+    },
+    "originalOldVmCalibration": {
+      "passed": 3,
+      "failed": 1
+    },
+    "newClosedDialogScheduleBeforeCalibration": {
+      "passed": 4,
+      "failed": 1
+    },
+    "rootAdjacentNodeReported": 33,
+    "initialNativeAfterChecks": {
+      "sequences": 16,
+      "failed": 0,
+      "sourceViewerShaBeforeFinalSetterFix": "c887fa88518ea794a323d7030e1748db3a2550b03fdf04556c9200fbcd0dfa8d"
+    },
+    "finalNative16AndOrdinary12": "pending root rerun; no native reproduction claimed for the added synthetic schedule"
+  },
+  "citationInvariance": {
+    "records": 995,
+    "targets": 4505,
+    "canonicalPerRegionUrlCases": 4585,
+    "changedTargetsOrCaptions": 0,
+    "changedCanonicalUrls": 0,
+    "evidencePrivate": "/tmp/rapid-history-independent-transport-review.json",
+    "evidenceSha256": "083d5ffca8592ec8351d30f466b54a522ca03fcc62eeccf5dcbde23f08a6a40d",
+    "finalSetterEffect": "Only close-cause assignment moved outside dialog.open guard; source-target/URL producers and data unchanged."
+  },
+  "blockingCodeFindings": [],
+  "reviewerEdits": false
+}

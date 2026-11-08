@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "source-raster-coverage-independent-code-review",
+  "reviewedAt": "2026-11-08",
+  "scope": "Independent structural and mutation review of the Node CI checker and its tests. No private PDF rerender or crop-semantic review was performed.",
+  "baseCommit": "679b15d1c580172e54314829c1c3c86dc78b65f3",
+  "inputs": {
+    "checkerPath": "tools/source-raster-coverage.mjs",
+    "checkerSha256": "de454362a1e176b860f6be20d7a01f7199593d47ca6a877f7351fea174b5345e",
+    "testPath": "tests/source-raster-coverage.test.mjs",
+    "testSha256": "4261a2ad857391bad9d8c5a7a27c0255463ac143f110361b00ea5c0460e2280b",
+    "snapshotPath": "research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz",
+    "snapshotSha256": "4b8a72687a3c0d41430e414c68ad6da485111c44c6581efce890b6d43a9e9e37"
+  },
+  "verification": {
+    "nodeTests": "4 passed, 0 failed",
+    "cli": "node tools/source-raster-coverage.mjs --check --output /tmp/source-raster-coverage-review-report.json exited 0",
+    "liveUniverse": {
+      "regionUsages": 3069,
+      "catalogs": 1015,
+      "dataSha256": "2b803d29cccd83ffd8418818abddf04b66204c82cebb8afba13f7a8226c6583c",
+      "catalogSnapshotSha256": "5ebb7c139c3b3243c136938cd334ad726b9646bf0ca2e67ca5bf876715bd4fff"
+    },
+    "baselineSnapshot": {
+      "geometryBindings": 1284,
+      "sourcePagesRendered": 229,
+      "semanticPass": false
+    }
+  },
+  "result": "changes-requested",
+  "findings": [
+    {
+      "id": "RSC-1",
+      "severity": "high",
+      "location": "tools/source-raster-coverage.mjs:71,79-83",
+      "issue": "Only five denominator fields are checked against array lengths. Candidate metrics and classifications are otherwise trusted from the snapshot and republished as current when validation is true.",
+      "reproduction": "Set counts.geometriesWithStrongCrossingComponentCandidateMinGrayLt230 and counts.componentsLt254AcrossFourEdges to 0 without changing any arrays. Validation remains true and currentCandidateCounts exposes the changed zeroes. Changing one geometry/usage strongCrossingComponentCandidate flag inconsistently also remains valid.",
+      "recommendation": "Recompute all derivable aggregate metrics and cross-check per-geometry, per-usage and scan-edge classifications against the serialized arrays; otherwise mark these fields historical/unverified rather than current."
+    },
+    {
+      "id": "RSC-2",
+      "severity": "high",
+      "location": "tools/source-raster-coverage.mjs:50-71",
+      "issue": "The not-assessable partition and orphan geometry/frame arrays can be changed while preserving a valid report.",
+      "reproduction": "Move all 3,069 exact live uses from usages to notAssessableUsages with arbitrary reason text, remove all geometries and sourceFrames, and adjust the checked denominator fields. Validation remains true and currentCandidateCounts says zero assessed usages, geometries and frames. Separately, an unreferenced geometry or unrelated sourceFrame passes after its basic count is incremented.",
+      "recommendation": "Validate allowed not-assessable reasons and this snapshot's expected assessable denominator; require each geometry/frame to be referenced by the complete usage set and validate uniqueness of geometry bindings and the frame-page set."
+    },
+    {
+      "id": "RSC-3",
+      "severity": "medium",
+      "location": "tools/source-raster-coverage.mjs:61-70",
+      "issue": "Frame and geometry PDF hashes are checked against each other, but not against snapshot.inputs.sourcePdfSha256 for that book.",
+      "reproduction": "For one page, set sourcePdfSha256 on every geometry using that frame and on the corresponding frame to the same bogus 64-character hash. The live catalog/input PDF hashes remain unchanged; validation still returns true.",
+      "recommendation": "Require every frame and geometry sourcePdfSha256 to equal the current catalog-derived hash in snapshot.inputs.sourcePdfSha256 for its book."
+    }
+  ],
+  "passedChecks": [
+    "The current valid full-universe snapshot matches all 3,069 live usages, including duplicate-sensitive usage identity multisets.",
+    "Zero-use and one-use omissions, same-count identity substitution, one-sided geometry/frame hash mismatch, claimed semantic clearance, and stale catalog snapshot hash are rejected.",
+    "Invalid validation returns currentCandidateCounts: null for the exercised stale, missing and link-mutation cases.",
+    "The report explicitly sets semanticPass to false and describes the CI numeric/hash scope and its crop-semantic limitations."
+  ],
+  "interpretation": "These synthetic mutations demonstrate validator gaps only. They do not establish any defect in the published source images or crop data."
+}

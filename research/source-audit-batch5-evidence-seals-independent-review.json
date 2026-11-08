@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "status": "pass",
+  "scope": "Independent review of evidence-seal validator, schema and tests only. Does not review sealed artifact source semantics.",
+  "recordedBy": "root from class_focus independent worker handoff",
+  "reviewer": {
+    "agent": "class_focus",
+    "requestedModel": "gpt-6-luna",
+    "requestedReasoning": "xhigh"
+  },
+  "reviewedFiles": [
+    {
+      "path": "tools/citation-evidence-seals.mjs",
+      "sha256": "d2ffb227a33062ca1aaab0581e954e20c1940319599b2e1e757d9d193277b7f3"
+    },
+    {
+      "path": "research/citation-evidence-seals.schema.json",
+      "sha256": "1c305adb57e383527c65fb61229601ef691c9dc7447c1022c391c31e6ba93c9c"
+    },
+    {
+      "path": "tests/citation-evidence-seals.test.mjs",
+      "sha256": "d2b25e686b2509c99239aa3a3ae6e09de9fc6236cd91108c78a3113b1a46311d"
+    }
+  ],
+  "checks": {
+    "targetedTests": {
+      "command": "node --test tests/citation-evidence-seals.test.mjs",
+      "passed": 7,
+      "failed": 0
+    },
+    "probes": [
+      "Rehashed same-path rewrite rejected against prior Git manifest",
+      "Missing baseline manifest distinguished from invalid commit and malformed baseline",
+      "Ordered prefix, reorder and removal checked",
+      "Seal and manifest symlink escape rejected",
+      "Schema/runtime normalized-path parity and safe integer limits checked"
+    ]
+  },
+  "limits": [
+    "Actual production seal list and CI wiring are separate root integration work."
+  ]
+}

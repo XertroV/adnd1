@@ -1,0 +1,361 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independently confirmed UA focus containment geometry finding before source correction",
+  "capturedBeforeSourceCorrections": true,
+  "baseline": {
+    "path": "research/source-audit-batch5-monetary-row-identity-baseline.json",
+    "sha256": "bd4973e1eca69a56b64adf3758ccce3683783815dea38bb8ca6ec9f33e898bb9"
+  },
+  "sourceInputManifest": [
+    {
+      "path": "research/source-audit-batch5-ua-additional-prices.json",
+      "sha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "stage": "original recorded input; bytes unchanged"
+    },
+    {
+      "path": "research/source-audit-batch5-monetary-row-identity-complete-qa-extension.json",
+      "sha256": "72ca57f64da14a89f3240a34e3d58585a7e2fcc8765fad16821e50220cc69fb0",
+      "stage": "current 188-finding review denominator"
+    }
+  ],
+  "sourcePixelEvidence": {
+    "path": "research/source-audit-batch5-ua-six-focus-pixel-witness-v2.json",
+    "sha256": "2c91da79b441cacd3c4c55632ae40c1c0b31b05a70f16311c41288a610a20077",
+    "rootVisualReview": "Root confirms table/cells visible and crop unchanged; candidate geometry is within that crop.",
+    "adjacentLabelAddendum": {
+      "path": "research/source-audit-batch5-ua-scarab-adjacent-label-pixel-addendum.json",
+      "sha256": "951a490462d170bf5f0b5eb42d0e94dcbbe9c0f2627814cb7aaeaa3076a8cdb8"
+    }
+  },
+  "knownFindingsDeduplicated": [
+    {
+      "recordId": "ua-other-011-item-r002",
+      "existingFindingId": "ua-remaining-focus-ua-other-011-item-r002",
+      "kind": "wrong-row-focus-independent-source-review",
+      "sameSourceOriginalInputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "newFindingAdded": false,
+      "note": "The V3 focus pixel segmentation refines the correction proposal for this already-registered source focus finding; it is not a separate new finding."
+    },
+    {
+      "recordId": "ua-other-011-item-r003",
+      "existingFindingId": "ua-remaining-focus-ua-other-011-item-r003",
+      "kind": "wrong-row-focus-independent-source-review",
+      "sameSourceOriginalInputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "newFindingAdded": false,
+      "note": "The V3 focus pixel segmentation refines the correction proposal for this already-registered source focus finding; it is not a separate new finding."
+    },
+    {
+      "recordId": "ua-other-011-item-r004",
+      "existingFindingId": "ua-remaining-focus-ua-other-011-item-r004",
+      "kind": "wrong-row-focus-independent-source-review",
+      "sameSourceOriginalInputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "newFindingAdded": false,
+      "note": "The V3 focus pixel segmentation refines the correction proposal for this already-registered source focus finding; it is not a separate new finding."
+    },
+    {
+      "recordId": "ua-other-011-item-r005",
+      "existingFindingId": "ua-remaining-focus-ua-other-011-item-r005",
+      "kind": "wrong-row-focus-independent-source-review",
+      "sameSourceOriginalInputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "newFindingAdded": false,
+      "note": "The V3 focus pixel segmentation refines the correction proposal for this already-registered source focus finding; it is not a separate new finding."
+    },
+    {
+      "recordId": "ua-other-011-item-r006",
+      "existingFindingId": "ua-remaining-focus-ua-other-011-item-r006",
+      "kind": "wrong-row-focus-independent-source-review",
+      "sameSourceOriginalInputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "newFindingAdded": false,
+      "note": "The V3 focus pixel segmentation refines the correction proposal for this already-registered source focus finding; it is not a separate new finding."
+    }
+  ],
+  "knownFindings": [
+    {
+      "id": "ua-e4-medallion-esp-focus-overflow-current-context",
+      "kind": "wrong-row-focus-independent-source-review",
+      "independent": true,
+      "reviewer": "Root source-image review and clean native-pixel witness; source-value review not performed",
+      "status": "confirmed-focus-geometry-containment-defect; source correction pending",
+      "records": [
+        {
+          "uid": "ua-supplement-row:ua-other-005-E4-main-r109",
+          "rowIdentitySha256": "10c86bd11e015290dc7e43da2a5bf5f9ca8c6f8a1d0ed9090ba77a77344e37b5",
+          "focusGeometrySha256": "1b4a2dc8ea836ccf13e89f0c99784976b1d2e34fc08d095e0f2d75fc2f996849",
+          "recordSha256": "62312675a85f63d502d0e2b4f0e318e4f21a9520e7bc6d851ade6b6cf5593c6c",
+          "contextGeometrySha256": "4cd68e48a592e9315992b3b7566c25ef993353d27c113b9e13dc2ed066d7b0e8"
+        }
+      ],
+      "reason": "The original Medallion of ESP focus rectangle extends 2.51 PDF points past the corrected primary E4 crop’s right edge, although the source pixels for the full roll, label, XP and GP cells are inside the crop. This is a focus-geometry containment defect with the correct row selected; it does not report a wrong row, missing table pixels, wrong price, or semantic/value defect.",
+      "focusDefectClass": "source-row-focus-extends-beyond-primary-context-crop",
+      "rowSelectionStatus": "source pixels identify the focus as the Medallion of ESP row; correction candidate includes its roll, label, XP and GP glyphs only",
+      "sourceInputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+      "sourceEvidence": {
+        "privateSourceRenderPath": "/tmp/batch5-independent-ua-money/full-pages/ua-pdf-88-300dpi.png",
+        "privateSourceRenderSha256": "762ea14471486f29e3d17036db8a9f9b6cfe63cd09d052fb5fd53eaebe2c305f",
+        "sourceRenderDimensionsPx": [
+          2560,
+          3220
+        ],
+        "renderDpi": 300,
+        "cleanActiveCrop": {
+          "path": "/tmp/batch5-ua-context-v2/clean-context-crops/ua-other-005-E4-main.png",
+          "sha256": "5d1fa7c7f12c5132a03be77800cc4d66b25ce3185eaf18f12782d1432e3909b3",
+          "dimensionsPx": [
+            1125,
+            1437
+          ],
+          "boundsPdfPagePointsTopLeftLTRB": [
+            25,
+            400,
+            295,
+            745
+          ],
+          "boundsPixelsLTRB": [
+            104,
+            1667,
+            1229,
+            3104
+          ],
+          "sourceRenderSha256": "762ea14471486f29e3d17036db8a9f9b6cfe63cd09d052fb5fd53eaebe2c305f",
+          "sourceRenderId": "ua-pdf-88-cropbox-300dpi-762ea1447148",
+          "renderDpi": 300,
+          "pageBoundsPdfPagePointsTopLeftLTRB": [
+            0,
+            0,
+            614.3994140625,
+            772.7991943359375
+          ]
+        },
+        "sourcePixelWitness": {
+          "path": "/tmp/batch5-ua-row-focus-pixel-witness-v3-20261107/witness-v2-adjacent-label-segmentation.json",
+          "sha256": "2c91da79b441cacd3c4c55632ae40c1c0b31b05a70f16311c41288a610a20077"
+        },
+        "preV3Full583FocusIndex": {
+          "path": "/tmp/batch5-ua-context-v3e-proposal-20261107/row-focus-overlay-index-583.json",
+          "sha256": "4ecd8678e43d549b926fadde484ea1006a48c4d1fa34f8e22f312953a7fed7dd",
+          "rows": 583,
+          "initialV2FocusContainment": {
+            "contained": 577,
+            "outside": 6
+          }
+        },
+        "V3iCorrectedFocusIndex": {
+          "path": "/tmp/batch5-ua-context-v3h-proposal-20261107/candidate-v2-label-segmentation/row-focus-overlay-index-583.json",
+          "sha256": "304f1159575a0f84375854c1c3fc6107cad7ceefb9a827e81a5b88fd21133deb",
+          "rows": 583,
+          "focusChangedVsOriginal": 56,
+          "contained": 583,
+          "outside": 0
+        },
+        "correctedRowOverlay": {
+          "path": "/tmp/batch5-ua-context-v3h-proposal-20261107/candidate-v2-label-segmentation/row-focus-overlays/ua-other-005-E4-main-r109.png",
+          "sha256": "048d12a1be4ce18dd8f459ab02d18ada803ab4891972bfdb6113fc5ba73ee142",
+          "dimensionsPx": [
+            1125,
+            1437
+          ],
+          "role": "QA-only overlay on clean crop; no source overlay bytes are active"
+        }
+      },
+      "category": "focus-containment-with-correct-row-and-unchanged-values"
+    }
+  ],
+  "records": [
+    {
+      "uid": "ua-supplement-row:ua-other-005-E4-main-r109",
+      "surface": "ua-supplement-row",
+      "id": "ua-other-005-E4-main-r109",
+      "input": "research/source-audit-batch5-ua-additional-prices.json",
+      "inputSha256": "8ec8fcb1c937f1e5fdc86af87029a8defd1a4e9ee27c44ef9d0d84eef7e4577a",
+      "inputStage": "recorded-input-not-certified-by-this-audit",
+      "pointer": "/rowRecords/269",
+      "recordSha256": "62312675a85f63d502d0e2b4f0e318e4f21a9520e7bc6d851ade6b6cf5593c6c",
+      "rowIdentitySha256": "10c86bd11e015290dc7e43da2a5bf5f9ca8c6f8a1d0ed9090ba77a77344e37b5",
+      "focusGeometrySha256": "1b4a2dc8ea836ccf13e89f0c99784976b1d2e34fc08d095e0f2d75fc2f996849",
+      "focusPhysicalFingerprintVersion": "source-focus-physical-window-v1",
+      "focusPhysicalGeometrySha256": "16aa93ea2afb9b033284dbadcb46ebfe18fff5696de5e7222d6d3895b236c736",
+      "contextGeometrySha256": "4cd68e48a592e9315992b3b7566c25ef993353d27c113b9e13dc2ed066d7b0e8",
+      "label": "Medallion of ESP",
+      "source": {
+        "book": "UA",
+        "printedPage": 87,
+        "pdfPage": 88,
+        "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      },
+      "identity": {
+        "label": "Medallion of ESP",
+        "group": "E4-left",
+        "ordinal": 109,
+        "diceRoll": "13-15",
+        "variant": null,
+        "kind": "magic-item-gp-sale-value",
+        "sourceRowIds": [],
+        "segment": "E4-main",
+        "groupId": "ua-other-005"
+      },
+      "geometry": [
+        {
+          "path": "/evidence/rowHighlightBounds/pdfPagePoints",
+          "role": "row-focus",
+          "space": "pdf-page-points",
+          "frame": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4|UA|pdf:88|pdf-page-points",
+          "bounds": [
+            42.2,
+            588.29,
+            297.51,
+            599.05
+          ]
+        },
+        {
+          "path": "/evidence/tableCropBounds/pdfPagePoints",
+          "role": "legacy-context-crop",
+          "space": "pdf-page-points",
+          "frame": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4|UA|pdf:88|pdf-page-points",
+          "bounds": [
+            25,
+            400,
+            305,
+            765
+          ]
+        }
+      ],
+      "activeContextCropBefore": {
+        "path": "/tmp/batch5-ua-context-v2/clean-context-crops/ua-other-005-E4-main.png",
+        "sha256": "5d1fa7c7f12c5132a03be77800cc4d66b25ce3185eaf18f12782d1432e3909b3",
+        "dimensionsPx": [
+          1125,
+          1437
+        ],
+        "boundsPdfPagePointsTopLeftLTRB": [
+          25,
+          400,
+          295,
+          745
+        ],
+        "boundsPixelsLTRB": [
+          104,
+          1667,
+          1229,
+          3104
+        ],
+        "sourceRenderSha256": "762ea14471486f29e3d17036db8a9f9b6cfe63cd09d052fb5fd53eaebe2c305f",
+        "sourceRenderId": "ua-pdf-88-cropbox-300dpi-762ea1447148",
+        "renderDpi": 300,
+        "pageBoundsPdfPagePointsTopLeftLTRB": [
+          0,
+          0,
+          614.3994140625,
+          772.7991943359375
+        ]
+      },
+      "focusContainment": {
+        "status": "outside-primary-crop",
+        "edgesPdfPoints": {
+          "left": 0,
+          "top": 0,
+          "right": 2.51,
+          "bottom": 0
+        },
+        "sourceRelevantRowGlyphsWithinCrop": true,
+        "sourcePixelWitnessPath": "/tmp/batch5-ua-row-focus-pixel-witness-v3-20261107/witness-v2-adjacent-label-segmentation.json",
+        "sourcePixelWitnessSha256": "2c91da79b441cacd3c4c55632ae40c1c0b31b05a70f16311c41288a610a20077",
+        "cellGlyphInkBoundsPdfPagePointsLTRB": {
+          "diceRoll": [
+            42,
+            589.92,
+            62.4,
+            596.4
+          ],
+          "label": [
+            70.08,
+            589.44,
+            134.88,
+            596.4
+          ],
+          "xp": [
+            186.96,
+            589.92,
+            239.04,
+            597.36
+          ],
+          "gp": [
+            236.4,
+            589.92,
+            290.4,
+            597.36
+          ]
+        }
+      }
+    }
+  ],
+  "correctiveProposal": {
+    "recordId": "ua-other-005-E4-main-r109",
+    "beforeFocusPdfPagePointsLTRB": [
+      42.2,
+      588.29,
+      297.51,
+      599.05
+    ],
+    "beforeActiveCropPdfPagePointsLTRB": [
+      25,
+      400,
+      295,
+      745
+    ],
+    "focusOverflowRightPdfPoints": 2.51,
+    "after": {
+      "pdfPagePointsLTRB": [
+        42,
+        589.44,
+        290.4,
+        597.36
+      ],
+      "renderedPagePixelsOnExistingVerified180DpiFrame": [
+        105,
+        1473.6,
+        726,
+        1493.4
+      ],
+      "candidateStatus": "pending independent source/pixel review; not applied to original",
+      "sourcePixelWitnessSha256": "2c91da79b441cacd3c4c55632ae40c1c0b31b05a70f16311c41288a610a20077",
+      "focusOverlaySha256": "048d12a1be4ce18dd8f459ab02d18ada803ab4891972bfdb6113fc5ba73ee142",
+      "withinCurrentPrimaryCrop": true,
+      "noCropWidening": true
+    },
+    "rowSelectionCorrect": true,
+    "noPriceOrValueClaim": true
+  },
+  "counts": {
+    "newFindingRecords": 1,
+    "newFindingsByKind": {
+      "wrong-row-focus-independent-source-review": 1
+    },
+    "existingScarabFindingsDeduplicated": 5,
+    "totalKnownFindingRecordsAfterRootRegistration": 189,
+    "sourceRowsNewlyReferenced": 1
+  },
+  "limits": [
+    "This is one geometric focus containment finding only.",
+    "The source row/cell images do not authorize a price, marker, identity, or semantic-grade approval.",
+    "The five Scarab focus rows are already registered under exact ua-remaining-focus-* findings and are deduplicated here.",
+    "No source dataset was written; V3i remains a private review candidate, not an application."
+  ],
+  "sourceFocusContainmentBaseline": {
+    "path": "/tmp/batch5-ua-context-v3e-proposal-20261107/row-focus-overlay-index-583.json",
+    "sha256": "4ecd8678e43d549b926fadde484ea1006a48c4d1fa34f8e22f312953a7fed7dd",
+    "denominator": 583,
+    "preCorrectionOutsidePrimaryCropRows": 6,
+    "status": "full source-projected geometric baseline; no value/semantic approval",
+    "publicExactArchive": {
+      "path": "tests/fixtures/ua-583-focus-containment-before-v3.json.gz",
+      "sha256": "cdf2d3574faca776e4c87119b9a808100ec3a1fc175ee404914bc81d963dfdb3",
+      "uncompressedSha256": "4ecd8678e43d549b926fadde484ea1006a48c4d1fa34f8e22f312953a7fed7dd"
+    }
+  },
+  "originalPrivateProposal": {
+    "path": "/tmp/batch5-ua-focus-context-extension-189-v1.json",
+    "sha256": "ff896a001615f7ab8aa336ccd63b8f79ff5c02754982c8233a4d1983112a48d7"
+  },
+  "schemaNormalization": "The original proposal baseline named the complete583-focus detector snapshot. That snapshot is retained separately; the mandatory finding baseline is the sealed full2161-row register. Five existing Scarab findings remain deduplicated."
+}

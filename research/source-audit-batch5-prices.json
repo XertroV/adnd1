@@ -1,0 +1,507 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "source-audit-batch5-prices",
+  "inputCommit": "679b15d1c580172e54314829c1c3c86dc78b65f3",
+  "baselineArtifact": {
+    "path": "research/source-audit-batch5-prices-baseline.json",
+    "sha256": "3037ba6b0f0a52089bad3d8689e21c1ee440dc11c55f198f82cb6e3866a8a643"
+  },
+  "scope": "Source-first, pixel-reviewed PHB p.35 Sling & Bullets package and UA p.26 Quarrels offer; all four current canonical null-price records; bounded cost-table and weight-table checks. This report does not claim whole-book absence or whole-book coverage.",
+  "inputHashesSha256": {
+    "equipment.json": "4897dfbd39d4f438b566091cf815ce3cd7d8fcbc0615f28581a072c8f73a7e28",
+    "research/price-source-inventory-phb35.json": "9a80b0094cbcf41846fcfbeafd88d22433c1213d5c163134bebd20c8d7f8837f",
+    "research/price-source-inventory-phb35-independent-review.json": "8ff4a02a5444f1b63e2965b36321996c513c9ce8444c5fce57e58ed2f1e3437a",
+    "research/price-source-inventory-ua26.json": "2e93d88a4e9a22fbcf9146db6a836c738f5f64549451ddb90032d621c2689ae0",
+    "research/equipment-source-offer-reconciliation.json": "8961460d5ce16e6143add835e519d68aa3de15f6f2a8c74520323902c2c11953",
+    "research/gaps-limitations-next-task.json": "a1965cc181460b9a0a3a9dcbb78cb7ce0265f5cbb5918a881f582bbd585829b6",
+    "research/source-visual-reviews.json": "0092066cdfcea99ee42e4045fcd672392f4045499049955bf66a4adbaa4a442f",
+    "artifacts/source-visual-coverage/price-source-inventory.json": "f2a02d1e990cf9bd30135f7dc2fcd2f10f9e1f2e172ee594e396677c32fb3852",
+    "tests/coverage-gaps-browser.mjs": "b5eeb04e1ccbca342ab0930fe480a1a65ed67fe1fc8cb40c7d0645313d10d033",
+    "tests/coverage-gaps-renderer.test.mjs": "ecea9fc141a1e7b3d4fdeadcc13a359812350cecda71a53e3e1e33a7974ac1db",
+    "tests/remaining-batches.test.mjs": "94f3c63e95d7a7eedbb0541b0c6d27c5f35d79b94c0a5c76d1ea9d1128dd7626"
+  },
+  "sourceIdentityHashes": {
+    "PHB": {
+      "path": "/workspace/private-adnd1-sources/tsr2010-players-handbook.pdf",
+      "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "edition": "Sixth printing, January 1980"
+    },
+    "UA": {
+      "path": "/workspace/private-adnd1-sources/Unearthed Arcana.pdf",
+      "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+      "edition": "Original 1985 edition"
+    },
+    "DMG": {
+      "path": "/workspace/private-adnd1-sources/DMG_1stEd.pdf",
+      "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+    },
+    "MM": {
+      "path": "/workspace/private-adnd1-sources/Monster_Manual.pdf",
+      "sha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81"
+    },
+    "MMII": {
+      "path": "/workspace/private-adnd1-sources/Monster Manual II.pdf",
+      "sha256": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24"
+    }
+  },
+  "before": {
+    "inputCommit": "679b15d1c580172e54314829c1c3c86dc78b65f3",
+    "equipmentRecords": 189,
+    "canonicalPrintedPrices": 185,
+    "canonicalNullPriceRecords": 4,
+    "namedPurchaseOfferRows": 188,
+    "sourceRowsByInventory": {
+      "PHB35": 80,
+      "PHB36": 85,
+      "UA26": 23
+    },
+    "distinctUnrepresentedOrUnresolvedOffers": 2,
+    "regressionAssertionsPreserved": true
+  },
+  "afterLocalEdits": {
+    "equipmentRecords": 191,
+    "canonicalPrintedPrices": 187,
+    "canonicalNullPriceRecords": 4,
+    "additionalExtractedOfferFields": 1,
+    "allSourceOfferAmountsRepresented": true,
+    "quantityIssuesRemaining": 1,
+    "newIds": [
+      "phb-sling-bullets-dozen",
+      "ua-quarrels-for-same"
+    ],
+    "nullPriceIds": [
+      "phb-bo-stick",
+      "phb-club",
+      "phb-quarterstaff",
+      "phb-sling-stone"
+    ],
+    "assembledDistributionRegenerated": false
+  },
+  "sourceOfferFindings": [
+    {
+      "sourceInventoryFile": "research/price-source-inventory-phb35.json",
+      "sourceInventorySha256": "9a80b0094cbcf41846fcfbeafd88d22433c1213d5c163134bebd20c8d7f8837f",
+      "sourceRecordIndex": 55,
+      "sourceRowId": "phb35-equipment-purchase-056",
+      "sourceObject": "Sling & Bullets, dozen",
+      "printedPrice": {
+        "amount": 15,
+        "currency": "sp",
+        "unit": "as named",
+        "classification": "printed"
+      },
+      "source": {
+        "book": "PHB",
+        "page": 35,
+        "pdfPage": 36,
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "normalizedPageBounds": [
+          0.766154,
+          0.612179,
+          0.208615,
+          0.012821
+        ]
+      },
+      "preFixReviewStatus": "previously-confirmed-review-stale",
+      "oldReviewArtifact": "research/price-source-inventory-phb35-independent-review.json",
+      "oldSiteVerdict": "unresolved-no-exact-match",
+      "proposedTarget": {
+        "collection": "equipment",
+        "itemId": "phb-sling-bullets-dozen",
+        "fieldPointer": "/price",
+        "priceUnit": "dozen"
+      },
+      "catalogPath": "scans/verified/equipment-phb-sling-bullets-dozen.json",
+      "region": {
+        "id": "phb35-sling-bullets-dozen-price",
+        "book": "PHB",
+        "printedPage": 35,
+        "pdfPage": 36,
+        "title": "PHB p.35 · Arms price table — Sling & Bullets, dozen",
+        "image": "phb-35-94c2dda8bd31e205.png",
+        "width": 822,
+        "height": 819,
+        "sha256": "94c2dda8bd31e205feb2eac08920bc5044684a5eef5f515b1ea938276594e133",
+        "focusRects": [
+          [
+            0.5325693621,
+            0.5380158862,
+            0.4451262783,
+            0.0368906272
+          ]
+        ],
+        "verification": "visually-checked-crop",
+        "verificationScope": "selected-values",
+        "checkedOn": "2026-11-07",
+        "alt": "Complete PHB p.35 Arms price section with the 15 s.p. Sling & Bullets, dozen row highlighted; the separate 10 s.p. Sling Bullets, score row remains visible.",
+        "summary": "Complete Arms section with “Sling & Bullets, dozen” at 15 s.p. highlighted. The separate “Sling Bullets, score” row at 10 s.p. remains visible for comparison.",
+        "checkedFields": {
+          "purchasePrice": {
+            "amount": 15,
+            "currency": "sp",
+            "book": "PHB",
+            "pages": [
+              35
+            ],
+            "unit": "dozen"
+          },
+          "offerLabel": "Sling & Bullets, dozen"
+        },
+        "normalizedPageRect": {
+          "x": 0.5165575082140273,
+          "y": 0.42519650043597695,
+          "width": 0.4686647591080911,
+          "height": 0.3475408521527596
+        },
+        "boundsPdfPoints": [
+          302,
+          334,
+          576,
+          607
+        ]
+      },
+      "imageSha256": "94c2dda8bd31e205feb2eac08920bc5044684a5eef5f515b1ea938276594e133",
+      "currentImageHashVerified": true,
+      "sourceExcerptsProposal": {
+        "collection": "equipment",
+        "state": "source-excerpt-checked",
+        "catalog": "scans/verified/equipment-phb-sling-bullets-dozen.json",
+        "regionCount": 1,
+        "scope": "The printed 15 sp offer and dozen qualifier are independently reviewed in the complete PHB p.35 Arms section with precise row focus. The adjacent 10 sp per score Sling Bullets offer remains a distinct package."
+      },
+      "sourceRowBindingProposal": {
+        "sourceInventoryFile": "research/price-source-inventory-phb35.json",
+        "sourceInventorySha256": "9a80b0094cbcf41846fcfbeafd88d22433c1213d5c163134bebd20c8d7f8837f",
+        "sourceRecordIndex": 55,
+        "sourceObject": "Sling & Bullets, dozen",
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "itemId": "phb-sling-bullets-dozen",
+        "independentReviewFile": "research/source-audit-batch5-price-independent-review.json",
+        "independentReviewRecordIndex": 0
+      },
+      "reconciliationProposal": {
+        "disposition": "extracted-canonical-offer",
+        "itemId": "phb-sling-bullets-dozen",
+        "fieldPointer": "/price",
+        "canonicalItemPriceBinding": true,
+        "note": "PHB p.35 prints a separate 15 sp Sling & Bullets, dozen offer. Preserve dozen and keep it distinct from Sling Bullets, score at 10 sp."
+      }
+    },
+    {
+      "sourceInventoryFile": "research/price-source-inventory-ua26.json",
+      "sourceInventorySha256": "2e93d88a4e9a22fbcf9146db6a836c738f5f64549451ddb90032d621c2689ae0",
+      "sourceRecordIndex": 10,
+      "sourceRowId": "ua26-equipment-supplies-011",
+      "sourceObject": "Quarrels for same",
+      "printedPrice": {
+        "amount": 100,
+        "currency": "gp",
+        "unit": null,
+        "classification": "printed"
+      },
+      "source": {
+        "book": "UA",
+        "page": 26,
+        "pdfPage": 27,
+        "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "normalizedPageBounds": [
+          0.023945,
+          0.211566,
+          0.219282,
+          0.015985
+        ]
+      },
+      "preFixReviewStatus": "source-review-pending-provisional-bounds",
+      "proposedTarget": {
+        "collection": "equipment",
+        "itemId": "ua-quarrels-for-same",
+        "fieldPointer": "/price",
+        "priceUnit": "omitted; no quantity printed"
+      },
+      "catalogPath": "scans/verified/equipment-ua-quarrels-for-same.json",
+      "region": {
+        "id": "ua26-quarrels-for-same-price",
+        "book": "UA",
+        "printedPage": 26,
+        "pdfPage": 27,
+        "title": "UA p.26 · Arms cost table — Quarrels for same",
+        "image": "ua-26-740e0e7d3c0f5ea2.png",
+        "width": 837,
+        "height": 522,
+        "sha256": "740e0e7d3c0f5ea26a54861ecebee1003109580130ebf954640439fc0f9fed61",
+        "focusRects": [
+          [
+            0.0131804998,
+            0.735487923,
+            0.4489378263,
+            0.0703339865
+          ]
+        ],
+        "verification": "visually-checked-crop",
+        "verificationScope": "selected-values",
+        "checkedOn": "2026-11-07",
+        "alt": "Complete UA p.26 Basic Equipment and Supplies Costs table with Quarrels for same at 100 gp highlighted directly below Crossbow, hand at 300 gp; no quantity is printed.",
+        "summary": "Complete printed Arms cost section with Crossbow, hand at 300 gp and the indented Quarrels for same row at 100 gp in context. The row gives no quantity.",
+        "checkedFields": {
+          "purchasePrice": {
+            "amount": 100,
+            "currency": "gp",
+            "book": "UA",
+            "pages": [
+              26
+            ]
+          },
+          "quantity": "Not stated in source row"
+        },
+        "normalizedPageRect": {
+          "x": 0.01750703422890191,
+          "y": 0.04440962187214695,
+          "width": 0.48844625498636324,
+          "height": 0.22727277075745791
+        },
+        "boundsPdfPoints": [
+          10,
+          34,
+          289,
+          208
+        ]
+      },
+      "imageSha256": "740e0e7d3c0f5ea26a54861ecebee1003109580130ebf954640439fc0f9fed61",
+      "currentImageHashVerified": true,
+      "sourceExcerptsProposal": {
+        "collection": "equipment",
+        "state": "source-excerpt-checked",
+        "catalog": "scans/verified/equipment-ua-quarrels-for-same.json",
+        "regionCount": 1,
+        "scope": "The printed 100 gp amount and the absence of a quantity are independently reviewed in the complete UA p.26 Basic Equipment and Supplies Costs table with precise focus. Do not infer a package size or per-quarrel price."
+      },
+      "sourceRowBindingProposal": {
+        "sourceInventoryFile": "research/price-source-inventory-ua26.json",
+        "sourceInventorySha256": "2e93d88a4e9a22fbcf9146db6a836c738f5f64549451ddb90032d621c2689ae0",
+        "sourceRecordIndex": 10,
+        "sourceObject": "Quarrels for same",
+        "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "itemId": "ua-quarrels-for-same",
+        "independentReviewFile": "research/source-audit-batch5-price-independent-review.json",
+        "independentReviewRecordIndex": 1
+      },
+      "reconciliationProposal": {
+        "disposition": "extracted-canonical-offer-quantity-unresolved",
+        "itemId": "ua-quarrels-for-same",
+        "fieldPointer": "/price",
+        "canonicalItemPriceBinding": true,
+        "note": "UA p.26 prints 100 gp for Quarrels for same and no quantity. Represent the row amount; retain quantity/equivalence as an unresolved issue and do not infer a per-quarrel value."
+      }
+    }
+  ],
+  "nullPriceFindings": [
+    {
+      "itemId": "phb-bo-stick",
+      "canonicalPrice": null,
+      "priceState": "unextracted",
+      "status": "No price row found in bounded checked purchase-cost tables",
+      "directSourceRowsForTargetPrice": [],
+      "nonPriceNumericRows": [
+        {
+          "source": "PHB p.37 / PDF p.38",
+          "printedRow": "Bo Stick",
+          "value": "15",
+          "column": "Approximate Weight in Gold Pieces"
+        },
+        {
+          "source": "UA p.26 / PDF p.27",
+          "printedRow": "Bo Stick",
+          "value": "15",
+          "column": "Approximate Weight in Gold Pieces"
+        }
+      ],
+      "conflict": "None between source rows; the numbers belong to encumbrance-weight columns, not purchase cost."
+    },
+    {
+      "itemId": "phb-club",
+      "canonicalPrice": null,
+      "priceState": "unextracted",
+      "status": "No price row found in bounded checked purchase-cost tables",
+      "directSourceRowsForTargetPrice": [],
+      "nonPriceNumericRows": [
+        {
+          "source": "PHB p.37 / PDF p.38",
+          "printedRow": "Club",
+          "value": "30",
+          "column": "Approximate Weight in Gold Pieces"
+        },
+        {
+          "source": "PHB p.124 / PDF p.125",
+          "printedRow": "Club",
+          "value": "30",
+          "column": "Approximate Weight in Gold Pieces"
+        },
+        {
+          "source": "UA p.26 / PDF p.27",
+          "printedRow": "Club",
+          "value": "30",
+          "column": "Approximate Weight in Gold Pieces"
+        }
+      ],
+      "conflict": "None; printed values are weapon weight in gold-piece encumbrance units, not cost."
+    },
+    {
+      "itemId": "phb-quarterstaff",
+      "canonicalPrice": null,
+      "priceState": "unextracted",
+      "status": "No ordinary purchase-price row found in bounded checked cost tables",
+      "directSourceRowsForTargetPrice": [],
+      "nonPriceNumericRows": [
+        {
+          "source": "PHB p.124 / PDF p.125",
+          "printedRow": "Staff, Quarter",
+          "value": "50",
+          "column": "Approximate Weight in Gold Pieces"
+        },
+        {
+          "source": "UA p.26 / PDF p.27",
+          "printedRow": "Staff, Quarter",
+          "value": "50",
+          "column": "Approximate Weight in Gold Pieces"
+        }
+      ],
+      "conflict": "No mundane purchase-price conflict found. UA text-search hits for “quarterstaff” include magic-item material and need to remain separated from an ordinary equipment purchase price; UA monetary page-group audit is separately pending."
+    },
+    {
+      "itemId": "phb-sling-stone",
+      "canonicalPrice": null,
+      "priceState": "unextracted",
+      "status": "No sling-stone purchase-price row found in bounded checked cost tables",
+      "directSourceRowsForTargetPrice": [],
+      "nonPriceNumericRows": [
+        {
+          "source": "PHB p.124 / PDF p.125",
+          "printedRow": "Sling stone",
+          "value": "1",
+          "column": "Approximate Weight in Gold Pieces"
+        },
+        {
+          "source": "UA p.26 / PDF p.27",
+          "printedRow": "Sling Stone",
+          "value": "1",
+          "column": "Approximate Weight in Gold Pieces"
+        }
+      ],
+      "relatedPrintedOffers": [
+        {
+          "source": "PHB p.35 / PDF p.36",
+          "label": "Sling & Bullets, dozen",
+          "amount": 15,
+          "currency": "sp",
+          "unit": "dozen",
+          "newItemId": "phb-sling-bullets-dozen"
+        },
+        {
+          "source": "PHB p.35 / PDF p.36",
+          "label": "Sling Bullets, score",
+          "amount": 10,
+          "currency": "sp",
+          "unit": "score",
+          "itemId": "phb-sling-bullet"
+        }
+      ],
+      "conflict": "Neither related ammunition offer states a price for sling stones; do not transfer either package price."
+    }
+  ],
+  "pageVisualInspections": [
+    {
+      "book": "PHB",
+      "printedPage": 35,
+      "pdfPage": 36,
+      "tables": [
+        "Basic Equipment and Supplies Costs · Arms"
+      ],
+      "assessment": "Sling & Bullets, dozen 15 s.p. and Sling Bullets, score 10 s.p. are separate printed rows; row labels and amounts read clearly."
+    },
+    {
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "tables": [
+        "Weight and Damage by Weapon Type"
+      ],
+      "assessment": "Bo Stick 15 and Club 30 appear under approximate weapon weight, not purchase cost."
+    },
+    {
+      "book": "PHB",
+      "printedPage": 123,
+      "pdfPage": 124,
+      "tables": [
+        "Basic Equipment and Supplies Costs · Arms and other sections"
+      ],
+      "assessment": "The reference-sheet price list repeats the Arms prices; it has no price row for Bo Stick, Club, Quarterstaff or Sling Stone."
+    },
+    {
+      "book": "PHB",
+      "printedPage": 124,
+      "pdfPage": 125,
+      "tables": [
+        "Combined Weapons Tables (Selected Information)"
+      ],
+      "assessment": "The header explicitly places Bo Stick, Club, Staff, Quarter and Sling stone values in Approximate Weight in Gold Pieces."
+    },
+    {
+      "book": "UA",
+      "printedPage": 26,
+      "pdfPage": 27,
+      "tables": [
+        "Basic Equipment and Supplies Costs · Arms",
+        "Weight and Damage by Weapon Type"
+      ],
+      "assessment": "Quarrels for same is listed at 100 gp beneath Crossbow, hand at 300 gp, with no printed quantity. The separate right-side weapon table labels its values approximate weight, including Bo Stick 15, Club 30, Staff Quarter 50, Sling Stone 1."
+    }
+  ],
+  "fullPdfTextSearch": {
+    "scope": "Text-layer phrase screen across the five supplied PHB, UA, DMG, Monster Manual and Monster Manual II PDFs; positive hits were inspected for whether they constitute a mundane equipment purchase price. OCR/search misses remain possible.",
+    "terms": [
+      "bo stick",
+      "bo-stick",
+      "bo staff",
+      "quarterstaff",
+      "quarter staff",
+      "staff quarter",
+      "sling stone",
+      "sling stones",
+      "club"
+    ],
+    "result": "No additional ordinary purchase-price row for the four canonical null-price items was identified. UA “quarterstaff” text hits concern magic-item passages/tables, and DMG “sling stone” hit concerns the Freezing Sphere spell. Monster-book club hits describe creature weapons."
+  },
+  "integrationStatus": {
+    "sharedFilesNotEditedByPriceWorker": [
+      "citation-overrides.json",
+      "research/equipment-source-row-bindings.json",
+      "research/equipment-source-offer-reconciliation.json",
+      "research/gaps-limitations-next-task.json",
+      "research/source-visual-reviews.json",
+      "dist/data.json"
+    ],
+    "rootIndependentPixelReview": {
+      "path": "research/source-audit-batch5-price-independent-review.json",
+      "sha256": "e1e87f0eb7cfab17422c3c02e18c1950cd07f4a4a55cbbe6cc2d0972195bbc35",
+      "records": 2,
+      "completedOn": "2026-11-07"
+    },
+    "remainingQuantityQuestion": "UA Quarrels for same: amount confirmed at 100 gp; printed package quantity and per-quarrel price are not stated and remain unresolved.",
+    "historicalReview": "The old PHB Sling & Bullets review remains stale historical evidence. Fresh independent row binding was added under current hashes; old source inventories and review record were not rewritten."
+  },
+  "regressionPreservation": {
+    "baselinePath": "research/source-audit-batch5-prices-baseline.json",
+    "preservedTestFiles": [
+      "tests/coverage-gaps-browser.mjs",
+      "tests/coverage-gaps-renderer.test.mjs",
+      "tests/remaining-batches.test.mjs"
+    ],
+    "mutatedTestFiles": []
+  },
+  "finalOwnedOutputHashes": {
+    "equipment.json": "2264884d224455b98a58b54dc0096270c4b25c2d1948abd5626e4afc54d2966c",
+    "dist/scans/verified/equipment-phb-sling-bullets-dozen.json": "2037cca04be81c013d000c7959bf5e782f404fa51d744b425fa87e98e4fedf37",
+    "dist/scans/verified/equipment-ua-quarrels-for-same.json": "17dbae4fb305e305fa0f1ec14212752c8acd310578ca805fcca3ba5d00ff7670",
+    "research/source-audit-batch5-prices-baseline.json": "3037ba6b0f0a52089bad3d8689e21c1ee440dc11c55f198f82cb6e3866a8a643"
+  }
+}

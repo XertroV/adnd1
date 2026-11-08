@@ -6,6 +6,8 @@ import {auditRequiredSegmentPresence,validateContinuationManifest} from '../tool
 const read=path=>JSON.parse(readFileSync(path,'utf8'));
 const manifest=read('research/citation-continuations.json');
 const history=read('tests/fixtures/citation-continuation-history.json');
+const integration=read('research/source-audit-batch5-continuation-integration.json');
+const historicalExpansion=read('tests/fixtures/citation-continuation-expansion-22.json');
 const data=read('dist/data.json');
 
 test('Git-backed pre-fix catalogs fail required continuation presence; corrected catalogs pass',()=>{
@@ -42,10 +44,22 @@ test('Git-backed pre-fix catalogs fail required continuation presence; corrected
     assert.deepEqual(fixed.present.map(segment=>segment.order),[1,2]);
   }
   const summary=validateContinuationManifest(manifest,{data,catalogRoot:'dist'});
-  assert.equal(summary.presentSegments,28);
-  assert.equal(summary.groups,14);
-  assert.equal(summary.segments,28);
+  const currentSegments=manifest.groups.reduce((count,group)=>count+group.segments.length,0);
+  assert.equal(summary.presentSegments+summary.blockedSegments,currentSegments);
+  assert.equal(summary.groups,manifest.groups.length);
+  assert.equal(summary.segments,currentSegments);
   assert.equal(summary.blockedSegments,0);
+  assert.deepEqual([
+    historicalExpansion.historicalGitFixture.groupsBeforeExpansion,
+    historicalExpansion.historicalGitFixture.segmentsBeforeExpansion,
+    historicalExpansion.afterExpansion.groups,
+    historicalExpansion.afterExpansion.segments,
+    historicalExpansion.afterExpansion.presentSegments,
+    historicalExpansion.afterExpansion.blockedSegments,
+  ],[14,28,22,44,44,0]);
+  assert.equal(integration.historicalGitFixture.groupsBeforeExpansion,14);
+  assert.equal(integration.historicalGitFixture.segmentsBeforeExpansion,28);
+  assert.deepEqual(manifest.groups.slice(0,14).map(group=>group.id),integration.historicalGitFixture.groups.map(group=>group.id));
 });
 
 test('all twelve shared PHB p.33 catalog copies require the same ordered example completion',()=>{

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "phbdmg-v5-first90-independent-source-review-metadata-erratum",
+  "status": "append-only metadata correction; original receipt bytes retained",
+  "createdAtUtc": "2026-11-08T01:42:00Z",
+  "corrects": {
+    "path": "research/source-audit-batch5-pd179-v5-first90-independent-source-review.json",
+    "sha256": "3290a2c498f1f3b6caa6c25cd7696aed1bd152716bac65a9f8a0444184fbd286",
+    "field": "/source/matchingCandidatePdfSha256"
+  },
+  "error": "The original top-level source metadata paired the DMG path and DMG SHA with a field named matchingCandidatePdfSha256 whose value was taken from candidate row 1, which is a PHB row. Those are different PDFs. The row-level source hashes and pixel-review findings are unaffected.",
+  "correction": {
+    "candidate": {
+      "path": "/tmp/batch5-phbdmg-money-corrections-v5/proposal-v5/phb-dmg-additional-prices-correction-candidate-v5.json",
+      "sha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6"
+    },
+    "sourceFiles": [
+      {
+        "bookKey": "PHB",
+        "sourceFile": "tsr2010-players-handbook.pdf",
+        "sourceFileSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "firstRowOrder": 1,
+        "rows": 15,
+        "lastRowOrder": 15
+      },
+      {
+        "bookKey": "DMG",
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourceFileSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "firstRowOrder": 16,
+        "rows": 75,
+        "lastRowOrder": 90
+      }
+    ],
+    "meaning": "The direct 31 changed/condition-focused visual reviews are all DMG-sourced (705294…); the first-90 denominator also includes 15 unchanged PHB rows (e43e…). Do not treat either source hash as matching the other source path."
+  },
+  "scopeEffect": "Metadata-only correction. The original first-90 receipt, per-row review findings, 59+31 coverage, and source/focus verification remain unchanged."
+}

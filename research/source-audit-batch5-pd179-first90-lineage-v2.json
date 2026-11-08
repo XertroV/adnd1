@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "pd179-first90-review-version-lineage-v2",
+  "status": "corrected provenance statement; seal registry left untouched",
+  "actualRegistryObservation": {
+    "registryPath": "research/citation-evidence-seals.json",
+    "canonicalJsonPath": "research/source-audit-batch5-pd179-first90-independent-review.json",
+    "canonicalJsonSha256": "97f768958efefba231e05e3c2bcc528ff4d2aec063b25b65275e314117a33d51",
+    "canonicalJsonSizeBytes": 280816,
+    "canonicalMarkdownPath": "research/source-audit-batch5-pd179-first90-independent-review.md",
+    "canonicalMarkdownSha256": "29e58162a412eeaaaf6631c48575bc92597fd2223c3abe848a364268305629b7",
+    "canonicalMarkdownSizeBytes": 3377,
+    "interpretation": "These are the actual registry-bound hashes and paths. The c529/decde initial JSON/Markdown were not the registry-sealed versions."
+  },
+  "sealedMarkdownCaveat": {
+    "embeddedJsonReferenceSha256": "c529f2fb569762f39a0aa54992bd9210ada1f7e18852066a06d1c23289499b39",
+    "reason": "The exact sealed Markdown bytes contain a stale self-reference to the unsealed initial JSON hash c529; the registry’s JSON entry is the corrected hash 97f. The sealed Markdown bytes are preserved without repair."
+  },
+  "initialVersion": {
+    "path": "research/source-audit-batch5-pd179-first90-independent-review-initial-version.json",
+    "sha256": "c529f2fb569762f39a0aa54992bd9210ada1f7e18852066a06d1c23289499b39",
+    "sizeBytes": 280752,
+    "markdownPath": "research/source-audit-batch5-pd179-first90-independent-review-initial-version.md",
+    "markdownSha256": "decde159fde704db659235048ac46483d6251b86881c68fc7e29ef78d346d26a",
+    "markdownSizeBytes": 3089,
+    "status": "preserved unsealed initial draft; nine poison rows uncertain; method text overstates that each per-row overlay was opened."
+  },
+  "correctedReview": {
+    "path": "research/source-audit-batch5-pd179-first90-independent-review.json",
+    "sha256": "97f768958efefba231e05e3c2bcc528ff4d2aec063b25b65275e314117a33d51",
+    "markdownPath": "research/source-audit-batch5-pd179-first90-independent-review.md",
+    "markdownSha256": "29e58162a412eeaaaf6631c48575bc92597fd2223c3abe848a364268305629b7",
+    "status": "registry-bound corrected report; four unexplained poison C/D marker rows; all-row overlays visually inspected and individual overlay hashes checked; individual images opened for disputed details."
+  },
+  "versionedCopy": {
+    "jsonPath": "research/source-audit-batch5-pd179-first90-independent-review-v2.json",
+    "jsonSha256": "97f768958efefba231e05e3c2bcc528ff4d2aec063b25b65275e314117a33d51",
+    "markdownPath": "research/source-audit-batch5-pd179-first90-independent-review-v2.md",
+    "markdownSha256": "4a3164766b04002ca44ffd8835be9e69d12ab5dcaadda48f35035bb9394746f1",
+    "status": "same corrected JSON bytes as canonical sealed JSON, with versioned Markdown pointing to the versioned JSON path and corrected hash."
+  },
+  "earlierLineageCorrection": {
+    "path": "research/source-audit-batch5-pd179-first90-lineage.json",
+    "sha256": "fed1c911a92479349c4df0203f53a8c4ffb3f47d9865f5ba5fdb19e06c19cb79",
+    "correction": "The earlier lineage says c529/decde were sealed and 97f superseded them. That is false according to the actual registry; preserve it unchanged as an incorrect provenance note, superseded by this v2."
+  },
+  "candidateScope": {
+    "candidateSha256": "e4b6e39315ae1a0615364e0ad6d1f9ced6109067a9601f3d92603b8ff6931b0a",
+    "overlayIndexSha256": "8e6cbdf3afa39e979e94108ae6b92ff169d47db42ed12010f1202974e80951f1",
+    "reviewedRows": 90,
+    "candidateRows": 179
+  },
+  "actions": "The canonical JSON and Markdown paths are restored to their exact registry hashes; initial c529/decde bytes are preserved at new unsealed paths. This worker did not modify the seal registry."
+}

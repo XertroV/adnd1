@@ -13,14 +13,17 @@ test('every current cited record and available page has a scoped source excerpt'
  for(const item of records){
   const pages=citations.pages(item).filter(page=>!page.missing);
   if(!pages.length)continue;
-  assert.equal(item.sourceExcerpts?.state,'source-excerpt-checked',item.id);
-  const catalog=JSON.parse(readFileSync(path.join('dist',item.sourceExcerpts.catalog),'utf8'));
+  const verification=item.sourceExcerpts||item.scanVerification;
+  assert.ok(scanStates.has(verification?.state),`${item.id}: an explicitly checked source catalog is required`);
+  assert.ok(validScanCatalogPath(item.id,verification.catalog,verification),item.id);
+  const catalog=JSON.parse(readFileSync(path.join('dist',verification.catalog),'utf8'));
   for(const page of pages){
    assert.ok(catalog.regions.some(region=>region.book===page.book&&region.printedPage===page.page),`${item.id}: missing ${page.book} ${page.page}`);
    pairs++;
   }
  }
- assert.equal(pairs,1856 + 28 + 73 + 1); // Baseline, prior DMG provenance additions, 73 new records, and Aklys UA 27.
+ const inventory=JSON.parse(readFileSync('tests/fixtures/source-scan-inventory.json','utf8'));
+ assert.equal(pairs,inventory.records.reduce((sum,record)=>sum+record.pages.filter(page=>page.availability!=='missing').length,0),'every current non-missing record/page pair is checked');
 });
 test('all public catalogs bind to cited pages and checked PNG bytes',()=>{
  const checked=new Map();let regions=0;

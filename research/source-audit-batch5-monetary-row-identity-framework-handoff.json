@@ -1,0 +1,233 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "monetary-row-identity-framework-handoff",
+  "owner": "batch5_integration_review",
+  "sourceArtifactsChanged": 0,
+  "sourceGradesPromoted": 0,
+  "remoteMutations": 0,
+  "ownedFiles": [
+    {
+      "path": "tools/monetary-row-identity-audit.mjs",
+      "sha256": "97b2cd50ab1dc5fa7a5c0100758a8f756dd582d524f9437688be555e8cf3c7b9"
+    },
+    {
+      "path": "tools/monetary-row-identity-witness.mjs",
+      "sha256": "8e057e432642e5cf8ce3417c9944ad301b33469873954ce8dd9bd167b7590baf"
+    },
+    {
+      "path": "tests/monetary-row-identity-audit.test.mjs",
+      "sha256": "214e9826936dab78a123e715ba9f210b34b7264c1276f099cd889324edd0f83c"
+    },
+    {
+      "path": "tests/monetary-row-identity-witness.test.mjs",
+      "sha256": "d9627f66a366335be09c274655918139539e26533c7f6e63a6dee244e06ddccf"
+    },
+    {
+      "path": "tests/fixtures/monetary-row-identity-before.json",
+      "sha256": "74add9918b544486c6b26eafc60ea7877efb0fa20d14993eb43e9ae274f1ed28"
+    },
+    {
+      "path": "research/monetary-row-identity-findings.json",
+      "sha256": "81aeb1b839df9fd846fb05a54573674cd448bce40a54f791294e993639bd1ba1"
+    },
+    {
+      "path": "research/monetary-row-identity-reviews.json",
+      "sha256": "1c90420617aa997df95f720d8861a7f4b9ef1d62e2463d9d633e12107ff9135f"
+    },
+    {
+      "path": "research/source-audit-batch5-monetary-row-identity-baseline.json",
+      "sha256": "bd4973e1eca69a56b64adf3758ccce3683783815dea38bb8ca6ec9f33e898bb9"
+    },
+    {
+      "path": "research/source-audit-batch5-monetary-row-identity-armor-extension.json",
+      "sha256": "dc3353be03fdebe47103568a5df52497e55844a9050baa63cd680cef78f5af60"
+    },
+    {
+      "path": "research/source-audit-batch5-monetary-row-identity-complete-qa-extension.json",
+      "sha256": "72ca57f64da14a89f3240a34e3d58585a7e2fcc8765fad16821e50220cc69fb0"
+    },
+    {
+      "path": "research/source-audit-batch5-monetary-not-gem-qualifier-extension.json",
+      "sha256": "d0aec209f04827f39877509420018ebbfa4269a7e30c2be948e7e5b8cf3b3afd"
+    },
+    {
+      "path": "research/source-audit-batch5-monetary-retained-uncertainties.json",
+      "sha256": "93c9547479b8632bc8631c83a5e5496118b3580f516aa2c4cbb2a5515d19ee00"
+    },
+    {
+      "path": "research/source-audit-batch5-monetary-row-identity-witness-before.json",
+      "sha256": "6c0db9b281ed9f6829bb531a0c2774badd30ba90c555580df7499d3ff7316c2f"
+    },
+    {
+      "path": "research/source-audit-batch5-monetary-row-identity-witness-before.json.gz",
+      "sha256": "df80e0ef061b29a2a3dc2ae0985aad1e9ed8a918e35abb2f89b6c404d456b1d0"
+    }
+  ],
+  "mandatoryGate": {
+    "privateReport": "/tmp/batch5-monetary-row-identity-before/final109-with-uncertainty-gate.json",
+    "sha256": "6cbe463164997b3757e5fc87e01a49d49656f30ea7f264235a578dee1e46701f",
+    "expectedValid": false,
+    "reason": "All109 known findings are deliberately unresolved until exact independent current repair reviews are recorded.",
+    "counts": {
+      "records": 2161,
+      "recordsBySurface": {
+        "canonical-source-row": 710,
+        "site-price-claim": 191,
+        "ua-supplement-row": 583,
+        "phb-dmg-supplement-row": 179,
+        "phb-reference-row-comparison": 165,
+        "reference-financial-context": 9,
+        "typed-passage": 34,
+        "passage-row-comparison": 43,
+        "typed-description": 2,
+        "description-variant-row": 9,
+        "description-pointer-link": 8,
+        "source-census-claim": 180,
+        "census-adjacent-review-issue": 48
+      },
+      "geometry": 5473,
+      "geometryByStatus": {
+        "focus-or-row-locator-recorded": 1775,
+        "explicitly-not-applicable": 12,
+        "no-recorded-focus-geometry": 308,
+        "context-only-no-row-focus": 66
+      },
+      "duplicateCandidates": 1536,
+      "duplicateGeometryEvidenceKind": {
+        "only-row-locator-pair": 1386,
+        "contains-actual-focus-pair": 118,
+        "only-passage-locator-pair": 32
+      },
+      "identityCompleteness": {
+        "label": {
+          "recorded": 2161,
+          "missing": 0
+        },
+        "group": {
+          "recorded": 1918,
+          "missing": 243
+        },
+        "ordinalOrDice": {
+          "recorded": 1546,
+          "missing": 615
+        },
+        "sourceHash": {
+          "recorded": 1559,
+          "missing": 602
+        },
+        "sourceBook": {
+          "recorded": 2119,
+          "missing": 42
+        },
+        "sourcePdfPage": {
+          "recorded": 1940,
+          "missing": 221
+        }
+      },
+      "duplicateStatus": {
+        "candidate-requires-source-review": 1531,
+        "confirmed-wrong-row-focus": 5
+      },
+      "sameDeclaredIdentityEchoes": 99,
+      "unhandledGeometry": 0,
+      "knownFindings": 109,
+      "knownFindingStatus": {
+        "confirmed-wrong-row-focus": 87,
+        "confirmed-source-marker-omission": 3,
+        "confirmed-typed-content-mismatch": 5,
+        "unresolved-source-scope": 2,
+        "confirmed-source-note-context-defect": 5,
+        "confirmed-source-marker-association-mismatch": 7
+      },
+      "optionalOverlapCandidates": 0,
+      "annotationRecords": 1556,
+      "retainedSourceUncertainties": 8
+    },
+    "unresolvedScopeFindingIds": [
+      "phb-dmg-commodity-adjustment-scope",
+      "phb-dmg-alchemist-discount-scope"
+    ],
+    "retainedUncertaintyIds": [
+      "relative-monetary-reading-ua-census-record-006",
+      "relative-monetary-reading-ua-census-record-038",
+      "relative-monetary-reading-mm-mammoth-tusks-relative",
+      "uncertain-scimitar-marker-ua-other-008-H1-cont-r030",
+      "uncertain-scimitar-marker-ua-other-008-H2-r070",
+      "uncertain-scimitar-marker-ua-other-008-H2-r071",
+      "uncertain-scimitar-marker-ua-other-008-H2-r072",
+      "uncertain-scimitar-marker-ua-other-008-H2-r073"
+    ]
+  },
+  "independentCoreFrameworkReview": {
+    "privatePath": "/tmp/monetary-framework-seven-fix-adjudication.json",
+    "sha256": "6361b96fd47a3b569d8f3adb9cedddb1f44bf13e485d771501ea5eac0aa40917",
+    "actualModel": "inherited Sol; no Luna or fast service-tier claim",
+    "scope": "All7 concrete protocol issues independently closed,19 focused tests at independent checkpoint. Later source-dimension/qualified-representation/uncertainty additions have own regression tests."
+  },
+  "focusedVerification": {
+    "command": "node --test tests/monetary-row-identity-audit.test.mjs tests/monetary-row-identity-witness.test.mjs",
+    "tests": 30,
+    "passed": 30,
+    "failed": 0,
+    "claimScope": "Only these focused tests; no full suite/build/deploy claim."
+  },
+  "optionalWitness": {
+    "metadata": "research/source-audit-batch5-monetary-row-identity-witness-before.json",
+    "counts": {
+      "records": 2161,
+      "recordsBySurface": {
+        "canonical-source-row": 710,
+        "site-price-claim": 191,
+        "ua-supplement-row": 583,
+        "phb-dmg-supplement-row": 179,
+        "phb-reference-row-comparison": 165,
+        "reference-financial-context": 9,
+        "typed-passage": 34,
+        "passage-row-comparison": 43,
+        "typed-description": 2,
+        "description-variant-row": 9,
+        "description-pointer-link": 8,
+        "source-census-claim": 180,
+        "census-adjacent-review-issue": 48
+      },
+      "geometries": 3097,
+      "geometryMapping": {
+        "mapped": 1522,
+        "unsupported-coordinate-space": 565,
+        "ambiguous-normalized-page-frame": 34,
+        "source-identity-unavailable-or-mismatched": 373,
+        "render-frame-metadata-unavailable": 587,
+        "ambiguous-pdf-point-frame": 16
+      },
+      "witnessStatus": {
+        "witness-candidates": 1407,
+        "unassessed": 1575,
+        "witness-observed-no-semantic-pass": 115
+      },
+      "expectedValueRecords": 1302,
+      "expectedValueExtractionStatus": {
+        "supported-explicit-numeric-fields-extracted": 1302,
+        "no-supported-explicit-numeric-field-unknown-or-not-applicable": 859
+      },
+      "candidates": 2340
+    },
+    "notAReleaseGate": true,
+    "semanticApprovals": 0,
+    "sourceTextPublished": false
+  },
+  "interfaces": {
+    "collect": "collectMonetaryRowIdentityRecords(documents Map)",
+    "audit": "auditMonetaryRowIdentity(records,{knownFindings,reviews,reviewEvidence,retainedUncertainties,includeOverlaps})",
+    "load": "loadMonetaryRowIdentityAudit({repoRoot,snapshotDir,findingsPath,baselinePath,reviewsPath,includeOverlaps})",
+    "cli": "node tools/monetary-row-identity-audit.mjs --output /tmp/report.json --check",
+    "witness": "node tools/monetary-row-identity-witness.mjs --snapshot-dir /tmp/batch5-monetary-row-identity-before --output /tmp/witness.json",
+    "reviews": "Mandatory findings manifest fixes finding universe. Review JSON only supplies reviews; evidence bytes must exist and match the pinned SHA. No actual source-review disposition has been entered.",
+    "scopeReview": "source-reviewed-qualified-representation requires changed authored record, current hash-bound independent evidence, underlyingSourceQuestion.status unresolved and semanticPass false; unresolved question IDs remain published."
+  },
+  "limits": [
+    "Collision candidates, source foci and source locator matches remain separate. No negative duplicate result, numeric witness, recorded identity, in-bounds box, or whole-image sentinel becomes a semantic approval.",
+    "Finding records overlap grouped/comparison/context/marker/content dimensions;109 findings reference193 distinct rows, not193 uniformly defective physical rows.",
+    "All9 direct JSON surfaces and exact180 receipt-to-census joins are inventoried. Later776-page currency discovery is a separate unassessed corpus.",
+    "Production workflow wiring and final repair review/disposition insertion belong to root after source corrections/proofs stabilize."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "sourceAudit": "research/source-audit-batch5-ua-additional-prices.json",
+  "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+  "beforeAssessment": {
+    "artifact": "batch5-ua-money-geometry-before.json",
+    "sha256": "889edf5b135a8ae65df2db4ccaf119314e5db5e7c5047e70ef39eec864a9b2a2",
+    "rowsAssessed": 583,
+    "outsideCropCount": 3,
+    "notAssessableCount": 0,
+    "tolerancePoints": 0,
+    "coordinateSpace": "original PDF page points; top-left origin; [x0,y0,x1,y1]"
+  },
+  "afterAssessment": {
+    "rowsAssessed": 583,
+    "containedCount": 583,
+    "outsideCropCount": 0,
+    "notAssessableCount": 0,
+    "tolerancePoints": 0
+  },
+  "regressions": [
+    {
+      "recordId": "ua-other-001-armor-r01",
+      "object": "Banded",
+      "sourcePdfPage": 76,
+      "pageImageSha256": "b93812a47dc6310dfea576bc85ab5f149912a45225cbcdb49ea60df606845411",
+      "before": {
+        "tableCropPdfPagePoints": [300, 45, 585, 305],
+        "rowHighlightPdfPagePoints": [310.1, 84.35, 585.54, 104.1],
+        "status": "outside-crop",
+        "outsideEdge": "right",
+        "overrunPoints": 0.54
+      },
+      "after": {
+        "tableCropPdfPagePoints": [300, 45, 590, 305],
+        "rowHighlightPdfPagePoints": [310.1, 84.35, 585.54, 104.1],
+        "status": "contained",
+        "boundaryDecision": "Expanded the table crop 5 PDF points to the right to include the printed Cost cell; the crop remains within the armor-cost table and its footnotes."
+      }
+    },
+    {
+      "recordId": "ua-other-005-E1-main-r024",
+      "object": "Bowl Commanding Water Elementals (M)",
+      "sourcePdfPage": 87,
+      "pageImageSha256": "d00eceb4f590f0461b6e00f52dcb517fb1844990578e96286beaba6e61c04122",
+      "before": {
+        "tableCropPdfPagePoints": [25, 420, 300, 735],
+        "rowHighlightPdfPagePoints": [36.5, 724.48, 269.97, 744.21],
+        "status": "outside-crop",
+        "outsideEdge": "bottom",
+        "overrunPoints": 9.21
+      },
+      "after": {
+        "tableCropPdfPagePoints": [25, 420, 300, 750],
+        "rowHighlightPdfPagePoints": [36.5, 724.48, 269.97, 744.21],
+        "status": "contained",
+        "boundaryDecision": "Expanded the table crop 15 PDF points below the wrapped final E.1 row; the neighboring E.1 continuation is in the opposite page column, and no following table begins below this crop."
+      }
+    },
+    {
+      "recordId": "ua-other-005-E1-cont-r033",
+      "object": "Bucknard's Everfull Purse",
+      "sourcePdfPage": 87,
+      "pageImageSha256": "d00eceb4f590f0461b6e00f52dcb517fb1844990578e96286beaba6e61c04122",
+      "before": {
+        "tableCropPdfPagePoints": [305, 30, 585, 160],
+        "rowHighlightPdfPagePoints": [319, 143.68, 571.83, 163.11],
+        "status": "outside-crop",
+        "outsideEdge": "bottom",
+        "overrunPoints": 3.11
+      },
+      "after": {
+        "tableCropPdfPagePoints": [305, 30, 585, 230],
+        "rowHighlightPdfPagePoints": [319, 143.68, 571.83, 163.11],
+        "status": "contained",
+        "boundaryDecision": "Expanded the E.1 continuation crop to include the complete wrapped row, its printed footnote, and the next E.2 table heading with column labels. The lower boundary ends below that context; the row highlight itself is unchanged."
+      }
+    }
+  ],
+  "reviewLimit": "These checks establish rectangle containment only. Independent overlay review of highlight alignment remains pending."
+}

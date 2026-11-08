@@ -1,0 +1,427 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "immutable-monetary-deck-gem-owner-crosspage-findings",
+  "capturedBeforeSourceCorrections": true,
+  "baseline": {
+    "path": "research/source-audit-batch5-monetary-row-identity-baseline.json",
+    "sha256": "bd4973e1eca69a56b64adf3758ccce3683783815dea38bb8ca6ec9f33e898bb9"
+  },
+  "sourceInput": {
+    "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+    "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9"
+  },
+  "sourcePdf": {
+    "book": "DMG",
+    "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+  },
+  "counts": {
+    "previousKnownFindingRecords": 162,
+    "newFindingRecords": 2,
+    "totalIfRegistered": 164,
+    "affectedDistinctLogicalRecords": 1,
+    "existingDistinctReferencedUses": 410,
+    "newDistinctReferencedUses": 0
+  },
+  "knownFindings": [
+    {
+      "id": "dmg-deck-gem-explicit-choice-quantity",
+      "kind": "typed-content-mismatch",
+      "independent": true,
+      "records": [
+        {
+          "uid": "phb-dmg-supplement-row:dmg-deck-gem-card",
+          "rowIdentitySha256": "34102f98027fa42d4a5bbb7cc2a4861d0a9f43a879d6e42b6870a7f22ca62253",
+          "focusGeometrySha256": "df1567473d4d13c3125acf7d785a36c19a1d7163ee13f75b208429f01c054c5c",
+          "contextGeometrySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "contextEvidenceSha256": "d468b0ca34ec5d74d9c63d08941ce02a9ae624d5f239805d7dafc1f5080abc2b",
+          "contextFingerprintVersion": "declared-source-crop-context-v1",
+          "recordSha256": "b1c31ea9c4ee5fc156b0fdde071e0920b133f14e80f8c8713ac2bff7f9becdcd"
+        }
+      ],
+      "confirmedPointers": [
+        "/typedValue/totalValue",
+        "/quantityOrScale",
+        "/focus/status"
+      ],
+      "observed": {
+        "totalValue": "not stated; gem count unspecified",
+        "quantityOrScale": "gems all at 1,000 gp base each; number of pieces not given",
+        "focusStatus": "complete card paragraph; money value and unspecified quantity in focus"
+      },
+      "sourceExpected": {
+        "choice": {
+          "jewelryCount": 20,
+          "gemCount": 50,
+          "relationship": "alternatives; choose one"
+        },
+        "gemBaseValueGpEach": 1000,
+        "printedTotalValue": "not explicitly stated",
+        "jewelryValuePerPiece": "not explicitly stated",
+        "tableMarker": "*",
+        "tableMarkerScope": "Gem is an additional card in the22-card pack; see owner opening rule"
+      },
+      "reason": "The original owner entry spans DMG142\u2013143. Its p142 table explicitly gives20 jewelry OR50gems. The currently cited p143 paragraph supplies1000gp gem base value and XP limits, but does not justify declaring the owner quantity unspecified. Preserve direct quantities separately from any derived total and from unspecified jewelry valuation."
+    },
+    {
+      "id": "dmg-deck-gem-missing-owner-table-context",
+      "kind": "source-note-context-defect",
+      "independent": true,
+      "records": [
+        {
+          "uid": "phb-dmg-supplement-row:dmg-deck-gem-card",
+          "rowIdentitySha256": "34102f98027fa42d4a5bbb7cc2a4861d0a9f43a879d6e42b6870a7f22ca62253",
+          "focusGeometrySha256": "df1567473d4d13c3125acf7d785a36c19a1d7163ee13f75b208429f01c054c5c",
+          "contextGeometrySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "contextEvidenceSha256": "d468b0ca34ec5d74d9c63d08941ce02a9ae624d5f239805d7dafc1f5080abc2b",
+          "contextFingerprintVersion": "declared-source-crop-context-v1",
+          "recordSha256": "b1c31ea9c4ee5fc156b0fdde071e0920b133f14e80f8c8713ac2bff7f9becdcd"
+        }
+      ],
+      "reason": "The existing p143 paragraph crop omits the p142 Deck ofManyThings owner/table that supplies Gem(2H) alternative quantities and the asterisk22-card-pack qualifier. Both ordered source parts are required to support the combined logical claim; a glyph-clean p143-only crop remains incomplete for those fields.",
+      "requiredSourceDependencies": [
+        {
+          "order": 1,
+          "book": "DMG",
+          "printedPage": 142,
+          "pdfPage": 143,
+          "purpose": "owner name, complete table, Gem choices, and asterisk deck-size explanation"
+        },
+        {
+          "order": 2,
+          "book": "DMG",
+          "printedPage": 143,
+          "pdfPage": 144,
+          "purpose": "Gem paragraph: gold jewelry/gem base1000gp and separate capped XP statement"
+        }
+      ]
+    }
+  ],
+  "records": [
+    {
+      "uid": "phb-dmg-supplement-row:dmg-deck-gem-card",
+      "surface": "phb-dmg-supplement-row",
+      "id": "dmg-deck-gem-card",
+      "input": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "inputStage": "recorded-input-not-certified-by-this-audit",
+      "pointer": "/review/sourceRowsOrClaims/166",
+      "recordSha256": "b1c31ea9c4ee5fc156b0fdde071e0920b133f14e80f8c8713ac2bff7f9becdcd",
+      "label": "Gem card in Deck of Many Things",
+      "source": {
+        "book": "DMG",
+        "printedPage": 143,
+        "pdfPage": 144,
+        "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "identity": {
+        "label": "Gem card in Deck of Many Things",
+        "group": "dmg-high-value-gems",
+        "ordinal": null,
+        "diceRoll": null,
+        "variant": null,
+        "kind": "tarot-card-wealth-claim",
+        "sourceRowIds": []
+      },
+      "identityStatus": "recorded-unverified",
+      "notApplicable": null,
+      "geometry": [
+        {
+          "path": "/focus/focusBoundsCropPixelsLTRB",
+          "role": "row-or-passage-focus",
+          "space": "crop-local-pixels",
+          "format": "ltrb",
+          "bounds": [
+            4,
+            45,
+            590,
+            155
+          ],
+          "source": {
+            "book": "DMG",
+            "printedPage": 143,
+            "pdfPage": 144,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "frame": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669|DMG|pdf:144|crop-local-pixels|bdc985d4a0e846d0bfa03b7417204c1bb0af480166c124c6af198d04024687be",
+          "derivation": null,
+          "status": "complete card paragraph; money value and unspecified quantity in focus",
+          "geometrySha256": "7854675f9fbde27dd050513007f7174627db2a20c4cf5062f372cbb9394aee1f",
+          "validShape": true
+        },
+        {
+          "path": "/focus/focusBoundsCropPixelsLTRB",
+          "role": "row-or-passage-focus",
+          "space": "rendered-page-pixels",
+          "format": "ltrb",
+          "bounds": [
+            4,
+            385,
+            590,
+            495
+          ],
+          "source": {
+            "book": "DMG",
+            "printedPage": 143,
+            "pdfPage": 144,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "frame": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669|DMG|pdf:144|rendered-page-pixels|bd2634dd48d83af1e1008da18d2efa2e9c61d60ed504e3a9faa1009b9e93cf47",
+          "derivation": {
+            "kind": "crop-local-plus-recorded-source-render-offset",
+            "cropId": "crop-dmg-high-value-gems-01",
+            "sourceRenderDimensionsPx": [
+              1211,
+              1636
+            ],
+            "renderDpi": 150
+          },
+          "status": "recorded-unverified",
+          "geometrySha256": "4647d3dba365956919e119f0ee656a5f28c9f0e7909b1258a59e2cd642b923c7",
+          "validShape": true
+        }
+      ],
+      "annotations": {
+        "/quantityOrScale": "gems all at 1,000 gp base each; number of pieces not given",
+        "/conditions": "same passage says XP equal in value, max sufficient for one level; XP is separate and excluded from currency"
+      },
+      "unhandledGeometry": [],
+      "rowIdentitySha256": "34102f98027fa42d4a5bbb7cc2a4861d0a9f43a879d6e42b6870a7f22ca62253",
+      "contextFingerprintVersion": "declared-source-crop-context-v1",
+      "contextEvidence": {
+        "schemaVersion": 1,
+        "fingerprintVersion": "declared-source-crop-context-v1",
+        "status": "declared-context-crop-metadata-linked",
+        "sourceInput": {
+          "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+          "sha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9"
+        },
+        "sourceRecordPointer": "/review/sourceRowsOrClaims/166",
+        "sourceFrame": {
+          "book": "DMG",
+          "printedPage": 143,
+          "pdfPage": 144,
+          "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+          "coordinateSpace": "crop-local-pixels plus source-render pixel frame"
+        },
+        "declaredLinks": [
+          {
+            "field": "contextCropId",
+            "cropId": "crop-dmg-high-value-gems-01"
+          },
+          {
+            "field": "focus.contextCropId",
+            "cropId": "crop-dmg-high-value-gems-01"
+          }
+        ],
+        "crops": [
+          {
+            "cropId": "crop-dmg-high-value-gems-01",
+            "cropPointer": "/review/evidenceCrops/8",
+            "metadata": {
+              "groupId": "dmg-high-value-gems",
+              "label": "gem-card-wealth-valuation-prose",
+              "sourceRender": "dmg-pdf-144.png",
+              "sourceRenderSha256": "bd2634dd48d83af1e1008da18d2efa2e9c61d60ed504e3a9faa1009b9e93cf47",
+              "sourceRenderDimensionsPx": [
+                1211,
+                1636
+              ],
+              "cropBoundsPixelsLTRB": [
+                0,
+                340,
+                595,
+                510
+              ],
+              "cropDimensionsPx": [
+                595,
+                170
+              ],
+              "cropSha256": "bdc985d4a0e846d0bfa03b7417204c1bb0af480166c124c6af198d04024687be"
+            },
+            "sharedReferenceRecordIds": [
+              "phb-dmg-supplement-row:dmg-deck-gem-card"
+            ]
+          }
+        ]
+      },
+      "contextEvidenceSha256": "d468b0ca34ec5d74d9c63d08941ce02a9ae624d5f239805d7dafc1f5080abc2b",
+      "focusGeometrySha256": "df1567473d4d13c3125acf7d785a36c19a1d7163ee13f75b208429f01c054c5c",
+      "contextGeometrySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "annotationSha256": "8bdeedf0ef406ae800d8a4a4b9bd26aec2a923dce01828f157b7ed9c5ad864eb",
+      "identityCompleteness": {
+        "label": true,
+        "group": true,
+        "ordinalOrDice": false,
+        "sourceHash": true,
+        "sourceBook": true,
+        "sourcePdfPage": true
+      },
+      "geometryStatus": "focus-or-row-locator-recorded",
+      "physicalRowIdentityReview": "unassessed-by-programmatic-inventory",
+      "inputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9"
+    }
+  ],
+  "sourcePixelEvidenceParts": [
+    {
+      "id": "deck-gem-owner-table-context",
+      "pdfPage": 143,
+      "sourceRenderSha256": "a7644732d9f27787ae77ae7ac4ee51783ab1a3ec4ce8147ac81b4ef146600293",
+      "sourceRenderDimensionsPx": [
+        1209,
+        1644
+      ],
+      "sourceRenderBoundsPixelsLTRB": [
+        600,
+        444,
+        1195,
+        1335
+      ],
+      "mediaBoxPdfPointsLTRB": [
+        288.0,
+        213.12,
+        573.6,
+        640.8
+      ],
+      "privateEvidence": "/tmp/batch5-independent-phbdmg-context-v2/deck-gem-owner-table-context.png",
+      "imageSha256": "cf87e9791c4c272125c36a8bf3003ed7c6c3567ead9edae60e16185a9bcdad81",
+      "dimensionsPx": [
+        595,
+        891
+      ]
+    },
+    {
+      "id": "deck-gem-monetary-paragraph-context",
+      "pdfPage": 144,
+      "sourceRenderSha256": "bd2634dd48d83af1e1008da18d2efa2e9c61d60ed504e3a9faa1009b9e93cf47",
+      "sourceRenderDimensionsPx": [
+        1211,
+        1636
+      ],
+      "sourceRenderBoundsPixelsLTRB": [
+        65,
+        386,
+        605,
+        478
+      ],
+      "mediaBoxPdfPointsLTRB": [
+        31.2,
+        185.28,
+        290.4,
+        229.44
+      ],
+      "privateEvidence": "/tmp/batch5-independent-phbdmg-context-v2/deck-gem-monetary-paragraph-context.png",
+      "imageSha256": "151afb9a7ff7eece86e343982ef60307bd8a45e1ff8fa1d96af2083f5f85c2b2",
+      "dimensionsPx": [
+        540,
+        92
+      ]
+    }
+  ],
+  "supersededPositiveAssessment": {
+    "privateArtifact": "/tmp/batch5-independent-phbdmg-candidate/independent-review-v2.json",
+    "sha256": "d8cd97fe906e1f9509d19855441d7629f2d099742a5780eb62c3c58cf77a5bc0",
+    "record": {
+      "index": 167,
+      "recordId": "dmg-deck-gem-card",
+      "groupId": "dmg-high-value-gems",
+      "source": {
+        "bookKey": "DMG",
+        "book": "Dungeon Masters Guide",
+        "printedPage": 143,
+        "pdfPage": 144,
+        "sourceFile": "DMG_1stEd.pdf",
+        "sourceFileSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "recordSha256": "b1c31ea9c4ee5fc156b0fdde071e0920b133f14e80f8c8713ac2bff7f9becdcd",
+      "rowIdentitySha256": "34102f98027fa42d4a5bbb7cc2a4861d0a9f43a879d6e42b6870a7f22ca62253",
+      "focusGeometrySha256": "df1567473d4d13c3125acf7d785a36c19a1d7163ee13f75b208429f01c054c5c",
+      "contextCropId": "crop-dmg-high-value-gems-01",
+      "contextCropSha256": "bdc985d4a0e846d0bfa03b7417204c1bb0af480166c124c6af198d04024687be",
+      "sourceRenderSha256": "bd2634dd48d83af1e1008da18d2efa2e9c61d60ed504e3a9faa1009b9e93cf47",
+      "focusSha256": "421d67b434799c33d5732a1aba7fbfa4c443087d369300b07d9ba21a8aa55e8b",
+      "focus": {
+        "contextCropId": "crop-dmg-high-value-gems-01",
+        "focusBoundsCropPixelsLTRB": [
+          4,
+          45,
+          590,
+          155
+        ],
+        "coordinateSpace": "crop-local 150-dpi source-render pixels; left,top,right,bottom; half-open",
+        "status": "complete card paragraph; money value and unspecified quantity in focus"
+      },
+      "typedValue": {
+        "jewelryMetal": "gold",
+        "gemsBaseValueGpEach": 1000,
+        "totalValue": "not stated; gem count unspecified"
+      },
+      "purpose": "wealth result from card",
+      "quantityOrScale": "gems all at 1,000 gp base each; number of pieces not given",
+      "conditions": "same passage says XP equal in value, max sufficient for one level; XP is separate and excluded from currency",
+      "changedFocus": false,
+      "authoredOperations": [],
+      "assessments": {
+        "sourceIdentity": {
+          "status": "confirmed",
+          "reason": "Original PDF identity verified; all20 page renders independently regenerated at150dpi and hash-matched. Exact source crop reconstructed from that render."
+        },
+        "crop": {
+          "status": "defect",
+          "reason": "This exact context asset cuts actual source-word ink at a boundary. A5\u00d7 original-pixel witness was independently inspected; this is not an OCR-font-padding-only finding."
+        },
+        "context": {
+          "status": "defect",
+          "reason": "Required exposed context image has clipped source glyphs, including unrelated headers/neighbor text where applicable; no crop-grade transfer."
+        },
+        "relevance": {
+          "status": "confirmed",
+          "reason": "Owner/logical claim identity and its core source-stated amounts, units, row conditions, or derived basis were checked on original-source pixels. This is not a source-value grade promotion."
+        },
+        "highlight": {
+          "status": "confirmed",
+          "reason": "The focus selects the correct core source statement/row and its monetary/unit text in the bounded pixel review. No unrelated field, default, or source-value grade is promoted."
+        },
+        "typedContent": {
+          "status": "confirmed-with-scope-limits",
+          "reason": "Core typed amounts/formulas/units and applicability were checked with the original-source statement and prior independent typed QA. Minimums, alternatives, relative values, examples, and source caveats retain their own meanings."
+        },
+        "ambiguity": {
+          "status": "source-stated-with-recorded-limits",
+          "semanticPass": false
+        }
+      },
+      "binding": "monetary-source-row-or-claim",
+      "jsonPointer": "/review/sourceRowsOrClaims/166",
+      "sourceClassification": "source-stated-claim-or-rule",
+      "sourcePixelProof": {
+        "cropIndex": 8,
+        "privateOverlay": "/tmp/batch5-independent-phbdmg-candidate/clean-overlays/08.png",
+        "overlaySha256": "21b55db2f4fa29f852e8e595a0cd6281235bcc1a25860913485ad36563d49c46",
+        "cropSha256": "bdc985d4a0e846d0bfa03b7417204c1bb0af480166c124c6af198d04024687be",
+        "sourceRenderSha256": "bd2634dd48d83af1e1008da18d2efa2e9c61d60ed504e3a9faa1009b9e93cf47"
+      },
+      "oldPositiveFocusAssessment": "superseded; current judgment is independently stated here",
+      "sourceValueGradePromoted": false,
+      "defaultApproved": false
+    },
+    "sourceOriginAssessment": {
+      "recordId": "dmg-deck-gem-card",
+      "origin": "source-stated-claim-or-rule",
+      "typedContentStatus": "confirmed-with-scope-limits",
+      "ambiguity": {
+        "status": "source-stated-with-recorded-limits",
+        "semanticPass": false
+      }
+    },
+    "reason": "The prior bounded p143-only review incorrectly treated the missing quantity as a source limit. The complete owner table on p142 was not checked for that recorded unknown. This is a source-context/quantity extraction false pass, not an ambiguity in the original source."
+  },
+  "sourceAmountGradeChanged": false,
+  "sourceValueGradePromoted": false,
+  "sourcePatchesApplied": false,
+  "notes": [
+    "The Gem card remains one logical monetary claim; two finding dimensions on the same record are not two physical source rows.",
+    "The1000gp gem base statement is directly printed and remains separate from choice quantities. No total or jewelry per-piece value is invented.",
+    "The source22-card-deck asterisk and XP limit are preserved as separate qualifiers; XP is not currency.",
+    "Private full pages/PNGs remain outside the public repository. Only the limited existing typed record, identities, hashes, numeric bounds, and source facts are included.",
+    "New ordered multi-part PD context schema must be explicit/versioned; do not weaken the existing single-context conflict guard."
+  ]
+}

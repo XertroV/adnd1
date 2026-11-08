@@ -3,12 +3,14 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {readFileSync} from 'node:fs';
-import {sourcePriceCompletionEquipment, withoutPriceCompletionEquipment, withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
+import {sourcePriceCompletionEquipment, withoutBatch5OfferEquipment, withoutPriceCompletionEquipment, withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 
 const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8'));
 const rootData = read('../equipment.json');
+rootData.equipment=withoutBatch5OfferEquipment(rootData.equipment);
 const contextReview = read('../research/equipment-price-context-review.json');
 const rowBindings = read('../research/equipment-source-row-bindings.json');
+rowBindings.bindings=rowBindings.bindings.filter(binding=>binding.independentReviewFile==='research/equipment-price-context-review.json');
 const fixture = read('./fixtures/equipment-price-completion-73.json');
 const mechanicsLedger = read('../research/mechanics-audit-progress.json');
 const reviewBytes = readFileSync(new URL('../research/equipment-price-context-review.json', import.meta.url));

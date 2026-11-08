@@ -1,6 +1,7 @@
 """Numeric geometry regression; no PDFs, OCR strings, or semantic claims."""
 import sys
 import unittest
+import json
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'research'))
@@ -8,6 +9,22 @@ from crop_geometry import crosses
 
 
 class CropGeometry(unittest.TestCase):
+    def test_all_five_ua10_preserved_crop_failures_and_proposals(self):
+        fixture = Path(__file__).resolve().parent / 'fixtures/ua10-wordbox-edge-calibration-before.json'
+        data = json.loads(fixture.read_text())
+        self.assertEqual(len(data['cases']), 5)
+        self.assertEqual([len(c['oldWordIntersections']) for c in data['cases']],
+                         [26, 18, 26, 14, 45])
+        for case in data['cases']:
+            def intersections(bounds):
+                return [{'wordIndex': i, 'edges': crosses(word, bounds)}
+                        for i, word in enumerate(data['wordBoxes']) if crosses(word, bounds)]
+            self.assertEqual(intersections(case['oldBoundsPdfPointsTopLeftLTRB']),
+                             case['oldWordIntersections'])
+            self.assertEqual(intersections(case['proposedBoundsPdfPointsTopLeftLTRB']), [])
+        # The zero geometric candidates do not clear source-inherent loss.
+        self.assertEqual(sum('fold' in c['sourceInherentDefect'] for c in data['cases']), 2)
+
     def test_phb51_confirmed_crop_repair_calibration(self):
         # Coordinates from the supplied PHB p.51 PDF text layer and published
         # old/repaired crop bounds. These are a regression sample, not proof of

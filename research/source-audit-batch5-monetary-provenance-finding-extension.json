@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "immutable-wrong-five-versus-seven-producer-anchor-finding",
+  "capturedBeforeSourceCorrections": true,
+  "baseline": {
+    "path": "research/source-audit-batch5-monetary-row-identity-baseline.json",
+    "sha256": "bd4973e1eca69a56b64adf3758ccce3683783815dea38bb8ca6ec9f33e898bb9"
+  },
+  "sourceInputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+  "originalOperationsSha256": "daf1010c7c54ce36efa5f430761bbf7807ff58c3d9dd86504c46edd95f4448fa",
+  "knownFindings": [
+    {
+      "id": "producer-gem-increase-seven-step-anchor",
+      "kind": "source-provenance-metadata-mismatch",
+      "independent": true,
+      "subject": "producer-source-provenance; typed/sourcevalue7alreadycorrect",
+      "records": [
+        {
+          "uid": "phb-dmg-supplement-row:dmg-gem-increase-ladder",
+          "rowIdentitySha256": "2034cbd89a56e41dd6cf346e59d46ea9159353f9ec726affebe8a3c8b7b871b9",
+          "focusGeometrySha256": "3588e50b780717b06acb3df24d52ec77f392a82978809d86e4bf592bb181b88b",
+          "recordSha256": "e0c72450ec7a73686a0968adcab394e64c936108c68f441c55c10b49e403d4b6"
+        }
+      ],
+      "provenanceArtifact": {
+        "path": "research/source-audit-batch5-monetary-provenance-before.json",
+        "sha256": "bc92fbb7a811055b620577125812f066484861cf948aa192d90d3203014a8e53",
+        "pointer": "/observedSourceTextAnchor",
+        "observedValue": "Above-5,000-gp ladder: 10,000 through 1,000,000 gp, maximum and five-step limit."
+      },
+      "expectedValue": "Above-5,000-gp ladder: 10,000 through 1,000,000 gp, maximum and seven-step limit.",
+      "reason": "The source and actualtypedValue state a7-place increase limit. The producer sourceTextAnchor alone wrongly saysfive. Correcting this metadata does not confer any row-value, source-crop, focus or default grade.",
+      "independentReview": {
+        "privatePath": "/tmp/batch5-independent-phbdmg-candidate/independent-review.json",
+        "sha256": "e84b898d3a5c8aa6ea3a6b7315030c8e816f72185521c3e065ddf7d626c5bf22"
+      }
+    }
+  ],
+  "records": [
+    {
+      "uid": "phb-dmg-supplement-row:dmg-gem-increase-ladder",
+      "surface": "phb-dmg-supplement-row",
+      "id": "dmg-gem-increase-ladder",
+      "input": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+      "inputSha256": "b0d46959c44e0d156ef5d40326af48c1f1ce9ee5b282a870c06c41010b94dcc9",
+      "inputStage": "recorded-input-not-certified-by-this-audit",
+      "pointer": "/review/sourceRowsOrClaims/38",
+      "recordSha256": "e0c72450ec7a73686a0968adcab394e64c936108c68f441c55c10b49e403d4b6",
+      "label": "Above-5,000-gp gem increase ladder",
+      "source": {
+        "book": "DMG",
+        "printedPage": 26,
+        "pdfPage": 27,
+        "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "identity": {
+        "label": "Above-5,000-gp gem increase ladder",
+        "group": "dmg-gem-value-progression",
+        "ordinal": null,
+        "diceRoll": null,
+        "variant": null,
+        "kind": "valuation-progression",
+        "sourceRowIds": []
+      },
+      "identityStatus": "recorded-unverified",
+      "notApplicable": null,
+      "geometry": [
+        {
+          "path": "/focus/focusBoundsCropPixelsLTRB",
+          "role": "row-or-passage-focus",
+          "space": "crop-local-pixels",
+          "format": "ltrb",
+          "bounds": [
+            5,
+            175,
+            610,
+            670
+          ],
+          "source": {
+            "book": "DMG",
+            "printedPage": 26,
+            "pdfPage": 27,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "frame": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669|DMG|pdf:27|crop-local-pixels|cabb39c4cc1ab9818558458d8ba6714396dfc5f933fbea936022040d9559c6f6",
+          "derivation": null,
+          "status": "precise paragraph/list subregion; multi-line focus in source-context crop",
+          "geometrySha256": "d06bf5083f5501bb92bdafef95130f224719175212b19659c22c4be7745985d5",
+          "validShape": true
+        },
+        {
+          "path": "/focus/focusBoundsCropPixelsLTRB",
+          "role": "row-or-passage-focus",
+          "space": "rendered-page-pixels",
+          "format": "ltrb",
+          "bounds": [
+            5,
+            230,
+            610,
+            725
+          ],
+          "source": {
+            "book": "DMG",
+            "printedPage": 26,
+            "pdfPage": 27,
+            "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+          },
+          "frame": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669|DMG|pdf:27|rendered-page-pixels|52fa3a0605be19e8a02978318c243ee00e11a1d79ae29496edbe60d0c2b429ea",
+          "derivation": {
+            "kind": "crop-local-plus-recorded-source-render-offset",
+            "cropId": "crop-dmg-gem-value-progression-01",
+            "sourceRenderDimensionsPx": [
+              1217,
+              1638
+            ],
+            "renderDpi": 150
+          },
+          "status": "recorded-unverified",
+          "geometrySha256": "ad32e6c4ae62a23d3e1cc73fb51ec29b3ada57f90904ec29bbf13d8504db0fa7",
+          "validShape": true
+        }
+      ],
+      "annotations": {
+        "/quantityOrScale": "stones initially over 5000 gp",
+        "/conditions": null
+      },
+      "unhandledGeometry": [],
+      "rowIdentitySha256": "2034cbd89a56e41dd6cf346e59d46ea9159353f9ec726affebe8a3c8b7b871b9",
+      "focusGeometrySha256": "3588e50b780717b06acb3df24d52ec77f392a82978809d86e4bf592bb181b88b",
+      "contextGeometrySha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "annotationSha256": "69be1069d8d1ffab94594c6bc20a8a4dbc9c4d1aa860607d367b6234e3f591c4",
+      "identityCompleteness": {
+        "label": true,
+        "group": true,
+        "ordinalOrDice": false,
+        "sourceHash": true,
+        "sourceBook": true,
+        "sourcePdfPage": true
+      },
+      "geometryStatus": "focus-or-row-locator-recorded",
+      "physicalRowIdentityReview": "unassessed-by-programmatic-inventory"
+    }
+  ],
+  "registrationStatus": "Sealed before v2; register in mandatory manifest when new provenance-kind loader support is available. Until then parent holds source/candidate corrections."
+}

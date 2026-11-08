@@ -1,11 +1,14 @@
 {
   "schemaVersion": 1,
-  "scope": "Current follow-up to the three records historically unmatched to canonical equipment item.price. The frozen185 mapping/value receipt remains unchanged. This does not establish whole-book completeness.",
+  "scope": "Current reconciliation of the three historically unmatched source offers. All188 named offers are represented by187 canonical prices and one additional Arrow-dozen field. The UA Quarrels quantity remains unresolved within its represented source offer; this is not a whole-book completeness claim.",
   "denominator": {
     "namedSourceOffers": 188,
-    "canonicalEquipmentPrices": 185,
+    "canonicalEquipmentPrices": 187,
     "additionalExtractedOfferFields": 1,
-    "distinctUnrepresentedOrUnresolvedOffers": 2
+    "distinctUnrepresentedOrUnresolvedOffers": 1,
+    "unrepresentedOffers": 0,
+    "representedOffersWithUnresolvedQuantity": 1,
+    "countOverlapNote": "One represented offer has unresolved quantity. This review queue overlaps the 187 canonical extracted price records and must not be added to them."
   },
   "records": [
     {
@@ -62,11 +65,22 @@
           0.012821
         ]
       },
-      "disposition": "unrepresented-distinct-package",
-      "itemId": null,
-      "fieldPointer": null,
-      "note": "15 sp per dozen for Sling & Bullets is a separate offer. Existing sling-bullet price10 sp per score is not equivalent.",
-      "canonicalItemPriceBinding": false
+      "disposition": "extracted-canonical-offer",
+      "itemId": "phb-sling-bullets-dozen",
+      "fieldPointer": "/price",
+      "note": "The 15 sp dozen offer is now separately extracted; the existing 10 sp/score bullet offer is retained.",
+      "canonicalItemPriceBinding": true,
+      "previousDisposition": {
+        "disposition": "unrepresented-distinct-package",
+        "itemId": null,
+        "fieldPointer": null,
+        "note": "15 sp per dozen for Sling & Bullets is a separate offer. Existing sling-bullet price10 sp per score is not equivalent."
+      },
+      "currentMappingReview": {
+        "path": "research/source-audit-batch5-price-independent-review.json",
+        "sha256": "e1e87f0eb7cfab17422c3c02e18c1950cd07f4a4a55cbbe6cc2d0972195bbc35",
+        "recordIndex": 0
+      }
     },
     {
       "sourceInventoryFile": "research/price-source-inventory-ua26.json",
@@ -92,11 +106,22 @@
           0.015985
         ]
       },
-      "disposition": "unresolved-source-offer",
-      "itemId": null,
-      "fieldPointer": null,
-      "note": "100 gp for Quarrels for same remains unrepresented; quantity/equivalence is unresolved. Do not infer a per-bolt price.",
-      "canonicalItemPriceBinding": false
+      "disposition": "extracted-quantity-unspecified-offer",
+      "itemId": "ua-quarrels-for-same",
+      "fieldPointer": "/price",
+      "note": "The printed 100 gp offer is separately extracted without a unit. Quantity and equivalence remain unresolved; no per-quarrel amount is inferred.",
+      "canonicalItemPriceBinding": true,
+      "previousDisposition": {
+        "disposition": "unresolved-source-offer",
+        "itemId": null,
+        "fieldPointer": null,
+        "note": "100 gp for Quarrels for same remains unrepresented; quantity/equivalence is unresolved. Do not infer a per-bolt price."
+      },
+      "currentMappingReview": {
+        "path": "research/source-audit-batch5-price-independent-review.json",
+        "sha256": "e1e87f0eb7cfab17422c3c02e18c1950cd07f4a4a55cbbe6cc2d0972195bbc35",
+        "recordIndex": 1
+      }
     }
   ],
   "evidence": [

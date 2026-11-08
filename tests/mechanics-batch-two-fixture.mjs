@@ -6,6 +6,7 @@ import {reverseFinalCorrections} from './mechanics-final-fixture.mjs';
 import {reverseFollowupCorrections} from './mechanics-followup-fixture.mjs';
 import {reverseNextCorrections} from './mechanics-next-fixture.mjs';
 import {withoutGeneratedCitationTransport} from './equipment-source-first-fixture.mjs';
+import {reverseBatch5SemanticSuccessors} from './helpers/batch5-semantic-history.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -50,7 +51,7 @@ export function validateIndependentReviews(records=fixture.records) {
  assert.deepEqual(counts,{spells:242,classes:38},'independent review coverage');
 }
 export function reverseMechanicsBatchTwo(items,collection) {
- const sourceBaseline=structuredClone(items);
+ const sourceBaseline=reverseBatch5SemanticSuccessors(items,collection);
  if(collection==='rules'){
   const aerial=sourceBaseline.find(item=>item.id==='aerial-climbing-diving');
   // The unchanged C–E mechanics were always on p.51. Reverse only the reviewed

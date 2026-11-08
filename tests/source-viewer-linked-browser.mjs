@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {createRequire} from 'node:module';
+import {buildPublishedContinuations} from '../tools/published-continuations.mjs';
 
 const require=createRequire(import.meta.url);
 let chromium;
@@ -12,9 +13,12 @@ try { ({chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright')); }
 catch { ({chromium}=require('/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright')); }
 
 const root=path.resolve('dist');
+const repositoryRoot=path.resolve('.');
 const read=async relative=>JSON.parse(await readFile(path.join(root,relative),'utf8'));
 const data=await read('data.json');
-const published=await read('source-continuations.json');
+const manifest=JSON.parse(await readFile(path.join(repositoryRoot,'research/citation-continuations.json'),'utf8'));
+const published=buildPublishedContinuations({manifest,data,catalogRoot:root});
+const newlyReviewedGroups=new Set(manifest.groups.slice(14).map(group=>group.id));
 const abjureRecord=data.spells.find(item=>item.id==='ua-cleric-abjure');
 const abjureCatalog=await read(abjureRecord.sourceExcerpts.catalog);
 const phb47Region=abjureCatalog.regions.find(region=>region.book==='PHB'&&region.printedPage===47);
@@ -36,6 +40,9 @@ async function openAt(page,view,id,book,printedPage,regionId){
   await page.locator('.source-viewer-linked-parts').waitFor();
   return dialog;
 }
+async function serveCurrentContinuationProjection(page){
+  await page.route('**/source-continuations.json',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(published)}));
+}
 async function waitSelected(dialog,regionId){
   await dialog.locator(`.source-viewer-linked-part[data-region-id="${regionId}"][data-selected="true"]`).waitFor();
   await dialog.locator('.source-viewer-status').filter({hasText:/· excerpt \d+ of/}).waitFor();
@@ -43,6 +50,7 @@ async function waitSelected(dialog,regionId){
 
 try {
   const page=await browser.newPage({viewport:{width:1440,height:1000},permissions:['clipboard-read','clipboard-write']});
+  await serveCurrentContinuationProjection(page);
   page.on('pageerror',error=>errors.push(error.message));
   const abjureHash=entryHash('spells','ua-cleric-abjure','UA',37,abjureContinuation);
   const dialog=await openAt(page,'spells','ua-cleric-abjure','UA',37,abjureContinuation);
@@ -162,6 +170,7 @@ try {
   // excerpt. Choosing the unrelated single-arrow row must retain that row by
   // ID when normal catalog ordering is restored and must clear field metadata.
   const targetPage=await browser.newPage({viewport:{width:1280,height:900}});
+  await serveCurrentContinuationProjection(targetPage);
   targetPage.on('pageerror',error=>errors.push(error.message));
   const arrowField='/fields/Normal arrows, dozen price';
   const targetHash=`#equipment/phb-arrow?source=${encodeURIComponent('PHB:35')}&region=${encodeURIComponent('phb-arrow-phb35-2')}&field=${encodeURIComponent(arrowField)}`;
@@ -179,20 +188,35 @@ try {
   check(await targetDialog.locator('#source-viewer-region').inputValue()==='0','natural ordering is restored with the chosen region still selected by ID');
   check((await targetDialog.locator('.source-viewer-caption').textContent()).includes('Normal single-arrow price'),'the displayed region is the selected single-arrow row, not the stale target index');
 
-  let renderedDeclaredGroups=0;
+  let renderedDeclaredGroups=0, singleSegmentGroups=0;
   for(const group of published.groups){
     if(group.segments.some(segment=>segment.state!=='present'))continue;
-    const first=group.segments[0];
+    // An alias group can share its opening with the primary group. Its unique
+    // legacy continuation ID selects that variant without changing the default.
+    const aliasGroup=manifest.groups.find(candidate=>candidate.id===group.id)?.aliasOf;
+    const first=aliasGroup?group.segments.at(-1):group.segments[0];
     const contextual=['matrices','progressionExplainer'].includes(group.collection);
     const view=contextual?'classes':group.collection;
     const id=contextual?'fighter':group.itemId;
     const owner=group.collection==='progressionExplainer'?'classes':group.collection;
     const hash=entryHash(view,id,first.book,first.printedPage,first.regionId)+(contextual?`&owner=${encodeURIComponent(`${owner}:${group.itemId}`)}`:'');
     const ownerPage=await browser.newPage({viewport:{width:1440,height:1000}});
+    await serveCurrentContinuationProjection(ownerPage);
     ownerPage.on('pageerror',error=>errors.push(error.message));
     try{
       await ownerPage.goto(`${base}/${hash}`);
-      const parts=ownerPage.locator('dialog.source-viewer[open] .source-viewer-linked-part');
+      const ownerDialog=ownerPage.locator('dialog.source-viewer[open]');
+      await ownerDialog.waitFor();
+      if(group.segments.length===1){
+        const image=ownerDialog.locator('.source-viewer-scan');
+        await image.waitFor({state:'visible'});
+        await ownerPage.waitForFunction(()=>document.querySelector('.source-viewer-scan')?.naturalWidth>0);
+        check(new URL(ownerPage.url()).hash===hash,`${group.id}: one-part context keeps its exact direct source link`);
+        check((await image.getAttribute('src')).endsWith(first.image),`${group.id}: one-part context shows its own source image`);
+        check(await ownerDialog.locator('.source-viewer-linked-part').count()===0,`${group.id}: a one-part context requires no continuation panel`);
+        singleSegmentGroups++;renderedDeclaredGroups++;continue;
+      }
+      const parts=ownerDialog.locator('.source-viewer-linked-part');
       await parts.nth(group.segments.length-1).waitFor();
       check(JSON.stringify(await parts.evaluateAll(nodes=>nodes.map(node=>node.dataset.regionId)))===JSON.stringify(group.segments.map(segment=>segment.regionId)),`${group.id}: every declared part renders in source order`);
       check(await parts.evaluateAll(nodes=>nodes.every(part=>{
@@ -200,11 +224,24 @@ try {
         const scan=part.querySelector('img');
         return !!scan&&scan.naturalWidth>0&&(!notice||notice.hidden||!!(notice.compareDocumentPosition(scan)&Node.DOCUMENT_POSITION_FOLLOWING));
       })),`${group.id}: every source image loads with its notice preceding the image`);
+      if(newlyReviewedGroups.has(group.id)){
+        const continuation=group.segments.at(-1);
+        const continuationHash=entryHash(view,id,continuation.book,continuation.printedPage,continuation.regionId)+(contextual?`&owner=${encodeURIComponent(`${owner}:${group.itemId}`)}`:'');
+        await ownerPage.goto(`${base}/${continuationHash}`);
+        const continuationDialog=ownerPage.locator('dialog.source-viewer[open]');
+        await continuationDialog.waitFor();
+        await waitSelected(continuationDialog,continuation.regionId);
+        check(new URL(ownerPage.url()).hash===continuationHash,`${group.id}: direct continuation deep link preserves the exact region`);
+        const continuationParts=continuationDialog.locator('.source-viewer-linked-part[data-region-id]');
+        check(JSON.stringify(await continuationParts.evaluateAll(nodes=>nodes.map(node=>node.dataset.regionId)))===JSON.stringify(group.segments.map(segment=>segment.regionId)),`${group.id}: continuation deep link displays the full ordered pair`);
+        check(JSON.stringify(await continuationParts.evaluateAll(nodes=>nodes.map(node=>node.dataset.selected)))===JSON.stringify(['false','true']),`${group.id}: continuation deep link selects only its exact part`);
+        check((await continuationDialog.locator('.source-viewer-scan').getAttribute('src')).endsWith(continuation.image),`${group.id}: selected primary scan is the direct continuation image`);
+      }
       renderedDeclaredGroups++;
-    }finally{await ownerPage.close();}
+    }catch(error){error.message=`${group.id} (${hash}): ${error.message}`;throw error;}finally{await ownerPage.close();}
   }
   check(errors.length===0,`no browser errors: ${errors.join('; ')}`);
-  console.log(JSON.stringify({passed:checks,renderedDeclaredGroups,declaredGroups:published.groups.length,blockedDeclaredGroups:published.groups.length-renderedDeclaredGroups,abjure:{opening:abjureOpen,continuation:abjureContinuation,scope:'actual declared same-page pair'},synthetic:{id:'synthetic-only-cross-page-viewer-test',regions:[opening.id,continuation.id],scope:synthetic.groups.at(-1).scope},viewports:[1920,1440,390,320],sourceClaims:'No cross-page source continuation is asserted by the synthetic fixture.'},null,2));
+  console.log(JSON.stringify({passed:checks,renderedDeclaredGroups,singleSegmentGroups,declaredGroups:published.groups.length,newlyReviewedDirectContinuationDeepLinks:published.groups.filter(group=>newlyReviewedGroups.has(group.id)&&group.segments.length>1&&group.segments.every(segment=>segment.state==='present')).length,blockedDeclaredGroups:published.groups.length-renderedDeclaredGroups,abjure:{opening:abjureOpen,continuation:abjureContinuation,scope:'actual declared same-page pair'},synthetic:{id:'synthetic-only-cross-page-viewer-test',regions:[opening.id,continuation.id],scope:synthetic.groups.at(-1).scope},viewports:[1920,1440,390,320],sourceClaims:'No cross-page source continuation is asserted by the synthetic fixture.'},null,2));
 } finally {
   await browser.close();
 }

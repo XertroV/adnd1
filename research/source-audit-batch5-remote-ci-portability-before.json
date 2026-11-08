@@ -1,0 +1,32 @@
+{
+  "artifactType": "remote-ci-portability-before-repair",
+  "commit": "8b19e8cca81e1d6c126ff064edc88ec5966b2952",
+  "run": "https://github.com/XertroV/adnd1/actions/runs/42446533039",
+  "failedNodeTests": 4,
+  "previouslyPreservedInputOmissions": 2,
+  "additionalFailures": [
+    {
+      "kind": "undeclared-optional-dependency-before-availability-guard",
+      "file": "tests/continuation-candidates-fixtures.py",
+      "detail": "Optional authorized-PDF test imports fitz before checking whether private source is available. Numeric stdlib tests should remain runnable without private PDFs or PyMuPDF."
+    },
+    {
+      "kind": "absolute-thread-local-fixture-path",
+      "file": "tests/continuation-reconciliation.test.mjs",
+      "detail": "Reads /workspace/scratch/batch5-continuation-druid-phb55-56-proposal.json instead of a committed exact fixture."
+    }
+  ],
+  "logs": [
+    {
+      "path": "tests/fixtures/batch5-pr31-initial-ci-failure.log.gz",
+      "sha256": "1977e934ab42d4b8c5507a5d704ce781205438d7938a2dc7e3aff948d339c9f0",
+      "rawLogSha256": "3e799ea0fd860eb6e49af4c06f7d3b28e2d3c8fa45bfa60c0663d8ecc6333f61"
+    },
+    {
+      "path": "tests/fixtures/continuation-no-site-python-before.log.gz",
+      "sha256": "063bb346072c4feedfc9c7bd74a6fbfcaee8c0c55037945ba2ac030362930186",
+      "rawLogSha256": "404e9ea65179430318476db52c5b280e38ad203d4229a681e1f2a2fd74143cb1"
+    }
+  ],
+  "scope": "CI portability only; no source payload, domain detector, expected source rows or semantic review disposition changed."
+}

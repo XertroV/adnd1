@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {withoutGeneratedCitationTransport} from './equipment-source-first-fixture.mjs';
+import {priorReviewedBatch5Value} from './helpers/batch5-semantic-history.mjs';
 export const editorialCorrections=JSON.parse(readFileSync(new URL('./fixtures/mechanics-editorial-corrections.json',import.meta.url),'utf8'));
 export function reverseEditorialCorrections(items,collection) {
  const copy=structuredClone(items);
@@ -11,7 +12,7 @@ export function reverseEditorialCorrections(items,collection) {
    for(const key of parts.slice(0,-1)) {assert.ok(parent && Object.hasOwn(parent,key),`${record.id} ${c.path}: parent`);parent=parent[key]}
    const key=parts.at(-1),exists=Object.hasOwn(parent,key);
    assert.equal(exists,c.newExists!==false,`${record.id} ${c.path}: current existence`);
-   if(exists)assert.deepEqual(withoutGeneratedCitationTransport(parent[key]),withoutGeneratedCitationTransport(c.newValue),`${record.id} ${c.path}: current value`);
+   if(exists)assert.deepEqual(withoutGeneratedCitationTransport(priorReviewedBatch5Value(collection,record.id,c.path,parent[key],c.newValue)),withoutGeneratedCitationTransport(c.newValue),`${record.id} ${c.path}: current value`);
    if(c.oldExists)parent[key]=structuredClone(c.oldValue);else delete parent[key];
   }
  }

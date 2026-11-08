@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent final Node raster coverage fix review",
+  "scope": "Read-only code, calibrated mutation, and full current numeric-snapshot validation review. No source pixels, generic source context, or semantic completeness is approved by this Node checker review.",
+  "inputs": {
+    "tools/source-raster-coverage.mjs": "0628a446e236e44b1b170d6732a7e282bb89da90391fb8ba66a06724d083dfd7",
+    "tests/source-raster-coverage.test.mjs": "3b7e537d1da8c026e6282c99cd736417b705c6f874663672826f49d13b1dd80b",
+    "tests/fixtures/source-raster-coverage-derived-metrics-before.json.gz": "4de793fabb0f4c60c6d36e95ae4e7ffa7b9bfba0c5a7dd9ad14b470fb16a7fcc",
+    "research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz": "4b8a72687a3c0d41430e414c68ad6da485111c44c6581efce890b6d43a9e9e37",
+    "research/source-raster-coverage-independent-review.json": "990d83ec28539d61629dc4a377dafde5e7f51a98f54d646621bd02d531e1fec8"
+  },
+  "validation": {
+    "nodeTests": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "log": "/tmp/raster-0628-independent-review-tests.log"
+    },
+    "cliCheck": {
+      "passed": true,
+      "report": "/tmp/raster-0628-independent-review-report.json",
+      "regionUsages": 3069,
+      "geometries": 1284,
+      "sourcePages": 229,
+      "catalogs": 1015,
+      "semanticPass": false
+    }
+  },
+  "priorReviewFindings": {
+    "RSC-1": "Addressed: aggregate metrics are recomputed; component, edge, geometry and usage classifications are cross-checked. Invalid reports expose no current candidate counts.",
+    "RSC-2": "Addressed for the exact frozen policy: arbitrary not-assessable repartition rejected; geometry and frame sets must match referenced live uses; reverse usage lists and identities checked.",
+    "RSC-3": "Addressed: source PDF hash maps bind live catalogs, snapshot inputs, frames and geometry consistently."
+  },
+  "nonblockingFinding": {
+    "id": "RSC-followup-binding-key",
+    "severity": "low",
+    "location": "tools/source-raster-coverage.mjs duplicate geometry binding construction",
+    "issue": "The binding key reads geometry.boundsPdfPagePoints, but snapshot rows provide boundsPdfPagePointsLTRB. The missing value serializes as null and can reject legitimate same-image/same-page bindings with distinct source windows.",
+    "effectOnCurrentBaseline": "None observed: the complete current snapshot passes, with no such collision.",
+    "suggestedCorrection": "Use boundsPdfPagePointsLTRB in the duplicate binding key and preserve the prior exact checker bytes before changing it."
+  },
+  "verdict": "Prior three blocking validator findings addressed; bounded current snapshot and seven regression tests pass. One nonblocking duplicate-key precision issue remains.",
+  "repositoryEdits": false
+}

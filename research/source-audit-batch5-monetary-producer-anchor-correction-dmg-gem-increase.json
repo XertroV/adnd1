@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "bounded-corrected-producer-source-text-anchor",
+  "status": "existing independent approval mapped; correction artifact proposed and not applied",
+  "scope": "One producer provenance metadata correction for the already-reviewed DMG gem-increase ladder. This artifact supplies the approved corrected sourceTextAnchor value as a new exact public target; it does not alter the source row, typed value, crop, focus, semantic grade, or the immutable wrong-five before evidence.",
+  "finding": {
+    "id": "producer-gem-increase-seven-step-anchor",
+    "kind": "source-provenance-metadata-mismatch",
+    "findingContract": {
+      "path": "research/source-audit-batch5-monetary-provenance-finding-extension.json",
+      "sha256": "996eae6a319e4ae40fd3d3e06176dbe921cedcbaeae5b90396fcfd44e195d36e",
+      "pointer": "/knownFindings/0"
+    }
+  },
+  "sourceTextAnchor": "Above-5,000-gp ladder: 10,000 through 1,000,000 gp, maximum and seven-step limit.",
+  "target": {
+    "recordId": "dmg-gem-increase-ladder",
+    "book": "DMG",
+    "printedPage": 26,
+    "pdfPage": 27,
+    "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+    "proposedArtifactPointer": "/sourceTextAnchor",
+    "originalProducerTarget": {
+      "path": "/tmp/batch5-independent-phbdmg-candidate/operations.json",
+      "sha256": "daf1010c7c54ce36efa5f430761bbf7807ff58c3d9dd86504c46edd95f4448fa",
+      "pointer": "/operations/21/pixelProof/sourceTextAnchor"
+    }
+  },
+  "preservedFailure": {
+    "path": "research/source-audit-batch5-monetary-provenance-before.json",
+    "sha256": "bc92fbb7a811055b620577125812f066484861cf948aa192d90d3203014a8e53",
+    "pointer": "/observedSourceTextAnchor",
+    "value": "Above-5,000-gp ladder: 10,000 through 1,000,000 gp, maximum and five-step limit."
+  },
+  "existingIndependentApproval": {
+    "path": "/tmp/batch5-independent-phbdmg-candidate/independent-review.json",
+    "sha256": "e84b898d3a5c8aa6ea3a6b7315030c8e816f72185521c3e065ddf7d626c5bf22",
+    "pointer": "/producerProvenanceDefects/0/expected",
+    "approvedValue": "Above-5,000-gp ladder: 10,000 through 1,000,000 gp, maximum and seven-step limit.",
+    "reason": "The actual source and typedValue both say 7; only the producer provenance anchor wrongly says 5."
+  },
+  "currentCandidateBinding": {
+    "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+    "sha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6",
+    "pointer": "/review/sourceRowsOrClaims/38",
+    "recordId": "dmg-gem-increase-ladder",
+    "typedValue": {
+      "maxIncreaseSteps": 7,
+      "orderedValues": [
+        10000,
+        25000,
+        50000,
+        100000,
+        250000,
+        500000,
+        1000000
+      ],
+      "absoluteMaximum": 1000000
+    },
+    "sourceTextAnchorFieldPresent": false
+  },
+  "limits": [
+    "The seven-step wording is copied from the exact expected-value pointer in the existing e84 independent review; this is not new source QA.",
+    "The current e4cf source row remains unchanged and has no sourceTextAnchor field; this proposal creates a separate public metadata target at /sourceTextAnchor.",
+    "The old five-step text remains immutable in the bc92 before artifact and must be retained as historical failure evidence.",
+    "The typed source values were already correct; this metadata correction does not promote any value, crop, focus, or default-selection grade."
+  ]
+}

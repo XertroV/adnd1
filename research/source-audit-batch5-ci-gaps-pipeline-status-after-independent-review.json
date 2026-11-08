@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-ci-gaps-pipeline-exit-correction-review",
+  "scope": "Existingrequiredgapscheck failure propagation only, exactcapturedpipeline; no new testclass or source/code/seal writes by reviewer.",
+  "beforeFixture": {
+    "path": "research/source-audit-batch5-ci-gaps-pipeline-status-before.json.gz",
+    "sha256": "a710043d950332af230c8e0e25b826544d61b4ed1ba3ebc6c048714a84a1b6d1"
+  },
+  "workflowBeforeSha256": "dbf7c7aeba7e345ffc4f8770661fc90de551d065e444e97bd21b3f6a1c6ef8d1",
+  "workflowAfterSha256": "611826aa416e6170a43c5d6b0489eb295ec48691cd26f4913395ade8265e8b3b",
+  "exactWorkflowDiff": "Add set -o pipefail as first line of existing gaps-check step; every other workflow byte unchanged.",
+  "allDataPipelines": [
+    {
+      "job": "build",
+      "step": 39,
+      "name": "Verify published gaps match current coverage reports",
+      "runLine": 2,
+      "command": "node tools/refresh-gaps-handoff.mjs --check | tee artifacts/source-domain-audits/gaps-handoff-check.json",
+      "policy": "Single Nodecheck piped totee; defaultunspecifiedLinuxshell lacks pipefail, so tee masks Nodefailure."
+    }
+  ],
+  "allConditionalOrLines": [
+    {
+      "job": "build",
+      "step": 3,
+      "name": "Verify preserved citation evidence",
+      "runLine": 3,
+      "command": "if [ -z \"$evidence_base\" ] || [ \"$evidence_base\" = \"0000000000000000000000000000000000000000\" ]; then",
+      "policy": "Shellconditional OR, not a data pipeline; explicit status/error branches remain unchanged."
+    },
+    {
+      "job": "build",
+      "step": 38,
+      "name": "Check class advancement and source qualifiers",
+      "runLine": 11,
+      "command": "if [ \"$class_status\" -ne 0 ] || [ \"$qualifier_status\" -ne 0 ] || [ \"$marker_status\" -ne 0 ]; then exit 1; fi",
+      "policy": "Shellconditional OR, not a data pipeline; explicit status/error branches remain unchanged."
+    }
+  ],
+  "sameActualStaleCheckBefore": {
+    "nodeExitCode": 1,
+    "workflowDefaultShellExitCode": 0
+  },
+  "sameActualStaleCheckAfter": {
+    "command": [
+      "bash",
+      "-e",
+      "/tmp/ci-gaps-pipe-after-71l4w1ds/workflow-gaps-step.sh"
+    ],
+    "scriptUtf8": "set -o pipefail\nmkdir -p /tmp/ci-gaps-pipe-after-71l4w1ds/source-domain-audits\nnode tools/refresh-gaps-handoff.mjs --check | tee /tmp/ci-gaps-pipe-after-71l4w1ds/source-domain-audits/gaps-handoff-check.json\n",
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": "Gaps handoff is stale; validated candidate differs from the file.\n"
+  },
+  "verdict": "Required stale check failure now propagates through tee. Currentstalehandoff still correctly fails; positiveafterrefresh belongs to root final generation/check run.",
+  "limits": [
+    "No normalizer/source changes.",
+    "A successful currenthandoff check is not claimed before rootrefresh; this proof covers preservation ofactualfailure."
+  ]
+}
