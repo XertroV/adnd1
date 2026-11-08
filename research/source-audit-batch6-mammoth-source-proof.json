@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "append-only-derived-mammoth-tusk-valuation-adjudication-proposal",
+  "status": "private-proposal-only-not-applied",
+  "target": {
+    "path": "research/price-source-inventory-monster-books.json",
+    "sha256": "5b18323c4817c7c99a38cd058015f862bbc588237b655ec6c7e8375f60f8248f",
+    "pointer": "/claims/18",
+    "id": "mm-mammoth-tusks-relative"
+  },
+  "retainedHistoricalFinding": {
+    "path": "research/source-audit-batch5-monetary-retained-uncertainties.json",
+    "sha256": "93c9547479b8632bc8631c83a5e5496118b3580f516aa2c4cbb2a5515d19ee00",
+    "pointer": "/uncertainties/2",
+    "id": "relative-monetary-reading-mm-mammoth-tusks-relative",
+    "recordSha256": "83d6e640a62f7bb008cd115c73383e9d1ff0a23d5b9883a6acbe8fca80904ed9",
+    "unchanged": true,
+    "staleConditionToPreserveAsHistory": "Source supplies no numeric multiplier; baseline elephant valuation is MM printed p.38 / PDF p.39."
+  },
+  "proposedAdjudication": {
+    "type": "derived-relative-valuation-range",
+    "sourceQuestionStatus": "source-backed-derived-interpretation; not a printed amount",
+    "printedAmountOrRange": false,
+    "derived": true,
+    "formula": "elephant-tusk gp value × (1 + 0.50)",
+    "factor": 1.5,
+    "currency": "gp",
+    "unit": "per mammoth tusk",
+    "baseline": {
+      "sourcePrintedValue": "100–600 gp each",
+      "minimum": 100,
+      "maximum": 600,
+      "unit": "per elephant tusk"
+    },
+    "derivedRange": {
+      "minimum": 150,
+      "maximum": 900
+    },
+    "calculation": {
+      "minimum": "100 × 1.5 = 150",
+      "maximum": "600 × 1.5 = 900"
+    },
+    "interpretation": "Mammoth tusks are stated to be 50% heavier than elephant tusks, and their value is stated to be proportionately higher. Treating that value relation as the same 1.5 factor is a derived interpretation, not a directly printed mammoth GP range.",
+    "limits": [
+      "Do not rewrite the historical claim or retained uncertainty artifact.",
+      "Do not call 150–900 gp a printed interval.",
+      "Do not infer pair price, herd/encounter quantity, or individual tusk condition/market adjustments.",
+      "Keep source values and any existing numeric amount fields unchanged until parent review."
+    ]
+  },
+  "sourceDependencies": [
+    {
+      "book": "Monster Manual",
+      "bookKey": "MM",
+      "sourceFile": "Monster_Manual.pdf",
+      "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+      "printedPage": 65,
+      "pdfPage": 66,
+      "pageSizePt": [
+        557.5199,
+        779.27893
+      ],
+      "coordinateSpace": "pdf-page-points-top-left",
+      "boundsPt": [
+        25.2002,
+        352.84693,
+        272.66624,
+        367.92813
+      ],
+      "claim": "Mammoth tusks are 50% heavier than elephant tusks and their value is proportionately higher.",
+      "render": {
+        "path": "/tmp/batch6-original-renders-600/mm-pdf-66.png",
+        "sha256": "4c219a11c64c6f571628fa2964c42b3e95858f3c29eb15d30ddb60d4e9e55eb1",
+        "dimensionsPx": [
+          4646,
+          6494
+        ]
+      }
+    },
+    {
+      "book": "Monster Manual",
+      "bookKey": "MM",
+      "sourceFile": "Monster_Manual.pdf",
+      "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+      "printedPage": 38,
+      "pdfPage": 39,
+      "pageSizePt": [
+        558.7196,
+        772.55969
+      ],
+      "coordinateSpace": "pdf-page-points-top-left",
+      "boundsPt": [
+        288.69912,
+        683.11829,
+        535.64744,
+        698.40889
+      ],
+      "claim": "Elephant tusks valued 100–600 gp each; each gp of value equals one-quarter pound of weight.",
+      "render": {
+        "path": "/tmp/batch6-original-renders-600/mm-pdf-39.png",
+        "sha256": "9bb75d0a407c0bc643a3f67af62565c9c04ad90632a79c3418a7b8bef9d22e10",
+        "dimensionsPx": [
+          4656,
+          6438
+        ]
+      }
+    }
+  ],
+  "detectorBaseline": {
+    "path": "/tmp/batch6-quantity-source-absence/report.json",
+    "sha256": "5eaadae7872809f6fbd77d9d46d556d4994aecef43a9c4144a3239ea4f9549ae",
+    "fullUniverseInputs": 10,
+    "allScalarLeaves": 531788,
+    "monetaryQuantityContextCandidates": 256,
+    "currentBroadLexicalCandidateLeaves": 173,
+    "mammothCandidate": false,
+    "interpretation": "Known false negative captured before any source correction; absence from candidates is not a pass."
+  },
+  "authorizationBoundary": "Proposal only. No current or sealed artifact was edited; parent/root review is required before any append-only disposition is published."
+}
