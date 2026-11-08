@@ -1,0 +1,58 @@
+{
+  "artifactType": "independent-mechanics-grand-druid-citation-page-transfer-review",
+  "reviewStatus": "approved-no-blocker-found",
+  "scope": "Code and test review of the explicit Grand Druid citation-page-only effective-comparison transfer. No production, test, source, ledger, or seal files were edited by this reviewer.",
+  "frozenInputs": {
+    "tools/mechanics-citation-page-transfer.mjs": "edfad6e2dd9bfabe7a4befc8737c7bb5cefb1b898b046260905b30e39a59d2f4",
+    "tools/mechanics-audit.mjs": "f359b684310ef02f25d09034ac83346f64e7029b52d79081a18911f0bb0b66f3",
+    "tests/mechanics-citation-page-transfer.test.mjs": "52849568c00774a44655f7faf92303841f717f0b952619165155757c30dd3934",
+    "tests/fixtures/source-audit-batch6-grand-page-mechanics-stale-before.json.gz": "9bd64da1d85d9848569a79276d0e10132b19f93633b9defa3c2365fe75391e4a",
+    "research/source-audit-batch6-grand-druid-mechanics-citation-page-transfer.json": "ce34f1206624f1122e4f55d8b4ceda5598eb221ff6520201ff28f798680d4f9b",
+    "research/source-audit-batch6-grand-druid-root-independent-review.json": "7d61523b3f34c6e99fd22c5fa3eabb4773fc3a24fd7c91284f97d3969a2a664d",
+    "research/source-audit-batch6-grand-page-mechanics-transfer-implementation.json": "0cc847333b4b48bdc06d53a76aa35b8af2eb6eaba57d68f0bf5d2897cf15ee58"
+  },
+  "beforeCalibration": {
+    "fixtureLedgerSha256": "4e1ca464db499fbd32442818329832f879e150a8be92f8c31f1ee4de9f7a1571",
+    "sourceDataRawSha256": "e9e501ac2f6bbc8d38b6126574fdcd69692f274d0fbb031b9dc8d2bb3733c805",
+    "mechanicsInputSha256": "6d7b0d49f0e6a53973a07e09ef12f2b16a62c877818904e4e04a59fce5745649",
+    "historicalStaleParentChanges": 1,
+    "historicalStaleMechanicsLeaves": 27,
+    "reviewRecords": 1205
+  },
+  "verifiedBehavior": {
+    "currentMatchesExactPage16ToPage16And17Transition": true,
+    "originalReviewRecordsUnchanged": 1205,
+    "currentTransferCount": 1,
+    "currentStaleChanges": 0,
+    "currentOrphanReviews": 0,
+    "mechanicsLeaves": 13428,
+    "currentVersusSameDataWithApprovedPage16Only": {
+      "fieldValueOrStatusDifferences": 0,
+      "countsEqual": true,
+      "sourceChecked": 12729,
+      "correctedAndChecked": 2634,
+      "editorialReviewed": 559,
+      "staleProposal": 0
+    },
+    "sourceValueGrade": "NOT PROMOTED",
+    "noNumericMechanicsApproval": true
+  },
+  "negativeControls": {
+    "testsCoverXpLevelTrackBookStatusRowsOrderAndPages": true,
+    "testsCoverOwnerCheckerPathAndOriginalReviewOrChangeMutation": true,
+    "testsCoverMissingOrTamperedTransferBeforeFixtureAndIndependentProof": true,
+    "forgedLedgerTransferAnnotationRejected": true,
+    "forgedAnnotationValidationErrors": [
+      "Ledger field values, evidence or statuses do not match regenerated records.",
+      "Ledger citation-page-only transfers do not match the exact reviewed comparisons."
+    ]
+  },
+  "checks": {
+    "command": "node --test tests/mechanics-audit.test.mjs tests/mechanics-citation-page-transfer.test.mjs",
+    "passed": 19,
+    "failed": 0,
+    "auditCheck": "node tools/mechanics-audit.mjs --check: passed",
+    "diffCheck": "git diff --check: passed"
+  },
+  "reviewLimit": "The code binds the exact hash-pinned independent source-page review artifact; its source-page pixels and content review are attributed to that upstream approval, not re-adjudicated in this code/test review."
+}

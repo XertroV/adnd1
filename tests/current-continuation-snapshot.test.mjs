@@ -17,6 +17,7 @@ const oldCode=before.files['tools/continuation-candidates-validate.mjs'];
 assert.equal(sha(Buffer.from(oldCode.utf8)),oldCode.sha256);
 writeFileSync(path.join(temp,'old-validator.mjs'),oldCode.utf8);
 copyFileSync('tools/mechanics-audit.mjs',path.join(temp,'mechanics-audit.mjs'));
+copyFileSync('tools/mechanics-citation-page-transfer.mjs',path.join(temp,'mechanics-citation-page-transfer.mjs'));
 const {validateContinuationSnapshot:oldValidate}=await import(pathToFileURL(path.join(temp,'old-validator.mjs')).href);
 after(()=>rmSync(temp,{recursive:true,force:true}));
 const selected=loadCurrentContinuationCandidateSnapshot({root});

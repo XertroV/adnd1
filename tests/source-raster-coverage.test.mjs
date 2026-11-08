@@ -110,12 +110,21 @@ const componentIntegrityMutations = [
   }],
 ];
 
-test('the complete current catalog universe matches the preserved numeric raster snapshot', () => {
-  const report = buildSourceRasterCoverage(snapshot, live);
+test('the frozen historical catalog universe retains3069 uses and1284 source windows', () => {
+  const report = buildSourceRasterCoverage(historicalSnapshot, historicalLive);
   assert.deepEqual(report.validation, {valid: true, errors: []});
   assert.equal(report.liveUniverse.regionUsages, 3069);
   assert.equal(report.geometries.length, 1284);
   assert.equal(report.currentCandidateCounts.sourcePagesRendered, 229);
+  assert.deepEqual(report.currentCandidateCounts, historicalSnapshot.counts);
+  assert.equal(report.semanticPass, false);
+});
+
+test('the active pointer snapshot covers the complete actual current catalog universe', () => {
+  const report = buildSourceRasterCoverage(snapshot, live);
+  assert.deepEqual(report.validation, {valid: true, errors: []});
+  assert.equal(report.liveUniverse.regionUsages, live.usages.length);
+  assert.equal(report.currentCandidateCounts.sourcePagesRendered, new Set(live.usages.map(row => `${row.book}:${row.pdfPage}`)).size);
   assert.deepEqual(report.currentCandidateCounts, snapshot.counts);
   assert.equal(report.semanticPass, false);
 });
