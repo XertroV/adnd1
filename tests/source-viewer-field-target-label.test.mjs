@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
+import {gunzipSync} from 'node:zlib';
 
 const source = readFileSync(new URL('../dist/source-viewer.js', import.meta.url), 'utf8');
 const marker = '  root.FirstEditionSourceViewer = Object.freeze({ open, close });';
@@ -39,6 +40,27 @@ test('an explicit contextual label on a reviewed indexed reference is retained',
   const before = structuredClone(target);
   assert.equal(hooks.fieldTargetLabel(target), target.label);
   assert.deepEqual(target, before, 'labeling preserves target region and review metadata');
+});
+
+const comparatorBaseline = JSON.parse(gunzipSync(readFileSync(new URL('../research/source-audit-batch5-comparator-target-label-before.json.gz', import.meta.url))).toString('utf8'));
+assert.equal(comparatorBaseline.confirmedFailures.length, 6, 'the complete known comparator failure set is preserved');
+for (const entry of comparatorBaseline.confirmedFailures) {
+  test(`the ${entry.routeOwner.itemId} ${entry.target.fieldPointer} comparator keeps its descriptive label`, () => {
+    hooks.setExcerptSource({name: entry.sourceName});
+    const target = structuredClone(entry.target);
+    const before = structuredClone(target);
+    assert.equal(target.sourceCategory, 'printed-price-comparator');
+    assert.match(target.label, /^Comparison: .+ \(not this item price\)$/);
+    assert.equal(hooks.fieldTargetLabel(target), target.label);
+    assert.deepEqual(target, before, 'caption formatting preserves the complete citation target');
+  });
+}
+
+test('an explicit comparison label is retained while numeric comparator labels use entry ordinals', () => {
+  hooks.setExcerptSource({name: 'Fixture'});
+  const label = 'Comparison: <Spear> & notes (not this item price)';
+  assert.equal(hooks.fieldTargetLabel({fieldPointer: '/suggestedPrice/comparisons/0', label, sourceObject: label, sourceCategory: 'printed-price-comparison'}), label);
+  assert.equal(hooks.fieldTargetLabel({fieldPointer: '/suggestedPrice/comparisons/0', label: '0', sourceObject: '0', sourceCategory: 'printed-price-comparator'}), 'Comparisons entry 1');
 });
 
 test('XP array indices are ordinal entries, not character levels', () => {
