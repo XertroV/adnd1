@@ -52,8 +52,9 @@ export function xpBeforeCatalogsForAliasReplay(currentCatalogs) {
 }
 
 export function reverseApprovedXpExcerptCounts(overrides) {
-  assert.equal(sha(bytes('citation-overrides.json')), sourcePin('citation-overrides.json').sha256);
-  assert.deepEqual(overrides, read('citation-overrides.json'), 'Caller must supply the exact approved current source descriptors');
+  const approvedC2 = execFileSync('git', ['show', 'c2efd1eba27f0b3047ef4ce80f7db187597c808f:citation-overrides.json'], {cwd: root});
+  assert.equal(sha(approvedC2), sourcePin('citation-overrides.json').sha256);
+  assert.deepEqual(overrides, JSON.parse(approvedC2), 'Caller must first project released Jo/Search changes to the exact approved C2 source descriptors');
   const oldBytes = original('citation-overrides.json');
   assert.equal(sha(oldBytes), beforeSource.inputs.find(pin => pin.path === 'citation-overrides.json').sha256);
   const old = JSON.parse(oldBytes), copy = structuredClone(overrides);

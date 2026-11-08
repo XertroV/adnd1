@@ -121,7 +121,7 @@ test('current source assembly resolves scoped citations, preserves legacy intent
   const currentReplay = buildSourceOwnerIdentityAudit({replayAssembly: true}).inMemoryCurrentAssemblyReplay;
   assert.equal(currentReplay.preAttachCrossOwnerObjectAliasCount, 0);
   assert.equal(currentReplay.foreignOwnerBindings.length, 0);
-  assert.equal(currentReplay.counts.evidenceBindings, 4489 + ua75.referenceAppends.length + 1);
+  assert.equal(currentReplay.counts.evidenceBindings, 4489 + 40 + 20 + 1 + ua75.referenceAppends.length);
   assert.equal(currentReplay.counts.dispositions.validatedExplicitComparatorSource, 6);
   const currentReport = buildSourceOwnerIdentityAudit();
   assert.equal(sourceOwnerIdentityCheck(currentReport).pass, true);
@@ -296,8 +296,10 @@ test('standalone price-source inventory uses scoped owner references without rul
   });
   const historicalGrandDruidCompanion = historicalInventory.fieldEvidenceBindings.filter(binding => binding.collection === 'classes' && binding.itemId === 'ua-druid' && binding.fieldPointer === '/levelChanges/0' && binding.sourceCategory === 'class-level-change');
   assert.deepEqual(historicalGrandDruidCompanion, grandDruidCompanion);
-  assert.equal(historicalInventory.counts.fieldEvidenceBindings, 4489 + 1);
-  assert.equal(inventory.counts.fieldEvidenceBindings, 4489 + 1 + ua75.referenceAppends.length);
+  assert.equal(historicalInventory.counts.fieldEvidenceBindings, 4489 + 40 + 20 + 1);
+  assert.equal(inventory.counts.fieldEvidenceBindings, 4489 + 40 + 20 + 1 + ua75.referenceAppends.length);
+  const joBindings=inventory.fieldEvidenceBindings.filter(binding=>binding.itemId==='ua-jo-stick');assert.equal(joBindings.length,19);assert.ok(joBindings.every(binding=>binding.collection==='equipment'&&binding.sourceOwner.itemId==='ua-jo-stick'));
+  assert.equal(inventory.siteClaims.find(claim=>claim.itemId==='ua-jo-stick').missingPrice,true);
   const additions = inventory.fieldEvidenceBindings.filter(binding => binding.sourceCategory === 'equipment-price-occurrence-reference' && binding.printedPage === 75 && ua75.referenceAppends.some(row => row.itemId === binding.itemId && row.fieldPointer === binding.fieldPointer));
   assert.equal(additions.length, 16);
   for (const addition of ua75.referenceAppends) {

@@ -1,3 +1,4 @@
+import {withoutBatch6JoEquipment} from './helpers/batch6-jo-fixture.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -92,6 +93,7 @@ export function withoutPriceCompletionEquipment(equipment) {
 // offer test separately requires both additions, so reversing them cannot waive
 // missing current data or silently relax a historical denominator.
 export function withoutBatch5OfferEquipment(equipment) {
+ equipment=withoutBatch6JoEquipment(equipment);
  const additions=new Set(batch5OfferEquipment.map(item=>item.id));
  if(!equipment.some(item=>additions.has(item.id)))return equipment;
  validateFixtureRecords(equipment,batch5OfferEquipment,2,'batch5 printed offers',normalizeExactUa26HandQuarrelAppend);

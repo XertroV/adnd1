@@ -1,16 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
+import {readFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {gunzipSync} from 'node:zlib';
 import {loadAuditInputs} from '../tools/quantity-source-absence-audit.mjs';
 import {collectMonetaryRowIdentityRecords} from '../tools/monetary-row-identity-audit.mjs';
 import {
  buildMonetaryUnitProvenanceReport,classifyUnitFieldProvenance,loadFrozenUnitInventoryBaseline,
  scanUnitRelatedScalarFields,validateMonetaryUnitProvenanceReport,
  expectedWhaleUnitBeforeSha256,expectedWhaleUnitNullSha256,expectedWhaleCarcassUnitSha256,
- quantityUnitBeforeSha256,
+ quantityUnitBeforeSha256,joUnitAdmissionBeforePath,joUnitAdmissionBeforeSha256,expectedCurrentUnitRecordCount,expectedJoUnitRecord,
 } from '../tools/monetary-unit-provenance-audit.mjs';
 
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
+const repoRoot=resolve(import.meta.dirname,'..');
 function setAt(data,pointer,value){
  const parts=pointer.slice(1).split('/').map(part=>part.replace(/~1/g,'/').replace(/~0/g,'~'));
  let target=data;for(const part of parts.slice(0,-1))target=Array.isArray(target)?target[Number(part)]:target[part];
@@ -37,17 +41,80 @@ test('current inventory retains full denominators and binds the immutable before
  const {documents,records,report}=currentReport();
  const frozen=loadFrozenUnitInventoryBaseline();
  assert.equal(documents.length,10);
- assert.equal(records.length,2161);
+ assert.equal(records.length,expectedCurrentUnitRecordCount);
  assert.equal(report.baseline.inputs.length,10);
- assert.equal(report.scope.monetaryRowIdentityRecordCount,2161);
+ assert.equal(report.scope.monetaryRowIdentityRecordCount,expectedCurrentUnitRecordCount);
  assert.equal(report.scope.allRawScalarLeaves,report.baseline.inputs.reduce((n,row)=>n+row.scalarLeaves,0));
  assert.equal(report.scope.unitQuantityIntervalSourceBasisFieldLeaves,report.fieldRows.length);
- assert.equal(report.monetaryRecordInventory.length,2161);
+ assert.equal(report.monetaryRecordInventory.length,expectedCurrentUnitRecordCount);
  assert.equal(report.monetaryRecordInventory.filter(row=>row.matchedUnitQuantityFields.length).length,report.scope.monetaryRecordsWithMatchedFields);
  assert.equal(report.beforeBaseline.sha256,quantityUnitBeforeSha256);
  assert.equal(frozen.baselineSha256,quantityUnitBeforeSha256);
  assert.match(report.baseline.inputs.find(row=>row.key==='canonical').sha256,/^[a-f0-9]{64}$/);
+ assert.deepEqual(report.joUnitAdmission.additionalRecordUids,[expectedJoUnitRecord.uid]);
+ assert.equal(report.joUnitAdmission.historicalRecordCount,2161);
+ assert.equal(report.joUnitAdmission.currentRecordCount,expectedCurrentUnitRecordCount);
+ assert.equal(report.joUnitAdmission.record.recordSha256,expectedJoUnitRecord.recordSha256);
+ assert.equal(report.joUnitAdmission.record.rowIdentitySha256,expectedJoUnitRecord.rowIdentitySha256);
+ assert.deepEqual(report.joUnitAdmission.record.matchedUnitQuantityFields,[]);
+ assert.equal(report.joUnitAdmission.sourceState.priceState,'unextracted');
+ assert.equal(report.joUnitAdmission.sourceState.unitProvenance,'unassessable');
+ assert.equal(report.joUnitAdmission.sourceState.sourcePriceAbsenceReviewed,false);
+ assert.equal(report.joUnitAdmission.sourceState.sourceAbsenceProof,false);
+ assert.ok(report.joUnitAdmission.registration.sourceEvidenceRefs.length>=2);
+ assert.ok(report.joUnitAdmission.registration.sourceEvidenceRefs.every(ref=>/^[a-f0-9]{64}$/.test(ref.sha256)));
+ assert.equal(report.fieldRows.some(row=>row.monetaryRecordRefs.includes(expectedJoUnitRecord.uid)),false,'the admitted Jo claim has no typed unit/quantity leaf to classify');
  assert.equal(validateMonetaryUnitProvenanceReport(report,{documents,records}),true);
+});
+
+test('frozen Jo admission before capture preserves the old 2161 IDs, full 2162 current universe and pre-fix failures',()=>{
+ const bytes=readFileSync(resolve(repoRoot,joUnitAdmissionBeforePath));
+ assert.equal(digest(bytes),joUnitAdmissionBeforeSha256);
+ const capture=JSON.parse(gunzipSync(bytes).toString('utf8'));
+ assert.equal(capture.artifactType,'batch6-jo-monetary-unit-provenance-before-implementation');
+ assert.equal(capture.capture.currentToolSha256,'34e432e7968db28cfa8efca7ef6a19b9180051182b1e2ace452b48cc770b1420');
+ assert.equal(capture.capture.oldUnitGuardFailure,'Expected 2,161 monetary row-identity records; found 2162.');
+ assert.equal(capture.historicalBaseline.frozenRecordCount,2161);
+ assert.equal(capture.historicalBaseline.frozenUnitFileSha256,quantityUnitBeforeSha256);
+ assert.equal(capture.historicalBaseline.frozenUnitRecordUids.length,2161);
+ assert.equal(new Set(capture.historicalBaseline.frozenUnitRecordUids).size,2161);
+ assert.equal(capture.currentFullUnitReport.scope.monetaryRowIdentityRecordCount,expectedCurrentUnitRecordCount);
+ assert.equal(capture.currentFullUnitReport.monetaryRecordInventory.length,expectedCurrentUnitRecordCount);
+ assert.equal(capture.scope.fieldRowCount,7771);
+ assert.deepEqual(capture.scope.fieldClassificationCounts,{'explicit-printed':4,editorial:0,'missing-provenance':1908,unassessable:5859});
+ const oldUids=new Set(capture.historicalBaseline.frozenUnitRecordUids);
+ const currentUids=new Set(capture.currentFullUnitReport.monetaryRecordInventory.map(row=>row.uid));
+ assert.equal(currentUids.size,expectedCurrentUnitRecordCount);
+ assert.deepEqual([...currentUids].filter(uid=>!oldUids.has(uid)),[expectedJoUnitRecord.uid]);
+ assert.equal([...oldUids].filter(uid=>!currentUids.has(uid)).length,0);
+ assert.equal(capture.joAdmission.uid,expectedJoUnitRecord.uid);
+ assert.equal(capture.joAdmission.recordSha256,expectedJoUnitRecord.recordSha256);
+ assert.equal(capture.joAdmission.currentJoRegistrationSha256,'1e24b97d355cf2502a2f775d093652cf37675907aae8ffdc63d432d8908df5f5');
+ assert.equal(capture.joAdmission.classification,'unassessable pending; unknown purchase amount/unit, not printed-source omission');
+ assert.deepEqual(capture.historicalBaseline.oldSuiteFailureArchive.testCounts,{total:740,pass:694,fail:46});
+ assert.equal(capture.historicalBaseline.oldSuiteFailureArchive.sha256,'996d78b409ab7d612ee02c752f0cae133a1c88430f2d27e77a8796936ab7cc12');
+});
+
+test('current unit universe admits only the frozen 2161 IDs plus the exact Jo unextracted record',()=>{
+ const {documents,records,report}=currentReport();
+ const withoutJo=records.filter(record=>record.uid!==expectedJoUnitRecord.uid);
+ assert.throws(()=>buildMonetaryUnitProvenanceReport({documents,monetaryRecords:withoutJo}),/exact 2,161 historical IDs and one Jo registration/);
+ const withUnknown=records.filter(record=>record.uid!==expectedJoUnitRecord.uid).map(record=>structuredClone(record));
+ withUnknown.push({...structuredClone(records.find(record=>record.uid===expectedJoUnitRecord.uid)),uid:'site-price-claim:unregistered-unknown'});
+ assert.throws(()=>buildMonetaryUnitProvenanceReport({documents,monetaryRecords:withUnknown}),/differs from the 2,161 historical IDs plus the exact Jo registration/);
+ const mutatedJo=structuredClone(records);
+ const jo=mutatedJo.find(record=>record.uid===expectedJoUnitRecord.uid);
+ jo.recordSha256='0'.repeat(64);
+ assert.throws(()=>buildMonetaryUnitProvenanceReport({documents,monetaryRecords:mutatedJo}),/exact source-unknown unextracted-price identity/);
+ const sourceLaundered=structuredClone(records);
+ sourceLaundered.find(record=>record.uid===expectedJoUnitRecord.uid).source.book='UA';
+ assert.throws(()=>buildMonetaryUnitProvenanceReport({documents,monetaryRecords:sourceLaundered}),/exact source-unknown unextracted-price identity/);
+ const claimedAbsent=structuredClone(report);
+ claimedAbsent.joUnitAdmission.sourceState.sourceAbsenceProof=true;
+ assert.throws(()=>validateMonetaryUnitProvenanceReport(claimedAbsent,{documents,records}),/Jo unit admission does not match the exact hash-bound/);
+ const alteredHash=structuredClone(report);
+ alteredHash.joUnitAdmission.registration.sha256='0'.repeat(64);
+ assert.throws(()=>validateMonetaryUnitProvenanceReport(alteredHash,{documents,records}),/Jo unit admission does not match the exact hash-bound/);
 });
 
 test('frozen Whale targets and positive carcass fixture are hash-bound separately from current state',()=>{

@@ -1,3 +1,4 @@
+import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
 import {frozenDmgBeforeManifest,dmgContextBefore} from './helpers/dmg-context-frozen-manifest.mjs';
 import {withoutGeneratedCitationTransport,withoutBatch5OfferEquipment,withoutPriceCompletionEquipment, withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import {ambiguousItemOverrideIds, collectionReferenceOverrides} from '../tools/citation-override-identity.mjs';
@@ -5,7 +6,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 import {execFileSync} from 'node:child_process';
-import {readFileSync,readdirSync} from 'node:fs';
+import {readdirSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import test from 'node:test';
 import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';

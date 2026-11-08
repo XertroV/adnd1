@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
 import {reverseApprovedGrandDruidSourcePage, xpBeforeCatalogsForAliasReplay, reverseApprovedXpExcerptCounts} from './helpers/batch6-xp-source-history.mjs';
 const read = path => JSON.parse(readFileSync(new URL('../' + path, import.meta.url)));
 const data = read('dist/data.json');
@@ -33,10 +34,12 @@ test('alias checkpoint uses exact approved current catalogs and exact frozen old
 });
 
 test('source-descriptor replay rejects changes beyond the seventeen approved region counts', () => {
-  const overrides = read('citation-overrides.json'), replay = reverseApprovedXpExcerptCounts(overrides);
+  const overrides = JSON.parse(execFileSync('git', ['show', 'c2efd1eba27f0b3047ef4ce80f7db187597c808f:citation-overrides.json']));
+  const replay = reverseApprovedXpExcerptCounts(overrides);
   const keys = Object.keys(overrides.sourceExcerpts).filter(key => overrides.sourceExcerpts[key].regionCount !== replay.sourceExcerpts[key].regionCount);
   assert.equal(keys.length, 17);
   const changed = structuredClone(overrides);
   changed.sourceExcerpts['classes:magic-user'].regionCount++;
   assert.throws(() => reverseApprovedXpExcerptCounts(changed));
+  assert.throws(() => reverseApprovedXpExcerptCounts(read('citation-overrides.json')), 'A combined Jo/Search state cannot bypass its separate exact projection');
 });

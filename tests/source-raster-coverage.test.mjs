@@ -13,6 +13,8 @@ const snapshot = JSON.parse(gunzipSync(loadRasterSnapshotInput().bytes));
 const historicalSnapshot = JSON.parse(gunzipSync(readFileSync(new URL('../research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz', import.meta.url))));
 const historicalLive = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-raster-live-b90d317-before.json.gz', import.meta.url)))).live;
 const live = collectLiveRasterUniverse();
+const releasedJoSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research/source-raster-boundary-batch6-jo-search079-v1.json.gz',import.meta.url))));
+const priorJoSearchSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research/source-raster-boundary-batch6-search-cleric-post-pr34.json.gz',import.meta.url))));
 const legacyFixture = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-raster-coverage-derived-metrics-before.json.gz', import.meta.url))));
 const legacySource = legacyFixture.files['tools/source-raster-coverage.mjs'];
 assert.equal(createHash('sha256').update(legacySource.utf8).digest('hex'), legacySource.sha256);
@@ -127,6 +129,14 @@ test('the active pointer snapshot covers the complete actual current catalog uni
   assert.equal(report.currentCandidateCounts.sourcePagesRendered, new Set(live.usages.map(row => `${row.book}:${row.pdfPage}`)).size);
   assert.deepEqual(report.currentCandidateCounts, snapshot.counts);
   assert.equal(report.semanticPass, false);
+});
+
+test('the frozen released Jo snapshot preserves its exact seven-use extension and source windows', () => {
+  assert.equal(releasedJoSnapshot.usages.length,priorJoSearchSnapshot.usages.length+7);
+  assert.deepEqual(releasedJoSnapshot.sourceFrames,priorJoSearchSnapshot.sourceFrames);
+  assert.deepEqual(releasedJoSnapshot.usages.slice(0,priorJoSearchSnapshot.usages.length),priorJoSearchSnapshot.usages);
+  assert.deepEqual(releasedJoSnapshot.geometries.map(({uses,...row})=>row),priorJoSearchSnapshot.geometries.map(({uses,...row})=>row));
+  assert.equal(releasedJoSnapshot.geometries.length,releasedJoSnapshot.counts.uniqueImageGeometryBindings);
 });
 
 test('dropping uses cannot claim complete coverage even when reported counts and current hashes are retained', () => {

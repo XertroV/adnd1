@@ -1,7 +1,8 @@
+import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {createHash} from 'node:crypto';
-import {readFileSync} from 'node:fs';
+
 import {execFileSync} from 'node:child_process';
 import {buildPriceSourceInventory,sourceVisualRegionHashes,validatePriceSourceInventory} from '../tools/price-source-inventory.mjs';
 import {batch5OfferEquipment,withoutBatch5OfferEquipment,withoutGeneratedCitationTransport} from './equipment-source-first-fixture.mjs';

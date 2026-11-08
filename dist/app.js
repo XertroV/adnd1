@@ -118,6 +118,8 @@ let notes = [];
 let storageAvailable = true;
 let pendingNote = null;
 let commandRows = [];
+let commandMatches = [];
+let commandLimit = 18;
 let commandIndex = 0;
 let selectionContext = null;
 let toastTimer;
@@ -487,7 +489,7 @@ function filteredItems() {
  if (view==='spells'&&selectedSpellLevels.size) result = result.filter(x=>selectedSpellLevels.has(String(x.level)));
  if (filter.category) result = result.filter(x => x.category === filter.category);
  if (filter.details) result = result.filter(x => filter.details === 'ready' ? hasDetails(x) : !hasDetails(x));
- return result.sort((a,b) => (filter.q ? FirstEditionSearch.score(a,filter.q)-FirstEditionSearch.score(b,filter.q) : 0) || (view === 'spells' && !filter.q && !filter.details ? Number(hasDetails(b))-Number(hasDetails(a)) : 0) || a._title.localeCompare(b._title));
+ return result.sort((a,b) => (view === 'spells' && !filter.q && !filter.details ? Number(hasDetails(b))-Number(hasDetails(a)) : 0) || FirstEditionSearch.compare(a,b,filter.q));
 }
 function renderReference() {
  captureCombatDisclosureState();
@@ -503,7 +505,7 @@ function renderReference() {
  if (selectedId && !item) item = index.find(x => x._view === view && x.id === selectedId);
  selectedId = item?.id || '';
  const detailed = view === 'spells' ? list.filter(hasDetails).length : 0;
- $('#main').innerHTML = pageHeading(...heading) + banner() + filtersHTML() + (view==='classes'?progressionExplainerHTML():'') + `<div class="result-toolbar"><span><strong>${list.length.toLocaleString()}</strong> ${view === 'spells' ? 'indexed spell entries' : view === 'classes' ? 'class guides' : view==='equipment'?'equipment entries':'references'}${view === 'spells' ? ` <span class="highlight-count">· ${detailed} matching quick-reference cards</span>` : ''}</span><span class="sort-label">${view === 'spells' && !filter.q && !filter.details ? 'Quick-reference cards first' : 'Alphabetical reference'}</span></div><div class="reference-layout"><section class="result-list" aria-label="${esc(view)} results">${list.length ? list.slice(0,listLimit).map(x => resultHTML(x,x.id === selectedId)).join('') + (list.length > listLimit ? `<button class="button secondary" id="loadMore">Show ${Math.min(50,list.length-listLimit)} more · ${list.length-listLimit} remaining</button>` : '') : `<div class="no-results">No matching ${esc(view)}.<br>Try a shorter search or reset the filters.</div>`}</section><section id="referenceDetail" aria-label="Selected reference">${item ? detailHTML(item) : `<div class="empty-state"><h2>A little unexplored territory.</h2><p>${data[view].length ? 'No reference matches these filters. Broaden your search to find another path.' : 'Source extraction for this section is in progress. The coverage page shows what is available today.'}</p><a class="button secondary" href="#sources">View source coverage ${icon('arrow')}</a></div>`}</section></div>`;
+ $('#main').innerHTML = pageHeading(...heading) + banner() + filtersHTML() + (view==='classes'?progressionExplainerHTML():'') + `<div class="result-toolbar"><span><strong>${list.length.toLocaleString()}</strong> ${view === 'spells' ? 'indexed spell entries' : view === 'classes' ? 'class guides' : view==='equipment'?'equipment entries':'references'}${view === 'spells' ? ` <span class="highlight-count">· ${detailed} matching quick-reference cards</span>` : ''}<span class="result-window"> · Showing ${Math.min(listLimit,list.length).toLocaleString()} of ${list.length.toLocaleString()}</span></span><span class="sort-label">${filter.q ? 'Best matches first' : view === 'spells' && !filter.details ? 'Quick-reference cards first' : 'Alphabetical reference'}</span></div><div class="reference-layout"><section class="result-list" aria-label="${esc(view)} results">${list.length ? list.slice(0,listLimit).map(x => resultHTML(x,x.id === selectedId)).join('') + (list.length > listLimit ? `<button class="button secondary" id="loadMore">Show ${Math.min(50,list.length-listLimit)} more · ${list.length-listLimit} remaining</button>` : '') : `<div class="no-results">No matching ${esc(view)}.<br>Try a shorter search or reset the filters.</div>`}</section><section id="referenceDetail" aria-label="Selected reference">${item ? detailHTML(item) : `<div class="empty-state"><h2>A little unexplored territory.</h2><p>${data[view].length ? 'No reference matches these filters. Broaden your search to find another path.' : 'Source extraction for this section is in progress. The coverage page shows what is available today.'}</p><a class="button secondary" href="#sources">View source coverage ${icon('arrow')}</a></div>`}</section></div>`;
  $('#filterStatus').textContent = `${list.length} ${view === 'spells' ? 'spell entries' : view === 'classes' ? 'class guides' : view==='equipment'?'equipment entries':'rule references'} match your search${view === 'spells' ? `; ${detailed} quick-reference cards` : ''}.`;
 }
 function resultHTML(x, selected) {
@@ -524,7 +526,7 @@ function detailHTML(x) {
  const fields = Object.entries(x.fields || {}).filter(([,v]) => v !== null && v !== undefined && v !== '');
  const footer = pending ? 'Indexed source reference · quick-reference details pending' : x.incomplete ? 'Partial extraction · source OCR checked · visual verification pending' : isVerified(x) ? 'Important source details visually checked' : 'Source OCR checked · visual verification pending';
  const listBlock = (heading, items) => Array.isArray(items) && items.length ? `<h3>${heading}</h3><ul>${items.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>` : '';
- return `<article class="detail-card" data-annotation-target="${esc(x.id)}" data-annotation-title="${esc(x._title)}">${detailHeaderHTML(x,{eyebrow:label,status:pending?'Details pending':x.incomplete?'Partial extraction':isVerified(x)?'Visually checked':'OCR checked',statusClass:isVerified(x)?'':'unverified',pending,attributes:spell?spellAttributesHTML(x):''})}<div class="detail-body">${!spell && fields.length ? `<div class="stats-grid">${fields.map(([k,v])=>`<div class="stat"><div class="stat-label">${esc(k)}</div><div class="stat-value">${esc(Array.isArray(v)?v.join(', '):v)}</div></div>`).join('')}</div>` : ''}${pending ? `<div class="empty-state"><h2>The spell is indexed.</h2><p>The spell’s name, class, and level are indexed. Casting attributes, effects, conditions, and exceptions have not yet been extracted into a quick-reference card.</p><p>The cited source heading locates the spell in your own book. Quick-reference extraction and visual verification are still pending.</p></div>` : ''}${x.summary ? `<h3>At a glance</h3><p>${esc(x.summary)}</p>` : ''}${listBlock(spell?'Effect & resolution':'In practice',spell?x.effect:x.bullets)}${listBlock('Conditions & requirements',x.conditions)}${listBlock('Exceptions & limitations',x.exceptions)}${x.notes ? `<div class="callout">${esc(Array.isArray(x.notes)?x.notes.join(' '):x.notes)}</div>` : ''}${!pending && !isVerified(x) ? '<div class="callout">This card is a concise study aid from source OCR. Check the cited printing when a detail determines a ruling; visual verification is still pending.</div>' : ''}</div>${inlineNotes(x.id)}<footer class="detail-footer"><span>${icon('book')}${esc(footer)}</span>${originalScansButton(x)}<button class="source-chip" data-copy-link="${esc(x.id)}">Copy reference link ↗</button></footer></article>`;
+ return `<article class="detail-card" data-annotation-target="${esc(x.id)}" data-annotation-title="${esc(x._title)}">${detailHeaderHTML(x,{eyebrow:label,status:pending?'Details pending':x.incomplete?'Partial extraction':isVerified(x)?'Visually checked':'OCR checked',statusClass:isVerified(x)?'':'unverified',pending,attributes:spell?spellAttributesHTML(x):''})}<div class="detail-body">${!spell && fields.length ? `<div class="stats-grid">${fields.map(([k,v])=>`<div class="stat"><div class="stat-label">${esc(k)}</div><div class="stat-value">${esc(Array.isArray(v)?v.join(', '):v)}</div></div>`).join('')}</div>` : ''}${!spell?ruleTableHTML(x):''}${pending ? `<div class="empty-state"><h2>The spell is indexed.</h2><p>The spell’s name, class, and level are indexed. Casting attributes, effects, conditions, and exceptions have not yet been extracted into a quick-reference card.</p><p>The cited source heading locates the spell in your own book. Quick-reference extraction and visual verification are still pending.</p></div>` : ''}${x.summary ? `<h3>At a glance</h3><p>${esc(x.summary)}</p>` : ''}${listBlock(spell?'Effect & resolution':'In practice',spell?x.effect:x.bullets)}${listBlock('Conditions & requirements',x.conditions)}${listBlock('Exceptions & limitations',x.exceptions)}${x.notes ? `<div class="callout">${esc(Array.isArray(x.notes)?x.notes.join(' '):x.notes)}</div>` : ''}${!pending && !isVerified(x) ? '<div class="callout">This card is a concise study aid from source OCR. Check the cited printing when a detail determines a ruling; visual verification is still pending.</div>' : ''}</div>${inlineNotes(x.id)}<footer class="detail-footer"><span>${icon('book')}${esc(footer)}</span>${originalScansButton(x)}<button class="source-chip" data-copy-link="${esc(x.id)}">Copy reference link ↗</button></footer></article>`;
 }
 function xpThresholds(x) {
  const input = Array.isArray(x.xpRows) ? x.xpRows : Array.isArray(x.xp) ? x.xp : [];
@@ -553,10 +555,57 @@ function thresholdForLevel(x, level) {
  if(!c||level<=c.afterLevel)return null;
  return {level,xp:c.anchorXp+(level-c.anchorLevel)*c.increment,book:c.book,pages:c.pages,track:c.track,derived:true,status:`Derived from the explicit continuation rule. ${c.status||'Source OCR checked; visual review pending.'}`,increment:c.increment,anchorLevel:c.anchorLevel};
 }
-function inlineSourceChip(reference,title, prefix='') {
+function inlineSourceChip(reference,title, prefix='', className='') {
  const pages=pagesFor(reference);
  const targets=FirstEditionCitations.targets(reference,title);
- return `<button class="source-chip" data-inline-source data-ref-book="${esc(reference.book)}" data-ref-pages="${esc(pages.join(','))}" data-ref-title="${esc(title)}" data-ref-status="${esc(reference.status||'Source extraction pending')}" data-ref-targets="${esc(JSON.stringify(targets))}">${esc(prefix)}${esc(bookCode(reference.book))} ${pages.length?`${pages.length===1?'p.':'pp.'} ${pages.join(', ')}`:'page pending'}</button>`;
+ const pageLabel=pages.length?`${pages.length===1?'p.':'pp.'} ${pages.join(', ')}`:'page pending';
+ const classNames=['source-chip',className].filter(Boolean).join(' ');
+ return `<button class="${esc(classNames)}" data-inline-source data-ref-book="${esc(reference.book)}" data-ref-pages="${esc(pages.join(','))}" data-ref-title="${esc(title)}" data-ref-status="${esc(reference.status||'Source extraction pending')}" data-ref-targets="${esc(JSON.stringify(targets))}" aria-label="Open source for ${esc(title)}: ${esc(bookCode(reference.book))} ${esc(pageLabel)}">${esc(prefix)}${esc(bookCode(reference.book))} ${pageLabel}</button>`;
+}
+function displaySourceValue(value) {
+ if(typeof value==='string'||typeof value==='number')return String(value);
+ if(value&&typeof value==='object')return String(value.text??value.meaning??value.label??'');
+ return '';
+}
+function exactTableFactSourceReference(item,fact) {
+ const reference=fact?.sourceReference;
+ if(!reference||typeof reference!=='object'||typeof reference.sourceFocusId!=='string'||!Array.isArray(reference.evidenceBindings))return null;
+ const sourceReferences=Array.isArray(item.sourceReferences)?item.sourceReferences:[];
+ const matchingReferences=sourceReferences.filter(sourceReference=>Array.isArray(sourceReference.focusRects)&&sourceReference.focusRects.some(focus=>focus?.id===reference.sourceFocusId));
+ if(matchingReferences.length!==1)return null;
+ const sourceReference=matchingReferences[0],book=bookCode(sourceReference.book),page=Number(sourceReference.printedPage),pdf=Number(sourceReference.pdfPage);
+ if(!book||!Number.isInteger(page)||!Number.isInteger(pdf)||bookCode(reference.book)!==book||!pagesFor(reference).includes(page))return null;
+ if(reference.evidenceBindings.length!==1)return null;
+ const [binding]=reference.evidenceBindings;
+ if(!binding||typeof binding!=='object')return null;
+ const verifiedRegions=Array.isArray(reference.verification?.regions)?reference.verification.regions:[];
+ const bindingPrintedPage=Number(binding.printedPage);
+ const bindingPages=Array.isArray(binding.pages)?binding.pages:Number.isInteger(bindingPrintedPage)?[bindingPrintedPage]:pagesFor(reference);
+ const sourcePages=Array.isArray(binding.sourcePages)?binding.sourcePages.map(Number):[];
+ if(binding.collection!=='rules'||binding.itemId!==item.id||binding.book!==book||bindingPrintedPage!==page||Number(binding.pdfPage)!==pdf||!Array.isArray(bindingPages)||bindingPages.length!==1||Number(bindingPages[0])!==page||!sourcePages.includes(page)||typeof binding.fieldPointer!=='string'||!binding.fieldPointer||typeof (binding.sourceObjectPointer||binding.sourceObject)!=='string'||!(binding.sourceObjectPointer||binding.sourceObject)||typeof binding.catalog!=='string'||!binding.catalog||!Array.isArray(binding.regionIds)||binding.regionIds.length!==1||typeof binding.regionIds[0]!=='string'||!binding.regionIds[0]||verifiedRegions.length!==1||verifiedRegions[0]!==binding.regionIds[0]||binding.sourceOwner?.collection!=='rules'||binding.sourceOwner?.itemId!==item.id)return null;
+ const target=FirstEditionCitations.targets(reference).find(candidate=>candidate.book===book&&candidate.page===page&&candidate.fieldPointer===binding.fieldPointer&&candidate.fieldOwner?.collection==='rules'&&candidate.fieldOwner?.itemId===item.id&&candidate.sourceOwner?.collection==='rules'&&candidate.sourceOwner?.itemId===item.id&&candidate.regionIds?.length===1&&candidate.regionIds[0]===binding.regionIds[0]);
+ return target?reference:null;
+}
+function tableFactSourceChip(item,fact,title,className) {
+ const reference=exactTableFactSourceReference(item,fact);
+ if(!reference)return '<span class="source-focus-pending small muted">Exact source focus unavailable</span>';
+ const labeledReference={...reference,evidenceBindings:reference.evidenceBindings.map(binding=>({...binding,label:title}))};
+ return inlineSourceChip(labeledReference,title,'',className);
+}
+function ruleTableHTML(item) {
+ const table=item?.table;
+ if(!table||!Array.isArray(table.columns)||!Array.isArray(table.rows))return '';
+ const columns=table.columns,rows=table.rows,rowLabel=table.rowHeader?.label||'Entry';
+ const symbols=Array.isArray(table.symbols)?table.symbols:[],procedure=Array.isArray(table.procedure)?table.procedure:[],footnotes=Array.isArray(table.footnotes)?table.footnotes:[];
+ const sourceReferences=Array.isArray(item.sourceReferences)?item.sourceReferences:Array.isArray(table.sourceReferences)?table.sourceReferences:[];
+ const grid=`<div class="table-scroll source-rule-table-scroll" tabindex="0" role="region" aria-label="${esc(table.title||item.title||'Source table')}, horizontally scrollable"><table class="source-rule-table"><caption>${esc(table.title||item.title||'Source table')}</caption><thead><tr><th scope="col" rowspan="2">${esc(rowLabel)}</th><th scope="colgroup" colspan="${columns.length}">${esc(table.columnGroup?.label||'Source columns')}</th></tr><tr>${columns.map(column=>`<th scope="col">${esc(column.label||column.id||'')}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>{const cells=new Map((Array.isArray(row.cells)?row.cells:[]).map(cell=>[cell.columnId,cell]));return `<tr><th scope="row">${esc(row.label||'')}${(Array.isArray(row.markers)?row.markers:[]).map(marker=>`<sup class="source-row-marker">${esc(marker)}</sup>`).join('')} ${tableFactSourceChip(item,row,`${table.title||item.title||'Table'} · ${row.label||'row'}`,'table-row-source')}</th>${columns.map(column=>{const cell=cells.get(column.id);return `<td${cell?.kind?` data-cell-kind="${esc(cell.kind)}"`:''}>${esc(cell?.raw??'')}</td>`;}).join('')}</tr>`;}).join('')}</tbody></table></div>`;
+ const symbolBlock=symbols.length?`<section class="source-table-symbols"><h3>Printed symbols</h3><dl>${symbols.map(entry=>`<div><dt>${esc(entry.symbol||'')}</dt><dd>${esc(displaySourceValue(entry.text??entry.meaning))} ${tableFactSourceChip(item,entry,`${table.title||item.title||'Table'} · ${entry.symbol||'symbol'} definition`,'table-symbol-source')}</dd></div>`).join('')}</dl></section>`:'';
+ const procedureBlock=procedure.length?`<section class="source-table-procedure"><h3>Printed procedure</h3><ol>${procedure.map(step=>`<li${step.step?` data-step="${esc(step.step)}"`:''}>${esc(displaySourceValue(step.text))} ${tableFactSourceChip(item,step,`${table.title||item.title||'Table'} · ${step.step||'procedure step'}`,'table-procedure-source')}</li>`).join('')}</ol></section>`:'';
+ const footnoteBlock=footnotes.length?`<section class="source-table-footnotes"><h3>Printed footnotes</h3><ul>${footnotes.map(note=>`<li><strong>${esc(note.marker||'')}</strong> ${esc(note.text||'')}${note.appliesTo?` <span class="small muted">${esc(note.appliesTo)}</span>`:''} ${tableFactSourceChip(item,note,`${table.title||item.title||'Table'} · footnote ${note.marker||''}`,'table-footnote-source')}</li>`).join('')}</ul></section>`:'';
+ const progression=table.progressionNote?`<p class="source-table-progression"><strong>Progression note</strong> ${esc(displaySourceValue(table.progressionNote.text))} ${tableFactSourceChip(item,table.progressionNote,`${table.title||item.title||'Table'} · progression note`,'table-progression-source')}</p>`:'';
+ const referencePages=[...new Map(sourceReferences.filter(ref=>Number.isInteger(Number(ref.printedPage))&&Number.isInteger(Number(ref.pdfPage))).map(ref=>[`${ref.book}:${ref.printedPage}:${ref.pdfPage}`,ref])).values()];
+ const references=referencePages.length?`<p class="source-table-references">Source locations: ${referencePages.map(ref=>`${esc(bookCode(ref.book))} p. ${esc(ref.printedPage)} (supplied PDF p. ${esc(ref.pdfPage)})`).join(' · ')}</p>`:'';
+ return `<section class="source-table-section" data-source-context="${esc(item.id)}" data-source-view="rules" aria-label="${esc(item.category||'Source table')}">${grid}${symbolBlock}${procedureBlock}${footnoteBlock}${progression}${references}</section>`;
 }
 function classTarget(x) {
  const limit=classTargetLimit(x);
@@ -597,8 +646,14 @@ function xpCalculatorHTML(x) {
  const tracks=[...new Set(rows.map(row=>row.track))];const activeTrack=thresholdForLevel(x,classTarget(x))?.track||tracks[0];
  return `<div class="calculator"><label for="xpInput">Your cumulative XP within this track</label>${tracks.length>1?`<label for="xpTrack">XP track</label><select id="xpTrack">${tracks.map(track=>`<option value="${esc(track)}"${track===activeTrack?' selected':''}>${esc(xpTrackLabel(x,track))}</option>`).join('')}</select>`:tracks[0]&&tracks[0]!=='main'?`<p class="small track-label">${esc(xpTrackLabel(x,tracks[0]))}</p>`:''}<div class="xp-input-row"><input id="xpInput" type="number" min="0" max="1000000000" step="1" value="0" inputmode="numeric" aria-describedby="xpOutput" aria-label="Cumulative experience points"><button id="calculateXP" class="button primary">Check progress</button></div><div id="xpOutput" class="xp-output" aria-live="polite"></div><div class="xp-meter" aria-hidden="true"><span id="xpMeter"></span></div></div>`;
 }
+function classAbilitiesHTML(x) {
+ if(x.id!=='cleric')return '';
+ const turningTable=data.rules.find(rule=>rule.id==='cleric-turning-table');
+ if(!turningTable)return '';
+ return `<section class="class-abilities" data-source-context="${esc(turningTable.id)}" data-source-view="rules" aria-labelledby="classAbilitiesTitle"><h3 id="classAbilitiesTitle">Class abilities</h3><p>Turn undead table and its printed procedure.</p><a class="button secondary" href="#rules/${encodeURIComponent(turningTable.id)}">${esc(turningTable.title||'Turn undead table')}</a> ${inlineSourceChip(turningTable,'Cleric · turn undead table')}</section>`;
+}
 function classDetailHTML(x) {
- return `<article class="detail-card" data-annotation-target="${esc(x.id)}" data-annotation-title="${esc(x.name)}">${detailHeaderHTML(x,{eyebrow:x.variant||`${bookCode(x.book)} CLASS GUIDE`,extra:`${x.hitDie?`<span class="class-header-stat">${icon('die')}Hit die ${esc(x.hitDie)}</span>`:''}${x.progression&&typeof x.progression==='object'&&x.progression.label?`<span class="progression-label">${esc(x.progression.label)}</span>`:''}`})}<div class="detail-body">${x.description?`<p>${esc(x.description)}</p>`:''}${x.progression&&typeof x.progression==='object'&&x.progression.description?`<div class="progression-context"><strong>${esc(x.progression.label||'Progression track')}</strong><p>${esc(x.progression.description)}</p><div>${(x.progression.references||[]).map(reference=>inlineSourceChip(reference,`${x.name} · progression`)).join('')}</div></div>`:''}${advancementControlsHTML(x)}${xpCalculatorHTML(x)}${xpTableHTML(x)}${Array.isArray(x.guidance)&&x.guidance.length?`<h3>General class checklist</h3><p class="small muted">These are general class reminders, separate from the selected level’s changes.</p><ul>${x.guidance.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:'<h3>General class checklist</h3><p>Class-wide advancement reminders are still being extracted. Check the class section, relevant ability tables, and DMG training guidance in your own books.</p>'}${x.errata?`<h3>Errata — separate from the printing</h3><div class="callout">${esc(Array.isArray(x.errata)?x.errata.join(' '):x.errata)}</div>`:''}<div class="callout">XP indicates a threshold, not automatic advancement. Class prerequisites, campaign eligibility, rank limits, and the Dungeon Master’s training procedure can affect advancement.</div></div>${inlineNotes(x.id)}<footer class="detail-footer"><span>${icon('book')}Partial level-up extraction · visual table verification pending</span>${originalScansButton(x)}<button class="source-chip" data-copy-link="${esc(x.id)}">Copy reference link ↗</button></footer></article>`;
+ return `<article class="detail-card" data-annotation-target="${esc(x.id)}" data-annotation-title="${esc(x.name)}">${detailHeaderHTML(x,{eyebrow:x.variant||`${bookCode(x.book)} CLASS GUIDE`,extra:`${x.hitDie?`<span class="class-header-stat">${icon('die')}Hit die ${esc(x.hitDie)}</span>`:''}${x.progression&&typeof x.progression==='object'&&x.progression.label?`<span class="progression-label">${esc(x.progression.label)}</span>`:''}`})}<div class="detail-body">${x.description?`<p>${esc(x.description)}</p>`:''}${x.progression&&typeof x.progression==='object'&&x.progression.description?`<div class="progression-context"><strong>${esc(x.progression.label||'Progression track')}</strong><p>${esc(x.progression.description)}</p><div>${(x.progression.references||[]).map(reference=>inlineSourceChip(reference,`${x.name} · progression`)).join('')}</div></div>`:''}${classAbilitiesHTML(x)}${advancementControlsHTML(x)}${xpCalculatorHTML(x)}${xpTableHTML(x)}${Array.isArray(x.guidance)&&x.guidance.length?`<h3>General class checklist</h3><p class="small muted">These are general class reminders, separate from the selected level’s changes.</p><ul>${x.guidance.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:'<h3>General class checklist</h3><p>Class-wide advancement reminders are still being extracted. Check the class section, relevant ability tables, and DMG training guidance in your own books.</p>'}${x.errata?`<h3>Errata — separate from the printing</h3><div class="callout">${esc(Array.isArray(x.errata)?x.errata.join(' '):x.errata)}</div>`:''}<div class="callout">XP indicates a threshold, not automatic advancement. Class prerequisites, campaign eligibility, rank limits, and the Dungeon Master’s training procedure can affect advancement.</div></div>${inlineNotes(x.id)}<footer class="detail-footer"><span>${icon('book')}Partial level-up extraction · visual table verification pending</span>${originalScansButton(x)}<button class="source-chip" data-copy-link="${esc(x.id)}">Copy reference link ↗</button></footer></article>`;
 }
 function calculateXP() {
  const input=$('#xpInput');if(!input)return;
@@ -957,18 +1012,34 @@ $('#importFile').addEventListener('change',async e=>{
  }catch(error){toast(error.message||'The notebook could not be imported.');}
 });
 function openPalette() {
- paletteOrigin=document.activeElement;paletteRestoreFocus=true;$('#commandInput').value='';commandIndex=0;renderCommands('');$('#palette').showModal();$('#commandInput').focus();
+ paletteOrigin=document.activeElement;paletteRestoreFocus=true;$('#commandInput').value='';commandIndex=0;commandLimit=18;renderCommands('');$('#palette').showModal();$('#commandInput').focus();
 }
 function renderCommands(query) {
- commandRows=index.filter(x=>matchesQuery(x,query)).sort((a,b)=>{
+ commandMatches=index.filter(x=>matchesQuery(x,query)).sort((a,b)=>{
   const q=normalize(query);const score=x=>q?FirstEditionSearch.score(x,query):(x._view==='spells'&&hasDetails(x)?0:1);
-  return score(a)-score(b)||Number(hasDetails(b))-Number(hasDetails(a))||a._title.localeCompare(b._title);
- }).slice(0,18);
+  return score(a)-score(b)||Number(hasDetails(b))-Number(hasDetails(a))||FirstEditionSearch.compare(a,b,query);
+ });
+ commandRows=commandMatches.slice(0,commandLimit);
  commandIndex=Math.max(0,Math.min(commandIndex,commandRows.length-1));
  $('#commandResults').innerHTML=commandRows.length?commandRows.map((x,i)=>`<div class="palette-result" role="option" id="command-${i}" aria-selected="${i===commandIndex}" data-command-index="${i}"><span>${icon(x._view==='spells'?'spark':x._view==='equipment'?'bag':x._view==='classes'?'shield':x._view==='notebook'?'pen':'book')}</span><div class="result-title">${esc(x._title)}<small>${esc(x._subtitle)}</small></div><span class="result-type">${esc(x._view==='spells'?'SPELL':x._view==='rules'?'RULE':x._view==='equipment'?'GEAR':x._view==='classes'?'CLASS':'NOTE')}</span></div>`).join(''):'<div class="palette-empty">No matches. Try a shorter spell name, class, or rules keyword.</div>';
+ $('#commandResultCount').textContent=commandMatches.length?`Showing ${commandRows.length.toLocaleString()} of ${commandMatches.length.toLocaleString()} matching references`:'No matching references';
+ const groupLabels={rules:'rules',spells:'spells',equipment:'gear items',classes:'class guides',notebook:'your notes'};
+ const groupedCounts=new Map();for(const item of commandMatches)groupedCounts.set(item._view,(groupedCounts.get(item._view)||0)+1);
+ $('#commandResultGroups').textContent=[...groupedCounts].map(([key,count])=>`${count.toLocaleString()} ${groupLabels[key]||'references'}`).join(' · ');
+ const remaining=commandMatches.length-commandRows.length;
+ $('#commandMore').hidden=remaining<=0;$('#commandMore').textContent=`Show ${Math.min(18,remaining)} more · ${remaining.toLocaleString()} remaining`;
+ $('#commandShowAll').hidden=remaining<=0;$('#commandShowAll').textContent=`Show all ${commandMatches.length.toLocaleString()} results`;
  renderSearchHistory(query);
  $('#commandInput').setAttribute('aria-activedescendant',commandRows.length?`command-${commandIndex}`:'');
  $$('[data-command-index]').forEach(el=>{el.addEventListener('click',()=>chooseCommand(Number(el.dataset.commandIndex)));el.addEventListener('mousemove',()=>setCommandIndex(Number(el.dataset.commandIndex),false));});
+}
+function showMoreCommands(all=false) {
+ if(commandRows.length>=commandMatches.length)return;
+ const firstNew=commandRows.length;
+ commandLimit=all?commandMatches.length:Math.min(commandMatches.length,commandLimit+18);
+ renderCommands($('#commandInput').value);
+ commandIndex=Math.min(firstNew,commandRows.length-1);setCommandIndex(commandIndex,false);
+ $('#commandInput').focus({preventScroll:true});
 }
 function setCommandIndex(i,scroll=true) {
  if(!commandRows.length)return;commandIndex=(i+commandRows.length)%commandRows.length;
@@ -981,9 +1052,11 @@ function chooseCommand(i) {
 }
 $('#paletteOpen').addEventListener('click',openPalette);
 $('#mobileSearchOpen').addEventListener('click',openPalette);
-$('#searchHistory').addEventListener('click',e=>{const button=e.target.closest?.('[data-search-history-index]');if(!button)return;const query=searchHistory[Number(button.dataset.searchHistoryIndex)];if(typeof query!=='string')return;$('#commandInput').value=query;commandIndex=0;rememberSearchHistory(query,'palette');renderCommands(query);$('#commandInput').focus({preventScroll:true});});
-$('#commandInput').addEventListener('input',e=>{commandIndex=0;scheduleSearchHistory(e.target.value,'palette');renderCommands(e.target.value);});
-$('#commandInput').addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();setCommandIndex(commandIndex+1);}else if(e.key==='ArrowUp'){e.preventDefault();setCommandIndex(commandIndex-1);}else if(e.key==='Enter'){e.preventDefault();chooseCommand(commandIndex);}});
+$('#searchHistory').addEventListener('click',e=>{const button=e.target.closest?.('[data-search-history-index]');if(!button)return;const query=searchHistory[Number(button.dataset.searchHistoryIndex)];if(typeof query!=='string')return;$('#commandInput').value=query;commandIndex=0;commandLimit=18;rememberSearchHistory(query,'palette');renderCommands(query);$('#commandInput').focus({preventScroll:true});});
+$('#commandInput').addEventListener('input',e=>{commandIndex=0;commandLimit=18;scheduleSearchHistory(e.target.value,'palette');renderCommands(e.target.value);});
+$('#commandMore').addEventListener('click',()=>showMoreCommands(false));
+$('#commandShowAll').addEventListener('click',()=>showMoreCommands(true));
+$('#commandInput').addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();if(commandIndex>=commandRows.length-1&&commandRows.length<commandMatches.length)showMoreCommands(false);else setCommandIndex(commandIndex+1);}else if(e.key==='ArrowUp'){e.preventDefault();setCommandIndex(commandIndex-1);}else if(e.key==='Enter'){e.preventDefault();chooseCommand(commandIndex);}});
 $('#palette').addEventListener('close',()=>{if(!$('#palette').open&&paletteRestoreFocus&&paletteOrigin?.isConnected)paletteOrigin.focus({preventScroll:true});});
 $$('[data-close]').forEach(el=>el.addEventListener('click',()=>$('#'+el.dataset.close).close()));
 $$('dialog').forEach(dialog=>dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}}));

@@ -1,6 +1,7 @@
+import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+
 import {gunzipSync} from 'node:zlib';
 import {buildContinuationAliasReport,loadContinuationAliasReport} from '../tools/continuation-alias-audit.mjs';
 import {xpBeforeCatalogsForAliasReplay} from './helpers/batch6-xp-source-history.mjs';
@@ -18,7 +19,7 @@ const oldManifest=JSON.parse(gunzipSync(readFileSync(integration.beforeManifestF
 
 test('the complete before universe detects the real unlinked Solid Fog region alias',()=>{
  const replay=buildContinuationAliasReport({data,manifest:oldManifest,catalogs:xpBeforeCatalogsForAliasReplay(catalogs)});
- assert.deepEqual(replay.denominators,before.denominators);
+ assert.deepEqual(replay.denominators,before.denominators,'exact XP catalog rollback composes with the exact Jo history stage to reproduce the complete historical universe');
  assert.equal(replay.denominators.exposedRecords,995);
  assert.equal(replay.denominators.referencedCatalogs,1015);
  assert.equal(replay.denominators.exactAliasMatches,23);
@@ -39,6 +40,8 @@ test('the exact legacy alias keeps its source, focus and relationship and opens 
  const alias=catalog.regions.find(region=>region.id===added.segments[1].regionId);
  for(const key of ['sha256','book','printedPage','pdfPage','normalizedPageRect','focusRects'])assert.deepEqual(alias[key],primary[key]);
  const current=loadContinuationAliasReport();
+ assert.equal(current.denominators.exposedRecords,997,'the current source universe independently retains both the published turning table and Jo');
+ assert.equal(current.denominators.referencedCatalogs,1017);
  assert.equal(current.missingAliases.length,0);
  assert.equal(current.structuralCheck.valid,true);
  assert.equal(current.structuralCheck.sourceSemanticsCertified,false);

@@ -1,3 +1,4 @@
+import {withoutBatch6JoCanonicalArtifact} from './helpers/batch6-jo-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';
@@ -17,6 +18,7 @@ const legacyIds=['ua-misc-note-context-ua-other-005-E2-r063','ua-misc-note-conte
 const rootUrl=new URL('../',import.meta.url),pathBytes=path=>readFileSync(new URL('../'+path,import.meta.url));
 function frozenDocuments(){
  const docs=new Map(monetaryRowIdentityInputs.map(config=>{const bytes=pathBytes(config.path);return [config.key,{...config,sha256:hash(bytes),data:JSON.parse(bytes)}];}));
+ docs.set('canonical',withoutBatch6JoCanonicalArtifact(docs.get('canonical')));
  const uaBytes=gunzipSync(pathBytes('tests/fixtures/monetary-source-ua-583-before.json.gz')),pdBytes=gunzipSync(pathBytes('tests/fixtures/monetary-source-phbdmg-179-before.json.gz'));
  docs.set('ua',{...docs.get('ua'),sha256:hash(uaBytes),data:JSON.parse(uaBytes.toString('utf8'))});docs.set('phbDmg',{...docs.get('phbDmg'),sha256:hash(pdBytes),data:JSON.parse(pdBytes.toString('utf8'))});return docs;
 }

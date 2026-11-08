@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "batch6-current-continuation-candidate-snapshot-before-pointer-refresh",
+  "status": "captured-before-new-current-continuation-snapshot-and-validator",
+  "capturedOn": "2026-11-08",
+  "command": "node tools/continuation-candidates-validate.mjs --summary research/source-audit-batch5-continuation-current.json --force-current-tree --output-dir /tmp/batch6-source-freshness-current-20261108/old-continuation-candidate-validation",
+  "inputSnapshot": {
+    "path": "research/source-audit-batch5-continuation-current.json",
+    "sha256": "adcbb46bf013be463410f89331d9dbd095ca51da28d4208028263f93f09ef8a3",
+    "immutable": true,
+    "overwritten": false
+  },
+  "validator": {
+    "path": "tools/continuation-candidates-validate.mjs",
+    "sha256": "65b9699164f8f2818bd0f40e762c61380e7b8d79e3393bb3f7fd0eb258ec2b3e"
+  },
+  "validation": {
+    "valid": false,
+    "validationBase": "current-worktree",
+    "errorCount": 12,
+    "output": "validation.json",
+    "outputSha256": "237a57f1a1518a9c55967689d20828dd14f93a927da99af6ae48bfbde981b342",
+    "errors": [
+      {
+        "code": "stale-data-input",
+        "detail": "Current dist/data.json differs from the report input hash. Regenerate the current snapshot or validate the baseline against its pinned tree."
+      },
+      {
+        "code": "stale-continuation-manifest",
+        "detail": "The continuation manifest differs from the snapshot input hash."
+      },
+      {
+        "code": "stale-catalog-hash",
+        "detail": "scans/verified/rules-cleric-turning-table.json differs from the catalog bytes pinned by the report."
+      },
+      {
+        "code": "stale-catalog-universe",
+        "detail": "The catalog JSON file/hash universe differs from the report."
+      },
+      {
+        "code": "catalog-file-count-stale",
+        "detail": "The report catalog file denominator differs from current dist/scans."
+      },
+      {
+        "code": "catalog-binding-count-stale",
+        "detail": "sourceExcerpts binding count differs from exposed records."
+      },
+      {
+        "code": "region-binding-usage-count-stale",
+        "detail": "sourceExcerpts region use count differs from exposed records."
+      },
+      {
+        "code": "property-record-count-stale",
+        "detail": "Report has 995 records; current data has 996."
+      },
+      {
+        "code": "property-record-order-stale",
+        "detail": "Property record 148 no longer matches exposed collection/item order."
+      },
+      {
+        "code": "property-pointer-stale",
+        "detail": "rules:cleric-turning-table/name no longer resolves to a scalar/null property."
+      },
+      {
+        "code": "property-pointer-denominator-stale",
+        "detail": "Report has 9913 unique pointers; current exposed data has 201713."
+      },
+      {
+        "code": "mechanics-field-denominator-stale",
+        "detail": "Mechanics fieldsFor denominator differs from the current exposed records."
+      }
+    ]
+  },
+  "classification": "The exact forced-current-tree workflow check detects the expected stale snapshot after the current data/catalog/manifest universe changed. This is a preservation receipt, not a pass. A new current snapshot/active pointer must be separately generated and validated by the approved future writer; the historical Batch5 snapshot remains unchanged."
+}
