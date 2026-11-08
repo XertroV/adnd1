@@ -1,0 +1,30 @@
+{
+  "artifactType": "hash-verified-recovery-of-earlier-captured-code-digest",
+  "actualPreFixFileBytesCaptured": false,
+  "actualPreFixDigestCaptured": true,
+  "method": "Reverse only the recorded minimal resolver join patch in current source; verify recovered full-module bytes match the pre-fix SHA-256 captured before repair. This is after-fix recovery, not a contemporaneous file copy.",
+  "currentSha256": "5b6b35979bb48d8c6f3e230483547e54d9c7ee1c6a7e41beb1e0c9e31857fe19",
+  "capturedBeforeSha256": "ead85c138b717252da555b59808f65373260fa81d1edde44a5315ebf6e89d633",
+  "recoveredSha256": "ead85c138b717252da555b59808f65373260fa81d1edde44a5315ebf6e89d633",
+  "exactDigestMatch": true,
+  "recoveredBeforePath": "tests/fixtures/dmg175-visual-join-before-recovered-ead85.mjs.gz",
+  "recoveredBeforeCompressedSha256": "d8e8f171ee82b67c9dc28ba563ec4d091f9432ff8d8d19d595cfd764e2114ecd",
+  "calibration": {
+    "artifactType": "recovered-hash-matched-before-validator-frozen-report-replay",
+    "method": "Exact recovered pre-fix module digest matched captured ead85; current dependency modules are symlinked read-only. Both validators execute against the same frozen actual before data/report; relative dependencies and hash callbacks are explicit.",
+    "results": [
+      {
+        "phase": "before",
+        "result": "fail",
+        "message": "Cannot refresh gaps handoff: visual report has stale sourceSha256 for rules|encounter-types|sourceExcerpts|scans/verified/rules-encounter-types.json|dmg-175-party-table-context-78c4c383c38c7d10",
+        "sourceCodeSha256": "ead85c138b717252da555b59808f65373260fa81d1edde44a5315ebf6e89d633"
+      },
+      {
+        "phase": "after",
+        "result": "pass",
+        "sourceCodeSha256": "5b6b35979bb48d8c6f3e230483547e54d9c7ee1c6a7e41beb1e0c9e31857fe19"
+      }
+    ]
+  },
+  "scope": "Digest captured before repair; exact module bytes recovered after repair and verified against that digest. This is not a contemporaneous pre-fix file copy. Replay used the actual frozen full3396 report and current-equivalent source dependency files; original data/report retained privately."
+}
