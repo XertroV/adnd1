@@ -336,6 +336,11 @@ jobs:
           set -o pipefail
           mkdir -p artifacts/source-domain-audits
           node tools/refresh-gaps-handoff.mjs --check | tee artifacts/source-domain-audits/gaps-handoff-check.json
+      - name: Verify coverage report counts and review scopes
+        if: always()
+        run: |
+          mkdir -p artifacts/source-domain-audits
+          node tools/source-report-consistency-audit.mjs --check > artifacts/source-domain-audits/report-consistency.json
       - name: Upload class and qualifier audits
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

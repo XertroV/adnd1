@@ -1,0 +1,42 @@
+{
+  "artifactType": "batch6-report-consistency-root-review-addendum",
+  "baseCommit": "ae5195a2efe56f25fe9903f788a3c4c98b4e2064",
+  "preRootReviewReceipt": {
+    "path": "research/source-audit-batch6-report-consistency-implementation.json",
+    "sha256": "8f1bcf80298038c4ddda76fabea92464c81b0c8502f00122e567ec9a3aa510ce"
+  },
+  "finding": "The new synthetic test fixture preserved15reviewed/14resolved by inserting one reviewed-empty tuple. This is not valid field-target data. No such tuple exists among all4505live bindings.",
+  "preservedFailure": {
+    "path": "research/source-audit-batch6-report-impossible-cross-tab-before.json",
+    "sha256": "aab590cd606d5407f40f7f0f021f59bc6667353846767e8772abdb137536636a"
+  },
+  "correction": "Reject reviewed-empty tuples in the aggregate boundary; correct only synthetic21-row fixture to7empty14resolved12reviewed9pending2resolved-pending. Actual4505before snapshot unchanged.",
+  "targetedTests": {
+    "passed": 42,
+    "failed": 0,
+    "log": "/tmp/batch6-report-root-review-tests.log"
+  },
+  "finalCode": [
+    {
+      "path": "tools/refresh-gaps-handoff.mjs",
+      "sha256": "328b2b6cef04cdeb5a938a89451532e999a4037789f72dab8641b5e151d26063"
+    },
+    {
+      "path": "tools/coverage-gaps.mjs",
+      "sha256": "75ab1046768b0dd19b975761a1e50790908e9269703562e5f9438a70c0b7d594"
+    },
+    {
+      "path": "tools/source-report-consistency-audit.mjs",
+      "sha256": "4fe4ce940f0822732b98d59f009d6ee3e0d1dd5659973b2a9a0ccc9c251b65e4"
+    },
+    {
+      "path": "tests/refresh-gaps-handoff.test.mjs",
+      "sha256": "49e0b799540c301355f084194134ea8e23196467262f096e657d3ed9f0713b43"
+    },
+    {
+      "path": "tests/source-report-consistency-audit.test.mjs",
+      "sha256": "e1c844d5b291e8138abc7b0698af1c2f6a6770c10da6fd9008b66596986dc44c"
+    }
+  ],
+  "scope": "Current report metadata/counter integrity only. No source data, current195 review records, game values or semantic grades changed."
+}

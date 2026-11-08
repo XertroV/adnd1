@@ -1,0 +1,393 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "batch6-current-report-consistency-before",
+  "commit": "ae5195a2efe56f25fe9903f788a3c4c98b4e2064",
+  "status": "frozen-before-existing-generator-edits",
+  "scope": "All995 exposed records, all1081 local hash inputs of the live handoff, all36 existing artifact JSON paths (current CI outputs distinguished from historical/local diagnostics), live gaps/coverage/current authority documents. Every JSON node/property/scalar type counted; every field shape inventoried. All live gaps/handoff scalar values, every status/scope/narrative field, numeric metric and numeric narrative candidate preserved. Numeric narrative matching is a candidate inventory, never a semantic approval.",
+  "fixture": {
+    "path": "tests/fixtures/source-report-consistency-ae5195a-before.json.gz",
+    "sha256": "9b8790958c9747b0edcbdf57bc5ca30dfbed6e630b9a0af492f9b0de37fa39ab",
+    "sizeBytes": 194406
+  },
+  "fixtureUncompressedSha256": "48dfba8ad47f771c5057acbc28de39c8e7cbdd7dc31e2e2ddb064c38c85c2c91",
+  "fixtureUncompressedSizeBytes": 2768023,
+  "fullUniverseBefore": {
+    "path": "research/source-audit-batch6-full-universe-before.json",
+    "sha256": "1246160c719c5f59c63b53355d9c523f9c4828ecc06e090030152de7f7d694af",
+    "sizeBytes": 2320
+  },
+  "fullInputPaths": 1119,
+  "fullTraversal": {
+    "inputPaths": 1119,
+    "totalJsonNodes": 12713103,
+    "totalScalarLeaves": 10078563,
+    "allExposedCollections": {
+      "rules": 148,
+      "spells": 638,
+      "classes": 16,
+      "equipment": 191,
+      "matrices": 1,
+      "progressionExplainer": 1
+    },
+    "exposedRecordDenominator": {
+      "exposedCollections": [
+        "rules",
+        "spells",
+        "equipment",
+        "matrices",
+        "classes",
+        "progressionExplainer"
+      ],
+      "exposedRecordCount": 995,
+      "recordsByCollection": {
+        "rules": 148,
+        "spells": 638,
+        "equipment": 191,
+        "matrices": 1,
+        "classes": 16,
+        "progressionExplainer": 1
+      },
+      "auxiliaryTopLevelArrayRecords": 3,
+      "auxiliaryCollectionCounts": {
+        "rules": 148,
+        "spells": 638,
+        "equipment": 191,
+        "matrices": 1,
+        "classes": 16,
+        "sources": 3
+      },
+      "progressionExplainerIncludedAsRecord": true
+    },
+    "narrativeCandidateUniqueTexts": 733,
+    "missing": [],
+    "refreshHashMismatches": []
+  },
+  "authoritativeCurrentBindingAxes": {
+    "denominator": 4505,
+    "emptyRegionTargets": 3772,
+    "resolvedRegionTargets": 733,
+    "fieldTargetReviewed": 465,
+    "fieldTargetNotReviewed": 4040,
+    "resolvedButFieldTargetNotReviewed": 268,
+    "targetStatusCounts": {
+      "empty-region-target": 3772,
+      "field-target-resolved": 733
+    },
+    "reviewStatusCounts": {
+      "field-target-pending": 3468,
+      "field-target-reviewed": 465,
+      "source-row-transcribed-bounds-provisional": 93,
+      "source-row-value-verified-region-pending": 211,
+      "region-verified": 268
+    },
+    "crossTab": [
+      {
+        "targetStatus": "empty-region-target",
+        "reviewStatus": "field-target-pending",
+        "count": 3468
+      },
+      {
+        "targetStatus": "empty-region-target",
+        "reviewStatus": "source-row-transcribed-bounds-provisional",
+        "count": 93
+      },
+      {
+        "targetStatus": "empty-region-target",
+        "reviewStatus": "source-row-value-verified-region-pending",
+        "count": 211
+      },
+      {
+        "targetStatus": "field-target-resolved",
+        "reviewStatus": "field-target-reviewed",
+        "count": 465
+      },
+      {
+        "targetStatus": "field-target-resolved",
+        "reviewStatus": "region-verified",
+        "count": 268
+      }
+    ]
+  },
+  "knownLiveFailureInstances": [
+    {
+      "id": "stale-live-binding-count-meaning",
+      "document": "research/gaps-limitations-next-task.json",
+      "pointer": "/reviewQueuesNotSourceAbsences/fieldBindingAndHistoricalScopeQueues/countMeaning",
+      "observed": "Hash-bound review queues, not missing source content. 3,977 empty-region-target bindings differ from 4,050 pending field-target reviews. Refresh before final report.",
+      "expected": "4,505 evidence bindings: 733 resolve to regions and 3,772 have no region target. 465 have field-target-reviewed status; 4,040 do not, including 268 region-resolved bindings. Binding resolution and field-target review are separate. These are review queues, not proof of missing source content.",
+      "scope": "Canonical dynamic count narrative; all 4505 bindings and both distinct status axes are accounted for."
+    },
+    {
+      "id": "stale-live-unchecked-exclusion-count",
+      "document": "research/gaps-limitations-next-task.json",
+      "pointer": "/excludedFromGapCount/0",
+      "observed": "All ordinary unchecked mechanics fields (104);",
+      "expected": "All ordinary unchecked mechanics fields (108);",
+      "scope": "Current live exclusion count only; historical evidence and source grades stay unchanged."
+    },
+    {
+      "id": "stale-live-unchecked-exclusion-count",
+      "document": "dist/coverage-gaps.json",
+      "pointer": "/coverage/exclusions/0",
+      "observed": "All ordinary unchecked mechanics fields (104);",
+      "expected": "All ordinary unchecked mechanics fields (108);",
+      "scope": "Current live exclusion count only; historical evidence and source grades stay unchanged."
+    },
+    {
+      "id": "producer-history-and-current-integration-not-explicit",
+      "document": "research/gaps-limitations-next-task.json",
+      "pointer": "/reviewQueuesNotSourceAbsences/rowNormalizedMonetaryReview/reports/0",
+      "observed": {
+        "upstreamReviewStatus": "private V5 proposal only; not applied; exact V5 source, condition and context review pending",
+        "upstreamIndependentOverlayReviewPending": true,
+        "currentReviewStatus": "current-scoped-finding-reviews-recorded"
+      },
+      "expected": {
+        "historicalProducerMetadata": {
+          "sourceInput": {
+            "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+            "sha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6"
+          },
+          "temporalScope": "historical-producer-phase",
+          "status": "private V5 proposal only; not applied; exact V5 source, condition and context review pending",
+          "independentOverlayReviewNeeded": true,
+          "scope": "Preserved producer-phase metadata. It is not a current application or scoped-review disposition, and no general overlay approval is inferred."
+        },
+        "currentIntegration": {
+          "sourceInput": {
+            "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+            "sha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6"
+          },
+          "status": "current-source-matches-registered-application",
+          "registration": {
+            "path": "research/source-audit-batch5-current-finding-disposition-registration.json",
+            "sha256": "499f63b5f0ef409470a2f9c37772ceb9c9cc6855059317c489cba02ea4ac0217"
+          },
+          "scopedFindingReviewStatus": "current-scoped-finding-reviews-recorded",
+          "generalSourceReviewStatus": "pending",
+          "semanticPass": false,
+          "scope": "Exact current source/registration linkage only. Known-finding dispositions do not certify every source row, pixel, field or overlay."
+        }
+      },
+      "scope": "Keep exact source bytes and producer history. Add only explicitly scoped current linkage; preserve generalReviewPending and unresolved source questions."
+    },
+    {
+      "id": "producer-history-and-current-integration-not-explicit",
+      "document": "research/gaps-limitations-next-task.json",
+      "pointer": "/reviewQueuesNotSourceAbsences/rowNormalizedMonetaryReview/reports/1",
+      "observed": {
+        "upstreamReviewStatus": null,
+        "upstreamIndependentOverlayReviewPending": true,
+        "currentReviewStatus": "current-scoped-finding-reviews-recorded"
+      },
+      "expected": {
+        "historicalProducerMetadata": {
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "c0012f83c1652ff76e8bee5dbed33a6a663b1a8d6e921251a2be6757f0fe100e"
+          },
+          "temporalScope": "historical-producer-phase",
+          "status": null,
+          "independentOverlayReviewNeeded": true,
+          "scope": "Preserved producer-phase metadata. It is not a current application or scoped-review disposition, and no general overlay approval is inferred."
+        },
+        "currentIntegration": {
+          "sourceInput": {
+            "path": "research/source-audit-batch5-ua-additional-prices.json",
+            "sha256": "c0012f83c1652ff76e8bee5dbed33a6a663b1a8d6e921251a2be6757f0fe100e"
+          },
+          "status": "current-source-matches-registered-application",
+          "registration": {
+            "path": "research/source-audit-batch5-current-finding-disposition-registration.json",
+            "sha256": "499f63b5f0ef409470a2f9c37772ceb9c9cc6855059317c489cba02ea4ac0217"
+          },
+          "scopedFindingReviewStatus": "current-scoped-finding-reviews-recorded",
+          "generalSourceReviewStatus": "pending",
+          "semanticPass": false,
+          "scope": "Exact current source/registration linkage only. Known-finding dispositions do not certify every source row, pixel, field or overlay."
+        }
+      },
+      "scope": "Keep exact source bytes and producer history. Add only explicitly scoped current linkage; preserve generalReviewPending and unresolved source questions."
+    }
+  ],
+  "adjudicatedClassesAndHistoryControls": {
+    "authoritativeBindingMetrics": {
+      "denominator": 4505,
+      "emptyRegionTargets": 3772,
+      "resolvedRegionTargets": 733,
+      "fieldTargetReviewed": 465,
+      "fieldTargetNotReviewed": 4040,
+      "resolvedButFieldTargetNotReviewed": 268
+    },
+    "confirmedFindings": [
+      {
+        "id": "live-field-binding-count-meaning-stale",
+        "kind": "stale-live-count-narrative",
+        "instances": [
+          {
+            "document": "research/gaps-limitations-next-task.json",
+            "pointer": "/reviewQueuesNotSourceAbsences/fieldBindingAndHistoricalScopeQueues/countMeaning",
+            "observed": "Hash-bound review queues, not missing source content. 3,977 empty-region-target bindings differ from 4,050 pending field-target reviews. Refresh before final report."
+          }
+        ],
+        "actualAxisCounts": {
+          "denominator": 4505,
+          "emptyRegionTargets": 3772,
+          "resolvedRegionTargets": 733,
+          "fieldTargetReviewed": 465,
+          "fieldTargetNotReviewed": 4040,
+          "resolvedButFieldTargetNotReviewed": 268
+        },
+        "mismatches": [
+          {
+            "label": "empty-region-target",
+            "observed": 3977,
+            "actual": 3772
+          },
+          {
+            "label": "pending field-target reviews",
+            "observed": 4050,
+            "actual": 4040
+          }
+        ],
+        "additionalWordingMismatch": "Refresh before final report is retained while refreshBeforeFinalReport is false and all hash-bound input reports are current.",
+        "proposedMeaning": "4,505 evidence bindings: 733 resolve to regions and 3,772 have no region target. 465 have field-target-reviewed status; 4,040 do not, including 268 region-resolved bindings. Binding resolution and field-target review are separate. These are review queues, not proof of missing source content.",
+        "sourceFixLocation": "tools/refresh-gaps-handoff.mjs currentQueueMetadata; derive from validated systemic report; preserve old text only in sealed baseline."
+      },
+      {
+        "id": "live-unchecked-exclusion-count-stale",
+        "kind": "stale-live-count-narrative",
+        "instances": [
+          {
+            "document": "research/gaps-limitations-next-task.json",
+            "pointer": "/excludedFromGapCount/0",
+            "observed": "All ordinary unchecked mechanics fields (104);"
+          },
+          {
+            "document": "dist/coverage-gaps.json",
+            "pointer": "/coverage/exclusions/0",
+            "observed": "All ordinary unchecked mechanics fields (104);"
+          }
+        ],
+        "observedCount": 104,
+        "actualCount": 108,
+        "proposedMeaning": "All ordinary unchecked mechanics fields (108);",
+        "sourceFixLocation": "Derive current exclusion wording from current formal status counts; retain historical baseline and static exclusion meaning. Do not remove the count merely to evade checking."
+      },
+      {
+        "id": "producer-phase-not-labelled-separately-from-current-integration",
+        "kind": "temporal-provenance-ambiguity-in-live-report",
+        "instances": [
+          {
+            "document": "research/gaps-limitations-next-task.json",
+            "pointer": "/reviewQueuesNotSourceAbsences/rowNormalizedMonetaryReview/reports/0/upstreamReviewStatus",
+            "observed": "private V5 proposal only; not applied; exact V5 source, condition and context review pending"
+          }
+        ],
+        "sourceStatusIsInvalid": false,
+        "sourcePayloadMustRemainByteIdentical": true,
+        "proposedAction": "Preserve upstream producer phase/status and overlay-needed flag as explicitly labelled historical source metadata. Add separate exact current source-registration linkage/current scoped finding dispositions and keep generalReviewPending=true; do not infer all179/583/global overlay reviews from195 known dimensions."
+      }
+    ],
+    "frozenHistoryAndNegativeControls": [
+      {
+        "classification": "binding-presence-is-not-field-review",
+        "facts": {
+          "denominator": 4505,
+          "emptyRegionTargets": 3772,
+          "resolvedRegionTargets": 733,
+          "fieldTargetReviewed": 465,
+          "fieldTargetNotReviewed": 4040,
+          "resolvedButFieldTargetNotReviewed": 268
+        },
+        "interpretation": "733 is region-resolved bindings.465 is field-target-reviewed.4040 remains field-target-review queue, including268 resolved-but-region-only bindings."
+      },
+      {
+        "classification": "historical-discovery-summary-kept",
+        "pointer": "/sourcePriceDiscoveryCensuses/summary/interpretation",
+        "observed": "Bounded discovery only; PHB/DMG (18 groups) and UA (15 groups) report zero new row-transcribed groups. MM/MMII reports 63 claims and four unresolved candidates but no table-group denominator. Do not infer absence from noncandidate/unreviewed pages or untranscribed groups.",
+        "interpretation": "Frozen discovery census reports zero newly row-transcribed groups in its original scope. Current supplemental row transcription is separately33groups. Clarify phases in live metadata; do not rewrite immutable discovery censuses or treat all33 as independently whole-book reviewed."
+      },
+      {
+        "classification": "pinned-baseline-metric-text-kept",
+        "pointer": "/semanticReviewUniverse/narrowerStructuredFieldTargetSubset/pinnedGitBaselineComparators/interpretation",
+        "observed": "These are distinct denominators. The 4,820 explicit field/price slots are a narrower UI-target subset, not all 13,193 mechanics-audit fields or all 34,280 scalar/null leaves.",
+        "interpretation": "4820/13193/34280 explicitly concern the pinned Git baseline, not current metrics; leave unchanged."
+      },
+      {
+        "classification": "raw-producer-focus-and-crop-metadata-kept",
+        "interpretation": "Pending V2/V3/crop review strings copied through current raw source evidence remain original producer metadata. Current exact195 dispositions bind known dimensions separately; do not replace source statuses or infer unrestricted source approval."
+      }
+    ],
+    "generalSemanticApproval": false
+  },
+  "existingRefreshCheckBefore": {
+    "command": "node tools/refresh-gaps-handoff.mjs --check",
+    "exitCode": 0,
+    "stdout": {
+      "path": "/tmp/batch6-report-consistency-audit/refresh-check-before.log",
+      "sha256": "ac88b2ae5b31babd07e42f8cef1ee79ec827a9bc5773b83ba0f66b89c98a22b8",
+      "sizeBytes": 71
+    },
+    "stderr": {
+      "path": "/tmp/batch6-report-consistency-audit/refresh-check-before.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sizeBytes": 0
+    },
+    "meaning": "Existing hash-current check passes while fixed live narrative counts remain stale; the proposal detector closes this reporting gap."
+  },
+  "proposalDetector": {
+    "path": "tools/source-report-consistency-audit.mjs",
+    "sha256": "5c006277ac7ebfad2830bbddd4bd46053c318ed35ecaaf03f2656b980f6c1d6b",
+    "sizeBytes": 11800
+  },
+  "proposalDetectorBefore": {
+    "command": "node tools/source-report-consistency-audit.mjs --check",
+    "exitCode": 1,
+    "report": {
+      "path": "/tmp/batch6-report-consistency-audit/detector-before.json",
+      "sha256": "3a557442cd48b4b77d0c00bbb1d84f70dcd556558340bf192ac01070e8adca0a",
+      "sizeBytes": 10691
+    },
+    "stderr": {
+      "path": "/tmp/batch6-report-consistency-audit/detector-before.err",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sizeBytes": 0
+    },
+    "liveFindingInstances": 5
+  },
+  "privateFullTraversalEvidence": [
+    {
+      "path": "/tmp/batch6-report-consistency-audit/field-and-status-inventory.jsonl.gz",
+      "sha256": "1e28aea3a52f519ef758052ec7885b5e87a1c99ec8db5a481c9dc5bb4359fd78",
+      "sizeBytes": 4079394
+    },
+    {
+      "path": "/tmp/batch6-report-consistency-audit/all-field-shapes.json.gz",
+      "sha256": "e29c2885e36fd5b5492b160c153e4a259a76e17326712c1f7dbd06c9b6ee44b8",
+      "sizeBytes": 362516
+    },
+    {
+      "path": "/tmp/batch6-report-consistency-audit/numeric-status-narrative-candidates.json",
+      "sha256": "7a02e191bab9ec7df24155dd0186e8039401d3d97838175d4da9f20553d8e66d",
+      "sizeBytes": 907050
+    },
+    {
+      "path": "/tmp/batch6-report-consistency-audit/inventory-summary.json",
+      "sha256": "47ff20c956a8f4c824468b2c079a0dac79ec9b1c01b4bc631e883fb371daeff1",
+      "sizeBytes": 2807627
+    },
+    {
+      "path": "/tmp/batch6-report-consistency-audit/inventory.py",
+      "sha256": "87371deed0ba8a16a811ea15c3b346b1b26deaf65de2c8514b0e5d7f228934c0",
+      "sizeBytes": 8676
+    },
+    {
+      "path": "/tmp/batch6-report-consistency-audit/full-private-before.tar.gz",
+      "sha256": "e61aa4a5b76142d7b1bc35ffd4bf781299471ec3d9636fe522c37defad3ec584",
+      "sizeBytes": 25518316
+    }
+  ],
+  "sourceHistoryPolicy": "No producer phase string, source payload, frozen discovery census, original review/finding, binding or general review grade is changed by this baseline. Current source-registration/scoped-disposition linkage is separate from all-row/global overlay review.",
+  "newFilesOnly": true
+}

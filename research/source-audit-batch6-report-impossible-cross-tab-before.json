@@ -1,0 +1,162 @@
+{
+  "artifactType": "batch6-report-review-synthetic-impossible-cross-tab-before",
+  "scope": "New detector/test code review counterexample; not a production data error.",
+  "baseCommit": "ae5195a2efe56f25fe9903f788a3c4c98b4e2064",
+  "moduleSha256": "67d848e04682dbdb87f108faac22726b7e8f96da058f0539786352c9f8a986bb",
+  "fullLiveDenominator": 4505,
+  "liveReviewedEmptyCases": 0,
+  "syntheticInput": {
+    "evidenceBindings": {
+      "denominator": 21,
+      "bindings": [
+        {
+          "bindingPointer": "/fixture/0",
+          "targetStatus": "empty-region-target",
+          "reviewStatus": "field-target-reviewed"
+        },
+        {
+          "bindingPointer": "/fixture/1",
+          "targetStatus": "empty-region-target",
+          "reviewStatus": "field-target-pending"
+        },
+        {
+          "bindingPointer": "/fixture/2",
+          "targetStatus": "empty-region-target",
+          "reviewStatus": "field-target-pending"
+        },
+        {
+          "bindingPointer": "/fixture/3",
+          "targetStatus": "empty-region-target",
+          "reviewStatus": "field-target-pending"
+        },
+        {
+          "bindingPointer": "/fixture/4",
+          "targetStatus": "empty-region-target",
+          "reviewStatus": "field-target-pending"
+        },
+        {
+          "bindingPointer": "/fixture/5",
+          "targetStatus": "empty-region-target",
+          "reviewStatus": "field-target-pending"
+        },
+        {
+          "bindingPointer": "/fixture/6",
+          "targetStatus": "empty-region-target",
+          "reviewStatus": "field-target-pending"
+        },
+        {
+          "bindingPointer": "/fixture/7",
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "field-target-reviewed"
+        },
+        {
+          "bindingPointer": "/fixture/8",
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "field-target-reviewed"
+        },
+        {
+          "bindingPointer": "/fixture/9",
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "field-target-reviewed"
+        },
+        {
+          "bindingPointer": "/fixture/10",
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "field-target-reviewed"
+        },
+        {
+          "bindingPointer": "/fixture/11",
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "field-target-reviewed"
+        },
+        {
+          "bindingPointer": "/fixture/12",
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "field-target-reviewed"
+        },
+        {
+          "bindingPointer": "/fixture/13",
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "field-target-reviewed"
+        },
+        {
+          "bindingPointer": "/fixture/14",
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "field-target-reviewed"
+        },
+        {
+          "bindingPointer": "/fixture/15",
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "field-target-reviewed"
+        },
+        {
+          "bindingPointer": "/fixture/16",
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "field-target-reviewed"
+        },
+        {
+          "bindingPointer": "/fixture/17",
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "field-target-reviewed"
+        },
+        {
+          "bindingPointer": "/fixture/18",
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "field-target-reviewed"
+        },
+        {
+          "bindingPointer": "/fixture/19",
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "field-target-reviewed"
+        },
+        {
+          "bindingPointer": "/fixture/20",
+          "targetStatus": "field-target-resolved",
+          "reviewStatus": "field-target-reviewed"
+        }
+      ],
+      "targetStatusCounts": {
+        "empty-region-target": 7,
+        "field-target-resolved": 14
+      },
+      "reviewStatusCounts": {
+        "field-target-reviewed": 15,
+        "field-target-pending": 6
+      }
+    }
+  },
+  "observedAcceptedMetrics": {
+    "denominator": 21,
+    "emptyRegionTargets": 7,
+    "resolvedRegionTargets": 14,
+    "fieldTargetReviewed": 15,
+    "fieldTargetNotReviewed": 6,
+    "resolvedButFieldTargetNotReviewed": 0,
+    "targetStatusCounts": {
+      "empty-region-target": 7,
+      "field-target-resolved": 14
+    },
+    "reviewStatusCounts": {
+      "field-target-reviewed": 15,
+      "field-target-pending": 6
+    },
+    "crossTab": [
+      {
+        "targetStatus": "empty-region-target",
+        "reviewStatus": "field-target-pending",
+        "count": 6
+      },
+      {
+        "targetStatus": "empty-region-target",
+        "reviewStatus": "field-target-reviewed",
+        "count": 1
+      },
+      {
+        "targetStatus": "field-target-resolved",
+        "reviewStatus": "field-target-reviewed",
+        "count": 14
+      }
+    ]
+  },
+  "expected": "Reject field-target-reviewed coupled to an empty region target; retain separate reviewed/resolved axes. Correct only the invalid synthetic fixture; keep actual4505before fixture exact."
+}

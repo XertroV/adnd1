@@ -15,9 +15,9 @@
     "canonicalPriceInventoryFileSha256": "71b9ce72027624dd6af658616129b6fc475ea4e43c689758ceb1e165436204ea",
     "sourceOfferReconciliationFileSha256": "85b47b3230d742ea58866f421dc3bfdc757efc0f9e3f854315d92e50a353a2f7",
     "refreshBaselineCommit": "679b15d1c580172e54314829c1c3c86dc78b65f3",
-    "refreshTemplateSha256": "39fc166a3ff7562d41cd5ef35fc2b3a692b86918c92268c4c5aaed481241db7d",
+    "refreshTemplateSha256": "89a882964d2943538702eb000504fdc5bc7056dd041eecbf1c2d4210d32e9746",
     "refreshInputHashes": {
-      "research/gaps-limitations-next-task.json#refresh-template": "39fc166a3ff7562d41cd5ef35fc2b3a692b86918c92268c4c5aaed481241db7d",
+      "research/gaps-limitations-next-task.json#refresh-template": "89a882964d2943538702eb000504fdc5bc7056dd041eecbf1c2d4210d32e9746",
       "dist/data.json": "2b803d29cccd83ffd8418818abddf04b66204c82cebb8afba13f7a8226c6583c",
       "research/mechanics-audit-progress.json": "9e8f75fa9281e154bf68ad8544bc276b45997b79751e2889e95b9a881872c466",
       "tests/fixtures/source-scan-inventory.json": "4902aec4ae6bfdff66257923ec5ab8d83d43ec722c66848ac61c0d1aa0e1fc43",
@@ -73,6 +73,10 @@
       "research/source-audit-batch5-monetary-producer-anchor-correction-dmg-gem-increase.json": "933c4dac5fbd77ac6324e79e9e7322dc2aecbfb4129086ce497ff1bec40b3c9d",
       "research/source-audit-batch5-monetary-context-migration-before-v5.json": "b2021c1b040a0fa3b0d16e19b5b25d2efba2a96d3d87bc12600dca1015619b04",
       "research/source-audit-batch5-ua-context-meaning-independent-review.json": "e5f430957786aa0e5d0a5e967df939953bd4aa2bb1c3759f2ca7757f09ac801b",
+      "research/source-audit-batch5-current-finding-disposition-registration.json": "499f63b5f0ef409470a2f9c37772ceb9c9cc6855059317c489cba02ea4ac0217",
+      "research/source-audit-batch5-existing-approval-195-registration-availability-independent-review.json": "d815c64e4ffced15e91a6bb5ee68fe08909a7893036e26a10301108428645a6e",
+      "tools/monetary-row-identity-audit.mjs": "75dd1b6b1177c848c85b148bb806e6653ab6517979d3c7a3a1946f1021b63276",
+      "tools/monetary-context-extent-contract.mjs": "64838c56e5303a6a63f4ff0e33c3ee2bb15cd445c4fca50c276dc2906af3074d",
       "git:679b15d1c580172e54314829c1c3c86dc78b65f3:research/price-source-inventory.json": "f2a02d1e990cf9bd30135f7dc2fcd2f10f9e1f2e172ee594e396677c32fb3852",
       "research/source-audit-batch5-phb-dmg-additional-prices.json#authorized-source-PHB": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
       "research/source-audit-batch5-phb-dmg-additional-prices.json#authorized-source-DMG": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
@@ -6587,14 +6591,17 @@
       "fieldTargetsPending": 4040,
       "historicalScopesNeedingReview": 152,
       "historicalScopeDenominator": 154,
-      "countMeaning": "Hash-bound review queues, not missing source content. 3,977 empty-region-target bindings differ from 4,050 pending field-target reviews. Refresh before final report.",
+      "countMeaning": "4,505 evidence bindings: 733 resolve to regions and 3,772 have no region target. 465 have field-target-reviewed status; 4,040 do not, including 268 region-resolved bindings. Binding resolution and field-target review are separate. These are review queues, not proof of missing source content.",
       "refreshBeforeFinalReport": false,
       "bindingsInputDataSha256": "1eacef9f8bbb0e4ea3ea201879947b83cf4012360d471b6f18019048f221a300",
       "reportHashes": {
         "systemic": "e2b1947b52bc8e09e629e70cfcde20ad06cd356873cfd55c55a93ba5905d5bf9",
         "visual": "c41cd20d3b914a718b205526e873f5c4c1b23c9cdc52213c284fbbf26dc46c00"
       },
-      "historicalScopesInputDataSha256": "1eacef9f8bbb0e4ea3ea201879947b83cf4012360d471b6f18019048f221a300"
+      "historicalScopesInputDataSha256": "1eacef9f8bbb0e4ea3ea201879947b83cf4012360d471b6f18019048f221a300",
+      "regionTargetResolvedBindings": 733,
+      "fieldTargetsReviewed": 465,
+      "regionResolvedFieldTargetsPending": 268
     },
     "sourceTableCitationReview": {
       "reportPath": "artifacts/source-table-citation-coverage/report.json",
@@ -6717,6 +6724,31 @@
             "generalReviewPending": true,
             "generalSourceReviewStatus": "pending",
             "scope": "Exact source-input hash and audit-record joins. Finding repairs concern their declared dimensions; records touched by reviews are not a count of fully verified source rows or field highlights."
+          },
+          "historicalProducerMetadata": {
+            "sourceInput": {
+              "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+              "sha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6"
+            },
+            "temporalScope": "historical-producer-phase",
+            "status": "private V5 proposal only; not applied; exact V5 source, condition and context review pending",
+            "independentOverlayReviewNeeded": true,
+            "scope": "Preserved producer-phase metadata. It is not a current application or scoped-review disposition, and no general overlay approval is inferred."
+          },
+          "currentIntegration": {
+            "sourceInput": {
+              "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+              "sha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6"
+            },
+            "status": "current-source-matches-registered-application",
+            "registration": {
+              "path": "research/source-audit-batch5-current-finding-disposition-registration.json",
+              "sha256": "499f63b5f0ef409470a2f9c37772ceb9c9cc6855059317c489cba02ea4ac0217"
+            },
+            "scopedFindingReviewStatus": "current-scoped-finding-reviews-recorded",
+            "generalSourceReviewStatus": "pending",
+            "semanticPass": false,
+            "scope": "Exact current source/registration linkage only. Known-finding dispositions do not certify every source row, pixel, field or overlay."
           }
         },
         {
@@ -6864,6 +6896,31 @@
               "semanticPass": false,
               "scope": "Note applicability only; qualified links and unresolved glyph associations remain qualified or unresolved. This does not approve values, focus rectangles, changed crop transport, or general source completeness."
             }
+          },
+          "historicalProducerMetadata": {
+            "sourceInput": {
+              "path": "research/source-audit-batch5-ua-additional-prices.json",
+              "sha256": "c0012f83c1652ff76e8bee5dbed33a6a663b1a8d6e921251a2be6757f0fe100e"
+            },
+            "temporalScope": "historical-producer-phase",
+            "status": null,
+            "independentOverlayReviewNeeded": true,
+            "scope": "Preserved producer-phase metadata. It is not a current application or scoped-review disposition, and no general overlay approval is inferred."
+          },
+          "currentIntegration": {
+            "sourceInput": {
+              "path": "research/source-audit-batch5-ua-additional-prices.json",
+              "sha256": "c0012f83c1652ff76e8bee5dbed33a6a663b1a8d6e921251a2be6757f0fe100e"
+            },
+            "status": "current-source-matches-registered-application",
+            "registration": {
+              "path": "research/source-audit-batch5-current-finding-disposition-registration.json",
+              "sha256": "499f63b5f0ef409470a2f9c37772ceb9c9cc6855059317c489cba02ea4ac0217"
+            },
+            "scopedFindingReviewStatus": "current-scoped-finding-reviews-recorded",
+            "generalSourceReviewStatus": "pending",
+            "semanticPass": false,
+            "scope": "Exact current source/registration linkage only. Known-finding dispositions do not certify every source row, pixel, field or overlay."
           }
         }
       ],
@@ -6871,7 +6928,7 @@
     }
   },
   "excludedFromGapCount": [
-    "All ordinary unchecked mechanics fields (104);",
+    "All ordinary unchecked mechanics fields (108);",
     "all text-screened noncandidate pages;",
     "all candidate claims without independent visual source-value review;",
     "general review notes stating outside-scope/unreviewed/not exhaustively checked;",

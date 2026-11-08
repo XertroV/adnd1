@@ -104,7 +104,9 @@ test('captured current reports had unchanged data identities but stale dependenc
 
 function currentReportFixtures(dataHash,rawDataHash,hashFile) {
   return {
-    systemic:{schemaVersion:1,input:{path:'dist/data.json',sha256:dataHash,rawFileSha256:rawDataHash},companionInventories:['research/citation-binding-scope-audit.json','research/equipment-price-context-baseline.json','research/citation-navigation-coverage.json'].map(path=>({path,sha256:hashFile(path)})),selectedOwnerCatalogs:{denominator:0,usages:[]},evidenceBindings:{targetStatusCounts:{'empty-region-target':7},denominator:21,reviewStatusCounts:{'field-target-reviewed':15}},citationObjects:{objects:[{collection:'classes',reviewStatus:'field-target-pending'}]}},
+    // Reviewed targets are a subset of resolved targets. The old synthetic
+    // 15-reviewed/14-resolved totals could not represent a valid binding set.
+    systemic:{schemaVersion:1,input:{path:'dist/data.json',sha256:dataHash,rawFileSha256:rawDataHash},companionInventories:['research/citation-binding-scope-audit.json','research/equipment-price-context-baseline.json','research/citation-navigation-coverage.json'].map(path=>({path,sha256:hashFile(path)})),selectedOwnerCatalogs:{denominator:0,usages:[]},evidenceBindings:{targetStatusCounts:{'empty-region-target':7,'field-target-resolved':14},denominator:21,reviewStatusCounts:{'field-target-reviewed':12,'field-target-pending':7,'region-verified':2},bindings:Array.from({length:21},(_,index)=>({bindingPointer:`/fixture/${index}`,targetStatus:index<7?'empty-region-target':'field-target-resolved',reviewStatus:index>=9?'field-target-reviewed':index>=7?'region-verified':'field-target-pending'}))},citationObjects:{objects:[{collection:'classes',reviewStatus:'field-target-pending'}]}},
     visual:{schemaVersion:2,inputDataSha256:dataHash,inputs:{data:rawDataHash,independentReviewLedger:hashFile('research/source-visual-reviews.json'),triage:{'research/triage.json':hashFile('research/triage.json')},geometry:{file:'research/geometry.json',sha256:hashFile('research/geometry.json')},priceInventory:{file:'research/price-source-inventory.json',sha256:hashFile('research/price-source-inventory.json')},continuationManifest:{file:'research/citation-continuations.json',sha256:hashFile('research/citation-continuations.json')},contextContractManifest:{file:'research/citation-context-contracts.json',sha256:hashFile('research/citation-context-contracts.json')}},usages:[],sentinelPolicy:{historicalExceptionsNeedingScopeReview:4,historicalHighlightExceptionDenominator:5}},
     table:{schemaVersion:1,generatedBy:'tools/source-table-citation-coverage.mjs',inputHashes:{'dist/data.json':rawDataHash,'research/price-source-inventory.json':hashFile('research/price-source-inventory.json'),'research/source-table-citation-contracts.json':hashFile('research/source-table-citation-contracts.json')},rows:[{targets:[{applicability:'uncertain'}]},{}],counts:{sourceRows:2,targetStatus:{'confirmed-missing-reference':3}}},
   };
@@ -171,7 +173,12 @@ test('fresh explicit report overrides permit publication when defaults are absen
   assert.equal(queues.fieldBindingAndHistoricalScopeQueues.inputDataSha256,dataHash);
   assert.equal(queues.fieldBindingAndHistoricalScopeQueues.emptyRegionTargetBindings,7);
   assert.equal(queues.fieldBindingAndHistoricalScopeQueues.fieldEvidenceBindingsDenominator,21);
-  assert.equal(queues.fieldBindingAndHistoricalScopeQueues.fieldTargetsPending,6);
+  assert.equal(queues.fieldBindingAndHistoricalScopeQueues.fieldTargetsPending,9);
+  assert.equal(queues.fieldBindingAndHistoricalScopeQueues.regionTargetResolvedBindings,14);
+  assert.equal(queues.fieldBindingAndHistoricalScopeQueues.fieldTargetsReviewed,12);
+  assert.equal(queues.fieldBindingAndHistoricalScopeQueues.regionResolvedFieldTargetsPending,2);
+  assert.match(queues.fieldBindingAndHistoricalScopeQueues.countMeaning,/21 evidence bindings: 14 resolve to regions and 7 have no region target/);
+  assert.match(queues.fieldBindingAndHistoricalScopeQueues.countMeaning,/12 have field-target-reviewed status; 9 do not/);
   assert.equal(queues.fieldBindingAndHistoricalScopeQueues.historicalScopesNeedingReview,4);
   assert.equal(queues.sourceTableCitationReview.reportPath,paths.table);
   assert.deepEqual(Object.keys(hashes).sort(),Object.values(paths).sort());
@@ -239,6 +246,7 @@ test('refresh template hash inputs exclude generated counts while retaining hand
   handoff.generatedOn = '2099-01-01';
   handoff.snapshot.parsedDataSha256 = 'changed-generated-snapshot';
   handoff.summary.formalMechanicsFieldStatuses.notExtracted++;
+  handoff.excludedFromGapCount[0]='All ordinary unchecked mechanics fields (999);';
   handoff.mechanicsAudit.specificReviewNoteCandidates.notes.pop();
   handoff.equipmentOffers.records[1].itemId = 'generated-item-link';
   handoff.reviewQueuesNotSourceAbsences.fieldBindingAndHistoricalScopeQueues.fieldTargetsPending++;

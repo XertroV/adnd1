@@ -675,6 +675,11 @@ function buildGroups({data, handoff, readFile, mechanics, continuationManifest})
       emptyRegionTargetBindings: queueMeta.fieldBindingAndHistoricalScopeQueues.emptyRegionTargetBindings,
       fieldEvidenceBindingDenominator: queueMeta.fieldBindingAndHistoricalScopeQueues.fieldEvidenceBindingsDenominator,
       pendingFieldTargets: queueMeta.fieldBindingAndHistoricalScopeQueues.fieldTargetsPending,
+      ...(Number.isInteger(queueMeta.fieldBindingAndHistoricalScopeQueues.fieldTargetsReviewed) ? {
+        reviewedFieldTargets: queueMeta.fieldBindingAndHistoricalScopeQueues.fieldTargetsReviewed,
+        regionTargetResolvedBindings: queueMeta.fieldBindingAndHistoricalScopeQueues.regionTargetResolvedBindings,
+        regionResolvedPendingFieldTargets: queueMeta.fieldBindingAndHistoricalScopeQueues.regionResolvedFieldTargetsPending,
+      } : {}),
       historicalScopesNeedingReview: queueMeta.fieldBindingAndHistoricalScopeQueues.historicalScopesNeedingReview,
       historicalScopeDenominator: queueMeta.fieldBindingAndHistoricalScopeQueues.historicalScopeDenominator,
       sourceEdgeCropDefects: queueMeta.sourceEdgeCropDefects.count,
