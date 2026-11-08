@@ -17,9 +17,11 @@ const oldManifest=JSON.parse(gunzipSync(readFileSync(integration.beforeManifestF
 
 test('the complete before universe detects the real unlinked Solid Fog region alias',()=>{
  const replay=buildContinuationAliasReport({data,manifest:oldManifest,catalogs});
- assert.deepEqual(replay.denominators,before.denominators);
- assert.equal(replay.denominators.exposedRecords,995);
- assert.equal(replay.denominators.referencedCatalogs,1015);
+ const tableRegions=catalogs.get('scans/verified/rules-cleric-turning-table.json').regions.length;
+ assert.deepEqual(replay.denominators,{...before.denominators,exposedRecords:before.denominators.exposedRecords+1,referencedCatalogs:before.denominators.referencedCatalogs+1,catalogRegionRows:before.denominators.catalogRegionRows+tableRegions});
+ assert.equal(replay.denominators.exposedRecords,996);
+ assert.equal(replay.denominators.referencedCatalogs,1016);
+ assert.equal(tableRegions,61);
  assert.equal(replay.denominators.exactAliasMatches,23);
  assert.equal(replay.missingAliases.length,1);
  assert.deepEqual(replay.missingAliases,before.missingAliases);

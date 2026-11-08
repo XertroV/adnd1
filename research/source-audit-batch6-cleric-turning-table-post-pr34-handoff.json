@@ -1,0 +1,346 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "batch6 current Cleric turning-matrix and search integration handoff",
+  "capturedOn": "2026-11-08",
+  "status": "bounded source integration reviewed; current tree checks complete; clean committed-tree diff verification pending",
+  "sourceTree": {
+    "baseMasterCommit": "43fa80d820a40b614e4c82616abf1cc17d6ab395",
+    "localHead": "25abc149bf0cefaabe831fcf422656e030edc05f",
+    "sourceSnapshotMode": "working-tree",
+    "meaning": "Current source/data/catalog snapshots bind the working tree. Root will seal and commit the combined candidate; the clean committed-tree assemble/diff gate runs after that commit."
+  },
+  "preservedPriorScopeHandoff": {
+    "path": "research/source-audit-batch6-cleric-turning-table-scope-handoff.json",
+    "sha256": "2225fe7c7f64421ea485c7054bba3a4c893ff3b044d7a2412fd976d1a9072c37",
+    "meaning": "Preserved pre-PR34 scope receipt; its former current pointers/hashes are historical."
+  },
+  "preIntegrationCensus": {
+    "tableReferenceBaseline": {
+      "path": "research/source-audit-batch6-referenced-tables-before.json.gz",
+      "sha256": "9bda2ff99763da458989483c4ac0c605ea5f8a23f8cecbdca575e7b45e0b5186"
+    },
+    "counts": {
+      "exposedRecords": 995,
+      "propertyLeaves": 198318,
+      "literalTableReferences": 2218,
+      "primarySemanticTableReferences": 478,
+      "unassessedGenericNamedOrPending": 453,
+      "structuredFamilies": 20,
+      "retainedSpecificSourceRowNegatives": 4,
+      "knownMissingClericMatrix": 1
+    },
+    "scope": "Repository-exposed record/property/table-reference census, not a sourcebook census. The 478 references are not missing-table counts; the 453 generic/pending table questions remain unassessed."
+  },
+  "preMetricRecordTargetCapture": {
+    "report": {
+      "path": "research/source-audit-batch6-record-target-axis-before.json",
+      "sha256": "ee2c6cff226959f29457a9f46a86bd4b97bde6f539d4423f9412a990aca7ccfc"
+    },
+    "fullCompactInventory": {
+      "path": "research/source-audit-batch6-record-target-axis-before.json.gz",
+      "sha256": "91dd9770620fcea029425612d19d0b911e839c7c05e81f3b2bdf9b380db6157c"
+    },
+    "originalHelperFixture": {
+      "path": "tests/fixtures/source-report-consistency-record-target-old-helper-before.mjs",
+      "sha256": "4fe4ce940f0822732b98d59f009d6ee3e0d1dd5659973b2a9a0ccc9c251b65e4"
+    },
+    "partialHelperFixture": {
+      "path": "tests/fixtures/source-report-consistency-record-target-partial-helper-before.mjs",
+      "sha256": "4bd65904bc1d6983ceda83e449c45a59c7873264a15f6e7869de3b37791ce7d4"
+    },
+    "counts": {
+      "denominator": 4545,
+      "targetStatuses": {
+        "emptyRegion": 3772,
+        "fieldTargetResolved": 771,
+        "recordTargetResolved": 2
+      },
+      "reviewedFieldTargets": 500,
+      "pendingFieldTargets": 4045,
+      "regionResolvedFieldTargetsPending": 271
+    },
+    "scope": "Record-level page references remain separate from exact field targets and do not count as reviewed facts."
+  },
+  "sourceReview": {
+    "receipt": {
+      "path": "research/source-audit-batch6-turning-matrix-root-independent-review.json",
+      "sha256": "16af8935586e6ae23c3d1b8ee599967ad05315a8064c9fcb3975162bd9190d8c"
+    },
+    "independentOfAuthor": true,
+    "source": {
+      "book": "DMG",
+      "pdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "pages": [
+        {
+          "printed": 75,
+          "pdf": 76
+        },
+        {
+          "printed": 76,
+          "pdf": 77
+        }
+      ]
+    },
+    "table": {
+      "rows": 13,
+      "columns": 10,
+      "cells": 130,
+      "matched": 130,
+      "mismatches": 0
+    },
+    "reviewedScope": "Exact matrix cells, headers, symbols, markers, procedure, footnotes and ordered continuation context. This does not establish other Cleric mechanics or whole-book completeness."
+  },
+  "currentTable": {
+    "owner": "rules:cleric-turning-table",
+    "category": "Class abilities",
+    "recordSha256": "d7e11b26a7c05d3d8d3abd6a40d8fcd22e50f3b2dc45d479ac213a504c33292e",
+    "classData": {
+      "path": "classes.json",
+      "sha256": "2372095ded81398370f4c760503a913814c29cb7a190a01210d4121936e2ab1f"
+    },
+    "citationOverrides": {
+      "path": "citation-overrides.json",
+      "sha256": "163d28d9b825a718c17463a439d0bc471e8504971517c3ffbd513b5934947b70"
+    },
+    "distData": {
+      "path": "dist/data.json",
+      "sha256": "ff4cf9b944f6584f2b3ea219068c552fd554a586e449ffc6999e93bf01343470"
+    },
+    "distContinuations": {
+      "path": "dist/source-continuations.json",
+      "sha256": "70214bfb1a52a24cce349c5b339b7e13da1421aedd1ede9a4bb6a1742a0c96ad"
+    },
+    "continuationManifest": {
+      "path": "research/citation-continuations.json",
+      "sha256": "ff43c7e02eada43fb19ad24befd310f13314d233c9617c4f246164a5ac0b46ab"
+    },
+    "catalog": {
+      "path": "dist/scans/verified/rules-cleric-turning-table.json",
+      "sha256": "4915381b86e4f01c67eb06a174ae615e008046989693a3f8e6bc72e23c3c0a48"
+    },
+    "regionCount": 61,
+    "fieldTargetBindings": 35,
+    "visualReviewRecords": 61,
+    "tableContextGroups": 14,
+    "rowSpecificThreePartGroups": 13,
+    "sourceValueGradePromoted": false,
+    "removedOnlyNamedPendingEntry": "Complete turn-undead table delta",
+    "remainingClericAndPaladinPendingMechanicsPreserved": true
+  },
+  "currentBindingAxes": {
+    "systemicReport": {
+      "path": "artifacts/citation-systemic-coverage/citation-systemic-current.json",
+      "sha256": "b0d3b77b939ed65b2e8ef3db7f6ec4cc365bb195ecfd7aa3db1fb74610ecf4a0"
+    },
+    "denominator": 4545,
+    "targetStatusCounts": {
+      "empty-region-target": 3772,
+      "record-target-resolved": 2,
+      "field-target-resolved": 771
+    },
+    "reviewStatusCounts": {
+      "field-target-pending": 3468,
+      "region-verified": 273,
+      "field-target-reviewed": 500,
+      "source-row-transcribed-bounds-provisional": 93,
+      "source-row-value-verified-region-pending": 211
+    },
+    "publicQueue": {
+      "emptyRegionTargetBindings": 3772,
+      "regionTargetResolvedBindings": 771,
+      "recordTargetResolvedBindings": 2,
+      "fieldTargetsReviewed": 500,
+      "fieldTargetsPending": 4045,
+      "regionResolvedFieldTargetsPending": 271
+    },
+    "consistencyAudit": {
+      "path": "tools/source-report-consistency-audit.mjs",
+      "sha256": "8f10a0dfa96047f19c53deb3283505a42954092323c2bbf698d8e8091e8e25f5"
+    },
+    "semanticPass": false,
+    "interpretation": "Current structural counts only; semantic completeness is not claimed."
+  },
+  "currentContinuationInventory": {
+    "pointer": {
+      "path": "research/current-continuation-candidate-snapshot.json",
+      "sha256": "f6aad1d530d8ce59b9860614c34b835c11fa8b963adcd0cd5e0c4e99b0d042cc"
+    },
+    "summary": {
+      "path": "research/source-audit-batch6-search-cleric-post-pr34.json",
+      "sha256": "0ef464f68b98f4e4c4a87e788f3d1e795d975824b902ec68e30898c0480fc74a"
+    },
+    "fullEvidence": {
+      "path": "research/source-audit-batch6-search-cleric-post-pr34-full.json.gz",
+      "sha256": "3cd66f074cf924256026a6d585092a5fe1d7d39d3fe706a93e392a4dd93a0ac8"
+    },
+    "validator": {
+      "path": "tools/continuation-candidates-validate.mjs",
+      "sha256": "33124f6bb41bd7d98ee350863be16515205c8a5682b6ea395fd341a5c047ee2b"
+    },
+    "validation": {
+      "command": "node tools/continuation-candidates-validate.mjs --current-snapshot --force-current-tree --output-dir <output>",
+      "valid": true,
+      "errors": 0,
+      "base": "current-worktree",
+      "records": 996,
+      "propertyPointers": 201727,
+      "catalogFiles": 1016,
+      "catalogRegionRows": 3127,
+      "bindingRegionUses": 3130,
+      "sourcePageBindings": 230,
+      "sourcePdfHashesMatchCatalogs": true,
+      "sourcePdfRegenerationInCI": "unavailable; source PDFs and full-page renders are not included"
+    }
+  },
+  "currentVisualAndRasterInventory": {
+    "sourceGeometry": {
+      "path": "research/source-visual-audit-search-cleric-post-pr34.json",
+      "sha256": "0d92231686235bb6a01b508160b4755588a33193f222939be4b657ffc3d459cd"
+    },
+    "rasterSnapshot": {
+      "path": "research/source-raster-boundary-batch6-search-cleric-post-pr34.json.gz",
+      "sha256": "9bfb6122cd6bafe46e97cd396ffad77107dc690e51ed6a9b5084a4d1b527865c"
+    },
+    "activeRasterPointer": {
+      "path": "research/current-source-raster-snapshot.json",
+      "sha256": "ab82367633e6ec3459ac343f89adf63b8c8e4f01f0419f5d7e55c34667864ac3"
+    },
+    "validation": {
+      "command": "node tools/source-raster-coverage.mjs --output <output> --check",
+      "valid": true,
+      "regionUsages": 3130,
+      "uniqueImages": 1287,
+      "geometryBindings": 1287,
+      "sourcePagesRendered": 230,
+      "notAssessableUsages": 0,
+      "semanticPass": false,
+      "calibration": "not requested"
+    },
+    "pathNormalization": {
+      "kind": "metadata-only path normalization",
+      "field": "inputs.sourceUsageMapPath",
+      "result": "repository-relative path",
+      "originalGeneratorOutputSha256": "213b2935ab7dddf40fb2d0dc2fa66662be7f3a75444d1ce628177209bd6121a8",
+      "normalizedCurrentSha256": "9bfb6122cd6bafe46e97cd396ffad77107dc690e51ed6a9b5084a4d1b527865c",
+      "reason": "remove the absolute workspace root; all usage-map, data, catalog, source-image and numeric evidence hashes remain bound"
+    }
+  },
+  "searchReview": {
+    "independentReview": {
+      "path": "research/source-audit-batch6-search-ranking-independent-review.json",
+      "sha256": "011afde164c2ae655b24cddbabddf1d0edbfafded8c28e9b7c7bc9083a3781cd"
+    },
+    "rootCodeAndTableUiReview": {
+      "path": "research/source-audit-batch6-search-cleric-UI-root-independent-review-v2.json",
+      "sha256": "6c4afeafcc8714602230bc169e83cc0aa1409811055898c76c8f865f4dceede7"
+    },
+    "appSha256": "e96f442f5b2310495971868f19052245fad9ad54b82a939b8d7f6d9adce642ab",
+    "searchSha256": "5c341a8bf2d132830574d6f6f1806d4bcc279a64bc140dd126c1fe79fc31744b",
+    "nativeSearchBrowserChecks": {
+      "passed": 91,
+      "failed": 0
+    },
+    "mobileHistoryBrowserChecks": {
+      "passed": 20,
+      "failed": 0
+    },
+    "focusedUnitChecks": {
+      "passed": 12,
+      "failed": 0
+    },
+    "limits": "Search UX and table source-chip routing were reviewed at these exact hashes; no semantic table values were inferred from the UI."
+  },
+  "rootMetricsAndProducerReview": {
+    "path": "research/source-audit-batch6-search-report-metrics-root-independent-review.json",
+    "sha256": "23b7bf28ff30905f7974717b168523e3bd5b22e1a35026170845ad62bd738c1b"
+  },
+  "currentReportChecks": {
+    "sourceTable": {
+      "path": "artifacts/source-table-citation-coverage/report.json",
+      "sha256": "367b7c4ded325a8671fafe7690a867ff5d556ffb24c4bb13b14c122f70bfcd7f"
+    },
+    "sourceTableCounts": {
+      "owners": 996,
+      "sourceRows": 1072,
+      "priceInventoryRows": 710,
+      "explicitContractRows": 362,
+      "rowStatus": {
+        "reviewed-row-item-mapping": 187,
+        "row-item-mapping-unreviewed": 523,
+        "explicit-row-item-dispositions": 337,
+        "source-row-without-item-target": 25
+      },
+      "targetStatus": {
+        "reference-and-source-page-excerpt-present": 531,
+        "mapping-review-required": 27,
+        "explicitly-inapplicable": 1
+      },
+      "catalogUsages": 3130,
+      "catalogTableCandidates": 1176,
+      "discoveryTableGroups": 33,
+      "baselineUnknownDiscoveryRowDenominators": 33,
+      "unknownDiscoveryRowDenominators": 6,
+      "discoveryGroupsWithTypedOutput": 33,
+      "supersededCatalogConflictBindings": 26,
+      "viewerMetadataInvalidOwners": 0
+    },
+    "coverageGaps": {
+      "path": "dist/coverage-gaps.json",
+      "sha256": "3b41ca5a331ecbf4e1e444790acbdd8dbabce7c9c1ad01000abf309e0239095e"
+    },
+    "currentGapsHandoff": {
+      "path": "research/gaps-limitations-next-task.json",
+      "sha256": "4d5f9ee7b1cb8eba39516d1b6293c986db3ba1efefdceaf7a183a9203bc42142"
+    },
+    "activeCautions": 76,
+    "reviewedTransitions": 12,
+    "sourceReportConsistency": {
+      "path": "artifacts/source-domain-audits/report-consistency.json",
+      "valid": true,
+      "semanticPass": false
+    }
+  },
+  "validation": {
+    "nodeTests": {
+      "command": "node --test tests/*.test.mjs",
+      "passed": 780,
+      "failed": 0,
+      "logScope": "Final run after the current data/continuation/raster pointers and record-target tests were frozen."
+    },
+    "evidenceSeals": {
+      "command": "node tools/citation-evidence-seals.mjs --check --manifest research/citation-evidence-seals.json --baseline-ref 43fa80d820a40b614e4c82616abf1cc17d6ab395",
+      "status": "append-only-prefix-preserved",
+      "sealCount": 466,
+      "baselineCommit": "43fa80d820a40b614e4c82616abf1cc17d6ab395"
+    },
+    "workflowBlocks": {
+      "total": 24,
+      "passed": 23,
+      "localCleanDiffCheck": {
+        "block": 3,
+        "exitCode": 1,
+        "reason": "The combined source/UI candidate is still uncommitted in this shared worktree; assemble outputs are deterministic and all 2,943 dist-file hashes remained identical on a repeat assembly. Run this exact gate after the root-owned commit."
+      },
+      "allOtherBlocks": "Passed, including full Node suite, current continuation/raster, gaps handoff and consistency checks."
+    },
+    "assemblyReproducibility": {
+      "command": "node tools/assemble.mjs repeated with full dist hash manifest comparison",
+      "distFiles": 2943,
+      "changedOnRepeat": 0
+    }
+  },
+  "accessAndSemanticLimits": {
+    "pdfBytesIncluded": false,
+    "sourceImagesIncludedAsFullPages": false,
+    "ocrOrSourceTextIncluded": false,
+    "privateFilesystemPathsInThisHandoff": false,
+    "tableCompleteness": "Only the named Cleric turning matrix absence is resolved; the 453 generic/pending table references remain unassessed.",
+    "sourceValueGrades": "No source-value grade was promoted by this integration.",
+    "rasterInterpretation": "Numeric near-edge candidates are not source defects or evidence of source completeness."
+  },
+  "nextSteps": [
+    "Root writes the final independent metric/producer receipt and appends evidence seals.",
+    "After root commit, rerun `node tools/assemble.mjs && git diff --exit-code -- dist` in the clean candidate tree.",
+    "Run the clean checkout and remote CI against the sealed commit."
+  ]
+}

@@ -113,9 +113,9 @@ const componentIntegrityMutations = [
 test('the complete current catalog universe matches the preserved numeric raster snapshot', () => {
   const report = buildSourceRasterCoverage(snapshot, live);
   assert.deepEqual(report.validation, {valid: true, errors: []});
-  assert.equal(report.liveUniverse.regionUsages, 3069);
-  assert.equal(report.geometries.length, 1284);
-  assert.equal(report.currentCandidateCounts.sourcePagesRendered, 229);
+  assert.equal(report.liveUniverse.regionUsages, snapshot.counts.regionUsages);
+  assert.equal(report.geometries.length, snapshot.counts.uniqueImageGeometryBindings);
+  assert.equal(report.currentCandidateCounts.sourcePagesRendered, snapshot.counts.sourcePagesRendered);
   assert.deepEqual(report.currentCandidateCounts, snapshot.counts);
   assert.equal(report.semanticPass, false);
 });

@@ -175,13 +175,28 @@ test('fresh explicit report overrides permit publication when defaults are absen
   assert.equal(queues.fieldBindingAndHistoricalScopeQueues.fieldEvidenceBindingsDenominator,21);
   assert.equal(queues.fieldBindingAndHistoricalScopeQueues.fieldTargetsPending,9);
   assert.equal(queues.fieldBindingAndHistoricalScopeQueues.regionTargetResolvedBindings,14);
+  assert.equal(queues.fieldBindingAndHistoricalScopeQueues.recordTargetResolvedBindings,0);
   assert.equal(queues.fieldBindingAndHistoricalScopeQueues.fieldTargetsReviewed,12);
   assert.equal(queues.fieldBindingAndHistoricalScopeQueues.regionResolvedFieldTargetsPending,2);
-  assert.match(queues.fieldBindingAndHistoricalScopeQueues.countMeaning,/21 evidence bindings: 14 resolve to regions and 7 have no region target/);
+  assert.match(queues.fieldBindingAndHistoricalScopeQueues.countMeaning,/21 evidence bindings: 14 field targets resolve to regions, 0 whole-record references resolve to source regions, and 7 have no region target/);
   assert.match(queues.fieldBindingAndHistoricalScopeQueues.countMeaning,/12 have field-target-reviewed status; 9 do not/);
   assert.equal(queues.fieldBindingAndHistoricalScopeQueues.historicalScopesNeedingReview,4);
   assert.equal(queues.sourceTableCitationReview.reportPath,paths.table);
   assert.deepEqual(Object.keys(hashes).sort(),Object.values(paths).sort());
+});
+
+test('current report queue keeps whole-record region targets explicit and out of field-resolution counts',()=>{
+  const dataHash=freshParsedHash,reports=currentReportFixtures(dataHash,freshRawHash,fixtureHashFile);
+  const evidence=reports.systemic.evidenceBindings;
+  const record=structuredClone(evidence.bindings[0]);record.bindingPointer='/rules/148/evidenceBindings/0';record.targetStatus='record-target-resolved';record.reviewStatus='region-verified';
+  evidence.denominator++;evidence.bindings.push(record);evidence.targetStatusCounts['record-target-resolved']=1;evidence.reviewStatusCounts['region-verified']++;
+  const paths={systemic:'overrides/systemic.json',visual:'overrides/visual.json',table:'overrides/table.json'};
+  const files={[paths.systemic]:reports.systemic,[paths.visual]:reports.visual,[paths.table]:reports.table};
+  const queues=currentQueueMetadata(currentMetadataArgs({reportPaths:paths,readJson:reportReader(files)}));
+  const queue=queues.fieldBindingAndHistoricalScopeQueues;
+  assert.equal(queue.fieldEvidenceBindingsDenominator,22);assert.equal(queue.regionTargetResolvedBindings,14);assert.equal(queue.recordTargetResolvedBindings,1);
+  assert.equal(queue.fieldTargetsReviewed,12);assert.equal(queue.fieldTargetsPending,10);assert.equal(queue.regionResolvedFieldTargetsPending,2);
+  assert.match(queue.countMeaning,/1 whole-record references resolve to source regions/);assert.match(queue.countMeaning,/1 record-resolved references/);
 });
 
 test('systemic catalog dependency mismatch is rejected while data hashes remain current', () => {
