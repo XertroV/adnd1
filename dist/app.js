@@ -105,6 +105,9 @@ function detailHeaderHTML(item,{eyebrow,status='OCR checked',statusClass='unveri
 }
 $$('[data-icon]').forEach(el => { el.innerHTML = icon(el.dataset.icon); });
 const STORAGE_KEY = 'first-edition-notebook-v1';
+const SEARCH_HISTORY_KEY = 'first-edition-search-history-v1';
+const SEARCH_HISTORY_LIMIT = 8;
+const SEARCH_HISTORY_MAX_LENGTH = 120;
 const views = ['spells','rules','equipment','classes','notebook','sources'];
 let data = {spells:[], rules:[], equipment:[], classes:[], sources:[], matrices:[],progressionExplainer:null,release:null};
 let view = 'spells';
@@ -131,9 +134,45 @@ let listLimit = 50;
 let coverageGapsPayload = null;
 let coverageGapsLoadSequence = 0;
 let loadedDataSha256 = null;
+let searchHistory = [];
+const searchHistoryTimers = {reference:null,palette:null};
 function toast(message) {
  const el = $('#toast'); el.textContent = message; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
 }
+function cleanSearchHistoryEntry(value) {
+ if(typeof value!=='string')return '';
+ const cleaned=value.trim().replace(/\s+/g,' ').slice(0,SEARCH_HISTORY_MAX_LENGTH);
+ return normalize(cleaned).length>=2?cleaned:'';
+}
+function loadSearchHistory() {
+ try {
+  const stored=JSON.parse(window.localStorage.getItem(SEARCH_HISTORY_KEY)||'[]');
+  if(!Array.isArray(stored))return [];
+  const seen=new Set(),history=[];
+  for(const value of stored){const cleaned=cleanSearchHistoryEntry(value),key=normalize(cleaned);if(cleaned&&key&&!seen.has(key)){seen.add(key);history.push(cleaned);if(history.length===SEARCH_HISTORY_LIMIT)break;}}
+  return history;
+ }catch{return [];}
+}
+function renderSearchHistory(query='') {
+ const host=$('#searchHistory');if(!host)return;
+ if(normalize(query)||!searchHistory.length){host.hidden=true;host.replaceChildren();return;}
+ host.hidden=false;
+ host.innerHTML=`<h2 class="palette-history-title">RECENT SEARCHES</h2><div class="palette-history-list">${searchHistory.map((value,index)=>`<button class="search-history-item" type="button" data-search-history-index="${index}" aria-label="Search again for ${esc(value)}">${icon('clock')}<span>${esc(value)}</span></button>`).join('')}</div>`;
+}
+function rememberSearchHistory(query,source='palette') {
+ clearTimeout(searchHistoryTimers[source]);searchHistoryTimers[source]=null;
+ const cleaned=cleanSearchHistoryEntry(query),key=normalize(cleaned);if(!cleaned||!key)return false;
+ searchHistory=[cleaned,...searchHistory.filter(value=>normalize(value)!==key)].slice(0,SEARCH_HISTORY_LIMIT);
+ try{window.localStorage.setItem(SEARCH_HISTORY_KEY,JSON.stringify(searchHistory));}catch{}
+ if($('#palette')?.open)renderSearchHistory($('#commandInput')?.value||'');
+ return true;
+}
+function scheduleSearchHistory(query,source='palette') {
+ clearTimeout(searchHistoryTimers[source]);searchHistoryTimers[source]=null;
+ const cleaned=cleanSearchHistoryEntry(query);if(!cleaned)return;
+ searchHistoryTimers[source]=setTimeout(()=>rememberSearchHistory(cleaned,source),650);
+}
+searchHistory=loadSearchHistory();
 async function sha256JSON(value) {
  if (!globalThis.crypto?.subtle || !globalThis.TextEncoder) return null;
  const bytes = new TextEncoder().encode(JSON.stringify(value));
@@ -792,10 +831,12 @@ function formatDate(value) { const date = new Date(value); return Number.isNaN(d
 function bindPage() {
  bindSpellToggles();
  $('#loadMore')?.addEventListener('click',()=>{const top=$('.result-list').scrollTop;listLimit+=50;renderReference();bindPage();$('.result-list').scrollTop=top;($('#loadMore')||$$('[data-select]').at(-1))?.focus({preventScroll:true});});
- $('#referenceSearch')?.addEventListener('input',e=>{const inputElement=e.target;const searchView=view,previousSelectedId=selectedId;filter.q=inputElement.value;clearTimeout(referenceSearchTimer);referenceSearchTimer=setTimeout(()=>{if(!inputElement.isConnected||view!==searchView)return;const start=inputElement.selectionStart;listLimit=50;renderReference();syncSelectionRoute(previousSelectedId);bindPage();const input=$('#referenceSearch');input.focus();if(start!==null)input.setSelectionRange(start,start);},100);});
+ $('#referenceSearch')?.addEventListener('input',e=>{const inputElement=e.target;const searchView=view,previousSelectedId=selectedId;filter.q=inputElement.value;scheduleSearchHistory(inputElement.value,'reference');clearTimeout(referenceSearchTimer);referenceSearchTimer=setTimeout(()=>{if(!inputElement.isConnected||view!==searchView)return;const start=inputElement.selectionStart;listLimit=50;renderReference();syncSelectionRoute(previousSelectedId);bindPage();const input=$('#referenceSearch');input.focus();if(start!==null)input.setSelectionRange(start,start);},100);});
+ $('#referenceSearch')?.addEventListener('keydown',e=>{if(e.key==='Enter')rememberSearchHistory(e.currentTarget.value,'reference');});
  $$('[data-filter]').forEach(el=>el.addEventListener('change',()=>{const previousSelectedId=selectedId;filter[el.dataset.filter]=el.value;if(el.dataset.filter==='class')selectedSpellLevels=reconcileSpellLevelSelection(selectedSpellLevels,availableSpellLevels(data.spells,filter.class)); listLimit=50; selectedId=''; const focusedId=el.id; renderReference(); syncSelectionRoute(previousSelectedId);bindPage(); $('#'+focusedId)?.focus({preventScroll:true});}));
- $('#clearFilters')?.addEventListener('click',()=>{const previousSelectedId=selectedId;filter={q:'',class:'',book:'',category:'',details:''};selectedSpellLevels=new Set();selectedId='';renderReference();syncSelectionRoute(previousSelectedId);bindPage();$('#referenceSearch').focus();});
+ $('#clearFilters')?.addEventListener('click',()=>{const previousSelectedId=selectedId;rememberSearchHistory(filter.q,'reference');filter={q:'',class:'',book:'',category:'',details:''};selectedSpellLevels=new Set();selectedId='';renderReference();syncSelectionRoute(previousSelectedId);bindPage();$('#referenceSearch').focus();});
  $$('[data-select]').forEach(el=>el.addEventListener('click',()=>{
+  rememberSearchHistory(filter.q,'reference');
   selectedId=el.dataset.select; const item=index.find(x=>x._view===view&&x.id===selectedId); if(!item)return;
   $$('[data-select]').forEach(b=>{b.classList.toggle('selected',b.dataset.select===selectedId);b.setAttribute('aria-pressed',String(b.dataset.select===selectedId));});
   $('#referenceDetail').innerHTML=detailHTML(item); bindDetail();
@@ -925,6 +966,7 @@ function renderCommands(query) {
  }).slice(0,18);
  commandIndex=Math.max(0,Math.min(commandIndex,commandRows.length-1));
  $('#commandResults').innerHTML=commandRows.length?commandRows.map((x,i)=>`<div class="palette-result" role="option" id="command-${i}" aria-selected="${i===commandIndex}" data-command-index="${i}"><span>${icon(x._view==='spells'?'spark':x._view==='equipment'?'bag':x._view==='classes'?'shield':x._view==='notebook'?'pen':'book')}</span><div class="result-title">${esc(x._title)}<small>${esc(x._subtitle)}</small></div><span class="result-type">${esc(x._view==='spells'?'SPELL':x._view==='rules'?'RULE':x._view==='equipment'?'GEAR':x._view==='classes'?'CLASS':'NOTE')}</span></div>`).join(''):'<div class="palette-empty">No matches. Try a shorter spell name, class, or rules keyword.</div>';
+ renderSearchHistory(query);
  $('#commandInput').setAttribute('aria-activedescendant',commandRows.length?`command-${commandIndex}`:'');
  $$('[data-command-index]').forEach(el=>{el.addEventListener('click',()=>chooseCommand(Number(el.dataset.commandIndex)));el.addEventListener('mousemove',()=>setCommandIndex(Number(el.dataset.commandIndex),false));});
 }
@@ -935,10 +977,12 @@ function setCommandIndex(i,scroll=true) {
  if(scroll)$(`#command-${commandIndex}`)?.scrollIntoView({block:'nearest'});
 }
 function chooseCommand(i) {
- const x=commandRows[i];if(!x)return;paletteRestoreFocus=false;$('#palette').close();filter={q:'',class:'',book:'',category:'',details:''};selectedSpellLevels=new Set();goTo(x._view,x.id,{reveal:true});
+ const x=commandRows[i];if(!x)return;rememberSearchHistory($('#commandInput').value,'palette');paletteRestoreFocus=false;$('#palette').close();filter={q:'',class:'',book:'',category:'',details:''};selectedSpellLevels=new Set();goTo(x._view,x.id,{reveal:true});
 }
 $('#paletteOpen').addEventListener('click',openPalette);
-$('#commandInput').addEventListener('input',e=>{commandIndex=0;renderCommands(e.target.value);});
+$('#mobileSearchOpen').addEventListener('click',openPalette);
+$('#searchHistory').addEventListener('click',e=>{const button=e.target.closest?.('[data-search-history-index]');if(!button)return;const query=searchHistory[Number(button.dataset.searchHistoryIndex)];if(typeof query!=='string')return;$('#commandInput').value=query;commandIndex=0;rememberSearchHistory(query,'palette');renderCommands(query);$('#commandInput').focus({preventScroll:true});});
+$('#commandInput').addEventListener('input',e=>{commandIndex=0;scheduleSearchHistory(e.target.value,'palette');renderCommands(e.target.value);});
 $('#commandInput').addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();setCommandIndex(commandIndex+1);}else if(e.key==='ArrowUp'){e.preventDefault();setCommandIndex(commandIndex-1);}else if(e.key==='Enter'){e.preventDefault();chooseCommand(commandIndex);}});
 $('#palette').addEventListener('close',()=>{if(!$('#palette').open&&paletteRestoreFocus&&paletteOrigin?.isConnected)paletteOrigin.focus({preventScroll:true});});
 $$('[data-close]').forEach(el=>el.addEventListener('click',()=>$('#'+el.dataset.close).close()));
