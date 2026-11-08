@@ -1,3 +1,4 @@
+import {validateCurrentMonetarySourceQuestionProjection} from './monetary-current-source-questions.mjs';
 import {createHash} from 'node:crypto';
 
 const sha256 = value => createHash('sha256').update(value).digest('hex');
@@ -521,7 +522,7 @@ export function supplementalMonetaryPresentation(report) {
   let description = `Source review has corrected ${repaired} known issues; ${pending} still need review.`;
   if (current.underlyingSourceQuestions.length) description += ` ${current.underlyingSourceQuestions.length} source interpretation questions remain unresolved across ${current.underlyingSourceQuestionRows} records, including any values now explicitly qualified in the extraction.`;
   if (stale) description += ` ${stale} earlier assessments need fresh review.`;
-  description += ` A separate uncertainty register retains ${current.retainedUncertainties.length} questions for these records and ${current.globalAudit.retainedUncertainties} across all monetary records.`;
+  description += current.globalAudit.currentSourceQuestionRegistry ? ` The current question projection retains ${current.retainedUncertainties.length} unresolved questions for these records and ${current.globalAudit.retainedUncertainties} across monetary records. All ${current.globalAudit.legacyRegisteredQuestions} historical registered questions remain visible, including ${current.globalAudit.derivedAdjudications} derived valuation adjudication with a bounded independent source/integration review.` : ` The legacy question register lists ${current.retainedUncertainties.length} registered questions for these records and ${current.globalAudit.retainedUncertainties} across all monetary records; these raw historical flags are not current semantic verdicts.`;
   if (current.contextMeaning) {
     const meaning = current.contextMeaning, dispositions = meaning.dispositions || {};
     if (meaning.sourceInputSha256 !== report.sha256 || meaning.semanticPass !== false || sum(dispositions) !== meaning.rowDefinitionLinks || !Array.isArray(meaning.unresolvedGlyphAssociations)) fail('supplemental monetary note-meaning review is invalid');
@@ -626,6 +627,19 @@ function verifyOutputTraceability(groups, handoff, readFile) {
   }
 }
 
+export function currentMonetarySourceQuestionEntries(projection){
+  validateCurrentMonetarySourceQuestionProjection(projection);
+  return projection.records.map((record,index)=>entry({
+    id:`monetary-source-question-${record.id}`,
+    title:record.currentDisposition==='source-backed-derived-valuation'?'Mammoth tusk derived valuation':record.id.replaceAll('-',' '),
+    status:record.currentDisposition,
+    description:record.currentDisposition==='source-backed-derived-valuation'?'The Elephant value of 100–600 gp per tusk and the explicit proportionate value relation yield 150–900 gp per Mammoth tusk (×1.5). This is derived arithmetic, not a printed range. A bounded independent source and integration review is recorded; this does not approve a printed range or general source completeness. The original question and raw legacy flag remain in the history.':'This registered source question remains unresolved in the current projection. Its original identity and current record hashes are retained; this is not a claim that the source lacks a value.',
+    sourceLocations:record.currentDisposition==='source-backed-derived-valuation'?[{book:'MM',printedPage:65,pdfPage:66},{book:'MM',printedPage:38,pdfPage:39}]:[],
+    handoffPointers:[`/currentMonetarySourceQuestions/records/${index}`],
+    sourceArtifacts:[{...projection.registry,pointer:`/dispositions/${index}`},{...projection.historicalRegister,pointer:`/uncertainties/${index}`}],
+  }));
+}
+
 function buildGroups({data, handoff, readFile, mechanics, continuationManifest}) {
   const issues = verifyFormalIssues(data, handoff);
   const notes = verifyReviewNotes(data, handoff, mechanics);
@@ -639,6 +653,12 @@ function buildGroups({data, handoff, readFile, mechanics, continuationManifest})
   const noteRows = noteEntries(data, handoff);
   const censusEntries = sourceCensusEntries(handoff);
   const questions = openQuestionEntries(data, handoff);
+  if(handoff.currentMonetarySourceQuestions){
+    const projection=handoff.currentMonetarySourceQuestions;
+    validateCurrentMonetarySourceQuestionProjection(projection);
+    for(const ref of projection.inputs)if(sha256(readBytes(readFile,ref.path))!==ref.sha256)fail(`current source-question dependency is stale: ${ref.path}`);
+    questions.push(...currentMonetarySourceQuestionEntries(projection));
+  }
   const queues = reviewQueueEntries(data, handoff);
   const continuity = continuationEntry(continuationManifest, sha256(readBytes(readFile, 'research/citation-continuations.json')));
   const gapCount = price.siteGaps.length;
@@ -652,7 +672,7 @@ function buildGroups({data, handoff, readFile, mechanics, continuationManifest})
       {id: 'recorded-review-notes', title: 'Recorded review notes', description: 'Cautions and interpretation notes retained with records. They can overlap formal field statuses and are not an additive error count.', entries: noteRows},
       {id: 'equipment-offers', title: 'Distinct equipment offers', description: 'Printed package offers keep their stated quantities and per-item prices separate. Editorial estimates are not printed prices.', entries: offers},
       {id: 'source-price-discovery', title: 'Bounded source-price discovery', description: 'Page and table discovery inventories describe their own screened scope only. They do not certify that all prices in the books have been found.', entries: censusEntries},
-      {id: 'open-questions', title: 'Other documented open questions', description: 'Recorded boundary, source-relationship and quantity questions that remain unresolved; do not infer missing values or substitute sources.', entries: questions},
+      {id: 'open-questions', title: 'Other documented open questions', description: 'Recorded source questions retain their history and explicit current dispositions. Unresolved readings and derived arithmetic remain distinct; do not infer missing values or substitute sources.', entries: questions},
       {id: 'review-queues', title: 'Review queues and source limits', description: 'Pending proposals, links and source-image limitations are workflow information, not missing source facts.', entries: queues},
       {id: 'continuation-limits', title: 'Known continuation and excerpt limits', description: 'Continuation data records known segment requirements only. Source-page locations are not assertions that every field is supported by those pages.', entries: [continuity.entry]},
     ],

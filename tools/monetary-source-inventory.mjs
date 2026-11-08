@@ -2802,8 +2802,51 @@ function parseDiscoverySegment(text, {currency = null, unit = null, condition = 
   return [{path:'/typedClaim', value, isMonetary:!notPrice}];
 }
 
-function discoveryClaimLeaves(receipt) {
+// This bounded derivation uses an explicit proportional VALUE relation, not a
+// conversion of physical weight into money. Other relative claims stay unresolved.
+export function normalizeMammothDerivedValuation(receipt, baselineReceipt) {
+  const raw = receipt?.typedClaim ?? {}, derivation = raw.valuationDerivation;
+  const sourceSha256 = 'c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81';
+  const expectedDependencies = [
+    {book:'MM',printedPage:65,pdfPage:66,sourcePdfSha256:sourceSha256,role:'explicit-proportional-value-relation'},
+    {book:'MM',printedPage:38,pdfPage:39,sourcePdfSha256:sourceSha256,role:'elephant-per-tusk-valuation-baseline'},
+  ];
+  const expectedProofs = [
+    {path:'research/source-audit-batch6-mammoth-source-proof.json',sha256:'6e0b3cacd78475c6c7dc38ae40834a13a6996af56dd9afc45c9cf57a19b7ad1b'},
+    {path:'research/source-audit-batch6-retained-source-first-review.json',sha256:'3e3c02c5c0f139417375fbd675fe169571dcdc691fcfd7dd2d8fe59c417a7d34'},
+  ];
+  const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
+  const sourcePagesMatch = (pages, expected) => Array.isArray(pages) && pages.length === expected.length && expected.every((page,index) =>
+    pages[index].bookKey === page.book && pages[index].printedPage === page.printedPage && pages[index].pdfPage === page.pdfPage && pages[index].sourceSha256 === page.sourcePdfSha256);
+  const valid = receipt.receiptId === 'mm-mammoth-tusks-relative' && receipt.book === 'MM'
+    && receipt.sourceCensusArtifact === 'research/price-source-inventory-monster-books.json' && receipt.sourceJsonPointer === '/claims/18'
+    && receipt.claimType === 'derived-relative-valuation-range' && raw.currency === 'gp' && raw.unit === 'per tusk'
+    && raw.amountOrFormula === '(100–600 gp per elephant tusk) × 1.5 = 150–900 gp per mammoth tusk (derived)'
+    && raw.conditions === 'Mammoth tusks are 50% heavier and their value is proportionately higher. Apply the explicit proportional value relation to the Elephant value of 100–600 gp each. The resulting 150–900 gp per mammoth tusk is derived, not a printed range.'
+    && derivation?.kind === 'source-proportional-value-range' && derivation.factor === 1.5 && derivation.increasePercentage === 50
+    && derivation.relation === 'explicit-value-proportionate-to-tusk-weight-increase'
+    && derivation.printedAsRange === false && derivation.isSourcePrinted === false
+    && same(derivation.baseline,{claimId:'mm-elephant-tusks',minimumAmount:100,maximumAmount:600,currency:'gp',unit:'each'})
+    && same(derivation.derivedRange,{minimumAmount:150,maximumAmount:900,currency:'gp',unit:'per tusk'})
+    && derivation.formula === '(100–600 gp per elephant tusk) × (1 + 0.50)'
+    && same(derivation.sourceDependencies,expectedDependencies) && same(derivation.sourceProofs,expectedProofs)
+    && sourcePagesMatch(receipt.sourcePages,expectedDependencies)
+    && baselineReceipt?.receiptId === 'mm-elephant-tusks' && baselineReceipt.book === 'MM'
+    && baselineReceipt.sourceCensusArtifact === receipt.sourceCensusArtifact && baselineReceipt.sourceJsonPointer === '/claims/6'
+    && baselineReceipt.typedClaim?.amountOrFormula === '100–600' && baselineReceipt.typedClaim.currency === 'gp' && baselineReceipt.typedClaim.unit === 'each'
+    && sourcePagesMatch(baselineReceipt.sourcePages,[expectedDependencies[1]]);
+  if (!valid) return [{path:'/typedClaim',value:makeValue('unassessable',{rawStructuredValue:clone(raw),reason:'Derived valuation requires the exact reviewed proportional-value relation, baseline, per-tusk unit, arithmetic and both source-page dependencies.',normalizationStatus:'derived-valuation-binding-unresolved',isSourcePrinted:false}),isMonetary:true}];
+  return [{path:'/typedClaim',value:makeValue('range',{
+    currency:'gp',minimumAmount:derivation.baseline.minimumAmount * derivation.factor,maximumAmount:derivation.baseline.maximumAmount * derivation.factor,
+    unit:'per tusk',formula:derivation.formula,derivation:clone(derivation),derivationStatus:'source-backed-derived-interpretation',
+    printedAsRange:false,isSourcePrinted:false,condition:raw.conditions,sourceText:raw.amountOrFormula,rawStructuredValue:clone(raw),
+    reason:'Arithmetic from the explicit proportionate value relation and the separate Elephant per-tusk baseline; this range is not printed in the source.',normalizationStatus:'source-backed-derived-range-not-printed',
+  }),isMonetary:true}];
+}
+
+function discoveryClaimLeaves(receipt, receipts) {
   const raw = receipt.typedClaim ?? {};
+  if (raw.valuationDerivation || receipt.claimType === 'derived-relative-valuation-range') return normalizeMammothDerivedValuation(receipt, receipts.find(row => row.receiptId === 'mm-elephant-tusks'));
   const printedFieldKey = Object.hasOwn(raw,'printedValue') ? 'printedValue' : Object.hasOwn(raw,'amountOrFormula') ? 'amountOrFormula' : Object.hasOwn(raw,'amount') ? 'amount' : null;
   const printedValue = raw.printedValue ?? raw.amountOrFormula ?? raw.amount ?? null;
   const currency = raw.currency ?? receipt.currency ?? null;
@@ -2996,7 +3039,7 @@ function appendPriceDiscoveryReceipts({artifact, passageArtifact, occurrences, c
       const sourcePointer=passageRecord?.duplicateRowComparisons?.length?'/duplicateRowComparisons':passageRecord?.relatedSourceRowIds?.length?'/relatedSourceRowIds':receipt.linkedTypedSourceRecords?.length?'/linkedTypedSourceRecords':receipt.sourceLinkage?'/sourceLinkage':'/sourceJsonPointer';
       leaves=[{path:sourcePointer,value:makeValue('non-monetary-reference',{reference:'exact linked source-row or passage claims',reason:'This receipt resolves through the explicitly linked structured source occurrence(s); its amounts remain in those original rows and this index does not duplicate them.',rawStructuredValue:uniqueRelatedSourceOccurrenceIds,normalizationStatus:'exact-census-to-source-row-link'}),isMonetary:false}];
     } else if(receipt.typedClaim || receipt.amountOrFormula !== undefined){
-      leaves=discoveryClaimLeaves(receipt);
+      leaves=discoveryClaimLeaves(receipt,receipts);
     } else {
       leaves=[{path:'/receipt',value:makeValue('unassessable',{reason:receipt.unresolvedRemainder??'No typed amount or exact source-row link is present; this bounded discovery receipt remains an explicit review item.',rawStructuredValue:clone(receipt),normalizationStatus:'bounded-receipt-unresolved'}),isMonetary:false}];
     }

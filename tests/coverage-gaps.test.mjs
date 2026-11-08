@@ -28,7 +28,12 @@ test('coverage gaps payload has source-linked entries and traces every generated
   assert.equal(payload.schemaVersion, 1);
   assert.equal(payload.title, 'Known gaps & limitations');
   assert.equal(payload.groups.length, 8);
-  assert.equal(payload.groups.reduce((sum, group) => sum + group.entries.length, 0), 134);
+  const allEntries = payload.groups.flatMap(group => group.entries);
+  const currentQuestions = allEntries.filter(row => row.id.startsWith('monetary-source-question-'));
+  assert.equal(allEntries.length - currentQuestions.length, 134, 'the existing entries remain present');
+  assert.equal(currentQuestions.length, 8, 'all eight historical questions receive explicit current dispositions');
+  assert.equal(currentQuestions.filter(row => row.status === 'unresolved-source-question').length, 7);
+  assert.equal(currentQuestions.filter(row => row.status === 'source-backed-derived-valuation').length, 1);
 
   for (const group of payload.groups) {
     for (const row of group.entries) {
