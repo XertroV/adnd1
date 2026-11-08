@@ -1,6 +1,7 @@
+import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {readFileSync} from 'node:fs';
+
 import {gunzipSync} from 'node:zlib';
 
 const read = path => JSON.parse(readFileSync(path, 'utf8'));

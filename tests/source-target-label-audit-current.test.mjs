@@ -16,9 +16,10 @@ test('current label mode audits the present collector without claiming a fresh r
     const hash = createHash('sha256').update(compressed).digest('hex');
     assert.equal(hash, summary.fullReport.sha256);
     const report = JSON.parse(gunzipSync(compressed).toString('utf8'));
-    assert.equal(report.denominator.contentRecords, 995);
-    assert.equal(report.denominator.routeRecords, 993);
+    assert.equal(report.denominator.contentRecords, 995+1);
+    assert.equal(report.denominator.routeRecords, 993+1);
     assert.equal(report.denominator.collectorTargets, report.entries.length);
+    assert.ok(report.entries.filter(row=>row.owner?.collection==='equipment'&&row.owner?.itemId==='ua-jo-stick').length>=14,'current captions include the distinct Jo fields');
     assert.equal(report.denominator.currentBrowserRenderedControls, 'not-run');
     assert.equal(report.denominator.currentDistinctRenderedPayloads, 'not-assessed');
     assert.equal(report.categories.afterNumericOnlyCandidates, 0);

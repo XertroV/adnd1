@@ -1,6 +1,7 @@
+import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+
 import {createHash} from 'node:crypto';
 import {sourceFirstEquipment, withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 const read=p=>JSON.parse(readFileSync(new URL(p,import.meta.url),'utf8'));

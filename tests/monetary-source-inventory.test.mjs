@@ -147,6 +147,14 @@ function pinnedCurrentArtifact(path, expectedSha256) {
   return artifact;
 }
 
+function canonicalBeforeJoArtifact() {
+  const compressed = readFileSync(resolve(root, 'tests/fixtures/price-source-inventory-before-jo.json.gz'));
+  assert.equal(sha256(compressed), 'bce088a9d7d88de32b39d0ca5e5af6aa123c75aa13d4761ddc51a59ef87b99c6');
+  const bytes = gunzipSync(compressed);
+  assert.equal(sha256(bytes), '71b9ce72027624dd6af658616129b6fc475ea4e43c689758ceb1e165436204ea');
+  return {path:'research/price-source-inventory.json',sha256:sha256(bytes),data:JSON.parse(bytes)};
+}
+
 function historicalBeforeInputs() {
   const baselineBytes = gunzipSync(readFileSync(resolve(root, 'tests/fixtures/price-source-inventory-baseline-679.json.gz')));
   const historical = historicalV4InputsFixture();
@@ -769,7 +777,7 @@ test('sealed PHB/DMG adapter failure stays reproducible while V3 preserves deriv
   });
 
   const identityDocs = {
-    canonical: readArtifact('research/price-source-inventory.json'),
+    canonical: canonicalBeforeJoArtifact(),
     ua: input.uaSupplement,
     phbDmg: candidate,
     passages: input.phbDmgPricePassageSupplement,

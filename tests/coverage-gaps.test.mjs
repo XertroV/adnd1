@@ -28,7 +28,8 @@ test('coverage gaps payload has source-linked entries and traces every generated
   assert.equal(payload.schemaVersion, 1);
   assert.equal(payload.title, 'Known gaps & limitations');
   assert.equal(payload.groups.length, 8);
-  assert.equal(payload.groups.reduce((sum, group) => sum + group.entries.length, 0), 134);
+  const entries=payload.groups.flatMap(group=>group.entries),jo=entries.filter(row=>row.id==='equipment-ua-jo-stick-price');
+  assert.equal(entries.length-jo.length,134,'all earlier entries remain');assert.equal(jo.length,1);assert.equal(jo[0].status,'not-extracted');assert.match(jo[0].description,/not purchase costs/);
 
   for (const group of payload.groups) {
     for (const row of group.entries) {
@@ -51,7 +52,8 @@ test('coverage gaps payload has source-linked entries and traces every generated
 
   const priceEntries = payload.groups.find(group => group.id === 'formal-field-statuses').entries
     .filter(row => row.handoffPointers.some(path => path.startsWith('/currentSitePriceGaps/records/')));
-  assert.equal(priceEntries.length, 4);
+  assert.equal(priceEntries.length, 4 + 1, 'the four historical prices plus Jo remain explicitly unextracted');
+  assert.ok(priceEntries.some(row=>row.id==='equipment-ua-jo-stick-price'));
   for (const row of priceEntries) {
     assert.ok(row.handoffPointers.some(path => path.startsWith('/mechanicsAudit/formalFieldIssues/')));
     assert.ok(row.handoffPointers.some(path => path.startsWith('/currentSitePriceGaps/records/')));

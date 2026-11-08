@@ -415,7 +415,7 @@ export function buildSourceRasterCoverage(snapshot, live) {
 
 export function runSourceRasterCoverage(argv = process.argv.slice(2)) {
   let output = 'artifacts/source-raster-coverage/report.json';
-  let input = 'research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz';
+  let input = 'research/source-audit-batch6-jo-current-raster-bindings.json.gz';
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--output' && argv[i + 1]) output = argv[++i];
     else if (argv[i] === '--snapshot' && argv[i + 1]) input = argv[++i];

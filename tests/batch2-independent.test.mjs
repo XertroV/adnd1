@@ -1,10 +1,11 @@
+import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
 import {withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import {reverseMechanicsBatchTwo} from './mechanics-batch-two-fixture.mjs';
 import {reverseMatrixCellReview} from './fixtures/matrix-baseline.mjs';
 import {reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync,readdirSync} from 'node:fs';
+import {readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 

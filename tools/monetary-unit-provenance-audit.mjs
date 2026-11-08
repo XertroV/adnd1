@@ -8,6 +8,7 @@ import {fileURLToPath} from 'node:url';
 import {gunzipSync} from 'node:zlib';
 import {loadAuditInputs} from './quantity-source-absence-audit.mjs';
 import {collectMonetaryRowIdentityRecords,monetaryRowIdentityInputs} from './monetary-row-identity-audit.mjs';
+import {loadJoUnextractedPriceRegistration,joPriceRegistrationPath} from './jo-unextracted-price-registration.mjs';
 
 const root=resolve(import.meta.dirname,'..');
 export const unitFieldPattern=/(?:unit|quantit|qty|count|number|pieces?|scale|size|interval|duration|period|basis|measure|rate|amount(?:per|or)|perUnit|frequency|timeunit)/i;
@@ -21,6 +22,20 @@ export const whaleUnitExactInputArchiveSha256='c9dfe390c9711da9f3569b3fd927c22bc
 export const expectedWhaleUnitBeforeSha256='6eeffcb1b213fb00a443f55acd3f78312697efd1391d7fcb3cfa112f8da1766d';
 export const expectedWhaleUnitNullSha256='74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b';
 export const expectedWhaleCarcassUnitSha256='1b68d1ff64b72310eca7dd8e9e3f98c931f707aecf7a2ad8194a69f3dff2fc3d';
+export const joUnitAdmissionBeforePath='tests/fixtures/monetary-unit-provenance-jo-2162-before.json.gz';
+export const joUnitAdmissionBeforeSha256='ea0bac57fffec3b8d449d65ee67f15cc772ba98b1641876405844d612621f723';
+export const expectedCurrentUnitRecordCount=2162;
+export const expectedJoUnitRecord={
+ uid:'site-price-claim:ua-jo-stick',input:'research/price-source-inventory.json',pointer:'/siteClaims/191',
+ recordSha256:'be68e9ff606e5ed998aed58485b4a84eebb8777ddd7638d7f4b89c3190237e85',
+ rowIdentitySha256:'4fb44a000bbd0378c43d7d1a5be03610b2364a95b4f0e8502d5c7a19e4ac0547',
+ sourceValueSha256ByPointer:{
+  '/printedPrice':'74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b',
+  '/priceState':'184fac4333b3e186799bef0a7805b436595ad687589175af9bca713497adfacf',
+  '/priceNote':'284d1fa330d65dd42d867350b5053a2b4be3affd18bd19f60eb2e7207f3a0c7c',
+  '/missingPrice':'b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b',
+ },
+};
 export const sourceWitnesses={
  whaleAmbergris:{
   source:{book:'MM',printedPage:100,pdfPage:101,sourcePdfSha256:'c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81'},
@@ -122,6 +137,63 @@ export function loadApprovedWhaleUnitReviewReceipt({repoRoot=root}={}){
  if(mutation.preserve?.includes('amountOrFormula')!==true||mutation.preserve?.includes('currency')!==true||mutation.preserve?.includes('conditions')!==true||!mutation.preserve.includes('the separately printed carcass unit and rate'))throw new Error('Whale unit review receipt does not preserve the reviewed amount, currency, conditions and carcass data.');
  return {receipt,receiptSha256,bytes:bytes.length,path:whaleUnitReviewReceiptPath};
 }
+function loadJoUnitAdmissionBeforeCapture({repoRoot=root}={}){
+ const bytes=readFileSync(resolve(repoRoot,joUnitAdmissionBeforePath)),capture=safeParse(gunzipSync(bytes),joUnitAdmissionBeforePath),captureSha256=sha(bytes);
+ if(captureSha256!==joUnitAdmissionBeforeSha256)throw new Error(`Frozen Jo unit-admission before capture changed: ${captureSha256}`);
+ const historical=capture.historicalBaseline,current=capture.currentFullUnitReport;
+ if(capture.artifactType!=='batch6-jo-monetary-unit-provenance-before-implementation'||historical?.frozenRecordCount!==2161
+   ||historical?.frozenUnitFileSha256!==quantityUnitBeforeSha256||historical?.frozenUnitRecordUids?.length!==2161
+   ||new Set(historical.frozenUnitRecordUids).size!==2161||current?.scope?.monetaryRowIdentityRecordCount!==expectedCurrentUnitRecordCount
+   ||current?.monetaryRecordInventory?.length!==expectedCurrentUnitRecordCount
+   ||capture.capture?.oldUnitGuardFailure!==`Expected 2,161 monetary row-identity records; found ${expectedCurrentUnitRecordCount}.`)
+  throw new Error('Frozen Jo unit-admission before capture scope changed.');
+ if(capture.joAdmission?.uid!==expectedJoUnitRecord.uid||capture.joAdmission?.input!==expectedJoUnitRecord.input
+   ||capture.joAdmission?.pointer!==expectedJoUnitRecord.pointer||capture.joAdmission?.recordSha256!==expectedJoUnitRecord.recordSha256
+   ||capture.joAdmission?.currentJoRegistrationPath!==joPriceRegistrationPath)
+  throw new Error('Frozen Jo unit-admission before capture does not bind the exact registered Jo record.');
+ return {capture,captureSha256};
+}
+function currentJoUnitAdmission({documents,records,frozen,repoRoot=root}){
+ const before=loadJoUnitAdmissionBeforeCapture({repoRoot});
+ const oldRows=frozen.baseline.monetaryRecordInventory,oldUids=oldRows.map(row=>row.uid),currentUids=records.map(row=>row.uid);
+ if(oldUids.length!==2161||new Set(oldUids).size!==2161||records.length!==expectedCurrentUnitRecordCount||new Set(currentUids).size!==expectedCurrentUnitRecordCount)
+  throw new Error('Current monetary row-identity universe must preserve the exact 2,161 historical IDs and one Jo registration.');
+ const expectedUids=new Set([...oldUids,expectedJoUnitRecord.uid]),actualUids=new Set(currentUids);
+ if(actualUids.size!==expectedUids.size||[...expectedUids].some(uid=>!actualUids.has(uid))||[...actualUids].some(uid=>!expectedUids.has(uid)))
+  throw new Error('Current monetary row-identity universe differs from the 2,161 historical IDs plus the exact Jo registration.');
+ const record=records.find(row=>row.uid===expectedJoUnitRecord.uid);
+ if(!record||record.input!==expectedJoUnitRecord.input||record.pointer!==expectedJoUnitRecord.pointer
+   ||record.recordSha256!==expectedJoUnitRecord.recordSha256||record.rowIdentitySha256!==expectedJoUnitRecord.rowIdentitySha256
+   ||canonical(record.sourceValueSha256ByPointer)!==canonical(expectedJoUnitRecord.sourceValueSha256ByPointer)
+   ||record.identityStatus!=='recorded-unverified'||record.identity?.kind!=='unextracted-price'
+   ||record.identity?.sourceRowIds?.length!==0||record.source?.book!==null||record.source?.printedPage!==null
+   ||record.source?.pdfPage!==null||record.source?.sourceSha256!==null)
+  throw new Error('Current Jo monetary row does not match its exact source-unknown unextracted-price identity.');
+ const canonicalDoc=documents.find(doc=>doc.key==='canonical'),distDoc=documents.find(doc=>doc.key==='dist'),siteClaim=valueAt(canonicalDoc?.data,expectedJoUnitRecord.pointer);
+ if(!canonicalDoc||!distDoc||!siteClaim?.found||!siteClaim.value||typeof siteClaim.value!=='object'
+   ||sha(siteClaim.value)!==expectedJoUnitRecord.recordSha256||siteClaim.value.itemId!=='ua-jo-stick'
+   ||siteClaim.value.claimType!=='unextracted-price'||siteClaim.value.printedPrice!==null
+   ||siteClaim.value.priceState!=='unextracted'||siteClaim.value.missingPrice!==true
+   ||siteClaim.value.sourcePageReference!==null||siteClaim.value.estimate!==null
+   ||!Array.isArray(siteClaim.value.sourceRowIds)||siteClaim.value.sourceRowIds.length!==0)
+  throw new Error('Current Jo price-claim pointer no longer proves only the exact unextracted, unknown-price state.');
+ const registration=loadJoUnextractedPriceRegistration({repoRoot,data:distDoc.data,inventory:canonicalDoc.data});
+ if(registration.itemId!=='ua-jo-stick'||registration.recordSha256!=='25c8c40eab79b1b1dc44fa701e200bbd63b9594596878a82dd8325479451153b'
+   ||registration.sourceAbsence!==false||registration.valueReviewed!==false||registration.registryRef?.path!==joPriceRegistrationPath
+   ||registration.registryRef?.sha256!==before.capture.joAdmission.currentJoRegistrationSha256)
+  throw new Error('Jo price registration no longer preserves the exact unextracted source-unknown state.');
+ const matchedUnitQuantityFields=[];
+ walkScalarLeaves(siteClaim.value,leaf=>{const fieldName=String(leaf.parts.at(-1)??'');if(unitFieldPattern.test(fieldName))matchedUnitQuantityFields.push(expectedJoUnitRecord.pointer+leaf.jsonPointer);});
+ if(matchedUnitQuantityFields.length)throw new Error('Jo unit admission cannot assign semantic unit provenance from unrelated price-claim fields.');
+ return {
+  status:'exact-current-unextracted-record; purchase-price and source unit unassessed',
+  historicalRecordCount:oldUids.length,currentRecordCount:records.length,additionalRecordUids:[expectedJoUnitRecord.uid],
+  record:{uid:record.uid,inputPath:record.input,inputSha256:record.inputSha256,jsonPointer:record.pointer,recordSha256:record.recordSha256,rowIdentitySha256:record.rowIdentitySha256,sourceValueSha256ByPointer:record.sourceValueSha256ByPointer,matchedUnitQuantityFields},
+  registration:{path:registration.registryRef.path,sha256:registration.registryRef.sha256,sourceEvidenceRefs:registration.inputRefs},
+  sourceState:{priceState:'unextracted',sourceValueStatus:'not-assessed',unitProvenance:'unassessable',sourcePriceAbsenceReviewed:false,extractedPriceReviewed:false,semanticPass:false,sourceAbsenceProof:false},
+  beforeCapture:{path:joUnitAdmissionBeforePath,sha256:before.captureSha256,historicalUnitCount:2161,currentUnitRecordCount:expectedCurrentUnitRecordCount},
+ };
+}
 function receiptInputPath(inputKey){return sourceWitnesses.whaleAmbergris.unitPointers.find(ref=>ref.inputKey===inputKey)?.inputPath||({canonical:'research/price-source-inventory.json',receipts:'research/source-audit-batch5-price-discovery-reconciliation.json',monsterCensus:'research/price-source-inventory-monster-books.json'})[inputKey];}
 function loadWhaleBeforeSourceInputs({repoRoot=root,receipt}){
  const bytes=readFileSync(resolve(repoRoot,whaleUnitExactInputArchivePath));
@@ -209,7 +281,7 @@ export function buildMonetaryUnitProvenanceReport({documents=loadAuditInputs(),m
  if(documents.length!==10||expectedKeys.some(key=>!documents.some(doc=>doc.key===key)))throw new Error('Unit inventory requires dist/data.json plus all nine monetary row-identity inputs.');
  const docsByKey=new Map(documents.map(doc=>[doc.key,doc])),docsByPath=new Map(documents.map(doc=>[doc.path,doc]));
  const records=monetaryRecords||collectMonetaryRowIdentityRecords(new Map(documents.filter(doc=>doc.key!=='dist').map(doc=>[doc.key,doc]))).records;
- if(records.length!==2161)throw new Error(`Expected 2,161 monetary row-identity records; found ${records.length}.`);
+ const joAdmission=currentJoUnitAdmission({documents,records,frozen,repoRoot});
  const curated=curatedCaseMap(documents,frozen,reviewReceipt),candidateMap=new Map(),inputStats=[];
  for(const doc of documents){
   const scan=scanUnitRelatedScalarFields(doc.data);
@@ -258,7 +330,8 @@ export function buildMonetaryUnitProvenanceReport({documents=loadAuditInputs(),m
   beforeBaseline:{artifactPath:quantityUnitBeforePath,sha256:frozen.baselineSha256,immutable:true,meaning:'historical before inventory; current input hashes and values are recorded separately below'},
   approvedReviewReceipt:reviewReceipt?{path:reviewReceipt.path,sha256:reviewReceipt.receiptSha256,status:reviewReceipt.receipt.status,reviewedUid:reviewReceipt.receipt.reviewedUid,approvedTypedUnitValue:null,approvedTypedUnitValueSha256:expectedWhaleUnitNullSha256,sourceEvidenceVerdict:'full-page review supports this exact typed-field correction; null is metadata and does not itself prove source absence',sourceAbsenceProof:false}:null,
   historicalBeforeInputs:frozen.baseline.baseline.inputs.map(({key,path,sha256})=>({key,path,sha256})),
-  detectorSemantics:{completeRawScalarScan:'Every scalar leaf in all ten inputs is counted; every leaf whose field name matches unitFieldPattern is listed with its pointer and hash.',recordUniverse:'All 2,161 records returned by the monetary row-identity adapters are included; each record lists every matching field pointer in its raw object.',nullMetadata:'Null values are unassessable metadata and never treated as evidence that a printed source omits a quantity or unit.',classification:'explicit-printed/editorial are used only for the two exact source-page reviewed cases below. missing-provenance marks a populated semantic unit field without a dedicated field-level unit provenance disposition; it does not mean the source lacks that unit. All other candidates are unassessable.',privacy:'The report contains counts, identifiers, JSON pointers, source/input hashes, field names and value hashes. It contains no source text, OCR, PDF or page images.'},
+  detectorSemantics:{completeRawScalarScan:'Every scalar leaf in all ten inputs is counted; every leaf whose field name matches unitFieldPattern is listed with its pointer and hash.',recordUniverse:'The current universe is the exact 2,161 historical record IDs from the immutable before inventory plus the one hash-bound Jo unextracted-price record; no other additions or substitutions are admitted. Each current record lists every matching field pointer in its raw object.',nullMetadata:'Null values are unassessable metadata and never treated as evidence that a printed source omits a quantity or unit.',classification:'explicit-printed/editorial are used only for the exact source-page reviewed cases below. missing-provenance marks a populated semantic unit field without a dedicated field-level unit provenance disposition; it does not mean the source lacks that unit. The registered Jo purchase price and unit remain unassessed, and the admission is not source-absence proof. All other candidates are unassessable.',privacy:'The report contains counts, identifiers, JSON pointers, source/input hashes, field names and value hashes. It contains no source text, OCR, PDF or page images.'},
+  joUnitAdmission:joAdmission,
   sourceWitnesses:{
    whaleAmbergris:{...sourceWitnesses.whaleAmbergris,classification:'editorial',classificationAppliesTo:'the exact pre-correction value in the frozen before inventory only',reviewFinding:'The independent source-page review approved a null typed unit for this one claim; the current null metadata value is not itself proof of source absence.',baselinePointerValues:frozen.baseline.sourceWitnesses.whaleAmbergris.pointerValues,pointerValues:whaleRows,currentState:ambergrisCurrentState,proposedCorrection:{action:'set only the unit field to null at the four listed pointers; preserve amount, currency, conditions and the separately printed carcass fields',targetPointers:frozen.baseline.sourceWitnesses.whaleAmbergris.proposedCorrection.targetPointers,historicalTargets:frozen.baseline.sourceWitnesses.whaleAmbergris.proposedCorrection.targetPointers,expectedTypedUnitValue:null,expectedTypedUnitValueSha256:expectedWhaleUnitNullSha256,preservedFields:preservedFieldComparisons,allPreservedFieldsMatchBefore:preservedFieldComparisons.length>0&&preservedFieldComparisons.every(row=>row.matchesBefore),amountValuesRemainUnchanged:preservedFieldComparisons.filter(row=>row.fieldName==='amountOrFormula').length>0&&preservedFieldComparisons.filter(row=>row.fieldName==='amountOrFormula').every(row=>row.matchesBefore),sourceAbsenceProof:false}},
    whaleCarcass:{...sourceWitnesses.whaleCarcass,classification:'explicit-printed',classificationAppliesTo:'the exact retained positive value hash only',reviewFinding:'The same MM passage explicitly states the carcass sale rate per hit die of size; retained as the positive unit-provenance fixture.',baselinePointerValues:frozen.baseline.sourceWitnesses.whaleCarcass.pointerValues,pointerValues:carcassRows},
@@ -279,11 +352,11 @@ export function validateMonetaryUnitProvenanceReport(report,{documents=null,reco
  if(canonical(report.historicalBeforeInputs)!==canonical(expectedHistorical))throw new Error('Historical input hashes do not match the immutable before inventory.');
  const expectedReview=reviewReceipt?{path:reviewReceipt.path,sha256:reviewReceipt.receiptSha256,status:reviewReceipt.receipt.status,reviewedUid:reviewReceipt.receipt.reviewedUid,approvedTypedUnitValue:null,approvedTypedUnitValueSha256:expectedWhaleUnitNullSha256,sourceEvidenceVerdict:'full-page review supports this exact typed-field correction; null is metadata and does not itself prove source absence',sourceAbsenceProof:false}:null;
  if(canonical(report.approvedReviewReceipt)!==canonical(expectedReview))throw new Error('Approved Whale review receipt summary mismatch.');
- if(report.baseline.sourceInputCount!==10||report.baseline.monetaryInputCount!==9||report.scope.monetaryRowIdentityRecordCount!==2161)throw new Error('Unit inventory input or monetary record denominator mismatch.');
+ if(report.baseline.sourceInputCount!==10||report.baseline.monetaryInputCount!==9||report.scope.monetaryRowIdentityRecordCount!==expectedCurrentUnitRecordCount)throw new Error('Current unit inventory input or monetary record denominator mismatch.');
  if(report.scope.allRawScalarLeaves!==report.baseline.inputs.reduce((total,row)=>total+row.scalarLeaves,0))throw new Error('Raw scalar leaf denominator mismatch.');
  const keys=new Set(report.baseline.inputs.map(row=>row.key));if(keys.size!==10)throw new Error('Input key uniqueness mismatch.');
  const candidateKeys=new Set(report.fieldRows.map(row=>`${row.inputKey}\u0000${row.jsonPointer}`));if(candidateKeys.size!==report.fieldRows.length||report.fieldRows.some(row=>!keys.has(row.inputKey)||!unitFieldPattern.test(row.fieldName)||!/^[a-f0-9]{64}$/.test(row.valueSha256)))throw new Error('Unit field pointer/hash inventory malformed.');
- if(report.monetaryRecordInventory.length!==2161||new Set(report.monetaryRecordInventory.map(row=>row.uid)).size!==2161)throw new Error('Monetary record inventory is incomplete or duplicated.');
+ if(report.monetaryRecordInventory.length!==expectedCurrentUnitRecordCount||new Set(report.monetaryRecordInventory.map(row=>row.uid)).size!==expectedCurrentUnitRecordCount)throw new Error('Current monetary record inventory is incomplete or duplicated.');
  const classifications=Object.fromEntries(['explicit-printed','editorial','missing-provenance','unassessable'].map(status=>[status,report.fieldRows.filter(row=>row.classification===status).length]));
  if(canonical(classifications)!==canonical(report.denominators.fieldClassificationCounts))throw new Error('Classification counts do not match field inventory.');
  if(report.sourceWitnesses.whaleAmbergris.pointerValues.length!==4||report.sourceWitnesses.whaleCarcass.pointerValues.length!==4)throw new Error('Whale source witness pointer count changed.');
@@ -295,12 +368,16 @@ export function validateMonetaryUnitProvenanceReport(report,{documents=null,reco
  if(ambergris.classification!=='editorial'||ambergris.classificationAppliesTo!=='the exact pre-correction value in the frozen before inventory only')throw new Error('Whale historical editorial classification is not scoped to the before value.');
  if(ambergris.proposedCorrection.preservedFields.some(row=>row.matchesBefore!==true)||ambergris.proposedCorrection.allPreservedFieldsMatchBefore!==true||ambergris.proposedCorrection.amountValuesRemainUnchanged!==true)throw new Error('Whale preserved amount/currency/condition fields no longer match their exact before archive.');
  if(ambergris.currentState.sourceAbsenceProof!==false||report.approvedReviewReceipt?.sourceAbsenceProof===true)throw new Error('A null unit value cannot be treated as source-absence proof.');
- if(documents&&records){
-  for(const input of report.baseline.inputs){const doc=documents.find(item=>item.key===input.key);if(!doc||doc.sha256!==input.sha256||sha(doc.bytes)!==input.sha256)throw new Error(`Source input hash changed: ${input.path}`);}
-  for(const row of report.fieldRows){const doc=documents.find(item=>item.key===row.inputKey),value=valueAt(doc.data,row.jsonPointer);if(!value.found||sha(value.value)!==row.valueSha256||typeOf(value.value)!==row.leafType)throw new Error(`Field pointer/hash/type mismatch: ${row.inputKey}${row.jsonPointer}`);}
-  for(const row of report.monetaryRecordInventory){const record=records.find(item=>item.uid===row.uid);if(!record||record.input!==row.inputPath||record.pointer!==row.jsonPointer||record.recordSha256!==row.recordSha256)throw new Error(`Monetary record binding mismatch: ${row.uid}`);}
-  for(const name of ['whaleAmbergris','whaleCarcass'])for(const ref of report.sourceWitnesses[name].pointerValues){const doc=documents.find(item=>item.key===ref.inputKey),value=valueAt(doc.data,ref.jsonPointer);if(!value.found||sha(value.value)!==ref.valueSha256)throw new Error(`Curated source witness pointer/hash mismatch: ${ref.inputKey}${ref.jsonPointer}`);}
-  const beforeSourceInputs=loadWhaleBeforeSourceInputs({repoRoot,receipt:reviewReceipt}),expectedPreserved=buildPreservedFieldComparison({documents,beforeSourceInputs});
+ const validationDocuments=documents||loadAuditInputs();
+ const validationRecords=records||collectMonetaryRowIdentityRecords(new Map(validationDocuments.filter(doc=>doc.key!=='dist').map(doc=>[doc.key,doc]))).records;
+ const joAdmission=currentJoUnitAdmission({documents:validationDocuments,records:validationRecords,frozen,repoRoot});
+ if(canonical(report.joUnitAdmission)!==canonical(joAdmission))throw new Error('Jo unit admission does not match the exact hash-bound unextracted record and its current source-unknown registration.');
+ {
+  for(const input of report.baseline.inputs){const doc=validationDocuments.find(item=>item.key===input.key);if(!doc||doc.sha256!==input.sha256||sha(doc.bytes)!==input.sha256)throw new Error(`Source input hash changed: ${input.path}`);}
+  for(const row of report.fieldRows){const doc=validationDocuments.find(item=>item.key===row.inputKey),value=valueAt(doc.data,row.jsonPointer);if(!value.found||sha(value.value)!==row.valueSha256||typeOf(value.value)!==row.leafType)throw new Error(`Field pointer/hash/type mismatch: ${row.inputKey}${row.jsonPointer}`);}
+  for(const row of report.monetaryRecordInventory){const record=validationRecords.find(item=>item.uid===row.uid);if(!record||record.input!==row.inputPath||record.pointer!==row.jsonPointer||record.recordSha256!==row.recordSha256)throw new Error(`Monetary record binding mismatch: ${row.uid}`);}
+  for(const name of ['whaleAmbergris','whaleCarcass'])for(const ref of report.sourceWitnesses[name].pointerValues){const doc=validationDocuments.find(item=>item.key===ref.inputKey),value=valueAt(doc.data,ref.jsonPointer);if(!value.found||sha(value.value)!==ref.valueSha256)throw new Error(`Curated source witness pointer/hash mismatch: ${ref.inputKey}${ref.jsonPointer}`);}
+  const beforeSourceInputs=loadWhaleBeforeSourceInputs({repoRoot,receipt:reviewReceipt}),expectedPreserved=buildPreservedFieldComparison({documents:validationDocuments,beforeSourceInputs});
   if(canonical(expectedPreserved)!==canonical(ambergris.proposedCorrection.preservedFields))throw new Error('Whale preserved field comparison does not match current source inputs.');
   for(const ref of ambergris.pointerValues){
    const row=report.fieldRows.find(field=>field.inputKey===ref.inputKey&&field.jsonPointer===ref.jsonPointer);
@@ -315,7 +392,7 @@ export function validateMonetaryUnitProvenanceReport(report,{documents=null,reco
 function markdown(report){
  const d=report.denominators,s=report.scope;
  const ambergris=report.sourceWitnesses.whaleAmbergris;
- return ['# Monetary unit-provenance inventory','',`Status: ${report.status}. The frozen before inventory is ${report.beforeBaseline.artifactPath} (SHA-256 ${report.beforeBaseline.sha256}); current input hashes are reported separately. This is a structural inventory, not a whole-book source verdict.`,'',`All ten current inputs were scanned: ${s.allRawScalarLeaves.toLocaleString('en-US')} scalar leaves, including ${s.unitQuantityIntervalSourceBasisFieldLeaves.toLocaleString('en-US')} field-name matches across ${s.monetaryRowIdentityRecordCount.toLocaleString('en-US')} monetary row-identity records. ${s.monetaryRecordsWithMatchedFields.toLocaleString('en-US')} records have at least one matched field.`,`Classification counts: ${Object.entries(d.fieldClassificationCounts).map(([key,value])=>`${key} ${value.toLocaleString('en-US')}`).join('; ')}. “Missing provenance” marks a populated semantic unit field without a separate field-level provenance disposition; it does not say what the source states. Nulls and unreviewed fields remain unassessable.`,'',`Whale ambergris current state: ${ambergris.currentState.currentState}. The v3 receipt is ${report.approvedReviewReceipt?.sha256||'not loaded'}; its approved exact typed-unit value is null. Null metadata is not itself proof of source absence. Current amount/currency/condition fields are compared by hash with the archived before inputs; preserved fields match: ${ambergris.proposedCorrection.allPreservedFieldsMatchBefore}. The separate carcass unit fixture remains “per hit die of size” only under its exact reviewed hash.`,'','The JSON report contains current and historical input hashes, all matching input pointers, field names and value hashes, all 2,161 record bindings, source witness hashes/bounds and exact frozen correction targets. It contains no source text, OCR, PDF or page images.',''].join('\n');
+ return ['# Monetary unit-provenance inventory','',`Status: ${report.status}. The frozen before inventory is ${report.beforeBaseline.artifactPath} (SHA-256 ${report.beforeBaseline.sha256}); current input hashes are reported separately. This is a structural inventory, not a whole-book source verdict.`,'',`All ten current inputs were scanned: ${s.allRawScalarLeaves.toLocaleString('en-US')} scalar leaves, including ${s.unitQuantityIntervalSourceBasisFieldLeaves.toLocaleString('en-US')} field-name matches across ${s.monetaryRowIdentityRecordCount.toLocaleString('en-US')} monetary row-identity records. ${s.monetaryRecordsWithMatchedFields.toLocaleString('en-US')} records have at least one matched field. The current set preserves all 2,161 historical IDs and admits only the hash-bound Jo unextracted-price row; its amount and unit remain unassessed.` ,`Classification counts: ${Object.entries(d.fieldClassificationCounts).map(([key,value])=>`${key} ${value.toLocaleString('en-US')}`).join('; ')}. “Missing provenance” marks a populated semantic unit field without a separate field-level provenance disposition; it does not say what the source states. Nulls and unreviewed fields remain unassessable.`,'',`Whale ambergris current state: ${ambergris.currentState.currentState}. The v3 receipt is ${report.approvedReviewReceipt?.sha256||'not loaded'}; its approved exact typed-unit value is null. Null metadata is not itself proof of source absence. Current amount/currency/condition fields are compared by hash with the archived before inputs; preserved fields match: ${ambergris.proposedCorrection.allPreservedFieldsMatchBefore}. The separate carcass unit fixture remains “per hit die of size” only under its exact reviewed hash.`,'','The JSON report contains current and historical input hashes, all matching input pointers, field names and value hashes, the complete current monetary record universe, source witness hashes/bounds and exact frozen correction targets. It contains no source text, OCR, PDF or page images.',''].join('\n');
 }
 export function writeMonetaryUnitProvenanceArtifacts(report,outputDir){
  mkdirSync(outputDir,{recursive:true});const jsonPath=resolve(outputDir,'report.json'),mdPath=resolve(outputDir,'report.md');

@@ -10,7 +10,10 @@ import {gunzipSync} from 'node:zlib';
 import {buildSourceRasterCoverage, collectLiveRasterUniverse} from '../tools/source-raster-coverage.mjs';
 
 const snapshot = JSON.parse(gunzipSync(readFileSync(new URL('../research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz', import.meta.url))));
-const live = collectLiveRasterUniverse();
+const bindingBefore=JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-raster-coverage-before-jo.json.gz',import.meta.url))));
+const live=bindingBefore.oldLive;
+const currentLive=collectLiveRasterUniverse();
+const currentSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research/source-audit-batch6-jo-current-raster-bindings.json.gz',import.meta.url))));
 const legacyFixture = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-raster-coverage-derived-metrics-before.json.gz', import.meta.url))));
 const legacySource = legacyFixture.files['tools/source-raster-coverage.mjs'];
 assert.equal(createHash('sha256').update(legacySource.utf8).digest('hex'), legacySource.sha256);
@@ -109,12 +112,15 @@ const componentIntegrityMutations = [
 ];
 
 test('the complete current catalog universe matches the preserved numeric raster snapshot', () => {
-  const report = buildSourceRasterCoverage(snapshot, live);
+  const report = buildSourceRasterCoverage(currentSnapshot, currentLive);
   assert.deepEqual(report.validation, {valid: true, errors: []});
-  assert.equal(report.liveUniverse.regionUsages, 3069);
+  assert.equal(report.liveUniverse.regionUsages, 3069+7);
+  assert.deepEqual(currentSnapshot.sourceFrames,snapshot.sourceFrames);
+  assert.deepEqual(currentSnapshot.usages.slice(0,3069),snapshot.usages);
+  assert.deepEqual(currentSnapshot.geometries.map(({uses,...row})=>row),snapshot.geometries.map(({uses,...row})=>row));
   assert.equal(report.geometries.length, 1284);
   assert.equal(report.currentCandidateCounts.sourcePagesRendered, 229);
-  assert.deepEqual(report.currentCandidateCounts, snapshot.counts);
+  assert.deepEqual(report.currentCandidateCounts, currentSnapshot.counts);
   assert.equal(report.semanticPass, false);
 });
 

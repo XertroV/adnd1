@@ -1,3 +1,4 @@
+import {readBeforeJoFile} from './helpers/batch6-jo-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
@@ -7,8 +8,8 @@ import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel),'utf8'));
-const bytes=rel=>fs.readFileSync(path.join(root,rel));
+const read=rel=>JSON.parse(readBeforeJoFile(path.join(root,rel),'utf8'));
+const bytes=rel=>readBeforeJoFile(path.join(root,rel));
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 const gitBytes=(commit,rel)=>execFileSync('git',['show',`${commit}:${rel}`]);
 const before=read('tests/fixtures/ua26-context-before-679.json');
