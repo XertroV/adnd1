@@ -101,7 +101,8 @@ test('the exact first full failure, caller preimages and immutable earlier kerne
  const forgery=JSON.parse(gunzipSync(compressed));forgery.files['dist/data.json'].afterObjectSha256='0'.repeat(64);assert.throws(()=>history.decodePass8WeaponSourceHistory(Buffer.from(JSON.stringify(forgery))),/exact closed weapon-source/);
 });
 test('the wrapper is confined to explicit historical tests and current audits never import it',()=>{
- const hits=execFileSync('rg',['-l','pass8-weapon-source-history','dist','tools'],{cwd:root,encoding:'utf8'}).trim().split('\n');assert.deepEqual(hits,['tools/build-pass8-weapon-source-history-contract-v1.mjs']);
+ const files=execFileSync('git',['ls-files','-z','--','dist','tools'],{cwd:root,encoding:'utf8'}).split('\0').filter(Boolean);
+ const hits=files.filter(path=>read(path).includes('pass8-weapon-source-history'));assert.deepEqual(hits,['tools/build-pass8-weapon-source-history-contract-v1.mjs']);
  const raw=read('dist/books.js');assert.deepEqual(history.readBeforePass8WeaponSourceFile(new URL('dist/books.js',root)),raw,'unscoped native reads preserve exact bytes');
  const expected=git(contract.beforeCommit,'rules.json').toString('utf8');assert.equal(history.readBeforePass8WeaponSourceFile('rules.json','utf8'),expected);assert.equal(history.readBeforePass8WeaponSourceFile(new URL('rules.json',root),{encoding:'utf8'}),expected);
 });

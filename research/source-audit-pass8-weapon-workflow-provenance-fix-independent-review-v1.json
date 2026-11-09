@@ -1,0 +1,158 @@
+{
+  "schema": "weapon-workflow-provenance-fix-independent-review-v1",
+  "reviewer": "independent delegated review",
+  "worktree": "/workspace/adnd1-missile-table-discoverability",
+  "inputCommit": "9b77aeb620b1d671ff1d59b0e14790206523b327",
+  "reviewScope": {
+    "workflow": ".github/workflows/pages.yml: Verify published gaps handoff",
+    "portabilityTest": "tests/pass8-weapon-source-history.test.mjs: wrapper confinement guard",
+    "readOnlyExceptThisReceipt": true,
+    "excluded": [
+      "production changes",
+      "canonical report regeneration",
+      "full workflow or full test suite",
+      "publication, CI rerun, commit, or push"
+    ]
+  },
+  "workflowProvenanceFix": {
+    "workflowFileSha256": "bd26ab5d003a8a51edb0f6c9dabe3af50626cec76f611850c9520d1271392450",
+    "priorFailureFixture": {
+      "path": "tests/fixtures/weapon-workflow-handoff-provenance-before-v1.json.gz",
+      "sha256": "f3c6ff099495e0843db8ccc9192eec98bcb656346ba12e2dbad698163c9e5ae6",
+      "bytes": 186440,
+      "inputCommit": "9b77aeb620b1d671ff1d59b0e14790206523b327",
+      "capturedWorkflowSteps": 24,
+      "passingSteps": 23,
+      "failingStep": 23,
+      "failure": "The default refresh-gaps-handoff --check rejects equivalent freshly generated reports because the handoff records frozen report paths; fixture records exactly nine path-metadata differences."
+    },
+    "changeReviewed": "Three cmp checks bind each freshly generated coverage report byte-for-byte to its frozen sealed report, then --check receives the explicit frozen report paths. No report producer, handoff data, counts, producer logic, or history was changed.",
+    "freshAgainstFrozenPositiveControls": [
+      {
+        "report": "systemic",
+        "fresh": "artifacts/citation-systemic-coverage/citation-systemic-current.json",
+        "frozen": "research/weapon-source-audit-v1/systemic/citation-systemic-current.json",
+        "bytes": 55037012,
+        "sha256": "f32fbaf55dded0ba979c0106af740fd0b9d5486b7daa0462da473473e55fabab",
+        "cmpExit": 0
+      },
+      {
+        "report": "visual",
+        "fresh": "artifacts/source-visual-coverage/report.json",
+        "frozen": "research/weapon-source-audit-v1/visual/report.json",
+        "bytes": 18581057,
+        "sha256": "f1f1eb3572b2150d7fb4c9c01e05fdc89f85da7560b016de1f2faf01ad2cb560",
+        "cmpExit": 0
+      },
+      {
+        "report": "table",
+        "fresh": "artifacts/source-table-citation-coverage/report.json",
+        "frozen": "research/weapon-source-audit-v1/table/report.json",
+        "bytes": 4336640,
+        "sha256": "ffa90d83a3c3e6333c8aaa312f1f2f64a82007572eede50bd822e73bceabc354",
+        "cmpExit": 0
+      }
+    ],
+    "temporaryOneByteMismatchControls": [
+      {
+        "report": "systemic",
+        "temporaryByteOffset": 27518506,
+        "change": "99 to 98",
+        "mutatedSha256": "15d42117a10c62d67f15e001e013be8e7d3b11b46150fcf0f93d2570f0f1ccb2",
+        "cmpExit": 1,
+        "result": "expected mismatch"
+      },
+      {
+        "report": "visual",
+        "temporaryByteOffset": 9290528,
+        "change": "32 to 33",
+        "mutatedSha256": "fc601403843d12c95d8d69609cd83511dec485954b24059a196aa0ceac144f2d",
+        "cmpExit": 1,
+        "result": "expected mismatch"
+      },
+      {
+        "report": "table",
+        "temporaryByteOffset": 2168320,
+        "change": "226 to 227",
+        "mutatedSha256": "273bdecd5e5c0e7e416f7059b8888146e80e265cabddc6bffcfdbfa953079bea",
+        "cmpExit": 1,
+        "result": "expected mismatch"
+      }
+    ],
+    "stepChecks": [
+      {
+        "command": "node tools/refresh-gaps-handoff.mjs --check",
+        "exit": 1,
+        "observed": "Gaps handoff is stale; validated candidate differs from the file.",
+        "interpretation": "The original behavior still detects that artifact-path metadata differs from the canonical handoff."
+      },
+      {
+        "command": "three exact workflow cmp commands followed by node tools/refresh-gaps-handoff.mjs --check with all three explicit --*-report frozen paths",
+        "exit": 0,
+        "observed": "Gaps handoff is current (12 reviewed transitions; 76 active cautions).",
+        "interpretation": "Patched workflow step passes only after fresh outputs compare byte-for-byte with the frozen reports. Output was redirected to a temporary log to avoid writing the canonical workflow artifact."
+      }
+    ],
+    "preservedBytes": {
+      "canonicalHandoff": {
+        "path": "research/gaps-limitations-next-task.json",
+        "bytes": 411950,
+        "sha256": "0aca277b61551f62de147f090c4869ccbb12dc978344b429b6fbacd0249d5c44"
+      },
+      "sealRegistry": {
+        "path": "research/citation-evidence-seals.json",
+        "sha256": "bc15e0c94c65743367783423eefb5ad2cb44f8867006e887f21d7520db80ceaa"
+      },
+      "priorFailureFixture": {
+        "path": "tests/fixtures/weapon-workflow-handoff-provenance-before-v1.json.gz",
+        "sha256": "f3c6ff099495e0843db8ccc9192eec98bcb656346ba12e2dbad698163c9e5ae6"
+      },
+      "sealedReportPinsMatch": true
+    },
+    "outcome": "PASS: three positive byte comparisons, three expected one-byte mismatch rejections, the original default check failure, and the patched workflow check pass were observed. The fix retains validation of fresh generated report bytes and does not rewrite the handoff to accept fresh-path metadata."
+  },
+  "ciPortabilityFix": {
+    "priorFailureFixture": {
+      "path": "tests/fixtures/pr48-first-ci-rg-dependency-before-v1.json.gz",
+      "sha256": "0c742b1fced30ef7808116a63878fd7334b63caba4c34d39c8f65d3ff901f2c3",
+      "bytes": 68334,
+      "reportedFailure": "GitHub runner lacked rg; test guard failed with ENOENT. The preserved CI record reports local 1024/1024 and CI 1023/1024."
+    },
+    "sourceDiffReview": {
+      "file": "tests/pass8-weapon-source-history.test.mjs",
+      "change": "Replace rg -l over dist/tools with git ls-files -z -- dist tools, read only tracked files, and filter by the exact marker before asserting the sole expected builder path.",
+      "scope": "The existing assertion still rejects tracked imports outside the explicit historical builder; generated/untracked files are excluded from the census."
+    },
+    "census": {
+      "trackedFiles": 3066,
+      "oldRgHits": [
+        "tools/build-pass8-weapon-source-history-contract-v1.mjs"
+      ],
+      "nativeGitTrackedContentHits": [
+        "tools/build-pass8-weapon-source-history-contract-v1.mjs"
+      ],
+      "setsEqual": true
+    },
+    "restrictedPathTest": {
+      "requestedPath": "/usr/bin:/bin",
+      "reviewerAttempt": "Invoked focused Node test with absolute Node executable and PATH=/usr/bin:/bin; process produced no result before interruption, so reviewer-side test outcome is NOT_RUN.",
+      "separateRootRunReported": {
+        "result": "1/1 pass",
+        "log": "/workspace/vault-audit-private/pass8/root/weapon-integration-v1/portable-import-guard-no-rg-v1.log",
+        "source": "Parent-reported verification; not independently inspected in this review."
+      }
+    },
+    "outcome": "PASS for diff scope and equivalence of old rg versus tracked Git census. Restricted-PATH test is NOT_RUN by this reviewer; separately reported root test passes 1/1. No test failure is inferred from the interrupted local attempt."
+  },
+  "limitations": [
+    "This receipt does not establish source-field/value correctness or replace the repository's full suite, browser review, publication verification, or CI run.",
+    "If another coverage report is added to the gaps handoff, add its frozen report path and seal together with a fresh-to-frozen byte comparison and matching explicit --*-report argument; the current three-report registry is intentionally enumerated."
+  ],
+  "finalState": {
+    "reviewerMadeNoProductionEdits": true,
+    "reportsRegenerated": false,
+    "canonicalHandoffChanged": false,
+    "sealedHistoryChanged": false,
+    "onlyReviewerCreatedFile": "research/source-audit-pass8-weapon-workflow-provenance-fix-independent-review-v1.json"
+  }
+}

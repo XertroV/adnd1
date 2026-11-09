@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "weapon-workflow-report-provenance-igc-adjudication",
+  "context": "On exact9b77aeb, all1024Node tests and23of24 local workflowblocks passed. Step23 failed only because three frozen report paths differ from generated artifact paths in nine metadata leaves; their complete report bytes match. No source/count/grade mismatch was found.",
+  "goals": {
+    "G1": "Validate complete freshly generated systemic/visual/table report bytes before checking published handoff.",
+    "G2": "Preserve current source/count/grade/provenance facts and closed historical evidence bytes.",
+    "G3": "Repair this report-location mismatch without adding production report policies or another historical projection stage."
+  },
+  "matrix": [
+    {
+      "idea": "Check only the frozen report paths via explicit flags",
+      "All": "refuted",
+      "G1": "refuted",
+      "G2": "non-refuted",
+      "G3": "non-refuted",
+      "decisiveError": "Would not compare fresh CI report bytes against the preserved inputs."
+    },
+    {
+      "idea": "Rewrite current handoff to artifact paths and add a closed historical metadata successor",
+      "All": "refuted",
+      "G1": "non-refuted",
+      "G2": "non-refuted",
+      "G3": "refuted",
+      "decisiveError": "Requires changing the current provenance dataset and extending historical projection for a path-only mismatch, despite existing exact report bytes and explicit CLI inputs."
+    },
+    {
+      "idea": "Require three exact fresh/frozen byte comparisons, then check explicit frozen provenance paths",
+      "All": "non-refuted",
+      "G1": "non-refuted",
+      "G2": "non-refuted",
+      "G3": "non-refuted",
+      "reason": "Each cmp fails on any fresh report byte change. Existing refresh checker then validates exactly the preserved source inputs and metadata. No report producer, source data, counts, grades or handoff/historical bytes change."
+    }
+  ],
+  "selected": "Require three exact comparisons, then explicit frozen paths.",
+  "actualFixedStep": {
+    "exitCode": 0,
+    "scriptSha256": "6f692bdb0efc32d61004a60bf38def03aabb20b68c8462c9a60d583344b36c5e",
+    "logSha256": "ac88b2ae5b31babd07e42f8cef1ee79ec827a9bc5773b83ba0f66b89c98a22b8"
+  },
+  "failureFixture": {
+    "path": "tests/fixtures/weapon-workflow-handoff-provenance-before-v1.json.gz",
+    "sha256": "f3c6ff099495e0843db8ccc9192eec98bcb656346ba12e2dbad698163c9e5ae6"
+  },
+  "limits": [
+    "Future source batches must intentionally update preserved report paths alongside the handoff.",
+    "Final independent review and exact final-head GitHub CI remain required."
+  ]
+}
