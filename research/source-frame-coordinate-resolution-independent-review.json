@@ -1,0 +1,1615 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Independent bounded source-frame coordinate bridge producer/consumer review",
+  "recordedAtUtc": "2026-11-08T23:01:44.503434+00:00",
+  "reviewerRoles": {
+    "lead": "Sol independent engineering and source replay reviewer",
+    "supporting": "Luna independent consumer-code review, actual downgrade calibration and focused Node tests"
+  },
+  "inputCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+  "implementationReport": {
+    "path": "research/source-frame-coordinate-resolution.json",
+    "sha256": "95e0497330b5dcf017f2a2864cf2b94fc81432542a349c250aeccc7d2dbf7e6a"
+  },
+  "decision": {
+    "status": "conditional; current-validation downgrade guard must be fixed before implementation approval",
+    "acceptedBoundedScope": [
+      "Nine exact source-frame geometries/seven physical PDF pages and102 current owner/catalog/region/image/focus/content/source-link joins.",
+      "Exact current registry refresh across13 reviewed XP appends without assigning their frame basis.",
+      "Known11 PHB windows use their geometry-specific MediaBox basis; no global page/book transform is introduced.",
+      "All noncohort rows and complete diagnostic counter objects remain unchanged after removal only of the new coordinateFrameResolution annotations."
+    ],
+    "blockingFinding": "FRAME-CURRENT-LEGACY-DOWNGRADE",
+    "fullImplementationApproved": false,
+    "activeSourceDataCatalogOrGradeChangesByReviewer": 0
+  },
+  "frozenInputs": {
+    "baseCommit": "77712b831fac3256baf97da385c1dd56b6d82e88",
+    "currentCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+    "baseRegistry": {
+      "path": "research/source-frame-coordinate-bridge-base777.json",
+      "sha256": "dec13c8419afae87d00551718a56d9dc232cec59ffe9760627e7b0d5037b309e"
+    },
+    "currentRegistry": {
+      "path": "research/source-frame-coordinate-bridge.json",
+      "sha256": "2899f53a9cfa1741d9fd9aed3c47ada0eb3a80fc842352c8c64deb3869986318"
+    },
+    "proposal": {
+      "path": "research/source-audit-pass8-exact-frame-adjudication-proposal.json",
+      "sha256": "1a8078c14e1c73c2597bf837a8e2d8c9a2c28beea3f51aef4bda0484197449cc"
+    },
+    "independentFrameReview": {
+      "path": "research/source-audit-pass8-frame-candidate-independent-review.json",
+      "sha256": "5734f710cf12bca2eb9dc316a077dd6f880abd8338c92a61329501258cbbcc4c"
+    },
+    "currentDataSha256": "a4225fbd2015c5ba7d225738ec1a9bf4658f4a9a9700e340a37dde79317119f3",
+    "booksJsSha256": "6284977531e38b3184a15939bb8a68e31b37d1dad61c91392bb57d443045d98d",
+    "sourcePdfs": {
+      "DMG": {
+        "fileName": "DMG_1stEd.pdf",
+        "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "MM": {
+        "fileName": "Monster_Manual.pdf",
+        "sha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81"
+      },
+      "MM2": {
+        "fileName": "Monster Manual II.pdf",
+        "sha256": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24"
+      },
+      "PHB": {
+        "fileName": "tsr2010-players-handbook.pdf",
+        "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+      },
+      "UA": {
+        "fileName": "Unearthed Arcana.pdf",
+        "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      }
+    },
+    "xpSourceReview": {
+      "path": "research/source-audit-pass8-xp-continuation-independent-review.json",
+      "sha256": "52409845b9f8da1f27d1c7eb5a2c44ca8980db0ccad4d5634ba6eac01fe0b319"
+    },
+    "xpCurrentIntegrationReview": {
+      "path": "research/source-audit-pass8-xp-continuation-current-integration-independent-review.json",
+      "sha256": "5779110afafbf493dd7a237e2fe9adfc23a4fc400f71b158f84fddf6b77f0a8e"
+    }
+  },
+  "implementationCodeBeforeFix": {
+    "research/source_frame_coordinate_bridge.py": {
+      "sha256": "1a1e1ec2b35f586471f141f972ad16725285f4b9310a79cc16ffe16386ffe276",
+      "bytes": 19629
+    },
+    "research/source-visual-audit.py": {
+      "sha256": "21ba5c6e9dc960d8d1768e96044bdfffc276e876e4cb586a6be9fe5695dd13f7",
+      "bytes": 22498
+    },
+    "research/source-raster-boundary-audit.py": {
+      "sha256": "ae6c4fbb96e02812c16cf5289d0af0a18eec646b2ff1ab13c5179ac5e1b8eea9",
+      "bytes": 54654
+    },
+    "tools/build-source-frame-coordinate-bridge.py": {
+      "sha256": "0d9318cb52532caadd2dd5d9dff631ee61d3c92dfb4ccde9256003559844cc9d",
+      "bytes": 12911
+    },
+    "tools/refresh-source-frame-coordinate-bridge-xp.py": {
+      "sha256": "82c9e758c3dc5fd42f59631d7fd8007f3e1ee24146198145e0506d0b4978ea46",
+      "bytes": 19753
+    },
+    "tests/source-frame-coordinate-bridge.test.py": {
+      "sha256": "c9b30ce8c28d77faec214a280e68652eeac6d70675437fa09f1342547e427189",
+      "bytes": 13644
+    }
+  },
+  "sourceReproduction": {
+    "status": "passed",
+    "actualFiveSourcePdfHashes": {
+      "DMG": {
+        "path": "/workspace/vault-audit-private/sources/DMG_1stEd.pdf",
+        "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "MM": {
+        "path": "/workspace/vault-audit-private/sources/Monster_Manual.pdf",
+        "sha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81"
+      },
+      "MM2": {
+        "path": "/workspace/vault-audit-private/sources/Monster Manual II.pdf",
+        "sha256": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24"
+      },
+      "PHB": {
+        "path": "/workspace/vault-audit-private/sources/tsr2010-players-handbook.pdf",
+        "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+      },
+      "UA": {
+        "path": "/workspace/vault-audit-private/sources/Unearthed Arcana.pdf",
+        "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      }
+    },
+    "versions": {
+      "PyMuPDF": "1.26.6",
+      "MuPDF": "1.26.11",
+      "pdftoppm": "pdftoppm version 26.05.0\nCopyright 2005-2026 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC"
+    },
+    "renderCachePolicy": "Fresh source renders per unique source PDF/page/renderer/DPI; no alternate source accepted into a cache. MuPDF store cleared before every actual render including full pages.",
+    "freshReplays": [
+      {
+        "frameId": "03f7d6d4b9e4f010ae98f4b8de9694e8d71eb16de7cb921d7a98b3d2f18b0cc6",
+        "book": "DMG",
+        "printedPage": 75,
+        "pdfPage": 76,
+        "basis": "cropbox-pageRect-normalized",
+        "joinCount": 17,
+        "boxes": {
+          "pageRect": [
+            0.0,
+            0.0,
+            573.3590698242188,
+            767.279296875
+          ],
+          "cropBox": [
+            0.0,
+            9.3599853515625,
+            573.3590698242188,
+            776.6392822265625
+          ],
+          "mediaBox": [
+            0.0,
+            0.0,
+            576.9591064453125,
+            785.999267578125
+          ],
+          "cropBoxPosition": [
+            0.0,
+            9.3599853515625
+          ],
+          "rotationDegrees": 0
+        },
+        "renderer": "poppler-pdftoppm",
+        "renderDpi": 300,
+        "fullSource": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/source-DMG-pdf76-poppler-pdftoppm-300.png",
+          "pngSha256": "a85f8e3465ca91dbe4a4a68cde230b5771bca06f3b2f80d0be9247b119d3d73a",
+          "rgbSha256": "9ef942c4e790953bed063bff0b5b70ccb5e9d4ad36aa5717257ee8287628ccb3",
+          "dimensions": [
+            2404,
+            3275
+          ]
+        },
+        "actualCrop": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/replay-01-DMG-pdf76-crop.png",
+          "pngSha256": "3197b132fd7a8b97ce02098130e4ebb0a9b4dc9ab0bbaf9b39bdfe539705d31f",
+          "rgbSha256": "067d5dfe3508ae025512cc0399368599e5071a6315f4368839ba21f0ad17fd6b",
+          "pixelBounds": [
+            1200,
+            2420,
+            2389,
+            3230
+          ],
+          "dimensions": [
+            1189,
+            810
+          ]
+        },
+        "publishedTarget": {
+          "path": "/workspace/adnd1-source-frame-resolution/dist/scans/verified/dmg-75-turning-cb9b590b2c17b184.png",
+          "sha256": "cb9b590b2c17b184ad7b6703e14ecdf0dbc0ca1cccd46a8492182e3c9218facb",
+          "rgbSha256": "067d5dfe3508ae025512cc0399368599e5071a6315f4368839ba21f0ad17fd6b"
+        },
+        "pixelsExactlyEqual": true,
+        "operationalPagePointsFullPrecision": [
+          287.99940749084476,
+          571.4396964199219,
+          573.3590698242188,
+          765.8398809140625
+        ],
+        "historicRendererOrDpiEstablished": false
+      },
+      {
+        "frameId": "8f705a1243fb6fd75112d5303cf569e96ba26a6758951e69ce5056ff1695c657",
+        "book": "DMG",
+        "printedPage": 76,
+        "pdfPage": 77,
+        "basis": "cropbox-pageRect-normalized",
+        "joinCount": 20,
+        "boxes": {
+          "pageRect": [
+            0.0,
+            0.0,
+            570.479736328125,
+            765.119384765625
+          ],
+          "cropBox": [
+            0.0,
+            9.3599853515625,
+            570.479736328125,
+            774.4793701171875
+          ],
+          "mediaBox": [
+            0.0,
+            0.0,
+            579.8397216796875,
+            783.83935546875
+          ],
+          "cropBoxPosition": [
+            0.0,
+            9.3599853515625
+          ],
+          "rotationDegrees": 0
+        },
+        "renderer": "poppler-pdftoppm",
+        "renderDpi": 300,
+        "fullSource": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/source-DMG-pdf77-poppler-pdftoppm-300.png",
+          "pngSha256": "d4b3ff873d92eeeab142294bc6cd69c594c1e2723ce8f3a3e90a76e55b6c95a8",
+          "rgbSha256": "b5e17741328fd82eaba65d2a45226aeedb11d7b79135de32d19827dab5a163f6",
+          "dimensions": [
+            2416,
+            3266
+          ]
+        },
+        "actualCrop": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/replay-02-DMG-pdf77-crop.png",
+          "pngSha256": "daa966be5451a7bc0bb1b0e23178e956edafc6e1e92fa8ac0e45cf8d7bcece49",
+          "rgbSha256": "5c47a34f15e7cf4d8a7edfe43ce15c0d3844afebebb42243f2fb317e1b83a49e",
+          "pixelBounds": [
+            1205,
+            145,
+            2377,
+            1360
+          ],
+          "dimensions": [
+            1172,
+            1215
+          ]
+        },
+        "publishedTarget": {
+          "path": "/workspace/adnd1-source-frame-resolution/dist/scans/verified/dmg-76-turning-69d73be55834a5c4.png",
+          "sha256": "69d73be55834a5c4e74ab25871f64c2fc919ebd20dfae557ecca0884afa7854c",
+          "rgbSha256": "5c47a34f15e7cf4d8a7edfe43ce15c0d3844afebebb42243f2fb317e1b83a49e"
+        },
+        "pixelsExactlyEqual": true,
+        "operationalPagePointsFullPrecision": [
+          289.20013849365233,
+          25.440219543457033,
+          570.479736328125,
+          317.0402241071777
+        ],
+        "historicRendererOrDpiEstablished": false
+      },
+      {
+        "frameId": "f079410917147e4ed65f9f5d596660d9131cc9f5c3f2068239620c084f710d79",
+        "book": "DMG",
+        "printedPage": 76,
+        "pdfPage": 77,
+        "basis": "cropbox-pageRect-normalized",
+        "joinCount": 24,
+        "boxes": {
+          "pageRect": [
+            0.0,
+            0.0,
+            570.479736328125,
+            765.119384765625
+          ],
+          "cropBox": [
+            0.0,
+            9.3599853515625,
+            570.479736328125,
+            774.4793701171875
+          ],
+          "mediaBox": [
+            0.0,
+            0.0,
+            579.8397216796875,
+            783.83935546875
+          ],
+          "cropBoxPosition": [
+            0.0,
+            9.3599853515625
+          ],
+          "rotationDegrees": 0
+        },
+        "renderer": "poppler-pdftoppm",
+        "renderDpi": 300,
+        "fullSource": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/source-DMG-pdf77-poppler-pdftoppm-300.png",
+          "pngSha256": "d4b3ff873d92eeeab142294bc6cd69c594c1e2723ce8f3a3e90a76e55b6c95a8",
+          "rgbSha256": "b5e17741328fd82eaba65d2a45226aeedb11d7b79135de32d19827dab5a163f6",
+          "dimensions": [
+            2416,
+            3266
+          ]
+        },
+        "actualCrop": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/replay-03-DMG-pdf77-crop.png",
+          "pngSha256": "08f2708d3d4ab4b5fb463d5ec19bba004d88fd58cb4777e8bf0b9d53d644fcc3",
+          "rgbSha256": "3e251015c397ce38812ef26f969453abb56adb7342cabb19f7a0037cbf8497e9",
+          "pixelBounds": [
+            15,
+            145,
+            1205,
+            1360
+          ],
+          "dimensions": [
+            1190,
+            1215
+          ]
+        },
+        "publishedTarget": {
+          "path": "/workspace/adnd1-source-frame-resolution/dist/scans/verified/dmg-76-turning-c3301320dd020c60.png",
+          "sha256": "c3301320dd020c600fa9ccc6403946e5ab2dbc762e965fcc349e1f8a03afa0d4",
+          "rgbSha256": "3e251015c397ce38812ef26f969453abb56adb7342cabb19f7a0037cbf8497e9"
+        },
+        "pixelsExactlyEqual": true,
+        "operationalPagePointsFullPrecision": [
+          3.5997271362304684,
+          25.440219543457033,
+          289.19956801391606,
+          317.0402241071777
+        ],
+        "historicRendererOrDpiEstablished": false
+      },
+      {
+        "frameId": "c9d9d5bb33f225f39c2d1f5fdde2a6ae31d80349c6dc143827a6e1c66f3646c1",
+        "book": "PHB",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "basis": "coincident-cropbox-mediabox-pageRect-normalized",
+        "joinCount": 1,
+        "boxes": {
+          "pageRect": [
+            0.0,
+            0.0,
+            582.71923828125,
+            787.198974609375
+          ],
+          "cropBox": [
+            0.0,
+            0.0,
+            582.71923828125,
+            787.198974609375
+          ],
+          "mediaBox": [
+            0.0,
+            0.0,
+            582.71923828125,
+            787.198974609375
+          ],
+          "cropBoxPosition": [
+            0.0,
+            0.0
+          ],
+          "rotationDegrees": 0
+        },
+        "renderer": "pymupdf",
+        "renderDpi": 144,
+        "fullSource": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/source-PHB-pdf20-pymupdf-144.png",
+          "pngSha256": "0fce64fc8073224c9829c7bb9fa2165ac43cbbc0901ac440753ea59ddd809af7",
+          "rgbSha256": "4b29d117ad3a7efa847445387af3f9435dcecaa67458c502c6f70253ce00e5b6",
+          "dimensions": [
+            1166,
+            1575
+          ]
+        },
+        "actualCrop": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/replay-04-PHB-pdf20-crop.png",
+          "pngSha256": "00ed6d9c8e0545a0b8a43ae8459bd50e7b06ac6e71230d8c28b2a779ff187331",
+          "rgbSha256": "c2b4b6ae8b76f947a9c17ee1c4e500cd61c79f6b1ace64dc4008eaa759b44740",
+          "pixelBounds": [
+            42,
+            453,
+            989,
+            490
+          ],
+          "dimensions": [
+            947,
+            37
+          ]
+        },
+        "publishedTarget": {
+          "path": "/workspace/adnd1-source-frame-resolution/dist/scans/verified/phb-19-00ed6d9c8e0545a0.png",
+          "sha256": "00ed6d9c8e0545a0b8a43ae8459bd50e7b06ac6e71230d8c28b2a779ff187331",
+          "rgbSha256": "c2b4b6ae8b76f947a9c17ee1c4e500cd61c79f6b1ace64dc4008eaa759b44740"
+        },
+        "pixelsExactlyEqual": true,
+        "operationalPagePointsFullPrecision": [
+          21.00236678613281,
+          226.91010443115235,
+          493.9955724990234,
+          244.90547299072264
+        ],
+        "historicRendererOrDpiEstablished": false
+      },
+      {
+        "frameId": "1137d05533202013db7418330f944fe70c8f87c80f394c6670fdafa350d6df9c",
+        "book": "PHB",
+        "printedPage": 27,
+        "pdfPage": 28,
+        "basis": "mediabox-normalized",
+        "joinCount": 1,
+        "boxes": {
+          "pageRect": [
+            0.0,
+            0.0,
+            574.3193359375,
+            789.5994873046875
+          ],
+          "cropBox": [
+            0.0,
+            0.0,
+            574.3193359375,
+            789.5994873046875
+          ],
+          "mediaBox": [
+            0.0,
+            0.0,
+            577.9193115234375,
+            789.5994873046875
+          ],
+          "cropBoxPosition": [
+            0.0,
+            0.0
+          ],
+          "rotationDegrees": 0
+        },
+        "renderer": "poppler-pdftoppm",
+        "renderDpi": 150,
+        "fullSource": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/source-PHB-pdf28-poppler-pdftoppm-150.png",
+          "pngSha256": "9531ce5e797b0d3b7baf67869a36d481b659e68b9391263525c0a497a9332493",
+          "rgbSha256": "82a0f25bae35ac80d1906508e3fa02fb2c06fd2646ad0771fa5770c2c2fcff80",
+          "dimensions": [
+            1204,
+            1645
+          ]
+        },
+        "actualCrop": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/replay-05-PHB-pdf28-crop.png",
+          "pngSha256": "7740a09429da1d98b578e37d4fe3e9215da265c639f9b0e6f85a09572a0bf7b3",
+          "rgbSha256": "21b3d2165433216891d88e322bf5ba42697a521255171340f486e3c6f67093f7",
+          "pixelBounds": [
+            610,
+            35,
+            1180,
+            350
+          ],
+          "dimensions": [
+            570,
+            315
+          ]
+        },
+        "publishedTarget": {
+          "path": "/workspace/adnd1-source-frame-resolution/dist/scans/verified/phb-27-assassin-scroll-reading-context-7740a09429da1d98.png",
+          "sha256": "7740a09429da1d98b578e37d4fe3e9215da265c639f9b0e6f85a09572a0bf7b3",
+          "rgbSha256": "21b3d2165433216891d88e322bf5ba42697a521255171340f486e3c6f67093f7"
+        },
+        "pixelsExactlyEqual": true,
+        "operationalPagePointsFullPrecision": [
+          292.7996511871237,
+          16.799989091589094,
+          566.3993252472228,
+          167.99989091589097
+        ],
+        "historicRendererOrDpiEstablished": false
+      },
+      {
+        "frameId": "d098e1da2ae8dbd0f0c097bc582134fb9827b2c66261e07bcc8793d113bea4d2",
+        "book": "PHB",
+        "printedPage": 28,
+        "pdfPage": 29,
+        "basis": "coincident-cropbox-mediabox-pageRect-normalized",
+        "joinCount": 5,
+        "boxes": {
+          "pageRect": [
+            0.0,
+            0.0,
+            579.59912109375,
+            781.9189453125
+          ],
+          "cropBox": [
+            0.0,
+            0.0,
+            579.59912109375,
+            781.9189453125
+          ],
+          "mediaBox": [
+            0.0,
+            0.0,
+            579.59912109375,
+            781.9189453125
+          ],
+          "cropBoxPosition": [
+            0.0,
+            0.0
+          ],
+          "rotationDegrees": 0
+        },
+        "renderer": "pymupdf",
+        "renderDpi": 144,
+        "fullSource": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/source-PHB-pdf29-pymupdf-144.png",
+          "pngSha256": "aad33fcb7871fbf911eb623103c35919acff7c796e850b80888a471307027749",
+          "rgbSha256": "ba994653b80e636db4e18bd8af0b024e230f37ff9b17105a12d89ae15a7413bd",
+          "dimensions": [
+            1160,
+            1564
+          ]
+        },
+        "actualCrop": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/replay-06-PHB-pdf29-crop.png",
+          "pngSha256": "8cd00df326339a3e9900447c0b385b7c1f908367f7bd3c6c04d1c737eed076dd",
+          "rgbSha256": "b7d8cc6bbd8f2463b058d6f47c518a3237347b6f9dfbb0d50bb6681d45b1b513",
+          "pixelBounds": [
+            16,
+            54,
+            1113,
+            660
+          ],
+          "dimensions": [
+            1097,
+            606
+          ]
+        },
+        "publishedTarget": {
+          "path": "/workspace/adnd1-source-frame-resolution/dist/scans/verified/phb-28-8cd00df326339a3e.png",
+          "sha256": "8cd00df326339a3e9900447c0b385b7c1f908367f7bd3c6c04d1c737eed076dd",
+          "rgbSha256": "b7d8cc6bbd8f2463b058d6f47c518a3237347b6f9dfbb0d50bb6681d45b1b513"
+        },
+        "pixelsExactlyEqual": true,
+        "operationalPagePointsFullPrecision": [
+          8.00020666845703,
+          26.99731542480469,
+          556.000742878418,
+          329.80090042968754
+        ],
+        "historicRendererOrDpiEstablished": false
+      },
+      {
+        "frameId": "f66ad64ed5f9974f03338bb269465430e4d66b74cf31b6e282be811255e44856",
+        "book": "PHB",
+        "printedPage": 33,
+        "pdfPage": 34,
+        "basis": "coincident-cropbox-mediabox-pageRect-normalized",
+        "joinCount": 12,
+        "boxes": {
+          "pageRect": [
+            0.0,
+            0.0,
+            582.2391357421875,
+            788.3997802734375
+          ],
+          "cropBox": [
+            0.0,
+            0.0,
+            582.2391357421875,
+            788.3997802734375
+          ],
+          "mediaBox": [
+            0.0,
+            0.0,
+            582.2391357421875,
+            788.3997802734375
+          ],
+          "cropBoxPosition": [
+            0.0,
+            0.0
+          ],
+          "rotationDegrees": 0
+        },
+        "renderer": "pymupdf",
+        "renderDpi": 144,
+        "fullSource": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/source-PHB-pdf34-pymupdf-144.png",
+          "pngSha256": "5da010e8cb38a74458c044aa0737e35b6c4026a07415ecf1b08376bcd29e34e5",
+          "rgbSha256": "21ffaf471cd3b4e587ee5d369cb0e2cf3a62e2bc793420fb6322897a7b471ced",
+          "dimensions": [
+            1165,
+            1577
+          ]
+        },
+        "actualCrop": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/replay-07-PHB-pdf34-crop.png",
+          "pngSha256": "6fe233ecf3bcfa4018fd6136c2c1e7ab5dce63b7ac70b3547fde8ff61008d0f6",
+          "rgbSha256": "b8151a024ac4f9c038da3087bc0aed71d1a641a02c3eea4074839f9c4d5cfe2e",
+          "pixelBounds": [
+            34,
+            606,
+            581,
+            1495
+          ],
+          "dimensions": [
+            547,
+            889
+          ]
+        },
+        "publishedTarget": {
+          "path": "/workspace/adnd1-source-frame-resolution/dist/scans/verified/phb-33-6fe233ecf3bcfa40.png",
+          "sha256": "6fe233ecf3bcfa4018fd6136c2c1e7ab5dce63b7ac70b3547fde8ff61008d0f6",
+          "rgbSha256": "b8151a024ac4f9c038da3087bc0aed71d1a641a02c3eea4074839f9c4d5cfe2e"
+        },
+        "pixelsExactlyEqual": true,
+        "operationalPagePointsFullPrecision": [
+          17.467174072265625,
+          303.0001687540283,
+          289.9999220130615,
+          747.2003729556885
+        ],
+        "historicRendererOrDpiEstablished": false
+      },
+      {
+        "frameId": "42811b0a9232503b16d2d555349f7adcd142c1a813a8b6f038cf4f680b751fde",
+        "book": "PHB",
+        "printedPage": 33,
+        "pdfPage": 34,
+        "basis": "coincident-cropbox-mediabox-pageRect-normalized",
+        "joinCount": 12,
+        "boxes": {
+          "pageRect": [
+            0.0,
+            0.0,
+            582.2391357421875,
+            788.3997802734375
+          ],
+          "cropBox": [
+            0.0,
+            0.0,
+            582.2391357421875,
+            788.3997802734375
+          ],
+          "mediaBox": [
+            0.0,
+            0.0,
+            582.2391357421875,
+            788.3997802734375
+          ],
+          "cropBoxPosition": [
+            0.0,
+            0.0
+          ],
+          "rotationDegrees": 0
+        },
+        "renderer": "pymupdf",
+        "renderDpi": 144,
+        "fullSource": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/source-PHB-pdf34-pymupdf-144.png",
+          "pngSha256": "5da010e8cb38a74458c044aa0737e35b6c4026a07415ecf1b08376bcd29e34e5",
+          "rgbSha256": "21ffaf471cd3b4e587ee5d369cb0e2cf3a62e2bc793420fb6322897a7b471ced",
+          "dimensions": [
+            1165,
+            1577
+          ]
+        },
+        "actualCrop": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/replay-08-PHB-pdf34-crop.png",
+          "pngSha256": "7d2eca37ce27b8e712c829ea89f4b49512421f082df92121e71d0c91966199e3",
+          "rgbSha256": "9d0e17eb6d373160d6b9691cdadb8871599012248c2d754e365c3ece0c952682",
+          "pixelBounds": [
+            604,
+            56,
+            1143,
+            221
+          ],
+          "dimensions": [
+            539,
+            165
+          ]
+        },
+        "publishedTarget": {
+          "path": "/workspace/adnd1-source-frame-resolution/dist/scans/verified/phb-33-7d2eca37ce27b8e.png",
+          "sha256": "7d2eca37ce27b8e712c829ea89f4b49512421f082df92121e71d0c91966199e3",
+          "rgbSha256": "9d0e17eb6d373160d6b9691cdadb8871599012248c2d754e365c3ece0c952682"
+        },
+        "pixelsExactlyEqual": true,
+        "operationalPagePointsFullPrecision": [
+          301.9957949267578,
+          28.00001819641113,
+          571.0135652050782,
+          110.00147934265138
+        ],
+        "historicRendererOrDpiEstablished": false
+      },
+      {
+        "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3",
+        "book": "PHB",
+        "printedPage": 37,
+        "pdfPage": 38,
+        "basis": "mediabox-normalized",
+        "joinCount": 10,
+        "boxes": {
+          "pageRect": [
+            0.0,
+            0.0,
+            579.5993041992188,
+            786.2398681640625
+          ],
+          "cropBox": [
+            0.0,
+            0.0,
+            579.5993041992188,
+            786.2398681640625
+          ],
+          "mediaBox": [
+            0.0,
+            0.0,
+            583.1993408203125,
+            786.2398681640625
+          ],
+          "cropBoxPosition": [
+            0.0,
+            0.0
+          ],
+          "rotationDegrees": 0
+        },
+        "renderer": "poppler-pdftoppm",
+        "renderDpi": 150,
+        "fullSource": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/source-PHB-pdf38-poppler-pdftoppm-150.png",
+          "pngSha256": "d9d08f77c9c669d9d664c515c0b640b81a3785c34d443117b4d112c45574d0da",
+          "rgbSha256": "df51b9f41d87523759639bd3086ceaac84b78b1e1b5387836d142c1a5a80f2c4",
+          "dimensions": [
+            1215,
+            1638
+          ]
+        },
+        "actualCrop": {
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/replay-09-PHB-pdf38-crop.png",
+          "pngSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+          "rgbSha256": "32c0d1bdec5f2412f66e8d0b0849c73a5a71e339f4ce4dbd54bfc0d788a05c42",
+          "pixelBounds": [
+            42,
+            57,
+            1202,
+            360
+          ],
+          "dimensions": [
+            1160,
+            303
+          ]
+        },
+        "publishedTarget": {
+          "path": "/workspace/adnd1-source-frame-resolution/dist/scans/verified/phb-37-weapons-proficiency-context-034b106d1a55aaa0.png",
+          "sha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+          "rgbSha256": "32c0d1bdec5f2412f66e8d0b0849c73a5a71e339f4ce4dbd54bfc0d788a05c42"
+        },
+        "pixelsExactlyEqual": true,
+        "operationalPagePointsFullPrecision": [
+          20.159977213541666,
+          27.359995412302542,
+          576.9593478732638,
+          172.7999710250687
+        ],
+        "historicRendererOrDpiEstablished": false
+      }
+    ],
+    "replayScript": {
+      "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/replay-nine-and-thief.py",
+      "sha256": "a9877b0c83c0572ef4d48296db39ef197cdc3215fd2599aa43de3090ebb4889b"
+    },
+    "replayResult": {
+      "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/source-replay-nine-and-thief.json",
+      "sha256": "205bf315f561aeea78857d2ee626affecd928ee506ff29aeebc1e82f8c8368b5"
+    },
+    "scopeLimit": "The nine current operational render/position recipes reproduce the target pixels. This is not evidence of historical authoring renderer/DPI, whole excerpt completeness or source meaning. No semantic grade is transferred."
+  },
+  "producerReproduction": {
+    "base777": {
+      "status": "passed byte-for-byte",
+      "result": {
+        "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/base777-regeneration-result.json",
+        "sha256": "a0859fcf2f9ea98f3f9e0aae7108c53e2519dbabb136674a0167082430df2eba"
+      },
+      "script": {
+        "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/reproduce-base-producer.py",
+        "sha256": "29c4afb2daa15c9ebc55b32935a77bf5fb7747b404535706f735c6fd4cb7864d"
+      },
+      "actualLog": {
+        "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/base777-regeneration.log",
+        "sha256": "14ddd3701f3418159e49b09d7a2a23ff47cbbac1ef5ef147832c4aff5b738764"
+      },
+      "actualOutput": {
+        "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/regenerated-base777-bridge.json",
+        "sha256": "dec13c8419afae87d00551718a56d9dc232cec59ffe9760627e7b0d5037b309e"
+      },
+      "method": "Exact original producer bytes run in a private isolated root containing exact Git777 data/books, all15 involved catalogs and9 PNGs. No live file was replaced."
+    },
+    "currentA46": {
+      "status": "passed byte-for-byte",
+      "command": "python tools/refresh-source-frame-coordinate-bridge-xp.py --source-dir /workspace/vault-audit-private/sources --output <private>/regenerated-current-bridge.json",
+      "actualLog": {
+        "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/registry-regeneration.log",
+        "sha256": "f8e8f0050d55608ddc55d872dfa29a5011054b362cb293b5a3e35c9c832d85bc"
+      },
+      "actualOutput": {
+        "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/regenerated-current-bridge.json",
+        "sha256": "2899f53a9cfa1741d9fd9aed3c47ada0eb3a80fc842352c8c64deb3869986318"
+      },
+      "result": "All102 old joins retained. Only current hashes for11 known XP owner-link/catalog appends refreshed;13 new regions remain outside the bounded correction registry. Old review hash/assessment tuples are preserved."
+    }
+  },
+  "snapshotComparison": {
+    "status": "passed",
+    "script": {
+      "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/compare-snapshots.py",
+      "sha256": "37f519fd790175011b76d1c6ecbdb78894c86786cb93a2de8910f13c7161ad98"
+    },
+    "result": {
+      "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/snapshot-comparison.json",
+      "sha256": "e5a5c2b49402cd594ca40e2b1be77ee5ace48a8178b892181ca84fb171944414"
+    },
+    "annotationStrippingPolicy": "Only coordinateFrameResolution directly on each usage/geometry and directly on candidate.usages/geometry.uses is removed for before/after equality. No status, metrics, identities, bindings, semantic grades or old keys are removed.",
+    "counts": {
+      "currentVisualUsages": 3412,
+      "currentRasterAssessedUsages": 3410,
+      "currentRasterSupplementalUsages": 2,
+      "activeFrameGroups": 9,
+      "activeOwnerJoins": 102,
+      "currentOutsideRegistryUsages": 3308,
+      "preXPOutsideRegistryUsages": 3295,
+      "outsideXPAppends": 13,
+      "changedVisualUsageBounds": 11,
+      "unchangedOtherVisualRows": 3401,
+      "changedRasterUsageGeometryIds": 11,
+      "unchangedOtherRasterAssessedRows": 3399,
+      "oldAndNewRasterGeometries": 1299,
+      "changedDistinctRasterGeometries": 2,
+      "unchangedRasterGeometries": 1297,
+      "sourceRasterFramesDeepEqual": 230,
+      "unchangedDiagnosticCounterObjects": true,
+      "unchangedSemanticStatusesAndAllOldUsageFieldsExceptDeclaredBoundsOrIds": true
+    },
+    "visualChangedRows": [
+      {
+        "key": [
+          "classes",
+          "cleric",
+          "sourceExcerpts",
+          "scans/verified/classes-cleric.json",
+          "phb-37-947ed4b02bc5aed3"
+        ],
+        "changedFields": [
+          "pdfBounds"
+        ],
+        "before": {
+          "pdfBounds": [
+            20.0355,
+            27.36,
+            573.3978,
+            172.8
+          ]
+        },
+        "after": {
+          "pdfBounds": [
+            20.16,
+            27.36,
+            576.9593,
+            172.8
+          ]
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "druid",
+          "sourceExcerpts",
+          "scans/verified/classes-druid.json",
+          "phb-37-1e3e2abf64aba374"
+        ],
+        "changedFields": [
+          "pdfBounds"
+        ],
+        "before": {
+          "pdfBounds": [
+            20.0355,
+            27.36,
+            573.3978,
+            172.8
+          ]
+        },
+        "after": {
+          "pdfBounds": [
+            20.16,
+            27.36,
+            576.9593,
+            172.8
+          ]
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "fighter",
+          "sourceExcerpts",
+          "scans/verified/classes-fighter.json",
+          "phb-37-f700eca9387736c6"
+        ],
+        "changedFields": [
+          "pdfBounds"
+        ],
+        "before": {
+          "pdfBounds": [
+            20.0355,
+            27.36,
+            573.3978,
+            172.8
+          ]
+        },
+        "after": {
+          "pdfBounds": [
+            20.16,
+            27.36,
+            576.9593,
+            172.8
+          ]
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "paladin",
+          "sourceExcerpts",
+          "scans/verified/classes-paladin.json",
+          "phb-37-9106ad0ba141326d"
+        ],
+        "changedFields": [
+          "pdfBounds"
+        ],
+        "before": {
+          "pdfBounds": [
+            20.0355,
+            27.36,
+            573.3978,
+            172.8
+          ]
+        },
+        "after": {
+          "pdfBounds": [
+            20.16,
+            27.36,
+            576.9593,
+            172.8
+          ]
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "ranger",
+          "sourceExcerpts",
+          "scans/verified/classes-ranger.json",
+          "phb-37-0119fdbdadda1bfc"
+        ],
+        "changedFields": [
+          "pdfBounds"
+        ],
+        "before": {
+          "pdfBounds": [
+            20.0355,
+            27.36,
+            573.3978,
+            172.8
+          ]
+        },
+        "after": {
+          "pdfBounds": [
+            20.16,
+            27.36,
+            576.9593,
+            172.8
+          ]
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "magic-user",
+          "sourceExcerpts",
+          "scans/verified/classes-magic-user.json",
+          "phb-37-9c3d841088eb857a"
+        ],
+        "changedFields": [
+          "pdfBounds"
+        ],
+        "before": {
+          "pdfBounds": [
+            20.0355,
+            27.36,
+            573.3978,
+            172.8
+          ]
+        },
+        "after": {
+          "pdfBounds": [
+            20.16,
+            27.36,
+            576.9593,
+            172.8
+          ]
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "illusionist",
+          "sourceExcerpts",
+          "scans/verified/classes-illusionist.json",
+          "phb-37-1b62533798f9d154"
+        ],
+        "changedFields": [
+          "pdfBounds"
+        ],
+        "before": {
+          "pdfBounds": [
+            20.0355,
+            27.36,
+            573.3978,
+            172.8
+          ]
+        },
+        "after": {
+          "pdfBounds": [
+            20.16,
+            27.36,
+            576.9593,
+            172.8
+          ]
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "thief",
+          "sourceExcerpts",
+          "scans/verified/classes-thief.json",
+          "phb-37-b8e9b30fddb28ae1"
+        ],
+        "changedFields": [
+          "pdfBounds"
+        ],
+        "before": {
+          "pdfBounds": [
+            20.0355,
+            27.36,
+            573.3978,
+            172.8
+          ]
+        },
+        "after": {
+          "pdfBounds": [
+            20.16,
+            27.36,
+            576.9593,
+            172.8
+          ]
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "assassin",
+          "sourceExcerpts",
+          "scans/verified/classes-assassin.json",
+          "phb-37-911fe149fbfab8dd"
+        ],
+        "changedFields": [
+          "pdfBounds"
+        ],
+        "before": {
+          "pdfBounds": [
+            20.0355,
+            27.36,
+            573.3978,
+            172.8
+          ]
+        },
+        "after": {
+          "pdfBounds": [
+            20.16,
+            27.36,
+            576.9593,
+            172.8
+          ]
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "assassin",
+          "sourceExcerpts",
+          "scans/verified/classes-assassin.json",
+          "phb-27-a0862452b397bc19"
+        ],
+        "changedFields": [
+          "cropEdgeCandidateId",
+          "pdfBounds"
+        ],
+        "before": {
+          "cropEdgeCandidateId": "edge-757738bc47352b70",
+          "pdfBounds": [
+            290.9757,
+            16.8,
+            562.8711,
+            167.9999
+          ]
+        },
+        "after": {
+          "cropEdgeCandidateId": "edge-beae6ecea92a49fc",
+          "pdfBounds": [
+            292.7997,
+            16.8,
+            566.3993,
+            167.9999
+          ]
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "monk",
+          "sourceExcerpts",
+          "scans/verified/classes-monk.json",
+          "phb-37-e9ab4e8854da5c1b"
+        ],
+        "changedFields": [
+          "pdfBounds"
+        ],
+        "before": {
+          "pdfBounds": [
+            20.0355,
+            27.36,
+            573.3978,
+            172.8
+          ]
+        },
+        "after": {
+          "pdfBounds": [
+            20.16,
+            27.36,
+            576.9593,
+            172.8
+          ]
+        }
+      }
+    ],
+    "rasterChangedRows": [
+      {
+        "key": [
+          "classes",
+          "assassin",
+          "sourceExcerpts",
+          "scans/verified/classes-assassin.json",
+          "phb-27-a0862452b397bc19"
+        ],
+        "changedFields": [
+          "geometryId"
+        ],
+        "before": {
+          "geometryId": "raster-edge-3eb313197953af039d3c"
+        },
+        "after": {
+          "geometryId": "raster-edge-08e35df556de2dc4ac02"
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "cleric",
+          "sourceExcerpts",
+          "scans/verified/classes-cleric.json",
+          "phb-37-947ed4b02bc5aed3"
+        ],
+        "changedFields": [
+          "geometryId"
+        ],
+        "before": {
+          "geometryId": "raster-edge-fc7ed6bca2dcbc28b209"
+        },
+        "after": {
+          "geometryId": "raster-edge-568ec776df4ebc903b8e"
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "druid",
+          "sourceExcerpts",
+          "scans/verified/classes-druid.json",
+          "phb-37-1e3e2abf64aba374"
+        ],
+        "changedFields": [
+          "geometryId"
+        ],
+        "before": {
+          "geometryId": "raster-edge-fc7ed6bca2dcbc28b209"
+        },
+        "after": {
+          "geometryId": "raster-edge-568ec776df4ebc903b8e"
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "fighter",
+          "sourceExcerpts",
+          "scans/verified/classes-fighter.json",
+          "phb-37-f700eca9387736c6"
+        ],
+        "changedFields": [
+          "geometryId"
+        ],
+        "before": {
+          "geometryId": "raster-edge-fc7ed6bca2dcbc28b209"
+        },
+        "after": {
+          "geometryId": "raster-edge-568ec776df4ebc903b8e"
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "paladin",
+          "sourceExcerpts",
+          "scans/verified/classes-paladin.json",
+          "phb-37-9106ad0ba141326d"
+        ],
+        "changedFields": [
+          "geometryId"
+        ],
+        "before": {
+          "geometryId": "raster-edge-fc7ed6bca2dcbc28b209"
+        },
+        "after": {
+          "geometryId": "raster-edge-568ec776df4ebc903b8e"
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "ranger",
+          "sourceExcerpts",
+          "scans/verified/classes-ranger.json",
+          "phb-37-0119fdbdadda1bfc"
+        ],
+        "changedFields": [
+          "geometryId"
+        ],
+        "before": {
+          "geometryId": "raster-edge-fc7ed6bca2dcbc28b209"
+        },
+        "after": {
+          "geometryId": "raster-edge-568ec776df4ebc903b8e"
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "magic-user",
+          "sourceExcerpts",
+          "scans/verified/classes-magic-user.json",
+          "phb-37-9c3d841088eb857a"
+        ],
+        "changedFields": [
+          "geometryId"
+        ],
+        "before": {
+          "geometryId": "raster-edge-fc7ed6bca2dcbc28b209"
+        },
+        "after": {
+          "geometryId": "raster-edge-568ec776df4ebc903b8e"
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "illusionist",
+          "sourceExcerpts",
+          "scans/verified/classes-illusionist.json",
+          "phb-37-1b62533798f9d154"
+        ],
+        "changedFields": [
+          "geometryId"
+        ],
+        "before": {
+          "geometryId": "raster-edge-fc7ed6bca2dcbc28b209"
+        },
+        "after": {
+          "geometryId": "raster-edge-568ec776df4ebc903b8e"
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "thief",
+          "sourceExcerpts",
+          "scans/verified/classes-thief.json",
+          "phb-37-b8e9b30fddb28ae1"
+        ],
+        "changedFields": [
+          "geometryId"
+        ],
+        "before": {
+          "geometryId": "raster-edge-fc7ed6bca2dcbc28b209"
+        },
+        "after": {
+          "geometryId": "raster-edge-568ec776df4ebc903b8e"
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "assassin",
+          "sourceExcerpts",
+          "scans/verified/classes-assassin.json",
+          "phb-37-911fe149fbfab8dd"
+        ],
+        "changedFields": [
+          "geometryId"
+        ],
+        "before": {
+          "geometryId": "raster-edge-fc7ed6bca2dcbc28b209"
+        },
+        "after": {
+          "geometryId": "raster-edge-568ec776df4ebc903b8e"
+        }
+      },
+      {
+        "key": [
+          "classes",
+          "monk",
+          "sourceExcerpts",
+          "scans/verified/classes-monk.json",
+          "phb-37-e9ab4e8854da5c1b"
+        ],
+        "changedFields": [
+          "geometryId"
+        ],
+        "before": {
+          "geometryId": "raster-edge-fc7ed6bca2dcbc28b209"
+        },
+        "after": {
+          "geometryId": "raster-edge-568ec776df4ebc903b8e"
+        }
+      }
+    ],
+    "candidateChanges": [
+      {
+        "usageKeys": [
+          [
+            "classes",
+            "assassin",
+            "sourceExcerpts",
+            "scans/verified/classes-assassin.json",
+            "phb-27-a0862452b397bc19"
+          ]
+        ],
+        "oldCandidateId": "edge-757738bc47352b70",
+        "newCandidateId": "edge-beae6ecea92a49fc",
+        "changedFields": [
+          "candidateId",
+          "boundsPdfPoints"
+        ]
+      }
+    ],
+    "frameResolutionCounts": {
+      "outside-bounded-correction-registry": 3308,
+      "matched": 102,
+      "not-applicable-supplemental-image-frame": 2
+    },
+    "derivedIdentifierClarification": "Assassin PHB27 changes pdfBounds and the candidate ID derived from those bounds. The ten PHB37 rows change pdfBounds only. Raster uses change the corresponding geometry IDs. These derived identifiers are recorded, not removed from the comparison.",
+    "noncohortProof": "3401 visual rows,3399 raster-assessed rows,1297 raster geometry records and230 source raster frame objects deep-equal. Two supplemental usages remain typed N/A. Every old noncohort property is retained. Both complete legacy diagnostic count objects are exactly unchanged.",
+    "semanticGradeProof": "All semantic context, continuation, focus-relevance and semanticReviewStatus fields remain unchanged. Sidecar metadata does not update source-visual review flags or assembled data."
+  },
+  "registryBoundary": {
+    "activeFrameGroups": 9,
+    "activeOwnerJoins": 102,
+    "activePhysicalPdfPages": 7,
+    "currentVisualUsageDenominator": 3412,
+    "currentRasterAssessedUsages": 3410,
+    "supplementalImageNAUsages": 2,
+    "outsideRegistryUsages": 3308,
+    "outsideBeforeXPAppends": 3295,
+    "newXPAppendsOutsideRegistry": 13,
+    "membershipMeaning": "Outside this bounded correction registry means legacy diagnostic projection retained with no new frame approval here. It does not mean globally unknown or disprove separate v5/v9 operational frame evidence.",
+    "separateBroaderFiniteEvidence": {
+      "path": "/workspace/adnd1-semantic-audit/research/source-audit-pass8-frame-candidate-v9-independent-review.json",
+      "sha256": "8d4d4b566b73681894f57a4745bdaba1ef314b5dfe59dc29dbbd7d2324e600b8",
+      "scope": "Prior independent finite operational replay results for42 exact region references; no automatic expansion of the nine-frame registry and no semantic grade transfer."
+    }
+  },
+  "focusedChecks": {
+    "pythonBridge": {
+      "command": "python tests/source-frame-coordinate-bridge.test.py",
+      "passed": 13,
+      "failed": 0,
+      "actualLog": {
+        "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/python-bridge.log",
+        "sha256": "99c206cfb31c619e6c69b87894d3fea08500f6e95bf439cc46dbc168c467ba23"
+      }
+    },
+    "pythonRaster": {
+      "command": "python tests/source-raster-boundary-audit.test.py",
+      "passed": 14,
+      "failed": 0,
+      "actualLog": {
+        "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/python-raster.log",
+        "sha256": "2c077bdba128ca0fb47263d37406350dc3338d6181c13e75167d8d96ba953550"
+      }
+    },
+    "nodeConsumers": {
+      "command": "node --test tests/source-raster-coverage.test.mjs tests/monetary-source-render-frames.test.mjs",
+      "workingDirectory": "/workspace/adnd1-source-frame-resolution",
+      "exitCode": 0,
+      "passed": 15,
+      "failed": 0,
+      "exactLogPath": "/workspace/vault-audit-private/pass8/independent-frame-resolution-luna/focused-node-tests.log",
+      "exactLogSha256": "e4a6302624f2b8d2da029de06d8a71f02dcdf9149ce8118b777fdcdc57773f92"
+    },
+    "gitDiffCheck": "passed before this additive review was written",
+    "fullSuite": "not run in this bounded review"
+  },
+  "blockingFindings": [
+    {
+      "id": "FRAME-CURRENT-LEGACY-DOWNGRADE",
+      "status": "confirmed prospective current-input guard gap; root-authorized fix pending",
+      "beforeConsumer": {
+        "path": "research/source-raster-boundary-audit.py",
+        "sha256": "ae6c4fbb96e02812c16cf5289d0af0a18eec646b2ff1ab13c5179ac5e1b8eea9",
+        "relevantLines": [
+          416,
+          425,
+          517,
+          522,
+          684,
+          703
+        ]
+      },
+      "mechanism": "Current raster reconciliation enables exact bridge checking based on the input report’s own dictionary-valued sourceFrameCoordinateBridge declaration. Removing the declaration can select legacy projection. A source map transformed back to legacy page.rect bounds is then accepted as current live geometry, reproducing the11 known-wrong PHB windows.",
+      "actualControlSequence": [
+        "Original current bridge source map contains3412 uses:102 matched,3308 outside,2 supplemental. Untouched current map remains valid.",
+        "Removing the declaration alone is rejected by usage multiset validation.",
+        "Removing declaration plus all per-use coordinateFrameResolution fields is rejected by corrected PHB bounds.",
+        "Removing those annotations and reprojecting exactly102 formerly matched rows with legacy page.rect coordinates changes11 bounds and is ACCEPTED by the saved current live-catalog reconciler."
+      ],
+      "actualPreservedInput": {
+        "path": "/workspace/vault-audit-private/pass8/independent-frame-resolution-luna/accepted-downgraded-source-map.json",
+        "sha256": "a6cbd6f500c2f02c6c0d94eaceb39f3e98c34ffe88001e5de45a65021c36b47b"
+      },
+      "actualPreservedResult": {
+        "path": "/workspace/vault-audit-private/pass8/independent-frame-resolution-luna/accepted-downgrade-preservation-result.json",
+        "sha256": "2e4997a37e718989971a9d1f192ffaba5eea3ba1a341cc49b1f73ffe043d4269"
+      },
+      "exactBeforeCodeAndCommandsManifest": {
+        "path": "/workspace/vault-audit-private/pass8/independent-frame-resolution-luna/evidence-manifest.json",
+        "sha256": "7429a6399ba92f5e4034c61d38d123ef071ea043203749fd7f85c8c03736ea12"
+      },
+      "controlScript": {
+        "path": "/workspace/vault-audit-private/pass8/independent-frame-resolution-luna/downgrade_control.py",
+        "sha256": "01477991a664524ffb67b5e044902dc6f4f431ae842ccbf1e98d87a3e2e45d25"
+      },
+      "controlResult": {
+        "path": "/workspace/vault-audit-private/pass8/independent-frame-resolution-luna/downgrade_control-result.json",
+        "sha256": "a65037fd7fbe43a3f01a595a2457935bbb418055c0010e1f9f2c25255be8c66a"
+      },
+      "classificationLimits": "This is an executed prospective mutation of actuala46 input, not an observed failure of the untouched current report or published application. The output discloses legacy provenance and semantic fields stay unresolved. Disclosure does not satisfy the required current-frame validation contract.",
+      "requiredFix": "Current commands/CI/default current API must require the expected active bridge derived from trusted repository/configuration, independent of source-map self-declaration. Historical legacy diagnostics may remain only in an explicit trusted/pinned historical mode with a distinct result contract; they must not pass a current --check. Preserve sealed old source maps as historical evidence.",
+      "requiredAfterChecks": [
+        "Saved actual downgraded map is rejected in default/current mode.",
+        "Unmodified bridge-positive actual current map is accepted against all102 pins.",
+        "Explicit trusted/pinned old historical map remains available only as historical diagnostics, with no current validation or semantic pass.",
+        "False/null/missing bridge declarations cannot downgrade current mode.",
+        "Focused existing27 Python and15 Node checks plus meaningful new downgrade regressions pass."
+      ]
+    }
+  ],
+  "proposedTenthFrameAssessment": {
+    "status": "worthy of a separately reviewed exact geometry-specific extension after the current-mode guard fix; not activated in this review",
+    "owner": {
+      "collection": "classes",
+      "itemId": "thief",
+      "binding": "sourceExcerpts"
+    },
+    "regionId": "pass8-thief-xp-continuation-rule",
+    "source": {
+      "book": "PHB",
+      "printedPage": 27,
+      "pdfPage": 28,
+      "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+    },
+    "rootIndependentProof": {
+      "path": "/workspace/vault-audit-private/pass8/root/xp-thief-frame-independent.json",
+      "sha256": "00ec301880d39c7240712afc0d0c80dc503716bf2c315dec9822126e41066947"
+    },
+    "independentCurrentPositiveAndWrongBasisControl": {
+      "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "printedPage": 27,
+      "pdfPage": 28,
+      "catalogSha256": "248b7a8042c35404ef4fa742cc75c09d87689c7d421c2b5e8d70ff064c8660de",
+      "regionId": "pass8-thief-xp-continuation-rule",
+      "targetPNG": {
+        "path": "/workspace/adnd1-source-frame-resolution/dist/scans/verified/phb-27-2ccdcb45677442f0.png",
+        "sha256": "2ccdcb45677442f0f249e6be41c31502cdfa1cf3530fb03b26364eed1aeacf77",
+        "dimensions": [
+          564,
+          420
+        ]
+      },
+      "trials": [
+        {
+          "label": "correct-cropbox-pageRect",
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/correct-cropbox-pageRect-thief.png",
+          "sha256": "2ccdcb45677442f0f249e6be41c31502cdfa1cf3530fb03b26364eed1aeacf77",
+          "dimensions": [
+            564,
+            420
+          ],
+          "bounds": [
+            287.15966796875,
+            311.89179748535156,
+            568.576142578125,
+            521.1356616210937
+          ],
+          "rgbSha256": "2a9e1b00ddefe7fdc424fd7be873d13262d5ceb619ba6720120492a7c9ea1dac",
+          "exactTargetRGB": true,
+          "exactTargetPNG": true
+        },
+        {
+          "label": "wrong-same-page-mediabox",
+          "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/wrong-same-page-mediabox-thief.png",
+          "sha256": "7dda3a094d0196043c3f9492d31f499a585a8c440449fa9175c5477a53ecc9f9",
+          "dimensions": [
+            568,
+            420
+          ],
+          "bounds": [
+            288.95965576171875,
+            311.89179748535156,
+            572.1401184082031,
+            521.1356616210937
+          ],
+          "rgbSha256": "d211de25b04c944cfc7da1099deec66eaab5534c3af75ea2fb0391bbffff30c4",
+          "exactTargetRGB": false,
+          "exactTargetPNG": false
+        }
+      ],
+      "activation": "not-applied; root-approved operational replay is sufficient only for a distinct exact geometry-specific103rd join, not for page-wide inheritance",
+      "semanticGradePromotion": false
+    },
+    "conclusion": "The current legacy CropBox/page.rect projection is already correct for this specific new geometry and matches exact target PNG/RGB564×420. The older PHB27 assassin geometry is MediaBox-normalized; reusing that basis produces568×420 and wrong pixels. A same-book/page key is therefore insufficient.",
+    "extensionConstraints": [
+      "A tenth frame/103rd join must keep the old102 exact records and their grades unchanged.",
+      "The new join must pin its own owner/catalog/region/source/image/focus/content/owner-link hashes and page boxes.",
+      "Add an executable same-page/two-bases negative control so each geometry resolves only its own recipe.",
+      "No historical authoring-DPI, source-value, crop/context/highlight/default grade promotion follows from this exact operational replay."
+    ],
+    "currentActiveJoin": false
+  },
+  "preservedComparisonHarnessCalibrations": [
+    {
+      "code": {
+        "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/compare-snapshots-before-derived-candidate-id.py",
+        "sha256": "868f43c4b68a50db505192d677751fe7abdbd334b92c2fd65be9919232c6ae9d"
+      },
+      "actualLog": {
+        "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/compare-snapshots-before-derived-candidate-id.log",
+        "sha256": "b91dbca71c0a1a565a728ab2d1a11248fade8aaadce53e5d82f43e385432cb97"
+      },
+      "finding": "Initial independent comparison asserted pdfBounds was the sole changed visual field; actual legitimate derived candidate ID also changes for assassin PHB27. Final comparison retains and explicitly records it."
+    },
+    {
+      "code": {
+        "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/compare-snapshots-before-candidate-schema.py",
+        "sha256": "14902428252dd07e92260dfa5a28e02a9da8c9076f84adbe7df4172ad5b78ddf"
+      },
+      "actualLog": {
+        "path": "/workspace/vault-audit-private/pass8/independent-source-frame-resolution-review-v1/compare-snapshots-before-candidate-schema.log",
+        "sha256": "3261d3e4c4ce7bdf38e269508e9c8fea8faa36699355a2c3eea8c9445c57a85c"
+      },
+      "finding": "Initial independent harness used id instead of actual candidateId schema. Final comparison keys candidate groups by exact owner-use membership, keeping candidate IDs as compared/recorded properties."
+    }
+  ],
+  "remainingGates": [
+    "Root-authorized narrow current-mode bridge requirement fix and independent replay of the preserved actual bad fixture, positive current input and explicit trusted historical path.",
+    "Separate proposal/review for tenth frame/103rd join after nine-frame current validation is sound.",
+    "Root-owned full clean workflow, CI and publication gates; none run or claimed by this review."
+  ],
+  "privacy": "Canonical PDFs, full-page renders and detailed source crops remain private. Public JSON contains only source/image identities, coordinates, bounded audit results and reproducible control metadata."
+}

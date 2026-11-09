@@ -1,7 +1,8 @@
 import test from 'node:test';
 import {dmg175HistoryContract,projectDmg175Books} from './helpers/batch6-dmg175-source-history.mjs';
 import assert from 'node:assert/strict';
-import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-xp-continuation-history.mjs';
+import {readBeforePass8XpContinuationFile as readFileSync,projectPass8XpContinuationBytes} from './helpers/pass8-xp-continuation-history.mjs';
+import {execFileSync} from 'node:child_process';
 // Exact released777 source/Jo history. The active252-group/728-target census
 // is exercised separately by current-integration and native browser checks.
 import {gunzipSync} from 'node:zlib';
@@ -130,7 +131,10 @@ test('the released777 pre-matrix4566 binding universe preserves Jo and approved 
  assert.equal(metrics.denominator,4566,'the historical closed transfer universe remains exact');
  assert.equal(currentMetrics.denominator,4572,'only six new matrix-reference bindings extend the current universe');
  assert.deepEqual(currentMetrics,expectedCurrentMetrics,'all six new bindings stay pending; every other metric is unchanged');
- const handoff=read('research/gaps-limitations-next-task.json'),gaps=read('dist/coverage-gaps.json'),queue=handoff.reviewQueuesNotSourceAbsences.fieldBindingAndHistoricalScopeQueues,counts=gaps.coverage.counts;
+ // The frame integration refreshes only these live report identities. Replay
+ // their exact a46 XP stage through the unchanged closed adapter for this777 test.
+ const xpMetadata=new Map(['research/gaps-limitations-next-task.json','dist/coverage-gaps.json'].map(path=>[path,JSON.parse(projectPass8XpContinuationBytes(path,execFileSync('git',['show',`a46eddc41ac6f712d5ad1498195df6a49810aae1:${path}`],{cwd:root,maxBuffer:100*1024*1024})))]));
+ const handoff=xpMetadata.get('research/gaps-limitations-next-task.json'),gaps=xpMetadata.get('dist/coverage-gaps.json'),queue=handoff.reviewQueuesNotSourceAbsences.fieldBindingAndHistoricalScopeQueues,counts=gaps.coverage.counts;
  for(const [field,key]of [['fieldEvidenceBindingsDenominator','denominator'],['emptyRegionTargetBindings','emptyRegionTargets'],['regionTargetResolvedBindings','resolvedRegionTargets'],['recordTargetResolvedBindings','recordTargetResolvedBindings'],['fieldTargetsReviewed','fieldTargetReviewed'],['fieldTargetsPending','fieldTargetNotReviewed'],['regionResolvedFieldTargetsPending','resolvedButFieldTargetNotReviewed']])assert.equal(queue[field],currentMetrics[key],field);
  for(const [field,key]of [['fieldEvidenceBindingDenominator','denominator'],['emptyRegionTargetBindings','emptyRegionTargets'],['regionTargetResolvedBindings','resolvedRegionTargets'],['recordTargetResolvedBindings','recordTargetResolvedBindings'],['reviewedFieldTargets','fieldTargetReviewed'],['pendingFieldTargets','fieldTargetNotReviewed'],['regionResolvedPendingFieldTargets','resolvedButFieldTargetNotReviewed']])assert.equal(counts[field],currentMetrics[key],field);
  assert.equal(queue.countMeaning,fieldBindingCountMeaning(currentMetrics));assert.equal(queue.emptyRegionTargetBindings+queue.regionTargetResolvedBindings+queue.recordTargetResolvedBindings,currentMetrics.denominator);assert.equal(queue.fieldTargetsReviewed+queue.fieldTargetsPending,currentMetrics.denominator);

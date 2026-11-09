@@ -24,7 +24,7 @@ test('active pointer loads exact raster and geometry bytes, with no historical f
   const result=loadRasterSnapshotInput({repoRoot:f.repoRoot});
   assert.equal(result.selection,'active-pointer');assert.deepEqual(result.bytes,f.snapshot);assert.deepEqual(result.geometry.bytes,f.geometry);
   unlinkSync(join(f.repoRoot,'research/current-source-raster-snapshot.json'));
-  assert.equal(loadRasterSnapshotInput({repoRoot:f.repoRoot}).selection,'historical-fallback-no-active-pointer');
+  assert.throws(()=>loadRasterSnapshotInput({repoRoot:f.repoRoot}),/Current raster pointer is missing/);
  }finally{f.close();}
 });
 test('bad active paths, hashes, missing files and disconnected geometry fail closed',()=>{

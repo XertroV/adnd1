@@ -4,13 +4,14 @@ import {gunzipSync} from 'node:zlib';
 import {resolve, dirname, isAbsolute, relative, sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createRequire} from 'node:module';
+import {SOURCE_FRAME_BRIDGE_PATH,SOURCE_FRAME_BRIDGE_SHA256,validateLiveSourceFrameBridge,validateCurrentSourceGeometry,projectRegisteredRect} from './source-frame-coordinate-bridge.mjs';
 
 const books=createRequire(import.meta.url)('../dist/books.js');
 import {isDeepStrictEqual} from 'node:util';
 
 const root = resolve(import.meta.dirname, '..');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
-const identity = row => JSON.stringify(['collection', 'itemId', 'binding', 'catalog', 'regionId', 'book', 'pdfPage', 'imageSha256', 'sourceArtifactId', 'sourceArtifactSha256'].map(key => row?.[key]));
+const identity = row => JSON.stringify(['collection', 'itemId', 'binding', 'catalog', 'regionId', 'book', 'pdfPage', 'imageSha256', 'sourceArtifactId', 'sourceArtifactSha256', 'coordinateFrameResolution'].map(key => row?.[key]));
 const multiset = rows => {
   const result = new Map();
   for (const row of rows) {
@@ -150,6 +151,15 @@ function validateEdge(edgeName, edge, expected, errors) {
 export function collectLiveRasterUniverse({repoRoot = root} = {}) {
   const bytes = readFileSync(resolve(repoRoot, 'dist/data.json'));
   const data = JSON.parse(bytes), catalogs = new Map(), imageHashes = new Map(), usages = [];
+  const loadCatalog = path => {
+    if (!catalogs.has(path)) {
+      const raw = readFileSync(resolve(repoRoot, 'dist', path));
+      catalogs.set(path, {sha256: sha(raw), data: JSON.parse(raw)});
+    }
+    const entry = catalogs.get(path);
+    return {sha256: entry.sha256, catalog: entry.data};
+  };
+  const loadImage = (catalogPath, image) => readFileSync(resolve(repoRoot, 'dist', dirname(catalogPath), image));
   for (const collection of ['rules', 'spells', 'equipment', 'matrices', 'classes', 'progressionExplainer']) {
     const items = collection === 'progressionExplainer' ? data[collection] ? [{...data[collection], id: 'progression-explainer'}] : [] : data[collection] || [];
     for (const item of items) for (const binding of ['sourceExcerpts', 'scanVerification']) {
@@ -170,10 +180,17 @@ export function collectLiveRasterUniverse({repoRoot = root} = {}) {
     }
   }
   const catalogHashes = Object.fromEntries([...catalogs].sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0).map(([path, value]) => [path, value.sha256]));
-  return {dataSha256: sha(bytes), catalogSnapshotSha256: sha(JSON.stringify(catalogHashes)), catalogCount: catalogs.size, usages};
+  const bridge = validateLiveSourceFrameBridge({repoRoot, data, loadCatalog, loadImage});
+  if (bridge.validation.status !== 'current-pins-match') throw Error('Active source-frame bridge does not match current catalog/image/owner pins.');
+  for (const usage of usages) usage.coordinateFrameResolution = bridge.expectedResolution(usage);
+  const statusCounts = new Map();
+  for (const usage of usages) statusCounts.set(usage.coordinateFrameResolution.status, (statusCounts.get(usage.coordinateFrameResolution.status) || 0) + 1);
+  const resolutionCounts = Object.fromEntries([...statusCounts].sort(([a], [b]) => a.localeCompare(b)));
+  const sourceFrameCoordinateBridge = {path: SOURCE_FRAME_BRIDGE_PATH, sha256: SOURCE_FRAME_BRIDGE_SHA256, status: 'scoped-geometric-provenance-only', resolutionCounts, registryValidation: bridge.validation};
+  return {dataSha256: sha(bytes), catalogSnapshotSha256: sha(JSON.stringify(catalogHashes)), catalogCount: catalogs.size, usages, sourceFrameCoordinateBridge, frameBridge: bridge};
 }
 
-export function buildSourceRasterCoverage(snapshot, live) {
+function buildCurrentSourceRasterCoverage(snapshot, live, sourceGeometry, mode = 'current') {
   const errors = [];
   const usages = Array.isArray(snapshot?.usages) ? snapshot.usages : [];
   const notAssessable = Array.isArray(snapshot?.notAssessableUsages) ? snapshot.notAssessableUsages : [];
@@ -187,6 +204,15 @@ export function buildSourceRasterCoverage(snapshot, live) {
       !Array.isArray(snapshot?.usages) || !Array.isArray(snapshot?.notAssessableUsages) ||
       !Array.isArray(snapshot?.geometries) || !Array.isArray(snapshot?.sourceFrames) ||
       !isRecord(snapshot?.counts) || !isRecord(snapshot?.inputs)) errors.push('Invalid source-raster snapshot structure.');
+  if (mode === 'current') {
+    if (!live?.frameBridge || live.frameBridge.validation?.status !== 'current-pins-match') errors.push('Current source-frame bridge is missing or stale in the trusted live universe.');
+    if (!sourceGeometry) errors.push('Current source-geometry bridge snapshot is missing.');
+    else {
+      const geometryValidation = validateCurrentSourceGeometry({geometry: sourceGeometry, liveUsages, bridge: live.frameBridge});
+      if (!geometryValidation.valid) errors.push(...geometryValidation.errors);
+    }
+    if (!isDeepStrictEqual(snapshot?.sourceFrameCoordinateBridge, live?.sourceFrameCoordinateBridge)) errors.push('Raster snapshot is missing the exact current source-frame bridge declaration.');
+  }
   if (inputs.distDataSha256 !== live?.dataSha256) errors.push('Current data hash differs from raster snapshot.');
   if (inputs.catalogSnapshotSha256 !== live?.catalogSnapshotSha256 || inputs.catalogCount !== live?.catalogCount) errors.push('Current catalog hashes differ from raster snapshot.');
   if (!sameMultiset(multiset(allUses), multiset(liveUsages))) errors.push('Raster usage multiset differs from the complete live catalog universe.');
@@ -328,6 +354,23 @@ export function buildSourceRasterCoverage(snapshot, live) {
     if (!isArrayOfRecords(geometry.uses)) errors.push('Raster geometry usage links are malformed.');
   }
 
+  const bridgeRows = new Map();
+  for (const frame of (mode === 'current' ? live.frameBridge?.registry?.frames || [] : [])) for (const row of frame.regions) {
+    const key = JSON.stringify([row.owner.collection, row.owner.itemId, row.owner.binding, row.catalog, row.regionId]);
+    bridgeRows.set(key, {frame, row});
+  }
+  const snapshotUses = new Map(allUses.map(row => [JSON.stringify([row.collection, row.itemId, row.binding, row.catalog, row.regionId]), row]));
+  for (const [key, {frame, row}] of bridgeRows) {
+    const usage = snapshotUses.get(key);
+    if (!usage) { errors.push(`Registered source-frame use is missing from raster snapshot: ${row.catalog}#${row.regionId}.`); continue; }
+    const geometry = geometries.get(usage.geometryId);
+    const expected = projectRegisteredRect(frame, row);
+    if (!geometry || !expected || geometry.book !== frame.book || geometry.pdfPage !== frame.pdfPage ||
+        !isDeepStrictEqual(geometry.boundsPdfPagePointsLTRB, expected)) {
+      errors.push(`Registered source-frame raster geometry uses the wrong active projection: ${row.catalog}#${row.regionId}.`);
+    }
+  }
+
   const ordinalSet = new Set();
   for (const usage of allUses) {
     if (!isRecord(usage)) {
@@ -409,6 +452,8 @@ export function buildSourceRasterCoverage(snapshot, live) {
     schemaVersion: 1,
     artifactType: 'current-source-raster-coverage',
     validation: {valid, errors: [...new Set(errors)]},
+    sourceFrameCoordinateBridge: live.sourceFrameCoordinateBridge || null,
+    runMode: mode === 'current' ? {status: 'current-active-bridge-required'} : {status: 'historical-sealed-diagnostics-only'},
     scope: 'Current graph/hash and numeric snapshot checks only. CI does not rerender private source PDFs or establish crop semantics.',
     liveUniverse: {regionUsages: live.usages.length, catalogs: live.catalogCount, dataSha256: live.dataSha256, catalogSnapshotSha256: live.catalogSnapshotSha256},
     snapshotCounts: snapshot.counts,
@@ -429,15 +474,63 @@ export function buildSourceRasterCoverage(snapshot, live) {
   };
 }
 
+function liveInputsEqual(left, right) {
+  return left?.dataSha256 === right?.dataSha256 && left?.catalogSnapshotSha256 === right?.catalogSnapshotSha256 &&
+    left?.catalogCount === right?.catalogCount && Array.isArray(left?.usages) && Array.isArray(right?.usages) &&
+    sameMultiset(multiset(left.usages), multiset(right.usages));
+}
+
+/** Current public API. Derive the active snapshot, source geometry and live
+ * universe from the trusted repository pointer/config; caller objects can only
+ * be checked against those bytes, never used to select legacy projection. */
+export function buildSourceRasterCoverage(snapshot, live, sourceGeometry = null) {
+  const selected = loadRasterSnapshotInput();
+  const trustedSnapshot = JSON.parse(gunzipSync(selected.bytes));
+  const trustedGeometry = JSON.parse(selected.geometry.bytes);
+  const trustedLive = collectLiveRasterUniverse();
+  const report = buildCurrentSourceRasterCoverage(trustedSnapshot, trustedLive, trustedGeometry);
+  const callerErrors = [];
+  if (snapshot && !isDeepStrictEqual(snapshot, trustedSnapshot)) callerErrors.push('Caller snapshot differs from the repository-pinned active current snapshot.');
+  if (live && !liveInputsEqual(live, trustedLive)) callerErrors.push('Caller live universe differs from the trusted current repository graph.');
+  if (sourceGeometry && !isDeepStrictEqual(sourceGeometry, trustedGeometry)) callerErrors.push('Caller source geometry differs from the repository-pinned active current source map.');
+  if (callerErrors.length) {
+    report.validation.errors = [...new Set([...report.validation.errors, ...callerErrors])];
+    report.validation.valid = false;
+    report.currentCandidateCounts = null;
+  }
+  return report;
+}
+
+function loadSealedHistoricalBytes({repoRoot, path: artifactPath, acceptedPathPattern}) {
+  const absolute = resolve(repoRoot, artifactPath);
+  const bytes = readFileSync(absolute), digest = sha(bytes);
+  const manifest = JSON.parse(readFileSync(resolve(repoRoot, 'research/citation-evidence-seals.json'), 'utf8'));
+  const seal = manifest.seals?.find(row => row.sha256 === digest && acceptedPathPattern.test(row.path));
+  if (!seal) throw Error('Historical diagnostics input is not byte-identical to a sealed repository artifact of the required type.');
+  return {bytes, sha256: digest, pinnedPath: seal.path};
+}
+
+/** Load only exact sealed history. Parsing happens from the pinned bytes here,
+ * so a caller cannot pair an old path/hash with a substituted object. */
+export function buildHistoricalSourceRasterCoverage({snapshotPath, livePath}) {
+  if (typeof snapshotPath !== 'string' || typeof livePath !== 'string') throw Error('Historical diagnostics requires both a sealed raster snapshot and a sealed live-universe fixture.');
+  const snapshotPin = loadSealedHistoricalBytes({repoRoot: root, path: snapshotPath, acceptedPathPattern: /^(?:research\/(?:source-audit-batch5-raster-boundary-before-source-repairs|source-raster-boundary-[^/]+)\.json\.gz|tests\/fixtures\/source-raster-boundary-[^/]+\.json\.gz)$/});
+  const livePin = loadSealedHistoricalBytes({repoRoot: root, path: livePath, acceptedPathPattern: /^tests\/fixtures\/source-raster-live-[^/]+\.json\.gz$/});
+  const snapshot = JSON.parse(gunzipSync(snapshotPin.bytes));
+  const liveDocument = JSON.parse(gunzipSync(livePin.bytes));
+  const live = liveDocument.live || liveDocument;
+  const report = buildCurrentSourceRasterCoverage(snapshot, live, null, 'historical-sealed-diagnostics-only');
+  report.runMode = {status: 'historical-sealed-diagnostics-only', snapshotSeal: {path: snapshotPin.pinnedPath, sha256: snapshotPin.sha256}, liveFixtureSeal: {path: livePin.pinnedPath, sha256: livePin.sha256}};
+  return report;
+}
+
 export function loadRasterSnapshotInput({repoRoot = root, explicitPath = null} = {}) {
-  if (explicitPath) return {path: explicitPath, bytes: readFileSync(resolve(repoRoot, explicitPath)), geometry: null, selection: 'explicit-snapshot'};
   const pointerPath = 'research/current-source-raster-snapshot.json';
   let pointerBytes;
   try { pointerBytes = readFileSync(resolve(repoRoot, pointerPath)); }
   catch (error) {
     if (error.code !== 'ENOENT') throw error;
-    const path = 'research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz';
-    return {path, bytes: readFileSync(resolve(repoRoot, path)), geometry: null, selection: 'historical-fallback-no-active-pointer'};
+    throw Error('Current raster pointer is missing; historical snapshots require an explicit sealed-diagnostics workflow.');
   }
   const pointer = JSON.parse(pointerBytes);
   if (pointer?.schemaVersion !== 1) throw Error('Unsupported current raster snapshot pointer.');
@@ -451,28 +544,42 @@ export function loadRasterSnapshotInput({repoRoot = root, explicitPath = null} =
   };
   const snapshot = loadPinned(pointer.snapshot, 'Current raster snapshot');
   const geometry = loadPinned(pointer.sourceGeometry, 'Current source geometry snapshot');
+  if (explicitPath && explicitPath !== snapshot.path) throw Error('An explicit raster snapshot must equal the repository-pinned active current snapshot.');
   const parsed = JSON.parse(gunzipSync(snapshot.bytes));
   if (parsed.inputs?.sourceUsageMapSha256 !== geometry.sha256) throw Error('Current raster snapshot does not bind the pinned source geometry snapshot.');
-  return {...snapshot, geometry, selection: 'active-pointer', pointer: {path: pointerPath, sha256: sha(pointerBytes)}};
+  return {...snapshot, geometry, selection: explicitPath ? 'active-pointer-explicit' : 'active-pointer', pointer: {path: pointerPath, sha256: sha(pointerBytes)}};
 }
 
 export function runSourceRasterCoverage(argv = process.argv.slice(2)) {
   let output = 'artifacts/source-raster-coverage/report.json';
   let explicitPath = null;
+  let historicalSnapshotPath = null, historicalLivePath = null;
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--output' && argv[i + 1]) output = argv[++i];
     else if (argv[i] === '--snapshot' && argv[i + 1]) explicitPath = argv[++i];
+    else if (argv[i] === '--historical-diagnostics' && argv[i + 1]) historicalSnapshotPath = argv[++i];
+    else if (argv[i] === '--historical-live' && argv[i + 1]) historicalLivePath = argv[++i];
     else if (argv[i] !== '--check') throw Error(`Unknown argument: ${argv[i]}`);
   }
-  const selected = loadRasterSnapshotInput({explicitPath});
-  const bytes = selected.bytes;
-  const report = buildSourceRasterCoverage(JSON.parse(gunzipSync(bytes)), collectLiveRasterUniverse());
-  report.snapshot = {path: selected.path, sha256: sha(bytes), selection: selected.selection, ...(selected.pointer ? {pointer: selected.pointer, sourceGeometry: {path: selected.geometry.path, sha256: selected.geometry.sha256}} : {})};
+  const historicalMode = historicalSnapshotPath !== null || historicalLivePath !== null;
+  if (historicalMode && (historicalSnapshotPath === null || historicalLivePath === null)) throw Error('Historical diagnostics requires both --historical-diagnostics and --historical-live.');
+  if (historicalMode && argv.includes('--check')) throw Error('Sealed historical diagnostics cannot be used with current --check.');
+  if (historicalMode && explicitPath) throw Error('Use --historical-diagnostics for sealed history; --snapshot is current-only.');
+  let report, selected = null, bytes = null;
+  if (historicalMode) {
+    report = buildHistoricalSourceRasterCoverage({snapshotPath: historicalSnapshotPath, livePath: historicalLivePath});
+    report.snapshot = {path: historicalSnapshotPath, selection: 'historical-sealed-diagnostics-only'};
+  } else {
+    selected = loadRasterSnapshotInput({explicitPath});
+    bytes = selected.bytes;
+    report = buildSourceRasterCoverage(JSON.parse(gunzipSync(bytes)), collectLiveRasterUniverse());
+    report.snapshot = {path: selected.path, sha256: sha(bytes), selection: selected.selection, ...(selected.pointer ? {pointer: selected.pointer, sourceGeometry: {path: selected.geometry.path, sha256: selected.geometry.sha256}} : {})};
+  }
   const target = resolve(root, output);
   mkdirSync(dirname(target), {recursive: true});
   writeFileSync(target, JSON.stringify(report) + '\n');
   if (argv.includes('--check') && !report.validation.valid) process.exitCode = 1;
-  return {output, validation: report.validation, liveUniverse: report.liveUniverse, semanticPass: false};
+  return {output, validation: report.validation, liveUniverse: report.liveUniverse, runMode: report.runMode, semanticPass: false};
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

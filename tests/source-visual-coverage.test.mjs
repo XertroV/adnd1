@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {buildVisualCoverage,regionHashes,renderMarkdown,renderPriceInventoryMarkdown,summarizePriceInventory} from '../tools/source-visual-coverage.mjs';
+import {buildVisualCoverageCore as buildVisualCoverage,regionHashes,renderMarkdown,renderPriceInventoryMarkdown,summarizePriceInventory} from '../tools/source-visual-coverage.mjs';
 import {buildDispositionManifest,renderDispositionMarkdown,validateDispositionManifest,stableDispositionId} from '../tools/source-visual-dispositions.mjs';
 const hash=x=>createHash('sha256').update(x).digest('hex');
 const sourceHash='a'.repeat(64);
@@ -29,6 +29,7 @@ test('matrix and progression coverage links address their actual standalone cita
 });
 test('unreviewed sentinels are suspected, partials unreviewed, and denominators include the explainer',()=>{
  const x=build();assert.equal(x.totals.citedRecordPagePairs,2);assert.equal(x.totals.regionUsages,3);assert.equal(x.totals.uniqueImages,3);
+ assert.equal(x.runMode.status,'diagnostic-core-untrusted-current-frame');assert.equal(x.sourceFrameValidation.valid,false);
  assert.equal(x.totals.fullImageSentinelBindings,2);assert.equal(x.totals.sentinelHighlightSuspects,2);assert.equal(x.totals.sentinelIndependentExceptions,0);
  assert.deepEqual(x.usages.map(u=>u.status.highlight),['suspected','unreviewed','suspected']);assert.equal(x.counts.default.total,2);assert.equal(x.byCategory.progressionExplainer.crop.unreviewed,1);assert.match(renderMarkdown(x),/progression-explainer/);
 });

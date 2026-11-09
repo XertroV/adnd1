@@ -2,6 +2,7 @@
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
+import {isDeepStrictEqual} from 'node:util';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import {buildDispositionManifest,renderDispositionMarkdown,stableDispositionId} from './source-visual-dispositions.mjs';
@@ -9,6 +10,7 @@ import {reportContextContracts} from './citation-context-contract.mjs';
 import {validateContinuationManifest} from './continuation-contract.mjs';
 import {buildPriceSourceInventory,validatePriceSourceInventory} from './price-source-inventory.mjs';
 import {loadRasterSnapshotInput} from './source-raster-coverage.mjs';
+import {SOURCE_FRAME_BRIDGE_PATH,SOURCE_FRAME_BRIDGE_SHA256,validateLiveSourceFrameBridge,validateCurrentSourceGeometry} from './source-frame-coordinate-bridge.mjs';
 
 const root=path.resolve(fileURLToPath(new URL('..',import.meta.url)));
 const require=createRequire(import.meta.url),citations=require('../dist/citations.js'),books=require('../dist/books.js');
@@ -86,7 +88,7 @@ function normalizeHistoricalFindings(findings,usages){
  * stay candidate evidence; only current hash-bound independent ledger records
  * produce accepted dimension states.
  */
-export function buildVisualCoverage(data,loadCatalog,ledger={reviews:[]},geometry=null,{
+export function buildVisualCoverageCore(data,loadCatalog,ledger={reviews:[]},geometry=null,{
   dataFileHash=null,loadImage=null,knownFindings=[],inputHashes={},priceInventory=null,
   priceInventoryValidation=null,continuationManifest=null,contextContractManifest=null,
 }={}){
@@ -215,12 +217,50 @@ export function buildVisualCoverage(data,loadCatalog,ledger={reviews:[]},geometr
   const reportedFindings=findingDispositions.filter(finding=>reportableStatuses.has(finding.recordedStatus)&&['current-binding','current-image-match-source-hash-missing'].includes(finding.relation)).map(finding=>({candidateId:finding.candidateId,origin:finding.origin,status:finding.recordedStatus,category:finding.category||'unspecified',reason:finding.reason||'',limitations:finding.limitations||null,book:finding.book,page:finding.page,imageSha256:finding.imageSha256,bindings:finding.matches.map(match=>({collection:match.collection,itemId:match.itemId,binding:match.binding,regionId:match.regionId,catalog:match.catalog,link:match.link}))}));
   return {
     schemaVersion:2,scope:'Public catalog bindings and independently recorded visual reviews. Unreviewed is not confirmed safe; geometry is candidate evidence only. Catalog binding counts do not establish source completeness.',
+    runMode:{status:'diagnostic-core-untrusted-current-frame'},
+    sourceFrameValidation:{valid:false,errors:['The exported diagnostic core does not establish current source-frame pins; use buildVisualCoverage for current evidence.']},
     inputDataSha256:dataHash,inputs:inputHashes,geometrySnapshotApplied:geometryValid,geometrySnapshotDataMatches:geometryDataMatches,
     totals:{citedRecordPagePairs:pairs.size,regionUsages:usages.length,uniqueImages:images.size,geometryCandidates:usages.filter(usage=>usage.geometryCandidate).length,staleGeometryCandidates:usages.filter(usage=>usage.geometryStaleCandidate).length,orphanedGeometryCandidates:orphanedGeometryCandidates.length,orphanedReviews:orphanedReviews.length,historicalFindingRecords:findingDispositions.length,historicalFindingCurrentHashMatches:findingDispositions.filter(finding=>finding.relation==='current-binding').length,reportedFindings:reportedFindings.length,fullImageSentinelBindings:usages.filter(usage=>usage.sentinel).length,sentinelHighlightSuspects:usages.filter(usage=>usage.sentinel&&usage.status.highlight==='suspected').length,sentinelIndependentExceptions:usages.filter(usage=>usage.sentinel&&usage.status.highlight==='exception').length,sentinelOtherHighlightStates:usages.filter(usage=>usage.sentinel&&!['suspected','exception'].includes(usage.status.highlight)).length},
     denominators:{citedRecordPagePairs:pairs.size,regionBindings:usages.length,uniqueImages:images.size,independentReviewRecords:reviewLedgerSummary.recordCount,historicalTriageRecords:findingDispositions.length,fieldEvidenceBindings:fieldBindings.length},
     counts,byCategory,usages,reviewLedgerSummary,findingDispositions,reportedFindings,orphanedGeometryCandidates,orphanedReviews,
     priceInventory:priceSummary,continuations:continuationSummary,contextContracts,sentinelPolicy,
   };
+}
+
+function liveFrameUsages(data,loadCatalog){
+  const records=['rules','spells','equipment','matrices','classes'].flatMap(collection=>(data[collection]||[]).map(item=>({collection,item})));
+  if(data.progressionExplainer)records.push({collection:'progressionExplainer',item:{...data.progressionExplainer,id:'progression-explainer'}});
+  const usages=[];
+  for(const {collection,item} of records)for(const binding of ['sourceExcerpts','scanVerification']){
+    const catalogPath=item[binding]?.catalog;if(!catalogPath)continue;
+    const loaded=loadCatalog(catalogPath),catalog=loaded.catalog||loaded;
+    for(const region of catalog.regions||[])usages.push({collection,itemId:item.id,binding,catalog:catalogPath,regionId:region.id,book:region.book,pdfPage:region.pdfPage,sourceKind:region.sourceArtifactId?'supplemental-image':'pdf'});
+  }
+  return usages;
+}
+
+/** Current API: validate current catalog pins and any supplied geometry against
+ * the trusted repository bridge before presenting it as current evidence. */
+export function buildVisualCoverage(data,loadCatalog,ledger={reviews:[]},geometry=null,options={}){
+  const dataBytes=readFileSync(path.resolve(root,'dist/data.json'));
+  const trustedData=JSON.parse(dataBytes),trustedDataHash=sha(dataBytes);
+  const trustedLoadCatalog=catalogPath=>{const bytes=readFileSync(path.resolve(root,'dist',catalogPath));return {catalog:JSON.parse(bytes),sha256:sha(bytes)};};
+  const trustedLoadImage=(catalogPath,image)=>readFileSync(path.resolve(root,'dist',path.dirname(catalogPath),image));
+  const current=loadRasterSnapshotInput();
+  const trustedGeometry=JSON.parse(current.geometry.bytes);
+  const bridge=validateLiveSourceFrameBridge({repoRoot:root,data:trustedData,loadCatalog:trustedLoadCatalog,loadImage:trustedLoadImage});
+  const validationErrors=[];
+  if(canonical(data)!==canonical(trustedData))validationErrors.push('Caller data differs from the trusted current repository data.');
+  if(bridge.validation.status!=='current-pins-match')validationErrors.push('Active source-frame bridge does not match current catalog/image/owner pins.');
+  if(!geometry)validationErrors.push('Caller omitted the current source geometry bridge snapshot.');
+  else if(!isDeepStrictEqual(geometry,trustedGeometry))validationErrors.push('Caller geometry differs from the repository-pinned active source geometry.');
+  const geometryValidation=validateCurrentSourceGeometry({geometry:trustedGeometry,liveUsages:liveFrameUsages(trustedData,trustedLoadCatalog),bridge});
+  validationErrors.push(...geometryValidation.errors);
+  const report=buildVisualCoverageCore(trustedData,trustedLoadCatalog,ledger,trustedGeometry,{...options,dataFileHash:trustedDataHash,loadImage:trustedLoadImage});
+  report.sourceFrameCoordinateBridge={path:SOURCE_FRAME_BRIDGE_PATH,sha256:SOURCE_FRAME_BRIDGE_SHA256,status:'scoped-geometric-provenance-only',registryValidation:bridge.validation};
+  report.runMode={status:'current-active-bridge-required'};
+  report.sourceFrameValidation={valid:validationErrors.length===0,errors:validationErrors,geometry:geometryValidation};
+  return report;
 }
 
 export function summarizePriceInventory(inventory,validation=null){
@@ -364,6 +404,7 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
   const report=buildVisualCoverage(data,filename=>{const bytes=readFileSync(path.resolve(root,'dist',filename));return {catalog:JSON.parse(bytes),sha256:sha(bytes)};},ledger,geometry,{
     knownFindings:triage.records,inputHashes,priceInventory,priceInventoryValidation,continuationManifest,contextContractManifest,
     dataFileHash:fileHash('dist/data.json'),
+    requireSourceGeometry:true,
     loadImage:(catalog,image)=>readFileSync(path.resolve(root,'dist',path.dirname(catalog),image)),
   });
   const outDir=path.resolve(process.argv[2]||path.join(root,'artifacts/source-visual-coverage'));mkdirSync(outDir,{recursive:true});
@@ -375,6 +416,7 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
   writeFileSync(path.join(outDir,'price-source-inventory.json'),JSON.stringify(priceInventory,null,2)+'\n');
   writeFileSync(path.join(outDir,'price-source-inventory.md'),renderPriceInventoryMarkdown(priceInventory));
   const structuralErrors=[...dispositions.structuralValidation.errors];
+  structuralErrors.push(...report.sourceFrameValidation.errors);
   if(report.priceInventory?.validation?.valid===false)structuralErrors.push(...report.priceInventory.validation.errors.map(error=>`Price inventory: ${error}`));
   if(report.continuations?.valid===false)structuralErrors.push(`Continuation manifest: ${report.continuations.validationError}`);
   if(report.contextContracts?.violations?.length)structuralErrors.push(`${report.contextContracts.violations.length} context-extent contract check(s) failed`);

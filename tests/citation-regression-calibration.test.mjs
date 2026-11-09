@@ -6,7 +6,7 @@ import {readFileSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import vm from 'node:vm';
 import {containsContext, focusCoversEvidence} from '../tools/citation-context-contract.mjs';
-import {buildVisualCoverage} from '../tools/source-visual-coverage.mjs';
+import {buildVisualCoverage, buildVisualCoverageCore} from '../tools/source-visual-coverage.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const readJson = path => JSON.parse(readFileSync(new URL(`../${path}`, import.meta.url), 'utf8'));
@@ -160,11 +160,16 @@ test('full-image sentinel stays an audit suspect, is hidden from overlays, and d
   const bytes=Buffer.from('sentinel-calibration');
   const region={id:'sentinel-calibration',book:'PHB',printedPage:73,pdfPage:74,image:'sentinel.png',sha256:sha256(bytes),focusRects:[sentinel]};
   const item={id:'sentinel-calibration',book:'PHB',pages:[73],sourceExcerpts:{catalog:'sentinel-calibration.json'}};
-  const audit=buildVisualCoverage({spells:[item]},()=>({regions:[region],sources:{PHB:{sha256:'fixture-source'}}}),{reviews:[]},null,{loadImage:()=>bytes});
+  const fixtureData={spells:[item]},loadCatalog=()=>({regions:[region],sources:{PHB:{sha256:'fixture-source'}}});
+  const audit=buildVisualCoverageCore(fixtureData,loadCatalog,{reviews:[]},null,{loadImage:()=>bytes});
+  assert.equal(audit.sourceFrameValidation.valid,false,'the isolated sentinel fixture remains diagnostic');
   assert.equal(audit.usages[0].sentinel,true);
   assert.equal(audit.usages[0].status.highlight,'suspected');
   assert.equal(audit.sentinelPolicy.unresolvedHighlightWarnings,1);
   assert.deepEqual(audit.usages[0].focusRects,[[0,0,1,1]],'raw failing evidence remains intact in the audit');
+  const current=buildVisualCoverage(fixtureData,loadCatalog,{reviews:[]},null,{loadImage:()=>bytes});
+  assert.equal(current.sourceFrameValidation.valid,false,'the public current wrapper cannot certify the toy input');
+  assert.ok(current.sourceFrameValidation.errors.some(error=>error.includes('Caller data differs')));
 });
 
 test('historical raw sentinel scroll and current precise-focus scroll stay distinct', () => {
