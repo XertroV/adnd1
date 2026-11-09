@@ -1,0 +1,45 @@
+{
+  "artifactType": "root independent UA binder invalid-input controls",
+  "tool": "tools/bind-ua-source-audit-input-commit-v1.mjs",
+  "toolSha256": "7509199474dff77001afa9cd819a37b377fb292512e7c11bde5bf68623d65a2b",
+  "sourceCommit": "6b3cfc8cb421a2c1fc2379c38abebe2075634981",
+  "targetSha256": "90a62727d0c4892b007c121ea79b32a027b0ac25e7725afe27f98a90daa6fccd",
+  "controls": [
+    {
+      "args": [
+        "--geometry",
+        "6717c6f22bbf2f2b421327e4c8561b1d81df00d4"
+      ],
+      "exitCode": 1,
+      "targetUnchanged": true,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: only the approved actual UA source phase is accepted"
+    },
+    {
+      "args": [
+        "--geometry",
+        "6b3cfc8"
+      ],
+      "exitCode": 1,
+      "targetUnchanged": true,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: only the approved actual UA source phase is accepted"
+    },
+    {
+      "args": [
+        "--bogus",
+        "6b3cfc8cb421a2c1fc2379c38abebe2075634981"
+      ],
+      "exitCode": 1,
+      "targetUnchanged": true,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: usage: --geometry|--raster FULL_INPUT_COMMIT"
+    },
+    {
+      "args": [
+        "--geometry"
+      ],
+      "exitCode": 1,
+      "targetUnchanged": true,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: usage: --geometry|--raster FULL_INPUT_COMMIT"
+    }
+  ],
+  "limitations": "Four invalid-input controls and static delta review only; not a source value or complete metadata review."
+}
