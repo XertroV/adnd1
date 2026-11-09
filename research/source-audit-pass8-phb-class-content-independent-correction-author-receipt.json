@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "title": "Author receipt for bounded PHB class-guidance corrections",
+  "status": "ready for independent delta review; no activation requested",
+  "date": "2026-11-09",
+  "proposal": {
+    "path": "research/source-audit-pass8-phb-class-content-independent-correction-proposal.json",
+    "sha256": "37f0ee7111875586a08ce41836fc6357bd69fdddc1378cd4ca1d88eb68e3b661"
+  },
+  "classData": {
+    "path": "classes.json",
+    "sha256": "f5fd30a69b028489a22b70aa972d92dfffbe75c27bb2d09c4cc1c54a3a1497fb",
+    "preCorrectionSha256": "76768e670155a225ef7976ae28da4e514dffe81f3c623082156a690cfb83dd3f",
+    "baseCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+    "baseClassesSha256": "46c5ad4c404eeb54a75af40e48e2eb8d8a5b952bf134accc7bf7cf1a6fea069e"
+  },
+  "preservedOriginals": [
+    {
+      "path": "research/source-audit-pass8-phb-class-content-baseline.json",
+      "sha256": "3095bda5c537362bada3ea2ded9bfb755832cc26394419f95ad28d437299549e"
+    },
+    {
+      "path": "research/source-audit-pass8-phb-class-content-proposal.json",
+      "sha256": "33a6853b751dfdbec034cd4f01f26d8d5f4ae7c01b64c9e9b0f49d53cf89abf7"
+    },
+    {
+      "path": "research/source-audit-pass8-phb-class-content-independent-review-v1.json",
+      "sha256": "e02eabc34bfbf63a63b1868ae05b8dfbb83fcc7f2529217e936779141de8a845"
+    },
+    {
+      "path": "research/source-audit-pass8-phb-class-content-scope-addendum.json",
+      "sha256": "89d43f4da3a0f4e62ad80b3deb8c101fa084d66b0a33a4347376f651a80a82a8"
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8/phb-class-guidance-independent-correction/classes-before-correction.json",
+      "sha256": "76768e670155a225ef7976ae28da4e514dffe81f3c623082156a690cfb83dd3f"
+    }
+  ],
+  "source": {
+    "filename": "tsr2010-players-handbook.pdf",
+    "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+  },
+  "scope": {
+    "classesChanged": [
+      "monk",
+      "druid",
+      "paladin"
+    ],
+    "fieldsChanged": [
+      "guidance"
+    ],
+    "guidanceAppendsSinceBase": 24,
+    "monkCorrectionSplitIntoTwoEntries": true,
+    "allPriorBaseGuidancePrefixesPreserved": true,
+    "noOtherClassPropertiesChangedRelativeToPreCorrection": true
+  },
+  "validation": {
+    "jsonParse": "passed; 16 class records",
+    "focusedTests": {
+      "command": "node --test tests/class-source-context-batch5.test.mjs tests/class-progression-audit.test.mjs tests/progression.test.mjs",
+      "tests": 15,
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0
+    },
+    "diffCheck": "git diff --check passed",
+    "productionDataOrCitations": "unchanged; no assembly/metadata activation performed",
+    "commitOrPush": "none"
+  },
+  "reviewState": "The three source-content defects identified in the previous independent review have been corrected in the proposed class guidance; exact new class and leaf hashes are in the proposal and await independent delta review."
+}

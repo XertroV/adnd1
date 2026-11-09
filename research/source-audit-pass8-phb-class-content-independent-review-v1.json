@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "title": "Independent source-content review of PHB class guidance additions",
+  "reviewStatus": "content-corrections-required; not an approval of source grades, citations, activation, or completeness",
+  "reviewDate": "2026-11-09",
+  "reviewerScope": "Independent read-only source-content check. No author code, data, tests, source grades, citations, activation metadata, commits, or pushes were changed.",
+  "inputs": {
+    "repository": "/workspace/adnd1-phb-class-ability-audit",
+    "baseCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+    "proposal": {
+      "path": "research/source-audit-pass8-phb-class-content-proposal.json",
+      "sha256": "33a6853b751dfdbec034cd4f01f26d8d5f4ae7c01b64c9e9b0f49d53cf89abf7"
+    },
+    "baseline": {
+      "path": "research/source-audit-pass8-phb-class-content-baseline.json",
+      "sha256": "3095bda5c537362bada3ea2ded9bfb755832cc26394419f95ad28d437299549e"
+    },
+    "scopeAddendum": {
+      "path": "research/source-audit-pass8-phb-class-content-scope-addendum.json",
+      "sha256": "89d43f4da3a0f4e62ad80b3deb8c101fa084d66b0a33a4347376f651a80a82a8"
+    },
+    "currentClasses": {
+      "path": "classes.json",
+      "sha256": "76768e670155a225ef7976ae28da4e514dffe81f3c623082156a690cfb83dd3f"
+    },
+    "source": {
+      "filename": "tsr2010-players-handbook.pdf",
+      "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "storage": "Private source; not copied into the repository"
+    }
+  },
+  "structuralReview": {
+    "classRecordsChanged": [
+      "cleric",
+      "druid",
+      "fighter",
+      "paladin",
+      "ranger",
+      "magic-user",
+      "illusionist",
+      "thief",
+      "assassin",
+      "monk"
+    ],
+    "guidanceStringsAppended": 23,
+    "allOldGuidancePrefixesPreserved": true,
+    "onlyChangedClassProperty": "guidance",
+    "otherClassRecordsAndTopLevelPropertiesUnchanged": true,
+    "verification": "Compared parsed classes.json at a46eddc41ac6f712d5ad1498195df6a49810aae1 with the current parsed file. Each changed class has only an appended guidance array; all other properties and records match."
+  },
+  "sourceReview": {
+    "method": "Viewed individual private full-page pixel renders of the supplied source PDF. Text extraction was not used as verification. The author-provided 28 focused tests were not treated as evidence of source accuracy.",
+    "printedPagesReviewed": [
+      19,
+      20,
+      21,
+      22,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34
+    ],
+    "relevantPrivateRenderEvidence": [
+      {
+        "printedPage": 19,
+        "pdfPage": 20,
+        "sha256": "eca35b1b9b33e4120d2b0ab92e0c0c61f10de7a8b90810142e74352e48f839c0",
+        "reviewedFor": "Table II: all ten class rows, armor, shield, weapon, oil, poison, and table footnotes"
+      },
+      {
+        "printedPage": 21,
+        "pdfPage": 22,
+        "sha256": "897d3bbbf75738fad6b1105a9125211172ab5f1b6635039543025993786f9a90",
+        "reviewedFor": "Druid form rules and separate tongue"
+      },
+      {
+        "printedPage": 22,
+        "pdfPage": 23,
+        "sha256": "5d752cfab5c85fbc84ae5abe702ba179419de170de18e4839f6f0a96f0506667",
+        "reviewedFor": "Fighter XP bonus; Paladin magic-item limit footnote and item/wealth/tithe rules"
+      },
+      {
+        "printedPage": 30,
+        "pdfPage": 31,
+        "sha256": "779ea5942dc40eb37a3912b56c65d0b730e9bc30eac535a4941d0fe70bb18721",
+        "reviewedFor": "Monk open-hand hit, stun, and kill conditions"
+      },
+      {
+        "printedPage": 32,
+        "pdfPage": 33,
+        "sha256": "43f15a35c59932ba0c916f0c8793bd72f596f4b7455bf4ca6db15f28d1c04f14",
+        "reviewedFor": "Monk quivering-palm timing, target exclusions, and target limits"
+      },
+      {
+        "printedPage": 33,
+        "pdfPage": 34,
+        "sha256": "81296606a30eddab91bbd13cd0c946327516095485729605104541e2dc5d1538",
+        "reviewedFor": "Dual-class discussion remains on p.33 and continues across columns on that page"
+      },
+      {
+        "printedPage": 34,
+        "pdfPage": 35,
+        "sha256": "68d185580d0b9eb11bac6401fb448ab911816dfff37bbb4c24f900dbb14c6fb5",
+        "reviewedFor": "Bounded directly referenced Character Hit Points and Character Languages support; Druid tongue and Thieves’ Cant references"
+      }
+    ],
+    "contentDisposition": {
+      "tableII": "The ten Table II rows and the weapon, cleric-poison, and poison-question footnotes agree with the appended class summaries.",
+      "otherClaims": "The source-supported claims for the Fighter, Paladin, Ranger, Magic-user, Illusionist, Thief, Assassin, and class-language additions were checked against their cited printed pages. Two material qualifications are omitted and one Monk entry conflates separate abilities; see findings.",
+      "p34ScopeCorrection": "The addendum accurately corrects the baseline: the dual-class discussion stays within p.33. The directly referenced p.34 Hit Points and Languages support is bounded as stated; this review does not assert full p.34 or full-class-prose coverage."
+    }
+  },
+  "findings": [
+    {
+      "id": "monk-open-hand-vs-quivering-palm",
+      "severity": "blocking-content-error",
+      "classId": "monk",
+      "proposalGuidance": "PHB pp. 30–32: open-hand killing is a separate roll after a successful hit and stun; the source excludes undead and creatures hit only by magical weapons and sets victim hit-dice/hit-point limits. Monks gain no Strength bonus to hit probability or damage.",
+      "evidence": "Printed p.30 (PDF p.31) gives the open-hand stun/kill sequence: the monk must hit, stun the target, and then succeed on the separate kill percentile roll. Printed p.32 (PDF p.33) describes a distinct once-per-week quivering-palm ability: the monk must touch the intended victim within three melee rounds; it has no effect on undead or creatures hit only by magical weapons and has hit-dice/hit-point limits.",
+      "problem": "The current sentence attaches p.32 quivering-palm exclusions and limits to the p.30 open-hand kill roll, merging two distinct abilities. It also omits the p.32 once-per-week and touch-within-three-rounds conditions.",
+      "requestedCorrection": "Split this into separate source-qualified statements for the p.30 open-hand stun/kill procedure and the p.32 quivering palm. Keep the target exclusions and HD/HP limits with quivering palm, and include its weekly use and touch deadline if describing that ability."
+    },
+    {
+      "id": "druid-form-size-and-mind-constraints",
+      "severity": "material-qualifier-omitted",
+      "classId": "druid",
+      "proposalGuidance": "PHB p. 21: druids cannot turn or control undead, demons, or devils. A 7th-level druid can change into reptile, bird, or mammal forms up to three times daily, once per creature type per day; each change heals 10–60% of previously sustained hit-point damage.",
+      "evidence": "Printed p.21 (PDF p.22) says the druid becomes the assumed creature in all respects save the mind; the permitted form size ranges from very small animals up to a black bear about twice the druid’s weight. It also sets the daily/type and prior-damage restoration conditions captured in the summary.",
+      "problem": "The new guidance leaves the size range and retained-mind condition unstated, so its broad wording can imply unrestricted animal size and loss of the druid’s mind.",
+      "requestedCorrection": "Add the source’s size and retained-mind constraints, or narrow the statement so it is explicitly only a reminder and does not imply those omitted permissions."
+    },
+    {
+      "id": "paladin-weapon-count-footnote",
+      "severity": "material-qualifier-omitted",
+      "classId": "paladin",
+      "evidence": "Printed p.22 (PDF p.23) footnotes the four-weapon item cap: a magic bow and magic arrows together count as one weapon.",
+      "problem": "The guidance lists a maximum of four weapons but omits this counting exception, which affects how the stated cap is applied.",
+      "requestedCorrection": "Add the bow-and-arrows counting rule, or identify the item-count summary as omitting that exception."
+    }
+  ],
+  "scopeAndValidation": {
+    "testsRun": [],
+    "testsNotRun": "No application tests run; this review evaluates source-content accuracy and a parsed data diff only. Focused tests cannot establish source accuracy.",
+    "notReviewedOrNotApproved": [
+      "Source-value grades, crop/highlight semantics, row-focus citations, approval receipts, and source licensing/edition claims.",
+      "Full prose-atom denominator or exhaustive completeness of PHB class abilities.",
+      "Racial permissions pp.13–17, UA classes, the Bard appendix, and complete p.34 Alignment or language-learning rules."
+    ],
+    "authorChangesRequired": true,
+    "finalAcceptance": false
+  }
+}

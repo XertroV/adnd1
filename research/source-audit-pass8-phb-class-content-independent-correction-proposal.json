@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "title": "Author correction proposal for three PHB class-guidance source qualifiers",
+  "status": "bounded content correction proposed; awaiting independent delta review",
+  "date": "2026-11-09",
+  "scope": "Correct only the three PHB class-guidance leaves rejected by the independent review. No progression values, other guidance leaves, source grades, citations, metadata, application code, or public source images are modified.",
+  "inputs": {
+    "baseCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+    "originalClasses": {
+      "path": "classes.json at baseCommit",
+      "sha256": "46c5ad4c404eeb54a75af40e48e2eb8d8a5b952bf134accc7bf7cf1a6fea069e"
+    },
+    "initialProposal": {
+      "path": "research/source-audit-pass8-phb-class-content-proposal.json",
+      "sha256": "33a6853b751dfdbec034cd4f01f26d8d5f4ae7c01b64c9e9b0f49d53cf89abf7"
+    },
+    "sourceReview": {
+      "path": "research/source-audit-pass8-phb-class-content-independent-review-v1.json",
+      "sha256": "e02eabc34bfbf63a63b1868ae05b8dfbb83fcc7f2529217e936779141de8a845"
+    },
+    "originalBaseline": {
+      "path": "research/source-audit-pass8-phb-class-content-baseline.json",
+      "sha256": "3095bda5c537362bada3ea2ded9bfb755832cc26394419f95ad28d437299549e"
+    },
+    "preCorrectionClasses": {
+      "path": "classes.json before this correction; byte copy retained privately at /workspace/vault-audit-private/pass8/phb-class-guidance-independent-correction/classes-before-correction.json",
+      "sha256": "76768e670155a225ef7976ae28da4e514dffe81f3c623082156a690cfb83dd3f"
+    },
+    "source": {
+      "filename": "tsr2010-players-handbook.pdf",
+      "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "storage": "private source PDF"
+    }
+  },
+  "sourcePixels": [
+    {
+      "path": "/workspace/vault-audit-private/pass8/phb-class-guidance-independent-correction/printed-21-pdf-022.png",
+      "printedPage": 21,
+      "pdfPage": 22,
+      "sha256": "e5a4a42a0c08fa015b6dae5d25c366247e2d5d8fbf114eb4fa1f213a19fe3c8b",
+      "width": 1736,
+      "height": 2361,
+      "reviewed": "Druid shape-change mind, form-size, daily/type and damage-restoration conditions."
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8/phb-class-guidance-independent-correction/printed-22-pdf-023.png",
+      "printedPage": 22,
+      "pdfPage": 23,
+      "sha256": "6d3c090bef2309fd4bbcb2a60ed95e0de13fad0773c36ae8dfd4494d1afda4c9",
+      "width": 1734,
+      "height": 2357,
+      "reviewed": "Paladin retained-magic-item cap and weapon-count footnote."
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8/phb-class-guidance-independent-correction/printed-30-pdf-031.png",
+      "printedPage": 30,
+      "pdfPage": 31,
+      "sha256": "ff3b877ec17aaab1516900555009f2a130923025e4f0cd3988346234adffc3d5",
+      "width": 1735,
+      "height": 2359,
+      "reviewed": "Monk open-hand stun and separate kill conditions."
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8/phb-class-guidance-independent-correction/printed-32-pdf-033.png",
+      "printedPage": 32,
+      "pdfPage": 33,
+      "sha256": "7ddbafd8f68c12fa4798084e8f382f580527efe0a1c33816a1b5e7860ac1dc97",
+      "width": 1747,
+      "height": 2361,
+      "reviewed": "Quivering-palm use limit, touch deadline, target exclusions and HD/HP limits."
+    }
+  ],
+  "changes": [
+    {
+      "classId": "monk",
+      "field": "guidance",
+      "oldValue": "PHB pp. 30–32: open-hand killing is a separate roll after a successful hit and stun; the source excludes undead and creatures hit only by magical weapons and sets victim hit-dice/hit-point limits. Monks gain no Strength bonus to hit probability or damage.",
+      "oldValueSha256": "cdb0eb696917ed92d5d9069dfa86931f4e80cf09e7dd35d1d8d76424bdf1eff5",
+      "newValues": [
+        {
+          "value": "PHB p. 30: open-hand attacks can stun or kill. A stun requires a hit roll at least 5 above the minimum required and lasts 1–6 melee rounds. Killing is a separate percentile roll: the monk must first hit and stun, then roll equal to or below the opponent’s AC modified by the monk’s levels above 7; the source notes a negative chance at AC −1.",
+          "sha256": "a2f26a104719055f9ade788b463006404dba79ff02054779744fd2c2a861efae",
+          "sourcePrintedPages": [
+            30
+          ]
+        },
+        {
+          "value": "PHB p. 32: quivering palm is a separate ability, attempted only once per week; the monk must touch the intended victim within 3 melee rounds or the power is drained for one week. It has no effect on undead or creatures hit only by magical weapons; the victim cannot have more hit dice than the monk, and its hit points cannot exceed the monk’s by more than 200%. The death command must come within one day per monk level at use or the vibrations cease harmlessly. The general monk restriction is no Strength bonus to hit probability or damage.",
+          "sha256": "7a038753f482e038674ae2fbf6b2676cf1d304a84dc04e9e8fff9a3bd4ca1caa",
+          "sourcePrintedPages": [
+            32
+          ]
+        }
+      ],
+      "reason": "Separate the p.30 open-hand stun/kill sequence from the p.32 quivering-palm ability and keep each condition with its actual source rule."
+    },
+    {
+      "classId": "druid",
+      "field": "guidance",
+      "oldValue": "PHB p. 21: druids cannot turn or control undead, demons, or devils. A 7th-level druid can change into reptile, bird, or mammal forms up to three times daily, once per creature type per day; each change heals 10–60% of previously sustained hit-point damage.",
+      "oldValueSha256": "7327abb54a23b9550ca0bc8585e1ceebc9a3b99169661b8261d607cb143b439b",
+      "newValues": [
+        {
+          "value": "PHB p. 21: druids cannot turn or control undead, demons, or devils. At 7th level a druid can change form up to three times per day, once per creature type (reptile, bird, or mammal); the assumed creature retains the druid’s mind. Forms range from a bullfrog, bluejay, or bat to a large snake, eagle, or black bear about twice the druid’s weight. Each change heals 10–60% of damage sustained before changing form.",
+          "sha256": "526387e4ff6a2e314424970508c44a292edd18593b896327998c045c72af4b08",
+          "sourcePrintedPages": [
+            21
+          ]
+        }
+      ],
+      "reason": "Preserve the retained mind and source-stated lower/upper animal-form size examples while keeping the daily/type and prior-damage conditions."
+    },
+    {
+      "classId": "paladin",
+      "field": "guidance",
+      "oldValue": "PHB pp. 22, 24: a paladin may retain at most 10 magic items (1 suit of armor, 1 shield, 4 weapons, 4 other items), retains only enough wealth for a modest lifestyle, henchmen/servants, and a small castle; gives away excess and tithes 10% of all income to a lawful-good charitable religious institution, and attracts no men-at-arms.",
+      "oldValueSha256": "bf96c86bb8d5317be762e2e7cbab54648d97f5217bf5c5071ffc68aef312645f",
+      "newValues": [
+        {
+          "value": "PHB pp. 22, 24: a paladin may retain at most 10 magic items (1 suit of armor, 1 shield, 4 weapons, 4 other items); a magic bow and magic arrows together count as one weapon. The paladin retains only enough wealth for a modest lifestyle, henchmen/servants, and a small castle; gives away excess and tithes 10% of all income to a lawful-good charitable religious institution, and attracts no men-at-arms.",
+          "sha256": "6ec6922c5f9723cc2e9720d7e8dc69c2283e0e117f58dfcf932e652c50544ff1",
+          "sourcePrintedPages": [
+            22,
+            24
+          ]
+        }
+      ],
+      "reason": "Retain the four-weapon cap and include the source footnote that a magic bow and magic arrows together count as one weapon."
+    }
+  ],
+  "structuralChecks": {
+    "preCorrectionClassesSha256": "76768e670155a225ef7976ae28da4e514dffe81f3c623082156a690cfb83dd3f",
+    "postCorrectionClassesSha256": "f5fd30a69b028489a22b70aa972d92dfffbe75c27bb2d09c4cc1c54a3a1497fb",
+    "scope": "Since baseCommit, class content remains append-only guidance. Relative to pre-correction classes, only the Monk, Druid, and Paladin guidance arrays changed; no non-guidance property changed. The corrected Monk leaf is split into two source-specific entries, giving 24 appended guidance entries across the class dataset versus 23 in the initial proposal."
+  },
+  "limitations": [
+    "No source-grade, citation, focus, active metadata, browser, or search review is claimed by this correction proposal.",
+    "This is not an exhaustive PHB class-completeness claim; the independent review specifically limits its decision to the identified three content defects.",
+    "This correction is not approved for activation until the independent reviewer accepts the exact new leaf hashes and class-file hash."
+  ]
+}

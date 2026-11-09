@@ -11,7 +11,7 @@
       ],
       "fields": {
         "Range": "6″",
-        "Duration": "6 rounds",
+        "Duration": "6 melee rounds",
         "Components": "V, S, M",
         "Casting time": "1 round",
         "Saving throw": "None",
@@ -22,7 +22,8 @@
         "Friendly recipients gain +1 morale and +1 to hit."
       ],
       "conditions": [
-        "Recipients must not already be in melee."
+        "Recipients must not already be in melee.",
+        "The caster chooses a casting point within the listed range; the spell affects creatures in a 5″ square centered on that point."
       ],
       "exceptions": [
         "Reverse: curse gives enemies −1 morale and −1 to hit."
@@ -114,7 +115,9 @@
         "Heals 1d8 points of injury."
       ],
       "conditions": [
-        "The reverse causes 1d8 damage; touching an unwilling victim requires a melee hit roll."
+        "The reverse causes 1d8 damage; touching an unwilling victim requires a melee hit roll.",
+        "Wounds healed by this spell are permanent only insofar as the creature sustains no further damage.",
+        "Wounds caused by the reverse, Cause Light Wounds, heal or can be cured just as any normal injury."
       ],
       "exceptions": [
         "Does not heal noncorporeal or nonliving creatures, or creatures harmed only by iron, silver or magical weapons."
@@ -232,13 +235,15 @@
         "Casting time": "4 segments",
         "Saving throw": "None",
         "Area": "Touched creature",
-        "Material": "Holy water circle, or burning incense; reverse uses blood or smoldering dung"
+        "Material": "3′-diameter circle on floor or ground: holy water for protection from evil, blood for protection from good; alternatively, in the air using burning incense or smoldering dung with respect to evil/good."
       },
       "effect": [
         "Evil attackers suffer −2 to hit; recipient gains +2 on saves against their attacks.",
-        "A 1-foot barrier prevents bodily contact by the enchanted, conjured and summoned creatures described in the source."
+        "A ward one foot from the recipient prevents bodily contact by enchanted or conjured beings, including aerial servants, demons, devils, djinn, efreet, elementals, imps, invisible stalkers, night hags, quasits, salamanders, water weirds, wind walkers and xorn; summoned animals or monsters are similarly kept away."
       ],
-      "conditions": [],
+      "conditions": [
+        "The 3′ material circle is distinct from the ward’s one-foot distance from the recipient."
+      ],
       "exceptions": [
         "Reverse protects against good while continuing to exclude enchanted evil creatures."
       ],
@@ -323,7 +328,8 @@
         "Material": "Holy/unholy symbol and a small silver mirror"
       },
       "effect": [
-        "An attacker must save versus magic to attack the protected creature; failure makes it ignore that creature and attack another."
+        "An attacker must save versus magic to attack the protected creature; failure makes it ignore that creature and attack another.",
+        "If the attacker makes its saving throw, the protected creature is subject to the normal attack process, including the weapon hit roll, saving throws and damage."
       ],
       "conditions": [
         "The protected cleric may take no offensive action. Nonattack spells, including healing, remain possible."
@@ -2976,7 +2982,8 @@
         "Counts as a magical weapon with one plus per 3 caster levels for eligibility to hit creatures; this gives no to-hit bonus."
       ],
       "conditions": [
-        "Ends when concentration stops. If the cleric is behind an opponent, its attacks gain the rear-attack benefits described in the source."
+        "The spell ends when the cleric ceases concentrating.",
+        "If the cleric is behind an opponent, the force can strike from that position, gaining all bonuses for the attack and negating defensive protections such as shield and Dexterity."
       ],
       "exceptions": [],
       "status": "OCR checked · visual review pending"
@@ -3004,7 +3011,8 @@
         "Animates dead human bones or bodies as skeletons or zombies that obey the cleric’s orders."
       ],
       "conditions": [
-        "Good clerics must weigh the act carefully and have a good reason; the source treats animation as morally problematic."
+        "Good clerics must weigh the act carefully and have a good reason; the source treats animation as morally problematic.",
+        "Orders may direct the skeletons or zombies to follow, or to remain in an area and attack any creature—or a specified type of creature—that enters."
       ],
       "exceptions": [],
       "status": "OCR checked · visual review pending",
@@ -3180,10 +3188,17 @@
         "Casting time": "1 turn",
         "Saving throw": "None",
         "Area": "One dead creature’s body or remains",
-        "Material": "Holy symbol and burning incense"
+        "Material": "Holy symbol and burning incense",
+        "Range": "1"
       },
       "effect": [
-        "Asks questions of a dead creature, answered according to what it knew in life."
+        "Asks questions of a dead creature, answered according to what it knew in life.",
+        "Level up to 7th | maximum time dead: 1 week | time questioned: 1 round | questions: 2",
+        "Level 7th—8th | maximum time dead: 1 month | time questioned: 3 rounds | questions: 3",
+        "Level 9th—12th | maximum time dead: 1 year | time questioned: 1 turn | questions: 4",
+        "Level 13th—15th | maximum time dead: 10 years | time questioned: 2 turns | questions: 5",
+        "Level 16th—20th | maximum time dead: 100 years | time questioned: 3 turns | questions: 6",
+        "Level 21st and up | maximum time dead: 1,000 years | time questioned: 6 turns | questions: 7"
       ],
       "conditions": [
         "Caster must know a language the creature used. Maximum time dead, question count and questioning duration depend on cleric level."
@@ -3272,14 +3287,16 @@
         "Casting time": "1–100+ turns",
         "Saving throw": "None",
         "Area": "One creature or object",
-        "Material": "Holy/unholy religious object and water"
+        "Material": "Holy/unholy religious object and water",
+        "Range": "1"
       },
       "effect": [
         "Attempts to end outside possession or control, including magic jar, demonic possession, curses or charm; can affect an enchanted object."
       ],
       "conditions": [
         "Once begun, interruption spoils the spell. Success is checked each turn against a random or referee-set base chance modified by relative levels.",
-        "A religious relic or artifact can improve success by 1%–50%, according to its power."
+        "A religious relic or artifact can improve success by 1%–50%, according to its power.",
+        "For each level of difference between the cleric and the possessor or possessing magic, subtract 1 percentage point when the cleric is lower; add 1 percentage point cumulatively when the cleric is higher. The source gives a 1%–100% base chance; the referee may set the base according to circumstances."
       ],
       "exceptions": [
         "The printed p.48 entry gives the range as “1” without a visible unit."
@@ -3656,7 +3673,8 @@
       ],
       "conditions": [
         "Caster needs protection from evil, a suitable magic circle/triangle/pentagram, or an appropriate religious symbol/artifact/relic to control it; without protection it slays the summoner.",
-        "Retrieval normally gains 4 free surprise rounds; a target able to detect invisibility uses the source’s surprise roll. A successful hit grabs the target, followed by a strength comparison."
+        "When sent on a mission, the servant attacks by complete surprise and gains 4 free melee rounds unless the creature involved can detect invisible objects; then roll 1d6: 1 = 1 free round, 2 = 2, 3 = 3, 4 = 4, and 5 or 6 = 0 (the opponent is not surprised). Each round, the servant rolls to hit; a hit means it grabbed the assigned object or creature. If a creature is involved, compare strength; if it has no strength rating, roll the appropriate number and type of hit dice for the servant and creature. The higher total is the stronger.",
+        "The Monster Manual (p. 6) says the aerial servant can carry weights in excess of 10,000 gold pieces; this is a weight capacity, not a coin allowance."
       ],
       "exceptions": [
         "Ends on completion, release, dispelling, expiry or the cleric’s death. Interference with its mission can have dangerous consequences."
@@ -3684,8 +3702,9 @@
         "Animates one or more objects to attack the initially designated target. Any material can be animated."
       ],
       "conditions": [
-        "Movement, attack frequency, damage, armor class and durability depend on shape, material and mass; the referee decides these values.",
-        "Flexible objects can obstruct, trip, bind or smother; harder objects can strike or crush."
+        "Movement depends on means of propulsion and weight. Examples: a large stone pedestal rocks forward 1″ per round, a stone statue moves 4″ per round, a wooden statue 8″ per round, and a light ivory stool 12″ per round; slithering is about 1″–2″ per round and rolling 3″–6″ per round.",
+        "Light, supple objects can only obscure vision, obstruct movement, bind, trip or smother. Light, hard objects can strike for 1–2 hit points or possibly obstruct and trip as light, supple objects; hard medium-weight objects can crush or strike for 2–8 hit points, and larger/heavier objects for 3–12, 4–16 or 5–20 hit points.",
+        "Attack frequency depends on locomotion, appendages and method of attack, ranging from once every five melee rounds to once per melee round. Armor class depends on material and movement ability with regard to hitting. Damage suffered by the animated object depends on the weapon and material struck: sharp cutting weapons work well against fabric, leather or wood, while heavy smashing or crushing weapons work well against wood, stone or metal. The referee determines the object-specific factors and how much damage it can sustain before destruction."
       ],
       "exceptions": [],
       "status": "OCR checked · visual review pending"

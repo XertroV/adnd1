@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "title": "Independent source and structural recheck of bounded PHB class-guidance corrections",
+  "reviewStatus": "three bounded source-content corrections accepted; no class, table, citation, grade, or completeness approval",
+  "reviewDate": "2026-11-09",
+  "reviewScope": "Independent delta review of the exact author correction proposal and its pinned private source renders. No author data, tests, code, citations, grades, activation metadata, commits, or pushes were changed.",
+  "inputs": {
+    "repository": "/workspace/adnd1-phb-class-ability-audit",
+    "baseCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+    "correctionProposal": {
+      "path": "research/source-audit-pass8-phb-class-content-independent-correction-proposal.json",
+      "sha256": "37f0ee7111875586a08ce41836fc6357bd69fdddc1378cd4ca1d88eb68e3b661"
+    },
+    "authorReceipt": {
+      "path": "research/source-audit-pass8-phb-class-content-independent-correction-author-receipt.json",
+      "sha256": "efd429e202b81deafbfaac132a61c57283c6773d06c3e761f4103df93221bc8a"
+    },
+    "classes": {
+      "path": "classes.json",
+      "sha256": "f5fd30a69b028489a22b70aa972d92dfffbe75c27bb2d09c4cc1c54a3a1497fb",
+      "preCorrectionSha256": "76768e670155a225ef7976ae28da4e514dffe81f3c623082156a690cfb83dd3f",
+      "a46Sha256": "46c5ad4c404eeb54a75af40e48e2eb8d8a5b952bf134accc7bf7cf1a6fea069e"
+    },
+    "preCorrectionSnapshot": {
+      "path": "/workspace/vault-audit-private/pass8/phb-class-guidance-independent-correction/classes-before-correction.json",
+      "sha256": "76768e670155a225ef7976ae28da4e514dffe81f3c623082156a690cfb83dd3f"
+    },
+    "sourcePdf": {
+      "filename": "tsr2010-players-handbook.pdf",
+      "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "storage": "private source PDF"
+    }
+  },
+  "sourcePixelRecheck": {
+    "method": "Individually inspected each exact proposal render and verified its byte hash; source meaning was judged from pixels, not OCR.",
+    "pages": [
+      {
+        "printedPage": 21,
+        "pdfPage": 22,
+        "sha256": "e5a4a42a0c08fa015b6dae5d25c366247e2d5d8fbf114eb4fa1f213a19fe3c8b",
+        "result": "Druid retains its mind; changes form up to three times daily, once per type; size examples extend from bullfrog/bluejay/bat to large snake/eagle/black bear (about twice druid weight); heals 10–60% of pre-change damage."
+      },
+      {
+        "printedPage": 22,
+        "pdfPage": 23,
+        "sha256": "6d3c090bef2309fd4bbcb2a60ed95e0de13fad0773c36ae8dfd4494d1afda4c9",
+        "result": "Paladin ten-item composition and footnote: magic bows and magic arrows together count as one weapon."
+      },
+      {
+        "printedPage": 30,
+        "pdfPage": 31,
+        "sha256": "ff3b877ec17aaab1516900555009f2a130923025e4f0cd3988346234adffc3d5",
+        "result": "Open-hand stun margin/duration and separate kill-percentile roll after hit and stun, using AC adjusted by monk levels above seven."
+      },
+      {
+        "printedPage": 32,
+        "pdfPage": 33,
+        "sha256": "7ddbafd8f68c12fa4798084e8f382f580527efe0a1c33816a1b5e7860ac1dc97",
+        "result": "Quivering-palm weekly limit, three-round touch deadline, target exclusions, victim HD/HP limits, death-command deadline of one day per monk level at use; no Strength bonus to hit or damage."
+      }
+    ]
+  },
+  "correctionDisposition": [
+    {
+      "classId": "druid",
+      "status": "accepted",
+      "newGuidanceLeafSha256": "526387e4ff6a2e314424970508c44a292edd18593b896327998c045c72af4b08",
+      "finding": "Matches the p.21 conditions and adds retained-mind and bounded form-size qualifiers while preserving the daily/type and prior-damage conditions."
+    },
+    {
+      "classId": "paladin",
+      "status": "accepted",
+      "newGuidanceLeafSha256": "6ec6922c5f9723cc2e9720d7e8dc69c2283e0e117f58dfcf932e652c50544ff1",
+      "finding": "Adds the p.22 bow-and-arrows counting footnote; prior pp.22,24 wealth/tithe summary is preserved."
+    },
+    {
+      "classId": "monk",
+      "status": "accepted",
+      "newGuidanceLeafHashes": [
+        "a2f26a104719055f9ade788b463006404dba79ff02054779744fd2c2a861efae",
+        "7a038753f482e038674ae2fbf6b2676cf1d304a84dc04e9e8fff9a3bd4ca1caa"
+      ],
+      "finding": "Separates p.30 open-hand stun/kill from p.32 quivering palm; conditions and no-Strength-adjustment restriction align with the source pages."
+    }
+  ],
+  "structuralDelta": {
+    "allBoundHashesVerified": true,
+    "classRecordCount": 16,
+    "onlyChangedClassesVsPreservedPreCorrection": [
+      "druid",
+      "monk",
+      "paladin"
+    ],
+    "onlyChangedField": "guidance",
+    "onlyDeclaredLeavesReplaced": true,
+    "monkOldLeafSplitIntoTwoSourceSpecificLeaves": true,
+    "otherPreCorrectionGuidancePreserved": true,
+    "allA46GuidancePrefixesPreserved": true,
+    "noNonGuidancePropertyOrOtherClassChanged": true,
+    "guidanceLeavesAppendedSinceA46": 24
+  },
+  "validation": {
+    "focusedTestCommand": "node --test tests/class-source-context-batch5.test.mjs tests/class-progression-audit.test.mjs tests/progression.test.mjs",
+    "focusedTests": {
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "gitDiffCheck": "passed",
+    "scopeNote": "Tests cover application/progression boundaries; source accuracy was reviewed independently against the pinned pixels."
+  },
+  "limits": [
+    "Acceptance covers only the three previously identified content corrections and the exact data delta.",
+    "No full-class prose denominator, source-grade, citation/focus, activation metadata, matrix, Table II completeness, or global completeness approval is made.",
+    "Original baseline, proposal, prior review, preserved pre-correction data, and author correction records remain separate historical artifacts."
+  ],
+  "remainingCorrectionBlockers": []
+}

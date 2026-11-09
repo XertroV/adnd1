@@ -62,9 +62,9 @@ test('spell filters have source-supported class and level values',()=>{
   for(const field of ['effect','conditions','exceptions'])assert.ok(Array.isArray(spell[field]),`${spell.id}: ${field} must be array`);
  }
 });
-test('all three editions and known source gaps are disclosed',()=>{
- assert.equal(data.sources.length,3);
- assert.deepEqual(data.sources.find(s=>s.id==='DMG').gaps,[175]);assert.deepEqual(data.sources.find(s=>s.id==='DMG').unverified,[239,240]);
+test('all five source editions, the DMG gap, and unnumbered physical leaves are disclosed',()=>{
+ assert.deepEqual(data.sources.map(s=>s.id),['PHB','UA','DMG','MM','MM2']);
+ const dmg=data.sources.find(s=>s.id==='DMG');assert.deepEqual(dmg.gaps,[175]);assert.deepEqual(dmg.unnumberedPdfLeaves.map(({pdfPage,printedPage,kind})=>[pdfPage,printedPage,kind]),[[239,null,'interior-reference-leaf'],[240,null,'rear-cover']]);assert.equal(Object.hasOwn(dmg,'unverified'),false);
  assert.equal(data.release.sourceFilesDeployed,false);
 });
 test('deployed tree contains no source PDFs, credentials or wholesale OCR',()=>{

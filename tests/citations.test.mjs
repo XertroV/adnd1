@@ -29,8 +29,8 @@ test('no inferred references, invalid pages, or accidental visual upgrades',()=>
 });
 test('missing DMG pages remain a visible gap and MM2 uses its exact displaced mapping',()=>{
  const rows=citations.pages({references:[{book:'DMG',pages:[174,175,176,239,240]},{book:'MM2',pages:[83,84,92]}]});
- assert.deepEqual(rows.map(r=>r.pdfPage),[175,null,176,null,null,92,84,93]);
- assert.deepEqual(rows.filter(r=>r.missing).map(r=>r.page),[175]);assert.equal(rows.find(r=>r.book==='DMG'&&r.page===175).evidenceAvailability,'supplemental');assert.equal(rows.find(r=>r.book==='DMG'&&r.page===175).availability,'missing');assert.deepEqual(rows.filter(r=>r.availability==='unverified').map(r=>r.page),[239,240]);
+ assert.deepEqual(rows.map(r=>r.pdfPage),[175,null,176,92,84,93]);
+ assert.deepEqual(rows.filter(r=>r.missing).map(r=>r.page),[175]);assert.equal(rows.find(r=>r.book==='DMG'&&r.page===175).evidenceAvailability,'supplemental');assert.equal(rows.find(r=>r.book==='DMG'&&r.page===175).availability,'missing');assert.deepEqual(rows.filter(r=>r.book==='DMG'&&r.availability==='unverified'),[]);assert.deepEqual(citations.pages({book:'DMG',pages:[239,240]}),[]);
 });
 test('class citations include source-backed XP and changes without cross-book relabeling',()=>{
  const groups=citations.collect(data.classes.find(x=>x.id==='fighter'));

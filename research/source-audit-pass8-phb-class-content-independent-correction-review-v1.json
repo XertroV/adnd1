@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "title": "Independent delta review of PHB class-guidance corrections",
+  "reviewStatus": "bounded-content-corrections-accepted; no whole-class, table, citation, grade, or completeness approval",
+  "reviewDate": "2026-11-09",
+  "reviewScope": "Independent read-only retest of the three source-content corrections requested in the prior independent review. No author data, code, tests, citations, source grades, activation metadata, commits, or pushes were changed.",
+  "inputs": {
+    "repository": "/workspace/adnd1-phb-class-ability-audit",
+    "baseCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+    "sourcePdf": {
+      "filename": "tsr2010-players-handbook.pdf",
+      "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "storage": "Private source; not copied into the repository"
+    },
+    "initialProposal": {
+      "path": "research/source-audit-pass8-phb-class-content-proposal.json",
+      "sha256": "33a6853b751dfdbec034cd4f01f26d8d5f4ae7c01b64c9e9b0f49d53cf89abf7"
+    },
+    "priorIndependentReview": {
+      "path": "research/source-audit-pass8-phb-class-content-independent-review-v1.json",
+      "sha256": "e02eabc34bfbf63a63b1868ae05b8dfbb83fcc7f2529217e936779141de8a845"
+    },
+    "correctionProposal": {
+      "path": "research/source-audit-pass8-phb-class-content-independent-correction-proposal.json",
+      "sha256": "37f0ee7111875586a08ce41836fc6357bd69fdddc1378cd4ca1d88eb68e3b661"
+    },
+    "authorReceipt": {
+      "path": "research/source-audit-pass8-phb-class-content-independent-correction-author-receipt.json",
+      "sha256": "efd429e202b81deafbfaac132a61c57283c6773d06c3e761f4103df93221bc8a"
+    },
+    "classes": {
+      "path": "classes.json",
+      "sha256": "f5fd30a69b028489a22b70aa972d92dfffbe75c27bb2d09c4cc1c54a3a1497fb",
+      "preCorrectionSha256": "76768e670155a225ef7976ae28da4e514dffe81f3c623082156a690cfb83dd3f",
+      "baseCommitSha256": "46c5ad4c404eeb54a75af40e48e2eb8d8a5b952bf134accc7bf7cf1a6fea069e"
+    }
+  },
+  "sourcePixelRecheck": {
+    "method": "Individually viewed the exact private renders named in the correction proposal and verified each render byte hash. OCR/text extraction was not used to determine source meaning.",
+    "pages": [
+      {
+        "printedPage": 21,
+        "pdfPage": 22,
+        "sha256": "e5a4a42a0c08fa015b6dae5d25c366247e2d5d8fbf114eb4fa1f213a19fe3c8b",
+        "checked": "Druid keeps its mind, may assume reptile/bird/mammal forms three times per day with one use per type, and has the pictured size range and prior-damage restoration rule."
+      },
+      {
+        "printedPage": 22,
+        "pdfPage": 23,
+        "sha256": "6d3c090bef2309fd4bbcb2a60ed95e0de13fad0773c36ae8dfd4494d1afda4c9",
+        "checked": "Paladin ten-item composition and footnote: magic bow and magic arrows count together as one weapon."
+      },
+      {
+        "printedPage": 30,
+        "pdfPage": 31,
+        "sha256": "ff3b877ec17aaab1516900555009f2a130923025e4f0cd3988346234adffc3d5",
+        "checked": "Open-hand stun margin/duration and separate kill roll after a hit and stun, with AC and level adjustment."
+      },
+      {
+        "printedPage": 32,
+        "pdfPage": 33,
+        "sha256": "7ddbafd8f68c12fa4798084e8f382f580527efe0a1c33816a1b5e7860ac1dc97",
+        "checked": "Quivering palm once-weekly use, three-round touch deadline, target exclusions, hit-dice/hit-point limits, and death-command deadline; Monk Strength limitation."
+      }
+    ]
+  },
+  "correctionDisposition": [
+    {
+      "classId": "monk",
+      "status": "accepted",
+      "newGuidanceLeafHashes": [
+        "a2f26a104719055f9ade788b463006404dba79ff02054779744fd2c2a861efae",
+        "7a038753f482e038674ae2fbf6b2676cf1d304a84dc04e9e8fff9a3bd4ca1caa"
+      ],
+      "finding": "The replacement cleanly separates the printed p.30 open-hand stun/kill rules from the printed p.32 quivering-palm ability. Each rule now carries its own conditions and page citation; the previously misplaced target limits are attached to quivering palm. The no-Strength-adjustment statement matches the general Monk restriction."
+    },
+    {
+      "classId": "druid",
+      "status": "accepted",
+      "newGuidanceLeafHash": "526387e4ff6a2e314424970508c44a292edd18593b896327998c045c72af4b08",
+      "finding": "The replacement adds the retained-mind condition and source-bounded small/large form examples, including the approximate upper weight, while retaining the type/day and hit-point restoration conditions."
+    },
+    {
+      "classId": "paladin",
+      "status": "accepted",
+      "newGuidanceLeafHash": "6ec6922c5f9723cc2e9720d7e8dc69c2283e0e117f58dfcf932e652c50544ff1",
+      "finding": "The replacement includes the printed p.22 magic bow-and-arrows counting exception alongside the existing ten-item cap and wealth/tithe summary."
+    }
+  ],
+  "structuralDelta": {
+    "currentClassesJsonSha256Verified": true,
+    "correctedLeavesMatchProposalValuesAndHashes": true,
+    "onlyThreeGuidanceArraysChangedRelativeToPreservedPreCorrectionData": true,
+    "eachChangeIsExactlyDeclaredReplacement": true,
+    "allOtherPreCorrectionGuidanceLeavesPreserved": true,
+    "allA46ClassGuidancePrefixesPreserved": true,
+    "noNonGuidanceClassPropertyChanged": true,
+    "noOtherClassRecordChanged": true,
+    "classCount": 16,
+    "guidanceEntriesAppendedSinceA46": 24,
+    "monkOldLeafSplitIntoTwoNewLeaves": true
+  },
+  "validation": {
+    "jsonParsingAndHashes": "Passed; current classes.json and proposal/receipt hashes match the bound values above.",
+    "focusedTestCommand": "node --test tests/class-source-context-batch5.test.mjs tests/class-progression-audit.test.mjs tests/progression.test.mjs",
+    "focusedTests": {
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "scopeNote": "The focused tests passed but establish application/progression behavior only; source accuracy was independently checked against the private pixels above."
+  },
+  "limits": [
+    "Acceptance covers only closure of the three previously identified content defects and the exact bounded data delta.",
+    "No full-class prose denominator, source-grade, citation/focus, metadata-activation, matrix, Table II completeness, or global completeness approval is made.",
+    "The prior baseline and correction history remain preserved as exact-hash inputs; this receipt does not overwrite them."
+  ],
+  "remainingCorrectionBlockers": []
+}

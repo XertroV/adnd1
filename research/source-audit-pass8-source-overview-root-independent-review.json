@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "pass8-source-overview-root-independent-review",
+  "inputCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+  "decision": "accepted-source-metadata-and-scoped-renderer-proposal; final integrated build/browser/CI pending",
+  "authorProposal": {
+    "path": "research/source-audit-pass8-source-overview-author-proposal.json",
+    "sha256": "8e392e3c59a972322d489cad40b793a0170979a957382a609b67fe6018dbbe0a"
+  },
+  "canonicalFileChecks": [
+    {
+      "book": "PHB",
+      "fileName": "tsr2010-players-handbook.pdf",
+      "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "pdfPages": 130,
+      "printedLastPage": 128
+    },
+    {
+      "book": "UA",
+      "fileName": "Unearthed Arcana.pdf",
+      "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+      "pdfPages": 130,
+      "printedLastPage": 128
+    },
+    {
+      "book": "DMG",
+      "fileName": "DMG_1stEd.pdf",
+      "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "pdfPages": 240,
+      "printedLastPage": 238
+    },
+    {
+      "book": "MM",
+      "fileName": "Monster_Manual.pdf",
+      "sourceSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+      "pdfPages": 114,
+      "printedLastPage": 112
+    },
+    {
+      "book": "MM2",
+      "fileName": "Monster Manual II.pdf",
+      "sourceSha256": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24",
+      "pdfPages": 162,
+      "printedLastPage": 160
+    }
+  ],
+  "sourcePixelsIndividuallyViewed": [
+    {
+      "source": "Monster_Manual.pdf",
+      "pdfPage": 2,
+      "path": "/workspace/vault-audit-private/pass8/root/source-overview-independent/mm-title.png",
+      "sha256": "88e08ee7bc2635f85715f7defc583e9060396f2b4d373a89dc6fa91979a81df4"
+    },
+    {
+      "source": "Monster Manual II.pdf",
+      "pdfPage": 2,
+      "path": "/workspace/vault-audit-private/pass8/root/source-overview-independent/mm2-title.png",
+      "sha256": "02d8896038f5cb1fa7afb40d9d8430613afc1427960caab5ad357602dd71208b"
+    },
+    {
+      "source": "DMG_1stEd.pdf",
+      "pdfPage": 239,
+      "path": "/workspace/vault-audit-private/pass8/root/source-overview-independent/dmg-pdf-239.png",
+      "sha256": "53afb1742803beb00c41296755182b00712dd03adbc4006ba0b6c3bcb2882546"
+    },
+    {
+      "source": "DMG_1stEd.pdf",
+      "pdfPage": 240,
+      "path": "/workspace/vault-audit-private/pass8/root/source-overview-independent/dmg-pdf-240.png",
+      "sha256": "d3d0b70fd798cbb79d29f4c057bc81a4b176e738869e1be6e62fb7f21ad5d2bf"
+    },
+    {
+      "source": "Monster Manual II.pdf",
+      "pdfPage": 3,
+      "path": "/workspace/vault-audit-private/pass8/root/source-overview-independent/mm2-copyright.png",
+      "sha256": "9edfd3a2d3a14e7718aec5c40b58243905dc8076b6fe24edef6b0713f50e695f"
+    }
+  ],
+  "sourceFindings": [
+    "MM title page at PDF2 visibly marks4thEditionAugust1979; source card explicitly identifies AD&Dfirstedition and retains uncertainty about exact printing/scan provenance.",
+    "MM2 copyright at PDF3 visibly reads1983.",
+    "DMG PDF239 is an unnumbered reference leaf with encumbrance/armor/hireling tables; PDF240 is the rear cover. Neither receives an invented printed folio or printed-page mapping.",
+    "DMG175 remains physically omitted by the canonicalPDF; acceptedcorrect-editionprivateJPEG usablethroughitslimitedexcerpts. Unknownprintingdoesnotcanceluseracceptededition."
+  ],
+  "codeReview": [
+    "Only rules.sources metadata is copied from the overview author; all old149rules preserved and the newDruidowner remains byte-equivalent atobjectscope.",
+    "Existing structured citation collector counts each supporting owner once perbook in onepass; progressionExplainer included, primarybook excluded from its own supportingcount.",
+    "Printed bounds/mappings are tested atallvalidpageintegers: DMG175 gap preserved, MM2misplaced83 mapsPDF92, physicalunnumberedleaves are notcitationpages.",
+    "Generic future unverified-page support remains in books.availability; only inaccurateDMG239/240unverifiedprintedmetadata removed."
+  ],
+  "transplantManifest": [
+    {
+      "path": "README.md",
+      "sha256": "299a194f1ed1f087e6813a0db946c62bea078ccff39920e07e2753943b191f0e",
+      "bytes": 13143
+    },
+    {
+      "path": "dist/app.js",
+      "sha256": "23d3ac2602ac012149b6ab712590bfe3cb1bc9b76324d148756ae1f60543059e",
+      "bytes": 145263
+    },
+    {
+      "path": "dist/books.js",
+      "sha256": "804deee6fffd2852bc6326e33046e888c10f8f5224835b29dceb42195a571a4f",
+      "bytes": 9279
+    },
+    {
+      "path": "tests/source-overview-metadata.test.mjs",
+      "sha256": "93a89b877f7204e6d339f0afe251f097aa62b37f1d8f92b09b02b22cd7aa63bc",
+      "bytes": 5444
+    },
+    {
+      "path": "rules.json",
+      "sha256": "93d3455015fbd482f16a83bad2d54501053ed1214050536078f395cc06d48ab9",
+      "sourceArrayExactAuthorMatch": true,
+      "druidOwnerPreserved": true
+    }
+  ],
+  "checks": {
+    "command": "node --test tests/source-overview-metadata.test.mjs tests/phb-spell-guidance-source-content.test.mjs",
+    "tests": 24,
+    "passed": 24,
+    "failed": 0,
+    "logSha256": "19721160a51dd4c260b2fbb518962c3f76ca01e1f7b6d1f7d7a3a10bc898731c",
+    "diffCheck": "passed"
+  },
+  "browserEvidenceScope": "Root inspected author actual390px full Sources screenshot. Five cards readable without horizontal overflow. Root independent final integrated runtime is still pending. Author staging has a known stalecoverage-gaps panel because assemble stopped at the recorded currentdata handoff guard; this is not a complete integrated build pass.",
+  "limits": [
+    "No whole-book semantic verification or primary MM/MM2bestiary entries claimed.",
+    "Source full-page renders/PDFs remain private; only file metadata and review proof are public.",
+    "Historical report assertions about unverified endmatter remain frozen; current behavior tests will be narrowly superseded with this source-backed classification."
+  ]
+}

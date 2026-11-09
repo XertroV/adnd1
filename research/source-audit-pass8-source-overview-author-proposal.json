@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "source-overview-author-proposal",
+  "status": "ready-for-independent-review",
+  "proposalBase": {
+    "commit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+    "privateBeforeManifestSha256": "6205b2546b2bf01c570a3805ca04fba4c5e46fece88e9df6ed0da9437934ad8f",
+    "beforeRulesSha256": "78afec70d0380db08d7e750a8ce1fcec16a8167aaa4107be8af5351a474bfc5d",
+    "beforeBooksJsSha256": "6284977531e38b3184a15939bb8a68e31b37d1dad61c91392bb57d443045d98d",
+    "beforeAppJsSha256": "5913dd09673455247367b797d7ae8b7d1375df1fb98c05db0135ce5fd502630e",
+    "beforeReadmeSha256": "3517787673c58b21a8f15c03de890bef46e4ea736e02155d5ba92d94bfd175a2"
+  },
+  "sourceEvidence": {
+    "beforeAuditReportSha256": "d09dea7b6d879ba7ec1c493b5590ded1229c34f6c5567241a942151f745b92d8",
+    "dmgEndmatterAssessmentSha256": "8f955358bfe7cb2305e55b502cae0624f7d42bb3e54652aa0979cd1f80a91a29",
+    "dmgAssessmentInputCommit": "6d330af372ac809d11ed6029ed8695d0d8dc0909",
+    "confirmedBeforeFindings": [
+      "The live source overview had PHB, UA, and DMG cards but omitted registered MM and MM2 PDFs.",
+      "The DMG card treated PDF leaves 239 and 240 as unverified printed pages. Pixel review identifies PDF 239 as an unnumbered interior reference leaf and PDF 240 as an unnumbered rear cover; neither has an established printed folio.",
+      "MM and MM2 are cited by selected spell entries, but the app has no searchable monster-profile catalogue for either book."
+    ]
+  },
+  "authoredChangeFiles": [
+    {
+      "path": "rules.json#sources",
+      "sha256": "827e304164f9e0dacf8b8f6f61c30e3976efb165512b11586754d8a0c50a1337"
+    },
+    {
+      "path": "dist/books.js",
+      "sha256": "804deee6fffd2852bc6326e33046e888c10f8f5224835b29dceb42195a571a4f"
+    },
+    {
+      "path": "dist/app.js",
+      "sha256": "23d3ac2602ac012149b6ab712590bfe3cb1bc9b76324d148756ae1f60543059e"
+    },
+    {
+      "path": "README.md",
+      "sha256": "299a194f1ed1f087e6813a0db946c62bea078ccff39920e07e2753943b191f0e"
+    },
+    {
+      "path": "tests/source-overview-metadata.test.mjs",
+      "sha256": "93a89b877f7204e6d339f0afe251f097aa62b37f1d8f92b09b02b22cd7aa63bc"
+    }
+  ],
+  "proposedSourceRegistry": {
+    "canonicalPdfs": 5,
+    "physicalPdfPages": 776,
+    "sourceFiles": [
+      {"id":"PHB","file":"tsr2010-players-handbook.pdf","pdfPages":130,"printedLastPage":128,"sourceSha256":"e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"},
+      {"id":"UA","file":"Unearthed Arcana.pdf","pdfPages":130,"printedLastPage":128,"sourceSha256":"e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"},
+      {"id":"DMG","file":"DMG_1stEd.pdf","pdfPages":240,"printedLastPage":238,"sourceSha256":"7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"},
+      {"id":"MM","file":"Monster_Manual.pdf","pdfPages":114,"printedLastPage":112,"sourceSha256":"c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81"},
+      {"id":"MM2","file":"Monster Manual II.pdf","pdfPages":162,"printedLastPage":160,"sourceSha256":"b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24"}
+    ],
+    "dmg": {
+      "printedPages": "1-174 map to PDF N+1; 176-238 map to PDF N; printed 175 is absent from the supplied PDF.",
+      "supplement": "A separate private JPEG is user-confirmed as the correct edition; its exact printing is not established. Two limited reviewed excerpts are available.",
+      "unnumberedPdfLeaves": [
+        {"pdfPage":239,"printedPage":null,"kind":"interior-reference-leaf","label":"Repeated encumbrance, armor and hireling tables; no printed folio established."},
+        {"pdfPage":240,"printedPage":null,"kind":"rear-cover","label":"No printed folio established."}
+      ]
+    },
+    "mm": {
+      "titlePageWording": "4th Edition, August 1979",
+      "adndEditionLabel": "AD&D first edition",
+      "exactPrintingAndScanProvenance": "not established",
+      "catalogueScope": "Selected spell citations only; no searchable MM profile catalogue."
+    },
+    "mm2": {
+      "copyright": "1983",
+      "exactPrintingAndScanProvenance": "not established",
+      "printedToPdf": "1-82 => N+1; 83 => 92; 84-91 => N; 92-160 => N+1. Printed p.83 is displaced after p.91 in the supplied scan.",
+      "catalogueScope": "Selected spell citations only; no searchable MM II profile catalogue."
+    }
+  },
+  "renderedUsageCounts": {
+    "unit": "source-owning records, not pages",
+    "supportingCountRule": "Count each record at most once per cited supporting book, excluding its own primary book; use FirstEditionCitations.collect and include progressionExplainer.",
+    "MM": {"primaryEntries":0,"supportingCitingRecords":8},
+    "MM2": {"primaryEntries":0,"supportingCitingRecords":1},
+    "zeroPrimaryMeaning": "A zero primary-book count does not imply the source is unused."
+  },
+  "focusedTest": {
+    "command": "node --test tests/source-overview-metadata.test.mjs",
+    "passed": 7,
+    "failed": 0,
+    "outputArtifact": "private /tmp/adnd1-source-overview-metadata-test-output.txt",
+    "outputSha256": "c6be544bbacd5c7b08df2beae3549bf2aaaa420a82d2d227d3333903698f8024",
+    "checks": [
+      "five registered source files and 776 physical PDF pages",
+      "DMG printed p.175 gap and limited separate supplement evidence",
+      "PDF 239/240 typed as unnumbered leaves and excluded from printed citations",
+      "all PHB, UA, DMG, MM and four MM2 mapping regions including displaced p.83",
+      "MM/MM2 exact-printing uncertainty and bounded catalogue scope",
+      "MM and MM2 supporting-record counts",
+      "generated evidence bindings do not inflate per-book owner counts"
+    ]
+  },
+  "privateBrowserCheck": {
+    "status": "passed",
+    "resultSha256": "218c1cb7921ee0657f775f3803246553d9f7ebf191865e844fd64f9d79e943b6",
+    "cards": ["PHB","UA","DMG","MM","MM2"],
+    "registryText": "5 registered source PDFs · 776 PDF pages.",
+    "MM": {"primaryEntries":0,"supportingCitingEntries":8},
+    "MM2": {"primaryEntries":0,"supportingCitingEntries":1,"printed83Pdf":92},
+    "viewports": [
+      {"width":1440,"height":1000,"documentWidth":1440,"overflowingCards":[]},
+      {"width":390,"height":844,"documentWidth":390,"overflowingCards":[]}
+    ],
+    "uncaughtJavaScriptErrors": 0,
+    "screenshots": [
+      {"artifact":"private desktop source-overview screenshot","sha256":"f7b62cdd083bc88a214e67739c317e04d00322b4126aafea480646d44311a62f","containsPrivateSourceImagePixels":false},
+      {"artifact":"private 390px mobile source-overview screenshot","sha256":"0741231b84867bdf4affbad844653701ceec87d07550c5b6e412ceccd3a16af6","containsPrivateSourceImagePixels":false}
+    ]
+  },
+  "privateStagingAssembly": {
+    "command": "node tools/assemble.mjs",
+    "stageBaseCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+    "exitStatus": 1,
+    "failure": "Invalid coverage gaps payload: current parsed data hash differs from the handoff snapshot",
+    "failureLocation": "tools/coverage-gaps.mjs:137; called from tools/assemble.mjs:84",
+    "stagingBeforeHashes": {
+      "dist/data.json":"a4225fbd2015c5ba7d225738ec1a9bf4658f4a9a9700e340a37dde79317119f3",
+      "dist/source-continuations.json":"18101098e2550013a090cc0fc81610392de42c037c492a9655ca23e1186961c1",
+      "research/price-source-inventory.json":"e272326ae95984015451fe88ecd91aade548eba82f026570a64f20e32ff6a542",
+      "dist/coverage-gaps.json":"da29710a4846439be039e71370c614e31063bb6b660c92eaa607849b279b16d7"
+    },
+    "partialWriteHashesAfterGuardFailure": {
+      "dist/data.json":"9de5610fecc3d85482652458f780484c1d5f330b371057a3b4fb0b52029440a1",
+      "dist/source-continuations.json":"48e217962c5773ac7661a65561a232363a82dd2b5acd33ac0832171a5cc51a8c",
+      "research/price-source-inventory.json":"d99b8e6f86f885534cf0886b6dac1f91c14aa0fc5c675ed67583b95254e16a17",
+      "dist/coverage-gaps.json":"da29710a4846439be039e71370c614e31063bb6b660c92eaa607849b279b16d7"
+    },
+    "finalBrowserPreviewDataSha256": "a8aed89a251d9d79f4b7b1a2f52922191b98cb4a4dc4ccd56e9e9c71467da380",
+    "sharedProposalWorktreeDistDataSha256": "a4225fbd2015c5ba7d225738ec1a9bf4658f4a9a9700e340a37dde79317119f3",
+    "note": "The final private browser preview reused the assembled 5-source data and replaced only its sources array from the final rules.json. No full rerun or generated data change occurred in the shared proposal worktree. The unchanged coverage-gaps snapshot displays a stale-data notice beneath the source overview; source-card, overflow and uncaught-error checks passed."
+  },
+  "privacyAndIntegrationLimits": {
+    "privateSourcePdfsOrDmg175JpegAddedToRepository": false,
+    "privateSourcePdfsOrDmg175JpegDeployed": false,
+    "privateScreenshotsContainOriginalSourcePixels": false,
+    "historicalAuditEvidencePreserved": true,
+    "fullSuiteRun": false,
+    "knownIntegrationFollowup": "Current legacy tests that expect DMG printed 239/240 to be unverified or included as printed pages need narrowly scoped updates after root captures the actual failures. Historical source inventories and archived audits remain unchanged."
+  }
+}

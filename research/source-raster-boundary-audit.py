@@ -56,6 +56,7 @@ normalized_rect_to_page_points = _frame_bridge.normalized_rect_to_page_points
 public_resolution = _frame_bridge.public_resolution
 load_registry = _frame_bridge.load_registry
 REGISTRY_SHA256 = _frame_bridge.REGISTRY_SHA256
+REGISTRY_RELATIVE_PATH = _frame_bridge.REGISTRY_RELATIVE_PATH
 validate_live_registry = _frame_bridge.validate_live_registry
 
 
@@ -448,7 +449,7 @@ def reconcile_live_catalog_usage(source_map, data_root, source_map_path, pdfs, s
         declaration = source_map.get("sourceFrameCoordinateBridge")
         if not isinstance(declaration, dict):
             raise ValueError("source usage map is missing the active source-frame bridge declaration")
-        if declaration.get("path") != "research/source-frame-coordinate-bridge.json" or declaration.get("sha256") != REGISTRY_SHA256 or declaration.get("status") != "scoped-geometric-provenance-only":
+        if declaration.get("path") != REGISTRY_RELATIVE_PATH or declaration.get("sha256") != REGISTRY_SHA256 or declaration.get("status") != "scoped-geometric-provenance-only":
             raise ValueError("source usage map source-frame bridge declaration mismatch")
         live_registry_validation=validate_live_registry(data,data_root,declared_pdf_hashes,None)
         if live_registry_validation.get("status") != "current-pins-match":
@@ -901,7 +902,7 @@ def build_audit(source_map_path, source_dir, data_root, dpi=300, band_px=8, cali
         (usage.get("coordinateFrameResolution") or {}).get("status", "unregistered-legacy-usage") for usage in usages)
     output = {
         "artifactType": "Complete numeric source-raster crop-boundary candidate inventory",
-        "sourceFrameCoordinateBridge": ({"path":"research/source-frame-coordinate-bridge.json","sha256":REGISTRY_SHA256,"status":"scoped-geometric-provenance-only","resolutionCounts":dict(sorted(coordinate_frame_status_counts.items())),"registryValidation":(source_map.get("sourceFrameCoordinateBridge") or {}).get("registryValidation")} if source_map.get("sourceFrameCoordinateBridge") else {"status":"not-present-in-source-usage-map; historical/legacy projections do not establish a typed source-frame basis"}),
+        "sourceFrameCoordinateBridge": ({"path":REGISTRY_RELATIVE_PATH,"sha256":REGISTRY_SHA256,"status":"scoped-geometric-provenance-only","resolutionCounts":dict(sorted(coordinate_frame_status_counts.items())),"registryValidation":(source_map.get("sourceFrameCoordinateBridge") or {}).get("registryValidation")} if source_map.get("sourceFrameCoordinateBridge") else {"status":"not-present-in-source-usage-map; historical/legacy projections do not establish a typed source-frame basis"}),
         "runMode": ({"status":"historical-sealed-diagnostics-only","sourceMapSeal":_historical_source_map_is_sealed(source_map_path)[0]} if historical_diagnostics else {"status":"current-active-bridge-required"}),
         "schemaVersion": 1,
         "status": "complete-structural-inventory-semantic-review-unresolved",

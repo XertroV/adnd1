@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "title": "PHB class content scope correction and directly referenced p.34 support",
+  "status": "addendum to the pre-repair baseline; preserves rather than rewrites the earlier baseline",
+  "supersedesBaselineClaim": {
+    "file": "research/source-audit-pass8-phb-class-content-baseline.json",
+    "sha256": "3095bda5c537362bada3ea2ded9bfb755832cc26394419f95ad28d437299549e",
+    "incorrectClaim": "The dual-class procedure begins on p.33 and continues across the page boundary into adjacent p.34 text.",
+    "correction": "The dual-class discussion continues from bottom-left to top-right within printed p.33; it does not continue onto p.34. Printed p.34 begins the Alignment section and then has the directly referenced Character Hit Points and Character Languages support sections.",
+    "reason": "The whole printed p.34 (supplied PDF p.35) was rendered and viewed after the baseline claim was written. The original baseline bytes are preserved; this addendum is the correction."
+  },
+  "source": {
+    "filename": "tsr2010-players-handbook.pdf",
+    "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+    "printedPage": 34,
+    "pdfPage": 35,
+    "fullPageRender": {
+      "dpi": 144,
+      "pixels": [1160, 1580],
+      "sha256": "68d185580d0b9eb11bac6401fb448ab911816dfff37bbb4c24f900dbb14c6fb5",
+      "storage": "Private temporary review file only; not copied to the repository."
+    }
+  },
+  "boundedPage34Units": [
+    {
+      "id": "class-support-hit-points",
+      "heading": "CHARACTER HIT POINTS",
+      "scope": "Printed p.34 definition blocks relevant to class hit-die type, starting hit dice, hit-point accrual, maximum initially established hit points, and healing cap. The surrounding p.34 alignment discussion and unrelated character-creation text are not asserted reviewed as a complete source unit.",
+      "sourceDenominator": "One headed supporting section; prose clauses are not fully atomized, so the clause denominator remains unknown.",
+      "currentJoin": {
+        "ruleId": "hit-points-meaning",
+        "rulesJsonSha256": "78afec70d0380db08d7e750a8ce1fcec16a8167aaa4107be8af5351a474bfc5d",
+        "siteState": "partial, rendered and searchable",
+        "evidence": "Current rule summary covers what hit points represent and recording current/maximum HP; bullets say hit-die type and exceptional starting dice depend on class. It is a summary, not the full printed section. Class records separately store hitDie and selected level changes."
+      }
+    },
+    {
+      "id": "class-support-languages",
+      "heading": "CHARACTER LANGUAGES",
+      "scope": "Printed p.34 general/alignment language statements and directly class-relevant druid secret-tongue and thief-secret-speech references. The subsequent language-learning procedure is included only as a support pointer, not re-audited clause by clause.",
+      "sourceDenominator": "One headed supporting section; its multiple language categories and prose rules are not fully atomized, so the clause denominator remains unknown.",
+      "currentJoin": {
+        "ruleIds": ["learning-languages", "alignment-change"],
+        "rulesJsonSha256": "78afec70d0380db08d7e750a8ce1fcec16a8167aaa4107be8af5351a474bfc5d",
+        "siteState": "partial, rendered and searchable",
+        "evidence": "The rule summaries cover learning a language and alignment change; neither records the class-specific druid secret language or Thieves’ Cant as a class feature. Before-content probes using `secret tongue` in druid and `thieves cant` in thief did not match the actual a46 class records; after the two additions, both phrases match their respective prepared class documents. The proposal adds those source-backed reminders to the Druid and Thief guidance only."
+      }
+    }
+  ],
+  "classGuidanceAdditions": [
+    {
+      "classId": "druid",
+      "text": "PHB pp. 21, 34: druids have a separate secret tongue, in addition to the common, alignment, and other languages they know.",
+      "sourcePrintedPages": [21, 34],
+      "sourcePdfPages": [22, 35]
+    },
+    {
+      "classId": "thief",
+      "text": "PHB pp. 27, 34: all thieves know Thieves’ Cant in addition to other languages they may learn through race or Intelligence.",
+      "sourcePrintedPages": [27, 34],
+      "sourcePdfPages": [28, 35]
+    }
+  ],
+  "scopeDisposition": {
+    "includedAdjacentSupport": "Directly class-referenced p.34 Character Hit Points and Character Languages sections, limited to the facts named above.",
+    "stillOutstanding": [
+      "PHB racial class permissions pp.13–17.",
+      "The p.18 Racial Preferences Table; it is on a page in the nominal numeric range but is not an ability/progression/class-support table and is not assessed here.",
+      "UA class variants/classes and the Bard appendix entry on p.117.",
+      "The full p.34 Alignment chapter and other character-creation prose outside the bounded class-support references."
+    ]
+  },
+  "authorFileImpact": {
+    "file": "classes.json",
+    "property": "guidance only",
+    "beforeSha256AtAddendum": "27a281cbe8cc5cccae0b4945558227e45f4f1ed8830f2e9e43aa33dbcaef04f2",
+    "afterSha256": "76768e670155a225ef7976ae28da4e514dffe81f3c623082156a690cfb83dd3f",
+    "rulesJsonChanged": false,
+    "citationsOrGradesChanged": false
+  }
+}

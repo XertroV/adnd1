@@ -80,5 +80,22 @@ test('citation navigation HTML attributes have an explicit inventory',()=>{
  assert.deepEqual(inventory.missing,[]);
  assert.ok(inventory.observed.includes('data-source-context'));
  assert.ok(inventory.observed.includes('data-ref-targets'));
+ assert.deepEqual(inventory.metadata,['data-source-card']);
  assert.throws(()=>auditSourceNavigationAttributes(`${app} <button data-source-unreviewed>`),/Unclassified citation navigation attribute/);
+});
+
+test('the actual source-card metadata failure remains reproducible and narrowly classified',()=>{
+ const fixture=JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-audit-pass8-source-card-navigation-before.json.gz',import.meta.url))));
+ const files=new Map(fixture.files.map(file=>{
+  assert.equal(createHash('sha256').update(file.utf8).digest('hex'),file.sha256);
+  return [file.path,file.utf8];
+ }));
+ const oldTool=files.get('tools/citation-navigation-coverage.mjs');
+ const start=oldTool.indexOf('const sourceAttributes='),end=oldTool.indexOf('\nconst producerInventory=',start);
+ const context=vm.createContext({});
+ vm.runInContext(oldTool.slice(start,end).replace('export function','function')+'\nthis.auditBefore=auditSourceNavigationAttributes;',context);
+ const capturedApp=files.get('dist/app.js');
+ assert.throws(()=>context.auditBefore(capturedApp),/Unclassified citation navigation attribute\(s\): data-source-card/);
+ assert.deepEqual(auditSourceNavigationAttributes(capturedApp).metadata,['data-source-card']);
+ assert.throws(()=>auditSourceNavigationAttributes(capturedApp+' <article data-source-unreviewed-card>'),/Unclassified citation navigation attribute/);
 });
