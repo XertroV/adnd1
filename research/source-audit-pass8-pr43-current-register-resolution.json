@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "pass8-pr43-current-repair-register-resolution",
+  "actualFailure": {
+    "commit": "e033a90021cdc8322fc5488acf76386f2fdb7a04",
+    "run": "https://github.com/XertroV/adnd1/actions/runs/42539545855",
+    "jobId": 128911185525,
+    "tests": {
+      "registered": 924,
+      "passed": 923,
+      "failed": 1,
+      "skipped": 0
+    },
+    "failingTest": "committed coverage JSON, Markdown and input hashes match the complete current inputs",
+    "cause": "The CLI and test read the frozen phase register while the generated report still reflected a different older register; the separately hash-pinned V20 successor was not followed.",
+    "beforeCoverageBatches": 2,
+    "beforeFrozenRegisterBatches": 3,
+    "currentVersion20Batches": 4,
+    "fullLogPrivate": {
+      "sha256": "064d37a2baff395f4af45de029df5ebe38c08f9e37d95c83343b1414b57ad82f",
+      "sizeBytes": 241032
+    },
+    "preservedBefore": {
+      "path": "tests/fixtures/source-audit-pass8-pr43-current-register-before.json.gz",
+      "sha256": "71f97fb90dae9ae2bc3de57ef99dcf7ee4c2c3b1bc9919ddcd6a33f4b4b4af67"
+    }
+  },
+  "repair": "Current generation resolves the explicit current-source-audit-status register pointer, validates its normalized versioned path/schema and exact byte hash, and records both pointer and register pins. Historical phase register remains unchanged. Current Markdown supports the two existing explicit merge-SHA property names and rejects releases without an exact SHA.",
+  "unchangedCoverageOutsideRepairsAndInputs": true,
+  "runtimeDistUnchanged": true,
+  "historicalFrozenRegisterSha256": "3d6dba1ddb3dd510be4c255b8cca31b82f6b820d0ecec37b11b9495313446a59",
+  "version20RegisterSha256": "d0e9b69fb62b5849f2ca5583bb022ea39ba6e69a7454769ce98e9874a8f427af",
+  "validation": {
+    "focused": {
+      "registered": 25,
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0
+    },
+    "fullLocalNode": {
+      "registered": 926,
+      "passed": 926,
+      "failed": 0,
+      "skipped": 0,
+      "logSha256": "8a0f7e9e1b727dd69788f302f778d139cd848b4c17e3fba99ab05e51f44c7ff7"
+    },
+    "assemble": "passed; no dist diff",
+    "remoteFinalHeadChecks": "Pending subsequent push; not claimed by this pre-publication receipt"
+  },
+  "implementationFiles": [
+    {
+      "path": "tools/source-completeness-coverage.mjs",
+      "sha256": "f398141c713e4f81f0d501e9fc10d4bfb578310cc101887320642f02886cc39d",
+      "sizeBytes": 13552
+    },
+    {
+      "path": "tests/source-completeness-coverage.test.mjs",
+      "sha256": "d2cc8cee2fb1fc9cd823b031ecc3aa34c4aa44b37933921982ede4ee2cbb898e",
+      "sizeBytes": 10167
+    },
+    {
+      "path": "research/source-completeness-coverage.json",
+      "sha256": "d1b4dcb3f35e04e163a81952946550fc45ecc31f24eb74ebfb1e82f134383ebc",
+      "sizeBytes": 163172
+    },
+    {
+      "path": "research/source-completeness-coverage.md",
+      "sha256": "f0bf458435b54a1d9ea476d2246e53dd6ebd174fe79af5cc8fcbdad5f61c33de",
+      "sizeBytes": 6101
+    },
+    {
+      "path": "tests/fixtures/source-audit-pass8-pr43-current-register-before.json.gz",
+      "sha256": "71f97fb90dae9ae2bc3de57ef99dcf7ee4c2c3b1bc9919ddcd6a33f4b4b4af67",
+      "sizeBytes": 40556
+    }
+  ],
+  "limits": [
+    "No new source unit is certified complete by this metadata repair.",
+    "The preserved baseline report and frozen phase register remain historical evidence; the separate current report advances repair publication history.",
+    "No source values, excerpt activation, numeric grades, private full-source pixels or user-facing runtime files changed."
+  ]
+}

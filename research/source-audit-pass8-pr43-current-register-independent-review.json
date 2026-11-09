@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "pass8-pr43-current-repair-register-resolution-independent-review",
+  "reviewedAtUtc": "2026-11-09T00:46:03Z",
+  "decision": "Accepted for integration; no blocking defect found in the bounded resolver change.",
+  "scope": {
+    "failure": "PR43 actual CI source-completeness coverage regression at the committed-report equality assertion.",
+    "reviewed": "Current pointer resolution, normalized versioned path/hash checks, stale/frozen input rejection, coverage regeneration and historical artifact preservation.",
+    "notReviewed": [
+      "Source-unit semantics or any new source value",
+      "Browser/runtime behavior beyond verifying dist remains unchanged",
+      "Remote PR/final-head CI after push"
+    ]
+  },
+  "actualFailure": {
+    "head": "e033a90021cdc8322fc5488acf76386f2fdb7a04",
+    "workflowRun": 42539545855,
+    "jobId": 128911185525,
+    "registeredTests": 924,
+    "passed": 923,
+    "failed": 1,
+    "skipped": 0,
+    "failingTest": "committed coverage JSON, Markdown and input hashes match the complete current inputs",
+    "privateFullLog": {
+      "sha256": "064d37a2baff395f4af45de029df5ebe38c08f9e37d95c83343b1414b57ad82f",
+      "sizeBytes": 241032,
+      "note": "Verified against the private log file stat and SHA; log bytes are not included in this public receipt."
+    },
+    "preservedBeforeFixture": {
+      "path": "tests/fixtures/source-audit-pass8-pr43-current-register-before.json.gz",
+      "sha256": "71f97fb90dae9ae2bc3de57ef99dcf7ee4c2c3b1bc9919ddcd6a33f4b4b4af67",
+      "sizeBytes": 40556,
+      "decompressedSha256": "1af126888d7a49d198d1fa304bbad4566b44e2839c20d0b7a2296afbf639abcf",
+      "decompressedSizeBytes": 222487,
+      "capturedFiles": 7,
+      "capturedTestCounts": {
+        "registered": 924,
+        "passed": 923,
+        "failed": 1,
+        "skipped": 0
+      },
+      "preFixBatchCounts": {
+        "coverageReport": 2,
+        "frozenHistoricalV19Register": 3,
+        "currentV20Register": 4
+      },
+      "capturedFilePins": [
+        {
+          "path": "tools/source-completeness-coverage.mjs",
+          "sha256": "97dcffcec298371a114ff60e210562ab36f3afb1f43fc2cfd46b5fe5f47a7f23"
+        },
+        {
+          "path": "tests/source-completeness-coverage.test.mjs",
+          "sha256": "7bc9e9a1436f3f55482b4b11857385b95638699b15ef3409e80835a283f4cc63"
+        },
+        {
+          "path": "research/source-completeness-coverage.json",
+          "sha256": "7f8fecbcf9e598977c48b0f077450b6e21c8d57b69fec4ca92a10f085cb4aef4"
+        },
+        {
+          "path": "research/source-completeness-coverage.md",
+          "sha256": "016600d37949af61f3a580009da06adbc128a6c2e80437ded63c04f8730a70c8"
+        },
+        {
+          "path": "research/source-completeness-repairs.json",
+          "sha256": "3d6dba1ddb3dd510be4c255b8cca31b82f6b820d0ecec37b11b9495313446a59"
+        },
+        {
+          "path": "research/source-completeness-repairs-version20.json",
+          "sha256": "d0e9b69fb62b5849f2ca5583bb022ea39ba6e69a7454769ce98e9874a8f427af"
+        },
+        {
+          "path": "research/current-source-audit-status.json",
+          "sha256": "bdf62dd70105a026f98d546eb84fd8e13d63e5347dad830d90ce247c42ac0363"
+        }
+      ]
+    },
+    "independentReproduction": {
+      "method": "Reconstructed a temporary test root from the seven exact preserved pre-fix files plus unchanged baseline ledgers and dist inputs, then ran the captured pre-fix source-completeness-coverage.test.mjs with the captured pre-fix coverage module.",
+      "result": {
+        "registered": 9,
+        "passed": 8,
+        "failed": 1,
+        "failingTest": "committed coverage JSON, Markdown and input hashes match the complete current inputs"
+      },
+      "failure": "Reproduces the deep-equality mismatch: old report repairs (2 batches) differ from the frozen V19 register (3 batches); the separately pinned V20 successor has 4 batches. This is the same assertion family as the CI failure; local fixture line number is 89 and CI reported line 86."
+    }
+  },
+  "resolverReview": {
+    "implementation": "tools/source-completeness-coverage.mjs",
+    "implementationSha256": "f398141c713e4f81f0d501e9fc10d4bfb578310cc101887320642f02886cc39d",
+    "behavior": [
+      "Requires research/current-source-audit-status.json and validates schemaVersion 1 plus the exact current-vault-source-audit-status artifact type.",
+      "Accepts only a normalized research/source-completeness-repairs-versionN.json path and a 64-character lowercase hexadecimal SHA-256.",
+      "Reads the named target and rejects byte-hash mismatch before parsing its JSON.",
+      "Missing pointer/target, malformed JSON/schema/hash, traversal, absolute paths, and the frozen source-completeness-repairs.json path do not fall back to any default register.",
+      "The CLI records hashes for both the current-status pointer and its versioned register target as report input pins."
+    ],
+    "currentPointer": {
+      "path": "research/current-source-audit-status.json",
+      "sha256": "bdf62dd70105a026f98d546eb84fd8e13d63e5347dad830d90ce247c42ac0363",
+      "schemaVersion": 1,
+      "artifactType": "current-vault-source-audit-status"
+    },
+    "resolvedCurrentRegister": {
+      "path": "research/source-completeness-repairs-version20.json",
+      "sha256": "d0e9b69fb62b5849f2ca5583bb022ea39ba6e69a7454769ce98e9874a8f427af",
+      "batches": 4,
+      "pointerShaMatchesTarget": true
+    },
+    "historicalRegister": {
+      "path": "research/source-completeness-repairs.json",
+      "sha256": "3d6dba1ddb3dd510be4c255b8cca31b82f6b820d0ecec37b11b9495313446a59",
+      "preserved": true
+    },
+    "testsSha256": "d2cc8cee2fb1fc9cd823b031ecc3aa34c4aa44b37933921982ede4ee2cbb898e",
+    "rejectionControlsCovered": [
+      "missing pointer",
+      "missing current target",
+      "tampered target bytes",
+      "path traversal",
+      "absolute target path",
+      "frozen unversioned register path",
+      "malformed target hash",
+      "wrong pointer schemaVersion"
+    ]
+  },
+  "coverageRegeneration": {
+    "jsonPath": "research/source-completeness-coverage.json",
+    "jsonSha256": "d1b4dcb3f35e04e163a81952946550fc45ecc31f24eb74ebfb1e82f134383ebc",
+    "markdownPath": "research/source-completeness-coverage.md",
+    "markdownSha256": "f0bf458435b54a1d9ea476d2246e53dd6ebd174fe79af5cc8fcbdad5f61c33de",
+    "currentReleaseBatches": [
+      "PR39 / Version 17",
+      "PR40 / Version 18",
+      "PR41 / Version 19",
+      "PR42 / Version 20"
+    ],
+    "markdownMergeShaHandling": "Uses exact mergeCommit or mergeSha; rejects a release with no 40-character lowercase merge SHA and emits no undefined commit.",
+    "nonRepairAndNonInputReportContentDeepEqualToPrePatch": true,
+    "deterministicCliReplay": {
+      "command": "node tools/source-completeness-coverage.mjs <temporary-output-path>",
+      "jsonOutputMatchesCommittedByteForByte": true,
+      "markdownOutputMatchesCommittedByteForByte": true
+    }
+  },
+  "validation": {
+    "focusedTestFile": "tests/source-completeness-coverage.test.mjs",
+    "independentFocusedRun": {
+      "registered": 11,
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0
+    },
+    "gitDiffCheck": "passed",
+    "rootFullSuiteReceipt": {
+      "path": "research/source-audit-pass8-pr43-current-register-resolution.json",
+      "sha256": "4474ab6449c9ac6b333914ae044cab00dcd77309fe1dd812ffc42eea14359564",
+      "reportedTests": {
+        "registered": 926,
+        "passed": 926,
+        "failed": 0,
+        "skipped": 0
+      },
+      "assemble": "passed; no dist diff"
+    },
+    "fullSuiteWasRunByIndependentReviewer": false
+  },
+  "preservationChecks": {
+    "historicalRegisterUnchanged": {
+      "sha256": "3d6dba1ddb3dd510be4c255b8cca31b82f6b820d0ecec37b11b9495313446a59"
+    },
+    "currentStatusPointerUnchanged": {
+      "sha256": "bdf62dd70105a026f98d546eb84fd8e13d63e5347dad830d90ce247c42ac0363"
+    },
+    "version20RegisterUnchanged": {
+      "sha256": "d0e9b69fb62b5849f2ca5583bb022ea39ba6e69a7454769ce98e9874a8f427af"
+    },
+    "runtimeDataUnchanged": {
+      "path": "dist/data.json",
+      "sha256": "a4225fbd2015c5ba7d225738ec1a9bf4658f4a9a9700e340a37dde79317119f3"
+    },
+    "citationEvidenceSealsUnchanged": {
+      "path": "research/citation-evidence-seals.json",
+      "sha256": "3201d09e4fc7c81280b34d40e613853ac4a120edf2371e71c310edceb6581be4"
+    },
+    "sealPrefixPreserved": true
+  },
+  "reviewBoundaries": {
+    "noSourceSemanticsChanged": true,
+    "noGradesOrCitationsActivated": true,
+    "privateFullSourceContentPublished": false,
+    "reviewerEditedImplementationOrAuthorData": false,
+    "reviewerCommittedOrPushed": false,
+    "remoteFinalHeadChecks": "Pending push; not independently verified."
+  }
+}

@@ -17,7 +17,9 @@ Named units overlap by section, table, heading and procedure; they are not addit
 ## Current repair batches
 
 - **site-findability-and-rendering**: merged-and-live-independently-verified — [PR](https://github.com/XertroV/adnd1/pull/39), Version 17, merge `db7d10957dd4d50e9bab063cffb3b503a16144c2`.
-- **dmg74-nonfighter-matrices**: source-backed-runtime-repair-independently-reviewed.
+- **dmg74-nonfighter-matrices**: merged-and-live-independently-verified — [PR](https://github.com/XertroV/adnd1/pull/40), Version 18, merge `6d330af372ac809d11ed6029ed8695d0d8dc0909`.
+- **pass8-character-reference-source-repair**: merged-and-live-independently-verified — [PR](https://github.com/XertroV/adnd1/pull/41), Version 19, merge `77712b831fac3256baf97da385c1dd56b6d82e88`.
+- **all-eleven-xp-continuation-field-mappings**: merged-and-live-independently-verified — [PR](https://github.com/XertroV/adnd1/pull/42), Version 20, merge `a46eddc41ac6f712d5ad1498195df6a49810aae1`.
 
 The following book findings and disposition counts describe the frozen baseline. They preserve before evidence; use the repair batches above for current publication status.
 

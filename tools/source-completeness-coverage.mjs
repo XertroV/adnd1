@@ -1,5 +1,5 @@
 import {createHash} from 'node:crypto';
-import {readFileSync,writeFileSync,existsSync,mkdirSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import books from '../dist/books.js';
@@ -9,6 +9,22 @@ const codes=['PHB','DMG','UA','MM','MM2'];
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 const dispositionStates=new Set(['present-findable','present-unfindable','incomplete','citation-only','absent','excluded','unassessable']);
 const ledgerBookCode=ledger=>books.code(typeof ledger.book==='string'?ledger.book:ledger.book?.sourceLabel);
+
+export function loadCurrentSourceRepairRegister({rootPath=root}={}){
+  const pointerPath='research/current-source-audit-status.json';
+  const pointerBytes=readFileSync(resolve(rootPath,pointerPath));
+  const pointer=JSON.parse(pointerBytes);
+  const register=pointer.currentRepairRegister;
+  if(pointer.schemaVersion!==1||pointer.artifactType!=='current-vault-source-audit-status'||
+    !/^research\/source-completeness-repairs-version[1-9]\d*\.json$/.test(register?.path||'')||
+    !/^[a-f0-9]{64}$/.test(register?.sha256||''))throw new Error('Invalid current source repair register pointer.');
+  const registerBytes=readFileSync(resolve(rootPath,register.path));
+  if(digest(registerBytes)!==register.sha256)throw new Error('Current source repair register hash mismatch.');
+  return {repairs:JSON.parse(registerBytes),inputs:[
+    {path:pointerPath,sha256:digest(pointerBytes)},
+    {path:register.path,sha256:register.sha256},
+  ]};
+}
 
 export function buildSourceCompletenessCoverage({pageBaseline,siteBaseline,ledgers,currentData,repairs=null}){
   if(pageBaseline?.denominators?.physicalPdfPages!==776||pageBaseline.books?.length!==5)throw new Error('Expected the independently captured five-book/776-physical-page baseline.');
@@ -105,7 +121,9 @@ export function markdownSourceCompleteness(report){
   text+='## Current repair batches\n\n';
   for(const batch of report.repairs?.batches||[]){
     const release=batch.release;
-    text+=`- **${batch.id}**: ${batch.status}${release?` — [PR](${release.pullRequest}), Version ${release.version}, merge \`${release.mergeCommit}\``:''}.\n`;
+    const mergeCommit=release?.mergeCommit??release?.mergeSha;
+    if(release&&!/^[a-f0-9]{40}$/.test(mergeCommit||''))throw new Error(`${batch.id}: verified release requires an exact merge commit.`);
+    text+=`- **${batch.id}**: ${batch.status}${release?` — [PR](${release.pullRequest}), Version ${release.version}, merge \`${mergeCommit}\``:''}.\n`;
   }
   text+='\nThe following book findings and disposition counts describe the frozen baseline. They preserve before evidence; use the repair batches above for current publication status.\n\n';
   for(const book of report.bookReports){
@@ -120,8 +138,9 @@ export function markdownSourceCompleteness(report){
 if(process.argv[1]&&fileURLToPath(import.meta.url)===process.argv[1]){
   const read=path=>JSON.parse(readFileSync(resolve(root,path),'utf8'));
   const ledgers=codes.map(code=>read(`research/source-completeness-${code.toLowerCase()}.json`));
-  const report=buildSourceCompletenessCoverage({pageBaseline:read('research/source-completeness-page-baseline.json'),siteBaseline:read('research/source-completeness-site.json'),ledgers,currentData:read('dist/data.json'),repairs:existsSync(resolve(root,'research/source-completeness-repairs.json'))?read('research/source-completeness-repairs.json'):null});
-  report.inputs=['research/source-completeness-page-baseline.json','research/source-completeness-site.json',...codes.map(code=>`research/source-completeness-${code.toLowerCase()}.json`),'dist/data.json',...(report.repairs?['research/source-completeness-repairs.json']:[])].map(path=>({path,sha256:digest(readFileSync(resolve(root,path)))}));
+  const currentRegister=loadCurrentSourceRepairRegister();
+  const report=buildSourceCompletenessCoverage({pageBaseline:read('research/source-completeness-page-baseline.json'),siteBaseline:read('research/source-completeness-site.json'),ledgers,currentData:read('dist/data.json'),repairs:currentRegister.repairs});
+  report.inputs=[...['research/source-completeness-page-baseline.json','research/source-completeness-site.json',...codes.map(code=>`research/source-completeness-${code.toLowerCase()}.json`),'dist/data.json'].map(path=>({path,sha256:digest(readFileSync(resolve(root,path)))})),...currentRegister.inputs];
   const output=resolve(root,process.argv[2]||'research/source-completeness-coverage.json');
   mkdirSync(dirname(output),{recursive:true});
   writeFileSync(output,JSON.stringify(report,null,2)+'\n');
