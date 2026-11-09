@@ -3,12 +3,15 @@ import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 import {execFileSync} from 'node:child_process';
 import {createRequire} from 'node:module';
+import {isDeepStrictEqual} from 'node:util';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {fieldsFor} from './mechanics-audit.mjs';
+import {SOURCE_FRAME_BRIDGE_PATH, SOURCE_FRAME_BRIDGE_SHA256, validateLiveSourceFrameBridge, projectRegisteredRect} from './source-frame-coordinate-bridge.mjs';
 
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
 const require = createRequire(import.meta.url);
+const trustedModuleRoot = path.resolve(import.meta.dirname, '..');
 const pointerPart = value => String(value).replaceAll('~', '~0').replaceAll('/', '~1');
 const unescapePointer = value => value.replaceAll('~1', '/').replaceAll('~0', '~');
 const fail = (errors, code, detail) => errors.push({code, detail});
@@ -188,13 +191,86 @@ function checkPropertyPointerInventory(full, data, errors) {
   return {records: records.length, pointers: observed.size, recordIndexSize: recordIndex.size};
 }
 
+function deriveCurrentFrameEvidence({root, data, books, catalogs, catalogHashes, expected}) {
+  const loadCatalog = catalogPath => ({catalog: catalogs.get(catalogPath), sha256: catalogHashes[catalogPath]});
+  const loadImage = (catalogPath, image) => readFileSync(path.resolve(root, 'dist', path.dirname(catalogPath), image));
+  const bridge = validateLiveSourceFrameBridge({repoRoot: root, data, loadCatalog, loadImage});
+  const frameRows = new Map();
+  for (const frame of bridge.registry.frames) for (const row of frame.regions) {
+    const useKey = JSON.stringify([row.owner.collection, row.owner.itemId, row.owner.binding, row.catalog, row.regionId]);
+    frameRows.set(useKey, {frame, row});
+  }
+  const annotationsByRegion = new Map();
+  const resolutionCounts = {};
+  for (const [regionKey, uses] of expected.uses) {
+    const separator = regionKey.indexOf('\0');
+    const catalogPath = regionKey.slice(0, separator), regionId = regionKey.slice(separator + 1);
+    const catalog = catalogs.get(catalogPath);
+    const region = catalog?.regions?.find(candidate => candidate?.id === regionId);
+    if (!catalog || !region) continue;
+    const identity = books.resolveRegionSourceIdentity(catalog, region);
+    const sourceKind = identity?.valid === true ? identity.sourceKind : 'invalid-source-identity';
+    const annotations = [];
+    for (const use of uses) {
+      const resolution = bridge.expectedResolution({
+        collection: use.collection, itemId: use.itemId, binding: use.bindingKey,
+        catalog: catalogPath, regionId, sourceKind,
+      });
+      resolutionCounts[resolution.status] = (resolutionCounts[resolution.status] || 0) + 1;
+      const annotation = {bindingKey: use.bindingKey, collection: use.collection, itemId: use.itemId, ...resolution};
+      if (resolution.status === 'matched') {
+        const match = frameRows.get(JSON.stringify([use.collection, use.itemId, use.bindingKey, catalogPath, regionId]));
+        const pdfPagePointsLTRB = match && projectRegisteredRect(match.frame, match.row);
+        if (!pdfPagePointsLTRB) throw Error(`Registered source-frame projection is unavailable for ${catalogPath}#${regionId}.`);
+        annotation.pdfPagePointsLTRB = pdfPagePointsLTRB;
+      }
+      annotations.push(annotation);
+    }
+    annotationsByRegion.set(regionKey, annotations);
+  }
+  const declaration = {
+    path: SOURCE_FRAME_BRIDGE_PATH,
+    sha256: SOURCE_FRAME_BRIDGE_SHA256,
+    status: 'scoped-geometric-provenance-only',
+    resolutionCounts: Object.fromEntries(Object.entries(resolutionCounts).sort(([a], [b]) => a.localeCompare(b))),
+    registryValidation: bridge.validation,
+  };
+  return {bridge, declaration, annotationsByRegion};
+}
+
+function sealedHistoricalContinuationInputs(summaryPath, fullPath, summaryBytes, fullBytes) {
+  const manifestPath = path.join(trustedModuleRoot, 'research/citation-evidence-seals.json');
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+  const summaryHash = sha256(summaryBytes), fullHash = sha256(fullBytes);
+  const summarySeal = manifest.seals?.find(row => row.sha256 === summaryHash && /^research\/source-audit-[^/]*continuation[^/]*\.json$/.test(row.path || ''));
+  const fullSeal = manifest.seals?.find(row => row.sha256 === fullHash && /^research\/source-audit-[^/]*continuation[^/]*\.json\.gz$/.test(row.path || ''));
+  if (!summarySeal || !fullSeal) throw Error('Pinned-history continuation diagnostics require exact sealed summary and full-report bytes from the trusted repository seal manifest.');
+  return {
+    status: 'historical-sealed-diagnostics-only',
+    summary: {path: summarySeal.path, sha256: summaryHash},
+    fullEvidence: {path: fullSeal.path, sha256: fullHash},
+    suppliedPaths: {summary: path.basename(summaryPath), fullEvidence: path.basename(fullPath)},
+  };
+}
+
 /** Validate checked-in evidence without reading private PDFs or relying on OCR at CI time. */
 export function validateContinuationSnapshot({root, summaryPath = path.join(root, 'research/source-audit-batch5-continuation.json'), fullPath = null, dataBytesOverride = null, catalogBytesOverride = {}, treeSelection = 'current-worktree'}) {
   const errors = [];
   if (!['current-worktree', 'pinned-git-commit'].includes(treeSelection)) return {valid: false, errors: [{code: 'validation-mode-invalid', detail: `Unknown tree selection: ${treeSelection}`}], sourcePdfRegeneration: 'unavailable-in-CI'};
-  let summary, full, compressed, rawFull;
+  if (treeSelection === 'current-worktree') {
+    let trustedRoot = false;
+    try { trustedRoot = realpathSync(root) === realpathSync(trustedModuleRoot); } catch { /* fail closed below */ }
+    if (!trustedRoot) {
+      const error = {code: 'untrusted-current-repository-root', detail: 'Current source-frame validation must run against the repository root that owns this trusted validator and bridge.'};
+      return {valid: false, errors: [error], requestedValidationMode: treeSelection, validationBase: null,
+        sourceFrameValidation: {status: 'current-active-source-frame-bridge-required', valid: false, errors: [error]},
+        sourcePdfRegeneration: 'unavailable-in-CI'};
+    }
+  }
+  let summary, full, summaryBytes, compressed, rawFull;
   try {
-    summary = JSON.parse(readFileSync(summaryPath, 'utf8'));
+    summaryBytes = readFileSync(summaryPath);
+    summary = JSON.parse(summaryBytes.toString('utf8'));
     fullPath ||= path.join(path.dirname(summaryPath), summary.fullEvidence.path);
     compressed = readFileSync(fullPath);
     if (sha256(compressed) !== summary.fullEvidence.sha256) fail(errors, 'compressed-evidence-hash-stale', 'The compressed full report does not match its summary SHA-256.');
@@ -203,6 +279,12 @@ export function validateContinuationSnapshot({root, summaryPath = path.join(root
     full = JSON.parse(rawFull.toString('utf8'));
   } catch (error) {
     return {valid: false, errors: [{code: 'snapshot-unreadable', detail: error.message}], sourcePdfRegeneration: 'unavailable-in-CI'};
+  }
+
+  let historicalFrameDiagnostics = null;
+  if (treeSelection === 'pinned-git-commit') {
+    try { historicalFrameDiagnostics = sealedHistoricalContinuationInputs(summaryPath, fullPath, summaryBytes, compressed); }
+    catch (error) { fail(errors, 'historical-continuation-not-sealed', error.message); }
   }
 
   const dataPath = path.join(root, 'dist/data.json');
@@ -254,6 +336,33 @@ export function validateContinuationSnapshot({root, summaryPath = path.join(root
   if (Object.keys(summary.exposedCatalogSummary.catalogHashesSha256 || {}).length !== Object.keys(catalogHashes).length) fail(errors, 'catalog-file-count-stale', 'The report catalog file denominator differs from current dist/scans.');
 
   const expected = expectedCatalogBindings(data, catalogs);
+  const frameErrors = [];
+  const frameFail = (code, detail) => { fail(errors, code, detail); frameErrors.push({code, detail}); };
+  let currentFrameEvidence = null;
+  if (treeSelection === 'current-worktree') {
+    if (!books) frameFail('source-frame-resolver-unavailable', 'The shared source identity resolver is required for current source-frame validation.');
+    else try {
+      currentFrameEvidence = deriveCurrentFrameEvidence({root, data, books, catalogs, catalogHashes, expected});
+      if (currentFrameEvidence.bridge.validation.status !== 'current-pins-match') frameFail('source-frame-registry-stale', 'The active source-frame registry does not match current owner/catalog/image pins.');
+      if (!isDeepStrictEqual(full.sourceFrameCoordinateBridge, currentFrameEvidence.declaration)) frameFail('source-frame-declaration-stale', 'Full report is missing the exact active source-frame bridge declaration and resolution counts.');
+      if (!isDeepStrictEqual(summary.sourceFrameCoordinateBridge, currentFrameEvidence.declaration)) frameFail('source-frame-summary-declaration-stale', 'Summary is missing the exact active source-frame bridge declaration and resolution counts.');
+      const expectedRunMode = {status: 'current-active-source-frame-bridge-required'};
+      if (!isDeepStrictEqual(full.runMode, expectedRunMode) || !isDeepStrictEqual(summary.runMode, expectedRunMode)) frameFail('source-frame-run-mode-invalid', 'Current continuation reports must explicitly use the active source-frame bridge mode.');
+      if (summary.input.sourceFrameCoordinateBridgeSha256 !== SOURCE_FRAME_BRIDGE_SHA256 || full.input?.sourceFrameCoordinateBridgeSha256 !== SOURCE_FRAME_BRIDGE_SHA256 ||
+          !isDeepStrictEqual(summary.input.sourceFrameRegistryValidation, currentFrameEvidence.bridge.validation) || !isDeepStrictEqual(full.input?.sourceFrameRegistryValidation, currentFrameEvidence.bridge.validation)) {
+        frameFail('source-frame-input-pins-stale', 'Current continuation input does not bind the active source-frame registry validation.');
+      }
+      const actualGeneratorHash = sha256(readFileSync(path.join(root, 'tools/continuation-candidates.py')));
+      if (summary.input.generatorSha256 !== actualGeneratorHash || full.input?.generatorSha256 !== actualGeneratorHash) frameFail('stale-continuation-generator', 'Current continuation output was not generated by the current source-frame-aware producer.');
+      const expectedPrivateReplay = {status: 'current-pdf-boxes-match-registered-frames', frameGroups: 9, pdfPageBoxesValidated: 9};
+      if (!isDeepStrictEqual(full.privatePdfFrameReplay, expectedPrivateReplay) || !isDeepStrictEqual(summary.privatePdfFrameReplay, expectedPrivateReplay)) frameFail('source-frame-private-pdf-replay-missing', 'Current continuation evidence must record successful replay of all nine registered PDF frames.');
+    } catch (error) {
+      frameFail('source-frame-current-validation-error', error.message);
+    }
+  }
+  if (treeSelection === 'pinned-git-commit' && !historicalFrameDiagnostics) {
+    frameFail('historical-continuation-not-sealed', 'Pinned-history mode requires the exact sealed diagnostic summary and full report.');
+  }
   for (const bindingKey of ['sourceExcerpts', 'scanVerification']) {
     if ((summary.exposedCatalogSummary.catalogCountByBindingKey?.[bindingKey] || 0) !== (expected.bindingCounts[bindingKey] || 0)) fail(errors, 'catalog-binding-count-stale', `${bindingKey} binding count differs from exposed records.`);
     if ((summary.exposedCatalogSummary.regionBindingUsageCountsByBindingKey?.[bindingKey] || 0) !== (expected.regionCounts[bindingKey] || 0)) fail(errors, 'region-binding-usage-count-stale', `${bindingKey} region use count differs from exposed records.`);
@@ -279,6 +388,20 @@ export function validateContinuationSnapshot({root, summaryPath = path.join(root
     const expectedUses = expected.uses.get(key) || [];
     const actualUses = assessment.bindingUses || [];
     if (JSON.stringify(expectedUses) !== JSON.stringify(actualUses)) fail(errors, 'stale-record-region-bindings', `${catalogPath}:${assessment.regionId} exposed record bindings changed.`);
+    if (treeSelection === 'current-worktree' && currentFrameEvidence) {
+      const expectedFrameAnnotations = currentFrameEvidence.annotationsByRegion.get(key) || [];
+      if (!isDeepStrictEqual(assessment.coordinateFrameResolutions, expectedFrameAnnotations)) frameFail('source-frame-use-annotation-mismatch', `${catalogPath}:${assessment.regionId} lacks the exact current per-binding source-frame resolution annotations.`);
+      const matched = expectedFrameAnnotations.filter(annotation => annotation.status === 'matched');
+      const expectedBounds = matched.length === 1 ? matched[0].pdfPagePointsLTRB : null;
+      if (!isDeepStrictEqual(assessment.coordinateFrameBoundsPdfPagePointsLTRB ?? null, expectedBounds)) frameFail('source-frame-registered-bounds-mismatch', `${catalogPath}:${assessment.regionId} has missing or incorrect registered PDF-page crop bounds.`);
+      if (matched.length === 1 && assessment.geometry) {
+        if (!isDeepStrictEqual(assessment.geometry.cropBoundsPdfPagePointsLTRB, expectedBounds)) frameFail('source-frame-word-geometry-window-mismatch', `${catalogPath}:${assessment.regionId} word-geometry candidates use a crop window outside the active registered frame.`);
+      } else if (matched.length === 1 && assessment.textGeometryStatus === 'assessed') {
+        frameFail('source-frame-word-geometry-window-missing', `${catalogPath}:${assessment.regionId} is assessed but does not expose the crop bounds used for its word-geometry candidates.`);
+      } else if (matched.length === 0 && assessment.geometry && Object.hasOwn(assessment.geometry, 'cropBoundsPdfPagePointsLTRB')) {
+        frameFail('source-frame-unregistered-window-claim', `${catalogPath}:${assessment.regionId} claims a registered crop projection outside the bounded registry.`);
+      }
+    }
     if (region.image && treeMode !== 'pinned-git-tree') {
       const imagePath = path.resolve(root, 'dist', path.dirname(catalogPath), region.image);
       const rel = path.relative(path.resolve(root, 'dist'), imagePath);
@@ -319,6 +442,9 @@ export function validateContinuationSnapshot({root, summaryPath = path.join(root
     validationBase: treeMode,
     requestedValidationMode: treeSelection,
     pinnedTreeAvailability: treeAvailability,
+    sourceFrameValidation: treeSelection === 'current-worktree'
+      ? {status: 'current-active-source-frame-bridge-required', valid: frameErrors.length === 0, errors: frameErrors}
+      : {status: historicalFrameDiagnostics ? historicalFrameDiagnostics.status : 'historical-sealed-diagnostics-rejected', currentValidation: 'not-applicable', sealedInputsVerified: Boolean(historicalFrameDiagnostics), sealedInputs: historicalFrameDiagnostics},
     sourcePdfRegeneration: 'unavailable-in-CI; local geometry snapshot is validated by input/source/catalog/image hashes, not regenerated from private PDFs',
   };
 }

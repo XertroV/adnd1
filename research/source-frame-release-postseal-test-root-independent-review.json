@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "source-frame-postseal-test-root-independent-review",
+  "status": "bounded test-only successor accepted; full exact-commit24 checks remain pending",
+  "reviewedCommit": "653ac996b8f740c8ba941c7c5b2f5f0d54e423d4",
+  "deltaReceipt": {
+    "path": "research/source-frame-release-postseal-test-delta.json",
+    "sha256": "875ea9cc9c6bd8c378784d20bc54a61307adda0b7233f1ae32dad38489ddbfdf"
+  },
+  "test": {
+    "path": "tests/source-raster-coverage.test.mjs",
+    "beforeSha256": "8c59d5d554f12802cce2808f1159f6213172b7f0d478679c918c86190324dee6",
+    "afterSha256": "492f5ff7d3b9b316b494b2d386fb9f786a458fb90815ac569fe23e4d1b2cdfd1",
+    "independentRun": {
+      "registered": 13,
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "logSha256": "4f9a3016af5dabdf12e259593969ea4a949399466f9194e5a1683b64a93cb508"
+    }
+  },
+  "independentDirectApiChecks": {
+    "sealedCurrentReportWithExactOldLiveFixture": {
+      "mode": "historical-sealed-diagnostics-only",
+      "semanticPass": false,
+      "validationValid": false,
+      "errorCount": 5
+    },
+    "sealedForgedHistoryFixtureRejected": true,
+    "meaning": "New sealing permits explicit diagnostics but cannot grant current certification. Unknown/forged report types remain rejected."
+  },
+  "scope": {
+    "other12PreviouslyReviewedFilesExact": true,
+    "systemicCallerExact": {
+      "path": "tools/citation-systemic-inventory.mjs",
+      "sha256": "68032e56cc7ff9245d8e9912c1f2c02d416f39ea284a18aa4b18acce801aefa6",
+      "sizeBytes": 97053
+    },
+    "onlyChangedPaths": [
+      "research/citation-evidence-seals.json",
+      "research/source-frame-release-postseal-test-delta.json",
+      "tests/fixtures/source-frame-release-a25-exact-check-failure.json.gz",
+      "tests/source-raster-coverage.test.mjs"
+    ],
+    "sealCount": 982,
+    "old980PrefixExact": true,
+    "productionCodeChanges": 0
+  },
+  "preservedActualFailedCandidate": {
+    "commit": "a25fca37d528500bd202b36412b2f11ff1af2aa9",
+    "nodeRegistered": 935,
+    "nodePassed": 934,
+    "nodeFailed": 1,
+    "fixture": "tests/fixtures/source-frame-release-a25-exact-check-failure.json.gz",
+    "fixtureSha256": "348ab8956c69de0e26e5cc05dbab6a9ad65182e11cd5360c5045f58bf965d823"
+  },
+  "limits": [
+    "Does not change source pixels, source values, mechanics or field grades.",
+    "Earlier sealed review/preflight receipts remain historical and unchanged.",
+    "Full final workflow and remote publication verification remain necessary."
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "continuation-source-frame-repair-verification-receipt",
+  "status": "focused-checks-passed; independent-root-review-pending",
+  "branch": "codex/continuation-frame-resolution",
+  "baseCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+  "code": {
+    "tools/continuation-candidates.py": "668b4d0efeacc23f6a3031a3564d36746d16795650b0196d958743c4856e7a99",
+    "tools/continuation-candidates-validate.mjs": "05080ccdc01ae1fb8c40f071161f0f6e9139f9113df62077a8b1a632bb49f484",
+    "research/source_frame_coordinate_bridge.py": "b937adca9a4cd3f695ded85a41d3aa082f9c0bb2446b9a962e184bf0c89c4b92",
+    "tools/source-frame-coordinate-bridge.mjs": "f9ca885508b8d32e4d7603d0a327a239b3acd6b93a7e981aaef663a83c04d4cc",
+    "tools/source-raster-coverage.mjs": "214bef56afd9c5b4e70a136a334885590dfed6a0d16c34de63319c34bfb873b5",
+    "tools/source-visual-coverage.mjs": "71a346c5bfaa955c5546e3f368bdeff9306158d9d447dc944e31c5377bc6f504",
+    "research/source-raster-boundary-audit.py": "3dc44cc8dfc2bc2f7ec65f4fe762f38fbeea75cc5a42ca2ac753ea33fea4e1bd",
+    "research/source-visual-audit.py": "5b1d9e41673bd7a49c1632b9c81dffa46417c7d9f9250c725fd36c7c943c0a95"
+  },
+  "trustedEvidence": {
+    "review": {
+      "path": "research/source-frame-coordinate-current-guard-independent-review.json",
+      "sha256": "c00dde753ba9bc58913e128edb687f200569e501d9887298eaf934e4a669567e"
+    },
+    "registry": {
+      "path": "research/source-frame-coordinate-bridge.json",
+      "sha256": "2899f53a9cfa1741d9fd9aed3c47ada0eb3a80fc842352c8c64deb3869986318"
+    },
+    "guardCopyPreimage": {
+      "path": "research/source-frame-guard-copy-preimage-v1.json",
+      "sha256": "15d2ac2f430b1dca1900cf031f131d1e9844a0ca6474961e1938f2f0dbb383ad"
+    },
+    "consumerBaseline": {
+      "path": "research/source-frame-consumer-inventory.json",
+      "sha256": "be205e93886e231c35a233f521dee699b8c4bfaab356972711b9af25f93f9c64"
+    },
+    "consumerUpdate": {
+      "path": "research/source-frame-consumer-inventory-continuation-v1.json",
+      "sha256": "d8bba9861d4ba38724651001acc7c3cab6f0c75ddb618c278418811f8304f638"
+    },
+    "comparison": {
+      "path": "research/source-audit-pass8-continuation-frame-comparison-v1.json",
+      "sha256": "f58025fd9c7af43d339184a5ed1aa1de3ede34f8c6801fd04eaca40c06a09ac1"
+    },
+    "proposal": {
+      "path": "research/source-audit-pass8-continuation-frame-proposal-v1.md",
+      "sha256": "49c7df6e9bbfa1de805677953eea832003dbc9fdeda83f74ea3faf296a61376b"
+    },
+    "currentPointer": {
+      "path": "research/current-continuation-candidate-snapshot.json",
+      "sha256": "3e44b681a83ec13398faacb6e07b5f9f48b15877ae1ed77595312dc04a32094c"
+    },
+    "currentSummary": {
+      "path": "research/source-audit-pass8-continuation-frame-current-v1.json",
+      "sha256": "373ae6ac5b35a2b2a63578f99a1fc2eadd3d57a4b36914d72eecdad909ba8b6e"
+    },
+    "currentFull": {
+      "path": "research/source-audit-pass8-continuation-frame-current-v1-full.json.gz",
+      "sha256": "7a0b315bca8113eb0d84bc2b86d753853f23e09c05040d6d7ed7515679f26bdb"
+    },
+    "beforeFull": {
+      "path": "research/source-audit-pass8-continuation-frame-before-v1-full.json.gz",
+      "sha256": "dd357ee4331f3167ca47f66ffe8a4715a6fb69ef6171ccaa5b7597a6bd521b28"
+    },
+    "negativeControl": {
+      "path": "research/source-audit-pass8-continuation-frame-negative-controls-v1.json",
+      "sha256": "8cb924b082e7f4db58a038abe863502f9c203158b0e76af4d96e8cd5cbbe6d08"
+    }
+  },
+  "tests": [
+    {
+      "command": "python tests/continuation-candidates-fixtures.py",
+      "exitCode": 0,
+      "tests": 9,
+      "skipped": 1
+    },
+    {
+      "command": "node --test tests/continuation-candidates.test.mjs",
+      "exitCode": 0,
+      "tests": 11,
+      "passed": 11
+    },
+    {
+      "command": "node --test tests/current-continuation-snapshot.test.mjs",
+      "exitCode": 0,
+      "tests": 12,
+      "passed": 12
+    },
+    {
+      "command": "python tests/source-frame-coordinate-bridge.test.py",
+      "exitCode": 0,
+      "tests": 13,
+      "passed": 13
+    },
+    {
+      "command": "python tests/source-raster-boundary-audit.test.py",
+      "exitCode": 0,
+      "tests": 15,
+      "passed": 15
+    },
+    {
+      "command": "python tests/source-visual-audit-inputs.py",
+      "exitCode": 0,
+      "tests": 4,
+      "passed": 4
+    },
+    {
+      "command": "node --test tests/source-visual-audit-inputs.test.mjs",
+      "exitCode": 0,
+      "tests": 1,
+      "passed": 1
+    },
+    {
+      "command": "node --test tests/source-raster-coverage.test.mjs tests/source-visual-coverage.test.mjs tests/source-raster-current-pointer.test.mjs",
+      "exitCode": 0,
+      "tests": 32,
+      "passed": 32
+    },
+    {
+      "command": "node tools/continuation-candidates-validate.mjs --current-snapshot --force-current-tree --output-dir /tmp/continuation-frame-validate-final",
+      "exitCode": 0,
+      "valid": true,
+      "errors": 0
+    },
+    {
+      "command": "python -m py_compile tools/continuation-candidates.py research/source_frame_coordinate_bridge.py research/source-visual-audit.py research/source-raster-boundary-audit.py tests/source-frame-coordinate-bridge.test.py tests/source-raster-boundary-audit.test.py",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check",
+      "exitCode": 0
+    }
+  ],
+  "remaining": "Repository-wide CI, final root integration, and any later PHB pin migration remain pending. No commit or push."
+}
