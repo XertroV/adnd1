@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "pass8-dmg225-field-mapping-guard-independent-review",
+  "reviewVersion": 1,
+  "reviewedAt": "2026-11-09",
+  "reviewerRole": "independent guard and application review",
+  "status": "blocked: active target proof guard accepts coordinated untrusted state",
+  "baseCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+  "application": {
+    "path": "research/source-audit-pass8-dmg225-field-mapping-application-v1.json",
+    "sha256": "d9e7bd73e8fd899a4e1465494941bde7c5f65f700fc3c6d1e747acda80dd69fc"
+  },
+  "guardUnderReview": {
+    "path": "tools/price-source-inventory.mjs",
+    "sha256": "65e95a52d45b6f9d670310a9799b1a79fc36b905b1e745c5e35616decd82d230",
+    "beforeCodeSnapshot": "/tmp/dmg225-price-source-inventory-before-review.mjs"
+  },
+  "scope": {
+    "reviewed": [
+      "exact 29 DMG p.225 owner, field pointer, source-object pointer, value, and source-object snapshot bindings",
+      "closed proof and target-universe behavior in buildPriceSourceInventory and validatePriceSourceInventory",
+      "append-only catalog, source review, continuation-group, default-ID, and historical-prefix claims",
+      "mutation behavior for omitted proof/status, forged policy marker, borrowed owner/pointer, changed values, page-group drift, receipt substitution, and non-JSON hidden values"
+    ],
+    "notReviewed": [
+      "source pixels; the supplied independent source/row/focus receipts were used as the approved evidence boundary",
+      "compiled viewer direct routing, Back/Forward, copy-link, and mobile behavior",
+      "global metadata regeneration and full repository test suite"
+    ]
+  },
+  "receiptHashes": {
+    "authorProposal": {
+      "path": "research/source-audit-pass8-dmg225-field-mapping-author-proposal.json",
+      "sha256": "3a8939c6c3c6a4e3513708b7252c596e2359ca6a7e0ab5c877a48874d9c7b8c5"
+    },
+    "fieldIndependentReview": {
+      "path": "research/source-audit-pass8-dmg225-field-mapping-independent-review.json",
+      "sha256": "bcf60a52e60766ef824fce1ea4edacdc2182d98b2395510051e6ee60ff4a7231"
+    },
+    "toolsLeadComponentReview": {
+      "path": "research/source-audit-pass8-dmg225-tools-lead-in-independent-review.json",
+      "sha256": "987915068003079fa3de2eb91ff4ad9858fb9540e4ae7af84594dc92f99d2793"
+    },
+    "toolsAliasOrderReview": {
+      "path": "research/source-audit-pass8-dmg225-tools-alias-order-independent-review.json",
+      "sha256": "ff2c53802101439e2d258293524b0193f9991dce4e5d800272983ab5ab2ba0eb"
+    },
+    "a46BeforeFixture": {
+      "path": "tests/fixtures/pass8-dmg225-before-targets-a46-v1.json.gz",
+      "sha256": "7af6ae98d17809a939a3e386c1f830a2697d06bc8313c184b1a3dbc37c604897"
+    }
+  },
+  "applicationChecks": {
+    "targets": {
+      "expected": 29,
+      "currentManualBindingsBefore": 728,
+      "currentManualBindingsAfter": 757,
+      "matchesAuthorProposalAndIndependentCases": true,
+      "sourceValueAndUnitGradesPromoted": false,
+      "all29FieldTargetsPendingBrowserRouting": true,
+      "fieldReviewDecisions": {
+        "acceptedTableFieldCases": 28,
+        "rejectedOriginalToolsCaseRetained": 1
+      }
+    },
+    "catalogs": {
+      "fourCandidateCatalogHashesMatchApplication": true,
+      "oldRegionObjectsAndOrderPreserved": true,
+      "defaultRegionIdsPreserved": true,
+      "appendedRegionCounts": [2, 2, 2, 2],
+      "catalogs": [
+        {"owner": "phb-bullseye-lantern", "sha256": "d6324711b0cb0f002a12c466c25905cc0b6c7e268abf389f94c20fc813b626e4", "defaultRegionId": "dmg-225-347a30af2c2d9db9"},
+        {"owner": "phb-silver-mirror", "sha256": "28dc5154f31d84b2100583da0388f4b9252c3fceb026b53b7d6b9a0549b8960a", "defaultRegionId": "dmg-225-347a30af2c2d9db9"},
+        {"owner": "phb-iron-spike", "sha256": "db6e2bd60c270d71936f256c74aa31d0ce6e4e607db0d2cf0c4845317922c3c2", "defaultRegionId": "dmg-225-3080a335d0c53ba1"},
+        {"owner": "phb-thieves-tools", "sha256": "e0752d3bb7d7decf33fb5ace057bece4ea36a2e39032be0adbf45b3ef92a04cd", "defaultRegionId": "dmg-225-e8ddcda7bb0d9586"}
+      ]
+    },
+    "componentReviews": {
+      "before": 1827,
+      "after": 1835,
+      "appended": 8,
+      "allEightHaveSourceImageFocusAndContentHashes": true,
+      "defaultAssessmentsAdded": 0
+    },
+    "thievesTools": {
+      "newLeadImage": {
+        "path": "dist/scans/verified/dmg-225-03c363a115c57487.png",
+        "sha256": "03c363a115c57487bbacb06f75ab094dec5bbcfabfc6639c998ec46dcb8c1404"
+      },
+      "acceptedOrderedGroup": {
+        "id": "pass8-dmg225-thieves-tools-exclusion-context",
+        "canonicalSha256": "5ee81d2d555cacbb6400181daf1684fd9faa427869ea0e05fde97a9c0c377b13",
+        "regions": [
+          "pass8-dmg225-thieves-tools-exclusion-lead-in",
+          "pass8-dmg225-thieves-tools-exclusion-list-item"
+        ]
+      },
+      "oldClippedLeadAndDefaultDefectRetained": true,
+      "newPairDoesNotTransferDefaultApproval": true
+    },
+    "preservation": {
+      "oldManualBindings": 728,
+      "oldContinuationGroups": 252,
+      "oldContinuationSegments": 494,
+      "oldCatalogRegionObjects": "preserved",
+      "sourceValuesCaveatsAndUnits": "equipment.json matches the A46 before fixture hash; values and source objects were not edited",
+      "distData": "matches the A46 before fixture hash; not regenerated"
+    }
+  },
+  "focusedChecks": {
+    "command": "node --test tests/pass8-dmg225-field-mapping-target-proof.test.mjs tests/price-source-inventory.test.mjs tests/field-region-alignment.test.mjs tests/citation-browser-inventory.test.mjs",
+    "observed": "target-proof suite reported 4 passing tests; price-source-inventory suite reported 33 passing and 0 failing; alignment and browser-inventory suites emitted passing cases with no failure output",
+    "fullSuite": "not run",
+    "globalMetadataRegeneration": "not run",
+    "compiledViewerBrowserRouting": "not run"
+  },
+  "mutationResults": [
+    {
+      "id": "active-inventory-downgrade-and-custom-policy-escape",
+      "severity": "blocker",
+      "classification": "actual active build/validate acceptance",
+      "script": "/tmp/dmg225-proof-custom-policy-repro-v1.mjs",
+      "sha256": "51cdd62e046aa650e45e7cfaca08ab3d6cf2296406e9a34dab8cd3ece527754a",
+      "mutation": "Build a current complete 29-target inventory; remove one target proof, downgrade reviewStatus to source-row-value-verified-region-pending, set policy status to custom-manual-binding-set and its caller-controlled canonical hash to 64 zeroes, while retaining integrity.manualBindingsSha256 equal to the active manual-binding file hash.",
+      "output": "active-build required-exact-current-target-set 29 true; FORGED_CUSTOM_PENDING_ACCEPTED 9f60e614040de1c5102d7ba65ff733c67f078c43d12b261cd3eb859a78fffb53",
+      "implication": "A pending target can pass current validation under a forged custom marker and can be mistaken for a valid current report."
+    },
+    {
+      "id": "coordinated-page-group-proof-rewrite-acceptance",
+      "severity": "blocker",
+      "classification": "actual current guard acceptance under coordinated mutation",
+      "script": "/tmp/dmg225-proof-page-order-repro-v1.mjs",
+      "sha256": "02fd28ca234b772f0b617f12c297c49d202c1e27589d0afde9052ecfb0d90252",
+      "mutation": "Clone the actual light-crossbow catalog, insert a copied but unreviewed DMG p.225 row as the first row under invented-unreviewed-default-row, then rewrite the caller-controlled pageGroupOrder ids, default, evidence list, hash, and previousDefault to match.",
+      "output": "accepted true; activeApprovedRegions [dmg-225-d50183d9a0cbcfbb, batch5-dmg225-encumbrance-notes]; injectedDefault invented-unreviewed-default-row; proofPriorIds [dmg-225-d50183d9a0cbcfbb, batch5-dmg225-encumbrance-notes]",
+      "implication": "The complete page-group/default pin is self-consistent with caller-supplied proof but is not bound to an immutable accepted order receipt."
+    },
+    {
+      "id": "non-json-hidden-source-row-acceptance",
+      "severity": "blocker",
+      "classification": "actual active build/validate acceptance for caller-supplied in-memory input",
+      "script": "/tmp/dmg225-proof-nonjson-active-build-repro-v1.mjs",
+      "sha256": "ee8a4c0ed9bb7a3081d4d8e1e8a49f79e0d805c7103ead487eddb7c14959c610",
+      "mutation": "Replace the tools target's empty sourceRowIds arrays in the supplied manualBindings object, target proof, and orderedContext with [undefined].",
+      "output": "hidden-input-policy required-exact-current-target-set 29 serialized [null]; NON_JSON_CURRENT_INVENTORY_ACCEPTED",
+      "implication": "canonical() collapses [undefined] to [] so current policy remains active; JSON transport changes the hidden value to [null]."
+    },
+    {
+      "id": "extra-dmg225-target-universe-membership",
+      "severity": "review-gap",
+      "classification": "helper-only acceptance; not proven through the full generic inventory validator",
+      "command": "node --input-type=module - <<'NODE'\nimport fs from 'node:fs';import {assertPass8Dmg225TargetUniverse} from './tools/price-source-inventory.mjs';const bindings=JSON.parse(fs.readFileSync('research/field-evidence-bindings.json','utf8')).bindings.filter(x=>x.collection==='equipment'&&x.sourceCategory==='equipment-field'&&x.book==='DMG'&&x.printedPage===225);const extra={...structuredClone(bindings[0]),fieldPointer:'/fields/Invented DMG p.225 field',sourceObjectPointer:'/fieldSources/Invented DMG p.225 field'};try{console.log(JSON.stringify(assertPass8Dmg225TargetUniverse([...bindings,extra])),'inputCount',bindings.length+1)}catch(e){console.log('EXTRA_REJECTED',e.message);process.exitCode=2}\nNODE",
+      "output": "{\"targets\":29,\"reviewed\":29} inputCount 30",
+      "implication": "The canonical universe helper checks required targets but does not reject a 30th DMG p.225 field target."
+    },
+    {
+      "id": "coordinated-current-value-and-proof-hash-rewrite",
+      "severity": "negative-control-passed",
+      "classification": "rejected by immutable source/value snapshot",
+      "script": "/tmp/dmg225-proof-coordinated-value-rewrite-repro-v1.mjs",
+      "sha256": "b1770970aaa69f50222a04fff3c92504bab5d304404994863681fa3f10a4ac07",
+      "mutation": "Change the current owner field value to 999 gp encumbrance and recompute authored-owner, field-value, source-object, and target-snapshot hashes in the proof.",
+      "output": "COORDINATED_VALUE_AND_HASH_REWRITE_REJECTED ... authored owner snapshot is stale"
+    },
+    {
+      "id": "forged-outside-root-source-receipt",
+      "severity": "negative-control-passed-with-path-hardening-note",
+      "classification": "fabricated receipt rejected; proof-controlled path is read before its fixed-identity check",
+      "script": "/tmp/dmg225-proof-forged-receipt-repro-v1.mjs",
+      "sha256": "e956117a2186fcc3d9fa1d92bbb8beed992233e473efac789fca7843fbfc3dd2",
+      "mutation": "Point the author-proposal evidence reference at a benign fabricated JSON file outside the repository root and supply its matching file hash.",
+      "output": "FORGED_OUTSIDE_ROOT_RECEIPT_REJECTED ... review pointer ../../tmp/dmg225-invented-source-approval.json/ is missing",
+      "implication": "Approval is rejected, but reviewEvidence.path should be validated against the fixed receipt allowlist before filesystem access."
+    },
+    {
+      "id": "borrowed-owner-pointer-and-simple-default-drift",
+      "severity": "negative-control-passed",
+      "classification": "existing focused target-proof tests reject the uncoordinated mutations",
+      "evidence": "tests/pass8-dmg225-field-mapping-target-proof.test.mjs reports rejections for borrowed proof/index, source-owner mismatch, source-object pointer mismatch, changed owner/value, stale region focus evidence, and a newly inserted default region when the caller proof is not rewritten"
+    }
+  ],
+  "remainingGates": [
+    "The active target universe must reject missing or pending proofs regardless of custom/status markers and must not certify a before or custom inventory as current completeness.",
+    "Expected page-group/default state must be bound to an immutable receipt or exact baseline-derived projection; this is a drift pin only and does not approve the default.",
+    "Reject non-JSON values before canonical hashing, serialization, or proof validation.",
+    "Review the all-29 before/after page-group receipt proposal when available; no default grade is granted by this report.",
+    "Browser routing remains pending; keep the old clipped thieves-tools lead/default defect recorded."
+  ],
+  "privacy": "No private PDF, full source image, or source text was copied into this review."
+}

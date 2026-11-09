@@ -4,7 +4,7 @@ import {existsSync,readFileSync,readdirSync,rmSync,writeFileSync} from 'node:fs'
 import {resolve} from 'node:path';
 import {gunzipSync} from 'node:zlib';
 import test,{after} from 'node:test';
-import {buildPriceSourceInventory,sourceVisualRegionHashes,validatePriceSourceInventory} from '../tools/price-source-inventory.mjs';
+import {buildPriceSourceInventory,sourceVisualRegionHashes,validatePriceSourceInventoryDiagnostic as validateDiagnosticPriceSourceInventory} from '../tools/price-source-inventory.mjs';
 
 const root=resolve(import.meta.dirname,'..');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
@@ -151,7 +151,7 @@ test('reviewed class XP targets bind the exact current row identity in both buil
   const fixture=makeFixture();
   const data=structuredClone(fixture.data);
   const inventory=buildReviewed({...fixture,data});
-  validatePriceSourceInventory(inventory,{data,catalogs:fixture.catalogs});
+  validateDiagnosticPriceSourceInventory(inventory,{data,catalogs:fixture.catalogs});
   const binding=inventory.fieldEvidenceBindings.find(candidate=>candidate.collection==='classes'&&candidate.itemId==='bard'&&candidate.fieldPointer==='/xpRows/0');
   assert.ok(binding);
   assert.equal(binding.reviewStatus,'field-target-reviewed');
@@ -165,7 +165,7 @@ test('reviewed class XP targets bind the exact current row identity in both buil
     const staleData=structuredClone(fixture.data);
     Object.assign(staleData.classes.find(item=>item.id==='bard').xpRows[0],mutation);
     assert.throws(()=>buildReviewed({...fixture,data:staleData}),/expectedTargetIdentity does not exactly match/);
-    assert.throws(()=>validatePriceSourceInventory(inventory,{data:staleData,catalogs:fixture.catalogs}),/expectedTargetIdentity does not exactly match/);
+    assert.throws(()=>validateDiagnosticPriceSourceInventory(inventory,{data:staleData,catalogs:fixture.catalogs}),/expectedTargetIdentity does not exactly match/);
   }
 
   const coordinatedData=structuredClone(fixture.data);
@@ -176,7 +176,7 @@ test('reviewed class XP targets bind the exact current row identity in both buil
     'rewriting current data and the mutable binding snapshot together cannot reuse the old hash-pinned proof');
   const coordinatedInventory=structuredClone(inventory);
   coordinatedInventory.fieldEvidenceBindings.find(candidate=>candidate.itemId==='bard'&&candidate.fieldPointer==='/xpRows/0').targetReview.expectedTargetIdentity.value.track='alternate';
-  assert.throws(()=>validatePriceSourceInventory(coordinatedInventory,{data:coordinatedData,catalogs:fixture.catalogs}),/does not exactly match the hash-pinned review proof target identity/);
+  assert.throws(()=>validateDiagnosticPriceSourceInventory(coordinatedInventory,{data:coordinatedData,catalogs:fixture.catalogs}),/does not exactly match the hash-pinned review proof target identity/);
 
   const wrongOwnerManual=structuredClone(fixture.manualBindings);
   wrongOwnerManual.bindings[0].sourceOwner.itemId='fighter';
@@ -186,7 +186,7 @@ test('reviewed class XP targets bind the exact current row identity in both buil
   const wrongOwnerBinding=wrongOwnerInventory.fieldEvidenceBindings.find(candidate=>candidate.itemId==='bard'&&candidate.fieldPointer==='/xpRows/0');
   wrongOwnerBinding.sourceOwner.itemId='fighter';
   wrongOwnerBinding.catalog='scans/verified/classes-fighter.json';
-  assert.throws(()=>validatePriceSourceInventory(wrongOwnerInventory,{data,catalogs:fixture.catalogs}),/sourceOwner must exactly identify the routed classes item/);
+  assert.throws(()=>validateDiagnosticPriceSourceInventory(wrongOwnerInventory,{data,catalogs:fixture.catalogs}),/sourceOwner must exactly identify the routed classes item/);
 
   const wrongPointerManual=structuredClone(fixture.manualBindings);
   wrongPointerManual.bindings[0].sourceObjectPointer='/xpRows/1';
@@ -194,14 +194,14 @@ test('reviewed class XP targets bind the exact current row identity in both buil
   const wrongPointerInventory=structuredClone(inventory);
   const wrongPointerBinding=wrongPointerInventory.fieldEvidenceBindings.find(candidate=>candidate.itemId==='bard'&&candidate.fieldPointer==='/xpRows/0');
   wrongPointerBinding.fieldPointer='/xpRows/1';
-  assert.throws(()=>validatePriceSourceInventory(wrongPointerInventory,{data,catalogs:fixture.catalogs}),/sourceObjectPointer must equal fieldPointer/);
+  assert.throws(()=>validateDiagnosticPriceSourceInventory(wrongPointerInventory,{data,catalogs:fixture.catalogs}),/sourceObjectPointer must equal fieldPointer/);
 
   const missingIdentityManual=structuredClone(fixture.manualBindings);
   delete missingIdentityManual.bindings[0].targetReview.expectedTargetIdentity;
   assert.throws(()=>buildReviewed({...fixture,manualBindings:missingIdentityManual}),/expectedTargetIdentity/);
   const missingIdentityInventory=structuredClone(inventory);
   delete missingIdentityInventory.fieldEvidenceBindings.find(candidate=>candidate.itemId==='bard'&&candidate.fieldPointer==='/xpRows/0').targetReview.expectedTargetIdentity;
-  assert.throws(()=>validatePriceSourceInventory(missingIdentityInventory,{data,catalogs:fixture.catalogs}),/expectedTargetIdentity/);
+  assert.throws(()=>validateDiagnosticPriceSourceInventory(missingIdentityInventory,{data,catalogs:fixture.catalogs}),/expectedTargetIdentity/);
 
   const wrongCategoryManual=structuredClone(fixture.manualBindings);
   wrongCategoryManual.bindings[0].sourceCategory='record-reference';
@@ -212,13 +212,13 @@ test('reviewed class XP targets bind the exact current row identity in both buil
   const nestedXpPointerInventory=structuredClone(inventory);
   const nestedXpBinding=nestedXpPointerInventory.fieldEvidenceBindings.find(candidate=>candidate.itemId==='bard'&&candidate.fieldPointer==='/xpRows/0');
   nestedXpBinding.fieldPointer='/xpRows/0/xp';
-  assert.throws(()=>validatePriceSourceInventory(nestedXpPointerInventory,{data,catalogs:fixture.catalogs}),/fieldPointer must identify exactly one/);
+  assert.throws(()=>validateDiagnosticPriceSourceInventory(nestedXpPointerInventory,{data,catalogs:fixture.catalogs}),/fieldPointer must identify exactly one/);
 });
 
 test('class XP target proof is closed, hash-bound, and joins source pointers and region evidence',()=>{
   const fixture=makeFixture();
   const inventory=buildReviewed(fixture);
-  validatePriceSourceInventory(inventory,{data:fixture.data,catalogs:fixture.catalogs});
+  validateDiagnosticPriceSourceInventory(inventory,{data:fixture.data,catalogs:fixture.catalogs});
   const binding=inventory.fieldEvidenceBindings.find(candidate=>candidate.itemId==='bard'&&candidate.fieldPointer==='/xpRows/0');
   const originalBytes=readFileSync(resolve(root,proofPath));
   const proof=JSON.parse(originalBytes);
@@ -233,19 +233,19 @@ test('class XP target proof is closed, hash-bound, and joins source pointers and
   };
   try{
     const wrongSourcePointer=rewrite(target=>{target.sourceEvidence[0].pointer='/rows/999';});
-    assert.throws(()=>validatePriceSourceInventory(wrongSourcePointer,{data:fixture.data,catalogs:fixture.catalogs}),/source evidence pointer does not resolve/);
+    assert.throws(()=>validateDiagnosticPriceSourceInventory(wrongSourcePointer,{data:fixture.data,catalogs:fixture.catalogs}),/source evidence pointer does not resolve/);
     const staleSourceDigest=rewrite(target=>{target.sourceEvidence[0].sha256='0'.repeat(64);});
-    assert.throws(()=>validatePriceSourceInventory(staleSourceDigest,{data:fixture.data,catalogs:fixture.catalogs}),/source evidence digest is stale/);
+    assert.throws(()=>validateDiagnosticPriceSourceInventory(staleSourceDigest,{data:fixture.data,catalogs:fixture.catalogs}),/source evidence digest is stale/);
     const singleSource=rewrite(target=>{target.sourceEvidence=target.sourceEvidence.slice(0,1);});
-    assert.throws(()=>validatePriceSourceInventory(singleSource,{data:fixture.data,catalogs:fixture.catalogs}),/author and independent-review source evidence/);
+    assert.throws(()=>validateDiagnosticPriceSourceInventory(singleSource,{data:fixture.data,catalogs:fixture.catalogs}),/author and independent-review source evidence/);
     const wrongRegion=rewrite(target=>{target.regionEvidence[0].focusSha256='0'.repeat(64);});
-    assert.throws(()=>validatePriceSourceInventory(wrongRegion,{data:fixture.data,catalogs:fixture.catalogs}),/region source\/image\/focus\/content hashes do not exactly match/);
+    assert.throws(()=>validateDiagnosticPriceSourceInventory(wrongRegion,{data:fixture.data,catalogs:fixture.catalogs}),/region source\/image\/focus\/content hashes do not exactly match/);
     const promoted=rewrite(target=>{target.sourceValueGrade='CONFIRMED';});
-    assert.throws(()=>validatePriceSourceInventory(promoted,{data:fixture.data,catalogs:fixture.catalogs}),/sourceValueGrade NOT PROMOTED/);
+    assert.throws(()=>validateDiagnosticPriceSourceInventory(promoted,{data:fixture.data,catalogs:fixture.catalogs}),/sourceValueGrade NOT PROMOTED/);
     const unconfirmed=rewrite(target=>{target.status='pending';});
-    assert.throws(()=>validatePriceSourceInventory(unconfirmed,{data:fixture.data,catalogs:fixture.catalogs}),/independently confirm/);
+    assert.throws(()=>validateDiagnosticPriceSourceInventory(unconfirmed,{data:fixture.data,catalogs:fixture.catalogs}),/independently confirm/);
     const openEntry=rewrite(target=>{target.unreviewedField='not allowed';});
-    assert.throws(()=>validatePriceSourceInventory(openEntry,{data:fixture.data,catalogs:fixture.catalogs}),/unsupported or open target entry/);
+    assert.throws(()=>validateDiagnosticPriceSourceInventory(openEntry,{data:fixture.data,catalogs:fixture.catalogs}),/unsupported or open target entry/);
   }finally{
     writeFileSync(resolve(root,proofPath),originalBytes);
   }

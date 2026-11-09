@@ -11,7 +11,7 @@ import {
   buildMonetarySourceIndex,
   runMonetarySourceInventoryCli,
 } from '../tools/monetary-source-inventory.mjs';
-import {validatePriceSourceInventory} from '../tools/price-source-inventory.mjs';
+import {validatePriceSourceInventory,validatePriceSourceInventoryDiagnostic} from '../tools/price-source-inventory.mjs';
 import {validateSourceGeometry} from '../tools/monetary-source-geometry.mjs';
 import {validateCropLocalSourceGeometry} from '../tools/monetary-source-inventory.mjs';
 import {collectMonetaryRowIdentityRecords} from '../tools/monetary-row-identity-audit.mjs';
@@ -1130,7 +1130,11 @@ test('historical fixture stays pinned, current inventory validation rejects its 
   const compressed = readFileSync(resolve(root, 'tests/fixtures/price-source-inventory-baseline-679.json.gz'));
   const baselineBytes = gunzipSync(compressed);
   assert.equal(sha256(baselineBytes), BASELINE_CANONICAL_SHA256);
-  assert.throws(() => validatePriceSourceInventory(input.canonical.data), /site-claim denominator .* != equipment records/);
+  // This exact679 historical fixture first fails the active29-target contract.
+  assert.throws(() => validatePriceSourceInventory(input.canonical.data), /Invalid DMG p\.225 field-target proof equipment:phb-light-crossbow.*exact reviewed target was omitted, relabeled, or left pending/);
+  // Its original191-vs192 diagnostic remains visible through the explicitly
+  // historical API; current validation and native mutation tests stay strict.
+  assert.throws(() => validatePriceSourceInventoryDiagnostic(input.canonical.data), /site-claim denominator .* != equipment records/);
   assert.throws(() => buildMonetarySourceIndex(input, {expectedDenominators: {...CURRENT_DENOMINATORS, uaSupplementRows: 584}}), /Monetary-source input shape mismatch/);
   assert.deepEqual(await runMonetarySourceInventoryCli(['--help']), {
     status: 'usage',

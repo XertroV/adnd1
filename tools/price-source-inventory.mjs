@@ -10,6 +10,22 @@ const root = resolve(import.meta.dirname, '..');
 const books = createRequire(import.meta.url)('../dist/books.js');
 // Optional frozen review overlay schema: {schemaVersion:1, bindings:[{sourceInventoryFile,sourceInventorySha256,sourceRecordIndex,sourceObject,sourceSha256,itemId,independentReviewFile,independentReviewFileSha256,independentReviewRecordIndex}]}.
 const EQUIPMENT_SOURCE_ROW_BINDINGS_FILE = 'research/equipment-source-row-bindings.json';
+const PASS8_DMG225_AUTHOR_PATH = 'research/source-audit-pass8-dmg225-field-mapping-author-proposal.json';
+const PASS8_DMG225_AUTHOR_SHA256 = '3a8939c6c3c6a4e3513708b7252c596e2359ca6a7e0ab5c877a48874d9c7b8c5';
+const PASS8_DMG225_FIELD_REVIEW_PATH = 'research/source-audit-pass8-dmg225-field-mapping-independent-review.json';
+const PASS8_DMG225_FIELD_REVIEW_SHA256 = 'bcf60a52e60766ef824fce1ea4edacdc2182d98b2395510051e6ee60ff4a7231';
+const PASS8_DMG225_TOOLS_LEAD_REVIEW_PATH = 'research/source-audit-pass8-dmg225-tools-lead-in-independent-review.json';
+const PASS8_DMG225_TOOLS_LEAD_REVIEW_SHA256 = '987915068003079fa3de2eb91ff4ad9858fb9540e4ae7af84594dc92f99d2793';
+const PASS8_DMG225_TOOLS_ORDER_REVIEW_PATH = 'research/source-audit-pass8-dmg225-tools-alias-order-independent-review.json';
+const PASS8_DMG225_TOOLS_ORDER_REVIEW_SHA256 = 'ff2c53802101439e2d258293524b0193f9991dce4e5d800272983ab5ab2ba0eb';
+const PASS8_DMG225_TOOLS_GROUP_SHA256 = '5ee81d2d555cacbb6400181daf1684fd9faa427869ea0e05fde97a9c0c377b13';
+const PASS8_DMG225_TOOLS_GROUP_ID = 'pass8-dmg225-thieves-tools-exclusion-context';
+const PASS8_DMG225_FIELD_TARGET_COUNT = 29;
+const PASS8_DMG225_PAGE_GROUP_RECEIPT_PATH = 'research/source-audit-pass8-dmg225-page-group-before-after-receipt-proposal.json';
+const PASS8_DMG225_PAGE_GROUP_RECEIPT_SHA256 = 'f8285fc53655c578caf8a4591183c7cb58a8749231470fa92c8bfad74709f425';
+const PASS8_DMG225_PAGE_GROUP_REVIEW_PATH = 'research/source-audit-pass8-dmg225-page-group-before-after-independent-review-v1.json';
+const PASS8_DMG225_PAGE_GROUP_REVIEW_SHA256 = '385764932c5dda04847d13e7180a19cd3ed6da5be74b099665a19319778cbf95';
+const PASS8_DMG225_SOURCE_PDF_SHA256 = '7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669';
 const hashFile = path => createHash('sha256').update(readFileSync(resolve(root, path))).digest('hex');
 const BOOKS_JS_SHA256 = hashFile('dist/books.js');
 const readJson = path => JSON.parse(readFileSync(resolve(root, path), 'utf8'));
@@ -37,6 +53,413 @@ function semanticValueSnapshot(value){
 export function sourceVisualRegionHashes(region){
   const {focusRects,...content}=region;
   return {focusSha256:sha(canonical(focusRects)),contentSha256:sha(canonical(content))};
+}
+
+function pass8Dmg225Failure(binding,message){
+  throw new Error(`Invalid DMG p.225 field-target proof ${binding?.collection??'(missing collection)'}:${binding?.itemId??'(missing item)'}${binding?.fieldPointer??'(missing field pointer)'} ${message}`);
+}
+
+function pass8Dmg225ReviewData(){
+  const authorBytes=readFileSync(resolve(root,PASS8_DMG225_AUTHOR_PATH));
+  const reviewBytes=readFileSync(resolve(root,PASS8_DMG225_FIELD_REVIEW_PATH));
+  if(sha(authorBytes)!==PASS8_DMG225_AUTHOR_SHA256)throw new Error('DMG p.225 field-mapping author proposal hash is stale');
+  if(sha(reviewBytes)!==PASS8_DMG225_FIELD_REVIEW_SHA256)throw new Error('DMG p.225 independent field review hash is stale');
+  const author=JSON.parse(authorBytes.toString('utf8'));
+  const review=JSON.parse(reviewBytes.toString('utf8'));
+  if(author.schemaVersion!==1||review.schemaVersion!==1||!Array.isArray(author.mappings)||!Array.isArray(review.cases)
+    ||author.mappings.length!==PASS8_DMG225_FIELD_TARGET_COUNT||review.cases.length!==PASS8_DMG225_FIELD_TARGET_COUNT)
+    throw new Error('DMG p.225 field-target review denominator changed');
+  if(review.authorProposal?.sha256!==PASS8_DMG225_AUTHOR_SHA256)throw new Error('DMG p.225 independent review no longer pins the approved author proposal');
+  return {author,review};
+}
+
+let pass8Dmg225PageGroupReceiptCache=null;
+function pass8Dmg225PageGroupReceipt(){
+  if(pass8Dmg225PageGroupReceiptCache)return pass8Dmg225PageGroupReceiptCache;
+  const receiptBytes=readFileSync(resolve(root,PASS8_DMG225_PAGE_GROUP_RECEIPT_PATH));
+  const reviewBytes=readFileSync(resolve(root,PASS8_DMG225_PAGE_GROUP_REVIEW_PATH));
+  if(sha(receiptBytes)!==PASS8_DMG225_PAGE_GROUP_RECEIPT_SHA256)throw new Error('DMG p.225 page-group drift receipt hash is stale');
+  if(sha(reviewBytes)!==PASS8_DMG225_PAGE_GROUP_REVIEW_SHA256)throw new Error('DMG p.225 page-group independent integrity review hash is stale');
+  const receipt=JSON.parse(receiptBytes.toString('utf8'));
+  const review=JSON.parse(reviewBytes.toString('utf8'));
+  if(receipt.schemaVersion!==1||receipt.artifactType!=='pass8-dmg225-page-group-before-after-drift-receipt'
+    ||receipt.status!=='author-proposed; independent integrity review pending'
+    ||receipt.sourceCommit!=='a46eddc41ac6f712d5ad1498195df6a49810aae1'
+    ||receipt.sourcePdfSha256!==PASS8_DMG225_SOURCE_PDF_SHA256
+    ||receipt.denominator?.targets!==PASS8_DMG225_FIELD_TARGET_COUNT
+    ||receipt.denominator?.uniqueOwnerCatalogs!==PASS8_DMG225_FIELD_TARGET_COUNT
+    ||!Array.isArray(receipt.targets)||receipt.targets.length!==PASS8_DMG225_FIELD_TARGET_COUNT)
+    throw new Error('DMG p.225 page-group drift receipt schema/denominator changed');
+  if(review.schemaVersion!==1||review.artifactType!=='pass8-dmg225-page-group-before-after-drift-receipt-independent-review'
+    ||review.status!=='accepted as a byte-bound drift receipt only; no default or source grade granted'
+    ||review.receipt?.path!==PASS8_DMG225_PAGE_GROUP_RECEIPT_PATH
+    ||review.receipt?.sha256!==PASS8_DMG225_PAGE_GROUP_RECEIPT_SHA256
+    ||review.receipt?.sourceCommit!==receipt.sourceCommit
+    ||review.receipt?.denominator?.targets!==PASS8_DMG225_FIELD_TARGET_COUNT
+    ||review.receipt?.denominator?.uniqueOwnerCatalogs!==PASS8_DMG225_FIELD_TARGET_COUNT
+    ||review.approvalBoundary?.pageDefaultApproval!==false
+    ||review.approvalBoundary?.sourceValueApproval!==false
+    ||review.approvalBoundary?.mechanicsApproval!==false
+    ||review.approvalBoundary?.browserRoutingApproval!==false
+    ||review.approvalBoundary?.oldToolsDefaultDefectCleared!==false)
+    throw new Error('DMG p.225 page-group review identity or no-grade boundary changed');
+  const refExpectations={
+    authorProposal:[PASS8_DMG225_AUTHOR_PATH,PASS8_DMG225_AUTHOR_SHA256],
+    fieldIndependentReview:[PASS8_DMG225_FIELD_REVIEW_PATH,PASS8_DMG225_FIELD_REVIEW_SHA256],
+    toolsAliasOrderReview:[PASS8_DMG225_TOOLS_ORDER_REVIEW_PATH,PASS8_DMG225_TOOLS_ORDER_REVIEW_SHA256],
+  };
+  for(const [key,[path,hash]] of Object.entries(refExpectations)){
+    const ref=review.trustedReferences?.[key];
+    if(ref?.path!==path||ref.sha256!==hash)throw new Error(`DMG p.225 page-group review ${key} reference changed`);
+  }
+  if(review.independentReproduction?.output?.allTargetAndGroupChecksPass!==true
+    ||review.independentReproduction?.output?.targets!==PASS8_DMG225_FIELD_TARGET_COUNT
+    ||review.independentReproduction?.output?.allowlistOfAppendedRegions!==4)
+    throw new Error('DMG p.225 page-group independent reproduction receipt changed');
+  pass8Dmg225PageGroupReceiptCache=receipt;
+  return receipt;
+}
+
+function pass8Dmg225ReceiptGroupProjection(group){
+  return {
+    orderedRegionIds:group.orderedRegionIds,
+    defaultRegionId:group.defaultRegionId,
+    defaultOrderSha256:group.defaultOrderSha256,
+    orderedEvidence:(group.orderedRegions||[]).map(({id,role,imageSha256,focusSha256,contentSha256})=>({
+      id,role,imageSha256,focusSha256,contentSha256,
+    })),
+  };
+}
+
+function pass8Dmg225AuthorGroupProjection(group){
+  return {
+    orderedRegionIds:group.orderedRegionIds,
+    defaultRegionId:group.defaultRegionId,
+    defaultOrderSha256:group.defaultOrderSha256,
+    orderedRegions:(group.orderedRegions||[]).map(({id,role,imageSha256,focusSha256,contentSha256})=>({
+      id,role,imageSha256,focusSha256,contentSha256,
+    })),
+  };
+}
+
+function pass8Dmg225IsJsonSafe(value,stack=new Set()){
+  if(value===null||typeof value==='string'||typeof value==='boolean')return true;
+  if(typeof value==='number')return Number.isFinite(value);
+  if(typeof value!=='object')return false;
+  if(stack.has(value))return false;
+  stack.add(value);
+  let safe=false;
+  try{
+    if(Array.isArray(value)){
+      const keys=Reflect.ownKeys(value);
+      safe=keys.every(key=>key==='length'||(typeof key==='string'&&/^(0|[1-9]\d*)$/.test(key)&&Number(key)<value.length))
+        &&keys.filter(key=>key!=='length').length===value.length;
+      for(let index=0;safe&&index<value.length;index++){
+        const descriptor=Object.getOwnPropertyDescriptor(value,String(index));
+        safe=Boolean(descriptor?.enumerable&&'value'in descriptor&&pass8Dmg225IsJsonSafe(descriptor.value,stack));
+      }
+    }else{
+      const prototype=Object.getPrototypeOf(value);
+      const ownKeys=Reflect.ownKeys(value),enumerableKeys=Object.keys(value);
+      safe=(prototype===Object.prototype||prototype===null)&&ownKeys.every(key=>typeof key==='string')
+        &&ownKeys.length===enumerableKeys.length;
+      for(const key of enumerableKeys){
+        const descriptor=Object.getOwnPropertyDescriptor(value,key);
+        safe=safe&&Boolean(descriptor?.enumerable&&'value'in descriptor&&pass8Dmg225IsJsonSafe(descriptor.value,stack));
+      }
+    }
+  }catch{safe=false;}
+  stack.delete(value);
+  return safe;
+}
+
+let pass8Dmg225TargetsCache=null;
+function pass8Dmg225TargetMap(){
+  if(pass8Dmg225TargetsCache)return pass8Dmg225TargetsCache;
+  const {author,review}=pass8Dmg225ReviewData();
+  const receipt=pass8Dmg225PageGroupReceipt();
+  const targets=new Map();
+  for(let index=0;index<PASS8_DMG225_FIELD_TARGET_COUNT;index++){
+    const mapping=author.mappings[index], reviewed=review.cases[index];
+    const pageReceipt=receipt.targets[index];
+    const owner=mapping?.owner, key=[owner?.collection,owner?.itemId,mapping?.fieldPointer].join('\\0');
+    if(!owner?.collection||!owner?.itemId||!mapping?.fieldPointer||targets.has(key))throw new Error('DMG p.225 field-target identities are incomplete or duplicated');
+    if(reviewed?.caseIndex!==index||reviewed.collection!==owner.collection||reviewed.itemId!==owner.itemId
+      ||reviewed.fieldPointer!==mapping.fieldPointer||reviewed.sourceObjectPointer!==mapping.sourceObjectPointer)
+      throw new Error(`DMG p.225 independent-review case ${index} no longer matches its exact author target`);
+    if(pageReceipt?.targetIndex!==index||pageReceipt.owner?.collection!==owner.collection||pageReceipt.owner?.itemId!==owner.itemId
+      ||pageReceipt.fieldPointer!==mapping.fieldPointer||pageReceipt.sourceObjectPointer!==mapping.sourceObjectPointer
+      ||pageReceipt.catalogPath!==mapping.candidateCatalog
+      ||canonical(pass8Dmg225AuthorGroupProjection(pageReceipt.before))!==canonical(mapping.currentPageDefaultOrder)
+      ||pageReceipt.oldDefaultPreserved!==true||pageReceipt.defaultAssessment!=='not-approved; this receipt pins before/after state for drift detection only'
+      ||pageReceipt.before?.defaultRegionId!==pageReceipt.after?.defaultRegionId
+      ||pageReceipt.oldRegionObjectsAndOrderPreserved!==true)
+      throw new Error(`DMG p.225 independent drift receipt does not pin the exact no-grade before/after group at ${owner.itemId}`);
+    const priorIds=pageReceipt.before?.orderedRegionIds;
+    const appendedIds=pageReceipt.allowedAppendedRegions?.map(region=>region.id);
+    if(!Array.isArray(priorIds)||!Array.isArray(appendedIds)
+      ||canonical(pageReceipt.after?.orderedRegionIds?.filter(id=>priorIds.includes(id)))!==canonical(priorIds)
+      ||appendedIds.some(id=>priorIds.includes(id)||!pageReceipt.after.orderedRegionIds.includes(id)))
+      throw new Error(`DMG p.225 drift receipt has an invalid prior-order or append allowlist at ${owner.itemId}`);
+    targets.set(key,{index,mapping,reviewed,pageReceipt});
+  }
+  pass8Dmg225TargetsCache=targets;
+  return targets;
+}
+
+function pass8Dmg225PageGroup(catalog,book,printedPage){
+  const ordered=(catalog?.regions||[]).filter(region=>region.book===book&&region.printedPage===printedPage)
+    .sort((a,b)=>Number(a.role==='context')-Number(b.role==='context'));
+  const evidence=ordered.map(region=>({
+    id:region.id,role:region.role||null,imageSha256:region.sha256,...sourceVisualRegionHashes(region),
+  }));
+  return {
+    orderedRegionIds:ordered.map(region=>region.id),
+    defaultRegionId:ordered[0]?.id??null,
+    defaultOrderSha256:sha(canonical(evidence)),
+    orderedEvidence:evidence,
+  };
+}
+
+function pass8Dmg225ReviewPointer(record, pointer){
+  if(pointer==='')return record;
+  if(typeof pointer!=='string'||!pointer.startsWith('/'))return undefined;
+  return pointer.slice(1).split('/').map(part=>part.replaceAll('~1','/').replaceAll('~0','~'))
+    .reduce((current,part)=>current?.[Array.isArray(current)?Number(part):part],record);
+}
+
+export function assertPass8Dmg225TargetUniverse(bindings){
+  if(!Array.isArray(bindings))throw new Error('DMG p.225 current target universe must be an array');
+  const targets=pass8Dmg225TargetMap();
+  const candidates=bindings.filter(binding=>binding?.collection==='equipment'&&binding?.sourceCategory==='equipment-field'
+    &&binding?.book==='DMG'&&binding?.printedPage===225);
+  if(candidates.length!==targets.size)pass8Dmg225Failure(candidates[0],`expected exactly ${targets.size} current DMG p.225 equipment-field bindings, found ${candidates.length}`);
+  for(const binding of candidates){
+    if(!pass8Dmg225IsJsonSafe(binding))pass8Dmg225Failure(binding,'target binding contains non-JSON data');
+    const key=[binding.collection,binding.itemId,binding.fieldPointer].join('\\0');
+    if(!targets.has(key))pass8Dmg225Failure(binding,'unexpected DMG p.225 equipment-field target is outside the closed 29-target universe');
+  }
+  for(const [key,{mapping}] of targets){
+    const [collection,itemId,fieldPointer]=key.split('\\0');
+    const matches=bindings.filter(binding=>binding.collection===collection&&binding.itemId===itemId&&binding.fieldPointer===fieldPointer);
+    if(matches.length!==1)pass8Dmg225Failure({collection,itemId,fieldPointer},`expected exactly one current target binding, found ${matches.length}`);
+    const binding=matches[0];
+    if(binding.sourceCategory!=='equipment-field'||binding.book!=='DMG'||binding.printedPage!==225
+      ||binding.sourceObjectPointer!==mapping.sourceObjectPointer||binding.reviewStatus!=='field-target-reviewed'
+      ||!binding.expectedTargetProof)pass8Dmg225Failure(binding,'exact reviewed target was omitted, relabeled, or left pending');
+  }
+  return {targets:targets.size,reviewed:targets.size};
+}
+
+function pass8Dmg225CheckPinnedReview(ref,binding){
+  if(!ref||typeof ref.path!=='string'||typeof ref.sha256!=='string'||typeof ref.pointer!=='string')pass8Dmg225Failure(binding,'review source reference is malformed');
+  const bytes=readFileSync(resolve(root,ref.path));
+  if(sha(bytes)!==ref.sha256)pass8Dmg225Failure(binding,`review source ${ref.path} hash is stale`);
+  let report;
+  try{report=JSON.parse(bytes.toString('utf8'));}catch{pass8Dmg225Failure(binding,`review source ${ref.path} is not JSON`);}
+  const target=pass8Dmg225ReviewPointer(report,ref.pointer);
+  if(!target||typeof target!=='object'||Array.isArray(target))pass8Dmg225Failure(binding,`review pointer ${ref.path}${ref.pointer} is missing`);
+  return target;
+}
+
+/**
+ * Closed guard for the exact 29 reviewed DMG p.225 field targets. It binds the
+ * current authored owner, field/source-object pointers, source value snapshot,
+ * ordered reviewed regions, and the exact page-group default order. It checks
+ * target location only; it never upgrades a source-value or default grade.
+ */
+export function assertPass8Dmg225FieldTargetProof(binding,{
+  item,
+  target,
+  sourceObject,
+  sourceOwner,
+  sourceObjectPointer,
+  catalog,
+  authoredOwner,
+}={}){
+  const key=[binding?.collection,binding?.itemId,binding?.fieldPointer].join('\\0');
+  const targetRef=pass8Dmg225TargetMap().get(key);
+  if(!targetRef)return false;
+  // Legacy and explicitly scoped inventory fixtures can mention these source
+  // fields without carrying the current reviewed manual-binding set. The
+  // canonical builder separately requires all 29 new proofs as a closed set.
+  if(!binding.expectedTargetProof&&binding.reviewStatus!=='field-target-reviewed')return false;
+  const {index,mapping,reviewed}=targetRef;
+  const fail=message=>pass8Dmg225Failure(binding,message);
+  const proof=binding.expectedTargetProof;
+  if(!pass8Dmg225IsJsonSafe(binding)||!pass8Dmg225IsJsonSafe(proof)||!pass8Dmg225IsJsonSafe(target)
+    ||!pass8Dmg225IsJsonSafe(sourceOwner)||!pass8Dmg225IsJsonSafe(sourceObject)||!pass8Dmg225IsJsonSafe(catalog))
+    fail('target proof/input contains non-JSON data');
+  const proofKeys=['schemaVersion','artifactType','targetIndex','owner','fieldPointer','sourceObjectPointer','sourceCategory','sourceObjectLabel',
+    'authoredOwnerCanonicalSha256','fieldValueSha256','sourceObjectSnapshotSha256','targetSnapshotSha256','sourceRowIds',
+    'expectedRegionEvidence','orderedContext','pageGroupOrder','reviewEvidence','continuationGroup','sourceValueGrade','defaultAssessment','browserRouting'];
+  if(!proof||typeof proof!=='object'||Array.isArray(proof)||canonical(Object.keys(proof).sort())!==canonical([...proofKeys].sort()))fail('proof is missing or has an open schema');
+  if(proof.schemaVersion!==1||proof.artifactType!=='pass8-dmg225-exact-field-target-proof'||proof.targetIndex!==index)fail('proof schema or target index changed');
+  const expectedOwner={collection:mapping.owner.collection,itemId:mapping.owner.itemId};
+  if(canonical(proof.owner)!==canonical(expectedOwner)||binding.collection!==expectedOwner.collection||binding.itemId!==expectedOwner.itemId
+    ||canonical(sourceOwner)!==canonical(expectedOwner)||canonical(binding.sourceOwner)!==canonical(expectedOwner))fail('owner identity is borrowed, stale, or differs from the reviewed target');
+  if(binding.fieldPointer!==mapping.fieldPointer||proof.fieldPointer!==mapping.fieldPointer
+    ||binding.sourceObjectPointer!==mapping.sourceObjectPointer||sourceObjectPointer!==mapping.sourceObjectPointer
+    ||proof.sourceObjectPointer!==mapping.sourceObjectPointer)fail('field/source-object pointer differs from the reviewed target');
+  if(binding.sourceCategory!=='equipment-field'||proof.sourceCategory!=='equipment-field')fail('source category differs from the reviewed equipment field');
+  if(!item||item.id!==expectedOwner.itemId)fail('current target owner does not resolve');
+  const rawOwner=authoredOwner??readJson('equipment.json').equipment.find(candidate=>candidate.id===expectedOwner.itemId);
+  if(!rawOwner||rawOwner.id!==expectedOwner.itemId)fail('authored current owner is missing or mismatched');
+  const ownerCanonicalSha256=sha(canonical(rawOwner));
+  if(proof.authoredOwnerCanonicalSha256!==ownerCanonicalSha256||ownerCanonicalSha256!==reviewed.currentRawEquipmentOwnerCanonicalSha256)fail('authored owner snapshot is stale');
+  if(target===undefined||canonical(target)!==canonical(mapping.currentValue))fail('current field value differs from the reviewed value snapshot');
+  const fieldValueSha256=sha(canonical(target));
+  if(proof.fieldValueSha256!==fieldValueSha256||fieldValueSha256!==sha(canonical(mapping.currentValue)))fail('field value hash differs from the exact reviewed value');
+  const actualSourceObject=valueAtPointer(rawOwner,mapping.sourceObjectPointer);
+  const liveSourceObject=valueAtPointer(item,mapping.sourceObjectPointer);
+  if(!actualSourceObject||typeof actualSourceObject!=='object'||Array.isArray(actualSourceObject)
+    ||!liveSourceObject||typeof liveSourceObject!=='object'||Array.isArray(liveSourceObject)
+    ||canonical(semanticValueSnapshot(actualSourceObject))!==canonical(semanticValueSnapshot(liveSourceObject))
+    ||canonical(semanticValueSnapshot(sourceObject))!==canonical(semanticValueSnapshot(liveSourceObject)))fail('current source-object snapshot differs from its authored owner/pointer');
+  const sourceObjectSnapshotSha256=sha(canonical(actualSourceObject));
+  if(proof.sourceObjectSnapshotSha256!==sourceObjectSnapshotSha256)fail('source-object snapshot hash is stale');
+  if(proof.sourceObjectLabel!==mapping.sourceObject||binding.sourceObject!==mapping.sourceObject)fail('source-object label differs from the reviewed target');
+  if(binding.reviewStatus!=='field-target-reviewed'||binding.valueReview||binding.sourceValueStatus!=='not-assessed-by-field-target-review'
+    ||proof.sourceValueGrade!=='NOT_PROMOTED')fail('field-location review must not promote or replace the existing source-value grade');
+  const expectedDefaultAssessment=index===28
+    ? 'not-approved; existing default defect remains recorded and is not transferred'
+    : 'not-approved; current default is pinned only as a drift guard';
+  if(proof.defaultAssessment!==expectedDefaultAssessment)fail('default selection must remain unapproved');
+  if(proof.browserRouting!=='pending')fail('browser-routing state must remain pending');
+  const sourceRowIds=mapping.sourceRows.map(row=>row.sourceUnitId);
+  if(!Array.isArray(binding.sourceRowIds)||canonical(binding.sourceRowIds)!==canonical(sourceRowIds)
+    ||canonical(proof.sourceRowIds)!==canonical(sourceRowIds))fail('source row identity list differs from the reviewed source rows');
+  const currentValueIdentity={owner:expectedOwner,fieldPointer:mapping.fieldPointer,sourceObjectPointer:mapping.sourceObjectPointer,
+    sourceCategory:'equipment-field',sourceObjectLabel:mapping.sourceObject,authoredOwnerCanonicalSha256:ownerCanonicalSha256,
+    fieldValueSha256,sourceObjectSnapshotSha256,sourceRowIds};
+  if(proof.targetSnapshotSha256!==sha(canonical(currentValueIdentity)))fail('exact owner/pointer/value/source-object snapshot proof is stale');
+  if(!catalog||binding.catalog!==`scans/verified/equipment-${expectedOwner.itemId}.json`)fail('catalog is not the exact selected owner catalog');
+  const regionIds=(binding.regionIds||[]).map(id=>id);
+  const orderedContext=proof.orderedContext;
+  const orderedContextKeys=['regionIds','sourceRowIds','regions'];
+  if(!orderedContext||canonical(Object.keys(orderedContext).sort())!==canonical([...orderedContextKeys].sort())
+    ||canonical(orderedContext.regionIds)!==canonical(regionIds)||!regionIds.length)fail('ordered field-specific context differs from the exact target selection');
+  if(!Array.isArray(orderedContext.sourceRowIds)||canonical(orderedContext.sourceRowIds)!==canonical(sourceRowIds))fail('ordered context source-row identities differ from the reviewed source rows');
+  const primaryIndices=[];
+  const actualEvidence=regionIds.map((id,regionIndex)=>{
+    const region=catalog.regions?.find(candidate=>candidate.id===id);
+    if(!region)fail(`selected region ${id} is absent from the owner catalog`);
+    const hashEvidence={regionId:id,sourceSha256:regionSourceSha256(catalog,region),imageSha256:region.sha256,...sourceVisualRegionHashes(region)};
+    const contextRegion=orderedContext.regions?.[regionIndex];
+    const contextRegionKeys=['regionId','role','sourceRowIds','evidence'];
+    if(!contextRegion||canonical(Object.keys(contextRegion).sort())!==canonical([...contextRegionKeys].sort())
+      ||contextRegion.regionId!==id||contextRegion.role!==region.role||canonical(contextRegion.evidence)!==canonical(hashEvidence)
+      ||!Array.isArray(contextRegion.sourceRowIds))fail(`ordered context evidence is stale for ${id}`);
+    if(region.role==='row')primaryIndices.push(regionIndex);
+    return hashEvidence;
+  });
+  if(canonical(proof.expectedRegionEvidence)!==canonical(actualEvidence)||canonical(binding.expectedRegionEvidence)!==canonical(actualEvidence))fail('approved expected-region evidence is missing, stale, or borrowed');
+  if(index<28){
+    if(primaryIndices.length!==sourceRowIds.length)fail('source row count does not match the selected primary row components');
+    const projected=orderedContext.regions.map(region=>region.sourceRowIds);
+    for(let rowIndex=0;rowIndex<projected.length;rowIndex++){
+      const expectedRows=primaryIndices.includes(rowIndex)?[sourceRowIds[primaryIndices.indexOf(rowIndex)]]:[];
+      if(canonical(projected[rowIndex])!==canonical(expectedRows))fail(`source row IDs do not align with selected component ${regionIds[rowIndex]}`);
+    }
+  }else if(orderedContext.regions.some(region=>region.sourceRowIds.length)||sourceRowIds.length)fail('prose field must not invent table source-row IDs');
+  const pageReceipt=pass8Dmg225PageGroupReceipt().targets[index];
+  const catalogBytes=readFileSync(resolve(root,`dist/${binding.catalog}`));
+  if(sha(catalogBytes)!==pageReceipt.afterCatalogSha256)fail('owner catalog bytes differ from the independently reviewed after-state receipt');
+  const diskCatalog=JSON.parse(catalogBytes.toString('utf8'));
+  if(canonical(catalog)!==canonical(diskCatalog))fail('caller-supplied catalog differs from the repository-pinned catalog bytes');
+  const catalogPageOrder=pass8Dmg225PageGroup(catalog,'DMG',225);
+  const expectedPageGroup=proof.pageGroupOrder;
+  const receiptBefore=pass8Dmg225ReceiptGroupProjection(pageReceipt.before);
+  const receiptAfter=pass8Dmg225ReceiptGroupProjection(pageReceipt.after);
+  const pageGroupKeys=['book','printedPage','previousDefaultRegionId','previousOrderedRegionIds','previousOrderSha256','orderedRegionIds','defaultRegionId','defaultOrderSha256','orderedEvidence'];
+  if(!expectedPageGroup||canonical(Object.keys(expectedPageGroup).sort())!==canonical([...pageGroupKeys].sort()))fail('page-group default proof is missing or open');
+  if(canonical(catalogPageOrder)!==canonical(receiptAfter))fail('current DMG p.225 page-group differs from the immutable independently reviewed after-state receipt');
+  if(expectedPageGroup.book!=='DMG'||expectedPageGroup.printedPage!==225
+    ||expectedPageGroup.previousDefaultRegionId!==receiptBefore.defaultRegionId
+    ||canonical(expectedPageGroup.previousOrderedRegionIds)!==canonical(receiptBefore.orderedRegionIds)
+    ||expectedPageGroup.previousOrderSha256!==receiptBefore.defaultOrderSha256
+    ||expectedPageGroup.defaultRegionId!==receiptAfter.defaultRegionId
+    ||canonical(expectedPageGroup.orderedRegionIds)!==canonical(receiptAfter.orderedRegionIds)
+    ||expectedPageGroup.defaultOrderSha256!==receiptAfter.defaultOrderSha256
+    ||canonical(expectedPageGroup.orderedEvidence)!==canonical(receiptAfter.orderedEvidence)
+    ||receiptBefore.defaultRegionId!==receiptAfter.defaultRegionId)
+    fail('page-group proof does not match the immutable before/after drift receipt; defaults remain unapproved');
+  const priorIds=receiptBefore.orderedRegionIds;
+  const currentPriorIds=catalogPageOrder.orderedRegionIds.filter(id=>priorIds.includes(id));
+  if(canonical(currentPriorIds)!==canonical(priorIds))fail('an A46 page-group region was removed or reordered');
+  const reviewEvidence=proof.reviewEvidence;
+  if(!Array.isArray(reviewEvidence)||reviewEvidence.length<2)fail('pinned author and independent-review evidence is incomplete');
+  const expectedReviewEvidence=[
+    {kind:'author-proposal',path:PASS8_DMG225_AUTHOR_PATH,sha256:PASS8_DMG225_AUTHOR_SHA256,pointer:`/mappings/${index}`},
+    {kind:'field-independent-review',path:PASS8_DMG225_FIELD_REVIEW_PATH,sha256:PASS8_DMG225_FIELD_REVIEW_SHA256,pointer:`/cases/${index}`},
+    ...(index===28?[
+      {kind:'tools-lead-component-review',path:PASS8_DMG225_TOOLS_LEAD_REVIEW_PATH,sha256:PASS8_DMG225_TOOLS_LEAD_REVIEW_SHA256,pointer:''},
+      {kind:'tools-alias-order-review',path:PASS8_DMG225_TOOLS_ORDER_REVIEW_PATH,sha256:PASS8_DMG225_TOOLS_ORDER_REVIEW_SHA256,pointer:''},
+    ]:[]),
+  ];
+  if(canonical(reviewEvidence)!==canonical(expectedReviewEvidence))fail('review source references differ from the fixed current-root allowlist');
+  const byKind=new Map();
+  for(const ref of expectedReviewEvidence)byKind.set(ref.kind,pass8Dmg225CheckPinnedReview(ref,binding));
+  const authorRef=reviewEvidence.find(ref=>ref.kind==='author-proposal');
+  const fieldRef=reviewEvidence.find(ref=>ref.kind==='field-independent-review');
+  if(authorRef?.path!==PASS8_DMG225_AUTHOR_PATH||authorRef.sha256!==PASS8_DMG225_AUTHOR_SHA256||authorRef.pointer!==`/mappings/${index}`
+    ||fieldRef?.path!==PASS8_DMG225_FIELD_REVIEW_PATH||fieldRef.sha256!==PASS8_DMG225_FIELD_REVIEW_SHA256||fieldRef.pointer!==`/cases/${index}`)fail('author/independent field-review pointer does not match this target');
+  const authorRecord=byKind.get('author-proposal'),fieldRecord=byKind.get('field-independent-review');
+  if(authorRecord?.owner?.collection!==expectedOwner.collection||authorRecord.owner?.itemId!==expectedOwner.itemId
+    ||authorRecord.fieldPointer!==mapping.fieldPointer||authorRecord.sourceObjectPointer!==mapping.sourceObjectPointer
+    ||fieldRecord?.collection!==expectedOwner.collection||fieldRecord.itemId!==expectedOwner.itemId
+    ||fieldRecord.fieldPointer!==mapping.fieldPointer||fieldRecord.sourceObjectPointer!==mapping.sourceObjectPointer
+    ||fieldRecord.currentValue!==mapping.currentValue)fail('pinned review pointer does not prove this owner, pointers, and current value');
+  if(index<28){
+    if(fieldRecord.decision!=='accepted'||fieldRecord.componentAssessments?.targetLocation!=='accepted'
+      ||fieldRecord.componentAssessments?.targetFocus!=='accepted'
+      ||!String(fieldRecord.componentAssessments?.necessaryContext||'').includes('accepted')
+      ||fieldRecord.componentAssessments?.numericAndSourceValueGrade!=='NOT_PROMOTED')fail('table field review no longer accepts only the exact location/focus/context');
+    const acceptedEvidence=fieldRecord.acceptedRegionEvidence||[];
+    if(canonical(acceptedEvidence)!==canonical(actualEvidence)
+      ||canonical(fieldRecord.proposedFieldOrderedRegionIds)!==canonical(regionIds))fail('reviewed table region evidence/order differs from the active field target');
+    if(proof.continuationGroup!==null)fail('table target must not borrow a prose continuation group');
+    if(canonical(proof.reviewEvidence)!==canonical([
+      {kind:'author-proposal',path:PASS8_DMG225_AUTHOR_PATH,sha256:PASS8_DMG225_AUTHOR_SHA256,pointer:`/mappings/${index}`},
+      {kind:'field-independent-review',path:PASS8_DMG225_FIELD_REVIEW_PATH,sha256:PASS8_DMG225_FIELD_REVIEW_SHA256,pointer:`/cases/${index}`},
+    ]))fail('table target review evidence reference set changed');
+  }else{
+    const leadRef=reviewEvidence.find(ref=>ref.kind==='tools-lead-component-review');
+    const orderRef=reviewEvidence.find(ref=>ref.kind==='tools-alias-order-review');
+    const leadRecord=byKind.get('tools-lead-component-review'),orderRecord=byKind.get('tools-alias-order-review');
+    if(fieldRecord.decision!=='rejected'||fieldRecord.componentAssessments?.targetLocation!=='accepted'
+      ||!String(fieldRecord.componentAssessments?.necessaryContext||'').includes('accepted')
+      ||fieldRecord.componentAssessments?.numericAndSourceValueGrade!=='NOT_PROMOTED')fail('original tools field-review boundary changed');
+    if(leadRef?.path!==PASS8_DMG225_TOOLS_LEAD_REVIEW_PATH||leadRef.sha256!==PASS8_DMG225_TOOLS_LEAD_REVIEW_SHA256
+      ||leadRef.pointer!==''||orderRef?.path!==PASS8_DMG225_TOOLS_ORDER_REVIEW_PATH
+      ||orderRef.sha256!==PASS8_DMG225_TOOLS_ORDER_REVIEW_SHA256||orderRef.pointer!=='')fail('tools component/order review references are incomplete or borrowed');
+    const expectedToolsIds=['pass8-dmg225-thieves-tools-exclusion-lead-in','pass8-dmg225-thieves-tools-exclusion-list-item'];
+    if(orderRecord?.status!=='accepted-bounded-source-component-and-ordered-context-only; activation-and-browser-routing-pending'
+      ||orderRecord.acceptedGroup?.id!==PASS8_DMG225_TOOLS_GROUP_ID||orderRecord.acceptedGroup?.canonicalSha256!==PASS8_DMG225_TOOLS_GROUP_SHA256
+      ||canonical(orderRecord.acceptedGroup?.requiredRegionIds)!==canonical(expectedToolsIds)
+      ||leadRecord?.status!=='accepted-at-component-scope-after-declared-DPI-replay'
+      ||canonical(orderedContext.regionIds)!==canonical(expectedToolsIds))fail('tools ordered-context approval or remaining gates changed');
+    const toolComponents=[leadRecord.acceptedRegionEvidence,orderRecord.acceptedRegionEvidence];
+    if(canonical(toolComponents)!==canonical(actualEvidence))fail('tools field target is not bound to the exact independently accepted lead and alias hashes');
+    const manifest=readJson('research/citation-continuations.json');
+    const groups=(manifest.groups||[]).filter(group=>group.id===PASS8_DMG225_TOOLS_GROUP_ID);
+    if(groups.length!==1||sha(canonical(groups[0]))!==PASS8_DMG225_TOOLS_GROUP_SHA256
+      ||canonical(groups[0].requiredRegionIds)!==canonical(expectedToolsIds)
+      ||canonical(groups[0].segments?.map(segment=>segment.regionId))!==canonical(expectedToolsIds))fail('tools continuation group differs from the exact root-accepted group');
+    if(proof.continuationGroup?.id!==PASS8_DMG225_TOOLS_GROUP_ID||proof.continuationGroup?.canonicalSha256!==PASS8_DMG225_TOOLS_GROUP_SHA256
+      ||canonical(proof.continuationGroup?.requiredRegionIds)!==canonical(expectedToolsIds))fail('tools target proof does not pin the exact ordered continuation group');
+    if(canonical(proof.reviewEvidence)!==canonical([
+      {kind:'author-proposal',path:PASS8_DMG225_AUTHOR_PATH,sha256:PASS8_DMG225_AUTHOR_SHA256,pointer:`/mappings/${index}`},
+      {kind:'field-independent-review',path:PASS8_DMG225_FIELD_REVIEW_PATH,sha256:PASS8_DMG225_FIELD_REVIEW_SHA256,pointer:`/cases/${index}`},
+      {kind:'tools-lead-component-review',path:PASS8_DMG225_TOOLS_LEAD_REVIEW_PATH,sha256:PASS8_DMG225_TOOLS_LEAD_REVIEW_SHA256,pointer:''},
+      {kind:'tools-alias-order-review',path:PASS8_DMG225_TOOLS_ORDER_REVIEW_PATH,sha256:PASS8_DMG225_TOOLS_ORDER_REVIEW_SHA256,pointer:''},
+    ]))fail('tools source review reference set changed');
+  }
+  const expectedTargetReview= index===28
+    ? {status:'confirmed',independent:true,scope:'exact encumbrance-exclusion field location and root-accepted ordered source context only; no source-value, mechanics, default, or browser-routing approval',evidence:PASS8_DMG225_TOOLS_ORDER_REVIEW_PATH,evidenceSha256:PASS8_DMG225_TOOLS_ORDER_REVIEW_SHA256}
+    : {status:'confirmed',independent:true,scope:'exact DMG p.225 field location, row focus, and necessary interpretation context only; no source-value, mechanics, or page-default approval',evidence:PASS8_DMG225_FIELD_REVIEW_PATH,evidenceSha256:PASS8_DMG225_FIELD_REVIEW_SHA256};
+  if(canonical(binding.targetReview)!==canonical(expectedTargetReview))fail('target review identity/scope does not match the independent review record');
+  return true;
 }
 
 export function attachSourceVisualReviewMetadata(data,{ledger=readJson('research/source-visual-reviews.json'),catalogs=catalogMap()}={}){
@@ -1125,6 +1548,8 @@ function manualBindingFor(binding,{collections,catalogs}) {
   if(binding.reviewStatus==='field-target-reviewed'&&binding.catalog!==selectedCatalog)throw new Error(`Reviewed target ${binding.collection}:${binding.itemId}${binding.fieldPointer} catalog ${binding.catalog??'(missing)'} is not the viewer-selected catalog ${selectedCatalog??'(none)'}`);
   const catalog=selectedCatalog?catalogs.get(selectedCatalog):null;
   if(selectedCatalog&&!catalog) throw new Error(`Viewer-selected catalog ${selectedCatalog} is missing`);
+  assertPass8Dmg225FieldTargetProof({...binding,sourceOwner,sourceObjectPointer},
+    {item,target,sourceObject,sourceOwner,sourceObjectPointer,catalog});
   const candidateIds=[...new Set(binding.regionIds||[])];
   const catalogRegions=catalog?.regions||[];
   const regionIds=candidateIds.filter(id=>catalogRegions.some(region=>region.id===id));
@@ -1167,6 +1592,10 @@ function manualBindingFor(binding,{collections,catalogs}) {
 }
 
 export function buildPriceSourceInventory({equipment=applyAssemblyMetadata(readJson('equipment.json').equipment), data=null, manualBindings=readJson('research/field-evidence-bindings.json'), catalogs=catalogMap(),sourceRowBindings=existsSync(resolve(root,EQUIPMENT_SOURCE_ROW_BINDINGS_FILE))?readJson(EQUIPMENT_SOURCE_ROW_BINDINGS_FILE):{schemaVersion:1,bindings:[]},sourceRowReviewFiles=new Map()}={}) {
+  const currentManualBindings=readJson('research/field-evidence-bindings.json');
+  if(!pass8Dmg225IsJsonSafe(manualBindings))throw new Error('Manual field bindings contain non-JSON data');
+  const manualBindingsCanonical=canonical(manualBindings)===canonical(currentManualBindings);
+  if(manualBindingsCanonical)assertPass8Dmg225TargetUniverse(currentManualBindings.bindings);
   if(sourceRowBindings?.schemaVersion!==1||!Array.isArray(sourceRowBindings.bindings))throw new Error('Unsupported equipment source-row binding overlay; expected schemaVersion 1 with a bindings array');
   const sourceInventories=[];
   const rowLists=[];
@@ -1217,6 +1646,7 @@ export function buildPriceSourceInventory({equipment=applyAssemblyMetadata(readJ
   const explicitBindings=[...equipmentBindings,...genericBindings];
   const generatedCitationBindings=structuredCitationBindings(collections,{knownBindings:explicitBindings,catalogs});
   const evidenceBindings=[...explicitBindings,...generatedCitationBindings];
+  if(manualBindingsCanonical)assertPass8Dmg225TargetUniverse(evidenceBindings);
   for (const {row} of allRows) {
     const itemId=row.siteMatch?.itemId;
     if (!itemId) continue;
@@ -1320,7 +1750,7 @@ export function buildPriceSourceInventory({equipment=applyAssemblyMetadata(readJ
       sourceInventoryHashes:currentHashes,
       sourceCensusHashes:Object.fromEntries(sourceCensuses.map(census=>[census.sourceFiles[0],census.sourceFileSha256])),
       sourceRowBindingsSha256:sourceRowBindingsSha256,
-      manualBindingsSha256:hashFile('research/field-evidence-bindings.json'),
+      manualBindingsSha256:manualBindingsCanonical?hashFile('research/field-evidence-bindings.json'):null,
     },
   };
 }
@@ -1347,9 +1777,29 @@ function isPairedFieldSourcePointer(fieldPointer,sourceObjectPointer) {
   return field?.length===2&&source?.length>=2&&field[0]==='fields'&&source[0]==='fieldSources'&&field[1]===source[1];
 }
 
-export function validatePriceSourceInventory(inventory, {equipment=applyAssemblyMetadata(readJson('equipment.json').equipment),data=null,catalogs=catalogMap()}={}) {
+export function validatePriceSourceInventory(inventory,options={}){
+  return validatePriceSourceInventoryCore(inventory,options,true);
+}
+
+/**
+ * Validate a deliberately scoped historical/custom inventory for diagnostics.
+ * This skips the canonical current 29-target cohort check and must not be used
+ * to certify or publish the active inventory.
+ */
+export function validatePriceSourceInventoryDiagnostic(inventory,options={}){
+  return validatePriceSourceInventoryCore(inventory,options,false);
+}
+
+function validatePriceSourceInventoryCore(inventory,{equipment=applyAssemblyMetadata(readJson('equipment.json').equipment),data=null,catalogs=catalogMap()}={},requireCurrentDmg225TargetSet) {
   const fail=(message)=>{throw new Error(`Invalid price source inventory: ${message}`);};
   if(inventory?.schemaVersion!==1||!Array.isArray(inventory.sourceInventories)||!Array.isArray(inventory.siteClaims)||!Array.isArray(inventory.fieldEvidenceBindings)) fail('missing schema or collections');
+  if(requireCurrentDmg225TargetSet){
+    const activeManualBindings=readJson('research/field-evidence-bindings.json');
+    try{
+      assertPass8Dmg225TargetUniverse(activeManualBindings.bindings);
+      assertPass8Dmg225TargetUniverse(inventory.fieldEvidenceBindings);
+    }catch(error){fail(error.message);}
+  }
   if(inventory.sourcePageCensuses!==undefined&&!Array.isArray(inventory.sourcePageCensuses))fail('source-page census section must be an array');
   if(inventory.siteClaims.length!==equipment.length) fail(`site-claim denominator ${inventory.siteClaims.length} != equipment records ${equipment.length}`);
   if(inventory.siteClaims.some((claim,index)=>claim.itemId!==equipment[index].id)) fail('site claim order or IDs do not match authored equipment');
@@ -1413,6 +1863,10 @@ export function validatePriceSourceInventory(inventory, {equipment=applyAssembly
     if(target===undefined&&(!valuePathMissing||binding.valuePathStatus!=='value-path-missing')) fail(`${binding.itemId}${binding.fieldPointer}: JSON Pointer does not resolve and is not explicitly recorded as a missing field value`);
     if(target!==undefined&&binding.valuePathStatus==='value-path-missing') fail(`${binding.itemId}${binding.fieldPointer}: value path is marked missing but resolves`);
     if(sourceObject===undefined||sourceObject===null||typeof sourceObject!=='object') fail(`${binding.itemId}${sourceObjectPointer}: cited source object does not resolve to an object`);
+    if(requireCurrentDmg225TargetSet){
+      try{assertPass8Dmg225FieldTargetProof(binding,{item,target,sourceObject,sourceOwner,sourceObjectPointer,catalog:catalogs.get(binding.catalog)});}
+      catch(error){fail(error.message);}
+    }
     try{assertReviewedClassXpTargetIdentity(binding,{item,target,sourceOwner,sourceObjectPointer});}catch(error){fail(error.message);}
     try{assertReviewedClassXpContinuationTarget(binding,{item,target,sourceOwner,sourceObjectPointer});}catch(error){fail(error.message);}
     if(binding.valueReview||binding.sourceValueStatus===CONFIRMED_PRICE_VALUE_STATUS){

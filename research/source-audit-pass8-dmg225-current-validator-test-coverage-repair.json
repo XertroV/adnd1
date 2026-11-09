@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "pass8-dmg225-current-versus-diagnostic-test-coverage-repair",
+  "status": "test-only patch; independent final delta review pending",
+  "beforeFixture": {
+    "path": "tests/fixtures/source-audit-pass8-dmg225-current-validator-test-coverage-before.json.gz",
+    "sha256": "b6b663611b1153b181d44f785084dc8be0d489ff1be2a72a8d2137c8fcc7c349"
+  },
+  "productionCodeUnchanged": {
+    "path": "tools/price-source-inventory.mjs",
+    "sha256": "109fe4d7d33226bf541cfca1894c298fc928de4399aea2c977565c290e8f5b9d"
+  },
+  "sixCanonicalCurrentOriginalCallLines": [
+    135,
+    193,
+    310,
+    314,
+    324,
+    329
+  ],
+  "repair": "Both validators are imported with explicit distinct names. Six canonical-current calls retain the production default; existing canonical-current DMG225 guard calls retain it too. Only the explicitly historical/custom fixtures use validateDiagnosticPriceSourceInventory. The synthetic Bard XP fixture uses the same explicit diagnostic name.",
+  "afterFiles": [
+    {
+      "path": "tests/price-source-inventory.test.mjs",
+      "sha256": "7be556eb704608421e357d40758fb5690a43228ee2a7d86cacec909e591d6418"
+    },
+    {
+      "path": "tests/price-source-inventory-class-xp-target-identity.test.mjs",
+      "sha256": "ceb656be7faad84eb555aed734aac122f52f83236743b840a9b76b65c19668f0"
+    }
+  ],
+  "limits": [
+    "No binding, catalog, default, source-value or mechanics grade changes.",
+    "The production guard implementation remains the independently reviewed109fe version.",
+    "The frozen guard review v2 and its separate test-count erratum remain unchanged."
+  ]
+}

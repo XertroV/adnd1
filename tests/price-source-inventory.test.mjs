@@ -4,7 +4,9 @@ import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 import test,{after} from 'node:test';
 import {existsSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
-import {attachEvidenceBindings, attachSourceVisualReviewMetadata, buildPriceSourceInventory, sourceVisualRegionHashes, validatePriceSourceInventory} from '../tools/price-source-inventory.mjs';
+import {attachEvidenceBindings, attachSourceVisualReviewMetadata, buildPriceSourceInventory, sourceVisualRegionHashes,
+  validatePriceSourceInventory,
+  validatePriceSourceInventoryDiagnostic as validateDiagnosticPriceSourceInventory} from '../tools/price-source-inventory.mjs';
 
 const require=createRequire(import.meta.url);
 const books=require('../dist/books.js');
@@ -49,6 +51,33 @@ test('source-first inventory covers every current equipment object without promo
   }
   assert.ok(inventory.scope.includes('not an exhaustive inventory'));
   assert.equal(inventory.sourcePageDiscovery.exhaustive,false);
+});
+
+test('current DMG p.225 target closure ignores report-declared policy and rejects membership or approval changes',()=>{
+  const forged=structuredClone(inventory);
+  const target=forged.fieldEvidenceBindings.find(binding=>binding.itemId==='phb-light-crossbow'&&binding.fieldPointer==='/fields/Encumbrance (DMG p.225)');
+  delete target.expectedTargetProof;
+  target.reviewStatus='source-row-value-verified-region-pending';
+  forged.integrity.pass8Dmg225TargetProofPolicy={status:'custom-manual-binding-set',inputManualBindingsCanonicalSha256:'0'.repeat(64)};
+  assert.throws(()=>validatePriceSourceInventory(forged),/omitted, relabeled, or left pending/);
+
+  const missing=structuredClone(inventory);
+  missing.fieldEvidenceBindings=missing.fieldEvidenceBindings.filter(binding=>!(binding.itemId==='phb-light-crossbow'&&binding.fieldPointer==='/fields/Encumbrance (DMG p.225)'));
+  assert.throws(()=>validatePriceSourceInventory(missing),/expected exactly 29 current DMG p.225 equipment-field bindings/);
+
+  const extra=structuredClone(inventory);
+  const extraTemplate=extra.fieldEvidenceBindings.find(binding=>binding.itemId==='phb-light-crossbow'&&binding.fieldPointer==='/fields/Encumbrance (DMG p.225)');
+  extra.fieldEvidenceBindings.push({...structuredClone(extraTemplate),
+    itemId:'invented-equipment',fieldPointer:'/fields/Invented DMG p.225 field',sourceObjectPointer:'/fieldSources/Invented DMG p.225 field'});
+  assert.throws(()=>validatePriceSourceInventory(extra),/expected exactly 29 current DMG p.225 equipment-field bindings/);
+
+  const promotedDefault=structuredClone(inventory);
+  promotedDefault.fieldEvidenceBindings.find(binding=>binding.itemId==='phb-light-crossbow'&&binding.fieldPointer==='/fields/Encumbrance (DMG p.225)').expectedTargetProof.defaultAssessment='approved';
+  assert.throws(()=>validatePriceSourceInventory(promotedDefault),/default selection must remain unapproved/);
+
+  const promotedValue=structuredClone(inventory);
+  promotedValue.fieldEvidenceBindings.find(binding=>binding.itemId==='phb-light-crossbow'&&binding.fieldPointer==='/fields/Encumbrance (DMG p.225)').expectedTargetProof.sourceValueGrade='CONFIRMED';
+  assert.throws(()=>validatePriceSourceInventory(promotedValue),/field-location review must not promote/);
 });
 
 test('bounded source denominators keep table rows, cells, formulas, conditions and exclusions distinct',()=>{
@@ -198,7 +227,7 @@ test('pinned 189-item overlay baseline clears the identity-only conflicts withou
   const baselineBindings=JSON.parse(execFileSync('git',['show','679b15d1c580172e54314829c1c3c86dc78b65f3:research/field-evidence-bindings.json'],{maxBuffer:8*1024*1024}));
   const catalogs=frozen679CatalogMap();
   const current=buildPriceSourceInventory({equipment:baselineData.equipment,data:baselineData,catalogs,sourceRowBindings:JSON.parse(overlayBytes),manualBindings:baselineBindings});
-  validatePriceSourceInventory(current,{equipment:baselineData.equipment,data:baselineData,catalogs});
+  validateDiagnosticPriceSourceInventory(current,{equipment:baselineData.equipment,data:baselineData,catalogs});
   assert.equal(current.counts.siteEquipmentObjects,189);
   assert.equal(current.counts.sitePrintedPrices,185);
   assert.equal(current.sourceRowBindings.total,185);
@@ -307,7 +336,7 @@ test('a non-equipment XP row carries its explicit pending region target end-to-e
   const catalogs=new Map([['scans/verified/classes-fighter.json',{sources:{PHB:{sha256:'a'.repeat(64)}},regions:[region]}]]);
   const manualBindings={bindings:[{collection:'classes',itemId:'fighter',fieldPointer:'/xpRows/0',sourceObject:'Fighter level 1 XP threshold',sourceCategory:'class-xp-row',book:'PHB',printedPage:22,catalog:'scans/verified/classes-fighter.json',regionIds:[region.id],reviewStatus:'field-target-pending',contextStatus:'context-not-assessed',contextLimitations:['Pending independent field-location review.']}]};
   const inventory=buildPriceSourceInventory({equipment:[],data,manualBindings,catalogs});
-  validatePriceSourceInventory(inventory,{equipment:[],data,catalogs});
+  validateDiagnosticPriceSourceInventory(inventory,{equipment:[],data,catalogs});
   attachEvidenceBindings(data,inventory);
   assert.equal(data.classes[0].xpRows[0].evidenceBindings[0].fieldPointer,'/xpRows/0');
   assert.equal(data.classes[0].xpRows[0].evidenceBindings[0].reviewStatus,'field-target-pending');
@@ -318,9 +347,9 @@ test('a non-equipment XP row carries its explicit pending region target end-to-e
   assert.equal(inventory.counts.fieldEvidenceBindingsByCollection.classes,1);
   const lossyCrop=structuredClone(inventory);
   lossyCrop.fieldEvidenceBindings[0].cropCoordinates[0].rect=[0.1,0.2,null,null];
-  assert.throws(()=>validatePriceSourceInventory(lossyCrop,{equipment:[],data,catalogs}),/exported crop geometry is missing, lossy, or stale/);
+  assert.throws(()=>validateDiagnosticPriceSourceInventory(lossyCrop,{equipment:[],data,catalogs}),/exported crop geometry is missing, lossy, or stale/);
   region.summary='Changed catalog content after inventory build';
-  assert.throws(()=>validatePriceSourceInventory(inventory,{equipment:[],data,catalogs}),/region content hash is stale/);
+  assert.throws(()=>validateDiagnosticPriceSourceInventory(inventory,{equipment:[],data,catalogs}),/region content hash is stale/);
 });
 
 test('the default CLI inventory input supplies assembly-equivalent metadata for its singleton explainer',()=>{
@@ -397,7 +426,7 @@ test('structured citations get page-specific pending bindings across every expos
   const data={rules,spells,classes,equipment,matrices,progressionExplainer};
   const catalogs=new Map(Object.values({rules,spells,classes,matrices}).flat().concat(progressionExplainer).map(record=>[record.sourceExcerpts.catalog,{sources:{PHB:{sha256:'a'.repeat(64)}},regions:[]}]));
   const inventory=buildPriceSourceInventory({equipment,data,manualBindings:{bindings:[]},catalogs});
-  validatePriceSourceInventory(inventory,{equipment,data,catalogs});
+  validateDiagnosticPriceSourceInventory(inventory,{equipment,data,catalogs});
   const byCollection=collection=>inventory.fieldEvidenceBindings.filter(binding=>binding.collection===collection);
   for(const collection of ['rules','spells','classes','matrices','progressionExplainer'])assert.ok(byCollection(collection).length>0,`${collection} gets structured citation bindings`);
   const rootRows=inventory.fieldEvidenceBindings.filter(binding=>binding.fieldPointer==='');
@@ -424,7 +453,7 @@ test('unextracted field values retain their source object and explicit pending d
   const item={id:'missing-field-source',name:'Missing Field Fixture',book:'PHB',pages:[36],price:null,fields:{},fieldSources:{'Armor class without shield':sourceRef}};
   const data={rules:[],spells:[],classes:[],equipment:[item],matrices:[]};
   const inventory=buildPriceSourceInventory({equipment:data.equipment,data,manualBindings:{bindings:[]},catalogs:new Map()});
-  validatePriceSourceInventory(inventory,{equipment:data.equipment,data,catalogs:new Map()});
+  validateDiagnosticPriceSourceInventory(inventory,{equipment:data.equipment,data,catalogs:new Map()});
   const binding=inventory.fieldEvidenceBindings.find(value=>value.itemId===item.id&&value.fieldPointer==='/fields/Armor class without shield');
   assert.equal(binding.sourceObjectPointer,'/fieldSources/Armor class without shield');
   assert.equal(binding.valuePathStatus,'value-path-missing');
@@ -438,7 +467,7 @@ test('equipment field evidence attaches to its cited source object while preserv
   const item={id:'equipment-field-fixture',name:'Fixture Armor',book:'PHB',pages:[42],price:null,fields:{Weight:'10 lb'},fieldSources:{Weight:sourceRef}};
   const data={rules:[],spells:[],classes:[],equipment:[item],matrices:[]};
   const inventory=buildPriceSourceInventory({equipment:data.equipment,data,manualBindings:{bindings:[]},catalogs:new Map()});
-  validatePriceSourceInventory(inventory,{equipment:data.equipment,data,catalogs:new Map()});
+  validateDiagnosticPriceSourceInventory(inventory,{equipment:data.equipment,data,catalogs:new Map()});
   attachEvidenceBindings(data,inventory);
   assert.equal(sourceRef.evidenceBindings[0].fieldPointer,'/fields/Weight');
   assert.equal(sourceRef.evidenceBindings[0].sourceObjectPointer,'/fieldSources/Weight');
@@ -482,7 +511,7 @@ test('attaching rebuilt evidence bindings replaces stale catalog and owner trans
   const manualSnapshot=structuredClone(manualBindings);
   const build=()=>buildPriceSourceInventory({equipment:data.equipment,data,manualBindings,catalogs});
   const first=build();
-  validatePriceSourceInventory(first,{equipment:data.equipment,data,catalogs});
+  validateDiagnosticPriceSourceInventory(first,{equipment:data.equipment,data,catalogs});
   attachEvidenceBindings(data,first);
   const firstPrice=structuredClone(item.price.evidenceBindings);
   const firstField=structuredClone(fieldRef.evidenceBindings);
@@ -495,7 +524,7 @@ test('attaching rebuilt evidence bindings replaces stale catalog and owner trans
   assert.deepEqual(fieldRef.verification.regions,['current-range-region'],'source assertions remain intact');
 
   const second=build();
-  validatePriceSourceInventory(second,{equipment:data.equipment,data,catalogs});
+  validateDiagnosticPriceSourceInventory(second,{equipment:data.equipment,data,catalogs});
   attachEvidenceBindings(data,second);
   assert.deepEqual(item.price.evidenceBindings,firstPrice);
   assert.deepEqual(fieldRef.evidenceBindings,firstField);
@@ -508,7 +537,7 @@ test('secondary field sources keep their origin object and per-page targets unde
   const item={id:'multi-source-equipment',name:'Multi-source fixture',book:'PHB',pages:[37],price:null,fields:{Weight:'60 gp-weight'},fieldSources:{Weight:primary}};
   const data={rules:[],spells:[],classes:[],equipment:[item],matrices:[]};
   const inventory=buildPriceSourceInventory({equipment:data.equipment,data,manualBindings:{bindings:[]},catalogs:new Map()});
-  validatePriceSourceInventory(inventory,{equipment:data.equipment,data,catalogs:new Map()});
+  validateDiagnosticPriceSourceInventory(inventory,{equipment:data.equipment,data,catalogs:new Map()});
   const nested=inventory.fieldEvidenceBindings.filter(binding=>binding.itemId===item.id&&binding.sourceObjectPointer.startsWith('/fieldSources/Weight/additionalSources/'));
   assert.equal(nested.length,2);
   assert.deepEqual(nested.map(binding=>binding.printedPage),[27,28]);
@@ -530,7 +559,7 @@ test('bindings resolve only through the viewer-selected catalog, including compa
   const owner={id:'estimate-owner',name:'Estimate owner',book:'PHB',pages:[35],price:null,sourceExcerpts:{catalog:selectedPath},suggestedPrice:{amount:4,currency:'gp',comparisons:[{itemId:'comparator-item',label:'Comparator',book:'PHB',pages:[35]}]}};
   const data={rules:[],spells:[],classes:[],equipment:[owner,comparator],matrices:[]};
   const inventory=buildPriceSourceInventory({equipment:data.equipment,data,manualBindings:{bindings:[]},catalogs});
-  validatePriceSourceInventory(inventory,{equipment:data.equipment,data,catalogs});
+  validateDiagnosticPriceSourceInventory(inventory,{equipment:data.equipment,data,catalogs});
   const direct=inventory.fieldEvidenceBindings.find(binding=>binding.itemId==='comparator-item'&&binding.fieldPointer==='/price');
   assert.equal(direct.catalog,selectedPath);
   assert.equal(direct.regionEvidence[0].imageSha256,selectedRegion.sha256);
@@ -546,7 +575,7 @@ test('bindings resolve only through the viewer-selected catalog, including compa
 
   const detachedOwner=structuredClone(inventory);
   detachedOwner.fieldEvidenceBindings.find(binding=>binding.fieldPointer==='/suggestedPrice/comparisons/0').sourceOwner.itemId='estimate-owner';
-  assert.throws(()=>validatePriceSourceInventory(detachedOwner,{equipment:data.equipment,data,catalogs}),/source owner does not match the cited comparator item/);
+  assert.throws(()=>validateDiagnosticPriceSourceInventory(detachedOwner,{equipment:data.equipment,data,catalogs}),/source owner does not match the cited comparator item/);
 });
 
 test('manual target review requires a persisted evidence-file digest and current source, image, focus and content hashes',()=>{
@@ -569,11 +598,11 @@ test('manual target review requires a persisted evidence-file digest and current
   const evidenceSha256=createHash('sha256').update(proofBytes).digest('hex');
   const manualBindings={bindings:[{collection:'classes',itemId:'fighter',fieldPointer:'/xpRows/0',sourceObjectPointer:'/xpRows/0',sourceOwner:{collection:'classes',itemId:'fighter'},sourceObject:'Fighter level 1 XP threshold',sourceCategory:'class-xp-row',book:'PHB',printedPage:22,catalog:catalogPath,regionIds:[region.id],requiresRowEvidence:true,reviewStatus:'field-target-reviewed',contextStatus:'context-not-assessed',targetReview:{status:'confirmed',independent:true,evidence:evidenceFile,evidenceSha256,expectedTargetIdentity:identity},expectedRegionEvidence:regionEvidence}]};
   const inventory=buildPriceSourceInventory({equipment:[],data,manualBindings,catalogs});
-  validatePriceSourceInventory(inventory,{equipment:[],data,catalogs});
+  validateDiagnosticPriceSourceInventory(inventory,{equipment:[],data,catalogs});
   const wrongPdfPage=structuredClone(inventory);
   wrongPdfPage.fieldEvidenceBindings[0].pdfPage=24;
-  assert.throws(()=>validatePriceSourceInventory(wrongPdfPage,{equipment:[],data,catalogs}),/does not match cited source page/);
-  const assertInvalid=mutate=>{const changed=structuredClone(inventory);mutate(changed.fieldEvidenceBindings[0]);assert.throws(()=>validatePriceSourceInventory(changed,{equipment:[],data,catalogs}));};
+  assert.throws(()=>validateDiagnosticPriceSourceInventory(wrongPdfPage,{equipment:[],data,catalogs}),/does not match cited source page/);
+  const assertInvalid=mutate=>{const changed=structuredClone(inventory);mutate(changed.fieldEvidenceBindings[0]);assert.throws(()=>validateDiagnosticPriceSourceInventory(changed,{equipment:[],data,catalogs}));};
   assertInvalid(binding=>{delete binding.targetReview.evidenceSha256;});
   assertInvalid(binding=>{binding.targetReview.evidenceSha256='0'.repeat(64);});
   assertInvalid(binding=>{binding.expectedRegionEvidence[0].sourceSha256='0'.repeat(64);});
@@ -603,14 +632,14 @@ test('independent printed-price value review is hash-bound to an exact amount cu
     valueReview:{scope:'equipment-printed-price',independent:true,expectedValue:{amount:10,currency:'gp',unit:null},evidence:valueEvidence,evidenceSha256:valueHash},
   }]};
   const inventory=buildPriceSourceInventory({equipment:data.equipment,data,manualBindings,catalogs});
-  validatePriceSourceInventory(inventory,{equipment:data.equipment,data,catalogs});
+  validateDiagnosticPriceSourceInventory(inventory,{equipment:data.equipment,data,catalogs});
   const binding=inventory.fieldEvidenceBindings.find(entry=>entry.itemId===item.id&&entry.fieldPointer==='/price');
   assert.equal(binding.sourceValueStatus,'source-value-independently-confirmed');
   assert.deepEqual(binding.valueReview.expectedValue,{amount:10,currency:'gp',unit:null});
   assert.equal(binding.regionEvidence[0].contentSha256,sourceVisualRegionHashes(region).contentSha256);
 
   item.price.amount=11;
-  assert.throws(()=>validatePriceSourceInventory(inventory,{equipment:data.equipment,data,catalogs}),/valueReview snapshot does not match current amount, currency, and unit/);
+  assert.throws(()=>validateDiagnosticPriceSourceInventory(inventory,{equipment:data.equipment,data,catalogs}),/valueReview snapshot does not match current amount, currency, and unit/);
   assert.throws(()=>buildPriceSourceInventory({equipment:data.equipment,data,manualBindings,catalogs}),/valueReview snapshot does not match current amount, currency, and unit/);
   assert.equal(sourceVisualRegionHashes(region).contentSha256,binding.expectedRegionEvidence[0].contentSha256,'the reviewed target hashes remain current while the value snapshot becomes stale');
 });

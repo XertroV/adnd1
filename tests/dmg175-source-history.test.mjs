@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-phb-source-history.mjs';
+import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-citation-target-crop-history.mjs';
 import test from 'node:test';
 import {createHash} from 'node:crypto';
 import vm from 'node:vm';
