@@ -4,7 +4,7 @@ import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
-import * as history from './helpers/pass8-weapon-source-history.mjs';
+import * as history from './helpers/pass8-ua-source-history.mjs';
 import * as original from './helpers/pass8-citation-target-crop-history.mjs';
 const root=new URL('../',import.meta.url),read=path=>readFileSync(new URL(path,root)),sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const compressed=read('tests/fixtures/pass8-weapon-source-history-v1.json.gz'),contract=history.decodePass8WeaponSourceHistory(compressed),git=(ref,path)=>execFileSync('git',['show',`${ref}:${path}`],{cwd:root,maxBuffer:100*1024*1024});

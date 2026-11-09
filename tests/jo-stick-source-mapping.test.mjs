@@ -1,13 +1,13 @@
 import test from 'node:test';
 import {dmg175HistoryContract,projectDmg175Books} from './helpers/batch6-dmg175-source-history.mjs';
 import assert from 'node:assert/strict';
-import {readBeforePass8XpContinuationFile as readFileSync,projectPass8XpContinuationBytes} from './helpers/pass8-weapon-source-history.mjs';
+import {readBeforePass8XpContinuationFile as readFileSync,projectPass8XpContinuationBytes} from './helpers/pass8-ua-source-history.mjs';
 import {execFileSync} from 'node:child_process';
 // Exact released777 source/Jo history. The active252-group/728-target census
 // is exercised separately by current-integration and native browser checks.
 import {gunzipSync} from 'node:zlib';
 import {resolve} from 'node:path';
-import {readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from './helpers/batch6-jo-fixture.mjs';
+import {readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from './helpers/ua-source-batch6-jo-fixture.mjs';
 import {createHash} from 'node:crypto';
 import vm from 'node:vm';
 import {hash} from '../tools/monetary-row-identity-audit.mjs';
@@ -15,7 +15,7 @@ import {validateJoUnextractedPriceRegistration,loadJoUnextractedPriceRegistratio
 import {validateContinuationManifest} from '../tools/continuation-contract.mjs';
 import {buildSystemicInventory} from '../tools/citation-systemic-inventory.mjs';
 import {fieldBindingAxisMetrics,fieldBindingCountMeaning} from '../tools/source-report-consistency-audit.mjs';
-import {reverseDmg74MatrixBatchFromData,reverseDmg74MatrixBatchFromInventory,reverseSupplementalPdfNoticeViewer} from './helpers/dmg74-matrix-batch.mjs';
+import {reverseDmg74MatrixBatchFromData,reverseDmg74MatrixBatchFromInventory,reverseSupplementalPdfNoticeViewer} from './helpers/ua-source-dmg74-matrix-batch.mjs';
 const root=resolve(import.meta.dirname,'..'),read=p=>JSON.parse(readFileSync(resolve(root,p))),unzip=p=>JSON.parse(gunzipSync(readFileSync(resolve(root,p))));
 const old=unzip('tests/fixtures/equipment-before-jo.json.gz'),equipment=read('equipment.json'),data=read('dist/data.json'),inventory=read('research/price-source-inventory.json');
 const before=read('tests/fixtures/jo-stick-mapping-proposal-v1-stale-after.json'),jo=equipment.equipment.find(e=>e.id==='ua-jo-stick'),catalog=read('dist/scans/verified/equipment-ua-jo-stick.json');

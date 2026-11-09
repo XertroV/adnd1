@@ -1,7 +1,7 @@
 import {reverseFinalCorrections} from './mechanics-final-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-weapon-source-history.mjs';
+import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
 import {followupCorrections,reverseFollowupCorrections,validateFollowupIndependentReviews} from './mechanics-followup-fixture.mjs';
 const load=name=>JSON.parse(readFileSync(new URL('../'+name,import.meta.url),'utf8'));
 test('follow-up mechanics corrections retain exact independent review bindings',()=>{

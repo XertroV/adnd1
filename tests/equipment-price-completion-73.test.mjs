@@ -1,4 +1,4 @@
-import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
+import {readBeforeJoFile as readFileSync} from './helpers/ua-source-batch6-jo-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';

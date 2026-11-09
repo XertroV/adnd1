@@ -4,6 +4,9 @@ import {readFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import {buildInventory,BATCH_SIZE} from '../tools/source-scan-inventory.mjs';
 import {beforeWeaponScanInventory,weaponOwnerIds} from './helpers/weapon-source-current-cohort.mjs';
+import {assertApprovedUaClassSource} from './helpers/ua-source-current-cohort.mjs';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 const require=createRequire(import.meta.url), citations=require('../dist/citations.js');
 const data=JSON.parse(readFileSync(new URL('../dist/data.json',import.meta.url)));
 const fixture=readFileSync(new URL('./fixtures/source-scan-inventory.json',import.meta.url),'utf8');
@@ -18,7 +21,18 @@ test('fixture is reproducible and includes every assembled reference-bearing rec
  const expectedPages=owners.flatMap(item=>citations.pages(item));
  assert.equal(inventory.counts.recordPagePairs,expectedPages.length);
  assert.equal(inventory.counts.citedPages,new Set(expectedPages.map(page=>`${page.book}:${page.page}`)).size);
- assert.equal(inventory.counts.records,1003);assert.equal(inventory.counts.recordPagePairs,2111);assert.equal(inventory.counts.citedPages,231);assert.equal(inventory.counts.batches,25);
+ assertApprovedUaClassSource(data);
+ const v27Bytes=execFileSync('git',['show','6717c6f22bbf2f2b421327e4c8561b1d81df00d4:tests/fixtures/source-scan-inventory.json'],{maxBuffer:20*1024*1024});
+ assert.equal(createHash('sha256').update(v27Bytes).digest('hex'),'958a0aef30297a829329eb7b41d4b9119659ebf2c102ec422d9884b47ce5a6cd');
+ const v27=JSON.parse(v27Bytes),uaPageAdditions={fighter:[13,26],ranger:[13,26],'ua-cavalier':[25,26],'ua-barbarian':[13,26],'ua-thief-acrobat':[13,22,26],'ua-paladin':[26],'ua-druid':[13,26]};
+ assert.equal(v27.counts.recordPagePairs,2111);assert.equal(Object.values(uaPageAdditions).flat().length,14);
+ assert.equal(inventory.counts.records,1003);assert.equal(inventory.counts.recordPagePairs,2111+14);assert.equal(inventory.counts.citedPages,231);assert.equal(inventory.counts.batches,25);
+ const isUaClass=row=>row.collection==='classes'&&Object.hasOwn(uaPageAdditions,row.id);
+ assert.deepEqual(inventory.records.filter(row=>!isUaClass(row)),v27.records.filter(row=>!isUaClass(row)),'all996 unrelated complete record inventory objects and relative order remain exact');
+ for(const [id,pages]of Object.entries(uaPageAdditions)){
+  const current=inventory.records.find(row=>row.collection==='classes'&&row.id===id),old=v27.records.find(row=>row.collection==='classes'&&row.id===id);
+  assert.deepEqual(current.pages.filter(page=>!old.pages.some(before=>before.book===page.book&&before.page===page.page)).map(page=>[page.book,page.page]),pages.map(page=>['UA',page]),`${id}: the exact approved new cited page pairs`);
+ }
  const before=beforeWeaponScanInventory();
  assert.deepEqual(inventory.records.filter(row=>!weaponOwnerIds.includes(row.id)).map(({collection,id})=>[collection,id]),before.records.map(({collection,id})=>[collection,id]));
  assert.deepEqual(inventory.records.filter(row=>weaponOwnerIds.includes(row.id)).map(row=>[row.collection,row.id,row.pages.map(page=>[page.book,page.page])]),[['rules',weaponOwnerIds[0],[['PHB',36],['PHB',38]]],['rules',weaponOwnerIds[1],[['PHB',36],['UA',28]]]]);

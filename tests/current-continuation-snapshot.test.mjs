@@ -9,6 +9,7 @@ import {createHash} from 'node:crypto';
 import {gzipSync,gunzipSync} from 'node:zlib';
 import {spawnSync,execFileSync} from 'node:child_process';
 import {loadCurrentContinuationCandidateSnapshot,validateContinuationSnapshot} from '../tools/continuation-candidates-validate.mjs';
+import {assertCurrentUaContinuationCohort} from './helpers/ua-source-continuation-current-cohort.mjs';
 const root=process.cwd(),sha=b=>createHash('sha256').update(b).digest('hex');
 const fixtureBytes=readFileSync('tests/fixtures/dmg-current-continuation-a5a-before.json.gz');
 const before=JSON.parse(gunzipSync(fixtureBytes));
@@ -115,8 +116,11 @@ test('the archived PDF-only tree reproduces the omitted-alias false pass against
  const result=validateContinuationSnapshot(options);assert.equal(result.valid,false);
  assert.ok(result.errors.some(x=>x.code==='current-region-assessment-missing'&&x.detail.includes('ua-69-b8b05ef9807ad0f8')));
 });
-test('the native3474-row universe retains all3420 published rows and exactly54 weapon additions, and rejects an omitted alias',()=>{
- const full=JSON.parse(gunzipSync(readFileSync(selected.fullPath))),supplemental=full.regionAssessments.filter(r=>r.sourceKind==='supplemental-image');
+test('the sealed historical3474-row weapon universe retains all3420 prior rows and exactly54 weapon additions',()=>{
+ const weaponBytes=readFileSync('research/source-audit-pass8-weapon-source-continuation-v1-full.json.gz');
+ assert.equal(sha(weaponBytes),'39a808159fda8291ebbf5d0456130f3d957e1b1e88c9ea13fd3e88409192cf6f');
+ const full=JSON.parse(gunzipSync(weaponBytes)),supplemental=full.regionAssessments.filter(r=>r.sourceKind==='supplemental-image');
+ const weaponSummary=JSON.parse(readFileSync('research/source-audit-pass8-weapon-source-continuation-v1.json'));
  const publishedBytes=readFileSync('research/source-audit-pass8-citation-target-crop-continuation-v1-full.json.gz');
  assert.equal(sha(publishedBytes),'c41defa5bd4318fa71b4500673424d35548230d5bbdc061e62b44b2396d21e0e');
  const published=JSON.parse(gunzipSync(publishedBytes)).regionAssessments;
@@ -139,8 +143,8 @@ test('the native3474-row universe retains all3420 published rows and exactly54 w
  const expectedAdded=[...tableCatalogs.flatMap(catalog=>catalog.regions.map(region=>JSON.stringify(['rules',catalog.itemId,`scans/verified/rules-${catalog.itemId}.json`,region.id]))),...dmgCatalog.regions.slice(1).map(region=>JSON.stringify(['rules',dmgCatalog.itemId,'scans/verified/rules-weapon-versus-armor-adjustments.json',region.id]))];
  assert.deepEqual(added.map(identity),expectedAdded,'only the52 table regions and two declared DMG continuation regions are added');
  assert.equal(full.regionAssessments.length,3474);
- assert.equal(selected.summary.exposedUniverse.catalogRegionUsageCount,3474);
- assert.equal(selected.summary.exposedUniverse.bindingRegionUsageCount,3477,'binding uses remain distinct from catalog-region rows');
+ assert.equal(weaponSummary.exposedUniverse.catalogRegionUsageCount,3474);
+ assert.equal(weaponSummary.exposedUniverse.bindingRegionUsageCount,3477,'historical binding uses remain distinct from catalog-region rows');
  // The exact published3420-row census remains a separate historical stage.
  const predecessorBytes=readFileSync('research/source-audit-pass8-character-reference-continuation-current-full.json.gz');
  assert.equal(sha(predecessorBytes),'43111f6a70ccfc8c6fb0216f52c01362037bc6d1166ce601068d65daa1271368');
@@ -176,9 +180,28 @@ test('the native3474-row universe retains all3420 published rows and exactly54 w
  assert.deepEqual(currentNewMatrixRows,newMatrixOwners.map(expected=>({collection:'matrices',...expected,book:'DMG',printedPage:74,pdfPage:75})).sort((a,b)=>a.itemId.localeCompare(b.itemId)));
  assert.deepEqual(supplemental.map(r=>r.regionId).sort(),['dmg-175-level-others-context-5aa02e91e35c4c28','dmg-175-party-table-context-78c4c383c38c7d10']);
  for(const row of supplemental){assert.equal(row.sourceSha256,'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7');assert.equal(row.sourceArtifactId,'dmg175-user-confirmed-supplement');assert.equal(row.pdfPage,null);}
- const options=mutant((copy,summary)=>{copy.regionAssessments=copy.regionAssessments.filter(r=>!(r.regionId==='ua-69-b8b05ef9807ad0f8'&&r.owner.itemId==='ua-illusionist-death-fog'));assert.equal(copy.regionAssessments.length,3473);assert.deepEqual(copy.regionAssessments.filter(r=>r.sourceKind==='supplemental-image'),supplemental);summary.exposedCatalogSummary.catalogRegionRows--;});
+ const options=mutant((copy,summary)=>{copy.regionAssessments=copy.regionAssessments.filter(r=>!(r.regionId==='ua-69-b8b05ef9807ad0f8'&&r.owner.itemId==='ua-illusionist-death-fog'));assert.equal(copy.regionAssessments.length,3505);assert.deepEqual(copy.regionAssessments.filter(r=>r.sourceKind==='supplemental-image'),supplemental);summary.exposedCatalogSummary.catalogRegionRows--;});
  const result=validateContinuationSnapshot(options);assert.equal(result.valid,false);
  assert.ok(result.errors.some(x=>x.code==='current-region-assessment-missing'&&x.detail.includes('ua-69-b8b05ef9807ad0f8')));
+});
+test('the native3506-row UA universe preserves3473 old whole assessments, one exact crop successor and32 exact class additions',()=>{
+ const full=JSON.parse(gunzipSync(readFileSync(selected.fullPath)));
+ assertCurrentUaContinuationCohort(full,selected.summary);
+ for(const mutate of [
+  value=>value.unapprovedMetadata=true,
+  value=>value.input.distDataSha256='0'.repeat(64),
+  value=>value.scope='unapproved changed scope',
+  value=>value.regionAssessments[0].unapprovedMetadata=true,
+  value=>value.regionAssessments.find(row=>row.regionId==='ua-67-785f3646c91cc52a').imageSha256='0'.repeat(64),
+  value=>value.regionAssessments.find(row=>row.owner.collection==='classes'&&row.regionId==='pass8-ua-guidance-fighter-permissions').sourceValueStatus='confirmed',
+  value=>value.regionAssessments.pop(),
+  value=>value.regionAssessments.push(structuredClone(value.regionAssessments.at(-1))),
+  value=>Object.defineProperty(value.regionAssessments[0],'hidden',{value:true}),
+ ]){const mutation=structuredClone(full);mutate(mutation);assert.throws(()=>assertCurrentUaContinuationCohort(mutation,selected.summary));}
+ const beforeBytes=readFileSync('tests/fixtures/ua-source-continuation-root-metadata-before-v1.json.gz');
+ assert.equal(sha(beforeBytes),'462f0f5426cbf4437a2f6484728d0aadade49a035fbdf5ad9a534601e18fa04a');
+ const before=JSON.parse(gunzipSync(beforeBytes));assert.deepEqual(before.actualResult.outcomes.map(row=>row.accepted),[true,true,false]);
+ for(const row of before.actualResult.outcomes){const mutation=structuredClone(full),parts=row.pointer.split('/').slice(1);let parent=mutation;for(const key of parts.slice(0,-1))parent=parent[key];parent[parts.at(-1)]=row.replacement;assert.throws(()=>assertCurrentUaContinuationCohort(mutation,selected.summary),'every actual old-guard metadata mutation now rejects');}
 });
 test('an unknown assessment cannot substitute for a current region',()=>{
  const options=mutant(full=>{full.regionAssessments[0].regionId='unknown-current-region';});

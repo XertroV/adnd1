@@ -1,4 +1,4 @@
-import {readBeforeJoFile} from './helpers/batch6-jo-fixture.mjs';
+import {readBeforeJoFile} from './helpers/ua-source-batch6-jo-fixture.mjs';
 import {frozenDmgBeforeManifest,dmgContextBefore} from './helpers/dmg-context-frozen-manifest.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';

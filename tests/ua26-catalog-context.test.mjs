@@ -1,4 +1,4 @@
-import {readBeforeJoFile} from './helpers/batch6-jo-fixture.mjs';
+import {readBeforeJoFile} from './helpers/ua-source-batch6-jo-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';

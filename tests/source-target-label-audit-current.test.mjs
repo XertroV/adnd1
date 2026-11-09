@@ -7,6 +7,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {gunzipSync} from 'node:zlib';
 import {weaponOwnerIds} from './helpers/weapon-source-current-cohort.mjs';
+import {assertCompiledWeaponBindingPreservation,assertUaSourceContextBindingCohort} from './helpers/ua-source-current-cohort.mjs';
 
 test('current label mode audits the present collector without claiming a fresh rendered sweep', () => {
   const outputDir = mkdtempSync(join(tmpdir(), 'source-target-label-audit-'));
@@ -25,7 +26,15 @@ test('current label mode audits the present collector without claiming a fresh r
     assert.equal(report.denominator.collections.matrices, 4);
     assert.equal(report.denominator.collections.progressionExplainer, 1);
     assert.equal(report.denominator.collectorTargets, report.entries.length);
-    assert.equal(report.denominator.collectorTargets,4681);
+    assertCompiledWeaponBindingPreservation();
+    const bindings=JSON.parse(readFileSync('research/price-source-inventory.json')).fieldEvidenceBindings;
+    const uaContexts=assertUaSourceContextBindingCohort(bindings);
+    assert.equal(uaContexts.length,24);assert.equal(report.denominator.collectorTargets,4681+uaContexts.length);
+    const targetIdentity=row=>JSON.stringify([row.collection,row.itemId,row.fieldPointer]);
+    const expectedTargets=bindings.filter(row=>row.collection==='classes'&&row.fieldPointer.startsWith('/references/')).map(targetIdentity).sort();
+    assert.equal(expectedTargets.length,25,'one old class reference and24 new context references');
+    const currentTargets=report.entries.filter(row=>row.owner?.collection==='classes'&&row.fieldPointer?.startsWith('/references/')).map(row=>targetIdentity({...row.owner,fieldPointer:row.fieldPointer})).sort();
+    assert.deepEqual(currentTargets,expectedTargets,'the old reference and all24 new region-context references have distinct correctly owned native collector targets');
     for(const [index,itemId]of weaponOwnerIds.entries())assert.equal(report.entries.filter(row=>row.owner?.collection==='rules'&&row.owner.itemId===itemId).length,[43,63][index]);
     for (const itemId of [
       'dmg-cleric-druid-monk-attack-matrix',

@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
-import {assertCompiledWeaponBindingPreservation,assertWeaponPendingBindingCohort,weaponBindingAdditionCount} from './helpers/weapon-source-current-cohort.mjs';
+import {assertWeaponPendingBindingCohort,weaponBindingAdditionCount} from './helpers/weapon-source-current-cohort.mjs';
+import {assertCompiledWeaponBindingPreservation,assertUaSourceContextBindingCohort} from './helpers/ua-source-current-cohort.mjs';
 import {buildSourceOwnerIdentityAudit, sourceOwnerIdentityCheck} from '../tools/source-owner-identity-audit.mjs';
 import {buildPriceSourceInventory} from '../tools/price-source-inventory.mjs';
 import {ambiguousItemOverrideIds, appendOverrideReferences, classProgressionOverride, collectionOverride, collectionReferenceOverrides, equipmentPriceStateOverride} from '../tools/citation-override-identity.mjs';
@@ -22,6 +23,7 @@ const dmg74MatrixIds = [
 const priorBindingCount = 4489 + 40 + 20 + 1 + ua75.referenceAppends.length;
 const dmg74MatrixBindingCount = dmg74MatrixIds.length * 2;
 const druidBindingCount = 2;
+const uaSourceContextBindingCount = 24;
 function assertDruidBindings(bindings,itemIdField="itemId") {
  const rows=bindings.filter(row=>row[itemIdField]==='phb-druid-mistletoe-spell-components');
  assert.equal(rows.length,2);assert.deepEqual(rows.map(row=>row.fieldPointer).sort(),['','/sourceReferences/0']);
@@ -155,12 +157,13 @@ test('current source assembly resolves scoped citations, preserves legacy intent
   const currentReplay = buildSourceOwnerIdentityAudit({replayAssembly: true}).inMemoryCurrentAssemblyReplay;
   assert.equal(currentReplay.preAttachCrossOwnerObjectAliasCount, 0);
   assert.equal(currentReplay.foreignOwnerBindings.length, 0);
-  assert.equal(currentReplay.counts.evidenceBindings, priorBindingCount + dmg74MatrixBindingCount + druidBindingCount + weaponBindingAdditionCount);
+  assert.equal(currentReplay.counts.evidenceBindings, priorBindingCount + dmg74MatrixBindingCount + druidBindingCount + weaponBindingAdditionCount + uaSourceContextBindingCount);
   assertCompiledWeaponBindingPreservation();
   assert.equal(currentReplay.counts.dispositions.validatedExplicitComparatorSource, 6);
   const currentReport = buildSourceOwnerIdentityAudit();
   assert.equal(sourceOwnerIdentityCheck(currentReport).pass, true);
-  assert.equal(currentReport.report.evidenceBindings.denominator, priorBindingCount + dmg74MatrixBindingCount + druidBindingCount + weaponBindingAdditionCount);
+  assert.equal(currentReport.report.evidenceBindings.denominator, priorBindingCount + dmg74MatrixBindingCount + druidBindingCount + weaponBindingAdditionCount + uaSourceContextBindingCount);
+  assertUaSourceContextBindingCohort(currentReport.report.evidenceBindings.attachedBindingPaths,'bindingItemId');
   assertWeaponPendingBindingCohort(currentReport.report.evidenceBindings.attachedBindingPaths,'bindingItemId');
   assertDmg74MatrixBindings(currentReport.report.evidenceBindings.attachedBindingPaths, 'bindingItemId');
   assertDruidBindings(currentReport.report.evidenceBindings.attachedBindingPaths,'bindingItemId');
@@ -335,8 +338,9 @@ test('standalone price-source inventory uses scoped owner references without rul
   });
   const historicalGrandDruidCompanion = historicalInventory.fieldEvidenceBindings.filter(binding => binding.collection === 'classes' && binding.itemId === 'ua-druid' && binding.fieldPointer === '/levelChanges/0' && binding.sourceCategory === 'class-level-change');
   assert.deepEqual(historicalGrandDruidCompanion, grandDruidCompanion);
-  assert.equal(historicalInventory.counts.fieldEvidenceBindings, 4489 + 40 + 20 + 1 + dmg74MatrixBindingCount + druidBindingCount + weaponBindingAdditionCount);
-  assert.equal(inventory.counts.fieldEvidenceBindings, priorBindingCount + dmg74MatrixBindingCount + druidBindingCount + weaponBindingAdditionCount);
+  assert.equal(historicalInventory.counts.fieldEvidenceBindings, 4489 + 40 + 20 + 1 + dmg74MatrixBindingCount + druidBindingCount + weaponBindingAdditionCount + uaSourceContextBindingCount);
+  assert.equal(inventory.counts.fieldEvidenceBindings, priorBindingCount + dmg74MatrixBindingCount + druidBindingCount + weaponBindingAdditionCount + uaSourceContextBindingCount);
+  assertUaSourceContextBindingCohort(historicalInventory.fieldEvidenceBindings);assertUaSourceContextBindingCohort(inventory.fieldEvidenceBindings);
   assertWeaponPendingBindingCohort(historicalInventory.fieldEvidenceBindings);assertWeaponPendingBindingCohort(inventory.fieldEvidenceBindings);
   assertDmg74MatrixBindings(historicalInventory.fieldEvidenceBindings);
   assertDmg74MatrixBindings(inventory.fieldEvidenceBindings);

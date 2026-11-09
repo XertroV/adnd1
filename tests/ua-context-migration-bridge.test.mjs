@@ -1,4 +1,4 @@
-import {withoutBatch6JoCanonicalArtifact} from './helpers/batch6-jo-fixture.mjs';
+import {withoutBatch6JoCanonicalArtifact} from './helpers/ua-source-batch6-jo-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';

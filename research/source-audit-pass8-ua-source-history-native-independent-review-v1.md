@@ -1,0 +1,15 @@
+# Independent UA history/native code review
+
+I found no blocking code-review defect within the bounded closed-history and native-current assertion scope. This review covers the test/history adapter and current-data guards; it does not approve source semantics or values.
+
+The closed-history adapter uses exact whole-object and raw-byte pins for 17 source-stage and 8 metadata-stage JSON paths, restores the complete V27 predecessor, then enters the existing adapters. I found no field stripping, generic fallback, fabricated predecessor for a new path, or production import. The scan covers tracked and untracked `dist` and `tools` files and checks both history literals.
+
+The current source-owner guard compares the compiled output to the approved source-phase commit, rereads its active proofs and inventory, and accepts only the exact canonical UA binding or exact owner-report projection for the 24 new references. The preserved pre-fix thin-row witness now rejects with fixture and helper-preimage hashes checked. The existing 4,681 binding objects and order, 807 manual declarations, and zero new source-value grades are preserved. Those 24 references remain context-only and unassessed.
+
+The continuation guard checks all report root metadata apart from the row array against the M1 pin and enforces the 3,506-row cohort: 3,473 unchanged earlier rows, one exact Chromatic successor, and 32 class rows. It rejects mutations to root metadata, `input.distDataSha256`, `scope`, and row contents. This is an exact preservation check, not semantic source or geometry validation.
+
+I reproduced the deterministic history contract builder check and `git diff --check`. All 63 files in the final code-review input manifest matched their recorded hashes and sizes; all 44 caller before/after hashes, 37 old-kernel preimages, and 15 current-core pins matched. The 36 import-only retargets reproduce exactly by the four declared helper-path substitutions; the other two historical callers are the declared native/history mixed XP tests. The recorded focused runs passed 8/8 closed-history tests, 53/53 native caller tests, 6/6 final witness-integrity tests, and 2/2 legacy rejection/isolation tests. The 53-test run preceded the final test-only fixture-hash assertions; the later 6-test run covered that final test file with unchanged helpers.
+
+The full Node suite and final CI/all-24 run remain outside this review. The frozen earlier baseline reports 936 tests, 878 pass and 58 fail; early file failures reduced registration, and two generic failures remain unclassified. This does not establish that every test body ran or that resource exhaustion caused those failures. This review makes no source-value, semantic, geometry, publication, or release approval.
+
+Frozen inputs: final integration manifest `f1740179ff91700f6b8485cba0a8e631b5c01c87af2b05070c1d88604de32729`; input manifest `db7b28216f853cf56f7c0f2804b327a2d08c764040b1b0d90413f813f55b1047`; focused execution proof `da7a13b6a05919fba586463fe0b56a85f34a1e365f9cdfcec1a8e9be09543fc1`.

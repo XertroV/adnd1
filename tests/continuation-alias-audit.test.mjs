@@ -1,13 +1,13 @@
-import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
+import {readBeforeJoFile as readFileSync} from './helpers/ua-source-batch6-jo-fixture.mjs';
 import test from 'node:test';
-import {readBeforePass8CitationTargetCropFile} from './helpers/pass8-weapon-source-history.mjs';
+import {readBeforePass8CitationTargetCropFile} from './helpers/pass8-ua-source-history.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync as readRawFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 
 import {gunzipSync} from 'node:zlib';
 import {buildContinuationAliasReport,loadContinuationAliasReport} from '../tools/continuation-alias-audit.mjs';
-import {xpBeforeCatalogsForAliasReplay} from './helpers/batch6-xp-source-history.mjs';
+import {xpBeforeCatalogsForAliasReplay} from './helpers/ua-source-batch6-xp-source-history.mjs';
 const read=p=>JSON.parse(readFileSync(p));
 const before=read('research/source-audit-batch5-continuation-alias-before.json');
 const integration=read('research/source-audit-batch5-continuation-alias-integration.json');

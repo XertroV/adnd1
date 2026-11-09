@@ -1,4 +1,4 @@
-import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
+import {readBeforeJoFile as readFileSync} from './helpers/ua-source-batch6-jo-fixture.mjs';
 import {frozenDmgBeforeManifest,dmgContextBefore} from './helpers/dmg-context-frozen-manifest.mjs';
 import {withoutGeneratedCitationTransport,withoutBatch5OfferEquipment,withoutPriceCompletionEquipment, withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import {ambiguousItemOverrideIds, collectionReferenceOverrides} from '../tools/citation-override-identity.mjs';
@@ -10,7 +10,7 @@ import {readdirSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import test from 'node:test';
 import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';
-import {withoutDmg74MatrixAdditions} from './helpers/dmg74-matrix-batch.mjs';
+import {withoutDmg74MatrixAdditions} from './helpers/ua-source-dmg74-matrix-batch.mjs';
 
 const root = new URL('../', import.meta.url);
 const load = name => JSON.parse(readFileSync(new URL(name, root), 'utf8'));
