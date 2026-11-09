@@ -63,7 +63,7 @@ export function buildInventory(data, loadCatalog=read) {
   }
  }
  // Preserve confirmed and unresolved unavailable pages even when uncited.
- for(const page of [...books.books.DMG.gaps,...books.books.DMG.unverified]){const key=`DMG:${page}`,availability=books.availability('DMG',page),evidenceAvailability=books.evidenceAvailability('DMG',page);if(!byPage.has(key))byPage.set(key,{book:'DMG',page,pdfPage:null,missing:availability==='missing',availability,evidenceAvailability,records:[],suppliedCropPixels:false,scopedCropChecks:[]});}
+ for(const page of [...books.books.DMG.gaps,...(books.books.DMG.unverified||[])]){const key=`DMG:${page}`,availability=books.availability('DMG',page),evidenceAvailability=books.evidenceAvailability('DMG',page);if(!byPage.has(key))byPage.set(key,{book:'DMG',page,pdfPage:null,missing:availability==='missing',availability,evidenceAvailability,records:[],suppliedCropPixels:false,scopedCropChecks:[]});}
  const pages=[...byPage.values()].sort(cmp);
  for(const page of pages){const evidence=books.supplementalEvidence(page.book,page.page);if(evidence)page.supplementalEvidence=evidence;}
  const available=pages.filter(p=>p.availability==='available'), blocked=pages.filter(p=>p.availability!=='available');

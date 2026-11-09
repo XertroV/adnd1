@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-xp-continuation-history.mjs';
+import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-phb-source-history.mjs';
 // Exercise the original character-reference adapter at its exact777 successor
 // checkpoint, after the separately guarded XP outer stage has been reversed.
 import {execFileSync} from 'node:child_process';
@@ -10,8 +10,9 @@ import {
   decodePass8CharacterReferenceHistory,
   projectPass8CharacterReferenceJson as project,
   projectPass8CharacterReferenceBytes as projectBytes,
-  readBeforePass8CharacterReferenceFile as readBefore,
 } from './helpers/pass8-xp-continuation-history.mjs';
+
+import {readBeforePass8CharacterReferenceFile as readBefore} from './helpers/pass8-phb-source-history.mjs';
 
 const root = new URL('../', import.meta.url);
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');

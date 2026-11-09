@@ -1,11 +1,11 @@
 'use strict';
 ((root)=>{
  const books={
-  PHB:{title:'Players Handbook',lastPage:128,mapping:'Printed page N corresponds to PDF page N+1.',gaps:[]},
-  UA:{title:'Unearthed Arcana',lastPage:128,mapping:'Printed page N corresponds to PDF page N+1.',gaps:[]},
-  DMG:{title:'Dungeon Masters Guide',lastPage:240,mapping:'Printed pp.1–174 correspond to PDF page N+1; pp.176–238 correspond to PDF page N. Printed p.175 is absent from the supplied PDF; a separate image is confirmed by the user as the correct edition and is usable as source evidence through two limited excerpts. The full image is not part of the PDF and is not published. The identity of pp.239–240 is unverified: PDF p.239 is an unnumbered sheet and PDF p.240 is the back cover.',gaps:[175],unverified:[239,240]},
-  MM:{title:'Monster Manual',lastPage:112,mapping:'Printed page N corresponds to PDF page N+1.',gaps:[]},
-  MM2:{title:'Monster Manual II',lastPage:160,mapping:'Printed pp.1–82 correspond to PDF page N+1; printed p.83 is PDF page92; pp.84–91 correspond to PDF page N; pp.92–160 correspond to PDF page N+1. Printed p.83 is misplaced after p.91.',gaps:[]},
+  PHB:{title:'Players Handbook',lastPage:128,pdfPages:130,mapping:'Printed page N corresponds to PDF page N+1.',gaps:[]},
+  UA:{title:'Unearthed Arcana',lastPage:128,pdfPages:130,mapping:'Printed page N corresponds to PDF page N+1.',gaps:[]},
+  DMG:{title:'Dungeon Masters Guide',lastPage:238,pdfPages:240,mapping:'Printed pp.1–174 correspond to PDF page N+1; printed pp.176–238 correspond to PDF page N. Printed p.175 is absent from the supplied PDF; a separate private image is user-confirmed as the correct edition, but its exact printing is not established. Two limited reviewed excerpts are available; the full image is not published. PDF p.239 is an unnumbered interior reference leaf and PDF p.240 is the unnumbered rear cover; neither has an established printed folio or printed-page mapping.',gaps:[175],unnumberedPdfLeaves:[{pdfPage:239,printedPage:null,kind:'interior-reference-leaf',label:'Interior reference leaf; repeated encumbrance, armor and hireling tables; no printed folio established.'},{pdfPage:240,printedPage:null,kind:'rear-cover',label:'Rear cover; no printed folio established.'}]},
+  MM:{title:'Monster Manual',lastPage:112,pdfPages:114,mapping:'Printed page N corresponds to PDF page N+1.',gaps:[]},
+  MM2:{title:'Monster Manual II',lastPage:160,pdfPages:162,mapping:'Printed pp.1–82 correspond to PDF page N+1; printed p.83 is PDF page 92; printed pp.84–91 correspond to PDF page N; printed pp.92–160 correspond to PDF page N+1. Printed p.83 is displaced after p.91 in the supplied scan.',gaps:[]},
  };
  function code(value){
   const text=String(value||'').toUpperCase().replace(/[’']/g,'').trim();

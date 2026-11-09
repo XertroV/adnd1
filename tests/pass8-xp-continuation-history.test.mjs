@@ -8,11 +8,11 @@ import {
   decodePass8XpContinuationHistory,
   projectPass8XpContinuationJson as project,
   projectPass8XpContinuationBytes as projectBytes,
-  readBeforePass8XpContinuationFile as readBefore,
-  readBeforePass8CharacterReferenceFile as readBeforeCharacter,
   projectPass8CharacterReferenceJson as projectCharacter,
   projectPass8CharacterReferenceBytes as projectCharacterBytes,
 } from './helpers/pass8-xp-continuation-history.mjs';
+// Explicit PHB outer input stage; all original XP projectors and negative assertions remain closed.
+import {projectPass8PhbSourceBytes,readBeforePass8XpContinuationFile as readBefore,readBeforePass8CharacterReferenceFile as readBeforeCharacter} from './helpers/pass8-phb-source-history.mjs';
 
 const root = new URL('../', import.meta.url), sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const liveBytes = path => readFileSync(new URL(path, root));
@@ -23,7 +23,7 @@ const xpAppliedCommit = 'a46eddc41ac6f712d5ad1498195df6a49810aae1';
 const supersededMetadata = new Set(['research/current-source-raster-snapshot.json','research/gaps-limitations-next-task.json','dist/coverage-gaps.json','research/current-continuation-candidate-snapshot.json']);
 const capturedMetadata = new Map();
 const bytes = path => {
-  if (!supersededMetadata.has(path)) return liveBytes(path);
+  if (!supersededMetadata.has(path)) return projectPass8PhbSourceBytes(path,liveBytes(path));
   if (!capturedMetadata.has(path)) capturedMetadata.set(path, execFileSync('git', ['show', `${xpAppliedCommit}:${path}`], {cwd:root,maxBuffer:100 * 1024 * 1024}));
   return Buffer.from(capturedMetadata.get(path));
 };

@@ -41,5 +41,5 @@ test('supplemental DMG p.175 evidence remains separate from the missing PDF page
  assert.match(blocked.reason,/absent from the supplied PDF.*user confirmed the separate image is from the correct edition.*two limited excerpts are available as source evidence/i);
  assert.doesNotMatch(blocked.reason,/obtain/i);
  assert.ok(!inventory.queue.batches.some(b=>b.book==='DMG'&&b.pages.includes(175)));
- assert.equal(inventory.pages.find(p=>p.book==='DMG'&&p.page===239).supplementalEvidence,undefined);
+ assert.equal(books.availability('DMG',239),'invalid');assert.equal(books.availability('DMG',240),'invalid');assert.deepEqual(inventory.pages.filter(p=>p.book==='DMG'&&(p.page===239||p.page===240)),[]);
 });

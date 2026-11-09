@@ -16,10 +16,11 @@ test('current label mode audits the present collector without claiming a fresh r
     const hash = createHash('sha256').update(compressed).digest('hex');
     assert.equal(hash, summary.fullReport.sha256);
     const report = JSON.parse(gunzipSync(compressed).toString('utf8'));
-    assert.equal(report.denominator.contentRecords, 1000);
-    assert.equal(report.denominator.routeRecords, 1000);
-    assert.equal(report.denominator.primaryRouteRecords, 995);
+    assert.equal(report.denominator.contentRecords, 1001);
+    assert.equal(report.denominator.routeRecords, 1001);
+    assert.equal(report.denominator.primaryRouteRecords, 996);
     assert.equal(report.denominator.auxiliaryRouteRecords, 5);
+    assert.ok(report.entries.some(row=>row.owner?.collection==='rules'&&row.owner?.itemId==='phb-druid-mistletoe-spell-components'),'current collector includes the exact new Druid owner');
     assert.equal(report.denominator.collections.matrices, 4);
     assert.equal(report.denominator.collections.progressionExplainer, 1);
     assert.equal(report.denominator.collectorTargets, report.entries.length);

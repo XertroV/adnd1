@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "merged-source-guard-batch-publication-blocked-receipt",
+  "recordedAtUtc": "2026-11-09T03:22:34.000976+00:00",
+  "status": "merged-required-checks-passed-pages-deployment-blocked",
+  "repository": "https://github.com/XertroV/adnd1",
+  "pullRequest": "https://github.com/XertroV/adnd1/pull/45",
+  "headCommit": "e6bb35a9dcd58d432919265db1a162d45f021ddb",
+  "mergeCommit": "ae7f02c6a5aac9ac8da1f7bc5cf5152e422fcd58",
+  "verifiedRemoteMaster": "ae7f02c6a5aac9ac8da1f7bc5cf5152e422fcd58",
+  "verifiedTree": "330c3fcec14ba5e1b923db22a6a4bbe6872e687a",
+  "headAndMergeTreesEqual": true,
+  "validation": {
+    "local": {
+      "requiredWorkflowBlocks": 24,
+      "tests": 938,
+      "pass": 938,
+      "fail": 0,
+      "skip": 0,
+      "cancelled": 0,
+      "readyReceiptSha256": "baa4684b40d033a56a87e393e3ab5748065221aa1e6e5365f25176e4c09bea9a",
+      "rootFinalReviewSha256": "623dec83cf768ca3d6e0f61e74ec24c08aa2867f762755341bebf67ddebe94b4"
+    },
+    "remotePr": {
+      "run": 42550991134,
+      "job": 128946305638,
+      "requiredBlocksAllPassed": true
+    },
+    "remoteMerge": {
+      "run": 42551752891,
+      "buildJob": 128948654573,
+      "requiredBlocksAllPassed": true
+    },
+    "exactDecodedLogExports": [
+      {
+        "kind": "pr",
+        "sizeBytes": 223898,
+        "sha256": "0392f4c545fa650e386d9f977dc23da43d006cf85662f015eb8626b6a35f8ea5",
+        "tests": 938,
+        "pass": 938,
+        "fail": 0,
+        "skip": 0,
+        "cancelled": 0
+      },
+      {
+        "kind": "merge",
+        "sizeBytes": 227245,
+        "sha256": "6afbbb02a9b5252bc9b742d662d4d211f1d37561a11a357680618c2537b724fa",
+        "tests": 938,
+        "pass": 938,
+        "fail": 0,
+        "skip": 0,
+        "cancelled": 0
+      }
+    ],
+    "evidenceSeals": 1003,
+    "priorOrderedPrefixesPreserved": [
+      1001,
+      982,
+      980,
+      957,
+      880,
+      763
+    ]
+  },
+  "publicationAttempts": [
+    {
+      "attempt": 1,
+      "run": 42551752891,
+      "job": 128951138242,
+      "deployment": 7645736124,
+      "reservedVersion": 23,
+      "result": "failure",
+      "reason": "Pages remained syncing_files, timed out at600000milliseconds and cancelled deployment.",
+      "failureAtUtc": "2026-11-09T02:54:53.6288902Z",
+      "logSha256": "cd9a2beadc5430f02ce1749cdc724910a7a5ab7c11205b92d5ff10214f5f06ae",
+      "logSizeBytes": 255179,
+      "cancellationConfirmedInLog": true,
+      "publicDeploymentFailureConfirmedBeforeRetry": true
+    },
+    {
+      "attempt": 2,
+      "run": 42551752891,
+      "job": 128954560734,
+      "deployment": 7645883023,
+      "reservedVersion": 24,
+      "result": "failure",
+      "reason": "Deploy-only retry reached the same600000millisecond timeout with no success status; cancellation confirmed.",
+      "failureAtUtc": "2026-11-09T03:07:29.0067982Z",
+      "logSha256": "93e19503c986f88adf81886e889253b421adefdd9764976a32af5377ed968fb8",
+      "logSizeBytes": 253676,
+      "cancellationConfirmedInLog": true
+    }
+  ],
+  "verifiedRuntime": {
+    "version": 22,
+    "mergeCommit": "236818f2026f61eb0cb696ffb0ea9ff166a491ff",
+    "site": "https://xertrov.github.io/adnd1/",
+    "lastConfirmedIndexSha256": "d22b13cfe9d43e5661972978002831215c3092c4e14511602133711ea91db47a",
+    "footerMatchesBothDesktopAndMobile": true,
+    "priorVerifiedLiveReceipt": "research/source-audit-pass8-pr44-live-release-verification.json",
+    "priorVerifiedLiveReceiptSha256": "2cdd4b84097f149fa512d48f7fdaa2ae5aa9c4ade2904ff13526f3343f339f1c"
+  },
+  "limits": {
+    "newLiveReleaseClaimed": false,
+    "postDeployLiveBrowserAndExactStampChecks": "not-run forae7: expected new footer never appeared. Existing V22 verification remains separate.",
+    "directDeploymentStatusesRead": {
+      "target": "https://api.github.com/repos/XertroV/adnd1/deployments/7645883023/statuses",
+      "atUtc": "2026-11-09T03:07:23Z",
+      "outcome": "HTTP401; stopped this endpoint, no retry/auth bypass. Native authorized workflow logs and live site remain readable."
+    },
+    "providerWideOutageClaimed": false,
+    "timeoutInputWorkaround": "Pinned official deploy-pages code clamps timeout to600000milliseconds; raising the workflow input cannot extend this maximum. No unsupported success or ignored failure was introduced.",
+    "officialActionSource": "https://github.com/actions/deploy-pages/blob/d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e/src/internal/deployment.js"
+  },
+  "unchangedDimensions": {
+    "committedDistBytesExactV22": true,
+    "ruleValuesChanged": 0,
+    "mechanicsGradesPromoted": 0,
+    "sourceImageGradesPromoted": 0
+  },
+  "nextActions": [
+    "Continue independent authorized content/mapping integration and required checks.",
+    "Do not repeatedly rerun the same Pages deployment without a changed relevant condition; keep exact failed evidence.",
+    "Verify the actual successful deployment, exact remote commit, stamped HTML, static assets and desktop/mobile behavior before claiming a newer live version."
+  ]
+}

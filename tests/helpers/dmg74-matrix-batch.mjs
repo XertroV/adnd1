@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {reverseMatrixCellReview as reverseOriginalMatrixCellReview} from '../fixtures/matrix-baseline.mjs';
-import {projectPass8CharacterReferenceJson} from './pass8-xp-continuation-history.mjs';
+import {projectPass8CharacterReferenceJson} from './pass8-phb-source-history.mjs';
 // These three DMG p. 74 matrix records are a separately reviewed additive batch.
 export const addedDmg74MatrixIds = Object.freeze([
  'dmg-cleric-druid-monk-attack-matrix',

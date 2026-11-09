@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "root independent PHB monetary-input successor review",
+  "status": "accepted provenance-only current-input migration",
+  "beforeCommit": "ae7f02c6a5aac9ac8da1f7bc5cf5152e422fcd58",
+  "sourceInputCommit": "65991ec94579a2f9fc587118e15622313216fa14",
+  "authorProposal": {
+    "path": "research/source-audit-pass8-phb-monetary-input-successor-proposal-v1.json",
+    "sha256": "15dea8d346dfbc219cdee3e5ce3554ee3e80f92e9bee378567d0bcbc4c43ef7a"
+  },
+  "registry": {
+    "before": {
+      "path": "research/source-audit-batch6-current-monetary-source-questions.json",
+      "sha256": "df352f9a51cb0486e4f9294cd7d749338486b1d1aa9adf608f5cf64aadb2d412"
+    },
+    "after": {
+      "path": "research/source-audit-pass8-phb-current-monetary-source-questions-v1.json",
+      "sha256": "ec632ce0fe677a58a3c0bc232a87f47198f103bba26e6317738e33c77daf0e2c"
+    },
+    "allExistingPayloadExactExceptTwoCurrentInputHashes": true,
+    "addedTypedProvenanceOnly": {
+      "artifactType": "bounded-phb-input-provenance-migration",
+      "sourceInputCommit": "65991ec94579a2f9fc587118e15622313216fa14",
+      "predecessor": {
+        "path": "research/source-audit-batch6-current-monetary-source-questions.json",
+        "sha256": "df352f9a51cb0486e4f9294cd7d749338486b1d1aa9adf608f5cf64aadb2d412"
+      },
+      "scope": "Only current canonical/index provenance changes. All eight question identities, seven unresolved questions, one derived interpretation, dispositions, source proofs and independent review remain exact. Two new Druid references are pending and promote no source-value or target grade."
+    }
+  },
+  "loader": {
+    "path": "tools/monetary-current-source-questions.mjs",
+    "onlyOneTrustedPathLiteralChanged": true,
+    "algorithmsAndValidationPolicyUnchanged": true
+  },
+  "monetaryIndex": {
+    "afterSha256": "10082c42a45eaed59ffab151f25dacc81b5f404111066c936a8acdeb25e58725",
+    "canonicalSourceProvenanceReplacements": 1439,
+    "changedValidationArtifactPaths": [
+      "citation-overrides.json",
+      "dist/books.js",
+      "dist/data.json"
+    ],
+    "addedValidationArtifactPaths": [
+      "dist/scans/verified/rules-phb-druid-mistletoe-spell-components.json"
+    ],
+    "changedArtifactHashesMatchActualCurrentBytes": true,
+    "allOtherCompletePayloadExact": true,
+    "sourceOccurrences": 1871,
+    "claims": 2317
+  },
+  "bindingPreservation": {
+    "rootPrivateReceiptSha256": "d772c8d1c41258a7c9d9268b36fa7c1f361341ec478a5efb56f7f92d3a257bcc",
+    "oldFullObjectsAndOrder": 4572,
+    "newPendingDruidReferences": 2
+  },
+  "limits": [
+    "No source values, dispositions, question identities, source proofs, scope interpretations, review grades or source rows changed.",
+    "Eight historical questions retain seven unresolved and one derived interpretation; separate scope questions remain unchanged.",
+    "New Druid references are pending and confer no monetary completeness or price interpretation approval."
+  ]
+}

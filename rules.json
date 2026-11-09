@@ -4,6 +4,10 @@
       "id": "PHB",
       "title": "Players Handbook",
       "edition": "AD&D first edition · sixth printing, January 1980",
+      "sourceFile": "tsr2010-players-handbook.pdf",
+      "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "pdfPages": 130,
+      "printedLastPage": 128,
       "mapping": "Printed page N corresponds to PDF page N + 1.",
       "gaps": [],
       "coverage": "Curated rule summaries, selected spell cards and class progression. Coverage is incomplete. OCR has been checked against the supplied text; visual review is pending."
@@ -12,6 +16,10 @@
       "id": "UA",
       "title": "Unearthed Arcana",
       "edition": "Original 1985 edition",
+      "sourceFile": "Unearthed Arcana.pdf",
+      "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+      "pdfPages": 130,
+      "printedLastPage": 128,
       "mapping": "Printed page N corresponds to PDF page N + 1.",
       "gaps": [],
       "coverage": "Selected additions and options, spell cards and class guidance. Coverage is incomplete. The earlier modified PDF is not used. Errata must be identified separately from this printing."
@@ -20,15 +28,53 @@
       "id": "DMG",
       "title": "Dungeon Masters Guide",
       "edition": "AD&D first edition · revised December 1979",
-      "mapping": "Printed pages 1–174 correspond to PDF page N + 1. Printed pages 176–238 correspond to PDF page N. Printed page 175 is missing; pages 239 and 240 are unverified end matter. PDF page 239 is unnumbered and PDF page 240 is the back cover.",
+      "sourceFile": "DMG_1stEd.pdf",
+      "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "pdfPages": 240,
+      "printedLastPage": 238,
+      "mapping": "Printed pp. 1–174 correspond to PDF p. N + 1; printed pp. 176–238 correspond to PDF p. N. Printed p. 175 is absent from the supplied PDF. PDF pp. 239–240 are unnumbered physical leaves and have no printed-page mapping.",
       "gaps": [
         175
       ],
-      "unverified": [
-        239,
-        240
+      "unnumberedPdfLeaves": [
+        {
+          "pdfPage": 239,
+          "printedPage": null,
+          "kind": "interior-reference-leaf",
+          "label": "Interior reference leaf with repeated encumbrance, armor and hireling tables; no printed folio established."
+        },
+        {
+          "pdfPage": 240,
+          "printedPage": null,
+          "kind": "rear-cover",
+          "label": "Rear cover; no printed folio observed."
+        }
       ],
-      "coverage": "Selected combat, advancement and referee procedures. Coverage is incomplete. The supplied canonical PDF omits printed p.175; the user-confirmed correct-edition supplement provides two limited reviewed excerpts, not complete Appendix C coverage. Other missing or unverified pages remain excluded; tables require visual review before a verified label."
+      "coverage": "Selected combat, advancement and referee procedures; coverage is incomplete. The supplied PDF omits printed p. 175. A separate private image is user-confirmed as the correct edition, but its exact printing is not established; two limited reviewed excerpts are available. PDF pp. 239–240 are unnumbered physical leaves, not printed-page citations. Other source content remains outside this selected reference."
+    },
+    {
+      "id": "MM",
+      "title": "Monster Manual",
+      "edition": "AD&D first edition. Title page: 4th Edition, August 1979. Exact printing and scan provenance are not established.",
+      "sourceFile": "Monster_Manual.pdf",
+      "sourceSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+      "pdfPages": 114,
+      "printedLastPage": 112,
+      "mapping": "Printed page N corresponds to PDF page N + 1.",
+      "gaps": [],
+      "coverage": "The supplied volume contains monster profiles and descriptions. This reference has no searchable MM profile catalogue; selected spell entries cite MM material."
+    },
+    {
+      "id": "MM2",
+      "title": "Monster Manual II",
+      "edition": "1983 copyright. Exact printing and scan provenance are not established.",
+      "sourceFile": "Monster Manual II.pdf",
+      "sourceSha256": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24",
+      "pdfPages": 162,
+      "printedLastPage": 160,
+      "mapping": "Printed pp. 1–82 correspond to PDF p. N + 1; printed p. 83 is PDF p. 92; printed pp. 84–91 correspond to PDF p. N; printed pp. 92–160 correspond to PDF p. N + 1. Printed p. 83 is displaced after p. 91 in the supplied scan.",
+      "gaps": [],
+      "coverage": "The supplied volume contains monster profiles and random encounter tables. This reference has no searchable MM II profile catalogue; selected spell entries cite MM II material."
     }
   ],
   "rules": [
@@ -5326,6 +5372,163 @@
             }
           ]
         }
+      ]
+    },
+    {
+      "id": "phb-druid-mistletoe-spell-components",
+      "title": "Druid Spell Components: Mistletoe, Holly, and Oak Leaves",
+      "category": "Magic",
+      "book": "PHB",
+      "pages": [
+        54
+      ],
+      "summary": "Material-component quality changes druid spell effectiveness; druidic spells requiring a material component assume mistletoe gathered by the source method.",
+      "bullets": [
+        "Mistletoe is the druids’ religious symbol; holly is of lesser importance, and oak leaves have some magical power. Druidic spells with a material component assume mistletoe gathered as described below.",
+        "Greater mistletoe is properly harvested by the druid: on Midsummer’s Eve, locate it, cut it with a gold or silver sickle, and catch it in a bowl before it touches the ground.",
+        "Lesser mistletoe was not harvested on the eve of Midsummer, or was taken in an unprescribed way such as picking it by hand.",
+        "Borrowed mistletoe is mistletoe not personally harvested by the druid.",
+        "Holly and oak leaves must be gathered by the druid, but may be picked or gathered in any manner."
+      ],
+      "table": {
+        "title": "Druid spell-component effectiveness by material",
+        "rowHeader": {
+          "id": "item",
+          "label": "Item"
+        },
+        "columnGroup": {
+          "label": "Effectiveness"
+        },
+        "columns": [
+          {
+            "id": "spell-range",
+            "label": "Spell Range"
+          },
+          {
+            "id": "spell-duration",
+            "label": "Spell Duration"
+          },
+          {
+            "id": "area-of-effect",
+            "label": "Area of Effect"
+          }
+        ],
+        "rows": [
+          {
+            "id": "lesser-mistletoe",
+            "label": "Lesser mistletoe",
+            "printedLabel": "Lesser mistletoe",
+            "cells": [
+              {
+                "columnId": "spell-range",
+                "raw": "100%"
+              },
+              {
+                "columnId": "spell-duration",
+                "raw": "75%*"
+              },
+              {
+                "columnId": "area-of-effect",
+                "raw": "100%"
+              }
+            ]
+          },
+          {
+            "id": "borrowed-mistletoe",
+            "label": "Borrowed mistletoe",
+            "printedLabel": "Borrowed mistletoe",
+            "cells": [
+              {
+                "columnId": "spell-range",
+                "raw": "75%*"
+              },
+              {
+                "columnId": "spell-duration",
+                "raw": "50%**"
+              },
+              {
+                "columnId": "area-of-effect",
+                "raw": "100%"
+              }
+            ]
+          },
+          {
+            "id": "holly",
+            "label": "Holly",
+            "printedLabel": "Holly",
+            "cells": [
+              {
+                "columnId": "spell-range",
+                "raw": "75%*"
+              },
+              {
+                "columnId": "spell-duration",
+                "raw": "50%**"
+              },
+              {
+                "columnId": "area-of-effect",
+                "raw": "75%*"
+              }
+            ]
+          },
+          {
+            "id": "oak-leaves",
+            "label": "Oak leaves",
+            "printedLabel": "Oak leaves",
+            "cells": [
+              {
+                "columnId": "spell-range",
+                "raw": "50%**"
+              },
+              {
+                "columnId": "spell-duration",
+                "raw": "50%**"
+              },
+              {
+                "columnId": "area-of-effect",
+                "raw": "50%**"
+              }
+            ]
+          }
+        ],
+        "sourceDenominator": {
+          "physicalDataRows": 4,
+          "effectColumns": 3,
+          "dataCells": 12,
+          "footnotes": 2,
+          "proseBlocks": 5,
+          "uncertainOrUnassessableCells": 0,
+          "reviewStatus": "transcription present; independent source-value review pending"
+        },
+        "rawCellPolicy": "Every cell preserves the visible printed percentage and asterisk marker as a raw string. No calculated numeric values are inferred.",
+        "footnotes": [
+          {
+            "marker": "*",
+            "text": "or +1 on saving throw, if any, if category is not applicable."
+          },
+          {
+            "marker": "**",
+            "text": "or +2 on saving throw, if any, if category is not applicable."
+          }
+        ]
+      },
+      "sourceReferences": [
+        {
+          "book": "PHB",
+          "pages": [
+            54
+          ],
+          "printedPage": 54,
+          "pdfPage": 55,
+          "label": "Notes Regarding Druid (Cleric) Spells"
+        }
+      ],
+      "status": "OCR checked · visual review pending",
+      "tags": [
+        "druid",
+        "cleric spells",
+        "mistletoe",
+        "spell components"
       ]
     }
   ]

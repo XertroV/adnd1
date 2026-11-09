@@ -20,15 +20,16 @@ const matrixDocs=data.matrices.map(item=>{
 const progressionDoc=search.prepare({...data.progressionExplainer,_view:'progressionExplainer',_title:data.progressionExplainer.title,_subtitle:'Class progression reference'});
 const byClass=id=>classDocs.find(item=>item.id===id);
 
-test('current global content owner set preserves the prior 997 docs plus exactly three DMG matrix docs',()=>{
+test('current global content owner set preserves 1000 prior docs and adds exactly the Druid component rule',()=>{
  const count=data.spells.length+data.rules.length+data.equipment.length+data.classes.length+data.matrices.length+1;
  const newMatrixIds=data.matrices.filter(item=>addedDmg74MatrixIds.includes(item.id)).map(item=>item.id).sort();
  assert.deepEqual(newMatrixIds,[...addedDmg74MatrixIds].sort());
- assert.equal(count,997+addedDmg74MatrixIds.length);
- assert.equal(count,1000,'the three exact new DMG matrix owners bring the current searchable document total to 1,000');
+ assert.equal(count,997+addedDmg74MatrixIds.length+1);
+ assert.equal(count,1001,'the three DMG matrices and exact new Druid rule preserve separate additions');
+ assert.deepEqual(data.rules.filter(row=>row.id==='phb-druid-mistletoe-spell-components').map(row=>[row.id,row.book,row.pages]),[['phb-druid-mistletoe-spell-components','PHB',[54]]]);
  const identities=[...['spells','rules','equipment','classes','matrices'].flatMap(collection=>data[collection].map(item=>`${collection}:${item.id}`)),`progressionExplainer:${data.progressionExplainer.id}`];
- assert.equal(new Set(identities).size,997+addedDmg74MatrixIds.length);
- assert.equal(new Set(identities).size,1000);
+ assert.equal(new Set(identities).size,997+addedDmg74MatrixIds.length+1);
+ assert.equal(new Set(identities).size,1001);
  assert.equal(matrixDocs.length,data.matrices.length);
 });
 

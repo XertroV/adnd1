@@ -20,6 +20,12 @@ const dmg74MatrixIds = [
 ];
 const priorBindingCount = 4489 + 40 + 20 + 1 + ua75.referenceAppends.length;
 const dmg74MatrixBindingCount = dmg74MatrixIds.length * 2;
+const druidBindingCount = 2;
+function assertDruidBindings(bindings,itemIdField="itemId") {
+ const rows=bindings.filter(row=>row[itemIdField]==='phb-druid-mistletoe-spell-components');
+ assert.equal(rows.length,2);assert.deepEqual(rows.map(row=>row.fieldPointer).sort(),['','/sourceReferences/0']);
+ for(const row of rows){assert.equal(row.collection??row.bindingCollection,'rules');assert.equal(row.book,'PHB');assert.equal(row.printedPage,54);assert.equal(row.reviewStatus,'field-target-pending');}
+}
 
 function assertDmg74MatrixBindings(bindings, itemIdField = 'itemId') {
   const matrixBindings = bindings.filter(binding => dmg74MatrixIds.includes(binding[itemIdField]));
@@ -148,12 +154,13 @@ test('current source assembly resolves scoped citations, preserves legacy intent
   const currentReplay = buildSourceOwnerIdentityAudit({replayAssembly: true}).inMemoryCurrentAssemblyReplay;
   assert.equal(currentReplay.preAttachCrossOwnerObjectAliasCount, 0);
   assert.equal(currentReplay.foreignOwnerBindings.length, 0);
-  assert.equal(currentReplay.counts.evidenceBindings, priorBindingCount + dmg74MatrixBindingCount);
+  assert.equal(currentReplay.counts.evidenceBindings, priorBindingCount + dmg74MatrixBindingCount + druidBindingCount);
   assert.equal(currentReplay.counts.dispositions.validatedExplicitComparatorSource, 6);
   const currentReport = buildSourceOwnerIdentityAudit();
   assert.equal(sourceOwnerIdentityCheck(currentReport).pass, true);
-  assert.equal(currentReport.report.evidenceBindings.denominator, priorBindingCount + dmg74MatrixBindingCount);
+  assert.equal(currentReport.report.evidenceBindings.denominator, priorBindingCount + dmg74MatrixBindingCount + druidBindingCount);
   assertDmg74MatrixBindings(currentReport.report.evidenceBindings.attachedBindingPaths, 'bindingItemId');
+  assertDruidBindings(currentReport.report.evidenceBindings.attachedBindingPaths,'bindingItemId');
   assert.equal(currentReport.currentOwnerIdentity.progressionClassOverrideApplications.overrideCount, 16);
   assert.equal(currentReport.currentOwnerIdentity.progressionClassOverrideApplications.intendedClassOwnerCount, 16);
   assert.equal(currentReport.currentOwnerIdentity.progressionClassOverrideApplications.nonClassOwnerCountPreviouslyEligible, 0);
@@ -325,10 +332,11 @@ test('standalone price-source inventory uses scoped owner references without rul
   });
   const historicalGrandDruidCompanion = historicalInventory.fieldEvidenceBindings.filter(binding => binding.collection === 'classes' && binding.itemId === 'ua-druid' && binding.fieldPointer === '/levelChanges/0' && binding.sourceCategory === 'class-level-change');
   assert.deepEqual(historicalGrandDruidCompanion, grandDruidCompanion);
-  assert.equal(historicalInventory.counts.fieldEvidenceBindings, 4489 + 40 + 20 + 1 + dmg74MatrixBindingCount);
-  assert.equal(inventory.counts.fieldEvidenceBindings, priorBindingCount + dmg74MatrixBindingCount);
+  assert.equal(historicalInventory.counts.fieldEvidenceBindings, 4489 + 40 + 20 + 1 + dmg74MatrixBindingCount + druidBindingCount);
+  assert.equal(inventory.counts.fieldEvidenceBindings, priorBindingCount + dmg74MatrixBindingCount + druidBindingCount);
   assertDmg74MatrixBindings(historicalInventory.fieldEvidenceBindings);
   assertDmg74MatrixBindings(inventory.fieldEvidenceBindings);
+  assertDruidBindings(inventory.fieldEvidenceBindings);
   const joBindings=inventory.fieldEvidenceBindings.filter(binding=>binding.itemId==='ua-jo-stick');assert.equal(joBindings.length,19);assert.ok(joBindings.every(binding=>binding.collection==='equipment'&&binding.sourceOwner.itemId==='ua-jo-stick'));
   assert.equal(inventory.siteClaims.find(claim=>claim.itemId==='ua-jo-stick').missingPrice,true);
   const additions = inventory.fieldEvidenceBindings.filter(binding => binding.sourceCategory === 'equipment-price-occurrence-reference' && binding.printedPage === 75 && ua75.referenceAppends.some(row => row.itemId === binding.itemId && row.fieldPointer === binding.fieldPointer));

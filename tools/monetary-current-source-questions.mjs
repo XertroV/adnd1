@@ -7,7 +7,7 @@ import {loadMonetaryRowIdentityAudit,hash} from './monetary-row-identity-audit.m
 import {normalizeMammothDerivedValuation} from './monetary-source-inventory.mjs';
 
 const root=resolve(import.meta.dirname,'..');
-export const currentSourceQuestionRegistryPath='research/source-audit-batch6-current-monetary-source-questions.json';
+export const currentSourceQuestionRegistryPath='research/source-audit-pass8-phb-current-monetary-source-questions-v1.json';
 const historicalPath='research/source-audit-batch5-monetary-retained-uncertainties.json';
 const historicalSha256='93c9547479b8632bc8631c83a5e5496118b3580f516aa2c4cbb2a5515d19ee00';
 const mammothId='relative-monetary-reading-mm-mammoth-tusks-relative';

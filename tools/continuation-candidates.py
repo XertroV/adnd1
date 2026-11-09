@@ -940,7 +940,7 @@ def text_inventory(data_root: Path, source_dir: Path, catalog_entries: list[dict
         for resolution in assessment.get("coordinateFrameResolutions", [])
     )
     source_frame_declaration = {
-        "path": "research/source-frame-coordinate-bridge.json",
+        "path": _FRAME_BRIDGE.REGISTRY_RELATIVE_PATH,
         "sha256": _FRAME_BRIDGE.REGISTRY_SHA256,
         "status": "scoped-geometric-provenance-only",
         "resolutionCounts": dict(sorted(resolution_counts.items())),

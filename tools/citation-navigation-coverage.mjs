@@ -59,12 +59,13 @@ export function auditRouteQueryContract(source){
 }
 const sourceAttributes=['data-copy-link','data-inline-source','data-scan-view','data-source-book','data-source-context','data-source-id','data-source-view','data-view-scans'];
 const refAttributes=['data-ref-book','data-ref-pages','data-ref-title','data-ref-status','data-ref-targets'];
+const sourceMetadataAttributes=['data-source-card'];
 export function auditSourceNavigationAttributes(source){
  const observed=[...new Set(source.match(/data-(?:copy-link|inline-source|scan-view|view-scans|source-[a-z0-9-]+|ref-[a-z0-9-]+)/g)||[])].sort();
- const allowed=new Set([...sourceAttributes,...refAttributes]);
+ const allowed=new Set([...sourceAttributes,...refAttributes,...sourceMetadataAttributes]);
  const unknown=observed.filter(name=>!allowed.has(name));
  if(unknown.length)throw new Error(`Unclassified citation navigation attribute(s): ${unknown.join(', ')}`);
- return {observed,missing:[...allowed].filter(name=>!observed.includes(name)).sort()};
+ return {observed,missing:[...allowed].filter(name=>!observed.includes(name)).sort(),metadata:sourceMetadataAttributes.filter(name=>observed.includes(name))};
 }
 const producerInventory=auditInlineProducerSites(app);
 const routeContract=auditRouteQueryContract(app);

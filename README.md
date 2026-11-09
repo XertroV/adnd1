@@ -6,7 +6,7 @@ Public, buildless reference for Advanced Dungeons & Dragons first edition and or
 
 The application distinguishes indexed spell names, extracted quick-reference cards, and curated rule summaries. It does not represent complete rules coverage. The original selected-value image pass covered twenty equipment entries; later passes checked source passage locations across all reference-bearing records and reviewed individual mechanics against the supplied books. These are different scopes: an excerpt does not verify every field or all rules on a page. See the [field-level audit](research/mechanics-audit-progress.md) and [source inventory](tests/fixtures/source-scan-inventory.json) for current counts and unresolved items.
 
-The original DMG PDF omits printed p.175. A separately supplied private image visibly bears p.175 and fits the adjacent Appendix C context, though its exact printing is not established. Printed end matter pp.239–240 remains unverified. Printed-to-PDF mapping for the original PDFs is PHB/UA page N = PDF page N+1; DMG pages 1–174 = PDF N+1 and pages 176–238 = PDF N. The separate image is not part of that PDF mapping.
+The supplied DMG PDF omits printed p.175. A separate private image is user-confirmed as the correct edition, though its exact printing is not established; two limited reviewed excerpts are available and the full image is not published. PDF p.239 is an unnumbered interior reference leaf and PDF p.240 is the unnumbered rear cover; neither has an established printed folio or printed-page mapping. Printed-to-PDF mapping is PHB/UA page N = PDF page N+1; DMG pp.1–174 = PDF p. N+1 and pp.176–238 = PDF p. N. The separate image is not part of the supplied PDF mapping.
 
 ## Run and verify
 

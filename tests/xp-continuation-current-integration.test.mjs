@@ -3,11 +3,14 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
+import {projectPass8PhbSourceBytes,projectPass8PhbSourceJson} from './helpers/pass8-phb-source-history.mjs';
 import {assertReviewedClassXpContinuationTarget} from '../tools/class-xp-continuation-target-review.mjs';
 
-// These checks read the actual current distribution, without historical adapters.
+// Native PHB assertions run first. The four retained XP application comparisons
+// then receive only the complete closed ae7 predecessor through the PHB stage.
 const read=path=>readFileSync(new URL(`../${path}`,import.meta.url));
-const json=path=>JSON.parse(read(path));
+const nativeJson=path=>JSON.parse(read(path));
+const json=path=>JSON.parse(projectPass8PhbSourceBytes(path,read(path)));
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 function archive(path){
   const result=new Map();
@@ -21,7 +24,6 @@ function archive(path){
 const before=archive('tests/fixtures/pass8-xp-continuation-before-mapping-inputs.json.gz');
 const oldCatalogs=archive('tests/fixtures/pass8-xp-continuation-before-catalogs.json.gz');
 const application=json('research/source-audit-pass8-xp-continuation-local-application.json');
-const data=json('dist/data.json');
 const owners=new Set(application.bindings.map(binding=>binding.itemId));
 const visualReviews=json('research/source-visual-reviews.json').reviews;
 
@@ -54,7 +56,32 @@ function assertCurrentRegionReviews(item,previous){
   assert.deepEqual(item.sourceExcerpts.regionReviews.slice(expectedOld.length),expectedAdded,`${item.id}: only the exact new component reviews are appended`);
 }
 
+test('native PHB distribution retains all eleven strict continuation targets and exact old region-review prefixes',()=>{
+  const current=nativeJson('dist/data.json'),old=before.get('dist/data.json');
+  for(const item of current.classes){
+    if(!owners.has(item.id))continue;
+    const previous=old.classes.find(candidate=>candidate.id===item.id);
+    const bindings=item.xpContinuation.evidenceBindings;
+    assert.equal(bindings.length,1);
+    const binding=bindings[0];
+    assert.deepEqual({collection:binding.collection,itemId:binding.itemId,fieldPointer:binding.fieldPointer,sourceObjectPointer:binding.sourceObjectPointer,sourceCategory:binding.sourceCategory,sourceOwner:binding.sourceOwner},
+      {collection:'classes',itemId:item.id,fieldPointer:'/xpContinuation',sourceObjectPointer:'/xpContinuation',sourceCategory:'class-xp-continuation',sourceOwner:{collection:'classes',itemId:item.id}},'actual continuation binding must enter the strict guard scope');
+    assert.equal(binding.reviewStatus,'field-target-reviewed');
+    assert.equal(binding.sourceValueStatus,'not-assessed-by-field-target-review');
+    assertReviewedClassXpContinuationTarget(binding,{
+      item,target:item.xpContinuation,sourceOwner:{collection:'classes',itemId:item.id},
+      sourceObjectPointer:'/xpContinuation',readEvidence:read,
+    });
+    assert.deepEqual(binding.regionIds,[`pass8-${item.id}-xp-continuation-rule`]);
+    assert.deepEqual(previous.xpContinuation.evidenceBindings[0].regionIds,[]);
+    assert.equal(previous.xpContinuation.evidenceBindings[0].reviewStatus,'field-target-pending');
+    assertCurrentRegionReviews(item,previous);
+  }
+  assert.deepEqual(projectPass8PhbSourceJson('dist/data.json',current),json('dist/data.json'),'only the exact whole PHB application may precede the unchanged XP history checks');
+});
+
 test('all eleven current continuation mappings pass their real source-bound guard without changing class mechanics',()=>{
+  const data=json('dist/data.json');
   assert.equal(owners.size,11);
   const restored=structuredClone(data),old=before.get('dist/data.json');
   for(const item of restored.classes){

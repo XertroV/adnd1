@@ -17,7 +17,8 @@ test('fixture is reproducible and includes every assembled reference-bearing rec
  const expectedPages=owners.flatMap(item=>citations.pages(item));
  assert.equal(inventory.counts.recordPagePairs,expectedPages.length);
  assert.equal(inventory.counts.citedPages,new Set(expectedPages.map(page=>`${page.book}:${page.page}`)).size);
- assert.equal(inventory.counts.knownGapPages,1);assert.equal(inventory.counts.pdfOmittedCitedPages,1);assert.equal(inventory.counts.supplementedCitedPages,1);assert.equal(inventory.counts.evidenceUnavailableCitedPages,0);assert.equal(inventory.counts.unverifiedPages,2);
+ assert.equal(inventory.counts.records,1001);assert.equal(inventory.counts.recordPagePairs,2107);assert.equal(inventory.counts.citedPages,231);assert.equal(inventory.counts.batches,25);
+ assert.equal(inventory.counts.knownGapPages,1);assert.equal(inventory.counts.pdfOmittedCitedPages,1);assert.equal(inventory.counts.supplementedCitedPages,1);assert.equal(inventory.counts.evidenceUnavailableCitedPages,0);assert.equal(inventory.counts.unverifiedPages,0);
  assert.equal(inventory.counts.pagesWithSomeSuppliedCropPixels,inventory.pages.filter(p=>p.suppliedCropPixels).length);
  assert.equal(inventory.counts.citedPagesWithoutSuppliedCropPixels,inventory.pages.filter(p=>p.records.length&&!p.suppliedCropPixels).length);
  assert.equal(inventory.counts.batches,inventory.queue.batches.length);
@@ -32,14 +33,14 @@ test('nested field, progression and explainer references retain their paths and 
  assert.ok(explainer.references.some(r=>r.path.startsWith('/sections/')));
  assert.ok(explainer.pages.every(p=>p.statuses.every(s=>!s.toLowerCase().includes('visually verified'))));
 });
-test('queue covers all available cited pages exactly once and blocks the missing page and unverified end matter',()=>{
+test('queue covers available cited pages exactly once and blocks only the absent printed page',()=>{
  const queued=inventory.queue.batches.flatMap(b=>{assert.ok(b.pages.length>0&&b.pages.length<=BATCH_SIZE); return b.pages.map(page=>`${b.book}:${page}`)});
  const expected=inventory.pages.filter(p=>p.records.length&&p.availability==='available').map(p=>`${p.book}:${p.page}`);
  assert.deepEqual(queued,expected);
  assert.equal(new Set(queued).size,queued.length);
- assert.deepEqual(inventory.queue.blocked.map(p=>`${p.book}:${p.page}`),['DMG:175','DMG:239','DMG:240']);
- assert.deepEqual(inventory.queue.blocked.map(p=>p.availability),['missing','unverified','unverified']);
- assert.deepEqual(inventory.queue.blocked.map(p=>p.evidenceAvailability),['supplemental','unverified','unverified']);
+ assert.deepEqual(inventory.queue.blocked.map(p=>`${p.book}:${p.page}`),['DMG:175']);
+ assert.deepEqual(inventory.queue.blocked.map(p=>p.availability),['missing']);
+ assert.deepEqual(inventory.queue.blocked.map(p=>p.evidenceAvailability),['supplemental']);
 });
 test('crop pixels and scoped catalog checks never imply that a page or unrelated record is verified',()=>{
  const pixels=new Set(inventory.pages.filter(p=>p.suppliedCropPixels).map(p=>`${p.book}:${p.page}`));
@@ -64,10 +65,11 @@ test('all nested structured reference paths agree with the collector for every r
  }
 });
 
-test('cited DMG end matter stays blocked as unverified rather than missing',()=>{
+test('unnumbered DMG PDF leaves are not synthesized as printed-page citations',()=>{
  const result=buildInventory({rules:[{id:'test-dmg-end',title:'End matter',book:'DMG',pages:[238,239,240]}]});
  const cited=result.records[0].pages;
- assert.deepEqual(cited.map(p=>[p.page,p.pdfPage,p.missing,p.availability]),[[238,238,false,'available'],[239,null,false,'unverified'],[240,null,false,'unverified']]);
+ assert.deepEqual(cited.map(p=>[p.page,p.pdfPage,p.missing,p.availability]),[[238,238,false,'available']]);
+ assert.deepEqual(result.pages.filter(p=>p.book==='DMG'&&(p.page===239||p.page===240)),[]);
  assert.deepEqual(result.queue.batches.flatMap(b=>b.pages),[238]);
- assert.deepEqual(result.queue.blocked.map(p=>[p.page,p.availability,p.evidenceAvailability]),[[175,'missing','supplemental'],[239,'unverified','unverified'],[240,'unverified','unverified']]);
+ assert.deepEqual(result.queue.blocked.map(p=>[p.page,p.availability,p.evidenceAvailability]),[[175,'missing','supplemental']]);
 });

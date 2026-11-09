@@ -2,33 +2,33 @@
   "schemaVersion": 1,
   "input": {
     "path": "dist/data.json",
-    "sha256": "2dfeeaaf04dc9467d8a112b3c0e46a33426180be775f116fa2c479c94440e578",
+    "sha256": "f923fa58373d6d46be0444bb1d6ffb1f2d4ae41b58d003f6b8abaac2b283ff96",
     "hashFormat": "mechanics-only SHA-256 of JSON.stringify(parsed data after recursively removing generated evidenceBindings and regionReviews transport metadata; distinct from raw data.json/provenance hashes)",
     "denominator": "Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.",
     "countSemantics": "Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap."
   },
   "counts": {
-    "records": 1000,
-    "totalFields": 13946,
+    "records": 1001,
+    "totalFields": 13993,
     "inspectedFields": 13319,
     "sourceCheckedFields": 12733,
-    "unchangedSourceCheckedFields": 10094,
-    "correctedAndCheckedFields": 2639,
+    "unchangedSourceCheckedFields": 10087,
+    "correctedAndCheckedFields": 2646,
     "correctionPendingFields": 0,
     "notExtractedFields": 14,
     "sourceConflictFields": 22,
     "editorialReviewedFields": 558,
     "staleProposalFields": 0,
-    "uncheckedFields": 619
+    "uncheckedFields": 666
   },
   "percentages": {
-    "inspectedFields": 95.5,
-    "sourceCheckedFields": 91.3,
-    "unchangedSourceCheckedFields": 72.38,
-    "correctedAndCheckedFields": 18.92,
+    "inspectedFields": 95.18,
+    "sourceCheckedFields": 91,
+    "unchangedSourceCheckedFields": 72.09,
+    "correctedAndCheckedFields": 18.91,
     "correctionPendingFields": 0,
     "notExtractedFields": 0.1,
-    "uncheckedFields": 4.44
+    "uncheckedFields": 4.76
   },
   "records": [
     {
@@ -64,11 +64,15 @@
         },
         {
           "path": "/fields/Duration",
-          "value": "6 rounds",
-          "status": "source-checked",
+          "value": "6 melee rounds",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
-            "mechanics-phb-divine"
+            "mechanics-phb-divine",
+            "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction"
+          ],
+          "changePaths": [
+            "/fields/Duration"
           ]
         },
         {
@@ -135,6 +139,13 @@
           ]
         },
         {
+          "path": "/conditions/1",
+          "value": "The caster chooses a casting point within the listed range; the spell affects creatures in a 5″ square centered on that point.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
           "path": "/exceptions/0",
           "value": "Reverse: curse gives enemies −1 morale and −1 to hit.",
           "status": "source-checked",
@@ -156,10 +167,21 @@
           "page": 40,
           "pdfPage": 41,
           "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "PHB",
+          "page": 43,
+          "pdfPage": 44,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
         }
       ],
       "reviewers": [
-        "mechanics-phb-divine"
+        "mechanics-phb-divine",
+        "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction"
       ],
       "unresolvedNotes": [
         {
@@ -167,7 +189,25 @@
           "note": "Review scope covers the meaning of existing listed values, not completeness of all source details or external citations."
         }
       ],
-      "proposedChanges": []
+      "proposedChanges": [
+        {
+          "checker": "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction",
+          "path": "/fields/Duration",
+          "oldValue": "6 rounds",
+          "newValue": "6 melee rounds",
+          "reason": "Exact seven-leaf correction independently accepted against supplied PHB pixels; no sibling, owner-wide or excerpt grade.",
+          "book": "PHB",
+          "pages": [
+            43
+          ],
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          },
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "spells",
@@ -538,6 +578,20 @@
           "checkers": [
             "mechanics-phb-divine"
           ]
+        },
+        {
+          "path": "/conditions/1",
+          "value": "Wounds healed by this spell are permanent only insofar as the creature sustains no further damage.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/conditions/2",
+          "value": "Wounds caused by the reverse, Cause Light Wounds, heal or can be cured just as any normal injury.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/exceptions/0",
@@ -1071,11 +1125,15 @@
         },
         {
           "path": "/fields/Material",
-          "value": "Holy water circle, or burning incense; reverse uses blood or smoldering dung",
-          "status": "source-checked",
+          "value": "3′-diameter circle on floor or ground: holy water for protection from evil, blood for protection from good; alternatively, in the air using burning incense or smoldering dung with respect to evil/good.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
-            "mechanics-phb-divine"
+            "mechanics-phb-divine",
+            "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction"
+          ],
+          "changePaths": [
+            "/fields/Material"
           ]
         },
         {
@@ -1089,16 +1147,20 @@
         },
         {
           "path": "/effect/1",
-          "value": "A 1-foot barrier prevents bodily contact by the enchanted, conjured and summoned creatures described in the source.",
-          "status": "source-checked",
+          "value": "A ward one foot from the recipient prevents bodily contact by enchanted or conjured beings, including aerial servants, demons, devils, djinn, efreet, elementals, imps, invisible stalkers, night hags, quasits, salamanders, water weirds, wind walkers and xorn; summoned animals or monsters are similarly kept away.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
-            "mechanics-phb-divine"
+            "mechanics-phb-divine",
+            "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction"
+          ],
+          "changePaths": [
+            "/effect/1"
           ]
         },
         {
-          "path": "/conditions",
-          "value": [],
+          "path": "/conditions/0",
+          "value": "The 3′ material circle is distinct from the ward’s one-foot distance from the recipient.",
           "status": "editorial-reviewed",
           "inspected": true,
           "checkers": []
@@ -1125,10 +1187,21 @@
           "page": 40,
           "pdfPage": 41,
           "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "PHB",
+          "page": 44,
+          "pdfPage": 45,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
         }
       ],
       "reviewers": [
-        "mechanics-phb-divine"
+        "mechanics-phb-divine",
+        "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction"
       ],
       "unresolvedNotes": [
         {
@@ -1136,7 +1209,42 @@
           "note": "Review scope covers the meaning of existing listed values, not completeness of all source details or external citations."
         }
       ],
-      "proposedChanges": []
+      "proposedChanges": [
+        {
+          "checker": "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction",
+          "path": "/fields/Material",
+          "oldValue": "Holy water circle, or burning incense; reverse uses blood or smoldering dung",
+          "newValue": "3′-diameter circle on floor or ground: holy water for protection from evil, blood for protection from good; alternatively, in the air using burning incense or smoldering dung with respect to evil/good.",
+          "reason": "Exact seven-leaf correction independently accepted against supplied PHB pixels; no sibling, owner-wide or excerpt grade.",
+          "book": "PHB",
+          "pages": [
+            44
+          ],
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          },
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction",
+          "path": "/effect/1",
+          "oldValue": "A 1-foot barrier prevents bodily contact by the enchanted, conjured and summoned creatures described in the source.",
+          "newValue": "A ward one foot from the recipient prevents bodily contact by enchanted or conjured beings, including aerial servants, demons, devils, djinn, efreet, elementals, imps, invisible stalkers, night hags, quasits, salamanders, water weirds, wind walkers and xorn; summoned animals or monsters are similarly kept away.",
+          "reason": "Exact seven-leaf correction independently accepted against supplied PHB pixels; no sibling, owner-wide or excerpt grade.",
+          "book": "PHB",
+          "pages": [
+            44
+          ],
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          },
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "spells",
@@ -1630,6 +1738,13 @@
           "checkers": [
             "mechanics-phb-divine"
           ]
+        },
+        {
+          "path": "/effect/1",
+          "value": "If the attacker makes its saving throw, the protected creature is subject to the normal attack process, including the weapon hit roll, saving throws and damage.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/conditions/0",
@@ -3263,12 +3378,23 @@
         },
         {
           "path": "/conditions/0",
-          "value": "Ends when concentration stops. If the cleric is behind an opponent, its attacks gain the rear-attack benefits described in the source.",
-          "status": "source-checked",
+          "value": "The spell ends when the cleric ceases concentrating.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
-            "mechanics-phb-divine"
+            "mechanics-phb-divine",
+            "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction"
+          ],
+          "changePaths": [
+            "/conditions/0"
           ]
+        },
+        {
+          "path": "/conditions/1",
+          "value": "If the cleric is behind an opponent, the force can strike from that position, gaining all bonuses for the attack and negating defensive protections such as shield and Dexterity.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/exceptions",
@@ -3290,10 +3416,21 @@
           "page": 40,
           "pdfPage": 41,
           "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "PHB",
+          "page": 46,
+          "pdfPage": 47,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
         }
       ],
       "reviewers": [
-        "mechanics-phb-divine"
+        "mechanics-phb-divine",
+        "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction"
       ],
       "unresolvedNotes": [
         {
@@ -3301,7 +3438,25 @@
           "note": "Existing assertions only; source completeness and omitted rules not exhaustively checked."
         }
       ],
-      "proposedChanges": []
+      "proposedChanges": [
+        {
+          "checker": "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction",
+          "path": "/conditions/0",
+          "oldValue": "Ends when concentration stops. If the cleric is behind an opponent, its attacks gain the rear-attack benefits described in the source.",
+          "newValue": "The spell ends when the cleric ceases concentrating.",
+          "reason": "Exact seven-leaf correction independently accepted against supplied PHB pixels; no sibling, owner-wide or excerpt grade.",
+          "book": "PHB",
+          "pages": [
+            46
+          ],
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          },
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "spells",
@@ -3417,6 +3572,13 @@
           "checkers": [
             "mechanics-phb-divine"
           ]
+        },
+        {
+          "path": "/conditions/1",
+          "value": "Orders may direct the skeletons or zombies to follow, or to remain in an area and attack any creature—or a specified type of creature—that enters.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/exceptions",
@@ -4902,6 +5064,13 @@
           ]
         },
         {
+          "path": "/fields/Range",
+          "value": "1",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
           "path": "/effect/0",
           "value": "Asks questions of a dead creature, answered according to what it knew in life.",
           "status": "source-checked",
@@ -4909,6 +5078,48 @@
           "checkers": [
             "mechanics-phb-divine"
           ]
+        },
+        {
+          "path": "/effect/1",
+          "value": "Level up to 7th | maximum time dead: 1 week | time questioned: 1 round | questions: 2",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/effect/2",
+          "value": "Level 7th—8th | maximum time dead: 1 month | time questioned: 3 rounds | questions: 3",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/effect/3",
+          "value": "Level 9th—12th | maximum time dead: 1 year | time questioned: 1 turn | questions: 4",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/effect/4",
+          "value": "Level 13th—15th | maximum time dead: 10 years | time questioned: 2 turns | questions: 5",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/effect/5",
+          "value": "Level 16th—20th | maximum time dead: 100 years | time questioned: 3 turns | questions: 6",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/effect/6",
+          "value": "Level 21st and up | maximum time dead: 1,000 years | time questioned: 6 turns | questions: 7",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/conditions/0",
@@ -5508,6 +5719,13 @@
           ]
         },
         {
+          "path": "/fields/Range",
+          "value": "1",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
           "path": "/effect/0",
           "value": "Attempts to end outside possession or control, including magic jar, demonic possession, curses or charm; can affect an enchanted object.",
           "status": "source-checked",
@@ -5533,6 +5751,13 @@
           "checkers": [
             "mechanics-phb-divine"
           ]
+        },
+        {
+          "path": "/conditions/2",
+          "value": "For each level of difference between the cleric and the possessor or possessing magic, subtract 1 percentage point when the cleric is lower; add 1 percentage point cumulatively when the cleric is higher. The source gives a 1%–100% base chance; the referee may set the base according to circumstances.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/exceptions/0",
@@ -7924,12 +8149,23 @@
         },
         {
           "path": "/conditions/1",
-          "value": "Retrieval normally gains 4 free surprise rounds; a target able to detect invisibility uses the source’s surprise roll. A successful hit grabs the target, followed by a strength comparison.",
-          "status": "source-checked",
+          "value": "When sent on a mission, the servant attacks by complete surprise and gains 4 free melee rounds unless the creature involved can detect invisible objects; then roll 1d6: 1 = 1 free round, 2 = 2, 3 = 3, 4 = 4, and 5 or 6 = 0 (the opponent is not surprised). Each round, the servant rolls to hit; a hit means it grabbed the assigned object or creature. If a creature is involved, compare strength; if it has no strength rating, roll the appropriate number and type of hit dice for the servant and creature. The higher total is the stronger.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
-            "mechanics-phb-divine"
+            "mechanics-phb-divine",
+            "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction"
+          ],
+          "changePaths": [
+            "/conditions/1"
           ]
+        },
+        {
+          "path": "/conditions/2",
+          "value": "The Monster Manual (p. 6) says the aerial servant can carry weights in excess of 10,000 gold pieces; this is a weight capacity, not a coin allowance.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/exceptions/0",
@@ -7959,10 +8195,31 @@
           "page": 40,
           "pdfPage": 41,
           "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "PHB",
+          "page": 50,
+          "pdfPage": 51,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
+        },
+        {
+          "book": "PHB",
+          "page": 51,
+          "pdfPage": 52,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
         }
       ],
       "reviewers": [
-        "mechanics-phb-divine"
+        "mechanics-phb-divine",
+        "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction"
       ],
       "unresolvedNotes": [
         {
@@ -7970,7 +8227,26 @@
           "note": "Existing assertions only; source completeness and omitted rules not exhaustively checked."
         }
       ],
-      "proposedChanges": []
+      "proposedChanges": [
+        {
+          "checker": "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction",
+          "path": "/conditions/1",
+          "oldValue": "Retrieval normally gains 4 free surprise rounds; a target able to detect invisibility uses the source’s surprise roll. A successful hit grabs the target, followed by a strength comparison.",
+          "newValue": "When sent on a mission, the servant attacks by complete surprise and gains 4 free melee rounds unless the creature involved can detect invisible objects; then roll 1d6: 1 = 1 free round, 2 = 2, 3 = 3, 4 = 4, and 5 or 6 = 0 (the opponent is not surprised). Each round, the servant rolls to hit; a hit means it grabbed the assigned object or creature. If a creature is involved, compare strength; if it has no strength rating, roll the appropriate number and type of hit dice for the servant and creature. The higher total is the stronger.",
+          "reason": "Exact seven-leaf correction independently accepted against supplied PHB pixels; no sibling, owner-wide or excerpt grade.",
+          "book": "PHB",
+          "pages": [
+            50,
+            51
+          ],
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          },
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "spells",
@@ -8059,21 +8335,36 @@
         },
         {
           "path": "/conditions/0",
-          "value": "Movement, attack frequency, damage, armor class and durability depend on shape, material and mass; the referee decides these values.",
-          "status": "source-checked",
+          "value": "Movement depends on means of propulsion and weight. Examples: a large stone pedestal rocks forward 1″ per round, a stone statue moves 4″ per round, a wooden statue 8″ per round, and a light ivory stool 12″ per round; slithering is about 1″–2″ per round and rolling 3″–6″ per round.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
-            "mechanics-phb-divine"
+            "mechanics-phb-divine",
+            "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction"
+          ],
+          "changePaths": [
+            "/conditions/0"
           ]
         },
         {
           "path": "/conditions/1",
-          "value": "Flexible objects can obstruct, trip, bind or smother; harder objects can strike or crush.",
-          "status": "source-checked",
+          "value": "Light, supple objects can only obscure vision, obstruct movement, bind, trip or smother. Light, hard objects can strike for 1–2 hit points or possibly obstruct and trip as light, supple objects; hard medium-weight objects can crush or strike for 2–8 hit points, and larger/heavier objects for 3–12, 4–16 or 5–20 hit points.",
+          "status": "corrected-and-checked",
           "inspected": true,
           "checkers": [
-            "mechanics-phb-divine"
+            "mechanics-phb-divine",
+            "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction"
+          ],
+          "changePaths": [
+            "/conditions/1"
           ]
+        },
+        {
+          "path": "/conditions/2",
+          "value": "Attack frequency depends on locomotion, appendages and method of attack, ranging from once every five melee rounds to once per melee round. Armor class depends on material and movement ability with regard to hitting. Damage suffered by the animated object depends on the weapon and material struck: sharp cutting weapons work well against fabric, leather or wood, while heavy smashing or crushing weapons work well against wood, stone or metal. The referee determines the object-specific factors and how much damage it can sustain before destruction.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/exceptions",
@@ -8095,10 +8386,21 @@
           "page": 40,
           "pdfPage": 41,
           "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "PHB",
+          "page": 51,
+          "pdfPage": 52,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
         }
       ],
       "reviewers": [
-        "mechanics-phb-divine"
+        "mechanics-phb-divine",
+        "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction"
       ],
       "unresolvedNotes": [
         {
@@ -8106,7 +8408,42 @@
           "note": "Existing assertions only; source completeness and omitted rules not exhaustively checked."
         }
       ],
-      "proposedChanges": []
+      "proposedChanges": [
+        {
+          "checker": "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction",
+          "path": "/conditions/0",
+          "oldValue": "Movement, attack frequency, damage, armor class and durability depend on shape, material and mass; the referee decides these values.",
+          "newValue": "Movement depends on means of propulsion and weight. Examples: a large stone pedestal rocks forward 1″ per round, a stone statue moves 4″ per round, a wooden statue 8″ per round, and a light ivory stool 12″ per round; slithering is about 1″–2″ per round and rolling 3″–6″ per round.",
+          "reason": "Exact seven-leaf correction independently accepted against supplied PHB pixels; no sibling, owner-wide or excerpt grade.",
+          "book": "PHB",
+          "pages": [
+            51
+          ],
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          },
+          "state": "corrected-and-checked"
+        },
+        {
+          "checker": "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction",
+          "path": "/conditions/1",
+          "oldValue": "Flexible objects can obstruct, trip, bind or smother; harder objects can strike or crush.",
+          "newValue": "Light, supple objects can only obscure vision, obstruct movement, bind, trip or smother. Light, hard objects can strike for 1–2 hit points or possibly obstruct and trip as light, supple objects; hard medium-weight objects can crush or strike for 2–8 hit points, and larger/heavier objects for 3–12, 4–16 or 5–20 hit points.",
+          "reason": "Exact seven-leaf correction independently accepted against supplied PHB pixels; no sibling, owner-wide or excerpt grade.",
+          "book": "PHB",
+          "pages": [
+            51
+          ],
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          },
+          "state": "corrected-and-checked"
+        }
+      ]
     },
     {
       "collection": "spells",
@@ -136139,6 +136476,58 @@
       "proposedChanges": []
     },
     {
+      "collection": "rules",
+      "id": "phb-druid-mistletoe-spell-components",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "Material-component quality changes druid spell effectiveness; druidic spells requiring a material component assume mistletoe gathered by the source method.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/0",
+          "value": "Mistletoe is the druids’ religious symbol; holly is of lesser importance, and oak leaves have some magical power. Druidic spells with a material component assume mistletoe gathered as described below.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/1",
+          "value": "Greater mistletoe is properly harvested by the druid: on Midsummer’s Eve, locate it, cut it with a gold or silver sickle, and catch it in a bowl before it touches the ground.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/2",
+          "value": "Lesser mistletoe was not harvested on the eve of Midsummer, or was taken in an unprescribed way such as picking it by hand.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/3",
+          "value": "Borrowed mistletoe is mistletoe not personally harvested by the druid.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/4",
+          "value": "Holly and oak leaves must be gathered by the druid, but may be picked or gathered in any manner.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
       "collection": "classes",
       "id": "cleric",
       "fields": [
@@ -137532,6 +137921,20 @@
           "checkers": [
             "mechanics-illusionist-classes"
           ]
+        },
+        {
+          "path": "/guidance/4",
+          "value": "PHB p. 19, Table II: any armor or shield; club, flail, hammer, mace, or staff; oil is allowed. Poison is barred to non-evil clerics; an evil cleric needs referee permission. The starred weapon note includes magical weapons unless the item itself bars the class.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/5",
+          "value": "PHB p. 20: cleric spells must be spoken or read aloud, and clerics cannot use edged or pointed weapons.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/xpContinuation/afterLevel",
@@ -138976,6 +139379,27 @@
           "checkers": [
             "mechanics-illusionist-classes"
           ]
+        },
+        {
+          "path": "/guidance/4",
+          "value": "PHB p. 19, Table II: leather armor, wooden shield; club, dagger, dart, hammer, scimitar, sling, spear, or staff; oil is allowed. The poison ? is referee-dependent. The starred weapon note includes magical weapons unless the item itself bars the class.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/5",
+          "value": "PHB p. 21: druids cannot turn or control undead, demons, or devils. At 7th level a druid can change form up to three times per day, once per creature type (reptile, bird, or mammal); the assumed creature retains the druid’s mind. Forms range from a bullfrog, bluejay, or bat to a large snake, eagle, or black bear about twice the druid’s weight. Each change heals 10–60% of damage sustained before changing form.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/6",
+          "value": "PHB pp. 21, 34: druids have a separate secret tongue, in addition to the common, alignment, and other languages they know.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/levelLimit/level",
@@ -140646,6 +141070,20 @@
           "checkers": [
             "mechanics-illusionist-classes"
           ]
+        },
+        {
+          "path": "/guidance/4",
+          "value": "PHB p. 19, Table II: any armor, shield, or weapon; oil is allowed and poison is referee-dependent. The any*** row restricts characters under 5 ft. from longbows or weapons over 12 ft., and characters under 100 lb. from heavy crossbows or pole arms over 200 gp weight (including two-handed swords).",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/5",
+          "value": "PHB p. 22: Strength above 15 grants a 10% bonus to experience awarded. The fighter may be of any alignment.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/xpContinuation/afterLevel",
@@ -142790,6 +143228,20 @@
           "checkers": [
             "mechanics-illusionist-classes"
           ]
+        },
+        {
+          "path": "/guidance/4",
+          "value": "PHB p. 19, Table II: any armor, shield, or weapon; oil is allowed; poison is never allowed. The any*** row restricts characters under 5 ft. from longbows or weapons over 12 ft., and characters under 100 lb. from heavy crossbows or pole arms over 200 gp weight (including two-handed swords).",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/5",
+          "value": "PHB pp. 22, 24: a paladin may retain at most 10 magic items (1 suit of armor, 1 shield, 4 weapons, 4 other items); a magic bow and magic arrows together count as one weapon. The paladin retains only enough wealth for a modest lifestyle, henchmen/servants, and a small castle; gives away excess and tithes 10% of all income to a lawful-good charitable religious institution, and attracts no men-at-arms.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/xpContinuation/afterLevel",
@@ -145470,6 +145922,27 @@
           "checkers": [
             "mechanics-illusionist-classes"
           ]
+        },
+        {
+          "path": "/guidance/4",
+          "value": "PHB p. 19, Table II: any armor, shield, or weapon; oil is allowed and poison is referee-dependent. The any*** row restricts characters under 5 ft. from longbows or weapons over 12 ft., and characters under 100 lb. from heavy crossbows or pole arms over 200 gp weight (including two-handed swords).",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/5",
+          "value": "PHB p. 24: underground tracking requires observing the creature within 3 turns and starting at the place observed; outdoors the base chance is 90%, modified by party size, elapsed time, and precipitation. Use the separate listed action chances underground.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/6",
+          "value": "PHB pp. 24–25: a ranger adds one point of melee damage per experience level against listed giant-class humanoids, surprises opponents 50% of the time, and is surprised 16 2/3% of the time. No more than three rangers may operate together; level-10 followers are 2–24 and cannot be replaced.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/xpContinuation/afterLevel",
@@ -148750,6 +149223,20 @@
           ]
         },
         {
+          "path": "/guidance/4",
+          "value": "PHB p. 19, Table II: no armor or shield; dagger, dart, or staff; oil is allowed and poison is referee-dependent. The starred weapon note includes magical weapons unless the item itself bars the class.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/5",
+          "value": "PHB p. 25: a cast spell must be regained by consulting its proper spellbook before it can be cast again; all spells must be spoken or read aloud. Spellbooks must be maintained as new spells become usable.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
           "path": "/xpContinuation/afterLevel",
           "value": 18,
           "status": "source-checked",
@@ -150263,6 +150750,20 @@
           "checkers": [
             "mechanics-illusionist-classes"
           ]
+        },
+        {
+          "path": "/guidance/4",
+          "value": "PHB p. 19, Table II: no armor or shield; dagger, dart, or staff; oil is allowed and poison is referee-dependent. The starred weapon note includes magical weapons unless the item itself bars the class.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/5",
+          "value": "PHB p. 26: use the Illusionist-specific magic-item permissions; the listed magic-user scrolls are usable only when they contain spells the Illusionist can use.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/xpContinuation/afterLevel",
@@ -151951,6 +152452,27 @@
           "checkers": [
             "mechanics-illusionist-classes"
           ]
+        },
+        {
+          "path": "/guidance/4",
+          "value": "PHB p. 19, Table II: leather armor, no shield; club, dagger, dart, sling, and short/broad/long sword (not bastard or two-handed); oil is allowed and poison is referee-dependent. Apply the p. 19 weapon-type note.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/5",
+          "value": "PHB p. 28: a percentile result equal to or below the adjusted chance succeeds. Each lock gets one attempt until the thief gains a level; locating and removing a trap are separate rolls with one attempt per thief; listening takes a full minute; a failed language can be retried after gaining a level.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/6",
+          "value": "PHB pp. 27, 34: all thieves know Thieves’ Cant in addition to other languages they may learn through race or Intelligence.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/xpContinuation/afterLevel",
@@ -153903,6 +154425,20 @@
           "checkers": [
             "mechanics-illusionist-classes"
           ]
+        },
+        {
+          "path": "/guidance/4",
+          "value": "PHB p. 19, Table II: leather armor, any shield or weapon; oil and poison are allowed. The any*** row restricts characters under 5 ft. from longbows or weapons over 12 ft., and characters under 100 lb. from heavy crossbows or pole arms over 200 gp weight (including two-handed swords).",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/5",
+          "value": "PHB p. 29: poison placement and timing must be specified for the referee to adjudicate, and a poisoned weapon may be noticed. The minimum-fee table is keyed by assassin level and victim-level bracket; important, popular, or noble victims may count above actual level. Fees are separate from XP awards.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/xpNote",
@@ -159667,6 +160203,27 @@
           "checkers": [
             "mechanics-illusionist-classes"
           ]
+        },
+        {
+          "path": "/guidance/4",
+          "value": "PHB p. 19, Table II: no armor or shield; bo sticks, club, crossbow, dagger, hand axe, javelin, jo stick, pole arm, spear, or staff; oil is not allowed and poison is referee-dependent. The starred weapon note includes magical weapons unless the item itself bars the class.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/5",
+          "value": "PHB p. 30: open-hand attacks can stun or kill. A stun requires a hit roll at least 5 above the minimum required and lasts 1–6 melee rounds. Killing is a separate percentile roll: the monk must first hit and stun, then roll equal to or below the opponent’s AC modified by the monk’s levels above 7; the source notes a negative chance at AC −1.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/6",
+          "value": "PHB p. 32: quivering palm is a separate ability, attempted only once per week; the monk must touch the intended victim within 3 melee rounds or the power is drained for one week. It has no effect on undead or creatures hit only by magical weapons; the victim cannot have more hit dice than the monk, and its hit points cannot exceed the monk’s by more than 200%. The death command must come within one day per monk level at use or the vibrations cease harmlessly. The general monk restriction is no Strength bonus to hit probability or damage.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/levelLimit/level",
@@ -282002,6 +282559,237 @@
           "page": 62,
           "pdfPage": 63,
           "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction",
+      "collection": "spells",
+      "id": "phb-cleric-bless",
+      "checkedPaths": [],
+      "checkedValues": {},
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 43,
+          "pdfPage": 44,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
+        }
+      ],
+      "unresolved": [],
+      "changes": [
+        {
+          "path": "/fields/Duration",
+          "oldValue": "6 rounds",
+          "newValue": "6 melee rounds",
+          "reason": "Exact seven-leaf correction independently accepted against supplied PHB pixels; no sibling, owner-wide or excerpt grade.",
+          "book": "PHB",
+          "pages": [
+            43
+          ],
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction",
+      "collection": "spells",
+      "id": "phb-cleric-protection-from-evil",
+      "checkedPaths": [],
+      "checkedValues": {},
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 44,
+          "pdfPage": 45,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
+        }
+      ],
+      "unresolved": [],
+      "changes": [
+        {
+          "path": "/fields/Material",
+          "oldValue": "Holy water circle, or burning incense; reverse uses blood or smoldering dung",
+          "newValue": "3′-diameter circle on floor or ground: holy water for protection from evil, blood for protection from good; alternatively, in the air using burning incense or smoldering dung with respect to evil/good.",
+          "reason": "Exact seven-leaf correction independently accepted against supplied PHB pixels; no sibling, owner-wide or excerpt grade.",
+          "book": "PHB",
+          "pages": [
+            44
+          ],
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
+        },
+        {
+          "path": "/effect/1",
+          "oldValue": "A 1-foot barrier prevents bodily contact by the enchanted, conjured and summoned creatures described in the source.",
+          "newValue": "A ward one foot from the recipient prevents bodily contact by enchanted or conjured beings, including aerial servants, demons, devils, djinn, efreet, elementals, imps, invisible stalkers, night hags, quasits, salamanders, water weirds, wind walkers and xorn; summoned animals or monsters are similarly kept away.",
+          "reason": "Exact seven-leaf correction independently accepted against supplied PHB pixels; no sibling, owner-wide or excerpt grade.",
+          "book": "PHB",
+          "pages": [
+            44
+          ],
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction",
+      "collection": "spells",
+      "id": "phb-cleric-spiritual-hammer",
+      "checkedPaths": [],
+      "checkedValues": {},
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 46,
+          "pdfPage": 47,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
+        }
+      ],
+      "unresolved": [],
+      "changes": [
+        {
+          "path": "/conditions/0",
+          "oldValue": "Ends when concentration stops. If the cleric is behind an opponent, its attacks gain the rear-attack benefits described in the source.",
+          "newValue": "The spell ends when the cleric ceases concentrating.",
+          "reason": "Exact seven-leaf correction independently accepted against supplied PHB pixels; no sibling, owner-wide or excerpt grade.",
+          "book": "PHB",
+          "pages": [
+            46
+          ],
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction",
+      "collection": "spells",
+      "id": "phb-cleric-aerial-servant",
+      "checkedPaths": [],
+      "checkedValues": {},
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 50,
+          "pdfPage": 51,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
+        },
+        {
+          "book": "PHB",
+          "page": 51,
+          "pdfPage": 52,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
+        }
+      ],
+      "unresolved": [],
+      "changes": [
+        {
+          "path": "/conditions/1",
+          "oldValue": "Retrieval normally gains 4 free surprise rounds; a target able to detect invisibility uses the source’s surprise roll. A successful hit grabs the target, followed by a strength comparison.",
+          "newValue": "When sent on a mission, the servant attacks by complete surprise and gains 4 free melee rounds unless the creature involved can detect invisible objects; then roll 1d6: 1 = 1 free round, 2 = 2, 3 = 3, 4 = 4, and 5 or 6 = 0 (the opponent is not surprised). Each round, the servant rolls to hit; a hit means it grabbed the assigned object or creature. If a creature is involved, compare strength; if it has no strength rating, roll the appropriate number and type of hit dice for the servant and creature. The higher total is the stronger.",
+          "reason": "Exact seven-leaf correction independently accepted against supplied PHB pixels; no sibling, owner-wide or excerpt grade.",
+          "book": "PHB",
+          "pages": [
+            50,
+            51
+          ],
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
+        }
+      ]
+    },
+    {
+      "checker": "mechanics-source-audit-pass8-phb-spell-guidance-seven-leaf-correction",
+      "collection": "spells",
+      "id": "phb-cleric-animate-object",
+      "checkedPaths": [],
+      "checkedValues": {},
+      "reviewedPaths": [],
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 51,
+          "pdfPage": 52,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
+        }
+      ],
+      "unresolved": [],
+      "changes": [
+        {
+          "path": "/conditions/0",
+          "oldValue": "Movement, attack frequency, damage, armor class and durability depend on shape, material and mass; the referee decides these values.",
+          "newValue": "Movement depends on means of propulsion and weight. Examples: a large stone pedestal rocks forward 1″ per round, a stone statue moves 4″ per round, a wooden statue 8″ per round, and a light ivory stool 12″ per round; slithering is about 1″–2″ per round and rolling 3″–6″ per round.",
+          "reason": "Exact seven-leaf correction independently accepted against supplied PHB pixels; no sibling, owner-wide or excerpt grade.",
+          "book": "PHB",
+          "pages": [
+            51
+          ],
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
+        },
+        {
+          "path": "/conditions/1",
+          "oldValue": "Flexible objects can obstruct, trip, bind or smother; harder objects can strike or crush.",
+          "newValue": "Light, supple objects can only obscure vision, obstruct movement, bind, trip or smother. Light, hard objects can strike for 1–2 hit points or possibly obstruct and trip as light, supple objects; hard medium-weight objects can crush or strike for 2–8 hit points, and larger/heavier objects for 3–12, 4–16 or 5–20 hit points.",
+          "reason": "Exact seven-leaf correction independently accepted against supplied PHB pixels; no sibling, owner-wide or excerpt grade.",
+          "book": "PHB",
+          "pages": [
+            51
+          ],
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+          "independentReview": {
+            "path": "research/source-audit-pass8-phb-spell-guidance-seven-leaf-independent-review.json",
+            "sha256": "2e26c9d4fb091a75a45caf92d0ff516f2f04cecb68026f3aa9b021eca752ad1d"
+          }
         }
       ]
     }
