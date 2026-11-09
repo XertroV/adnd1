@@ -1,13 +1,15 @@
 import test from 'node:test';
+import {readBeforePass8CitationTargetCropFile,readBeforePass8PhbSourceFile as readBefore} from './helpers/pass8-citation-target-crop-history.mjs';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
-import {decodePass8PhbSourceHistory,projectPass8PhbSourceJson as project,projectPass8PhbSourceBytes as projectBytes,projectPass8XpContinuationJson as xp,projectPass8CharacterReferenceJson as character,projectPass8XpContinuationBytes as xpBytes,readBeforePass8PhbSourceFile as readBefore} from './helpers/pass8-phb-source-history.mjs';
+import {decodePass8PhbSourceHistory,projectPass8PhbSourceJson as project,projectPass8PhbSourceBytes as projectBytes,projectPass8XpContinuationJson as xp,projectPass8CharacterReferenceJson as character,projectPass8XpContinuationBytes as xpBytes} from './helpers/pass8-phb-source-history.mjs';
 import {projectPass8XpContinuationJson as originalXp} from './helpers/pass8-xp-continuation-history.mjs';
 const root=new URL('../',import.meta.url),sha=b=>createHash('sha256').update(b).digest('hex');
-const read=p=>readFileSync(new URL(p,root));
+// Exercise the frozen PHB stage at its exact4aa predecessor to this citation batch.
+const read=p=>readBeforePass8CitationTargetCropFile(new URL(p,root));
 const zipped=read('tests/fixtures/pass8-phb-source-history-v2.json.gz'),contract=decodePass8PhbSourceHistory(zipped);
 const git=(ref,p)=>execFileSync('git',['show',`${ref}:${p}`],{cwd:root,maxBuffer:100*1024*1024});
 
@@ -41,6 +43,7 @@ test('PHB-only classes/mechanics and overlapping data reject unrelated, mixed an
     const bad=structuredClone(after);mutate(bad);assert.throws(()=>project(path,bad));assert.throws(()=>xp(path,bad));assert.throws(()=>character(path,bad));
   }
   assert.throws(()=>originalXp(path,after),'the original closed XP stage still rejects the PHB successor');
+  assert.throws(()=>project(path,JSON.parse(readFileSync(new URL(path,root)))),'the unchanged PHB stage rejects the real citation successor');
 });
 test('hidden values, accessors, proxies, cycles and sparse arrays cannot disappear behind a fingerprint',()=>{
   for(const mutate of [v=>v.hidden=undefined,v=>v.hidden=NaN,v=>v.hidden=-0,v=>v[Symbol('hidden')]=true,v=>Object.defineProperty(v,'hidden',{value:1}),v=>Object.defineProperty(v,'hidden',{get(){throw Error('must not execute');},enumerable:true}),v=>delete v.classes[0],v=>Object.setPrototypeOf(v.classes[0],{hidden:true}),v=>v.self=v,v=>v.classes[0]=new Proxy(v.classes[0],{})]){

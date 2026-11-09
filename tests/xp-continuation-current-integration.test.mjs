@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
-import {projectPass8PhbSourceBytes,projectPass8PhbSourceJson} from './helpers/pass8-phb-source-history.mjs';
+import {projectPass8PhbSourceBytes,projectPass8PhbSourceJson} from './helpers/pass8-citation-target-crop-history.mjs';
 import {assertReviewedClassXpContinuationTarget} from '../tools/class-xp-continuation-target-review.mjs';
 
 // Native PHB assertions run first. The four retained XP application comparisons

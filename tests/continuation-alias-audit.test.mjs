@@ -1,5 +1,6 @@
 import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
 import test from 'node:test';
+import {readBeforePass8CitationTargetCropFile} from './helpers/pass8-citation-target-crop-history.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync as readRawFileSync} from 'node:fs';
 
@@ -73,7 +74,7 @@ test('the exact legacy alias keeps its source, focus and relationship and opens 
  assert.equal(current.denominators.referencedCatalogs,1017+addedDmg74MatrixCatalogs.length+1,'the three DMG matrices and exact Druid owner each contribute one scoped catalog');
  assert.equal(current.denominators.declaredGroups,liveManifest.groups.length);
  assert.equal(current.denominators.declaredParts,liveManifest.groups.reduce((count,group)=>count+(group.segments?.length||0),0));
- assert.equal(current.denominators.exactAliasMatches,696);
+ assert.equal(current.denominators.exactAliasMatches,698);
  assert.equal(current.denominators.missingAliasLinks,0);
  assert.equal(current.missingAliases.length,0);
  assert.equal(current.structuralCheck.valid,true);
@@ -87,4 +88,18 @@ test('an owner change cannot inherit alias coverage from the other collection',(
  assert.equal(report.invalidGroups.length,1);
  assert.equal(report.structuralCheck.valid,false);
  assert.equal(report.missingAliases.length,1);
+});
+
+// This exact whole-state replay preserves the published696 census separately
+// from the two new reciprocal Tools list aliases in native current data.
+test('all696 published alias objects remain exact beside two declared Tools aliases',()=>{
+ const readPublished=p=>JSON.parse(readBeforePass8CitationTargetCropFile(new URL('../'+p,import.meta.url))),publishedData=readPublished('dist/data.json'),publishedManifest=readPublished('research/citation-continuations.json'),publishedCatalogs=new Map();
+ for(const collection of ['rules','spells','equipment','matrices','classes','progressionExplainer'])for(const item of Array.isArray(publishedData[collection])?publishedData[collection]:publishedData[collection]?[publishedData[collection]]:[])for(const key of ['sourceExcerpts','scanVerification']){const path=item[key]?.catalog;if(path&&!publishedCatalogs.has(path))publishedCatalogs.set(path,readPublished('dist/'+path));}
+ const published=buildContinuationAliasReport({data:publishedData,manifest:publishedManifest,catalogs:publishedCatalogs}),current=loadContinuationAliasReport();
+ assert.equal(published.denominators.exactAliasMatches,696);assert.equal(current.denominators.exactAliasMatches,698);
+ const old=new Set(published.matches.map(row=>JSON.stringify(row))),newRows=current.matches.filter(row=>!old.has(JSON.stringify(row)));
+ assert.deepEqual(current.matches.filter(row=>old.has(JSON.stringify(row))),published.matches,'all696 whole old alias objects and order remain exact');
+ const shared={collection:'equipment',itemId:'phb-thieves-tools',catalog:'scans/verified/equipment-phb-thieves-tools.json',role:'continuation',sourceSha256:'7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669',imageSha256:'90b02a4c3e47a923fbc5efe15895d55c8f286d73684b3339ce6905d6e7802690',sourceCropBounds:[0.52,0.04,0.46,0.055],focusSha256:'c88f7947c373297102cef0b0cc331111b64417eb4f10b932f102d43af57a2244',status:'alias-participates-in-declared-group'};
+ assert.deepEqual(newRows,[{groupId:'batch5-cont-dmg-p225-phb-thieves-tools',...shared,segmentRegionId:'dmg-225-90b02a4c3e47a923',aliasRegionId:'pass8-dmg225-thieves-tools-exclusion-list-item'},{groupId:'pass8-dmg225-thieves-tools-exclusion-context',...shared,segmentRegionId:'pass8-dmg225-thieves-tools-exclusion-list-item',aliasRegionId:'dmg-225-90b02a4c3e47a923'}]);
+ assert.equal(current.denominators.missingAliasLinks,0);assert.equal(current.structuralCheck.sourceSemanticsCertified,false);
 });

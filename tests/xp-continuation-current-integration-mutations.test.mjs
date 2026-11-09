@@ -1,5 +1,5 @@
 import test from 'node:test';
-import {projectPass8PhbSourceJson,projectPass8PhbSourceBytes} from './helpers/pass8-phb-source-history.mjs';
+import {projectPass8PhbSourceJson,projectPass8PhbSourceBytes} from './helpers/pass8-citation-target-crop-history.mjs';
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync, copyFileSync} from 'node:fs';
@@ -21,7 +21,7 @@ const baselineData=JSON.parse(readFileSync(join(project,'dist/data.json'),'utf8'
 const historicalBaselineData=projectPass8PhbSourceJson('dist/data.json',baselineData);
 const guardPath='tools/class-xp-continuation-target-review.mjs';
 
-const historicalCompanions=new Map(['citation-overrides.json','research/citation-continuations.json','dist/source-continuations.json','research/source-visual-reviews.json','research/price-source-inventory.json'].map(path=>[path,projectPass8PhbSourceBytes(path,readFileSync(join(project,path)))]));
+const historicalCompanions=new Map(['citation-overrides.json','research/citation-continuations.json','dist/source-continuations.json','research/source-visual-reviews.json','research/price-source-inventory.json','research/field-evidence-bindings.json'].map(path=>[path,projectPass8PhbSourceBytes(path,readFileSync(join(project,path)))]));
 function sandbox(testBytes,data,{historical=false}={}){
   const root=mkdtempSync(join(tmpdir(),'xp-continuation-integration-mutation-'));
   try{

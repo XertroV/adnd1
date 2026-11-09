@@ -21,7 +21,7 @@ test('actual old monetary loader rejects PHB input drift; current trusted succes
     const child=spawnSync(process.execPath,['tools/monetary-current-source-questions.mjs','--check'],{cwd:temp,encoding:'utf8'});
     assert.equal(child.status,1);assert.match(child.stderr,/stale input research\/price-source-inventory.json/);
   }finally{rmSync(temp,{recursive:true,force:true});}
-  const before=JSON.parse(fixture.registryBefore.utf8),after=JSON.parse(read(currentSourceQuestionRegistryPath));
+  const before=JSON.parse(fixture.registryBefore.utf8),after=JSON.parse(read('research/source-audit-pass8-phb-current-monetary-source-questions-v1.json'));
   const normalized=structuredClone(after);delete normalized.inputMigration;
   for(const key of ['canonical','monetaryIndex'])normalized.currentInputs[key]=before.currentInputs[key];
   assert.deepEqual(normalized,before,'all question/disposition/source evidence remains exact');

@@ -63,7 +63,9 @@ test('A46 before fixture retains the exact 29 empty-region DMG p.225 targets',()
     assert.equal(target.beforeBinding.sourceOwner.itemId,target.itemId);
   }
   assert.equal(hash(readFileSync(new URL('../equipment.json',import.meta.url))),beforeFixture.files['equipment.json'].sha256);
-  assert.equal(hash(readFileSync(new URL('../dist/data.json',import.meta.url))),beforeFixture.files['dist/data.json'].sha256,'distribution metadata was not globally regenerated');
+  const capturedData=execFileSync('git',['show',`${baselineCommit}:dist/data.json`],{maxBuffer:32*1024*1024});
+  assert.equal(hash(capturedData),beforeFixture.files['dist/data.json'].sha256,'the original unassembled A46 data remains exact in its captured Git stage');
+  assert.equal(hash(readFileSync(new URL('../dist/data.json',import.meta.url))),'cf6dd7ff912b91fd4525e1d48355e8c21e766e73f2118820e926a96b62f5216f','native current data is the complete controlled citation assembly');
 });
 
 test('four candidate catalogs are exact append-only edits; defaults and all historic region objects remain',()=>{
@@ -85,9 +87,13 @@ test('four candidate catalogs are exact append-only edits; defaults and all hist
   assert.equal(originalGroups.length,252);
   assert.equal(originalGroups.reduce((sum,group)=>sum+group.segments.length,0),494);
   assert.deepEqual(continuations.groups.slice(0,252),originalGroups,'old continuation groups or memberships changed');
-  assert.equal(continuations.groups.length,253);
-  assert.equal(continuations.groups.reduce((sum,group)=>sum+group.segments.length,0),496);
-  const group=continuations.groups.at(-1);
+  const phbGroups=JSON.parse(execFileSync('git',['show','4aa977788085f67a28a24d40965edf987bc7242b:research/citation-continuations.json'],{maxBuffer:32*1024*1024})).groups;
+  assert.equal(phbGroups.length,253);
+  assert.deepEqual(continuations.groups.slice(0,253),phbGroups,'the complete published PHB prefix remains exact');
+  assert.equal(continuations.groups.length,260);
+  assert.equal(continuations.groups.reduce((sum,group)=>sum+group.segments.length,0),510);
+  assert.deepEqual(continuations.groups.slice(254).map(group=>group.id),['pass8-demi-shadow-magic-phb-99','pass8-veil-phb-99-100','pass8-dust-ua-45-46','pass8-vocalize-ua-54-55','pass8-ultravision-magic-user-ua-57-58','pass8-ultravision-illusionist-ua-57-58']);
+  const group=continuations.groups[253];
   assert.equal(group.id,'pass8-dmg225-thieves-tools-exclusion-context');
   assert.equal(hashCanonical(group),'5ee81d2d555cacbb6400181daf1684fd9faa427869ea0e05fde97a9c0c377b13');
   assert.deepEqual(group.requiredRegionIds,['pass8-dmg225-thieves-tools-exclusion-lead-in','pass8-dmg225-thieves-tools-exclusion-list-item']);
@@ -120,7 +126,13 @@ test('all 29 exact owners and source pointers carry closed hash-bound location p
   }
   assert.equal(mapped.size,29);
   assert.deepEqual(sourceReviews.reviews.slice(0,visualReviewsBefore.reviews.length),visualReviewsBefore.reviews,'old component review history changed');
-  assert.equal(sourceReviews.reviews.length,visualReviewsBefore.reviews.length+8);
+  const phbReviews=JSON.parse(execFileSync('git',['show','4aa977788085f67a28a24d40965edf987bc7242b:research/source-visual-reviews.json'],{maxBuffer:32*1024*1024})).reviews;
+  assert.equal(phbReviews.length,1829);
+  assert.deepEqual(sourceReviews.reviews.slice(0,1829),phbReviews,'all released PHB review records remain exact');
+  assert.equal(sourceReviews.reviews.length,visualReviewsBefore.reviews.length+18);
+  assert.equal(sourceReviews.reviews.slice(1829,1837).length,8);
+  assert.ok(sourceReviews.reviews.slice(1829,1837).every(row=>row.collection==='equipment'&&['phb-bullseye-lantern','phb-silver-mirror','phb-iron-spike','phb-thieves-tools'].includes(row.itemId)));
+  assert.deepEqual(sourceReviews.reviews.slice(1837),read('research/source-audit-pass8-last-six-canonical-schema-successor-v1/proposed-eight-review-rows.json'),'eight independent crop rows remain separate from DMG location reviews');
   for(const itemId of ['phb-bullseye-lantern','phb-silver-mirror','phb-iron-spike','phb-thieves-tools']){
     const path=`scans/verified/equipment-${itemId}.json`,cat=catalog(path);
     for(const region of cat.regions.filter(region=>region.id.startsWith('pass8-dmg225-')||region.id==='batch5-dmg225-encumbrance-notes')){
