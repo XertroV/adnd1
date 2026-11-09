@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "bounded-continuation-integration-XP-metadata-stage-test-delta",
+  "recordedAtUtc": "2026-11-09T02:14:48.248848+00:00",
+  "status": "root-approved-two-line-test-only-repair-focused-checks-passed; exact-successor-full-checks-pending",
+  "previousCandidate": {
+    "commit": "fffacf19898c9e6da4256e7f528e7ad19790c0f0",
+    "tree": "5601a0125a3c439c8e1f82071d11a30485e52590",
+    "fullNode": {
+      "registered": 938,
+      "passed": 937,
+      "failed": 1,
+      "skipped": 0
+    },
+    "workflow": {
+      "total": 24,
+      "passed": 23,
+      "failed": 1
+    },
+    "preservedActualFailure": {
+      "path": "tests/fixtures/source-audit-pass8-continuation-frame-first-integration-failure.json.gz",
+      "sha256": "e56df343ee7912a789a881fd24640d6b02ef30cea9c9f4a71944849448bac0b6",
+      "sizeBytes": 107792
+    },
+    "generatedArtifactPreservation": {
+      "path": "/workspace/vault-audit-private/pass8/continuation-frame-integration-v1/retired-first-check/manifest.json",
+      "sha256": "5f82f0150d6991d4ec7f13fc0e6de32e87bd89361b49698fde19a94c89a0f324",
+      "sizeBytes": 10275
+    }
+  },
+  "cause": "The closed XP-stage test read the legitimate new continuation pointer as if it were still the exact older XP-stage pointer. Production continuation validation passed; the test needs the same exact historical metadata handling already used for three prior metadata successors.",
+  "rootApprovedScope": "Add only research/current-continuation-candidate-snapshot.json to the existing exact-A46 metadata set and change the comment from three to four. Keep the existing live-successor byte/object rejection loop and unchanged closed XP helper/contract. No general history fallback or production repair.",
+  "testDelta": {
+    "path": "tests/pass8-xp-continuation-history.test.mjs",
+    "before": {
+      "commit": "fffacf19898c9e6da4256e7f528e7ad19790c0f0",
+      "sha256": "0785fda83500b75c99143ec4183926d817bb95e7189a886df0286d916770267a",
+      "sizeBytes": 11606
+    },
+    "after": {
+      "path": "tests/pass8-xp-continuation-history.test.mjs",
+      "sha256": "8ec32e15584d7b12caa21cd281f06e7ac16a0478bd427e3edc8d9aa8cc3715d2",
+      "sizeBytes": 11661
+    },
+    "exactPatch": "diff --git a/tests/pass8-xp-continuation-history.test.mjs b/tests/pass8-xp-continuation-history.test.mjs\nindex 1cfdc91..c01b793 100644\n--- a/tests/pass8-xp-continuation-history.test.mjs\n+++ b/tests/pass8-xp-continuation-history.test.mjs\n@@ -17,10 +17,10 @@ import {\n const root = new URL('../', import.meta.url), sha = bytes => createHash('sha256').update(bytes).digest('hex');\n const liveBytes = path => readFileSync(new URL(path, root));\n const xpAppliedCommit = 'a46eddc41ac6f712d5ad1498195df6a49810aae1';\n-// These three derived metadata files have an independently reviewed successor.\n+// These four derived metadata files have an independently reviewed successor.\n // The closed XP stage still receives only its exact a46 bytes; no newer source,\n // catalog, data, grade, or arbitrary metadata state is projected into history.\n-const supersededMetadata = new Set(['research/current-source-raster-snapshot.json','research/gaps-limitations-next-task.json','dist/coverage-gaps.json']);\n+const supersededMetadata = new Set(['research/current-source-raster-snapshot.json','research/gaps-limitations-next-task.json','dist/coverage-gaps.json','research/current-continuation-candidate-snapshot.json']);\n const capturedMetadata = new Map();\n const bytes = path => {\n   if (!supersededMetadata.has(path)) return liveBytes(path);\n",
+    "historicalStage": {
+      "commit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+      "samePointerInV22Base": "236818f2026f61eb0cb696ffb0ea9ff166a491ff",
+      "pointerPath": "research/current-continuation-candidate-snapshot.json",
+      "rawSha256": "d2fbe16df5f766be8b1febec8d71bceea6aca98b7e95bc1ba082cd3e8c2b526f"
+    },
+    "liveSuccessorPointer": {
+      "path": "research/current-continuation-candidate-snapshot.json",
+      "sha256": "3e44b681a83ec13398faacb6e07b5f9f48b15877ae1ed77595312dc04a32094c",
+      "sizeBytes": 396
+    },
+    "retainedNegativeAssertions": [
+      "The real current pointer hash differs from the exact XP-stage hash.",
+      "The unchanged closed XP byte adapter rejects the real current pointer bytes.",
+      "The unchanged closed XP JSON adapter rejects the real current pointer object."
+    ],
+    "unchangedClosedHelper": {
+      "path": "tests/helpers/pass8-xp-continuation-history.mjs",
+      "sha256": "cc8a0ff5ad473026c71c6353b224903eabac8e960b4945df88e5da8191c4e9e7",
+      "sizeBytes": 9801
+    },
+    "unchangedClosedContract": {
+      "path": "tests/fixtures/pass8-xp-continuation-history-v1.json.gz",
+      "sha256": "80b01d52c5a80dc98f09a506555e224c1cbf1da94b83b082e9fa9a6260e9b83c",
+      "sizeBytes": 205394
+    }
+  },
+  "focusedValidation": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 node --test tests/pass8-xp-continuation-history.test.mjs",
+    "counts": {
+      "tests": 11,
+      "pass": 11,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "log": {
+      "path": "/workspace/vault-audit-private/pass8/continuation-frame-integration-v1/xp-history-test-delta-focused.log",
+      "sha256": "6d96c961fe49fe68aa75d5e22583d15f344dbeb5b2a5f649c25ced62a2344ae5",
+      "sizeBytes": 1351
+    }
+  },
+  "allNineteenRestoredReviewedPathsRemainExact": [
+    {
+      "path": "research/current-continuation-candidate-snapshot.json",
+      "sha256": "3e44b681a83ec13398faacb6e07b5f9f48b15877ae1ed77595312dc04a32094c",
+      "sizeBytes": 396
+    },
+    {
+      "path": "research/source-audit-pass8-continuation-frame-before-v1-full.json.gz",
+      "sha256": "dd357ee4331f3167ca47f66ffe8a4715a6fb69ef6171ccaa5b7597a6bd521b28",
+      "sizeBytes": 1641236
+    },
+    {
+      "path": "research/source-audit-pass8-continuation-frame-before-v1-preimage.json",
+      "sha256": "feb603f3e1c0a68df6ea05c12981dd7bf2788a3bc6d9470a32ff57fc396dda6c",
+      "sizeBytes": 6148
+    },
+    {
+      "path": "research/source-audit-pass8-continuation-frame-before-v1-summary.json",
+      "sha256": "03b0b0b8b8a13b21e63511442babb7c769ffdde399ce5934f38b4a8952273aa6",
+      "sizeBytes": 1205326
+    },
+    {
+      "path": "research/source-audit-pass8-continuation-frame-before-v1.md",
+      "sha256": "07ab68a4311ae96abb06aa81a620f430aaa4281e179b72865b1cb2c5f4da0681",
+      "sizeBytes": 78739
+    },
+    {
+      "path": "research/source-audit-pass8-continuation-frame-comparison-v1.json",
+      "sha256": "f58025fd9c7af43d339184a5ed1aa1de3ede34f8c6801fd04eaca40c06a09ac1",
+      "sizeBytes": 14375
+    },
+    {
+      "path": "research/source-audit-pass8-continuation-frame-current-v1-full.json.gz",
+      "sha256": "7a0b315bca8113eb0d84bc2b86d753853f23e09c05040d6d7ed7515679f26bdb",
+      "sizeBytes": 1738732
+    },
+    {
+      "path": "research/source-audit-pass8-continuation-frame-current-v1.json",
+      "sha256": "373ae6ac5b35a2b2a63578f99a1fc2eadd3d57a4b36914d72eecdad909ba8b6e",
+      "sizeBytes": 1206562
+    },
+    {
+      "path": "research/source-audit-pass8-continuation-frame-current-v1.md",
+      "sha256": "6fac4e6c7c0107d1f5f4e23f2528e415e64a094a87c9aff4ebce523e1d39a520",
+      "sizeBytes": 78740
+    },
+    {
+      "path": "research/source-audit-pass8-continuation-frame-independent-review-v1.json",
+      "sha256": "f453371a3b0c02e17d2eb0a790626ef5a383b8f85b81a832750ea9e8fc72276b",
+      "sizeBytes": 13649
+    },
+    {
+      "path": "research/source-audit-pass8-continuation-frame-negative-controls-v1.json",
+      "sha256": "8cb924b082e7f4db58a038abe863502f9c203158b0e76af4d96e8cd5cbbe6d08",
+      "sizeBytes": 91181
+    },
+    {
+      "path": "research/source-audit-pass8-continuation-frame-proposal-v1.md",
+      "sha256": "49c7df6e9bbfa1de805677953eea832003dbc9fdeda83f74ea3faf296a61376b",
+      "sizeBytes": 6380
+    },
+    {
+      "path": "research/source-audit-pass8-continuation-frame-verification-v1.json",
+      "sha256": "2a4bb835cc205197319362551c12c34098a8944daceb08c4d80ed6299902b854",
+      "sizeBytes": 5483
+    },
+    {
+      "path": "research/source-frame-consumer-inventory-continuation-v1.json",
+      "sha256": "d8bba9861d4ba38724651001acc7c3cab6f0c75ddb618c278418811f8304f638",
+      "sizeBytes": 82992
+    },
+    {
+      "path": "research/source-frame-guard-copy-preimage-v1.json",
+      "sha256": "15d2ac2f430b1dca1900cf031f131d1e9844a0ca6474961e1938f2f0dbb383ad",
+      "sizeBytes": 4991
+    },
+    {
+      "path": "tests/continuation-candidates.test.mjs",
+      "sha256": "11f02cca68f2d8d7febc5bb49e0ad4a21fb048b03a1201650bf453113c976025",
+      "sizeBytes": 18127
+    },
+    {
+      "path": "tests/current-continuation-snapshot.test.mjs",
+      "sha256": "99d6a3fa7b22b9a8b55dd0cb4a6a22d0cd7adde26f3329d93017b18efa2b547e",
+      "sizeBytes": 17142
+    },
+    {
+      "path": "tools/continuation-candidates-validate.mjs",
+      "sha256": "05080ccdc01ae1fb8c40f071161f0f6e9139f9113df62077a8b1a632bb49f484",
+      "sizeBytes": 40390
+    },
+    {
+      "path": "tools/continuation-candidates.py",
+      "sha256": "668b4d0efeacc23f6a3031a3564d36746d16795650b0196d958743c4856e7a99",
+      "sizeBytes": 90319
+    }
+  ],
+  "originalIntegrationPreflightPreserved": {
+    "path": "research/source-audit-pass8-continuation-frame-integration-preflight-v1.json",
+    "sha256": "5c8c608cb3ff4060e89a750a403fd669de0e425814b9bc05e6369c2d24981b00",
+    "sizeBytes": 14952
+  },
+  "sourceScope": {
+    "producerValidatorAndOriginalReviewedTestsChangedAfterFff": false,
+    "v1BeforeCurrentEvidenceRewritten": false,
+    "currentV22StatusRegisterCoverageChangedAfterFff": false,
+    "sourceDataCatalogImageValueGradeOrPhbChanges": 0,
+    "activeFrameGroups": 9,
+    "registeredOwnerJoins": 102,
+    "correctedLegacyWindows": 11,
+    "continuationPublished": false
+  },
+  "evidencePolicy": {
+    "preserveEntireOrdered1001Prefix": true,
+    "appendOnlyThisReceiptAndActualFailureFixture": true,
+    "expectedSealCount": 1003
+  },
+  "remainingRequiredChecks": [
+    "Root independently runs the exact changed XP test file.",
+    "Commit a coherent successor without amending the failed fff candidate.",
+    "Run the full Node suite and all24 actual workflow blocks fresh against that exact successor."
+  ],
+  "privacy": "The failure fixture and receipt contain metadata, code, manifests and logs only; source PDFs, full pages, pixels, supplemental JPEG and OCR remain private."
+}

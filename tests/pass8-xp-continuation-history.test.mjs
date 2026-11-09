@@ -17,10 +17,10 @@ import {
 const root = new URL('../', import.meta.url), sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const liveBytes = path => readFileSync(new URL(path, root));
 const xpAppliedCommit = 'a46eddc41ac6f712d5ad1498195df6a49810aae1';
-// These three derived metadata files have an independently reviewed successor.
+// These four derived metadata files have an independently reviewed successor.
 // The closed XP stage still receives only its exact a46 bytes; no newer source,
 // catalog, data, grade, or arbitrary metadata state is projected into history.
-const supersededMetadata = new Set(['research/current-source-raster-snapshot.json','research/gaps-limitations-next-task.json','dist/coverage-gaps.json']);
+const supersededMetadata = new Set(['research/current-source-raster-snapshot.json','research/gaps-limitations-next-task.json','dist/coverage-gaps.json','research/current-continuation-candidate-snapshot.json']);
 const capturedMetadata = new Map();
 const bytes = path => {
   if (!supersededMetadata.has(path)) return liveBytes(path);
