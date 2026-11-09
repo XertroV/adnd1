@@ -211,8 +211,15 @@ test('sealed historical CLI diagnostics are explicit and cannot satisfy current 
   } finally {
     rmSync(cliDir, {recursive: true, force: true});
   }
-  assert.throws(() => buildHistoricalSourceRasterCoverage({
+  const currentAsHistorical = buildHistoricalSourceRasterCoverage({
     snapshotPath: 'research/source-raster-boundary-current-a46-frame-guard-v2.json.gz',
+    livePath,
+  });
+  assert.equal(currentAsHistorical.runMode.status, 'historical-sealed-diagnostics-only');
+  assert.equal(currentAsHistorical.semanticPass, false);
+  assert.equal(currentAsHistorical.validation.valid, false);
+  assert.throws(() => buildHistoricalSourceRasterCoverage({
+    snapshotPath: 'tests/fixtures/source-frame-forged-history-snapshot-before.json.gz',
     livePath,
   }), /not byte-identical to a sealed repository artifact/);
 
