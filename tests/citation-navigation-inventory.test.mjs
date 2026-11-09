@@ -84,6 +84,25 @@ test('citation navigation HTML attributes have an explicit inventory',()=>{
  assert.throws(()=>auditSourceNavigationAttributes(`${app} <button data-source-unreviewed>`),/Unclassified citation navigation attribute/);
 });
 
+test('the actual weapon page/region failure and formerly invisible scan attributes remain narrowly classified',()=>{
+ const bytes=readFileSync(new URL('./fixtures/weapon-source-navigation-attributes-before-v1.json.gz',import.meta.url));
+ assert.equal(createHash('sha256').update(bytes).digest('hex'),'b6f7f60e13cebd24fdbf9fa207aa78961537b94aa57976c1f12ac3b0e808c8fb');
+ const fixture=JSON.parse(gunzipSync(bytes));
+ for(const item of [fixture.oldTool,fixture.actualApp])assert.equal(createHash('sha256').update(item.source).digest('hex'),item.sha256);
+ assert.equal(fixture.failure.exitCode,1);assert.match(fixture.failure.stderr,/data-source-page, data-source-region/);
+ const oldTool=fixture.oldTool.source,start=oldTool.indexOf('const sourceAttributes='),end=oldTool.indexOf('\nconst producerInventory=',start),context=vm.createContext({});
+ vm.runInContext(oldTool.slice(start,end).replace('export function','function')+'\nthis.auditBefore=auditSourceNavigationAttributes;',context);
+ assert.throws(()=>context.auditBefore(fixture.actualApp.source),/Unclassified citation navigation attribute\(s\): data-source-page, data-source-region/);
+ const sourceWithoutNewPageNames=fixture.actualApp.source.replaceAll('data-source-page','data-prior-page').replaceAll('data-source-region','data-prior-region');
+ const oldObserved=context.auditBefore(sourceWithoutNewPageNames).observed;
+ for(const name of ['data-scan-book','data-scan-page','data-scan-region'])assert.equal(oldObserved.includes(name),false,'the old detector missed these actual controls');
+ const current=auditSourceNavigationAttributes(app);
+ for(const name of ['data-source-page','data-source-region','data-scan-book','data-scan-page','data-scan-region'])assert.ok(current.observed.includes(name),name);
+ assert.deepEqual(current.missing,[]);assert.deepEqual(current.metadata,['data-source-card']);
+ assert.throws(()=>auditSourceNavigationAttributes(`${app} <button data-scan-unreviewed>`),/Unclassified citation navigation attribute/);
+ assert.throws(()=>auditSourceNavigationAttributes(`${app} <button data-source-unreviewed>`),/Unclassified citation navigation attribute/);
+});
+
 test('the actual source-card metadata failure remains reproducible and narrowly classified',()=>{
  const fixture=JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-audit-pass8-source-card-navigation-before.json.gz',import.meta.url))));
  const files=new Map(fixture.files.map(file=>{

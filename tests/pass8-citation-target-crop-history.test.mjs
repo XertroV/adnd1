@@ -1,15 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
-import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
-import {decodePass8CitationTargetCropHistory,projectPass8CitationTargetCropJson as project,projectPass8CitationTargetCropBytes as projectBytes,projectPass8XpContinuationJson as xp,projectPass8CharacterReferenceJson as character,readBeforePass8CitationTargetCropFile as readBefore} from './helpers/pass8-citation-target-crop-history.mjs';
+import {decodePass8CitationTargetCropHistory,projectPass8CitationTargetCropJson as project,projectPass8CitationTargetCropBytes as projectBytes,projectPass8XpContinuationJson as xp,projectPass8CharacterReferenceJson as character} from './helpers/pass8-citation-target-crop-history.mjs';
+import {readBeforePass8WeaponSourceFile,readBeforePass8CitationTargetCropFile as readBefore} from './helpers/pass8-weapon-source-history.mjs';
 import {projectPass8PhbSourceJson as originalPhb} from './helpers/pass8-phb-source-history.mjs';
 import {validateScanCatalog} from '../tools/scan-catalog.mjs';
 import books from '../dist/books.js';
-import {currentSourceQuestionRegistryPath,loadCurrentMonetarySourceQuestions} from '../tools/monetary-current-source-questions.mjs';
-const root=new URL('../',import.meta.url),read=p=>readFileSync(new URL(p,root)),sha=b=>createHash('sha256').update(b).digest('hex'),json=p=>JSON.parse(read(p));
+import {loadCurrentMonetarySourceQuestions} from '../tools/monetary-current-source-questions.mjs';
+const root=new URL('../',import.meta.url),read=p=>readBeforePass8WeaponSourceFile(new URL(p,root)),sha=b=>createHash('sha256').update(b).digest('hex'),json=p=>JSON.parse(read(p));
 const zipped=read('tests/fixtures/pass8-citation-target-crop-history-v1.json.gz'),contract=decodePass8CitationTargetCropHistory(zipped);
 const git=(ref,p)=>execFileSync('git',['show',`${ref}:${p}`],{cwd:root,maxBuffer:100*1024*1024});
 
@@ -57,6 +57,6 @@ test('actual four stale region-count failures require exactly four4-to6 descript
  assert.deepEqual(restored,old);
 });
 test('monetary successor changes provenance only and retains all8/7/1 question boundaries',()=>{
- const before=json('research/source-audit-pass8-phb-current-monetary-source-questions-v1.json'),after=json(currentSourceQuestionRegistryPath),restored=structuredClone(after);assert.equal(after.citationTargetCropInputMigration.sourceInputCommit,contract.sourceCommit);delete restored.citationTargetCropInputMigration;for(const key of ['canonical','monetaryIndex']){assert.equal(after.currentInputs[key].sha256,sha(read(after.currentInputs[key].path)));restored.currentInputs[key]=before.currentInputs[key];}assert.deepEqual(restored,before);
+ const before=json('research/source-audit-pass8-phb-current-monetary-source-questions-v1.json'),after=json('research/source-audit-pass8-citation-target-crop-current-monetary-source-questions-v1.json'),restored=structuredClone(after);assert.equal(after.citationTargetCropInputMigration.sourceInputCommit,contract.sourceCommit);delete restored.citationTargetCropInputMigration;for(const key of ['canonical','monetaryIndex']){assert.equal(after.currentInputs[key].sha256,sha(read(after.currentInputs[key].path)));restored.currentInputs[key]=before.currentInputs[key];}assert.deepEqual(restored,before);
  const report=loadCurrentMonetarySourceQuestions();assert.deepEqual(report.counts,{historicalRegisteredQuestions:8,currentUnresolvedQuestions:7,derivedAdjudications:1});assert.equal(report.semanticPass,false);assert.equal(report.generalSourceReviewPending,true);
 });

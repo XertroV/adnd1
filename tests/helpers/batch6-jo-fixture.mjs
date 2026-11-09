@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {projectPass8CharacterReferenceBytes,isPass8XpContinuationHistoryPath} from './pass8-citation-target-crop-history.mjs';
+import {projectPass8CharacterReferenceBytes,isPass8XpContinuationHistoryPath} from './pass8-weapon-source-history.mjs';
 import {projectDmg175Json} from './batch6-dmg175-source-history.mjs';
 import {dmg175HistoryContract} from './batch6-dmg175-source-history.mjs';
 import {reverseDmg74MatrixBatchFromData,withoutDmg74MatrixSourceExcerptOverrides} from './dmg74-matrix-batch.mjs';

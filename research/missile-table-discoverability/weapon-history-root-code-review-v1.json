@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "root-weapon-history-integration-code-review",
+  "sourceCommit": "9ee2550e9793e6aae9a7ac8fd71525704894950f",
+  "metadataCommit": "0e2de01bf181ad113a0703c9c52375cb42de986c",
+  "codeRead": [
+    "tests/helpers/pass8-weapon-source-history.mjs",
+    "tests/helpers/weapon-source-current-cohort.mjs",
+    "tests/current-continuation-snapshot.test.mjs",
+    "tests/pass8-dmg225-field-mapping-target-proof.test.mjs",
+    "tests/continuation-alias-audit.test.mjs",
+    "tests/xp-continuation-current-integration.test.mjs"
+  ],
+  "findings": "Accepted bounded historical adapter:17 exact whole-JSON states and one exact raw viewer state, Git-bound before bytes, strict JSON tree validation, no catch-and-fallback, cloned return caches. Current tests read actual current owners/catalogs/manifests/field bindings and preserve exact old prefixes/objects; old stages remain separately executed. The native cohort test guard weakness is corrected in the separate v2 receipt.",
+  "unchangedPriorArtifacts": [
+    {
+      "path": "tests/helpers/pass8-citation-target-crop-history.mjs",
+      "sha256": "aa04c851bf8f89f2cb1a16105ae277003a1a3c2256356f3d058bb1ce91aa2785",
+      "sizeBytes": 11247
+    },
+    {
+      "path": "tests/fixtures/pass8-citation-target-crop-history-v1.json.gz",
+      "sha256": "26f1aadb110934ff1b6ce3f7aa334206e65183608d8f13f0248eaf13b1e2987a",
+      "sizeBytes": 6061
+    },
+    {
+      "path": "tools/build-pass8-citation-target-crop-history-contract-v1.mjs",
+      "sha256": "f9e76068fba25aecca3b080abe3ab820366aa14e8b8c55d1aeb20bc81d650e3f",
+      "sizeBytes": 4894
+    },
+    {
+      "path": "tests/helpers/pass8-character-reference-history.mjs",
+      "sha256": "67ebc08c45e088b41c3b208c1f01cffa6965c36ed8f9875a9d603f84ff5840b9",
+      "sizeBytes": 6305
+    },
+    {
+      "path": "tests/fixtures/pass8-character-reference-history-v1.json.gz",
+      "sha256": "6fb9c572179302493e3bc8759e1bcd546915f9775ae887a9b2b5dc78fb208eb5",
+      "sizeBytes": 19135
+    },
+    {
+      "path": "tests/helpers/pass8-xp-continuation-history.mjs",
+      "sha256": "cc8a0ff5ad473026c71c6353b224903eabac8e960b4945df88e5da8191c4e9e7",
+      "sizeBytes": 9801
+    },
+    {
+      "path": "tests/fixtures/pass8-xp-continuation-history-v1.json.gz",
+      "sha256": "80b01d52c5a80dc98f09a506555e224c1cbf1da94b83b082e9fa9a6260e9b83c",
+      "sizeBytes": 205394
+    },
+    {
+      "path": "tests/helpers/pass8-phb-source-history.mjs",
+      "sha256": "a8a62458de8467f76500dd942c7f8e2f48e97227e7d555df26d5358c7175ac75",
+      "sizeBytes": 9188
+    },
+    {
+      "path": "tests/fixtures/pass8-phb-source-history-v2.json.gz",
+      "sha256": "80ef153cc0bf38bab6edf8db71d3efd4e5073fc24a3b1129d1050a26d3c1b672",
+      "sizeBytes": 4310
+    }
+  ],
+  "rootControls": {
+    "path": "research/missile-table-discoverability/weapon-history-root-independent-controls-v1.json",
+    "checks": 192,
+    "failures": 0
+  },
+  "delegateControls": {
+    "path": "research/missile-table-discoverability/weapon-history-helper-independent-review-v1.json",
+    "checks": 523,
+    "failures": 0
+  },
+  "scopeLimits": [
+    "No source numeric-value or all-book completeness certification.",
+    "No new source-value or mechanics grades.",
+    "Final workflow and remote publication remain required."
+  ],
+  "harnessCorrection": "Initial root read-only preservation check used an incorrect PHB fixture v1 filename and exited before writing a receipt. Corrected to existing v2; all nine actual predecessors compare exact."
+}

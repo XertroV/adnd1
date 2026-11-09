@@ -1,7 +1,7 @@
 import test from 'node:test';
 import {dmg175HistoryContract,projectDmg175Books} from './helpers/batch6-dmg175-source-history.mjs';
 import assert from 'node:assert/strict';
-import {readBeforePass8XpContinuationFile as readFileSync,projectPass8XpContinuationBytes} from './helpers/pass8-citation-target-crop-history.mjs';
+import {readBeforePass8XpContinuationFile as readFileSync,projectPass8XpContinuationBytes} from './helpers/pass8-weapon-source-history.mjs';
 import {execFileSync} from 'node:child_process';
 // Exact released777 source/Jo history. The active252-group/728-target census
 // is exercised separately by current-integration and native browser checks.

@@ -25,7 +25,8 @@ const beforeFixture=JSON.parse(gunzipSync(beforeFixtureBytes).toString('utf8'));
 const proposal=read('research/source-audit-pass8-dmg225-field-mapping-author-proposal.json');
 const fieldReview=read('research/source-audit-pass8-dmg225-field-mapping-independent-review.json');
 const bindingsFile=read('research/field-evidence-bindings.json');
-const currentBindings=bindingsFile.bindings.slice(728);
+const currentBindings=bindingsFile.bindings.slice(728,757);
+const publishedJson=path=>JSON.parse(execFileSync('git',['show',`cc9509047746d5e27a71cb5b1e0cfcb739a688c9:${path}`],{maxBuffer:32*1024*1024}));
 const equipmentFile=read('equipment.json');
 const sourceReviews=read('research/source-visual-reviews.json');
 const continuations=read('research/citation-continuations.json');
@@ -65,7 +66,7 @@ test('A46 before fixture retains the exact 29 empty-region DMG p.225 targets',()
   assert.equal(hash(readFileSync(new URL('../equipment.json',import.meta.url))),beforeFixture.files['equipment.json'].sha256);
   const capturedData=execFileSync('git',['show',`${baselineCommit}:dist/data.json`],{maxBuffer:32*1024*1024});
   assert.equal(hash(capturedData),beforeFixture.files['dist/data.json'].sha256,'the original unassembled A46 data remains exact in its captured Git stage');
-  assert.equal(hash(readFileSync(new URL('../dist/data.json',import.meta.url))),'cf6dd7ff912b91fd4525e1d48355e8c21e766e73f2118820e926a96b62f5216f','native current data is the complete controlled citation assembly');
+  assert.deepEqual(readFileSync(new URL('../dist/data.json',import.meta.url)),execFileSync('git',['show','9ee2550e9793e6aae9a7ac8fd71525704894950f:dist/data.json'],{maxBuffer:32*1024*1024}),'native current data is the complete controlled weapon source assembly');
 });
 
 test('four candidate catalogs are exact append-only edits; defaults and all historic region objects remain',()=>{
@@ -90,9 +91,14 @@ test('four candidate catalogs are exact append-only edits; defaults and all hist
   const phbGroups=JSON.parse(execFileSync('git',['show','4aa977788085f67a28a24d40965edf987bc7242b:research/citation-continuations.json'],{maxBuffer:32*1024*1024})).groups;
   assert.equal(phbGroups.length,253);
   assert.deepEqual(continuations.groups.slice(0,253),phbGroups,'the complete published PHB prefix remains exact');
-  assert.equal(continuations.groups.length,260);
-  assert.equal(continuations.groups.reduce((sum,group)=>sum+group.segments.length,0),510);
-  assert.deepEqual(continuations.groups.slice(254).map(group=>group.id),['pass8-demi-shadow-magic-phb-99','pass8-veil-phb-99-100','pass8-dust-ua-45-46','pass8-vocalize-ua-54-55','pass8-ultravision-magic-user-ua-57-58','pass8-ultravision-illusionist-ua-57-58']);
+  const publishedGroups=publishedJson('research/citation-continuations.json').groups;
+  assert.equal(publishedGroups.length,260);
+  assert.equal(publishedGroups.reduce((sum,group)=>sum+group.segments.length,0),510);
+  assert.deepEqual(continuations.groups.slice(0,260),publishedGroups,'all260 published groups and510 exact source parts remain in order');
+  assert.equal(continuations.groups.length,261);
+  assert.equal(continuations.groups.reduce((sum,group)=>sum+group.segments.length,0),512);
+  assert.deepEqual(continuations.groups.slice(260),[read('research/missile-table-discoverability/implementation-candidate/continuation-group-candidate.json')],'only the complete declared two-part DMG28 group is appended');
+  assert.deepEqual(continuations.groups.slice(254,260).map(group=>group.id),['pass8-demi-shadow-magic-phb-99','pass8-veil-phb-99-100','pass8-dust-ua-45-46','pass8-vocalize-ua-54-55','pass8-ultravision-magic-user-ua-57-58','pass8-ultravision-illusionist-ua-57-58']);
   const group=continuations.groups[253];
   assert.equal(group.id,'pass8-dmg225-thieves-tools-exclusion-context');
   assert.equal(hashCanonical(group),'5ee81d2d555cacbb6400181daf1684fd9faa427869ea0e05fde97a9c0c377b13');
@@ -103,6 +109,14 @@ test('all 29 exact owners and source pointers carry closed hash-bound location p
   assert.equal(currentBindings.length,29);
   assert.equal(manualsBefore.bindings.length,728);
   assert.deepEqual(bindingsFile.bindings.slice(0,728),manualsBefore.bindings,'old manual field bindings changed');
+  const publishedBindings=publishedJson('research/field-evidence-bindings.json').bindings;
+  assert.equal(publishedBindings.length,757);assert.equal(bindingsFile.bindings.length,807);
+  assert.deepEqual(bindingsFile.bindings.slice(0,757),publishedBindings,'all757 published manual bindings remain whole-object exact and in order');
+  const proposedPath='research/missile-table-discoverability/native-manual-declarations-cc950-v1/proposed-50-manual-bindings.json';
+  const proposedBytes=readFileSync(new URL(proposedPath,root));
+  assert.equal(hash(proposedBytes),'a20d3252a10cef22551648fe1be65714b5488c8f9285634301112879cf4ad081');
+  assert.deepEqual(bindingsFile.bindings.slice(757),JSON.parse(proposedBytes).bindings,'only the exact50 declared pending manual bindings are appended');
+  assert.ok(bindingsFile.bindings.slice(757).every(binding=>binding.reviewStatus==='field-target-pending'&&binding.sourceValueStatus==='not-assessed-by-field-target-review'&&binding.valueReview===undefined),'the new declarations carry no field or source-value promotion');
   assert.equal(fieldReview.cases.length,29);
   const mapped=new Map(currentBindings.map(binding=>[[binding.collection,binding.itemId,binding.fieldPointer].join('|'),binding]));
   for(let index=0;index<29;index++){
@@ -129,10 +143,19 @@ test('all 29 exact owners and source pointers carry closed hash-bound location p
   const phbReviews=JSON.parse(execFileSync('git',['show','4aa977788085f67a28a24d40965edf987bc7242b:research/source-visual-reviews.json'],{maxBuffer:32*1024*1024})).reviews;
   assert.equal(phbReviews.length,1829);
   assert.deepEqual(sourceReviews.reviews.slice(0,1829),phbReviews,'all released PHB review records remain exact');
-  assert.equal(sourceReviews.reviews.length,visualReviewsBefore.reviews.length+18);
+  const publishedReviews=publishedJson('research/source-visual-reviews.json').reviews;
+  assert.equal(publishedReviews.length,1845);
+  assert.deepEqual(sourceReviews.reviews.slice(0,1845),publishedReviews,'all1845 published review objects remain whole-object exact and in order');
+  assert.equal(sourceReviews.reviews.length,publishedReviews.length+4);
   assert.equal(sourceReviews.reviews.slice(1829,1837).length,8);
   assert.ok(sourceReviews.reviews.slice(1829,1837).every(row=>row.collection==='equipment'&&['phb-bullseye-lantern','phb-silver-mirror','phb-iron-spike','phb-thieves-tools'].includes(row.itemId)));
-  assert.deepEqual(sourceReviews.reviews.slice(1837),read('research/source-audit-pass8-last-six-canonical-schema-successor-v1/proposed-eight-review-rows.json'),'eight independent crop rows remain separate from DMG location reviews');
+  assert.deepEqual(sourceReviews.reviews.slice(1837,1845),read('research/source-audit-pass8-last-six-canonical-schema-successor-v1/proposed-eight-review-rows.json'),'eight independent crop rows remain separate from DMG location reviews');
+  assert.deepEqual(sourceReviews.reviews.slice(1845).map(row=>[row.collection,row.itemId,row.binding,row.regionId]),[
+    ['rules','phb-hurled-weapons-and-missiles-table','sourceExcerpts','phb38-table-context'],
+    ['rules','ua-hurled-weapons-and-missiles-table','sourceExcerpts','ua28-table-context'],
+    ['rules','weapon-versus-armor-adjustments','sourceExcerpts','dmg-28-opening-8b67aa025e19eddd'],
+    ['rules','weapon-versus-armor-adjustments','sourceExcerpts','dmg-28-c37135485e89a720'],
+  ],'the only four added component reviews have their exact declared owner and region identities');
   for(const itemId of ['phb-bullseye-lantern','phb-silver-mirror','phb-iron-spike','phb-thieves-tools']){
     const path=`scans/verified/equipment-${itemId}.json`,cat=catalog(path);
     for(const region of cat.regions.filter(region=>region.id.startsWith('pass8-dmg225-')||region.id==='batch5-dmg225-encumbrance-notes')){

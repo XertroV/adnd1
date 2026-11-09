@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-citation-target-crop-history.mjs';
+import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-weapon-source-history.mjs';
 import {execFileSync} from 'node:child_process';
 import {reverseApprovedGrandDruidSourcePage, xpBeforeCatalogsForAliasReplay, reverseApprovedXpExcerptCounts} from './helpers/batch6-xp-source-history.mjs';
 const read = path => JSON.parse(readFileSync(new URL('../' + path, import.meta.url)));
