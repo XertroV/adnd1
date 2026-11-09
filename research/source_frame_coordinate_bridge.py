@@ -8,9 +8,9 @@ import hashlib, json, math, struct
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-REGISTRY_RELATIVE_PATH = 'research/source-frame-coordinate-bridge-phb-source-v1.json'
+REGISTRY_RELATIVE_PATH = 'research/source-frame-coordinate-bridge-ua-source-v1.json'
 REGISTRY_PATH = ROOT / REGISTRY_RELATIVE_PATH
-REGISTRY_SHA256 = 'a756ac336f14491aa6785615c869a6a9ed8b1cc1632773e468c72e327fa8b1bd'
+REGISTRY_SHA256 = '1013eb540a2bc9034963472b3b48a9a1ea61af224392806386db1091c5b35a65'
 _ALLOWED_BASIS = {
     'cropbox-pageRect-normalized',
     'mediabox-normalized',

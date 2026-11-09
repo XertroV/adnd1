@@ -1,0 +1,524 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "read-only-in-memory-existing-mechanics-API-replay",
+  "status": "existing API candidate replay succeeds; active ledger remains unchanged",
+  "inventory": {
+    "path": "research/ua-mechanics-withdrawal-proposal-v1/exact-checked-field-overlap-inventory-v1.json",
+    "sha256": "60ceb248bfe53423fec540c5446dd6abbda127f8a031a2f75aac7bbec79ec0e2",
+    "bytes": 65481
+  },
+  "transition": {
+    "path": "research/ua-mechanics-withdrawal-proposal-v1/exact-withdrawal-registration-candidate-v1.json",
+    "sha256": "95fb612f614395700af63a0f7ac82f704fe62bc37d88f10f0b6e06dbde78113b",
+    "bytes": 60919
+  },
+  "beforeFixture": {
+    "path": "research/ua-mechanics-withdrawal-proposal-v1/exact-before-mechanics-ledger-v1.json.gz",
+    "sha256": "1a89ff538b8c52baf48a2709b0fa4c513d7108baf32066098469bdcd21710868",
+    "rawSha256": "ba9fe216487c80100cd58e6287d8e9079af5fc5eff1af11f03125a4f44492be1",
+    "bytes": 688467,
+    "rawBytes": 9410852
+  },
+  "existingApi": "buildLedger(data, proposedReviews, {alreadyNormalized:true}); validateLedger(result,data)",
+  "priorSavedCounts": {
+    "records": 1003,
+    "totalFields": 13995,
+    "inspectedFields": 13319,
+    "sourceCheckedFields": 12733,
+    "unchangedSourceCheckedFields": 10087,
+    "correctedAndCheckedFields": 2646,
+    "correctionPendingFields": 0,
+    "notExtractedFields": 14,
+    "sourceConflictFields": 22,
+    "editorialReviewedFields": 558,
+    "staleProposalFields": 0,
+    "uncheckedFields": 668
+  },
+  "baseRegeneratedCounts": {
+    "records": 1003,
+    "totalFields": 13995,
+    "inspectedFields": 13319,
+    "sourceCheckedFields": 12733,
+    "unchangedSourceCheckedFields": 10087,
+    "correctedAndCheckedFields": 2646,
+    "correctionPendingFields": 0,
+    "notExtractedFields": 14,
+    "sourceConflictFields": 22,
+    "editorialReviewedFields": 558,
+    "staleProposalFields": 0,
+    "uncheckedFields": 668
+  },
+  "currentUnmodifiedEvidenceCounts": {
+    "records": 1003,
+    "totalFields": 14032,
+    "inspectedFields": 13316,
+    "sourceCheckedFields": 12708,
+    "unchangedSourceCheckedFields": 10065,
+    "correctedAndCheckedFields": 2643,
+    "correctionPendingFields": 0,
+    "notExtractedFields": 14,
+    "sourceConflictFields": 22,
+    "editorialReviewedFields": 558,
+    "staleProposalFields": 22,
+    "uncheckedFields": 708
+  },
+  "currentUnmodifiedEvidenceErrors": [
+    "4 proposed changes do not match either current oldValue or newValue.",
+    "Ledger contains checked values that changed without a matching reviewed correction."
+  ],
+  "candidateCounts": {
+    "records": 1003,
+    "totalFields": 14032,
+    "inspectedFields": 13294,
+    "sourceCheckedFields": 12708,
+    "unchangedSourceCheckedFields": 10065,
+    "correctedAndCheckedFields": 2643,
+    "correctionPendingFields": 0,
+    "notExtractedFields": 14,
+    "sourceConflictFields": 22,
+    "editorialReviewedFields": 558,
+    "staleProposalFields": 0,
+    "uncheckedFields": 730
+  },
+  "candidateValidationErrors": [],
+  "checks": {
+    "old1210ReviewRecordsPreservedInBeforeFixture": true,
+    "other1204ActiveRecordsExact": true,
+    "sixRecordOtherPropertiesExact": true,
+    "retainedCheckedPaths": 48,
+    "retainedProposedChanges": 5,
+    "unchangedValueFieldDispositionChanges": 0,
+    "currentChangedBodyLeavesAllUnchecked": 41,
+    "onlyCurrentStatusChanges": 22,
+    "allStatusChanges": "stale-proposal to unchecked; inspected false and no checkers",
+    "allUnchangedBodyAndOtherChecksExact": true,
+    "sourceOrMetadataFilesWritten": 0
+  },
+  "statusChanges": [
+    {
+      "key": "spells:ua-cleric-ceremony:/effect/0",
+      "before": {
+        "path": "/effect/0",
+        "value": "The rite variant depends on the religion and leaves no lingering aura of magic, though an aura of good or evil may be present and detectable. The source lists coming of age, burial, and marriage at cleric level 1; dedication, investiture, and consecrate item at level 3; ordination and special vows at level 5; consecrate ground at level 7; and anathematize at level 9. Each requires a cleric of the indicated level or higher.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/effect/0",
+        "value": "The rite variant depends on the religion and leaves no lingering aura of magic, though an aura of good or evil may be present and detectable. The source lists coming of age, burial, and marriage at cleric level 1; dedication, investiture, and consecrate item at level 3; ordination and special vows at level 5; consecrate ground at level 7; and anathematize at level 9. Each requires a cleric of the indicated level or higher.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-cleric-ceremony:/effect/1",
+      "before": {
+        "path": "/effect/1",
+        "value": "Coming of age grants a +1 bonus to one saving throw, usable at any time after the rite; in some cultures it marks entry to adulthood. Burial protects a corpse for one week as protection from evil; someone trying to disinter the body must save versus spell or stop and flee in fear for one turn. Marriage has no tangible after-effect and does not guarantee happiness or harmony, though it can carry moral or legal significance.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/effect/1",
+        "value": "Coming of age grants a +1 bonus to one saving throw, usable at any time after the rite; in some cultures it marks entry to adulthood. Burial protects a corpse for one week as protection from evil; someone trying to disinter the body must save versus spell or stop and flee in fear for one turn. Marriage has no tangible after-effect and does not guarantee happiness or harmony, though it can carry moral or legal significance.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-cleric-ceremony:/effect/2",
+      "before": {
+        "path": "/effect/2",
+        "value": "Dedication admits the recipient to the casting cleric’s religious ranks as a sanctioned worshiper; it is permanent unless the worshiper demonstrates a desire to change allegiance, in which case a higher-level cleric can replace it. Investiture must precede first-level cleric status. Ordination precedes service as a congregation priest or similar leader and is performed by a cleric of higher level than the recipient.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/effect/2",
+        "value": "Dedication admits the recipient to the casting cleric’s religious ranks as a sanctioned worshiper; it is permanent unless the worshiper demonstrates a desire to change allegiance, in which case a higher-level cleric can replace it. Investiture must precede first-level cleric status. Ordination precedes service as a congregation priest or similar leader and is performed by a cleric of higher level than the recipient.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-cleric-ceremony:/conditions/0",
+      "before": {
+        "path": "/conditions/0",
+        "value": "Except for anathematize, no saving throw is called for: the recipient is inanimate or presumed willing. Any ceremony other than anathematize simply fails if cast on an unwilling person.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/conditions/0",
+        "value": "Except for anathematize, no saving throw is called for: the recipient is inanimate or presumed willing. Any ceremony other than anathematize simply fails if cast on an unwilling person.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-cleric-ceremony:/conditions/1",
+      "before": {
+        "path": "/conditions/1",
+        "value": "Special vows are received before the intended cavalier or paladin begins that career; the protection lasts through the upper limit of the recipient’s current level and can be renewed as described in the effect.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/conditions/1",
+        "value": "Special vows are received before the intended cavalier or paladin begins that career; the protection lasts through the upper limit of the recipient’s current level and can be renewed as described in the effect.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-cleric-ceremony:/exceptions/0",
+      "before": {
+        "path": "/exceptions/0",
+        "value": "An unwilling subject of anathematize receives a save versus spell at −4. Standard service costs are: coming of age 5–15 sp; burial 5–50 gp; marriage 1–20 gp; dedication 1–10 sp (sometimes free); investiture 1–100 gp (sometimes free); consecrate item usually free; ordination usually free but possibly up to 200 gp; special vows 1–100 gp (sometimes free); consecrate ground 100–600 gp depending on area and cleric level; anathematize is performed without charge.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/exceptions/0",
+        "value": "An unwilling subject of anathematize receives a save versus spell at −4. Standard service costs are: coming of age 5–15 sp; burial 5–50 gp; marriage 1–20 gp; dedication 1–10 sp (sometimes free); investiture 1–100 gp (sometimes free); consecrate item usually free; ordination usually free but possibly up to 200 gp; special vows 1–100 gp (sometimes free); consecrate ground 100–600 gp depending on area and cleric level; anathematize is performed without charge.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-cleric-rainbow:/effect/0",
+      "before": {
+        "path": "/effect/0",
+        "value": "Bow: creates a shimmering, multilayered bow with seven rainbow missiles, each equal to a +3 weapon; the bow disappears after firing all seven. A character permitted to use a bow and with Strength 6 or better can use it without a non-proficiency penalty; it fires once or twice per round, and each arrow leaves a different hue. Each hue deals double damage to its listed targets: red—fire-dwellers/users; orange—earth elementals; yellow—vegetable targets, including fungus creatures, shambling mounds, and treants; green—aquatic creatures and water elementals; blue—aerial creatures, electricity-using creatures, and air elementals; indigo—acid- or poison-using creatures; violet—metallic or regenerating creatures. If no hue is requested, or a previously used hue is requested, the next arrow in spectrum order appears.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/effect/0",
+        "value": "Bow: creates a shimmering, multilayered bow with seven rainbow missiles, each equal to a +3 weapon; the bow disappears after firing all seven. A character permitted to use a bow and with Strength 6 or better can use it without a non-proficiency penalty; it fires once or twice per round, and each arrow leaves a different hue. Each hue deals double damage to its listed targets: red—fire-dwellers/users; orange—earth elementals; yellow—vegetable targets, including fungus creatures, shambling mounds, and treants; green—aquatic creatures and water elementals; blue—aerial creatures, electricity-using creatures, and air elementals; indigo—acid- or poison-using creatures; violet—metallic or regenerating creatures. If no hue is requested, or a previously used hue is requested, the next arrow in spectrum order appears.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-cleric-rainbow:/effect/1",
+      "before": {
+        "path": "/effect/1",
+        "value": "Bridge: 20–120 feet long, caster-level feet wide, and carries weight in hundreds of pounds equal to the cleric’s level. If its weight limit is exceeded it disappears; otherwise it lasts for the spell duration or until dismissed.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/effect/1",
+        "value": "Bridge: 20–120 feet long, caster-level feet wide, and carries weight in hundreds of pounds equal to the cleric’s level. If its weight limit is exceeded it disappears; otherwise it lasts for the spell duration or until dismissed.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-cleric-rainbow:/effect/2",
+      "before": {
+        "path": "/effect/2",
+        "value": "Elevator: lifts the caster and creatures within 10 feet along an upward arc at 12″ movement; it can descend again, and its arc trails 12″ behind those traveling on it. Reach safety before the spell expires, or the rainbow disappears from beneath those standing on it.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/effect/2",
+        "value": "Elevator: lifts the caster and creatures within 10 feet along an upward arc at 12″ movement; it can descend again, and its arc trails 12″ behind those traveling on it. Reach safety before the spell expires, or the rainbow disappears from beneath those standing on it.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-cleric-rainbow:/effect/3",
+      "before": {
+        "path": "/effect/3",
+        "value": "Flagon: forms a seven-colored vessel containing seven measures of water. The hues provide cure light wounds, resist fire, cure blindness, slow poison, cure disease, resist cold, and remove paralysis. Each benefit acts as the corresponding spell cast by a 12th-level cleric and persists after the Rainbow expires.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/effect/3",
+        "value": "Flagon: forms a seven-colored vessel containing seven measures of water. The hues provide cure light wounds, resist fire, cure blindness, slow poison, cure disease, resist cold, and remove paralysis. Each benefit acts as the corresponding spell cast by a 12th-level cleric and persists after the Rainbow expires.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-cleric-rainbow:/conditions/0",
+      "before": {
+        "path": "/conditions/0",
+        "value": "Requires a visible rainbow, or a diamond worth at least 1,000 gp that the cleric has specially prepared with bless and prayer in sight of a rainbow.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/conditions/0",
+        "value": "Requires a visible rainbow, or a diamond worth at least 1,000 gp that the cleric has specially prepared with bless and prayer in sight of a rainbow.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-cleric-rainbow:/exceptions/0",
+      "before": {
+        "path": "/exceptions/0",
+        "value": "Only the holy/unholy symbol remains after casting. The rainbow objects and unused flagon water disappear when the spell expires; benefits from consumed flagon water persist.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ],
+        "changePaths": [
+          "/exceptions"
+        ]
+      },
+      "after": {
+        "path": "/exceptions/0",
+        "value": "Only the holy/unholy symbol remains after casting. The rainbow objects and unused flagon water disappear when the spell expires; benefits from consumed flagon water persist.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-druid-ceremony:/effect/0",
+      "before": {
+        "path": "/effect/0",
+        "value": "The spell leaves no aura of magic, though know alignment or similar magic may reveal the force of true neutrality involved. The source lists coming of age, rest eternal, and marriage at druid level 1; dedication and investiture at level 3; initiation and special vows at level 7; hallowed ground at level 9; and cast out at level 12. Its general sentence says each can be cast by a druid of the indicated or lower level; the initiation paragraph separately gives a rite-specific performer and timing rule.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/effect/0",
+        "value": "The spell leaves no aura of magic, though know alignment or similar magic may reveal the force of true neutrality involved. The source lists coming of age, rest eternal, and marriage at druid level 1; dedication and investiture at level 3; initiation and special vows at level 7; hallowed ground at level 9; and cast out at level 12. Its general sentence says each can be cast by a druid of the indicated or lower level; the initiation paragraph separately gives a rite-specific performer and timing rule.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-druid-ceremony:/effect/1",
+      "before": {
+        "path": "/effect/1",
+        "value": "Coming of age is usually performed when the recipient reaches age 14 and grants the same +1 bonus to one saving throw as the cleric rite. Rest eternal hastens the deceased’s spirit toward its final resting place; raise dead and resurrection cannot restore that subject, though wish can. Marriage is essentially identical to clerical ceremony.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/effect/1",
+        "value": "Coming of age is usually performed when the recipient reaches age 14 and grants the same +1 bonus to one saving throw as the cleric rite. Rest eternal hastens the deceased’s spirit toward its final resting place; raise dead and resurrection cannot restore that subject, though wish can. Marriage is essentially identical to clerical ceremony.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-druid-ceremony:/effect/2",
+      "before": {
+        "path": "/effect/2",
+        "value": "Dedication admits a true-neutral recipient to the druid’s followers/worshipers and charges the recipient, as a druid, to preserve and protect nature and the world’s balance. Investiture must occur before the character becomes an Aspirant (1st-level druid) and conveys no other benefit.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/effect/2",
+        "value": "Dedication admits a true-neutral recipient to the druid’s followers/worshipers and charges the recipient, as a druid, to preserve and protect nature and the world’s balance. Investiture must occur before the character becomes an Aspirant (1st-level druid) and conveys no other benefit.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-druid-ceremony:/conditions/0",
+      "before": {
+        "path": "/conditions/0",
+        "value": "A ceremony is performed in a druid grove or another natural, healthy patch of forest; mistletoe is always a material component. Rites are normally conducted at dawn or dusk.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/conditions/0",
+        "value": "A ceremony is performed in a druid grove or another natural, healthy patch of forest; mistletoe is always a material component. Rites are normally conducted at dawn or dusk.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-druid-ceremony:/conditions/1",
+      "before": {
+        "path": "/conditions/1",
+        "value": "Dedication requires true neutrality. Initiation is normally performed by another druid of 7th or higher level; in unusual cases the recipient may cast it on themself. Preserve both this rite-specific instruction and the source’s separate general indicated-or-lower-level sentence.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/conditions/1",
+        "value": "Dedication requires true neutrality. Initiation is normally performed by another druid of 7th or higher level; in unusual cases the recipient may cast it on themself. Preserve both this rite-specific instruction and the source’s separate general indicated-or-lower-level sentence.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-druid-ceremony:/exceptions/0",
+      "before": {
+        "path": "/exceptions/0",
+        "value": "Cast out’s effects can be lessened by a reversed ceremony cast by the same druid or another druid at least as high level as the original caster, but only a Hierophant Druid can completely cancel it. Higher-ranking druids may punish a druid who was denied permission or whose action is later reversed.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells",
+          "mechanics-source-adjudication-batch5"
+        ],
+        "changePaths": [
+          "/exceptions/0"
+        ]
+      },
+      "after": {
+        "path": "/exceptions/0",
+        "value": "Cast out’s effects can be lessened by a reversed ceremony cast by the same druid or another druid at least as high level as the original caster, but only a Hierophant Druid can completely cancel it. Higher-ranking druids may punish a druid who was denied permission or whose action is later reversed.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-magic-user-bind:/effect/1",
+      "before": {
+        "path": "/effect/1",
+        "value": "The source names these separate commands: Coil (form a neat coiled stack), Coil & Knot, Loop, Loop & Knot, and Tie & Knot, plus the reverse of each (such as Uncoil).",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/effect/1",
+        "value": "The source names these separate commands: Coil (form a neat coiled stack), Coil & Knot, Loop, Loop & Knot, and Tie & Knot, plus the reverse of each (such as Uncoil).",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-illusionist-chromatic-orb:/effect/0",
+      "before": {
+        "path": "/effect/0",
+        "value": "Creates a colored orb in the illusionist’s hand to hurl at one target within 3″, with no intervening barriers. Attack chances are +3 at 1″ or less, +2 beyond 1″ through 2″, and +1 beyond 2″ through 3″. Magic resistance applies; a miss dissipates without further effect. Creatures normally hit only by powerful magical weapons can still be affected.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/effect/0",
+        "value": "Creates a colored orb in the illusionist’s hand to hurl at one target within 3″, with no intervening barriers. Attack chances are +3 at 1″ or less, +2 beyond 1″ through 2″, and +1 beyond 2″ through 3″. Magic resistance applies; a miss dissipates without further effect. Creatures normally hit only by powerful magical weapons can still be affected.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-illusionist-chromatic-orb:/effect/1",
+      "before": {
+        "path": "/effect/1",
+        "value": "Lower-level hues remain available after the illusionist can create higher-level colors; the caster may choose a color below their current level.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/effect/1",
+        "value": "Lower-level hues remain available after the illusionist can create higher-level colors; the caster may choose a color below their current level.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    },
+    {
+      "key": "spells:ua-illusionist-chromatic-orb:/exceptions/0",
+      "before": {
+        "path": "/exceptions/0",
+        "value": "The source’s special-power notes assign the individual duration, saving throw, area, and additional result to each hue; the listed spell and attack facts are summarized above. The 12th-level ashen table entry lists paralysis in its damage/effect column and death as its special power.",
+        "status": "stale-proposal",
+        "inspected": true,
+        "checkers": [
+          "mechanics-ua-spells"
+        ]
+      },
+      "after": {
+        "path": "/exceptions/0",
+        "value": "The source’s special-power notes assign the individual duration, saving throw, area, and additional result to each hue; the listed spell and attack facts are summarized above. The 12th-level ashen table entry lists paralysis in its damage/effect column and death as its special power.",
+        "status": "unchecked",
+        "inspected": false,
+        "checkers": []
+      }
+    }
+  ]
+}

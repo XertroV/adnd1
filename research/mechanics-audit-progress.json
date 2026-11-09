@@ -2,33 +2,33 @@
   "schemaVersion": 1,
   "input": {
     "path": "dist/data.json",
-    "sha256": "84d7d81a0092a3fb4378ef5f8133d6fecdab968c9c63a353e99b1b9e2cc070be",
+    "sha256": "713fee3fdea33c061ff0986b82884c32e8bd60c81090c4aedd20bff1bde348e5",
     "hashFormat": "mechanics-only SHA-256 of JSON.stringify(parsed data after recursively removing generated evidenceBindings and regionReviews transport metadata; distinct from raw data.json/provenance hashes)",
     "denominator": "Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.",
     "countSemantics": "Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap."
   },
   "counts": {
     "records": 1003,
-    "totalFields": 13995,
-    "inspectedFields": 13319,
-    "sourceCheckedFields": 12733,
-    "unchangedSourceCheckedFields": 10087,
-    "correctedAndCheckedFields": 2646,
+    "totalFields": 14032,
+    "inspectedFields": 13294,
+    "sourceCheckedFields": 12708,
+    "unchangedSourceCheckedFields": 10065,
+    "correctedAndCheckedFields": 2643,
     "correctionPendingFields": 0,
     "notExtractedFields": 14,
     "sourceConflictFields": 22,
     "editorialReviewedFields": 558,
     "staleProposalFields": 0,
-    "uncheckedFields": 668
+    "uncheckedFields": 730
   },
   "percentages": {
-    "inspectedFields": 95.17,
-    "sourceCheckedFields": 90.98,
-    "unchangedSourceCheckedFields": 72.08,
-    "correctedAndCheckedFields": 18.91,
+    "inspectedFields": 94.74,
+    "sourceCheckedFields": 90.56,
+    "unchangedSourceCheckedFields": 71.73,
+    "correctedAndCheckedFields": 18.84,
     "correctionPendingFields": 0,
     "notExtractedFields": 0.1,
-    "uncheckedFields": 4.77
+    "uncheckedFields": 5.2
   },
   "records": [
     {
@@ -60556,65 +60556,178 @@
         },
         {
           "path": "/effect/0",
-          "value": "Provides distinct religious rites, not one general blessing: coming of age, burial and marriage are available at cleric level 1; dedication, investiture and item consecration at 3; ordination and special vows at 5; ground consecration at 7; anathematizing at 9.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "The rite variant depends on the religion and leaves no lingering aura of magic, though an aura of good or evil may be present and detectable. The source lists coming of age, burial, and marriage at cleric level 1; dedication, investiture, and consecrate item at level 3; ordination and special vows at level 5; consecrate ground at level 7; and anathematize at level 9. Each requires a cleric of the indicated level or higher.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/0",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/effect/1",
-          "value": "Coming of age grants one future +1 save; burial protects a corpse for a week; investiture and ordination establish religious standing.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "Coming of age grants a +1 bonus to one saving throw, usable at any time after the rite; in some cultures it marks entry to adulthood. Burial protects a corpse for one week as protection from evil; someone trying to disinter the body must save versus spell or stop and flee in fear for one turn. Marriage has no tangible after-effect and does not guarantee happiness or harmony, though it can carry moral or legal significance.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/1",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/effect/2",
-          "value": "Special vows protect a cavalier/paladin from bestow curse, but impose −4 against a same-alignment cleric’s quest.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "Dedication admits the recipient to the casting cleric’s religious ranks as a sanctioned worshiper; it is permanent unless the worshiper demonstrates a desire to change allegiance, in which case a higher-level cleric can replace it. Investiture must precede first-level cleric status. Ordination precedes service as a congregation priest or similar leader and is performed by a cleric of higher level than the recipient.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/2",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/3",
+          "value": "Consecrate item is performed on an object destined for an altar or another place in a religious edifice. Holy or unholy water used to keep it potent must be stored in a properly consecrated container.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/3",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/4",
+          "value": "Special vows are received by a would-be cavalier or paladin before beginning the chosen career. While they remain in effect, they protect against bestow curse spells but not cursed items; they also impose −4 on saving throws against a quest cast by a cleric of the same alignment as the caster of the vows. The vows may be renewed between levels or during advancement through the next level.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/4",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/5",
+          "value": "Consecrate ground must be cast before the area is altered or construction materials arrive. A structure built on unconsecrated ground deteriorates irreversibly; the structure also has a cumulative 1% chance per year of actually collapsing. A consecrated graveyard turns undead each round as a 3rd-level cleric; if an evil cleric consecrates it, undead there are instead treated as protected and controlled by an evil 3rd-level cleric.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/5",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/6",
+          "value": "Anathematize brands an offender with a religious identifying mark. If the subject is undeserving, the spell fails; a successful atonement makes the mark fade and may remove it. The brand disappears entirely when the offense was caused by magic or another external force, but a naturally caused offense cannot be completely removed.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/6",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/conditions/0",
-          "value": "The listed cleric rank is a minimum. All rites except anathematizing require willingness.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "Except for anathematize, no saving throw is called for: the recipient is inanimate or presumed willing. Any ceremony other than anathematize simply fails if cast on an unwilling person.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/conditions/0",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/conditions/1",
-          "value": "Ground must be consecrated before construction begins; consecrated graveyards turn or protect undead as a 3rd-level cleric.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "Special vows are received before the intended cavalier or paladin begins that career; the protection lasts through the upper limit of the recipient’s current level and can be renewed as described in the effect.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/conditions/1",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/conditions/2",
+          "value": "Consecrate ground has no effect if cast after the site has been altered or construction materials have been brought there.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/conditions/2",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/exceptions/0",
-          "value": "Anathematizing allows an unwilling subject a spell save at −4 and fails if undeserved; atonement can reduce or remove the brand.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "An unwilling subject of anathematize receives a save versus spell at −4. Standard service costs are: coming of age 5–15 sp; burial 5–50 gp; marriage 1–20 gp; dedication 1–10 sp (sometimes free); investiture 1–100 gp (sometimes free); consecrate item usually free; ordination usually free but possibly up to 200 gp; special vows 1–100 gp (sometimes free); consecrate ground 100–600 gp depending on area and cleric level; anathematize is performed without charge.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
-          ]
-        },
-        {
-          "path": "/exceptions/1",
-          "value": "This card condenses nine rites; detailed religious requirements and service costs remain in the source.",
-          "status": "source-checked",
-          "inspected": true,
-          "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/exceptions/0",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         }
       ],
@@ -60627,7 +60740,8 @@
         }
       ],
       "reviewers": [
-        "mechanics-ua-spells"
+        "mechanics-ua-spells",
+        "mechanics-ua-source-body-transition-pending-v1"
       ],
       "unresolvedNotes": [
         {
@@ -65913,59 +66027,98 @@
         },
         {
           "path": "/effect/0",
-          "value": "Bow: a +3 bow with seven arrows, usable at one or two shots/round by a bow-using class with Strength 6+. Each hue has specific doubled-damage foes, not fully listed here.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "Bow: creates a shimmering, multilayered bow with seven rainbow missiles, each equal to a +3 weapon; the bow disappears after firing all seven. A character permitted to use a bow and with Strength 6 or better can use it without a non-proficiency penalty; it fires once or twice per round, and each arrow leaves a different hue. Each hue deals double damage to its listed targets: red—fire-dwellers/users; orange—earth elementals; yellow—vegetable targets, including fungus creatures, shambling mounds, and treants; green—aquatic creatures and water elementals; blue—aerial creatures, electricity-using creatures, and air elementals; indigo—acid- or poison-using creatures; violet—metallic or regenerating creatures. If no hue is requested, or a previously used hue is requested, the next arrow in spectrum order appears.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/0",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/effect/1",
-          "value": "Bridge: 20–120 feet long, caster-level feet wide, carrying 100 lb/level; exceeding capacity removes it.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "Bridge: 20–120 feet long, caster-level feet wide, and carries weight in hundreds of pounds equal to the cleric’s level. If its weight limit is exceeded it disappears; otherwise it lasts for the spell duration or until dismissed.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/1",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/effect/2",
-          "value": "Elevator: lifts the caster and those within 10 feet at 12″ movement.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "Elevator: lifts the caster and creatures within 10 feet along an upward arc at 12″ movement; it can descend again, and its arc trails 12″ behind those traveling on it. Reach safety before the spell expires, or the rainbow disappears from beneath those standing on it.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/2",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/effect/3",
-          "value": "Flagon: seven drinks provide cure light wounds, resist fire, cure blindness, slow poison, cure disease, resist cold and remove paralysis as a 12th-level cleric.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "Flagon: forms a seven-colored vessel containing seven measures of water. The hues provide cure light wounds, resist fire, cure blindness, slow poison, cure disease, resist cold, and remove paralysis. Each benefit acts as the corresponding spell cast by a 12th-level cleric and persists after the Rainbow expires.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/3",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/conditions/0",
-          "value": "Requires a visible rainbow or a diamond worth at least 1,000 gp previously blessed and prayed over in sight of a rainbow.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "Requires a visible rainbow, or a diamond worth at least 1,000 gp that the cleric has specially prepared with bless and prayer in sight of a rainbow.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/conditions/0",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/exceptions/0",
-          "value": "Only the holy symbol survives casting; unused rainbow objects/drinks vanish on expiry, though consumed spell benefits persist normally.",
-          "status": "corrected-and-checked",
-          "inspected": true,
+          "value": "Only the holy/unholy symbol remains after casting. The rainbow objects and unused flagon water disappear when the spell expires; benefits from consumed flagon water persist.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
           ],
-          "changePaths": [
-            "/exceptions"
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/exceptions/0",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         }
       ],
@@ -65984,7 +66137,8 @@
         }
       ],
       "reviewers": [
-        "mechanics-ua-spells"
+        "mechanics-ua-spells",
+        "mechanics-ua-source-body-transition-pending-v1"
       ],
       "unresolvedNotes": [
         {
@@ -65999,21 +66153,6 @@
           "oldValue": null,
           "newValue": "12″",
           "reason": "Printed header specifies range.",
-          "book": "UA",
-          "page": 39,
-          "state": "corrected-and-checked"
-        },
-        {
-          "checker": "mechanics-ua-spells",
-          "path": "/exceptions",
-          "oldValue": [
-            "Only the holy symbol survives casting; unused rainbow objects/drinks vanish on expiry, though consumed spell benefits persist normally.",
-            "Range is withheld because its OCR digit is uncertain."
-          ],
-          "newValue": [
-            "Only the holy symbol survives casting; unused rainbow objects/drinks vanish on expiry, though consumed spell benefits persist normally."
-          ],
-          "reason": "Remove the obsolete OCR range-withholding note.",
           "book": "UA",
           "page": 39,
           "state": "corrected-and-checked"
@@ -66942,69 +67081,162 @@
         },
         {
           "path": "/effect/0",
-          "value": "Provides druidic rites: coming of age/rest eternal/marriage (listed rank 1), dedication/investiture (3), initiation/special vows (7), hallowed ground (9), and cast out (12).",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "The spell leaves no aura of magic, though know alignment or similar magic may reveal the force of true neutrality involved. The source lists coming of age, rest eternal, and marriage at druid level 1; dedication and investiture at level 3; initiation and special vows at level 7; hallowed ground at level 9; and cast out at level 12. Its general sentence says each can be cast by a druid of the indicated or lower level; the initiation paragraph separately gives a rite-specific performer and timing rule.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/0",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/effect/1",
-          "value": "Rest eternal prevents raise dead and resurrection, though wish can restore life; initiation unlocks 7th-level shapechanging and woodland-charm immunity.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "Coming of age is usually performed when the recipient reaches age 14 and grants the same +1 bonus to one saving throw as the cleric rite. Rest eternal hastens the deceased’s spirit toward its final resting place; raise dead and resurrection cannot restore that subject, though wish can. Marriage is essentially identical to clerical ceremony.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/1",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/effect/2",
-          "value": "Hallowed ground protects a permanent grove from disease and natural disaster; cast out makes natural creatures react negatively.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "Dedication admits a true-neutral recipient to the druid’s followers/worshipers and charges the recipient, as a druid, to preserve and protect nature and the world’s balance. Investiture must occur before the character becomes an Aspirant (1st-level druid) and conveys no other benefit.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/2",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/3",
+          "value": "Initiation grants the shape-changing and woodland-charm-immunity powers that become available at 7th level. It must be performed immediately after the druid begins advancing through 7th level; if performed earlier it does not work, and those powers remain unavailable until initiation.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/3",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/4",
+          "value": "Special vows operate like the clerical ceremony, but do not work on paladins and do work on cavaliers of any alignment. Hallowed ground is cast on the druid’s permanent grove, ensorcelling its trees against disease and other natural disasters. The ground remains hallowed while the druid maintains that grove as a permanent base.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/4",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/5",
+          "value": "Cast out is a severe excommunication or punishment for sacrilege against the natural environment or violation of druidic standards. The subject exudes a powerful negative aura that makes natural creatures react negatively, including normal animals, woodland monsters, domestic beasts, druids, and their followers.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/5",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/conditions/0",
-          "value": "Dedication requires true neutrality; special vows apply to cavaliers of any alignment, not paladins.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "A ceremony is performed in a druid grove or another natural, healthy patch of forest; mistletoe is always a material component. Rites are normally conducted at dawn or dusk.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/conditions/0",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/conditions/1",
-          "value": "Cast out needs hierarchical permission; unwilling targets save versus spell at −4.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "Dedication requires true neutrality. Initiation is normally performed by another druid of 7th or higher level; in unusual cases the recipient may cast it on themself. Preserve both this rite-specific instruction and the source’s separate general indicated-or-lower-level sentence.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/conditions/1",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/conditions/2",
+          "value": "Cast out requires permission up the druidic hierarchy: a druid asks the Archdruid, an Archdruid asks the Great Druid, and the Great Druid asks the Grand Druid. The Grand Druid needs no permission, though a Hierophant Druid may reverse the Grand Druid’s action. The ceremony is normally reserved for serious offenses; an unwilling recipient saves versus spell at −4.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/conditions/2",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/exceptions/0",
-          "value": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
-          "status": "corrected-and-checked",
-          "inspected": true,
+          "value": "Cast out’s effects can be lessened by a reversed ceremony cast by the same druid or another druid at least as high level as the original caster, but only a Hierophant Druid can completely cancel it. Higher-ranking druids may punish a druid who was denied permission or whose action is later reversed.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells",
-            "mechanics-source-adjudication-batch5"
+            "mechanics-ua-source-body-transition-pending-v1"
           ],
-          "changePaths": [
-            "/exceptions/0"
-          ]
-        },
-        {
-          "path": "/exceptions/1",
-          "value": "Only a Hierophant Druid can fully cancel casting out; other reversals merely lessen it.",
-          "status": "source-checked",
-          "inspected": true,
-          "checkers": [
-            "mechanics-ua-spells"
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/exceptions/0",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         }
       ],
@@ -67030,7 +67262,8 @@
       ],
       "reviewers": [
         "mechanics-ua-spells",
-        "mechanics-source-adjudication-batch5"
+        "mechanics-source-adjudication-batch5",
+        "mechanics-ua-source-body-transition-pending-v1"
       ],
       "unresolvedNotes": [
         {
@@ -67047,38 +67280,6 @@
           "reason": "Printed header includes verbal component.",
           "book": "UA",
           "page": 41,
-          "state": "corrected-and-checked"
-        },
-        {
-          "checker": "mechanics-ua-spells",
-          "path": "/exceptions/0",
-          "oldValue": "The OCR says the listed ranks are 'indicated or lower'; this contradicts the hierarchy implied by the rites, so minimum-rank wording is not resolved here.",
-          "newValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
-          "reason": "The lower-level wording is visible in the original scan. Superseded field content was reconciled with the batch-5 independent source adjudication; prior change preserved.",
-          "book": "UA",
-          "page": 41,
-          "supersededChanges": [
-            {
-              "path": "/exceptions/0",
-              "oldValue": "The OCR says the listed ranks are 'indicated or lower'; this contradicts the hierarchy implied by the rites, so minimum-rank wording is not resolved here.",
-              "newValue": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
-              "reason": "The lower-level wording is visible in the original scan.",
-              "book": "UA",
-              "page": 41
-            }
-          ],
-          "state": "corrected-and-checked"
-        },
-        {
-          "checker": "mechanics-source-adjudication-batch5",
-          "path": "/exceptions/0",
-          "oldValue": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
-          "newValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
-          "reason": "Include the rite-specific caster procedure on the continuation; retire the contradiction inferred from hierarchy alone.",
-          "book": "UA",
-          "page": 41,
-          "pdfPage": 42,
-          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
           "state": "corrected-and-checked"
         }
       ]
@@ -81399,11 +81600,34 @@
         },
         {
           "path": "/effect/1",
-          "value": "Can serve as a trip line or entangle one opponent as the druid spell does.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "The source names these separate commands: Coil (form a neat coiled stack), Coil & Knot, Loop, Loop & Knot, and Tie & Knot, plus the reverse of each (such as Uncoil).",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/1",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/2",
+          "value": "Can serve as a trip line or entangle one opponent as the druid spell does.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/2",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
@@ -81452,7 +81676,8 @@
         }
       ],
       "reviewers": [
-        "mechanics-ua-spells"
+        "mechanics-ua-spells",
+        "mechanics-ua-source-body-transition-pending-v1"
       ],
       "unresolvedNotes": [
         {
@@ -91932,20 +92157,178 @@
         },
         {
           "path": "/effect/0",
-          "value": "Creates a colored orb to throw at a creature. Attack bonuses are +3 within 1″, +2 beyond 1″ through 2″, and +1 beyond 2″ through 3″.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "Creates a colored orb in the illusionist’s hand to hurl at one target within 3″, with no intervening barriers. Attack chances are +3 at 1″ or less, +2 beyond 1″ through 2″, and +1 beyond 2″ through 3″. Magic resistance applies; a miss dissipates without further effect. Creatures normally hit only by powerful magical weapons can still be affected.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/0",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
           "path": "/effect/1",
-          "value": "Higher caster levels unlock different colors, damage and secondary powers; previously available colors can still be chosen.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "Lower-level hues remain available after the illusionist can create higher-level colors; the caster may choose a color below their current level.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/1",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/2",
+          "value": "Pearly light persists for 1 round per caster level; a target that fails its save is blinded for that duration.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/2",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/3",
+          "value": "Ruby heat melts up to 1 cubic yard of ice. A creature that fails its save loses 1 point of Strength and Dexterity (−1 to hit and AC) for 1 round after being struck.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/3",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/4",
+          "value": "Flame sets combustibles within 1 foot of the target alight. Unless the target saves, it takes 2 additional fire damage, except when protected from fire by magical or natural means.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/4",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/5",
+          "value": "Amber blinds the target for 5–8 rounds unless it saves versus spell; cure blindness or dispel magic also negates this effect.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/5",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/6",
+          "value": "A successful emerald hit creates a magical stinking cloud with a 5-foot radius around the target. The target must save versus poison or be helpless; the printed note also says the target will be helpless until leaving the vapors.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/6",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/7",
+          "value": "Turquoise inflicts electrical damage. A target wearing ferrous metal is magnetized for 3–12 rounds unless it saves versus spell; magnetized metal sticks to other magnetized metal, and nonmagnetized ferrous metal clings until pulled free.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/7",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/8",
+          "value": "Sapphire paralyzes the target for 5–20 rounds unless it saves versus paralysis.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/8",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/9",
+          "value": "Amethyst turns the target to stone unless it saves versus petrification; even a successful save leaves it slowed for 2–8 rounds.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/9",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
+          ]
+        },
+        {
+          "path": "/effect/10",
+          "value": "Ashen kills the target unless it saves versus death magic; even a successful save leaves it paralyzed for 2–5 rounds.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": [
+            "mechanics-ua-source-body-transition-pending-v1"
+          ],
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/effect/10",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         },
         {
@@ -91959,23 +92342,18 @@
         },
         {
           "path": "/exceptions/0",
-          "value": "Can affect creatures otherwise requiring powerful magical weapons; a miss simply dissipates.",
-          "status": "source-checked",
-          "inspected": true,
+          "value": "The source’s special-power notes assign the individual duration, saving throw, area, and additional result to each hue; the listed spell and attack facts are summarized above. The 12th-level ashen table entry lists paralysis in its damage/effect column and death as its special power.",
+          "status": "unchecked",
+          "inspected": false,
           "checkers": [
-            "mechanics-ua-spells"
-          ]
-        },
-        {
-          "path": "/exceptions/1",
-          "value": "Power details, conditions and saving throws are described in the table notes.",
-          "status": "corrected-and-checked",
-          "inspected": true,
-          "checkers": [
-            "mechanics-ua-spells"
+            "mechanics-ua-source-body-transition-pending-v1"
           ],
-          "changePaths": [
-            "/exceptions/1"
+          "unresolved": [
+            {
+              "checker": "mechanics-ua-source-body-transition-pending-v1",
+              "path": "/exceptions/0",
+              "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+            }
           ]
         }
       ],
@@ -91994,7 +92372,8 @@
         }
       ],
       "reviewers": [
-        "mechanics-ua-spells"
+        "mechanics-ua-spells",
+        "mechanics-ua-source-body-transition-pending-v1"
       ],
       "unresolvedNotes": [
         {
@@ -92019,16 +92398,6 @@
           "oldValue": "Withheld pending visual verification",
           "newValue": "1st pearly: 1–4/light; 2nd ruby: 1–6/heat; 3rd flame: 1–8/fire; 4th amber: 1–10/blindness; 5th emerald: 1–12/stinking cloud; 6th turquoise: 2–16/magnetism; 7th sapphire: 2–8/paralysis; 10th amethyst: slow/petrification; 12th ashen: paralysis/death.",
           "reason": "Rendered table explicitly prints minimum levels, color, damage column and power; consult its notes for details.",
-          "book": "UA",
-          "page": 67,
-          "state": "corrected-and-checked"
-        },
-        {
-          "checker": "mechanics-ua-spells",
-          "path": "/exceptions/1",
-          "oldValue": "The essential color/damage/effect table is not transcribed here because it still needs visual verification.",
-          "newValue": "Power details, conditions and saving throws are described in the table notes.",
-          "reason": "The table is now visually legible; detailed notes remain relevant.",
           "book": "UA",
           "page": 67,
           "state": "corrected-and-checked"
@@ -141120,6 +141489,27 @@
           "checkers": []
         },
         {
+          "path": "/guidance/6",
+          "value": "UA p. 13 Table II lists the Fighter for any armor, shield, and weapons; oil is permitted and poison is the DM’s option. UA p. 26 lists four initial weapon proficiencies, a −2 nonproficiency penalty, and one added proficiency per three levels.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/7",
+          "value": "UA p. 18 allows weapon specialization only for Fighters and Rangers, chosen at character creation and costing two weapon-proficiency slots. From the initial allotment of four Fighter or three Ranger weapons, ordinary specialization leaves one specialist weapon plus two or one other proficient weapons; bow specialization (but not crossbow specialization) costs one extra slot, leaving the Fighter one other proficiency and the Ranger none. A melee specialist gains +1 to hit and +2 damage. A bow specialist has 6–30-foot point-blank range (+2 to hit and damage, double damage on a successful hit) and +1 to hit and damage at short range; the bow can be fired before initiative if the arrow is nocked, shaft drawn, and target in sight. A crossbow specialist has 6–60-foot point-blank range (+2 to hit and damage, double damage), short range +1 to hit and damage, and medium range +1 to hit only; it can fire before initiative if cocked, aimed, and the target is in range. Other missile specialists gain +1 to hit and +2 damage. Specialization hit bonuses are not magical and do not enable hits on creatures affected only by magical weapons. Use the existing UA specialization-rate table for weapon-specific rates; it supersedes ordinary rates while the specialist weapon is used.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/8",
+          "value": "UA p. 18 distinguishes the initial specialization choice, made when the character is created, from double specialization, which a fighter or ranger may choose initially or later for the same specific weapon type already specialized in. Double specialization is limited to melee weapons other than pole arms and the two-handed sword; it uses the proficiency slot that would otherwise gain a new weapon and grants +3 to hit and +3 damage. For ordinary melee specialization, +1 to hit and +2 damage stack with Strength and magic bonuses, and the weapon must be a specific type (for example, long sword rather than “sword”). For a crossbow specialist, the 6–60-foot point-blank category completely replaces a light crossbow’s ordinary short range in a dungeon.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
           "path": "/xpContinuation/afterLevel",
           "value": 11,
           "status": "source-checked",
@@ -145974,6 +146364,41 @@
         {
           "path": "/guidance/6",
           "value": "PHB pp. 24–25: a ranger adds one point of melee damage per experience level against listed giant-class humanoids, surprises opponents 50% of the time, and is surprised 16 2/3% of the time. No more than three rangers may operate together; level-10 followers are 2–24 and cannot be replaced.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/7",
+          "value": "UA p. 13 Table II lists the Ranger for any armor, shield, and weapons; oil is permitted and poison is the DM’s option. UA p. 26 lists three initial weapon proficiencies*, a −2 nonproficiency penalty, and one added proficiency per three levels; the star note restricts Ranger weapon choices.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/8",
+          "value": "UA p. 18 allows weapon specialization only for Fighters and Rangers, chosen at character creation and costing two weapon-proficiency slots. From the initial allotment of four Fighter or three Ranger weapons, ordinary specialization leaves one specialist weapon plus two or one other proficient weapons; bow specialization (but not crossbow specialization) costs one extra slot, leaving the Fighter one other proficiency and the Ranger none. A melee specialist gains +1 to hit and +2 damage. A bow specialist has 6–30-foot point-blank range (+2 to hit and damage, double damage on a successful hit) and +1 to hit and damage at short range; the bow can be fired before initiative if the arrow is nocked, shaft drawn, and target in sight. A crossbow specialist has 6–60-foot point-blank range (+2 to hit and damage, double damage), short range +1 to hit and damage, and medium range +1 to hit only; it can fire before initiative if cocked, aimed, and the target is in range. Other missile specialists gain +1 to hit and +2 damage. Specialization hit bonuses are not magical and do not enable hits on creatures affected only by magical weapons. Use the existing UA specialization-rate table for weapon-specific rates; it supersedes ordinary rates while the specialist weapon is used.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/9",
+          "value": "UA pp. 21–22 add situation-specific tracking procedures to the Ranger’s level-by-level base chances already recorded in this class entry. Outdoors, the base is 10% per level plus 10%, with a 110% base ceiling; terrain, group size, crossing/overtracking, trail age, precipitation, and deliberate concealment modify the attempt. Indoor tracking uses separate surface categories, the same base and specified shared modifiers, and additional observation prerequisites; movement rate depends on track clarity and illumination. Apply the printed definitions and impossibility limits, and keep the p. 22 identification roll separate from the tracking roll.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/10",
+          "value": "UA p. 21 distinguishes the outdoor base-chance ceiling of 110% from the final adjusted chance: after modifiers, an adjusted chance above 100% is treated as 100%.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/11",
+          "value": "UA p. 18 distinguishes the initial specialization choice, made when the character is created, from double specialization, which a fighter or ranger may choose initially or later for the same specific weapon type already specialized in. Double specialization is limited to melee weapons other than pole arms and the two-handed sword; it uses the proficiency slot that would otherwise gain a new weapon and grants +3 to hit and +3 damage. For ordinary melee specialization, +1 to hit and +2 damage stack with Strength and magic bonuses, and the weapon must be a specific type (for example, long sword rather than “sword”). For a crossbow specialist, the 6–60-foot point-blank category completely replaces a light crossbow’s ordinary short range in a dungeon.",
           "status": "unchecked",
           "inspected": false,
           "checkers": []
@@ -169005,6 +169430,20 @@
           ]
         },
         {
+          "path": "/guidance/4",
+          "value": "UA p. 13 Table II lists the cavalier for any armor, shield, and weapons, subject to note 1’s social-station limits on armor and arms; note 2 bars oil in personal combat but permits siege use, and poison is listed only if evil. Use the six social-station packages on p. 25; each horse is supplied with station-appropriate tack, harness, saddle, and saddlebags, and a cavalier below Upper Class begins as a 0-level Horseman to be taken in by a good family and esquired.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/5",
+          "value": "UA p. 26 lists the cavalier weapon-proficiency row as 3*, a −3 nonproficiency penalty, and one added proficiency per two levels. Its star note specifies 0-level Horseman/Lancer and 1st-level Armiger counts and restricts Cavalier weapon choices.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
           "path": "/xpContinuation/afterLevel",
           "value": 12,
           "status": "source-checked",
@@ -172221,6 +172660,34 @@
           ]
         },
         {
+          "path": "/guidance/4",
+          "value": "UA p. 13 Table II permits any armor, shield, and weapons, but note 3 limits the class Dexterity armor benefit in bulky or fairly bulky armor.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/5",
+          "value": "UA p. 18 requires the barbarian’s initial weapon proficiencies to include hand axe, knife, and spear; other weapons based on the native area may be chosen by the DM. The p. 26 weapon table lists six initial proficiencies, a −1 nonproficiency penalty, and one added proficiency per two levels; these weapon slots are separate from the barbarian’s nonweapon abilities.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/6",
+          "value": "UA pp. 19–20 group barbarian abilities as eight primary abilities (climbing, hiding, surprise, back protection, leaping/springing, detecting illusion, detecting magic, leadership), four secondary abilities (survival, first aid, outdoor craft, tracking), and one or more locale- or culture-selected tertiary skills. All four secondary abilities are possessed, but are generally limited in unfamiliar areas until about a month of continuous exposure; the DM determines applicable tertiary skills. Paddled and rowed small craft are separate tertiary options.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/7",
+          "value": "UA p. 20 names eight locale- or culture-selected tertiary skill options: animal handling, horsemanship, long-distance signalling, running, small craft (paddled), small craft (rowed), sound imitation, and snare building. The DM determines which apply to the campaign; a barbarian has one or more.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
           "path": "/xpContinuation/afterLevel",
           "value": 11,
           "status": "source-checked",
@@ -174332,6 +174799,27 @@
           "changePaths": [
             "/guidance/3"
           ]
+        },
+        {
+          "path": "/guidance/4",
+          "value": "UA p. 13 Table II lists the Acrobat’s armor as “as thief,” no shield, and weapons “as thief, plus lasso and staff”; oil is permitted and poison is the DM’s option. Note 4 directs armor other than leather to the function adjustments in Thieves Table II (p. 22).",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/5",
+          "value": "UA p. 25 Tables II and III adjust the Acrobat’s base function chances or maxima for Strength and Dexterity; apply their stated racial adjustments as well. Table IV separates body-associated weight (clothing, accessories, armor, weapons) from additional carried weight, which applies only while tightrope walking; backpacks are otherwise barred during Acrobat activities. Its level-14 extra 1,000 gp and level-22 passenger examples are limited by the accompanying procedure.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/6",
+          "value": "UA p. 26 lists the Acrobat weapon-proficiency row as 2 initial weapons, a −3 nonproficiency penalty, and one added proficiency per four levels.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/xpContinuation/afterLevel",
@@ -180160,6 +180648,20 @@
           ]
         },
         {
+          "path": "/guidance/5",
+          "value": "UA p. 13 Table II lists any armor, shield, and weapons subject to note 1’s social-station limits; note 2 bars oil in personal combat but permits siege use, and poison is never permitted.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/6",
+          "value": "UA p. 26 shows a starred Paladin weapon-proficiency entry (3*, −3, one added proficiency per two levels). The star note defines zero-level Cavalier grades and names Cavalier/Ranger weapon-choice restrictions, but does not explain the Paladin star; keep that meaning unresolved.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
           "path": "/xpContinuation/afterLevel",
           "value": 11,
           "status": "source-checked",
@@ -185161,6 +185663,20 @@
           "checkers": [
             "mechanics-illusionist-classes"
           ]
+        },
+        {
+          "path": "/guidance/4",
+          "value": "UA p. 13 Table II restricts the Druid to leather or padded armor, a wooden shield, and the listed weapons (aklys, club, dagger, dart, garrot, hammer, lasso, sap, sling, scimitar, spear, staff, staff sling, sword (khopesh), and whip); oil is permitted and poison is the DM’s option.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/guidance/5",
+          "value": "UA p. 26 lists the Druid weapon-proficiency row as 2 initial weapons, a −4 nonproficiency penalty, and one added proficiency per five levels.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/levelLimit/level",
@@ -262786,13 +263302,6 @@
         "/fields/Saving throw",
         "/fields/Area",
         "/fields/Materials",
-        "/effect/0",
-        "/effect/1",
-        "/effect/2",
-        "/conditions/0",
-        "/conditions/1",
-        "/exceptions/0",
-        "/exceptions/1",
         "/class",
         "/level"
       ],
@@ -262804,14 +263313,7 @@
         "/fields/Casting time": "1 hour",
         "/fields/Saving throw": "Special",
         "/fields/Area": "One creature, item or area",
-        "/fields/Materials": "Holy symbol; additional requirements vary by religion",
-        "/effect/0": "Provides distinct religious rites, not one general blessing: coming of age, burial and marriage are available at cleric level 1; dedication, investiture and item consecration at 3; ordination and special vows at 5; ground consecration at 7; anathematizing at 9.",
-        "/effect/1": "Coming of age grants one future +1 save; burial protects a corpse for a week; investiture and ordination establish religious standing.",
-        "/effect/2": "Special vows protect a cavalier/paladin from bestow curse, but impose −4 against a same-alignment cleric’s quest.",
-        "/conditions/0": "The listed cleric rank is a minimum. All rites except anathematizing require willingness.",
-        "/conditions/1": "Ground must be consecrated before construction begins; consecrated graveyards turn or protect undead as a 3rd-level cleric.",
-        "/exceptions/0": "Anathematizing allows an unwilling subject a spell save at −4 and fails if undeserved; atonement can reduce or remove the brand.",
-        "/exceptions/1": "This card condenses nine rites; detailed religious requirements and service costs remain in the source."
+        "/fields/Materials": "Holy symbol; additional requirements vary by religion"
       },
       "reviewedPaths": [],
       "sources": [
@@ -264163,12 +264665,6 @@
         "/fields/Saving throw",
         "/fields/Area",
         "/fields/Materials",
-        "/effect/0",
-        "/effect/1",
-        "/effect/2",
-        "/effect/3",
-        "/conditions/0",
-        "/exceptions/0",
         "/class",
         "/level"
       ],
@@ -264180,13 +264676,7 @@
         "/fields/Casting time": "7 segments",
         "/fields/Saving throw": "None",
         "/fields/Area": "One of four applications",
-        "/fields/Materials": "Holy/unholy symbol and water; a prepared diamond may substitute for a visible rainbow",
-        "/effect/0": "Bow: a +3 bow with seven arrows, usable at one or two shots/round by a bow-using class with Strength 6+. Each hue has specific doubled-damage foes, not fully listed here.",
-        "/effect/1": "Bridge: 20–120 feet long, caster-level feet wide, carrying 100 lb/level; exceeding capacity removes it.",
-        "/effect/2": "Elevator: lifts the caster and those within 10 feet at 12″ movement.",
-        "/effect/3": "Flagon: seven drinks provide cure light wounds, resist fire, cure blindness, slow poison, cure disease, resist cold and remove paralysis as a 12th-level cleric.",
-        "/conditions/0": "Requires a visible rainbow or a diamond worth at least 1,000 gp previously blessed and prayed over in sight of a rainbow.",
-        "/exceptions/0": "Only the holy symbol survives casting; unused rainbow objects/drinks vanish on expiry, though consumed spell benefits persist normally."
+        "/fields/Materials": "Holy/unholy symbol and water; a prepared diamond may substitute for a visible rainbow"
       },
       "reviewedPaths": [],
       "sources": [
@@ -264212,19 +264702,6 @@
           "oldValue": null,
           "newValue": "12″",
           "reason": "Printed header specifies range.",
-          "book": "UA",
-          "page": 39
-        },
-        {
-          "path": "/exceptions",
-          "oldValue": [
-            "Only the holy symbol survives casting; unused rainbow objects/drinks vanish on expiry, though consumed spell benefits persist normally.",
-            "Range is withheld because its OCR digit is uncertain."
-          ],
-          "newValue": [
-            "Only the holy symbol survives casting; unused rainbow objects/drinks vanish on expiry, though consumed spell benefits persist normally."
-          ],
-          "reason": "Remove the obsolete OCR range-withholding note.",
           "book": "UA",
           "page": 39
         }
@@ -264431,15 +264908,8 @@
         "/fields/Saving throw",
         "/fields/Area",
         "/fields/Materials",
-        "/effect/0",
-        "/effect/1",
-        "/effect/2",
-        "/conditions/0",
-        "/conditions/1",
-        "/exceptions/1",
         "/class",
-        "/level",
-        "/exceptions/0"
+        "/level"
       ],
       "checkedValues": {
         "/class": "Druid",
@@ -264450,14 +264920,7 @@
         "/fields/Casting time": "1 hour",
         "/fields/Saving throw": "Special",
         "/fields/Area": "One creature, item or area",
-        "/fields/Materials": "Mistletoe; a grove or healthy natural forest setting",
-        "/effect/0": "Provides druidic rites: coming of age/rest eternal/marriage (listed rank 1), dedication/investiture (3), initiation/special vows (7), hallowed ground (9), and cast out (12).",
-        "/effect/1": "Rest eternal prevents raise dead and resurrection, though wish can restore life; initiation unlocks 7th-level shapechanging and woodland-charm immunity.",
-        "/effect/2": "Hallowed ground protects a permanent grove from disease and natural disaster; cast out makes natural creatures react negatively.",
-        "/conditions/0": "Dedication requires true neutrality; special vows apply to cavaliers of any alignment, not paladins.",
-        "/conditions/1": "Cast out needs hierarchical permission; unwilling targets save versus spell at −4.",
-        "/exceptions/0": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
-        "/exceptions/1": "Only a Hierophant Druid can fully cancel casting out; other reversals merely lessen it."
+        "/fields/Materials": "Mistletoe; a grove or healthy natural forest setting"
       },
       "reviewedPaths": [],
       "sources": [
@@ -264491,24 +264954,6 @@
           "reason": "Printed header includes verbal component.",
           "book": "UA",
           "page": 41
-        },
-        {
-          "path": "/exceptions/0",
-          "oldValue": "The OCR says the listed ranks are 'indicated or lower'; this contradicts the hierarchy implied by the rites, so minimum-rank wording is not resolved here.",
-          "newValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
-          "reason": "The lower-level wording is visible in the original scan. Superseded field content was reconciled with the batch-5 independent source adjudication; prior change preserved.",
-          "book": "UA",
-          "page": 41,
-          "supersededChanges": [
-            {
-              "path": "/exceptions/0",
-              "oldValue": "The OCR says the listed ranks are 'indicated or lower'; this contradicts the hierarchy implied by the rites, so minimum-rank wording is not resolved here.",
-              "newValue": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
-              "reason": "The lower-level wording is visible in the original scan.",
-              "book": "UA",
-              "page": 41
-            }
-          ]
         }
       ]
     },
@@ -265367,10 +265812,7 @@
         "/fields/Saving throw",
         "/fields/Area",
         "/fields/Materials",
-        "/effect/0",
-        "/effect/1",
         "/conditions/0",
-        "/exceptions/0",
         "/class",
         "/level"
       ],
@@ -265384,10 +265826,7 @@
         "/fields/Saving throw": "Varies by orb",
         "/fields/Area": "One creature",
         "/fields/Materials": "Appropriately colored or clear gem worth at least 50 gp",
-        "/effect/0": "Creates a colored orb to throw at a creature. Attack bonuses are +3 within 1″, +2 beyond 1″ through 2″, and +1 beyond 2″ through 3″.",
-        "/effect/1": "Higher caster levels unlock different colors, damage and secondary powers; previously available colors can still be chosen.",
-        "/conditions/0": "Requires an unobstructed path; magic resistance applies.",
-        "/exceptions/0": "Can affect creatures otherwise requiring powerful magical weapons; a miss simply dissipates."
+        "/conditions/0": "Requires an unobstructed path; magic resistance applies."
       },
       "reviewedPaths": [],
       "sources": [
@@ -265421,14 +265860,6 @@
           "oldValue": "Withheld pending visual verification",
           "newValue": "1st pearly: 1–4/light; 2nd ruby: 1–6/heat; 3rd flame: 1–8/fire; 4th amber: 1–10/blindness; 5th emerald: 1–12/stinking cloud; 6th turquoise: 2–16/magnetism; 7th sapphire: 2–8/paralysis; 10th amethyst: slow/petrification; 12th ashen: paralysis/death.",
           "reason": "Rendered table explicitly prints minimum levels, color, damage column and power; consult its notes for details.",
-          "book": "UA",
-          "page": 67
-        },
-        {
-          "path": "/exceptions/1",
-          "oldValue": "The essential color/damage/effect table is not transcribed here because it still needs visual verification.",
-          "newValue": "Power details, conditions and saving throws are described in the table notes.",
-          "reason": "The table is now visually legible; detailed notes remain relevant.",
           "book": "UA",
           "page": 67
         }
@@ -270640,7 +271071,6 @@
         "/fields/Saving throw",
         "/fields/Area",
         "/effect/0",
-        "/effect/1",
         "/conditions/0",
         "/conditions/1",
         "/exceptions/0",
@@ -270658,7 +271088,6 @@
         "/fields/Saving throw": "None",
         "/fields/Area": "50 feet of 1-inch rope + 5 feet/level",
         "/effect/0": "Commands a nonliving rope-like object to coil, loop, tie/knot, or undo those actions.",
-        "/effect/1": "Can serve as a trip line or entangle one opponent as the druid spell does.",
         "/conditions/0": "Must be within about one foot of what it is to affect; a creature holding it overrides the spell.",
         "/conditions/1": "Thicker material proportionally reduces length; halving diameter increases length by 50%.",
         "/exceptions/0": "Cannot garrote or gain other magical-rope powers; 2 slashing damage breaks it.",
@@ -282332,12 +282761,8 @@
       "checker": "mechanics-source-adjudication-batch5",
       "collection": "spells",
       "id": "ua-druid-ceremony",
-      "checkedPaths": [
-        "/exceptions/0"
-      ],
-      "checkedValues": {
-        "/exceptions/0": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure."
-      },
+      "checkedPaths": [],
+      "checkedValues": {},
       "reviewedPaths": [],
       "sources": [
         {
@@ -282354,18 +282779,7 @@
         }
       ],
       "unresolved": [],
-      "changes": [
-        {
-          "path": "/exceptions/0",
-          "oldValue": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
-          "newValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
-          "reason": "Include the rite-specific caster procedure on the continuation; retire the contradiction inferred from hierarchy alone.",
-          "book": "UA",
-          "page": 41,
-          "pdfPage": 42,
-          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
-        }
-      ]
+      "changes": []
     },
     {
       "checker": "mechanics-source-adjudication-batch5",
@@ -282826,6 +283240,230 @@
           }
         }
       ]
+    },
+    {
+      "checker": "mechanics-ua-source-body-transition-pending-v1",
+      "collection": "spells",
+      "id": "ua-cleric-ceremony",
+      "checkedPaths": [],
+      "checkedValues": {},
+      "reviewedPaths": [],
+      "sources": [],
+      "unresolved": [
+        {
+          "path": "/effect/0",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/1",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/2",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/conditions/0",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/conditions/1",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/exceptions/0",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/3",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/4",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/5",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/6",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/conditions/2",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        }
+      ],
+      "changes": []
+    },
+    {
+      "checker": "mechanics-ua-source-body-transition-pending-v1",
+      "collection": "spells",
+      "id": "ua-cleric-rainbow",
+      "checkedPaths": [],
+      "checkedValues": {},
+      "reviewedPaths": [],
+      "sources": [],
+      "unresolved": [
+        {
+          "path": "/effect/0",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/1",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/2",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/3",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/conditions/0",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/exceptions/0",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        }
+      ],
+      "changes": []
+    },
+    {
+      "checker": "mechanics-ua-source-body-transition-pending-v1",
+      "collection": "spells",
+      "id": "ua-druid-ceremony",
+      "checkedPaths": [],
+      "checkedValues": {},
+      "reviewedPaths": [],
+      "sources": [],
+      "unresolved": [
+        {
+          "path": "/effect/0",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/1",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/2",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/conditions/0",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/conditions/1",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/exceptions/0",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/3",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/4",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/5",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/conditions/2",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        }
+      ],
+      "changes": []
+    },
+    {
+      "checker": "mechanics-ua-source-body-transition-pending-v1",
+      "collection": "spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "checkedPaths": [],
+      "checkedValues": {},
+      "reviewedPaths": [],
+      "sources": [],
+      "unresolved": [
+        {
+          "path": "/effect/0",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/1",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/exceptions/0",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/2",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/3",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/4",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/5",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/6",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/7",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/8",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/9",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/10",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        }
+      ],
+      "changes": []
+    },
+    {
+      "checker": "mechanics-ua-source-body-transition-pending-v1",
+      "collection": "spells",
+      "id": "ua-magic-user-bind",
+      "checkedPaths": [],
+      "checkedValues": {},
+      "reviewedPaths": [],
+      "sources": [],
+      "unresolved": [
+        {
+          "path": "/effect/1",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        },
+        {
+          "path": "/effect/2",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        }
+      ],
+      "changes": []
     }
   ],
   "citationPageOnlyTransfers": [

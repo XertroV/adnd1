@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Independent review of bounded UA class-ability author batch",
+  "reviewStatus": "Source and scope review complete; two targeted precision corrections are required before full author-batch acceptance; all table data and crop pixels reviewed; no activation approval",
+  "reviewDate": "2026-11-09",
+  "reviewer": "independent subagent /root/source_overview",
+  "scope": {
+    "sourcePages": "UA printed pp. 12–26, PDF pp. 13–27, only cited source units in baseline v3",
+    "classOwners": [
+      "classes:ua-cavalier",
+      "classes:ua-paladin",
+      "classes:ua-druid",
+      "classes:ua-barbarian",
+      "classes:ua-thief-acrobat",
+      "classes:fighter",
+      "classes:ranger"
+    ],
+    "directUAPrimaryOwners": 5,
+    "supportingPHBPrimaryOwnersWithUASourceCoverage": [
+      "classes:fighter",
+      "classes:ranger"
+    ],
+    "typedCandidates": 7,
+    "nonTableTaxonomyCandidates": 1,
+    "fullBookCompletenessClaim": false
+  },
+  "pinnedInputs": {
+    "baseCommit": "ad57b84226cc89446e60d0b7bbaebb379aedc16a",
+    "baselineV3": {
+      "path": "research/source-audit-pass8-ua-class-content-baseline-v3.json",
+      "sha256": "97f57790cabfca9550cfd1be9dcbdb81588c981b6e06a068a4e8cfb38edab36f"
+    },
+    "candidatePackage": {
+      "path": "research/source-audit-pass8-ua-class-content-candidates.json",
+      "sha256": "94f86bc23f9becdb37cda32c5374fe4f5c34c4ea757a49d25d806481cc0f3339"
+    },
+    "authorReceipt": {
+      "path": "research/source-audit-pass8-ua-class-content-author-receipt.json",
+      "sha256": "0835d7702ef548be807caec2e72695911f562bff35e5392037f920de74173093"
+    },
+    "sourcePdf": {
+      "path": "/workspace/vault-audit-private/sources/Unearthed Arcana.pdf",
+      "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+      "printingOrEditionMetadataIndependentlyEstablished": false
+    },
+    "classesBeforeSha256": "46c5ad4c404eeb54a75af40e48e2eb8d8a5b952bf134accc7bf7cf1a6fea069e",
+    "classesAfterSha256": "e663a20ec50a066dae4eb4356ff4ca85e7d344187193410788b96af86f60a4c0"
+  },
+  "sourcePixelReview": {
+    "independentReplay": {
+      "script": "research/ua-class-content-independent-crop-replay.py",
+      "scriptSha256": "e7999889f3a5e495691d9908cea361483b8c010f688e6b6de5e1a9ac6fec45de",
+      "receipt": "research/source-audit-pass8-ua-class-content-independent-crop-replay.json",
+      "receiptSha256": "9338340644f5227cd77e6b8ceb82bdc1a8e9a72152bffc26c88e7103af03460f",
+      "recipe": "PyMuPDF 1.26.6, Matrix(3,3), alpha=False, RGB from the source page pixmap, exact crop at PDF-point bounds multiplied by 3",
+      "candidateCropCount": 10,
+      "pixelArraysMatching": 10,
+      "focusOverlaysHashVerifiedAndViewedIndividually": 10,
+      "privateFullPagesOrPdfCopiedToRepository": false
+    },
+    "visualReview": "Viewed all ten crop-relative focus overlays individually against the reproduced source crops, including the complete p.13 table and six notes, p.22 Thieves Table II and notes, both Acrobat adjustment tables and notes, all six Cavalier station packages, the two-paragraph Table IV procedure, Table IV rows and definition, p.26 weapon-proficiency table and footnote, both p.21 Ranger tracking column segments, and the p.22 track-identification excerpt used as a no-duplicate boundary check.",
+    "materialVisualFindings": [
+      "The ten crop files reproduce the exact source PDF pixel arrays at the pinned bounds; overlays align with their declared tables, notes, or complete bounded passages.",
+      "The p.21 left-column outdoor-tracking excerpt and right-column continuation are complementary and retain their column sequence; the p.22 track-identification table remains a separate no-duplicate check.",
+      "The p.25 Table IV crop includes the complete table and body-associated definition; a following worked-example introduction is visible but outside the highlighted/table scope and is expressly excluded from the typed candidate.",
+      "The p.25 starting-equipment crop retains its complete heading, introduction, six packages, and tack/zero-level note."
+    ]
+  },
+  "authorChangeReview": {
+    "exactGuidanceAppends": 17,
+    "changedOwners": 7,
+    "onlyChangedProperty": "classes[].guidance append-only",
+    "allOldGuidancePrefixesByteExact": true,
+    "allOtherClassPropertiesDeepEqualToBase": true,
+    "xpRowsAndProgressionsUnchanged": true,
+    "CavalierZeroLevelXPRowsStillAbsent": true,
+    "UA_DruidLevel14XPRowStillAbsent": true,
+    "PaladinWeaponTableStarStillUnresolved": true,
+    "fighterAndRangerPrimaryBookIdentityPreservedAsPHB": true,
+    "UAPrimaryVersusSupportingClassOwnershipIsExplicit": true,
+    "actualGuidanceOwnerCounts": {
+      "ua-cavalier": 2,
+      "ua-paladin": 2,
+      "ua-druid": 2,
+      "ua-barbarian": 3,
+      "ua-thief-acrobat": 3,
+      "fighter": 2,
+      "ranger": 3
+    },
+    "proof": "Independent deep comparison of classes.json to git base ad57b84226cc89446e60d0b7bbaebb379aedc16a found exactly 17 appended guidance leaves across the seven named owners and no other class-property differences.",
+    "compileOrActivation": "Not run or approved; classes.json remains the author's uncommitted proposal in this worktree, while dist/data.json, dist/search.js, dist/app.js, rules.json, and research/source-completeness-ua.json remain at their pinned before hashes.",
+    "deltaCheck": {
+      "script": "research/ua-class-content-independent-delta-check.mjs",
+      "scriptSha256": "bb185b1612128df05d6945734c2911c832385d19a73d266a7b2c1699c73c7dcd",
+      "output": "research/source-audit-pass8-ua-class-content-independent-delta-check.json",
+      "outputSha256": "583c2b8324d00256344a90ae92fe3be55efb69267359c9e8f2fbdab025de1b6c",
+      "result": "PASS"
+    }
+  },
+  "candidateReview": [
+    {
+      "id": "ua-class-permission-table-ii",
+      "source": "UA printed p.13 / PDF p.14",
+      "disposition": "Transcription matches reviewed pixels; retain research-only.",
+      "checkedContent": "14 physical class rows, 70 row values across five columns, four numbered notes and two general notes. Social-station restrictions, oil-in-personal-combat versus siege use, poison permissions, Barbarian armor qualifier, thief armor adjustment, and general physical limits are represented."
+    },
+    {
+      "id": "ua-thieves-table-ii",
+      "source": "UA printed p.22 / PDF p.23",
+      "disposition": "Transcription matches reviewed pixels; retain research-only.",
+      "checkedContent": "Eight thief functions by three armor columns (24 cells), with all three notes and their Dexterity/covering qualifiers."
+    },
+    {
+      "id": "ua-thief-acrobat-adjustment-tables-ii-iii",
+      "source": "UA printed p.25 / PDF p.26",
+      "disposition": "Transcription matches reviewed pixels; retain research-only.",
+      "checkedContent": "Strength Table II (3 rows × 3 adjustment columns), Dexterity Table III (4 × 5), units and both notes; source notes correctly relate adjustments to the existing function table rather than standalone chances."
+    },
+    {
+      "id": "ua-thief-acrobat-weight-encumbrance-table-iv",
+      "source": "UA printed p.25 / PDF p.26",
+      "disposition": "Table rows and definitions match; correct the level-14 prose before accepting the candidate procedure.",
+      "checkedContent": "All 18 experience-level rows and 54 numeric values, gp-weight/encumbrance units, the body-associated definition, and backpack/tightrope limitations match the source. See the required correction receipt for a procedure paraphrase that broadens and conflates two printed load examples."
+    },
+    {
+      "id": "ua-cavalier-starting-equipment-packages",
+      "source": "UA printed p.25 / PDF p.26",
+      "disposition": "Transcription matches reviewed pixels; retain research-only.",
+      "checkedContent": "All six social-station packages, money ranges and printed dice qualifiers, horse/armor/weapons, and both following notes match."
+    },
+    {
+      "id": "ua-weapon-proficiency-table",
+      "source": "UA printed p.26 / PDF p.27",
+      "disposition": "Transcription matches reviewed pixels; retain research-only.",
+      "checkedContent": "14 class rows × three values and the complete star note match. Paladin row star remains explicitly unresolved; no Star semantics are inferred."
+    },
+    {
+      "id": "ua-ranger-tracking-modifiers-and-movement",
+      "source": "UA printed pp.21–22 / PDF pp.22–23",
+      "disposition": "Typed candidate details match reviewed pixels; amend the live guidance summary to state the post-adjustment 100% success cap.",
+      "checkedContent": "Base-chance formula and 110% base ceiling; outdoor terrain and modifiers; concealment limits; indoor surface/modifier/observation prerequisites; light/track movement rates and definitions; p.22 identification roll kept separate and not duplicated. The research candidate records the final over-100% chance cap correctly, but the appended Ranger prose omits it."
+    },
+    {
+      "id": "ua-barbarian-skill-taxonomy",
+      "source": "UA printed pp.19–20 / PDF pp.20–21",
+      "disposition": "Counts and paddled/rowed distinction match; do not imply the current summary enumerates all eight tertiary skills.",
+      "checkedContent": "Eight primary, four secondary, and eight tertiary options; paddled and rowed small craft are separate options; weapon-proficiency slots remain distinct from nonweapon abilities. The appended guide correctly lists primary/secondary abilities and distinguishes the craft options, but only names two of the eight tertiary options."
+    }
+  ],
+  "requiredCorrections": [
+    {
+      "id": "ranger-adjusted-success-cap",
+      "owner": "classes:ranger",
+      "field": "/guidance/6",
+      "source": "UA printed p.21, Outdoor Tracking paragraph; candidate research detail `chanceLimit` already contains the correct rule.",
+      "finding": "The appended summary gives a base chance ceiling of 110% but does not state that after modifiers any adjusted chance over 100% is treated as 100%. Since the summary describes modifiers and the 110% base, leaving out the final cap can misstate the usable success chance.",
+      "suggestedAddition": "State that an adjusted chance above 100% counts as 100%, separately from the 110% base ceiling."
+    },
+    {
+      "id": "acrobat-table-iv-level14-procedure",
+      "owner": "researchOnlyContentCandidates:ua-thief-acrobat-weight-encumbrance-table-iv",
+      "field": "/procedure",
+      "source": "UA printed p.25, Table IV following paragraphs; candidate crop `ua-p25-encumbrance-procedure.png`.",
+      "finding": "The candidate says the 14th-level Acrobat cannot move freely during all Acrobat functions “under that load.” The printed passage limits free movement during vaulting, jumping, and tumbling under the additional 1,000-gp tightrope burden, and separately mentions that even climbing walls is not possible with an extra 100-pound load. The current wording conflates those loads and broadens the named activities.",
+      "suggestedCorrection": "Keep the 1,000-gp additional burden tied to tightrope walking; list vaulting, jumping and tumbling as the restricted movement routines under that burden; preserve the separate extra-100-pound wall-climbing limitation."
+    }
+  ],
+  "recommendedPrecisionNotes": [
+    {
+      "id": "fighter-ranger-specialization-summary",
+      "owner": "classes:fighter and classes:ranger",
+      "source": "UA printed p.18, Weapon Specialization prose and adjacent table.",
+      "finding": "The summary is a partial account, not a false table transcription. For precise use, distinguish the initial specialization choice at character creation from the source's later double-specialization option; note that the +1/+2 melee bonus is on top of Strength and magic bonuses; and preserve the specific-weapon-type constraint. The crossbow 6–60-foot point-blank description also carries the source's light-crossbow-in-dungeon range interaction. Either add the needed qualifiers or mark the guidance as a partial summary so it is not read as the full p.18 procedure.",
+      "activationImpact": "No change to the existing specialization-rate table is proposed or authorized here."
+    },
+    {
+      "id": "barbarian-tertiary-list-scope",
+      "owner": "classes:ua-barbarian / researchOnlyContentCandidates:ua-barbarian-skill-taxonomy",
+      "source": "UA printed pp.19–20, tertiary ability examples.",
+      "finding": "The count of eight and distinct paddled/rowed options are correct. The current research candidate and guidance do not enumerate all eight tertiary ability names; if this is intended as the complete taxonomy, list the remaining names or narrow the claim to category/count correction and the craft distinction."
+    }
+  ],
+  "nonChangesAndBoundaries": {
+    "noTypedCandidateActivated": true,
+    "noCitationBindingsOrGradesChangedByReviewer": true,
+    "noRulesJsonOrAssembledDataChangedByReviewer": true,
+    "noFullPdfOrPageRasterAdded": true,
+    "CavalierZeroLevelAndDruidLevel14XPGapsPreserved": true,
+    "PaladinStarAndUAEditionMetadataUnresolved": true,
+    "noCommitOrPush": true
+  },
+  "remainingGate": "After the two required precision corrections and root review of the recommended wording, the seven typed/table candidates and Barbarian taxonomy remain proposals requiring their own activation decision; this receipt does not authorize compiling, citation grading, or activation."
+}
