@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent review of DMG p.225 current/history boundary test proposal",
+  "status": "code review passed after boundary clarification; test-only proposal preserved exactly; no reviewer code/test execution",
+  "reviewerScope": "Read-only review of frozen proposal/test, adapters/guards, current input pins, and applied byte equality. No active edits, tests, assembly, or proof changes by reviewer.",
+  "sourceArtifacts": {
+    "proposal": {
+      "path": "/workspace/adnd1-missile-table-discoverability/research/ua-dmg225-current-history-boundary-proposal-v1/proposal-and-actual-before-v1.json",
+      "sha256": "c464e6cd62b49454e9e24ecf68b2e251f5ea3cb4f585d83b95b3f2f21c263d15"
+    },
+    "proposedTest": {
+      "path": "/workspace/adnd1-missile-table-discoverability/research/ua-dmg225-current-history-boundary-proposal-v1/pass8-dmg225-field-mapping-target-proof.proposed-v1.mjs",
+      "sha256": "5bdce40df3b12e4653e149ee03749dac001d8455275b869fa07006b700515a31",
+      "bytes": 21203
+    },
+    "originalTest": {
+      "path": "tests/pass8-dmg225-field-mapping-target-proof.test.mjs",
+      "sha256": "5585c94670640d107ab1b6b2fbc7b2f6d947e7403474595bda3a1b9e85a73a2c"
+    },
+    "appliedTest": {
+      "worktree": "/workspace/adnd1-ua-source-native",
+      "path": "tests/pass8-dmg225-field-mapping-target-proof.test.mjs",
+      "sha256": "5bdce40df3b12e4653e149ee03749dac001d8455275b869fa07006b700515a31",
+      "bytes": 21203,
+      "equalsFrozenProposalBytes": true
+    },
+    "inputCommit": "23ba5dd12a007a759e36d98822eb9040c395eeef",
+    "sourceHistoryAdapter": {
+      "path": "tests/helpers/pass8-ua-source-history.mjs",
+      "sha256": "9c19efb6aaee7ce19a9a84ef57ebd8002a95f7315f95222914910cf8326cfe00",
+      "contract": "tests/fixtures/pass8-ua-source-history-v1.json.gz",
+      "contractSha256": "8d4d781dfa364b677d279753991dbe5cb14f3fee0e7ead08538a54d7ca89d89a"
+    },
+    "currentGuard": {
+      "path": "tests/helpers/ua-source-current-cohort.mjs",
+      "sha256": "a0d307bc81013e06713ecd23a1066dcf9c2a47714a1a1293dc5cafa4138fa32f"
+    },
+    "nativeTargetGuard": {
+      "path": "tools/price-source-inventory.mjs",
+      "sha256": "109fe4d7d33226bf541cfca1894c298fc928de4399aea2c977565c290e8f5b9d"
+    },
+    "currentInputs": {
+      "dist/data.json": "c076e0f6bb898eb52650fd886630089f17edc86cbc8e3c4ac349b817bceba0d3",
+      "research/price-source-inventory.json": "2d050385af4b5ce68152ed1cef9c7f1cc7774612a291db910c5e44d26509d210",
+      "research/field-evidence-bindings.json": "6422b17cf193470a01da432f77ba61d61abe0e69653ceb493048616b4da448b9",
+      "research/citation-continuations.json": "9929dd838c8f9ce86c0fd6259d4bb93310a739886f47c98f9e40b6d33ef244d0",
+      "research/source-visual-reviews.json": "a71ebeec985e0da6b4ada2d2899027b8750474fe0795dbfcaecc2e0e9a453822",
+      "research/ua-source-postmerge-activation-v1/source-activation-manifest-v1.json": "fd8ab259ca804a99417b5c9c975821d92b67b7fda5a423cce7944d746752f338",
+      "research/ua-source-postmerge-activation-v1/controlled-delta-v1.json": "b72a2ece0a4be454903596ea537cd7e4ac74377911a6f58ec49e978e1716dec6"
+    },
+    "rootBoundaryAdjudication": {
+      "path": "research/ua-dmg225-current-history-boundary-v1/preserved-literal-git-baseline-boundary-adjudication-v1.json",
+      "sha256": "67e2419abe04dbbcd23bc8845380760efb83a379f9623fcf70d40603e4a53368"
+    },
+    "appliedBeforeFixture": {
+      "path": "tests/fixtures/ua-dmg225-current-full-workflow-before-v1.json.gz",
+      "sha256": "169ada4f2468bcbf6954ecbad3584f61393010f376c7dafbd1971e24c7a26769",
+      "bytes": 90822
+    }
+  },
+  "reviewFindings": {
+    "historicalScope": {
+      "currentToHistoricalAdapterPaths": [
+        "dist/data.json",
+        "research/citation-continuations.json",
+        "research/source-visual-reviews.json"
+      ],
+      "adapter": "readBeforePass8UaSourceFile",
+      "nativeCurrentInputsRemainRaw": [
+        "current c076e0f6 dist/data.json bytes are read/hash-pinned directly",
+        "manual 807 bindings are read directly and exact-hash guarded",
+        "current canonical 4,705 binding inventory is read directly and exact-hash guarded",
+        "all 29 current DMG p.225 bindings/owner/source pointers/catalogs remain raw and pass exact current proof checks",
+        "current 1881 source reviews and 271/536 continuation metadata are hash-pinned as native inputs"
+      ],
+      "literalGitExpectedSide": {
+        "commit": "9ee2550e9793e6aae9a7ac8fd71525704894950f",
+        "path": "dist/data.json",
+        "role": "retained original-test whole-file immutable expected-side anchor; not an adapter projection or new producer override",
+        "historicalSha256": "6643d7b58c90d982244f1d8f03b6f03a7587446ba25c402be8f9a81a8b701f8f",
+        "reviewerNote": "Initially flagged as an unlisted fourth historical read. Root clarification receipt 67e2419abe04dbbcd23bc8845380760efb83a379f9623fcf70d40603e4a53368 establishes that this literal 9ee baseline pre-existed in the 5585 test and is intentionally preserved. The proposal’s summary should be read as three current-to-historical adapter restorations, with this unchanged literal expected-side baseline separately disclosed."
+      },
+      "otherHistoricLiteralBaselines": "A46/cc950/4aa977 and captured-fixture Git reads remain as before; no broad projection or filesystem interception was added.",
+      "assessment": "After root boundary adjudication, no unauthorized current-input restoration or producer snapshot grafting is present. The current-native data is never sent through the history helper."
+    },
+    "assertionPreservation": {
+      "originalTestBodiesRetained": 4,
+      "newNativeTestBodies": 1,
+      "all29OriginalTargetProofChecksRetained": true,
+      "allNegativeControlsRetained": true,
+      "catalogAppendOnlyAndDefaultChecksRetained": true,
+      "publishedAndV27HistoryPrefixChecksRetained": true,
+      "nativeNewChecks": [
+        "complete current c076 data hash and approved UA current-owner cohort",
+        "exact V27 4,681 binding-object relative order preserved in current 4,705 inventory; exactly 24 expected UA references",
+        "807 manual declarations unchanged",
+        "29 exact current manual target proofs and target universe",
+        "all29 canonical current proof rows individually routed through assertPass8Dmg225FieldTargetProof",
+        "current 1,881 source-review ledger with 1,849 V27 prefix",
+        "current 271 continuation groups/536 segments with 261 V27 prefix"
+      ],
+      "largeBufferFailureBehavior": "Replaces assert.deepEqual on full current and expected 15MB buffers with explicit SHA checks plus Buffer.equals inside assert.ok, avoiding a huge generated mismatch diff while preserving exact byte equality.",
+      "historicalFailureInterpretation": "The prior generic file failure remains unclassified as OOM/kill; the proposal does not claim its cause."
+    },
+    "codeChangeScope": {
+      "onlyTrackedCodeChange": "tests/pass8-dmg225-field-mapping-target-proof.test.mjs",
+      "currentAppliedBytesEqualFrozenProposal": true,
+      "productionSourceOrDataChanged": false,
+      "existingAdaptersOrGuardsChanged": false,
+      "newConstructorOrGlobalMonkeypatch": false,
+      "gradesOrSourceSemanticsChanged": false
+    }
+  },
+  "independentValidation": {
+    "inspection": "Read-only source inspection and exact artifact/hash comparison only; did not run tests or amend code.",
+    "parentReportedBeforeRepairFullSuite": {
+      "registered": 1043,
+      "passed": 1042,
+      "failed": 1,
+      "knownFileLevelFailure": "DMG p.225 historical/current equality test on unchanged 23ba",
+      "skipped": 0,
+      "cancelled": 0,
+      "receiptSha256": "76bafe596108cafd05d43ed4746bb5a02cda83b3abf236b0443ea0d28593db5c"
+    },
+    "parentReportedAfterApplyFocusedTest": {
+      "command": "node --test tests/pass8-dmg225-field-mapping-target-proof.test.mjs",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "durationMs": 9549.80808,
+      "logSha256": "3b4b8e81420e4cf5e5446fc110aba3733bda320f500946491df6096748aa79c6",
+      "executionByReviewer": false
+    },
+    "fullSuiteAfterApply": "not run at time of review; the successful full suite was the unmutated 23ba before-state and is separately pinned above."
+  },
+  "limitations": [
+    "This review validates test source and evidence boundaries; it is not a new source/focus review or approval of DMG p.225 field semantics.",
+    "The root boundary adjudication is needed to make clear that the preserved direct 9ee baseline is distinct from the three adapter restoration paths.",
+    "No commit, push, active source edits, assembly, or full-suite rerun by reviewer."
+  ]
+}
