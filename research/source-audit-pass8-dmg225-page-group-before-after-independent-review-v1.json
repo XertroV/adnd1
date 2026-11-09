@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "pass8-dmg225-page-group-before-after-drift-receipt-independent-review",
+  "reviewVersion": 1,
+  "reviewedAt": "2026-11-09",
+  "reviewerRole": "independent receipt-integrity review",
+  "status": "accepted as a byte-bound drift receipt only; no default or source grade granted",
+  "receipt": {
+    "path": "research/source-audit-pass8-dmg225-page-group-before-after-receipt-proposal.json",
+    "sha256": "f8285fc53655c578caf8a4591183c7cb58a8749231470fa92c8bfad74709f425",
+    "sourceCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+    "denominator": {
+      "targets": 29,
+      "uniqueOwnerCatalogs": 29
+    }
+  },
+  "independentReproduction": {
+    "script": "/tmp/dmg225-page-group-receipt-independent-check-v2.mjs",
+    "sha256": "5651b2163635adbbe6c1f8c38339693ecde2781cd3b66d4a61200365c1e26813",
+    "command": "node /tmp/dmg225-page-group-receipt-independent-check-v2.mjs",
+    "output": {
+      "checks": 29,
+      "targets": 29,
+      "uniqueOwnerCatalogs": 29,
+      "allTargetAndGroupChecksPass": true,
+      "errors": [],
+      "defaultApprovalGranted": false,
+      "allowlistOfAppendedRegions": 4
+    },
+    "verified": [
+      "Every receipt target index, owner, field pointer, source-object pointer, and catalog path matches the pinned author proposal and active target-binding input.",
+      "All 29 catalog paths are unique and their before bytes come from the declared A46 Git commit; after bytes match the live candidate catalog files.",
+      "All before and after ordered DMG p.225 groups independently reproduce from catalog region objects, including source, image, focus, and content hashes.",
+      "Every A46 region object and its order are preserved as an exact prefix; only the four application-approved catalogs append regions, with exact region IDs and hashes.",
+      "All 29 before and after default region IDs match. This verifies drift state only and does not judge whether any default is suitable.",
+      "For tools target 28, the after order and default-order hash match the separate root-approved alias/order receipt; that receipt explicitly retains the old clipped-default defect and grants no default approval.",
+      "The receipt's referenced author, field, component, order, and application evidence files all match their declared byte hashes."
+    ]
+  },
+  "trustedReferences": {
+    "authorProposal": {
+      "path": "research/source-audit-pass8-dmg225-field-mapping-author-proposal.json",
+      "sha256": "3a8939c6c3c6a4e3513708b7252c596e2359ca6a7e0ab5c877a48874d9c7b8c5",
+      "role": "pinned proposed before/after state; no approval"
+    },
+    "fieldIndependentReview": {
+      "path": "research/source-audit-pass8-dmg225-field-mapping-independent-review.json",
+      "sha256": "bcf60a52e60766ef824fce1ea4edacdc2182d98b2395510051e6ee60ff4a7231",
+      "role": "field location/focus/context only; no value, mechanics, or default promotion"
+    },
+    "toolsAliasOrderReview": {
+      "path": "research/source-audit-pass8-dmg225-tools-alias-order-independent-review.json",
+      "sha256": "ff2c53802101439e2d258293524b0193f9991dce4e5d800272983ab5ab2ba0eb",
+      "role": "root-approved ordered two-part tools context; the old clipped default defect remains"
+    }
+  },
+  "approvalBoundary": {
+    "pageDefaultApproval": false,
+    "sourceValueApproval": false,
+    "mechanicsApproval": false,
+    "browserRoutingApproval": false,
+    "oldToolsDefaultDefectCleared": false,
+    "statement": "This review confirms the exact before/after bytes and hashes for drift detection. It does not certify a page default or change any source-value, mechanics, or browser-routing grade."
+  },
+  "privacy": "No private PDF, scan, or source text was copied into this review."
+}

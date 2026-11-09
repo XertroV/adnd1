@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "pass8-dmg225-field-mapping-guard-independent-review",
+  "reviewVersion": 2,
+  "reviewedAt": "2026-11-09",
+  "reviewerRole": "independent guard and mutation review",
+  "status": "guard accepted at exact code hash; mapping activation and browser routing remain pending",
+  "baseCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+  "reviewedCode": {
+    "path": "tools/price-source-inventory.mjs",
+    "sha256": "109fe4d7d33226bf541cfca1894c298fc928de4399aea2c977565c290e8f5b9d"
+  },
+  "application": {
+    "path": "research/source-audit-pass8-dmg225-field-mapping-application-v1.json",
+    "sha256": "d9e7bd73e8fd899a4e1465494941bde7c5f65f700fc3c6d1e747acda80dd69fc"
+  },
+  "historicalFinding": {
+    "path": "research/source-audit-pass8-dmg225-field-mapping-guard-independent-review-v1.json",
+    "sha256": "95b8d6357e5605b5e496128b5fcb1365cd73041e5f241fb036272db3a87b1424",
+    "disposition": "The custom-policy pending-proof, self-rewritten page-group, and non-JSON hidden-value acceptances recorded in v1 are rejected by the reviewed candidate."
+  },
+  "trustedReceipts": {
+    "authorProposal": {
+      "path": "research/source-audit-pass8-dmg225-field-mapping-author-proposal.json",
+      "sha256": "3a8939c6c3c6a4e3513708b7252c596e2359ca6a7e0ab5c877a48874d9c7b8c5"
+    },
+    "fieldIndependentReview": {
+      "path": "research/source-audit-pass8-dmg225-field-mapping-independent-review.json",
+      "sha256": "bcf60a52e60766ef824fce1ea4edacdc2182d98b2395510051e6ee60ff4a7231"
+    },
+    "toolsLeadComponentReview": {
+      "path": "research/source-audit-pass8-dmg225-tools-lead-in-independent-review.json",
+      "sha256": "987915068003079fa3de2eb91ff4ad9858fb9540e4ae7af84594dc92f99d2793"
+    },
+    "toolsAliasOrderReview": {
+      "path": "research/source-audit-pass8-dmg225-tools-alias-order-independent-review.json",
+      "sha256": "ff2c53802101439e2d258293524b0193f9991dce4e5d800272983ab5ab2ba0eb"
+    },
+    "pageGroupDriftReceipt": {
+      "path": "research/source-audit-pass8-dmg225-page-group-before-after-receipt-proposal.json",
+      "sha256": "f8285fc53655c578caf8a4591183c7cb58a8749231470fa92c8bfad74709f425"
+    },
+    "pageGroupDriftReceiptIndependentReview": {
+      "path": "research/source-audit-pass8-dmg225-page-group-before-after-independent-review-v1.json",
+      "sha256": "385764932c5dda04847d13e7180a19cd3ed6da5be74b099665a19319778cbf95"
+    },
+    "beforeFixture": {
+      "path": "tests/fixtures/pass8-dmg225-before-targets-a46-v1.json.gz",
+      "sha256": "7af6ae98d17809a939a3e386c1f830a2697d06bc8313c184b1a3dbc37c604897"
+    }
+  },
+  "guardFindings": {
+    "exactTargetUniverse": "The active validator independently requires the exact 29 DMG p.225 equipment-field bindings and checks each binding is present, reviewed, proof-bearing, and JSON-safe. Extra and missing targets fail. Report-declared custom/pending policy fields no longer bypass the current-set check.",
+    "sourceAndValueClosure": "Every proof re-resolves the exact authored owner and pointers, compares the current field value and raw source object to the hash-pinned author/independent review snapshots, and retains NOT_PROMOTED source-value status.",
+    "pageGroupClosure": "The current catalog bytes must match the fixed after-state catalog hash, caller catalogs must match those repository bytes, the live page group must match the immutable receipt after projection, and the proof before/after fields must match that receipt. Proof-only coordinated rehashing cannot select a new default.",
+    "receiptClosure": "Receipt and independent integrity-review byte hashes are fixed in code; the review explicitly grants no page-default, source-value, mechanics, or browser-routing approval. Review-evidence references are checked against the fixed allowlist before any evidence file is read.",
+    "nonJsonValues": "The complete manual binding input and target proof inputs are checked against JSON-safe types before canonical hashing or validation; undefined, non-finite numbers, accessors, cycles, and non-JSON prototypes fail closed.",
+    "diagnosticBoundary": "Historical/custom inventory checks use a separately named diagnostic validator. The default validator requires the current 29-target cohort and remains the publication/active-validation entry point."
+  },
+  "focusedValidation": [
+    {
+      "command": "node --test tests/pass8-dmg225-field-mapping-target-proof.test.mjs",
+      "exitCode": 0,
+      "passed": 4,
+      "failed": 0
+    },
+    {
+      "command": "node --test tests/price-source-inventory.test.mjs",
+      "observedInCombinedRun": "34 tests, 34 passed, 0 failed"
+    },
+    {
+      "command": "node --test tests/field-region-alignment.test.mjs tests/citation-browser-inventory.test.mjs",
+      "exitCode": 0,
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "command": "node --test tests/pass8-dmg225-field-mapping-target-proof.test.mjs tests/price-source-inventory.test.mjs tests/field-region-alignment.test.mjs tests/citation-browser-inventory.test.mjs",
+      "observedInCombinedRun": "Target proof 4/4, price inventory 34/34, alignment and citation-browser inventory emitted 6/6 passing cases; no failing output."
+    }
+  ],
+  "mutationResults": [
+    {
+      "id": "pending-proof-and-forged-custom-marker",
+      "result": "rejected",
+      "evidence": "tests/price-source-inventory.test.mjs deletes a target proof, downgrades reviewStatus, forges custom policy metadata, and asserts the current validator rejects it as omitted, relabeled, or pending."
+    },
+    {
+      "id": "missing-and-extra-current-targets",
+      "result": "rejected",
+      "evidence": "The focused price inventory test rejects omitted and invented targets; the target-proof test rejects an extra DMG p.225 equipment-field binding."
+    },
+    {
+      "id": "page-group-proof-rewrite-with-invented-default",
+      "result": "rejected",
+      "script": "/tmp/dmg225-proof-page-order-repro-v1.mjs",
+      "sha256": "02fd28ca234b772f0b617f12c297c49d202c1e27589d0afde9052ecfb0d90252",
+      "output": "REJECTED ... caller-supplied catalog differs from the repository-pinned catalog bytes",
+      "additionalBoundary": "The active proof also compares current catalog bytes/page-group projection and proof before/after fields to the independently reviewed receipt."
+    },
+    {
+      "id": "nonJson-hidden-value",
+      "result": "rejected",
+      "script": "/tmp/dmg225-proof-nonjson-repro-v1.mjs",
+      "sha256": "72e7f294b53564a310d38a9c535bceeee9bfcff818b210a042091676b85286a2",
+      "output": "NON_JSON_HIDDEN_SOURCE_ROW_REJECTED ... target proof/input contains non-JSON data",
+      "buildInputControl": "A caller-supplied manual binding containing [undefined] is rejected as Manual field bindings contain non-JSON data before canonicalization."
+    },
+    {
+      "id": "forged-outside-root-source-review-path",
+      "result": "rejected-before-filesystem-read",
+      "script": "/tmp/dmg225-proof-forged-receipt-repro-v1.mjs",
+      "sha256": "e956117a2186fcc3d9fa1d92bbb8beed992233e473efac789fca7843fbfc3dd2",
+      "output": "FORGED_OUTSIDE_ROOT_RECEIPT_REJECTED ... review source references differ from the fixed current-root allowlist"
+    },
+    {
+      "id": "coordinated-value-and-proof-hash-rewrite",
+      "result": "rejected",
+      "script": "/tmp/dmg225-proof-coordinated-value-rewrite-repro-v1.mjs",
+      "sha256": "b1770970aaa69f50222a04fff3c92504bab5d304404994863681fa3f10a4ac07",
+      "output": "COORDINATED_VALUE_AND_HASH_REWRITE_REJECTED ... authored owner snapshot is stale"
+    },
+    {
+      "id": "changed-current-source-object",
+      "result": "rejected",
+      "script": "/tmp/dmg225-proof-source-object-rewrite-repro-v1.mjs",
+      "sha256": "63ca1ee38c7615babfa1ac9f9d1f0def7a26b77e4c06fb28432f41939c715684",
+      "output": "CHANGED_CURRENT_SOURCE_OBJECT_REJECTED ... current source-object snapshot differs from its authored owner/pointer"
+    },
+    {
+      "id": "transported-generated-metadata-versus-authored-owner",
+      "result": "expected-boundary-preserved",
+      "script": "/tmp/dmg225-proof-transported-vs-authored-repro-v1.mjs",
+      "sha256": "a486b9ea6912eb40862759730869efd675ebf64c5ae40d94d1485bacf9484722",
+      "output": "TRANSPORTED_GENERATED_METADATA true; AUTHORED_OWNER_EDIT_REJECTED ... authored owner snapshot is stale"
+    }
+  ],
+  "applicationPreservation": {
+    "approvedTableTargets": 28,
+    "originalToolsFieldReviewRejectionRetained": true,
+    "separateToolsLeadAndAliasOrderReceiptsPinned": true,
+    "oldToolsClippedLeadDefaultDefectRetained": true,
+    "oldManualBindings": 728,
+    "newManualBindings": 29,
+    "oldContinuationGroups": 252,
+    "oldContinuationSegments": 494,
+    "fourCatalogsAppendOnly": true,
+    "eightComponentReviewsHaveExactHashes": true,
+    "sourceValuesCaveatsUnitsAndGradesChanged": false,
+    "browserRoutingApproved": false,
+    "defaultApprovalGranted": false
+  },
+  "notRun": [
+    "full node test suite",
+    "global metadata regeneration",
+    "compiled viewer direct routing, Back/Forward, copy-link, and mobile checks",
+    "commit or push"
+  ],
+  "remainingGates": [
+    "Complete the separately pending browser-routing checks before claiming end-to-end activation.",
+    "The all-29 page-group receipt is drift evidence only; it does not approve a default selection.",
+    "The old clipped thieves-tools lead/default defect remains open."
+  ],
+  "privacy": "No private PDF, full scan, or source text was copied into this review."
+}

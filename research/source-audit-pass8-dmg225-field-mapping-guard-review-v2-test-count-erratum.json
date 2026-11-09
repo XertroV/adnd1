@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "pass8-dmg225-guard-independent-review-test-count-erratum",
+  "issuedAt": "2026-11-09",
+  "status": "count correction; no change to the guard disposition",
+  "supersedesStatementIn": {
+    "path": "research/source-audit-pass8-dmg225-field-mapping-guard-independent-review-v2.json",
+    "sha256": "63c3cc97d15d6b37343b03dbef6a60ef6e466520a1fabafca7d2f071d4ad8672",
+    "incorrectStatement": "The price-source-inventory suite reported 34 passing tests."
+  },
+  "reviewedCode": {
+    "path": "tools/price-source-inventory.mjs",
+    "sha256": "109fe4d7d33226bf541cfca1894c298fc928de4399aea2c977565c290e8f5b9d"
+  },
+  "correction": "The four-file run contained 34 tests in total. That total is 4 target-proof + 24 price-source-inventory + 6 alignment/browser-inventory tests. The price-source-inventory suite alone has 24 tests, not 34.",
+  "capturedRuns": [
+    {
+      "command": "node --test tests/pass8-dmg225-field-mapping-target-proof.test.mjs",
+      "exitCode": 0,
+      "registered": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "logPath": "/tmp/dmg225-target-proof-v2.log",
+      "logSha256": "b91d0e002676d59230084a4af99053d52e274fd72be38f2c4c4be264d9b92d01",
+      "testFileSha256": "054ecb177cc82b366be6109a4e61d002d893730ebed4ef34e0d18a11c0130087"
+    },
+    {
+      "command": "node --test tests/price-source-inventory.test.mjs",
+      "exitCode": 0,
+      "registered": 24,
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "logPath": "/tmp/dmg225-price-inventory-v2.log",
+      "logSha256": "103d79d1875762d1cfec4f3ce3bfddcdc5f1de2e1c2c543e29084567425d3e76",
+      "testFileSha256": "609b221ab0697ce061e9e3ab8b7147d435210bc2837be659c7f6df0d8edaa030"
+    },
+    {
+      "command": "node --test tests/field-region-alignment.test.mjs tests/citation-browser-inventory.test.mjs",
+      "exitCode": 0,
+      "registered": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "logPath": "/tmp/dmg225-alignment-browser-v2.log",
+      "logSha256": "13d54d5319e7684d833d8f60983e11e875c5a2d4a9f3accb0e40fefc9291a87c",
+      "testFileSha256": {
+        "tests/field-region-alignment.test.mjs": "ca7348bd4d8252438d9824d9d3b11feee34867ef1466cc8f4764cc4465ad81ab",
+        "tests/citation-browser-inventory.test.mjs": "d0423763fd4fa11f171e83aa09843550db262a173842f2aa987f242e577c1a59"
+      }
+    }
+  ],
+  "aggregate": {
+    "exactCommand": "node --test tests/pass8-dmg225-field-mapping-target-proof.test.mjs tests/price-source-inventory.test.mjs tests/field-region-alignment.test.mjs tests/citation-browser-inventory.test.mjs",
+    "registered": 34,
+    "passed": 34,
+    "failed": 0,
+    "skipped": 0,
+    "logCapturedForAggregate": false,
+    "logHash": null,
+    "derivation": "sum of the three separately captured logs above"
+  },
+  "privacy": "The logs contain test output only; no private source text or scan pixels."
+}

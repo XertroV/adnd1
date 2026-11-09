@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-pass8-dmg225-current-validator-test-coverage-review",
+  "status": "narrow-test-only-delta-reviewed-and-passed; broader-source-and-release-reviews-remain-separate",
+  "disposition": "Accept the test coverage repair at the exact hashes below. The production guard remains byte-identical to the already reviewed 109fe version; this review does not renew or broaden its source/evidence approval.",
+  "scope": {
+    "baseCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+    "repairPurpose": "Restore production strict-current validation in six canonical-current price-inventory assertions formerly routed through a global diagnostic alias, while naming synthetic/custom diagnostic calls explicitly.",
+    "beforeArtifact": {
+      "path": "tests/fixtures/source-audit-pass8-dmg225-current-validator-test-coverage-before.json.gz",
+      "sha256": "b6b663611b1153b181d44f785084dc8be0d489ff1be2a72a8d2137c8fcc7c349"
+    },
+    "repairReceipt": {
+      "path": "research/source-audit-pass8-dmg225-current-validator-test-coverage-repair.json",
+      "sha256": "52e778d7e8dee3118b21f6374c9144f4609ab2ed5e42fd141beceebc55041f7d"
+    }
+  },
+  "pinnedAfterFiles": {
+    "productionGuard": {
+      "path": "tools/price-source-inventory.mjs",
+      "sha256": "109fe4d7d33226bf541cfca1894c298fc928de4399aea2c977565c290e8f5b9d",
+      "expectedReviewedSha256": "109fe4d7d33226bf541cfca1894c298fc928de4399aea2c977565c290e8f5b9d",
+      "unchangedInThisRepair": true
+    },
+    "priceInventoryTests": {
+      "path": "tests/price-source-inventory.test.mjs",
+      "sha256": "7be556eb704608421e357d40758fb5690a43228ee2a7d86cacec909e591d6418"
+    },
+    "classXpIdentityTests": {
+      "path": "tests/price-source-inventory-class-xp-target-identity.test.mjs",
+      "sha256": "ceb656be7faad84eb555aed734aac122f52f83236743b840a9b76b65c19668f0"
+    }
+  },
+  "independentReview": {
+    "beforeStateConfirmed": {
+      "savedPriceTestSha256": "609b221ab0697ce061e9e3ab8b7147d435210bc2837be659c7f6df0d8edaa030",
+      "savedClassXpTestSha256": "9999b1f035892bfd5f29f6f407aa82788edaa0eaef76d7443c6c0a92aa9d4aa1",
+      "beforeImport": "validatePriceSourceInventoryDiagnostic as validatePriceSourceInventory",
+      "captureClassification": "Test coverage defect only; no production false-accept finding."
+    },
+    "currentValidatorRouting": {
+      "sixCanonicalCurrentCallsNowUseProductionStrictValidator": [
+        135,
+        193,
+        310,
+        314,
+        324,
+        329
+      ],
+      "existingCurrentGuardCallsRemainProductionStrict": [
+        41,
+        62,
+        66,
+        72,
+        76,
+        80,
+        360,
+        390,
+        402,
+        403,
+        407,
+        411,
+        415
+      ],
+      "explicitDiagnosticPriceInventoryCalls": [
+        230,
+        339,
+        350,
+        352,
+        429,
+        456,
+        470,
+        514,
+        527,
+        540,
+        562,
+        578,
+        601,
+        604,
+        605,
+        635,
+        642
+      ],
+      "diagnosticCallsReason": "Line 230 uses frozen 679b15 inputs; remaining listed calls use explicit synthetic/custom data or custom manual-binding fixtures.",
+      "classXpIdentityFile": "All its validation calls use the explicit validateDiagnosticPriceSourceInventory alias. The test constructs an isolated one-row Bard proof fixture and does not certify the current DMG225 target cohort."
+    },
+    "scopeConclusion": "The import names are distinct and explicit; exactly the six previously identified canonical-current assertions now exercise validatePriceSourceInventory. Existing production-strict current assertions remain direct calls. No test was reclassified as production coverage merely by renaming a diagnostic alias."
+  },
+  "checks": [
+    {
+      "command": "node --test tests/price-source-inventory.test.mjs",
+      "status": "passed",
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "logPath": "/tmp/dmg225-current-validator-test-coverage-independent-price.log",
+      "logSha256": "fb183b3e7464ba47aaa6bfa626f7453d3f02bac78bda3ccefd660b510a6e57e7"
+    },
+    {
+      "command": "node --test tests/price-source-inventory.test.mjs tests/price-source-inventory-class-xp-target-identity.test.mjs tests/pass8-dmg225-field-mapping-target-proof.test.mjs",
+      "status": "passed",
+      "passed": 32,
+      "failed": 0,
+      "skipped": 0,
+      "logPath": "/workspace/vault-audit-private/pass8/dmg225-mapping/root-current-validator-test-coverage-after.log",
+      "logSha256": "fffe34a65168bbdd047afb367ca9d950db9bca0f51a3df78304e40c6b3eb9b0a"
+    },
+    {
+      "command": "git diff --check",
+      "status": "passed",
+      "output": "clean"
+    }
+  ],
+  "limits": [
+    "This is a narrow test-routing review, not a new review of DMG225 source values, catalog focus, defaults, or production guard implementation.",
+    "No code/data/citation records were changed by this reviewer.",
+    "This receipt does not replace the prior guard receipt or its erratum, and makes no whole-suite or global mapping claim."
+  ]
+}
