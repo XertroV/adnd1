@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-character-reference-history.mjs';
+import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-phb-source-history.mjs';
 import {finalCorrections,reverseFinalCorrections,validateFinalIndependentReviews} from './mechanics-final-fixture.mjs';
 const load=name=>JSON.parse(readFileSync(new URL('../'+name,import.meta.url),'utf8'));
 test('final mechanics corrections retain exact independent review bindings',()=>{

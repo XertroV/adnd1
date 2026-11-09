@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {projectPass8PhbSourceJson,projectPass8PhbSourceBytes} from './helpers/pass8-phb-source-history.mjs';
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync, copyFileSync} from 'node:fs';
@@ -17,23 +18,31 @@ const oldTestBytes=Buffer.from(receipt.capturedTest.base64,'base64');
 assert.equal(sha(oldTestBytes),receipt.capturedTest.sha256,'preserved pre-fix test bytes');
 
 const baselineData=JSON.parse(readFileSync(join(project,'dist/data.json'),'utf8'));
+const historicalBaselineData=projectPass8PhbSourceJson('dist/data.json',baselineData);
 const guardPath='tools/class-xp-continuation-target-review.mjs';
 
-function sandbox(testBytes,data){
+const historicalCompanions=new Map(['citation-overrides.json','research/citation-continuations.json','dist/source-continuations.json','research/source-visual-reviews.json','research/price-source-inventory.json'].map(path=>[path,projectPass8PhbSourceBytes(path,readFileSync(join(project,path)))]));
+function sandbox(testBytes,data,{historical=false}={}){
   const root=mkdtempSync(join(tmpdir(),'xp-continuation-integration-mutation-'));
   try{
     for(const name of readdir(project)){
-      if(['tests','tools','dist'].includes(name))continue;
+      if(['tests','tools','dist'].includes(name)||(historical&&(name==='research'||historicalCompanions.has(name))))continue;
       symlinkSync(join(project,name),join(root,name),'dir');
     }
     mkdirSync(join(root,'dist'));
     for(const name of readdir(join(project,'dist'))){
-      if(name==='data.json')continue;
+      if(name==='data.json'||(historical&&historicalCompanions.has(`dist/${name}`)))continue;
       symlinkSync(join(project,'dist',name),join(root,'dist',name),'dir');
     }
     writeFileSync(join(root,'dist/data.json'),JSON.stringify(data,null,2)+'\n');
+    if(historical){
+      mkdirSync(join(root,'research'));
+      for(const name of readdir(join(project,'research')))if(!historicalCompanions.has(`research/${name}`))symlinkSync(join(project,'research',name),join(root,'research',name));
+      for(const [path,bytes] of historicalCompanions)writeFileSync(join(root,path),bytes);
+    }
     mkdirSync(join(root,'tests'));
     symlinkSync(join(project,'tests/fixtures'),join(root,'tests/fixtures'),'dir');
+    symlinkSync(join(project,'tests/helpers'),join(root,'tests/helpers'),'dir');
     writeFileSync(join(root,currentTest),testBytes);
     mkdirSync(join(root,'tools'));
     copyFileSync(join(project,guardPath),join(root,guardPath));
@@ -50,8 +59,8 @@ function sandbox(testBytes,data){
 
 function readdir(path){return readdirSync(path);}
 
-function genericFieldOwnerBypass(){
-  const data=structuredClone(baselineData);
+function genericFieldOwnerBypass(base=baselineData){
+  const data=structuredClone(base);
   const owner=data.classes.find(item=>item.id==='ua-paladin');
   const binding=owner.xpContinuation.evidenceBindings[0];
   binding.sourceCategory='class-reference-rule';
@@ -63,8 +72,8 @@ function genericFieldOwnerBypass(){
   return data;
 }
 
-function unrelatedPriorReviewEdit(){
-  const data=structuredClone(baselineData);
+function unrelatedPriorReviewEdit(base=baselineData){
+  const data=structuredClone(base);
   const owner=data.classes.find(item=>item.id==='ua-paladin');
   const row=owner.sourceExcerpts.regionReviews.find(review=>review.regionId==='phb-24-ua-paladin-xp-level-01');
   row.recordedReview.evidence='test-only-unrelated-review-change';
@@ -85,14 +94,14 @@ function assertCurrentRejects(result,label,reason){
 
 test('pre-fix integration test accepts generic class field and owner-pointer bypass; current test rejects it',()=>{
   const data=genericFieldOwnerBypass();
-  assertFourPass(sandbox(oldTestBytes,data),'preserved pre-fix test');
+  assertFourPass(sandbox(oldTestBytes,genericFieldOwnerBypass(historicalBaselineData),{historical:true}),'preserved pre-fix test');
   const currentBytes=readFileSync(join(project,currentTest));
   assertCurrentRejects(sandbox(currentBytes,data),'current test',/actual continuation binding must enter the strict guard scope/);
 });
 
 test('pre-fix integration test hides unrelated edit to an old UA Paladin region review; current test rejects it',()=>{
   const data=unrelatedPriorReviewEdit();
-  assertFourPass(sandbox(oldTestBytes,data),'preserved pre-fix test');
+  assertFourPass(sandbox(oldTestBytes,unrelatedPriorReviewEdit(historicalBaselineData),{historical:true}),'preserved pre-fix test');
   const currentBytes=readFileSync(join(project,currentTest));
   assertCurrentRejects(sandbox(currentBytes,data),'current test',/exact retained review prefix and single disclosed defect annotation/);
 });

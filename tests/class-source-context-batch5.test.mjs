@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-xp-continuation-history.mjs';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
+import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-phb-source-history.mjs';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
 import {containsContext} from '../tools/citation-context-contract.mjs';
 import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';
 // Retain the exact released777 class-target census; active XP-continuation
