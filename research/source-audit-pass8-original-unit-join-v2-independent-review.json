@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent review of Pass 8 original-unit join v2 and portable public-input locators",
+  "recordedAtUtc": "2026-11-08T23:59:16Z",
+  "reviewer": {
+    "agent": "ua_content",
+    "independentOfPatchAuthor": true
+  },
+  "status": "Approved for the exact bounded unit joins, report-pointer joins, closure distinctions, and public-only rebuild described here. This is not a whole-book source-completeness approval or production citation activation.",
+  "inputs": [
+    {
+      "path": "research/source-audit-pass8-original-unit-join-review-v2.json",
+      "sha256": "56fbfe97b3fdb9fa22b794cc255c492e2f28acad8a5a5c1ddb82994a2369f804",
+      "bytes": 6951904,
+      "role": "additive v2 ledger under review"
+    },
+    {
+      "path": "tools/source-audit-pass8-original-unit-join-v2.py",
+      "sha256": "5954d3cb979c70e143f867696e24db766fa831a2f02693c439f89e55c5b4a4de",
+      "role": "builder, checker, report-pointer validator, and explicit private-snapshot verifier"
+    },
+    {
+      "path": "tests/source-audit-pass8-original-unit-join-v2.test.mjs",
+      "sha256": "595f4503937b06813b11cb382c5d063e5b3e9abfc8b688447f03ebecaec3fbc0",
+      "role": "13 focused deterministic, boundary, and negative-control tests"
+    },
+    {
+      "path": "research/source-audit-pass8-unit-census-input-ae36f43b.json",
+      "sha256": "ae36f43b2e6ba63643d2c4a5a4fea34ddc494f3f10337a28a53040dfe8a9401d",
+      "bytes": 147939,
+      "role": "frozen public census bytes for the historical census pin"
+    },
+    {
+      "path": "research/source-audit-pass8-original-unit-join-review.json",
+      "sha256": "425bcf69ce1d44da3ffaecdc8da2993432251f51a36d2245011ae704e2de4865",
+      "role": "unchanged v1 historical report; v2 remains additive"
+    },
+    {
+      "path": "research/source-audit-pass8-mm-first14-mixed-scope-independent-review-correction.json",
+      "sha256": "94ec57094f21ca42a6877c4c185868b99a86986f16ec495bd9e6e4d2f7687082",
+      "role": "pinned correction for mixed MM child scopes; incorporated without rewriting its source assessments"
+    }
+  ],
+  "reviewContext": {
+    "authorWorktree": "/workspace/adnd1-semantic-audit",
+    "publicOnlyCompatibilityWorktree": "/workspace/adnd1-audit-ledger-v2",
+    "publicOnlyCompatibilityCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+    "mutableCensusAtCompatibilityWorktree": {
+      "path": "research/source-completeness-coverage.json",
+      "sha256": "7f8fecbcf9e598977c48b0f077450b6e21c8d57b69fec4ca92a10f085cb4aef4"
+    },
+    "pinnedV19RepairRegister": {
+      "path": "research/source-completeness-repairs.json",
+      "sha256": "3d6dba1ddb3dd510be4c255b8cca31b82f6b820d0ecec37b11b9495313446a59"
+    },
+    "note": "The v2 historical census pin ae36f43b is intentionally read from the frozen public copy above. The mutable current census remains 7f8fecbc at the compatibility checkout. The v2 builder/tests do not modify either file or the pinned v19 repair register."
+  },
+  "independentChecks": {
+    "unitJoins": {
+      "result": "pass",
+      "count": 559,
+      "uniqueQualifiedUnitKeys": 559,
+      "bookCounts": {
+        "PHB": 105,
+        "DMG": 60,
+        "UA": 36,
+        "MM": 317,
+        "MM2": 41
+      },
+      "keyConstruction": "Each key is book-prefixed and agrees with the row's original unit ID. The units are named broad candidates which can overlap by section, table, profile heading, procedure, or page; they are not a semantic atom, table-row, profile-field, or prose-clause denominator."
+    },
+    "counterSummaries": {
+      "result": "pass",
+      "reviewStateCountersRecomputedFromRowsMatchAllFiveBookSummaries": true,
+      "dispositionCategoryCounts": {
+        "missing": 29,
+        "partial": 242,
+        "present": 6,
+        "citationonly": 6,
+        "excluded": 275,
+        "unassessable": 1
+      },
+      "completeSemanticSourceUnitCount": null,
+      "semanticallyCompleteBooks": 0,
+      "notACompletenessClaim": true
+    },
+    "reportPinsAndPointers": {
+      "result": "pass",
+      "uniquePublicReportPins": 37,
+      "all37PinnedBytesMatch": true,
+      "reportIdAndHashReferencesChecked": 11151,
+      "reportHashReferencesMatchingRegistry": true,
+      "hashBoundJsonPointersResolved": 11147,
+      "nonPointerFilePathReference": 1,
+      "referencesWithoutPath": 3
+    },
+    "publicSearchAndSourceReading": {
+      "result": "pass",
+      "phbAbilityRaceRows": 18,
+      "phbAbilityRacePublicSearchStatus": "unassessable",
+      "phbAbilityRaceSourceReadingStatus": "no-explicit-unassessable-reading-recorded",
+      "phbAbilityRaceExplicitlyUnassessableSourceReadings": 0,
+      "actualUnassessableSourceReadingCountsByBook": {
+        "PHB": 0,
+        "DMG": 1,
+        "UA": 1,
+        "MM": 0,
+        "MM2": 0
+      },
+      "assessment": "The 18 PHB search-capture/findability uncertainties are not evidence of illegible PHB source pages. The two recorded source-image reading limits are separately attached to DMG and UA rows."
+    },
+    "mmClosureAndScope": {
+      "result": "pass",
+      "boundedTableQueue": {
+        "candidates": 28,
+        "first14Reviewed": 14,
+        "last14Reviewed": 14,
+        "pendingWithinAssignedQueue": 0
+      },
+      "broaderMmWorkStillOpen": {
+        "pendingBroaderAssertions": 57,
+        "closedQueueRowsWithBroaderContentUnassessed": 14,
+        "combinedUnassessedOrPending": 71
+      },
+      "assessment": "Closing the assigned table/list queue does not close broader MM profile values, prose, or source assertions. The 57 pending items and 14 broader-content-unassessed items remain distinct states."
+    },
+    "mixedMmChildScopes": {
+      "result": "pass at the report-join and scope-classification level; the cited 94ec correction remains the source-pixel review authority",
+      "correctionReportSha256": "94ec57094f21ca42a6877c4c185868b99a86986f16ec495bd9e6e4d2f7687082",
+      "correctedChildCounts": {
+        "missing": 6,
+        "excluded": 4,
+        "unassessable": 2
+      },
+      "horse": "MM printed p.53/PDF p.54 load reference is six horse rows and 12 normal/encumbered movement values, with a one-half speed qualifier. The five PHB livestock owners carry purchase-price records, not these load capacities; there is no wild-horse owner. The PHB light riding-horse price record is distinct from the MM light-warhorse capacity row. Full horse profile columns remain excluded.",
+      "dragon": "The p.30/PDF p.31 Dragon subdual and adjacent Length of Subdual procedure are an operative bounded rules gap. The general rules/subdual owner is semantically related but has no MM p.30 binding or these steps. Full profile data remains excluded; age/size progression and the separate breath-effectiveness chart remain unassessed in this correction.",
+      "elf": "The elf-band weapon-composition distribution and separate Wood Elf percentages are retained as an in-scope encounter-composition reference candidate with no exact current owner. This is not classified as a general weapon table. Full elf profile text remains excluded.",
+      "golem": "Classic Golem prerequisites, construction procedure, timing, control, and operation are in scope despite appearing within creature entries; the four complete numeric stat profiles remain excluded. The UA lesser-golem spell is a different source owner. Five existing MM economic cost claims are linked to mm-economic and are not duplicated as new money findings.",
+      "men": "The bounded profession table/structured-list procedure has no exact current owner and is missing. The broader profession-by-profession narrative remains unassessable because it was not atomized.",
+      "policyCorrection": "README.md:85 says the MM/MM2 dependencies do not establish a searchable monster catalogue or visual verification. It does not exclude operative rules just because they are embedded in monster profiles. The historical first14 assessment's broader profile-bound-procedure/Golem-cost exclusion is preserved unchanged and superseded for these child scopes by the 94ec correction; the prior independent review's calibrated Golem scope-pending finding remains preserved too."
+    },
+    "phbWordOfRecall": {
+      "result": "pass as a cross-report adjudication consistency check; this receipt does not claim a new page-level pixel review",
+      "proposalReportSha256": "228890f8e00385f9145d2e853579755745f3ec511ad8c8afe095bd1faefd60e7",
+      "disposition": "rejected-audit-false-positive",
+      "noContentChange": true,
+      "retainedWeightPerLevel": 250,
+      "sourceExample": "The PHB p.52 example gives 3,750 gp weight at 15th level, consistent with 250 per level; the purported 500-per-level reading is rejected as a transcription misread, not a second-printing rule conflict."
+    }
+  },
+  "portablePublicInputContract": {
+    "result": "pass in the main worktree and a temporary 40-file public-only checkout at the fresh compatibility commit",
+    "locators": [
+      {
+        "requestedPath": "/workspace/adnd1-phb-spell-guidance-repair/research/source-audit-pass8-phb-spell-guidance-author-proposal.json",
+        "resolvedPath": "research/source-audit-pass8-phb-spell-guidance-author-proposal.json",
+        "sha256": "1a3ed99095ff9d93c0f1f84d89c27cd239f02430ffb6db81c10b7ac126af423d",
+        "kind": "one exact legacy absolute public-report locator"
+      },
+      {
+        "requestedPath": "research/source-completeness-coverage.json",
+        "resolvedPath": "research/source-audit-pass8-unit-census-input-ae36f43b.json",
+        "sha256": "ae36f43b2e6ba63643d2c4a5a4fea34ddc494f3f10337a28a53040dfe8a9401d",
+        "kind": "one exact frozen public-input alias for the historical census pin"
+      }
+    ],
+    "isolatedCheckoutContents": "37 public report inputs plus the v1 report, v2 report, and builder; the PHB proposal is materialized under its relative alias and the historical census under its frozen filename. The mutable census path is absent.",
+    "privateSnapshotPath": "deliberately absent in the isolated checkout and passed as a nonexistent environment override",
+    "publicOnlyDefaultCheck": "passed and reproduced v2 SHA 56fbfe97… without reading private snapshot bytes",
+    "locatorReceiptEmission": "Each exact locator emitted its resolved relative path, SHA, size, and verified status; the builder rejects bytes that differ at either alias and rejects unknown absolute report paths."
+  },
+  "privateSnapshotBoundary": {
+    "defaultPublicCheck": "passed with status not-run and a nonexistent private snapshot path",
+    "explicitPrivateByteCheck": {
+      "result": "verified",
+      "gzipSizeBytes": 4391595,
+      "gzipSha256": "663ea470af5cdd272674b264ba96f5a74231d3525143c907596ba41da21194d2",
+      "decompressedSizeBytes": 89009882,
+      "decompressedJsonSha256": "7f8f9eeab2140619e4078614b5458c44f18c7e3f1922c375051a0a5720d79d39"
+    },
+    "missingSnapshotNegativeCheck": "failed closed with ENOENT when explicit verification was given a nonexistent path",
+    "scope": "This explicit check verifies exact private snapshot archive and decoded JSON bytes only. No private PDF, source page, full-page render, or snapshot contents were copied into this receipt or public checkout."
+  },
+  "preservedUnpublishedDraft": {
+    "path": "/tmp/source-audit-pass8-original-unit-join-review-v2-before-review-state-fix-035932e8.json",
+    "sha256": "035932e8b7bd3757b7052200401709a368c9cb711b9e7b06c31ab898ebe8baba",
+    "bytes": 6949123,
+    "classification": "preserved unpublished pre-release draft; not the historical v1 production report",
+    "currentValidatorResult": "rejected as expected",
+    "staleFailures": [
+      "review-state summary differs from actual per-unit rows",
+      "PHB prior reviewState history was not preserved separately",
+      "PHB review-state summary still places search captures under source-reading unassessability",
+      "PHB public-search review-state summary count is not 18",
+      "MM broader pending/closed-unassessed scope bridge is stale"
+    ],
+    "historicalV1Sha256": "425bcf69ce1d44da3ffaecdc8da2993432251f51a36d2245011ae704e2de4865"
+  },
+  "validation": {
+    "focusedTests": "node --test tests/source-audit-pass8-original-unit-join-v2.test.mjs: 13/13 pass in both author and fresh compatibility worktrees",
+    "deterministicCheck": "python3 tools/source-audit-pass8-original-unit-join-v2.py --check: pass in both worktrees, output remains SHA 56fbfe97…",
+    "privateSnapshotCheck": "explicit exact-byte check passed; an explicit missing-path attempt failed closed",
+    "sourcePixelScope": "No new PDF/page pixel inspection is claimed by this ledger review. The mixed-scope classifications above are joined to the separately hash-pinned 94ec source-pixel correction.",
+    "productionChanges": "No production content, citation metadata, source catalog, v1 report, v2 report, builder, tests, or v19 repair register was changed by this reviewer. Only this new additive review receipt is created."
+  },
+  "limitations": [
+    "The 559 named broad units overlap and are not a semantic atom, physical-row, complete profile, or prose-clause census.",
+    "The 28-row MM table/list queue is bounded and closed; the report expressly retains 57 broader pending assertions and 14 queue rows whose broader content is still unassessed.",
+    "Report-pin and JSON-pointer validity proves evidence traceability, not the truth or completeness of every source claim. Source-pixel review remains separately bounded by the cited reports.",
+    "The private snapshot verification proves byte identity only. It does not inspect private PDFs or establish source completeness."
+  ]
+}

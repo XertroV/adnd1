@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "dmg-appendix-e-star-independent-review",
+  "status": "bounded-source-and-site-join-reviewed",
+  "book": "DMG",
+  "inputReport": {
+    "path": "/workspace/adnd1-semantic-audit/research/source-audit-pass8-dmg-appendix-endmatter-assessments.json",
+    "sha256": "8f955358bfe7cb2305e55b502cae0624f7d42bb3e54652aa0979cd1f80a91a29",
+    "sourceUnitId": "dmg-appendix-e",
+    "unitClassificationInInput": "partial",
+    "reviewedAssertion": "Ten starred rows receive the permanent-kill XP multiplier only when the material-plane form is permanently killed; the star is distinct from the variable-XP double-star marker."
+  },
+  "source": {
+    "fileName": "DMG_1stEd.pdf",
+    "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+    "printedToPdfMapping": "The reviewed printed folios map to the same-number PDF ordinals."
+  },
+  "method": [
+    "Rendered the canonical DMG PDF pages at 216 dpi using PyMuPDF and inspected each page image separately. The actual printed folio was visible in each inspected image.",
+    "Counted the single-star rows directly from source table marks and joined each to its printed named row; did not derive row names from the site catalog or the root report.",
+    "Checked the footnote and double-star legend directly on source pixels. No XP cell values outside the ten relevant row names were re-transcribed."
+  ],
+  "sourcePixelReview": {
+    "physicalUnit": "Appendix E XP table star qualifiers only",
+    "printedPages": [
+      197,
+      198,
+      199,
+      201
+    ],
+    "pdfPages": [
+      197,
+      198,
+      199,
+      201
+    ],
+    "pageEvidence": [
+      {
+        "printedPage": 197,
+        "pdfPage": 197,
+        "privateImageEvidenceId": "dmg-appE-p197-216dpi",
+        "imageSha256": "c8d41549ab511821acaf2fe3290905d5d2cda21fd987735dc0a1f30bbea29e21",
+        "singleStarRows": [
+          "Demogorgon",
+          "Juiblex"
+        ]
+      },
+      {
+        "printedPage": 198,
+        "pdfPage": 198,
+        "privateImageEvidenceId": "dmg-appE-p198-216dpi",
+        "imageSha256": "6fe51ac4e561b1cedcd4ca1ca9d9fb5b496144b414131028d56fd94df0889052",
+        "singleStarRows": [
+          "Orcus",
+          "Yeenoghu",
+          "Asmodeus",
+          "Baalzebul"
+        ]
+      },
+      {
+        "printedPage": 199,
+        "pdfPage": 199,
+        "privateImageEvidenceId": "dmg-appE-p199-216dpi",
+        "imageSha256": "a6c5631bae043f8db85b490fbea6b28f88a827d325baa850d993850496d1566f",
+        "singleStarRows": [
+          "Dispater",
+          "Geryon"
+        ]
+      },
+      {
+        "printedPage": 201,
+        "pdfPage": 201,
+        "privateImageEvidenceId": "dmg-appE-p201-216dpi",
+        "imageSha256": "a8c08ef220c3fb3cdcb56c4d007bbdc5cb744ee7dd8d869cfabd5e578314c39a",
+        "singleStarRows": [
+          "Chromatic Dragon",
+          "Platinum Dragon"
+        ]
+      }
+    ],
+    "denominator": {
+      "singleStarNamedRows": 10,
+      "byPage": {
+        "197": 2,
+        "198": 4,
+        "199": 2,
+        "201": 2
+      }
+    },
+    "sourceMeaning": {
+      "singleStar": "The listed XP figure applies to destruction of the material-plane form; permanently killing the creature multiplies the listed XP by ten.",
+      "doubleStar": "A separate variable-XP indicator; it does not carry the single-star permanent-kill multiplier by itself.",
+      "scopeLimit": "This review validates the ten marked row identities and the qualifier meanings, not the complete Appendix E table-cell values or all monster profiles."
+    },
+    "adjudication": "The root report's ten-row and ×10 permanent-kill claim is corroborated on source pixels. The double-star variable-XP distinction is also corroborated. No correction to this bounded source assertion is needed."
+  },
+  "siteJoin": {
+    "snapshot": {
+      "path": "/workspace/vault-audit-private/pass8-site-snapshot-projection-663ea470af5c.json.gz",
+      "sha256": "663ea470af5cdd272674b264ba96f5a74231d3525143c907596ba41da21194d2",
+      "captureComplete": true,
+      "records": 1000,
+      "runtimeErrors": 0
+    },
+    "currentOwners": [
+      {
+        "collection": "rules",
+        "id": "xp-challenge",
+        "sourceRecordSha256": "fa54aa14a030a3428589b4978845dedbdc829691dbd43e94bf4192ba57e7cd67",
+        "domInnerTextSha256": "a2cd9a1422f6ae7714ea7ae34d028118c9d10360c133dcd5fcc830402e95169e",
+        "snapshotSearchTextSha256": "13a6d5138282687eadd1879e83a5f8cd46731893aa03105724bedf8f0a5d4ecc",
+        "visibleScope": "General challenge-based XP award advice; no tenfold permanent-kill condition appears in the captured detail text or search text."
+      },
+      {
+        "collection": "rules",
+        "id": "monster-xp-division",
+        "sourceRecordSha256": "b267acb5c0b224be7a9e5c6777c3f4b8e246983ee7d35a2f2d3fc7489db3f32d",
+        "domInnerTextSha256": "fe5733d9c2c373cb8477ddbd5a8d73eef88c79b24a56da4ee9d2dd937acabea0",
+        "snapshotSearchTextSha256": "30e1fcdc826299a5846a25c03bef1e3e835336fd0d3ca4a26a9cd5ce46c5a282",
+        "visibleScope": "Monster-XP division advice; no tenfold permanent-kill condition appears in the captured detail text or search text."
+      }
+    ],
+    "rootReportHashReconciliation": {
+      "rootReportedSearchHashes": {
+        "xp-challenge": "8fa5c80e392fa3fe37d463799c92582a6bbd22e37af7169a96285a67a1d7ff60",
+        "monster-xp-division": "d8d7c47b50d2edac0154050a4f122023f5ddebe51cde9d864a23059ba3def0c9"
+      },
+      "finding": "The input report labels these as searchDocumentSha256 and hashes the full publicSearch object using canonical JSON; the independently recomputed hashes match exactly. SHA256 of the searchText field alone is a separate projection and differs.",
+      "disposition": "No hash discrepancy remains. Bind the root report searchDocumentSha256 values as canonical hashes of the full publicSearch object; bind searchText-only hashes separately with their narrower definition. This resolution does not change the pixel-confirmed DMG footnote.",
+      "resolution": {
+        "canonicalization": "SHA256(json.dumps(publicSearch, sort_keys=True, separators=(\",\", \":\"), ensure_ascii=False).encode())",
+        "independentRecomputation": {
+          "xp-challenge": {
+            "canonicalPublicSearchObjectSha256": "8fa5c80e392fa3fe37d463799c92582a6bbd22e37af7169a96285a67a1d7ff60",
+            "searchTextOnlySha256": "13a6d5138282687eadd1879e83a5f8cd46731893aa03105724bedf8f0a5d4ecc"
+          },
+          "monster-xp-division": {
+            "canonicalPublicSearchObjectSha256": "d8d7c47b50d2edac0154050a4f122023f5ddebe51cde9d864a23059ba3def0c9",
+            "searchTextOnlySha256": "30e1fcdc826299a5846a25c03bef1e3e835336fd0d3ca4a26a9cd5ce46c5a282"
+          }
+        },
+        "result": "Both root-reported searchDocument hashes exactly match the pinned snapshot’s canonical full publicSearch objects. The searchText-only hashes are a different, also valid, projection. This is a serialization distinction, not a factual hash defect."
+      }
+    },
+    "absenceLimit": "The two generic XP rules owners are content and search projections checked here. This does not claim that the named monster article titles are not retrievable by title or that all DMG source units are complete."
+  },
+  "checkedNegativeScope": [
+    "No claim is made about unreviewed Appendix E rows, XP cells, monster descriptions or other XP qualifiers.",
+    "No equivalence is asserted for the separate four-star Loacath marker and the nearby not-rateable legend.",
+    "The profile-row denominator remains outside this bounded review."
+  ],
+  "productionChangesPerformed": false,
+  "commitsCreated": false
+}

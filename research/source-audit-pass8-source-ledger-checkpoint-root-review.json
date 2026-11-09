@@ -1,0 +1,531 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "source-ledger-checkpoint-root-review",
+  "inputCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+  "scope": "Public source inventories, original559 join and correction history, reproducibility tools/tests, completedV19/V20 release receipts, and explicit remaining work. Distribution data/code/assets remain identical to verifiedV20.",
+  "decision": "Reviewed for draft PR; exact-head CI and publication verification still required.",
+  "independentReview": {
+    "path": "research/source-audit-pass8-original-unit-join-v2-independent-review.json",
+    "sha256": "6e982a8faa0bba4c766cd389d26c7dd08176946da81274721a70e533ee116bf9"
+  },
+  "sourceUnitLedger": {
+    "path": "research/source-audit-pass8-original-unit-join-review-v2.json",
+    "sha256": "56fbfe97b3fdb9fa22b794cc255c492e2f28acad8a5a5c1ddb82994a2369f804",
+    "broadUnits": 559,
+    "books": 5,
+    "physicalPdfPages": 776,
+    "completeSemanticBooks": 0,
+    "meaning": "Report categories concern overlapping broad scopes; finer unknowns and corrections remain explicit."
+  },
+  "rootChecks": {
+    "focusedNode": {
+      "tests": 14,
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "logSha256": "f503f89b15b7e912681f190cc088e0f0b00a97ec5a8417f2d66b738a182e62bd"
+    },
+    "freshMasterCompatibility": "All37inputpins resolve in a fresh a46 checkout using two explicit public historical input locators. Current census7f8 and frozenV19register3d6 remain at their own identities.",
+    "actualInitialFreshCheckFailure": {
+      "logSha256": "977f508b0008bd47b43baa7e215dd8109f84e80468e6245c1b862ac3e9ddcdf3",
+      "reason": "Historical census ae36 was initially read from mutable current census path7f8. Preserved tool/test bytes and log; corrected with a finite frozen public input locator rather than overwriting or repinning current census."
+    },
+    "actualUnpublishedFaultyDraft": {
+      "path": "tests/fixtures/source-audit-pass8-unit-join-v2-unpublished-draft-before-summary-fix.json.gz",
+      "sha256": "aae7e406d687c320240116250713a8750aea9a230a350846962648177aea6645",
+      "rawSha256": "035932e8b7bd3757b7052200401709a368c9cb711b9e7b06c31ab898ebe8baba",
+      "detector": "Current validator rejects its stale PHB/MM summary labels/counters; this was an unpublished report draft, not a historical production defect."
+    },
+    "staticReproduction": {
+      "command": "node tools/assemble.mjs; git diff --exit-code -- dist",
+      "passed": true,
+      "logSha256": "b2f2ce2861cd39fa04b275cab559d63a48e1a144c88eeca98b92648e14691c02"
+    },
+    "diffCheck": "passed"
+  },
+  "releaseTracking": "The unversioned V19 repair register is frozen as a source input. A separately named V20 successor and current-status pointer avoid rewriting that phase evidence. Evidence-only publication will have its own build/footer release metadata.",
+  "privacy": "No full PDFs, page renders, JPEG supplement, or full89MB browser snapshot are included. New data artifacts contain inventories, bounded typed findings, coordinates, provenance, review records and already-public site observations.",
+  "newCheckpointFilesBeforeThisReceipt": [
+    {
+      "path": "research/current-source-audit-status.json",
+      "sha256": "bdf62dd70105a026f98d546eb84fd8e13d63e5347dad830d90ce247c42ac0363",
+      "sizeBytes": 4343
+    },
+    {
+      "path": "research/source-audit-pass8-dmg-appendices-independent-review.json",
+      "sha256": "50448c7878db7c36fbbd007145ebb0aaa4018340829288c3d48a45387c27a0f1",
+      "sizeBytes": 24932
+    },
+    {
+      "path": "research/source-audit-pass8-dmg-appendix-e-star-independent-review.json",
+      "sha256": "d3d5622a753fdb4489025e7726c0cf5440000fa9fe6f932de4da097234b497ed",
+      "sizeBytes": 7678
+    },
+    {
+      "path": "research/source-audit-pass8-dmg-appendix-e-star-wording-addendum.json",
+      "sha256": "98095ee8542306d797d0ff4c020c518abc3460eaff4bb8cc80f823f53cea3b2c",
+      "sizeBytes": 1655
+    },
+    {
+      "path": "research/source-audit-pass8-dmg-appendix-endmatter-assessments.json",
+      "sha256": "8f955358bfe7cb2305e55b502cae0624f7d42bb3e54652aa0979cd1f80a91a29",
+      "sizeBytes": 168293
+    },
+    {
+      "path": "research/source-audit-pass8-dmg-appendix-endmatter-before-independent-corrections.json.gz",
+      "sha256": "60b12c803dbb3ea25e9ce9b70be9133e71b0ddb70dad8052c2d8d90b3b3d3a0d",
+      "sizeBytes": 29195
+    },
+    {
+      "path": "research/source-audit-pass8-dmg-appendix-endmatter-before-mu-claim.json.gz",
+      "sha256": "f8795cbe4bfcb1304b0bac2b999bc672b83f2ac8422c468bd79209eb6245b7e2",
+      "sizeBytes": 28862
+    },
+    {
+      "path": "research/source-audit-pass8-dmg-appendix-site-hash-serialization.json",
+      "sha256": "ee181eaffec4a175641da1ae7bb460a873ec0d80d3623ea6142e97145c146d82",
+      "sizeBytes": 53965
+    },
+    {
+      "path": "research/source-audit-pass8-dmg-encumbrance-glossary-independent-review.json",
+      "sha256": "f73470994cc6a6699ba74c20dbdff6bfb3c59000a6bfa8c8b9c68f7f3762756e",
+      "sizeBytes": 400738
+    },
+    {
+      "path": "research/source-audit-pass8-dmg-unit-assessments.json",
+      "sha256": "df59ba296eae16d209187f7e72f48043aadea76cc6cae9d235a83cf58e097532",
+      "sizeBytes": 3172494
+    },
+    {
+      "path": "research/source-audit-pass8-exact-frame-adjudication-proposal.json",
+      "sha256": "1a8078c14e1c73c2597bf837a8e2d8c9a2c28beea3f51aef4bda0484197449cc",
+      "sizeBytes": 669579
+    },
+    {
+      "path": "research/source-audit-pass8-field-target-baseline.json.gz",
+      "sha256": "abe09af933e00e51b63ee645bf307e581539bcfa3e343f0310df6bf2331f7cd3",
+      "sizeBytes": 253163
+    },
+    {
+      "path": "research/source-audit-pass8-frame-candidate-independent-review.json",
+      "sha256": "5734f710cf12bca2eb9dc316a077dd6f880abd8338c92a61329501258cbbcc4c",
+      "sizeBytes": 38918
+    },
+    {
+      "path": "research/source-audit-pass8-frame-candidate-v10.json",
+      "sha256": "0e22eaebf5a56b4951b7ea891dab92c79e17ff2a5a12235fd152beacaf42e8f2",
+      "sizeBytes": 106201
+    },
+    {
+      "path": "research/source-audit-pass8-frame-candidate-v6.json",
+      "sha256": "7c3551062947c851638d30b7e80b62cb855dd2e8f89ca74972ed661485b03eec",
+      "sizeBytes": 7081
+    },
+    {
+      "path": "research/source-audit-pass8-frame-candidate-v7.json",
+      "sha256": "752841a47486240d9e574d49e70bdd1d13c46a351e4b8071ef3d00ba1bd7cbd4",
+      "sizeBytes": 7574
+    },
+    {
+      "path": "research/source-audit-pass8-frame-candidate-v8.json",
+      "sha256": "7c709609da55b26c8d56e3745aac2741429cfb4bf29b18bbd6463e16c0f2951c",
+      "sizeBytes": 63054
+    },
+    {
+      "path": "research/source-audit-pass8-frame-candidate-v9-independent-review.json",
+      "sha256": "8d4d4b566b73681894f57a4745bdaba1ef314b5dfe59dc29dbbd7d2324e600b8",
+      "sizeBytes": 13985
+    },
+    {
+      "path": "research/source-audit-pass8-frame-candidate-v9.json",
+      "sha256": "204a1d1eb12157df235a1bccf9534d7e115a9e2c132c92115b6532e7d4322489",
+      "sizeBytes": 558427
+    },
+    {
+      "path": "research/source-audit-pass8-frame-replay.json",
+      "sha256": "1b242d7da3ad3be9eb667b177abc7db7173ba1fc552f78c4eb9de84c446dd9a2",
+      "sizeBytes": 14916
+    },
+    {
+      "path": "research/source-audit-pass8-frame-universe-v3.json",
+      "sha256": "bc57e4487d5eb2673edf1f9c3d48a7bc251087b663d856d12771f3b1b6738286",
+      "sizeBytes": 8987
+    },
+    {
+      "path": "research/source-audit-pass8-frame-universe-v5.json",
+      "sha256": "1742a5790d7b59c660c22813360b35c2469dd520c3866f887015d754fccce54d",
+      "sizeBytes": 8524
+    },
+    {
+      "path": "research/source-audit-pass8-independent-frame-v4-review.json",
+      "sha256": "4cabaf20c3d800814823a945abe0c03da9e799b1f229c1e67451008e3e97f539",
+      "sizeBytes": 4687
+    },
+    {
+      "path": "research/source-audit-pass8-independent-frame-v5-review.json",
+      "sha256": "460043606777463c843fa629870fdfe5349498ddc1e8125e56087ec57f41ef6a",
+      "sizeBytes": 12875
+    },
+    {
+      "path": "research/source-audit-pass8-independent-method-followup-review.json",
+      "sha256": "00cc4665af57b02044de2124d5d8716858a02abba626f54286991a069d3ac57c",
+      "sizeBytes": 15726
+    },
+    {
+      "path": "research/source-audit-pass8-independent-method-review.json",
+      "sha256": "36a773e7274dbacbc77558380fcbb2d62c7ecaa97f80d38a6ab7c9d2f96cb405",
+      "sizeBytes": 18437
+    },
+    {
+      "path": "research/source-audit-pass8-independent-source-and-frame-review.json",
+      "sha256": "ac8bba232e5941e8cea64728d85bbb4d6817f8f676fe60380dbd37d0388722da",
+      "sizeBytes": 27358
+    },
+    {
+      "path": "research/source-audit-pass8-last-six-crop-proposal.json",
+      "sha256": "1d3d6a9100dc21e15d46d86f05cfbab7afc58fe4a43ec383b7a8b92b2aa3caf1",
+      "sizeBytes": 88999
+    },
+    {
+      "path": "research/source-audit-pass8-mm-economic-consumption-closure.json",
+      "sha256": "75a7ffe1fe4abe07c1bea063be8eb187794f8379f658d176414867e04aeee714",
+      "sizeBytes": 196288
+    },
+    {
+      "path": "research/source-audit-pass8-mm-elemental-elephant-site-join-closure.json",
+      "sha256": "3eeff5f5f9ff33a9758d9b489c3ff33f446d2df950c0dda3e8e190678d1a5482",
+      "sizeBytes": 76389
+    },
+    {
+      "path": "research/source-audit-pass8-mm-exposed-spell-assessments.json",
+      "sha256": "6ee96188bcd623f28a897e43749cb37c9147209d1b3bc0019496f70659bfa2c4",
+      "sizeBytes": 84567
+    },
+    {
+      "path": "research/source-audit-pass8-mm-familiar-frame-adjudication.json",
+      "sha256": "50992e1daba03884f1885231454cc3a341f86b4f6154cb9a3f34708c35035a96",
+      "sizeBytes": 17399
+    },
+    {
+      "path": "research/source-audit-pass8-mm-familiar-frame-independent-review.json",
+      "sha256": "9ea3a7d9d1c33541e493f881443dab949441dd463443267c8d95117a3b42536b",
+      "sizeBytes": 6992
+    },
+    {
+      "path": "research/source-audit-pass8-mm-first14-mixed-scope-independent-review-correction.json",
+      "sha256": "94ec57094f21ca42a6877c4c185868b99a86986f16ec495bd9e6e4d2f7687082",
+      "sizeBytes": 24781
+    },
+    {
+      "path": "research/source-audit-pass8-mm-first14-mixed-scope-independent-review.json",
+      "sha256": "006e3774146f4eca43a0ef3ec338a3d9b99203a43ad097c21a9e0845ba619f85",
+      "sizeBytes": 34916
+    },
+    {
+      "path": "research/source-audit-pass8-mm-table-candidate-first14-assessments.json",
+      "sha256": "244211c1231e143d30b749b8fe1d585f7ee1ef6efb4bbc7c21469ad2bd590fd3",
+      "sizeBytes": 116827
+    },
+    {
+      "path": "research/source-audit-pass8-mm-table-candidate-pending-queue.json",
+      "sha256": "bc9cfdbb1c8a59cf528a33c9ca9884985cbcd948225c569c7a679f373de12aec",
+      "sizeBytes": 51539
+    },
+    {
+      "path": "research/source-audit-pass8-mm-table-last14-assessments.json",
+      "sha256": "c16645e347a2e28de3d9c564734706accfb7f1dfc5cc92784ea5d8be693b686d",
+      "sizeBytes": 69077
+    },
+    {
+      "path": "research/source-audit-pass8-mm-unit-assessments.json",
+      "sha256": "20d748fbf0f7426e67f74868d6b1cb6e146035721b92a9ee43f62c9f2fcd4e11",
+      "sizeBytes": 1833219
+    },
+    {
+      "path": "research/source-audit-pass8-mm2-dungeon-continuation-independent.json",
+      "sha256": "55a27bfddc6a3923eef31eb4d78014ad765278c3246cac21c8604f20592315ab",
+      "sizeBytes": 12282
+    },
+    {
+      "path": "research/source-audit-pass8-mm2-monetary-closure-supplement.json",
+      "sha256": "a00008b476cd36411fd4d1a5602958e30c260a31f09860f165c5e01b459fa103",
+      "sizeBytes": 469229
+    },
+    {
+      "path": "research/source-audit-pass8-mm2-nonprofile-semantic-closure.json",
+      "sha256": "d5b5844901b1782859fda722b6081d29eb4d1f6e5ff4db1337484b59f8efb60e",
+      "sizeBytes": 328144
+    },
+    {
+      "path": "research/source-audit-pass8-mm2-unit-assessments.json",
+      "sha256": "46a1eed144baf4d61c5c067fc8a5b0c9d0c5a0a3bf0d3eab89440eab218a7dbd",
+      "sizeBytes": 799213
+    },
+    {
+      "path": "research/source-audit-pass8-original-unit-join-review-v2.json",
+      "sha256": "56fbfe97b3fdb9fa22b794cc255c492e2f28acad8a5a5c1ddb82994a2369f804",
+      "sizeBytes": 6951904
+    },
+    {
+      "path": "research/source-audit-pass8-original-unit-join-review-v2.md",
+      "sha256": "299c12d186b7783f89095f8ec6e6d25546a4af682566c397d6021a1b3aa392ee",
+      "sizeBytes": 3635
+    },
+    {
+      "path": "research/source-audit-pass8-original-unit-join-review.json",
+      "sha256": "425bcf69ce1d44da3ffaecdc8da2993432251f51a36d2245011ae704e2de4865",
+      "sizeBytes": 6199311
+    },
+    {
+      "path": "research/source-audit-pass8-original-unit-join-v2-independent-review.json",
+      "sha256": "6e982a8faa0bba4c766cd389d26c7dd08176946da81274721a70e533ee116bf9",
+      "sizeBytes": 13639
+    },
+    {
+      "path": "research/source-audit-pass8-phb-ability-race-assessments.json",
+      "sha256": "2bfde34e48a8a85ffc67d2381affeb255c28f21ff95227451f372ce0c3d4c191",
+      "sizeBytes": 207115
+    },
+    {
+      "path": "research/source-audit-pass8-phb-class-assessments.json",
+      "sha256": "ae48671822681f1fa600593ed2b09c80a6527c31e7888c42babc52f9db098e70",
+      "sizeBytes": 174303
+    },
+    {
+      "path": "research/source-audit-pass8-phb-early-equipment-assessments.json",
+      "sha256": "fb7d59e83fb553d543f81b7709debca289a5da9cc82dfaa8fb22faa390452c2c",
+      "sizeBytes": 105748
+    },
+    {
+      "path": "research/source-audit-pass8-phb-procedure-appendix-assessments.json",
+      "sha256": "b43bcde5d171660e31dd0fc4e732306ff259d86c96de59d00b8df591620536df",
+      "sizeBytes": 117427
+    },
+    {
+      "path": "research/source-audit-pass8-phb-spell-body-assessments.json",
+      "sha256": "3cf260b15a66751a5822ba434073de969be648698b2916b1df9f8360265b5c53",
+      "sizeBytes": 1827951
+    },
+    {
+      "path": "research/source-audit-pass8-phb-spell-guidance-author-proposal-v2.json",
+      "sha256": "228890f8e00385f9145d2e853579755745f3ec511ad8c8afe095bd1faefd60e7",
+      "sizeBytes": 178877
+    },
+    {
+      "path": "research/source-audit-pass8-phb-spell-guidance-author-proposal.json",
+      "sha256": "1a3ed99095ff9d93c0f1f84d89c27cd239f02430ffb6db81c10b7ac126af423d",
+      "sizeBytes": 177613
+    },
+    {
+      "path": "research/source-audit-pass8-phb-unit-assessments.json",
+      "sha256": "1e515f9bb6d43ae8543058bfd77f15106a1d1f5c17e1a88b497fce997dbacc5a",
+      "sizeBytes": 936088
+    },
+    {
+      "path": "research/source-audit-pass8-pr41-live-release-verification.json",
+      "sha256": "22175edaf4a9593cd91591ace0da4b2ee721a5c92172b6692f14be24d8084a3c",
+      "sizeBytes": 16524
+    },
+    {
+      "path": "research/source-audit-pass8-pr42-live-browser-independent-review.json",
+      "sha256": "170c81316f8a0455ae367a8107313ca0382ee088731ed5b27917a73c4743a655",
+      "sizeBytes": 179890
+    },
+    {
+      "path": "research/source-audit-pass8-pr42-live-release-verification.json",
+      "sha256": "171907c8cb7275d0620abfa016f1b00fdbd869d386d39d61c9c323b09fb7cdcc",
+      "sizeBytes": 6439
+    },
+    {
+      "path": "research/source-audit-pass8-projection-negative-adjudication.json",
+      "sha256": "52542fdcd110e3aa3d13fc74ceb28b3b53b1dbd07af6a880d87eba0f4571bc66",
+      "sizeBytes": 3113
+    },
+    {
+      "path": "research/source-audit-pass8-repair-register-before-v19.json.gz",
+      "sha256": "85b8421aa961416398baad06a8d615786d0471c8ab73114b65f02907110836dc",
+      "sizeBytes": 2158
+    },
+    {
+      "path": "research/source-audit-pass8-site-snapshot.json",
+      "sha256": "515e1c486987b450a1018dc76661c3ae6256f4c9837862ebddc484c7a32d01e7",
+      "sizeBytes": 14320
+    },
+    {
+      "path": "research/source-audit-pass8-snapshot-tool-followup.json",
+      "sha256": "a0ee67287473eea31a9600ecdc22cc9cfd76e8b87071f1d59b6eb7b4928d32b1",
+      "sizeBytes": 5142
+    },
+    {
+      "path": "research/source-audit-pass8-source-card-endmatter-before.json",
+      "sha256": "d09dea7b6d879ba7ec1c493b5590ded1229c34f6c5567241a942151f745b92d8",
+      "sizeBytes": 16837
+    },
+    {
+      "path": "research/source-audit-pass8-starting-state.json",
+      "sha256": "e5b15c28e05218973cebe8d04df46b9cca30ee41ff66553cc347acd18179416b",
+      "sizeBytes": 8665
+    },
+    {
+      "path": "research/source-audit-pass8-ua-class-assessments.json",
+      "sha256": "400f07cf81c6ab349ce2878525856f5fbfba0450adcd0d4e9c3dfc97b2c3c35c",
+      "sizeBytes": 106137
+    },
+    {
+      "path": "research/source-audit-pass8-ua-remaining-unit-assessments.json",
+      "sha256": "c2ca71fa00ae2ef6ee57fc712947c406882192f44d3dad428ab86af65bdb7071",
+      "sizeBytes": 2152004
+    },
+    {
+      "path": "research/source-audit-pass8-ua-treasure-row-census.json",
+      "sha256": "bcd29fac44d732576bf71fc93f8a7fa44d8d93ec45df8b1e18d3968f5c9843e3",
+      "sizeBytes": 75562
+    },
+    {
+      "path": "research/source-audit-pass8-ua-unit-assessments.json",
+      "sha256": "bcc216de5091c7b34eb1a4a01d39cd5e0ae7fd2479fc527fc6fdad48234fcf74",
+      "sizeBytes": 1841193
+    },
+    {
+      "path": "research/source-audit-pass8-unit-census-input-ae36f43b.json",
+      "sha256": "ae36f43b2e6ba63643d2c4a5a4fea34ddc494f3f10337a28a53040dfe8a9401d",
+      "sizeBytes": 147939
+    },
+    {
+      "path": "research/source-completeness-repairs-version20.json",
+      "sha256": "d0e9b69fb62b5849f2ca5583bb022ea39ba6e69a7454769ce98e9874a8f427af",
+      "sizeBytes": 19757
+    },
+    {
+      "path": "tests/fixtures/source-audit-pass8-unit-join-v2-unpublished-draft-before-summary-fix.json.gz",
+      "sha256": "aae7e406d687c320240116250713a8750aea9a230a350846962648177aea6645",
+      "sizeBytes": 276794
+    },
+    {
+      "path": "tests/source-audit-pass8-original-unit-join-v2.test.mjs",
+      "sha256": "595f4503937b06813b11cb382c5d063e5b3e9abfc8b688447f03ebecaec3fbc0",
+      "sizeBytes": 14381
+    },
+    {
+      "path": "tests/source-audit-pass8-unit-join-preserved-draft.test.mjs",
+      "sha256": "ed560e3f588e79f4beeaefb7edba35c4604f32f705be9ae455da690e91d06f81",
+      "sizeBytes": 1684
+    },
+    {
+      "path": "tests/source-coordinate-replay.test.mjs",
+      "sha256": "2a3c6c86d34bc9d1d94f50837c2547358d77437eda773ac5361b9dfaa44587a7",
+      "sizeBytes": 3651
+    },
+    {
+      "path": "tests/source-frame-candidate-resolver-v10.test.py",
+      "sha256": "7d56a7d48b33f8e7bb3e013051b9cafc53dcfb0f23fb325035a30530898eb02e",
+      "sizeBytes": 3949
+    },
+    {
+      "path": "tests/source-frame-candidate-resolver-v6.test.py",
+      "sha256": "ee4e5d4bba29c507325a5eca6999881c4d7183afdb26f90b0136307dfcf8606d",
+      "sizeBytes": 3261
+    },
+    {
+      "path": "tests/source-frame-candidate-resolver-v7.test.py",
+      "sha256": "eb109f5c13cdb226e0357b3e4a4088012cf19567e3dd7b649099d0a3c58a5cf3",
+      "sizeBytes": 2535
+    },
+    {
+      "path": "tests/source-frame-candidate-resolver-v8.test.py",
+      "sha256": "b140d081fdf68ae3aef72bc48790afb016498ed543888d346c4c17f5a16d92c6",
+      "sizeBytes": 2920
+    },
+    {
+      "path": "tests/source-frame-candidate-resolver-v9.test.py",
+      "sha256": "4769ea5049e56fb1df26888d05cf840e30e90537d6014ef00dc963c65392838c",
+      "sizeBytes": 3438
+    },
+    {
+      "path": "tests/source-frame-universe-v3.test.py",
+      "sha256": "a2166082c2e4253c2b327eac90d7f0cf639f02a416ea2c14502badcfb4b7aa42",
+      "sizeBytes": 4424
+    },
+    {
+      "path": "tests/source-frame-universe-v4.test.py",
+      "sha256": "368626a8bd62ec53d5e82e2fd67c0c903407558e43aa7ea4e940daa1ad0b61f4",
+      "sizeBytes": 6865
+    },
+    {
+      "path": "tests/source-frame-universe-v5.test.py",
+      "sha256": "0590481cc13d1086c3a0bf0f2b851d058ef8f07c65167f82b806b75dab02f5b7",
+      "sizeBytes": 4043
+    },
+    {
+      "path": "tests/source-semantic-site-snapshot.test.mjs",
+      "sha256": "8ac4cee081fd14db264978abbef4f1200859f4be9ef327d265254c7a70c3aedb",
+      "sizeBytes": 7288
+    },
+    {
+      "path": "tests/source-table-segment-audit.test.mjs",
+      "sha256": "9038f4e84c9bd0024c0246fcdd306a4d7f27937a30dcb79440793bfcf7cfd63c",
+      "sizeBytes": 2767
+    },
+    {
+      "path": "tools/source-audit-pass8-original-unit-join-v2.py",
+      "sha256": "5954d3cb979c70e143f867696e24db766fa831a2f02693c439f89e55c5b4a4de",
+      "sizeBytes": 80722
+    },
+    {
+      "path": "tools/source-coordinate-replay.py",
+      "sha256": "896d54418af2bc3c2e381111d5fb8cfabd08c366e243b23f50030b7c0c0fcc6b",
+      "sizeBytes": 48393
+    },
+    {
+      "path": "tools/source-frame-candidate-resolver-v10.py",
+      "sha256": "c2bf3725b67376cbd15f54a1e02e2aa8418092f62952fb995a5cbda036ff37ea",
+      "sizeBytes": 23758
+    },
+    {
+      "path": "tools/source-frame-candidate-resolver-v6.py",
+      "sha256": "951fd1eeae184e1f572e2e64a08b2defcb0e926176235d6602af0371786d832b",
+      "sizeBytes": 29841
+    },
+    {
+      "path": "tools/source-frame-candidate-resolver-v7.py",
+      "sha256": "1ab113988f6b58fde981fff4b12a5427754968be9eb796f1fcfc3e1655451546",
+      "sizeBytes": 19175
+    },
+    {
+      "path": "tools/source-frame-candidate-resolver-v8.py",
+      "sha256": "31a405c24b3e4c39ee789a21e02e46ac90bdd97af5d9e075b155cf86d185ffbc",
+      "sizeBytes": 20134
+    },
+    {
+      "path": "tools/source-frame-candidate-resolver-v9.py",
+      "sha256": "c63d301c8a866472c05f4437b0c1652b1984b9c6ffdb37d03af35e037c2e646e",
+      "sizeBytes": 21715
+    },
+    {
+      "path": "tools/source-frame-universe-v3.py",
+      "sha256": "2a06c62393fd3b1ab39db11a798b1d3dd4c0656c3d890b206239e44e551e13df",
+      "sizeBytes": 39009
+    },
+    {
+      "path": "tools/source-frame-universe-v4.py",
+      "sha256": "2dee3572eb989c63ef1a441949f41e54ddb8c8bf1a469372c68e37869316da0e",
+      "sizeBytes": 41268
+    },
+    {
+      "path": "tools/source-frame-universe-v5.py",
+      "sha256": "bcd0b251fc741af873d271a763f3d622c1980fe6f422b0472ecfc35d1f7919cb",
+      "sizeBytes": 48624
+    },
+    {
+      "path": "tools/source-semantic-site-snapshot.mjs",
+      "sha256": "4dadf620da0357af731d0ced5112415b5b6de088f6b82c895533fe7fddaf5e2f",
+      "sizeBytes": 38921
+    },
+    {
+      "path": "tools/source-table-segment-audit.mjs",
+      "sha256": "cfccfb367c3606d91af37ce21e47a5b7fb599a710ebde7abda607929123726b7",
+      "sizeBytes": 3465
+    }
+  ],
+  "remainingWork": "This checkpoint does not finish the audit. Content repair, coordinate consumers, field mappings, highlight adjudication, continuation review and source/interpretation limits remain explicitly open."
+}

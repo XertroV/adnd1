@@ -1,5 +1,7 @@
 # Value-level verification log
 
+[Current source-audit status](current-source-audit-status.json) records the last verified content repair release and explicitly unpublished work. The [source-unit checkpoint](source-audit-pass8-original-unit-join-review-v2.md) explains the 559-unit denominator and its remaining scope; the [V20 repair register](source-completeness-repairs-version20.json) supersedes the frozen V19 phase record without rewriting it.
+
 `mechanics-audit-progress.json` is the durable audit snapshot. It inventories every included field of all 892 reference-bearing records and identifies the exact assembled-data version by SHA-256. Its denominator is the existing mechanics leaves selected in `tools/mechanics-audit.mjs`, including nulls and empty arrays; it is not a percentage of the books, all possible rules, or source-image coverage. Adding newly extracted fields changes that denominator.
 
 Each field has its current value, status, reviewer identifier, and the record's inspected source pages and source-file hashes. `reviewRecords` preserves the original checked-value snapshots and proposed old/new values. Source-checked means a reviewer compared that assertion with the cited source; it does not certify completeness of the rule or resolve contradictory printing. Independent review of corrections is additionally recorded in each batch's review report.

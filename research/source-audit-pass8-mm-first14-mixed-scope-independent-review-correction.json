@@ -1,0 +1,320 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "pass8-mm-first14-mixed-scope-independent-review-correction",
+  "createdAtUtc": "2026-11-08",
+  "inputCommit": "6d330af372ac809d11ed6029ed8695d0d8dc0909",
+  "reviewerRole": "independent source-pixel and exact-owner scope correction",
+  "book": {
+    "shortLabel": "MM",
+    "title": "Monster Manual",
+    "sourceEdition": "AD&D 1st Edition as represented by the authorized supplied PDF"
+  },
+  "source": {
+    "fileName": "Monster_Manual.pdf",
+    "sha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+    "pdfPages": 114,
+    "printedToPdfMapping": "For the inspected pages, printed folio N maps to physical PDF page N+1. The folio and passages were read from individually opened rendered source pages."
+  },
+  "inputs": [
+    {
+      "path": "research/source-audit-pass8-mm-table-candidate-first14-assessments.json",
+      "sha256": "244211c1231e143d30b749b8fe1d585f7ee1ef6efb4bbc7c21469ad2bd590fd3",
+      "role": "First-14 candidate census and author scope classifications reviewed here."
+    },
+    {
+      "path": "research/source-audit-pass8-mm-first14-mixed-scope-independent-review.json",
+      "sha256": "006e3774146f4eca43a0ef3ec338a3d9b99203a43ad097c21a9e0845ba619f85",
+      "role": "Prior independent review preserved unchanged; this correction adds scope adjudication and the p.40 visual check."
+    },
+    {
+      "path": "research/source-audit-pass8-mm-economic-consumption-closure.json",
+      "sha256": "75a7ffe1fe4abe07c1bea063be8eb187794f8379f658d176414867e04aeee714",
+      "role": "Existing typed monetary inventory, including five classic golem construction-cost claims and the separate subdued-dragon sale-price claim."
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8-site-snapshot.json.gz",
+      "sha256": "663ea470af5cdd272674b264ba96f5a74231d3525143c907596ba41da21194d2",
+      "role": "Frozen 1,000-record current-site owner, render, and search snapshot used for exact joins."
+    },
+    {
+      "path": "README.md",
+      "sha256": "3517787673c58b21a8f15c03de890bef46e4ea736e02155d5ba92d94bfd175a2",
+      "role": "Product boundary checked at line 85."
+    }
+  ],
+  "scopePolicyCorrection": {
+    "readmeLine": 85,
+    "readmeMeaning": "MM/MM2 dependencies do not establish a searchable monster catalogue or visual verification of those books.",
+    "correctedInterpretation": "This boundary excludes a full searchable bestiary and unreviewed creature stat profiles. It does not exclude operative rules or reference procedures merely because the source prints them inside monster entries. The bounded Dragon subdual procedure and classic Golem construction prerequisites, procedure, time, control, and costs are in scope under the delegated policy. The six-row horse load table is in scope as movement/encumbrance reference content. The elf-band weapon composition distribution is an encounter-composition reference candidate, not a general equipment table.",
+    "supersededClaimsPreserved": [
+      {
+        "artifact": "research/source-audit-pass8-mm-table-candidate-first14-assessments.json",
+        "claim": "Its scope statement broadly treats profile-bound procedures as excluded, and its Golem dispositions classify the four creator procedures and five construction-cost claims as excluded under README.md:85.",
+        "correction": "The scope statement was an overread of README.md:85. Keep the original artifact unchanged; use this receipt for the corrected disposition."
+      },
+      {
+        "artifact": "research/source-audit-pass8-mm-economic-consumption-closure.json",
+        "claim": "Its five classic Golem creation-cost rows are marked explicitly-excluded because they are creature-profile monetary assertions.",
+        "correction": "These are construction costs within the in-scope Golem construction reference, not excluded full-profile statistics. They are already itemized in that report and must not be duplicated as a second money finding."
+      },
+      {
+        "artifact": "research/source-audit-pass8-mm-first14-mixed-scope-independent-review.json",
+        "claim": "The prior independent Golem finding says the construction procedure is scope-pending; it does not itself claim README.md expressly excludes that procedure.",
+        "correction": "Preserve that calibrated finding. This new receipt resolves the pending scope question as in-scope under the delegated policy and corrects the author report's broader exclusion."
+      }
+    ]
+  },
+  "siteSnapshot": {
+    "sha256": "663ea470af5cdd272674b264ba96f5a74231d3525143c907596ba41da21194d2",
+    "recordsCaptured": 1000,
+    "captureLimit": "Frozen site/source/render/search snapshot; not a live recrawl."
+  },
+  "sourcePixelEvidence": [
+    {
+      "printedPage": 30,
+      "pdfPage": 31,
+      "privateFile": "/workspace/vault-audit-private/pass8/mm/econ-consumption-closure/all-remainder-pages-216dpi/pdf-031-216dpi.png",
+      "imageSha256": "5f45122fbcb5cfe4a68b50299f885deec4e2b17b1589cc90cf58e472ac98225e",
+      "dimensionsPx": [1651, 2326],
+      "independentPixelScope": "Dragon attack-mode lead-in, complete Subduing a Dragon procedure, worked example, adjacent sale/value paragraph, Length of Subdual, and the separate breath-effectiveness chart were visually inspected."
+    },
+    {
+      "printedPage": 39,
+      "pdfPage": 40,
+      "privateFile": "/workspace/vault-audit-private/pass8/mm/econ-consumption-closure/all-remainder-pages-216dpi/pdf-040-216dpi.png",
+      "imageSha256": "1aade8ecd56fe24bbe76a5d10b4cbe0ef1369941806fa53c779b021d3ee8587d",
+      "dimensionsPx": [1660, 2340],
+      "independentPixelScope": "The complete Elf-band weapon-composition passage, six percentage rows, armor/shield qualifier, and surrounding page context were visually inspected."
+    },
+    {
+      "printedPage": 40,
+      "pdfPage": 41,
+      "privateFile": "/workspace/vault-audit-private/pass8/mm/econ-consumption-closure/all-remainder-pages-216dpi/pdf-041-216dpi.png",
+      "imageSha256": "bcf5f3e8c6688c8d18f234ee69965ca47f41bcdb56b74e8cd238779a249a2411",
+      "dimensionsPx": [1705, 2342],
+      "independentPixelScope": "Confirmed the p.39 table does not continue here. Separately inspected Wood Elf prose: 50% of a band use bows, 20% carry swords, and 40% use spears."
+    },
+    {
+      "printedPage": 47,
+      "pdfPage": 48,
+      "privateFile": "/workspace/vault-audit-private/pass8/mm/econ-consumption-closure/all-remainder-pages-216dpi/pdf-048-216dpi.png",
+      "imageSha256": "e08ee9e7e085303cd7644ed25f7ff589bc4c0434f207909f57106d93a3fa0ac4",
+      "dimensionsPx": [1652, 2316],
+      "independentPixelScope": "Golem common introduction and Clay Golem creator level, spell prerequisites, sculpting/ritual steps, materials, vestments, control, and failure behavior."
+    },
+    {
+      "printedPage": 48,
+      "pdfPage": 49,
+      "privateFile": "/workspace/vault-audit-private/pass8/mm/econ-consumption-closure/all-remainder-pages-216dpi/pdf-049-216dpi.png",
+      "imageSha256": "fc8a8e5108e10099c4230688d82cabe6611dde5080e84e600c5d8aa4c7bd9aed",
+      "dimensionsPx": [1677, 2346],
+      "independentPixelScope": "Flesh, Iron, and Stone Golem construction prerequisites, required spells, materials costs, timing, creator control, and the adjacent profile text were visually inspected."
+    },
+    {
+      "printedPage": 49,
+      "pdfPage": 50,
+      "privateFile": "/workspace/vault-audit-private/pass8/mm/econ-consumption-closure/all-remainder-pages-216dpi/pdf-050-216dpi.png",
+      "imageSha256": "ea297abd5fb7582792204fc4a2548f26e51374fea123dcf829c217d3669db1a3",
+      "dimensionsPx": [1651, 2321],
+      "independentPixelScope": "Verified the Stone Golem continuation at page top and distinguished it from adjacent creature entries."
+    },
+    {
+      "printedPage": 53,
+      "pdfPage": 54,
+      "privateFile": "/workspace/vault-audit-private/pass8/mm/econ-consumption-closure/all-remainder-pages-216dpi/pdf-054-216dpi.png",
+      "imageSha256": "054c35b4bc3a74240f1b319668af16c290110a355bf834a3a8cfe7b3b9c29c13",
+      "dimensionsPx": [1640, 2312],
+      "independentPixelScope": "The complete six-row Horse maximum-load table, both slash-separated values, movement column meaning, encumbrance qualifier, and surrounding horse profile were visually inspected."
+    }
+  ],
+  "comparisonSourceEvidence": [
+    {
+      "book": "PHB",
+      "sourceFileName": "tsr2010-players-handbook.pdf",
+      "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "printedPage": 36,
+      "pdfPage": 37,
+      "privateFile": "/workspace/vault-audit-private/pass8/phb/page-renders/phb-pdf-037.png",
+      "imageSha256": "04be33ad65cb523e5c698178b98b27c6c52ef0f93056365df02cf9c545b37529",
+      "dimensionsPx": [1170, 1573],
+      "independentPixelScope": "The livestock purchase list was visually checked. It labels separate draft, heavy war, light war, medium war, riding (light), and pony entries; there is no wild-horse purchase row. Purchase-price labels do not provide the MM maximum-load values."
+    }
+  ],
+  "findings": [
+    {
+      "id": "mm-table-candidate-horse-types",
+      "reviewState": "independently-source-and-owner-confirmed",
+      "source": {
+        "printedPage": 53,
+        "pdfPage": 54,
+        "table": "Various types of horses can carry the following maximum loads",
+        "unit": "gold pieces of weight (encumbrance), not currency or purchase price",
+        "columns": {
+          "beforeSlash": "normal movement maximum load",
+          "afterSlash": "encumbered movement maximum load"
+        },
+        "qualifier": "Encumbrance slows speed one-half.",
+        "rows": [
+          {"sourceLabel": "draft horse", "normalMovementMaxLoadGpWeight": 4000, "encumberedMovementMaxLoadGpWeight": 8000},
+          {"sourceLabel": "heavy warhorse", "normalMovementMaxLoadGpWeight": 5000, "encumberedMovementMaxLoadGpWeight": 7500},
+          {"sourceLabel": "light warhorse", "normalMovementMaxLoadGpWeight": 3000, "encumberedMovementMaxLoadGpWeight": 5000},
+          {"sourceLabel": "medium warhorse", "normalMovementMaxLoadGpWeight": 4000, "encumberedMovementMaxLoadGpWeight": 6500},
+          {"sourceLabel": "pony", "normalMovementMaxLoadGpWeight": 2000, "encumberedMovementMaxLoadGpWeight": 3000},
+          {"sourceLabel": "wild horse", "normalMovementMaxLoadGpWeight": 3000, "encumberedMovementMaxLoadGpWeight": 6000}
+        ]
+      },
+      "currentOwnerJoin": {
+        "exactHorseEquipmentOwners": [
+          {"collection": "equipment", "id": "phb-horse-draft", "sourcePages": [36], "fields": {}, "fieldSources": {}, "sourceRecordSha256": "8bab2c4f5476d7f240106206dc995a4eee70031db233a07335eea070e8d89697"},
+          {"collection": "equipment", "id": "phb-horse-heavy-war", "sourcePages": [36], "fields": {}, "fieldSources": {}, "sourceRecordSha256": "bcade41acdb1c7beb3db1bc1f8cbc1e4de5b8420aa82146e3d402912099ad9ae"},
+          {"collection": "equipment", "id": "phb-horse-light-war", "sourcePages": [36], "fields": {}, "fieldSources": {}, "sourceRecordSha256": "718518c4fc9fccbf68e09b63240fe03c5c834d5f57a4a3a5406427e41d457e2e"},
+          {"collection": "equipment", "id": "phb-horse-medium-war", "sourcePages": [36], "fields": {}, "fieldSources": {}, "sourceRecordSha256": "7feb5eb5d91dd6e03cc8294f7c89d086b5c264f17e90a3ee6a8241f7a19ced92"},
+          {"collection": "equipment", "id": "phb-pony", "sourcePages": [36], "fields": {}, "fieldSources": {}, "sourceRecordSha256": "e195da968fcb9f412389a621baa3942638d9bd85f45b869a5fbec2880cdb175e"}
+        ],
+        "joinLimit": "These PHB records expose purchase prices and PHB p.36 references, not MM p.53 capacities; their capacity-bearing fields are empty.",
+        "wildHorse": "No exact wild-horse equipment owner is present in the captured records.",
+        "ridingHorseGuard": {
+          "collection": "equipment",
+          "id": "phb-horse-riding-light",
+          "sourcePages": [36],
+          "sourceRecordSha256": "715152e079a0b8a24950576be303b6ff37522110696a299d7a3a94e51ede5f8a",
+          "meaning": "This is the PHB light riding-horse purchase-price record, not the MM light warhorse capacity row."
+        },
+        "adjacentRuleOwners": [
+          {"collection": "rules", "id": "encumbrance", "sourcePages": [101, 102], "sourceRecordSha256": "9b93a83ea5ecdf7a74e31d1df38bd7d8c4f74e1378871b47e98729ad3bf62b21", "meaning": "Character weight/bulk limits and movement; no horse-capacity rows."},
+          {"collection": "rules", "id": "strength-exceptional", "sourcePages": [9], "sourceRecordSha256": "59dae4e7f03307695c4e18445f4b36d7c1a5b7536ee34e84b50073c9582a5485", "meaning": "Character carrying allowance; no mounted-animal load values."}
+        ]
+      },
+      "classification": "in-scope-bounded-missing-load-reference-at-existing-livestock-owners",
+      "scopeReason": "Finite movement/encumbrance reference directly fits exposed livestock records and the current encumbrance rule. The five PHB names are owner candidates only; they do not supply the six MM rows or load values. The riding-horse price and light-warhorse capacity are distinct source concepts. The six monster stat columns on p.53 remain out of scope."
+    },
+    {
+      "id": "mm-table-candidate-dragon-types-and-progression/subduing-a-dragon",
+      "reviewState": "independently-source-confirmed-and-scope-resolved",
+      "source": {
+        "printedPage": 30,
+        "pdfPage": 31,
+        "procedureHeading": "Subduing a Dragon",
+        "visuallyConfirmedRules": [
+          "The group declares kill or subdual intent before combat; absent a declaration, attacks use the killing form, and the chosen form cannot change for that dragon.",
+          "The text names dragon categories that cannot be subdued and bars creatures with less than average intelligence from attacking to subdue.",
+          "Once subdual intent is announced, attack damage against the dragon is nonfatal battering/bruising damage.",
+          "At each melee-round end, accumulated subdual damage is compared with the dragon's hit points to set a percentile chance; a percentile result equal to or below the chance subdues it, and a 1:1-or-higher ratio is automatic.",
+          "At most one human-sized attacker per three linear feet of exposed dragon body, excluding the tail; a fully exposed 15-foot body allows 11 attackers.",
+          "The worked example carries damage across rounds: 44/88 = 50%, 67/88 is treated as 76%, 77/88 is treated as 88%; a roll of 89 fails, then 12 further damage crosses 1:1 and subdues automatically.",
+          "The adjacent Length of Subdual passage covers indefinite duration, holding/treatment/treasure/freedom conditions, older and intelligent dragons' behavior, alignment-dependent escape/kill likelihood, and no second subdual until freedom is regained."
+        ],
+        "separateAdjacentContent": [
+          "The Value of a Subdued Dragon sale-price passage is separately inventoried as mm-subdued-dragon in the economic closure; it is not a second money finding here.",
+          "The Dragon's Breath effectiveness chart is a separate table, not a subdual step. This review inspected its presence but did not adjudicate its separate owner/scope join."
+        ]
+      },
+      "currentOwnerJoin": {
+        "owner": {
+          "collection": "rules",
+          "id": "subdual",
+          "route": "#rules/subdual",
+          "sourceRecordSha256": "da4a68a4237b569c14ff715a95e488816518da8c7c49992eee166eca24ad0523",
+          "sourcePages": [67],
+          "visibleSourceControls": ["DMG p. 67", "View original scans"],
+          "summary": "For eligible creatures, nonlethal weapon parts; absent a specific rule, 75% of subdual damage is temporary and 25% is real.",
+          "bullets": ["This procedure does not apply to player characters.", "Eligibility and creature-specific rules still need to be checked."]
+        },
+        "joinAssessment": "This is a strong semantic fit because the exposed rule directs readers to creature-specific rules. It is not an exact existing source binding: the current card cites DMG p.67 only, has no MM p.30 source control, and does not include the dragon-specific procedure. Preserve the MM's all-nonfatal damage treatment as a dragon-specific exception to the generic 75/25 default; do not merge the two. The prior review's actor/target ambiguity note remains open; this receipt does not re-source or rewrite the DMG rule."
+      },
+      "classification": "in-scope-bounded-missing-creature-specific-procedure-with-semantic-owner-fit",
+      "scopeReason": "This is an operative subdual resolution and captive-aftercare procedure, not a full dragon profile. README.md:85 does not exclude it. The exact owner currently lacks the MM source and procedure, so the semantic fit is not a direct source join."
+    },
+    {
+      "id": "mm-table-candidate-elf-weapon-table",
+      "reviewState": "independently-source-pixel-checked-and-scope-resolved",
+      "source": {
+        "printedPage": 39,
+        "pdfPage": 40,
+        "tableHeading": "The composition of a band of elves by weaponing",
+        "qualifier": "They are usually in scale, ring, or chain mail, and most carry shields.",
+        "rows": [
+          {"weaponCombination": "sword and bow", "percent": 10},
+          {"weaponCombination": "sword and spear", "percent": 20},
+          {"weaponCombination": "sword", "percent": 20},
+          {"weaponCombination": "two-handed sword", "percent": 5},
+          {"weaponCombination": "spear", "percent": 30},
+          {"weaponCombination": "bow", "percent": 15}
+        ],
+        "percentSum": 100,
+        "p40Followup": "The table does not continue on printed p.40. A separate Wood Elf passage there says 50% of the band is equipped with bows, 20% carry swords, and 40% use spears.",
+        "interpretation": "Encounter-composition distributions; not prices, weapon proficiency, or general equipment availability."
+      },
+      "currentOwnerJoin": {
+        "snapshotSha256": "663ea470af5cdd272674b264ba96f5a74231d3525143c907596ba41da21194d2",
+        "exactOwner": null,
+        "joinLimit": "Generic equipment weapon owners do not carry the elf-band percentages or Wood Elf distribution. No exact current rule/equipment owner or source link was identified."
+      },
+      "classification": "in-scope-bounded-encounter-composition-reference-candidate-no-current-owner",
+      "scopeReason": "The percentages explicitly specify how an encountered band is composed and are therefore a narrow operational encounter reference. Treat this as a standalone candidate under the delegated policy; do not classify it as a general weapon table or use the lack of a current owner to reinstate a broad monster-content exclusion."
+    },
+    {
+      "id": "mm-table-candidate-golem-types",
+      "reviewState": "independently-source-and-scope-confirmed; cost-claim-duplication-avoided",
+      "source": {
+        "printedPages": [47, 48, 49],
+        "pdfPages": [48, 49, 50],
+        "layout": "Common Golem introduction followed by separate Clay, Flesh, Iron, and Stone profiles/construction passages; Stone continuation on p.49.",
+        "boundedConstructionProcedureParts": [
+          "creator-level prerequisites and type-specific required spell combinations",
+          "type-specific body/material preparation and construction/ritual steps",
+          "construction times and creation-material costs",
+          "creator command/control and trigger behavior",
+          "type-specific creation failure, control, and operational outcomes"
+        ],
+        "visuallyConfirmedExamples": [
+          "Clay: lawful-good cleric level 17 or higher (a magical tome allows a lower-level cleric); resurrection, animate objects, commune, prayer, and bless; fashion a man-shaped clay statue and complete an uninterrupted ritual; 20,000 gp spell materials plus at least 30,000 gp vestments; a cumulative 1% per melee round risk of chaotic-evil spirit possession and permanent loss of control if it occurs.",
+          "Flesh: magical tome or magic-user level 14 or higher with wish, polymorph any object, geas, protection from normal missiles, and strength; 1,000 gp per hit point in materials; one month; creator commands/suspends it; separate cumulative berserk and possible control-recovery chances.",
+          "Iron: magical tome or magic-user level 18 or higher with wish, polymorph any object, geas, and cloud kill; 1,000 gp per hit point in materials; three months; creator control and simple-command/guard behavior.",
+          "Stone: magic-user level 16 or higher with wish, polymorph any object, geas, and slow; 1,000 gp per hit point in materials; two months; creator control and simple commands. The p.49 continuation gives additional stone-golem operating/defense details."
+        ],
+        "sharedAdjacentRule": "The p.47 common prose states that magical creatures with hit dice equal to or greater than the golem can attack effectively; use 4.5 hit points per hit die, rounded up, to determine hit dice, and names hit-die totals by golem type. This is a shared rules statement, distinct from the excluded full profile stat cells.",
+        "profileBoundary": "The four full creature stat profiles and their stat-cell values were not transcribed or claimed complete."
+      },
+      "currentOwnerJoin": {
+        "exactClassicMMSiteOwner": null,
+        "nearNameGuard": {
+          "collection": "spells",
+          "id": "ua-cleric-golem",
+          "sourceRecordSha256": "54cb613b424c41fadb430daf205586ca80cc94a8eeb61d21995efeac292df63c",
+          "sourcePages": [39],
+          "sourceControls": ["UA p.39", "PHB p.47"],
+          "meaning": "This is a different spell creating a prepared lesser golem from straw, rope, leather, or wood; it is not an owner for the four classic MM golems or their construction procedures."
+        },
+        "economicReportClaimsAlreadyRecorded": [
+          "mm-clay-golem-spell-materials",
+          "mm-clay-golem-vestments",
+          "mm-flesh-golem-cost",
+          "mm-iron-golem-cost",
+          "mm-stone-golem-cost"
+        ],
+        "economicReportCorrection": "These five existing source-checked claims are part of the in-scope construction-cost content. Keep their existing amount/source records in the economic closure and reclassify their scope there; do not create duplicate cost findings here."
+      },
+      "classification": "in-scope-bounded-classic-golem-construction-and-cost-reference-no-current-owner",
+      "scopeReason": "Creator prerequisites, spell requirements, construction steps, time/cost, control, and operative outcomes are usable rules embedded in the creature entries. README.md:85 only excludes the searchable bestiary/visual verification; it does not exclude these procedures. The UA lesser-golem spell is a different source owner."
+    }
+  ],
+  "checkedNegativeScope": [
+    "No full monster-profile statistics were transcribed or assessed as complete.",
+    "The current app snapshot contains no searchable MM monster collection; this is not used as a blanket exclusion for the bounded operative procedures above.",
+    "The five MM p.53 horse rows were checked against purchase-price owner records; prices were not treated as load values.",
+    "The separate subdued-dragon value/sale claim remains in the existing economic closure; this receipt does not duplicate it.",
+    "The Dragon's Breath table's separate current-owner/scope join was not closed by this receipt."
+  ],
+  "unassessed": [
+    "This is a bounded correction receipt, not a fresh review of every one of the first 14 table candidates or every MM page.",
+    "The independent source review did not adjudicate the age/size progression table or the Dragon's Breath modifier table as separate content repairs.",
+    "No production record, source citation, catalog, page crop, or current rendering was changed by this review."
+  ],
+  "outcome": {
+    "sourceFacts": "Horse p.53 values and qualifiers, Dragon p.30 procedure/aftercare, Elf p.39 composition rows and p.40 Wood Elf distribution, and Golem pp.47-49 construction facts were checked against individual source page images.",
+    "ownerJoins": "Horse rows map only to PHB purchase-price owners; Dragon subdual maps semantically but not as an exact source binding to rules/subdual; Elf composition has no current owner; classic Golem construction has no exact current owner and is distinct from UA cleric Golem.",
+    "scopeCorrections": "The assigned scope includes operative Dragon subdual, Golem construction costs/procedures, the horse load table, and the bounded Elf encounter-composition reference. Full bestiary stat cells remain excluded.",
+    "nextAction": "Parent review before any metadata or app-content edits."
+  }
+}

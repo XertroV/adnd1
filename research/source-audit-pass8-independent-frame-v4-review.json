@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent implementation review of additive v4 source-frame cache hardening",
+  "reviewer": {
+    "agent": "site_inventory",
+    "role": "author-different engineering reviewer",
+    "v4CacheHardeningApproval": true,
+    "scope": "source identity/cache correctness and reproducibility only"
+  },
+  "input": {
+    "commit": "6d330af372ac809d11ed6029ed8695d0d8dc0909",
+    "dataSha256": "ceb7c8b9a8fe32b676e57c8d007f124a4490684d54558479e555d504075ba4f3",
+    "SolReviewPath": "research/source-audit-pass8-independent-source-and-frame-review.json",
+    "SolReviewSha256": "ac8bba232e5941e8cea64728d85bbb4d6817f8f676fe60380dbd37d0388722da"
+  },
+  "reviewed": {
+    "v4Tool": {
+      "path": "tools/source-frame-universe-v4.py",
+      "sha256": "2dee3572eb989c63ef1a441949f41e54ddb8c8bf1a469372c68e37869316da0e"
+    },
+    "v4Tests": {
+      "path": "tests/source-frame-universe-v4.test.py",
+      "sha256": "368626a8bd62ec53d5e82e2fd67c0c903407558e43aa7ea4e940daa1ad0b61f4"
+    },
+    "freshFullPrivateReport": {
+      "path": "/workspace/vault-audit-private/pass8-independent-source-frame-review/v4-fresh-full.json",
+      "sha256": "aa2c4b3c152f775f2dfde1caf7a2c47971752513312bec78c9c76e114f70c2c9"
+    },
+    "frozenV3PrivateReport": {
+      "path": "/workspace/vault-audit-private/pass8/site/source-frame-universe-v3.json",
+      "sha256": "7eb1d71b55fa16a31e1fdd3b5731038a06ebf64f1d6f935a73f519988ff4309d"
+    }
+  },
+  "engineeringFindings": [
+    {
+      "id": "document-bound-source-identity",
+      "result": "passes independent code review and executable tests",
+      "evidence": "v4 validates the loaded source path/hash at binding, retains the bound document object, and checks page.parent/document identity before reading or writing the direct cache. Direct keys include source SHA, document identity, page ordinal, clip, target hash/dimensions, effective DPI candidates and store policy."
+    },
+    {
+      "id": "isolated-render-order",
+      "result": "passes independent generated-PDF regression",
+      "evidence": "The test drives actual legacy v3 and v4 direct pixmap calls around a full-page image render: v3 misses after the render-order perturbation and v4 matches after store clearing before each pixmap."
+    },
+    {
+      "id": "full-page-cache-key",
+      "result": "passes independent code review and test coverage",
+      "evidence": "The full-page identity includes verified source SHA, ordinal, renderer/version, DPI, RGB mode, measured dimensions, decoded RGB hash and MuPDF store policy; sidecar, payload, dimensions and full key are validated on cache hit."
+    },
+    {
+      "id": "frozen-capture-reconciliation",
+      "result": "pass",
+      "evidence": "The fresh v4 full report SHA is pinned; I independently compared all 3,396 row records, 3,399 owner-use records and status counts against the frozen v3 full report and found deep equality."
+    }
+  ],
+  "checks": [
+    {
+      "command": "python3 tests/source-frame-universe-v4.test.py",
+      "passed": 5,
+      "failed": 0,
+      "log": "/workspace/vault-audit-private/pass8-independent-source-frame-review/site-inventory-v4-tests.log",
+      "logSha256": "180cf1a3441f8f3ff33c0e450ed91a3971449a15791541e9bc66d4769c1dbb7c"
+    }
+  ],
+  "result": {
+    "status": "independently approved for the bounded cache/source-binding/render-order correction",
+    "freshFrameStatusCounts": {
+      "exact-dimension-guided-full-page-recipe": 11,
+      "exact-direct-pymupdf-pdf-clip": 2605,
+      "exact-explicit-full-page-recipe": 86,
+      "exact-supplement-image-crop-not-pdf": 2,
+      "unresolved-after-exact-replay-search": 692
+    },
+    "identity": {
+      "regionImageShaMatches": 3396,
+      "regionDimensionMatches": 3396,
+      "ownerUseImageHashMatches": 3399,
+      "ownerUseSourceHashMatches": 3399,
+      "identityFailureRows": 0
+    }
+  },
+  "scopeLimitations": [
+    "V4 inherits v3 normalizedPageRect parsing. I independently counted 541 current rows whose only normalizedPageRect keys are x/y/w/h and verified the v4 output has zero direct/full-page recipes for those rows. They are unsupported-schema cases, not exhausted searches; v5 is authorized to add explicit support.",
+    "The 151 other unresolved rows have supported normalized schemas and were subjected to the recorded finite replay; they remain exact-pixel unresolved.",
+    "The reported 692 unresolved comprises both populations and should not be called uniformly exhausted.",
+    "Exact raster replay does not approve semantic source coverage, source interpretation, transcription, crop relevance/focus, citation grade, or the unavailable historical 726-member census."
+  ]
+}

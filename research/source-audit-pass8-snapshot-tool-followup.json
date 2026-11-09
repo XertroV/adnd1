@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "additive current-tool and capture-semantics clarification; original capture receipt unchanged",
+  "inputCommit": "6d330af372ac809d11ed6029ed8695d0d8dc0909",
+  "historicalReceipts": [
+    {
+      "path": "research/source-audit-pass8-site-snapshot.json",
+      "sha256": "515e1c486987b450a1018dc76661c3ae6256f4c9837862ebddc484c7a32d01e7"
+    },
+    {
+      "path": "research/source-audit-pass8-independent-method-review.json",
+      "sha256": "36a773e7274dbacbc77558380fcbb2d62c7ecaa97f80d38a6ab7c9d2f96cb405"
+    },
+    {
+      "path": "research/source-audit-pass8-independent-method-followup-review.json",
+      "sha256": "00cc4665af57b02044de2124d5d8716858a02abba626f54286991a069d3ac57c"
+    }
+  ],
+  "captureProvenance": {
+    "originalCaptureToolSha256": "b8848a8cf0bacda035d9ef529303b488f7a20d40750861517efc136a78313187",
+    "originalCaptureMetadataReceiptUnchanged": true,
+    "currentFullProjectionSnapshotSha256": "663ea470af5cdd272674b264ba96f5a74231d3525143c907596ba41da21194d2",
+    "captureVsProjectionRevision": "Browser source/DOM/search capture and later literal detector projection are distinct. The prior d6dd gzip bytes remain unavailable; no reconstruction is presented as that observation."
+  },
+  "currentTool": {
+    "path": "tools/source-semantic-site-snapshot.mjs",
+    "sha256": "4dadf620da0357af731d0ced5112415b5b6de088f6b82c895533fe7fddaf5e2f",
+    "testsPath": "tests/source-semantic-site-snapshot.test.mjs",
+    "testsSha256": "8ac4cee081fd14db264978abbef4f1200859f4be9ef327d265254c7a70c3aedb",
+    "changes": [
+      "Load browser dependency only on actual capture execution, after help and fresh-output checks.",
+      "Refuse reused output/summary paths before browser load.",
+      "Preserve every partial, complete-route and final-projection checkpoint as an immutable SHA-named file before replacing the per-run latest output."
+    ],
+    "captureRendererSearchAndProjectionAlgorithmsChangedByFollowup": false,
+    "atomicityLimit": "Atomic replacement is per file; snapshot/summary are not a cross-file transaction. The guard is intended for one writer and is not an inter-process locking guarantee."
+  },
+  "searchProbeSemantics": {
+    "legacyField": "visibleInInitial18",
+    "meaning": "Membership among the first 18 rendered palette result rows during the programmatic probe.",
+    "palettePhysicallyOpenedDuringThousandTitleProbes": false,
+    "physicalVisibilityClaim": false,
+    "separateUnmodifiedOpenedPaletteEvidence": "research/source-audit-pass8-secondary-skills-independent.json"
+  },
+  "portabilityFailureEvidence": {
+    "discovery": "Independent review found a workspace-only Playwright dependency required at module import.",
+    "beforeToolRecovery": "Exact previous tool bytes recovered by reversing the single require relocation; SHA matches the original capture tool.",
+    "beforeToolSha256": "b8848a8cf0bacda035d9ef529303b488f7a20d40750861517efc136a78313187",
+    "failureLogSha256": "32e7ab436ad9be5ec3bb96086ebc2c01f92b08727f06170c5eff7d905196595b",
+    "temporalDisclosure": "The dependency-absent failing run is a replay of exactly recovered prior bytes, after discovery. It is not an originally observed pre-edit CI run.",
+    "afterVerification": "9/9 focused tests pass with PLAYWRIGHT_MODULE pointing to a nonexistent package; --help also succeeds; capture refuses an existing destination before dependency resolution."
+  },
+  "checks": [
+    {
+      "label": "snapshot-tool-focused-after",
+      "command": [
+        "node",
+        "--test",
+        "tests/source-semantic-site-snapshot.test.mjs"
+      ],
+      "exitCode": 0,
+      "logSha256": "52e859e52c3f2012822709aa9c36dad1151df5e7639ae18a30335ffaebb14979"
+    },
+    {
+      "label": "snapshot-tool-help-without-browser",
+      "command": [
+        "node",
+        "tools/source-semantic-site-snapshot.mjs",
+        "--help"
+      ],
+      "exitCode": 0,
+      "logSha256": "441c75077cb8ecca0949af17057bf05736e16cd42e2d3b64da6c9b7bb0ec1982"
+    },
+    {
+      "label": "snapshot-tool-refuse-existing",
+      "command": [
+        "node",
+        "tools/source-semantic-site-snapshot.mjs",
+        "--repo",
+        "/workspace/adnd1-semantic-audit",
+        "--output",
+        "/workspace/vault-audit-private/pass8-site-snapshot-projection-663ea470af5c.json.gz",
+        "--summary",
+        "/workspace/vault-audit-private/pass8/root/never-written-refusal-summary.json"
+      ],
+      "exitCode": 1,
+      "logSha256": "0f263bfc59341217c5c148dbb38a9d94edbf0eb3f46f857bab0277011830cf7b"
+    },
+    {
+      "label": "snapshot-tool-syntax",
+      "command": [
+        "node",
+        "--check",
+        "tools/source-semantic-site-snapshot.mjs"
+      ],
+      "exitCode": 0,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "notRun": [
+    "Full repository workflow for this uncommitted audit batch.",
+    "New full browser recrawl after write-only durability changes; independent replay covers the prior actual capture and unchanged algorithms."
+  ],
+  "sourceSemanticApproval": false,
+  "citationApprovalsActivated": 0
+}

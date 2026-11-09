@@ -1,0 +1,480 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-fresh-v9-direct-frame-replay",
+  "reviewer": "Root; separate direct PyMuPDF implementation, no author helper imports",
+  "authorReport": {
+    "path": "research/source-audit-pass8-frame-candidate-v9.json",
+    "sha256": "204a1d1eb12157df235a1bccf9534d7e115a9e2c132c92115b6532e7d4322489"
+  },
+  "privateReplay": {
+    "fileName": "v9-independent-replay.json",
+    "sha256": "5273412ac203d3a3e7f739b572fd1a06493f3a20e652a19686dbb3ac02b9d055",
+    "scriptSha256": "583706ba35dc646de92e8dbae49e72430b772ff90e413dbb7d33af1a5eb7bbc7"
+  },
+  "sourcePdfs": {
+    "PHB": {
+      "fileName": "tsr2010-players-handbook.pdf",
+      "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+    },
+    "DMG": {
+      "fileName": "DMG_1stEd.pdf",
+      "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+    },
+    "UA": {
+      "fileName": "Unearthed Arcana.pdf",
+      "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+    },
+    "MM": {
+      "fileName": "Monster_Manual.pdf",
+      "sha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81"
+    },
+    "MM2": {
+      "fileName": "Monster Manual II.pdf",
+      "sha256": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24"
+    }
+  },
+  "pymupdfVersion": "1.26.6",
+  "method": [
+    "Recover all47 geometry keys from the previously pinned unresolved queue, rather than selecting only author positives. Verify every source PDF byte hash.",
+    "Recompute each unchanged normalized clip from canonical Page.rect, independently render all six scales, compare actual native catalog PNG dimensions, RGB samples and PNG bytes.",
+    "Require every per-trial dimension/RGB/PNG digest and exact-match flag to agree with the author report; verify all49 catalog/region/source/PDF/image joins and current catalog bytes."
+  ],
+  "results": {
+    "trials": 282,
+    "positiveGeometries": 41,
+    "positiveReferences": 42,
+    "unmatchedGeometries": 6,
+    "unmatchedReferences": 7
+  },
+  "cases": [
+    {
+      "geometryKey": "424d283e193e6c7512999da0b4a51a8d94314ea93e4511b3eb5b5c1d86877bd7",
+      "book": "DMG",
+      "pdfOrdinal": 80,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.3
+      ]
+    },
+    {
+      "geometryKey": "2d4e71344c11e3a8f7a462f17178ab6aba2583eb361ce11198020c6b55292586",
+      "book": "DMG",
+      "pdfOrdinal": 80,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.3
+      ]
+    },
+    {
+      "geometryKey": "a924f2dd77c02c9352d1f0b91bead06b241f8052729e70e6bf3ff2f832513d95",
+      "book": "DMG",
+      "pdfOrdinal": 81,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.3
+      ]
+    },
+    {
+      "geometryKey": "3cf4fc708a3372e5f0ca019d72a02bdef941b14dd557a7170a57c9e8e2abf6e4",
+      "book": "DMG",
+      "pdfOrdinal": 81,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.3
+      ]
+    },
+    {
+      "geometryKey": "5861be993a3beb64ee94336013d39082a0d1fa9e62937dc09c1c18d983575e38",
+      "book": "DMG",
+      "pdfOrdinal": 81,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.3
+      ]
+    },
+    {
+      "geometryKey": "247744196ff146b42584f2b0a7870e84e84997ded86e0785947d2fb24fcaab88",
+      "book": "DMG",
+      "pdfOrdinal": 81,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.3
+      ]
+    },
+    {
+      "geometryKey": "c105eb1d21c46fecb3b4f9b1731b0f7cbc487272b331e199256e2753f458ccb1",
+      "book": "MM",
+      "pdfOrdinal": 55,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.2
+      ]
+    },
+    {
+      "geometryKey": "523a67ff5ab23d705750caa98506c8aaa6e8a4bca94613ee1356abc50d9a55e1",
+      "book": "MM",
+      "pdfOrdinal": 81,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.2
+      ]
+    },
+    {
+      "geometryKey": "c9a7c04a8dee46553d3eceb49d497cfaa54cae2b1f3baaf0be98895d6a8000be",
+      "book": "MM",
+      "pdfOrdinal": 81,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.2
+      ]
+    },
+    {
+      "geometryKey": "0aec2c1d374f943728b3b7226889c21b2a390212f940802f20b89ff1814c7051",
+      "book": "PHB",
+      "pdfOrdinal": 10,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "75c14e8822b68234bf3b2385717d4cac39cea0547e9fad160a3131dfa15bd634",
+      "book": "PHB",
+      "pdfOrdinal": 12,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "c8888a909c88cb67305e7e1d135d244ccfbe26d8615b5bb28b081488f7aaf841",
+      "book": "PHB",
+      "pdfOrdinal": 13,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "1244fe6c6f761025cf52000bc9f7957164cf7ae939acac095130229a5d22d692",
+      "book": "PHB",
+      "pdfOrdinal": 13,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "95a31b9d79ae8acf316bab0ccf9c84eeb9a514909aa1309143fc5404d21b0f9f",
+      "book": "PHB",
+      "pdfOrdinal": 15,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.3
+      ]
+    },
+    {
+      "geometryKey": "62fdf9c73897183fbeeb1d05b40e14f304126acdf532d9822f37ccc474ec5108",
+      "book": "PHB",
+      "pdfOrdinal": 15,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.3
+      ]
+    },
+    {
+      "geometryKey": "5c7784d3072f211cd71701852e67eb2e22314422cb568f85e87b17070c42c502",
+      "book": "PHB",
+      "pdfOrdinal": 16,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.3
+      ]
+    },
+    {
+      "geometryKey": "7cb0872e55667abd72298196310e141769de9322172eddc0dc4eb0c4b5badc47",
+      "book": "PHB",
+      "pdfOrdinal": 100,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": []
+    },
+    {
+      "geometryKey": "1c9b86a2d7c2eceab915a0bcc8a06a8efbff030dd2a4c32d035caa6beca0b9cb",
+      "book": "PHB",
+      "pdfOrdinal": 100,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": []
+    },
+    {
+      "geometryKey": "ab3d22b166a2119050fa90bc31f3ce78a75afdbf32157652a0a483e3f2d184bb",
+      "book": "PHB",
+      "pdfOrdinal": 100,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": []
+    },
+    {
+      "geometryKey": "2fb410b7a75d06ec7dfe8e14bc50482439199ce29b3fae4f883cfb8680f63a96",
+      "book": "UA",
+      "pdfOrdinal": 7,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "02886dca8d084d13ddd3cc5423275aaf8f6e404677dc2905b54a3c7367449220",
+      "book": "UA",
+      "pdfOrdinal": 12,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "cdc2f308c1058c5460303b59373eb8cc655e5388b9cc4a3e4e844e20e6bf38a7",
+      "book": "UA",
+      "pdfOrdinal": 19,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "df60eabfc0bf1c8fad300799fcf9dd769f6f47ebef0dd2d9e88167ed2b02c071",
+      "book": "UA",
+      "pdfOrdinal": 25,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.3
+      ]
+    },
+    {
+      "geometryKey": "261f25df7f94ba63c090ea46c55290ca7ff33a34f3d7aa4282c1a9c77623a769",
+      "book": "UA",
+      "pdfOrdinal": 35,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "784b1706a51e89d8d15e998cf387a8f6a9b4d205463dbe59901d845716dcef3d",
+      "book": "UA",
+      "pdfOrdinal": 38,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "d86de972aa893c89cc8a76c86a9664fa987579f1e8c38ef09f7ec80e63a9a878",
+      "book": "UA",
+      "pdfOrdinal": 42,
+      "referenceCount": 2,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "46443ebec76f4919a648b2c09d7467d0299cbae0656c14cef3072cc2c93e8233",
+      "book": "UA",
+      "pdfOrdinal": 42,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "2e886e5e7ce86365b04472fad456054a06d8017aebed76862d5bc74e7db56aaf",
+      "book": "UA",
+      "pdfOrdinal": 42,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "a366fcefbd48e63bc092fa0dac2cee192f1425003372f95fc76dc94d6dfb605e",
+      "book": "UA",
+      "pdfOrdinal": 43,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "ce349972b07a9a9a78ee753c604dc4dc7ffe4a296a86b9f1a5608aaff7594ffa",
+      "book": "UA",
+      "pdfOrdinal": 47,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": []
+    },
+    {
+      "geometryKey": "45c864916eb6094b2ace957428edb91a75ac4e4428b58bb001a71c995e0ddf81",
+      "book": "UA",
+      "pdfOrdinal": 48,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "7ade873021ccd98add5d94ff7bfa34e076788555f476a2eefeffae7da058f950",
+      "book": "UA",
+      "pdfOrdinal": 48,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "38cec295609028438f847069eca08ecf8a9c4188d5af21f74c795ef4b90cc114",
+      "book": "UA",
+      "pdfOrdinal": 51,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "a96ac0ee9e9c6575e5966e1fa621c8b946d6a7f79741066250e39ee3405b7913",
+      "book": "UA",
+      "pdfOrdinal": 51,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "f5394d3e7b41bc67ace183444acf42147ff24aad1ce99945b246db8bdbf3f842",
+      "book": "UA",
+      "pdfOrdinal": 52,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "98d4356cff545e2138d9a6e04a4c7e237db3a22e80d852004e0a4b95974cbcf0",
+      "book": "UA",
+      "pdfOrdinal": 54,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "d6fbbc71331cb0103badf3450e68bbc45927d44c020a33502938e5141483a4c3",
+      "book": "UA",
+      "pdfOrdinal": 56,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": []
+    },
+    {
+      "geometryKey": "7a2e8fe0961640a652424d00f5052b16ad970b95758e61f64fff9a2c34c65d8d",
+      "book": "UA",
+      "pdfOrdinal": 58,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "ea79a71281d8c6e0a81502684d6c30a29302a71446f424f1a4c0ec176604f2bb",
+      "book": "UA",
+      "pdfOrdinal": 59,
+      "referenceCount": 2,
+      "exactRgbAndPngScales": []
+    },
+    {
+      "geometryKey": "a9c223629f19e86497a80de370737759a2a4ff25145573b70c9cc241f1e90c3b",
+      "book": "UA",
+      "pdfOrdinal": 66,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "f45f9fcc31ca58c35f298a9423fb08e6934de771c010d4c2b2e6ac4a91837cbf",
+      "book": "UA",
+      "pdfOrdinal": 66,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "25518ff71881b180c4df82c72668ee17a82f712817aa4a1fdfa61f67482fa3b9",
+      "book": "UA",
+      "pdfOrdinal": 67,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "346ce495570fb859dd0f47e8d8ae975338d931355fd54121c77353803b139190",
+      "book": "UA",
+      "pdfOrdinal": 68,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "57c99f2a5e3f9d2ac1d42b65e18fc03f7f3060f1adc56d5dc7fbb000eb322689",
+      "book": "UA",
+      "pdfOrdinal": 69,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "8cca17d79c6c1f1daa0710f25bded3671a0225b59a933620727bd21c35d6e32e",
+      "book": "UA",
+      "pdfOrdinal": 69,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "0b78638421591d2f4fd248e826c8bce1035da58f4b5f0d0a06b6db13aca2d6a1",
+      "book": "UA",
+      "pdfOrdinal": 72,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    },
+    {
+      "geometryKey": "25d2e760ee3de1676d96e680ab91bafeff2ddb4723d07ab49ec71932b788165e",
+      "book": "UA",
+      "pdfOrdinal": 72,
+      "referenceCount": 1,
+      "exactRgbAndPngScales": [
+        2.4
+      ]
+    }
+  ],
+  "manualReviewScope": {
+    "author": "Author records individual visual inspection of all41 positive candidate crops.",
+    "independentRoot": "This receipt independently reproduces every actual pixel and file hash. Root separately inspected two canonical source pages and all three MM crops in source-audit-pass8-mm-familiar-frame-independent-review.json; it does not claim an additional independent semantic/crop-completeness inspection of all41 crops."
+  },
+  "currentOldUniverseReconciliation": {
+    "baseCatalogRegionRows": 3396,
+    "v5ExactRows": 3245,
+    "v6ToV8AdditionalExactRows": 102,
+    "v9ExactRowsFromRemaining49": 42,
+    "totalExactOperationalFrames": 3389,
+    "remainingReferences": 7,
+    "remainingGeometries": 6,
+    "mm22CalibrationIncludedWithinV9": 3,
+    "historical726Membership": "Unavailable; no individual historical membership clearance claimed.",
+    "xpBatchAdditional13Rows": "Separate source-component evidence and exact predecessor-row bridge required; not counted in this old3396-row denominator."
+  },
+  "decision": "Accept the finite operational replay results for these42 exact region references; no source-value, crop-completeness, context, highlight, default, historical authoring-DPI or other citation grade transferred. Six geometries/seven references remain unresolved within this grid and have a separate bounded follow-up.",
+  "activeCatalogDataOrReviewChanges": 0
+}

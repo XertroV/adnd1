@@ -1,0 +1,1572 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "pass8-mm-elemental-elephant-site-join-closure",
+  "inputCommit": "6d330af372ac809d11ed6029ed8695d0d8dc0909",
+  "createdAtUtc": "2026-11-08",
+  "purpose": "Close two separate MM source-unit/site-owner-map pending joins by enumerating the actual bounded source sections, selected in-scope source procedures/economic/service facts, and exact captured current owner/render/search matches. This is additive evidence, not a production repair or whole-MM completeness claim.",
+  "book": {
+    "shortLabel": "MM",
+    "title": "Monster Manual",
+    "editionContext": "AD&D 1st Edition supplied source scan"
+  },
+  "source": {
+    "fileName": "Monster_Manual.pdf",
+    "sha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+    "pdfPages": 114,
+    "pageMapping": "For reviewed pages, printed folio N is physical PDF ordinal N+1; folio was read from the actual source-page render."
+  },
+  "inputs": [
+    {
+      "path": "/workspace/vault-audit-private/sources/Monster_Manual.pdf",
+      "sha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+      "role": "canonical MM source PDF"
+    },
+    {
+      "path": "/workspace/vault-audit-private/sources/tsr2010-players-handbook.pdf",
+      "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "role": "PHB p.79 contextual pixel check for its distinct Conjure Elemental trigger"
+    },
+    {
+      "path": "research/source-audit-pass8-mm-unit-assessments.json",
+      "sha256": "20d748fbf0f7426e67f74868d6b1cb6e146035721b92a9ee43f62c9f2fcd4e11",
+      "role": "frozen original MM 317-unit transfer and two source-unit assertions"
+    },
+    {
+      "path": "research/source-audit-pass8-mm-table-candidate-pending-queue.json",
+      "sha256": "bc9cfdbb1c8a59cf528a33c9ca9884985cbcd948225c569c7a679f373de12aec",
+      "role": "the two source-partial/site-owner-map-pending neighbor records; 28 fully pending candidates remain separate"
+    },
+    {
+      "path": "research/source-audit-pass8-mm-table-candidate-first14-assessments.json",
+      "sha256": "244211c1231e143d30b749b8fe1d585f7ee1ef6efb4bbc7c21469ad2bd590fd3",
+      "role": "adjacent first-14 source census; provides method and current source-boundary context, not this report’s owner join"
+    },
+    {
+      "path": "research/source-audit-pass8-mm-exposed-spell-assessments.json",
+      "sha256": "6ee96188bcd623f28a897e43749cb37c9147209d1b3bc0019496f70659bfa2c4",
+      "role": "actual spell-to-MM source relations, source reading distinction and current card evidence"
+    },
+    {
+      "path": "research/source-audit-pass8-mm-economic-consumption-closure.json",
+      "sha256": "75a7ffe1fe4abe07c1bea063be8eb187794f8379f658d176414867e04aeee714",
+      "role": "existing elephant/mammoth monetary claim identities; derived mammoth item is preserved without recalculation"
+    },
+    {
+      "path": "research/source-audit-pass8-original-unit-join-review.json",
+      "sha256": "425bcf69ce1d44da3ffaecdc8da2993432251f51a36d2245011ae704e2de4865",
+      "role": "latest 559-unit exact pointer index; this report is additive and resolves two MM site-join pointers"
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8-site-snapshot.json.gz",
+      "sha256": "663ea470af5cdd272674b264ba96f5a74231d3525143c907596ba41da21194d2",
+      "decompressedJsonSha256": "7f8f9eeab2140619e4078614b5458c44f18c7e3f1922c375051a0a5720d79d39",
+      "role": "complete immutable captured 1,000 owner/detail/search/source projection"
+    },
+    {
+      "path": "README.md",
+      "sha256": "3517787673c58b21a8f15c03de890bef46e4ea736e02155d5ba92d94bfd175a2",
+      "role": "documented current monster-catalogue feature boundary"
+    }
+  ],
+  "snapshot": {
+    "captureComplete": true,
+    "recordsCaptured": 1000,
+    "recordsRemaining": 0,
+    "ownerRoutes": 1000,
+    "ownerCollectionCounts": {
+      "classes": 16,
+      "rules": 149,
+      "matrices": 4,
+      "progressionExplainer": 1,
+      "spells": 638,
+      "equipment": 192
+    },
+    "browserLoadedDataCanonicalSha256": "52c405720f28aa665786c38692b2141ce598e3a9d3031555e17020d2f86ca957",
+    "monsterCollectionPresent": false,
+    "routeCaptureErrors": 0
+  },
+  "method": {
+    "source": "Actual page-image inspection, not OCR or lexical candidates. All full-page images were rendered from the canonical source PDF with PyMuPDF at 216 dpi and opened individually. Bounded crops are 2x enlargements from those full-page images with base path/hash and pixel bounds recorded.",
+    "site": "Reviewed actual complete snapshot sourceRecord, detail DOM textContent/innerText, visible source controls and publicSearch text for exact owner IDs; also performed bounded literal search over each captured sourceRecord/detail/search projection. A shared word is not an exact source join.",
+    "statuses": "`partial` means the exact joined scope contains both a represented facet and missing source detail or mixed excluded/in-scope material. `absent` is limited to named source assertions in the complete captured current owner set. `excluded` applies only to full monster profile/stat scope under the documented feature boundary. None implies whole-book completion."
+  },
+  "sourcePageEvidence": [
+    {
+      "printedPage": 37,
+      "pdfPage": 38,
+      "folioVisible": 37,
+      "privateImagePath": "/workspace/vault-audit-private/mm2/mm-neighbor-review/mm-pdf-38-printed-37.png",
+      "imageSha256": "72591204ccf2c41a56937a060966bccf57fad3e7fc72149073b5d40887dce7df",
+      "dimensionsPx": [
+        1673,
+        2318
+      ],
+      "renderDpi": 216,
+      "renderMethod": "PyMuPDF page render using Matrix(3,3) from the supplied PDF; actual pixels inspected individually",
+      "visualObservation": "Elemental article opens mid-page; common elemental rules and four-kind introduction; Air Elemental profile; lower-left shared 3-row strength-category table.",
+      "repositoryPublication": "private only"
+    },
+    {
+      "printedPage": 38,
+      "pdfPage": 39,
+      "folioVisible": 38,
+      "privateImagePath": "/workspace/vault-audit-private/mm2/mm-neighbor-review/mm-pdf-39-printed-38.png",
+      "imageSha256": "d3f6ee401d96061dee749043cb0c6dcc5f0cc5644dbdb204ff7fdce0a416f658",
+      "dimensionsPx": [
+        1677,
+        2318
+      ],
+      "renderDpi": 216,
+      "renderMethod": "PyMuPDF page render using Matrix(3,3) from the supplied PDF; actual pixels inspected individually",
+      "visualObservation": "Air continuation at top-left; Earth and Fire Elemental profiles; Water Elemental profile and source-specific water conditions; Elephant two-profile matrix and start of prose lower-right.",
+      "repositoryPublication": "private only"
+    },
+    {
+      "printedPage": 39,
+      "pdfPage": 40,
+      "folioVisible": 39,
+      "privateImagePath": "/workspace/vault-audit-private/mm2/mm-neighbor-review/mm-pdf-40-printed-39.png",
+      "imageSha256": "1aade8ecd56fe24bbe76a5d10b4cbe0ef1369941806fa53c779b021d3ee8587d",
+      "dimensionsPx": [
+        1660,
+        2340
+      ],
+      "renderDpi": 216,
+      "renderMethod": "PyMuPDF page render using Matrix(3,3) from the supplied PDF; actual pixels inspected individually",
+      "visualObservation": "Elephant prose continuation at top-left completes rogue-bull encounter sentence and explicitly cross-references separate Mammoth/Mastodon headings on p.65; Elf starts below and on right.",
+      "repositoryPublication": "private only"
+    },
+    {
+      "printedPage": 65,
+      "pdfPage": 66,
+      "folioVisible": 65,
+      "privateImagePath": "/workspace/vault-audit-private/mm2/mm-neighbor-review/mm-pdf-66-folio-check.png",
+      "imageSha256": "ffa866babdfe2b1aef498da01858a669ea8c9adb7be5dc84a341a31aad961264",
+      "dimensionsPx": [
+        1673,
+        2338
+      ],
+      "renderDpi": 216,
+      "renderMethod": "PyMuPDF page render using Matrix(3,3) from the supplied PDF; actual pixels inspected individually",
+      "visualObservation": "Separate MAMMOTH and MASTODON source headings and profile blocks; Mammoth-relative tusk weight/value sentence and Mastodon same-weight/value relation are physically on this page.",
+      "repositoryPublication": "private only"
+    },
+    {
+      "printedPage": 66,
+      "pdfPage": 67,
+      "folioVisible": 66,
+      "privateImagePath": "/workspace/vault-audit-private/mm2/mm-neighbor-review/mm-pdf-67-printed-66.png",
+      "imageSha256": "0dae996ca7b115634f4427d834f388f5b6b3449a051d6fbca49db4a395aab1f4",
+      "dimensionsPx": [
+        1673,
+        2328
+      ],
+      "renderDpi": 216,
+      "renderMethod": "PyMuPDF page render using Matrix(3,3) from the supplied PDF; actual pixels inspected individually",
+      "visualObservation": "Following printed page begins Medusa/Men, confirming the p.65 Mammoth/Mastodon material does not continue into p.66.",
+      "repositoryPublication": "private only"
+    }
+  ],
+  "magnifiedContextEvidence": [
+    {
+      "printedPage": 37,
+      "pdfPage": 38,
+      "privateImagePath": "/workspace/vault-audit-private/mm2/mm-neighbor-review/elemental-matrix-control-context.png",
+      "imageSha256": "325eba30823023a9cf132ab9bfc462cf21abdb1cd9622404d057b0e59eee490c",
+      "baseFullPagePath": "/workspace/vault-audit-private/mm2/mm-neighbor-review/mm-pdf-38-printed-37.png",
+      "baseFullPageSha256": "72591204ccf2c41a56937a060966bccf57fad3e7fc72149073b5d40887dce7df",
+      "basePixelBounds": [
+        35,
+        1800,
+        820,
+        2300
+      ],
+      "outputScale": 2,
+      "context": "complete three-row by two-field elemental strength-method table with preceding qualifier and all three HD outcomes"
+    },
+    {
+      "printedPage": 38,
+      "pdfPage": 39,
+      "privateImagePath": "/workspace/vault-audit-private/mm2/mm-neighbor-review/elephant-stat-and-service-money-context.png",
+      "imageSha256": "7f0877bd566f10d8659199f8ae80c7ac94afa67b23a43b86e0d65daaee117431",
+      "baseFullPagePath": "/workspace/vault-audit-private/mm2/mm-neighbor-review/mm-pdf-39-printed-38.png",
+      "baseFullPageSha256": "d3f6ee401d96061dee749043cb0c6dcc5f0cc5644dbdb204ff7fdce0a416f658",
+      "basePixelBounds": [
+        810,
+        1200,
+        1660,
+        2310
+      ],
+      "outputScale": 2,
+      "context": "full two-variant Elephant profile heading/grid plus following trained-carrying, tusk value/weight and encounter qualifier prose"
+    },
+    {
+      "printedPage": 39,
+      "pdfPage": 40,
+      "privateImagePath": "/workspace/vault-audit-private/mm2/mm-neighbor-review/elephant-continuation-crossrefs.png",
+      "imageSha256": "1d3ea6d9570abaf084be5ab55988abe2a777ce9411fd38b246b15a31e48dcaa5",
+      "baseFullPagePath": "/workspace/vault-audit-private/mm2/mm-neighbor-review/mm-pdf-40-printed-39.png",
+      "baseFullPageSha256": "1aade8ecd56fe24bbe76a5d10b4cbe0ef1369941806fa53c779b021d3ee8587d",
+      "basePixelBounds": [
+        15,
+        0,
+        825,
+        550
+      ],
+      "outputScale": 2,
+      "context": "top-left printed continuation of elephant text and cross-reference to separate Mammoth/Mastodon headings"
+    },
+    {
+      "printedPage": 65,
+      "pdfPage": 66,
+      "privateImagePath": "/workspace/vault-audit-private/mm2/mm-neighbor-review/mammoth-tusk-relative-context.png",
+      "imageSha256": "32eaf382f3f04adf85b86ec3231e84531201142dde1f4d07b7aaafa6fc44c186",
+      "baseFullPagePath": "/workspace/vault-audit-private/mm2/mm-neighbor-review/mm-pdf-66-folio-check.png",
+      "baseFullPageSha256": "ffa866babdfe2b1aef498da01858a669ea8c9adb7be5dc84a341a31aad961264",
+      "basePixelBounds": [
+        20,
+        250,
+        820,
+        1120
+      ],
+      "outputScale": 2,
+      "context": "Mammoth heading/profile label boundaries and relative tusk-weight/value prose; profile values are not transcribed"
+    },
+    {
+      "printedPage": 65,
+      "pdfPage": 66,
+      "privateImagePath": "/workspace/vault-audit-private/mm2/mm-neighbor-review/mammoth-mastodon-value-context.png",
+      "imageSha256": "e9bbf75881e39d99d5ede93f106c5e0020538615785f2a8a406247490fa3fb8a",
+      "baseFullPagePath": "/workspace/vault-audit-private/mm2/mm-neighbor-review/mm-pdf-66-folio-check.png",
+      "baseFullPageSha256": "ffa866babdfe2b1aef498da01858a669ea8c9adb7be5dc84a341a31aad961264",
+      "basePixelBounds": [
+        810,
+        730,
+        1650,
+        1880
+      ],
+      "outputScale": 2,
+      "context": "Mastodon profile boundary and same-weight/value-as-elephants relation; profile values are not transcribed"
+    }
+  ],
+  "sourceUnitAssessments": [
+    {
+      "sourceUnitId": "mm-table-candidate-elemental-types",
+      "sourceUnitLabel": "Elemental types/sizes",
+      "originalLedgerPointer": "#/unitReviews/261",
+      "originalAssertionPointer": "#/unitReviews/261/sourceAssertions/0",
+      "originalAssertionId": "mm-table-candidate-elemental-types-table-candidate",
+      "queuePointer": "#/partialSourceAssertionSiteJoinPending/0",
+      "original559JoinPointer": "#/unitJoins/462",
+      "originalLocator": [
+        {
+          "printedPages": [
+            37,
+            38
+          ],
+          "pdfPages": [
+            38,
+            39
+          ],
+          "sourceLocatorStatus": "prior-source-first-inventory locator; confirm page map from source image where available"
+        }
+      ],
+      "inputHashes": {
+        "originalLedgerSha256": "20d748fbf0f7426e67f74868d6b1cb6e146035721b92a9ee43f62c9f2fcd4e11",
+        "pendingQueueSha256": "bc9cfdbb1c8a59cf528a33c9ca9884985cbcd948225c569c7a679f373de12aec",
+        "originalJoinReportSha256": "425bcf69ce1d44da3ffaecdc8da2993432251f51a36d2245011ae704e2de4865"
+      },
+      "verifiedPrintedPages": [
+        37,
+        38
+      ],
+      "verifiedPdfPages": [
+        38,
+        39
+      ],
+      "sourceCensus": {
+        "sectionBoundary": "The generic ELEMENTAL article and four summoned-type profile headings are physically contained on printed pp.37–38; the Air profile runs across the page turn. The adjacent Elephant entry begins late on p.38 and is continued at the start of p.39, so that content is separately assigned to the second source unit.",
+        "genericStrengthTable": {
+          "leadIn": "Source states that conjured elementals fall into three hit-dice strength categories and that this applies to all types.",
+          "printedPage": 37,
+          "rowCount": 3,
+          "columns": [
+            "Conjuring method",
+            "Hit dice"
+          ],
+          "rows": [
+            {
+              "method": "Conjured by spell",
+              "hitDice": 16
+            },
+            {
+              "method": "Conjured by summoning device",
+              "hitDice": 12
+            },
+            {
+              "method": "Conjured through a staff",
+              "hitDice": 8
+            }
+          ],
+          "resultValueCount": 3,
+          "methodLabelCount": 3,
+          "starMarkersOrFootnotes": 0,
+          "continuationPages": [],
+          "transcriptionScope": "The entire three-row procedure table and its immediate all-types qualifier were visually read; these HD counts are method outcomes, not monster-stat values."
+        },
+        "profileHeadingDenominator": {
+          "count": 4,
+          "headings": [
+            "Air Elemental",
+            "Earth Elemental",
+            "Fire Elemental",
+            "Water Elemental"
+          ],
+          "pages": {
+            "Air Elemental": [
+              37,
+              38
+            ],
+            "Earth Elemental": [
+              38
+            ],
+            "Fire Elemental": [
+              38
+            ],
+            "Water Elemental": [
+              38
+            ]
+          },
+          "sharedStatFieldLabels": [
+            "FREQUENCY",
+            "NO. APPEARING",
+            "ARMOR CLASS",
+            "MOVE",
+            "HIT DICE",
+            "% IN LAIR",
+            "TREASURE TYPE",
+            "NO. OF ATTACKS",
+            "DAMAGE/ATTACK",
+            "SPECIAL ATTACKS",
+            "SPECIAL DEFENSES",
+            "MAGIC RESISTANCE",
+            "INTELLIGENCE",
+            "ALIGNMENT",
+            "SIZE",
+            "PSIONIC ABILITY",
+            "Attack/Defense Modes"
+          ],
+          "fieldRowsPerProfile": 17,
+          "aggregateProfileFieldRows": 68,
+          "profileValueCellsTranscribed": 0,
+          "scope": "The four profile blocks are counted to bound the candidate; their numeric stat cells are outside this review and remain untranscribed."
+        },
+        "sharedProcedureCensus": [
+          {
+            "id": "elemental-summoning-frequency-and-types",
+            "page": 37,
+            "summary": "The common text limits elemental conjuring by daily frequency, means and elemental type, gives examples using spells, staves and a summoning device, and distinguishes same-type from different-type possibilities.",
+            "scope": "The broad limit is plainly an elemental procedure; the phrase “per means” and its cross-spell/class application are semantically unresolved. No device count or Druid-specific cap is invented."
+          },
+          {
+            "id": "control-failure-branches",
+            "page": 37,
+            "summary": "If control concentration fails, the text gives a 75% turn-and-attack branch; a 25% branch immediately returns the elemental to its own plane. It says control cannot be regained and a turned elemental returns to its plane three turns after control is lost.",
+            "scope": "These are conditional on failure to maintain the conjuring party’s control; they are not the PHB separate 5% rebellion check."
+          },
+          {
+            "id": "control-concentration-conditions",
+            "page": 37,
+            "summary": "The conjuring party must remain stationary and avoid physical or mental attack, including missile attack or distraction; only one elemental at a time can be controlled.",
+            "scope": "Generic rule text in the cited source area; no class or exception beyond specifically cited PHB Druid text is inferred."
+          },
+          {
+            "id": "elemental-damage-resistance",
+            "page": 37,
+            "summary": "The article states when normal or low-magic weapons and creatures without magical attack ability can affect elementals, including the four-hit-dice qualification.",
+            "scope": "Shared combat rule is recorded as a distinct source clause; it is not transcribed into a new generic rule or inferred from a profile stat block."
+          }
+        ],
+        "typeSpecificProfileScope": "Air/Earth/Fire/Water prose contains type-specific movement, environmental requirements and attacks. Those four profile blocks remain outside the public searchable-monster feature; apart from directly joined spell-source clauses listed below, this assessment does not transcribe their complete abilities."
+      },
+      "siteJoin": {
+        "siteDispositionOverall": "partial",
+        "joinClosed": true,
+        "meaning": "Exact owner mapping is now established. The generic spell has a direct MM pp.37–38 source reference, but only a bounded subset of the shared procedure is surfaced; the full four-profile catalogue remains excluded.",
+        "scopedDispositions": [
+          {
+            "scope": "Three-row elemental strength-method table",
+            "disposition": "partial",
+            "sourceRows": 3,
+            "representedSourceOutcome": "The spell owner shows “one elemental, typically 16 HD”; it also cites MM pp.37–38. The 16-HD outcome matches “conjured by spell,” but its field-level origin is not uniquely attributable between PHB p.79 and MM p.37.",
+            "unrepresentedRows": [
+              "Conjured by summoning device → 12 hit dice",
+              "Conjured through a staff → 8 hit dice"
+            ],
+            "evidenceOwner": "spells/phb-magic-user-conjure-elemental",
+            "limitation": "A generic 16-HD statement is not full representation of the method table."
+          },
+          {
+            "scope": "Common MM control-failure and summoning-limit clauses consumed by the magic-user Conjure Elemental source link",
+            "disposition": "partial",
+            "representedFacets": [
+              "The current card says the conjurer concentrates to control the elemental within 3 inches per caster level; wounds or grappling break concentration.",
+              "The card says an uncontrolled elemental seeks to attack the conjurer, though it does not abandon an ongoing combat."
+            ],
+            "omittedSourceFacets": [
+              "MM 75% turn-and-attack / 25% immediate-return branches after failed control",
+              "no regaining control and three-turn return after losing control",
+              "stationary and neither physically nor mentally attacked (including missiles/distraction) control requirement",
+              "only one controlled elemental at a time",
+              "once-per-day/per-means/per-elemental-type text"
+            ],
+            "sourceReferencePresent": true,
+            "sourceOwner": "spells/phb-magic-user-conjure-elemental",
+            "sourceReportPointer": "#/assessments/3",
+            "sourceReportSha256": "6ee96188bcd623f28a897e43749cb37c9147209d1b3bc0019496f70659bfa2c4",
+            "applicabilityLimit": "The source phrase “per means” has no established rule for counting distinct spell entries/classes. Do not extend the daily limit to a Druid spell as a settled conclusion."
+          },
+          {
+            "scope": "PHB five-percent elemental rebellion check",
+            "disposition": "present-as-distinct-PHB-trigger",
+            "sourceOwner": "spells/phb-magic-user-conjure-elemental",
+            "sourcePages": [
+              79
+            ],
+            "trigger": "At the end of the second and every succeeding round, regardless of concentration.",
+            "relation": "The 5% PHB check and MM p.37 75%/25% concentration-failure branches have different triggers; no contradiction or precedence is asserted.",
+            "sourcePageEvidence": "PHB p.79 actual pixels were independently inspected; page says the check is regardless of concentration."
+          },
+          {
+            "scope": "Profile numeric statistics for Air/Earth/Fire/Water Elementals",
+            "disposition": "excluded",
+            "reason": "Current documented product boundary excludes a searchable monster catalogue. No profile-stat numeric cells are transcribed or declared complete."
+          }
+        ],
+        "exactOwnerMatches": [
+          {
+            "collection": "spells",
+            "id": "phb-magic-user-conjure-elemental",
+            "route": "#spells/phb-magic-user-conjure-elemental",
+            "sourceRecordHash": "36b1e963ddc6bb315390a51df87d89c681c8bf84998e21de0498e02aea533fe7",
+            "sourceRecord": {
+              "name": "Conjure Elemental",
+              "book": "PHB",
+              "pages": [
+                79
+              ],
+              "fields": {
+                "Range": "6″",
+                "Duration": "1 turn/level",
+                "Components": "V, S, M",
+                "Casting time": "1 turn",
+                "Saving throw": "None",
+                "Area": "One elemental, typically 16 HD",
+                "Material": "Air: burning incense; earth: soft clay; fire: sulfur and phosphorus; water: water and sand"
+              },
+              "effect": [
+                "Conjure an air, earth, fire or water elemental, choosing the type when memorizing the spell."
+              ],
+              "conditions": [
+                "Fire and water versions also require a substantial source of the appropriate element within range.",
+                "Concentrate to control it within 3″ per caster level; wounds or grappling break concentration.",
+                "Even with concentration, there is a 5% chance of rebellion at the end of the second round and each later round."
+              ],
+              "exceptions": [
+                "An uncontrolled elemental seeks to attack the conjurer, though it does not abandon an ongoing combat to do so.",
+                "A water elemental is destroyed if it moves more than 6″ from a body of water.",
+                "The source points to protective circles, pentacles and protection from evil as safeguards."
+              ],
+              "references": [
+                {
+                  "book": "MM",
+                  "pages": [
+                    37,
+                    38
+                  ],
+                  "label": "Elementals",
+                  "status": "OCR checked · visual review pending"
+                }
+              ]
+            },
+            "renderedDetail": {
+              "detailRootExists": true,
+              "detailRecordFound": true,
+              "directRouteMatches": true,
+              "routeHashMatched": true,
+              "innerTextSha256": "c7ad7a205d59ddf467bd8aa428b0fe99a5f2373d17eaa7c1f3ff7068a42c4604",
+              "innerTextLength": 1316,
+              "textContentSha256": "11c61dc4562f112a4bb5ef93259b660892c3db5c4ccbb22418d06f03b423222b",
+              "textContentLength": 1288,
+              "visibleSourceControls": [
+                {
+                  "text": "PHB p. 79",
+                  "ariaLabel": "Open original source reference: PHB p. 79"
+                },
+                {
+                  "text": "MM pp. 37–38",
+                  "ariaLabel": "Open original source reference: MM pp. 37–38"
+                },
+                {
+                  "text": "View original scans",
+                  "ariaLabel": null
+                }
+              ]
+            },
+            "publicSearch": {
+              "title": "Conjure Elemental",
+              "subtitle": "Magic-user · Level 5 · PHB",
+              "searchTextSha256": "deeedc3f310babf266a73070a29aac9bc808bc9475df0e5382e105d74e5fbc99",
+              "searchTextLength": 939,
+              "titleQuery": "Conjure Elemental",
+              "totalMatchesForTitle": 6,
+              "selfRank": 0,
+              "visibleInInitial18": true,
+              "selfMatched": true
+            }
+          }
+        ],
+        "relatedOwnersAndNonjoins": [
+          {
+            "owner": {
+              "collection": "spells",
+              "id": "phb-druid-conjure-fire-elemental",
+              "route": "#spells/phb-druid-conjure-fire-elemental",
+              "sourceRecordHash": "19fe353d29860141ad6e337f9829fe94ac3459c86e23d5f0f2ebed9d2b961604",
+              "sourceRecord": {
+                "name": "Conjure Fire Elemental",
+                "book": "PHB",
+                "pages": [
+                  54,
+                  61,
+                  62
+                ],
+                "fields": {
+                  "Range": "8″",
+                  "Duration": "1 turn/level",
+                  "Components": "V, S, M",
+                  "Casting time": "6 rounds",
+                  "Saving throw": "None",
+                  "Area": "One summoned elemental force",
+                  "Material": "Mistletoe"
+                },
+                "effect": [
+                  "Summons a 16-HD fire elemental 85% of the time; 9% brings 2–4 salamanders, 4% an efreeti, and 2% a 21–24-HD fire elemental."
+                ],
+                "conditions": [
+                  "Druid needs neither a protective circle nor continuous concentration, and the summoned force does not turn on the druid."
+                ],
+                "exceptions": [
+                  "Ends by expiry, attack, dispelling or dismiss fire elemental. Only a druid can dismiss the salamanders, efreeti or exceptionally powerful elementals."
+                ],
+                "references": []
+              },
+              "renderedDetail": {
+                "detailRootExists": true,
+                "detailRecordFound": true,
+                "directRouteMatches": true,
+                "routeHashMatched": true,
+                "innerTextSha256": "25908a7a3391c2eb71c89ad6ab71ea343957997de04c2d34abcbd6ad3c37094d",
+                "innerTextLength": 946,
+                "textContentSha256": "a260fcfb89ee61e5993e1016648eacb398963f7e0d1aeacbc27170b0cfb17d89",
+                "textContentLength": 923,
+                "visibleSourceControls": [
+                  {
+                    "text": "PHB pp. 54, 61–62",
+                    "ariaLabel": "Open original source reference: PHB pp. 54, 61–62"
+                  },
+                  {
+                    "text": "View original scans",
+                    "ariaLabel": null
+                  }
+                ]
+              },
+              "publicSearch": {
+                "title": "Conjure Fire Elemental",
+                "subtitle": "Druid · Level 6 · PHB",
+                "searchTextSha256": "d9ca03b6821237cf55406adc983d7c704ecbf2cd74c21bac7a2794e6f81a884d",
+                "searchTextLength": 613,
+                "titleQuery": "Conjure Fire Elemental",
+                "totalMatchesForTitle": 3,
+                "selfRank": 0,
+                "visibleInInitial18": true,
+                "selfMatched": true
+              }
+            },
+            "relationship": "PHB Druid-specific fire outcome procedure; no MM reference control. It explicitly requires neither a circle nor ongoing concentration and says the summoned force does not turn on the Druid. Keep separate from Magic-user/MM control rules.",
+            "exposedSpellReportPointer": "#/assessments/13",
+            "exposedSpellReportSha256": "6ee96188bcd623f28a897e43749cb37c9147209d1b3bc0019496f70659bfa2c4"
+          },
+          {
+            "owner": {
+              "collection": "spells",
+              "id": "phb-druid-conjure-earth-elemental",
+              "route": "#spells/phb-druid-conjure-earth-elemental",
+              "sourceRecordHash": "b5834e3b91cd337f1a6ed51e248d6b5641548d1d39b284f960b3634a652c7c2b",
+              "sourceRecord": {
+                "name": "Conjure Earth Elemental",
+                "book": "PHB",
+                "pages": [
+                  54,
+                  63
+                ],
+                "fields": {
+                  "Range": "4″",
+                  "Duration": "1 turn/level",
+                  "Components": "V, S, M",
+                  "Casting time": "1 turn",
+                  "Saving throw": "None",
+                  "Area": "One 16-HD earth elemental",
+                  "Material": "Mistletoe"
+                },
+                "effect": [
+                  "Summons a 16-HD earth elemental to obey spoken commands without ongoing concentration or hostility toward the druid."
+                ],
+                "conditions": [],
+                "exceptions": [
+                  "Remains until destroyed, dispelled, dismissed or the spell expires."
+                ],
+                "references": [
+                  {
+                    "book": "PHB",
+                    "pages": [
+                      61,
+                      62
+                    ],
+                    "label": "Druid conjure fire elemental dismissal",
+                    "status": "OCR checked · visual review pending"
+                  }
+                ]
+              },
+              "renderedDetail": {
+                "detailRootExists": true,
+                "detailRecordFound": true,
+                "directRouteMatches": true,
+                "routeHashMatched": true,
+                "innerTextSha256": "3182abf6272a2f68b1aee6d5f22dd623d3705901ff4d4ba6cb6633e74924829a",
+                "innerTextLength": 706,
+                "textContentSha256": "7ed31a4a61f9f149b44800bdf66efd75e0833bad329809e23fe32a83753f95da",
+                "textContentLength": 685,
+                "visibleSourceControls": [
+                  {
+                    "text": "PHB pp. 54, 61–63",
+                    "ariaLabel": "Open original source reference: PHB pp. 54, 61–63"
+                  },
+                  {
+                    "text": "View original scans",
+                    "ariaLabel": null
+                  }
+                ]
+              },
+              "publicSearch": {
+                "title": "Conjure Earth Elemental",
+                "subtitle": "Druid · Level 7 · PHB",
+                "searchTextSha256": "3b06453860a6fec7a88c043b00cfa577d3a5e028a1812d22161aae1bb2009599",
+                "searchTextLength": 408,
+                "titleQuery": "Conjure Earth Elemental",
+                "totalMatchesForTitle": 5,
+                "selfRank": 0,
+                "visibleInInitial18": true,
+                "selfMatched": true
+              }
+            },
+            "relationship": "PHB Druid-specific earth spell; no MM citation. Its card says the elemental obeys commands without ongoing concentration or hostility; not an MM p.37 control-rule join.",
+            "exposedSpellReportPointer": "#/assessments/14",
+            "exposedSpellReportSha256": "6ee96188bcd623f28a897e43749cb37c9147209d1b3bc0019496f70659bfa2c4"
+          },
+          {
+            "owner": {
+              "collection": "spells",
+              "id": "phb-magic-user-distance-distortion",
+              "route": "#spells/phb-magic-user-distance-distortion",
+              "sourceRecordHash": "f0fc4d64804344f16b177f1303ac91136b876ce1de8b30913ce0345177c23d6d",
+              "sourceRecord": {
+                "name": "Distance Distortion",
+                "book": "PHB",
+                "pages": [
+                  80
+                ],
+                "fields": {
+                  "Range": "1″/level",
+                  "Duration": "1 turn/level",
+                  "Components": "V, S, M",
+                  "Casting time": "6 segments",
+                  "Saving throw": "None",
+                  "Material": "Small lump of soft clay",
+                  "Area": "100 square ″/level"
+                },
+                "effect": [
+                  "Use an earth elemental to make the affected route effectively half as long and wide, or twice as long and wide, for travelers."
+                ],
+                "conditions": [
+                  "The caster must already have conjured an earth elemental; it cooperates when told that distance distortion is intended.",
+                  "The elemental returns to its plane when the duration ends."
+                ],
+                "exceptions": [
+                  "Travelers cannot detect the true dimensions by ordinary means; a faint magical aura remains, and true seeing reveals the spread-out elemental."
+                ],
+                "references": []
+              },
+              "renderedDetail": {
+                "detailRootExists": true,
+                "detailRecordFound": true,
+                "directRouteMatches": true,
+                "routeHashMatched": true,
+                "innerTextSha256": "77ab4b3db1b7ea465f19106323dd12585b83a23a6456b7479eee40eafa428599",
+                "innerTextLength": 1034,
+                "textContentSha256": "e913126308b19327d6523b2a88e6e605c4f7bb1db342a50396ea898e1c8209ac",
+                "textContentLength": 1010,
+                "visibleSourceControls": [
+                  {
+                    "text": "PHB p. 80",
+                    "ariaLabel": "Open original source reference: PHB p. 80"
+                  },
+                  {
+                    "text": "View original scans",
+                    "ariaLabel": null
+                  }
+                ]
+              },
+              "publicSearch": {
+                "title": "Distance Distortion",
+                "subtitle": "Magic-user · Level 5 · PHB",
+                "searchTextSha256": "b47cb6796ff64bc839f36ad8c5cdebd25aa977068d803e981ab7b326cb012576",
+                "searchTextLength": 656,
+                "titleQuery": "Distance Distortion",
+                "totalMatchesForTitle": 1,
+                "selfRank": 0,
+                "visibleInInitial18": true,
+                "selfMatched": true
+              }
+            },
+            "relationship": "PHB-only adjacent spell requires an already-conjured earth elemental; current reference is PHB p.80, not MM pp.37–38."
+          },
+          {
+            "owner": {
+              "collection": "spells",
+              "id": "phb-magic-user-move-earth",
+              "route": "#spells/phb-magic-user-move-earth",
+              "sourceRecordHash": "350000621d935f872deea5168d5c6942979ff8f48c6d901b8fe92bf606ccc967",
+              "sourceRecord": {
+                "name": "Move Earth",
+                "book": "PHB",
+                "pages": [
+                  85
+                ],
+                "fields": {
+                  "Range": "1″/level",
+                  "Duration": "Permanent",
+                  "Components": "V, S, M",
+                  "Casting time": "One turn for each 4″ square area",
+                  "Saving throw": "None",
+                  "Area": "Earth area determines casting time",
+                  "Material": "Bag of mixed soils and iron blade"
+                },
+                "effect": [
+                  "Move dirt, clay, loam or sand to collapse banks or reshape earthen features."
+                ],
+                "conditions": [
+                  "Moving whole terrain features requires subsequently summoning an earth elemental to assist.",
+                  "Finish all required spellcasting and summoning before any movement occurs."
+                ],
+                "exceptions": [
+                  "Rock outcrops cannot be collapsed or moved by this spell."
+                ],
+                "references": []
+              },
+              "renderedDetail": {
+                "detailRootExists": true,
+                "detailRecordFound": true,
+                "directRouteMatches": true,
+                "routeHashMatched": true,
+                "innerTextSha256": "f643091f6ac0cec0f3d5fef4aef525539771f3eaad570f49f8169448a6502499",
+                "innerTextLength": 895,
+                "textContentSha256": "61c3c8019db5a05f70aa92460536bd1d7b849077f5a07c9e3f256cec5cb380da",
+                "textContentLength": 871,
+                "visibleSourceControls": [
+                  {
+                    "text": "PHB p. 85",
+                    "ariaLabel": "Open original source reference: PHB p. 85"
+                  },
+                  {
+                    "text": "View original scans",
+                    "ariaLabel": null
+                  }
+                ]
+              },
+              "publicSearch": {
+                "title": "Move Earth",
+                "subtitle": "Magic-user · Level 6 · PHB",
+                "searchTextSha256": "dded303992f6d761a7b3314e876de0fe0d2a21f1385dc233020e455eede94d35",
+                "searchTextLength": 549,
+                "titleQuery": "Move Earth",
+                "totalMatchesForTitle": 3,
+                "selfRank": 0,
+                "visibleInInitial18": true,
+                "selfMatched": true
+              }
+            },
+            "relationship": "PHB-only adjacent spell requires a summoned earth elemental for moving a whole terrain feature; current reference is PHB p.85, not MM pp.37–38."
+          },
+          {
+            "owner": {
+              "collection": "spells",
+              "id": "ua-cleric-dust-devil",
+              "route": "#spells/ua-cleric-dust-devil",
+              "sourceRecordHash": "9195b9a22db0b29e5dd6fd04154c950238a5c05d236e162e286555ed56da64c9",
+              "sourceRecord": {
+                "name": "Dust Devil",
+                "book": "UA",
+                "pages": [
+                  34,
+                  81
+                ],
+                "fields": {
+                  "Range": "3″",
+                  "Duration": "1 round/level",
+                  "Components": "V, S",
+                  "Casting time": "3 rounds",
+                  "Saving throw": "None",
+                  "Area": "Small whirlwind"
+                },
+                "effect": [
+                  "Summons a weak air elemental: AC 4, 2 HD, movement 18″ and one attack for 1d4 damage. Magic weapons deal it double damage.",
+                  "Can push back gas and extinguish small nonmagical flames; over loose dust/sand/ash it creates a 30-foot cloud that blinds victims until one round after leaving."
+                ],
+                "conditions": [
+                  "It follows direction but vanishes if ordered beyond 3″; a caster inside it must save versus spell to preserve concentration even without taking damage."
+                ],
+                "exceptions": [
+                  "Any creature native to the Elemental Plane of Air, including another dust devil, can dismiss it within 3″; creatures not native to the plane occupied by the caster are unaffected.",
+                  "Innate magic resistance dispels it after it gets a chance to hit.",
+                  "Cannot be used underwater (UA p.81)."
+                ],
+                "references": []
+              },
+              "renderedDetail": {
+                "detailRootExists": true,
+                "detailRecordFound": true,
+                "directRouteMatches": true,
+                "routeHashMatched": true,
+                "innerTextSha256": "90e408c3722a5bf80d8d71d18fe779f2a8512534cb15e70f41f0269456bef9c2",
+                "innerTextLength": 1220,
+                "textContentSha256": "46918b28f7700d7b483af8faed568ddd0065296733587512390833a43c1cc985",
+                "textContentLength": 1195,
+                "visibleSourceControls": [
+                  {
+                    "text": "UA pp. 34, 81",
+                    "ariaLabel": "Open original source reference: UA pp. 34, 81"
+                  },
+                  {
+                    "text": "View original scans",
+                    "ariaLabel": null
+                  }
+                ]
+              },
+              "publicSearch": {
+                "title": "Dust Devil",
+                "subtitle": "Cleric · Level 2 · UA",
+                "searchTextSha256": "6616acb94845e2c345cbca95b6f4cf49d8103abb926e9b7e1bae9db4f4bca47b",
+                "searchTextLength": 860,
+                "titleQuery": "Dust Devil",
+                "totalMatchesForTitle": 1,
+                "selfRank": 0,
+                "visibleInInitial18": true,
+                "selfMatched": true
+              }
+            },
+            "relationship": "UA-specific weak 2-HD air elemental has its own spell statistics and source pp.34,81; no MM p.37–38 source reference."
+          },
+          {
+            "owner": {
+              "collection": "equipment",
+              "id": "phb-quarterstaff",
+              "route": "#equipment/phb-quarterstaff",
+              "sourceRecordHash": "9e7ac53d24cbb428ad4676b89da6d7aaac74cd6fde9f71302e07c0f6691be53c",
+              "sourceRecord": {
+                "name": "Quarterstaff",
+                "book": "PHB",
+                "pages": [
+                  35,
+                  37
+                ],
+                "fields": {
+                  "Approx. weight": "50 gp-weight (encumbrance; not purchase cost)",
+                  "Length (PHB p.38)": "6–8 ft",
+                  "Space required (PHB p.38)": "3 ft",
+                  "Weapon speed factor": "4",
+                  "Damage vs S/M": "1–6",
+                  "Damage vs Large": "1–6",
+                  "Hand-held AC adjustments (PHB p.38)": "AC 2 through 10: -7, -5, -3, -1, 0, 0, +1, +1, +1",
+                  "Hand-held AC adjustments (UA p.27)": "AC 0 through 10: -9, -8, -7, -5, -3, -1, 0, 0, +1, +1, +1"
+                },
+                "effect": null,
+                "conditions": null,
+                "exceptions": null,
+                "references": [
+                  {
+                    "book": "PHB",
+                    "pages": [
+                      37
+                    ],
+                    "label": null,
+                    "status": "OCR checked · visual verification pending"
+                  },
+                  {
+                    "book": "UA",
+                    "pages": [
+                      26
+                    ],
+                    "label": "UA p.26 Weight and Damage by Weapon Type",
+                    "status": "Source identity and row/note context independently reviewed; existing field-value grades and purchase-price quantities remain separate."
+                  },
+                  {
+                    "book": "UA",
+                    "pages": [
+                      27
+                    ],
+                    "label": "UA p.27 Notes for Weight and Damage by Weapon Type",
+                    "status": "Source identity and row/note context independently reviewed; existing field-value grades and purchase-price quantities remain separate."
+                  }
+                ]
+              },
+              "renderedDetail": {
+                "detailRootExists": true,
+                "detailRecordFound": true,
+                "directRouteMatches": true,
+                "routeHashMatched": true,
+                "innerTextSha256": "f3e4bb31c964de8eb7004eb6a733ec57853d738ce6b2132c0c751c6bb57c635c",
+                "innerTextLength": 2108,
+                "textContentSha256": "6af78ed12c91e39921970aa0c1b979a4a8a3f9e1609701dceef633efeb3216d9",
+                "textContentLength": 2439,
+                "visibleSourceControls": [
+                  {
+                    "text": "PHB pp. 35, 37–38",
+                    "ariaLabel": "Open original source reference: PHB pp. 35, 37–38"
+                  },
+                  {
+                    "text": "UA pp. 26–27",
+                    "ariaLabel": "Open original source reference: UA pp. 26–27"
+                  },
+                  {
+                    "text": "PHB p. 35",
+                    "ariaLabel": "Open source for Price comparison: Spear: PHB p. 35"
+                  },
+                  {
+                    "text": "UA p. 26",
+                    "ariaLabel": "Open source for Price comparison: Staff Sling: UA p. 26"
+                  },
+                  {
+                    "text": "View original scans",
+                    "ariaLabel": null
+                  }
+                ]
+              },
+              "publicSearch": {
+                "title": "Quarterstaff",
+                "subtitle": "Weapons · Suggested (estimate): 5 sp / one quarterstaff · PHB",
+                "searchTextSha256": "8e2954979449b67d5bc7abdf27ee864adf14337614576215203f75b4adfb7eee",
+                "searchTextLength": 864,
+                "titleQuery": "Quarterstaff",
+                "totalMatchesForTitle": 1,
+                "selfRank": 0,
+                "visibleInInitial18": true,
+                "selfMatched": true
+              }
+            },
+            "relationship": "Ordinary quarterstaff source/weapon data; not an elemental-summoning staff and does not represent the 8-HD table row."
+          },
+          {
+            "owner": {
+              "collection": "rules",
+              "id": "magic-command-words",
+              "route": "#rules/magic-command-words",
+              "sourceRecordHash": "085bd18c5d46053ce369430823128d5161f148414005b9295c7c5c4075f67f30",
+              "sourceRecord": {
+                "name": null,
+                "book": "DMG",
+                "pages": [
+                  119
+                ],
+                "fields": null,
+                "effect": null,
+                "conditions": null,
+                "exceptions": null,
+                "references": []
+              },
+              "renderedDetail": {
+                "detailRootExists": true,
+                "detailRecordFound": true,
+                "directRouteMatches": true,
+                "routeHashMatched": true,
+                "innerTextSha256": "045844a8be4cc4ae7bc66388f6182b2f822a6be5adaa68722ebf3fdf2f467684",
+                "innerTextLength": 654,
+                "textContentSha256": "8a9180b81c4a52af18394f5aaa001b1453fc2eb4efea1fa8c76ff2c6efabb90e",
+                "textContentLength": 639,
+                "visibleSourceControls": [
+                  {
+                    "text": "DMG p. 119",
+                    "ariaLabel": "Open original source reference: DMG p. 119"
+                  },
+                  {
+                    "text": "View original scans",
+                    "ariaLabel": null
+                  }
+                ]
+              },
+              "publicSearch": {
+                "title": "Many rods, staves and wands need a command word",
+                "subtitle": "Magic · DMG",
+                "searchTextSha256": "5e99622ddad066abea31983dd1fd357b610588324d7d9a12a56f2514633641b9",
+                "searchTextLength": 429,
+                "titleQuery": "Many rods, staves and wands need a command word",
+                "totalMatchesForTitle": 1,
+                "selfRank": 0,
+                "visibleInInitial18": true,
+                "selfMatched": true
+              }
+            },
+            "relationship": "Generic rod/staff/wand command-word use from DMG p.119; no summoning-elemental procedure or MM reference."
+          }
+        ],
+        "directMMReferenceOwnerCount": 1,
+        "currentMonsterCollectionPresent": false,
+        "currentElementalRuleOwnerOutsideSpellSurface": "No rule route in the 1,000-owner capture has an MM pp.37–38 reference; the exact direct MM owner is the magic-user spell card."
+      },
+      "unassessed": [
+        "Complete Air/Earth/Fire/Water profile mechanics and stat values are not transcribed; current source scope excludes a full monster catalogue.",
+        "Cross-spell/class semantics of “per means” remain unresolved by the source text; no settled Druid daily-use exception or prohibition is inferred.",
+        "This report does not assess every other elemental-plane creature elsewhere in the MM."
+      ]
+    },
+    {
+      "sourceUnitId": "mm-table-candidate-elephant-types",
+      "sourceUnitLabel": "Elephant types",
+      "originalLedgerPointer": "#/unitReviews/262",
+      "originalAssertionPointer": "#/unitReviews/262/sourceAssertions/0",
+      "originalAssertionId": "mm-table-candidate-elephant-types-table-candidate",
+      "queuePointer": "#/partialSourceAssertionSiteJoinPending/1",
+      "original559JoinPointer": "#/unitJoins/463",
+      "originalLocator": [
+        {
+          "printedPages": [
+            38,
+            39
+          ],
+          "pdfPages": [
+            39,
+            40
+          ],
+          "sourceLocatorStatus": "prior-source-first-inventory locator; confirm page map from source image where available"
+        }
+      ],
+      "inputHashes": {
+        "originalLedgerSha256": "20d748fbf0f7426e67f74868d6b1cb6e146035721b92a9ee43f62c9f2fcd4e11",
+        "pendingQueueSha256": "bc9cfdbb1c8a59cf528a33c9ca9884985cbcd948225c569c7a679f373de12aec",
+        "originalJoinReportSha256": "425bcf69ce1d44da3ffaecdc8da2993432251f51a36d2245011ae704e2de4865"
+      },
+      "verifiedPrintedPages": [
+        38,
+        39,
+        65
+      ],
+      "verifiedPdfPages": [
+        39,
+        40,
+        66
+      ],
+      "sourceCensus": {
+        "sectionBoundary": "The two-column Elephant profile grid and leading prose are on printed p.38. The rogue-bull sentence and the Elephant article’s explicit Mammoth/Mastodon cross-reference continue at the top of p.39; the separate Mammoth and Mastodon headings and their relative tusk/value clauses occur on p.65. Printed p.65 is a related cross-reference target, not a physical continuation of the Elephant entry.",
+        "elephantProfileMatrix": {
+          "heading": "ELEPHANT",
+          "variantColumns": [
+            "(Asiatic) Elephant",
+            "Loxodont (African Elephant)"
+          ],
+          "fieldRowLabels": [
+            "FREQUENCY",
+            "NO. APPEARING",
+            "ARMOR CLASS",
+            "MOVE",
+            "HIT DICE",
+            "% IN LAIR",
+            "TREASURE TYPE",
+            "NO. OF ATTACKS",
+            "DAMAGE/ATTACK",
+            "SPECIAL ATTACKS",
+            "SPECIAL DEFENSES",
+            "MAGIC RESISTANCE",
+            "INTELLIGENCE",
+            "ALIGNMENT",
+            "SIZE",
+            "PSIONIC ABILITY",
+            "Attack/Defense Modes"
+          ],
+          "rowCount": 17,
+          "variantCount": 2,
+          "valueCellCount": 34,
+          "profileValuesTranscribed": 0,
+          "continuationPages": [
+            39
+          ],
+          "profileScope": "The two named numeric stat profiles are outside the current public searchable-monster feature and are not transcribed."
+        },
+        "elephantSourceProseFacts": [
+          {
+            "id": "elephant-attack-and-defense-prose",
+            "printedPage": 38,
+            "summary": "Five attack forms are identified (two tusks, trunk and two forefeet). At most two can affect one opponent at a time; six or more man-sized opponents can be engaged. Ogre-sized opponents are unaffected by trunk attacks; the trunk is not used against creatures that can harm it; elephants fear fire.",
+            "scope": "Creature-specific combat profile, excluded with the public bestiary surface."
+          },
+          {
+            "id": "elephant-gate-and-trained-carrying",
+            "printedPage": 38,
+            "summary": "The prose says elephants can push open a great gate unless it is spiked and can be trained to carry equipment and/or people. No carrying capacity or mass is given.",
+            "scope": "Carrying/service statement is kept distinct from numeric profile cells and from tusk value/weight. Its exact MM clause is not represented by a current owner; a UA spell’s elephant mount tier is only a related, separately sourced owner."
+          },
+          {
+            "id": "elephant-tusk-value-and-weight",
+            "printedPage": 38,
+            "summary": "Each elephant tusk is given a value range of 100–600 gold pieces; the same sentence states one-quarter pound of weight per gold piece of value.",
+            "scope": "A monetary valuation and value/weight relation, not a creature-stat cell and not an equipment carrying-load table. Treated as an in-scope economic fact for this owner-join closure."
+          },
+          {
+            "id": "elephant-herd-and-rogue-bull-encounter-qualifier",
+            "printedPages": [
+              38,
+              39
+            ],
+            "summary": "The source gives the young-animal and mature-herd qualifier for large encountered groups; a single elephant is a rogue bull with a minimum hit-points-per-die condition, aggressive temperament and 90% attack frequency.",
+            "scope": "Creature-specific encounter/profile procedure; not a general rule owner."
+          }
+        ],
+        "relatedCrossReferenceTargets": [
+          {
+            "heading": "MAMMOTH",
+            "printedPage": 65,
+            "pdfPage": 66,
+            "sourceRelationship": "explicit cross-reference from Elephant at p.39",
+            "summary": "The separate Mammoth entry says its tusks are 50% heavier than elephant tusks and their value is proportionately higher. The economic supplement already records a derived range from the elephant baseline; this review preserves that report pointer and does not recalculate or independently reopen the derivation.",
+            "profileStatsTranscribed": false
+          },
+          {
+            "heading": "MASTODON",
+            "printedPage": 65,
+            "pdfPage": 66,
+            "sourceRelationship": "explicit cross-reference from Elephant at p.39",
+            "summary": "The separate Mastodon entry says its tusks have the same weight and value as elephant tusks; it refers attack limitations and other data back to Elephant. No numeric range is newly derived here.",
+            "profileStatsTranscribed": false
+          }
+        ],
+        "untranscribedProfileDenominator": {
+          "elephantProfileRows": 17,
+          "elephantValueCells": 34,
+          "mammothAndMastodonProfileHeadings": 2,
+          "numericProfileCellsTranscribed": 0,
+          "scope": "Heading/table count only; no stat values are copied."
+        }
+      },
+      "siteJoin": {
+        "siteDispositionOverall": "partial",
+        "joinClosed": true,
+        "meaning": "The captured site has related elephant rules but no exact MM p.38/p.39/p.65 source owner. Creature profiles remain explicitly excluded, while source economic and train/carry clauses are separately assessed as missing from the current site owner set.",
+        "scopedDispositions": [
+          {
+            "scope": "Elephant/Mammoth/Mastodon full stat profiles and creature-specific attack/encounter profile details",
+            "disposition": "excluded",
+            "reason": "Current documented feature boundary does not promise a searchable monster catalogue; no profile numeric cell values are transcribed."
+          },
+          {
+            "scope": "Elephant tusk valuation and value/weight relation",
+            "disposition": "absent",
+            "sourcePages": [
+              38,
+              65
+            ],
+            "currentOwnerSearch": "No exact current equipment or rule owner for elephant tusks, Mammoth tusks or Mastodon tusks in the full captured route/detail/search set.",
+            "existingEconomicReportPointer": "#/legacyClaimReconciliation/6",
+            "existingEconomicReportSha256": "75a7ffe1fe4abe07c1bea063be8eb187794f8379f658d176414867e04aeee714",
+            "priorClassificationBoundary": "That report calls the claim excluded under the creature-profile feature boundary; this addendum separates the monetary value/weight assertion from excluded numeric profile cells and records the current site join as absent. It does not change the source amount, claim hash or derive a new sale price."
+          },
+          {
+            "scope": "Elephant trained carrying/service fact",
+            "disposition": "absent",
+            "sourcePage": 38,
+            "sourceFact": "Trained to carry equipment and/or people; no numeric carrying capacity supplied.",
+            "relatedSiteOwner": "spells/ua-magic-user-mount",
+            "relatedOwnerLimit": "This UA-only spell lists elephant as a higher-tier summoned mount and a howdah at a higher tier, but does not state the MM training fact, equipment capacity or MM citation.",
+            "genericRuleOwner": "rules/encumbrance",
+            "genericRuleLimit": "PHB pp.101–102 source only; generic carrying weight/bulk guidance without elephant-specific load value or MM pp.38–39 source."
+          },
+          {
+            "scope": "Mammoth relative tusk valuation",
+            "disposition": "absent",
+            "sourcePage": 65,
+            "existingEconomicReportPointer": "#/legacyClaimReconciliation/18",
+            "existingEconomicReportSha256": "75a7ffe1fe4abe07c1bea063be8eb187794f8379f658d176414867e04aeee714",
+            "limitation": "The already-recorded source-backed derived interpretation remains separately hash-bound; no range is recalculated or promoted to a printed amount here."
+          },
+          {
+            "scope": "Mastodon same-weight/value relation to elephant tusks",
+            "disposition": "absent",
+            "sourcePage": 65,
+            "siteOwnerSearch": "No exact equipment or rule owner; same-word site mentions are unrelated PHB/UA spell facts."
+          }
+        ],
+        "relatedOwnersAndNonjoins": [
+          {
+            "owner": {
+              "collection": "spells",
+              "id": "ua-magic-user-mount",
+              "route": "#spells/ua-magic-user-mount",
+              "sourceRecordHash": "8a1549c7b6f51cd5286c0c15cf5edf7346cd8eb63165460b7fbc979dcbdcbc24",
+              "sourceRecord": {
+                "name": "Mount",
+                "book": "UA",
+                "pages": [
+                  52,
+                  81
+                ],
+                "fields": {
+                  "Range": "1″",
+                  "Duration": "12 turns + 6 turns/level",
+                  "Components": "V, S, M",
+                  "Casting time": "1 round",
+                  "Saving throw": "None",
+                  "Area": "One mount",
+                  "Materials": "Hair or dung of the animal type"
+                },
+                "effect": [
+                  "Summons a normal willing mount that returns home when the spell ends.",
+                  "Listed mounts progress from mule/light horse (levels 1–3), draft horse/warhorse (4–7), camel (8–12), to elephant (13+; howdah at 18)."
+                ],
+                "conditions": [
+                  "A lower-tier mount may be selected; riding gear is provided only when selecting below the caster’s available tier."
+                ],
+                "exceptions": [
+                  "Cannot be used underwater (UA p.81)."
+                ],
+                "references": []
+              },
+              "renderedDetail": {
+                "detailRootExists": true,
+                "detailRecordFound": true,
+                "directRouteMatches": true,
+                "routeHashMatched": true,
+                "innerTextSha256": "6d7c28919f68ff4b83eda86e5aa382aa04c096ee0811f0f2e2ce18cdcbb521c0",
+                "innerTextLength": 934,
+                "textContentSha256": "8e2ed74762a8bfaae8fd51f4d391d7a16e7a63039e6aab5f2fc5a7ff3e661ab1",
+                "textContentLength": 910,
+                "visibleSourceControls": [
+                  {
+                    "text": "UA pp. 52, 81",
+                    "ariaLabel": "Open original source reference: UA pp. 52, 81"
+                  },
+                  {
+                    "text": "View original scans",
+                    "ariaLabel": null
+                  }
+                ]
+              },
+              "publicSearch": {
+                "title": "Mount",
+                "subtitle": "Magic-user · Level 1 · UA",
+                "searchTextSha256": "5cfa52f6ff95b62b7b7e01d29a427383ec0b2981d7712838d7a521e8dda7348e",
+                "searchTextLength": 541,
+                "titleQuery": "Mount",
+                "totalMatchesForTitle": 13,
+                "selfRank": 0,
+                "visibleInInitial18": true,
+                "selfMatched": true
+              }
+            },
+            "relationship": "A distinct UA spell lists elephant at caster tier 13+ and a howdah at tier 18. Actual UI source chips are UA pp.52,81 only; this does not cite MM or represent the MM training/carrying clause."
+          },
+          {
+            "owner": {
+              "collection": "spells",
+              "id": "phb-druid-trip",
+              "route": "#spells/phb-druid-trip",
+              "sourceRecordHash": "a8f2563500cb35fcc5d36d69e9eec7b1a0528cda004f9d5fade4e8ed23458ab3",
+              "sourceRecord": {
+                "name": "Trip",
+                "book": "PHB",
+                "pages": [
+                  54,
+                  57
+                ],
+                "fields": {
+                  "Range": "Touch",
+                  "Duration": "1 turn/level",
+                  "Components": "V, S, M",
+                  "Casting time": "4 segments",
+                  "Saving throw": "Negates; +4 if aware of the obstacle",
+                  "Area": "One object up to 10 feet long",
+                  "Material": "Mistletoe and a vine, stick, pole, rope or similar object"
+                },
+                "effect": [
+                  "Enchants an object lying on the ground to rise and trip creatures stepping over it, including the caster.",
+                  "Running victims falling on a hard surface take 1d6 damage and are stunned 1d4+1 rounds; on softer ground they are stunned 1d4+1 segments."
+                ],
+                "conditions": [
+                  "Only creatures actually crossing the object can be tripped. It is 80% undetectable without magical means."
+                ],
+                "exceptions": [
+                  "Very large creatures such as elephants are unaffected."
+                ],
+                "references": []
+              },
+              "renderedDetail": {
+                "detailRootExists": true,
+                "detailRecordFound": true,
+                "directRouteMatches": true,
+                "routeHashMatched": true,
+                "innerTextSha256": "f03d4d26f34399dec4002541d3c5090b967038827074f4b0707db92263abdb5f",
+                "innerTextLength": 1021,
+                "textContentSha256": "ea8cdf222a710175af30626cf18bba581cc1c42e1396043b00126009184a1294",
+                "textContentLength": 997,
+                "visibleSourceControls": [
+                  {
+                    "text": "PHB pp. 54, 57",
+                    "ariaLabel": "Open original source reference: PHB pp. 54, 57"
+                  },
+                  {
+                    "text": "View original scans",
+                    "ariaLabel": null
+                  }
+                ]
+              },
+              "publicSearch": {
+                "title": "Trip",
+                "subtitle": "Druid · Level 2 · PHB",
+                "searchTextSha256": "514f5ed5582c47574c23ff5b6a9943b5b1b7ff542bc546a22d14a0d36a5d7a54",
+                "searchTextLength": 668,
+                "titleQuery": "Trip",
+                "totalMatchesForTitle": 7,
+                "selfRank": 0,
+                "visibleInInitial18": true,
+                "selfMatched": true
+              }
+            },
+            "relationship": "PHB p.57 says very large creatures such as elephants are unaffected by Trip; a same-word creature mention, not an MM p.38 source join."
+          },
+          {
+            "owner": {
+              "collection": "rules",
+              "id": "encumbrance",
+              "route": "#rules/encumbrance",
+              "sourceRecordHash": "9b93a83ea5ecdf7a74e31d1df38bd7d8c4f74e1378871b47e98729ad3bf62b21",
+              "sourceRecord": {
+                "name": null,
+                "book": "PHB",
+                "pages": [
+                  101,
+                  102
+                ],
+                "fields": null,
+                "effect": null,
+                "conditions": null,
+                "exceptions": null,
+                "references": []
+              },
+              "renderedDetail": {
+                "detailRootExists": true,
+                "detailRecordFound": true,
+                "directRouteMatches": true,
+                "routeHashMatched": true,
+                "innerTextSha256": "97d644a01ce69d858b0c633118780b44039185a628b0462506d169b7e60b65e1",
+                "innerTextLength": 618,
+                "textContentSha256": "e7117bcb1e139ef071b06ee4135f67c22cad096e1630024bd2c459304f18d480",
+                "textContentLength": 602,
+                "visibleSourceControls": [
+                  {
+                    "text": "PHB pp. 101–102",
+                    "ariaLabel": "Open original source reference: PHB pp. 101–102"
+                  },
+                  {
+                    "text": "View original scans",
+                    "ariaLabel": null
+                  }
+                ]
+              },
+              "publicSearch": {
+                "title": "Encumbrance includes bulk",
+                "subtitle": "Exploration · PHB",
+                "searchTextSha256": "0f9868d66a35e5202da3f28bd3ecf0313fd1ecd265fc10736577b31b58bc47ad",
+                "searchTextLength": 388,
+                "titleQuery": "Encumbrance includes bulk",
+                "totalMatchesForTitle": 1,
+                "selfRank": 0,
+                "visibleInInitial18": true,
+                "selfMatched": true
+              }
+            },
+            "relationship": "PHB pp.101–102 generic weight/bulk and carrying rule; no MM elephant load clause or mount capacity."
+          }
+        ],
+        "exactMMOwnerMatches": [],
+        "exactEquipmentOwnerMatches": [],
+        "fullSnapshotKeywordHits": {
+          "elemental": [
+            {
+              "collection": "classes",
+              "id": "ua-druid",
+              "route": "#classes/ua-druid",
+              "sourceRecordHash": "1206e36a96612cd5e2bb738360b469069d5d90ab5819b08373b5adaa8462cb91"
+            },
+            {
+              "collection": "rules",
+              "id": "ua-deep-gnome-pc-exceptions",
+              "route": "#rules/ua-deep-gnome-pc-exceptions",
+              "sourceRecordHash": "d3c6a5e858db8fc030f7376b45fbe54a1bf3326c1272e50e51c4e9d068c37e4b"
+            },
+            {
+              "collection": "spells",
+              "id": "phb-druid-conjure-fire-elemental",
+              "route": "#spells/phb-druid-conjure-fire-elemental",
+              "sourceRecordHash": "19fe353d29860141ad6e337f9829fe94ac3459c86e23d5f0f2ebed9d2b961604"
+            },
+            {
+              "collection": "spells",
+              "id": "phb-druid-conjure-earth-elemental",
+              "route": "#spells/phb-druid-conjure-earth-elemental",
+              "sourceRecordHash": "b5834e3b91cd337f1a6ed51e248d6b5641548d1d39b284f960b3634a652c7c2b"
+            },
+            {
+              "collection": "spells",
+              "id": "phb-magic-user-conjure-elemental",
+              "route": "#spells/phb-magic-user-conjure-elemental",
+              "sourceRecordHash": "36b1e963ddc6bb315390a51df87d89c681c8bf84998e21de0498e02aea533fe7"
+            },
+            {
+              "collection": "spells",
+              "id": "phb-magic-user-contact-other-plane",
+              "route": "#spells/phb-magic-user-contact-other-plane",
+              "sourceRecordHash": "02c9cc0d16d7a1fc641cf94cb0e27f939f4c6407ca292e7309e39af8016deeb3"
+            },
+            {
+              "collection": "spells",
+              "id": "phb-magic-user-distance-distortion",
+              "route": "#spells/phb-magic-user-distance-distortion",
+              "sourceRecordHash": "f0fc4d64804344f16b177f1303ac91136b876ce1de8b30913ce0345177c23d6d"
+            },
+            {
+              "collection": "spells",
+              "id": "phb-magic-user-move-earth",
+              "route": "#spells/phb-magic-user-move-earth",
+              "sourceRecordHash": "350000621d935f872deea5168d5c6942979ff8f48c6d901b8fe92bf606ccc967"
+            },
+            {
+              "collection": "spells",
+              "id": "ua-cleric-dust-devil",
+              "route": "#spells/ua-cleric-dust-devil",
+              "sourceRecordHash": "9195b9a22db0b29e5dd6fd04154c950238a5c05d236e162e286555ed56da64c9"
+            },
+            {
+              "collection": "spells",
+              "id": "ua-druid-transmute-water-to-dust",
+              "route": "#spells/ua-druid-transmute-water-to-dust",
+              "sourceRecordHash": "c72b792d12c06e383c2b98033f63a0b6ed74ef4d299faed44e584f752607fbcc"
+            },
+            {
+              "collection": "spells",
+              "id": "ua-magic-user-ensnarement",
+              "route": "#spells/ua-magic-user-ensnarement",
+              "sourceRecordHash": "51d04eb3197d4d9de56c649838f6bd0d1e388065ed1520e25cdd2eaa38822111"
+            },
+            {
+              "collection": "spells",
+              "id": "ua-magic-user-transmute-water-to-dust",
+              "route": "#spells/ua-magic-user-transmute-water-to-dust",
+              "sourceRecordHash": "a5ab0a35482eeb8e2d4a0c849b447c85c6adc855a85575dc8d38c5dd576ee2c6"
+            }
+          ],
+          "elephant": [
+            {
+              "collection": "spells",
+              "id": "phb-druid-trip",
+              "route": "#spells/phb-druid-trip",
+              "sourceRecordHash": "a8f2563500cb35fcc5d36d69e9eec7b1a0528cda004f9d5fade4e8ed23458ab3"
+            },
+            {
+              "collection": "spells",
+              "id": "ua-magic-user-mount",
+              "route": "#spells/ua-magic-user-mount",
+              "sourceRecordHash": "8a1549c7b6f51cd5286c0c15cf5edf7346cd8eb63165460b7fbc979dcbdcbc24"
+            }
+          ],
+          "mammoth": [],
+          "mastodon": [],
+          "tusk": [],
+          "howdah": [
+            {
+              "collection": "spells",
+              "id": "ua-magic-user-mount",
+              "route": "#spells/ua-magic-user-mount",
+              "sourceRecordHash": "8a1549c7b6f51cd5286c0c15cf5edf7346cd8eb63165460b7fbc979dcbdcbc24"
+            }
+          ],
+          "summoning device": [],
+          "trained to carry": []
+        },
+        "currentMonsterCollectionPresent": false,
+        "scopeBoundary": "README.md:85 documents that the monster dependency does not establish a searchable MM/MM2 monster catalogue. That profile exclusion does not automatically exclude source monetary or service facts assessed above."
+      },
+      "unassessed": [
+        "No carrying capacity/weight is stated in the reviewed Elephant prose; none is inferred from the tusk value-to-weight relation.",
+        "The entire Mammoth/Mastodon profile detail remains outside the feature boundary; only their explicitly cross-referenced tusk value/weight relations and article identity were checked here.",
+        "This report does not perform a complete MM article-by-article/profile-field audit."
+      ]
+    }
+  ],
+  "scopeAndCountSummary": {
+    "twoOriginalSourceUnitsClosed": 2,
+    "elementalSharedProcedureTableRows": 3,
+    "elementalTableResultCellsTranscribed": 3,
+    "elementalProfileHeadings": 4,
+    "elementalProfileFieldRowsCounted": 68,
+    "elementalProfileValueCellsTranscribed": 0,
+    "elephantProfileColumns": 2,
+    "elephantProfileFieldRowsCounted": 17,
+    "elephantNumericProfileCellsTranscribed": 0,
+    "mammothMastodonCrossReferenceHeadings": 2,
+    "directMMSourceOwnerRoutes": 1,
+    "directElephantOrTusksEquipmentOwnerRoutes": 0,
+    "currentSiteMonsterCollectionRoutes": 0,
+    "profileNumericCellValuesTranscribed": 0,
+    "productionRepairsProposed": 0,
+    "sourceBookCompletenessClaim": false
+  },
+  "checkedNegativeScope": [
+    "No numeric profile-stat cells for Elemental, Elephant, Mammoth or Mastodon were transcribed.",
+    "The three-row elemental hit-die method table is a procedure census, separate from the four creature profile grids.",
+    "The PHB Conjure Elemental 5% round-end check and MM p.37 concentration-failure branches have different triggers; no contradiction or priority ruling is created.",
+    "PHB Druid fire/earth elemental exceptions remain distinct from the Magic-user and common MM control procedure; “per means” remains semantically unresolved across different spell entries.",
+    "Elephant/Mammoth tusk valuation and weight relations are separate from creature profile statistic tables and from an elephant carrying capacity. No purchase price, elephant maximum-load value, or derived physical tusk mass is added.",
+    "Mammoth derived monetary claim is referenced by its existing hash-bound report pointer only; no new derivation was performed.",
+    "PHB/UA same-word owner hits are not promoted to MM source joins when their source controls point elsewhere.",
+    "This is bounded to the two named source units, their displayed cross-reference entries, the cited current spell/rule routes and complete captured owner set; it is not a semantic review of every MM profile or page."
+  ],
+  "supersessionHandoff": [
+    {
+      "originalUnitKey": "MM:mm-table-candidate-elemental-types",
+      "previousJoinPointer": "#/unitJoins/462",
+      "newReportPointer": "#/sourceUnitAssessments/0",
+      "newDisposition": "partial",
+      "joinClosure": "complete"
+    },
+    {
+      "originalUnitKey": "MM:mm-table-candidate-elephant-types",
+      "previousJoinPointer": "#/unitJoins/463",
+      "newReportPointer": "#/sourceUnitAssessments/1",
+      "newDisposition": "partial",
+      "joinClosure": "complete"
+    }
+  ],
+  "limitations": [
+    "The app has no searchable monster collection; full profile stats/abilities remain excluded by product boundary. This report independently classifies the specific exposed source procedures and economic/service assertions identified above.",
+    "Some site “present” topic mentions come from different books (PHB/UA) and are retained as nonjoins; they do not supply MM citations or source values.",
+    "The shared MM phrase “per means” remains an actual interpretation boundary, not OCR uncertainty or a guessed spell cap.",
+    "No app, source catalog, production citation, or source image catalog was changed; only this new research report was written."
+  ]
+}
