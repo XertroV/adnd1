@@ -6,12 +6,17 @@ import {gunzipSync} from 'node:zlib';
 import {analyzeReportConsistency,fieldBindingAxisMetrics,fieldBindingCountMeaning} from '../tools/source-report-consistency-audit.mjs';
 import {fieldBindingAxisMetrics as originalAxisMetrics} from './fixtures/source-report-consistency-record-target-old-helper-before.mjs';
 import {analyzeReportConsistency as partialAnalyze,fieldBindingAxisMetrics as partialAxisMetrics,fieldBindingCountMeaning as partialCountMeaning} from './fixtures/source-report-consistency-record-target-partial-helper-before.mjs';
+import {fieldBindingAxisMetrics as beforePendingRegionAxisMetrics} from './fixtures/weapon-source-report-consistency-before.mjs';
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const read=path=>readFileSync(new URL('../'+path,import.meta.url));
 const before=JSON.parse(read('research/source-audit-batch6-report-consistency-before.json'));
 const compressed=read(before.fixture.path);assert.equal(sha(compressed),before.fixture.sha256);
 const raw=gunzipSync(compressed);assert.equal(sha(raw),before.fixtureUncompressedSha256);
 const frozen=JSON.parse(raw),args=()=>structuredClone(frozen.arguments);
+const pendingRegionBytes=read('tests/fixtures/weapon-source-report-pending-region-before-v1.json.gz');
+assert.equal(sha(pendingRegionBytes),'2ec549ee3ca68007a624a3127db4decb23684aec59a22cbc4a05493af231d104');
+const pendingRegionBefore=JSON.parse(gunzipSync(pendingRegionBytes));
+assert.equal(sha(read(pendingRegionBefore.oldHelper.path)),pendingRegionBefore.oldHelper.sha256);
 function proposedArguments(){
  const input=args(),result=analyzeReportConsistency(input);
  input.handoff.reviewQueuesNotSourceAbsences.fieldBindingAndHistoricalScopeQueues.countMeaning=fieldBindingCountMeaning(result.metrics);
@@ -28,6 +33,37 @@ function proposedArguments(){
  // filesystem hash or runtime deployment acceptance is claimed by this helper.
  return input;
 }
+
+test('actual 4681-binding census preserves the pending-region reporting failure and all four target categories',()=>{
+ assert.equal(pendingRegionBefore.failure.returnCode,1);
+ assert.match(pendingRegionBefore.failure.stderr,/unknown target state is unassessable/);
+ assert.throws(()=>beforePendingRegionAxisMetrics(pendingRegionBefore.systemic),/unknown target state is unassessable/);
+ const metrics=fieldBindingAxisMetrics(pendingRegionBefore.systemic);
+ assert.deepEqual([metrics.denominator,metrics.emptyRegionTargets,metrics.resolvedRegionTargets,metrics.recordTargetResolvedBindings,metrics.regionResolvedFieldReviewPendingBindings,metrics.fieldTargetReviewed,metrics.fieldTargetNotReviewed],[4681,3586,1043,2,50,757,3924]);
+ assert.equal(metrics.emptyRegionTargets+metrics.resolvedRegionTargets+metrics.recordTargetResolvedBindings+metrics.regionResolvedFieldReviewPendingBindings,metrics.denominator);
+ assert.match(fieldBindingCountMeaning(metrics),/A further 50 have region locations with field review still pending/);
+});
+
+test('pending field-review region counts cannot disappear or be promoted to reviewed targets',()=>{
+ const input=proposedArguments(),evidence=input.systemic.evidenceBindings;
+ const rows=pendingRegionBefore.systemic.evidenceBindings.bindings.filter(row=>row.targetStatus==='region-resolved-field-review-pending');
+ assert.equal(rows.length,50);evidence.bindings.push(...structuredClone(rows));evidence.denominator+=50;
+ evidence.targetStatusCounts['region-resolved-field-review-pending']=50;evidence.reviewStatusCounts['field-target-pending']+=50;
+ const metrics=fieldBindingAxisMetrics(input.systemic),queue=input.handoff.reviewQueuesNotSourceAbsences.fieldBindingAndHistoricalScopeQueues,counts=input.gaps.coverage.counts;
+ queue.fieldEvidenceBindingsDenominator=metrics.denominator;queue.fieldTargetsPending=metrics.fieldTargetNotReviewed;queue.countMeaning=fieldBindingCountMeaning(metrics);
+ counts.fieldEvidenceBindingDenominator=metrics.denominator;counts.pendingFieldTargets=metrics.fieldTargetNotReviewed;
+ assert.throws(()=>analyzeReportConsistency(input),/pending field-review region count is required in the live handoff/);
+ queue.regionResolvedFieldReviewPendingBindings=50;
+ assert.throws(()=>analyzeReportConsistency(input),/pending field-review region count is required in the public coverage projection/);
+ counts.regionResolvedFieldReviewPendingBindings=50;assert.equal(analyzeReportConsistency(input).validation.valid,true);
+ counts.regionResolvedFieldReviewPendingBindings=49;assert.ok(analyzeReportConsistency(input).findings.some(row=>row.id==='pending-region-field-review-count'));
+ const promoted=structuredClone(input.systemic),row=promoted.evidenceBindings.bindings.find(row=>row.targetStatus==='region-resolved-field-review-pending');
+ row.reviewStatus='field-target-reviewed';promoted.evidenceBindings.reviewStatusCounts['field-target-reviewed']++;promoted.evidenceBindings.reviewStatusCounts['field-target-pending']--;
+ assert.throws(()=>fieldBindingAxisMetrics(promoted),/pending field review must retain field-target-pending/);
+ const unknown=structuredClone(input.systemic),unknownRow=unknown.evidenceBindings.bindings.find(row=>row.targetStatus==='region-resolved-field-review-pending');
+ unknownRow.targetStatus='unknown-region-state';unknown.evidenceBindings.targetStatusCounts['region-resolved-field-review-pending']--;unknown.evidenceBindings.targetStatusCounts['unknown-region-state']=1;
+ assert.throws(()=>fieldBindingAxisMetrics(unknown),/unknown target state is unassessable/);
+});
 
 test('frozen complete4505 census reproduces stale live wording without conflating binding and review axes',()=>{
  assert.equal(frozen.commit,'ae5195a2efe56f25fe9903f788a3c4c98b4e2064');
