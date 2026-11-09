@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "bounded-phb-monetary-input-successor-proposal",
+  "sourceInputCommit": "65991ec94579a2f9fc587118e15622313216fa14",
+  "beforeCommit": "ae7f02c6a5aac9ac8da1f7bc5cf5152e422fcd58",
+  "beforeRegistry": {
+    "path": "research/source-audit-batch6-current-monetary-source-questions.json",
+    "sha256": "df352f9a51cb0486e4f9294cd7d749338486b1d1aa9adf608f5cf64aadb2d412"
+  },
+  "successorRegistry": {
+    "path": "research/source-audit-pass8-phb-current-monetary-source-questions-v1.json",
+    "sha256": "ec632ce0fe677a58a3c0bc232a87f47198f103bba26e6317738e33c77daf0e2c"
+  },
+  "codeChange": {
+    "path": "tools/monetary-current-source-questions.mjs",
+    "beforeSha256": "3e81d85e3ae0f6989ecca05655af780ecc8d2a4347f3e0cdfdd7a328ffe17a5c",
+    "afterSha256": "4408de166bf15bac2dfde6350a85d7d30dd37c9f7188fa8359e5e65807f5219a",
+    "scope": "One trusted current registry path literal only; loader validation logic is unchanged."
+  },
+  "registryDelta": {
+    "onlyChangedExistingValues": [
+      "/currentInputs/canonical/sha256",
+      "/currentInputs/monetaryIndex/sha256"
+    ],
+    "onlyAddedProperty": "/inputMigration",
+    "allOldDispositionsAndSourceInputsExact": true,
+    "historicalQuestions": 8,
+    "currentUnresolvedQuestions": 7,
+    "derivedInterpretations": 1
+  },
+  "monetaryIndex": {
+    "path": "research/monetary-source-inventory.json",
+    "beforeSha256": "5083a2d378eb5c1046ae2f720b4bcaf08fefa6afd2cba1fdecb4ad4c89d4bcf3",
+    "afterSha256": "10082c42a45eaed59ffab151f25dacc81b5f404111066c936a8acdeb25e58725",
+    "sourceOccurrences": 1871,
+    "claims": 2317,
+    "canonicalProvenanceReferencesChanged": 1439,
+    "validationArtifactsBefore": 1028,
+    "validationArtifactsAfter": 1029,
+    "changedValidationArtifactPaths": [
+      "citation-overrides.json",
+      "dist/books.js",
+      "dist/data.json"
+    ],
+    "addedValidationArtifactPaths": [
+      "dist/scans/verified/rules-phb-druid-mistletoe-spell-components.json"
+    ],
+    "allOtherPayloadExact": true,
+    "scope": "Complete index equality after restoring only exact canonical input provenance SHA references and captured validation-artifact identities. Counts, monetary values, source scopes, questions, review grades, source rows and all interpretations remain exact."
+  },
+  "canonicalFieldReferences": {
+    "before": 4572,
+    "after": 4574,
+    "allOldFullObjectsAndOrderExact": true,
+    "newPendingReferences": [
+      {
+        "collection": "rules",
+        "itemId": "phb-druid-mistletoe-spell-components",
+        "fieldPointer": ""
+      },
+      {
+        "collection": "rules",
+        "itemId": "phb-druid-mistletoe-spell-components",
+        "fieldPointer": "/sourceReferences/0"
+      }
+    ],
+    "rootIndependentProofSha256": "d772c8d1c41258a7c9d9268b36fa7c1f361341ec478a5efb56f7f92d3a257bcc"
+  },
+  "actualFailureFixture": {
+    "path": "tests/fixtures/pass8-phb-stale-monetary-input-before.json.gz",
+    "sha256": "95d465d31713ace52ddf0d5de54d8674f554fcaf92f6c3f4fed18950a704e1c7"
+  },
+  "actualBeforeHistoryFullRun": {
+    "registered": 897,
+    "passed": 844,
+    "failed": 53,
+    "skipped": 0,
+    "exitCode": 1,
+    "inputArchiveSha256": "a606281eb5770781ad3c78faf20bcc3d04a220950c7a402e7267cdd29cb94818",
+    "logSha256": "e651117553907f75f074d02e023f747087475314f7b95232040fadfc5c3a73e4",
+    "scope": "Actual current PHB source snapshot/current pointers before historical adapter or monetary input successor. Registered count is reduced by module import failures; original840/775/65 run remains separate frozen evidence."
+  }
+}
