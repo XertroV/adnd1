@@ -22,6 +22,24 @@ spec.loader.exec_module(audit)
 
 
 class SourceRasterBoundaryTests(unittest.TestCase):
+    def setUp(self):
+        self.registry_validation = {
+            "status": "current-pins-match", "frameGroups": 9,
+            "ownerJoinsValidated": 102, "mismatchCount": 0, "mismatches": [],
+        }
+        self.registry_patcher = mock.patch.object(audit, "validate_live_registry", return_value=self.registry_validation)
+        self.registry_patcher.start()
+        self.addCleanup(self.registry_patcher.stop)
+
+    def _bridge_declaration(self, count, status):
+        return {
+            "path": "research/source-frame-coordinate-bridge.json",
+            "sha256": audit.REGISTRY_SHA256,
+            "status": "scoped-geometric-provenance-only",
+            "resolutionCounts": {status: count},
+            "registryValidation": self.registry_validation,
+        }
+
     def _write_small_live_fixture(self, root):
         data_root = root / "dist"
         catalog_relpath = "scans/verified/rules-example.json"
@@ -66,6 +84,13 @@ class SourceRasterBoundaryTests(unittest.TestCase):
             "sourceHashMatches": True,
             "boundsType": "boundsPdfPoints",
             "pdfBounds": [10, 10, 20, 20],
+            "coordinateFrameResolution": {
+                "status": "outside-bounded-correction-registry",
+                "basis": "legacy-diagnostic-projection-retained",
+                "reason": "No exact owner/region binding is present in this bounded correction registry; this does not make a claim about separate frame evidence.",
+                "correctionRegistryMembership": "outside-this-bounded-correction-registry",
+                "resolutionStatus": "legacy-diagnostic-projection-retained; no new frame approval by this registry",
+            },
         }
         catalog_hashes = {catalog_relpath: hashlib.sha256(catalog_bytes).hexdigest()}
         catalog_snapshot = hashlib.sha256(json.dumps(catalog_hashes, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
@@ -74,6 +99,7 @@ class SourceRasterBoundaryTests(unittest.TestCase):
             "catalogSha256": catalog_hashes,
             "catalogSnapshotSha256": catalog_snapshot,
             "sourcePdfSha256": pdf_hashes,
+            "sourceFrameCoordinateBridge": self._bridge_declaration(1, "outside-bounded-correction-registry"),
             "usages": [usage],
         }
         source_map_path = root / "source-map.json"
@@ -127,6 +153,7 @@ class SourceRasterBoundaryTests(unittest.TestCase):
             "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open",
             "sourceArtifactHashMatches": True, "normalizedImageRectMatches": True,
             "notAssessableReason": audit.SUPPLEMENTAL_NA_REASON,
+            "coordinateFrameResolution": {"status": "not-applicable-supplemental-image-frame", "basis": "unassessable"},
         }
         catalog_hashes = {catalog_relpath: hashlib.sha256(catalog_bytes).hexdigest()}
         source_map = {
@@ -134,6 +161,7 @@ class SourceRasterBoundaryTests(unittest.TestCase):
             "catalogSha256": catalog_hashes,
             "catalogSnapshotSha256": hashlib.sha256(json.dumps(catalog_hashes, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest(),
             "sourcePdfSha256": pdf_hashes,
+            "sourceFrameCoordinateBridge": self._bridge_declaration(1, "not-applicable-supplemental-image-frame"),
             "usages": [usage],
         }
         source_map_path = root / "source-map.json"
@@ -270,6 +298,53 @@ class SourceRasterBoundaryTests(unittest.TestCase):
             self.assertEqual(raised.exception.code, 2)
             build.assert_not_called()
             self.assertEqual(output_path.read_bytes(), b"preserve-this")
+
+    def test_current_bridge_is_required_and_registered_windows_are_replayed_without_private_pdfs(self):
+        current_path = REPO / "research/source-visual-audit-current-a46-frame-guard.json"
+        if not current_path.is_file():
+            self.skipTest("current frame-bridge source map has not been generated")
+        original = json.loads(current_path.read_text())
+        data_root = REPO / "dist"
+        bridge = audit.load_registry()
+
+        def check(candidate, message):
+            with tempfile.TemporaryDirectory() as temp:
+                map_path = Path(temp) / "source-map.json"
+                map_path.write_text(json.dumps(candidate))
+                receipt_rows = {row["regionId"]: row for row in original["usages"] if row.get("sourceKind") == "supplemental-image"}
+                def supplemental_receipt(_catalog, region, *_args):
+                    row = receipt_rows[region["id"]]
+                    return {key: row[key] for key in (
+                        "sourceKind", "sourceArtifactId", "sourceArtifactSha256", "sourcePdfSha256",
+                        "canonicalPdfSha256", "sourceFrameDimensionsPx", "sourceCropBoundsPx", "sourceCoordinateSpace")}
+                with mock.patch.object(audit, "_supplemental_region_receipt", side_effect=supplemental_receipt):
+                    with self.assertRaisesRegex(ValueError, message):
+                        audit.reconcile_live_catalog_usage(candidate, data_root, map_path, {}, Path(temp))
+
+        for value in (None, False):
+            changed = json.loads(json.dumps(original))
+            changed["sourceFrameCoordinateBridge"] = value
+            with self.subTest(declaration=value):
+                check(changed, "missing the active source-frame bridge declaration")
+        changed = json.loads(json.dumps(original))
+        del changed["sourceFrameCoordinateBridge"]
+        check(changed, "missing the active source-frame bridge declaration")
+
+        changed = json.loads(json.dumps(original))
+        changed["usages"][0].pop("coordinateFrameResolution", None)
+        check(changed, "multiset mismatch")
+
+        changed = json.loads(json.dumps(original))
+        row = next(row for row in changed["usages"] if row.get("coordinateFrameResolution", {}).get("status") == "matched" and row.get("printedPage") == 27)
+        catalog = json.loads((data_root / row["catalog"]).read_text())
+        region = next(region for region in catalog["regions"] if region.get("id") == row["regionId"])
+        frame = next(frame for frame in bridge["frames"] if frame["book"] == "PHB" and frame["printedPage"] == 27)
+        raw_rect = region["normalizedPageRect"]
+        rect = ([raw_rect["x"], raw_rect["y"], raw_rect.get("width", raw_rect.get("w")), raw_rect.get("height", raw_rect.get("h"))]
+                if isinstance(raw_rect, dict) else raw_rect)
+        page = frame["pdfBoxesPoints"]["pageRect"]
+        row["pdfBounds"] = [round(rect[0] * page[2], 4), round(rect[1] * page[3], 4), round((rect[0] + rect[2]) * page[2], 4), round((rect[1] + rect[3]) * page[3], 4)]
+        check(changed, "registered frame bounds mismatch")
 
     def test_components_cross_each_edge(self):
         gray = np.full((64, 64), 255, dtype=np.uint8)

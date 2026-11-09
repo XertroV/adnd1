@@ -6,7 +6,8 @@ import {spawnSync} from 'node:child_process';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
-import {buildVisualCoverage} from './source-visual-coverage.mjs';
+import {buildVisualCoverage, buildVisualCoverageCore} from './source-visual-coverage.mjs';
+import {loadRasterSnapshotInput} from './source-raster-coverage.mjs';
 import {validatePriceSourceInventory} from './price-source-inventory.mjs';
 import {reportContextContracts} from './citation-context-contract.mjs';
 import {validateContinuationManifest} from './continuation-contract.mjs';
@@ -699,6 +700,8 @@ export function projectVisualCoverageSummary(report, geometrySnapshotReference =
   return {
     available: true,
     scope: report.scope,
+    inputDataSha256: report.inputDataSha256,
+    sourceFrameValidation: report.sourceFrameValidation,
     geometrySnapshotReference,
     geometrySnapshotApplied: report.geometrySnapshotApplied,
     geometrySnapshotDataMatches: report.geometrySnapshotDataMatches,
@@ -718,7 +721,7 @@ export function projectVisualCoverageSummary(report, geometrySnapshotReference =
   };
 }
 
-function visualSummary(data, reader, {baseline = false} = {}) {
+function visualSummary(data, reader, {current = false} = {}) {
   let ledger = {reviews: []};
   let geometry = null;
   let contextManifest = null;
@@ -729,7 +732,13 @@ function visualSummary(data, reader, {baseline = false} = {}) {
   const readJson = file => JSON.parse(reader(file).toString('utf8'));
   try { ledger = readJson('research/source-visual-reviews.json'); } catch {}
   let geometrySnapshotReference = null;
-  try { const bytes = reader('research/source-visual-audit-release.json'); geometry = parse(bytes); geometrySnapshotReference = {path: 'research/source-visual-audit-release.json', sha256: sha256(bytes), inputDataSha256: geometry.inputDataSha256 || null, candidateCount: geometry.candidates?.length || 0, usageCount: geometry.usages?.length || 0}; } catch (error) { geometrySnapshotReference = {path: 'research/source-visual-audit-release.json', available: false, error: error.message}; }
+  try {
+    const selected = current ? loadRasterSnapshotInput().geometry : null;
+    const geometryPath = selected?.path || 'research/source-visual-audit-release.json';
+    const bytes = selected?.bytes || reader(geometryPath);
+    geometry = parse(bytes);
+    geometrySnapshotReference = {path: geometryPath, sha256: sha256(bytes), inputDataSha256: geometry.inputDataSha256 || null, candidateCount: geometry.candidates?.length || 0, usageCount: geometry.usages?.length || 0};
+  } catch (error) { geometrySnapshotReference = {path: current ? 'research/current-source-raster-snapshot.json' : 'research/source-visual-audit-release.json', available: false, error: error.message}; }
   try { contextManifest = readJson('research/citation-context-contracts.json'); } catch {}
   try { continuationManifest = readJson('research/citation-continuations.json'); } catch {}
   try {
@@ -740,7 +749,8 @@ function visualSummary(data, reader, {baseline = false} = {}) {
     priceInventoryInput = {path: 'research/price-source-inventory.json', available: true, sha256: sha256(bytes), validation: priceInventoryValidation};
   } catch (error) { priceInventoryInput = {path: 'research/price-source-inventory.json', available: false, error: error.message}; }
   try {
-    const report = buildVisualCoverage(data, catalogPath => {
+    const build = current ? buildVisualCoverage : buildVisualCoverageCore;
+    const report = build(data, catalogPath => {
       const bytes = reader(`dist/${catalogPath}`);
       return {catalog: JSON.parse(bytes.toString('utf8')), sha256: sha256(bytes)};
     }, ledger, geometry, {
@@ -750,9 +760,10 @@ function visualSummary(data, reader, {baseline = false} = {}) {
       priceInventory,
       priceInventoryValidation,
     });
+    if (current && report.sourceFrameValidation?.valid !== true) throw Error(`Current source visual validation failed: ${report.sourceFrameValidation?.errors?.join('; ') || 'validation unavailable'}`);
     return projectVisualCoverageSummary(report, geometrySnapshotReference, priceInventoryInput);
   } catch (error) {
-    return {available: false, error: error.message, geometrySnapshotReference, priceInventoryInput, fallback: 'Catalog region geometry and binding state remain available in the main inventory; manual visual status could not be joined through source-visual-coverage API.'};
+    return {available: false, error: error.message, sourceFrameValidation: {valid: false, errors: [error.message]}, geometrySnapshotReference, priceInventoryInput, fallback: 'Catalog region geometry and binding state remain available in the main inventory; manual visual status could not be joined through source-visual-coverage API.'};
   }
 }
 
@@ -791,7 +802,7 @@ export function buildSystemicInventory(data, reader, {source = 'unspecified', co
     if (region.rawFullImageSentinelCount) selectedRegionStatusCounts.rawFullImageSentinel = (selectedRegionStatusCounts.rawFullImageSentinel || 0) + 1;
     if (!region.sourceBoundCoordinates) selectedRegionStatusCounts.missingCropCoordinates = (selectedRegionStatusCounts.missingCropCoordinates || 0) + 1;
   }
-  const sourceVisual = includeVisual ? visualSummary(data, reader) : {available: false, reason: 'Not run in in-memory test mode.'};
+  const sourceVisual = includeVisual ? visualSummary(data, reader, {current: source === 'working-tree'}) : {available: false, reason: 'Not run in in-memory test mode.'};
   const recordsByCollection = {};
   for (const record of records) recordsByCollection[record.collection] = (recordsByCollection[record.collection] || 0) + 1;
   const exposedRecordCount = records.length;

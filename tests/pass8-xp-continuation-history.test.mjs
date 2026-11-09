@@ -15,13 +15,24 @@ import {
 } from './helpers/pass8-xp-continuation-history.mjs';
 
 const root = new URL('../', import.meta.url), sha = bytes => createHash('sha256').update(bytes).digest('hex');
-const bytes = path => readFileSync(new URL(path, root));
+const liveBytes = path => readFileSync(new URL(path, root));
+const xpAppliedCommit = 'a46eddc41ac6f712d5ad1498195df6a49810aae1';
+// These three derived metadata files have an independently reviewed successor.
+// The closed XP stage still receives only its exact a46 bytes; no newer source,
+// catalog, data, grade, or arbitrary metadata state is projected into history.
+const supersededMetadata = new Set(['research/current-source-raster-snapshot.json','research/gaps-limitations-next-task.json','dist/coverage-gaps.json']);
+const capturedMetadata = new Map();
+const bytes = path => {
+  if (!supersededMetadata.has(path)) return liveBytes(path);
+  if (!capturedMetadata.has(path)) capturedMetadata.set(path, execFileSync('git', ['show', `${xpAppliedCommit}:${path}`], {cwd:root,maxBuffer:100 * 1024 * 1024}));
+  return Buffer.from(capturedMetadata.get(path));
+};
 const read = path => JSON.parse(bytes(path));
 const zipped = bytes('tests/fixtures/pass8-xp-continuation-history-v1.json.gz');
 const contract = decodePass8XpContinuationHistory(zipped);
 const oldBytes = path => execFileSync('git', ['show', `${contract.baseCommit}:${path}`], {cwd: root, maxBuffer: 100 * 1024 * 1024});
 
-test('all24 exact current files restore complete Git777 predecessor objects and raw bytes', () => {
+test('all24 exact XP-stage files restore complete Git777 predecessor objects and raw bytes', () => {
   for (const [path, stage] of Object.entries(contract.files)) {
     const current = bytes(path), before = oldBytes(path);
     assert.equal(sha(current), stage.currentRawSha256, path);
@@ -31,6 +42,16 @@ test('all24 exact current files restore complete Git777 predecessor objects and 
     const beforeObject = JSON.parse(before);
     assert.deepEqual(project(path, JSON.parse(current)), beforeObject, `${path}: complete object predecessor`);
     assert.deepEqual(project(path, beforeObject), beforeObject);
+  }
+});
+
+test('current frame metadata is a separate successor rejected by the closed XP adapter', () => {
+  for (const path of supersededMetadata) {
+    assert.equal(sha(bytes(path)),contract.files[path].currentRawSha256,`${path}: exact a46 XP stage`);
+    const successor=liveBytes(path);
+    assert.notEqual(sha(successor),contract.files[path].currentRawSha256,`${path}: current frame successor is explicit`);
+    assert.throws(()=>projectBytes(path,successor),/exact XP before\/current raw input bytes/);
+    assert.throws(()=>project(path,JSON.parse(successor)),/exact approved current or complete before state/);
   }
 });
 

@@ -1,0 +1,2099 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "bounded-source-frame-coordinate-resolution-implementation-review",
+  "status": "implemented-for-independent-review; no commit; proposed 10th frame awaits root approval",
+  "inputCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+  "scope": {
+    "purpose": "Correct the two known PHB MediaBox-normalized frame projections in offline source-visual and raster-boundary consumers while preserving owner/catalog/source/image/focus/content pins and prior source-review assessments.",
+    "activeCorrectionBridge": {
+      "frameGroups": 9,
+      "physicalPdfPages": 7,
+      "regionBindings": 102,
+      "ownerBindings": 102,
+      "registryPath": "research/source-frame-coordinate-bridge.json",
+      "registrySha256": "2899f53a9cfa1741d9fd9aed3c47ada0eb3a80fc842352c8c64deb3869986318",
+      "status": "scoped-geometric-provenance-only"
+    },
+    "xpAppendBoundary": "The XP merge appended 13 catalog regions across 11 class owners. They remain outside the existing 102 frame joins; one exact PHB p.27 CropBox-frame match is proposed separately and is not active.",
+    "noClaims": [
+      "No source-value or rule-mechanics updates.",
+      "No semantic, crop, context, highlight, continuation, or default review status was upgraded.",
+      "The nine-frame registry is not a whole-repository or whole-book frame census."
+    ]
+  },
+  "decision": {
+    "idea": "Use a narrow external, hash-bound source-frame registry. Resolve each registered normalized rectangle using its exact current PDF page boxes and owner/catalog/region/image/source pins.",
+    "goal": "Correct the known 11 PHB window projections without rewriting reviewed catalog objects or their manual reviews; preserve diagnostics outside the bounded correction set.",
+    "context": "PHB p.27 and p.37 CropBox/page.rect widths are 3.6 pt narrower than MediaBox. The known affected windows are MediaBox-normalized. Other verified crops can use CropBox/page.rect normalization, so there is no safe global transform. Historic renderer/DPI remains unknown.",
+    "alternativesConsidered": [
+      {
+        "idea": "Retain the page.rect assumption for all current normalized windows.",
+        "result": "Rejected for the 11 registered windows: old 300-DPI bounds were p.27 [1212,70,2345,700] and p.37 [83,114,2389,720], against corrected [1220,70,2360,700] and [84,114,2404,720]."
+      },
+      {
+        "idea": "Rewrite catalog rectangles or switch all normalized windows to MediaBox.",
+        "result": "Rejected: catalog/focus/content changes would invalidate existing reviews, and a global MediaBox transform would misproject CropBox-normalized records."
+      },
+      {
+        "idea": "Automatically add all XP appends to the 9-frame registry.",
+        "result": "Rejected: the 13 additions span other pages/frames. The bridge refresh records them outside the original denominator; one exact p.27 CropBox candidate is pending independent approval."
+      }
+    ],
+    "proof": "Current source visual replay changes exactly 11 existing bound rectangles; all noncohort geometric/text-layer rows match the no-bridge current snapshot. The 102 review-hash/assessment tuples are unchanged."
+  },
+  "inputs": {
+    "baseCommit": "77712b831fac3256baf97da385c1dd56b6d82e88",
+    "currentCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+    "baseRegistry": {
+      "path": "research/source-frame-coordinate-bridge-base777.json",
+      "sha256": "dec13c8419afae87d00551718a56d9dc232cec59ffe9760627e7b0d5037b309e"
+    },
+    "currentRegistry": {
+      "path": "research/source-frame-coordinate-bridge.json",
+      "sha256": "2899f53a9cfa1741d9fd9aed3c47ada0eb3a80fc842352c8c64deb3869986318"
+    },
+    "proposal": {
+      "path": "research/source-audit-pass8-exact-frame-adjudication-proposal.json",
+      "sha256": "1a8078c14e1c73c2597bf837a8e2d8c9a2c28beea3f51aef4bda0484197449cc"
+    },
+    "independentFrameReview": {
+      "path": "research/source-audit-pass8-frame-candidate-independent-review.json",
+      "sha256": "5734f710cf12bca2eb9dc316a077dd6f880abd8338c92a61329501258cbbcc4c"
+    },
+    "currentDataSha256": "a4225fbd2015c5ba7d225738ec1a9bf4658f4a9a9700e340a37dde79317119f3",
+    "booksJsSha256": "6284977531e38b3184a15939bb8a68e31b37d1dad61c91392bb57d443045d98d",
+    "sourcePdfs": {
+      "DMG": {
+        "fileName": "DMG_1stEd.pdf",
+        "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "MM": {
+        "fileName": "Monster_Manual.pdf",
+        "sha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81"
+      },
+      "MM2": {
+        "fileName": "Monster Manual II.pdf",
+        "sha256": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24"
+      },
+      "PHB": {
+        "fileName": "tsr2010-players-handbook.pdf",
+        "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+      },
+      "UA": {
+        "fileName": "Unearthed Arcana.pdf",
+        "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      }
+    },
+    "xpSourceReview": {
+      "path": "research/source-audit-pass8-xp-continuation-independent-review.json",
+      "sha256": "52409845b9f8da1f27d1c7eb5a2c44ca8980db0ccad4d5634ba6eac01fe0b319"
+    },
+    "xpCurrentIntegrationReview": {
+      "path": "research/source-audit-pass8-xp-continuation-current-integration-independent-review.json",
+      "sha256": "5779110afafbf493dd7a237e2fe9adfc23a4fc400f71b158f84fddf6b77f0a8e"
+    }
+  },
+  "frames": [
+    {
+      "frameId": "03f7d6d4b9e4f010ae98f4b8de9694e8d71eb16de7cb921d7a98b3d2f18b0cc6",
+      "book": "DMG",
+      "printedPage": 75,
+      "pdfPage": 76,
+      "coordinateSpace": "cropbox-pageRect-normalized",
+      "joinCount": 17,
+      "pdfBoxesPoints": {
+        "pageRect": [
+          0.0,
+          0.0,
+          573.3590698242188,
+          767.279296875
+        ],
+        "cropBox": [
+          0.0,
+          9.3599853515625,
+          573.3590698242188,
+          776.6392822265625
+        ],
+        "mediaBox": [
+          0.0,
+          0.0,
+          576.9591064453125,
+          785.999267578125
+        ],
+        "cropBoxPosition": [
+          0.0,
+          9.3599853515625
+        ],
+        "rotationDegrees": 0
+      }
+    },
+    {
+      "frameId": "8f705a1243fb6fd75112d5303cf569e96ba26a6758951e69ce5056ff1695c657",
+      "book": "DMG",
+      "printedPage": 76,
+      "pdfPage": 77,
+      "coordinateSpace": "cropbox-pageRect-normalized",
+      "joinCount": 20,
+      "pdfBoxesPoints": {
+        "pageRect": [
+          0.0,
+          0.0,
+          570.479736328125,
+          765.119384765625
+        ],
+        "cropBox": [
+          0.0,
+          9.3599853515625,
+          570.479736328125,
+          774.4793701171875
+        ],
+        "mediaBox": [
+          0.0,
+          0.0,
+          579.8397216796875,
+          783.83935546875
+        ],
+        "cropBoxPosition": [
+          0.0,
+          9.3599853515625
+        ],
+        "rotationDegrees": 0
+      }
+    },
+    {
+      "frameId": "f079410917147e4ed65f9f5d596660d9131cc9f5c3f2068239620c084f710d79",
+      "book": "DMG",
+      "printedPage": 76,
+      "pdfPage": 77,
+      "coordinateSpace": "cropbox-pageRect-normalized",
+      "joinCount": 24,
+      "pdfBoxesPoints": {
+        "pageRect": [
+          0.0,
+          0.0,
+          570.479736328125,
+          765.119384765625
+        ],
+        "cropBox": [
+          0.0,
+          9.3599853515625,
+          570.479736328125,
+          774.4793701171875
+        ],
+        "mediaBox": [
+          0.0,
+          0.0,
+          579.8397216796875,
+          783.83935546875
+        ],
+        "cropBoxPosition": [
+          0.0,
+          9.3599853515625
+        ],
+        "rotationDegrees": 0
+      }
+    },
+    {
+      "frameId": "c9d9d5bb33f225f39c2d1f5fdde2a6ae31d80349c6dc143827a6e1c66f3646c1",
+      "book": "PHB",
+      "printedPage": 19,
+      "pdfPage": 20,
+      "coordinateSpace": "coincident-cropbox-mediabox-pageRect-normalized",
+      "joinCount": 1,
+      "pdfBoxesPoints": {
+        "pageRect": [
+          0.0,
+          0.0,
+          582.71923828125,
+          787.198974609375
+        ],
+        "cropBox": [
+          0.0,
+          0.0,
+          582.71923828125,
+          787.198974609375
+        ],
+        "mediaBox": [
+          0.0,
+          0.0,
+          582.71923828125,
+          787.198974609375
+        ],
+        "cropBoxPosition": [
+          0.0,
+          0.0
+        ],
+        "rotationDegrees": 0
+      }
+    },
+    {
+      "frameId": "1137d05533202013db7418330f944fe70c8f87c80f394c6670fdafa350d6df9c",
+      "book": "PHB",
+      "printedPage": 27,
+      "pdfPage": 28,
+      "coordinateSpace": "mediabox-normalized",
+      "joinCount": 1,
+      "pdfBoxesPoints": {
+        "pageRect": [
+          0.0,
+          0.0,
+          574.3193359375,
+          789.5994873046875
+        ],
+        "cropBox": [
+          0.0,
+          0.0,
+          574.3193359375,
+          789.5994873046875
+        ],
+        "mediaBox": [
+          0.0,
+          0.0,
+          577.9193115234375,
+          789.5994873046875
+        ],
+        "cropBoxPosition": [
+          0.0,
+          0.0
+        ],
+        "rotationDegrees": 0
+      }
+    },
+    {
+      "frameId": "d098e1da2ae8dbd0f0c097bc582134fb9827b2c66261e07bcc8793d113bea4d2",
+      "book": "PHB",
+      "printedPage": 28,
+      "pdfPage": 29,
+      "coordinateSpace": "coincident-cropbox-mediabox-pageRect-normalized",
+      "joinCount": 5,
+      "pdfBoxesPoints": {
+        "pageRect": [
+          0.0,
+          0.0,
+          579.59912109375,
+          781.9189453125
+        ],
+        "cropBox": [
+          0.0,
+          0.0,
+          579.59912109375,
+          781.9189453125
+        ],
+        "mediaBox": [
+          0.0,
+          0.0,
+          579.59912109375,
+          781.9189453125
+        ],
+        "cropBoxPosition": [
+          0.0,
+          0.0
+        ],
+        "rotationDegrees": 0
+      }
+    },
+    {
+      "frameId": "f66ad64ed5f9974f03338bb269465430e4d66b74cf31b6e282be811255e44856",
+      "book": "PHB",
+      "printedPage": 33,
+      "pdfPage": 34,
+      "coordinateSpace": "coincident-cropbox-mediabox-pageRect-normalized",
+      "joinCount": 12,
+      "pdfBoxesPoints": {
+        "pageRect": [
+          0.0,
+          0.0,
+          582.2391357421875,
+          788.3997802734375
+        ],
+        "cropBox": [
+          0.0,
+          0.0,
+          582.2391357421875,
+          788.3997802734375
+        ],
+        "mediaBox": [
+          0.0,
+          0.0,
+          582.2391357421875,
+          788.3997802734375
+        ],
+        "cropBoxPosition": [
+          0.0,
+          0.0
+        ],
+        "rotationDegrees": 0
+      }
+    },
+    {
+      "frameId": "42811b0a9232503b16d2d555349f7adcd142c1a813a8b6f038cf4f680b751fde",
+      "book": "PHB",
+      "printedPage": 33,
+      "pdfPage": 34,
+      "coordinateSpace": "coincident-cropbox-mediabox-pageRect-normalized",
+      "joinCount": 12,
+      "pdfBoxesPoints": {
+        "pageRect": [
+          0.0,
+          0.0,
+          582.2391357421875,
+          788.3997802734375
+        ],
+        "cropBox": [
+          0.0,
+          0.0,
+          582.2391357421875,
+          788.3997802734375
+        ],
+        "mediaBox": [
+          0.0,
+          0.0,
+          582.2391357421875,
+          788.3997802734375
+        ],
+        "cropBoxPosition": [
+          0.0,
+          0.0
+        ],
+        "rotationDegrees": 0
+      }
+    },
+    {
+      "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3",
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "coordinateSpace": "mediabox-normalized",
+      "joinCount": 10,
+      "pdfBoxesPoints": {
+        "pageRect": [
+          0.0,
+          0.0,
+          579.5993041992188,
+          786.2398681640625
+        ],
+        "cropBox": [
+          0.0,
+          0.0,
+          579.5993041992188,
+          786.2398681640625
+        ],
+        "mediaBox": [
+          0.0,
+          0.0,
+          583.1993408203125,
+          786.2398681640625
+        ],
+        "cropBoxPosition": [
+          0.0,
+          0.0
+        ],
+        "rotationDegrees": 0
+      }
+    }
+  ],
+  "appendOnlyRefresh": {
+    "baselineRegistrySha256": "dec13c8419afae87d00551718a56d9dc232cec59ffe9760627e7b0d5037b309e",
+    "currentDataSha256": "a4225fbd2015c5ba7d225738ec1a9bf4658f4a9a9700e340a37dde79317119f3",
+    "oldRegionObjectsAndImageBytesUnchanged": true,
+    "oldSourceFocusContentGeometryPinsUnchanged": true,
+    "reviewHashAndAssessmentPinsPreserved": true,
+    "oldJoinCount": 102,
+    "appendedCatalogRegionsCount": 13,
+    "changedOwnerLinksCount": 11,
+    "existingReviewMetadataChanges": [
+      {
+        "owner": "ua-paladin",
+        "regionId": "ua-16-73a314c55d8d5fee",
+        "change": "recordedReview scope annotation only; review grade/hash tuple unchanged"
+      }
+    ],
+    "appendedCatalogRegions": [
+      {
+        "catalog": "scans/verified/classes-cleric.json",
+        "regionId": "pass8-cleric-xp-continuation-rule",
+        "owner": {
+          "collection": "classes",
+          "itemId": "cleric",
+          "binding": "sourceExcerpts"
+        },
+        "book": "PHB",
+        "printedPage": 20,
+        "pdfPage": 21,
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "image": "phb-20-2f1a48149941273c.png",
+        "imageSha256": "2f1a48149941273c7fffc6b95a5ce787a91bf22ea531deb83b9137d481db5cc9",
+        "imageDimensionsPx": [
+          546,
+          372
+        ],
+        "normalizedPageRect": {
+          "x": 0.5,
+          "y": 0.095,
+          "width": 0.47,
+          "height": 0.235
+        },
+        "boundsPdfPoints": null,
+        "focusSha256": "85cf73faabb92995d7d7bc67dee08372ce544a96db4aa4ab30f6d16efdb6b967",
+        "contentSha256": "4d04b896bc33c37cea2b4ef0e751caf2061b1f08dcaad0756c37e6bd74b9d307",
+        "correctionRegistryMembership": "outside-this-bounded-correction-registry",
+        "frameDecision": "not added to the 102 existing joins by this append-only refresh"
+      },
+      {
+        "catalog": "scans/verified/classes-fighter.json",
+        "regionId": "pass8-fighter-xp-continuation-rule",
+        "owner": {
+          "collection": "classes",
+          "itemId": "fighter",
+          "binding": "sourceExcerpts"
+        },
+        "book": "PHB",
+        "printedPage": 22,
+        "pdfPage": 23,
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "image": "phb-22-ed75548921b6c9c4.png",
+        "imageSha256": "ed75548921b6c9c492c41323074f8ee0ed0eed1df9215200fc297739ef132244",
+        "imageDimensionsPx": [
+          556,
+          394
+        ],
+        "normalizedPageRect": {
+          "x": 0.01,
+          "y": 0.575,
+          "width": 0.48,
+          "height": 0.25
+        },
+        "boundsPdfPoints": null,
+        "focusSha256": "0c08458634191ac044c8d502b435067bbd3f6e4e48ebb71ec448da26c630b67f",
+        "contentSha256": "7daa4516d93a4b592a51f0b0a92ae7f66d00b55a35b0f283ca028b4488e1ab3a",
+        "correctionRegistryMembership": "outside-this-bounded-correction-registry",
+        "frameDecision": "not added to the 102 existing joins by this append-only refresh"
+      },
+      {
+        "catalog": "scans/verified/classes-illusionist.json",
+        "regionId": "pass8-illusionist-xp-continuation-rule",
+        "owner": {
+          "collection": "classes",
+          "itemId": "illusionist",
+          "binding": "sourceExcerpts"
+        },
+        "book": "PHB",
+        "printedPage": 26,
+        "pdfPage": 27,
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "image": "phb-26-cc0e2a4919d5f34e.png",
+        "imageSha256": "cc0e2a4919d5f34e10836655545c47ab33e094c723ef61c44cc60f6c6808907f",
+        "imageDimensionsPx": [
+          584,
+          426
+        ],
+        "normalizedPageRect": {
+          "x": 0.49,
+          "y": 0.225,
+          "width": 0.5,
+          "height": 0.27
+        },
+        "boundsPdfPoints": null,
+        "focusSha256": "665841c4276bae9a805182304977bf0d3922ab508f55c85b29215c009e7aa593",
+        "contentSha256": "9efdfa1f608b5a12c1925fcb4a062fc81a55bab3048a76d399d9904ec8cb3452",
+        "correctionRegistryMembership": "outside-this-bounded-correction-registry",
+        "frameDecision": "not added to the 102 existing joins by this append-only refresh"
+      },
+      {
+        "catalog": "scans/verified/classes-magic-user.json",
+        "regionId": "pass8-magic-user-xp-continuation-rule",
+        "owner": {
+          "collection": "classes",
+          "itemId": "magic-user",
+          "binding": "sourceExcerpts"
+        },
+        "book": "PHB",
+        "printedPage": 26,
+        "pdfPage": 27,
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "image": "phb-26-90f71c7150ce2222.png",
+        "imageSha256": "90f71c7150ce2222b1672712b56052621a5a776d8ab75cc1b26d92be613d22cd",
+        "imageDimensionsPx": [
+          550,
+          252
+        ],
+        "normalizedPageRect": {
+          "x": 0.015,
+          "y": 0.035,
+          "width": 0.47,
+          "height": 0.16
+        },
+        "boundsPdfPoints": null,
+        "focusSha256": "325866da1d52cabcdce73db85dc282553ed5a9cef39de9ad6716a6d3a8203059",
+        "contentSha256": "54f77f01aaa855d7727643aa399cf52451354b78244e32367771fa7528868998",
+        "correctionRegistryMembership": "outside-this-bounded-correction-registry",
+        "frameDecision": "not added to the 102 existing joins by this append-only refresh"
+      },
+      {
+        "catalog": "scans/verified/classes-magic-user.json",
+        "regionId": "pass8-magic-user-xp-continuation-table-opening",
+        "owner": {
+          "collection": "classes",
+          "itemId": "magic-user",
+          "binding": "sourceExcerpts"
+        },
+        "book": "PHB",
+        "printedPage": 25,
+        "pdfPage": 26,
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "image": "phb-25-4149da7057d4faeb.png",
+        "imageSha256": "4149da7057d4faeb09d64f40bba4550c71f108e8e0aa67a58afa6619ab202f2e",
+        "imageDimensionsPx": [
+          534,
+          324
+        ],
+        "normalizedPageRect": {
+          "x": 0.51,
+          "y": 0.735,
+          "width": 0.46,
+          "height": 0.205
+        },
+        "boundsPdfPoints": null,
+        "focusSha256": "908bf187fa9eb2130d5f4751e219767728d3dee94e7d7d22d005d153955217d5",
+        "contentSha256": "16781045d88a54ddaf43e7f8ef8ab228f307428e97678db5a48fa24d15179a56",
+        "correctionRegistryMembership": "outside-this-bounded-correction-registry",
+        "frameDecision": "not added to the 102 existing joins by this append-only refresh"
+      },
+      {
+        "catalog": "scans/verified/classes-paladin.json",
+        "regionId": "pass8-paladin-xp-continuation-rule",
+        "owner": {
+          "collection": "classes",
+          "itemId": "paladin",
+          "binding": "sourceExcerpts"
+        },
+        "book": "PHB",
+        "printedPage": 24,
+        "pdfPage": 25,
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "image": "phb-24-58fc3434ffde34c9.png",
+        "imageSha256": "58fc3434ffde34c934c84763b5b4f734e0a60776fca1caa6ff342e4e67ae7732",
+        "imageDimensionsPx": [
+          702,
+          525
+        ],
+        "normalizedPageRect": {
+          "x": 0.00858754,
+          "y": 0.31963479,
+          "width": 0.48141252,
+          "height": 0.26636233
+        },
+        "boundsPdfPoints": null,
+        "focusSha256": "6d8b5324fce5a4a4245e5f1942a688bea9d0018d9fa66cf275decdc276ee2957",
+        "contentSha256": "5c8cecbd399b90d9c01cc7f303fd02938a440ad872e4058385601881ecb83e80",
+        "correctionRegistryMembership": "outside-this-bounded-correction-registry",
+        "frameDecision": "not added to the 102 existing joins by this append-only refresh"
+      },
+      {
+        "catalog": "scans/verified/classes-ranger.json",
+        "regionId": "pass8-ranger-xp-continuation-rule",
+        "owner": {
+          "collection": "classes",
+          "itemId": "ranger",
+          "binding": "sourceExcerpts"
+        },
+        "book": "PHB",
+        "printedPage": 25,
+        "pdfPage": 26,
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "image": "phb-25-xp-continuation-a720775d740070aa.png",
+        "imageSha256": "a720775d740070aa7d0aec9559bd3862995e1915eaa037e77f4925808aaa0b43",
+        "imageDimensionsPx": [
+          825,
+          657
+        ],
+        "normalizedPageRect": null,
+        "boundsPdfPoints": [
+          8.666666666666666,
+          122,
+          283.6666666666667,
+          341
+        ],
+        "focusSha256": "c72a2483414d82c48a79c8347365d898c0409c2a8c1b58c50379e92e7dfb49f8",
+        "contentSha256": "80c15e5312a8df1da550500c03b6dcf6fa67162b65956553350a0e5257f33412",
+        "correctionRegistryMembership": "outside-this-bounded-correction-registry",
+        "frameDecision": "not added to the 102 existing joins by this append-only refresh"
+      },
+      {
+        "catalog": "scans/verified/classes-thief.json",
+        "regionId": "pass8-thief-xp-continuation-rule",
+        "owner": {
+          "collection": "classes",
+          "itemId": "thief",
+          "binding": "sourceExcerpts"
+        },
+        "book": "PHB",
+        "printedPage": 27,
+        "pdfPage": 28,
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "image": "phb-27-2ccdcb45677442f0.png",
+        "imageSha256": "2ccdcb45677442f0f249e6be41c31502cdfa1cf3530fb03b26364eed1aeacf77",
+        "imageDimensionsPx": [
+          564,
+          420
+        ],
+        "normalizedPageRect": {
+          "x": 0.5,
+          "y": 0.395,
+          "width": 0.49,
+          "height": 0.265
+        },
+        "boundsPdfPoints": null,
+        "focusSha256": "ff09da6a0d685baf3f73032d148d3c325416b160de55a0f2ecdb2639f5e3c0ca",
+        "contentSha256": "8a8debb34c383c827c0b35abb6a4dd2b8a16dc92a6fb564e904bfdb8fdfdaca5",
+        "correctionRegistryMembership": "outside-this-bounded-correction-registry",
+        "frameDecision": "not added to the 102 existing joins by this append-only refresh"
+      },
+      {
+        "catalog": "scans/verified/classes-ua-barbarian.json",
+        "regionId": "pass8-ua-barbarian-xp-continuation-rule",
+        "owner": {
+          "collection": "classes",
+          "itemId": "ua-barbarian",
+          "binding": "sourceExcerpts"
+        },
+        "book": "UA",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "image": "ua-19-xp-continuation-d3f85a7b8c985c14.png",
+        "imageSha256": "d3f85a7b8c985c14cd31b0c8d6232919505a4a1965d75f0a32b29ca35af94fda",
+        "imageDimensionsPx": [
+          804,
+          682
+        ],
+        "normalizedPageRect": null,
+        "boundsPdfPoints": [
+          11.333333333333334,
+          27,
+          279.3333333333333,
+          254.33333333333334
+        ],
+        "focusSha256": "0d865c199c2dcf1bad079f0af97b0d22ca775d9228a43da7f6cb97936383095a",
+        "contentSha256": "54d1455ca4ee1a9478305ec6b3d74df663f82e29a94bcefdca2aa1dc8b6774a1",
+        "correctionRegistryMembership": "outside-this-bounded-correction-registry",
+        "frameDecision": "not added to the 102 existing joins by this append-only refresh"
+      },
+      {
+        "catalog": "scans/verified/classes-ua-cavalier.json",
+        "regionId": "pass8-ua-cavalier-xp-continuation-rule",
+        "owner": {
+          "collection": "classes",
+          "itemId": "ua-cavalier",
+          "binding": "sourceExcerpts"
+        },
+        "book": "UA",
+        "printedPage": 15,
+        "pdfPage": 16,
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "image": "ua-15-xp-continuation-20e66e46f8c6c87a.png",
+        "imageSha256": "20e66e46f8c6c87a011ce3e896374854b69f8b8d68d55a8eb0bb512f27bb6b28",
+        "imageDimensionsPx": [
+          815,
+          801
+        ],
+        "normalizedPageRect": null,
+        "boundsPdfPoints": [
+          11.333333333333334,
+          24,
+          283,
+          291
+        ],
+        "focusSha256": "736a9eabac0eb6e66f58d1f0d2e835d666bbb3962ab1a740e8b21112c2fbae7a",
+        "contentSha256": "c96eac3fcda1bda1a2144f79bdefc761821d9eae1e6c8d4532ad19473398f7d8",
+        "correctionRegistryMembership": "outside-this-bounded-correction-registry",
+        "frameDecision": "not added to the 102 existing joins by this append-only refresh"
+      },
+      {
+        "catalog": "scans/verified/classes-ua-paladin.json",
+        "regionId": "pass8-ua-paladin-phb-advancement-context",
+        "owner": {
+          "collection": "classes",
+          "itemId": "ua-paladin",
+          "binding": "sourceExcerpts"
+        },
+        "book": "UA",
+        "printedPage": 16,
+        "pdfPage": 17,
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "image": "ua-16-paladin-advancement-context-ef63e0d830110104.png",
+        "imageSha256": "ef63e0d8301101040c67f74db4d1c05e8c0a01b83894f17b272f122a675d7364",
+        "imageDimensionsPx": [
+          807,
+          702
+        ],
+        "normalizedPageRect": null,
+        "boundsPdfPoints": [
+          295.6666666666667,
+          364.3333333333333,
+          564.6666666666666,
+          598.3333333333334
+        ],
+        "focusSha256": "9fc6ef0c32b9636d07590e043edbcb3a7f86f6b4f866cad4490b863ab71425a5",
+        "contentSha256": "96179a9ceb5e31d54300998bf8134d0c750e35ae921548de5fd8b03b7804f7c4",
+        "correctionRegistryMembership": "outside-this-bounded-correction-registry",
+        "frameDecision": "not added to the 102 existing joins by this append-only refresh"
+      },
+      {
+        "catalog": "scans/verified/classes-ua-paladin.json",
+        "regionId": "pass8-ua-paladin-xp-continuation-rule",
+        "owner": {
+          "collection": "classes",
+          "itemId": "ua-paladin",
+          "binding": "sourceExcerpts"
+        },
+        "book": "PHB",
+        "printedPage": 24,
+        "pdfPage": 25,
+        "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "image": "phb-24-58fc3434ffde34c9.png",
+        "imageSha256": "58fc3434ffde34c934c84763b5b4f734e0a60776fca1caa6ff342e4e67ae7732",
+        "imageDimensionsPx": [
+          702,
+          525
+        ],
+        "normalizedPageRect": {
+          "x": 0.00858754,
+          "y": 0.31963479,
+          "width": 0.48141252,
+          "height": 0.26636233
+        },
+        "boundsPdfPoints": null,
+        "focusSha256": "f520a44e3400a349ce4c50e4db161bf9bb30a26ea696d74202f41cabf382cbde",
+        "contentSha256": "c6d70060fe9e3aad16a72fb8c7b0cff94f2a65fb8453484ffa01ecf0db5dca2e",
+        "correctionRegistryMembership": "outside-this-bounded-correction-registry",
+        "frameDecision": "not added to the 102 existing joins by this append-only refresh"
+      },
+      {
+        "catalog": "scans/verified/classes-ua-thief-acrobat.json",
+        "regionId": "pass8-ua-thief-acrobat-xp-continuation-rule",
+        "owner": {
+          "collection": "classes",
+          "itemId": "ua-thief-acrobat",
+          "binding": "sourceExcerpts"
+        },
+        "book": "UA",
+        "printedPage": 23,
+        "pdfPage": 24,
+        "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "image": "ua-23-xp-continuation-834dc07eeaf65391.png",
+        "imageSha256": "834dc07eeaf6539123cd5ffd9236c1c5ad712cbc8d18ce724a7de104ad76815f",
+        "imageDimensionsPx": [
+          812,
+          439
+        ],
+        "normalizedPageRect": null,
+        "boundsPdfPoints": [
+          2.6666666666666665,
+          599,
+          273.3333333333333,
+          745.3333333333334
+        ],
+        "focusSha256": "181caca064c833820f1d8b8e1df5bd41b87f6e47958b4a6b0c8b1b083c706bd9",
+        "contentSha256": "0d2a263b658bee2c6543fea77fa2a514fe578f742ff515619435ccfcd6c26817",
+        "correctionRegistryMembership": "outside-this-bounded-correction-registry",
+        "frameDecision": "not added to the 102 existing joins by this append-only refresh"
+      }
+    ],
+    "liveRegistryValidation": {
+      "status": "current-pins-match",
+      "frameGroups": 9,
+      "ownerJoinsValidated": 102,
+      "mismatchCount": 0,
+      "mismatches": []
+    }
+  },
+  "sourceReplays": {
+    "currentSourceVisual": {
+      "path": "/workspace/vault-audit-private/pass8-frame-coordinate-resolution/a46/visual/source-visual-audit-frame-bridge-a46-final.json",
+      "sha256": "bf1a12ff4e34eef0e698d1b6ed8647fe16a3055a8dcf30b1df941ea25232637a",
+      "counts": {
+        "regionUsages": 3412,
+        "uniqueImageHashes": 1301,
+        "uniqueImageGeometryBindings": 1299,
+        "sentinelUsages": 2192,
+        "partialFocusUsages": 1167,
+        "knownHeadingOnlyUsages": 43,
+        "knownHeadingOnlyFirstInPageGroup": 0,
+        "knownHeadingOnlyFirstWithSibling": 0,
+        "knownHeadingOnlyViewerDefault": 0,
+        "defaultContextLabelCandidates": 237,
+        "viewerDefaultContextLabelCandidates": 234,
+        "sentinelUsagesByCollection": {
+          "classes": 187,
+          "equipment": 317,
+          "matrices": 3,
+          "progressionExplainer": 10,
+          "rules": 246,
+          "spells": 1429
+        },
+        "candidateImageGeometryBindings": 367,
+        "candidateUniqueImages": 367,
+        "candidateLinkedUsages": 920,
+        "usagesByBook": {
+          "DMG": 335,
+          "MM": 15,
+          "MM2": 2,
+          "PHB": 1854,
+          "UA": 1206
+        },
+        "usagesByCollection": {
+          "classes": 429,
+          "equipment": 1196,
+          "matrices": 6,
+          "progressionExplainer": 10,
+          "rules": 332,
+          "spells": 1439
+        },
+        "sentinelUsagesByBook": {
+          "DMG": 159,
+          "MM": 15,
+          "MM2": 2,
+          "PHB": 1275,
+          "UA": 741
+        },
+        "boundsTypes": {
+          "boundsPdfPoints": 104,
+          "flat": 842,
+          "nested": 117,
+          "object": 2349
+        },
+        "candidateBindingsByBook": {
+          "DMG": 56,
+          "MM": 3,
+          "PHB": 181,
+          "UA": 127
+        },
+        "candidateUsagesByCollection": {
+          "classes": 104,
+          "equipment": 415,
+          "progressionExplainer": 3,
+          "rules": 100,
+          "spells": 298
+        },
+        "cropEdgeAssessments": {
+          "assessed-text-layer": 2490,
+          "candidate-text-box-crossing": 920,
+          "not-assessable-supplemental-image-format": 2
+        }
+      },
+      "frameResolutionCounts": {
+        "matched": 102,
+        "not-applicable-supplemental-image-frame": 2,
+        "outside-bounded-correction-registry": 3308
+      }
+    },
+    "currentSourceRaster": {
+      "path": "/workspace/vault-audit-private/pass8-frame-coordinate-resolution/a46/raster/source-raster-frame-bridge-a46-final-300.json.gz",
+      "sha256": "ef5f6aaa903867a58c7dcbf82859a6797c49ddc57c8d90bc2046b8fcdeeafd8b",
+      "counts": {
+        "regionUsages": 3412,
+        "uniqueImages": 1301,
+        "uniqueImageGeometryBindings": 1299,
+        "uniqueSourcePages": 230,
+        "sourcePagesRendered": 230,
+        "sourcePagesRenderedByBook": {
+          "DMG": 48,
+          "MM": 13,
+          "MM2": 1,
+          "PHB": 99,
+          "UA": 69
+        },
+        "geometriesByBook": {
+          "DMG": 147,
+          "MM": 15,
+          "MM2": 2,
+          "PHB": 736,
+          "UA": 399
+        },
+        "regionUsagesByBook": {
+          "DMG": 335,
+          "MM": 15,
+          "MM2": 2,
+          "PHB": 1854,
+          "UA": 1206
+        },
+        "notAssessableUsages": 2,
+        "assessedUsages": 3410,
+        "geometryStatusCounts": {
+          "near-edge-ink-components-present": 1299
+        },
+        "geometriesWithBoundaryCrossingComponentCandidate": 1298,
+        "geometriesWithStrongCrossingComponentCandidateMinGrayLt230": 782,
+        "geometriesWithStrongOutsideOnlyComponentCandidateMinGrayLt230": 133,
+        "geometriesWithFaintOnlyCrossingComponentCandidateMinGray230To253": 516,
+        "componentsLt254AcrossFourEdges": 41957,
+        "priorWordboxCandidateUsages": 920,
+        "candidateMetricNote": "Strong crossing, strong outside-only, and faint-only crossing counts overlap by geometry and are not defect rates or mutually exclusive categories. Component counts are per crop edge; corner components can be counted on two adjacent edges."
+      },
+      "frameResolutionCounts": {
+        "matched": 102,
+        "not-applicable-supplemental-image-frame": 2,
+        "outside-bounded-correction-registry": 3308
+      }
+    },
+    "noBridgeSourceVisual": {
+      "path": "research/source-visual-audit-pass8-xp-continuation-current.json",
+      "sha256": "10604e7d07f9c76ad6fcd2e4fd44fbc85c45f4cd6a491bf72bd0c2fe82f98908",
+      "inputDataSha256": "a4225fbd2015c5ba7d225738ec1a9bf4658f4a9a9700e340a37dde79317119f3",
+      "counts": {
+        "regionUsages": 3412,
+        "uniqueImageHashes": 1301,
+        "uniqueImageGeometryBindings": 1299,
+        "sentinelUsages": 2192,
+        "partialFocusUsages": 1167,
+        "knownHeadingOnlyUsages": 43,
+        "knownHeadingOnlyFirstInPageGroup": 0,
+        "knownHeadingOnlyFirstWithSibling": 0,
+        "knownHeadingOnlyViewerDefault": 0,
+        "defaultContextLabelCandidates": 237,
+        "viewerDefaultContextLabelCandidates": 234,
+        "sentinelUsagesByCollection": {
+          "classes": 187,
+          "equipment": 317,
+          "matrices": 3,
+          "progressionExplainer": 10,
+          "rules": 246,
+          "spells": 1429
+        },
+        "candidateImageGeometryBindings": 367,
+        "candidateUniqueImages": 367,
+        "candidateLinkedUsages": 920,
+        "usagesByBook": {
+          "DMG": 335,
+          "MM": 15,
+          "MM2": 2,
+          "PHB": 1854,
+          "UA": 1206
+        },
+        "usagesByCollection": {
+          "classes": 429,
+          "equipment": 1196,
+          "matrices": 6,
+          "progressionExplainer": 10,
+          "rules": 332,
+          "spells": 1439
+        },
+        "sentinelUsagesByBook": {
+          "DMG": 159,
+          "MM": 15,
+          "MM2": 2,
+          "PHB": 1275,
+          "UA": 741
+        },
+        "boundsTypes": {
+          "boundsPdfPoints": 104,
+          "flat": 842,
+          "nested": 117,
+          "object": 2349
+        },
+        "candidateBindingsByBook": {
+          "DMG": 56,
+          "MM": 3,
+          "PHB": 181,
+          "UA": 127
+        },
+        "candidateUsagesByCollection": {
+          "classes": 104,
+          "equipment": 415,
+          "progressionExplainer": 3,
+          "rules": 100,
+          "spells": 298
+        },
+        "cropEdgeAssessments": {
+          "assessed-text-layer": 2490,
+          "candidate-text-box-crossing": 920,
+          "not-assessable-supplemental-image-format": 2
+        }
+      }
+    },
+    "noBridgeSourceRaster": {
+      "path": "research/source-raster-boundary-pass8-xp-continuation-current.json.gz",
+      "sha256": "a2e1c38bf71eac2f5df5505f2724db67962c010d34db6c8b55e8d45cfd3905ac",
+      "distDataSha256": "a4225fbd2015c5ba7d225738ec1a9bf4658f4a9a9700e340a37dde79317119f3",
+      "counts": {
+        "regionUsages": 3412,
+        "uniqueImages": 1301,
+        "uniqueImageGeometryBindings": 1299,
+        "uniqueSourcePages": 230,
+        "sourcePagesRendered": 230,
+        "sourcePagesRenderedByBook": {
+          "DMG": 48,
+          "MM": 13,
+          "MM2": 1,
+          "PHB": 99,
+          "UA": 69
+        },
+        "geometriesByBook": {
+          "DMG": 147,
+          "MM": 15,
+          "MM2": 2,
+          "PHB": 736,
+          "UA": 399
+        },
+        "regionUsagesByBook": {
+          "DMG": 335,
+          "MM": 15,
+          "MM2": 2,
+          "PHB": 1854,
+          "UA": 1206
+        },
+        "notAssessableUsages": 2,
+        "assessedUsages": 3410,
+        "geometryStatusCounts": {
+          "near-edge-ink-components-present": 1299
+        },
+        "geometriesWithBoundaryCrossingComponentCandidate": 1298,
+        "geometriesWithStrongCrossingComponentCandidateMinGrayLt230": 782,
+        "geometriesWithStrongOutsideOnlyComponentCandidateMinGrayLt230": 133,
+        "geometriesWithFaintOnlyCrossingComponentCandidateMinGray230To253": 516,
+        "componentsLt254AcrossFourEdges": 41957,
+        "priorWordboxCandidateUsages": 920,
+        "candidateMetricNote": "Strong crossing, strong outside-only, and faint-only crossing counts overlap by geometry and are not defect rates or mutually exclusive categories. Component counts are per crop edge; corner components can be counted on two adjacent edges."
+      }
+    },
+    "comparison": {
+      "currentUsageKeysExact": true,
+      "correctedBoundRows": 11,
+      "noncohortVisualGeometryAndTextStatusChanges": 0,
+      "noncohortRasterUseStatusAndPixelMetricChanges": 0,
+      "overallRasterCountersEqualCurrentNoBridgeSnapshot": true
+    }
+  },
+  "correctedRows": [
+    {
+      "owner": {
+        "collection": "classes",
+        "itemId": "assassin",
+        "binding": "sourceExcerpts"
+      },
+      "catalog": "scans/verified/classes-assassin.json",
+      "catalogSha256Current": "a1af57a383a53117be4ef2cbef0cf1bb4ed06c3017632a9351862f4a817f8291",
+      "regionId": "phb-27-a0862452b397bc19",
+      "book": "PHB",
+      "printedPage": 27,
+      "pdfPage": 28,
+      "imageSha256": "7740a09429da1d98b578e37d4fe3e9215da265c639f9b0e6f85a09572a0bf7b3",
+      "imageDimensionsPx": [
+        570,
+        315
+      ],
+      "normalizedPageRect": {
+        "x": 0.5066445182724253,
+        "y": 0.02127659574468085,
+        "width": 0.473421926910299,
+        "height": 0.19148936170212766
+      },
+      "focusSha256": "62f7c4de7fb4ef72edb286a8b6c664455101aea52bf9627893390f8e078c0d4d",
+      "contentSha256": "3fc62c4a19aca69b425589a4d9cc6edf924b69b3047719f212f7ca1f0f6c1724",
+      "frameId": "1137d05533202013db7418330f944fe70c8f87c80f394c6670fdafa350d6df9c",
+      "coordinateSpace": "mediabox-normalized",
+      "ownerSourceLinkSha256Current": "f1afb5e0a1d65e2404e804091766debe50ebdfca4dc90ab47224beb21cd4acb8",
+      "currentReviewHashBinding": {
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "imageSha256": "7740a09429da1d98b578e37d4fe3e9215da265c639f9b0e6f85a09572a0bf7b3",
+        "focusSha256": "62f7c4de7fb4ef72edb286a8b6c664455101aea52bf9627893390f8e078c0d4d",
+        "contentSha256": "3fc62c4a19aca69b425589a4d9cc6edf924b69b3047719f212f7ca1f0f6c1724"
+      },
+      "currentReviewAssessments": {
+        "crop": "confirmed",
+        "context": "confirmed",
+        "highlight": "confirmed",
+        "default": "missing"
+      },
+      "before": {
+        "pdfBoundsPagePointsLTRB": [
+          290.9757,
+          16.8,
+          562.8711,
+          167.9999
+        ],
+        "rasterBoundsPxLTRB": [
+          1212,
+          70,
+          2345,
+          700
+        ],
+        "geometryId": "raster-edge-3eb313197953af039d3c",
+        "semanticReviewStatus": "unresolved-requires-source-review"
+      },
+      "after": {
+        "pdfBoundsPagePointsLTRB": [
+          292.7997,
+          16.8,
+          566.3993,
+          167.9999
+        ],
+        "rasterBoundsPxLTRB": [
+          1220,
+          70,
+          2360,
+          700
+        ],
+        "geometryId": "raster-edge-08e35df556de2dc4ac02",
+        "coordinateFrameResolution": {
+          "status": "matched",
+          "basis": "mediabox-normalized",
+          "frameId": "1137d05533202013db7418330f944fe70c8f87c80f394c6670fdafa350d6df9c"
+        },
+        "edgeStatus": "near-edge-ink-components-present",
+        "crossingComponentCandidate": true,
+        "semanticReviewStatus": "unresolved-requires-source-review",
+        "wordboxCropEdgeAssessment": "candidate-text-box-crossing"
+      },
+      "reviewPinPreserved": true
+    },
+    {
+      "owner": {
+        "collection": "classes",
+        "itemId": "assassin",
+        "binding": "sourceExcerpts"
+      },
+      "catalog": "scans/verified/classes-assassin.json",
+      "catalogSha256Current": "a1af57a383a53117be4ef2cbef0cf1bb4ed06c3017632a9351862f4a817f8291",
+      "regionId": "phb-37-911fe149fbfab8dd",
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+      "imageDimensionsPx": [
+        1160,
+        303
+      ],
+      "normalizedPageRect": {
+        "x": 0.0345679012345679,
+        "y": 0.0347985347985348,
+        "width": 0.9547325102880658,
+        "height": 0.184981684981685
+      },
+      "focusSha256": "673d8ccaa1d9487bb553e339f17c628f51d7a6ab00897871c47af189c6d4c0f8",
+      "contentSha256": "31db55d1a839b9bd41fb62764c4feae65fc985af4be32899633b4dae6e057249",
+      "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3",
+      "coordinateSpace": "mediabox-normalized",
+      "ownerSourceLinkSha256Current": "f1afb5e0a1d65e2404e804091766debe50ebdfca4dc90ab47224beb21cd4acb8",
+      "currentReviewHashBinding": {
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+        "focusSha256": "673d8ccaa1d9487bb553e339f17c628f51d7a6ab00897871c47af189c6d4c0f8",
+        "contentSha256": "31db55d1a839b9bd41fb62764c4feae65fc985af4be32899633b4dae6e057249"
+      },
+      "currentReviewAssessments": {
+        "crop": "confirmed",
+        "context": "confirmed",
+        "highlight": "confirmed",
+        "default": "missing"
+      },
+      "before": {
+        "pdfBoundsPagePointsLTRB": [
+          20.0355,
+          27.36,
+          573.3978,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          83,
+          114,
+          2389,
+          720
+        ],
+        "geometryId": "raster-edge-fc7ed6bca2dcbc28b209",
+        "semanticReviewStatus": "unresolved-requires-source-review"
+      },
+      "after": {
+        "pdfBoundsPagePointsLTRB": [
+          20.16,
+          27.36,
+          576.9593,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          84,
+          114,
+          2404,
+          720
+        ],
+        "geometryId": "raster-edge-568ec776df4ebc903b8e",
+        "coordinateFrameResolution": {
+          "status": "matched",
+          "basis": "mediabox-normalized",
+          "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3"
+        },
+        "edgeStatus": "near-edge-ink-components-present",
+        "crossingComponentCandidate": true,
+        "semanticReviewStatus": "unresolved-requires-source-review",
+        "wordboxCropEdgeAssessment": "assessed-text-layer"
+      },
+      "reviewPinPreserved": true
+    },
+    {
+      "owner": {
+        "collection": "classes",
+        "itemId": "cleric",
+        "binding": "sourceExcerpts"
+      },
+      "catalog": "scans/verified/classes-cleric.json",
+      "catalogSha256Current": "e0378edc65d31567334a034964c2d58f5797bdfe88c59dc877a2c22b8c527407",
+      "regionId": "phb-37-947ed4b02bc5aed3",
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+      "imageDimensionsPx": [
+        1160,
+        303
+      ],
+      "normalizedPageRect": {
+        "x": 0.0345679012345679,
+        "y": 0.0347985347985348,
+        "width": 0.9547325102880658,
+        "height": 0.184981684981685
+      },
+      "focusSha256": "4d5d8d10cb4834297767885db00bbfcbf4a2dbeaa40dfc515a2f517c6ed1c2fc",
+      "contentSha256": "5e14fa18ad427edbd0c7d75144dd6b8ebd3df08d88a76e5d0facc8129c07abb1",
+      "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3",
+      "coordinateSpace": "mediabox-normalized",
+      "ownerSourceLinkSha256Current": "99b306d895f39023c928f5c63734cb5e47cc31e89ad6cfe4cfb0733667abe19e",
+      "currentReviewHashBinding": {
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+        "focusSha256": "4d5d8d10cb4834297767885db00bbfcbf4a2dbeaa40dfc515a2f517c6ed1c2fc",
+        "contentSha256": "5e14fa18ad427edbd0c7d75144dd6b8ebd3df08d88a76e5d0facc8129c07abb1"
+      },
+      "currentReviewAssessments": {
+        "crop": "confirmed",
+        "context": "confirmed",
+        "highlight": "confirmed",
+        "default": "missing"
+      },
+      "before": {
+        "pdfBoundsPagePointsLTRB": [
+          20.0355,
+          27.36,
+          573.3978,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          83,
+          114,
+          2389,
+          720
+        ],
+        "geometryId": "raster-edge-fc7ed6bca2dcbc28b209",
+        "semanticReviewStatus": "unresolved-requires-source-review"
+      },
+      "after": {
+        "pdfBoundsPagePointsLTRB": [
+          20.16,
+          27.36,
+          576.9593,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          84,
+          114,
+          2404,
+          720
+        ],
+        "geometryId": "raster-edge-568ec776df4ebc903b8e",
+        "coordinateFrameResolution": {
+          "status": "matched",
+          "basis": "mediabox-normalized",
+          "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3"
+        },
+        "edgeStatus": "near-edge-ink-components-present",
+        "crossingComponentCandidate": true,
+        "semanticReviewStatus": "unresolved-requires-source-review",
+        "wordboxCropEdgeAssessment": "assessed-text-layer"
+      },
+      "reviewPinPreserved": true
+    },
+    {
+      "owner": {
+        "collection": "classes",
+        "itemId": "druid",
+        "binding": "sourceExcerpts"
+      },
+      "catalog": "scans/verified/classes-druid.json",
+      "catalogSha256Current": "5dcae17e60087810510e48a852f30b87efa8b2a4ca900a3451956c82e360b4a2",
+      "regionId": "phb-37-1e3e2abf64aba374",
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+      "imageDimensionsPx": [
+        1160,
+        303
+      ],
+      "normalizedPageRect": {
+        "x": 0.0345679012345679,
+        "y": 0.0347985347985348,
+        "width": 0.9547325102880658,
+        "height": 0.184981684981685
+      },
+      "focusSha256": "fc8a4b4210cfc837ee2ed044ef6e0821b12c42e735ea8efaa6ddf9aac46ad67e",
+      "contentSha256": "5c983b3eabcde0ab8872d96e25095ba8f81d11df5574e4eb5f7cdb0684212e07",
+      "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3",
+      "coordinateSpace": "mediabox-normalized",
+      "ownerSourceLinkSha256Current": "1d943efb32b6fca6bc7d270e1d6198a3fbe964418bd08df51a0211507c935fd7",
+      "currentReviewHashBinding": {
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+        "focusSha256": "fc8a4b4210cfc837ee2ed044ef6e0821b12c42e735ea8efaa6ddf9aac46ad67e",
+        "contentSha256": "5c983b3eabcde0ab8872d96e25095ba8f81d11df5574e4eb5f7cdb0684212e07"
+      },
+      "currentReviewAssessments": {
+        "crop": "confirmed",
+        "context": "confirmed",
+        "highlight": "confirmed",
+        "default": "missing"
+      },
+      "before": {
+        "pdfBoundsPagePointsLTRB": [
+          20.0355,
+          27.36,
+          573.3978,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          83,
+          114,
+          2389,
+          720
+        ],
+        "geometryId": "raster-edge-fc7ed6bca2dcbc28b209",
+        "semanticReviewStatus": "unresolved-requires-source-review"
+      },
+      "after": {
+        "pdfBoundsPagePointsLTRB": [
+          20.16,
+          27.36,
+          576.9593,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          84,
+          114,
+          2404,
+          720
+        ],
+        "geometryId": "raster-edge-568ec776df4ebc903b8e",
+        "coordinateFrameResolution": {
+          "status": "matched",
+          "basis": "mediabox-normalized",
+          "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3"
+        },
+        "edgeStatus": "near-edge-ink-components-present",
+        "crossingComponentCandidate": true,
+        "semanticReviewStatus": "unresolved-requires-source-review",
+        "wordboxCropEdgeAssessment": "assessed-text-layer"
+      },
+      "reviewPinPreserved": true
+    },
+    {
+      "owner": {
+        "collection": "classes",
+        "itemId": "fighter",
+        "binding": "sourceExcerpts"
+      },
+      "catalog": "scans/verified/classes-fighter.json",
+      "catalogSha256Current": "eabd9541af86ff7b49aefb9775eca5107d9ecda72f1ef2673f6e8ff7589015c5",
+      "regionId": "phb-37-f700eca9387736c6",
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+      "imageDimensionsPx": [
+        1160,
+        303
+      ],
+      "normalizedPageRect": {
+        "x": 0.0345679012345679,
+        "y": 0.0347985347985348,
+        "width": 0.9547325102880658,
+        "height": 0.184981684981685
+      },
+      "focusSha256": "218fcfb1a76988380f00db623a43c0c6d6d276cf7bc2baa74126ba3b8a3c4eb7",
+      "contentSha256": "6b8c26aadd73f123dfc4995b04c19c21acedb7232eb3636a2cc30cd4a491edc5",
+      "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3",
+      "coordinateSpace": "mediabox-normalized",
+      "ownerSourceLinkSha256Current": "84f43f5fb79eed65bc91d9ab26c061b0f07a054faaa0fc3c97faf3ba4f442e68",
+      "currentReviewHashBinding": {
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+        "focusSha256": "218fcfb1a76988380f00db623a43c0c6d6d276cf7bc2baa74126ba3b8a3c4eb7",
+        "contentSha256": "6b8c26aadd73f123dfc4995b04c19c21acedb7232eb3636a2cc30cd4a491edc5"
+      },
+      "currentReviewAssessments": {
+        "crop": "confirmed",
+        "context": "confirmed",
+        "highlight": "confirmed",
+        "default": "missing"
+      },
+      "before": {
+        "pdfBoundsPagePointsLTRB": [
+          20.0355,
+          27.36,
+          573.3978,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          83,
+          114,
+          2389,
+          720
+        ],
+        "geometryId": "raster-edge-fc7ed6bca2dcbc28b209",
+        "semanticReviewStatus": "unresolved-requires-source-review"
+      },
+      "after": {
+        "pdfBoundsPagePointsLTRB": [
+          20.16,
+          27.36,
+          576.9593,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          84,
+          114,
+          2404,
+          720
+        ],
+        "geometryId": "raster-edge-568ec776df4ebc903b8e",
+        "coordinateFrameResolution": {
+          "status": "matched",
+          "basis": "mediabox-normalized",
+          "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3"
+        },
+        "edgeStatus": "near-edge-ink-components-present",
+        "crossingComponentCandidate": true,
+        "semanticReviewStatus": "unresolved-requires-source-review",
+        "wordboxCropEdgeAssessment": "assessed-text-layer"
+      },
+      "reviewPinPreserved": true
+    },
+    {
+      "owner": {
+        "collection": "classes",
+        "itemId": "illusionist",
+        "binding": "sourceExcerpts"
+      },
+      "catalog": "scans/verified/classes-illusionist.json",
+      "catalogSha256Current": "f15e001f543898cd825a6936c99f7ee058c6b76d4bd0ea369277cb2cd21fdeba",
+      "regionId": "phb-37-1b62533798f9d154",
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+      "imageDimensionsPx": [
+        1160,
+        303
+      ],
+      "normalizedPageRect": {
+        "x": 0.0345679012345679,
+        "y": 0.0347985347985348,
+        "width": 0.9547325102880658,
+        "height": 0.184981684981685
+      },
+      "focusSha256": "9f5708329cb3b305d3eb9d2e31512c02fcfd1a5c072789224d10823598179f61",
+      "contentSha256": "dc2539904d107e2eb27a766a337941a508cc5319a8f67733f683e6747ef7cbe7",
+      "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3",
+      "coordinateSpace": "mediabox-normalized",
+      "ownerSourceLinkSha256Current": "32088a0c5ed06f62f4d95f35253b9a8eaf6db4b432a13d067c00d3f85840ee85",
+      "currentReviewHashBinding": {
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+        "focusSha256": "9f5708329cb3b305d3eb9d2e31512c02fcfd1a5c072789224d10823598179f61",
+        "contentSha256": "dc2539904d107e2eb27a766a337941a508cc5319a8f67733f683e6747ef7cbe7"
+      },
+      "currentReviewAssessments": {
+        "crop": "confirmed",
+        "context": "confirmed",
+        "highlight": "confirmed",
+        "default": "missing"
+      },
+      "before": {
+        "pdfBoundsPagePointsLTRB": [
+          20.0355,
+          27.36,
+          573.3978,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          83,
+          114,
+          2389,
+          720
+        ],
+        "geometryId": "raster-edge-fc7ed6bca2dcbc28b209",
+        "semanticReviewStatus": "unresolved-requires-source-review"
+      },
+      "after": {
+        "pdfBoundsPagePointsLTRB": [
+          20.16,
+          27.36,
+          576.9593,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          84,
+          114,
+          2404,
+          720
+        ],
+        "geometryId": "raster-edge-568ec776df4ebc903b8e",
+        "coordinateFrameResolution": {
+          "status": "matched",
+          "basis": "mediabox-normalized",
+          "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3"
+        },
+        "edgeStatus": "near-edge-ink-components-present",
+        "crossingComponentCandidate": true,
+        "semanticReviewStatus": "unresolved-requires-source-review",
+        "wordboxCropEdgeAssessment": "assessed-text-layer"
+      },
+      "reviewPinPreserved": true
+    },
+    {
+      "owner": {
+        "collection": "classes",
+        "itemId": "magic-user",
+        "binding": "sourceExcerpts"
+      },
+      "catalog": "scans/verified/classes-magic-user.json",
+      "catalogSha256Current": "cf90639a1b6f636c14b54233ecb63a5b7f6bbd027afec4a31e8a01be0003224c",
+      "regionId": "phb-37-9c3d841088eb857a",
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+      "imageDimensionsPx": [
+        1160,
+        303
+      ],
+      "normalizedPageRect": {
+        "x": 0.0345679012345679,
+        "y": 0.0347985347985348,
+        "width": 0.9547325102880658,
+        "height": 0.184981684981685
+      },
+      "focusSha256": "458c3e32683ed4a8eaaebade8df26e08a58864ba5a9ed90c70120d579ee77fd9",
+      "contentSha256": "6ece00e9a5cecbc989fd9288dccb6870faca35abaeab1233c416f1a50b815536",
+      "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3",
+      "coordinateSpace": "mediabox-normalized",
+      "ownerSourceLinkSha256Current": "ef9882bee9b8f1e66c5621761e62345670a07a66d89f129241b161f3984946ed",
+      "currentReviewHashBinding": {
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+        "focusSha256": "458c3e32683ed4a8eaaebade8df26e08a58864ba5a9ed90c70120d579ee77fd9",
+        "contentSha256": "6ece00e9a5cecbc989fd9288dccb6870faca35abaeab1233c416f1a50b815536"
+      },
+      "currentReviewAssessments": {
+        "crop": "confirmed",
+        "context": "confirmed",
+        "highlight": "confirmed",
+        "default": "missing"
+      },
+      "before": {
+        "pdfBoundsPagePointsLTRB": [
+          20.0355,
+          27.36,
+          573.3978,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          83,
+          114,
+          2389,
+          720
+        ],
+        "geometryId": "raster-edge-fc7ed6bca2dcbc28b209",
+        "semanticReviewStatus": "unresolved-requires-source-review"
+      },
+      "after": {
+        "pdfBoundsPagePointsLTRB": [
+          20.16,
+          27.36,
+          576.9593,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          84,
+          114,
+          2404,
+          720
+        ],
+        "geometryId": "raster-edge-568ec776df4ebc903b8e",
+        "coordinateFrameResolution": {
+          "status": "matched",
+          "basis": "mediabox-normalized",
+          "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3"
+        },
+        "edgeStatus": "near-edge-ink-components-present",
+        "crossingComponentCandidate": true,
+        "semanticReviewStatus": "unresolved-requires-source-review",
+        "wordboxCropEdgeAssessment": "assessed-text-layer"
+      },
+      "reviewPinPreserved": true
+    },
+    {
+      "owner": {
+        "collection": "classes",
+        "itemId": "monk",
+        "binding": "sourceExcerpts"
+      },
+      "catalog": "scans/verified/classes-monk.json",
+      "catalogSha256Current": "aa887fdf6d67dfce185eef4a0a5ec120db8bc2c2ed023a4242e3cb7b74ccd49a",
+      "regionId": "phb-37-e9ab4e8854da5c1b",
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+      "imageDimensionsPx": [
+        1160,
+        303
+      ],
+      "normalizedPageRect": {
+        "x": 0.0345679012345679,
+        "y": 0.0347985347985348,
+        "width": 0.9547325102880658,
+        "height": 0.184981684981685
+      },
+      "focusSha256": "5cdb89b99246694d21a5d4b3ff6fd8f0452673c994e3e8ff28f33d4b76402413",
+      "contentSha256": "f7b57e73f2ec53b70d305f8576d88bcc872187ee6f28672487e4d1d1aba8c2c1",
+      "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3",
+      "coordinateSpace": "mediabox-normalized",
+      "ownerSourceLinkSha256Current": "1757a9ff1685578209ec430a4a0c91d5ec40981d52eef11148346e10e290d633",
+      "currentReviewHashBinding": {
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+        "focusSha256": "5cdb89b99246694d21a5d4b3ff6fd8f0452673c994e3e8ff28f33d4b76402413",
+        "contentSha256": "f7b57e73f2ec53b70d305f8576d88bcc872187ee6f28672487e4d1d1aba8c2c1"
+      },
+      "currentReviewAssessments": {
+        "crop": "confirmed",
+        "context": "confirmed",
+        "highlight": "confirmed",
+        "default": "missing"
+      },
+      "before": {
+        "pdfBoundsPagePointsLTRB": [
+          20.0355,
+          27.36,
+          573.3978,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          83,
+          114,
+          2389,
+          720
+        ],
+        "geometryId": "raster-edge-fc7ed6bca2dcbc28b209",
+        "semanticReviewStatus": "unresolved-requires-source-review"
+      },
+      "after": {
+        "pdfBoundsPagePointsLTRB": [
+          20.16,
+          27.36,
+          576.9593,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          84,
+          114,
+          2404,
+          720
+        ],
+        "geometryId": "raster-edge-568ec776df4ebc903b8e",
+        "coordinateFrameResolution": {
+          "status": "matched",
+          "basis": "mediabox-normalized",
+          "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3"
+        },
+        "edgeStatus": "near-edge-ink-components-present",
+        "crossingComponentCandidate": true,
+        "semanticReviewStatus": "unresolved-requires-source-review",
+        "wordboxCropEdgeAssessment": "assessed-text-layer"
+      },
+      "reviewPinPreserved": true
+    },
+    {
+      "owner": {
+        "collection": "classes",
+        "itemId": "paladin",
+        "binding": "sourceExcerpts"
+      },
+      "catalog": "scans/verified/classes-paladin.json",
+      "catalogSha256Current": "a85f2db0be8e76d2329f2602ab0883fa381597c69bbc8afb4e45eac033678537",
+      "regionId": "phb-37-9106ad0ba141326d",
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+      "imageDimensionsPx": [
+        1160,
+        303
+      ],
+      "normalizedPageRect": {
+        "x": 0.0345679012345679,
+        "y": 0.0347985347985348,
+        "width": 0.9547325102880658,
+        "height": 0.184981684981685
+      },
+      "focusSha256": "3990ec3f9e485eeca3b6026757bea3e623540cbd25ebaae9f769d3129ebc6d08",
+      "contentSha256": "56c9ad18f8c7da78645ad6a67addb1cd28e87e12e883f02a3942a649b622bf4a",
+      "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3",
+      "coordinateSpace": "mediabox-normalized",
+      "ownerSourceLinkSha256Current": "667b7a6d3a4d590fc927e7ee79f35c2484d8959e62b5113dfa842d0670fc40a5",
+      "currentReviewHashBinding": {
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+        "focusSha256": "3990ec3f9e485eeca3b6026757bea3e623540cbd25ebaae9f769d3129ebc6d08",
+        "contentSha256": "56c9ad18f8c7da78645ad6a67addb1cd28e87e12e883f02a3942a649b622bf4a"
+      },
+      "currentReviewAssessments": {
+        "crop": "confirmed",
+        "context": "confirmed",
+        "highlight": "confirmed",
+        "default": "missing"
+      },
+      "before": {
+        "pdfBoundsPagePointsLTRB": [
+          20.0355,
+          27.36,
+          573.3978,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          83,
+          114,
+          2389,
+          720
+        ],
+        "geometryId": "raster-edge-fc7ed6bca2dcbc28b209",
+        "semanticReviewStatus": "unresolved-requires-source-review"
+      },
+      "after": {
+        "pdfBoundsPagePointsLTRB": [
+          20.16,
+          27.36,
+          576.9593,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          84,
+          114,
+          2404,
+          720
+        ],
+        "geometryId": "raster-edge-568ec776df4ebc903b8e",
+        "coordinateFrameResolution": {
+          "status": "matched",
+          "basis": "mediabox-normalized",
+          "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3"
+        },
+        "edgeStatus": "near-edge-ink-components-present",
+        "crossingComponentCandidate": true,
+        "semanticReviewStatus": "unresolved-requires-source-review",
+        "wordboxCropEdgeAssessment": "assessed-text-layer"
+      },
+      "reviewPinPreserved": true
+    },
+    {
+      "owner": {
+        "collection": "classes",
+        "itemId": "ranger",
+        "binding": "sourceExcerpts"
+      },
+      "catalog": "scans/verified/classes-ranger.json",
+      "catalogSha256Current": "ce88f85daa6b49a4d868c334c73fec802ec1d72b879f12ccde7050cc09b0cc8a",
+      "regionId": "phb-37-0119fdbdadda1bfc",
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+      "imageDimensionsPx": [
+        1160,
+        303
+      ],
+      "normalizedPageRect": {
+        "x": 0.0345679012345679,
+        "y": 0.0347985347985348,
+        "width": 0.9547325102880658,
+        "height": 0.184981684981685
+      },
+      "focusSha256": "e5e8be6c53c14d89317603b473132dd373d5080e27fb233d75f56bd56e5d7339",
+      "contentSha256": "023c5aa7a51cf19dd5bb2d271822e776f34c9ef071f37c2ec11de7d219fb3668",
+      "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3",
+      "coordinateSpace": "mediabox-normalized",
+      "ownerSourceLinkSha256Current": "83436a047dc64f2372be3d61803d10a07c643c333c38a5b8a4c88a41d2a3c880",
+      "currentReviewHashBinding": {
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+        "focusSha256": "e5e8be6c53c14d89317603b473132dd373d5080e27fb233d75f56bd56e5d7339",
+        "contentSha256": "023c5aa7a51cf19dd5bb2d271822e776f34c9ef071f37c2ec11de7d219fb3668"
+      },
+      "currentReviewAssessments": {
+        "crop": "confirmed",
+        "context": "confirmed",
+        "highlight": "confirmed",
+        "default": "missing"
+      },
+      "before": {
+        "pdfBoundsPagePointsLTRB": [
+          20.0355,
+          27.36,
+          573.3978,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          83,
+          114,
+          2389,
+          720
+        ],
+        "geometryId": "raster-edge-fc7ed6bca2dcbc28b209",
+        "semanticReviewStatus": "unresolved-requires-source-review"
+      },
+      "after": {
+        "pdfBoundsPagePointsLTRB": [
+          20.16,
+          27.36,
+          576.9593,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          84,
+          114,
+          2404,
+          720
+        ],
+        "geometryId": "raster-edge-568ec776df4ebc903b8e",
+        "coordinateFrameResolution": {
+          "status": "matched",
+          "basis": "mediabox-normalized",
+          "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3"
+        },
+        "edgeStatus": "near-edge-ink-components-present",
+        "crossingComponentCandidate": true,
+        "semanticReviewStatus": "unresolved-requires-source-review",
+        "wordboxCropEdgeAssessment": "assessed-text-layer"
+      },
+      "reviewPinPreserved": true
+    },
+    {
+      "owner": {
+        "collection": "classes",
+        "itemId": "thief",
+        "binding": "sourceExcerpts"
+      },
+      "catalog": "scans/verified/classes-thief.json",
+      "catalogSha256Current": "248b7a8042c35404ef4fa742cc75c09d87689c7d421c2b5e8d70ff064c8660de",
+      "regionId": "phb-37-b8e9b30fddb28ae1",
+      "book": "PHB",
+      "printedPage": 37,
+      "pdfPage": 38,
+      "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+      "imageDimensionsPx": [
+        1160,
+        303
+      ],
+      "normalizedPageRect": {
+        "x": 0.0345679012345679,
+        "y": 0.0347985347985348,
+        "width": 0.9547325102880658,
+        "height": 0.184981684981685
+      },
+      "focusSha256": "891e35ad02e1cac7583e9a6db5e6d9db4213dd87c097f6aea212742f9a3740f5",
+      "contentSha256": "a1cbb200aa00e00854a426ec8eaeb4382fb921aa337527a38bf42f439f6dabf1",
+      "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3",
+      "coordinateSpace": "mediabox-normalized",
+      "ownerSourceLinkSha256Current": "46c7250c8e31b1addf188ccd8ebb2a85cc1b000493fc289e55f29116f12d3e65",
+      "currentReviewHashBinding": {
+        "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "imageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+        "focusSha256": "891e35ad02e1cac7583e9a6db5e6d9db4213dd87c097f6aea212742f9a3740f5",
+        "contentSha256": "a1cbb200aa00e00854a426ec8eaeb4382fb921aa337527a38bf42f439f6dabf1"
+      },
+      "currentReviewAssessments": {
+        "crop": "confirmed",
+        "context": "confirmed",
+        "highlight": "confirmed",
+        "default": "missing"
+      },
+      "before": {
+        "pdfBoundsPagePointsLTRB": [
+          20.0355,
+          27.36,
+          573.3978,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          83,
+          114,
+          2389,
+          720
+        ],
+        "geometryId": "raster-edge-fc7ed6bca2dcbc28b209",
+        "semanticReviewStatus": "unresolved-requires-source-review"
+      },
+      "after": {
+        "pdfBoundsPagePointsLTRB": [
+          20.16,
+          27.36,
+          576.9593,
+          172.8
+        ],
+        "rasterBoundsPxLTRB": [
+          84,
+          114,
+          2404,
+          720
+        ],
+        "geometryId": "raster-edge-568ec776df4ebc903b8e",
+        "coordinateFrameResolution": {
+          "status": "matched",
+          "basis": "mediabox-normalized",
+          "frameId": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3"
+        },
+        "edgeStatus": "near-edge-ink-components-present",
+        "crossingComponentCandidate": true,
+        "semanticReviewStatus": "unresolved-requires-source-review",
+        "wordboxCropEdgeAssessment": "assessed-text-layer"
+      },
+      "reviewPinPreserved": true
+    }
+  ],
+  "proposedNewFrameJoin": {
+    "status": "proposed-only; root independent approval pending",
+    "privateEvidencePath": "/workspace/vault-audit-private/pass8-frame-coordinate-resolution/xp-thief-p27-frame-match-proposal.json",
+    "privateEvidenceSha256": "ed01ad5947d17c578b43a2d41eb8c4039cc28381ad75d5a1fdeba1ba7fe731ce",
+    "sourceIdentity": {
+      "book": "PHB",
+      "printedPage": 27,
+      "pdfPage": 28,
+      "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+    },
+    "owner": {
+      "collection": "classes",
+      "itemId": "thief",
+      "binding": "sourceExcerpts"
+    },
+    "catalog": "scans/verified/classes-thief.json",
+    "catalogSha256": "248b7a8042c35404ef4fa742cc75c09d87689c7d421c2b5e8d70ff064c8660de",
+    "regionId": "pass8-thief-xp-continuation-rule",
+    "imageSha256": "2ccdcb45677442f0f249e6be41c31502cdfa1cf3530fb03b26364eed1aeacf77",
+    "imageDimensionsPx": [
+      564,
+      420
+    ],
+    "normalizedPageRect": {
+      "x": 0.5,
+      "y": 0.395,
+      "width": 0.49,
+      "height": 0.265
+    },
+    "focusSha256": "ff09da6a0d685baf3f73032d148d3c325416b160de55a0f2ecdb2639f5e3c0ca",
+    "contentSha256": "8a8debb34c383c827c0b35abb6a4dd2b8a16dc92a6fb564e904bfdb8fdfdaca5",
+    "ownerSourceLinkSha256": "46c7250c8e31b1addf188ccd8ebb2a85cc1b000493fc289e55f29116f12d3e65",
+    "proposedCoordinateSpace": "cropbox-pageRect-normalized",
+    "proposedBoundsPdfPagePointsLTRB": [
+      287.1597,
+      311.8918,
+      568.5761,
+      521.1357
+    ],
+    "currentReplayDpi": 144,
+    "pixelDimensionsPx": [
+      564,
+      420
+    ],
+    "targetAndReplayRawRgbSha256": "2a9e1b00ddefe7fdc424fd7be873d13262d5ceb619ba6720120492a7c9ea1dac",
+    "targetAndReplayRawRgbExactlyEqual": true,
+    "legacyCropBoxProjectionMatchesPixels": true,
+    "differentFromExistingPHB27MediaBoxFrame": true,
+    "historicDpiClaim": false,
+    "activeBridgeJoin": false
+  },
+  "checks": {
+    "pythonFrameBridgeTests": "13 passed / 0 failed",
+    "pythonRasterAuditTests": "14 passed / 0 failed",
+    "nodeRasterCoverageAndRenderFrameTests": "15 passed / 0 failed",
+    "pyCompile": "passed",
+    "gitDiffCheck": "passed",
+    "fullNodeSuite": "not run in this bounded task"
+  },
+  "limitations": [
+    "The active registry contains nine current source-frame groups/102 exact owner joins only.",
+    "Historical rendering method/DPI for these original crops remains unknown; the additional 144 DPI p.27 replay is current evidence only.",
+    "The 13 XP additions are not frame-joined by this artifact. The new p.27 thief join waits for root independent review; the other 12 remain outside this bounded bridge.",
+    "Raster edge results remain diagnostic candidate measurements, not semantic crop-completeness or source-value conclusions.",
+    "No full historical transform search or book-wide completeness claim is made."
+  ],
+  "boundedConclusion": "The refreshed sidecar fixes exactly the 11 confirmed PHB projections, preserves all 102 prior review hash/assessment pins, and is live-pinned to the current a46 data, catalogs, source PDFs, and page boxes. No noncohort diagnostic window or counter changed. The XP append set is explicit; its new p.27 CropBox frame has an exact current crop replay but is not active pending independent approval.",
+  "executedCommands": [
+    {
+      "command": "python tools/refresh-source-frame-coordinate-bridge-xp.py --source-dir /workspace/vault-audit-private/sources --output /tmp/source-frame-coordinate-bridge-a46.json",
+      "result": "reproduced the current registry SHA 2899f53a9cfa1741d9fd9aed3c47ada0eb3a80fc842352c8c64deb3869986318; 102 prior joins validated; 13 reviewed appended regions recorded outside the bridge"
+    },
+    {
+      "command": "python research/source-visual-audit.py --source-dir /workspace/vault-audit-private/sources --output-prefix frame-bridge-a46-final --data-root dist --output-dir /workspace/vault-audit-private/pass8-frame-coordinate-resolution/a46/visual",
+      "result": "3412 region usages; 102 matched to this correction registry; 3308 outside this bounded registry with legacy diagnostic projection retained; 2 supplemental image frames; 0 warnings"
+    },
+    {
+      "command": "python research/source-raster-boundary-audit.py --source-dir /workspace/vault-audit-private/sources --source-usage-map /workspace/vault-audit-private/pass8-frame-coordinate-resolution/a46/visual/source-visual-audit-frame-bridge-a46-final.json --data-root dist --dpi 300 --output /workspace/vault-audit-private/pass8-frame-coordinate-resolution/a46/raster/source-raster-frame-bridge-a46-final-300.json.gz",
+      "result": "3412 usages; 3410 raster-assessed; 2 supplemental not assessable; 230 source pages rendered; current raster counters equal the no-bridge current snapshot"
+    },
+    {
+      "command": "python tests/source-frame-coordinate-bridge.test.py",
+      "result": "13 passed, 0 failed"
+    },
+    {
+      "command": "python tests/source-raster-boundary-audit.test.py",
+      "result": "14 passed, 0 failed"
+    },
+    {
+      "command": "node --test tests/source-raster-coverage.test.mjs tests/monetary-source-render-frames.test.mjs",
+      "result": "15 passed, 0 failed"
+    },
+    {
+      "command": "python -m py_compile research/source_frame_coordinate_bridge.py research/source-visual-audit.py research/source-raster-boundary-audit.py tools/build-source-frame-coordinate-bridge.py tools/refresh-source-frame-coordinate-bridge-xp.py tests/source-frame-coordinate-bridge.test.py",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "implementationCode": {
+    "research/source_frame_coordinate_bridge.py": {
+      "sha256": "1a1e1ec2b35f586471f141f972ad16725285f4b9310a79cc16ffe16386ffe276",
+      "bytes": 19629
+    },
+    "research/source-visual-audit.py": {
+      "sha256": "21ba5c6e9dc960d8d1768e96044bdfffc276e876e4cb586a6be9fe5695dd13f7",
+      "bytes": 22498
+    },
+    "research/source-raster-boundary-audit.py": {
+      "sha256": "ae6c4fbb96e02812c16cf5289d0af0a18eec646b2ff1ab13c5179ac5e1b8eea9",
+      "bytes": 54654
+    },
+    "tools/build-source-frame-coordinate-bridge.py": {
+      "sha256": "0d9318cb52532caadd2dd5d9dff631ee61d3c92dfb4ccde9256003559844cc9d",
+      "bytes": 12911
+    },
+    "tools/refresh-source-frame-coordinate-bridge-xp.py": {
+      "sha256": "82c9e758c3dc5fd42f59631d7fd8007f3e1ee24146198145e0506d0b4978ea46",
+      "bytes": 19753
+    },
+    "tests/source-frame-coordinate-bridge.test.py": {
+      "sha256": "c9b30ce8c28d77faec214a280e68652eeac6d70675437fa09f1342547e427189",
+      "bytes": 13644
+    }
+  }
+}

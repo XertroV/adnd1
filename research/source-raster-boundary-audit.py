@@ -47,6 +47,16 @@ _continuation_spec = importlib.util.spec_from_file_location("continuation_candid
 _continuation = importlib.util.module_from_spec(_continuation_spec)
 _continuation_spec.loader.exec_module(_continuation)
 supplemental_region_identity = _continuation.supplemental_region_identity
+_frame_spec = importlib.util.spec_from_file_location("source_frame_coordinate_bridge", ROOT / "research" / "source_frame_coordinate_bridge.py")
+_frame_bridge = importlib.util.module_from_spec(_frame_spec)
+_frame_spec.loader.exec_module(_frame_bridge)
+current_observation = _frame_bridge.current_observation
+owner_key = _frame_bridge.owner_key
+normalized_rect_to_page_points = _frame_bridge.normalized_rect_to_page_points
+public_resolution = _frame_bridge.public_resolution
+load_registry = _frame_bridge.load_registry
+REGISTRY_SHA256 = _frame_bridge.REGISTRY_SHA256
+validate_live_registry = _frame_bridge.validate_live_registry
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -272,11 +282,11 @@ def _linked_catalogs(data):
 
 def _usage_identity(row):
     fields = ("collection", "itemId", "binding", "catalog", "regionId", "book",
-              "printedPage", "pdfPage", "image", "imageSha256", "sourceHashMatches")
+              "printedPage", "pdfPage", "image", "imageSha256", "sourceHashMatches", "coordinateFrameResolution")
     return tuple(json.dumps(row.get(field), ensure_ascii=False, sort_keys=True, separators=(",", ":")) for field in fields)
 
 
-def _catalog_region_geometry(region, page=None):
+def _catalog_region_geometry(region, page=None, coordinate_space=None):
     """Mirror source-visual-audit's normalized/direct bounds selection."""
     normalized = region.get("normalizedPageRect")
     if isinstance(normalized, dict):
@@ -301,6 +311,9 @@ def _catalog_region_geometry(region, page=None):
             return None, "invalid"
         if page is None:
             return [x, y, width, height], shape
+        if coordinate_space is not None:
+            bounds, status = normalized_rect_to_page_points(region.get("normalizedPageRect"), coordinate_space, page.rect, page.cropbox, page.mediabox)
+            return (bounds, shape) if status == "assessable" else (None, status)
         return [round(x * page.rect.width, 4), round(y * page.rect.height, 4),
                 round((x + width) * page.rect.width, 4), round((y + height) * page.rect.height, 4)], shape
     bounds = region.get("boundsPdfPoints")
@@ -364,7 +377,26 @@ def _supplemental_region_receipt(catalog, region, catalog_path, source_dir, data
     }
 
 
-def reconcile_live_catalog_usage(source_map, data_root, source_map_path, pdfs, source_dir=None):
+def _historical_source_map_is_sealed(source_map_path):
+    """Return the exact seal for a repository historical source-map artifact."""
+    path = Path(source_map_path).resolve()
+    try:
+        relative_path = path.relative_to(ROOT.resolve()).as_posix()
+    except ValueError as exc:
+        raise ValueError("historical diagnostics require a sealed repository artifact") from exc
+    manifest_path = ROOT / "research" / "citation-evidence-seals.json"
+    manifest = json.loads(manifest_path.read_text())
+    matches = [row for row in manifest.get("seals", []) if row.get("path") == relative_path]
+    if len(matches) != 1:
+        raise ValueError("historical diagnostics require an exact citation-evidence-seal path")
+    actual = sha256_file(path)
+    if actual != matches[0].get("sha256"):
+        raise ValueError("historical diagnostics source-map bytes differ from their citation evidence seal")
+    return {"path": relative_path, "sha256": actual}, json.loads(path.read_bytes())
+
+
+def reconcile_live_catalog_usage(source_map, data_root, source_map_path, pdfs, source_dir=None,
+                                 *, historical_diagnostics=False):
     """Require the hash-bound map to cover the complete live catalog universe."""
     data = json.loads((Path(data_root) / "data.json").read_text())
     links = _linked_catalogs(data)
@@ -401,6 +433,38 @@ def reconcile_live_catalog_usage(source_map, data_root, source_map_path, pdfs, s
         if not isinstance(value, str) or len(value) != 64 or any(ch not in "0123456789abcdef" for ch in value):
             raise ValueError(f"source usage map has invalid source identity for {book}")
 
+    # Current validation is selected by trusted repo code/config, never by an
+    # input report's optional declaration. Historical bytes require a separate
+    # explicit, seal-pinned diagnostics path.
+    bridge_enabled = not historical_diagnostics
+    bridge = load_registry() if bridge_enabled else None
+    historical_seal = None
+    if historical_diagnostics:
+        historical_seal, sealed_source_map = _historical_source_map_is_sealed(source_map_path)
+        if json.dumps(source_map, ensure_ascii=False, sort_keys=True, separators=(",", ":")) != json.dumps(sealed_source_map, ensure_ascii=False, sort_keys=True, separators=(",", ":")):
+            raise ValueError("historical diagnostics object differs from its sealed source-map bytes")
+    live_registry_validation=None
+    if bridge_enabled:
+        declaration = source_map.get("sourceFrameCoordinateBridge")
+        if not isinstance(declaration, dict):
+            raise ValueError("source usage map is missing the active source-frame bridge declaration")
+        if declaration.get("path") != "research/source-frame-coordinate-bridge.json" or declaration.get("sha256") != REGISTRY_SHA256 or declaration.get("status") != "scoped-geometric-provenance-only":
+            raise ValueError("source usage map source-frame bridge declaration mismatch")
+        live_registry_validation=validate_live_registry(data,data_root,declared_pdf_hashes,None)
+        if live_registry_validation.get("status") != "current-pins-match":
+            raise ValueError("active source-frame bridge no longer matches current data/catalog pins")
+        if declaration.get("registryValidation") != live_registry_validation:
+            raise ValueError("source usage map source-frame registry live-pins check is stale")
+        if (declaration.get("resolutionCounts") is None
+                or not isinstance(declaration.get("resolutionCounts"), dict)):
+            raise ValueError("source usage map source-frame bridge resolution counts are missing")
+    owner_items = {}
+    for collection in ("rules", "spells", "equipment", "matrices", "classes"):
+        for item in data.get(collection, []):
+            if isinstance(item, dict): owner_items[(collection, item.get("id"))] = item
+    if isinstance(data.get("progressionExplainer"), dict):
+        item=dict(data["progressionExplainer"], id="progression-explainer")
+        owner_items[("progressionExplainer", item["id"])] = item
     expected_usages = []
     geometry_expectations = []
     for link in links:
@@ -408,12 +472,25 @@ def reconcile_live_catalog_usage(source_map, data_root, source_map_path, pdfs, s
         regions = catalog.get("regions")
         if not isinstance(regions, list):
             raise ValueError(f"catalog regions must be an array: {link['catalog']}")
+        owner_item = owner_items.get((link["collection"], link["itemId"]))
+        if owner_item is None or not isinstance(owner_item.get(link["binding"]), dict):
+            raise ValueError(f"live source owner is missing: {link['collection']}#{link['itemId']}#{link['binding']}")
         for region in regions:
             if not isinstance(region, dict):
                 raise ValueError(f"catalog contains a malformed region: {link['catalog']}")
             book = region.get("book")
             catalog_source = ((catalog.get("sources") or {}).get(book) or {}).get("sha256")
-            expected_usages.append({
+            resolution = {"status":"not-assessable-source-pdf-unavailable","basis":"unassessable"}
+            if bridge_enabled and "sourceArtifactId" in region:
+                resolution = {"status":"not-applicable-supplemental-image-frame","basis":"unassessable"}
+            elif bridge_enabled and isinstance(region.get("pdfPage"), int) and region["pdfPage"] > 0:
+                image_path = Path(data_root) / Path(link["catalog"]).parent / str(region.get("image", ""))
+                page = pdfs[book][region["pdfPage"]-1] if book in pdfs and region["pdfPage"] <= len(pdfs[book]) else None
+                resolution = current_observation(collection=link["collection"], item_id=link["itemId"], binding=link["binding"], catalog_path=link["catalog"], catalog_hash=live_catalog_hashes[link["catalog"]], catalog=catalog, region=region, owner_link=owner_item[link["binding"]], image_path=image_path, book=book, printed_page=region.get("printedPage"), pdf_page=region.get("pdfPage"), source_pdf_sha256=declared_pdf_hashes.get(book), page=page)
+            elif bridge_enabled:
+                resolution = {"status":"not-assessable-source-page-unavailable","basis":"unassessable"}
+            resolution_summary=public_resolution(resolution) if bridge_enabled else None
+            expected_row={
                 **link,
                 "regionId": region.get("id"),
                 "book": book,
@@ -422,8 +499,25 @@ def reconcile_live_catalog_usage(source_map, data_root, source_map_path, pdfs, s
                 "image": (Path(link["catalog"]).parent / str(region.get("image", ""))).as_posix(),
                 "imageSha256": region.get("sha256"),
                 "sourceHashMatches": bool(book in declared_pdf_hashes and catalog_source == declared_pdf_hashes.get(book)),
-            })
-            geometry_expectations.append((link["catalog"], region))
+            }
+            if bridge_enabled: expected_row["coordinateFrameResolution"] = resolution_summary
+            pinned_bounds = None
+            if bridge_enabled and resolution.get("status") == "matched":
+                frame, registered_row = bridge["owners"][owner_key(link["collection"], link["itemId"], link["binding"], link["catalog"], region.get("id"))]
+                pinned_bounds, pinned_status = normalized_rect_to_page_points(
+                    region.get("normalizedPageRect"), frame["coordinateSpace"],
+                    frame["pdfBoxesPoints"]["pageRect"], frame["pdfBoxesPoints"]["cropBox"], frame["pdfBoxesPoints"]["mediaBox"])
+                if pinned_status != "assessable":
+                    raise ValueError(f"registered source-frame geometry is invalid: {link['catalog']}#{region.get('id')}")
+            expected_usages.append(expected_row)
+            geometry_expectations.append((link["catalog"], region, resolution, pinned_bounds))
+
+    if bridge_enabled:
+        expected_resolution_counts = dict(sorted(collections.Counter(
+            (row.get("coordinateFrameResolution") or {}).get("status", "unknown")
+            for row in expected_usages).items()))
+        if source_map["sourceFrameCoordinateBridge"].get("resolutionCounts") != expected_resolution_counts:
+            raise ValueError("source usage map source-frame bridge resolution counts are stale")
 
     actual_usages = source_map.get("usages")
     if not isinstance(actual_usages, list) or any(not isinstance(row, dict) for row in actual_usages):
@@ -442,13 +536,15 @@ def reconcile_live_catalog_usage(source_map, data_root, source_map_path, pdfs, s
     for row in actual_usages:
         actual_by_identity[_usage_identity(row)].append(row)
     expected_by_identity = collections.defaultdict(list)
-    for expected, (_, region) in zip(expected_usages, geometry_expectations):
-        expected_by_identity[_usage_identity(expected)].append((expected, region))
+    for expected, (_, region, resolution, pinned_bounds) in zip(expected_usages, geometry_expectations):
+        expected_by_identity[_usage_identity(expected)].append((expected, region, resolution, pinned_bounds))
     for identity, expectations in expected_by_identity.items():
         rows = actual_by_identity[identity]
-        for row, (expected, region) in zip(rows, expectations):
+        for row, (expected, region, resolution, pinned_bounds) in zip(rows, expectations):
             book = expected.get("book")
             page_no = expected.get("pdfPage")
+            if bridge_enabled and resolution.get("status") == "matched" and row.get("pdfBounds") != pinned_bounds:
+                raise ValueError(f"source usage map registered frame bounds mismatch: {expected['catalog']}#{expected['regionId']}")
             if "sourceArtifactId" in region:
                 if source_dir is None:
                     raise ValueError(f"supplemental source directory is required: {expected['regionId']}")
@@ -474,7 +570,12 @@ def reconcile_live_catalog_usage(source_map, data_root, source_map_path, pdfs, s
                     raise ValueError(f"source usage map source geometry identity mismatch: {expected['catalog']}#{expected['regionId']}")
                 continue
             page = pdfs[book][page_no - 1]
-            bounds, shape = _catalog_region_geometry(region, page)
+            if bridge_enabled and resolution.get("status") == "matched":
+                bounds, shape = _catalog_region_geometry(region, page, resolution.get("basis"))
+            elif bridge_enabled and resolution.get("status") == "conflicting-frame-identity":
+                bounds, shape = None, "source-frame-mismatch"
+            else:
+                bounds, shape = _catalog_region_geometry(region, page)
             if row.get("boundsType") != shape or row.get("pdfBounds") != bounds:
                 raise ValueError(f"source usage map source bounds mismatch: {expected['catalog']}#{expected['regionId']}")
 
@@ -573,7 +674,8 @@ def scan_calibration(manifest_path, pdfs, dpi, band_px):
     }
 
 
-def build_audit(source_map_path, source_dir, data_root, dpi=300, band_px=8, calibration_manifest=None):
+def build_audit(source_map_path, source_dir, data_root, dpi=300, band_px=8, calibration_manifest=None,
+                *, historical_diagnostics=False):
     source_map_path = Path(source_map_path).resolve()
     source_dir = Path(source_dir).resolve()
     data_root = Path(data_root).resolve()
@@ -604,7 +706,9 @@ def build_audit(source_map_path, source_dir, data_root, dpi=300, band_px=8, cali
     # is rendered. It prevents a stale or hand-edited usage map from shrinking
     # the scan to an empty or partial universe while keeping missing-source and
     # missing-geometry cases explicit downstream NAs.
-    live_catalog_hashes = reconcile_live_catalog_usage(source_map, data_root, source_map_path, pdfs, source_dir)
+    live_catalog_hashes = reconcile_live_catalog_usage(
+        source_map, data_root, source_map_path, pdfs, source_dir,
+        historical_diagnostics=historical_diagnostics)
 
     usages = source_map.get("usages", [])
     geometry_groups = collections.defaultdict(list)
@@ -631,12 +735,15 @@ def build_audit(source_map_path, source_dir, data_root, dpi=300, band_px=8, cali
                 "sourceArtifactId": usage.get("sourceArtifactId"),
                 "sourceArtifactSha256": usage.get("sourceArtifactSha256"),
                 "sourcePdfSha256": usage.get("sourcePdfSha256"),
+                "coordinateFrameResolution": usage.get("coordinateFrameResolution"),
                 "notAssessableReason": reason,
                 "semanticReviewStatus": "unresolved-requires-source-review",
             })
             continue
         if not usage.get("sourceHashMatches") or book not in pdfs:
             reason = "source-hash-mismatch-or-source-unavailable"
+        elif (usage.get("coordinateFrameResolution") or {}).get("status") == "conflicting-frame-identity":
+            reason = "source-frame-identity-mismatch"
         elif not isinstance(page_no, int) or page_no < 1 or page_no > len(pdfs[book]):
             reason = "source-page-unavailable"
         elif not usage.get("pdfBounds"):
@@ -665,6 +772,7 @@ def build_audit(source_map_path, source_dir, data_root, dpi=300, band_px=8, cali
                 "printedPage": usage.get("printedPage"),
                 "pdfPage": page_no,
                 "imageSha256": usage.get("imageSha256"),
+                "coordinateFrameResolution": usage.get("coordinateFrameResolution"),
                 "notAssessableReason": reason,
                 "semanticReviewStatus": "unresolved-requires-source-review",
             })
@@ -719,6 +827,7 @@ def build_audit(source_map_path, source_dir, data_root, dpi=300, band_px=8, cali
                 "sourceFrameDimensionsPx": [pix.width, pix.height],
                 "renderDpi": dpi,
                 "imageSha256": image_sha,
+                "coordinateFrameResolution": first.get("coordinateFrameResolution") or {"status":"unknown-frame","basis":"unassessable"},
                 "boundsPdfPagePointsLTRB": list(bounds),
                 "boundsRasterPixelsLTRB": bounds_px,
                 "pixelMapping": "page-relative point coordinate multiplied by dpi/72, round-half-up; half-open raster bounds",
@@ -746,6 +855,7 @@ def build_audit(source_map_path, source_dir, data_root, dpi=300, band_px=8, cali
                     "printedPage": usage.get("printedPage"),
                     "pdfPage": usage.get("pdfPage"),
                     "imageSha256": usage.get("imageSha256"),
+                    "coordinateFrameResolution": usage.get("coordinateFrameResolution"),
                     "geometryId": geometry_id,
                     "priorWordboxCandidate": usage.get("cropEdgeAssessment") == "candidate-text-box-crossing",
                     "rasterPixelCandidateStatus": scan.get("edgeStatus"),
@@ -787,8 +897,12 @@ def build_audit(source_map_path, source_dir, data_root, dpi=300, band_px=8, cali
         for g in geometry_records
     )
     all_candidate_component_count = sum(sum(edge.get("componentCountLt254", 0) for edge in g["scan"].get("edges", {}).values()) for g in geometry_records)
+    coordinate_frame_status_counts=collections.Counter(
+        (usage.get("coordinateFrameResolution") or {}).get("status", "unregistered-legacy-usage") for usage in usages)
     output = {
         "artifactType": "Complete numeric source-raster crop-boundary candidate inventory",
+        "sourceFrameCoordinateBridge": ({"path":"research/source-frame-coordinate-bridge.json","sha256":REGISTRY_SHA256,"status":"scoped-geometric-provenance-only","resolutionCounts":dict(sorted(coordinate_frame_status_counts.items())),"registryValidation":(source_map.get("sourceFrameCoordinateBridge") or {}).get("registryValidation")} if source_map.get("sourceFrameCoordinateBridge") else {"status":"not-present-in-source-usage-map; historical/legacy projections do not establish a typed source-frame basis"}),
+        "runMode": ({"status":"historical-sealed-diagnostics-only","sourceMapSeal":_historical_source_map_is_sealed(source_map_path)[0]} if historical_diagnostics else {"status":"current-active-bridge-required"}),
         "schemaVersion": 1,
         "status": "complete-structural-inventory-semantic-review-unresolved",
         "scope": "Every current sourceExcerpts and scanVerification catalog use in the bound usage map. For each assessable use, verify the published PNG hash, then scan an 8px native source-raster band on each side of its declared crop boundary. This is not a pixel replay/comparison of each published PNG against its source crop. Raster candidates are numeric components near crop edges; no candidate/no ink is not proof of completeness, contextual adequacy, reading correctness, or absence of source defects.",
@@ -847,6 +961,7 @@ def main(argv=None):
     parser.add_argument("--calibration-manifest", help="Optional private context manifest for the three prefix-cut positives and two revised-boundary negative controls")
     parser.add_argument("--calibration-report", type=Path, help="Optional plain numeric JSON copy of calibration results when calibration fails")
     parser.add_argument("--output", type=Path, required=True, help="Write a numeric JSON.GZ snapshot to a new path")
+    parser.add_argument("--historical-diagnostics", action="store_true", help="Explicitly inspect a citation-sealed historical source map; output is diagnostic-only and cannot pass current coverage checks")
     args = parser.parse_args(argv)
     if args.dpi < 72 or args.dpi > 600:
         parser.error("--dpi must be in [72,600]")
@@ -856,7 +971,8 @@ def main(argv=None):
     if output_path.exists():
         parser.error(f"--output already exists; choose a new immutable path: {output_path}")
     try:
-        report = build_audit(args.source_usage_map, args.source_dir, args.data_root, args.dpi, args.band_px, args.calibration_manifest)
+        report = build_audit(args.source_usage_map, args.source_dir, args.data_root, args.dpi, args.band_px, args.calibration_manifest,
+                             historical_diagnostics=args.historical_diagnostics)
     except Exception as exc:
         if args.calibration_report and args.calibration_manifest:
             # Safe metadata-only diagnostic: do not attach page pixels or text.

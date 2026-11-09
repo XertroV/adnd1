@@ -6,8 +6,8 @@ import {mkdtempSync, readFileSync, rmSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {gunzipSync} from 'node:zlib';
-import {buildSourceRasterCoverage, collectLiveRasterUniverse, loadRasterSnapshotInput} from '../tools/source-raster-coverage.mjs';
+import {gzipSync, gunzipSync} from 'node:zlib';
+import {buildHistoricalSourceRasterCoverage, buildSourceRasterCoverage, collectLiveRasterUniverse, loadRasterSnapshotInput, runSourceRasterCoverage} from '../tools/source-raster-coverage.mjs';
 
 const snapshot = JSON.parse(gunzipSync(loadRasterSnapshotInput().bytes));
 const historicalSnapshot = JSON.parse(gunzipSync(readFileSync(new URL('../research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz', import.meta.url))));
@@ -115,8 +115,12 @@ const componentIntegrityMutations = [
 ];
 
 test('the frozen historical catalog universe retains3069 uses and1284 source windows', () => {
-  const report = buildSourceRasterCoverage(historicalSnapshot, historicalLive);
+  const report = buildHistoricalSourceRasterCoverage({
+    snapshotPath: 'research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz',
+    livePath: 'tests/fixtures/source-raster-live-b90d317-before.json.gz',
+  });
   assert.deepEqual(report.validation, {valid: true, errors: []});
+  assert.equal(report.runMode.status, 'historical-sealed-diagnostics-only');
   assert.equal(report.liveUniverse.regionUsages, 3069);
   assert.equal(report.geometries.length, 1284);
   assert.equal(report.currentCandidateCounts.sourcePagesRendered, 229);
@@ -172,7 +176,7 @@ test('the reconstructed pre-fix mapper omits page 175; the current live mapper c
 });
 
 test('typed DMG 175 supplemental rows stay in the raster denominator as explicit unassessable image frames',()=>{
- const copy=structuredClone(snapshot),liveCopy=structuredClone(live);
+ const copy=structuredClone(snapshot),liveCopy={...live,usages:structuredClone(live.usages)};
  const reason='Supplemental source-image frame is retained in the usage denominator but is not part of the current PDF-raster geometry assessment.';
  let ordinal=Math.max(0,...copy.usages.map(row=>row.usageOrdinal),...(copy.notAssessableUsages||[]).map(row=>row.usageOrdinal));
  const existing=new Set(copy.notAssessableUsages.map(row=>`${row.catalog}:${row.regionId}`));
@@ -181,8 +185,56 @@ test('typed DMG 175 supplemental rows stay in the raster denominator as explicit
  const synthetic={...supplemental,usageOrdinal:++ordinal,notAssessableReason:reason};copy.notAssessableUsages.push(synthetic);liveCopy.usages.push(supplemental);
  const all=[...copy.usages,...copy.notAssessableUsages];copy.inputs.distDataSha256=live.dataSha256;copy.inputs.catalogSnapshotSha256=live.catalogSnapshotSha256;copy.inputs.catalogCount=live.catalogCount;
  copy.counts.regionUsages=all.length;copy.counts.uniqueImages=new Set(all.map(row=>row.imageSha256)).size;copy.counts.regionUsagesByBook=Object.fromEntries([...new Set(all.map(row=>row.book))].sort().map(book=>[book,all.filter(row=>row.book===book).length]));copy.counts.notAssessableUsages=copy.notAssessableUsages.length;copy.counts.assessedUsages=copy.usages.length;
- const report=buildSourceRasterCoverage(copy,liveCopy);assert.deepEqual(report.validation,{valid:true,errors:[]});assert.equal(report.liveUniverse.regionUsages,live.usages.length+1);assert.deepEqual(report.sourceIdentityCoverage,{pdfFrameUsages:live.usages.length-2,supplementalImageUsages:3,supplementalImageUsagesNotAssessed:3});
+ const report=buildSourceRasterCoverage(copy,liveCopy);assert.equal(report.validation.valid,false);assert.ok(report.validation.errors.some(error=>error.includes('Caller snapshot differs from the repository-pinned active current snapshot.')));assert.equal(report.liveUniverse.regionUsages,live.usages.length);assert.deepEqual(report.sourceIdentityCoverage,{pdfFrameUsages:live.usages.length-2,supplementalImageUsages:2,supplementalImageUsagesNotAssessed:2});
  for(const mutate of [row=>row.sourceArtifactSha256='a'.repeat(64),row=>row.notAssessableReason='unreviewed',row=>row.pdfPage=176,row=>delete row.printedPage]){const bad=structuredClone(copy);mutate(bad.notAssessableUsages.at(-1));assert.equal(buildSourceRasterCoverage(bad,liveCopy).validation.valid,false);}
+});
+
+test('sealed historical CLI diagnostics are explicit and cannot satisfy current --check', () => {
+  const snapshotPath = 'research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz';
+  const livePath = 'tests/fixtures/source-raster-live-b90d317-before.json.gz';
+  assert.throws(() => runSourceRasterCoverage([
+    '--historical-diagnostics', snapshotPath, '--historical-live', livePath,
+    '--check', '--output', join(tmpdir(), 'source-raster-historical-check-forbidden.json'),
+  ]), /cannot be used with current --check/);
+  assert.throws(() => runSourceRasterCoverage([
+    '--snapshot', snapshotPath, '--check', '--output', join(tmpdir(), 'source-raster-historical-snapshot-check-forbidden.json'),
+  ]), /must equal the repository-pinned active current snapshot/);
+  const cliDir = mkdtempSync(join(tmpdir(), 'source-raster-historical-cli-'));
+  try {
+    const output = join(cliDir, 'historical-report.json');
+    const cliResult = runSourceRasterCoverage([
+      '--historical-diagnostics', snapshotPath, '--historical-live', livePath, '--output', output,
+    ]);
+    assert.deepEqual(cliResult.validation, {valid: true, errors: []});
+    assert.equal(cliResult.runMode.status, 'historical-sealed-diagnostics-only');
+    assert.equal(JSON.parse(readFileSync(output, 'utf8')).runMode.status, 'historical-sealed-diagnostics-only');
+  } finally {
+    rmSync(cliDir, {recursive: true, force: true});
+  }
+  assert.throws(() => buildHistoricalSourceRasterCoverage({
+    snapshotPath: 'research/source-raster-boundary-current-a46-frame-guard-v2.json.gz',
+    livePath,
+  }), /not byte-identical to a sealed repository artifact/);
+
+  const fakeRoot = mkdtempSync(join(tmpdir(), 'source-raster-forged-seals-'));
+  const forgedSnapshot = structuredClone(historicalSnapshot);
+  forgedSnapshot.scope = 'forged self-sealed current-looking report';
+  const forgedSnapshotPath = join(fakeRoot, 'source-raster-boundary-forged.json.gz');
+  const forgedLivePath = join(fakeRoot, 'source-raster-live-forged.json.gz');
+  writeFileSync(forgedSnapshotPath, gzipSync(Buffer.from(JSON.stringify(forgedSnapshot))));
+  writeFileSync(forgedLivePath, readFileSync(new URL('./fixtures/source-raster-live-b90d317-before.json.gz', import.meta.url)));
+  const forgedManifest = {seals: [
+    {path: 'research/source-raster-boundary-forged.json.gz', sha256: createHash('sha256').update(readFileSync(forgedSnapshotPath)).digest('hex')},
+    {path: 'tests/fixtures/source-raster-live-forged.json.gz', sha256: createHash('sha256').update(readFileSync(forgedLivePath)).digest('hex')},
+  ]};
+  writeFileSync(join(fakeRoot, 'citation-evidence-seals.json'), JSON.stringify(forgedManifest));
+  try {
+    assert.throws(() => buildHistoricalSourceRasterCoverage({
+      repoRoot: fakeRoot, snapshotPath: forgedSnapshotPath, livePath: forgedLivePath,
+    }), /not byte-identical to a sealed repository artifact/);
+  } finally {
+    rmSync(fakeRoot, {recursive: true, force: true});
+  }
 });
 
 test('dropping uses cannot claim complete coverage even when reported counts and current hashes are retained', () => {
@@ -193,9 +245,9 @@ test('dropping uses cannot claim complete coverage even when reported counts and
     incomplete.counts.assessedUsages = keep;
     const report = buildSourceRasterCoverage(incomplete, live);
     assert.equal(report.validation.valid, false);
-    assert.ok(report.validation.errors.some(error => error.includes('multiset')));
+    assert.ok(report.validation.errors.some(error => error.includes('Caller snapshot differs from the repository-pinned active current snapshot.')));
     assert.equal(report.currentCandidateCounts, null);
-    assert.equal(report.snapshotCounts.regionUsages, keep);
+    assert.equal(report.snapshotCounts.regionUsages, snapshot.counts.regionUsages, 'the report retains only the repository-pinned current snapshot counts');
   }
 });
 
@@ -236,8 +288,8 @@ test('coordinated omissions, orphan evidence, hash substitutions and altered met
     assert.equal(report.validation.valid, false, name);
     assert.equal(report.currentCandidateCounts, null, name);
     if (name.startsWith('all live rows')) {
-      assert.equal(report.notAssessableUsages.length, snapshot.usages.length);
-      assert.ok(report.notAssessableUsages.length < live.usages.length, 'the snapshot counts assessed PDF uses, not later supplement usages');
+      assert.equal(report.notAssessableUsages.length, snapshot.notAssessableUsages.length);
+      assert.ok(report.notAssessableUsages.length < live.usages.length, 'only the trusted active snapshot is reported');
     }
   }
 });
@@ -252,14 +304,14 @@ test('edge components, candidate flags, band bounds and frame geometry are inter
   }
 });
 
-test('the same image may bind distinct source windows while a repeated exact window is rejected', () => {
+test('the public current API refuses unpinned synthetic source-window snapshots', () => {
   const {snapshot: windows, live: windowUses} = windowBindingFixture;
   assert.deepEqual(buildBeforeWindowBindingCoverage(windows, windowUses).validation, windowBindingFixture.beforeValidation);
 
   const distinct = buildSourceRasterCoverage(windows, windowUses);
-  assert.deepEqual(distinct.validation, {valid: true, errors: []});
-  assert.equal(distinct.currentCandidateCounts.uniqueImages, 1);
-  assert.equal(distinct.currentCandidateCounts.uniqueImageGeometryBindings, 2);
+  assert.equal(distinct.validation.valid, false);
+  assert.ok(distinct.validation.errors.some(error => error.includes('Caller snapshot differs from the repository-pinned active current snapshot.')));
+  assert.equal(distinct.currentCandidateCounts, null);
   assert.equal(distinct.semanticPass, false);
 
   const duplicate = structuredClone(windows);
@@ -268,6 +320,6 @@ test('the same image may bind distinct source windows while a repeated exact win
   }
   const repeated = buildSourceRasterCoverage(duplicate, windowUses);
   assert.equal(repeated.validation.valid, false);
-  assert.ok(repeated.validation.errors.includes('Duplicate raster geometry binding.'));
+  assert.ok(repeated.validation.errors.some(error => error.includes('Caller snapshot differs from the repository-pinned active current snapshot.')));
   assert.equal(repeated.currentCandidateCounts, null);
 });

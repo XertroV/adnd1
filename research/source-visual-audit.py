@@ -9,6 +9,14 @@ from pathlib import Path
 import fitz
 from crop_geometry import crosses
 ROOT=Path(__file__).resolve().parent.parent; DIST=ROOT/'dist'; OUT=ROOT/'research'
+_frame_spec=importlib.util.spec_from_file_location('source_frame_coordinate_bridge',ROOT/'research'/'source_frame_coordinate_bridge.py')
+_frame_bridge=importlib.util.module_from_spec(_frame_spec);_frame_spec.loader.exec_module(_frame_bridge)
+current_observation=_frame_bridge.current_observation
+normalized_rect_to_page_points=_frame_bridge.normalized_rect_to_page_points
+load_registry=_frame_bridge.load_registry
+public_resolution=_frame_bridge.public_resolution
+validate_live_registry=_frame_bridge.validate_live_registry
+REGISTRY_SHA256=_frame_bridge.REGISTRY_SHA256
 PDF_FILENAMES={'PHB':'tsr2010-players-handbook.pdf','DMG':'DMG_1stEd.pdf','UA':'Unearthed Arcana.pdf','MM':'Monster_Manual.pdf','MM2':'Monster Manual II.pdf'}
 SUPPLEMENTAL_IMAGE_FILENAMES={'dmg175-user-confirmed-supplement':'dmg175.jpg'}
 SUPPLEMENTAL_NA_REASON='Supplemental source-image frame is retained in the usage denominator but is not part of the current PDF-raster geometry assessment.'
@@ -27,8 +35,11 @@ def normalized(v):
  if isinstance(v,list) and len(v)==1 and isinstance(v[0],list):return v[0],'nested'
  if isinstance(v,list) and len(v)==4:return v,'flat'
  return None,'none'
-def rect_for(r,p):
+def rect_for(r,p,coordinate_space=None):
  a,shape=normalized(r.get('normalizedPageRect'))
+ if coordinate_space is not None:
+  bounds,status=normalized_rect_to_page_points(r.get('normalizedPageRect'),coordinate_space,p.rect,p.cropbox,p.mediabox)
+  return (bounds,shape) if status=='assessable' else (None,status)
  if a is not None:
   try:x,y,w,h=map(float,a)
   except (TypeError,ValueError):return None,'invalid'
@@ -76,7 +87,11 @@ def main():
  if not args.source_dir:parser.error('--source-dir or ADND_SOURCE_DIR is required')
  if not args.output_prefix.replace('-','').replace('_','').isalnum() or args.output_prefix in ('baseline','corrected'):parser.error('invalid or reserved output prefix')
  output_stem='source-visual-audit-'+args.output_prefix;pdfpaths={k:Path(args.source_dir)/v for k,v in PDF_FILENAMES.items()}
- data=json.loads((DIST/'data.json').read_text());pdfs={k:fitz.open(v) for k,v in pdfpaths.items()}; hashes={k:sha(v) for k,v in pdfpaths.items()};usage=[]; scans={}; warnings=[]; page_cache={}; catalog_hashes={}
+ data=json.loads((DIST/'data.json').read_text());pdfs={k:fitz.open(v) for k,v in pdfpaths.items()}; hashes={k:sha(v) for k,v in pdfpaths.items()};usage=[]; scans={}; warnings=[]; page_cache={}; catalog_hashes={};frame_resolution_counts=collections.Counter()
+ bridge=load_registry()
+ registry_validation=validate_live_registry(data,DIST,hashes,pdfs)
+ if registry_validation.get('status')!='current-pins-match':
+  raise ValueError('active source-frame bridge no longer matches current data/catalog/PDF pins')
  for col in ('rules','spells','equipment','matrices','classes','progressionExplainer'):
   items=[dict(data['progressionExplainer'],id='progression-explainer')] if col=='progressionExplainer' and data.get(col) else data.get(col,[])
   for item in items:
@@ -86,21 +101,29 @@ def main():
     catpath=DIST/link['catalog'];cat=json.loads(catpath.read_text());catalog_hashes[link['catalog']]=sha(catpath)
     for r in cat.get('regions',[]):
      book=r.get('book'); page=r.get('pdfPage'); image=catpath.parent/r.get('image',''); focuses=r.get('focusRects',[]); full=sum(1 for v in focuses if v==[0,0,1,1]); partial=len(focuses)-full
-     expected=(cat.get('sources',{}).get(book,{}) or {}).get('sha256'); source_match=bool(book in hashes and expected==hashes[book]); bounds=None; btype='missing';words=[];assessment='not-assessable-source-mismatch'
+     expected=(cat.get('sources',{}).get(book,{}) or {}).get('sha256'); source_match=bool(book in hashes and expected==hashes[book]); bounds=None; btype='missing';words=[];assessment='not-assessable-source-mismatch';frame_resolution={'status':'not-assessable-source-mismatch','basis':'unassessable'}
      image_sha=sha(image) if image.is_file() else None
      supplemental=validate_supplemental_region(cat,r,args.source_dir,image,hashes.get(book)) if 'sourceArtifactId' in r else None
      if supplemental is not None:
       _,btype=normalized(r.get('normalizedPageRect'))
+      frame_resolution={'status':'not-applicable-supplemental-image-frame','basis':'unassessable'}
       assessment='not-assessable-supplemental-image-format' if supplemental['valid'] else 'not-assessable-source-artifact-mismatch'
      elif source_match and isinstance(page,int) and 1<=page<=len(pdfs[book]):
-      pdfpage=pdfs[book][page-1];bounds,btype=rect_for(r,pdfpage.rect)
+      pdfpage=pdfs[book][page-1]
+      frame_resolution=current_observation(collection=col,item_id=item.get('id'),binding=source_type,catalog_path=link['catalog'],catalog_hash=catalog_hashes[link['catalog']],catalog=cat,region=r,owner_link=link,image_path=image,book=book,printed_page=r.get('printedPage'),pdf_page=page,source_pdf_sha256=hashes[book],page=pdfpage)
+      if frame_resolution.get('status')=='matched':bounds,btype=rect_for(r,pdfpage,frame_resolution['basis'])
+      elif frame_resolution.get('status')=='conflicting-frame-identity':bounds,btype=None,'source-frame-mismatch'
+      else:bounds,btype=rect_for(r,pdfpage.rect)
       if bounds:
        key=(book,page)
        if key not in page_cache:page_cache[key]=pdfpage.get_text('words')
        words=page_cache[key];assessment='assessed-text-layer' if words else 'not-assessable-empty-text-layer'
+      elif frame_resolution.get('status')=='conflicting-frame-identity':assessment='not-assessable-source-frame-mismatch'
       else:assessment='not-assessable-missing-bounds'
-     elif supplemental is None and source_match:assessment='not-assessable-page-unavailable'
-     u={'collection':col,'itemId':item.get('id'),'binding':source_type,'catalog':link['catalog'],'regionId':r.get('id'),'book':book,'printedPage':r.get('printedPage'),'pdfPage':page,'image':str(image.relative_to(DIST)),'imageSha256':r.get('sha256'),'imageHashMatches':image_sha==r.get('sha256'),'focusSentinelCount':full,'focusPartialCount':partial,'boundsType':btype,'pdfBounds':[round(x,4) for x in bounds] if bounds else None,'sourceHashMatches':source_match,'viewerSelectedBinding':source_type==('sourceExcerpts' if item.get('sourceExcerpts') else 'scanVerification'),'role':r.get('role'),'regionTitle':r.get('title',''),'regionSummary':r.get('summary','')}
+     elif supplemental is None and source_match:
+      frame_resolution={'status':'not-assessable-page-unavailable','basis':'unassessable'};assessment='not-assessable-page-unavailable'
+     u={'collection':col,'itemId':item.get('id'),'binding':source_type,'catalog':link['catalog'],'regionId':r.get('id'),'book':book,'printedPage':r.get('printedPage'),'pdfPage':page,'image':str(image.relative_to(DIST)),'imageSha256':r.get('sha256'),'imageHashMatches':image_sha==r.get('sha256'),'focusSentinelCount':full,'focusPartialCount':partial,'boundsType':btype,'pdfBounds':[round(x,4) for x in bounds] if bounds else None,'sourceHashMatches':source_match,'viewerSelectedBinding':source_type==('sourceExcerpts' if item.get('sourceExcerpts') else 'scanVerification'),'role':r.get('role'),'regionTitle':r.get('title',''),'regionSummary':r.get('summary',''),'coordinateFrameResolution':public_resolution(frame_resolution)}
+     frame_resolution_counts[frame_resolution.get('status','unknown')]+=1
      if supplemental is not None:
       u.update({'sourceKind':supplemental['sourceKind'],'sourceArtifactId':supplemental.get('sourceArtifactId'),
                 'sourceSha256':supplemental.get('sourceSha256'),'sourceArtifactSha256':supplemental.get('sourceSha256'),
@@ -143,7 +166,7 @@ def main():
  for e in candidates:
   e['crossingCount']=len(e['edgeCrossings']);e['edgeCrossings']=e['edgeCrossings'][:20];e['edgeCrossingsTruncated']=e['crossingCount']>20
  bybook=collections.Counter(u['book'] for u in usage);bycollection=collections.Counter(u['collection'] for u in usage);sentinel=collections.Counter(u['book'] for u in usage if u['focusSentinelCount']);bounds=collections.Counter(u['boundsType'] for u in usage);candbooks=collections.Counter(c['book'] for c in candidates);candcols=collections.Counter(u['collection'] for c in candidates for u in c['usages']); uniqueimages=len({u['imageSha256'] for u in usage});unique_candidates=len({c['imageSha256'] for c in candidates})
- out={'schemaVersion':1,'scope':'All sourceExcerpts and scanVerification catalogs linked from dist/data.json. Edge candidates are text-layer geometry intersections, not verified defects. Full-image focus is a suspected overhighlight pending per-region review, not semantic verification. The separately supplied full DMG p.175 source image remains private; its two published crops are retained as supplemental-image usages with no canonical-PDF page ordinal and are excluded from PDF word-box geometry.','inputDataSha256':sha(DIST/'data.json'),'sourcePdfSha256':hashes,'catalogSha256':dict(sorted(catalog_hashes.items())),'catalogSnapshotSha256':hashlib.sha256(json.dumps(dict(sorted(catalog_hashes.items())),separators=(',',':'),ensure_ascii=False).encode()).hexdigest(),'counts':{'regionUsages':len(usage),'uniqueImageHashes':uniqueimages,'uniqueImageGeometryBindings':len(scans),'sentinelUsages':sum(bool(u['focusSentinelCount']) for u in usage),'partialFocusUsages':sum(bool(u['focusPartialCount']) for u in usage),'knownHeadingOnlyUsages':sum(u['knownHeadingOnly'] for u in usage),'knownHeadingOnlyFirstInPageGroup':sum(u['knownHeadingOnly'] and u['pageOrdinal']==1 for u in usage),'knownHeadingOnlyFirstWithSibling':sum(u['knownHeadingOnly'] and u['pageOrdinal']==1 and u['samePageRegionCount']>1 for u in usage),'knownHeadingOnlyViewerDefault':sum(u['knownHeadingOnly'] and u['viewerSelectedBinding'] and u['viewerOrdinal']==1 for u in usage),'defaultContextLabelCandidates':sum(u['defaultContextCandidate'] for u in usage),'viewerDefaultContextLabelCandidates':sum(u['contextLabelCandidate'] and u['viewerSelectedBinding'] and u['viewerOrdinal']==1 and u['samePageRegionCount']>1 for u in usage),'sentinelUsagesByCollection':dict(sorted(collections.Counter(u['collection'] for u in usage if u['focusSentinelCount']).items())),'candidateImageGeometryBindings':len(candidates),'candidateUniqueImages':unique_candidates,'candidateLinkedUsages':sum(len(c['usages']) for c in candidates),'usagesByBook':dict(sorted(bybook.items())),'usagesByCollection':dict(sorted(bycollection.items())),'sentinelUsagesByBook':dict(sorted(sentinel.items())),'boundsTypes':dict(sorted(bounds.items())),'candidateBindingsByBook':dict(sorted(candbooks.items())),'candidateUsagesByCollection':dict(sorted(candcols.items()))},'warnings':warnings,'usages':usage,'candidates':candidates}
+ out={'schemaVersion':1,'sourceFrameCoordinateBridge':{'path':'research/source-frame-coordinate-bridge.json','sha256':REGISTRY_SHA256,'status':'scoped-geometric-provenance-only','resolutionCounts':dict(sorted(frame_resolution_counts.items())),'registryValidation':registry_validation},'scope':'All sourceExcerpts and scanVerification catalogs linked from dist/data.json. Edge candidates are text-layer geometry intersections, not verified defects. Full-image focus is a suspected overhighlight pending per-region review, not semantic verification. The separately supplied full DMG p.175 source image remains private; its two published crops are retained as supplemental-image usages with no canonical-PDF page ordinal and are excluded from PDF word-box geometry.','inputDataSha256':sha(DIST/'data.json'),'sourcePdfSha256':hashes,'catalogSha256':dict(sorted(catalog_hashes.items())),'catalogSnapshotSha256':hashlib.sha256(json.dumps(dict(sorted(catalog_hashes.items())),separators=(',',':'),ensure_ascii=False).encode()).hexdigest(),'counts':{'regionUsages':len(usage),'uniqueImageHashes':uniqueimages,'uniqueImageGeometryBindings':len(scans),'sentinelUsages':sum(bool(u['focusSentinelCount']) for u in usage),'partialFocusUsages':sum(bool(u['focusPartialCount']) for u in usage),'knownHeadingOnlyUsages':sum(u['knownHeadingOnly'] for u in usage),'knownHeadingOnlyFirstInPageGroup':sum(u['knownHeadingOnly'] and u['pageOrdinal']==1 for u in usage),'knownHeadingOnlyFirstWithSibling':sum(u['knownHeadingOnly'] and u['pageOrdinal']==1 and u['samePageRegionCount']>1 for u in usage),'knownHeadingOnlyViewerDefault':sum(u['knownHeadingOnly'] and u['viewerSelectedBinding'] and u['viewerOrdinal']==1 for u in usage),'defaultContextLabelCandidates':sum(u['defaultContextCandidate'] for u in usage),'viewerDefaultContextLabelCandidates':sum(u['contextLabelCandidate'] and u['viewerSelectedBinding'] and u['viewerOrdinal']==1 and u['samePageRegionCount']>1 for u in usage),'sentinelUsagesByCollection':dict(sorted(collections.Counter(u['collection'] for u in usage if u['focusSentinelCount']).items())),'candidateImageGeometryBindings':len(candidates),'candidateUniqueImages':unique_candidates,'candidateLinkedUsages':sum(len(c['usages']) for c in candidates),'usagesByBook':dict(sorted(bybook.items())),'usagesByCollection':dict(sorted(bycollection.items())),'sentinelUsagesByBook':dict(sorted(sentinel.items())),'boundsTypes':dict(sorted(bounds.items())),'candidateBindingsByBook':dict(sorted(candbooks.items())),'candidateUsagesByCollection':dict(sorted(candcols.items()))},'warnings':warnings,'usages':usage,'candidates':candidates}
  out['counts']['cropEdgeAssessments']=dict(sorted(collections.Counter(u['cropEdgeAssessment'] for u in usage).items()))
  out['assessmentPolicy']={'candidate-text-box-crossing':'Uncertain clipping candidate; inspect source pixels.','assessed-text-layer':'No word-box crossing found; raster clipping and semantic omissions remain unresolved.','not-assessable':'Missing, invalid or unavailable inputs never become clean results.','semanticDimensions':'Every usage remains unresolved for context, continuation and fact-focus relevance until separately joined to exact source-bound review evidence.'}
  (OUT/(output_stem+'.json')).write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n')
