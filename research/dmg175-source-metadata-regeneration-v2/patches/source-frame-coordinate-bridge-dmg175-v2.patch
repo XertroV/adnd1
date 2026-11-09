@@ -1,0 +1,28 @@
+--- a/research/source_frame_coordinate_bridge.py
++++ b/research/source_frame_coordinate_bridge.py
+@@ -8,9 +8,9 @@
+ from pathlib import Path
+ 
+ ROOT = Path(__file__).resolve().parent.parent
+-REGISTRY_RELATIVE_PATH = 'research/source-frame-coordinate-bridge-ua-source-v1.json'
+-REGISTRY_PATH = ROOT / REGISTRY_RELATIVE_PATH
+-REGISTRY_SHA256 = '1013eb540a2bc9034963472b3b48a9a1ea61af224392806386db1091c5b35a65'
++REGISTRY_RELATIVE_PATH = 'research/source-frame-coordinate-bridge-dmg175-source-v1.json'
++REGISTRY_PATH = ROOT / REGISTRY_RELATIVE_PATH
++REGISTRY_SHA256 = '137b9c0044a72b587cc7ef6273e398106d574727f1656d58c742ac8c47ac68b3'
+ _ALLOWED_BASIS = {
+     'cropbox-pageRect-normalized',
+     'mediabox-normalized',
+--- a/tools/source-frame-coordinate-bridge.mjs
++++ b/tools/source-frame-coordinate-bridge.mjs
+@@ -2,8 +2,8 @@
+ import {createHash} from 'node:crypto';
+ import {resolve, dirname} from 'node:path';
+ 
+-export const SOURCE_FRAME_BRIDGE_PATH = 'research/source-frame-coordinate-bridge-ua-source-v1.json';
+-export const SOURCE_FRAME_BRIDGE_SHA256 = '1013eb540a2bc9034963472b3b48a9a1ea61af224392806386db1091c5b35a65';
++export const SOURCE_FRAME_BRIDGE_PATH = 'research/source-frame-coordinate-bridge-dmg175-source-v1.json';
++export const SOURCE_FRAME_BRIDGE_SHA256 = '137b9c0044a72b587cc7ef6273e398106d574727f1656d58c742ac8c47ac68b3';
+ const OUTSIDE_REASON = 'No exact owner/region binding is present in this bounded correction registry; this does not make a claim about separate frame evidence.';
+ const OUTSIDE_RESOLUTION_STATUS = 'legacy-diagnostic-projection-retained; no new frame approval by this registry';
+ const sha = bytes => createHash('sha256').update(bytes).digest('hex');

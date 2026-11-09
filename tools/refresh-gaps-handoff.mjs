@@ -7,6 +7,7 @@ import {fileURLToPath} from 'node:url';
 import {validateLedger, dataHash as mechanicsDataHash} from './mechanics-audit.mjs';
 import {validatePriceSourceInventory} from './price-source-inventory.mjs';
 import {buildCoverageGaps} from './coverage-gaps.mjs';
+import {deriveDmg175Availability, projectDmg175Handoff, DMG175_OWNER_CATALOGS} from './dmg175-availability-projection.mjs';
 import {loadMonetaryRowIdentityAudit} from './monetary-row-identity-audit.mjs';
 import {loadJoUnextractedPriceRegistration} from './jo-unextracted-price-registration.mjs';
 import {fieldBindingAxisMetrics, fieldBindingCountMeaning, historicalProducerMetadata, sourceIntegrationDescriptor, currentUncheckedExclusions, uncheckedExclusionTemplate} from './source-report-consistency-audit.mjs';
@@ -727,8 +728,10 @@ export function buildRefreshedHandoff({repoRoot = root, handoff: currentHandoff,
   if (!currentHandoff || !data || !Buffer.isBuffer(dataBytes) || typeof readJson !== 'function' || typeof hashFile !== 'function') fail('current handoff, parsed data, exact data bytes and file readers are required');
   const hashes = {};
   const read = path => { const loaded = readJson(path); hashes[path] = loaded.sha256; return loaded.json; };
-  const handoffTemplateSha256 = sha256(Buffer.from(canonicalJson(handoffTemplateSnapshot(currentHandoff))));
-  hashes[`${HANDOFF_PATH}#refresh-template`] = handoffTemplateSha256;
+  // D175 source availability is projected from its own exact current catalogs.
+  // The older two-crop monetary screen is validated and preserved below.
+  let projectedTemplate = currentHandoff;
+  let handoffTemplateSha256;
   hashes['dist/data.json'] = sha256(dataBytes);
   const dataSha = parsedHash(data), mechanicsSha = mechanicsDataHash(data);
   const mechanicsBytes = read('research/mechanics-audit-progress.json');
@@ -743,6 +746,28 @@ export function buildRefreshedHandoff({repoRoot = root, handoff: currentHandoff,
   try { validatePriceSourceInventory(inventory, {data, equipment: data.equipment}); } catch (error) { fail(`canonical price inventory is not validated: ${error.message}`); }
   const historical = historicalInputs(repoRoot);
   for (const [path, hash] of Object.entries(historical.hashes)) hashes[path] = hash;
+  const dmg175TargetPlanPath = 'research/dmg175-current-content-projection-v1/inputs/target-plan-manifest-v2.json';
+  const dmg175TargetPlan = read(dmg175TargetPlanPath);
+  if (hashes[dmg175TargetPlanPath] !== '1f7ab9d2c84fafd62231b9fbd6fc58933a0179cba97dc51fd728ad1cafc6458f') fail('p.175 pending-target source plan is stale');
+  const dmg175CatalogPaths = [...new Set([currentHandoff.missingReferencedContent?.missingCitedPages?.[0]?.currentReference?.catalog, ...Object.values(DMG175_OWNER_CATALOGS)])];
+  if (dmg175CatalogPaths.length !== 12) fail('the p.175 catalog set changed');
+  const dmg175Catalogs = new Map();
+  const loadDmg175Catalog = catalogPath => {
+    if (!dmg175Catalogs.has(catalogPath)) dmg175Catalogs.set(catalogPath, read(`dist/${catalogPath}`));
+    return dmg175Catalogs.get(catalogPath);
+  };
+  const dmg175EvidenceBase = deriveDmg175Availability({data, baselineData: historical.data, handoff: currentHandoff, loadCatalog: loadDmg175Catalog, targetPlan: dmg175TargetPlan});
+  const dmg175Evidence = {
+    ...dmg175EvidenceBase,
+    evidence: {
+      ...dmg175EvidenceBase.evidence,
+      currentDataSha256: hashes['dist/data.json'],
+      sourceCatalogSha256: Object.fromEntries(dmg175CatalogPaths.sort().map(catalogPath => [catalogPath, hashes[`dist/${catalogPath}`]])),
+    },
+  };
+  projectedTemplate = projectDmg175Handoff({handoff: currentHandoff, evidence: dmg175Evidence});
+  handoffTemplateSha256 = sha256(Buffer.from(canonicalJson(handoffTemplateSnapshot(projectedTemplate))));
+  hashes[`${HANDOFF_PATH}#refresh-template`] = handoffTemplateSha256;
   const conflictReceipt = read('research/source-audit-batch5-conflict-integration.json');
   const nullPriceReceipt = read('research/source-audit-batch5-null-price-notes.json');
   const joAddition=loadJoUnextractedPriceRegistration({repoRoot,data,inventory});
@@ -822,7 +847,7 @@ export function buildRefreshedHandoff({repoRoot = root, handoff: currentHandoff,
     reportMetadata.push(metadata);
   }
   if(reportMetadata.reduce((sum,report)=>sum+report.groups,0)>inventory.counts.sourceCensusTableGroups)fail('structured group count exceeds the declared source-census denominator');
-  const handoff = clone(currentHandoff);
+  const handoff = clone(projectedTemplate);
   const parsedRecordCount = exposedRecordCount(data);
   handoff.generatedOn = new Date().toISOString().slice(0, 10);
   if(monetaryCurrent)handoff.currentMonetarySourceQuestions=monetaryCurrent.currentSourceQuestions;

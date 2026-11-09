@@ -587,8 +587,8 @@ function detailHTML(x) {
  const label = spell ? `${classText(x)} · ${levelText(x)}` : x.category || 'RULES REFERENCE';
  const fields = Object.entries(x.fields || {}).filter(([,v]) => v !== null && v !== undefined && v !== '');
  const footer = pending ? 'Indexed source reference · quick-reference details pending' : x.incomplete ? 'Partial extraction · source OCR checked · visual verification pending' : isVerified(x) ? 'Important source details visually checked' : 'Source OCR checked · visual verification pending';
- const listBlock = (heading, items) => Array.isArray(items) && items.length ? `<h3>${heading}</h3><ul>${items.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>` : '';
- return `<article class="detail-card" data-annotation-target="${esc(x.id)}" data-annotation-title="${esc(x._title)}">${detailHeaderHTML(x,{eyebrow:label,status:pending?'Details pending':x.incomplete?'Partial extraction':isVerified(x)?'Visually checked':'OCR checked',statusClass:isVerified(x)?'':'unverified',pending,attributes:spell?spellAttributesHTML(x):''})}<div class="detail-body">${!spell && fields.length ? `<div class="stats-grid">${fields.map(([k,v])=>`<div class="stat"><div class="stat-label">${esc(k)}</div><div class="stat-value">${esc(Array.isArray(v)?v.join(', '):v)}</div></div>`).join('')}</div>` : ''}${!spell?ruleTableHTML(x):''}${pending ? `<div class="empty-state"><h2>The spell is indexed.</h2><p>The spell’s name, class, and level are indexed. Casting attributes, effects, conditions, and exceptions have not yet been extracted into a quick-reference card.</p><p>The cited source heading locates the spell in your own book. Quick-reference extraction and visual verification are still pending.</p></div>` : ''}${x.summary ? `<h3>At a glance</h3><p>${esc(x.summary)}</p>` : ''}${listBlock(spell?'Effect & resolution':'In practice',spell?x.effect:x.bullets)}${listBlock('Conditions & requirements',x.conditions)}${listBlock('Exceptions & limitations',x.exceptions)}${x.notes ? `<div class="callout">${esc(Array.isArray(x.notes)?x.notes.join(' '):x.notes)}</div>` : ''}${!pending && !isVerified(x) ? '<div class="callout">This card is a concise study aid from source OCR. Check the cited printing when a detail determines a ruling; visual verification is still pending.</div>' : ''}</div>${inlineNotes(x.id)}<footer class="detail-footer"><span>${icon('book')}${esc(footer)}</span>${originalScansButton(x)}<button class="source-chip" data-copy-link="${esc(x.id)}">Copy reference link ↗</button></footer></article>`;
+ const listBlock = (heading, items, suffix) => Array.isArray(items) && items.length ? `<h3>${heading}</h3><ul>${items.map((t,index)=>`<li>${esc(t)}${typeof suffix==='function'&&suffix(index)?` <span class="bullet-source-links">${suffix(index)}</span>`:''}</li>`).join('')}</ul>` : '';
+ return `<article class="detail-card" data-annotation-target="${esc(x.id)}" data-annotation-title="${esc(x._title)}">${detailHeaderHTML(x,{eyebrow:label,status:pending?'Details pending':x.incomplete?'Partial extraction':isVerified(x)?'Visually checked':'OCR checked',statusClass:isVerified(x)?'':'unverified',pending,attributes:spell?spellAttributesHTML(x):''})}<div class="detail-body">${!spell && fields.length ? `<div class="stats-grid">${fields.map(([k,v])=>`<div class="stat"><div class="stat-label">${esc(k)}</div><div class="stat-value">${esc(Array.isArray(v)?v.join(', '):v)}</div></div>`).join('')}</div>` : ''}${!spell?ruleTableHTML(x):''}${pending ? `<div class="empty-state"><h2>The spell is indexed.</h2><p>The spell’s name, class, and level are indexed. Casting attributes, effects, conditions, and exceptions have not yet been extracted into a quick-reference card.</p><p>The cited source heading locates the spell in your own book. Quick-reference extraction and visual verification are still pending.</p></div>` : ''}${x.summary ? `<h3>At a glance</h3><p>${esc(x.summary)}</p>` : ''}${spell?listBlock('Effect & resolution',x.effect):listBlock('In practice',x.bullets,index=>ruleBulletSourceChips(x,index))}${listBlock('Conditions & requirements',x.conditions)}${listBlock('Exceptions & limitations',x.exceptions)}${x.notes ? `<div class="callout">${esc(Array.isArray(x.notes)?x.notes.join(' '):x.notes)}</div>` : ''}${!pending && !isVerified(x) ? '<div class="callout">This card is a concise study aid from source OCR. Check the cited printing when a detail determines a ruling; visual verification is still pending.</div>' : ''}</div>${inlineNotes(x.id)}<footer class="detail-footer"><span>${icon('book')}${esc(footer)}</span>${originalScansButton(x)}<button class="source-chip" data-copy-link="${esc(x.id)}">Copy reference link ↗</button></footer></article>`;
 }
 function xpThresholds(x) {
  const input = Array.isArray(x.xpRows) ? x.xpRows : Array.isArray(x.xp) ? x.xp : [];
@@ -629,24 +629,239 @@ function displaySourceValue(value) {
  if(value&&typeof value==='object')return String(value.text??value.meaning??value.label??'');
  return '';
 }
-function exactTableFactSourceReference(item,fact) {
- const reference=fact?.sourceReference;
+function tableSourcePointerValue(root,pointer) {
+ if(typeof pointer!=='string'||!pointer.startsWith('/')||pointer.includes('//'))return undefined;
+ const parts=pointer.split('/').slice(1).map(part=>part.replaceAll('~1','/').replaceAll('~0','~'));
+ let value=root;
+ for(const part of parts){
+  if(!value||typeof value!=='object'||part==='__proto__'||part==='prototype'||part==='constructor')return undefined;
+  const key=Array.isArray(value)?/^(0|[1-9]\d*)$/.test(part)?Number(part):Number.NaN:part;
+  if(!Number.isInteger(key)&&Array.isArray(value))return undefined;
+  value=value[key];
+ }
+ return value;
+}
+function validRuleTableSourceLocation(reference) {
+ if(!reference||typeof reference!=='object'||!Number.isInteger(reference.printedPage)||reference.printedPage<1)return false;
+ const book=bookCode(reference.book),page=reference.printedPage,pdf=reference.pdfPage;
+ const regionId=reference.regionId||reference.sourceFocusId;
+ if(!book||book!==reference.book)return false;
+ if(pdf===null){
+  const supplement=FirstEditionBooks.supplementalEvidence?.('DMG',175);
+  const crop=FirstEditionBooks.supplementalCrop?.('DMG',175,regionId);
+  return book==='DMG'&&page===175&&supplement?.available===true&&supplement.originalPdfContainsPrintedPage===false
+   &&supplement.editionStatus==='user-confirmed-correct-edition'&&supplement.printingStatus==='not-specified'
+   &&supplement.imageSha256==='e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7'
+   &&supplement.originalPdfSha256==='7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669'
+   &&reference.sourceArtifactId==='dmg175-user-confirmed-supplement'&&reference.sourceIdentityKind==='supplemental-image'
+   &&reference.sourceSha256===supplement.imageSha256&&reference.canonicalPdfSha256===supplement.originalPdfSha256
+   &&typeof reference.imageSha256==='string'&&/^[a-f0-9]{64}$/.test(reference.imageSha256)
+   &&crop?.sourceArtifactId===reference.sourceArtifactId&&crop.sourceIdentityKind===reference.sourceIdentityKind
+   &&crop.sourceSha256===reference.sourceSha256&&crop.canonicalPdfSha256===reference.canonicalPdfSha256
+   &&crop?.sha256===reference.imageSha256&&(!reference.image||crop.image===reference.image)
+   &&typeof reference.catalog==='string'&&/^scans\/verified\/rules-[a-z0-9-]+\.json$/.test(reference.catalog)
+   &&typeof regionId==='string'&&/^[a-z0-9-]+$/.test(regionId);
+ }
+ if(!Number.isInteger(pdf)||pdf<1||FirstEditionBooks.pdfPage(book,page)!==pdf)return false;
+ if(reference.sourceArtifactId!==undefined&&reference.sourceArtifactId!=='dmg-canonical-pdf')return false;
+ if(reference.sourceIdentityKind!==undefined&&reference.sourceIdentityKind!=='canonical-pdf')return false;
+ if(reference.sourceSha256!==undefined&&reference.canonicalPdfSha256!==undefined&&reference.sourceSha256!==reference.canonicalPdfSha256)return false;
+ return true;
+}
+function supplementalBindingRegionEvidence(item,reference,binding,regionId) {
+ const crop=FirstEditionBooks.supplementalCrop?.('DMG',175,regionId);
+ const catalog=`scans/verified/rules-${item?.id}.json`;
+ const excerpts=item?.sourceExcerpts;
+ const evidence=Array.isArray(binding?.regionEvidence)?binding.regionEvidence:[];
+ const exact=evidence.filter(region=>region?.regionId===regionId);
+ const cropCoordinates=Array.isArray(binding?.cropCoordinates)?binding.cropCoordinates:[];
+ const exactCrop=cropCoordinates.filter(entry=>entry?.regionId===regionId);
+ const sourceReferences=Array.isArray(item?.sourceReferences)?item.sourceReferences:[];
+ const exactSources=sourceReferences.filter(source=>(source?.regionId===regionId||source?.sourceFocusId===regionId)&&source?.catalog===catalog);
+ if(!crop||exact.length!==1||evidence.length!==1||binding.catalog!==catalog||(reference.catalog!==undefined&&reference.catalog!==catalog)
+  ||excerpts?.collection!=='rules'||excerpts.catalog!==catalog||binding.pdfPage!==null
+  ||binding.book!=='DMG'||binding.printedPage!==175||!Array.isArray(binding.regionIds)||binding.regionIds.length!==1||binding.regionIds[0]!==regionId
+  ||binding.sourceSha256!==crop.sourceSha256||exactCrop.length!==1||cropCoordinates.length!==1
+  ||exactCrop[0].coordinateSpace!=='supplement-image pixels; top-left origin; LTRB half-open'
+  ||exactCrop[0].format!=='LTRB-half-open'||!sameRect(exactCrop[0].rect,crop.bounds)
+  ||exactSources.length>1||exactSources.some(source=>!validRuleTableSourceLocation(source)))return null;
+ const region=exact[0];
+ if(region.book!=='DMG'||region.printedPage!==175||region.pdfPage!==null
+  ||region.sourceSha256!==crop.sourceSha256||region.imageSha256!==crop.sha256
+  ||![region.focusRectsSha256,region.focusSha256,region.contentSha256].every(value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value)))return null;
+ const source=exactSources[0];
+ if(source&&(source.sourceArtifactId!==crop.sourceArtifactId||source.sourceIdentityKind!==crop.sourceIdentityKind
+  ||source.sourceSha256!==crop.sourceSha256||source.canonicalPdfSha256!==crop.canonicalPdfSha256
+  ||source.imageSha256!==crop.sha256||source.book!=='DMG'||source.printedPage!==175||source.pdfPage!==null))return null;
+ for(const [key,value] of Object.entries({sourceArtifactId:crop.sourceArtifactId,sourceIdentityKind:crop.sourceIdentityKind,sourceSha256:crop.sourceSha256,canonicalPdfSha256:crop.canonicalPdfSha256,imageSha256:crop.sha256}))
+  if(binding[key]!==undefined&&binding[key]!==value)return null;
+ for(const [key,value] of Object.entries({sourceArtifactId:crop.sourceArtifactId,sourceIdentityKind:crop.sourceIdentityKind,sourceSha256:crop.sourceSha256,canonicalPdfSha256:crop.canonicalPdfSha256,imageSha256:crop.sha256}))
+  if(reference[key]!==undefined&&reference[key]!==value)return null;
+ return {crop,regionEvidence:region};
+}
+function sameRect(left,right){return Array.isArray(left)&&Array.isArray(right)&&left.length===4&&right.length===4&&left.every((value,index)=>value===right[index]);}
+function exactSupplementalTableFactSourceReference(item,fact,reference) {
+ const rows=item?.table?.rows;
+ if(!Array.isArray(rows))return null;
+ const rowIndex=rows.indexOf(fact);
+ if(rowIndex<0)return null;
+ const fieldPointer='/table/rows/'+rowIndex,regionId=reference.sourceFocusId;
+ if(!validRuleTableSourceLocation(reference)||!Array.isArray(reference.pages)||reference.pages.length!==1||reference.pages[0]!==175
+  ||reference.book!=='DMG'||reference.pdfPage!==null||reference.printedPage!==175
+  ||reference.fieldPointer!==fieldPointer||reference.sourceObjectPointer!==fieldPointer+'/sourceReference'
+  ||reference.sourceArtifactId!=='dmg175-user-confirmed-supplement'||reference.sourceIdentityKind!=='supplemental-image'
+  ||!Array.isArray(reference.verification?.regions)||reference.verification.regions.length!==1||reference.verification.regions[0]!==regionId)return null;
+ const sourceReferences=Array.isArray(item.sourceReferences)?item.sourceReferences:[];
+ const matching=sourceReferences.filter(source=>source?.regionId===regionId&&source.catalog===reference.catalog);
+ if(matching.length!==1)return null;
+ const source=matching[0];
+ if(!validRuleTableSourceLocation(source)||source.book!=='DMG'||source.printedPage!==175||source.pdfPage!==null
+  ||source.sourceArtifactId!==reference.sourceArtifactId||source.sourceIdentityKind!==reference.sourceIdentityKind
+  ||source.sourceSha256!==reference.sourceSha256||source.canonicalPdfSha256!==reference.canonicalPdfSha256
+  ||source.imageSha256!==reference.imageSha256||(reference.image&&source.image!==reference.image))return null;
+ const [binding]=reference.evidenceBindings||[];
+ if(!binding||typeof binding!=='object'||binding.collection!=='rules'||binding.itemId!==item.id
+  ||binding.fieldPointer!==fieldPointer||binding.sourceObjectPointer!==fieldPointer+'/sourceReference'
+  ||binding.book!=='DMG'||binding.printedPage!==175||binding.pdfPage!==null
+  ||!supplementalBindingRegionEvidence(item,reference,binding,regionId)
+  ||!Array.isArray(binding.regionIds)||binding.regionIds.length!==1||binding.regionIds[0]!==regionId
+  ||binding.sourceOwner?.collection!=='rules'||binding.sourceOwner?.itemId!==item.id
+  ||binding.reviewStatus!=='field-target-pending'||binding.sourceValueStatus!=='not-assessed-by-field-target-review'||binding.targetReview!=null
+  ||tableSourcePointerValue(item,binding.sourceObjectPointer)!==reference)return null;
+ const target=FirstEditionCitations.targets(reference).find(candidate=>candidate.book==='DMG'&&candidate.page===175
+  &&candidate.fieldPointer===fieldPointer&&candidate.fieldOwner?.collection==='rules'&&candidate.fieldOwner?.itemId===item.id
+  &&candidate.sourceOwner?.collection==='rules'&&candidate.sourceOwner?.itemId===item.id
+  &&candidate.catalog===binding.catalog&&candidate.pdfPage===null&&candidate.sourceSha256===binding.sourceSha256
+  &&candidate.regionIds?.length===1&&candidate.regionIds[0]===regionId&&candidate.targetStatus==='pending');
+ return target?reference:null;
+}
+function exactPendingPdfTableFactSourceReference(item,fact,reference) {
+ const rows=item?.table?.rows;
+ if(!Array.isArray(rows))return null;
+ const rowIndex=rows.indexOf(fact);
+ if(rowIndex<0)return null;
+ const fieldPointer='/table/rows/'+rowIndex,regionId=reference.sourceFocusId;
+ if(!validRuleTableSourceLocation(reference)||reference.sourceArtifactId!=='dmg-canonical-pdf'||reference.sourceIdentityKind!=='canonical-pdf'
+  ||!Array.isArray(reference.pages)||reference.pages.length!==1||reference.pages[0]!==reference.printedPage
+  ||!Number.isInteger(reference.printedPage)||!Number.isInteger(reference.pdfPage)||reference.pdfPage<1
+  ||reference.fieldPointer!==fieldPointer||reference.sourceObjectPointer!==fieldPointer+'/sourceReference'
+  ||!Array.isArray(reference.verification?.regions)||reference.verification.regions.length!==1||reference.verification.regions[0]!==regionId)return null;
+ const sourceReferences=Array.isArray(item.sourceReferences)?item.sourceReferences:[];
+ const matches=sourceReferences.filter(source=>source?.regionId===regionId&&source.catalog===reference.catalog);
+ if(matches.length!==1)return null;
+ const source=matches[0];
+ if(!validRuleTableSourceLocation(source)||source.book!==reference.book||source.printedPage!==reference.printedPage||source.pdfPage!==reference.pdfPage
+  ||source.sourceArtifactId!=='dmg-canonical-pdf'||source.sourceIdentityKind!=='canonical-pdf'
+  ||source.sourceSha256!==reference.sourceSha256||source.canonicalPdfSha256!==reference.canonicalPdfSha256
+  ||source.imageSha256!==reference.imageSha256||(reference.image&&source.image!==reference.image))return null;
+ const [binding]=reference.evidenceBindings||[];
+ if(!binding||binding.collection!=='rules'||binding.itemId!==item.id||binding.reviewStatus!=='field-target-pending'
+  ||binding.sourceValueStatus!=='not-assessed-by-field-target-review'||binding.targetReview!=null
+  ||binding.fieldPointer!==fieldPointer||binding.sourceObjectPointer!==fieldPointer+'/sourceReference'
+  ||binding.book!==reference.book||binding.printedPage!==reference.printedPage||binding.pdfPage!==reference.pdfPage
+  ||binding.catalog!==reference.catalog||!Array.isArray(binding.regionIds)||binding.regionIds.length!==1||binding.regionIds[0]!==regionId
+  ||binding.sourceOwner?.collection!=='rules'||binding.sourceOwner?.itemId!==item.id
+  ||tableSourcePointerValue(item,binding.sourceObjectPointer)!==reference)return null;
+ const target=FirstEditionCitations.targets(reference).find(candidate=>candidate.book===reference.book&&candidate.page===reference.printedPage
+  &&candidate.fieldPointer===fieldPointer&&candidate.fieldOwner?.collection==='rules'&&candidate.fieldOwner?.itemId===item.id
+  &&candidate.sourceOwner?.collection==='rules'&&candidate.sourceOwner?.itemId===item.id
+  &&candidate.catalog===binding.catalog&&candidate.pdfPage===reference.pdfPage
+  &&candidate.regionIds?.length===1&&candidate.regionIds[0]===regionId&&candidate.targetStatus==='pending');
+ return target?reference:null;
+}
+function exactLegacyTableFactSourceReference(item,fact,reference) {
  if(!reference||typeof reference!=='object'||typeof reference.sourceFocusId!=='string'||!Array.isArray(reference.evidenceBindings))return null;
  const sourceReferences=Array.isArray(item.sourceReferences)?item.sourceReferences:[];
  const matchingReferences=sourceReferences.filter(sourceReference=>Array.isArray(sourceReference.focusRects)&&sourceReference.focusRects.some(focus=>focus?.id===reference.sourceFocusId));
  if(matchingReferences.length!==1)return null;
- const sourceReference=matchingReferences[0],book=bookCode(sourceReference.book),page=Number(sourceReference.printedPage),pdf=Number(sourceReference.pdfPage);
- if(!book||!Number.isInteger(page)||!Number.isInteger(pdf)||bookCode(reference.book)!==book||!pagesFor(reference).includes(page))return null;
+ const sourceReference=matchingReferences[0],book=bookCode(sourceReference.book),page=sourceReference.printedPage,pdf=sourceReference.pdfPage;
+ if(!book||!Number.isInteger(page)||page<1||!Number.isInteger(pdf)||pdf<1||FirstEditionBooks.pdfPage(book,page)!==pdf
+  ||bookCode(reference.book)!==book||!pagesFor(reference).includes(page))return null;
  if(reference.evidenceBindings.length!==1)return null;
  const [binding]=reference.evidenceBindings;
  if(!binding||typeof binding!=='object')return null;
  const verifiedRegions=Array.isArray(reference.verification?.regions)?reference.verification.regions:[];
- const bindingPrintedPage=Number(binding.printedPage);
- const bindingPages=Array.isArray(binding.pages)?binding.pages:Number.isInteger(bindingPrintedPage)?[bindingPrintedPage]:pagesFor(reference);
+ const bindingPages=Array.isArray(binding.pages)?binding.pages:Number.isInteger(binding.printedPage)?[binding.printedPage]:pagesFor(reference);
  const sourcePages=Array.isArray(binding.sourcePages)?binding.sourcePages.map(Number):[];
- if(binding.collection!=='rules'||binding.itemId!==item.id||binding.book!==book||bindingPrintedPage!==page||Number(binding.pdfPage)!==pdf||!Array.isArray(bindingPages)||bindingPages.length!==1||Number(bindingPages[0])!==page||!sourcePages.includes(page)||typeof binding.fieldPointer!=='string'||!binding.fieldPointer||typeof (binding.sourceObjectPointer||binding.sourceObject)!=='string'||!(binding.sourceObjectPointer||binding.sourceObject)||typeof binding.catalog!=='string'||!binding.catalog||!Array.isArray(binding.regionIds)||binding.regionIds.length!==1||typeof binding.regionIds[0]!=='string'||!binding.regionIds[0]||verifiedRegions.length!==1||verifiedRegions[0]!==binding.regionIds[0]||binding.sourceOwner?.collection!=='rules'||binding.sourceOwner?.itemId!==item.id)return null;
- const target=FirstEditionCitations.targets(reference).find(candidate=>candidate.book===book&&candidate.page===page&&candidate.fieldPointer===binding.fieldPointer&&candidate.fieldOwner?.collection==='rules'&&candidate.fieldOwner?.itemId===item.id&&candidate.sourceOwner?.collection==='rules'&&candidate.sourceOwner?.itemId===item.id&&candidate.regionIds?.length===1&&candidate.regionIds[0]===binding.regionIds[0]);
+ if(binding.collection!=='rules'||binding.itemId!==item.id||binding.book!==book||binding.printedPage!==page||binding.pdfPage!==pdf
+  ||!Array.isArray(bindingPages)||bindingPages.length!==1||Number(bindingPages[0])!==page||!sourcePages.includes(page)
+  ||typeof binding.fieldPointer!=='string'||!binding.fieldPointer
+  ||typeof (binding.sourceObjectPointer||binding.sourceObject)!=='string'||!(binding.sourceObjectPointer||binding.sourceObject)
+  ||!Array.isArray(binding.regionIds)||binding.regionIds.length!==1||typeof binding.regionIds[0]!=='string'||!binding.regionIds[0]
+  ||verifiedRegions.length!==1||verifiedRegions[0]!==binding.regionIds[0]
+  ||binding.sourceOwner?.collection!=='rules'||binding.sourceOwner?.itemId!==item.id)return null;
+ const target=FirstEditionCitations.targets(reference).find(candidate=>candidate.book===book&&candidate.page===page
+  &&candidate.fieldPointer===binding.fieldPointer&&candidate.fieldOwner?.collection==='rules'&&candidate.fieldOwner?.itemId===item.id
+  &&candidate.sourceOwner?.collection==='rules'&&candidate.sourceOwner?.itemId===item.id
+  &&candidate.regionIds?.length===1&&candidate.regionIds[0]===binding.regionIds[0]);
  return target?reference:null;
+}
+function exactTableFactSourceReference(item,fact) {
+ const reference=fact?.sourceReference;
+ if(!reference||typeof reference!=='object')return null;
+ if(reference.book==='DMG'&&reference.printedPage===175&&reference.pdfPage===null)
+  return exactSupplementalTableFactSourceReference(item,fact,reference);
+ if(reference.reviewStatus==='field-target-pending'&&reference.sourceArtifactId==='dmg-canonical-pdf')
+  return exactPendingPdfTableFactSourceReference(item,fact,reference);
+ // Preserve the deployed PHB/UA row, symbol, procedure, footnote, source-note,
+ // and progression-note schema. Only its formerly coercive PDF mapping guard
+ // is tightened to positive integer page numbers.
+ if(reference.pdfPage===null||reference.pdfPage===0||reference.sourceArtifactId==='dmg175-user-confirmed-supplement')return null;
+ return exactLegacyTableFactSourceReference(item,fact,reference);
+}
+function validPendingBulletSourceIdentity(item,reference,binding,regionId) {
+ const page=binding.printedPage,book=bookCode(binding.book),pdf=binding.pdfPage;
+ if(!book||book!==binding.book||!Number.isInteger(page)||page<1||reference.book!==book
+  ||!Array.isArray(reference.pages)||reference.pages.length!==1||reference.pages[0]!==page)return false;
+ if(pdf===null){
+  const supplement=FirstEditionBooks.supplementalEvidence?.('DMG',175);
+  const crop=FirstEditionBooks.supplementalCrop?.('DMG',175,regionId);
+ const catalog=`scans/verified/rules-${item.id}.json`;
+  const excerpts=item.sourceExcerpts;
+  if(binding.catalog!==catalog||excerpts?.collection!=='rules'||excerpts.catalog!==catalog)return false;
+  return book==='DMG'&&page===175&&supplement?.available===true&&supplement.originalPdfContainsPrintedPage===false
+   &&supplement.editionStatus==='user-confirmed-correct-edition'&&supplement.printingStatus==='not-specified'
+   &&supplement.imageSha256==='e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7'
+   &&supplement.originalPdfSha256==='7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669'
+   &&crop?.sourceArtifactId==='dmg175-user-confirmed-supplement'&&crop.sourceIdentityKind==='supplemental-image'
+   &&crop.book==='DMG'&&crop.printedPage===175&&crop.pdfPage===null
+   &&typeof regionId==='string'&&/^[a-z0-9-]+$/.test(regionId)
+   &&reference.pages.length===1&&reference.pages[0]===175
+   &&supplementalBindingRegionEvidence(item,reference,binding,regionId)!==null
+   &&Number.isInteger(excerpts.regionCount)&&excerpts.regionCount>0;
+ }
+ return Number.isInteger(pdf)&&pdf>0&&FirstEditionBooks.pdfPage(book,page)===pdf
+  &&binding.catalog===`scans/verified/rules-${item.id}.json`&&item.sourceExcerpts?.collection==='rules'&&item.sourceExcerpts?.catalog===binding.catalog
+  &&(binding.sourceArtifactId===undefined||binding.sourceArtifactId==='dmg-canonical-pdf');
+}
+function ruleBulletSourceChips(item,index) {
+ const fieldPointer='/bullets/'+index,refs=Array.isArray(item.references)?item.references:[],chips=[];
+ for(const reference of refs){
+  if(!reference||typeof reference!=='object'||!Array.isArray(reference.evidenceBindings))continue;
+  const referenceIndex=refs.indexOf(reference);
+  for(const binding of reference.evidenceBindings){
+   if(!binding||typeof binding!=='object'||binding.collection!=='rules'||binding.itemId!==item.id||binding.fieldPointer!==fieldPointer
+    ||binding.sourceObjectPointer!=='/references/'+referenceIndex||tableSourcePointerValue(item,binding.sourceObjectPointer)!==reference
+    ||binding.sourceOwner?.collection!=='rules'||binding.sourceOwner?.itemId!==item.id
+    ||binding.reviewStatus!=='field-target-pending'||binding.sourceValueStatus!=='not-assessed-by-field-target-review'||binding.targetReview!=null
+    ||!Array.isArray(binding.regionIds)||binding.regionIds.length!==1||!Array.isArray(reference.verification?.regions)
+    ||!reference.verification.regions.includes(binding.regionIds[0])
+    ||!validPendingBulletSourceIdentity(item,reference,binding,binding.regionIds[0]))continue;
+   const page=binding.printedPage,book=bookCode(binding.book);
+   const identity=binding.pdfPage===null?supplementalBindingRegionEvidence(item,reference,binding,binding.regionIds[0]):null;
+   const crop=identity?.crop;
+   const scopedReference=binding.pdfPage===null
+    ?{...reference,sourceArtifactId:crop.sourceArtifactId,sourceIdentityKind:crop.sourceIdentityKind,sourceSha256:crop.sourceSha256,canonicalPdfSha256:crop.canonicalPdfSha256,imageSha256:crop.sha256,evidenceBindings:[binding]}
+    :{...reference,evidenceBindings:[binding]};
+   const target=FirstEditionCitations.targets(scopedReference).find(candidate=>candidate.book===book&&candidate.page===page
+    &&candidate.fieldPointer===fieldPointer&&candidate.fieldOwner?.collection==='rules'&&candidate.fieldOwner?.itemId===item.id
+    &&candidate.sourceOwner?.collection==='rules'&&candidate.sourceOwner?.itemId===item.id
+    &&candidate.catalog===binding.catalog&&candidate.pdfPage===binding.pdfPage
+    &&candidate.regionIds?.length===1&&candidate.regionIds[0]===binding.regionIds[0]&&candidate.targetStatus==='pending');
+   if(target)chips.push(inlineSourceChip(scopedReference,`${item.title||item._title} · bullet ${index+1} source`,'','bullet-source-chip'));
+  }
+ }
+ return chips.join(' ');
 }
 function tableFactSourceChip(item,fact,title,className) {
  const reference=exactTableFactSourceReference(item,fact);
@@ -654,11 +869,13 @@ function tableFactSourceChip(item,fact,title,className) {
  const labeledReference={...reference,evidenceBindings:reference.evidenceBindings.map(binding=>({...binding,label:title}))};
  return inlineSourceChip(labeledReference,title,'',className);
 }
+
 function ruleTableHTML(item) {
  const table=item?.table;
  if(!table||!Array.isArray(table.columns)||!Array.isArray(table.rows))return '';
  const columns=table.columns,rows=table.rows,rowLabel=table.rowHeader?.label||'Entry';
  const symbols=Array.isArray(table.symbols)?table.symbols:[],procedure=Array.isArray(table.procedure)?table.procedure:[],footnotes=Array.isArray(table.footnotes)?table.footnotes:[],sourceNotes=Array.isArray(table.sourceNotes)?table.sourceNotes:[];
+ const editorialNotes=Array.isArray(table.notes)?table.notes:[];
  const sourceReferences=Array.isArray(item.sourceReferences)?item.sourceReferences:Array.isArray(table.sourceReferences)?table.sourceReferences:[];
  const grid=`<div class="table-scroll source-rule-table-scroll" tabindex="0" role="region" aria-label="${esc(table.title||item.title||'Source table')}, horizontally scrollable"><table class="source-rule-table"><caption>${esc(table.title||item.title||'Source table')}</caption><thead><tr><th scope="col" rowspan="2">${esc(rowLabel)}</th><th scope="colgroup" colspan="${columns.length}">${esc(table.columnGroup?.label||'Source columns')}</th></tr><tr>${columns.map(column=>`<th scope="col">${esc(column.label||column.id||'')}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>{const cells=new Map((Array.isArray(row.cells)?row.cells:[]).map(cell=>[cell.columnId,cell]));return `<tr><th scope="row">${esc(row.label||'')}${(Array.isArray(row.markers)?row.markers:[]).map(marker=>`<sup class="source-row-marker">${esc(marker)}</sup>`).join('')} ${tableFactSourceChip(item,row,`${table.title||item.title||'Table'} · ${row.label||'row'}`,'table-row-source')}</th>${columns.map(column=>{const cell=cells.get(column.id);return `<td${cell?.kind?` data-cell-kind="${esc(cell.kind)}"`:''}>${esc(cell?.raw??'')}</td>`;}).join('')}</tr>`;}).join('')}</tbody></table></div>`;
  const symbolBlock=symbols.length?`<section class="source-table-symbols"><h3>Printed symbols</h3><dl>${symbols.map(entry=>`<div><dt>${esc(entry.symbol||'')}</dt><dd>${esc(displaySourceValue(entry.text??entry.meaning))} ${tableFactSourceChip(item,entry,`${table.title||item.title||'Table'} · ${entry.symbol||'symbol'} definition`,'table-symbol-source')}</dd></div>`).join('')}</dl></section>`:'';
@@ -666,9 +883,12 @@ function ruleTableHTML(item) {
  const footnoteBlock=footnotes.length?`<section class="source-table-footnotes"><h3>Printed footnotes</h3><ul>${footnotes.map(note=>`<li><strong>${esc(note.marker||'')}</strong> ${esc(note.text||'')}${note.appliesTo?` <span class="small muted">${esc(note.appliesTo)}</span>`:''} ${tableFactSourceChip(item,note,`${table.title||item.title||'Table'} · footnote ${note.marker||''}`,'table-footnote-source')}</li>`).join('')}</ul></section>`:'';
  const sourceNotesBlock=sourceNotes.length?`<section class="source-table-notes"><h3>${esc(table.sourceNotesTitle||'Source notes')}</h3><ul>${sourceNotes.map(note=>`<li>${note.label?`<strong>${esc(note.label)}</strong> `:''}${esc(displaySourceValue(note.text))} ${tableFactSourceChip(item,note,`${table.title||item.title||'Table'} · ${note.label||'source note'}`,'table-note-source')}</li>`).join('')}</ul></section>`:'';
  const progression=table.progressionNote?`<p class="source-table-progression"><strong>Progression note</strong> ${esc(displaySourceValue(table.progressionNote.text))} ${tableFactSourceChip(item,table.progressionNote,`${table.title||item.title||'Table'} · progression note`,'table-progression-source')}</p>`:'';
- const referencePages=[...new Map(sourceReferences.filter(ref=>Number.isInteger(Number(ref.printedPage))&&Number.isInteger(Number(ref.pdfPage))).map(ref=>[`${ref.book}:${ref.printedPage}:${ref.pdfPage}`,ref])).values()];
- const references=referencePages.length?`<p class="source-table-references">Source locations: ${referencePages.map(ref=>`${esc(bookCode(ref.book))} p. ${esc(ref.printedPage)} (supplied PDF p. ${esc(ref.pdfPage)})`).join(' · ')}</p>`:'';
- return `<section class="source-table-section" data-source-context="${esc(item.id)}" data-source-view="rules" aria-label="${esc(item.category||'Source table')}">${grid}${symbolBlock}${procedureBlock}${footnoteBlock}${sourceNotesBlock}${progression}${references}</section>`;
+ const referencePages=[...new Map(sourceReferences.filter(validRuleTableSourceLocation).map(ref=>[ref.book+':'+ref.printedPage+':'+(ref.pdfPage===null?'supplement':ref.pdfPage)+':'+(ref.sourceArtifactId||''),ref])).values()];
+ const references=referencePages.length?'<p class="source-table-references">Source locations: '+referencePages.map(ref=>ref.pdfPage===null
+  ?esc(bookCode(ref.book))+' p. '+esc(ref.printedPage)+' (supplemental image; no corresponding PDF page)'
+  :esc(bookCode(ref.book))+' p. '+esc(ref.printedPage)+' (supplied PDF p. '+esc(ref.pdfPage)+')').join(' · ')+'</p>':'';
+ const editorialNotesBlock=editorialNotes.length?'<section class="source-table-editorial-notes" aria-label="Editorial extraction notes"><h3>Editorial extraction notes</h3><ul>'+editorialNotes.map(note=>'<li data-editorial-kind="'+esc(note.kind||'unspecified')+'"><strong>'+esc(String(note.kind||'Editorial note').replaceAll('-',' '))+':</strong> '+esc(note.text||'')+'</li>').join('')+'</ul><p class="small muted">These are editorial qualifications, not printed source notes or quotations.</p></section>':'';
+ return `<section class="source-table-section" data-source-context="${esc(item.id)}" data-source-view="rules" aria-label="${esc(item.category||'Source table')}">${grid}${symbolBlock}${procedureBlock}${footnoteBlock}${sourceNotesBlock}${editorialNotesBlock}${progression}${references}</section>`;
 }
 function classTarget(x) {
  const limit=classTargetLimit(x);
@@ -968,7 +1188,7 @@ function renderSources() {
   const breakdown=sourceCollections.map(([key,label])=>`${usage.primary[key]} ${label}`).join(' · ');
   const gaps=Array.isArray(source.gaps)?source.gaps:[];
   const leafDetails=Array.isArray(source.unnumberedPdfLeaves)?source.unnumberedPdfLeaves:[];
-  return `<article class="source-card" data-source-card="${esc(code)}" data-annotation-target="source:${esc(code)}" data-annotation-title="${esc(source.title)}"><div class="source-bookmark" aria-hidden="true"><span>AD&amp;D</span><strong>${esc(code)}</strong></div><span class="eyebrow">SOURCE ${String(index+1).padStart(2,'0')}</span><h2>${esc(source.title)}</h2><p>${esc(source.edition||'')}</p>${source.sourceFile?`<p class="source-file">Supplied PDF: ${esc(source.sourceFile)}${Number.isInteger(source.pdfPages)?` · ${source.pdfPages} PDF pages`:''}</p>`:''}<h3>Current coverage</h3><p>${esc(typeof source.coverage==='string'?source.coverage:JSON.stringify(source.coverage||'Source extraction in progress.'))}</p><p class="source-usage" data-primary-entry-count="${usage.total}" data-supporting-entry-count="${usage.supportingEntries}"><strong>Primary-book entries:</strong> ${usage.total} (${breakdown}${spellCount?`; ${spellDetailed} detailed spell cards`:''}).</p><p class="source-usage"><strong>Entries citing this book as a supporting source:</strong> ${usage.supportingEntries}.</p>${gaps.length?`<div class="gap-badge">Missing from the supplied PDF: printed p. ${gaps.map(esc).join(', ')}.${code==='DMG'?' A separate private image is user-confirmed as the correct edition, but its exact printing is not established. Two limited reviewed excerpts are available; the full image is not published.':' These pages are not reconstructed.'}</div>`:''}${leafDetails.length?`<div class="gap-badge">Unnumbered PDF leaves: ${leafDetails.map(leaf=>`PDF p. ${esc(leaf.pdfPage)} · ${esc(leaf.label||leaf.kind||'unnumbered leaf')}`).join('; ')}. No printed folio or printed-page mapping is established for these leaves.</div>`:''}<p class="source-map">${esc(source.mapping||FirstEditionBooks.mapping(code))}</p><div>${noteButton({id:`source:${code}`,name:source.title})}</div></article>`;
+  return `<article class="source-card" data-source-card="${esc(code)}" data-annotation-target="source:${esc(code)}" data-annotation-title="${esc(source.title)}"><div class="source-bookmark" aria-hidden="true"><span>AD&amp;D</span><strong>${esc(code)}</strong></div><span class="eyebrow">SOURCE ${String(index+1).padStart(2,'0')}</span><h2>${esc(source.title)}</h2><p>${esc(source.edition||'')}</p>${source.sourceFile?`<p class="source-file">Supplied PDF: ${esc(source.sourceFile)}${Number.isInteger(source.pdfPages)?` · ${source.pdfPages} PDF pages`:''}</p>`:''}<h3>Current coverage</h3><p>${esc(typeof source.coverage==='string'?source.coverage:JSON.stringify(source.coverage||'Source extraction in progress.'))}</p><p class="source-usage" data-primary-entry-count="${usage.total}" data-supporting-entry-count="${usage.supportingEntries}"><strong>Primary-book entries:</strong> ${usage.total} (${breakdown}${spellCount?`; ${spellDetailed} detailed spell cards`:''}).</p><p class="source-usage"><strong>Entries citing this book as a supporting source:</strong> ${usage.supportingEntries}.</p>${gaps.length?`<div class="gap-badge">Missing from the supplied PDF: printed p. ${gaps.map(esc).join(', ')}.${code==='DMG'?' A separate private image is user-confirmed as the correct edition, but its exact printing is not established. Limited excerpts are available as source evidence; the full image is not published.':' These pages are not reconstructed.'}</div>`:''}${leafDetails.length?`<div class="gap-badge">Unnumbered PDF leaves: ${leafDetails.map(leaf=>`PDF p. ${esc(leaf.pdfPage)} · ${esc(leaf.label||leaf.kind||'unnumbered leaf')}`).join('; ')}. No printed folio or printed-page mapping is established for these leaves.</div>`:''}<p class="source-map">${esc(source.mapping||FirstEditionBooks.mapping(code))}</p><div>${noteButton({id:`source:${code}`,name:source.title})}</div></article>`;
  }).join('');
  $('#main').innerHTML = pageHeading('KNOW WHAT YOU’RE READING','A reference you can trace.','The original printings are the authority. This companion provides selected, reformatted study aids and exact page locations.') + `<div class="coverage-grid"><div class="coverage-stat"><strong>${data.spells.length.toLocaleString()}</strong><span>Class-specific spell entries indexed · ${detailed} detailed cards</span></div><div class="coverage-stat"><strong>${data.rules.length.toLocaleString()}</strong><span>Curated rules references</span></div><div class="coverage-stat"><strong>${data.classes.length.toLocaleString()}</strong><span>Class &amp; advancement guides · ${xpCount} with partial XP tables</span></div><div class="coverage-stat"><strong>${data.equipment.length.toLocaleString()}</strong><span>Equipment entries · ${data.equipment.filter(hasKnownPrice).length} transcribed prices · ${data.equipment.filter(hasSuggestedPrice).length} suggested estimates</span></div></div><p class="source-registry-note">${esc(registrySummary)} Source counts distinguish primary-book entries from records that cite a book as supporting evidence.</p><section class="source-cards" aria-label="Source printings">${sourceCards||'<p>No source cards are available in this data snapshot.</p>'}</section><p class="source-use-note">Counts refer to records, not pages; a source with zero primary-book entries can still be cited by records based on another book. Supporting counts include the progression overview when it cites that source.</p><section class="coverage-copy" data-annotation-target="coverage" data-annotation-title="Coverage & editorial standards"><h2>Clear boundaries. Better rulings.</h2><p>This is a growing, curated reference, not a complete reproduction of the books. ${xpCount<data.classes.length?`Only ${xpCount} of ${data.classes.length} class/variant guides currently include partial XP tables; other progressions are pending.`:`All ${data.classes.length} class/variant guides include source XP rows, but individual tables may still have gaps and level-up mechanics remain partially extracted.`} An indexed entry records a class-specific spell heading and level; the same spell name may appear in several classes. A detailed card separately extracts selected casting attributes and a concise paraphrase. Missing fields are not inferred.</p><p>Most content has been checked against source OCR. ${esc(verificationCopy)} Page chips identify the printed page and its corresponding page in the supplied PDF. ${esc(sourceSharingCopy)}</p><p>Players Handbook and original Unearthed Arcana rules are identified separately. Later editions, modified scans, house rules, and errata are not silently substituted. Any errata supplied in a guide is explicitly labeled. Equipment prices are source-listed coin amounts; gp-weight is separately labeled encumbrance. ${data.matrices?.find(m=>m.id==='dmg-original-fighter-attack-matrix')?.cellVerification?.cellCount===210 && data.matrices?.find(m=>m.id==='dmg-original-fighter-attack-matrix')?.coverage?.missingCells===0?'The original fighter matrix cells were checked against the supplied scan.':'The original fighter matrix remains a partial transcription.'} Its Alt comparison is an explicitly optional house-rule illustration.</p>${noteButton({id:'coverage',name:'Coverage & editorial standards'})}</section>${coverageGapsPanelHTML(coverageGapsPayload)}`;
  if (!coverageGapsPayload) loadCoverageGaps();

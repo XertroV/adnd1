@@ -1,5 +1,6 @@
 import {validateCurrentMonetarySourceQuestionProjection} from './monetary-current-source-questions.mjs';
 import {createHash} from 'node:crypto';
+import {buildDmg175CoverageEntry} from './dmg175-availability-projection.mjs';
 
 const sha256 = value => createHash('sha256').update(value).digest('hex');
 
@@ -385,6 +386,10 @@ function missingContentEntries(data, handoff) {
   const section = handoff.missingReferencedContent;
   const entries = [];
   for (const missing of section.missingCitedPages || []) {
+    if (missing.book === 'DMG' && missing.printedPage === 175) {
+      entries.push(buildDmg175CoverageEntry({data, handoff, evidence: missing.currentAvailability}));
+      continue;
+    }
     const supplemental175 = missing.book === 'DMG' && missing.printedPage === 175
       && missing.privateSupplement?.sha256 === 'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7'
       && missing.privateSupplement?.limitedCropsStaged === 2;

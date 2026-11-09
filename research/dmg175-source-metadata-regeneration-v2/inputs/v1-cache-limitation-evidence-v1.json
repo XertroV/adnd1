@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "frozen V1 manifest runtime-cache limitation evidence",
+  "v1ManifestPath": "research/dmg175-source-metadata-regeneration-v1/manifest-v1.json",
+  "v1ManifestSha256": "a279e700f4672e7ab3a39d4e96604cc3542bcd51d30371826944f917f35de175",
+  "v1ManifestDeclaredFileCount": 37,
+  "runtimeCacheEntryCount": 2,
+  "runtimeCacheEntries": [
+    {
+      "path": "outputs/__pycache__/continuation-candidates-dmg175-v1.cpython-312.pyc",
+      "manifestSha256": "abe634595d3b34ae963e0e9031dd4325c9f65e3959165f7c8419e233b1c75599",
+      "currentBytesSha256": "a84fd4f1fdc3074c8654c5604ef44a3986d2f668b869faa1f5dafcea34b09b32",
+      "bytes": 117577,
+      "matchesManifest": false
+    },
+    {
+      "path": "outputs/__pycache__/source_frame_coordinate_bridge-dmg175-v1.cpython-312.pyc",
+      "manifestSha256": "0471573566c60aec6e6276541ea921c019d75e36422a37533da775b08963248e",
+      "currentBytesSha256": "a0957c5df89d9d44f26f4c3b2b27cd556bae8e5174468aea42f455200b3157b1",
+      "bytes": 28435,
+      "matchesManifest": false
+    }
+  ],
+  "limitation": "V1 included two __pycache__ bytecode files in its 37-file manifest; their observed bytes no longer match the frozen manifest hashes. V1 is preserved unchanged. V2 excludes __pycache__ and .pyc artifacts from its source/artifact hash list and records this evidence separately."
+}

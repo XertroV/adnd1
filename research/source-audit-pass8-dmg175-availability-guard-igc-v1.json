@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "IGC decision record after bounded guard regressions and independent review",
+  "context": {
+    "worktreeCommit": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
+    "dirtySourceDataSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+    "scope": "Select an availability projection guard for the current closed12catalog/34region supplemental-source integration. This is not a source-completeness or numerical-mechanics decision."
+  },
+  "goals": {
+    "G1": "Reject a fabricated region ID even if the 8-crop/34-ID counts remain the same.",
+    "G2": "Reject a registered source-region object moved to the wrong owner catalog while preserving those counts and the global ID set.",
+    "G3": "Accept the exact current reviewed catalog contents and registered native crop identities, including the fd13 repair."
+  },
+  "matrix": [
+    {
+      "idea": "V1 count/prefix guard",
+      "all": "refuted",
+      "G1": "refuted",
+      "G2": "not-evaluated",
+      "G3": "not-evaluated-in-current-fd13-context"
+    },
+    {
+      "idea": "V2 global closed IDs and registered tuples",
+      "all": "refuted",
+      "G1": "non-refuted",
+      "G2": "refuted",
+      "G3": "non-refuted"
+    },
+    {
+      "idea": "V5 with V3 exact catalog-content/file guards and reviewed wording",
+      "all": "non-refuted",
+      "G1": "non-refuted",
+      "G2": "non-refuted",
+      "G3": "non-refuted"
+    }
+  ],
+  "decisiveErrors": [
+    {
+      "idea": "V1",
+      "goal": "G1",
+      "evidence": "The preserved in-memory forged-prefix mutation is accepted with 8/34 counts; independent V1 review bb52c9d0f188f64065c35e45c0a09dc352a9f3352c18af574017db1b6146e7ec."
+    },
+    {
+      "idea": "V2",
+      "goal": "G2",
+      "evidence": "The preserved registered-region owner-catalog swap is accepted with the exact global set; independent V2 review386a8e5d0c17c0b5c0549b411b4a0cb3276b923dac53beb5da962dcba8b60459."
+    }
+  ],
+  "choice": {
+    "idea": "V5 with V3 guards",
+    "moduleSha256": "4636fba4200aae83353a70e77d31762300244cc1128f956e845b194116eee1cb",
+    "guardIndependentReviewSha256": "509dea297a8a1b459d83cd9b12fe1a6f4d810bd40624cb6b0fddce207f113966",
+    "finalWordingIndependentReviewSha256": "dadf3d5a91f7d0c598c403779b71c421e68df1d1357944885db17407b6c93db9",
+    "qualification": "Only the named goals and bounded preserved cases are evaluated. Full assembly, metadata refresh, browser verification and release checks remain separate gates."
+  }
+}

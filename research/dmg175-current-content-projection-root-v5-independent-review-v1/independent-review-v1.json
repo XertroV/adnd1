@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Independent review of D175 current-content projection wording V5",
+  "reviewState": "V3 guards retained; V4 three-string delta and V5 one-phrase refinement verified; regenerated source-card data is current; final browser gate remains pending",
+  "scope": "Read-only review of exact V3→V4→V5 source/module deltas, focused test replay, and the regenerated current DMG source-card coverage field. Tests ran from temporary package copies because each test writes a control-result file. No candidate or active files were changed.",
+  "lineage": {
+    "acceptedV3Module": {
+      "path": "research/dmg175-current-content-projection-root-v3/dmg175-availability-projection-target-v3.mjs",
+      "sha256": "151921ae1c23518e1692fd176798e78a127d3a93053ce53350d333be7ee1a532"
+    },
+    "acceptedV3IndependentReview": {
+      "path": "research/dmg175-current-content-projection-root-v3-independent-review-v1/independent-review-v1.json",
+      "sha256": "509dea297a8a1b459d83cd9b12fe1a6f4d810bd40624cb6b0fddce207f113966"
+    },
+    "v4Module": {
+      "path": "research/dmg175-current-content-projection-root-v4/dmg175-availability-projection-target-v4.mjs",
+      "sha256": "d2cb585470333043cdd0fdaf35eea3da830c4fc258aa796c6c814025791126a0"
+    },
+    "v4WordingDelta": {
+      "path": "research/dmg175-current-content-projection-root-v4/wording-delta-v4.json",
+      "sha256": "d72ec91d6e3c3c52672d7d93a90e3322b8b61dadd7e9100d049b1065bdfa896a"
+    },
+    "v5Module": {
+      "path": "research/dmg175-current-content-projection-root-v5/dmg175-availability-projection-target-v5.mjs",
+      "sha256": "4636fba4200aae83353a70e77d31762300244cc1128f956e845b194116eee1cb"
+    },
+    "v5WordingDelta": {
+      "path": "research/dmg175-current-content-projection-root-v5/wording-delta-v5.json",
+      "sha256": "60c860f7f1fe06e3a465365233ecc2156c9d0ef77e800ee79b5c37811986dd02"
+    },
+    "v5PackageFiles": {
+      "wording-delta-v5.json": "60c860f7f1fe06e3a465365233ecc2156c9d0ef77e800ee79b5c37811986dd02",
+      "test-root-v5.mjs": "ff8416e05f939dab315cff0bac5665de731559796070b7c259bf1f2793147de3",
+      "root-control-result-v5.json": "56f9a19dc1ea7af1897482cc0312a56b757b488d145b180418ae4ee5aacc1a69",
+      "dmg175-availability-projection-target-v5.mjs": "4636fba4200aae83353a70e77d31762300244cc1128f956e845b194116eee1cb"
+    }
+  },
+  "deltaVerification": {
+    "v3ToV4ExpectedReplacements": 3,
+    "v3ToV4ActualAddedRemovedLines": [
+      3,
+      3
+    ],
+    "v3ToV4RevertsByteExactlyToAcceptedV3": true,
+    "v4ToV5ExpectedReplacement": 1,
+    "v4ToV5ActualAddedRemovedLines": [
+      1,
+      1
+    ],
+    "v4ToV5RevertsByteExactlyToV4": true,
+    "noSourceIdentityOrCatalogGuardChange": true,
+    "noCountOrTargetDenominatorChange": true
+  },
+  "currentDataAndSourceCard": {
+    "worktreeCommit": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
+    "hashes": {
+      "rules.json": "1e8cf08832da0c086e30715a0f14eeb456e54371dcf22d4e1dd5ef942d4a862a",
+      "dist/data.json": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+      "dist/books.js": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811",
+      "dist/app.js": "8ae754da261d2b54be9dab3d2f6073ecf8af65516cbf9ba7396453ab99cb8436"
+    },
+    "distDataExpectedSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+    "distDataMatchesExpected": true,
+    "dmgSourceCoverageText": "Selected combat, advancement and referee procedures; coverage is incomplete. The supplied PDF omits printed p. 175. A separate private image is user-confirmed as the correct edition, but its exact printing is not established; Limited excerpts are available as source evidence; the full image is not published. PDF pp. 239–240 are unnumbered physical leaves, not printed-page citations. Other source content remains outside this selected reference.",
+    "containsStaleTwoExcerptCount": false,
+    "sourceCardRendererReadsSourceCoverage": true,
+    "sourceCardDataNowGeneric": true,
+    "browserPreviewRun": false
+  },
+  "observedProjection": {
+    "title": "DMG p. 175 · supplemental source available",
+    "description": "The supplied image is confirmed as the correct edition and provides evidence for printed p.175. This page is absent from the original PDF. Eight limited p.175 excerpts are available with the linked Appendix C cards, with related tables and continuations on p.176. The 11 Appendix C cards contain 87 table rows; their individual citations and numerical values still await verification. The image’s printing is unspecified, and the full image remains private. Appendix C and DMG coverage remain incomplete.",
+    "canonicalPdfPage": null,
+    "sourceValuesAndNumericsPending": true,
+    "fullImagePrivate": true,
+    "completeAppendixOrDMGClaim": false
+  },
+  "verification": {
+    "v4TestCommand": "node test-root-v4.mjs run in a temporary copy of V2/V4 package",
+    "v4TestExitCode": 0,
+    "v4TestResult": "6 native tuple negatives and 3 published-evidence negatives pass; V1 mutant accepted/V3 guard rejects; monetary screen exact",
+    "v4FrozenControlResultUnchanged": true,
+    "v5TestCommand": "node test-root-v5.mjs run in a temporary copy of V2/V5 package",
+    "v5TestExitCode": 0,
+    "v5TestResult": "6 native tuple negatives and 3 published-evidence negatives pass; V1 mutant accepted/V3 guard rejects; monetary screen exact",
+    "v5FrozenControlResultUnchanged": true
+  },
+  "copyNote": "V5 removes the suggestion that the crops have already verified the linked rules. The phrase is bounded and matches the pending-citation/numeric sentence; the wording has a minor repeated “with” construction. If tightened later, keep the same source, printing, omission, privacy, pending-review, and incomplete-coverage boundaries.",
+  "limits": [
+    "This review is not a browser visual approval; the actual browser preview remains a separate final gate.",
+    "No source values, mechanics, field grades, context grades, or completeness status were promoted.",
+    "No source PDF/full image was copied into the receipt."
+  ]
+}

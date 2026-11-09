@@ -587,15 +587,40 @@
       const ordered = [...group.segments].sort((a,b) => Number(a?.order) - Number(b?.order));
       const uniqueRegions = new Set(ordered.map(segment => segment?.regionId));
       if (uniqueRegions.size !== ordered.length || ordered.some((segment,index) => !segment || segment.order !== index + 1 || segment.state !== 'present' || segment.role !== (index === 0 ? 'opening' : 'continuation'))) continue;
-      const selectedSegment = ordered.find(segment => segment.regionId === selectedRegion.id && segment.book === ref.book && segment.printedPage === ref.page);
+      const selectedSegment = ordered.find(segment => (segment.regionId === selectedRegion.id || (Array.isArray(segment.focusAliasRegionIds) && segment.focusAliasRegionIds.includes(selectedRegion.id))) && segment.book === ref.book && segment.printedPage === ref.page);
       if (!selectedSegment) continue;
       const parts = [];
       let valid = true;
+      const allSegmentIds = new Set();
       for (const segment of ordered) {
-        const region = catalog.regions.find(candidate => candidate.id === segment.regionId);
-        const sourceIdentity = region ? books().resolveRegionSourceIdentity(catalog, region) : null;
-        if (!region || segment.book !== region.book || segment.printedPage !== region.printedPage || segment.pdfPage !== region.pdfPage
-            || !sourceIdentity?.valid || segment.image !== region.image || segment.imageSha256 !== region.sha256 || segment.sourceSha256 !== sourceIdentity.sourceSha256
+        const primaryRegion = catalog.regions.find(candidate => candidate.id === segment.regionId);
+        const aliases = segment.focusAliasRegionIds === undefined ? [] : segment.focusAliasRegionIds;
+        if (!primaryRegion || !Array.isArray(aliases) || aliases.some(id => typeof id !== 'string') || new Set(aliases).size !== aliases.length || aliases.includes(segment.regionId) || allSegmentIds.has(segment.regionId)) { valid = false; break; }
+        allSegmentIds.add(segment.regionId);
+        const primaryIdentity = books().resolveRegionSourceIdentity(catalog, primaryRegion);
+        if (!primaryIdentity?.valid) { valid = false; break; }
+        for (const aliasId of aliases) {
+          if (allSegmentIds.has(aliasId)) { valid = false; break; }
+          allSegmentIds.add(aliasId);
+          const alias = catalog.regions.find(candidate => candidate.id === aliasId);
+          const aliasIdentity = alias && books().resolveRegionSourceIdentity(catalog, alias);
+          if (!alias || !aliasIdentity?.valid || alias.book !== primaryRegion.book || alias.printedPage !== primaryRegion.printedPage
+              || alias.pdfPage !== primaryRegion.pdfPage || alias.image !== primaryRegion.image || alias.sha256 !== primaryRegion.sha256
+              || alias.sourceArtifactId !== primaryRegion.sourceArtifactId
+              || JSON.stringify(alias.sourceCropBoundsPx) !== JSON.stringify(primaryRegion.sourceCropBoundsPx)
+              || alias.sourceCoordinateSpace !== primaryRegion.sourceCoordinateSpace
+              || aliasIdentity.sourceSha256 !== primaryIdentity.sourceSha256 || !Array.isArray(alias.focusRects) || alias.focusRects.length === 0) { valid = false; break; }
+        }
+        if (!valid) break;
+        const selectedAlias = segment === selectedSegment && segment.regionId !== selectedRegion.id;
+        const region = selectedAlias ? selectedRegion : primaryRegion;
+        const sourceIdentity = books().resolveRegionSourceIdentity(catalog, region);
+        const supplemental = sourceIdentity?.sourceKind === 'supplemental-image';
+        const sourceMetadataValid = supplemental
+          ? segment.sourceArtifactId === sourceIdentity.sourceArtifactId && segment.sourceIdentityKind === sourceIdentity.sourceKind && segment.canonicalPdfSha256 === sourceIdentity.canonicalPdfSha256
+          : (segment.sourceArtifactId === undefined || segment.sourceArtifactId === 'dmg-canonical-pdf') && (segment.sourceIdentityKind === undefined || segment.sourceIdentityKind === 'canonical-pdf') && (segment.canonicalPdfSha256 === undefined || segment.canonicalPdfSha256 === sourceIdentity.canonicalPdfSha256);
+        if (segment.book !== region.book || segment.printedPage !== region.printedPage || segment.pdfPage !== region.pdfPage
+            || !sourceIdentity?.valid || !sourceMetadataValid || segment.image !== region.image || segment.imageSha256 !== region.sha256 || segment.sourceSha256 !== sourceIdentity.sourceSha256
             || !/^[a-f0-9]{64}$/.test(segment.imageSha256 || '') || !/^[a-f0-9]{64}$/.test(segment.sourceSha256 || '')
             || typeof segment.role !== 'string' || !segment.role || !/^[a-z0-9][a-z0-9-]{0,150}\.png$/.test(segment.image || '')
             || !Object.hasOwn(books().books, segment.book)) { valid = false; break; }

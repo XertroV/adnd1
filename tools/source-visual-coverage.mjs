@@ -369,6 +369,7 @@ const triagePaths=[
   'research/phb-45-75-visual-triage.json','research/phb-75-100-visual-triage.json',
   'research/ua-other-visual-review.json','research/nonphb-equipment-visual-review.json',
   'research/source-viewer-dogfood-findings.json',
+  'research/dmg175-character-level-crop-triage-v1.json',
 ];
 function collectTriage(read,hashFile){
   const all=[];const inputs={};

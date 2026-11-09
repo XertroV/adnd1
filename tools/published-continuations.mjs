@@ -41,6 +41,8 @@ export function buildPublishedContinuations({manifest, data, catalogRoot}) {
         ...(relationship ? {relationship} : {}),
         segments: [...group.segments].sort((a, b) => a.order - b.order).map(segment => ({
           ...Object.fromEntries(fields.map(field => [field, segment[field]])),
+          ...(segment.sourceArtifactId === 'dmg175-user-confirmed-supplement' ? {sourceArtifactId:segment.sourceArtifactId,sourceIdentityKind:segment.sourceIdentityKind,canonicalPdfSha256:segment.canonicalPdfSha256} : {}),
+          ...(Array.isArray(segment.focusAliasRegionIds) ? {focusAliasRegionIds:[...segment.focusAliasRegionIds]} : {}),
           ...(segment.state === 'blocked-source-unavailable' ? {reason: segment.reason} : {}),
         })),
       };

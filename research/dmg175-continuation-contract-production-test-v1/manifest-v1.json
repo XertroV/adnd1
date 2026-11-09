@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Production-facing continuation contract test for the D175 Party Magic and Character Levels groups",
+  "status": "research-only-test-candidate",
+  "paths": {
+    "test": "research/dmg175-continuation-contract-production-test-v1/continuation-contract-production-v1.test.mjs",
+    "proposedCiEntry": "research/dmg175-continuation-contract-production-test-v1/proposed-ci-entry-v1.test.mjs",
+    "testLog": "research/dmg175-continuation-contract-production-test-v1/validation/replay-v1.txt",
+    "readme": "research/dmg175-continuation-contract-production-test-v1/README.md",
+    "productionApi": "tools/continuation-contract.mjs",
+    "currentManifest": "research/citation-continuations.json",
+    "publishedManifest": "dist/source-continuations.json"
+  },
+  "baseline": {
+    "commit": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
+    "source": "git show 386b08a4678ee033d6daabc0ffa2cc17265a7c1f:research/citation-continuations.json",
+    "manifestSha256": "9929dd838c8f9ce86c0fd6259d4bb93310a739886f47c98f9e40b6d33ef244d0",
+    "groupCount": 271,
+    "preservationCheck": "current.groups[0..270] is deep-equal and in original order to the complete baseline groups array"
+  },
+  "currentInputs": {
+    "productionApiSha256": "97e0fe73bd0bdd21d1f207ca97a65395794aede69b3e7803eca965e7f801cfa3",
+    "currentManifestSha256": "f1bfc6cffbfdd625e96bb5398e7f8db16730264a7f46ce4bcc7667ca2ef24cc7",
+    "publishedManifestSha256": "32f177b264f8673edf054b25a0bd9b8df6668c5b9fb55a17d4161cf5b0cc1e5d",
+    "currentDataSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d"
+  },
+  "currentManifestCounts": {
+    "groups": 273,
+    "segments": 540,
+    "presentSegments": 540,
+    "blockedSegments": 0,
+    "appendedGroups": [
+      "appendix-c-party-magic-distribution-dmg-175-176",
+      "appendix-c-character-levels-dmg-175-same-page-continuation"
+    ]
+  },
+  "coverage": {
+    "ordinaryAliasPropertiesRejected": ["undefined", "null", "empty-array", "fake-id-array"],
+    "characterLevelsAliasPropertiesRejected": ["undefined", "null", "empty-array", "fake-id-array"],
+    "partyMagicP175Aliases": 12,
+    "partyMagicP176Aliases": 1,
+    "partyMagicProvenance": {
+      "p175": {
+        "printedPage": 175,
+        "pdfPage": null,
+        "sourceIdentityKind": "supplemental-image",
+        "sourceArtifactMediaType": "image/jpeg",
+        "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7"
+      },
+      "p176": {
+        "printedPage": 176,
+        "pdfPage": 176,
+        "sourceIdentityKind": "canonical-pdf",
+        "sourceSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      }
+    },
+    "partyMagicWrongAliasSetsRejected": 2,
+    "reversedPageOrderRejected": true,
+    "missingPartyMagicPartRejected": true,
+    "staleOld07fdOpeningTupleRejected": true
+  },
+  "testResult": {
+    "command": "node --test research/dmg175-continuation-contract-production-test-v1/continuation-contract-production-v1.test.mjs",
+    "tests": 7,
+    "passed": 7,
+    "failed": 0,
+    "testSha256": "4a1201762224be360235e3fcab065136e399abbdfb5255fda96812316f184e88",
+    "proposedCiEntrySha256": "485786b3d7595ddd907c42d657384782edbcf7973e27d4cc7b61469109897ca4",
+    "testLogSha256": "5b633624aa1489318693195bdc542363df871585af43981b3ca052dae1e433e6"
+  },
+  "limits": [
+    "This contract test does not make new semantic or source-pixel judgments; it exercises the existing production validation contract and already accepted D175 metadata.",
+    "All negative mutations are in-memory clones; no active code, manifest, catalog, image, or prior test is changed.",
+    "The full 273-group pass validates existing registered files and catalog bindings but does not assign source-value, context, or mechanics grades."
+  ]
+}

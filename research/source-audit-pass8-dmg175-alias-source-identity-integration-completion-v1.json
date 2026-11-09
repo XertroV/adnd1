@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Actual production alias identity repair validation completion",
+  "completedAt": "2026-11-09T18:43:52.915257+00:00",
+  "scope": "Root independently reviewed the source changes, retained the old public API/CLI, and ran the exact production-facing suite before and after activation. The current complete report remains equal to the frozen before report; supplemental alias serialization is an explicitly synthetic unit control, not a newly discovered live alias.",
+  "initialIntegrationReceipt": {
+    "path": "research/source-audit-pass8-dmg175-alias-source-identity-integration-review-v1.json",
+    "sha256": "4dd8f0e760d464a2471f5b29b5f4bdaec162cdbb3476756f8afbd349163d869b"
+  },
+  "actualBefore": {
+    "passed": 4,
+    "failed": 2,
+    "privateLogSha256": "324934d237826fe87c29c423abc39e952aa66621fc7052f63afa9803fc8f19a2",
+    "defects": "Malformed supplemental identity accepted and JPEG source serialization omitted in the synthetic probes."
+  },
+  "actualAfter": {
+    "passed": 6,
+    "failed": 0,
+    "privateLogSha256": "2d7d2d4141e279ecb97f6c02926cf8d72ea2c4626f1768fa6625a63e291a5bff"
+  },
+  "productionModuleSha256": "fdc6eaa214ca1b58c83e3d5ddc48c146ce6d062b535e2e2d5ecb57a59df7fbea",
+  "zeroCurrentDmg175AliasMatchesPreserved": true,
+  "noNumericContextDefaultOrMechanicsGrade": true,
+  "invocationCorrection": "An initial after-test invocation used the workspace directory; its missing-test-file log is separately retained privately and is not counted as a code/test result. The corrected actual repository invocation completed 6/6."
+}

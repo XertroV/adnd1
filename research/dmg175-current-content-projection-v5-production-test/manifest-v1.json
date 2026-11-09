@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Production-path tests for DMG p.175 availability projection V5",
+  "status": "research-only-read-only-test-package",
+  "paths": {
+    "test": "research/dmg175-current-content-projection-v5-production-test/dmg175-availability-projection-production-v5.test.mjs",
+    "v1Fixture": "research/dmg175-current-content-projection-v5-production-test/fixtures/dmg175-availability-projection-v1-f005.mjs",
+    "v2Fixture": "research/dmg175-current-content-projection-v5-production-test/fixtures/dmg175-availability-projection-v2-cfdf.mjs",
+    "testLog": "research/dmg175-current-content-projection-v5-production-test/validation/replay-v1.txt",
+    "readme": "research/dmg175-current-content-projection-v5-production-test/README.md",
+    "productionModule": "tools/dmg175-availability-projection.mjs",
+    "targetPlan": "research/dmg175-current-content-projection-v1/inputs/target-plan-manifest-v2.json"
+  },
+  "immutableBaseline": {
+    "commit": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
+    "dataSource": "git show 386b08a4678ee033d6daabc0ffa2cc17265a7c1f:dist/data.json",
+    "dataSha256": "c076e0f6bb898eb52650fd886630089f17edc86cbc8e3c4ac349b817bceba0d3",
+    "handoffSource": "git show 386b08a4678ee033d6daabc0ffa2cc17265a7c1f:research/gaps-limitations-next-task.json",
+    "handoffSha256": "54cb148c3c9e5cfaf4a1a4e55509cd6e93f6f8ce45fedc17e9460ddd81698d77"
+  },
+  "testedInputs": {
+    "productionModuleSha256": "4636fba4200aae83353a70e77d31762300244cc1128f956e845b194116eee1cb",
+    "currentDataSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+    "targetPlanSha256": "1f7ab9d2c84fafd62231b9fbd6fc58933a0179cba97dc51fd728ad1cafc6458f",
+    "catalogSha256": {
+      "scans/verified/rules-appendix-c-character-guidance.json": "06aca643a116795eb8da20ed9447a2495ec71b150e047005db48dfac0c8a0102",
+      "scans/verified/rules-appendix-c-character-levels.json": "f7f2c6b0e3272ee9c078686ce03b065160bde6b0f1218a9c8d9e9efdd51e66ff",
+      "scans/verified/rules-appendix-c-character-subtable.json": "0df6a6dde3884e3dc81810c1d8750aab7a645e85674af4a37b5b479c4bbe2e19",
+      "scans/verified/rules-appendix-c-henchmen.json": "dc1e6e42c6a21dee554f583da43518bbdd0f44bf0de9ce87a375b8270a15fa87",
+      "scans/verified/rules-appendix-c-magic-item-notes.json": "ef15db32b4af72fc52984f2bc1e87dd0b3ea5e4a26f9df44b0a9f21272adf116",
+      "scans/verified/rules-appendix-c-magic-table-i.json": "b8b6331b7a73db2706c2fa7cd182436eb630543952cd5eba0815a4f43b659de0",
+      "scans/verified/rules-appendix-c-magic-table-ii.json": "4e0bd4444cbde7a7589ef528f0b9df20457baa97b594410aefb1b042c8b9e7fb",
+      "scans/verified/rules-appendix-c-magic-table-iii.json": "b9a17461b509c194906dfd4bc81cb7ab2d2d1db3f780d408675096736bcf86c5",
+      "scans/verified/rules-appendix-c-magic-table-iv.json": "489e3ad4eb09edd2eb241c7192063f7e7ecccb9dff9040d4ece89a051b225511",
+      "scans/verified/rules-appendix-c-party-magic-distribution.json": "52c01795856e9e6ec69aca061109e490d8b876cdcfcbfc1ca414351684def18f",
+      "scans/verified/rules-appendix-c-party-size.json": "617df82bf7a79f243106bf3b424546164a1832b0106e7e3deb51dff797cb1b8a",
+      "scans/verified/rules-encounter-types.json": "ffbe682e5c4ba3f2d2f45e0e6fc9361654fa6527c231f3a4fc220b4510e1aa3d"
+    }
+  },
+  "historicalControls": {
+    "v1ModuleSha256": "f0059c68e300bf0214779c9f622fb14f263b5c173474be38ae71eaa1b694d49d",
+    "v1KnownBehavior": "accepts forged but valid-prefix region ID; reproduced before V5 rejects it",
+    "v2ModuleSha256": "cfdf387c257975042080cd1f9c657c497c38e1940846a956705e9c21eeac77a4",
+    "v2KnownBehavior": "accepts a registered-region owner swap; reproduced before V5 rejects it",
+    "adapter": "In-memory test-only replacement of the exact single V2 import from ../dist/books.js to the worktree's dist/books.js. Preserved fixture bytes are never rewritten."
+  },
+  "coverage": {
+    "positive": {
+      "supplementalCropImages": 8,
+      "p175RegionIds": 34,
+      "pendingTargets": 120,
+      "tableRows": 87,
+      "rowsPrinted175": 22,
+      "rowsPrinted176": 65,
+      "proseTargets": 33
+    },
+    "negativeControls": {
+      "nativeTupleNegatives": 6,
+      "publishedEvidenceNegatives": 3,
+      "historicalMutantsAcceptedBeforeV5": 2,
+      "historicalMutantsRejectedByV5": 2
+    },
+    "otherChecks": [
+      "canonical object-key reordering is accepted",
+      "monetary source-screen rows remain byte-equivalent after projection",
+      "legacy reviewedCropCount remains 2 and is explicitly scoped to legacy context review"
+    ]
+  },
+  "testResult": {
+    "command": "node --test research/dmg175-current-content-projection-v5-production-test/dmg175-availability-projection-production-v5.test.mjs",
+    "tests": 7,
+    "passed": 7,
+    "failed": 0,
+    "testSha256": "0ac4d6e55b13fa17beae8dbd028c78aebcfef975e2d2050cd97d856727946423",
+    "testLogSha256": "140fe1b91ce2e86d674b8c1ea4daa3dbd9fcda77b02ecff0db4f866e4f726b7e"
+  },
+  "limits": [
+    "This is a bounded production-module test, not a full site assembly or browser test.",
+    "The test reads current data/catalog files but does not write them or any production file.",
+    "No source-value, mechanics, or context grade is introduced by this test package."
+  ]
+}

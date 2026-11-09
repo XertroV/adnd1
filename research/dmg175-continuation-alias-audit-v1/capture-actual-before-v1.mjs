@@ -1,0 +1,23 @@
+// One-time read-only capture; writes only this research package's small JSON fixture.
+import {readFileSync,writeFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {createRequire} from 'node:module';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+import {loadContinuationAliasReport,buildContinuationAliasReport} from '../../tools/continuation-alias-audit.mjs';
+const root=resolve(import.meta.dirname,'../..'),out=resolve(import.meta.dirname,'actual-before-and-controls-v1.json');
+const require=createRequire(import.meta.url),books=require('../../dist/books.js');
+const bytes=p=>readFileSync(resolve(root,p)),read=p=>JSON.parse(bytes(p)),sha=b=>createHash('sha256').update(b).digest('hex');
+const data=read('dist/data.json'),manifest=read('research/citation-continuations.json'),owner=data.rules.find(x=>x.id==='appendix-c-party-magic-distribution');
+const catalogPath=owner.sourceExcerpts.catalog,catalog=read('dist/'+catalogPath),region=catalog.regions.find(x=>x.sourceArtifactId==='dmg175-user-confirmed-supplement');
+if(!region)throw Error('expected actual typed DMG175 region is absent');
+const current=loadContinuationAliasReport();
+const d175GroupIds=manifest.groups.filter(g=>g.source?.sourceArtifactId==='dmg175-user-confirmed-supplement').map(g=>g.id);
+const forged={...region,id:'research-only-forged-alias',sourceArtifactId:'wrong-artifact',sourceSha256:'0'.repeat(64),sourceCropBoundsPx:[0,0,1,1]};
+const syntheticCatalog={...catalog,regions:[...catalog.regions,forged]};
+const syntheticManifest={groups:[{id:'research-only-dmg175-probe',collection:'rules',itemId:owner.id,catalog:catalogPath,segments:[{state:'present',role:'context',regionId:region.id}]}]};
+const before=buildContinuationAliasReport({data,manifest:syntheticManifest,catalogs:new Map([[catalogPath,syntheticCatalog]])});
+const resolved=books.resolveRegionSourceIdentity(catalog,region);
+const capture={schemaVersion:1,artifactType:'actual-current-before DMG175 continuation alias identity fixture',captureMode:'actual-live-source-inputs plus isolated in-memory forged alias control',capturedAt:'2026-11-09',repository:{head:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),worktreeWasDirty:execFileSync('git',['status','--porcelain'],{cwd:root,encoding:'utf8'}).trim().length>0},files:Object.fromEntries(['tools/continuation-alias-audit.mjs','dist/books.js','dist/data.json','research/citation-continuations.json',`dist/${catalogPath}`].map(path=>[path,{path,sha256:sha(bytes(path))}])),actualCurrent:{denominators:current.denominators,structuralCheck:current.structuralCheck,reportCanonicalSha256:sha(Buffer.from(JSON.stringify(current))),dmg175Groups:d175GroupIds,dmg175Matches:current.matches.filter(x=>d175GroupIds.includes(x.groupId)),dmg175Unassessable:current.unassessableParts.filter(x=>d175GroupIds.includes(x.groupId))},actualSupplement:{catalog:catalogPath,regionId:region.id,regionIdentity:resolved},isolatedPreRepairControl:{declaredRegionId:region.id,forgedAliasId:forged.id,forgery:{sourceArtifactId:forged.sourceArtifactId,sourceSha256:forged.sourceSha256,sourceCropBoundsPx:forged.sourceCropBoundsPx},oldAuditMatchCount:before.matches.length,oldAuditUnassessableCount:before.unassessableParts.length,oldAuditMatch:before.matches[0]||null,expectedResolvedSourceSha256:'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7',expectedCanonicalPdfSha256:'7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669'},scope:'No current production continuation alias match uses DMG175. The synthetic alias is an in-memory control demonstrating that the old detector ignores supplemental source artifact/hash/crop identity. No source image pixels are included.'};
+writeFileSync(out,JSON.stringify(capture,null,2)+'\n');
+console.log(JSON.stringify({path:out,sha256:sha(bytes(out)),actualCurrent:capture.actualCurrent,oldControl:capture.isolatedPreRepairControl},null,2));
