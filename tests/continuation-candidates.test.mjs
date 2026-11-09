@@ -69,9 +69,11 @@ test('historic PDF-only CCD assessment remains valid with its canonical source h
   assert.deepEqual(regionSourceIdentityIssues({books, catalog, region, assessment, summary}), []);
 });
 
-test('source comparison snapshot is hash-bound and CI validation needs no private PDFs', () => {
+test('unsealed PDF-only comparison report remains measurable but cannot claim sealed historical validity', () => {
   const report = validateContinuationSnapshot({root, summaryPath, fullPath, treeSelection: 'pinned-git-commit'});
-  assert.equal(report.valid, true, JSON.stringify(report.errors.slice(0, 5)));
+  assert.equal(report.valid, false);
+  assert.ok(report.errors.some(error => error.code === 'historical-continuation-not-sealed'));
+  assert.equal(report.sourceFrameValidation.status, 'historical-sealed-diagnostics-rejected');
   assert.equal(report.requestedValidationMode, 'pinned-git-commit');
   assert.equal(report.validationBase, 'pinned-git-tree');
   assert.match(report.sourcePdfRegeneration, /unavailable-in-CI/);

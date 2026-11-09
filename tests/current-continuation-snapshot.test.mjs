@@ -60,6 +60,7 @@ test('forcing the old snapshot against the current tree still fails',()=>{
 test('the active pair covers the complete current tree without a semantic-source pass',()=>{
  const result=validateContinuationSnapshot({root,summaryPath:selected.summaryPath,fullPath:selected.fullPath,treeSelection:'current-worktree'});
  assert.deepEqual(result.errors,[]);assert.equal(result.valid,true);
+ assert.deepEqual(result.sourceFrameValidation,{status:'current-active-source-frame-bridge-required',valid:true,errors:[]});
  const full=JSON.parse(gunzipSync(readFileSync(selected.fullPath)));
  assert.equal(result.counts.propertyRecords,full.propertyPointerInventory.records.length);
  assert.equal(result.counts.catalogRegionRows,full.regionAssessments.length);
@@ -67,12 +68,48 @@ test('the active pair covers the complete current tree without a semantic-source
  assert.equal(result.counts.distinctSourcePageBindings,selected.summary.exposedUniverse.uniqueSourcePageBindings);
  assert.match(result.sourcePdfRegeneration,/not regenerated from private PDFs/);
 });
+test('current mode rejects missing bridge declarations and removed per-use frame annotations',()=>{
+ const missingDeclaration=mutant((full,summary)=>{delete full.sourceFrameCoordinateBridge;delete summary.sourceFrameCoordinateBridge;});
+ const declarationResult=validateContinuationSnapshot(missingDeclaration);
+ assert.equal(declarationResult.valid,false);
+ assert.ok(declarationResult.errors.some(x=>x.code==='source-frame-declaration-stale'));
+ assert.ok(declarationResult.errors.some(x=>x.code==='source-frame-summary-declaration-stale'));
+ const missingAnnotation=mutant(full=>{const row=full.regionAssessments.find(item=>item.coordinateFrameResolutions?.some(use=>use.status==='matched'));delete row.coordinateFrameResolutions;});
+ const annotationResult=validateContinuationSnapshot(missingAnnotation);
+ assert.equal(annotationResult.valid,false);
+ assert.ok(annotationResult.errors.some(x=>x.code==='source-frame-use-annotation-mismatch'));
+});
+test('current mode derives trusted frame pins only from the validator-owning repository root',()=>{
+ const result=validateContinuationSnapshot({root:temp,summaryPath:selected.summaryPath,fullPath:selected.fullPath,treeSelection:'current-worktree'});
+ assert.equal(result.valid,false);
+ assert.ok(result.errors.some(x=>x.code==='untrusted-current-repository-root'));
+ assert.equal(result.sourceFrameValidation.valid,false);
+});
+test('current mode rejects all eleven known PHB windows when old page.rect bounds are transplanted under valid bridge annotations',()=>{
+ const controls=JSON.parse(readFileSync('research/source-audit-pass8-continuation-frame-negative-controls-v1.json','utf8'));
+ const changed=controls.rows.filter(row=>row.changed);
+ assert.equal(changed.length,11);
+ assert.deepEqual(controls.control.differentWindowsByBookAndPrintedPage,{PHB:{27:1,37:10}});
+ const options=mutant((full)=>{
+  for(const control of changed){
+   const assessment=full.regionAssessments.find(row=>row.owner?.catalog===control.catalog&&row.regionId===control.regionId);
+   assert.ok(assessment,`preserved PHB control resolves: ${control.catalog}#${control.regionId}`);
+   assessment.coordinateFrameBoundsPdfPagePointsLTRB=control.legacyPageRectBoundsPdfPointsLTRB;
+   if(assessment.geometry)assessment.geometry.cropBoundsPdfPagePointsLTRB=control.legacyPageRectBoundsPdfPointsLTRB;
+  }
+ });
+ const result=validateContinuationSnapshot(options);
+ assert.equal(result.valid,false);
+ assert.equal(result.errors.filter(x=>x.code==='source-frame-registered-bounds-mismatch').length,11);
+ assert.equal(result.errors.filter(x=>x.code==='source-frame-word-geometry-window-mismatch').length,11);
+});
 test('the archived PDF-only tree reproduces the omitted-alias false pass against its exact captured source tree',()=>{
  const source=archivedPdfSelection(),base={root,summaryPath:source.summaryPath,fullPath:source.fullPath,treeSelection:'pinned-git-commit'};
  const full=JSON.parse(gunzipSync(readFileSync(source.fullPath)));
  assert.equal(full.regionAssessments.length,3391);
  assert.equal(full.regionAssessments.some(r=>r.sourceKind==='supplemental-image'),false);
  assert.equal(oldValidate(base).valid,true);assert.equal(validateContinuationSnapshot(base).valid,true);
+ assert.equal(validateContinuationSnapshot(base).sourceFrameValidation.status,'historical-sealed-diagnostics-only');
  const options=mutant((full,summary)=>{const before=full.regionAssessments.length;full.regionAssessments=full.regionAssessments.filter(r=>!(r.regionId==='ua-69-b8b05ef9807ad0f8'&&r.owner.itemId==='ua-illusionist-death-fog'));assert.equal(full.regionAssessments.length,before-1);summary.exposedCatalogSummary.catalogRegionRows--;},{source,treeSelection:'pinned-git-commit'});
  assert.equal(oldValidate(options).valid,true,'exact pre-fix checker reproduces the omission false pass');
  const result=validateContinuationSnapshot(options);assert.equal(result.valid,false);
@@ -88,7 +125,8 @@ test('the native current3409-row universe preserves all3396 predecessor rows, ad
  const oldKeys=new Set(predecessor.map(identity));
  assert.equal(oldKeys.size,3396);
  assert.equal(new Set(full.regionAssessments.map(identity)).size,3409);
- assert.deepEqual(full.regionAssessments.filter(row=>oldKeys.has(identity(row))),predecessor,'all3396 old complete assessment rows remain exact');
+ const withoutFrameProjection=row=>{const copy=structuredClone(row);delete copy.coordinateFrameResolutions;delete copy.coordinateFrameBoundsPdfPagePointsLTRB;if(copy.geometry)delete copy.geometry.cropBoundsPdfPagePointsLTRB;return copy;};
+ assert.deepEqual(full.regionAssessments.filter(row=>oldKeys.has(identity(row))).map(withoutFrameProjection),predecessor.map(withoutFrameProjection),'all3396 old assessment fields remain exact after removing only explicit frame-resolution/projection additions');
  const xpOwners=['cleric','fighter','paladin','ranger','magic-user','illusionist','thief','ua-cavalier','ua-barbarian','ua-thief-acrobat','ua-paladin'];
  const expectedXpKeys=xpOwners.map(id=>JSON.stringify(['classes',id,`scans/verified/classes-${id}.json`,`pass8-${id}-xp-continuation-rule`]));
  expectedXpKeys.push(JSON.stringify(['classes','magic-user','scans/verified/classes-magic-user.json','pass8-magic-user-xp-continuation-table-opening']));

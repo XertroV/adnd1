@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import gzip
 import hashlib
+import importlib.util
 import json
 import re
 import subprocess
@@ -20,6 +21,16 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Iterable
+
+
+_FRAME_BRIDGE_SPEC = importlib.util.spec_from_file_location(
+    "continuation_source_frame_bridge",
+    Path(__file__).resolve().parent.parent / "research" / "source_frame_coordinate_bridge.py",
+)
+if _FRAME_BRIDGE_SPEC is None or _FRAME_BRIDGE_SPEC.loader is None:
+    raise RuntimeError("the pinned source-frame bridge helper is unavailable")
+_FRAME_BRIDGE = importlib.util.module_from_spec(_FRAME_BRIDGE_SPEC)
+_FRAME_BRIDGE_SPEC.loader.exec_module(_FRAME_BRIDGE)
 
 
 BOOK_FILES = {
@@ -572,7 +583,7 @@ def linked_crop_flow_candidates(data_root: Path, catalog_entries: list[dict[str,
     return list(unique.values())
 
 
-def text_inventory(data_root: Path, source_dir: Path, catalog_entries: list[dict[str, Any]], property_data: dict[str, Any], property_summary: dict[str, Any], input_commit: str) -> dict[str, Any]:
+def text_inventory(data_root: Path, source_dir: Path, catalog_entries: list[dict[str, Any]], property_data: dict[str, Any], property_summary: dict[str, Any], input_commit: str, data: dict[str, Any] | None = None) -> dict[str, Any]:
     try:
         import fitz  # type: ignore
     except ImportError as error:
@@ -621,6 +632,73 @@ def text_inventory(data_root: Path, source_dir: Path, catalog_entries: list[dict
             "catalogSourceHashes": expected,
             "hashMatchesCatalogSource": pdf_hash in expected if expected else None,
             "pdfPages": len(doc),
+        }
+
+    if data is None:
+        data = json.loads((data_root / "dist/data.json").read_text())
+    frame_registry = _FRAME_BRIDGE.load_registry()
+    frame_registry_validation = _FRAME_BRIDGE.validate_live_registry(data, data_root / "dist")
+    if frame_registry_validation.get("status") != "current-pins-match":
+        raise RuntimeError("active source-frame bridge does not match current catalog/image/owner pins")
+    frame_books = {frame["book"] for frame in frame_registry["frames"]}
+    available_frame_hashes = {book: pdf_meta[book]["sourcePdfSha256"] for book in frame_books if pdf_meta.get(book, {}).get("available")}
+    for book, observed_hash in available_frame_hashes.items():
+        expected_hashes_for_book = {frame["sourcePdfSha256"] for frame in frame_registry["frames"] if frame["book"] == book}
+        if len(expected_hashes_for_book) != 1 or observed_hash not in expected_hashes_for_book:
+            raise RuntimeError(f"available {book} PDF bytes differ from the active source-frame bridge identity")
+    private_frame_replay = {"status": "source-pdf-unavailable-for-one-or-more-registered-books", "frameGroups": len(frame_registry["frames"]), "pdfPageBoxesValidated": 0}
+    if frame_books <= set(pdfs):
+        replay = _FRAME_BRIDGE.validate_live_registry(data, data_root / "dist", available_frame_hashes, pdfs)
+        if replay.get("status") != "current-pins-match":
+            raise RuntimeError("active source-frame bridge PDF page boxes differ from the current private PDFs")
+        private_frame_replay = {"status": "current-pdf-boxes-match-registered-frames", "frameGroups": len(frame_registry["frames"]), "pdfPageBoxesValidated": len(frame_registry["frames"])}
+    owner_items: dict[tuple[str, str], dict[str, Any]] = {}
+    for collection in DATA_COLLECTIONS:
+        values = data.get(collection)
+        records = values if isinstance(values, list) else [values] if isinstance(values, dict) else []
+        for item in records:
+            if isinstance(item, dict) and isinstance(item.get("id"), str):
+                owner_items[(collection, item["id"])] = item
+    if isinstance(data.get("progressionExplainer"), dict):
+        owner_items[("progressionExplainer", "progression-explainer")] = dict(data["progressionExplainer"], id="progression-explainer")
+
+    def resolution_for_use(entry: dict[str, Any], use: dict[str, Any], region: dict[str, Any], catalog: dict[str, Any], page_object: Any | None) -> dict[str, Any]:
+        collection, item_id, binding = use["collection"], use["itemId"], use["bindingKey"]
+        item = owner_items.get((collection, item_id))
+        owner_link = item.get(binding) if isinstance(item, dict) else None
+        if not isinstance(owner_link, dict) or owner_link.get("catalog") != entry["catalogPath"]:
+            raise RuntimeError(f"source-frame owner/catalog binding changed: {entry['catalogPath']}#{region.get('id')}")
+        source_sha = (catalog.get("sources", {}).get(region.get("book")) or {}).get("sha256")
+        image_dims = [region.get("width"), region.get("height")]
+        focus_sha, content_sha = _FRAME_BRIDGE.region_hashes(region)
+        observed = {
+            "book": region.get("book"), "printedPage": region.get("printedPage"), "pdfPage": region.get("pdfPage"),
+            "sourcePdfSha256": source_sha, "catalogSha256": entry["catalogSha256"],
+            "imageSha256": region.get("sha256"), "imageDimensionsPx": image_dims,
+            "normalizedPageRect": region.get("normalizedPageRect"), "focusSha256": focus_sha,
+            "contentSha256": content_sha, "ownerSourceLinkSha256": _FRAME_BRIDGE.canonical_sha(owner_link),
+        }
+        resolved = _FRAME_BRIDGE.resolve_owner_join(
+            frame_registry,
+            _FRAME_BRIDGE.owner_key(collection, item_id, binding, entry["catalogPath"], region.get("id")),
+            observed,
+        )
+        if resolved.get("status") == "conflicting-frame-identity":
+            raise RuntimeError(f"source-frame owner/region conflicts with the active registry: {entry['catalogPath']}#{region.get('id')}")
+        if resolved.get("status") == "matched":
+            if page_object is not None:
+                resolved = _FRAME_BRIDGE.current_observation(
+                    collection=collection, item_id=item_id, binding=binding, catalog_path=entry["catalogPath"],
+                    catalog_hash=entry["catalogSha256"], catalog=catalog, region=region, owner_link=owner_link,
+                    image_path=(data_root / "dist" / entry["catalogPath"]).parent / str(region.get("image", "")),
+                    book=region.get("book"), printed_page=region.get("printedPage"), pdf_page=region.get("pdfPage"),
+                    source_pdf_sha256=pdf_meta.get(region.get("book"), {}).get("sourcePdfSha256", source_sha), page=page_object,
+                )
+                if resolved.get("status") != "matched":
+                    raise RuntimeError(f"source-frame owner/page-box replay failed: {entry['catalogPath']}#{region.get('id')}")
+        return {
+            "bindingKey": binding, "collection": collection, "itemId": item_id,
+            **_FRAME_BRIDGE.public_resolution(resolved),
         }
 
     page_cache: dict[tuple[str, int], dict[str, Any]] = {}
@@ -672,6 +750,37 @@ def text_inventory(data_root: Path, source_dir: Path, catalog_entries: list[dict
         supplemental_identity = supplemental_region_identity(catalog, region)
         owner = {"collection": catalog.get("collection"), "itemId": catalog.get("itemId"), "catalog": entry["catalogPath"]}
         page = page_cache.get((book, pdf_page), {"available": False, "textLayer": "not-assessable", "wordCount": 0, "lines": [], "pageWidthPt": None, "pageHeightPt": None, "flowSignals": []})
+        page_object = get_page(book, pdf_page) if page.get("available") and isinstance(pdf_page, int) else None
+        if supplemental_identity is not None and supplemental_identity["valid"]:
+            coordinate_frame_resolutions = [
+                {"bindingKey": use["bindingKey"], "collection": use["collection"], "itemId": use["itemId"],
+                 "status": "not-applicable-supplemental-image-frame", "basis": "unassessable"}
+                for use in entry["bindingUses"]
+            ]
+        else:
+            coordinate_frame_resolutions = [
+                resolution_for_use(entry, use, region, catalog, page_object)
+                for use in entry["bindingUses"]
+            ]
+        matched_resolutions = [row for row in coordinate_frame_resolutions if row.get("status") == "matched"]
+        registered_frame_bounds = None
+        if matched_resolutions:
+            if len(matched_resolutions) != len(coordinate_frame_resolutions) or len(matched_resolutions) != 1:
+                raise RuntimeError(f"one catalog region has mixed or duplicated active frame owners: {entry['catalogPath']}#{region.get('id')}")
+            matched_use = matched_resolutions[0]
+            key = _FRAME_BRIDGE.owner_key(matched_use["collection"], matched_use["itemId"], matched_use["bindingKey"], entry["catalogPath"], region.get("id"))
+            frame, bridge_row = frame_registry["owners"][key]
+            if page_object is not None:
+                page_rect, crop_box, media_box = page_object.rect, page_object.cropbox, page_object.mediabox
+            else:
+                boxes = frame["pdfBoxesPoints"]
+                page_rect, crop_box, media_box = boxes["pageRect"], boxes["cropBox"], boxes["mediaBox"]
+            registered_frame_bounds, projection_status = _FRAME_BRIDGE.normalized_rect_to_page_points(
+                region.get("normalizedPageRect"), frame["coordinateSpace"], page_rect, crop_box, media_box,
+            )
+            if projection_status != "assessable" or registered_frame_bounds is None:
+                raise RuntimeError(f"active source-frame projection is invalid: {entry['catalogPath']}#{region.get('id')}")
+            matched_use["pdfPagePointsLTRB"] = registered_frame_bounds
         rect = rect_xywh(region.get("normalizedPageRect"))
         status = "assessed"
         geometry = None
@@ -694,10 +803,15 @@ def text_inventory(data_root: Path, source_dir: Path, catalog_entries: list[dict
         else:
             width, height = page["pageWidthPt"], page["pageHeightPt"]
             x, y, w, h = rect
-            crop = (x * width, y * height, (x + w) * width, (y + h) * height)
+            if registered_frame_bounds is not None:
+                crop = tuple(registered_frame_bounds)
+            else:
+                crop = (x * width, y * height, (x + w) * width, (y + h) * height)
             words = page.get("_words", [])
             crop_features = crop_word_geometry(words, crop)
             geometry = {key: value for key, value in crop_features.items() if key != "cropBox"}
+            if registered_frame_bounds is not None:
+                geometry["cropBoundsPdfPagePointsLTRB"] = registered_frame_bounds
             if crop_features["crossings"]:
                 signal_names.append("word-crosses-crop-boundary")
             lines = page["lines"]
@@ -728,6 +842,8 @@ def text_inventory(data_root: Path, source_dir: Path, catalog_entries: list[dict
             "sourceSha256": supplemental_identity["sourceSha256"] if supplemental_identity else catalog.get("sources", {}).get(book, {}).get("sha256"),
             "imageSha256": region.get("sha256"), "normalizedPageRect": region.get("normalizedPageRect"),
             "owner": owner, "bindingUses": [{"bindingKey": use["bindingKey"], "collection": use["collection"], "itemId": use["itemId"]} for use in entry["bindingUses"]],
+            "coordinateFrameResolutions": coordinate_frame_resolutions,
+            "coordinateFrameBoundsPdfPagePointsLTRB": registered_frame_bounds,
             "textGeometryStatus": status, "sourceTextWordCount": page["wordCount"],
             "signals": sorted(set(signal_names)), "geometry": geometry,
             "adjacentFlowSignals": list(page["flowSignals"]) + list(page.get("pageBoundarySignalsFromPrevious", [])),
@@ -818,9 +934,24 @@ def text_inventory(data_root: Path, source_dir: Path, catalog_entries: list[dict
     weak_queue = [row for row in review_rows if row["disposition"] == "new-weak-shape-candidate"]
     edge_queue = [row for row in review_rows if row["disposition"] == "word-box-edge-geometry-only"]
     linked_pairs = linked_crop_flow_candidates(data_root, catalog_entries, page_cache)
+    resolution_counts = Counter(
+        resolution["status"]
+        for assessment in region_results
+        for resolution in assessment.get("coordinateFrameResolutions", [])
+    )
+    source_frame_declaration = {
+        "path": "research/source-frame-coordinate-bridge.json",
+        "sha256": _FRAME_BRIDGE.REGISTRY_SHA256,
+        "status": "scoped-geometric-provenance-only",
+        "resolutionCounts": dict(sorted(resolution_counts.items())),
+        "registryValidation": frame_registry_validation,
+    }
     return {
         "schemaVersion": 1,
         "scope": "Discovery-only comparison of the complete current exposed catalog-region set and every scalar/null property pointer in the assembled content records against source-page text-layer word geometry. Candidate queue is not a semantic completeness verdict. No original source text, OCR transcript, PDF or image pixels are included.",
+        "runMode": {"status": "current-active-source-frame-bridge-required"},
+        "sourceFrameCoordinateBridge": source_frame_declaration,
+        "privatePdfFrameReplay": private_frame_replay,
         "input": {
             "gitCommit": input_commit,
             "distDataSha256": sha256_bytes((data_root / "dist/data.json").read_bytes()),
@@ -828,6 +959,8 @@ def text_inventory(data_root: Path, source_dir: Path, catalog_entries: list[dict
             "historicalContinuationHistoryFixtureSha256": sha256_bytes((data_root / "tests/fixtures/citation-continuation-history.json").read_bytes()),
             "sourceDirectoryWasPrivateInput": True,
             "sources": pdf_meta,
+            "sourceFrameCoordinateBridgeSha256": _FRAME_BRIDGE.REGISTRY_SHA256,
+            "sourceFrameRegistryValidation": frame_registry_validation,
         },
         "exposedUniverse": {
             "catalogFileCount": len({entry["catalogPath"] for entry in catalog_entries}),
@@ -1208,7 +1341,7 @@ def main(argv: list[str] | None = None) -> int:
     catalogs, catalog_summary = build_catalog_inventory(root, data)
     property_data, property_summary = collect_data_properties(data)
     property_summary["mechanicsFieldDenominator"] = mechanics_field_denominator(root)
-    report = text_inventory(root, args.source_dir.resolve(), catalogs, property_data, property_summary, actual_commit)
+    report = text_inventory(root, args.source_dir.resolve(), catalogs, property_data, property_summary, actual_commit, data)
     report["exposedCatalogSummary"] = catalog_summary
     report["exposedUniverse"]["catalogFilesReferencedByExposedRecords"] = catalog_summary["catalogFilesReferencedByExposedRecords"]
     report["exposedUniverse"]["catalogFilesUnderScans"] = catalog_summary["catalogJsonFilesUnderScans"]
@@ -1256,6 +1389,9 @@ def main(argv: list[str] | None = None) -> int:
         "schemaVersion": 1,
         "scope": "Hash-bound batch-5 summary over both exposed catalog binding types, every unique catalog-region row, and the complete property pointer/source-linkage denominator. Full numeric geometry and lossless property tuples are in the compressed evidence file.",
         "input": report["input"],
+        "runMode": report["runMode"],
+        "sourceFrameCoordinateBridge": report["sourceFrameCoordinateBridge"],
+        "privatePdfFrameReplay": report["privatePdfFrameReplay"],
         "fullEvidence": report["fullEvidence"],
         "exposedCatalogSummary": catalog_summary,
         "exposedUniverse": report["exposedUniverse"],
@@ -1264,7 +1400,7 @@ def main(argv: list[str] | None = None) -> int:
         "pairedCropFlowCandidates": report["pairedCropFlowCandidates"],
         "historicalControls": report["historicalControls"],
         "limits": report["limits"],
-        "validationContract": "CI checks the compressed evidence hash, exact data and all catalog hashes/region/image/source bindings. Private PDFs are absent in CI, so source-page geometry cannot be regenerated there; PDF comparison is explicitly unavailable and must be regenerated locally when inputs change.",
+        "validationContract": "Current mode checks the compressed evidence hash, exact data and all catalog hashes/region/image/source bindings, the active pinned nine-frame bridge, per-binding frame-resolution annotations, and registered PDF-page crop bounds. Private PDFs are absent in CI, so text-word geometry is not regenerated there; the registered frame projection is checked against the trusted bridge and candidate semantics remain unresolved.",
     }
     summary_path.write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n")
     md_path.write_text(render_markdown(report))
