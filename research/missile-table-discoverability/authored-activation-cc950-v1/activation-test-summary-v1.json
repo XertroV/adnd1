@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "missile-table-authored-activation-test-summary-v1",
+  "baseCommit": "cc9509047746d5e27a71cb5b1e0cfcb739a688c9",
+  "activationReceiptPath": "research/missile-table-discoverability/authored-activation-cc950-v1/authored-activation-receipt-v1.json",
+  "activationReceiptSha256": "8c7d2cf8a8d919a279cadd1e6b7b2c5a215e83136d0ac8f462874785822d9867",
+  "tests": {
+    "focusedNodeTests": {
+      "command": "node --test tests/missile-table-focus-correction-v2.test.mjs tests/missile-table-focus-correction.test.mjs tests/missile-table-source-reconciliation.test.mjs tests/rules-source-notes-renderer.test.mjs tests/missile-table-candidate-search.test.mjs tests/continuation-reconciliation.test.mjs",
+      "passed": 25,
+      "failed": 0
+    },
+    "scanCatalogSubset": {
+      "command": "node --test --test-name-pattern='new catalog paths|collection-scoped catalogs|scoped metadata and book mapping|explicit DMG 175|invalid supplemental identities|legacy dagger' tests/scan-catalog.test.mjs",
+      "passed": 6,
+      "failed": 0
+    },
+    "browserSearchRanking": {
+      "command": "TEST_URL=http://127.0.0.1:8768 node tests/search-ranking.browser.mjs",
+      "passed": 96,
+      "failed": 0
+    },
+    "nativeScannerBoundary": {
+      "reportPath": "research/missile-table-discoverability/authored-activation-cc950-v1/scan-catalog-unassembled-boundary-run.json",
+      "reportSha256": "3e8b6af5191da24006473dc961b96ae3318c1499147a6b8deb8e874779a31569",
+      "stdoutPath": "research/missile-table-discoverability/authored-activation-cc950-v1/scan-catalog-unassembled-boundary.stdout.log",
+      "stdoutSha256": "1b6c7558639b299be8d146d7f93c82ff17576373657a1e24a012270fab1b9f4f",
+      "stderrPath": "research/missile-table-discoverability/authored-activation-cc950-v1/scan-catalog-unassembled-boundary.stderr.log",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "returnCode": 1,
+      "knownStageMismatch": "The compiled data projection intentionally remains at cc950 regionCount=1 while the authored DMG catalog is now 3 regions; no assembly or compiled-data write was authorized."
+    }
+  },
+  "beforeRuntimeRoutes": {
+    "path": "research/missile-table-discoverability/authored-activation-cc950-v1/current-cc950-dmg28-primary-route-before-v1.json",
+    "sha256": "489bb86d140664cb7e2b4229d2c2913f1ada27f27e831270e63f1330542b01d7",
+    "observedRoutes": 3,
+    "result": "header chip, Original Scans, and bare DMG:28 route opened the unchanged one-region legacy crop"
+  },
+  "afterRuntimeRoutes": {
+    "path": "research/missile-table-discoverability/authored-activation-cc950-v1/current-cc950-source-context-after-control-v1.json",
+    "sha256": "dceadfa36268e1c7710c4dd07cc8a09f003987c39404430618965a7b2becee77",
+    "assertions": 23,
+    "browserStates": 17
+  },
+  "officialValidation": {
+    "path": "research/missile-table-discoverability/authored-activation-cc950-v1/official-source-activation-validation-v1.json",
+    "sha256": "5d194583433f12a62cd0e73d1e1afc3e5362a8b5f8ccc68e8349c9ae8395a1b8"
+  },
+  "compiledProjectionBoundary": {
+    "distDataSha256": "cf6dd7ff912b91fd4525e1d48355e8c21e766e73f2118820e926a96b62f5216f",
+    "compiledContinuationSha256": "0cb374469be54ca703b009c3f5e0545f6948fdbf3b7ff8858fd0625f2e17ff87",
+    "unchangedFromCc950": true
+  },
+  "scanCatalogBoundary": {
+    "reportPath": "research/missile-table-discoverability/authored-activation-cc950-v1/scan-catalog-unassembled-boundary-run.json",
+    "reportSha256": "3e8b6af5191da24006473dc961b96ae3318c1499147a6b8deb8e874779a31569",
+    "stdoutPath": "research/missile-table-discoverability/authored-activation-cc950-v1/scan-catalog-unassembled-boundary.stdout.log",
+    "stdoutSha256": "1b6c7558639b299be8d146d7f93c82ff17576373657a1e24a012270fab1b9f4f",
+    "stderrPath": "research/missile-table-discoverability/authored-activation-cc950-v1/scan-catalog-unassembled-boundary.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

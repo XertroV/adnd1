@@ -1,0 +1,30 @@
+✔ new catalog paths bind exactly to the item, legacy paths remain supported (1.003076ms)
+✔ collection-scoped catalogs require both collection and item match (1.00747ms)
+✔ scoped metadata and book mapping are checked (0.589965ms)
+✔ the explicit DMG 175 supplement resolves to its JPEG frame without changing the canonical PDF identity (1.497324ms)
+✔ invalid supplemental identities, page mappings and source-image bounds fail closed without PDF fallback (1.750938ms)
+✖ all active catalog regions preserve strict PDF identity while both supplemental crops resolve (16.000554ms)
+✔ legacy dagger admits only the pinned complete UA28 table asset and hash (1.260808ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 6
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 300.229232
+
+✖ failing tests:
+
+test at tests/scan-catalog.test.mjs:59:1
+✖ all active catalog regions preserve strict PDF identity while both supplemental crops resolve (16.000554ms)
+  Error: Invalid scan catalog contents for weapon-versus-armor-adjustments
+      at fail (file:///workspace/adnd1-missile-table-discoverability/tools/scan-catalog.mjs:11:24)
+      at validateScanCatalog (file:///workspace/adnd1-missile-table-discoverability/tools/scan-catalog.mjs:12:373)
+      at TestContext.<anonymous> (file:///workspace/adnd1-missile-table-discoverability/tests/scan-catalog.test.mjs:71:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)

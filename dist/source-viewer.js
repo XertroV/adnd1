@@ -114,7 +114,7 @@
     el.copyLink = button('Copy source link', () => {
       if (!refs[current] || !copySourceLink) return;
       const issue = targetIssue(refs[current]);
-      const region = issue?.type === 'stale' ? issue.id : issue?.type === 'pending' ? null : viewingExcerpts() ? matchingRegions()[regionIndex]?.id : null;
+      const region = issue?.type === 'stale' ? issue.id : issue?.type === 'pending' ? null : viewingExcerpts() ? matchingRegions()[regionIndex]?.id : targetPageMatches(requestedInitialRegion, refs[current]) ? requestedInitialRegion.id : null;
       copySourceLink(refs[current], region, sourceChangeMeta(refs[current], region, issue));
     }, { class: 'source-viewer-secondary', 'aria-label': 'Copy link to this source page' });
     el.headerActions.append(el.modes, el.copyLink, el.close);

@@ -1,0 +1,38 @@
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+import {isDeepStrictEqual} from 'node:util';
+import {canonical,regionHashes} from '../../../../tools/source-visual-coverage.mjs';
+import {validateScanCatalog} from '../../../../tools/scan-catalog.mjs';
+
+const here=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(here,'../../../../');
+const require=createRequire(import.meta.url),books=require('../../../../dist/books.js');
+const read=relative=>readFileSync(path.join(root,relative));
+const json=relative=>JSON.parse(read(relative));
+const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+const originalPath='research/missile-table-discoverability/implementation-candidate/catalogs/rules-weapon-versus-armor-adjustments.json';
+const finalPath='research/missile-table-discoverability/implementation-candidate/focus-navigation-correction-v4/catalogs/rules-weapon-versus-armor-adjustments-v2.json';
+const before=json(originalPath),after=json(finalPath);
+const beforeRegion=before.regions.find(region=>region.id==='dmg-28-c37135485e89a720');
+const afterRegion=after.regions.find(region=>region.id==='dmg-28-c37135485e89a720');
+assert.ok(beforeRegion&&afterRegion,'continuation region missing');
+const stripped=structuredClone(afterRegion);for(const key of ['verification','verificationScope','checkedFields'])delete stripped[key];
+assert.ok(isDeepStrictEqual(stripped,beforeRegion),'unexpected continuation region changes beyond the three required properties');
+assert.ok(isDeepStrictEqual(before.regions.filter(region=>region.id!=='dmg-28-c37135485e89a720'),after.regions.filter(region=>region.id!=='dmg-28-c37135485e89a720')),'legacy/opening region objects changed');
+assert.ok(isDeepStrictEqual({...before,regions:[]},{...after,regions:[]}),'catalog metadata outside region row changed');
+validateScanCatalog(after,{id:after.itemId},books,{collection:'rules',state:'source-excerpt-checked',catalog:'scans/verified/rules-weapon-versus-armor-adjustments.json',regionCount:3});
+const imageChecks=after.regions.map(region=>{
+ const pathName=region.id==='dmg-28-c37135485e89a720'?'research/missile-table-discoverability/implementation-candidate/catalogs/dmg-28-c37135485e89a720.png':`dist/scans/verified/${region.image}`;
+ assert.equal(sha(read(pathName)),region.sha256,`${region.id}: image bytes mismatch`);
+ const identity=books.resolveRegionSourceIdentity(after,region);assert.ok(identity.valid,`${region.id}: source identity invalid`);
+ return {regionId:region.id,sourceSha256:identity.sourceSha256,imageSha256:region.sha256,focusSha256:regionHashes(region).focusSha256,contentSha256:regionHashes(region).contentSha256,imagePath:pathName};
+});
+const orderedRegions=after.regions.map(region=>({id:region.id,role:region.role||null,imageSha256:region.sha256,...regionHashes(region)}));
+const pageGroup={collection:'rules',itemId:after.itemId,binding:'sourceExcerpts',catalog:'scans/verified/rules-weapon-versus-armor-adjustments.json',book:'DMG',printedPage:28,pdfPage:29,regionCount:orderedRegions.length,primaryRegionId:'dmg-28-opening-8b67aa025e19eddd',defaultOrderSha256:sha(canonical(orderedRegions)),orderedRegions};
+const continuation=json('research/missile-table-discoverability/implementation-candidate/continuation-group-candidate.json');
+const evidence={schemaVersion:1,artifactType:'dmg28-three-property-region-schema-delta',status:'Versioned research-only catalog successor; old candidate file remains unchanged.',baseCommit:'4aa977788085f67a28a24d40965edf987bc7242b',before:{path:originalPath,sha256:sha(read(originalPath)),continuationRegion:beforeRegion,missingRequiredProperties:['verification','verificationScope','checkedFields']},after:{path:finalPath,sha256:sha(read(finalPath)),continuationRegion:afterRegion,addedProperties:{verification:afterRegion.verification,verificationScope:afterRegion.verificationScope,checkedFields:afterRegion.checkedFields}},delta:{changedRegionIds:['dmg-28-c37135485e89a720'],addedPropertiesExactly:['verification','verificationScope','checkedFields'],otherLeafChanges:0,legacyAndOpeningRegionObjectsUnchanged:true,catalogRootAndSourceMetadataUnchanged:true,sourceExcerptValidator:'tools/scan-catalog.mjs validateScanCatalog passed',regionHashes:{before:regionHashes(beforeRegion),after:regionHashes(afterRegion),focusUnchanged:regionHashes(beforeRegion).focusSha256===regionHashes(afterRegion).focusSha256,contentHashRebound:regionHashes(beforeRegion).contentSha256!==regionHashes(afterRegion).contentSha256},sourceImageBytes:imageChecks},primarySourceContext:{book:'DMG',printedPage:28,regionId:'dmg-28-opening-8b67aa025e19eddd'},pageGroup,continuation:{path:'research/missile-table-discoverability/implementation-candidate/continuation-group-candidate.json',sha256:sha(read('research/missile-table-discoverability/implementation-candidate/continuation-group-candidate.json')),groupId:continuation.id,orderedRegionIds:continuation.segments.map(segment=>segment.regionId),segments:continuation.segments.map(({order,role,regionId,imageSha256,sourceSha256})=>({order,role,regionId,imageSha256,sourceSha256})),canonicalSegmentsSha256:sha(canonical(continuation.segments))},failureReplay:{path:'research/missile-table-discoverability/implementation-candidate/focus-navigation-correction-v4/original-dmg28-catalog-schema-failure-v1.json',sha256:sha(read('research/missile-table-discoverability/implementation-candidate/focus-navigation-correction-v4/original-dmg28-catalog-schema-failure-v1.json'))},scopeBoundary:'The three properties establish the app catalog shape and source-excerpt display scope only. This does not assign numeric field, source-value, or mechanics grades; candidateStatus remains pending on the opening and continuation until exact root/reviewer approval.'};
+const out=path.join(here,'dmg28-three-property-region-schema-delta.json');writeFileSync(out,JSON.stringify(evidence,null,2)+'\n');
+console.log(JSON.stringify({output:out,sha256:sha(readFileSync(out)),before:sha(read(originalPath)),after:sha(read(finalPath)),defaultOrderSha256:pageGroup.defaultOrderSha256,focusUnchanged:evidence.delta.regionHashes.focusUnchanged,contentHashRebound:evidence.delta.regionHashes.contentHashRebound,officialValidator:'passed'},null,2));

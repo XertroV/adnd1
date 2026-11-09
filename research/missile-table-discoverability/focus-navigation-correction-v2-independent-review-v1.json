@@ -1,0 +1,954 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-missile-table-focus-and-whole-lookup-default-review",
+  "status": "bounded visual review complete; recommend the 15 PHB p.38 split row foci for research acceptance; role-only whole-table default fix proposed for independent metadata review; no active registrations or source/value/grade promotion",
+  "reviewedOn": "2026-11-09",
+  "scope": {
+    "phbRows": "All 15 PHB p.38 row foci; each left and right rectangle inspected against its same-hash 1656x600 source crop, with the neighboring rows visible. Left covers label/fire-rate/S-M-L; right covers AC 2-10.",
+    "wholeLookupDefaults": "PHB p.38 and UA p.28 source-page defaults when no region is requested. This review proposes only role metadata for the existing full-table context region in each candidate catalog.",
+    "excluded": "No literal-value verification, source-quality grade, rule interpretation, activation, or other page-group/source-value edits. UA row/footnote and PHB p.36 armor source uses are outside the focus review."
+  },
+  "inputs": {
+    "proposal": {
+      "path": "research/missile-table-discoverability/implementation-candidate/focus-navigation-correction-v2/focus-correction-proposal.json",
+      "sha256": "1bb16169127830b190addf4d516d3cd24805442a5568142876d1c47b710a4899"
+    },
+    "records": {
+      "path": "research/missile-table-discoverability/implementation-candidate/focus-navigation-correction-v2/rules-records-candidate-corrected.json",
+      "sha256": "78cdd185d4e9299e1c2c10315cf5e0612e0f730b6fff315d8e1c7b727e75d7cb"
+    },
+    "phbCatalog": {
+      "path": "research/missile-table-discoverability/implementation-candidate/focus-navigation-correction-v2/catalogs/rules-phb-hurled-weapons-and-missiles-table.json",
+      "sha256": "30f34ed21b93b6d9b12246bdb60ade343828e65a2e687d87dc572309f7bf5934"
+    },
+    "uaCatalog": {
+      "path": "research/missile-table-discoverability/implementation-candidate/focus-navigation-correction-v2/catalogs/rules-ua-hurled-weapons-and-missiles-table.json",
+      "sha256": "7ee89939d6911c400714354acce7c0eda29c4a24879ecf820424bf30f29c7de0"
+    },
+    "overlayManifest": {
+      "path": "research/missile-table-discoverability/implementation-candidate/focus-navigation-correction-v2/private-review-overlay-manifest.json",
+      "sha256": "112c6d1ba1fa0d57dedd9c7405127c93ac2cc78edbb03c0d0530565bb5fca18f"
+    },
+    "v1Proposal": {
+      "path": "research/missile-table-discoverability/implementation-candidate/focus-navigation-correction-v1/focus-correction-proposal.json",
+      "sha256": "0da176990c29c8bf1f610eb6e90402340226d196599275f11fa4fe284a8c9ad9"
+    },
+    "rootOriginalFocusNegative": {
+      "path": "research/missile-table-discoverability/root-actual-PHB-row-focus-negative-review-v1.json",
+      "sha256": "9445b12ad8d7053586f41b3c13d2ff47c162bcd7d570d2c5a1292e09c37b86cd"
+    },
+    "rootSplitFocusNegative": {
+      "path": "research/missile-table-discoverability/root-corrected-focus-partial-review-v2.json",
+      "sha256": "e461c61cd382062b40bc5cbce939c9b48b8a1ee231c12a7b464e9f093b3d8a00"
+    },
+    "rootSourceCellReview": {
+      "path": "research/missile-table-discoverability/root-source-cell-review-v1.json",
+      "sha256": "7a9866ca04dbc71138b260ede3936ae4c99a8db10b685435c7ac424f1517f7c3"
+    },
+    "sourceImage": {
+      "path": "dist/scans/verified/phb-38-a3662691c2417e55.png",
+      "sha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32"
+    },
+    "viewer": {
+      "path": "dist/source-viewer.js",
+      "sha256": "5b2643af83799cc3597cec8170b8040cd13045e7d1850ac72a02075ccfecd9c6"
+    },
+    "app": {
+      "path": "dist/app.js",
+      "sha256": "7abf830d7f936962636a6d2f8a6465e863fe522def5fef33a5acb2a2e3028ebe"
+    },
+    "visualCoverage": {
+      "path": "tools/source-visual-coverage.mjs",
+      "sha256": "71a346c5bfaa955c5546e3f368bdeff9306158d9d447dc944e31c5377bc6f504"
+    }
+  },
+  "relatedPriorEvidence": {
+    "rootSourceCellReview": {
+      "path": "research/missile-table-discoverability/root-source-cell-review-v1.json",
+      "sha256": "7a9866ca04dbc71138b260ede3936ae4c99a8db10b685435c7ac424f1517f7c3",
+      "scope": "separate root value-transcription review; not used to claim focus acceptance"
+    },
+    "rootOriginalFocusNegative": {
+      "path": "research/missile-table-discoverability/root-actual-PHB-row-focus-negative-review-v1.json",
+      "sha256": "9445b12ad8d7053586f41b3c13d2ff47c162bcd7d570d2c5a1292e09c37b86cd",
+      "scope": "earlier whole-row negative candidate; retained unchanged"
+    },
+    "rootSplitFocusNegative": {
+      "path": "research/missile-table-discoverability/root-corrected-focus-partial-review-v2.json",
+      "sha256": "e461c61cd382062b40bc5cbce939c9b48b8a1ee231c12a7b464e9f093b3d8a00",
+      "scope": "V1 split-focus negative review; V2 changes the two identified left-band upper bounds; retained unchanged"
+    }
+  },
+  "sourceIdentity": {
+    "book": "PHB",
+    "printedPage": 38,
+    "pdfPage": 39,
+    "canonicalPdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+    "cropPath": "dist/scans/verified/phb-38-a3662691c2417e55.png",
+    "cropSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+    "dimensionsPx": [
+      1656,
+      600
+    ]
+  },
+  "method": {
+    "manual": "Each of the 15 private V2 row overlays was opened separately. The entire table width and an adjacent-row margin were inspected in per-row strips; Axe and Hammer were also viewed as 3x row-side enlargements. Visible blur/halos were not treated as glyphs unless source ink was clearly cut.",
+    "overlayPixelIdentity": "For every PHB overlay, SHA-256 and 1656x600 dimensions matched the private overlay manifest. A read-only source-vs-overlay pixel diff found changes only within a 4px inflation of the declared focus rectangle borders (outside-area changed pixels: 0 for each of 15); previews were faithful outlines on the pinned crop.",
+    "boundV1V2": "A structural comparison with V1 confirms exactly two changed PHB row geometries: Axe, hand left band and Hammer left band. The other 13 pairs of rectangles are unchanged. Both corrected upper bounds lie above the visibly printed glyph strokes; their right bands are unchanged.",
+    "limits": "Blurred print and red overlay line thickness prevent certifying exact typographic glyph bounds. Acceptance is a manual judgment that no meaningful glyph is visibly cut and no adjacent row is meaningfully selected."
+  },
+  "counts": {
+    "phbRowsReviewed": 15,
+    "phbRectanglesReviewed": 30,
+    "v1ToV2ChangedRows": 2,
+    "unchangedRows": 13,
+    "sourceOverlayIdentityChecks": 15,
+    "overlayPixelChangesOutsideDeclaredRects": 0
+  },
+  "v1ToV2ChangedFocus": [
+    {
+      "rowId": "axe-hand",
+      "oldFocusRects": [
+        [
+          0.0012077294685990338,
+          0.11166666666666666,
+          0.43417874396135264,
+          0.035
+        ],
+        [
+          0.4414251207729469,
+          0.11333333333333333,
+          0.5392512077294686,
+          0.03833333333333333
+        ]
+      ],
+      "newFocusRects": [
+        [
+          0.0012077294685990338,
+          0.1,
+          0.43417874396135264,
+          0.04666666666666667
+        ],
+        [
+          0.4414251207729469,
+          0.11333333333333333,
+          0.5392512077294686,
+          0.03833333333333333
+        ]
+      ]
+    },
+    {
+      "rowId": "hammer",
+      "oldFocusRects": [
+        [
+          0.0012077294685990338,
+          0.565,
+          0.43417874396135264,
+          0.03333333333333333
+        ],
+        [
+          0.4414251207729469,
+          0.5716666666666667,
+          0.5392512077294686,
+          0.035
+        ]
+      ],
+      "newFocusRects": [
+        [
+          0.0012077294685990338,
+          0.5533333333333333,
+          0.43417874396135264,
+          0.045
+        ],
+        [
+          0.4414251207729469,
+          0.5716666666666667,
+          0.5392512077294686,
+          0.035
+        ]
+      ]
+    }
+  ],
+  "phbRowReviews": [
+    {
+      "rowId": "axe-hand",
+      "regionId": "phb38-row-axe-hand",
+      "printedRow": "Axe, hand",
+      "focusRects": [
+        [
+          0.0012077294685990338,
+          0.1,
+          0.43417874396135264,
+          0.04666666666666667
+        ],
+        [
+          0.4414251207729469,
+          0.11333333333333333,
+          0.5392512077294686,
+          0.03833333333333333
+        ]
+      ],
+      "focusRectsSha256": "b6ca311db4f5908d596de58dd310c5561f81a6201451c6fceb7f70f92027c9f0",
+      "privateOverlay": {
+        "path": "/workspace/vault-audit-private/pass8/missile-table-discoverability/focus-correction-v2/phb-phb38-row-axe-hand.png",
+        "sha256": "b14c51366e0472dae348edb44e822b9e01410316dc80b2d54c5d46b660ae2bd1",
+        "width": 1656,
+        "height": 600
+      },
+      "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+      "review": {
+        "decision": "recommend-bounded-research-acceptance",
+        "leftBand": {
+          "status": "visually-complete",
+          "scope": "row label, fire rate, and S/M/L range cells",
+          "finding": "Axe, hand glyphs and all three range columns fit within the left outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rightBand": {
+          "status": "visually-complete",
+          "scope": "Armor Class adjustment columns 2\u201310",
+          "finding": "Axe, hand values across AC 2\u201310 fit within the right outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rowAlignment": "The separated left and right boxes follow the same printed row despite slight vertical skew; the column divider gap is preserved.",
+        "limits": "Manual visual fit review on the supplied blurred crop; not a pixel-perfect font-bound certification or a source-value review."
+      }
+    },
+    {
+      "rowId": "bow-composite-long",
+      "regionId": "phb38-row-bow-composite-long",
+      "printedRow": "Bow, composite, long",
+      "focusRects": [
+        [
+          0.0012077294685990338,
+          0.15,
+          0.43417874396135264,
+          0.043333333333333335
+        ],
+        [
+          0.4414251207729469,
+          0.15833333333333333,
+          0.5392512077294686,
+          0.041666666666666664
+        ]
+      ],
+      "focusRectsSha256": "3568a92c5b997dbfb9a8d4301be9ef9efe78828a687c30571c689b86f99cc54f",
+      "privateOverlay": {
+        "path": "/workspace/vault-audit-private/pass8/missile-table-discoverability/focus-correction-v2/phb-phb38-row-bow-composite-long.png",
+        "sha256": "699eeaf557398fc06011f69cc60f93a2ccd57b6e115dd302e32329fde0d45b00",
+        "width": 1656,
+        "height": 600
+      },
+      "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+      "review": {
+        "decision": "recommend-bounded-research-acceptance",
+        "leftBand": {
+          "status": "visually-complete",
+          "scope": "row label, fire rate, and S/M/L range cells",
+          "finding": "Bow, composite, long glyphs and all three range columns fit within the left outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rightBand": {
+          "status": "visually-complete",
+          "scope": "Armor Class adjustment columns 2\u201310",
+          "finding": "Bow, composite, long values across AC 2\u201310 fit within the right outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rowAlignment": "The separated left and right boxes follow the same printed row despite slight vertical skew; the column divider gap is preserved.",
+        "limits": "Manual visual fit review on the supplied blurred crop; not a pixel-perfect font-bound certification or a source-value review."
+      }
+    },
+    {
+      "rowId": "bow-composite-short",
+      "regionId": "phb38-row-bow-composite-short",
+      "printedRow": "Bow, composite, short",
+      "focusRects": [
+        [
+          0.0012077294685990338,
+          0.20333333333333334,
+          0.43417874396135264,
+          0.03333333333333333
+        ],
+        [
+          0.4414251207729469,
+          0.20833333333333334,
+          0.5392512077294686,
+          0.035
+        ]
+      ],
+      "focusRectsSha256": "b13f27eed2aaf7259ead1eec332e00ba18d85a2cc4d2d87ebd8ebe11561aba7c",
+      "privateOverlay": {
+        "path": "/workspace/vault-audit-private/pass8/missile-table-discoverability/focus-correction-v2/phb-phb38-row-bow-composite-short.png",
+        "sha256": "4e922ac8bdf8d8c43793a211344aee7bf91cc3b8c7d3dc56aa3b3e832f3c2a8d",
+        "width": 1656,
+        "height": 600
+      },
+      "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+      "review": {
+        "decision": "recommend-bounded-research-acceptance",
+        "leftBand": {
+          "status": "visually-complete",
+          "scope": "row label, fire rate, and S/M/L range cells",
+          "finding": "Bow, composite, short glyphs and all three range columns fit within the left outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rightBand": {
+          "status": "visually-complete",
+          "scope": "Armor Class adjustment columns 2\u201310",
+          "finding": "Bow, composite, short values across AC 2\u201310 fit within the right outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rowAlignment": "The separated left and right boxes follow the same printed row despite slight vertical skew; the column divider gap is preserved.",
+        "limits": "Manual visual fit review on the supplied blurred crop; not a pixel-perfect font-bound certification or a source-value review."
+      }
+    },
+    {
+      "rowId": "bow-long",
+      "regionId": "phb38-row-bow-long",
+      "printedRow": "Bow, long",
+      "focusRects": [
+        [
+          0.0012077294685990338,
+          0.24666666666666667,
+          0.43417874396135264,
+          0.035
+        ],
+        [
+          0.4414251207729469,
+          0.25666666666666665,
+          0.5392512077294686,
+          0.03
+        ]
+      ],
+      "focusRectsSha256": "5eca55ed5f893e8642cac0ce5fd5bd639f2360bd7153c16b8382c6554cfd7980",
+      "privateOverlay": {
+        "path": "/workspace/vault-audit-private/pass8/missile-table-discoverability/focus-correction-v2/phb-phb38-row-bow-long.png",
+        "sha256": "e745568e3e3fbc83390cee5826337cc74a2b2e8863582c08a689892e911c8cc6",
+        "width": 1656,
+        "height": 600
+      },
+      "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+      "review": {
+        "decision": "recommend-bounded-research-acceptance",
+        "leftBand": {
+          "status": "visually-complete",
+          "scope": "row label, fire rate, and S/M/L range cells",
+          "finding": "Bow, long glyphs and all three range columns fit within the left outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rightBand": {
+          "status": "visually-complete",
+          "scope": "Armor Class adjustment columns 2\u201310",
+          "finding": "Bow, long values across AC 2\u201310 fit within the right outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rowAlignment": "The separated left and right boxes follow the same printed row despite slight vertical skew; the column divider gap is preserved.",
+        "limits": "Manual visual fit review on the supplied blurred crop; not a pixel-perfect font-bound certification or a source-value review."
+      }
+    },
+    {
+      "rowId": "bow-short",
+      "regionId": "phb38-row-bow-short",
+      "printedRow": "Bow, short",
+      "focusRects": [
+        [
+          0.0012077294685990338,
+          0.29333333333333333,
+          0.43417874396135264,
+          0.03333333333333333
+        ],
+        [
+          0.4414251207729469,
+          0.3,
+          0.5392512077294686,
+          0.03
+        ]
+      ],
+      "focusRectsSha256": "c2c46e924fbad124702bee3071e32aa7dc075c0042ff3f99649a560b48b884c1",
+      "privateOverlay": {
+        "path": "/workspace/vault-audit-private/pass8/missile-table-discoverability/focus-correction-v2/phb-phb38-row-bow-short.png",
+        "sha256": "fb97e14212a9071aae94178cee3049e44b5dde3acdca95c02277043e65c82332",
+        "width": 1656,
+        "height": 600
+      },
+      "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+      "review": {
+        "decision": "recommend-bounded-research-acceptance",
+        "leftBand": {
+          "status": "visually-complete",
+          "scope": "row label, fire rate, and S/M/L range cells",
+          "finding": "Bow, short glyphs and all three range columns fit within the left outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rightBand": {
+          "status": "visually-complete",
+          "scope": "Armor Class adjustment columns 2\u201310",
+          "finding": "Bow, short values across AC 2\u201310 fit within the right outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rowAlignment": "The separated left and right boxes follow the same printed row despite slight vertical skew; the column divider gap is preserved.",
+        "limits": "Manual visual fit review on the supplied blurred crop; not a pixel-perfect font-bound certification or a source-value review."
+      }
+    },
+    {
+      "rowId": "club",
+      "regionId": "phb38-row-club",
+      "printedRow": "Club",
+      "focusRects": [
+        [
+          0.0012077294685990338,
+          0.33,
+          0.43417874396135264,
+          0.041666666666666664
+        ],
+        [
+          0.4414251207729469,
+          0.3466666666666667,
+          0.5392512077294686,
+          0.035
+        ]
+      ],
+      "focusRectsSha256": "7a8af5215627b9e5d4226b791a264ce3f5a576b1650c0a04b47b1f0214f93ce9",
+      "privateOverlay": {
+        "path": "/workspace/vault-audit-private/pass8/missile-table-discoverability/focus-correction-v2/phb-phb38-row-club.png",
+        "sha256": "6684476c8610157f0caa34713d6dcdfda717bedf7a3d40fb10bfc71cb7034c4d",
+        "width": 1656,
+        "height": 600
+      },
+      "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+      "review": {
+        "decision": "recommend-bounded-research-acceptance",
+        "leftBand": {
+          "status": "visually-complete",
+          "scope": "row label, fire rate, and S/M/L range cells",
+          "finding": "Club glyphs and all three range columns fit within the left outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rightBand": {
+          "status": "visually-complete",
+          "scope": "Armor Class adjustment columns 2\u201310",
+          "finding": "Club values across AC 2\u201310 fit within the right outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rowAlignment": "The separated left and right boxes follow the same printed row despite slight vertical skew; the column divider gap is preserved.",
+        "limits": "Manual visual fit review on the supplied blurred crop; not a pixel-perfect font-bound certification or a source-value review."
+      }
+    },
+    {
+      "rowId": "crossbow-heavy",
+      "regionId": "phb38-row-crossbow-heavy",
+      "printedRow": "Crossbow, heavy",
+      "focusRects": [
+        [
+          0.0012077294685990338,
+          0.38333333333333336,
+          0.43417874396135264,
+          0.035
+        ],
+        [
+          0.4414251207729469,
+          0.38666666666666666,
+          0.5392512077294686,
+          0.03833333333333333
+        ]
+      ],
+      "focusRectsSha256": "5e0e56f9c4a0dd882cb844212fbd7462f4d5fe508c0f2867c303f5743dd2fe20",
+      "privateOverlay": {
+        "path": "/workspace/vault-audit-private/pass8/missile-table-discoverability/focus-correction-v2/phb-phb38-row-crossbow-heavy.png",
+        "sha256": "ce360a1ea8e2d20bdd9a37584a23e5e15132df98b1d8b5b6d5cf61b3abc39cf5",
+        "width": 1656,
+        "height": 600
+      },
+      "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+      "review": {
+        "decision": "recommend-bounded-research-acceptance",
+        "leftBand": {
+          "status": "visually-complete",
+          "scope": "row label, fire rate, and S/M/L range cells",
+          "finding": "Crossbow, heavy glyphs and all three range columns fit within the left outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rightBand": {
+          "status": "visually-complete",
+          "scope": "Armor Class adjustment columns 2\u201310",
+          "finding": "Crossbow, heavy values across AC 2\u201310 fit within the right outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rowAlignment": "The separated left and right boxes follow the same printed row despite slight vertical skew; the column divider gap is preserved.",
+        "limits": "Manual visual fit review on the supplied blurred crop; not a pixel-perfect font-bound certification or a source-value review."
+      }
+    },
+    {
+      "rowId": "crossbow-light",
+      "regionId": "phb38-row-crossbow-light",
+      "printedRow": "Crossbow, light",
+      "focusRects": [
+        [
+          0.0012077294685990338,
+          0.425,
+          0.43417874396135264,
+          0.03666666666666667
+        ],
+        [
+          0.4414251207729469,
+          0.42833333333333334,
+          0.5392512077294686,
+          0.043333333333333335
+        ]
+      ],
+      "focusRectsSha256": "e78ef41e5a1c9e1da2df8e61afca29109af5ececa7d2c7a09b7a56be3a77eab2",
+      "privateOverlay": {
+        "path": "/workspace/vault-audit-private/pass8/missile-table-discoverability/focus-correction-v2/phb-phb38-row-crossbow-light.png",
+        "sha256": "9647b303aaf63bfa79f60b9d67ad729225d4e4327b70c31768fbb1a21e6223d5",
+        "width": 1656,
+        "height": 600
+      },
+      "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+      "review": {
+        "decision": "recommend-bounded-research-acceptance",
+        "leftBand": {
+          "status": "visually-complete",
+          "scope": "row label, fire rate, and S/M/L range cells",
+          "finding": "Crossbow, light glyphs and all three range columns fit within the left outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rightBand": {
+          "status": "visually-complete",
+          "scope": "Armor Class adjustment columns 2\u201310",
+          "finding": "Crossbow, light values across AC 2\u201310 fit within the right outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rowAlignment": "The separated left and right boxes follow the same printed row despite slight vertical skew; the column divider gap is preserved.",
+        "limits": "Manual visual fit review on the supplied blurred crop; not a pixel-perfect font-bound certification or a source-value review."
+      }
+    },
+    {
+      "rowId": "dagger",
+      "regionId": "phb38-row-dagger",
+      "printedRow": "Dagger",
+      "focusRects": [
+        [
+          0.0012077294685990338,
+          0.47333333333333333,
+          0.43417874396135264,
+          0.03333333333333333
+        ],
+        [
+          0.4414251207729469,
+          0.47333333333333333,
+          0.5392512077294686,
+          0.043333333333333335
+        ]
+      ],
+      "focusRectsSha256": "188760c9f8d7399340264dfb3c1159a5ca8ea09b244749397f46192a16d3a3aa",
+      "privateOverlay": {
+        "path": "/workspace/vault-audit-private/pass8/missile-table-discoverability/focus-correction-v2/phb-phb38-row-dagger.png",
+        "sha256": "3a08dfb74165262c8c8dc089ca89c9758acfaf59071ca864c1130fe2722933a7",
+        "width": 1656,
+        "height": 600
+      },
+      "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+      "review": {
+        "decision": "recommend-bounded-research-acceptance",
+        "leftBand": {
+          "status": "visually-complete",
+          "scope": "row label, fire rate, and S/M/L range cells",
+          "finding": "Dagger glyphs and all three range columns fit within the left outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rightBand": {
+          "status": "visually-complete",
+          "scope": "Armor Class adjustment columns 2\u201310",
+          "finding": "Dagger values across AC 2\u201310 fit within the right outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rowAlignment": "The separated left and right boxes follow the same printed row despite slight vertical skew; the column divider gap is preserved.",
+        "limits": "Manual visual fit review on the supplied blurred crop; not a pixel-perfect font-bound certification or a source-value review."
+      }
+    },
+    {
+      "rowId": "dart",
+      "regionId": "phb38-row-dart",
+      "printedRow": "Dart",
+      "focusRects": [
+        [
+          0.0012077294685990338,
+          0.5183333333333333,
+          0.43417874396135264,
+          0.035
+        ],
+        [
+          0.4414251207729469,
+          0.5216666666666666,
+          0.5392512077294686,
+          0.035
+        ]
+      ],
+      "focusRectsSha256": "00bd8e322fe1a5c49f7f2922b0fa355736f3ac0505972fdfca3f33b0281d7c01",
+      "privateOverlay": {
+        "path": "/workspace/vault-audit-private/pass8/missile-table-discoverability/focus-correction-v2/phb-phb38-row-dart.png",
+        "sha256": "da9a9840e3f9bf0552c7e3fc0ebe3749805a0bdaceee5f5b30dd2883047eff95",
+        "width": 1656,
+        "height": 600
+      },
+      "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+      "review": {
+        "decision": "recommend-bounded-research-acceptance",
+        "leftBand": {
+          "status": "visually-complete",
+          "scope": "row label, fire rate, and S/M/L range cells",
+          "finding": "Dart glyphs and all three range columns fit within the left outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rightBand": {
+          "status": "visually-complete",
+          "scope": "Armor Class adjustment columns 2\u201310",
+          "finding": "Dart values across AC 2\u201310 fit within the right outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rowAlignment": "The separated left and right boxes follow the same printed row despite slight vertical skew; the column divider gap is preserved.",
+        "limits": "Manual visual fit review on the supplied blurred crop; not a pixel-perfect font-bound certification or a source-value review."
+      }
+    },
+    {
+      "rowId": "hammer",
+      "regionId": "phb38-row-hammer",
+      "printedRow": "Hammer",
+      "focusRects": [
+        [
+          0.0012077294685990338,
+          0.5533333333333333,
+          0.43417874396135264,
+          0.045
+        ],
+        [
+          0.4414251207729469,
+          0.5716666666666667,
+          0.5392512077294686,
+          0.035
+        ]
+      ],
+      "focusRectsSha256": "494aad79bf34faa5d8f670c89ec845b808e70256f89792d4e98ba5c141a415c2",
+      "privateOverlay": {
+        "path": "/workspace/vault-audit-private/pass8/missile-table-discoverability/focus-correction-v2/phb-phb38-row-hammer.png",
+        "sha256": "d09d2c2ac16164616058ae42490a3ffe110c0008e88cbb3b106b77b3f5d47c01",
+        "width": 1656,
+        "height": 600
+      },
+      "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+      "review": {
+        "decision": "recommend-bounded-research-acceptance",
+        "leftBand": {
+          "status": "visually-complete",
+          "scope": "row label, fire rate, and S/M/L range cells",
+          "finding": "Hammer glyphs and all three range columns fit within the left outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rightBand": {
+          "status": "visually-complete",
+          "scope": "Armor Class adjustment columns 2\u201310",
+          "finding": "Hammer values across AC 2\u201310 fit within the right outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rowAlignment": "The separated left and right boxes follow the same printed row despite slight vertical skew; the column divider gap is preserved.",
+        "limits": "Manual visual fit review on the supplied blurred crop; not a pixel-perfect font-bound certification or a source-value review."
+      }
+    },
+    {
+      "rowId": "javelin",
+      "regionId": "phb38-row-javelin",
+      "printedRow": "Javelin",
+      "focusRects": [
+        [
+          0.0012077294685990338,
+          0.61,
+          0.43417874396135264,
+          0.03166666666666667
+        ],
+        [
+          0.4414251207729469,
+          0.6116666666666667,
+          0.5392512077294686,
+          0.03666666666666667
+        ]
+      ],
+      "focusRectsSha256": "5c644a3f04882809a4413b178ffd7eef9f580cacdd1f6bae0eba1b20f10ff8c2",
+      "privateOverlay": {
+        "path": "/workspace/vault-audit-private/pass8/missile-table-discoverability/focus-correction-v2/phb-phb38-row-javelin.png",
+        "sha256": "3992a3af6983ed5fa0e3c34ac84b04be558e86d890016ee50f7cf5f3275681f6",
+        "width": 1656,
+        "height": 600
+      },
+      "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+      "review": {
+        "decision": "recommend-bounded-research-acceptance",
+        "leftBand": {
+          "status": "visually-complete",
+          "scope": "row label, fire rate, and S/M/L range cells",
+          "finding": "Javelin glyphs and all three range columns fit within the left outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rightBand": {
+          "status": "visually-complete",
+          "scope": "Armor Class adjustment columns 2\u201310",
+          "finding": "Javelin values across AC 2\u201310 fit within the right outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rowAlignment": "The separated left and right boxes follow the same printed row despite slight vertical skew; the column divider gap is preserved.",
+        "limits": "Manual visual fit review on the supplied blurred crop; not a pixel-perfect font-bound certification or a source-value review."
+      }
+    },
+    {
+      "rowId": "sling-bullet",
+      "regionId": "phb38-row-sling-bullet",
+      "printedRow": "Sling (bullet)",
+      "focusRects": [
+        [
+          0.0012077294685990338,
+          0.65,
+          0.43417874396135264,
+          0.03833333333333333
+        ],
+        [
+          0.4414251207729469,
+          0.6533333333333333,
+          0.5392512077294686,
+          0.041666666666666664
+        ]
+      ],
+      "focusRectsSha256": "04f0b7b7258b1b151f10b4600576de184d02156cd9e773823668b2b0cf3874bd",
+      "privateOverlay": {
+        "path": "/workspace/vault-audit-private/pass8/missile-table-discoverability/focus-correction-v2/phb-phb38-row-sling-bullet.png",
+        "sha256": "4f607657ab006ba29e6c6af0eea92600c709cab960ff5d48d28973c0d7b48ab3",
+        "width": 1656,
+        "height": 600
+      },
+      "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+      "review": {
+        "decision": "recommend-bounded-research-acceptance",
+        "leftBand": {
+          "status": "visually-complete",
+          "scope": "row label, fire rate, and S/M/L range cells",
+          "finding": "Sling (bullet) glyphs and all three range columns fit within the left outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rightBand": {
+          "status": "visually-complete",
+          "scope": "Armor Class adjustment columns 2\u201310",
+          "finding": "Sling (bullet) values across AC 2\u201310 fit within the right outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rowAlignment": "The separated left and right boxes follow the same printed row despite slight vertical skew; the column divider gap is preserved.",
+        "limits": "Manual visual fit review on the supplied blurred crop; not a pixel-perfect font-bound certification or a source-value review."
+      }
+    },
+    {
+      "rowId": "sling-stone",
+      "regionId": "phb38-row-sling-stone",
+      "printedRow": "Sling (stone)",
+      "focusRects": [
+        [
+          0.0012077294685990338,
+          0.6933333333333334,
+          0.43417874396135264,
+          0.045
+        ],
+        [
+          0.4414251207729469,
+          0.6983333333333334,
+          0.5392512077294686,
+          0.03833333333333333
+        ]
+      ],
+      "focusRectsSha256": "85c12691a2df092f934377e3c811a125e4cdda0d38d5cf3e1e72ed6dd027181e",
+      "privateOverlay": {
+        "path": "/workspace/vault-audit-private/pass8/missile-table-discoverability/focus-correction-v2/phb-phb38-row-sling-stone.png",
+        "sha256": "9aeacfa35a54458ec2759094588927ba588ea3ae2a87a09c4a8fa29f70370053",
+        "width": 1656,
+        "height": 600
+      },
+      "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+      "review": {
+        "decision": "recommend-bounded-research-acceptance",
+        "leftBand": {
+          "status": "visually-complete",
+          "scope": "row label, fire rate, and S/M/L range cells",
+          "finding": "Sling (stone) glyphs and all three range columns fit within the left outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rightBand": {
+          "status": "visually-complete",
+          "scope": "Armor Class adjustment columns 2\u201310",
+          "finding": "Sling (stone) values across AC 2\u201310 fit within the right outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rowAlignment": "The separated left and right boxes follow the same printed row despite slight vertical skew; the column divider gap is preserved.",
+        "limits": "Manual visual fit review on the supplied blurred crop; not a pixel-perfect font-bound certification or a source-value review."
+      }
+    },
+    {
+      "rowId": "spear",
+      "regionId": "phb38-row-spear",
+      "printedRow": "Spear",
+      "focusRects": [
+        [
+          0.0012077294685990338,
+          0.7383333333333333,
+          0.43417874396135264,
+          0.04
+        ],
+        [
+          0.4414251207729469,
+          0.7416666666666667,
+          0.5392512077294686,
+          0.041666666666666664
+        ]
+      ],
+      "focusRectsSha256": "7ef0b2c36f704809aea4c57f8b5bf7d78079eb4457955410dec6abd90f38304c",
+      "privateOverlay": {
+        "path": "/workspace/vault-audit-private/pass8/missile-table-discoverability/focus-correction-v2/phb-phb38-row-spear.png",
+        "sha256": "2ba937f981b1b1e0fdfa613a8d4f56bb38647a236b94c38f5215584b483c9eeb",
+        "width": 1656,
+        "height": 600
+      },
+      "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+      "review": {
+        "decision": "recommend-bounded-research-acceptance",
+        "leftBand": {
+          "status": "visually-complete",
+          "scope": "row label, fire rate, and S/M/L range cells",
+          "finding": "Spear glyphs and all three range columns fit within the left outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rightBand": {
+          "status": "visually-complete",
+          "scope": "Armor Class adjustment columns 2\u201310",
+          "finding": "Spear values across AC 2\u201310 fit within the right outline; no clearly cut strokes or neighboring-row text selected."
+        },
+        "rowAlignment": "The separated left and right boxes follow the same printed row despite slight vertical skew; the column divider gap is preserved.",
+        "limits": "Manual visual fit review on the supplied blurred crop; not a pixel-perfect font-bound certification or a source-value review."
+      }
+    }
+  ],
+  "wholeLookupDefaultReview": {
+    "viewerCodePins": {
+      "sourceViewer": {
+        "path": "dist/source-viewer.js",
+        "sha256": "5b2643af83799cc3597cec8170b8040cd13045e7d1850ac72a02075ccfecd9c6"
+      },
+      "app": {
+        "path": "dist/app.js",
+        "sha256": "7abf830d7f936962636a6d2f8a6465e863fe522def5fef33a5acb2a2e3028ebe"
+      },
+      "sourceVisualCoverage": {
+        "path": "tools/source-visual-coverage.mjs",
+        "sha256": "71a346c5bfaa955c5546e3f368bdeff9306158d9d447dc944e31c5377bc6f504"
+      }
+    },
+    "sourceViewerBehavior": "matchingRegions filters the requested book/page then stable-sorts exact role=context after all other roles; defaultRegionIndex returns index 0 when there is no explicit requested region/target. source-visual-coverage uses the same exact-context-last ordering and marks ordinal 0 as the default.",
+    "explicitRegionRoute": "The candidate item table.sourceContext values identify phb38-table-context and ua28-table-context; app source-chip/original-scans code carries those IDs as explicit data-source-region/data-scan-region. Explicit context routes remain correct. This does not fix page-only paths without an explicit region.",
+    "currentDefaults": {
+      "phb": {
+        "book": "PHB",
+        "printedPage": 38,
+        "pdfPage": 39,
+        "contextRegionId": "phb38-table-context",
+        "originalCatalogRole": "context",
+        "proposedCatalogRole": "table",
+        "focusRects": [],
+        "sourceImageSha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+        "sourceImagePath": "dist/scans/verified/phb-38-a3662691c2417e55.png",
+        "sourceImageDimensions": [
+          1656,
+          600
+        ],
+        "currentDefaultRegionId": "phb38-row-axe-hand",
+        "currentContextPosition": 18,
+        "currentPageRegionCount": 18,
+        "currentDefaultOrderSha256": "02518a34e46da1c1792909e4cbac98525562256d79500ca1d0bd158e030352d9",
+        "currentContextRegionHashes": {
+          "focusSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "contentSha256": "942e45fe353528a4d0e3816bf07fd85da8004912ee5c5443118a45d48ed944ab"
+        },
+        "proposedDefaultRegionId": "phb38-table-context",
+        "proposedDefaultOrderSha256": "dd42599dd99c6368c20dbaeb547fc3835a7bc32a0dbcb1d490a4d2c037810105",
+        "proposedContextRegionHashes": {
+          "focusSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "contentSha256": "f5d91b0e536154395f0ef35ec6c6d4999e77186c375146b5a4585948c29fc8ae"
+        },
+        "proposedCatalogSha256": "85ae9c2ffd71336dc59b5a2b23c4b4d858ec4893a4e5819838d3a720164edce1",
+        "proposedCatalogByteLength": 34688
+      },
+      "ua": {
+        "book": "UA",
+        "printedPage": 28,
+        "pdfPage": 29,
+        "contextRegionId": "ua28-table-context",
+        "originalCatalogRole": "context",
+        "proposedCatalogRole": "table",
+        "focusRects": [],
+        "sourceImageSha256": "f9e1d616b1cec48a76d66507bc7e05e2877b6cf4df520dbdb905a69e9aa17e6b",
+        "sourceImagePath": "dist/scans/verified/ua-28-f9e1d616b1cec48a.png",
+        "sourceImageDimensions": [
+          1130,
+          726
+        ],
+        "currentDefaultRegionId": "ua28-row-aklys-hurled",
+        "currentContextPosition": 28,
+        "currentPageRegionCount": 28,
+        "currentDefaultOrderSha256": "b861b3e57d43524fc549fa1544f3676f27c6d673eb7b7efb36c81d56be2edf2f",
+        "currentContextRegionHashes": {
+          "focusSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "contentSha256": "8f5ec6412644ef8dfdcb875963fc26b77d451a0feedf881b2230744da4cc37de"
+        },
+        "proposedDefaultRegionId": "ua28-table-context",
+        "proposedDefaultOrderSha256": "89079f80e2af441cf642ebe23c7634dc670a8346b3d033a83835b8adc3666184",
+        "proposedContextRegionHashes": {
+          "focusSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "contentSha256": "74c1f8e34666d6d420766c11a8afa3cc34f029f365f708b42f2fc9285917b509"
+        },
+        "proposedCatalogSha256": "8a783f90898cc247fc4feb1e39204d9542a4f64fc33eaf9c878846fef8644017",
+        "proposedCatalogByteLength": 45620
+      }
+    },
+    "proposal": {
+      "metadataOnly": true,
+      "patches": [
+        {
+          "catalog": "research/missile-table-discoverability/implementation-candidate/focus-navigation-correction-v2/catalogs/rules-phb-hurled-weapons-and-missiles-table.json",
+          "regionId": "phb38-table-context",
+          "replace": {
+            "role": "context"
+          },
+          "with": {
+            "role": "table"
+          }
+        },
+        {
+          "catalog": "research/missile-table-discoverability/implementation-candidate/focus-navigation-correction-v2/catalogs/rules-ua-hurled-weapons-and-missiles-table.json",
+          "regionId": "ua28-table-context",
+          "replace": {
+            "role": "context"
+          },
+          "with": {
+            "role": "table"
+          }
+        }
+      ],
+      "rationale": "The existing regions are complete, unmarked table images and already occur first in their catalog arrays. role=table is descriptive for a full table and is not the exact context value that the renderer demotes; stable ordering then makes each existing full-table region the default without changing IDs, page groups, foci, notes, geometry, sources, or row arrays.",
+      "schemaObservation": "The current consumer paths inspect role only for exact equality with context; no enumerated region-role validation was found in source-viewer or source-visual-coverage. This is a metadata proposal for root validation, not an assertion of any external schema.",
+      "requiredFollowup": "Recompute the official region/content/default-order hashes after the root applies the role-only change and obtain a new independent default review against the exact final catalog hashes. Do not carry over any role-sensitive default review."
+    }
+  },
+  "checks": {
+    "v2InputHashesMatched": true,
+    "phbPrivateOverlayHashesMatchedManifest": true,
+    "allOverlayDimensionsMatchSource": true,
+    "v1V2DiffIsExactlyAxeAndHammerLeftBands": true,
+    "rendererOrderReplayedInMemoryWithExactCurrentComparator": true,
+    "noRepositoryCandidateOrActiveFilesEdited": true
+  },
+  "recommendation": "Recommend bounded research acceptance of the 15 PHB p.38 row focus geometries in V2. Recommend applying only the two specified role metadata changes as a separate candidate delta for page-only default selection, followed by hash refresh and independent default review. Keep all source values, focus IDs, candidate statuses, source grades, PHB p.36 armor regions, UA foci, and page groups unchanged.",
+  "limits": [
+    "This review is not source-value review; source literal findings remain bound to the separate root receipt.",
+    "The focus review is limited to geometry/row isolation against the supplied crop; it does not establish semantic correctness, print edition quality, or source-grade promotion.",
+    "The two whole-table role changes are proposed, not applied, not independently accepted, and not production registrations."
+  ],
+  "v1ToV2PixelBoundSummary": {
+    "units": "The V2 source image is 600 px tall; y/height below are the focus rectangle edges in source-image pixels.",
+    "axe-hand-left": {
+      "v1": [
+        67,
+        88
+      ],
+      "v2": [
+        60,
+        88
+      ],
+      "interpretation": "V2 extends the upper edge 7 px while preserving the lower edge; the leading label strokes are inside the box."
+    },
+    "hammer-left": {
+      "v1": [
+        339,
+        359
+      ],
+      "v2": [
+        332,
+        359
+      ],
+      "interpretation": "V2 extends the upper edge 7 px while preserving the lower edge; the leading label strokes are inside the box."
+    },
+    "rightBands": "Unchanged in both rows; all other thirteen PHB row focus pairs are exactly unchanged from V1."
+  }
+}

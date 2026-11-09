@@ -233,9 +233,19 @@ function classesOf(item) { return Array.isArray(item.classes) && item.classes.le
 function classText(item) { return classesOf(item).join(' / ') || 'Class not yet extracted'; }
 function levelText(item) { return item.level === undefined || item.level === null || item.level === '' ? 'Level not yet extracted' : `Level ${item.level}`; }
 function sourceChip(item, indexOnly = false) {
- const groups=FirstEditionCitations.collect(item);
+ let groups=FirstEditionCitations.collect(item);
  const prefix=indexOnly?(String(item.status||'').toLowerCase().includes('heading')?'Spell heading · ':'Spell index · '):'';
  if(!groups.length)return `<span class="source-chip source-pending">Source page pending</span>`;
+ const tableContext=item.table?.sourceContext||item.sourceContext;
+ if(tableContext&&Number.isInteger(Number(tableContext.printedPage))){
+  const contextBook=bookCode(tableContext.book),contextPage=Number(tableContext.printedPage);
+  groups=[...groups].sort((a,b)=>Number(bookCode(b.book)===contextBook)-Number(bookCode(a.book)===contextBook));
+  return groups.flatMap(group=>[...group.pages].sort((a,b)=>Number(a!==contextPage||bookCode(group.book)!==contextBook)-Number(b!==contextPage||bookCode(group.book)!==contextBook)).map(page=>{
+   const text=`${prefix}${bookCode(group.book)} p. ${page}`;
+   const region=bookCode(group.book)===contextBook&&Number(page)===contextPage&&typeof tableContext.regionId==='string'?tableContext.regionId:'';
+   return `<button class="source-chip" data-source-id="${esc(item.id)}" data-source-view="${esc(item._view||view)}" data-source-book="${esc(group.book)}" data-source-page="${esc(page)}"${region?` data-source-region="${esc(region)}"`:''} aria-label="Open original source reference: ${esc(text)}">${esc(text)}</button>`;
+  })).join('');
+ }
  return groups.map(group=>{const text=`${prefix}${bookCode(group.book)} ${group.pages.length===1?'p.':'pp.'} ${compactPageList(group.pages)}`;return `<button class="source-chip" data-source-id="${esc(item.id)}" data-source-view="${esc(item._view||view)}" data-source-book="${esc(group.book)}" aria-label="Open original source reference: ${esc(text)}">${esc(text)}</button>`;}).join('');
 }
 function compactPageList(pages){const ranges=[];for(const page of pages){const last=ranges.at(-1);if(last&&page===last[1]+1)last[1]=page;else ranges.push([page,page]);}return ranges.map(([start,end])=>start===end?String(start):`${start}–${end}`).join(', ');}
@@ -246,7 +256,7 @@ function sourceTargetSelection(targets=[],fallbackBook='',fallbackPage=null,{fie
  const book=first?.book||fallbackBook,page=Number(first?.page??fallbackPage);
  return {initialReference:Number.isInteger(page)&&page>0?{book,page,...(resolved?{region:resolved.regionIds[0]}:{})}:undefined,targetStatus:resolved?'resolved':fieldScoped?'pending':'',activeTarget:first,targets:list};
 }
-function originalScansButton(item){return `<button class="source-chip view-original-scans" data-view-scans="${esc(item.id)}" data-scan-view="${esc(item._view||view)}">${icon('book')}View original scans</button>`;}
+function originalScansButton(item){const context=item.table?.sourceContext||item.sourceContext;return `<button class="source-chip view-original-scans" data-view-scans="${esc(item.id)}" data-scan-view="${esc(item._view||view)}"${context?` data-scan-book="${esc(context.book)}" data-scan-page="${esc(context.printedPage)}"${context.regionId?` data-scan-region="${esc(context.regionId)}"`:''}`:''}>${icon('book')}View original scans</button>`;}
 function noteButton(item, target = item.id, title = item.name || item.title) {
  const count = notes.filter(n => n.target === target).length;
  return `<button class="note-button" data-annotate="${esc(target)}" data-note-title="${esc(title)}" data-note-view="${esc(view)}">${icon('pen')}${count ? `${count} note${count === 1 ? '' : 's'}` : 'Annotate'}</button>`;
@@ -356,6 +366,8 @@ function route({force=false}={}) {
  const valid=target.source&&references.some(group=>bookCode(group.book)===target.source.book&&group.pages.includes(target.source.page));
  if(valid){
   let initialReference=target.source,activeTarget=null,targets=FirstEditionCitations.targets(item),fieldScoped=!!target.source.fieldPointer;
+  const primarySourceContext=item?.table?.sourceContext||item?.sourceContext;
+  if(!fieldScoped&&!initialReference.region&&primarySourceContext&&bookCode(primarySourceContext.book)===initialReference.book&&Number(primarySourceContext.printedPage)===initialReference.page&&typeof primarySourceContext.regionId==='string')initialReference={...initialReference,region:primarySourceContext.regionId};
   let targetStatus=target.source.targetStatus||(target.source.region?'resolved':'');
   if(fieldScoped){
    const fieldOwnerItem=routeFieldOwner(target.source,routeItem);
@@ -646,16 +658,17 @@ function ruleTableHTML(item) {
  const table=item?.table;
  if(!table||!Array.isArray(table.columns)||!Array.isArray(table.rows))return '';
  const columns=table.columns,rows=table.rows,rowLabel=table.rowHeader?.label||'Entry';
- const symbols=Array.isArray(table.symbols)?table.symbols:[],procedure=Array.isArray(table.procedure)?table.procedure:[],footnotes=Array.isArray(table.footnotes)?table.footnotes:[];
+ const symbols=Array.isArray(table.symbols)?table.symbols:[],procedure=Array.isArray(table.procedure)?table.procedure:[],footnotes=Array.isArray(table.footnotes)?table.footnotes:[],sourceNotes=Array.isArray(table.sourceNotes)?table.sourceNotes:[];
  const sourceReferences=Array.isArray(item.sourceReferences)?item.sourceReferences:Array.isArray(table.sourceReferences)?table.sourceReferences:[];
  const grid=`<div class="table-scroll source-rule-table-scroll" tabindex="0" role="region" aria-label="${esc(table.title||item.title||'Source table')}, horizontally scrollable"><table class="source-rule-table"><caption>${esc(table.title||item.title||'Source table')}</caption><thead><tr><th scope="col" rowspan="2">${esc(rowLabel)}</th><th scope="colgroup" colspan="${columns.length}">${esc(table.columnGroup?.label||'Source columns')}</th></tr><tr>${columns.map(column=>`<th scope="col">${esc(column.label||column.id||'')}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>{const cells=new Map((Array.isArray(row.cells)?row.cells:[]).map(cell=>[cell.columnId,cell]));return `<tr><th scope="row">${esc(row.label||'')}${(Array.isArray(row.markers)?row.markers:[]).map(marker=>`<sup class="source-row-marker">${esc(marker)}</sup>`).join('')} ${tableFactSourceChip(item,row,`${table.title||item.title||'Table'} · ${row.label||'row'}`,'table-row-source')}</th>${columns.map(column=>{const cell=cells.get(column.id);return `<td${cell?.kind?` data-cell-kind="${esc(cell.kind)}"`:''}>${esc(cell?.raw??'')}</td>`;}).join('')}</tr>`;}).join('')}</tbody></table></div>`;
  const symbolBlock=symbols.length?`<section class="source-table-symbols"><h3>Printed symbols</h3><dl>${symbols.map(entry=>`<div><dt>${esc(entry.symbol||'')}</dt><dd>${esc(displaySourceValue(entry.text??entry.meaning))} ${tableFactSourceChip(item,entry,`${table.title||item.title||'Table'} · ${entry.symbol||'symbol'} definition`,'table-symbol-source')}</dd></div>`).join('')}</dl></section>`:'';
  const procedureBlock=procedure.length?`<section class="source-table-procedure"><h3>Printed procedure</h3><ol>${procedure.map(step=>`<li${step.step?` data-step="${esc(step.step)}"`:''}>${esc(displaySourceValue(step.text))} ${tableFactSourceChip(item,step,`${table.title||item.title||'Table'} · ${step.step||'procedure step'}`,'table-procedure-source')}</li>`).join('')}</ol></section>`:'';
  const footnoteBlock=footnotes.length?`<section class="source-table-footnotes"><h3>Printed footnotes</h3><ul>${footnotes.map(note=>`<li><strong>${esc(note.marker||'')}</strong> ${esc(note.text||'')}${note.appliesTo?` <span class="small muted">${esc(note.appliesTo)}</span>`:''} ${tableFactSourceChip(item,note,`${table.title||item.title||'Table'} · footnote ${note.marker||''}`,'table-footnote-source')}</li>`).join('')}</ul></section>`:'';
+ const sourceNotesBlock=sourceNotes.length?`<section class="source-table-notes"><h3>${esc(table.sourceNotesTitle||'Source notes')}</h3><ul>${sourceNotes.map(note=>`<li>${note.label?`<strong>${esc(note.label)}</strong> `:''}${esc(displaySourceValue(note.text))} ${tableFactSourceChip(item,note,`${table.title||item.title||'Table'} · ${note.label||'source note'}`,'table-note-source')}</li>`).join('')}</ul></section>`:'';
  const progression=table.progressionNote?`<p class="source-table-progression"><strong>Progression note</strong> ${esc(displaySourceValue(table.progressionNote.text))} ${tableFactSourceChip(item,table.progressionNote,`${table.title||item.title||'Table'} · progression note`,'table-progression-source')}</p>`:'';
  const referencePages=[...new Map(sourceReferences.filter(ref=>Number.isInteger(Number(ref.printedPage))&&Number.isInteger(Number(ref.pdfPage))).map(ref=>[`${ref.book}:${ref.printedPage}:${ref.pdfPage}`,ref])).values()];
  const references=referencePages.length?`<p class="source-table-references">Source locations: ${referencePages.map(ref=>`${esc(bookCode(ref.book))} p. ${esc(ref.printedPage)} (supplied PDF p. ${esc(ref.pdfPage)})`).join(' · ')}</p>`:'';
- return `<section class="source-table-section" data-source-context="${esc(item.id)}" data-source-view="rules" aria-label="${esc(item.category||'Source table')}">${grid}${symbolBlock}${procedureBlock}${footnoteBlock}${progression}${references}</section>`;
+ return `<section class="source-table-section" data-source-context="${esc(item.id)}" data-source-view="rules" aria-label="${esc(item.category||'Source table')}">${grid}${symbolBlock}${procedureBlock}${footnoteBlock}${sourceNotesBlock}${progression}${references}</section>`;
 }
 function classTarget(x) {
  const limit=classTargetLimit(x);
@@ -995,8 +1008,8 @@ function bindPage() {
 function bindDetail() {
  bindAttributeDisclosures();
  bindAttributeViews();
- $$('[data-source-id]').forEach(el=>{el.onclick=()=>showSource(el.dataset.sourceView,el.dataset.sourceId,null,el.dataset.sourceBook);});
- $$('[data-view-scans]').forEach(el=>{el.onclick=()=>{const item=data[el.dataset.scanView]?.find(entry=>entry.id===el.dataset.viewScans);if(item)openScanViewer(item,FirstEditionCitations.collect(item));};});
+ $$('[data-source-id]').forEach(el=>{el.onclick=()=>showSource(el.dataset.sourceView,el.dataset.sourceId,null,el.dataset.sourceBook,el.dataset.sourcePage,el.dataset.sourceRegion);});
+ $$('[data-view-scans]').forEach(el=>{el.onclick=()=>{const item=data[el.dataset.scanView]?.find(entry=>entry.id===el.dataset.viewScans);if(item){const initialReference=el.dataset.scanBook&&Number(el.dataset.scanPage)>0?{book:el.dataset.scanBook,page:Number(el.dataset.scanPage),...(el.dataset.scanRegion?{region:el.dataset.scanRegion}:{})}:undefined;openScanViewer(item,FirstEditionCitations.collect(item),item.id,initialReference);}};});
  $$('[data-annotate]').forEach(el=>{el.onclick=()=>openNote({target:el.dataset.annotate,title:el.dataset.noteTitle,view:el.dataset.noteView||view});});
  $$('[data-copy-link]').forEach(el=>{el.onclick=async()=>{
   const url=new URL(location.href);url.hash=`${view}/${encodeURIComponent(el.dataset.copyLink)}`;
@@ -1024,15 +1037,17 @@ function bindAttributeDisclosures(root=document){
  $$('[data-full-attributes],.additional-references,[data-attribute-citations]',root).forEach(disclosure=>{disclosure.onkeydown=event=>{if(event.key==='Escape'&&disclosure.open){event.preventDefault();event.stopPropagation();disclosure.open=false;$('summary',disclosure)?.focus({preventScroll:true});}};});
 }
 
-function showSource(sourceView,id,reference=null,sourceBook='') {
+function showSource(sourceView,id,reference=null,sourceBook='',sourcePage='',sourceRegion='') {
  const contextItem=sourceView==='classes'&&id==='progression-explainer'&&data.progressionExplainer?{...data.progressionExplainer,id}:recordForView(sourceView,id);
  const item=contextItem||reference;if(!item)return;
  const references=FirstEditionCitations.collect(item);
- const clicked=reference?FirstEditionCitations.collect(reference)[0]:references.find(group=>bookCode(group.book)===bookCode(sourceBook));
+ const requestedPage=Number(sourcePage);
+ const clicked=reference?FirstEditionCitations.collect(reference)[0]:references.find(group=>bookCode(group.book)===bookCode(sourceBook)&&(!Number.isInteger(requestedPage)||requestedPage<1||group.pages.includes(requestedPage)));
  const targets=reference?.targets|| (reference?FirstEditionCitations.targets(reference):clicked?.targets)||[];
  const fieldScoped=!!reference&&targets.some(target=>!!target.fieldPointer);
  const selection=sourceTargetSelection(targets,clicked?.book,clicked?.pages?.[0],{fieldScoped});
- openScanViewer(item,references,contextItem?.id||'',selection.initialReference,{targets:selection.targets,targetStatus:selection.targetStatus,activeTarget:fieldScoped?selection.activeTarget:null,fieldScoped});
+ const initialReference=Number.isInteger(requestedPage)&&requestedPage>0&&clicked?{book:bookCode(clicked.book),page:requestedPage,...(sourceRegion?{region:sourceRegion}:{})}:selection.initialReference;
+ openScanViewer(item,references,contextItem?.id||'',initialReference,{targets:selection.targets,targetStatus:selection.targetStatus,activeTarget:fieldScoped?selection.activeTarget:null,fieldScoped});
 }
 function openScanViewer(item,references,contextItemId=item.id||'',initialReference,options={}){
  if(globalThis.FirstEditionSourceViewer?.open){

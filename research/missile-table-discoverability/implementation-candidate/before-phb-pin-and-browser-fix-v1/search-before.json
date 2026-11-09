@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "ae7f02c6a5aac9ac8da1f7bc5cf5152e422fcd58",
+  "file": "dist/search.js",
+  "fileSha256": "5e225a2518ae6e50dfcefb668f3587f5cf26aae7353fe0f168e246f1c7657cf3",
+  "functionText": " const searchableTableText = table => {\n  if(!table||typeof table!=='object')return '';\n  return [table.title,table.rowHeader?.label,table.columnGroup?.label,\n   ...(Array.isArray(table.columns)?table.columns.map(column=>column?.label):[]),\n   ...(Array.isArray(table.rows)?table.rows.flatMap(row=>[row?.label,...(Array.isArray(row?.cells)?row.cells.map(cell=>cell?.raw):[])]):[]),\n   ...(Array.isArray(table.symbols)?table.symbols.flatMap(symbol=>[symbol?.symbol,symbol?.text,symbol?.meaning]):[]),\n   ...(Array.isArray(table.procedure)?table.procedure.map(step=>step?.text):[]),\n   ...(Array.isArray(table.footnotes)?table.footnotes.flatMap(note=>[note?.marker,note?.text,note?.appliesTo]):[]),\n   table.progressionNote?.text\n  ].filter(value=>value!==undefined&&value!==null).join(' ');\n };",
+  "functionSha256": "b4ea07bf79cfc1ab10e693b8b361121332ab140bb57fce2c8e84691a3c4b502a",
+  "note": "Before-state exact source function captured from Git HEAD before adding table.sourceNotes indexing."
+}

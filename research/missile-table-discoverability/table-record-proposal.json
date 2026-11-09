@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "missile-table-search-record-proposal",
+  "status": "research-only proposal; no typed values, source catalog, active record, or grade is created",
+  "decision": "Add two source-specific table documents rather than a combined PHB/UA matrix or more weapon-card duplicates. The complete table images already exist; the gap is a directly indexed table document with owner-scoped source links. A typed rule-table projection is appropriate because the application already renders and indexes rule tables, but its row values and foci require authoring and independent review before activation.",
+  "records": [
+    {
+      "id": "phb-hurled-weapons-and-missiles-table",
+      "title": "PHB p. 38 · Hurled Weapons and Missiles",
+      "book": "PHB",
+      "pages": [38],
+      "sourceTableTitle": "Hurled Weapons and Missiles",
+      "physicalSourceRowCount": 15,
+      "tableShape": {
+        "rowHeader": "Hurled Weapons and Missiles",
+        "columns": [
+          {"id": "fire-rate", "label": "Fire Rate"},
+          {"id": "range-short", "label": "Range S"},
+          {"id": "range-medium", "label": "Range M"},
+          {"id": "range-long", "label": "Range L"},
+          {"id": "ac-2", "label": "AC 2"},
+          {"id": "ac-3", "label": "AC 3"},
+          {"id": "ac-4", "label": "AC 4"},
+          {"id": "ac-5", "label": "AC 5"},
+          {"id": "ac-6", "label": "AC 6"},
+          {"id": "ac-7", "label": "AC 7"},
+          {"id": "ac-8", "label": "AC 8"},
+          {"id": "ac-9", "label": "AC 9"},
+          {"id": "ac-10", "label": "AC 10"}
+        ],
+        "rows": "Transcribe exactly the 15 PHB p.38 source rows listed in source-inventory.json; keep the exact printed value and any source marker in each cell."
+      },
+      "searchVocabulary": {
+        "aliases": ["hurled weapons", "hurled weapons and missiles", "missile weapon versus armor", "missile weapon versus armour"],
+        "tags": ["missile", "missiles", "bow", "short bow", "leather", "plate", "shield", "armor class adjustment", "armour class adjustment", "to hit"],
+        "searchExample": "Short bow, leather armor AC 8, plate AC 3, and plate plus shield AC 2 are source-linked lookup terms, not a merged cross-edition mechanic. The DMG armor-type caveat remains a separate cited note."
+      },
+      "existingSourceImage": {
+        "path": "scans/verified/phb-38-a3662691c2417e55.png",
+        "sha256": "a3662691c2417e557f8530c84cda1c77df67d7140fd934aa4de7a013bdafad32",
+        "dimensionsPx": [1656, 600],
+        "sourcePage": "PHB printed p.38 / PDF p.39"
+      },
+      "citationPlan": {
+        "catalogOwner": "rules:phb-hurled-weapons-and-missiles-table",
+        "fullTableContextRegion": "Add a new owner-scoped catalog region that reuses the existing full-table PNG byte-for-byte; no full-table highlight. It must show heading, 15 row labels, fire-rate and range columns, AC 2–10, and both notes.",
+        "rowCitations": "Create one exact sourceFocusId and owner-bound sourceReference/evidenceBinding for each of the 15 physical rows; use the existing ruleTableHTML row.sourceReference contract and citation helpers. Review each row overlay on the actual full-table image.",
+        "footnoteCitations": "Create distinct precise foci for the printed rate/range definitions and short-range/medium/long-range adjustment note. Do not infer the PHB p.39 range scale."
+      },
+      "dataStatus": "Row labels inventoried. The complete PHB matrix has not been transcribed into this proposal. Current PHB equipment fields cover four bow fire-rate/range rows and no missile-table AC-adjustment rows."
+    },
+    {
+      "id": "ua-hurled-weapons-and-missiles-table",
+      "title": "UA p. 28 · Hurled Weapon and Missile Types",
+      "book": "UA",
+      "pages": [28],
+      "sourceTableTitle": "Hurled Weapon and Missile Types, General Data, and ‘To Hit’ Adjustments",
+      "physicalSourceRowCount": 24,
+      "tableShape": {
+        "rowHeader": "Hurled Weapons and Missiles",
+        "columns": [
+          {"id": "fire-rate", "label": "Fire Rate"},
+          {"id": "range-short", "label": "Range S"},
+          {"id": "range-medium", "label": "Range M"},
+          {"id": "range-long", "label": "Range L"},
+          {"id": "ac-0", "label": "AC 0"},
+          {"id": "ac-1", "label": "AC 1"},
+          {"id": "ac-2", "label": "AC 2"},
+          {"id": "ac-3", "label": "AC 3"},
+          {"id": "ac-4", "label": "AC 4"},
+          {"id": "ac-5", "label": "AC 5"},
+          {"id": "ac-6", "label": "AC 6"},
+          {"id": "ac-7", "label": "AC 7"},
+          {"id": "ac-8", "label": "AC 8"},
+          {"id": "ac-9", "label": "AC 9"},
+          {"id": "ac-10", "label": "AC 10"}
+        ],
+        "rows": "Transcribe exactly the 24 UA p.28 source rows listed in source-inventory.json; retain Aklys 1* marker and exact staff-sling range format."
+      },
+      "searchVocabulary": {
+        "aliases": ["hurled weapons", "hurled weapons and missiles", "missile weapon versus armor", "missile weapon versus armour"],
+        "tags": ["missile", "missiles", "bow", "short bow", "leather", "plate", "shield", "armor class adjustment", "armour class adjustment", "to hit"],
+        "searchExample": "Short bow, leather armor AC 8, plate AC 3, and plate plus shield AC 2 are source-linked lookup terms, not a merged cross-edition mechanic. The DMG armor-type caveat remains a separate cited note."
+      },
+      "existingSourceImage": {
+        "path": "scans/verified/ua-28-f9e1d616b1cec48a.png",
+        "sha256": "f9e1d616b1cec48a76d66507bc7e05e2877b6cf4df520dbdb905a69e9aa17e6b",
+        "dimensionsPx": [1130, 726],
+        "sourcePage": "UA printed p.28 / PDF p.29"
+      },
+      "citationPlan": {
+        "catalogOwner": "rules:ua-hurled-weapons-and-missiles-table",
+        "fullTableContextRegion": "Add a new owner-scoped catalog region that reuses the existing full-table PNG byte-for-byte; no full-table highlight. It must show heading, 24 row labels, fire-rate and range columns, AC 0–10, the Aklys footnote, and both notes.",
+        "rowCitations": "Create one exact sourceFocusId and owner-bound sourceReference/evidenceBinding for each of the 24 physical rows; use the existing ruleTableHTML row.sourceReference contract and citation helpers. Review each row overlay on the actual full-table image.",
+        "footnoteCitations": "Keep the Aklys 10-foot-only footnote separate from general S/M/L and rate-range notes; focus all three precisely."
+      },
+      "dataStatus": "Row labels inventoried. Current equipment carries 21/24 UA AC arrays (17 generic plus 4 ammunition-specific); Hammer, Harpoon, and Javelin are not represented. Current equipment fields cover 9/24 UA rate and 10/24 UA range rows. This proposal does not duplicate or complete those values."
+    }
+  ],
+  "implementationRequirements": [
+    "Keep the two source editions as two different rule-table records and source catalogs.",
+    "Preserve all existing equipment IDs, field values, aliases, citations, PNGs, and historical reviews.",
+    "Keep the existing missile-range-adjustments rule as a separate, concise explanation; link the new table records to it only through explicit reviewed references.",
+    "Do not copy UA arrays into PHB fields or infer source-page values from a parallel table.",
+    "Use the source-table renderer's field contract and official citation helpers; a table row needs an exact focused source binding, while a table landing region needs context and no broad highlight.",
+    "Use source image overlays and separate independent final artifact review before any active source-grade change.",
+    "Do not include PHB p.39 distance-scale interpretation unless it is separately sourced and cited."
+  ],
+  "syntheticSearchFixture": {
+    "runner": "research/missile-table-discoverability/global-search-regression.mjs",
+    "purpose": "Check the existing global search engine's ranking with the proposed source-specific titles/aliases/tags. The fixture has no source table cells and is not an integration or source-accuracy test."
+  }
+}

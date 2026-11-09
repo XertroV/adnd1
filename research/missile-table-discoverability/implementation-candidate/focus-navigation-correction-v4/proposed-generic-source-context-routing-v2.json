@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "generic-source-context-routing-code-proposal-v2",
+  "status": "Research-only patch for isolated after-control; not applied to dist/app.js.",
+  "supersedes": {
+    "path": "research/missile-table-discoverability/implementation-candidate/focus-navigation-correction-v4/proposed-generic-source-context-routing.patch",
+    "sha256": "655dfdcf803b71337a106aa037a1f1b1690b4d52b1687647c487f6b1c1768a1a"
+  },
+  "preimage": {
+    "path": "dist/app.js",
+    "sha256": "ed4ccaa3f98e4161bda41f897198a5d4f3f8a8a7d8d300a180ced4568f64532f"
+  },
+  "patch": {
+    "path": "research/missile-table-discoverability/implementation-candidate/focus-navigation-correction-v4/proposed-generic-source-context-routing-v2.patch",
+    "sha256": "e98333a02eeb7cb521301603c27a29f59a270ef73599aa5934aca37abe84eecb"
+  },
+  "guard": "The route default is applied only when the route is not fieldScoped, has no explicit region, and the owner primary sourceContext exactly matches the requested book and printed page.",
+  "negativeControls": [
+    "Unresolved field-target routes do not inherit the whole-record primary region and remain on the cited PDF page with pending target status.",
+    "An explicit region permalink takes precedence, including the old legacy full-image ID.",
+    "A primary sourceContext with another book or printed page is ignored."
+  ]
+}
