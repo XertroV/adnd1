@@ -1,7 +1,7 @@
 import test from 'node:test';
 import {projectDmg175Json} from './helpers/batch6-dmg175-source-history.mjs';
 import assert from 'node:assert/strict';
-import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-citation-target-crop-history.mjs';
+import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-weapon-source-history.mjs';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {gunzipSync} from 'node:zlib';

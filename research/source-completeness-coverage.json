@@ -11,9 +11,9 @@
     "completeSemanticSourceUnitCount": null,
     "semanticallyCompleteBooks": 0,
     "beforeSiteOwners": 997,
-    "currentSiteOwners": 1001,
+    "currentSiteOwners": 1003,
     "currentOwnersByCollection": {
-      "rules": 150,
+      "rules": 152,
       "spells": 638,
       "equipment": 192,
       "matrices": 4,
@@ -3498,7 +3498,7 @@
   },
   "repairs": {
     "schemaVersion": 1,
-    "artifactType": "source-completeness-repair-register-version25",
+    "artifactType": "source-completeness-repair-register-version26",
     "baselineCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
     "batches": [
       {
@@ -3947,6 +3947,34 @@
           "newPhbAndSourcesBrowserChecksPassed": 36,
           "priorBehaviorChecksPassed": 55
         }
+      },
+      {
+        "id": "dmg225-locations-and-six-replacement-crop-groups",
+        "status": "merged-and-live-independently-verified",
+        "scope": [
+          "29DMG225 equipment location-only field targets; no numeric, mechanics or source-value grade changes.",
+          "Six reproducible replacement crop groups, seven image assets and eight owner uses; original images, stable IDs and unresolved old recipes preserved."
+        ],
+        "sourceDataChanged": false,
+        "fieldTargetActivations": 29,
+        "sourceValueGradesPromoted": 0,
+        "release": {
+          "pullRequest": "https://github.com/XertroV/adnd1/pull/47",
+          "headSha": "5be506f557665faaf37d17227c7d2a99c1fcf1b2",
+          "mergeCommit": "cc9509047746d5e27a71cb5b1e0cfcb739a688c9",
+          "version": 26,
+          "testsPassed": 989,
+          "requiredWorkflowBlocksPassed": 24,
+          "selectedLiveAssetsMatched": 167,
+          "liveBrowserChecks": 362,
+          "receipt": "research/source-audit-pass8-pr47-version26-live-release.json",
+          "receiptSha256": "5b4acd96e0504bc5048d38d099eaae5153b755b7db52275e988755fecc058bef"
+        },
+        "remaining": [
+          "Generic old Tools page default is separate from reviewed field routes.",
+          "Illusionist own UA68 context remains pending.",
+          "Six historic recipes remain unknown; reproducible replacements do not recover their history."
+        ]
       }
     ],
     "unresolvedCategories": [
@@ -3980,8 +4008,8 @@
       },
       {
         "category": "excerpt-field-mapping",
-        "status": "active; eleven XP mappings deployed,29DMG225 mappings integrated but unpublished",
-        "scope": "V25 preserves728 reviewed manual targets; the unpublished citation batch adds29location-only targets for757 among4574 source-reference/field bindings. Source-value, numeric/mechanics, contextual completeness and page-default grades remain separate. Historical2190 warnings and726legacy uses remain historical; aggregate frame replay establishes no exact726membership.",
+        "status": "active; elevenXP plus29DMG225 location targets deployed",
+        "scope": "V26 preserves757 authored manual declarations among4574 canonical field/source-reference bindings;50new missile semantic fact declarations remain unpublished/pending. Source-value, numeric/mechanics, context, highlights and page defaults are independent dimensions. Historic2190warnings/726legacy uses remain historical counts, not the current unresolved denominator.",
         "evidence": "research/source-audit-pass8-pr42-live-release-verification.json"
       },
       {
@@ -3993,10 +4021,10 @@
     ],
     "interpretation": "Finding families and categories overlap. This register is not an all-book error count or completion percentage.",
     "currentRelease": {
-      "version": 25,
-      "mergeCommit": "4aa977788085f67a28a24d40965edf987bc7242b",
-      "verifiedLiveReceipt": "research/source-audit-pass8-pr46-version25-live-release.json",
-      "receiptSha256": "f43f04c8f96082101bca767c176913b0365ed9abc5a7e32f6610083b9babb532"
+      "version": 26,
+      "mergeCommit": "cc9509047746d5e27a71cb5b1e0cfcb739a688c9",
+      "verifiedLiveReceipt": "research/source-audit-pass8-pr47-version26-live-release.json",
+      "receiptSha256": "5b4acd96e0504bc5048d38d099eaae5153b755b7db52275e988755fecc058bef"
     },
     "preservedBeforeV19": {
       "path": "research/source-audit-pass8-repair-register-before-v19.json.gz",
@@ -4035,12 +4063,10 @@
     },
     "unpublishedImplementations": [
       {
-        "id": "citation-target-crop-integration",
+        "id": "phb38-ua28-hurled-weapons-discoverability-and-dmg28-continuation",
         "published": false,
-        "scope": "29DMG225 equipment location-only targets and six replacement crop groups/seven catalogs/eight owner uses. All old PNGs and six unknown historical recipes remain preserved; own Illusionist UA68 context remains pending.",
-        "sourceInputCommit": "9f445e32b079a3339b26a345776f8fb34b81f376",
-        "currentDataSha256": "cf6dd7ff912b91fd4525e1d48355e8c21e766e73f2118820e926a96b62f5216f",
-        "state": "Reviewed authored source/crop changes assembled; current audit, exact history and browser/repository integration checks in progress. Numeric/mechanics/default grades are separate."
+        "state": "Authored source/UI activation on exactcc950 complete; existing pre-build native50pending semantic declarations under current-base integration review. No new constructor approved.",
+        "scope": "Two direct searchable source-specific tables39rows/555literalcells, DMG28two-part note, bounded source-context routing."
       }
     ],
     "supersedesVersion22Register": {
@@ -4048,6 +4074,12 @@
       "sha256": "8b84adcc4c9ac27aba208b66538c00b38b430c4f6b2ee5a70f41597ea4855c3c",
       "historicalVersion": 22,
       "meaning": "The frozen V22 and earlier registers remain exact. This separately named register records independently verified V25 publication, including the continuation ancestor whose two earlier deployment attempts failed."
+    },
+    "supersedesVersion25Register": {
+      "path": "research/source-completeness-repairs-version25.json",
+      "sha256": "c9f1f542091b22a46915b8372b5044d27fbb08d9b778d4963e19f855bbbf39f0",
+      "historicalVersion": 25,
+      "meaning": "The frozen V25 register remains exact; this separately named successor records verified PR47 publication."
     }
   },
   "interpretation": [
@@ -4089,15 +4121,15 @@
     },
     {
       "path": "dist/data.json",
-      "sha256": "cf6dd7ff912b91fd4525e1d48355e8c21e766e73f2118820e926a96b62f5216f"
+      "sha256": "6643d7b58c90d982244f1d8f03b6f03a7587446ba25c402be8f9a81a8b701f8f"
     },
     {
       "path": "research/current-source-audit-status.json",
-      "sha256": "3558475bae5ad01de1d88c17febd0a57d080141e7d41980dc79396285166217d"
+      "sha256": "4839820353f5ef61e67e34ab73610523f17729b46f21de407fecfd016d0855aa"
     },
     {
-      "path": "research/source-completeness-repairs-version25.json",
-      "sha256": "c9f1f542091b22a46915b8372b5044d27fbb08d9b778d4963e19f855bbbf39f0"
+      "path": "research/source-completeness-repairs-version26.json",
+      "sha256": "da8f3056347fa0ff5bbcdb201c01386d7b831e3be261d631e7ae30dde29abdb8"
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "root-weapon-native-current-guard-successor-review",
+  "supersedesOnly": {
+    "previous": {
+      "path": "research/missile-table-discoverability/weapon-native-current-root-integration-v1.json",
+      "sha256": "1715891c0e48fd09866f06931a6d8ad61e8ed131346251584156a579b5063f48",
+      "sizeBytes": 4603
+    },
+    "scope": "The earlier native cohort helper did not compare the complete DMG sourceContext and sourceExcerpts objects before restoring the two declared historical fields. This successor closes that test-guard weakness; no production content defect is inferred."
+  },
+  "actualBeforeHelper": {
+    "path": "tests/fixtures/weapon-source-current-cohort-partial-before.mjs",
+    "sha256": "fc831ea662fbd326d31ab6dfcaae2142ea1fb312f645564f3d33d0cb340bf880",
+    "sizeBytes": 5547
+  },
+  "currentHelper": {
+    "path": "tests/helpers/weapon-source-current-cohort.mjs",
+    "sha256": "6d7414d5284f6ea5e650cb217385a7493d2d42889374be16d4759477214dbce7",
+    "sizeBytes": 6232
+  },
+  "tests": {
+    "command": "node --test tests/data.test.mjs tests/site-search-coverage.test.mjs tests/source-owner-identity-audit.test.mjs tests/source-scan-inventory.test.mjs tests/source-target-label-audit-current.test.mjs tests/source-completeness.test.mjs tests/citation-navigation-inventory.test.mjs",
+    "passed": 39,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 19046.437884,
+    "logSha256": "09419682fe0e765c1439025a65b7b7560da5309fb81c352ade797086fe618241"
+  },
+  "canaryControls": "Actual partial helper accepts synthetic unknown metadata inserted into either declared DMG field; current helper rejects both. Mutations represent test guard probes, not discovered site corruption. Entire approved DMG fields are now compared to pinned source commit 9ee2550 before any historical comparison.",
+  "preservedProductionDataSha256": "6643d7b58c90d982244f1d8f03b6f03a7587446ba25c402be8f9a81a8b701f8f",
+  "independentReview": {
+    "path": "research/missile-table-discoverability/weapon-native-current-independent-review-v1.json",
+    "sha256": "ade4d321a1fda86f02c9b49ac2b8a9597b108ea8e382c26b9ced7668bf16e379",
+    "sizeBytes": 6996
+  },
+  "gradesPromoted": 0
+}

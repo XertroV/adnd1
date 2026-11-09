@@ -1,5 +1,5 @@
 import test from 'node:test';
-import {projectPass8PhbSourceJson,projectPass8PhbSourceBytes} from './helpers/pass8-citation-target-crop-history.mjs';
+import {projectPass8PhbSourceJson,projectPass8PhbSourceBytes} from './helpers/pass8-weapon-source-history.mjs';
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync, copyFileSync} from 'node:fs';

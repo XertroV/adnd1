@@ -71,6 +71,7 @@
    ...(Array.isArray(table.symbols)?table.symbols.flatMap(symbol=>[symbol?.symbol,symbol?.text,symbol?.meaning]):[]),
    ...(Array.isArray(table.procedure)?table.procedure.map(step=>step?.text):[]),
    ...(Array.isArray(table.footnotes)?table.footnotes.flatMap(note=>[note?.marker,note?.text,note?.appliesTo]):[]),
+   ...(Array.isArray(table.sourceNotes)?table.sourceNotes.flatMap(note=>[note?.label,note?.text]):[]),
    table.progressionNote?.text
   ].filter(value=>value!==undefined&&value!==null).join(' ');
  };

@@ -1,8 +1,9 @@
 import {readBeforeJoFile as readFileSync} from './helpers/batch6-jo-fixture.mjs';
 import test from 'node:test';
-import {readBeforePass8CitationTargetCropFile} from './helpers/pass8-citation-target-crop-history.mjs';
+import {readBeforePass8CitationTargetCropFile} from './helpers/pass8-weapon-source-history.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync as readRawFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
 
 import {gunzipSync} from 'node:zlib';
 import {buildContinuationAliasReport,loadContinuationAliasReport} from '../tools/continuation-alias-audit.mjs';
@@ -70,8 +71,26 @@ test('the exact legacy alias keeps its source, focus and relationship and opens 
   ['phb-54-druid-note-definitions-c98ac7d9d638ae45','PHB',54,55],
  ]);
  const current=loadContinuationAliasReport();
- assert.equal(current.denominators.exposedRecords,997+addedDmg74MatrixIds.length+druid.length,'the current source universe preserves the prior owners, three DMG matrix owners and exact Druid owner');
- assert.equal(current.denominators.referencedCatalogs,1017+addedDmg74MatrixCatalogs.length+1,'the three DMG matrices and exact Druid owner each contribute one scoped catalog');
+ const publishedData=JSON.parse(execFileSync('git',['show','cc9509047746d5e27a71cb5b1e0cfcb739a688c9:dist/data.json'],{maxBuffer:32*1024*1024}));
+ const tableIds=['phb-hurled-weapons-and-missiles-table','ua-hurled-weapons-and-missiles-table'];
+ const ownerRows=value=>['rules','spells','equipment','matrices','classes','progressionExplainer'].flatMap(collection=>(Array.isArray(value[collection])?value[collection]:value[collection]?[value[collection]]:[]).map(item=>({collection,itemId:item.id})));
+ const publishedOwners=ownerRows(publishedData),nativeOwners=ownerRows(liveData);
+ assert.equal(publishedOwners.length,1001);
+ const publishedOwnerKeys=new Set(publishedOwners.map(row=>JSON.stringify(row)));
+ assert.deepEqual(nativeOwners.filter(row=>publishedOwnerKeys.has(JSON.stringify(row))),publishedOwners,'all1001 published owner identities remain in exact relative order');
+ assert.deepEqual(nativeOwners.filter(row=>!publishedOwnerKeys.has(JSON.stringify(row))),tableIds.map(itemId=>({collection:'rules',itemId})),'the only new owners are the exact PHB38 and UA28 rule tables');
+ const catalogPaths=value=>[...new Set(['rules','spells','equipment','matrices','classes','progressionExplainer'].flatMap(collection=>(Array.isArray(value[collection])?value[collection]:value[collection]?[value[collection]]:[]).flatMap(item=>['sourceExcerpts','scanVerification'].flatMap(key=>item[key]?.catalog?[item[key].catalog]:[]))))].sort();
+ const publishedPaths=catalogPaths(publishedData),nativePaths=catalogPaths(liveData);
+ assert.equal(publishedPaths.length,1021);
+ assert.deepEqual(nativePaths.filter(path=>publishedPaths.includes(path)),publishedPaths,'every published scoped catalog remains referenced');
+ assert.deepEqual(nativePaths.filter(path=>!publishedPaths.includes(path)),tableIds.map(id=>`scans/verified/rules-${id}.json`));
+ for(const [index,itemId]of tableIds.entries()){
+  const owner=liveData.rules.find(item=>item.id===itemId),catalog=JSON.parse(readRawFileSync(new URL(`../dist/${owner.sourceExcerpts.catalog}`,import.meta.url),'utf8'));
+  assert.deepEqual([owner.book,owner.pages,owner.table.rows.length],index===0?['PHB',[38],15]:['UA',[28],24]);
+  assert.deepEqual([catalog.collection,catalog.itemId,catalog.regions.length],['rules',itemId,index===0?21:31]);
+ }
+ assert.equal(current.denominators.exposedRecords,1003,'the native report counts the exact retained owners and two declared rule tables');
+ assert.equal(current.denominators.referencedCatalogs,1023,'the native report counts exactly the retained catalogs and two declared table catalogs');
  assert.equal(current.denominators.declaredGroups,liveManifest.groups.length);
  assert.equal(current.denominators.declaredParts,liveManifest.groups.reduce((count,group)=>count+(group.segments?.length||0),0));
  assert.equal(current.denominators.exactAliasMatches,698);

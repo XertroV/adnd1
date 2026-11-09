@@ -2,6 +2,8 @@ import {readFileSync,readdirSync,statSync} from 'node:fs';
 import {resolve} from 'node:path';
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import {assertCurrentWeaponOwnerAdditions,weaponOwnerIds} from './helpers/weapon-source-current-cohort.mjs';
+import {assertCurrentWeaponOwnerAdditions as partialWeaponOwnerAdditions} from './fixtures/weapon-source-current-cohort-partial-before.mjs';
 const root=resolve(import.meta.dirname,'..');
 const data=JSON.parse(readFileSync(resolve(root,'dist/data.json'),'utf8'));
 test('all entries have unique stable identifiers and valid source locations',()=>{
@@ -18,9 +20,23 @@ test('all entries have unique stable identifiers and valid source locations',()=
     assert.ok(page<=max,`${item.id}: page out of range`);
     if(item.book==='DMG') assert.ok(![175,239,240].includes(page),`${item.id}: cites missing or unverified page`);
    }
-   assert.ok(item.status,`${item.id}: missing verification status`);
+   if(!item.status){
+    assert.equal(collection,'rules');assert.ok(weaponOwnerIds.includes(item.id),`${item.id}: missing verification status`);
+    assert.equal(item.sourceExcerpts?.state,'source-excerpt-checked','the source excerpt state supplies the bounded status; no value review is implied');
+    const facts=[...item.table.rows,...item.table.sourceNotes,...(item.table.footnotes||[])];
+    assert.equal(facts.length,item.book==='PHB'?20:30);
+    for(const fact of facts){assert.equal(fact.sourceReference.evidenceBindings.length,1);assert.ok(fact.sourceReference.evidenceBindings.every(binding=>binding.reviewStatus==='field-target-pending'&&binding.sourceValueStatus==='not-assessed-by-field-target-review'));}
+   }
    assert.ok(!/visually verified/i.test(item.status),`${item.id}: unsupported visual verification`);
   }
+ }
+});
+test('the two native weapon table owners preserve every prior owner and the exact approved lookup values',()=>assertCurrentWeaponOwnerAdditions(data));
+test('unknown DMG source-context and excerpt metadata cannot pass through the native cohort comparison',()=>{
+ for(const key of ['sourceContext','sourceExcerpts']){
+  const mutation=structuredClone(data);mutation.rules.find(item=>item.id==='weapon-versus-armor-adjustments')[key].unapprovedNativeCanary=true;
+  assert.doesNotThrow(()=>partialWeaponOwnerAdditions(mutation),'preserved partial guard accepts the synthetic metadata mutation');
+  assert.throws(()=>assertCurrentWeaponOwnerAdditions(mutation),/complete Git-bound approved DMG/);
  }
 });
 test('XP thresholds are cumulative, integral and strictly increasing',()=>{

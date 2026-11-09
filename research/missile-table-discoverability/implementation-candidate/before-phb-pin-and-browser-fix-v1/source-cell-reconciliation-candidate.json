@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "missile-table-source-cell-reconciliation-candidate",
+  "status": "all-555-source-cells-and-39-row-targets-reconcile; independent focus/source-note review still pending",
+  "scope": "Reconciles candidate values against the independent root transcription of the complete PHB p.38/PDF39 and UA p.28/PDF29 source images. This is not a source-value publication grade, source-note review, focus approval, sourceExcerpt registration, or active mapping.",
+  "inputs": {
+    "independentSourceReview": {
+      "path": "research/missile-table-discoverability/root-source-cell-review-v1.json",
+      "sha256": "7a9866ca04dbc71138b260ede3936ae4c99a8db10b685435c7ac424f1517f7c3"
+    },
+    "candidateRecords": {
+      "path": "research/missile-table-discoverability/implementation-candidate/rules-records-candidate.json",
+      "sha256": "0b9df9d7b7ae75584bcb5f1ca1732b27c39ea055805209453fbdbb78f0f69a69"
+    },
+    "preFixNegativeControl": {
+      "path": "research/missile-table-discoverability/root-actual-candidate-cell-negative-control-v1.json",
+      "sha256": "fda09edec63001ee80bda4f06f25429c2189034a2fff5b29b3bb7dc64ae9e10c"
+    }
+  },
+  "counts": {
+    "PHB": 195,
+    "UA": 360,
+    "total": 555,
+    "sharedRows": 15,
+    "sharedCellMatches": 195,
+    "uaOnlyRows": 9
+  },
+  "byBook": {
+    "PHB": {
+      "owner": "phb-hurled-weapons-and-missiles-table",
+      "rowCount": 15,
+      "valueCellCount": 195,
+      "catalogRegionCount": 21,
+      "rowTargetCount": 15
+    },
+    "UA": {
+      "owner": "ua-hurled-weapons-and-missiles-table",
+      "rowCount": 24,
+      "valueCellCount": 360,
+      "catalogRegionCount": 31,
+      "rowTargetCount": 24
+    }
+  },
+  "mismatches": [],
+  "structuralErrors": [],
+  "negativeControl": {
+    "artifact": {
+      "path": "research/missile-table-discoverability/root-actual-candidate-cell-negative-control-v1.json",
+      "sha256": "fda09edec63001ee80bda4f06f25429c2189034a2fff5b29b3bb7dc64ae9e10c",
+      "candidateValueErrors": 30,
+      "affectedRows": 14,
+      "rowTargetFailures": 41
+    },
+    "interpretation": "The root-preserved pre-fix candidate had 30 wrong value cells and 39 invalid row-target findings. This candidate reconciliation runs against the independent source transcription, and current mutations are also covered by a test that must fail on a changed source cell or row target."
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "root-weapon-final-ci-integration-corrections",
+  "inputCommit": "9b77aeb620b1d671ff1d59b0e14790206523b327",
+  "actualBefore": {
+    "localWorkflowBlocks": 24,
+    "localBlocksPassed": 23,
+    "localFailedBlock": 23,
+    "localNodeTests": 1024,
+    "localNodePassed": 1024,
+    "ciRun": 42598872322,
+    "ciJob": 129098133267,
+    "ciNodeTests": 1024,
+    "ciNodePassed": 1023,
+    "ciNodeFailed": 1,
+    "ciCause": "new test invoked unavailable rg; separate handoff report-location failure retained"
+  },
+  "finalChanges": [
+    {
+      "path": ".github/workflows/pages.yml",
+      "sha256": "bd26ab5d003a8a51edb0f6c9dabe3af50626cec76f611850c9520d1271392450",
+      "sizeBytes": 21599
+    },
+    {
+      "path": "tests/pass8-weapon-source-history.test.mjs",
+      "sha256": "5ce53c34dde9b6f85ec0d845e13b64cec28f25fa2f7404e3d17c9984e590f0e5",
+      "sizeBytes": 12081
+    }
+  ],
+  "corrections": [
+    "Workflow requires complete fresh\u2194frozen equality for all3reports before existing refresh checker receives explicit preserved provenance paths. No producer/count/handoff change.",
+    "Historical import-boundary test enumerates every tracked dist/tools file using existing Git and scans its bytes using Node. Current rg and Git/Node hit sets match; no new CI dependency."
+  ],
+  "actualRootRetest": {
+    "command": "PATH=/usr/bin:/bin <current-node> --test --test-name-pattern=wrapper-is-confined tests/pass8-weapon-source-history.test.mjs",
+    "testsPassed": 1,
+    "failures": 0,
+    "note": "Actual command uses the full test name pattern; abbreviated display only. RestrictedPATH excludes /usr/local/bin/rg and includes system Git.",
+    "log": {
+      "path": "research/missile-table-discoverability/weapon-import-guard-no-rg-v1.log.gz",
+      "sha256": "25b7cbbb2180232bb29a2be293ab82b44fb22d86273945903b82b7e1a053e76c",
+      "sizeBytes": 178
+    },
+    "patchedWorkflowStep23ExitCode": 0,
+    "workflowLog": {
+      "path": "research/missile-table-discoverability/weapon-workflow-fixed-step23-v1.log.gz",
+      "sha256": "1b37ef6d28880ece0d1ae960cf42c4c10ab68ba37bd9a05e501bac98b6ab8dd7",
+      "sizeBytes": 88
+    }
+  },
+  "independentReview": {
+    "path": "research/source-audit-pass8-weapon-workflow-provenance-fix-independent-review-v1.json",
+    "sha256": "ac9fc70bed053206e384f308c31fbfaa77c3a59a003bd420f85c8ab1915cb199",
+    "sizeBytes": 8042
+  },
+  "preservedBytes": [
+    {
+      "path": "dist/data.json",
+      "sha256": "6643d7b58c90d982244f1d8f03b6f03a7587446ba25c402be8f9a81a8b701f8f",
+      "sizeBytes": 15536431
+    },
+    {
+      "path": "research/gaps-limitations-next-task.json",
+      "sha256": "0aca277b61551f62de147f090c4869ccbb12dc978344b429b6fbacd0249d5c44",
+      "sizeBytes": 411950
+    },
+    {
+      "path": "dist/coverage-gaps.json",
+      "sha256": "ce523f80e32499cb3af97c5309ac9d689a7debda9362fe643006b26dbff445c3",
+      "sizeBytes": 176900
+    },
+    {
+      "path": "tests/helpers/pass8-weapon-source-history.mjs",
+      "sha256": "439a7b08c83eabb80d419e79b9b2d7820dbc8c47b62f23166721eb6ab1c8c339",
+      "sizeBytes": 12239
+    },
+    {
+      "path": "tests/fixtures/pass8-weapon-source-history-v1.json.gz",
+      "sha256": "049924ffd08e0fd88839ddea635f34300bab9800a4299c39cb41cb77abafb1f8",
+      "sizeBytes": 4881
+    },
+    {
+      "path": "research/field-evidence-bindings.json",
+      "sha256": "6422b17cf193470a01da432f77ba61d61abe0e69653ceb493048616b4da448b9",
+      "sizeBytes": 1956618
+    }
+  ],
+  "limits": [
+    "No full local rerun after these two narrowly scoped edits; prior1024test result remains evidence for unchanged tests and the changed test has its own no-rg pass.",
+    "Exact final-head GitHub full workflow is required before merge.",
+    "No grade/status/source-value promotions or repaired numeric values."
+  ]
+}

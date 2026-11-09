@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "same-page-column-continuation-detector-baseline-inventory",
+  "status": "read-only detector run; source-confirmed cases and false-positive scope separately identified",
+  "baseline": {
+    "gitCommit": "236818f2026f61eb0cb696ffb0ea9ff166a491ff",
+    "runner": "tools/continuation-candidates.py",
+    "runnerSha256": "65f62668dd49892058d8fa7d03cc78c4e37c50156d68587846fa754be041c478",
+    "distDataSha256": "a4225fbd2015c5ba7d225738ec1a9bf4658f4a9a9700e340a37dde79317119f3",
+    "continuationManifestSha256": "bf7201a28a1ce9d7803f3900e2ac0fcb6af7807f474d38f1366a99e1d9ec942a",
+    "fullCandidateGzip": "research/missile-table-discoverability/continuation-candidate-full-236818f.json.gz",
+    "fullCandidateGzipSha256": "cb4950b5565caf3a4fc9918f3e6950628026708f5d3b3805b80f0166b364c4bb",
+    "fullCandidateUncompressedSha256": "c27fc64d61540a489bb77fc66a9e3ca528a2dd427b5b94634871444f3c75c",
+    "summaryJson": "research/missile-table-discoverability/continuation-candidate-summary-236818f.json",
+    "summaryJsonSha256": "73c3494098a22c6660c99c67c4a7c949c1c8a2733a981977cdb1618ea9d9068b",
+    "summaryMarkdown": "research/missile-table-discoverability/continuation-candidate-summary-236818f.md",
+    "summaryMarkdownSha256": "dffa1440fdfb138dfeef647819185fca446fa537e24f722a93daebd0d0bb36fb"
+  },
+  "exposedUniverse": {
+    "catalogFiles": 1020,
+    "uniqueCatalogRegionRows": 3409,
+    "recordToRegionBindingUses": 3412,
+    "sourcePageTuples": 230,
+    "exposedCollections": ["rules", "spells", "equipment", "matrices", "classes", "progressionExplainer"],
+    "exposedRecordCount": 1000,
+    "exposedPropertyPointers": 219119,
+    "mechanicsFieldPointers": 13946,
+    "sourcePagesByBook": {"PHB": 99, "UA": 69, "DMG": 48, "MM": 13, "MM2": 1},
+    "unknownAndOutOfFrameCases": "All exposed catalog rows and source-page tuples remain in the gzipped baseline. Frame-map absence is retained as unregistered/unknown, never coerced into a pass or excluded from candidate counts."
+  },
+  "detectorResults": {
+    "regionsWithGeometryAssessment": 3186,
+    "regionsWithMissingOrInvalidCropGeometry": 221,
+    "supplementalImageRegionsNotAssessableByThisGeometryPass": 2,
+    "regionsWithAnyBoundarySignal": 1775,
+    "wordBoxBoundaryCrossings": 686,
+    "sourcePageFlowCandidateCount": 190,
+    "elevatedOrDeclaredControlPages": 96,
+    "weakShapeOnlyPages": 103,
+    "wordBoxGeometryOnlyPages": 5,
+    "sameCatalogLeftBottomToRightTopPairs": 42,
+    "unlinkedSameCatalogPairs": 0,
+    "regionsWithNoImplementedSignal": 1411
+  },
+  "sourceFrameBridge": {
+    "path": "research/source-frame-coordinate-bridge.json",
+    "sha256": "2899f53a9cfa1741d9fd9aed3c47ada0eb3a80fc842352c8c64deb3869986318",
+    "resolutionPath": "research/source-frame-coordinate-resolution.json",
+    "resolutionSha256": "95e0497330b5dcf017f2a2864cf2b94fc81432542a349c250aeccc7d2dbf7e6a",
+    "note": "The currently reviewed bridge contains 9 frame groups across 7 physical PDF pages and 102 owner/region bindings.",
+    "registeredPages": [
+      "DMG p.75",
+      "DMG p.76",
+      "PHB p.19",
+      "PHB p.27",
+      "PHB p.28",
+      "PHB p.33",
+      "PHB p.37"
+    ],
+    "targetPagesInBridge": {
+      "DMG p.28": false,
+      "PHB p.99": false,
+      "PHB p.38": false,
+      "UA p.28": false
+    },
+    "frameStatus": "The detector's raw PDF pageRect text geometry flags target cases, but the reviewed cross-catalog frame bridge does not resolve those pages. New crop proposals retain source-PDF point bounds and remain pending frame/overlay review."
+  },
+  "reviewedCases": [
+    {
+      "book": "DMG",
+      "printedPage": 28,
+      "pdfPage": 29,
+      "detectorStatus": "new-elevated-endpoint-or-flow-candidate",
+      "candidateEndpointsPt": {
+        "bottomLeft": [8.9, 737.05, 266.26, 744.76],
+        "topRight": [294.7, 35.55, 551.95, 43.26]
+      },
+      "catalogRegionUses": 5,
+      "catalogOwners": 4,
+      "pixelDisposition": "confirmed same-page continuation from the current left-bottom citation through the top-right passage; see dmg28-continuation-proposal.json"
+    },
+    {
+      "book": "PHB",
+      "printedPage": 99,
+      "pdfPage": 100,
+      "detectorStatus": "new-weak-shape-candidate",
+      "candidateEndpointsPt": {
+        "bottomLeft": [12.54, 726.44, 271.46, 735.41],
+        "topRight": [295.24, 32.32, 551.98, 41.26]
+      },
+      "catalogRegionUses": 12,
+      "catalogOwners": 12,
+      "pixelDisposition": "independently checked as the PHB p.99 Demi-Shadow Magic continuation; positive control only, no repair proposed in this task"
+    }
+  ],
+  "linkedControlsAndFalsePositiveScope": {
+    "historicalControlsPresent": [
+      "charging-melee-dmg-66",
+      "ua-cleric-abjure-ua-37",
+      "animate-object-old-crop-right-edge",
+      "charging-dmg-page67-hypothesis"
+    ],
+    "negativeControl": "The source-reviewed DMG p.67 charge hypothesis is unrelated; the complete charge passage is on p.66 across columns. A geometry neighbor cue must not promote p.67 as a continuation.",
+    "positiveControls": "Prior known omitted-segment cases for DMG p.66 and UA p.37 remain in the report as historical source-reviewed controls.",
+    "falsePositiveLimit": "No exhaustive semantic truth set or precision/recall estimate exists. Lowercase openings and boundary punctuation can be unrelated; each candidate needs source-pixel review. Tables, equations, missing text layers, invalid geometry, folds, decoration, and nonprose layouts are not reliably assessed by this detector.",
+    "negativeSignalRule": "No emitted signal is not a semantic pass. The 1411 no-signal region assessments and any unregistered frame rows stay unresolved/unknown."
+  },
+  "limits": [
+    "The detector uses geometry and language-shape cues, not sentence meaning or correct reading order.",
+    "Its source scan covers pages bound by exposed catalogs and immediate PDF neighbors, not full-book semantic continuity.",
+    "All output is discovery-only; no candidate status is an acceptance or catalog mutation."
+  ]
+}

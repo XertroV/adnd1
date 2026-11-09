@@ -7,7 +7,7 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {createHash} from 'node:crypto';
 import {gzipSync,gunzipSync} from 'node:zlib';
-import {spawnSync} from 'node:child_process';
+import {spawnSync,execFileSync} from 'node:child_process';
 import {loadCurrentContinuationCandidateSnapshot,validateContinuationSnapshot} from '../tools/continuation-candidates-validate.mjs';
 const root=process.cwd(),sha=b=>createHash('sha256').update(b).digest('hex');
 const fixtureBytes=readFileSync('tests/fixtures/dmg-current-continuation-a5a-before.json.gz');
@@ -115,16 +115,40 @@ test('the archived PDF-only tree reproduces the omitted-alias false pass against
  const result=validateContinuationSnapshot(options);assert.equal(result.valid,false);
  assert.ok(result.errors.some(x=>x.code==='current-region-assessment-missing'&&x.detail.includes('ua-69-b8b05ef9807ad0f8')));
 });
-test('the native3420-row universe retains3396 historical rows,13XP/2Druid parts, seven replacements and nine new rows, and rejects an omitted alias',()=>{
+test('the native3474-row universe retains all3420 published rows and exactly54 weapon additions, and rejects an omitted alias',()=>{
  const full=JSON.parse(gunzipSync(readFileSync(selected.fullPath))),supplemental=full.regionAssessments.filter(r=>r.sourceKind==='supplemental-image');
+ const publishedBytes=readFileSync('research/source-audit-pass8-citation-target-crop-continuation-v1-full.json.gz');
+ assert.equal(sha(publishedBytes),'c41defa5bd4318fa71b4500673424d35548230d5bbdc061e62b44b2396d21e0e');
+ const published=JSON.parse(gunzipSync(publishedBytes)).regionAssessments;
+ assert.equal(published.length,3420);
+ const identity=row=>JSON.stringify([row.owner.collection,row.owner.itemId,row.owner.catalog,row.regionId]);
+ const publishedKeys=new Set(published.map(identity));
+ assert.equal(publishedKeys.size,3420);
+ assert.deepEqual(full.regionAssessments.filter(row=>publishedKeys.has(identity(row))),published,'every published assessment remains whole-object exact and in relative order');
+ const tableOwners=['phb-hurled-weapons-and-missiles-table','ua-hurled-weapons-and-missiles-table'];
+ const tableCatalogs=tableOwners.map(itemId=>JSON.parse(readFileSync(`dist/scans/verified/rules-${itemId}.json`)));
+ assert.deepEqual(tableCatalogs.map(catalog=>catalog.regions.length),[21,31]);
+ for(const [index,catalog]of tableCatalogs.entries())assert.deepEqual([catalog.collection,catalog.itemId],['rules',tableOwners[index]]);
+ const dmgPath='dist/scans/verified/rules-weapon-versus-armor-adjustments.json';
+ const dmgCatalog=JSON.parse(readFileSync(dmgPath));
+ const dmgBefore=JSON.parse(execFileSync('git',['show',`cc9509047746d5e27a71cb5b1e0cfcb739a688c9:${dmgPath}`],{maxBuffer:16*1024*1024}));
+ assert.deepEqual(dmgCatalog.regions.slice(0,dmgBefore.regions.length),dmgBefore.regions,'the complete legacy DMG region object remains exact');
+ assert.equal(dmgBefore.regions.length,1);assert.equal(dmgCatalog.regions.length,3);
+ assert.deepEqual(dmgCatalog.regions.slice(1).map(region=>region.id),['dmg-28-opening-8b67aa025e19eddd','dmg-28-c37135485e89a720']);
+ const added=full.regionAssessments.filter(row=>!publishedKeys.has(identity(row)));
+ const expectedAdded=[...tableCatalogs.flatMap(catalog=>catalog.regions.map(region=>JSON.stringify(['rules',catalog.itemId,`scans/verified/rules-${catalog.itemId}.json`,region.id]))),...dmgCatalog.regions.slice(1).map(region=>JSON.stringify(['rules',dmgCatalog.itemId,'scans/verified/rules-weapon-versus-armor-adjustments.json',region.id]))];
+ assert.deepEqual(added.map(identity),expectedAdded,'only the52 table regions and two declared DMG continuation regions are added');
+ assert.equal(full.regionAssessments.length,3474);
+ assert.equal(selected.summary.exposedUniverse.catalogRegionUsageCount,3474);
+ assert.equal(selected.summary.exposedUniverse.bindingRegionUsageCount,3477,'binding uses remain distinct from catalog-region rows');
+ // The exact published3420-row census remains a separate historical stage.
  const predecessorBytes=readFileSync('research/source-audit-pass8-character-reference-continuation-current-full.json.gz');
  assert.equal(sha(predecessorBytes),'43111f6a70ccfc8c6fb0216f52c01362037bc6d1166ce601068d65daa1271368');
  const predecessor=JSON.parse(gunzipSync(predecessorBytes)).regionAssessments;
  assert.equal(predecessor.length,3396,'the literal predecessor denominator is retained');
- const identity=row=>JSON.stringify([row.owner.collection,row.owner.itemId,row.owner.catalog,row.regionId]);
  const oldKeys=new Set(predecessor.map(identity));
  assert.equal(oldKeys.size,3396);
- assert.equal(new Set(full.regionAssessments.map(identity)).size,3420);
+ assert.equal(new Set(full.regionAssessments.map(identity)).size,3474);
  const phbBytes=readFileSync('research/source-audit-pass8-phb-source-continuation-v1-full.json.gz');
  assert.equal(sha(phbBytes),'b61afb70881858f2a8a63285d475fd04a6803144e877fc80adab42702de87c16');
  const phbRows=JSON.parse(gunzipSync(phbBytes)).regionAssessments;
@@ -142,10 +166,7 @@ test('the native3420-row universe retains3396 historical rows,13XP/2Druid parts,
  const expectedDruidKeys=['phb-54-druid-note-grid-ebfa1c01c47e3a9d','phb-54-druid-note-definitions-c98ac7d9d638ae45'].map(regionId=>JSON.stringify(['rules','phb-druid-mistletoe-spell-components','scans/verified/rules-phb-druid-mistletoe-spell-components.json',regionId]));
  assert.deepEqual(phbRows.filter(row=>!oldKeys.has(identity(row))).map(identity).sort(),[...expectedXpKeys,...expectedDruidKeys].sort(),'the exact13XP/2Druid historical additions remain separate');
  const addedKeys=[['equipment','phb-bullseye-lantern','scans/verified/equipment-phb-bullseye-lantern.json','pass8-dmg225-fieldmap-row-phb-bullseye-lantern'],['equipment','phb-bullseye-lantern','scans/verified/equipment-phb-bullseye-lantern.json','batch5-dmg225-encumbrance-notes'],['equipment','phb-silver-mirror','scans/verified/equipment-phb-silver-mirror.json','pass8-dmg225-fieldmap-row-phb-silver-mirror'],['equipment','phb-silver-mirror','scans/verified/equipment-phb-silver-mirror.json','batch5-dmg225-encumbrance-notes'],['equipment','phb-iron-spike','scans/verified/equipment-phb-iron-spike.json','pass8-dmg225-fieldmap-row-phb-iron-spike'],['equipment','phb-iron-spike','scans/verified/equipment-phb-iron-spike.json','batch5-dmg225-encumbrance-notes'],['equipment','phb-thieves-tools','scans/verified/equipment-phb-thieves-tools.json','pass8-dmg225-thieves-tools-exclusion-lead-in'],['equipment','phb-thieves-tools','scans/verified/equipment-phb-thieves-tools.json','pass8-dmg225-thieves-tools-exclusion-list-item'],['spells','phb-illusionist-demi-shadow-magic','scans/verified/spells-phb-illusionist-demi-shadow-magic.json','phb-99-9ef97e132b0081e5']].map(row=>JSON.stringify(row));
- assert.deepEqual(full.regionAssessments.filter(row=>!phbByKey.has(identity(row))).map(identity).sort(),addedKeys.sort());
- assert.equal(full.regionAssessments.length,3420);
- assert.equal(selected.summary.exposedUniverse.catalogRegionUsageCount,3420);
- assert.equal(selected.summary.exposedUniverse.bindingRegionUsageCount,3423,'binding uses are a separate denominator from catalog-region rows');
+ assert.deepEqual(published.filter(row=>!phbByKey.has(identity(row))).map(identity).sort(),addedKeys.sort());
  const newMatrixOwners=[
   {itemId:'dmg-cleric-druid-monk-attack-matrix',regionId:'dmg-74-ia-cleric-druid-monk',catalog:'scans/verified/matrices-dmg-cleric-druid-monk-attack-matrix.json'},
   {itemId:'dmg-magic-user-illusionist-attack-matrix',regionId:'dmg-74-ic-magic-user-illusionist',catalog:'scans/verified/matrices-dmg-magic-user-illusionist-attack-matrix.json'},
@@ -155,7 +176,7 @@ test('the native3420-row universe retains3396 historical rows,13XP/2Druid parts,
  assert.deepEqual(currentNewMatrixRows,newMatrixOwners.map(expected=>({collection:'matrices',...expected,book:'DMG',printedPage:74,pdfPage:75})).sort((a,b)=>a.itemId.localeCompare(b.itemId)));
  assert.deepEqual(supplemental.map(r=>r.regionId).sort(),['dmg-175-level-others-context-5aa02e91e35c4c28','dmg-175-party-table-context-78c4c383c38c7d10']);
  for(const row of supplemental){assert.equal(row.sourceSha256,'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7');assert.equal(row.sourceArtifactId,'dmg175-user-confirmed-supplement');assert.equal(row.pdfPage,null);}
- const options=mutant((copy,summary)=>{copy.regionAssessments=copy.regionAssessments.filter(r=>!(r.regionId==='ua-69-b8b05ef9807ad0f8'&&r.owner.itemId==='ua-illusionist-death-fog'));assert.equal(copy.regionAssessments.length,3419);assert.deepEqual(copy.regionAssessments.filter(r=>r.sourceKind==='supplemental-image'),supplemental);summary.exposedCatalogSummary.catalogRegionRows--;});
+ const options=mutant((copy,summary)=>{copy.regionAssessments=copy.regionAssessments.filter(r=>!(r.regionId==='ua-69-b8b05ef9807ad0f8'&&r.owner.itemId==='ua-illusionist-death-fog'));assert.equal(copy.regionAssessments.length,3473);assert.deepEqual(copy.regionAssessments.filter(r=>r.sourceKind==='supplemental-image'),supplemental);summary.exposedCatalogSummary.catalogRegionRows--;});
  const result=validateContinuationSnapshot(options);assert.equal(result.valid,false);
  assert.ok(result.errors.some(x=>x.code==='current-region-assessment-missing'&&x.detail.includes('ua-69-b8b05ef9807ad0f8')));
 });

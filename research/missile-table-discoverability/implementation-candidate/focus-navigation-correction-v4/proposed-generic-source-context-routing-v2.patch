@@ -1,0 +1,29 @@
+--- a/dist/app.js
++++ b/dist/app.js
+@@ -236,7 +236,7 @@
+  let groups=FirstEditionCitations.collect(item);
+  const prefix=indexOnly?(String(item.status||'').toLowerCase().includes('heading')?'Spell heading · ':'Spell index · '):'';
+  if(!groups.length)return `<span class="source-chip source-pending">Source page pending</span>`;
+- const tableContext=item.table?.sourceContext;
++ const tableContext=item.table?.sourceContext||item.sourceContext;
+  if(tableContext&&Number.isInteger(Number(tableContext.printedPage))){
+   const contextBook=bookCode(tableContext.book),contextPage=Number(tableContext.printedPage);
+   groups=[...groups].sort((a,b)=>Number(bookCode(b.book)===contextBook)-Number(bookCode(a.book)===contextBook));
+@@ -256,7 +256,7 @@
+  const book=first?.book||fallbackBook,page=Number(first?.page??fallbackPage);
+  return {initialReference:Number.isInteger(page)&&page>0?{book,page,...(resolved?{region:resolved.regionIds[0]}:{})}:undefined,targetStatus:resolved?'resolved':fieldScoped?'pending':'',activeTarget:first,targets:list};
+ }
+-function originalScansButton(item){const context=item.table?.sourceContext;return `<button class="source-chip view-original-scans" data-view-scans="${esc(item.id)}" data-scan-view="${esc(item._view||view)}"${context?` data-scan-book="${esc(context.book)}" data-scan-page="${esc(context.printedPage)}"${context.regionId?` data-scan-region="${esc(context.regionId)}"`:''}`:''}>${icon('book')}View original scans</button>`;}
++function originalScansButton(item){const context=item.table?.sourceContext||item.sourceContext;return `<button class="source-chip view-original-scans" data-view-scans="${esc(item.id)}" data-scan-view="${esc(item._view||view)}"${context?` data-scan-book="${esc(context.book)}" data-scan-page="${esc(context.printedPage)}"${context.regionId?` data-scan-region="${esc(context.regionId)}"`:''}`:''}>${icon('book')}View original scans</button>`;}
+ function noteButton(item, target = item.id, title = item.name || item.title) {
+  const count = notes.filter(n => n.target === target).length;
+  return `<button class="note-button" data-annotate="${esc(target)}" data-note-title="${esc(title)}" data-note-view="${esc(view)}">${icon('pen')}${count ? `${count} note${count === 1 ? '' : 's'}` : 'Annotate'}</button>`;
+@@ -366,6 +366,8 @@
+  const valid=target.source&&references.some(group=>bookCode(group.book)===target.source.book&&group.pages.includes(target.source.page));
+  if(valid){
+   let initialReference=target.source,activeTarget=null,targets=FirstEditionCitations.targets(item),fieldScoped=!!target.source.fieldPointer;
++  const primarySourceContext=item?.table?.sourceContext||item?.sourceContext;
++  if(!fieldScoped&&!initialReference.region&&primarySourceContext&&bookCode(primarySourceContext.book)===initialReference.book&&Number(primarySourceContext.printedPage)===initialReference.page&&typeof primarySourceContext.regionId==='string')initialReference={...initialReference,region:primarySourceContext.regionId};
+   let targetStatus=target.source.targetStatus||(target.source.region?'resolved':'');
+   if(fieldScoped){
+    const fieldOwnerItem=routeFieldOwner(target.source,routeItem);

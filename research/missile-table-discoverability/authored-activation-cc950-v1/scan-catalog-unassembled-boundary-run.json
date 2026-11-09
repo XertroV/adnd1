@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "scan-catalog-unassembled-boundary-run",
+  "command": "node --test tests/scan-catalog.test.mjs",
+  "cwd": "/workspace/adnd1-missile-table-discoverability",
+  "returnCode": 1,
+  "stdout": {
+    "path": "research/missile-table-discoverability/authored-activation-cc950-v1/scan-catalog-unassembled-boundary.stdout.log",
+    "sha256": "1b6c7558639b299be8d146d7f93c82ff17576373657a1e24a012270fab1b9f4f",
+    "bytes": 1774
+  },
+  "stderr": {
+    "path": "research/missile-table-discoverability/authored-activation-cc950-v1/scan-catalog-unassembled-boundary.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "inputs": [
+    {
+      "path": "tests/scan-catalog.test.mjs",
+      "sha256": "548af8636d75532f856d00581edf38b801fb68b2fc5f9288f47ee1798212c9c1"
+    },
+    {
+      "path": "dist/data.json",
+      "sha256": "cf6dd7ff912b91fd4525e1d48355e8c21e766e73f2118820e926a96b62f5216f"
+    },
+    {
+      "path": "citation-overrides.json",
+      "sha256": "eb5e65da23aff4715620760f6d454fd3622ef289bd77d7e8275dc82881d12714"
+    },
+    {
+      "path": "dist/scans/verified/rules-weapon-versus-armor-adjustments.json",
+      "sha256": "726bfde8c339c1c98b59d406de7448f3d716718d08aa2e4387512452db5f0d57"
+    }
+  ],
+  "expectedBoundary": "The native test reads cc950 dist/data.json where the DMG source excerpt remains at regionCount=1, while this authorized authored-source stage registers the exact reviewed 3-region catalog and deliberately does not assemble or rewrite compiled data. The isolated official catalog validator passes with the authored owner metadata."
+}

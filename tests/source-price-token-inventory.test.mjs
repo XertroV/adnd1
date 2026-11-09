@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {projectPass8PhbSourceBytes} from './helpers/pass8-citation-target-crop-history.mjs';
+import {projectPass8PhbSourceBytes} from './helpers/pass8-weapon-source-history.mjs';
 import {projectDmg175Books} from './helpers/batch6-dmg175-source-history.mjs';
 import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';

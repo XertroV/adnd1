@@ -57,11 +57,11 @@ export function auditRouteQueryContract(source){
  if(unknown.length||missing.length)throw new Error(`Citation route query contract drift: unknown=${unknown.join(',')||'(none)'} missing=${missing.join(',')||'(none)'}`);
  return {parsed,serialized};
 }
-const sourceAttributes=['data-copy-link','data-inline-source','data-scan-view','data-source-book','data-source-context','data-source-id','data-source-view','data-view-scans'];
+const sourceAttributes=['data-copy-link','data-inline-source','data-scan-view','data-scan-book','data-scan-page','data-scan-region','data-source-book','data-source-context','data-source-id','data-source-page','data-source-region','data-source-view','data-view-scans'];
 const refAttributes=['data-ref-book','data-ref-pages','data-ref-title','data-ref-status','data-ref-targets'];
 const sourceMetadataAttributes=['data-source-card'];
 export function auditSourceNavigationAttributes(source){
- const observed=[...new Set(source.match(/data-(?:copy-link|inline-source|scan-view|view-scans|source-[a-z0-9-]+|ref-[a-z0-9-]+)/g)||[])].sort();
+ const observed=[...new Set(source.match(/data-(?:copy-link|inline-source|scan-[a-z0-9-]+|view-scans|source-[a-z0-9-]+|ref-[a-z0-9-]+)/g)||[])].sort();
  const allowed=new Set([...sourceAttributes,...refAttributes,...sourceMetadataAttributes]);
  const unknown=observed.filter(name=>!allowed.has(name));
  if(unknown.length)throw new Error(`Unclassified citation navigation attribute(s): ${unknown.join(', ')}`);

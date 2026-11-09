@@ -24,6 +24,7 @@ Named units overlap by section, table, heading and procedure; they are not addit
 - **source-frame-current-guard**: merged-and-live-independently-verified — [PR](https://github.com/XertroV/adnd1/pull/44), Version 22, merge `236818f2026f61eb0cb696ffb0ea9ff166a491ff`.
 - **continuation-source-frame-consumer**: merged-and-live-independently-verified — [PR](https://github.com/XertroV/adnd1/pull/45), Version 25, merge `ae7f02c6a5aac9ac8da1f7bc5cf5152e422fcd58`.
 - **phb-spell-guidance-class-mechanics-source-overview**: merged-and-live-independently-verified — [PR](https://github.com/XertroV/adnd1/pull/46), Version 25, merge `4aa977788085f67a28a24d40965edf987bc7242b`.
+- **dmg225-locations-and-six-replacement-crop-groups**: merged-and-live-independently-verified — [PR](https://github.com/XertroV/adnd1/pull/47), Version 26, merge `cc9509047746d5e27a71cb5b1e0cfcb739a688c9`.
 
 The following book findings and disposition counts describe the frozen baseline. They preserve before evidence; use the repair batches above for current publication status.
 

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "generic-source-context-routing-code-proposal",
+  "status": "Proposed only; current application code is unchanged pending root code review.",
+  "baseCommit": "4aa977788085f67a28a24d40965edf987bc7242b",
+  "preimage": {
+    "path": "dist/app.js",
+    "sha256": "ed4ccaa3f98e4161bda41f897198a5d4f3f8a8a7d8d300a180ced4568f64532f"
+  },
+  "patch": {
+    "path": "research/missile-table-discoverability/implementation-candidate/focus-navigation-correction-v4/proposed-generic-source-context-routing.patch",
+    "sha256": "655dfdcf803b71337a106aa037a1f1b1690b4d52b1687647c487f6b1c1768a1a"
+  },
+  "change": [
+    "Use item.sourceContext as a fallback beside item.table.sourceContext for source chips and View original scans.",
+    "For a valid direct source=BOOK:PAGE route without an explicit region, select the owner record primary sourceContext region only when its book/page exactly match the requested citation.",
+    "Explicit region permalinks remain authoritative and bypass the fallback."
+  ],
+  "candidateOwnerMetadata": {
+    "owner": "rules:weapon-versus-armor-adjustments",
+    "sourceContext": {
+      "book": "DMG",
+      "printedPage": 28,
+      "regionId": "dmg-28-opening-8b67aa025e19eddd"
+    },
+    "sourceExcerpts": {
+      "catalog": "scans/verified/rules-weapon-versus-armor-adjustments.json",
+      "regionCount": 3
+    }
+  },
+  "expectedSourceSegments": [
+    "dmg-28-opening-8b67aa025e19eddd",
+    "dmg-28-c37135485e89a720"
+  ],
+  "legacyRegionPreserved": "dmg-28-8b67aa025e19eddd remains available only when explicitly selected; this fallback does not remove or reinterpret it.",
+  "reviewBoundary": "Do not apply this patch or activate the owner metadata until root reviews the exact code delta. After review, test header chip, Original Scans, bare page permalink, explicit legacy region permalink, opening+continuation ordering, and copy/reload/history behavior."
+}

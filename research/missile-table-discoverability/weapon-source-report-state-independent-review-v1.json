@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-weapon-source-report-state-review",
+  "decision": "accepted narrow current report-state correction; release and whole-suite integration remain separate",
+  "beforeCommit": "cc9509047746d5e27a71cb5b1e0cfcb739a688c9",
+  "sourceInputCommit": "9ee2550e9793e6aae9a7ac8fd71525704894950f",
+  "files": [
+    {
+      "path": "tools/source-report-consistency-audit.mjs",
+      "sha256": "b96d02f95ebd3b6fc83f6e9ea0ed1e39d45021949c00ef86f4b72412c2dffafa",
+      "sizeBytes": 16707
+    },
+    {
+      "path": "tools/refresh-gaps-handoff.mjs",
+      "sha256": "dfbd4138da76c600fde9161c0c1f98efe5206a013c70916b85c60feb0aa0fe86",
+      "sizeBytes": 83502
+    },
+    {
+      "path": "tools/coverage-gaps.mjs",
+      "sha256": "2ea32bc116cf21c5acfb9cd81a8d6e5a637ea3adcb49f5481c84de3c7274317d",
+      "sizeBytes": 63818
+    },
+    {
+      "path": "tests/source-report-consistency-audit.test.mjs",
+      "sha256": "506e11ec6172e7b6aa2cfa89352b5fc2149591119ed06f5f73fe4405b647fe46",
+      "sizeBytes": 20419
+    },
+    {
+      "path": "tests/fixtures/weapon-source-report-consistency-before.mjs",
+      "sha256": "8f10a0dfa96047f19c53deb3283505a42954092323c2bbf698d8e8091e8e25f5",
+      "sizeBytes": 15047
+    },
+    {
+      "path": "tests/fixtures/weapon-source-report-pending-region-before-v1.json.gz",
+      "sha256": "2ec549ee3ca68007a624a3127db4decb23684aec59a22cbc4a05493af231d104",
+      "sizeBytes": 267934
+    }
+  ],
+  "actualCurrentCensus": {
+    "bindingRows": 4681,
+    "targetStates": {
+      "empty-region-target": 3586,
+      "field-target-resolved": 1043,
+      "record-target-resolved": 2,
+      "region-resolved-field-review-pending": 50
+    },
+    "reviewStatusCounts": {
+      "field-target-pending": 3359,
+      "field-target-reviewed": 757,
+      "region-verified": 288,
+      "source-row-transcribed-bounds-provisional": 93,
+      "source-row-value-verified-region-pending": 182,
+      "source-excerpt-only": 2
+    },
+    "fieldTargetReviewed": 757,
+    "fieldTargetNotReviewed": 3924,
+    "pendingRegionStatus": "field-target-pending",
+    "sourceDataRawSha256": "6643d7b58c90d982244f1d8f03b6f03a7587446ba25c402be8f9a81a8b701f8f"
+  },
+  "independentControls": {
+    "scriptSha256": "0e6dc7415077d29c0214a6c91a92758dd5ca3ba2081753dba1a3a57d2617f80a",
+    "checks": 17,
+    "failed": 0,
+    "results": [
+      {
+        "name": "preserved failing helper is the complete exact cc950904 tool",
+        "result": "pass"
+      },
+      {
+        "name": "preserved actual four-state census equals every current report evidence-binding row and summary",
+        "result": "pass"
+      },
+      {
+        "name": "captured data bytes are exact source commit 9ee2550",
+        "result": "pass"
+      },
+      {
+        "name": "original helper reproduces the actual unknown-state failure",
+        "result": "pass"
+      },
+      {
+        "name": "all 4681 bindings partition into distinct empty, field, record and pending-region targets",
+        "result": "pass"
+      },
+      {
+        "name": "the new metrics read cannot change source values, grades or review status",
+        "result": "pass"
+      },
+      {
+        "name": "zero new-category wording stays byte-identical to the exact old helper",
+        "result": "pass"
+      },
+      {
+        "name": "complete explicit current four-axis consumer metadata is valid in a pure object replay",
+        "result": "pass"
+      },
+      {
+        "name": "nonzero pending-region axis cannot disappear from live handoff",
+        "result": "pass"
+      },
+      {
+        "name": "nonzero pending-region axis cannot disappear from public projection",
+        "result": "pass"
+      },
+      {
+        "name": "incorrect pending-region count is detected independently on both public surfaces",
+        "result": "pass"
+      },
+      {
+        "name": "a pending-region binding cannot be promoted to field-target-reviewed",
+        "result": "pass"
+      },
+      {
+        "name": "unknown target state stays rejected even with correctly recomputed totals",
+        "result": "pass"
+      },
+      {
+        "name": "a removed row cannot be hidden by existing denominator metadata",
+        "result": "pass"
+      },
+      {
+        "name": "a declared count cannot override full row census",
+        "result": "pass"
+      },
+      {
+        "name": "hash-current production queue builder carries separate pending-region count 50",
+        "result": "pass"
+      },
+      {
+        "name": "read-only full production handoff candidate and public projection carry separate count 50",
+        "result": "pass"
+      }
+    ]
+  },
+  "focusedTests": {
+    "command": "node --test tests/source-report-consistency-audit.test.mjs",
+    "tests": 14,
+    "passed": 14,
+    "failed": 0,
+    "skipped": 0
+  },
+  "codeReview": [
+    "Read the complete three-tool diff and both new tests. The producer already emits region-resolved-field-review-pending; this adds a separately named reporting count without modifying the producer or any field/source grade.",
+    "The pending-region state requires field-target-pending, does not enter resolvedRegionTargets or fieldTargetReviewed, and remains included in fieldTargetNotReviewed. Unknown target states and impossible reviewed-but-unresolved combinations still reject.",
+    "Nonzero pending-region counts are mandatory in both live handoff and public coverage. Wrong values produce separate findings on both surfaces. The exact zero-state narrative is unchanged.",
+    "The refresh builder copies the recomputed count only from a hash-current systemic report and clears it when that report is unavailable. The public builder copies that distinct integer axis from the handoff."
+  ],
+  "limits": [
+    "The complete actual 4681-row census is preserved and replayed; semantic correctness, source values, grades and field highlights are not approved by this reporting change.",
+    "Pure-object analyzeReportConsistency controls use the captured historical argument envelope with the complete current evidence-binding census; they do not claim current filesystem identity acceptance.",
+    "The production refresh and coverage calls build candidates in memory and write no generated metadata. Root owns actual metadata assembly and final release checks.",
+    "No historical adapter, prior sealed fixture, active source input or grade was edited in this review."
+  ]
+}

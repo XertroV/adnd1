@@ -6,6 +6,7 @@ import {mkdtempSync, readFileSync, rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {gunzipSync} from 'node:zlib';
+import {weaponOwnerIds} from './helpers/weapon-source-current-cohort.mjs';
 
 test('current label mode audits the present collector without claiming a fresh rendered sweep', () => {
   const outputDir = mkdtempSync(join(tmpdir(), 'source-target-label-audit-'));
@@ -16,14 +17,16 @@ test('current label mode audits the present collector without claiming a fresh r
     const hash = createHash('sha256').update(compressed).digest('hex');
     assert.equal(hash, summary.fullReport.sha256);
     const report = JSON.parse(gunzipSync(compressed).toString('utf8'));
-    assert.equal(report.denominator.contentRecords, 1001);
-    assert.equal(report.denominator.routeRecords, 1001);
-    assert.equal(report.denominator.primaryRouteRecords, 996);
+    assert.equal(report.denominator.contentRecords, 1003);
+    assert.equal(report.denominator.routeRecords, 1003);
+    assert.equal(report.denominator.primaryRouteRecords, 998);
     assert.equal(report.denominator.auxiliaryRouteRecords, 5);
     assert.ok(report.entries.some(row=>row.owner?.collection==='rules'&&row.owner?.itemId==='phb-druid-mistletoe-spell-components'),'current collector includes the exact new Druid owner');
     assert.equal(report.denominator.collections.matrices, 4);
     assert.equal(report.denominator.collections.progressionExplainer, 1);
     assert.equal(report.denominator.collectorTargets, report.entries.length);
+    assert.equal(report.denominator.collectorTargets,4681);
+    for(const [index,itemId]of weaponOwnerIds.entries())assert.equal(report.entries.filter(row=>row.owner?.collection==='rules'&&row.owner.itemId===itemId).length,[43,63][index]);
     for (const itemId of [
       'dmg-cleric-druid-monk-attack-matrix',
       'dmg-magic-user-illusionist-attack-matrix',

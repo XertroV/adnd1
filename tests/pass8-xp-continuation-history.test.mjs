@@ -12,7 +12,7 @@ import {
   projectPass8CharacterReferenceBytes as projectCharacterBytes,
 } from './helpers/pass8-xp-continuation-history.mjs';
 // Explicit PHB outer input stage; all original XP projectors and negative assertions remain closed.
-import {projectPass8PhbSourceBytes,readBeforePass8XpContinuationFile as readBefore,readBeforePass8CharacterReferenceFile as readBeforeCharacter} from './helpers/pass8-citation-target-crop-history.mjs';
+import {projectPass8PhbSourceBytes,readBeforePass8XpContinuationFile as readBefore,readBeforePass8CharacterReferenceFile as readBeforeCharacter} from './helpers/pass8-weapon-source-history.mjs';
 
 const root = new URL('../', import.meta.url), sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const liveBytes = path => readFileSync(new URL(path, root));
