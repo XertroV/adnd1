@@ -1,0 +1,1385 @@
+{
+  "schemaVersion": 1,
+  "title": "UA class-ability bounded content repair proposal",
+  "status": "Corrected author proposal; independent review pending; research-only and not activated.",
+  "branch": {
+    "name": "codex/ua-class-ability-audit",
+    "baseCommit": "ad57b84226cc89446e60d0b7bbaebb379aedc16a",
+    "worktree": "/workspace/adnd1-ua-class-ability-audit"
+  },
+  "source": {
+    "path": "/workspace/vault-audit-private/sources/Unearthed Arcana.pdf",
+    "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+    "edition": "TSR 2010; edition metadata not independently determined",
+    "printedPages": [
+      12,
+      26
+    ],
+    "pdfPages": [
+      13,
+      27
+    ]
+  },
+  "inputHashes": {
+    "classesBefore": "46c5ad4c404eeb54a75af40e48e2eb8d8a5b952bf134accc7bf7cf1a6fea069e",
+    "classesAfter": "cc4c07803496ad99731640a7c6491e0ebeee6c8519c3480159ffb81897698242",
+    "rulesBefore": "78afec70d0380db08d7e750a8ce1fcec16a8167aaa4107be8af5351a474bfc5d",
+    "distDataBefore": "a4225fbd2015c5ba7d225738ec1a9bf4658f4a9a9700e340a37dde79317119f3",
+    "distSearchBefore": "5e225a2518ae6e50dfcefb668f3587f5cf26aae7353fe0f168e246f1c7657cf3",
+    "distAppBefore": "5913dd09673455247367b797d7ae8b7d1375df1fb98c05db0135ce5fd502630e",
+    "sourceCompletenessBefore": "d19143fb4686e6f7069492bf391e2c9884a0cf5d80a8e1b17d72ec9c5198953f",
+    "correctionBeforeClasses": "e663a20ec50a066dae4eb4356ff4ca85e7d344187193410788b96af86f60a4c0",
+    "correctionBeforeSnapshot": "29ecd74aa9fd65d989567ae8dbe29e4d7f834575d9d7efaafc0cd6b29d8c3ffd"
+  },
+  "inventoryScope": {
+    "directUAPrimaryRecords": [
+      "ua-cavalier",
+      "ua-paladin",
+      "ua-druid",
+      "ua-barbarian",
+      "ua-thief-acrobat"
+    ],
+    "recordsWithUASourceCoverage": [
+      "ua-cavalier",
+      "ua-paladin",
+      "ua-druid",
+      "ua-barbarian",
+      "ua-thief-acrobat",
+      "fighter",
+      "ranger"
+    ],
+    "namedUASourceUnits": [
+      "ua-cavalier-class",
+      "ua-paladin-class",
+      "ua-druid-class",
+      "ua-fighter-and-barbarian",
+      "ua-ranger-class",
+      "ua-thief-acrobat-class"
+    ],
+    "supportingOverview": "UA printed pp.13–14, distinct from six named source units",
+    "beforeClassesJson": "The seven class owner objects and guidance prefixes are recorded below; current dist/data.json class guidance matched classes.json before this change.",
+    "excludedOrUnassessed": [
+      "UA pp.10 and earlier racial permission/glyph questions",
+      "Bard appendix p.117",
+      "whole-book completeness",
+      "DM rulings/ambiguous print",
+      "UA p.22 Paladin level-12 attack-rate overlap",
+      "worked-example paragraph after the UA p.25 Table IV note"
+    ]
+  },
+  "sourcePixelAndCropReview": {
+    "baselinePath": "research/source-audit-pass8-ua-class-content-baseline-v3.json",
+    "baselineSha256": "97f57790cabfca9550cfd1be9dcbdb81588c981b6e06a068a4e8cfb38edab36f",
+    "toolVersions": "PyMuPDF 1.26.6; PIL 13.0.0",
+    "recipe": "For each cited source page: page.get_pixmap(matrix=fitz.Matrix(3,3), alpha=False), create RGB PIL image from samples, then crop recorded PDF point bounds multiplied by 3. Independent RGB pixel-array replay matched all ten final candidate PNGs. Each no-label, crop-relative focus overlay was separately viewed against its source crop. Full pages remain private.",
+    "crops": [
+      {
+        "file": "ua-p13-class-permission-table-context.png",
+        "sha256": "162aadb9806dbffaeb78eb1ef640421fb988542bdc8b7abf19d275f393c2bd54",
+        "widthHeight": "1656x1647",
+        "pdfPointBounds": [
+          10,
+          200,
+          562,
+          749
+        ],
+        "focusIds": [
+          "complete-table",
+          "table-notes"
+        ],
+        "sourcePageRasterSha256": "9d264e0d921bd60984f0a77809985f553474584e50e03c0eb4879217d3be2dbc",
+        "overlaySha256": "35530b48fba30a1d0c38f02c56425927df38b577a4e76220069025fca91c4ae4"
+      },
+      {
+        "file": "ua-p22-thieves-table-ii-context.png",
+        "sha256": "c7a7da233fa69a88afac9f9d3750e621b93f3b0a6d445ac6f075a60dd5cafbd3",
+        "widthHeight": "855x729",
+        "pdfPointBounds": [
+          295,
+          510,
+          580,
+          753
+        ],
+        "focusIds": [
+          "complete-table",
+          "footnotes"
+        ],
+        "sourcePageRasterSha256": "51fd4ec8bc87983bb7c9c9cbb3aa044ffadcd04a378aa7b5ac9f4ecd835407d4",
+        "overlaySha256": "31ab7194c49a508e771709d97062aeb589e42d99a934ab2ce48fecee0b5dd8f3"
+      },
+      {
+        "file": "ua-p25-acrobat-adjustments-ii-iii.png",
+        "sha256": "ef72405e946238f1148455e258b330d4102d519dca292865433a28dad460a0eb",
+        "widthHeight": "816x855",
+        "pdfPointBounds": [
+          10,
+          158,
+          282,
+          443
+        ],
+        "focusIds": [
+          "strength-table",
+          "strength-note",
+          "dexterity-table",
+          "dexterity-note"
+        ],
+        "sourcePageRasterSha256": "53fde200c33af6b016c628b4c0ad0534401784b405845453540412215b5cc016",
+        "overlaySha256": "bcce0c8e550a603c703ce2190a686acdbf92d85ca09783b1fc31055f8bda6244"
+      },
+      {
+        "file": "ua-p25-cavalier-starting-equipment.png",
+        "sha256": "9d9f21c5aad481687683edffab944c671ea28fcbfb7066e09b8881df6fe18109",
+        "widthHeight": "840x831",
+        "pdfPointBounds": [
+          290,
+          475,
+          570,
+          752
+        ],
+        "focusIds": [
+          "complete-passage"
+        ],
+        "sourcePageRasterSha256": "53fde200c33af6b016c628b4c0ad0534401784b405845453540412215b5cc016",
+        "overlaySha256": "8e6f0a4170e384419386c18c3b093f77028319a976bb047c040c3fcf6a4ec71c"
+      },
+      {
+        "file": "ua-p25-encumbrance-procedure.png",
+        "sha256": "30fb64c406948e1231f2765cb2a7e039e311d47d4496e02f4a7014d9fca861fa",
+        "widthHeight": "855x633",
+        "pdfPointBounds": [
+          285,
+          131,
+          570,
+          342
+        ],
+        "focusIds": [
+          "complete-two-paragraph-procedure"
+        ],
+        "sourcePageRasterSha256": "53fde200c33af6b016c628b4c0ad0534401784b405845453540412215b5cc016",
+        "overlaySha256": "4f69badf7089f03c7f446a0ccb72ead0664f6374dd4c33e60035803876837104"
+      },
+      {
+        "file": "ua-p25-table-iv-context.png",
+        "sha256": "b87dc436eddb62695959b7f72d722a948ea91546650e68029b9f539d685956cc",
+        "widthHeight": "810x795",
+        "pdfPointBounds": [
+          10,
+          438,
+          280,
+          703
+        ],
+        "focusIds": [
+          "complete-table",
+          "body-associated-definition"
+        ],
+        "sourcePageRasterSha256": "53fde200c33af6b016c628b4c0ad0534401784b405845453540412215b5cc016",
+        "overlaySha256": "06cea216390708b4474f64ba05c83c68caa48ec1f51c537c616dab904bed578c"
+      },
+      {
+        "file": "ua-p26-weapon-proficiency-table.png",
+        "sha256": "43f5a6c55a57889e573062cd1b109cb3a432066db52048c24eadff54ff3ee20c",
+        "widthHeight": "819x792",
+        "pdfPointBounds": [
+          12,
+          485,
+          285,
+          749
+        ],
+        "focusIds": [
+          "complete-table",
+          "star-footnote"
+        ],
+        "sourcePageRasterSha256": "d213d208574ad1deaa7e5d827b5c24166eee077a7f7d85db25324ccfbec429b1",
+        "overlaySha256": "04279fc6022c9ec74d092eb89ea83a515bafc6da25b4eb5e4e89ed508149f0c0"
+      },
+      {
+        "file": "ua-p21-ranger-tracking-outdoor.png",
+        "sha256": "f167614b254d0232e4500aefe2a40aa668c30f40b615ab6324807b35dc4c4703",
+        "widthHeight": "840x906",
+        "pdfPointBounds": [
+          5,
+          448,
+          285,
+          750
+        ],
+        "focusIds": [
+          "outdoor-tracking-left-column"
+        ],
+        "sourcePageRasterSha256": "f140b3a2d4aa13a44566429a0c83573553c59e9f2a9a41f0b31a8908a02bc300",
+        "overlaySha256": "3e661889c43d1b3eca9cded56b3da2facf9e12159bf8d067f760b8cc7cb484f4"
+      },
+      {
+        "file": "ua-p21-ranger-tracking-indoor-and-movement.png",
+        "sha256": "65597abb9ce51a72e19dce40a54b0909863a2ad4c3534f77cc981186ffe62ede",
+        "widthHeight": "825x1998",
+        "pdfPointBounds": [
+          290,
+          24,
+          565,
+          690
+        ],
+        "focusIds": [
+          "outdoor-continuation-indoor-and-movement"
+        ],
+        "sourcePageRasterSha256": "f140b3a2d4aa13a44566429a0c83573553c59e9f2a9a41f0b31a8908a02bc300",
+        "overlaySha256": "020ab6fd7519c8edf49a43630b567c73648b8b51e97f06cf15ecf6c4cfe2309c"
+      },
+      {
+        "file": "ua-p22-ranger-track-identification.png",
+        "sha256": "5558f683c66e58601f65096a4e9b01bfa43f110d5283d36e37e707086c914778",
+        "widthHeight": "831x1119",
+        "pdfPointBounds": [
+          15,
+          27,
+          292,
+          400
+        ],
+        "focusIds": [
+          "track-identification-table"
+        ],
+        "sourcePageRasterSha256": "51fd4ec8bc87983bb7c9c9cbb3aa044ffadcd04a378aa7b5ac9f4ecd835407d4",
+        "overlaySha256": "227d1aa4b6317d820f7e8b035b933e49f56fdd7b89e1636d9454d52586c15aa5"
+      }
+    ],
+    "additionalPagesViewed": [
+      "UA print p.15 / PDF p.16 actual source pixels: two zero-level Cavalier rows and note inspected; raster SHA 31299caa63d3379ab6c1fdbe720c487efebdbbbcc57b7ab91da5b9ed1b292463.",
+      "UA print p.17 / PDF p.18 actual source pixels: level-14 Great Druid row inspected; raster SHA 859c45bf97f26a60daf22c44b81221a7bc69ba34605007122c3c7c0932cb94df.",
+      "UA print p.18 / PDF p.19 actual source pixels: specialization/setup rules, 3×8 rate table, and Barbarian weapon starts inspected; raster SHA f1fd6a1e5456725817cf462a324e3221b214655391151fc13d326e12e7bcc2a9.",
+      "UA print pp.19–20 / PDF pp.20–21 actual source pixels: Barbarian primary, secondary and tertiary abilities and locale qualifiers inspected; raster SHAs df0bf4fa21b3952ab7d556cd8a3a22fc6d8338ce9fb73e4a6f8b62883ad986aa and 371fa7c00b617d7f52a19bc7cd964940ac0bbb5aef7e2d384158d0e177405c7b."
+    ]
+  },
+  "beforeSearchSurface": {
+    "searchImplementation": "dist/search.js prepare/score over class docs from dist/data.json",
+    "queries": [
+      {
+        "query": "barbarian paddled rowed small craft",
+        "classHits": [],
+        "assessment": "unfindable in current public class search"
+      },
+      {
+        "query": "barbarian first aid",
+        "classHits": [],
+        "assessment": "unfindable in current public class search"
+      },
+      {
+        "query": "fighter specialized bow two slots",
+        "classHits": [],
+        "assessment": "unfindable synopsis; existing specialization rate table is a separate positive"
+      },
+      {
+        "query": "ua class armor weapons table",
+        "classHits": [
+          "fighter",
+          "ranger",
+          "ua-barbarian"
+        ],
+        "assessment": "partial prose hits; complete Table II remains absent as typed data"
+      },
+      {
+        "query": "thief acrobat strength adjustment high jump",
+        "classHits": [
+          "ua-thief-acrobat"
+        ],
+        "assessment": "general acrobat guidance findable; numeric Tables II/III absent"
+      },
+      {
+        "query": "acrobat 450 gp",
+        "classHits": [],
+        "assessment": "Table IV unfindable"
+      },
+      {
+        "query": "cavalier starting equipment station package",
+        "classHits": [],
+        "assessment": "six starting packages unfindable"
+      },
+      {
+        "query": "weapon proficiency ranger initial weapons",
+        "classHits": [],
+        "assessment": "weapon-proficiency lookup unfindable"
+      },
+      {
+        "query": "ranger trail age precipitation",
+        "classHits": [
+          "ranger"
+        ],
+        "assessment": "partial level-change prose; full modifier/movement procedure absent"
+      },
+      {
+        "query": "ranger movement while tracking",
+        "classHits": [],
+        "assessment": "movement rates unfindable"
+      },
+      {
+        "query": "ranger common woodland identification",
+        "classHits": [
+          "ranger"
+        ],
+        "assessment": "per-level track identification is already findable; no duplicate proposed"
+      }
+    ],
+    "positiveKnownFindings": [
+      "rules.json id ua-specialization has 3 level rows × 8 weapon categories = 24 cells and is already findable; do not duplicate it.",
+      "Ranger UA p.21–22 per-level base chances and ten track-identification levels already exist in classes/ranger.levelChanges and are searchable.",
+      "The UA p.13 table and p.25/26 candidates are not fully represented in class guidance/table data before this edit."
+    ]
+  },
+  "proposedGuidanceChanges": {
+    "file": "classes.json",
+    "beforeSha256": "46c5ad4c404eeb54a75af40e48e2eb8d8a5b952bf134accc7bf7cf1a6fea069e",
+    "afterSha256": "cc4c07803496ad99731640a7c6491e0ebeee6c8519c3480159ffb81897698242",
+    "changedProperty": "guidance array only",
+    "ownerCount": 7,
+    "appendCount": 21,
+    "appendOnly": true,
+    "owners": [
+      {
+        "ownerId": "ua-cavalier",
+        "collection": "classes",
+        "recordBook": "UA",
+        "recordIdentityPreserved": true,
+        "sourceAuthority": "UA",
+        "guidancePointer": "/classes/ua-cavalier/guidance",
+        "beforeGuidanceCount": 4,
+        "beforeGuidance": [
+          "Requires Strength, Dexterity, Constitution 15 and Intelligence, Wisdom 10; confirm service, social station, sponsorship, and any zero-level stages.",
+          "At each higher level, increase the Strength, Dexterity, and Constitution percentiles by the specified 2d10 procedure.",
+          "Below the self-training threshold, train with a cavalier of at least level 4 or two levels higher, whichever is greater.",
+          "After reaching level 6, the normal regimen suffices for training; mount and weapon abilities continue to change."
+        ],
+        "appendedGuidance": [
+          "UA p. 13 Table II lists the cavalier for any armor, shield, and weapons, subject to note 1’s social-station limits on armor and arms; note 2 bars oil in personal combat but permits siege use, and poison is listed only if evil. Use the six social-station packages on p. 25; each horse is supplied with station-appropriate tack, harness, saddle, and saddlebags, and a cavalier below Upper Class begins as a 0-level Horseman to be taken in by a good family and esquired.",
+          "UA p. 26 lists the cavalier weapon-proficiency row as 3*, a −3 nonproficiency penalty, and one added proficiency per two levels. Its star note specifies 0-level Horseman/Lancer and 1st-level Armiger counts and restricts Cavalier weapon choices."
+        ],
+        "appendOnly": true
+      },
+      {
+        "ownerId": "ua-paladin",
+        "collection": "classes",
+        "recordBook": "UA",
+        "recordIdentityPreserved": true,
+        "sourceAuthority": "UA",
+        "guidancePointer": "/classes/ua-paladin/guidance",
+        "beforeGuidanceCount": 5,
+        "beforeGuidance": [
+          "Meet cavalier requirements plus Wisdom 13 and Charisma 17; remain lawful good.",
+          "Correct social station or noble sponsorship is required; sponsorship can require both zero-level stages.",
+          "UA removes the prime requisite and its exceptional-ability XP bonus.",
+          "Apply cavalier weapon, parry, horsemanship, fear, saving-throw, and ability-improvement features, including Charisma improvement.",
+          "Source conflict in the ordinary thrusting/striking weapon attack table: UA p.22 puts level 12 in both 7–12 at 3 attacks/2 rounds and 12–18 at 2/round. The stated under-one-HD/normal-human melee case and fighter/ranger specialization use separate rules. PHB p.25 instead begins 2/round at 13th. Preserve the internal UA overlap without choosing a universal level-12 rate."
+        ],
+        "appendedGuidance": [
+          "UA p. 13 Table II lists any armor, shield, and weapons subject to note 1’s social-station limits; note 2 bars oil in personal combat but permits siege use, and poison is never permitted.",
+          "UA p. 26 shows a starred Paladin weapon-proficiency entry (3*, −3, one added proficiency per two levels). The star note defines zero-level Cavalier grades and names Cavalier/Ranger weapon-choice restrictions, but does not explain the Paladin star; keep that meaning unresolved."
+        ],
+        "appendOnly": true
+      },
+      {
+        "ownerId": "ua-druid",
+        "collection": "classes",
+        "recordBook": "UA",
+        "recordIdentityPreserved": true,
+        "sourceAuthority": "UA",
+        "guidancePointer": "/classes/ua-druid/guidance",
+        "beforeGuidanceCount": 4,
+        "beforeGuidance": [
+          "The Grand Druid is level 15, with at least 3,000,001 XP; the office carries special responsibilities and benefits.",
+          "After at least 3,500,001 XP, a Grand Druid may seek a successor and abdicate.",
+          "On entering the level-16 Hierophant path, the XP total resets to 1 and office-related bonus spells are relinquished.",
+          "Use the separate Hierophant table and planar abilities; do not extrapolate the PHB druid table."
+        ],
+        "appendedGuidance": [
+          "UA p. 13 Table II restricts the Druid to leather or padded armor, a wooden shield, and the listed weapons (aklys, club, dagger, dart, garrot, hammer, lasso, sap, sling, scimitar, spear, staff, staff sling, sword (khopesh), and whip); oil is permitted and poison is the DM’s option.",
+          "UA p. 26 lists the Druid weapon-proficiency row as 2 initial weapons, a −4 nonproficiency penalty, and one added proficiency per five levels."
+        ],
+        "appendOnly": true
+      },
+      {
+        "ownerId": "ua-barbarian",
+        "collection": "classes",
+        "recordBook": "UA",
+        "recordIdentityPreserved": true,
+        "sourceAuthority": "UA",
+        "guidancePointer": "/classes/ua-barbarian/guidance",
+        "beforeGuidanceCount": 4,
+        "beforeGuidance": [
+          "Human and non-lawful: Strength 15, Dexterity 14, Constitution 15; Wisdom may not exceed 16.",
+          "No prime requisite grants bonus XP, and a player barbarian cannot be a two-class character.",
+          "Update class skills and the level-based ability to harm creatures otherwise requiring magical weapons.",
+          "After level 8, gain 4 hp per level instead of another hit die; check changing restrictions on magic use."
+        ],
+        "appendedGuidance": [
+          "UA p. 13 Table II permits any armor, shield, and weapons, but note 3 limits the class Dexterity armor benefit in bulky or fairly bulky armor.",
+          "UA p. 18 requires the barbarian’s initial weapon proficiencies to include hand axe, knife, and spear; other weapons based on the native area may be chosen by the DM. The p. 26 weapon table lists six initial proficiencies, a −1 nonproficiency penalty, and one added proficiency per two levels; these weapon slots are separate from the barbarian’s nonweapon abilities.",
+          "UA pp. 19–20 group barbarian abilities as eight primary abilities (climbing, hiding, surprise, back protection, leaping/springing, detecting illusion, detecting magic, leadership), four secondary abilities (survival, first aid, outdoor craft, tracking), and one or more locale- or culture-selected tertiary skills. All four secondary abilities are possessed, but are generally limited in unfamiliar areas until about a month of continuous exposure; the DM determines applicable tertiary skills. Paddled and rowed small craft are separate tertiary options.",
+          "UA p. 20 names eight locale- or culture-selected tertiary skill options: animal handling, horsemanship, long-distance signalling, running, small craft (paddled), small craft (rowed), sound imitation, and snare building. The DM determines which apply to the campaign; a barbarian has one or more."
+        ],
+        "appendOnly": true
+      },
+      {
+        "ownerId": "ua-thief-acrobat",
+        "collection": "classes",
+        "recordBook": "UA",
+        "recordIdentityPreserved": true,
+        "sourceAuthority": "UA",
+        "guidancePointer": "/classes/ua-thief-acrobat/guidance",
+        "beforeGuidanceCount": 4,
+        "beforeGuidance": [
+          "Requires Strength 15 and Dexterity 16, and five completed thief levels.",
+          "On qualifying for level 6, train for six weeks under a thief-acrobat of at least level 10.",
+          "Pick pockets, opening locks, and finding/removing traps stop improving at their level-5 ability; magical writing is never gained.",
+          "Use the specialist acrobatics tables and explicit climbing progression. UA pp.23 and 25 describe stopped, retained and generally inherited thief abilities; later progression of the four retained skills remains a campaign interpretation."
+        ],
+        "appendedGuidance": [
+          "UA p. 13 Table II lists the Acrobat’s armor as “as thief,” no shield, and weapons “as thief, plus lasso and staff”; oil is permitted and poison is the DM’s option. Note 4 directs armor other than leather to the function adjustments in Thieves Table II (p. 22).",
+          "UA p. 25 Tables II and III adjust the Acrobat’s base function chances or maxima for Strength and Dexterity; apply their stated racial adjustments as well. Table IV separates body-associated weight (clothing, accessories, armor, weapons) from additional carried weight, which applies only while tightrope walking; backpacks are otherwise barred during Acrobat activities. Its level-14 extra 1,000 gp and level-22 passenger examples are limited by the accompanying procedure.",
+          "UA p. 26 lists the Acrobat weapon-proficiency row as 2 initial weapons, a −3 nonproficiency penalty, and one added proficiency per four levels."
+        ],
+        "appendOnly": true
+      },
+      {
+        "ownerId": "fighter",
+        "collection": "classes",
+        "recordBook": "PHB",
+        "recordIdentityPreserved": true,
+        "sourceAuthority": "UA",
+        "guidancePointer": "/classes/fighter/guidance",
+        "beforeGuidanceCount": 4,
+        "beforeGuidance": [
+          "Requires Strength 9 and Constitution 7.",
+          "Check the attacks-per-round table when reaching a new combat band.",
+          "After level 9, gain 3 hp per level instead of another hit die.",
+          "At level 9, establishing and clearing a freehold can attract men-at-arms and revenue."
+        ],
+        "appendedGuidance": [
+          "UA p. 13 Table II lists the Fighter for any armor, shield, and weapons; oil is permitted and poison is the DM’s option. UA p. 26 lists four initial weapon proficiencies, a −2 nonproficiency penalty, and one added proficiency per three levels.",
+          "UA p. 18 allows weapon specialization only for Fighters and Rangers, chosen at character creation and costing two weapon-proficiency slots. From the initial allotment of four Fighter or three Ranger weapons, ordinary specialization leaves one specialist weapon plus two or one other proficient weapons; bow specialization (but not crossbow specialization) costs one extra slot, leaving the Fighter one other proficiency and the Ranger none. A melee specialist gains +1 to hit and +2 damage. A bow specialist has 6–30-foot point-blank range (+2 to hit and damage, double damage on a successful hit) and +1 to hit and damage at short range; the bow can be fired before initiative if the arrow is nocked, shaft drawn, and target in sight. A crossbow specialist has 6–60-foot point-blank range (+2 to hit and damage, double damage), short range +1 to hit and damage, and medium range +1 to hit only; it can fire before initiative if cocked, aimed, and the target is in range. Other missile specialists gain +1 to hit and +2 damage. Specialization hit bonuses are not magical and do not enable hits on creatures affected only by magical weapons. Use the existing UA specialization-rate table for weapon-specific rates; it supersedes ordinary rates while the specialist weapon is used.",
+          "UA p. 18 distinguishes the initial specialization choice, made when the character is created, from double specialization, which a fighter or ranger may choose initially or later for the same specific weapon type already specialized in. Double specialization is limited to melee weapons other than pole arms and the two-handed sword; it uses the proficiency slot that would otherwise gain a new weapon and grants +3 to hit and +3 damage. For ordinary melee specialization, +1 to hit and +2 damage stack with Strength and magic bonuses, and the weapon must be a specific type (for example, long sword rather than “sword”). For a crossbow specialist, the 6–60-foot point-blank category completely replaces a light crossbow’s ordinary short range in a dungeon."
+        ],
+        "appendOnly": true
+      },
+      {
+        "ownerId": "ranger",
+        "collection": "classes",
+        "recordBook": "PHB",
+        "recordIdentityPreserved": true,
+        "sourceAuthority": "UA",
+        "guidancePointer": "/classes/ranger/guidance",
+        "beforeGuidanceCount": 4,
+        "beforeGuidance": [
+          "Requires Strength 13, Intelligence 13, Wisdom 14, and Constitution 14; alignment must remain good.",
+          "The first level starts with two hit dice, rather than one.",
+          "Druidic spells begin at level 8, and magic-user spells at level 9.",
+          "At level 10, check followers and new item use; after level 10, gain 2 hp per level."
+        ],
+        "appendedGuidance": [
+          "UA p. 13 Table II lists the Ranger for any armor, shield, and weapons; oil is permitted and poison is the DM’s option. UA p. 26 lists three initial weapon proficiencies*, a −2 nonproficiency penalty, and one added proficiency per three levels; the star note restricts Ranger weapon choices.",
+          "UA p. 18 allows weapon specialization only for Fighters and Rangers, chosen at character creation and costing two weapon-proficiency slots. From the initial allotment of four Fighter or three Ranger weapons, ordinary specialization leaves one specialist weapon plus two or one other proficient weapons; bow specialization (but not crossbow specialization) costs one extra slot, leaving the Fighter one other proficiency and the Ranger none. A melee specialist gains +1 to hit and +2 damage. A bow specialist has 6–30-foot point-blank range (+2 to hit and damage, double damage on a successful hit) and +1 to hit and damage at short range; the bow can be fired before initiative if the arrow is nocked, shaft drawn, and target in sight. A crossbow specialist has 6–60-foot point-blank range (+2 to hit and damage, double damage), short range +1 to hit and damage, and medium range +1 to hit only; it can fire before initiative if cocked, aimed, and the target is in range. Other missile specialists gain +1 to hit and +2 damage. Specialization hit bonuses are not magical and do not enable hits on creatures affected only by magical weapons. Use the existing UA specialization-rate table for weapon-specific rates; it supersedes ordinary rates while the specialist weapon is used.",
+          "UA pp. 21–22 add situation-specific tracking procedures to the Ranger’s level-by-level base chances already recorded in this class entry. Outdoors, the base is 10% per level plus 10%, with a 110% base ceiling; terrain, group size, crossing/overtracking, trail age, precipitation, and deliberate concealment modify the attempt. Indoor tracking uses separate surface categories, the same base and specified shared modifiers, and additional observation prerequisites; movement rate depends on track clarity and illumination. Apply the printed definitions and impossibility limits, and keep the p. 22 identification roll separate from the tracking roll.",
+          "UA p. 21 distinguishes the outdoor base-chance ceiling of 110% from the final adjusted chance: after modifiers, an adjusted chance above 100% is treated as 100%.",
+          "UA p. 18 distinguishes the initial specialization choice, made when the character is created, from double specialization, which a fighter or ranger may choose initially or later for the same specific weapon type already specialized in. Double specialization is limited to melee weapons other than pole arms and the two-handed sword; it uses the proficiency slot that would otherwise gain a new weapon and grants +3 to hit and +3 damage. For ordinary melee specialization, +1 to hit and +2 damage stack with Strength and magic bonuses, and the weapon must be a specific type (for example, long sword rather than “sword”). For a crossbow specialist, the 6–60-foot point-blank category completely replaces a light crossbow’s ordinary short range in a dungeon."
+        ],
+        "appendOnly": true
+      }
+    ],
+    "noOtherClassFieldsChanged": true,
+    "noXPOrLevelChangeOrGradeChanged": true,
+    "noRulesJsonOrCitationOrBindingOrMetadataChanged": true,
+    "originalAppendCount": 17,
+    "correctionAppendCount": 4
+  },
+  "sourceJoinFindings": [
+    {
+      "unit": "Cavalier Table I",
+      "printedPage": 15,
+      "pdfPage": 16,
+      "denominator": "14 physical rows × 4 columns",
+      "before": "Current UA Cavalier xpRows levels 1–12 (12 rows).",
+      "sourceOnlyRows": [
+        {
+          "level": 0,
+          "title": "Horseman",
+          "xpPrinted": "−1,500 to −501",
+          "hitDice": "1d4+1"
+        },
+        {
+          "level": 0,
+          "title": "Lancer",
+          "xpPrinted": "−501 to −1",
+          "hitDice": "2d4+1"
+        }
+      ],
+      "qualifier": "If qualification for 1st level required both zero-level grades, 1st-level HP is 3d4+1; otherwise 1d10+3.",
+      "disposition": "Partial denominator finding only; no negative boundary normalization or XP edits."
+    },
+    {
+      "unit": "Druid Table I",
+      "printedPage": 17,
+      "pdfPage": 18,
+      "denominator": "10 physical rows × 4 columns",
+      "sourceOnlyRow": {
+        "level": 14,
+        "title": "Great Druid",
+        "xpPrinted": "1,500,001–3,000,000",
+        "accumulatedHitPoints": "14 d8s"
+      },
+      "disposition": "UA record currently begins at level 15. PHB Druid level-14 row is separate book/owner evidence; no join/edit."
+    },
+    {
+      "unit": "Fighter/Ranger specialization rate table",
+      "printedPage": 18,
+      "pdfPage": 19,
+      "denominator": "3 rows × 8 weapon categories = 24 cells",
+      "current": "rules.json id ua-specialization",
+      "disposition": "Present/findable; positive checked negative for duplicate candidate. Setup/benefit guidance is incomplete and appended separately."
+    },
+    {
+      "unit": "Ranger track identification table",
+      "printedPages": [
+        21,
+        22
+      ],
+      "pdfPages": [
+        22,
+        23
+      ],
+      "denominator": "10 level rows",
+      "current": "classes/ranger.levelChanges contains all ten identification levels and separate second-roll condition",
+      "disposition": "Present/findable; no duplicate transcribed table."
+    },
+    {
+      "unit": "Thief-Acrobat Function Table",
+      "printedPages": [
+        24,
+        25
+      ],
+      "pdfPages": [
+        25,
+        26
+      ],
+      "denominator": "18 base levels×8 functions=144 cells, 6 racial rows×8=48 cells, 5 notes",
+      "disposition": "Partial; not all function/racial cells and notes were joined or proposed here."
+    },
+    {
+      "unit": "Attacks per melee round",
+      "printedPage": 22,
+      "pdfPage": 23,
+      "denominator": "17 physical bands",
+      "disposition": "Partial; preserve UA Paladin level-12 overlapping bands and Barbarian “2/3 rounds” typography, no derived universal ruling."
+    }
+  ],
+  "unchangedOrOutOfScope": [
+    "No XP thresholds, level rows, ability values or existing grade/status fields were edited.",
+    "Do not duplicate ua-specialization 24-cell table or Ranger level-by-level tracking/identification abilities.",
+    "The existing UA Druid levels 15–23 are not merged with PHB Druid.",
+    "The existing Cavalier XP boundaries, including negative/parenthesized source values, remain untouched.",
+    "The Paladin proficiency star remains unresolved; no inferred ruling.",
+    "UA p.10 and earlier racial permissions/glyph limits are not assessed.",
+    "UA p.28 hurled weapons are owned by the separate review; no overlap proposed.",
+    "Full bestiary/whole book completeness is not claimed."
+  ],
+  "editBoundary": {
+    "onlyDataEdit": "classes.json guidance arrays, 21 append-only strings across seven records (17 original guidance appends plus four source-checked clarification leaves).",
+    "candidateFile": "research/source-audit-pass8-ua-class-content-candidates-correction-v1.json",
+    "baselineV3": "research/source-audit-pass8-ua-class-content-baseline-v3.json",
+    "rulesJsonUntouched": true,
+    "citationsOrBindingsUntouched": true,
+    "gradesUntouched": true,
+    "globalMetadataUntouched": true,
+    "assemblyTestsRun": false,
+    "commitPush": false
+  },
+  "reviewRequest": "Review the four appended clarification leaves against the pinned p.18, p.20 and p.21 source pixels; recheck the corrected Acrobat Table IV procedure at p.25; confirm the original 17 guidance leaves and all seven typed/table candidates remain unchanged, research-only, and unactivated.",
+  "researchOnlyContentCandidates": [
+    {
+      "id": "ua-class-permission-table-ii",
+      "pages": "UA print p.13 / PDF p.14",
+      "image": "ua-p13-class-permission-table-context.png",
+      "focusIds": [
+        "complete-table",
+        "table-notes"
+      ],
+      "classification": "absent as a typed lookup; 14 physical class rows × five fields = 70 values and six notes",
+      "rows": [
+        {
+          "class": "Cavalier",
+          "armor": "Any¹",
+          "shield": "Any",
+          "weapons": "Any¹",
+          "oil": "No²",
+          "poison": "Only if evil"
+        },
+        {
+          "class": "Paladin",
+          "armor": "Any¹",
+          "shield": "Any",
+          "weapons": "Any¹",
+          "oil": "No²",
+          "poison": "Never"
+        },
+        {
+          "class": "Cleric",
+          "armor": "Any",
+          "shield": "Any",
+          "weapons": "Club, flail, hammer, mace, staff, lasso, sap, staff sling",
+          "oil": "Yes",
+          "poison": "Only if evil"
+        },
+        {
+          "class": "Druid",
+          "armor": "Leather or padded",
+          "shield": "Wooden",
+          "weapons": "Aklys, club, dagger, dart, garrot, hammer, lasso, sap, sling, scimitar, spear, staff, staff sling, sword (khopesh), whip",
+          "oil": "Yes",
+          "poison": "DM’s option"
+        },
+        {
+          "class": "Fighter",
+          "armor": "Any",
+          "shield": "Any",
+          "weapons": "Any",
+          "oil": "Yes",
+          "poison": "DM’s option"
+        },
+        {
+          "class": "Barbarian",
+          "armor": "Any³",
+          "shield": "Any",
+          "weapons": "Any",
+          "oil": "Yes",
+          "poison": "DM’s option"
+        },
+        {
+          "class": "Ranger",
+          "armor": "Any",
+          "shield": "Any",
+          "weapons": "Any",
+          "oil": "Yes",
+          "poison": "DM’s option"
+        },
+        {
+          "class": "Magic-user",
+          "armor": "None",
+          "shield": "None",
+          "weapons": "Caltrop, dagger, dart, knife, sling, staff",
+          "oil": "Yes",
+          "poison": "DM’s option"
+        },
+        {
+          "class": "Illusionist",
+          "armor": "None",
+          "shield": "None",
+          "weapons": "Caltrop, dagger, dart, knife, sling, staff",
+          "oil": "Yes",
+          "poison": "DM’s option"
+        },
+        {
+          "class": "Thief",
+          "armor": "Leather, studded leather, padded, or elfin chain¹",
+          "shield": "None",
+          "weapons": "Short bow, caltrop, club, hand crossbow, dagger, dart, garrot, knife, sap, sling, broad/long/short sword, falchion",
+          "oil": "Yes",
+          "poison": "DM’s option"
+        },
+        {
+          "class": "Acrobat",
+          "armor": "As thief",
+          "shield": "None",
+          "weapons": "As thief plus lasso and staff",
+          "oil": "Yes",
+          "poison": "DM’s option"
+        },
+        {
+          "class": "Assassin",
+          "armor": "As thief",
+          "shield": "None",
+          "weapons": "Any",
+          "oil": "Yes",
+          "poison": "Yes"
+        },
+        {
+          "class": "Monk",
+          "armor": "None",
+          "shield": "None",
+          "weapons": "Aklys, atlatl, hand axe, bo stick, caltrop, club, any crossbow, dagger, garrot, javelin, jo stick, knife, lasso, any pole arm, sap, spear, staff, falchion",
+          "oil": "No",
+          "poison": "DM’s option"
+        },
+        {
+          "class": "Bard",
+          "armor": "Leather, studded leather, padded, ring mail, elfin chain, or magical chain mail",
+          "shield": "None",
+          "weapons": "Club, dagger, dart, garrot, javelin, knife, lasso, sap, scimitar, sling, spear, staff, bastard/broad/falchion/long/short sword",
+          "oil": "Yes",
+          "poison": "Only if evil"
+        }
+      ],
+      "notes": [
+        {
+          "id": "1",
+          "summary": "Cavalier/Paladin armor and weapon permissions are constrained by social station; note 1 excludes lower-class armor and pole arms, missile weapons, and other arms associated with lower social classes."
+        },
+        {
+          "id": "2",
+          "summary": "Cavalier/Paladin may not use oil in personal combat but may use it in siege warfare."
+        },
+        {
+          "id": "3",
+          "summary": "Barbarian may use any armor but does not receive the full class Dexterity benefit in bulky or fairly bulky armor."
+        },
+        {
+          "id": "4",
+          "summary": "A thief in armor other than leather takes specified adjustments to thief-function chances; see Thieves Table II."
+        },
+        {
+          "id": "general-1",
+          "summary": "A class-unpermitted weapon can be picked up and used at the most severe applicable nonproficiency penalty, but cannot be kept or carried for later use."
+        },
+        {
+          "id": "general-2",
+          "summary": "A character under five feet cannot effectively use a long bow or a weapon over twelve feet. Under 100 pounds cannot use a heavy crossbow, a pole arm weighing over 200 gp, or a two-handed sword; these physical limits override the preceding permission rule."
+        }
+      ],
+      "disposition": "Research candidate only; complete row/column/note transcription; do not activate until independent review."
+    },
+    {
+      "id": "ua-thieves-table-ii",
+      "pages": "UA print p.22 / PDF p.23",
+      "image": "ua-p22-thieves-table-ii-context.png",
+      "focusIds": [
+        "complete-table",
+        "footnotes"
+      ],
+      "classification": "absent as a typed UA table; eight thief-function rows × three armor columns = 24 cells and three notes",
+      "columns": [
+        "None¹",
+        "Elfin Chain²",
+        "Studded or Padded²"
+      ],
+      "rows": [
+        {
+          "function": "Pick Pockets",
+          "none": "+5%",
+          "elfinChain": "−20%",
+          "studdedOrPadded": "−30%"
+        },
+        {
+          "function": "Open Locks",
+          "none": "—",
+          "elfinChain": "−5%",
+          "studdedOrPadded": "−10%"
+        },
+        {
+          "function": "Find/Remove Traps",
+          "none": "—",
+          "elfinChain": "−5%",
+          "studdedOrPadded": "−10%"
+        },
+        {
+          "function": "Move Silently",
+          "none": "+10%",
+          "elfinChain": "−10%",
+          "studdedOrPadded": "−20%"
+        },
+        {
+          "function": "Hide in Shadows³",
+          "none": "+5%",
+          "elfinChain": "−10%",
+          "studdedOrPadded": "−20%"
+        },
+        {
+          "function": "Hear Noise",
+          "none": "—",
+          "elfinChain": "−5%",
+          "studdedOrPadded": "−10%"
+        },
+        {
+          "function": "Climb Walls",
+          "none": "+10%",
+          "elfinChain": "−20%",
+          "studdedOrPadded": "−30%"
+        },
+        {
+          "function": "Read Languages",
+          "none": "—",
+          "elfinChain": "—",
+          "studdedOrPadded": "—"
+        }
+      ],
+      "notes": [
+        {
+          "id": "1",
+          "summary": "Applies with bracers of defense and/or cloak, but no large protective devices."
+        },
+        {
+          "id": "2",
+          "summary": "Dexterity bonuses do not apply to thief functions, though penalties do, in armor other than simple leather."
+        },
+        {
+          "id": "3",
+          "summary": "Assumes armor covered by another garment; elfin chain can be worn under normal clothing and studded leather needs a full-body cloak."
+        }
+      ],
+      "disposition": "Research-only; current “as thief” Acrobat armor pointer remains unresolved without the supporting table."
+    },
+    {
+      "id": "ua-thief-acrobat-adjustment-tables-ii-iii",
+      "pages": "UA print p.25 / PDF p.26",
+      "image": "ua-p25-acrobat-adjustments-ii-iii.png",
+      "focusIds": [
+        "strength-table",
+        "strength-note",
+        "dexterity-table",
+        "dexterity-note"
+      ],
+      "classification": "absent as typed adjustment tables: Strength 3×3 numeric cells and Dexterity 4×5 cells",
+      "tables": {
+        "strengthTableII": {
+          "units": "feet of jump-distance adjustment",
+          "rows": [
+            {
+              "strength": 16,
+              "highJump": "—",
+              "standingBroadJump": "—",
+              "runningBroadJump": "+1/2 ft"
+            },
+            {
+              "strength": 17,
+              "highJump": "+1/4 ft",
+              "standingBroadJump": "+1/4 ft",
+              "runningBroadJump": "+1 ft"
+            },
+            {
+              "strength": 18,
+              "highJump": "+1/2 ft",
+              "standingBroadJump": "+1/2 ft",
+              "runningBroadJump": "+2 ft"
+            }
+          ],
+          "note": "Strength and racial adjustments are added to base success chances or function maximums in the Acrobat Function Table."
+        },
+        "dexterityTableIII": {
+          "units": "percent added to base chance; falling uses feet",
+          "rows": [
+            {
+              "dexterity": 16,
+              "tightropeWalking": "+5%",
+              "poleVaulting": "—",
+              "tumblingAttack": "+1%",
+              "tumblingEvasion": "+2%",
+              "tumblingFalling": "—"
+            },
+            {
+              "dexterity": 17,
+              "tightropeWalking": "+10%",
+              "poleVaulting": "+5%",
+              "tumblingAttack": "+2%",
+              "tumblingEvasion": "+3%",
+              "tumblingFalling": "—"
+            },
+            {
+              "dexterity": 18,
+              "tightropeWalking": "+15%",
+              "poleVaulting": "+10%",
+              "tumblingAttack": "+3%",
+              "tumblingEvasion": "+5%",
+              "tumblingFalling": "+5 ft"
+            },
+            {
+              "dexterity": 19,
+              "tightropeWalking": "+20%",
+              "poleVaulting": "+15%",
+              "tumblingAttack": "+4%",
+              "tumblingEvasion": "+8%",
+              "tumblingFalling": "+10 ft"
+            }
+          ],
+          "note": "Dexterity and racial adjustments are added to base success chances or function maximums in the Acrobat Function Table."
+        }
+      },
+      "disposition": "Research-only; apply source notes to the existing Acrobat function table, not as standalone probabilities."
+    },
+    {
+      "id": "ua-thief-acrobat-weight-encumbrance-table-iv",
+      "pages": "UA print p.25 / PDF p.26",
+      "images": [
+        "ua-p25-table-iv-context.png",
+        "ua-p25-encumbrance-procedure.png"
+      ],
+      "focusIds": [
+        "complete-table",
+        "body-associated-definition",
+        "complete-two-paragraph-procedure"
+      ],
+      "classification": "absent as typed table/procedure; 18 levels × three columns = 54 cells",
+      "units": "gp weight/encumbrance limits",
+      "columns": [
+        "experienceLevel",
+        "bodyAssociatedGp",
+        "additionalCarriedGp"
+      ],
+      "rows": [
+        {
+          "experienceLevel": 6,
+          "bodyAssociatedGp": 450,
+          "additionalCarriedGp": 100
+        },
+        {
+          "experienceLevel": 7,
+          "bodyAssociatedGp": 460,
+          "additionalCarriedGp": 200
+        },
+        {
+          "experienceLevel": 8,
+          "bodyAssociatedGp": 470,
+          "additionalCarriedGp": 300
+        },
+        {
+          "experienceLevel": 9,
+          "bodyAssociatedGp": 480,
+          "additionalCarriedGp": 400
+        },
+        {
+          "experienceLevel": 10,
+          "bodyAssociatedGp": 490,
+          "additionalCarriedGp": 500
+        },
+        {
+          "experienceLevel": 11,
+          "bodyAssociatedGp": 500,
+          "additionalCarriedGp": 600
+        },
+        {
+          "experienceLevel": 12,
+          "bodyAssociatedGp": 510,
+          "additionalCarriedGp": 700
+        },
+        {
+          "experienceLevel": 13,
+          "bodyAssociatedGp": 520,
+          "additionalCarriedGp": 850
+        },
+        {
+          "experienceLevel": 14,
+          "bodyAssociatedGp": 530,
+          "additionalCarriedGp": 1000
+        },
+        {
+          "experienceLevel": 15,
+          "bodyAssociatedGp": 540,
+          "additionalCarriedGp": 1500
+        },
+        {
+          "experienceLevel": 16,
+          "bodyAssociatedGp": 550,
+          "additionalCarriedGp": 2000
+        },
+        {
+          "experienceLevel": 17,
+          "bodyAssociatedGp": 570,
+          "additionalCarriedGp": 2250
+        },
+        {
+          "experienceLevel": 18,
+          "bodyAssociatedGp": 600,
+          "additionalCarriedGp": 2500
+        },
+        {
+          "experienceLevel": 19,
+          "bodyAssociatedGp": 625,
+          "additionalCarriedGp": 2750
+        },
+        {
+          "experienceLevel": 20,
+          "bodyAssociatedGp": 650,
+          "additionalCarriedGp": 3000
+        },
+        {
+          "experienceLevel": 21,
+          "bodyAssociatedGp": 660,
+          "additionalCarriedGp": 3500
+        },
+        {
+          "experienceLevel": 22,
+          "bodyAssociatedGp": 670,
+          "additionalCarriedGp": 4000
+        },
+        {
+          "experienceLevel": 23,
+          "bodyAssociatedGp": 700,
+          "additionalCarriedGp": 4000
+        }
+      ],
+      "definition": "Body-associated includes clothing, accessories, armor, weapons.",
+      "procedure": "The body-associated limit defines weight borne while performing Acrobat functions; the separate additional-carried allowance applies only to tightrope walking and must be evenly distributed and properly balanced. No backpack may be worn during thief-acrobat activities except tightrope walking; loot is typically held in a container that can be dropped before vaulting, jumping, or tumbling. At level 14, an Acrobat may bear an additional 1,000 gp weight/encumbrance during tightrope walking, but under that burden cannot otherwise move freely during vaulting, jumping, or tumbling routines; separately, the source says climbing walls is not possible with an extra 100-pound load. At level 22, a 400-pound person may ride on the Acrobat’s back only if that person does not move so as to throw the Acrobat off balance.",
+      "explicitExclusion": "The following p.25 worked example is outside this typed candidate; no whole-page/table-context completeness is claimed.",
+      "disposition": "Research-only."
+    },
+    {
+      "id": "ua-cavalier-starting-equipment-packages",
+      "pages": "UA print p.25 / PDF p.26",
+      "image": "ua-p25-cavalier-starting-equipment.png",
+      "focusIds": [
+        "complete-passage"
+      ],
+      "classification": "absent from typed class data and not found by current class search; six station packages plus two notes",
+      "packages": [
+        {
+          "station": "Horsemen of Lower Middle Class or a lesser station",
+          "resources": "20–80 gp; shield; any-type sword; riding horse."
+        },
+        {
+          "station": "Horsemen of Middle Middle Class",
+          "resources": "20–80 gp; shield; dagger; broad or long sword; light warhorse."
+        },
+        {
+          "station": "Horsemen of Upper Middle Class",
+          "resources": "20–80 gp; chain mail; broad or long sword; lance; light warhorse."
+        },
+        {
+          "station": "Cavalier of Lower Upper Class",
+          "resources": "70–180 gp (1d12+6); shield; plate mail; dagger; long or broad sword; lance; medium warhorse."
+        },
+        {
+          "station": "Cavalier of Middle Upper Class",
+          "resources": "70–180 gp; shield; field plate armor; dagger; long or broad sword; lance; heavy warhorse."
+        },
+        {
+          "station": "Cavalier of Upper Upper Class",
+          "resources": "130–180 gp (1d6+12); shield; full plate armor; dagger; long or broad sword; mace; lance; heavy warhorse with leather barding."
+        }
+      ],
+      "notes": [
+        "Horse includes station-appropriate tack, harness, saddle and saddlebags.",
+        "Below Upper Class begins as 0-level Horsemen; taken in by a good family and esquired."
+      ],
+      "disposition": "Research-only."
+    },
+    {
+      "id": "ua-weapon-proficiency-table",
+      "pages": "UA print p.26 / PDF p.27",
+      "image": "ua-p26-weapon-proficiency-table.png",
+      "focusIds": [
+        "complete-table",
+        "star-footnote"
+      ],
+      "classification": "absent as typed class/rule table; 14 class rows × three numeric fields=42 cells plus one footnote",
+      "columns": [
+        "initial weapons",
+        "nonproficiency penalty",
+        "added proficiency interval"
+      ],
+      "rows": [
+        {
+          "class": "Cavalier",
+          "initial": "3*",
+          "penalty": "−3",
+          "added": "1/2 levels"
+        },
+        {
+          "class": "Paladin",
+          "initial": "3*",
+          "penalty": "−3",
+          "added": "1/2 levels"
+        },
+        {
+          "class": "Cleric",
+          "initial": "2",
+          "penalty": "−3",
+          "added": "1/4 levels"
+        },
+        {
+          "class": "Druid",
+          "initial": "2",
+          "penalty": "−4",
+          "added": "1/5 levels"
+        },
+        {
+          "class": "Fighter",
+          "initial": "4",
+          "penalty": "−2",
+          "added": "1/3 levels"
+        },
+        {
+          "class": "Barbarian",
+          "initial": "6",
+          "penalty": "−1",
+          "added": "1/2 levels"
+        },
+        {
+          "class": "Ranger",
+          "initial": "3*",
+          "penalty": "−2",
+          "added": "1/3 levels"
+        },
+        {
+          "class": "Magic-user",
+          "initial": "1",
+          "penalty": "−5",
+          "added": "1/6 levels"
+        },
+        {
+          "class": "Illusionist",
+          "initial": "1",
+          "penalty": "−5",
+          "added": "1/6 levels"
+        },
+        {
+          "class": "Thief",
+          "initial": "2",
+          "penalty": "−3",
+          "added": "1/4 levels"
+        },
+        {
+          "class": "Acrobat",
+          "initial": "2",
+          "penalty": "−3",
+          "added": "1/4 levels"
+        },
+        {
+          "class": "Assassin",
+          "initial": "3",
+          "penalty": "−2",
+          "added": "1/4 levels"
+        },
+        {
+          "class": "Monk",
+          "initial": "1",
+          "penalty": "−3",
+          "added": "1/2 levels"
+        },
+        {
+          "class": "Bard",
+          "initial": "5",
+          "penalty": "−2",
+          "added": "1/4 levels"
+        }
+      ],
+      "footnote": "0-level Horsemen have one weapon proficiency, 0-level Lancers have two, and 1st-level Armigers have three. Cavalier and Ranger weapon choices are restricted. The printed note does not resolve the Paladin row star.",
+      "disposition": "Research-only; Paladin star semantics remain unknown."
+    },
+    {
+      "id": "ua-ranger-tracking-modifiers-and-movement",
+      "pages": "UA print pp.21–22 / PDF pp.22–23",
+      "images": [
+        "ua-p21-ranger-tracking-outdoor.png",
+        "ua-p21-ranger-tracking-indoor-and-movement.png",
+        "ua-p22-ranger-track-identification.png"
+      ],
+      "focusIds": [
+        "outdoor-tracking-left-column",
+        "outdoor-continuation-indoor-and-movement",
+        "track-identification-table"
+      ],
+      "classification": "partial: per-level base chances and ten identification levels are present/findable in ranger.levelChanges, but full situational modifier/movement procedure is not a typed table or guidance",
+      "details": {
+        "base": "10 percentage points per Ranger level plus 10; base capped at 110%.",
+        "outdoorTerrain": [
+          {
+            "condition": "Ground soft enough to hold impressions",
+            "modifier": "+20%"
+          },
+          {
+            "condition": "Occasional marks or obvious signs of passage",
+            "modifier": "+10%"
+          },
+          {
+            "condition": "Only infrequent signs due to rock, water, wind, crossings or overtracking",
+            "modifier": "0%"
+          },
+          {
+            "condition": "Only minutest traces of passage",
+            "modifier": "−50%"
+          }
+        ],
+        "outdoorModifiers": [
+          {
+            "condition": "Each creature beyond first in group",
+            "modifier": "+2%"
+          },
+          {
+            "condition": "Each 12 hours since trail was made",
+            "modifier": "−5%"
+          },
+          {
+            "condition": "Each hour of precipitation on trail",
+            "modifier": "−25%"
+          },
+          {
+            "condition": "Area crossed/overtracked by other creatures",
+            "modifier": "−50%"
+          }
+        ],
+        "outdoorConcealment": "If intelligent effort hides a trail, use the next lower terrain category; at the −50% category, tracking is impossible.",
+        "indoor": {
+          "base": "Same base chance as outdoors.",
+          "surface": [
+            {
+              "condition": "Dirt floor or unused dusty area",
+              "modifier": "+20%"
+            },
+            {
+              "condition": "Wood floor or occasional indication of passage",
+              "modifier": "0%"
+            },
+            {
+              "condition": "Stone floor allowing only minutest traces",
+              "modifier": "−50%"
+            }
+          ],
+          "modifiers": [
+            {
+              "condition": "Each creature beyond first",
+              "modifier": "+2%"
+            },
+            {
+              "condition": "Crossed/overtracked trail",
+              "modifier": "−50%"
+            }
+          ],
+          "concealment": "If intelligent effort hides the trail (including passage through a secret door), use the next lower surface category; at −50%, tracking is impossible."
+        },
+        "preconditions": "Indoor tracking requires the Ranger to have observed a distinguishing feature of the tracks and to have observed the quarry making the trail, then to follow within a reasonable period (typically 10–30 minutes). The source directs the DM to use common sense; unusual visual, audio, olfactory or other evidence can sometimes make a trail possible.",
+        "chanceLimit": "Adjusted outdoor chance over 100% is treated as 100%; negative adjustments may reduce it below 100%.",
+        "movement": [
+          {
+            "trail": "Obvious",
+            "light": "Good",
+            "rate": "3/4 normal"
+          },
+          {
+            "trail": "Obvious",
+            "light": "Poor",
+            "rate": "2/3 normal"
+          },
+          {
+            "trail": "Occasional",
+            "light": "Good",
+            "rate": "2/3 normal"
+          },
+          {
+            "trail": "Occasional",
+            "light": "Poor",
+            "rate": "1/2 normal"
+          },
+          {
+            "trail": "Faint",
+            "light": "Good",
+            "rate": "1/2 normal"
+          },
+          {
+            "trail": "Faint",
+            "light": "Poor",
+            "rate": "1/4 normal"
+          }
+        ],
+        "definitions": "Obvious: at least 71% chance; occasional: 31–70%; faint: 30% or less. Poor illumination is less than daylight but more than total darkness; total darkness prevents tracking unless nonvisual evidence is available.",
+        "identification": "The p. 22 ten-level identification table, separate second roll, and cumulative abilities are already represented in ranger.levelChanges; intentionally no duplicate is proposed."
+      },
+      "disposition": "Research-only candidate covers absent modifiers/movement only; p.22 identification table is explicitly not duplicated."
+    },
+    {
+      "id": "ua-barbarian-skill-taxonomy",
+      "pages": "UA print pp.19–20 / PDF pp.20–21",
+      "sourceRasters": [
+        "df0bf4fa21b3952ab7d556cd8a3a22fc6d8338ce9fb73e4a6f8b62883ad986aa",
+        "371fa7c00b617d7f52a19bc7cd964940ac0bbb5aef7e2d384158d0e177405c7b"
+      ],
+      "classification": "The current class guidance names the eight primary and four secondary abilities and, in this correction, all eight tertiary options. These are nonweapon abilities, distinct from weapon proficiency slots; no separate typed numeric table is proposed.",
+      "tertiaryCountCorrection": "v1/v2 count of seven was incorrect; paddled and rowed small craft are separate source abilities, yielding eight.",
+      "distinction": "Weapon proficiency slots are on pp.18/26 and are a separate mechanism from secondary and tertiary nonweapon abilities on p.20.",
+      "proposedGuide": "Append a source-tagged list of all eight tertiary labels and retain the one-or-more, locale/culture, DM-selection qualification. Keep paddled and rowed small craft distinct; weapon proficiency remains a separate mechanism.",
+      "disposition": "Guidance addition only; no separate typed numeric table proposed.",
+      "tertiarySkillOptions": [
+        "Animal handling",
+        "Horsemanship",
+        "Long distance signalling",
+        "Running",
+        "Small craft, paddled",
+        "Small craft, rowed",
+        "Sound imitation",
+        "Snare building"
+      ],
+      "tertiarySkillScope": "The source says one or more apply based on the locale or culture of origin, with the DM determining applicability according to the campaign."
+    }
+  ],
+  "candidateCounts": {
+    "typedTableOrProcedureLookupCandidates": 7,
+    "nonTableTaxonomyGuidanceCandidates": 1,
+    "totalResearchOnlyContentCandidates": 8
+  },
+  "correctionSupersedes": {
+    "path": "research/source-audit-pass8-ua-class-content-candidates.json",
+    "sha256": "94f86bc23f9becdb37cda32c5374fe4f5c34c4ea757a49d25d806481cc0f3339",
+    "original17GuidanceAndTypedTablesRemainFrozenIn": "research/source-audit-pass8-ua-class-content-correction-before-v1.json"
+  },
+  "independentCorrectionSource": {
+    "reviewPath": "research/source-audit-pass8-ua-class-content-independent-review.json",
+    "reviewSha256": "b6b43861a42d58bfc4e07f18ba5cc2d14a7f41a8a75a769f922f5b17186a614e",
+    "correctionsPath": "research/source-audit-pass8-ua-class-content-independent-review-corrections-v1.json",
+    "correctionsSha256": "38b69f40f24d8a1006ce2fab89ec0a291cdf9c89af5d94d04f18261632190b6e"
+  },
+  "correctedSourcePixelReview": {
+    "sourcePdf": {
+      "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+      "editionOrPrinting": "not independently established"
+    },
+    "inspectedPages": [
+      {
+        "printedPage": 18,
+        "pdfPage": 19,
+        "privateFullPageRaster": "/tmp/ua-class-ability-audit/ua-print-18-pdf-19-direct3x.png",
+        "rasterSha256": "f1fd6a1e5456725817cf462a324e3221b214655391151fc13d326e12e7bcc2a9",
+        "facts": "Initial choice at character creation; melee bonuses stack with Strength and magic; weapon must be a specific type; double specialization may be initial or later, only melee excluding pole arms/two-handed sword, uses a proficiency slot instead of a new weapon and grants +3/+3; crossbow 6–60-foot point-blank replaces the light crossbow short range in a dungeon."
+      },
+      {
+        "printedPage": 20,
+        "pdfPage": 21,
+        "privateFullPageRaster": "/tmp/ua-class-ability-audit/ua-print-20-pdf-21.png",
+        "rasterSha256": "371fa7c00b617d7f52a19bc7cd964940ac0bbb5aef7e2d384158d0e177405c7b",
+        "facts": "Eight tertiary names read: animal handling, horsemanship, long-distance signalling, running, paddled small craft, rowed small craft, sound imitation, snare building; one or more depends on locale/culture and DM selection."
+      },
+      {
+        "printedPage": 21,
+        "pdfPage": 22,
+        "crop": "research/source-candidates/ua-class/ua-p21-ranger-tracking-outdoor.png",
+        "cropSha256": "f167614b254d0232e4500aefe2a40aa668c30f40b615ab6324807b35dc4c4703",
+        "facts": "110% caps the base chance; after modifiers an adjusted outdoor chance above 100% is treated as 100%."
+      },
+      {
+        "printedPage": 25,
+        "pdfPage": 26,
+        "crop": "research/source-candidates/ua-class/ua-p25-encumbrance-procedure.png",
+        "cropSha256": "30fb64c406948e1231f2765cb2a7e039e311d47d4496e02f4a7014d9fca861fa",
+        "facts": "1,000-gp extra burden applies to tightrope walking; movement limit names vaulting, jumping, tumbling; separate extra-100-pound wall-climb limit; distinct level-22 passenger example."
+      }
+    ],
+    "inspectedActualPixels": true,
+    "noNewCandidateImagesCreated": true
+  },
+  "correctionGuidanceLeaves": [
+    {
+      "owner": "fighter",
+      "pointer": "/guidance/6",
+      "source": "UA printed p.18/PDF p.19",
+      "text": "UA p. 18 distinguishes the initial specialization choice, made when the character is created, from double specialization, which a fighter or ranger may choose initially or later for the same specific weapon type already specialized in. Double specialization is limited to melee weapons other than pole arms and the two-handed sword; it uses the proficiency slot that would otherwise gain a new weapon and grants +3 to hit and +3 damage. For ordinary melee specialization, +1 to hit and +2 damage stack with Strength and magic bonuses, and the weapon must be a specific type (for example, long sword rather than “sword”). For a crossbow specialist, the 6–60-foot point-blank category completely replaces a light crossbow’s ordinary short range in a dungeon."
+    },
+    {
+      "owner": "ranger",
+      "pointer": "/guidance/7",
+      "source": "UA printed p.21/PDF p.22",
+      "text": "UA p. 21 distinguishes the outdoor base-chance ceiling of 110% from the final adjusted chance: after modifiers, an adjusted chance above 100% is treated as 100%."
+    },
+    {
+      "owner": "ranger",
+      "pointer": "/guidance/8",
+      "source": "UA printed p.18/PDF p.19",
+      "text": "UA p. 18 distinguishes the initial specialization choice, made when the character is created, from double specialization, which a fighter or ranger may choose initially or later for the same specific weapon type already specialized in. Double specialization is limited to melee weapons other than pole arms and the two-handed sword; it uses the proficiency slot that would otherwise gain a new weapon and grants +3 to hit and +3 damage. For ordinary melee specialization, +1 to hit and +2 damage stack with Strength and magic bonuses, and the weapon must be a specific type (for example, long sword rather than “sword”). For a crossbow specialist, the 6–60-foot point-blank category completely replaces a light crossbow’s ordinary short range in a dungeon."
+    },
+    {
+      "owner": "ua-barbarian",
+      "pointer": "/guidance/7",
+      "source": "UA printed p.20/PDF p.21",
+      "text": "UA p. 20 names eight locale- or culture-selected tertiary skill options: animal handling, horsemanship, long-distance signalling, running, small craft (paddled), small craft (rowed), sound imitation, and snare building. The DM determines which apply to the campaign; a barbarian has one or more."
+    }
+  ]
+}

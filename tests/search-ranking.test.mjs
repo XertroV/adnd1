@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {gunzipSync} from 'node:zlib';
 import {hash} from '../tools/monetary-row-identity-audit.mjs';
-import {joIntegration,semanticJoFixture} from './helpers/batch6-jo-fixture.mjs';
+import {joIntegration,semanticJoFixture} from './helpers/ua-source-batch6-jo-fixture.mjs';
 
 const require=createRequire(import.meta.url);
 const search=require('../dist/search.js');

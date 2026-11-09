@@ -2,7 +2,10 @@ import {readFileSync,readdirSync,statSync} from 'node:fs';
 import {resolve} from 'node:path';
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {assertCurrentWeaponOwnerAdditions,weaponOwnerIds} from './helpers/weapon-source-current-cohort.mjs';
+import {weaponOwnerIds} from './helpers/weapon-source-current-cohort.mjs';
+import {assertCurrentWeaponOwnerAdditions} from './helpers/ua-source-current-cohort.mjs';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 import {assertCurrentWeaponOwnerAdditions as partialWeaponOwnerAdditions} from './fixtures/weapon-source-current-cohort-partial-before.mjs';
 const root=resolve(import.meta.dirname,'..');
 const data=JSON.parse(readFileSync(resolve(root,'dist/data.json'),'utf8'));
@@ -31,12 +34,15 @@ test('all entries have unique stable identifiers and valid source locations',()=
   }
  }
 });
-test('the two native weapon table owners preserve every prior owner and the exact approved lookup values',()=>assertCurrentWeaponOwnerAdditions(data));
-test('unknown DMG source-context and excerpt metadata cannot pass through the native cohort comparison',()=>{
+test('current UA owners and the two native weapon tables preserve every unrelated prior owner and exact approved lookup values',()=>assertCurrentWeaponOwnerAdditions(data));
+test('the historical partial guard accepts unknown DMG metadata and the native current guard rejects it',()=>{
+ const beforeBytes=execFileSync('git',['show','6717c6f22bbf2f2b421327e4c8561b1d81df00d4:dist/data.json'],{cwd:root,maxBuffer:40*1024*1024});
+ assert.equal(createHash('sha256').update(beforeBytes).digest('hex'),'6643d7b58c90d982244f1d8f03b6f03a7587446ba25c402be8f9a81a8b701f8f');
  for(const key of ['sourceContext','sourceExcerpts']){
+  const historicalMutation=JSON.parse(beforeBytes);historicalMutation.rules.find(item=>item.id==='weapon-versus-armor-adjustments')[key].unapprovedNativeCanary=true;
+  assert.doesNotThrow(()=>partialWeaponOwnerAdditions(historicalMutation),'preserved partial guard accepts the mutation at its actual historical source state');
   const mutation=structuredClone(data);mutation.rules.find(item=>item.id==='weapon-versus-armor-adjustments')[key].unapprovedNativeCanary=true;
-  assert.doesNotThrow(()=>partialWeaponOwnerAdditions(mutation),'preserved partial guard accepts the synthetic metadata mutation');
-  assert.throws(()=>assertCurrentWeaponOwnerAdditions(mutation),/complete Git-bound approved DMG/);
+  assert.throws(()=>assertCurrentWeaponOwnerAdditions(mutation));
  }
 });
 test('XP thresholds are cumulative, integral and strictly increasing',()=>{

@@ -1,0 +1,100 @@
+--- a/tests/pass8-dmg225-field-mapping-target-proof.test.mjs
++++ b/tests/pass8-dmg225-field-mapping-target-proof.test.mjs
+@@ -4,6 +4,8 @@
+ import {readFileSync} from 'node:fs';
+ import {gunzipSync} from 'node:zlib';
+ import test from 'node:test';
++import {readBeforePass8UaSourceFile} from './helpers/pass8-ua-source-history.mjs';
++import {assertCurrentUaSourceOwnerCohort,assertCompiledWeaponBindingPreservation} from './helpers/ua-source-current-cohort.mjs';
+ import {
+   assertPass8Dmg225FieldTargetProof,
+   assertPass8Dmg225TargetUniverse,
+@@ -30,6 +32,10 @@
+ const equipmentFile=read('equipment.json');
+ const sourceReviews=read('research/source-visual-reviews.json');
+ const continuations=read('research/citation-continuations.json');
++// The two historical suffix assertions below receive only complete V27 objects
++// through the already approved closed UA boundary. Live guard inputs stay raw.
++const weaponContinuations=JSON.parse(readBeforePass8UaSourceFile(new URL('research/citation-continuations.json',root)));
++const weaponSourceReviews=JSON.parse(readBeforePass8UaSourceFile(new URL('research/source-visual-reviews.json',root)));
+ const manualsBefore=gitJson('research/field-evidence-bindings.json');
+ const visualReviewsBefore=gitJson('research/source-visual-reviews.json');
+ const continuationsBefore=gitJson('research/citation-continuations.json');
+@@ -48,7 +54,7 @@
+   return {ids:ordered.map(region=>region.id),defaultId:ordered[0]?.id??null,sha256:hashCanonical(evidence),evidence};
+ }
+ 
+-test('A46 before fixture retains the exact 29 empty-region DMG p.225 targets',()=>{
++test('A46 before fixture retains all29 empty-region targets and the explicit historical weapon state',()=>{
+   assert.equal(hash(beforeFixtureBytes),'7af6ae98d17809a939a3e386c1f830a2697d06bc8313c184b1a3dbc37c604897');
+   assert.equal(beforeFixture.inputCommit,baselineCommit);
+   assert.equal(beforeFixture.beforeCounts.targets,29);
+@@ -66,7 +72,13 @@
+   assert.equal(hash(readFileSync(new URL('../equipment.json',import.meta.url))),beforeFixture.files['equipment.json'].sha256);
+   const capturedData=execFileSync('git',['show',`${baselineCommit}:dist/data.json`],{maxBuffer:32*1024*1024});
+   assert.equal(hash(capturedData),beforeFixture.files['dist/data.json'].sha256,'the original unassembled A46 data remains exact in its captured Git stage');
+-  assert.deepEqual(readFileSync(new URL('../dist/data.json',import.meta.url)),execFileSync('git',['show','9ee2550e9793e6aae9a7ac8fd71525704894950f:dist/data.json'],{maxBuffer:32*1024*1024}),'native current data is the complete controlled weapon source assembly');
++  const nativeBytes=readFileSync(new URL('../dist/data.json',import.meta.url));
++  assert.equal(hash(nativeBytes),'c076e0f6bb898eb52650fd886630089f17edc86cbc8e3c4ac349b817bceba0d3','complete current UA source data remains native; compare hashes before any whole-buffer assertion');
++  const historicalBytes=readBeforePass8UaSourceFile(new URL('dist/data.json',root));
++  const weaponBytes=execFileSync('git',['show','9ee2550e9793e6aae9a7ac8fd71525704894950f:dist/data.json'],{maxBuffer:32*1024*1024});
++  assert.equal(hash(historicalBytes),'6643d7b58c90d982244f1d8f03b6f03a7587446ba25c402be8f9a81a8b701f8f','closed UA history restores the complete actual merged V27 predecessor');
++  assert.equal(hash(weaponBytes),'6643d7b58c90d982244f1d8f03b6f03a7587446ba25c402be8f9a81a8b701f8f','the literal weapon source state remains separate historical evidence');
++  assert.ok(historicalBytes.equals(weaponBytes),'historical weapon raw bytes remain whole-file exact; no multi-megabyte mismatch diff');
+ });
+ 
+ test('four candidate catalogs are exact append-only edits; defaults and all historic region objects remain',()=>{
+@@ -95,9 +107,9 @@
+   assert.equal(publishedGroups.length,260);
+   assert.equal(publishedGroups.reduce((sum,group)=>sum+group.segments.length,0),510);
+   assert.deepEqual(continuations.groups.slice(0,260),publishedGroups,'all260 published groups and510 exact source parts remain in order');
+-  assert.equal(continuations.groups.length,261);
+-  assert.equal(continuations.groups.reduce((sum,group)=>sum+group.segments.length,0),512);
+-  assert.deepEqual(continuations.groups.slice(260),[read('research/missile-table-discoverability/implementation-candidate/continuation-group-candidate.json')],'only the complete declared two-part DMG28 group is appended');
++  assert.equal(weaponContinuations.groups.length,261);
++  assert.equal(weaponContinuations.groups.reduce((sum,group)=>sum+group.segments.length,0),512);
++  assert.deepEqual(weaponContinuations.groups.slice(260),[read('research/missile-table-discoverability/implementation-candidate/continuation-group-candidate.json')],'only the complete declared two-part DMG28 group is appended');
+   assert.deepEqual(continuations.groups.slice(254,260).map(group=>group.id),['pass8-demi-shadow-magic-phb-99','pass8-veil-phb-99-100','pass8-dust-ua-45-46','pass8-vocalize-ua-54-55','pass8-ultravision-magic-user-ua-57-58','pass8-ultravision-illusionist-ua-57-58']);
+   const group=continuations.groups[253];
+   assert.equal(group.id,'pass8-dmg225-thieves-tools-exclusion-context');
+@@ -146,11 +158,11 @@
+   const publishedReviews=publishedJson('research/source-visual-reviews.json').reviews;
+   assert.equal(publishedReviews.length,1845);
+   assert.deepEqual(sourceReviews.reviews.slice(0,1845),publishedReviews,'all1845 published review objects remain whole-object exact and in order');
+-  assert.equal(sourceReviews.reviews.length,publishedReviews.length+4);
++  assert.equal(weaponSourceReviews.reviews.length,publishedReviews.length+4,'the separate historical weapon review suffix remains exactly four records');
+   assert.equal(sourceReviews.reviews.slice(1829,1837).length,8);
+   assert.ok(sourceReviews.reviews.slice(1829,1837).every(row=>row.collection==='equipment'&&['phb-bullseye-lantern','phb-silver-mirror','phb-iron-spike','phb-thieves-tools'].includes(row.itemId)));
+   assert.deepEqual(sourceReviews.reviews.slice(1837,1845),read('research/source-audit-pass8-last-six-canonical-schema-successor-v1/proposed-eight-review-rows.json'),'eight independent crop rows remain separate from DMG location reviews');
+-  assert.deepEqual(sourceReviews.reviews.slice(1845).map(row=>[row.collection,row.itemId,row.binding,row.regionId]),[
++  assert.deepEqual(weaponSourceReviews.reviews.slice(1845).map(row=>[row.collection,row.itemId,row.binding,row.regionId]),[
+     ['rules','phb-hurled-weapons-and-missiles-table','sourceExcerpts','phb38-table-context'],
+     ['rules','ua-hurled-weapons-and-missiles-table','sourceExcerpts','ua28-table-context'],
+     ['rules','weapon-versus-armor-adjustments','sourceExcerpts','dmg-28-opening-8b67aa025e19eddd'],
+@@ -224,3 +236,26 @@
+   const extra={...structuredClone(currentBindings[0]),itemId:'invented-equipment',fieldPointer:'/fields/Invented DMG p.225 field',sourceObjectPointer:'/fieldSources/Invented DMG p.225 field'};
+   assert.throws(()=>assertPass8Dmg225TargetUniverse([...currentBindings,extra]),/expected exactly 29 current DMG p.225 equipment-field bindings/);
+ });
++
++// Separate actual-current assertions: these do not receive historical objects.
++test('current UA owners, current metadata prefixes and all29 DMG225 target proofs remain native',()=>{
++  const nativeBytes=readFileSync(new URL('dist/data.json',root));
++  assert.equal(hash(nativeBytes),'c076e0f6bb898eb52650fd886630089f17edc86cbc8e3c4ac349b817bceba0d3');
++  const current=JSON.parse(nativeBytes);
++  assertCurrentUaSourceOwnerCohort(current);
++  assertCompiledWeaponBindingPreservation();
++  assert.equal(sourceReviews.reviews.length,1881);
++  assert.deepEqual(sourceReviews.reviews.slice(0,1849),weaponSourceReviews.reviews,'all1849 historical weapon review objects remain exact in the actual1881-review ledger');
++  assert.equal(continuations.groups.length,271);
++  assert.equal(continuations.groups.reduce((sum,group)=>sum+group.segments.length,0),536);
++  assert.deepEqual(continuations.groups.slice(0,261),weaponContinuations.groups,'all261 historical weapon continuation objects remain exact in the actual271-group manifest');
++  assertPass8Dmg225TargetUniverse(bindingsFile.bindings);
++  const canonical=read('research/price-source-inventory.json');
++  assert.equal(canonical.fieldEvidenceBindings.length,4705);
++  assertPass8Dmg225TargetUniverse(canonical.fieldEvidenceBindings);
++  for(const binding of currentBindings){
++    const matches=canonical.fieldEvidenceBindings.filter(row=>row.collection===binding.collection&&row.itemId===binding.itemId&&row.fieldPointer===binding.fieldPointer);
++    assert.equal(matches.length,1);
++    assertPass8Dmg225FieldTargetProof(matches[0],targetContext(matches[0]));
++  }
++});

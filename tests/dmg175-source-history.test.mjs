@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
-import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-weapon-source-history.mjs';
+import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
 import test from 'node:test';
 import {createHash} from 'node:crypto';
 import vm from 'node:vm';
 import {dmg175HistoryContract,decodeDmg175HistoryContract as loadContract,projectDmg175Json as projectJson,projectDmg175Books as projectBooks} from './helpers/batch6-dmg175-source-history.mjs';
-import {reverseDmg74MatrixBatchFromData,reverseDmg74MatrixBatchFromInventory,withoutDmg74MatrixSourceExcerptOverrides} from './helpers/dmg74-matrix-batch.mjs';
+import {reverseDmg74MatrixBatchFromData,reverseDmg74MatrixBatchFromInventory,withoutDmg74MatrixSourceExcerptOverrides} from './helpers/ua-source-dmg74-matrix-batch.mjs';
 const contract=dmg175HistoryContract();
 test('closed175-to-853 history projection retains all five literal inputs and rejects28 altered inputs plus forged books/capture bytes',()=>{
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex'),results=[];

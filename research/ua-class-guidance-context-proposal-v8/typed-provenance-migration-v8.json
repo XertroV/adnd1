@@ -1,0 +1,320 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "ua-class-guidance-context-v8-typed-source-frame-provenance-migration",
+  "status": "Research-only exact typed pin migration; not active and not a blanket registry repin.",
+  "baseRegistry": {
+    "path": "research/source-frame-coordinate-bridge-phb-source-v1.json",
+    "sha256": "a756ac336f14491aa6785615c869a6a9ed8b1cc1632773e468c72e327fa8b1bd"
+  },
+  "candidateRegistry": {
+    "path": "research/ua-class-guidance-context-proposal-v8/source-frame-coordinate-bridge-v8-candidate.json",
+    "sha256": "1013eb540a2bc9034963472b3b48a9a1ea61af224392806386db1091c5b35a65",
+    "frameGroups": 9,
+    "regionBindings": 102,
+    "ownerBindings": 102
+  },
+  "acceptedSourceAndDefaultReviews": {
+    "v6": {
+      "path": "research/source-audit-pass8-ua-class-context-v6-independent-review-v1.json",
+      "sha256": "439aaf8b6ade94c1dfe78c8a2b0f85b235e17bc482eac4ff9794880f759bc302"
+    },
+    "v7Root": {
+      "path": "research/source-audit-pass8-ua-class-context-v7-clean-root-independent-review-v1.json",
+      "sha256": "dd26c1e32d6544f33a5a5dc3fdc3122a64d0dca3f49a497965d167e0001d1f15"
+    }
+  },
+  "supersedesV7BridgeCandidate": {
+    "path": "research/ua-class-guidance-context-proposal-v7-clean/source-frame-coordinate-bridge-v7-candidate.json",
+    "sha256": "94f3f96a94fe029c105160873c3e8bfd52482bf9654726bfe0ec269ae85d40a7",
+    "exactDifferencePaths": [
+      "frames[5].regions[3].ownerSourceLinkSha256",
+      "frames[5].regions[4].ownerSourceLinkSha256",
+      "frames[6].regions[3].ownerSourceLinkSha256",
+      "frames[6].regions[8].ownerSourceLinkSha256",
+      "frames[7].regions[3].ownerSourceLinkSha256",
+      "frames[7].regions[8].ownerSourceLinkSha256",
+      "frames[8].regions[3].ownerSourceLinkSha256",
+      "frames[8].regions[8].ownerSourceLinkSha256"
+    ],
+    "exactDifferenceCount": 8,
+    "reason": "Only the eight registered ownerSourceLinkSha256 pins change because the native producer now attaches the accepted 32-region visual ledger; the six catalog pins and all other registry data remain the exact V7 proposal."
+  },
+  "acceptedLedger": {
+    "path": "research/ua-class-guidance-context-proposal-v8/source-visual-reviews-v8-candidate.json",
+    "sha256": "a71ebeec985e0da6b4ada2d2899027b8750474fe0795dbfcaecc2e0e9a453822",
+    "baseEntries": 1849,
+    "addedRegionReviews": 32,
+    "addedDefaultAssessments": 22
+  },
+  "nativeOwnerMetadataProducer": {
+    "path": "tools/price-source-inventory.mjs",
+    "sha256": "109fe4d7d33226bf541cfca1894c298fc928de4399aea2c977565c290e8f5b9d",
+    "function": "attachSourceVisualReviewMetadata(data, { ledger, catalogs })",
+    "replayPath": "research/ua-class-guidance-context-proposal-v8/native-owner-link-replay.json",
+    "replaySha256": "0399e9ca14bbff91a611a855ff82c4bb9c6898faccf85007c47971c2e427ff02"
+  },
+  "typedChanges": {
+    "catalogContentHashMap": [
+      {
+        "type": "registered-catalog-content-hash",
+        "catalog": "scans/verified/classes-fighter.json",
+        "from": "eabd9541af86ff7b49aefb9775eca5107d9ecda72f1ef2673f6e8ff7589015c5",
+        "to": "a9d0803daee189c3421c7282cea050a8e876c7eb069c4edfcc6a94bc9520e8fc",
+        "reason": "The exact bounded V7 catalog candidate appends source-context regions; source-visual review metadata is owner-bound separately."
+      },
+      {
+        "type": "registered-catalog-content-hash",
+        "catalog": "scans/verified/classes-ranger.json",
+        "from": "ce88f85daa6b49a4d868c334c73fec802ec1d72b879f12ccde7050cc09b0cc8a",
+        "to": "70568f677f4e5faf324bfbf94a79e805872e366acd04e6756570fe29ca53baa7",
+        "reason": "The exact bounded V7 catalog candidate appends source-context regions; source-visual review metadata is owner-bound separately."
+      },
+      {
+        "type": "registered-catalog-content-hash",
+        "catalog": "scans/verified/classes-ua-barbarian.json",
+        "from": "80b7fc6a7e2f1009543d071c401385a8ce989a95aaada8e324fa2e285575c001",
+        "to": "a2364be86bac4a67768e2a52ba523b856edacee7ab8f831af512925b4f06a4ea",
+        "reason": "The exact bounded V7 catalog candidate appends source-context regions; source-visual review metadata is owner-bound separately."
+      },
+      {
+        "type": "registered-catalog-content-hash",
+        "catalog": "scans/verified/classes-ua-cavalier.json",
+        "from": "c1069ea9d9a389205cb4175b5b51439bf51474837562df0ef963f50aaea6791f",
+        "to": "714e702a6da2bbc7b0c0773174f38b2035779f947550769cb1931c14e056dfae",
+        "reason": "The exact bounded V7 catalog candidate appends source-context regions; source-visual review metadata is owner-bound separately."
+      },
+      {
+        "type": "registered-catalog-content-hash",
+        "catalog": "scans/verified/classes-ua-paladin.json",
+        "from": "ea6ee142e06e57924016e9b66864beb42d66d1ceaab44d41f1cd704cd7db2cbf",
+        "to": "d13977e71c94985a052472c41d911528a17ba88b2e5de1e54ff30a8caad5026c",
+        "reason": "The exact bounded V7 catalog candidate appends source-context regions; source-visual review metadata is owner-bound separately."
+      },
+      {
+        "type": "registered-catalog-content-hash",
+        "catalog": "scans/verified/classes-ua-thief-acrobat.json",
+        "from": "fe94fef7e98e7a1c7ca742a0587aa3292935cdadd1baaadb178b0b87e901e838",
+        "to": "569925fce00f34ab37a21370348163f754a286f9c89b887080b8752625976675",
+        "reason": "The exact bounded V7 catalog candidate appends source-context regions; source-visual review metadata is owner-bound separately."
+      }
+    ],
+    "registeredOwnerJoins": [
+      {
+        "type": "registered-region-owner-join",
+        "owner": {
+          "collection": "classes",
+          "itemId": "ua-barbarian",
+          "binding": "sourceExcerpts"
+        },
+        "regionId": "phb-28-c18cfa2ca0a1cda2",
+        "catalog": "scans/verified/classes-ua-barbarian.json",
+        "catalogSha256": {
+          "from": "80b7fc6a7e2f1009543d071c401385a8ce989a95aaada8e324fa2e285575c001",
+          "to": "a2364be86bac4a67768e2a52ba523b856edacee7ab8f831af512925b4f06a4ea"
+        },
+        "ownerSourceLinkSha256": {
+          "from": "bf948fc0074ddd152ec132ad94ff25dfe967c75072fca4989454ce18106af028",
+          "to": "6354c87629437a757ebbeb18d9bc791474cceeb76b204f8f0ff0f4f23cd81b42"
+        },
+        "nativeProducer": "The owner link hash is calculated from prospective sourceExcerpts after the actual native attachSourceVisualReviewMetadata producer attaches the 32 accepted region records and 22 page-group defaults."
+      },
+      {
+        "type": "registered-region-owner-join",
+        "owner": {
+          "collection": "classes",
+          "itemId": "ua-thief-acrobat",
+          "binding": "sourceExcerpts"
+        },
+        "regionId": "phb-28-c18cfa2ca0a1cda2",
+        "catalog": "scans/verified/classes-ua-thief-acrobat.json",
+        "catalogSha256": {
+          "from": "fe94fef7e98e7a1c7ca742a0587aa3292935cdadd1baaadb178b0b87e901e838",
+          "to": "569925fce00f34ab37a21370348163f754a286f9c89b887080b8752625976675"
+        },
+        "ownerSourceLinkSha256": {
+          "from": "bbc951fbad2e0f2e8f761aab171fc7fb75377ae5039ca03810186f7ec3e9f565",
+          "to": "02d44c4660d0ed758da06e76258b23a38094f3f831ad7cd9222febaa94a17c34"
+        },
+        "nativeProducer": "The owner link hash is calculated from prospective sourceExcerpts after the actual native attachSourceVisualReviewMetadata producer attaches the 32 accepted region records and 22 page-group defaults."
+      },
+      {
+        "type": "registered-region-owner-join",
+        "owner": {
+          "collection": "classes",
+          "itemId": "fighter",
+          "binding": "sourceExcerpts"
+        },
+        "regionId": "phb-33-3e99376517d917d0",
+        "catalog": "scans/verified/classes-fighter.json",
+        "catalogSha256": {
+          "from": "eabd9541af86ff7b49aefb9775eca5107d9ecda72f1ef2673f6e8ff7589015c5",
+          "to": "a9d0803daee189c3421c7282cea050a8e876c7eb069c4edfcc6a94bc9520e8fc"
+        },
+        "ownerSourceLinkSha256": {
+          "from": "84f43f5fb79eed65bc91d9ab26c061b0f07a054faaa0fc3c97faf3ba4f442e68",
+          "to": "4fa28de39970948b21d59c807287f89012784854697580f98f65eaef1ee38f42"
+        },
+        "nativeProducer": "The owner link hash is calculated from prospective sourceExcerpts after the actual native attachSourceVisualReviewMetadata producer attaches the 32 accepted region records and 22 page-group defaults."
+      },
+      {
+        "type": "registered-region-owner-join",
+        "owner": {
+          "collection": "classes",
+          "itemId": "ranger",
+          "binding": "sourceExcerpts"
+        },
+        "regionId": "phb-33-3e99376517d917d0",
+        "catalog": "scans/verified/classes-ranger.json",
+        "catalogSha256": {
+          "from": "ce88f85daa6b49a4d868c334c73fec802ec1d72b879f12ccde7050cc09b0cc8a",
+          "to": "70568f677f4e5faf324bfbf94a79e805872e366acd04e6756570fe29ca53baa7"
+        },
+        "ownerSourceLinkSha256": {
+          "from": "83436a047dc64f2372be3d61803d10a07c643c333c38a5b8a4c88a41d2a3c880",
+          "to": "f7e4ee7bf9cc2b03d67e064aea223e90a093990b29e7986ef88a18cd6755d5e5"
+        },
+        "nativeProducer": "The owner link hash is calculated from prospective sourceExcerpts after the actual native attachSourceVisualReviewMetadata producer attaches the 32 accepted region records and 22 page-group defaults."
+      },
+      {
+        "type": "registered-region-owner-join",
+        "owner": {
+          "collection": "classes",
+          "itemId": "fighter",
+          "binding": "sourceExcerpts"
+        },
+        "regionId": "phb-33-7d2eca37ce27b8e",
+        "catalog": "scans/verified/classes-fighter.json",
+        "catalogSha256": {
+          "from": "eabd9541af86ff7b49aefb9775eca5107d9ecda72f1ef2673f6e8ff7589015c5",
+          "to": "a9d0803daee189c3421c7282cea050a8e876c7eb069c4edfcc6a94bc9520e8fc"
+        },
+        "ownerSourceLinkSha256": {
+          "from": "84f43f5fb79eed65bc91d9ab26c061b0f07a054faaa0fc3c97faf3ba4f442e68",
+          "to": "4fa28de39970948b21d59c807287f89012784854697580f98f65eaef1ee38f42"
+        },
+        "nativeProducer": "The owner link hash is calculated from prospective sourceExcerpts after the actual native attachSourceVisualReviewMetadata producer attaches the 32 accepted region records and 22 page-group defaults."
+      },
+      {
+        "type": "registered-region-owner-join",
+        "owner": {
+          "collection": "classes",
+          "itemId": "ranger",
+          "binding": "sourceExcerpts"
+        },
+        "regionId": "phb-33-7d2eca37ce27b8e",
+        "catalog": "scans/verified/classes-ranger.json",
+        "catalogSha256": {
+          "from": "ce88f85daa6b49a4d868c334c73fec802ec1d72b879f12ccde7050cc09b0cc8a",
+          "to": "70568f677f4e5faf324bfbf94a79e805872e366acd04e6756570fe29ca53baa7"
+        },
+        "ownerSourceLinkSha256": {
+          "from": "83436a047dc64f2372be3d61803d10a07c643c333c38a5b8a4c88a41d2a3c880",
+          "to": "f7e4ee7bf9cc2b03d67e064aea223e90a093990b29e7986ef88a18cd6755d5e5"
+        },
+        "nativeProducer": "The owner link hash is calculated from prospective sourceExcerpts after the actual native attachSourceVisualReviewMetadata producer attaches the 32 accepted region records and 22 page-group defaults."
+      },
+      {
+        "type": "registered-region-owner-join",
+        "owner": {
+          "collection": "classes",
+          "itemId": "fighter",
+          "binding": "sourceExcerpts"
+        },
+        "regionId": "phb-37-f700eca9387736c6",
+        "catalog": "scans/verified/classes-fighter.json",
+        "catalogSha256": {
+          "from": "eabd9541af86ff7b49aefb9775eca5107d9ecda72f1ef2673f6e8ff7589015c5",
+          "to": "a9d0803daee189c3421c7282cea050a8e876c7eb069c4edfcc6a94bc9520e8fc"
+        },
+        "ownerSourceLinkSha256": {
+          "from": "84f43f5fb79eed65bc91d9ab26c061b0f07a054faaa0fc3c97faf3ba4f442e68",
+          "to": "4fa28de39970948b21d59c807287f89012784854697580f98f65eaef1ee38f42"
+        },
+        "nativeProducer": "The owner link hash is calculated from prospective sourceExcerpts after the actual native attachSourceVisualReviewMetadata producer attaches the 32 accepted region records and 22 page-group defaults."
+      },
+      {
+        "type": "registered-region-owner-join",
+        "owner": {
+          "collection": "classes",
+          "itemId": "ranger",
+          "binding": "sourceExcerpts"
+        },
+        "regionId": "phb-37-0119fdbdadda1bfc",
+        "catalog": "scans/verified/classes-ranger.json",
+        "catalogSha256": {
+          "from": "ce88f85daa6b49a4d868c334c73fec802ec1d72b879f12ccde7050cc09b0cc8a",
+          "to": "70568f677f4e5faf324bfbf94a79e805872e366acd04e6756570fe29ca53baa7"
+        },
+        "ownerSourceLinkSha256": {
+          "from": "83436a047dc64f2372be3d61803d10a07c643c333c38a5b8a4c88a41d2a3c880",
+          "to": "f7e4ee7bf9cc2b03d67e064aea223e90a093990b29e7986ef88a18cd6755d5e5"
+        },
+        "nativeProducer": "The owner link hash is calculated from prospective sourceExcerpts after the actual native attachSourceVisualReviewMetadata producer attaches the 32 accepted region records and 22 page-group defaults."
+      }
+    ]
+  },
+  "exactness": {
+    "changedRegistryLeafCount": 22,
+    "changedRegistryLeafPaths": [
+      "frames[5].regions[3].catalogSha256",
+      "frames[5].regions[3].ownerSourceLinkSha256",
+      "frames[5].regions[4].catalogSha256",
+      "frames[5].regions[4].ownerSourceLinkSha256",
+      "frames[6].regions[3].catalogSha256",
+      "frames[6].regions[3].ownerSourceLinkSha256",
+      "frames[6].regions[8].catalogSha256",
+      "frames[6].regions[8].ownerSourceLinkSha256",
+      "frames[7].regions[3].catalogSha256",
+      "frames[7].regions[3].ownerSourceLinkSha256",
+      "frames[7].regions[8].catalogSha256",
+      "frames[7].regions[8].ownerSourceLinkSha256",
+      "frames[8].regions[3].catalogSha256",
+      "frames[8].regions[3].ownerSourceLinkSha256",
+      "frames[8].regions[8].catalogSha256",
+      "frames[8].regions[8].ownerSourceLinkSha256",
+      "provenance.catalogHashes.scans/verified/classes-fighter.json",
+      "provenance.catalogHashes.scans/verified/classes-ranger.json",
+      "provenance.catalogHashes.scans/verified/classes-ua-barbarian.json",
+      "provenance.catalogHashes.scans/verified/classes-ua-cavalier.json",
+      "provenance.catalogHashes.scans/verified/classes-ua-paladin.json",
+      "provenance.catalogHashes.scans/verified/classes-ua-thief-acrobat.json"
+    ],
+    "v7BridgeToV8ChangedLeaves": [
+      "frames[5].regions[3].ownerSourceLinkSha256",
+      "frames[5].regions[4].ownerSourceLinkSha256",
+      "frames[6].regions[3].ownerSourceLinkSha256",
+      "frames[6].regions[8].ownerSourceLinkSha256",
+      "frames[7].regions[3].ownerSourceLinkSha256",
+      "frames[7].regions[8].ownerSourceLinkSha256",
+      "frames[8].regions[3].ownerSourceLinkSha256",
+      "frames[8].regions[8].ownerSourceLinkSha256"
+    ],
+    "v7BridgeToV8OnlyEightNativeOwnerLinkPinsChanged": true,
+    "sixCatalogHashEntries": 6,
+    "rowBearingCatalogs": {
+      "scans/verified/classes-fighter.json": 3,
+      "scans/verified/classes-ranger.json": 3,
+      "scans/verified/classes-ua-barbarian.json": 1,
+      "scans/verified/classes-ua-thief-acrobat.json": 1
+    },
+    "changedOwnerJoins": 8,
+    "all102OwnerSourceImageFocusAndGeometryCoreTuplesExact": true,
+    "allExistingOwnerReviewObjectsAndGradesExact": true,
+    "noNumericMechanicsOrFieldGradePromoted": true,
+    "sourcePdfPinsFrameBoxesCoordinateTagsAndOrderingUnchanged": true,
+    "bridgeDataSha256AtRegistryBuildUnchanged": true,
+    "bridgeBooksJsSha256Unchanged": true
+  },
+  "retainedUntouched": {
+    "candidateCatalogOutsideExistingRegistryHashMap": [
+      "scans/verified/classes-ua-druid.json"
+    ],
+    "hashOnlyCompanionCatalogs": [
+      "scans/verified/classes-ua-cavalier.json",
+      "scans/verified/classes-ua-paladin.json"
+    ],
+    "noDataOrBooksJsRepin": true,
+    "noFrameGeometryOrReviewHashRepin": true
+  },
+  "activationBoundary": "Candidate only. The final assembled data hash, current pointer, and remote merge base must be recomputed/revalidated after the unpublished weapon branch is merged. This migration changes only six catalog hash-map entries and the catalog/link pins on eight existing rows."
+}

@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "title": "UA class-ability content author receipt",
+  "status": "authored proposal; independent review pending; not active in compiled data",
+  "worktree": {
+    "path": "/workspace/adnd1-ua-class-ability-audit",
+    "branch": "codex/ua-class-ability-audit",
+    "baseCommit": "ad57b84226cc89446e60d0b7bbaebb379aedc16a",
+    "commitOrPush": "none"
+  },
+  "source": {
+    "path": "/workspace/vault-audit-private/sources/Unearthed Arcana.pdf",
+    "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+    "printedPages": [
+      12,
+      26
+    ],
+    "pdfPages": [
+      13,
+      27
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "classes.json",
+      "role": "only data file edited; append 17 UA page-tagged class guidance strings across seven records",
+      "sha256Before": "46c5ad4c404eeb54a75af40e48e2eb8d8a5b952bf134accc7bf7cf1a6fea069e",
+      "sha256After": "e663a20ec50a066dae4eb4356ff4ca85e7d344187193410788b96af86f60a4c0"
+    },
+    {
+      "path": "research/source-audit-pass8-ua-class-content-baseline-v3.json",
+      "role": "corrected denominator/crop evidence baseline; supersedes v2 without changing its bytes",
+      "sha256": "97f57790cabfca9550cfd1be9dcbdb81588c981b6e06a068a4e8cfb38edab36f"
+    },
+    {
+      "path": "research/source-audit-pass8-ua-class-content-baseline-v2.json",
+      "role": "preserved earlier baseline input; v3 carries its hash and correction history",
+      "sha256": "f158ff5964fb288dcdffca71ab94798334226b1132444ff25aa19ef1db6242ed"
+    },
+    {
+      "path": "research/source-audit-pass8-ua-class-content-baseline.json",
+      "role": "preserved original baseline v1; no rewrite",
+      "sha256": "31e0d79d03e9f5ac98d5924c0f3c2850e6c5315b962850292120fccf8bfb4775"
+    },
+    {
+      "path": "research/source-audit-pass8-ua-class-content-candidates.json",
+      "role": "source-backed lookup/procedure candidates and Barbarian taxonomy; pending independent review",
+      "sha256": "94f86bc23f9becdb37cda32c5374fe4f5c34c4ea757a49d25d806481cc0f3339"
+    }
+  ],
+  "sourceReviewEvidence": {
+    "recipe": "PyMuPDF 1.26.6 full-page Matrix(3,3), alpha=False, PIL 13.0.0 RGB crop by PDF point bounds×3. Pixel-array replay against the pinned source PDF reproduced all ten final candidate crops exactly. Each no-label focus overlay was viewed individually against its corresponding crop.",
+    "cropCount": 10,
+    "pixelReplaysMatched": 10,
+    "noLabelOverlaysIndividuallyReviewed": 10,
+    "baselineWithExactCropAndFocusHashes": "research/source-audit-pass8-ua-class-content-baseline-v3.json",
+    "sourcePixelFactsReviewed": [
+      "p.15 Cavalier Table I: two zero-level physical rows and qualifier (XP rows unchanged).",
+      "p.17 Druid Table I: physical level-14 Great Druid row (UA and PHB class owners remain distinct).",
+      "p.18 Fighter/Ranger specialization procedure and 3×8 rate table; Barbarian initial weapon list.",
+      "pp.19–20 Barbarian eight primary, four secondary, eight tertiary abilities; paddled and rowed small craft separate.",
+      "pp.21–22 Ranger tracking modifier/movement details and ten-row identification table.",
+      "p.13 permissions table/notes; p.22 Thieves Table II; p.25 Acrobat adjustments, six Cavalier packages and encumbrance procedure/Table IV; p.26 weapon proficiency table/footnote."
+    ]
+  },
+  "editScope": {
+    "classOwners": [
+      "ua-cavalier",
+      "ua-paladin",
+      "ua-druid",
+      "ua-barbarian",
+      "ua-thief-acrobat",
+      "fighter",
+      "ranger"
+    ],
+    "directUAPrimaryOwners": 5,
+    "recordsWithUASourceCoverage": 7,
+    "namedUASourceUnits": 6,
+    "supportingClassOverviewCountedSeparately": true,
+    "guidanceAppends": 17,
+    "otherClassPropertiesChanged": false,
+    "rulesJsonChanged": false,
+    "citationsBindingsGradesOrGlobalMetadataChanged": false,
+    "xpRowsValuesOrProgressionChanged": false,
+    "compiledDistChanged": false
+  },
+  "candidateOnlyDisposition": {
+    "researchOnlyTypedCandidates": 7,
+    "candidatePackageIncludes": [
+      "Table II armor/weapons permissions (14×5 plus six notes)",
+      "Thieves Table II (8×3 plus notes)",
+      "Thief-Acrobat Strength/Dexterity adjustments",
+      "Thief-Acrobat Table IV (18×3) plus scoped procedure",
+      "six Cavalier starting-resource packages and notes",
+      "14×3 weapon-proficiency table plus unresolved Paladin star",
+      "Ranger outdoor/indoor modifier and movement procedure; existing identification table excluded as duplicate"
+    ],
+    "unactivated": true,
+    "importantLimit": "These typed lookups are research proposals only, not present in the shipped/current compiled search surface. The p.25 worked example after Table IV is expressly excluded.",
+    "nonTableTaxonomyGuidanceCandidate": 1,
+    "totalResearchOnlyContentCandidates": 8
+  },
+  "sourceFindingsKeptWithoutDataChange": [
+    "Cavalier Table I has two unrepresented 0-level rows; keep source negative XP boundaries and hit-die note unnormalized.",
+    "UA Druid Table I contains level 14; current UA Druid owner begins at 15. Similar PHB Druid row is separate source/owner evidence.",
+    "UA p.26 starred Paladin proficiency entry does not get a star interpretation from the Cavalier-specific zero-level note.",
+    "Ranger p.22 identification abilities and roll are already in ranger.levelChanges; no duplication.",
+    "Specialization rate table is present as rules.json id ua-specialization; no duplicate.",
+    "Paladin p.22 level-12 overlap and Barbarian “2/3 rounds” remain unresolved.",
+    "UA10 and earlier glyph/racial permissions, UA28 hurled-weapon content, and Bard appendix p.117 remain outside scope."
+  ],
+  "checks": {
+    "jsonParse": [
+      "classes.json",
+      "research/source-audit-pass8-ua-class-content-baseline-v3.json",
+      "research/source-audit-pass8-ua-class-content-candidates.json"
+    ],
+    "jsonParsePassed": true,
+    "boundedDeepDiffGuard": "Compared classes.json with git base ad57; verified exactly 17 appended guidance leaves on the seven scoped records, all other class records/properties deeply unchanged.",
+    "boundedDeepDiffGuardPassed": true,
+    "gitDiffCheckPassed": true,
+    "authoringSearchProjection": "In-memory search.prepare/score of modified class records made Barbarian first-aid/paddled/rowed queries, Fighter/Ranger specialist setup, and Ranger movement query findable. TableIV numeric lookup and Cavalier packages remain no-hit because they are research-only candidates and were not copied into class guidance or compiled output.",
+    "noAssemblyOrProjectTests": "Intentionally deferred for independent review; no dist rebuild was run."
+  },
+  "unchangedHashes": {
+    "rules.json": "78afec70d0380db08d7e750a8ce1fcec16a8167aaa4107be8af5351a474bfc5d",
+    "dist/data.json": "a4225fbd2015c5ba7d225738ec1a9bf4658f4a9a9700e340a37dde79317119f3",
+    "dist/search.js": "5e225a2518ae6e50dfcefb668f3587f5cf26aae7353fe0f168e246f1c7657cf3",
+    "dist/app.js": "5913dd09673455247367b797d7ae8b7d1375df1fb98c05db0135ce5fd502630e",
+    "research/source-completeness-ua.json": "d19143fb4686e6f7069492bf391e2c9884a0cf5d80a8e1b17d72ec9c5198953f"
+  },
+  "nextGate": "Root independent review of exact appended guidance, candidate transcriptions and source/focus hashes; only after acceptance can candidate typed lookups be integrated or distribution/tests regenerated."
+}

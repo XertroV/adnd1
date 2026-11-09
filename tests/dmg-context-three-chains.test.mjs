@@ -1,15 +1,15 @@
 import test from 'node:test';
 import {projectDmg175Json} from './helpers/batch6-dmg175-source-history.mjs';
 import assert from 'node:assert/strict';
-import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-weapon-source-history.mjs';
+import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {gunzipSync} from 'node:zlib';
-import {withoutBatch6JoManifest,withoutBatch6XpManifest,beforeJoSearchOverridesForXp,readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from './helpers/batch6-jo-fixture.mjs';
+import {withoutBatch6JoManifest,withoutBatch6XpManifest,beforeJoSearchOverridesForXp,readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from './helpers/ua-source-batch6-jo-fixture.mjs';
 import {auditRequiredSegmentPresence,validateContinuationManifest} from '../tools/continuation-contract.mjs';
 import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';
-import {reverseApprovedXpExcerptCounts} from './helpers/batch6-xp-source-history.mjs';
-import {withoutDmg74MatrixSourceExcerptOverrides} from './helpers/dmg74-matrix-batch.mjs';
+import {reverseApprovedXpExcerptCounts} from './helpers/ua-source-batch6-xp-source-history.mjs';
+import {withoutDmg74MatrixSourceExcerptOverrides} from './helpers/ua-source-dmg74-matrix-batch.mjs';
 // This history replay uses the exact released777 inputs before the additive
 // XP-continuation mapping. Current-input validation remains a separate gate.
 

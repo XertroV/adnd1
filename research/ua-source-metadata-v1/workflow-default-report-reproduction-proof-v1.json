@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "actual fresh-default reports versus compressed frozen evidence and workflow-step23 proof",
+  "sourceInputCommit": "6b3cfc8cb421a2c1fc2379c38abebe2075634981",
+  "workflowSha256": "3257bf1f3bf494504fd5f21c07a7dba64d4900b9db3f8e304e56adc2f91d19c2",
+  "executedStepName": "Verify published gaps match current coverage reports",
+  "script": "set -o pipefail\nmkdir -p artifacts/source-domain-audits\ngzip -cd research/ua-source-metadata-v1/frozen-systemic-current-v1.json.gz | cmp - artifacts/citation-systemic-coverage/citation-systemic-current.json\ngzip -cd research/ua-source-metadata-v1/frozen-visual-report-v1.json.gz | cmp - artifacts/source-visual-coverage/report.json\ngzip -cd research/ua-source-metadata-v1/frozen-table-report-v1.json.gz | cmp - artifacts/source-table-citation-coverage/report.json\nnode tools/refresh-gaps-handoff.mjs --check | tee artifacts/source-domain-audits/gaps-handoff-check.json",
+  "scriptSha256": "4785c4156acbdfaed55c64ed510ef3c2074cc99debf19a1538742f98518ae258",
+  "shell": "bash -e -o pipefail -c",
+  "exitCode": 0,
+  "stdout": "Gaps handoff is current (12 reviewed transitions; 76 active cautions).\n",
+  "stderr": "",
+  "freshOfficialGeneratorsRerunAfterFreeze": true,
+  "reports": [
+    {
+      "defaultArtifactPath": "artifacts/citation-systemic-coverage/citation-systemic-current.json",
+      "frozenEvidencePath": "research/ua-source-metadata-v1/frozen-systemic-current-v1.json.gz",
+      "rawSha256": "859dec2ec1f66333c1df5225054baf96439d39f6448fcae68119996d28b5ec19",
+      "rawBytes": 55587870,
+      "gzipSha256": "4f7c71e04229a6305a5dbef01c3fed254014da05bd46b501d7e149f35659487a",
+      "gzipBytes": 2358347
+    },
+    {
+      "defaultArtifactPath": "artifacts/source-visual-coverage/report.json",
+      "frozenEvidencePath": "research/ua-source-metadata-v1/frozen-visual-report-v1.json.gz",
+      "rawSha256": "cac90fa72dc37bd3a5b0de1c0f19eba0e849d996db16fe10600ad3d10dff2b56",
+      "rawBytes": 18779794,
+      "gzipSha256": "5ef193fd3a7f4663335a4bbafef6dba071b92a48c6807a34b22d1bb9744a653d",
+      "gzipBytes": 1275465
+    },
+    {
+      "defaultArtifactPath": "artifacts/source-table-citation-coverage/report.json",
+      "frozenEvidencePath": "research/ua-source-metadata-v1/frozen-table-report-v1.json.gz",
+      "rawSha256": "760a17f65d35018543a1272b6db2c3af861381c0b2c9bc33403b0ffff73fd2cf",
+      "rawBytes": 4347611,
+      "gzipSha256": "8e643fd48fb903a1f4541418491c153d10eb42ec926ca731067a7ca25d10e18d",
+      "gzipBytes": 204631
+    }
+  ],
+  "allThreeExactDecompressedComparisonsPassed": true,
+  "defaultRefreshCheckPassed": true,
+  "noFrozenPathAliasesInHandoffRefreshInputs": true,
+  "handoffSha256": "54cb148c3c9e5cfaf4a1a4e55509cd6e93f6f8ce45fedc17e9460ddd81698d77",
+  "coverageGapsSha256": "de25ad7d99a79be4a2c2962482a1f3dd0aa6442e881642830c70ac9a38654fb1",
+  "semanticPass": false
+}

@@ -2,6 +2,7 @@ import {reverseClosureCorrections} from './mechanics-closure-fixture.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
+import {assertApprovedUaClassSource} from './helpers/ua-source-current-cohort.mjs';
 
 const load = file => JSON.parse(readFileSync(new URL(`../${file}`, import.meta.url), 'utf8'));
 const data = load('dist/data.json');
@@ -13,7 +14,10 @@ const byId = new Map(data.spells.map(spell => [spell.id, spell]));
 test('assembly includes every indexed spell and the current class checkpoint plus reviewed progression metadata', () => {
   assert.equal(data.spells.length, 638);
   assert.equal(data.spells.filter(spell => spell.effect?.length).length, 638);
-  assert.deepEqual(reverseClosureCorrections(data.classes,'classes').map(({sourceExcerpts,...cls})=>cls), reverseClosureCorrections(authorClasses.map(cls=>({...cls,...progression.classes[cls.id]})),'classes'), 'authored level changes and reviewed metadata must survive assembly');
+  assertApprovedUaClassSource(data);
+  const currentClasses=reverseClosureCorrections(data.classes,'classes');
+  const authoredClasses=reverseClosureCorrections(authorClasses.map(cls=>({...cls,...progression.classes[cls.id]})),'classes');
+  for(const [index,authored]of authoredClasses.entries())assert.deepEqual(Object.fromEntries(Object.keys(authored).map(key=>[key,currentClasses[index][key]])),authored,'every current authored class property and reviewed progression value survives assembly; the native guard separately checks the complete generated reference and excerpt metadata');
   const {sourceExcerpts, id:explainerId, ...explainer} = data.progressionExplainer;
   assert.equal(explainerId, 'progression-explainer', 'synthetic citation owner identity remains stable');
   const withoutGeneratedTransport=value=>Array.isArray(value)?value.map(withoutGeneratedTransport):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).filter(([key])=>!['evidenceBindings','regionReviews'].includes(key)).map(([key,child])=>[key,withoutGeneratedTransport(child)])):value;

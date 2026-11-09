@@ -1,0 +1,1246 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "read-only-UA-source-mechanics-overlap-inventory",
+  "status": "candidate inventory; no active ledger changes",
+  "baseCommit": "9b77aeb620b1d671ff1d59b0e14790206523b327",
+  "actualMergedWeaponDependency": "6717c6f22bbf2f2b421327e4c8561b1d81df00d4",
+  "inputs": {
+    "research/mechanics-audit-progress.json": "ba9fe216487c80100cd58e6287d8e9079af5fc5eff1af11f03125a4f44492be1",
+    "dist/data.json": "c076e0f6bb898eb52650fd886630089f17edc86cbc8e3c4ac349b817bceba0d3",
+    "research/price-source-inventory.json": "2d050385af4b5ce68152ed1cef9c7f1cc7774612a291db910c5e44d26509d210",
+    "research/field-evidence-bindings.json": "6422b17cf193470a01da432f77ba61d61abe0e69653ceb493048616b4da448b9",
+    "tools/mechanics-audit.mjs": "f359b684310ef02f25d09034ac83346f64e7029b52d79081a18911f0bb0b66f3",
+    "research/ua-source-native-integration-v1/source-phase-manifest-v1.json": "bc70496d8f4acbef7c9f2cc26427e6a0618605aa58099d41a819c85c34270154",
+    "research/ua-source-native-integration-v1/source-phase-integration-receipt-v1.json": "69478559c7ac44580dffd17d51a877ca4b2c7ead6d9e02fe28efd09f9dab166b"
+  },
+  "counts": {
+    "historicalReviewRecords": 1210,
+    "changedBodyLeafPointers": 44,
+    "changedCurrentBodyLeafPointers": 41,
+    "affectedReviewRecords": 6,
+    "withdrawnCheckedRecordPointerPairs": 25,
+    "distinctWithdrawnCheckedPointers": 24,
+    "obsoleteProposedChanges": 4,
+    "currentStaleFields": 22,
+    "manualDeclarations": 807,
+    "manualOwnerDeclarations": 0,
+    "baseCanonicalBindings": 4681,
+    "currentCanonicalBindings": 4705,
+    "pendingOwnerBindings": 12,
+    "nonemptyReferenceBindings": 3,
+    "bodyTargetOverlaps": 0
+  },
+  "changedBodyLeaves": [
+    {
+      "collection": "spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/effect/0",
+      "beforePresent": true,
+      "beforeValue": "Provides distinct religious rites, not one general blessing: coming of age, burial and marriage are available at cleric level 1; dedication, investiture and item consecration at 3; ordination and special vows at 5; ground consecration at 7; anathematizing at 9.",
+      "afterPresent": true,
+      "afterValue": "The rite variant depends on the religion and leaves no lingering aura of magic, though an aura of good or evil may be present and detectable. The source lists coming of age, burial, and marriage at cleric level 1; dedication, investiture, and consecrate item at level 3; ordination and special vows at level 5; consecrate ground at level 7; and anathematize at level 9. Each requires a cleric of the indicated level or higher."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/effect/1",
+      "beforePresent": true,
+      "beforeValue": "Coming of age grants one future +1 save; burial protects a corpse for a week; investiture and ordination establish religious standing.",
+      "afterPresent": true,
+      "afterValue": "Coming of age grants a +1 bonus to one saving throw, usable at any time after the rite; in some cultures it marks entry to adulthood. Burial protects a corpse for one week as protection from evil; someone trying to disinter the body must save versus spell or stop and flee in fear for one turn. Marriage has no tangible after-effect and does not guarantee happiness or harmony, though it can carry moral or legal significance."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/effect/2",
+      "beforePresent": true,
+      "beforeValue": "Special vows protect a cavalier/paladin from bestow curse, but impose −4 against a same-alignment cleric’s quest.",
+      "afterPresent": true,
+      "afterValue": "Dedication admits the recipient to the casting cleric’s religious ranks as a sanctioned worshiper; it is permanent unless the worshiper demonstrates a desire to change allegiance, in which case a higher-level cleric can replace it. Investiture must precede first-level cleric status. Ordination precedes service as a congregation priest or similar leader and is performed by a cleric of higher level than the recipient."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/conditions/0",
+      "beforePresent": true,
+      "beforeValue": "The listed cleric rank is a minimum. All rites except anathematizing require willingness.",
+      "afterPresent": true,
+      "afterValue": "Except for anathematize, no saving throw is called for: the recipient is inanimate or presumed willing. Any ceremony other than anathematize simply fails if cast on an unwilling person."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/conditions/1",
+      "beforePresent": true,
+      "beforeValue": "Ground must be consecrated before construction begins; consecrated graveyards turn or protect undead as a 3rd-level cleric.",
+      "afterPresent": true,
+      "afterValue": "Special vows are received before the intended cavalier or paladin begins that career; the protection lasts through the upper limit of the recipient’s current level and can be renewed as described in the effect."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/exceptions/0",
+      "beforePresent": true,
+      "beforeValue": "Anathematizing allows an unwilling subject a spell save at −4 and fails if undeserved; atonement can reduce or remove the brand.",
+      "afterPresent": true,
+      "afterValue": "An unwilling subject of anathematize receives a save versus spell at −4. Standard service costs are: coming of age 5–15 sp; burial 5–50 gp; marriage 1–20 gp; dedication 1–10 sp (sometimes free); investiture 1–100 gp (sometimes free); consecrate item usually free; ordination usually free but possibly up to 200 gp; special vows 1–100 gp (sometimes free); consecrate ground 100–600 gp depending on area and cleric level; anathematize is performed without charge."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/exceptions/1",
+      "beforePresent": true,
+      "beforeValue": "This card condenses nine rites; detailed religious requirements and service costs remain in the source.",
+      "afterPresent": false
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/effect/3",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Consecrate item is performed on an object destined for an altar or another place in a religious edifice. Holy or unholy water used to keep it potent must be stored in a properly consecrated container."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/effect/4",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Special vows are received by a would-be cavalier or paladin before beginning the chosen career. While they remain in effect, they protect against bestow curse spells but not cursed items; they also impose −4 on saving throws against a quest cast by a cleric of the same alignment as the caster of the vows. The vows may be renewed between levels or during advancement through the next level."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/effect/5",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Consecrate ground must be cast before the area is altered or construction materials arrive. A structure built on unconsecrated ground deteriorates irreversibly; the structure also has a cumulative 1% chance per year of actually collapsing. A consecrated graveyard turns undead each round as a 3rd-level cleric; if an evil cleric consecrates it, undead there are instead treated as protected and controlled by an evil 3rd-level cleric."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/effect/6",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Anathematize brands an offender with a religious identifying mark. If the subject is undeserving, the spell fails; a successful atonement makes the mark fade and may remove it. The brand disappears entirely when the offense was caused by magic or another external force, but a naturally caused offense cannot be completely removed."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/conditions/2",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Consecrate ground has no effect if cast after the site has been altered or construction materials have been brought there."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-rainbow",
+      "path": "/effect/0",
+      "beforePresent": true,
+      "beforeValue": "Bow: a +3 bow with seven arrows, usable at one or two shots/round by a bow-using class with Strength 6+. Each hue has specific doubled-damage foes, not fully listed here.",
+      "afterPresent": true,
+      "afterValue": "Bow: creates a shimmering, multilayered bow with seven rainbow missiles, each equal to a +3 weapon; the bow disappears after firing all seven. A character permitted to use a bow and with Strength 6 or better can use it without a non-proficiency penalty; it fires once or twice per round, and each arrow leaves a different hue. Each hue deals double damage to its listed targets: red—fire-dwellers/users; orange—earth elementals; yellow—vegetable targets, including fungus creatures, shambling mounds, and treants; green—aquatic creatures and water elementals; blue—aerial creatures, electricity-using creatures, and air elementals; indigo—acid- or poison-using creatures; violet—metallic or regenerating creatures. If no hue is requested, or a previously used hue is requested, the next arrow in spectrum order appears."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-rainbow",
+      "path": "/effect/1",
+      "beforePresent": true,
+      "beforeValue": "Bridge: 20–120 feet long, caster-level feet wide, carrying 100 lb/level; exceeding capacity removes it.",
+      "afterPresent": true,
+      "afterValue": "Bridge: 20–120 feet long, caster-level feet wide, and carries weight in hundreds of pounds equal to the cleric’s level. If its weight limit is exceeded it disappears; otherwise it lasts for the spell duration or until dismissed."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-rainbow",
+      "path": "/effect/2",
+      "beforePresent": true,
+      "beforeValue": "Elevator: lifts the caster and those within 10 feet at 12″ movement.",
+      "afterPresent": true,
+      "afterValue": "Elevator: lifts the caster and creatures within 10 feet along an upward arc at 12″ movement; it can descend again, and its arc trails 12″ behind those traveling on it. Reach safety before the spell expires, or the rainbow disappears from beneath those standing on it."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-rainbow",
+      "path": "/effect/3",
+      "beforePresent": true,
+      "beforeValue": "Flagon: seven drinks provide cure light wounds, resist fire, cure blindness, slow poison, cure disease, resist cold and remove paralysis as a 12th-level cleric.",
+      "afterPresent": true,
+      "afterValue": "Flagon: forms a seven-colored vessel containing seven measures of water. The hues provide cure light wounds, resist fire, cure blindness, slow poison, cure disease, resist cold, and remove paralysis. Each benefit acts as the corresponding spell cast by a 12th-level cleric and persists after the Rainbow expires."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-rainbow",
+      "path": "/conditions/0",
+      "beforePresent": true,
+      "beforeValue": "Requires a visible rainbow or a diamond worth at least 1,000 gp previously blessed and prayed over in sight of a rainbow.",
+      "afterPresent": true,
+      "afterValue": "Requires a visible rainbow, or a diamond worth at least 1,000 gp that the cleric has specially prepared with bless and prayer in sight of a rainbow."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-cleric-rainbow",
+      "path": "/exceptions/0",
+      "beforePresent": true,
+      "beforeValue": "Only the holy symbol survives casting; unused rainbow objects/drinks vanish on expiry, though consumed spell benefits persist normally.",
+      "afterPresent": true,
+      "afterValue": "Only the holy/unholy symbol remains after casting. The rainbow objects and unused flagon water disappear when the spell expires; benefits from consumed flagon water persist."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-druid-ceremony",
+      "path": "/effect/0",
+      "beforePresent": true,
+      "beforeValue": "Provides druidic rites: coming of age/rest eternal/marriage (listed rank 1), dedication/investiture (3), initiation/special vows (7), hallowed ground (9), and cast out (12).",
+      "afterPresent": true,
+      "afterValue": "The spell leaves no aura of magic, though know alignment or similar magic may reveal the force of true neutrality involved. The source lists coming of age, rest eternal, and marriage at druid level 1; dedication and investiture at level 3; initiation and special vows at level 7; hallowed ground at level 9; and cast out at level 12. Its general sentence says each can be cast by a druid of the indicated or lower level; the initiation paragraph separately gives a rite-specific performer and timing rule."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-druid-ceremony",
+      "path": "/effect/1",
+      "beforePresent": true,
+      "beforeValue": "Rest eternal prevents raise dead and resurrection, though wish can restore life; initiation unlocks 7th-level shapechanging and woodland-charm immunity.",
+      "afterPresent": true,
+      "afterValue": "Coming of age is usually performed when the recipient reaches age 14 and grants the same +1 bonus to one saving throw as the cleric rite. Rest eternal hastens the deceased’s spirit toward its final resting place; raise dead and resurrection cannot restore that subject, though wish can. Marriage is essentially identical to clerical ceremony."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-druid-ceremony",
+      "path": "/effect/2",
+      "beforePresent": true,
+      "beforeValue": "Hallowed ground protects a permanent grove from disease and natural disaster; cast out makes natural creatures react negatively.",
+      "afterPresent": true,
+      "afterValue": "Dedication admits a true-neutral recipient to the druid’s followers/worshipers and charges the recipient, as a druid, to preserve and protect nature and the world’s balance. Investiture must occur before the character becomes an Aspirant (1st-level druid) and conveys no other benefit."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-druid-ceremony",
+      "path": "/conditions/0",
+      "beforePresent": true,
+      "beforeValue": "Dedication requires true neutrality; special vows apply to cavaliers of any alignment, not paladins.",
+      "afterPresent": true,
+      "afterValue": "A ceremony is performed in a druid grove or another natural, healthy patch of forest; mistletoe is always a material component. Rites are normally conducted at dawn or dusk."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-druid-ceremony",
+      "path": "/conditions/1",
+      "beforePresent": true,
+      "beforeValue": "Cast out needs hierarchical permission; unwilling targets save versus spell at −4.",
+      "afterPresent": true,
+      "afterValue": "Dedication requires true neutrality. Initiation is normally performed by another druid of 7th or higher level; in unusual cases the recipient may cast it on themself. Preserve both this rite-specific instruction and the source’s separate general indicated-or-lower-level sentence."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-druid-ceremony",
+      "path": "/exceptions/0",
+      "beforePresent": true,
+      "beforeValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
+      "afterPresent": true,
+      "afterValue": "Cast out’s effects can be lessened by a reversed ceremony cast by the same druid or another druid at least as high level as the original caster, but only a Hierophant Druid can completely cancel it. Higher-ranking druids may punish a druid who was denied permission or whose action is later reversed."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-druid-ceremony",
+      "path": "/exceptions/1",
+      "beforePresent": true,
+      "beforeValue": "Only a Hierophant Druid can fully cancel casting out; other reversals merely lessen it.",
+      "afterPresent": false
+    },
+    {
+      "collection": "spells",
+      "id": "ua-druid-ceremony",
+      "path": "/effect/3",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Initiation grants the shape-changing and woodland-charm-immunity powers that become available at 7th level. It must be performed immediately after the druid begins advancing through 7th level; if performed earlier it does not work, and those powers remain unavailable until initiation."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-druid-ceremony",
+      "path": "/effect/4",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Special vows operate like the clerical ceremony, but do not work on paladins and do work on cavaliers of any alignment. Hallowed ground is cast on the druid’s permanent grove, ensorcelling its trees against disease and other natural disasters. The ground remains hallowed while the druid maintains that grove as a permanent base."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-druid-ceremony",
+      "path": "/effect/5",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Cast out is a severe excommunication or punishment for sacrilege against the natural environment or violation of druidic standards. The subject exudes a powerful negative aura that makes natural creatures react negatively, including normal animals, woodland monsters, domestic beasts, druids, and their followers."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-druid-ceremony",
+      "path": "/conditions/2",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Cast out requires permission up the druidic hierarchy: a druid asks the Archdruid, an Archdruid asks the Great Druid, and the Great Druid asks the Grand Druid. The Grand Druid needs no permission, though a Hierophant Druid may reverse the Grand Druid’s action. The ceremony is normally reserved for serious offenses; an unwilling recipient saves versus spell at −4."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/effect/0",
+      "beforePresent": true,
+      "beforeValue": "Creates a colored orb to throw at a creature. Attack bonuses are +3 within 1″, +2 beyond 1″ through 2″, and +1 beyond 2″ through 3″.",
+      "afterPresent": true,
+      "afterValue": "Creates a colored orb in the illusionist’s hand to hurl at one target within 3″, with no intervening barriers. Attack chances are +3 at 1″ or less, +2 beyond 1″ through 2″, and +1 beyond 2″ through 3″. Magic resistance applies; a miss dissipates without further effect. Creatures normally hit only by powerful magical weapons can still be affected."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/effect/1",
+      "beforePresent": true,
+      "beforeValue": "Higher caster levels unlock different colors, damage and secondary powers; previously available colors can still be chosen.",
+      "afterPresent": true,
+      "afterValue": "Lower-level hues remain available after the illusionist can create higher-level colors; the caster may choose a color below their current level."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/exceptions/0",
+      "beforePresent": true,
+      "beforeValue": "Can affect creatures otherwise requiring powerful magical weapons; a miss simply dissipates.",
+      "afterPresent": true,
+      "afterValue": "The source’s special-power notes assign the individual duration, saving throw, area, and additional result to each hue; the listed spell and attack facts are summarized above. The 12th-level ashen table entry lists paralysis in its damage/effect column and death as its special power."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/exceptions/1",
+      "beforePresent": true,
+      "beforeValue": "Power details, conditions and saving throws are described in the table notes.",
+      "afterPresent": false
+    },
+    {
+      "collection": "spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/effect/2",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Pearly light persists for 1 round per caster level; a target that fails its save is blinded for that duration."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/effect/3",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Ruby heat melts up to 1 cubic yard of ice. A creature that fails its save loses 1 point of Strength and Dexterity (−1 to hit and AC) for 1 round after being struck."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/effect/4",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Flame sets combustibles within 1 foot of the target alight. Unless the target saves, it takes 2 additional fire damage, except when protected from fire by magical or natural means."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/effect/5",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Amber blinds the target for 5–8 rounds unless it saves versus spell; cure blindness or dispel magic also negates this effect."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/effect/6",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "A successful emerald hit creates a magical stinking cloud with a 5-foot radius around the target. The target must save versus poison or be helpless; the printed note also says the target will be helpless until leaving the vapors."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/effect/7",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Turquoise inflicts electrical damage. A target wearing ferrous metal is magnetized for 3–12 rounds unless it saves versus spell; magnetized metal sticks to other magnetized metal, and nonmagnetized ferrous metal clings until pulled free."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/effect/8",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Sapphire paralyzes the target for 5–20 rounds unless it saves versus paralysis."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/effect/9",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Amethyst turns the target to stone unless it saves versus petrification; even a successful save leaves it slowed for 2–8 rounds."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/effect/10",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Ashen kills the target unless it saves versus death magic; even a successful save leaves it paralyzed for 2–5 rounds."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-magic-user-bind",
+      "path": "/effect/1",
+      "beforePresent": true,
+      "beforeValue": "Can serve as a trip line or entangle one opponent as the druid spell does.",
+      "afterPresent": true,
+      "afterValue": "The source names these separate commands: Coil (form a neat coiled stack), Coil & Knot, Loop, Loop & Knot, and Tie & Knot, plus the reverse of each (such as Uncoil)."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-magic-user-bind",
+      "path": "/effect/2",
+      "beforePresent": false,
+      "afterPresent": true,
+      "afterValue": "Can serve as a trip line or entangle one opponent as the druid spell does."
+    }
+  ],
+  "checkedRecordPointerPairs": [
+    {
+      "reviewRecordIndex": 806,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/effect/0",
+      "oldCheckedValue": "Provides distinct religious rites, not one general blessing: coming of age, burial and marriage are available at cleric level 1; dedication, investiture and item consecration at 3; ordination and special vows at 5; ground consecration at 7; anathematizing at 9.",
+      "oldCheckedValueSha256": "f70d86a44b79384994a9bc9e21c65afeb6c28c9f7dd971a74b852d7a3fcedb33",
+      "currentPresent": true,
+      "currentValue": "The rite variant depends on the religion and leaves no lingering aura of magic, though an aura of good or evil may be present and detectable. The source lists coming of age, burial, and marriage at cleric level 1; dedication, investiture, and consecrate item at level 3; ordination and special vows at level 5; consecrate ground at level 7; and anathematize at level 9. Each requires a cleric of the indicated level or higher.",
+      "currentValueSha256": "2700413cfae341d684f58b89359f4e81d76d167392b9e5054d6c16cd70713482"
+    },
+    {
+      "reviewRecordIndex": 806,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/effect/1",
+      "oldCheckedValue": "Coming of age grants one future +1 save; burial protects a corpse for a week; investiture and ordination establish religious standing.",
+      "oldCheckedValueSha256": "0a4e49244fe9d1fbc467d95cf37a671d68c27475780d653712c27a12b804b747",
+      "currentPresent": true,
+      "currentValue": "Coming of age grants a +1 bonus to one saving throw, usable at any time after the rite; in some cultures it marks entry to adulthood. Burial protects a corpse for one week as protection from evil; someone trying to disinter the body must save versus spell or stop and flee in fear for one turn. Marriage has no tangible after-effect and does not guarantee happiness or harmony, though it can carry moral or legal significance.",
+      "currentValueSha256": "6a22a9648cdf085fd9a5e0ef9967701661aec213cd0f6cf2d9119c1d86e9b637"
+    },
+    {
+      "reviewRecordIndex": 806,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/effect/2",
+      "oldCheckedValue": "Special vows protect a cavalier/paladin from bestow curse, but impose −4 against a same-alignment cleric’s quest.",
+      "oldCheckedValueSha256": "f2b3f2d5be9f2083bd9032b13713509693070206c43ec757caf6e62503013826",
+      "currentPresent": true,
+      "currentValue": "Dedication admits the recipient to the casting cleric’s religious ranks as a sanctioned worshiper; it is permanent unless the worshiper demonstrates a desire to change allegiance, in which case a higher-level cleric can replace it. Investiture must precede first-level cleric status. Ordination precedes service as a congregation priest or similar leader and is performed by a cleric of higher level than the recipient.",
+      "currentValueSha256": "41bf8913d279ab251c62ad72bdf9cab54b34ddf7062ea2cc4290fcbd42853ada"
+    },
+    {
+      "reviewRecordIndex": 806,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/conditions/0",
+      "oldCheckedValue": "The listed cleric rank is a minimum. All rites except anathematizing require willingness.",
+      "oldCheckedValueSha256": "444a8d09e1866e6d71f42fc2b632c9ceb1f1ed7d17485fbabfe275d5457cd8ae",
+      "currentPresent": true,
+      "currentValue": "Except for anathematize, no saving throw is called for: the recipient is inanimate or presumed willing. Any ceremony other than anathematize simply fails if cast on an unwilling person.",
+      "currentValueSha256": "14431120fb691539bb39130d91f53c4cb11c8ce917e1f3c612a9d1caad5673d9"
+    },
+    {
+      "reviewRecordIndex": 806,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/conditions/1",
+      "oldCheckedValue": "Ground must be consecrated before construction begins; consecrated graveyards turn or protect undead as a 3rd-level cleric.",
+      "oldCheckedValueSha256": "c841d0eb7bdba74a76b36eda1e21b8252ea49c685879a5bfcbe22a46f008744d",
+      "currentPresent": true,
+      "currentValue": "Special vows are received before the intended cavalier or paladin begins that career; the protection lasts through the upper limit of the recipient’s current level and can be renewed as described in the effect.",
+      "currentValueSha256": "ff3de78bd989d2b57784d0598ce02983dfc219c1446bde8eba191456c3ac3d76"
+    },
+    {
+      "reviewRecordIndex": 806,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/exceptions/0",
+      "oldCheckedValue": "Anathematizing allows an unwilling subject a spell save at −4 and fails if undeserved; atonement can reduce or remove the brand.",
+      "oldCheckedValueSha256": "593715db84acf077c90b73d99d277b830cc6649ffc5485e06e7cad3176600710",
+      "currentPresent": true,
+      "currentValue": "An unwilling subject of anathematize receives a save versus spell at −4. Standard service costs are: coming of age 5–15 sp; burial 5–50 gp; marriage 1–20 gp; dedication 1–10 sp (sometimes free); investiture 1–100 gp (sometimes free); consecrate item usually free; ordination usually free but possibly up to 200 gp; special vows 1–100 gp (sometimes free); consecrate ground 100–600 gp depending on area and cleric level; anathematize is performed without charge.",
+      "currentValueSha256": "c4dde56dfbf35cc06968825b2f55117e3e5e2a0617ce06382e07dc5866a79eef"
+    },
+    {
+      "reviewRecordIndex": 806,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-cleric-ceremony",
+      "path": "/exceptions/1",
+      "oldCheckedValue": "This card condenses nine rites; detailed religious requirements and service costs remain in the source.",
+      "oldCheckedValueSha256": "28eed11a6a27e976421be16617ed09d3d7d1bc08ae086a4b155c4338f9db7896",
+      "currentPresent": false
+    },
+    {
+      "reviewRecordIndex": 829,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-cleric-rainbow",
+      "path": "/effect/0",
+      "oldCheckedValue": "Bow: a +3 bow with seven arrows, usable at one or two shots/round by a bow-using class with Strength 6+. Each hue has specific doubled-damage foes, not fully listed here.",
+      "oldCheckedValueSha256": "df1f949d4696eb285282cf03c45e0d8aa9fb34dbbbfefdcaddb261cc1fbe7a9a",
+      "currentPresent": true,
+      "currentValue": "Bow: creates a shimmering, multilayered bow with seven rainbow missiles, each equal to a +3 weapon; the bow disappears after firing all seven. A character permitted to use a bow and with Strength 6 or better can use it without a non-proficiency penalty; it fires once or twice per round, and each arrow leaves a different hue. Each hue deals double damage to its listed targets: red—fire-dwellers/users; orange—earth elementals; yellow—vegetable targets, including fungus creatures, shambling mounds, and treants; green—aquatic creatures and water elementals; blue—aerial creatures, electricity-using creatures, and air elementals; indigo—acid- or poison-using creatures; violet—metallic or regenerating creatures. If no hue is requested, or a previously used hue is requested, the next arrow in spectrum order appears.",
+      "currentValueSha256": "17252661ea1c9e9560b5d943aea0d6b8f374a0c925d71998c5b3365a4f4a62ae"
+    },
+    {
+      "reviewRecordIndex": 829,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-cleric-rainbow",
+      "path": "/effect/1",
+      "oldCheckedValue": "Bridge: 20–120 feet long, caster-level feet wide, carrying 100 lb/level; exceeding capacity removes it.",
+      "oldCheckedValueSha256": "165085158178d31b54759a3595284e8966a8315102d76b741c00213f1c96024f",
+      "currentPresent": true,
+      "currentValue": "Bridge: 20–120 feet long, caster-level feet wide, and carries weight in hundreds of pounds equal to the cleric’s level. If its weight limit is exceeded it disappears; otherwise it lasts for the spell duration or until dismissed.",
+      "currentValueSha256": "cbc456b80ae85d18388f6220196b29e7c23924dd6da11ac07d8ecafa1b2b1b45"
+    },
+    {
+      "reviewRecordIndex": 829,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-cleric-rainbow",
+      "path": "/effect/2",
+      "oldCheckedValue": "Elevator: lifts the caster and those within 10 feet at 12″ movement.",
+      "oldCheckedValueSha256": "59807c84230c397ec259411bb33b77a487d94b4fe3e59b7c7d38b2241482100e",
+      "currentPresent": true,
+      "currentValue": "Elevator: lifts the caster and creatures within 10 feet along an upward arc at 12″ movement; it can descend again, and its arc trails 12″ behind those traveling on it. Reach safety before the spell expires, or the rainbow disappears from beneath those standing on it.",
+      "currentValueSha256": "77ca94fb7c1fbbfd53c978abaf7acabecd2e14cd4f8c4e82ca0759411ebe9725"
+    },
+    {
+      "reviewRecordIndex": 829,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-cleric-rainbow",
+      "path": "/effect/3",
+      "oldCheckedValue": "Flagon: seven drinks provide cure light wounds, resist fire, cure blindness, slow poison, cure disease, resist cold and remove paralysis as a 12th-level cleric.",
+      "oldCheckedValueSha256": "e440f655516665b8e79a863ddbdcae542901e3ad853dd86633dc8b4fafd5e98b",
+      "currentPresent": true,
+      "currentValue": "Flagon: forms a seven-colored vessel containing seven measures of water. The hues provide cure light wounds, resist fire, cure blindness, slow poison, cure disease, resist cold, and remove paralysis. Each benefit acts as the corresponding spell cast by a 12th-level cleric and persists after the Rainbow expires.",
+      "currentValueSha256": "81f83db86e7e7a71ca04f02f5f2d651ff42fad18b046eceed428e2ba89fcdc39"
+    },
+    {
+      "reviewRecordIndex": 829,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-cleric-rainbow",
+      "path": "/conditions/0",
+      "oldCheckedValue": "Requires a visible rainbow or a diamond worth at least 1,000 gp previously blessed and prayed over in sight of a rainbow.",
+      "oldCheckedValueSha256": "27137da30d4422c2e84ab704fdb772578a17f55a1189553bac886217487f534a",
+      "currentPresent": true,
+      "currentValue": "Requires a visible rainbow, or a diamond worth at least 1,000 gp that the cleric has specially prepared with bless and prayer in sight of a rainbow.",
+      "currentValueSha256": "400401c101c89100b0c6e699fa2e7d6eb8e3e6b7f87aa618382c4a2c62c01456"
+    },
+    {
+      "reviewRecordIndex": 829,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-cleric-rainbow",
+      "path": "/exceptions/0",
+      "oldCheckedValue": "Only the holy symbol survives casting; unused rainbow objects/drinks vanish on expiry, though consumed spell benefits persist normally.",
+      "oldCheckedValueSha256": "801ec87b21b64e2360cd833e21fd1d188e18a0c35227bbcc9952ad32fb8efb9c",
+      "currentPresent": true,
+      "currentValue": "Only the holy/unholy symbol remains after casting. The rainbow objects and unused flagon water disappear when the spell expires; benefits from consumed flagon water persist.",
+      "currentValueSha256": "6814bfc98aacf5644835036df202560e56a75e6a09f0eef81cef9db3ee267549"
+    },
+    {
+      "reviewRecordIndex": 833,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-druid-ceremony",
+      "path": "/effect/0",
+      "oldCheckedValue": "Provides druidic rites: coming of age/rest eternal/marriage (listed rank 1), dedication/investiture (3), initiation/special vows (7), hallowed ground (9), and cast out (12).",
+      "oldCheckedValueSha256": "abe2f5a15c9a9c6d112c74806ea1e5986819c3c6ec1539fea3326e564b7a84af",
+      "currentPresent": true,
+      "currentValue": "The spell leaves no aura of magic, though know alignment or similar magic may reveal the force of true neutrality involved. The source lists coming of age, rest eternal, and marriage at druid level 1; dedication and investiture at level 3; initiation and special vows at level 7; hallowed ground at level 9; and cast out at level 12. Its general sentence says each can be cast by a druid of the indicated or lower level; the initiation paragraph separately gives a rite-specific performer and timing rule.",
+      "currentValueSha256": "b77fdf0fa750de8471bf1a092fca1fe3e4bae9adebf3f269356ebea32f8af4ad"
+    },
+    {
+      "reviewRecordIndex": 833,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-druid-ceremony",
+      "path": "/effect/1",
+      "oldCheckedValue": "Rest eternal prevents raise dead and resurrection, though wish can restore life; initiation unlocks 7th-level shapechanging and woodland-charm immunity.",
+      "oldCheckedValueSha256": "9d939c8f099f808f270ac5a86cb65ec9525c7e7d418e4dc97422d6b9f99ef599",
+      "currentPresent": true,
+      "currentValue": "Coming of age is usually performed when the recipient reaches age 14 and grants the same +1 bonus to one saving throw as the cleric rite. Rest eternal hastens the deceased’s spirit toward its final resting place; raise dead and resurrection cannot restore that subject, though wish can. Marriage is essentially identical to clerical ceremony.",
+      "currentValueSha256": "f08c8f907f4665976fe1ceb006bb50fca792d5d9b00b3e5e6bae61ac513b2c17"
+    },
+    {
+      "reviewRecordIndex": 833,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-druid-ceremony",
+      "path": "/effect/2",
+      "oldCheckedValue": "Hallowed ground protects a permanent grove from disease and natural disaster; cast out makes natural creatures react negatively.",
+      "oldCheckedValueSha256": "ea888478ccbe658f2b67202beaebeef6b0c261726b19e20f33283dad2d83ccc7",
+      "currentPresent": true,
+      "currentValue": "Dedication admits a true-neutral recipient to the druid’s followers/worshipers and charges the recipient, as a druid, to preserve and protect nature and the world’s balance. Investiture must occur before the character becomes an Aspirant (1st-level druid) and conveys no other benefit.",
+      "currentValueSha256": "3869d569a8e7e8b9d42b9dd4041ff62588ffd27c7c0b1778ebacd0fe68c2f985"
+    },
+    {
+      "reviewRecordIndex": 833,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-druid-ceremony",
+      "path": "/conditions/0",
+      "oldCheckedValue": "Dedication requires true neutrality; special vows apply to cavaliers of any alignment, not paladins.",
+      "oldCheckedValueSha256": "57702e6685fd9c9021d8aa14f2243be593089e2ea1214cfee8c5001578c0ba64",
+      "currentPresent": true,
+      "currentValue": "A ceremony is performed in a druid grove or another natural, healthy patch of forest; mistletoe is always a material component. Rites are normally conducted at dawn or dusk.",
+      "currentValueSha256": "20b40a05888d8ae7df8476143cc5d91d24dde85c3e7b20b98b3b0ed8c0018c4b"
+    },
+    {
+      "reviewRecordIndex": 833,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-druid-ceremony",
+      "path": "/conditions/1",
+      "oldCheckedValue": "Cast out needs hierarchical permission; unwilling targets save versus spell at −4.",
+      "oldCheckedValueSha256": "14b42f3432e4fea5dcb43ec06db5c4faf82f468d5d7a0f685b63e08f4147059a",
+      "currentPresent": true,
+      "currentValue": "Dedication requires true neutrality. Initiation is normally performed by another druid of 7th or higher level; in unusual cases the recipient may cast it on themself. Preserve both this rite-specific instruction and the source’s separate general indicated-or-lower-level sentence.",
+      "currentValueSha256": "94455a83347c7ca46f187a09ff5dc2040e7025305b31a72b40953b155faf65e1"
+    },
+    {
+      "reviewRecordIndex": 833,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-druid-ceremony",
+      "path": "/exceptions/0",
+      "oldCheckedValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
+      "oldCheckedValueSha256": "1d078e0617e8db8880f352792cbe8863810cce8c075f60290646327b4c4d627a",
+      "currentPresent": true,
+      "currentValue": "Cast out’s effects can be lessened by a reversed ceremony cast by the same druid or another druid at least as high level as the original caster, but only a Hierophant Druid can completely cancel it. Higher-ranking druids may punish a druid who was denied permission or whose action is later reversed.",
+      "currentValueSha256": "0b99ec231ff146049e856ad9e25eb90ed3503eacaafeb56da9309386c13952e8"
+    },
+    {
+      "reviewRecordIndex": 833,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-druid-ceremony",
+      "path": "/exceptions/1",
+      "oldCheckedValue": "Only a Hierophant Druid can fully cancel casting out; other reversals merely lessen it.",
+      "oldCheckedValueSha256": "45d7ffa7517d7c512653b3c030db051593bb3682432d3d10a9969cc66d596495",
+      "currentPresent": false
+    },
+    {
+      "reviewRecordIndex": 848,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/effect/0",
+      "oldCheckedValue": "Creates a colored orb to throw at a creature. Attack bonuses are +3 within 1″, +2 beyond 1″ through 2″, and +1 beyond 2″ through 3″.",
+      "oldCheckedValueSha256": "3a15d1cdd6a247dfd9c64bd5b9b578ebccad3538c2f5509844e986c0b462ef28",
+      "currentPresent": true,
+      "currentValue": "Creates a colored orb in the illusionist’s hand to hurl at one target within 3″, with no intervening barriers. Attack chances are +3 at 1″ or less, +2 beyond 1″ through 2″, and +1 beyond 2″ through 3″. Magic resistance applies; a miss dissipates without further effect. Creatures normally hit only by powerful magical weapons can still be affected.",
+      "currentValueSha256": "49dcce01210b7c67826bf176dff8d5ad467caab984cafa2ddd1fcbe759083189"
+    },
+    {
+      "reviewRecordIndex": 848,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/effect/1",
+      "oldCheckedValue": "Higher caster levels unlock different colors, damage and secondary powers; previously available colors can still be chosen.",
+      "oldCheckedValueSha256": "64eaa4858936985ab6dbc671b3360bb0e905b9f375a66b55d7f4e3aa9a561934",
+      "currentPresent": true,
+      "currentValue": "Lower-level hues remain available after the illusionist can create higher-level colors; the caster may choose a color below their current level.",
+      "currentValueSha256": "23fb165b15887d3aa12377de3605d3a46254034df00cdfc1167b67c13fcd0fe2"
+    },
+    {
+      "reviewRecordIndex": 848,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "path": "/exceptions/0",
+      "oldCheckedValue": "Can affect creatures otherwise requiring powerful magical weapons; a miss simply dissipates.",
+      "oldCheckedValueSha256": "3037fe18366bcd4e5340084b5b1c8b8c0e1ff432d36d889c983971235318426b",
+      "currentPresent": true,
+      "currentValue": "The source’s special-power notes assign the individual duration, saving throw, area, and additional result to each hue; the listed spell and attack facts are summarized above. The 12th-level ashen table entry lists paralysis in its damage/effect column and death as its special power.",
+      "currentValueSha256": "c02a919659a9559e19f9a16e1808ede2d013d2b58cce2e93a5764f413510cecb"
+    },
+    {
+      "reviewRecordIndex": 933,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-magic-user-bind",
+      "path": "/effect/1",
+      "oldCheckedValue": "Can serve as a trip line or entangle one opponent as the druid spell does.",
+      "oldCheckedValueSha256": "ace7d9efaf8614d5ef60e1c27ce9196b9f2de1945ca488a9c94f0c9058e64b10",
+      "currentPresent": true,
+      "currentValue": "The source names these separate commands: Coil (form a neat coiled stack), Coil & Knot, Loop, Loop & Knot, and Tie & Knot, plus the reverse of each (such as Uncoil).",
+      "currentValueSha256": "f71e95b643acff3f7615d39d261499345f160838e5752b7cb28130ad2445b561"
+    },
+    {
+      "reviewRecordIndex": 1198,
+      "checker": "mechanics-source-adjudication-batch5",
+      "id": "ua-druid-ceremony",
+      "path": "/exceptions/0",
+      "oldCheckedValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
+      "oldCheckedValueSha256": "1d078e0617e8db8880f352792cbe8863810cce8c075f60290646327b4c4d627a",
+      "currentPresent": true,
+      "currentValue": "Cast out’s effects can be lessened by a reversed ceremony cast by the same druid or another druid at least as high level as the original caster, but only a Hierophant Druid can completely cancel it. Higher-ranking druids may punish a druid who was denied permission or whose action is later reversed.",
+      "currentValueSha256": "0b99ec231ff146049e856ad9e25eb90ed3503eacaafeb56da9309386c13952e8"
+    }
+  ],
+  "obsoleteChanges": [
+    {
+      "reviewRecordIndex": 829,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-cleric-rainbow",
+      "index": 1,
+      "sha256": "1c03f8519698401f0825d09108e76dc7ed3d0e91c349e0aee4499152ef1caa8c",
+      "change": {
+        "path": "/exceptions",
+        "oldValue": [
+          "Only the holy symbol survives casting; unused rainbow objects/drinks vanish on expiry, though consumed spell benefits persist normally.",
+          "Range is withheld because its OCR digit is uncertain."
+        ],
+        "newValue": [
+          "Only the holy symbol survives casting; unused rainbow objects/drinks vanish on expiry, though consumed spell benefits persist normally."
+        ],
+        "reason": "Remove the obsolete OCR range-withholding note.",
+        "book": "UA",
+        "page": 39
+      }
+    },
+    {
+      "reviewRecordIndex": 833,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-druid-ceremony",
+      "index": 1,
+      "sha256": "c2159fa0e90de6a11b671279aa360d4279bdd1bd68d50f738d8b2627da06e43e",
+      "change": {
+        "path": "/exceptions/0",
+        "oldValue": "The OCR says the listed ranks are 'indicated or lower'; this contradicts the hierarchy implied by the rites, so minimum-rank wording is not resolved here.",
+        "newValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
+        "reason": "The lower-level wording is visible in the original scan. Superseded field content was reconciled with the batch-5 independent source adjudication; prior change preserved.",
+        "book": "UA",
+        "page": 41,
+        "supersededChanges": [
+          {
+            "path": "/exceptions/0",
+            "oldValue": "The OCR says the listed ranks are 'indicated or lower'; this contradicts the hierarchy implied by the rites, so minimum-rank wording is not resolved here.",
+            "newValue": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
+            "reason": "The lower-level wording is visible in the original scan.",
+            "book": "UA",
+            "page": 41
+          }
+        ]
+      }
+    },
+    {
+      "reviewRecordIndex": 848,
+      "checker": "mechanics-ua-spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "index": 2,
+      "sha256": "bd5049c9a7ceff1ff2af4c9db18c158d5dacf0ad5b31745181ca09327dfce34e",
+      "change": {
+        "path": "/exceptions/1",
+        "oldValue": "The essential color/damage/effect table is not transcribed here because it still needs visual verification.",
+        "newValue": "Power details, conditions and saving throws are described in the table notes.",
+        "reason": "The table is now visually legible; detailed notes remain relevant.",
+        "book": "UA",
+        "page": 67
+      }
+    },
+    {
+      "reviewRecordIndex": 1198,
+      "checker": "mechanics-source-adjudication-batch5",
+      "id": "ua-druid-ceremony",
+      "index": 0,
+      "sha256": "e94f5ed13ef5cc429e47b529375c7283693aa917654602e8d63d05aa9a0b407b",
+      "change": {
+        "path": "/exceptions/0",
+        "oldValue": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
+        "newValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
+        "reason": "Include the rite-specific caster procedure on the continuation; retire the contradiction inferred from hierarchy alone.",
+        "book": "UA",
+        "page": 41,
+        "pdfPage": 42,
+        "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      }
+    }
+  ],
+  "bindingInventory": [
+    {
+      "index": 2336,
+      "binding": {
+        "collection": "spells",
+        "itemId": "ua-cleric-ceremony",
+        "fieldPointer": "",
+        "sourceObjectPointer": "",
+        "sourceOwner": {
+          "collection": "spells",
+          "itemId": "ua-cleric-ceremony"
+        },
+        "sourceObject": "Ceremony",
+        "sourceCategory": "record-page-reference",
+        "book": "UA",
+        "printedPage": 32,
+        "pdfPage": 33,
+        "pages": [
+          32
+        ],
+        "sourcePages": [
+          32
+        ],
+        "catalog": "scans/verified/spells-ua-cleric-ceremony.json",
+        "regionIds": [],
+        "coordinateSpace": null,
+        "reviewStatus": "field-target-pending",
+        "contextStatus": "context-not-assessed",
+        "contextLimitations": [
+          "No independently reviewed field-to-region binding is recorded."
+        ],
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "valuePathStatus": "value-present",
+        "sourceSha256": null,
+        "cropCoordinates": [],
+        "highlightCoordinates": [],
+        "regionEvidence": [],
+        "targetReview": null
+      }
+    },
+    {
+      "index": 2337,
+      "binding": {
+        "collection": "spells",
+        "itemId": "ua-cleric-ceremony",
+        "fieldPointer": "/references/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceOwner": {
+          "collection": "spells",
+          "itemId": "ua-cleric-ceremony"
+        },
+        "sourceObject": "Cleric bless base rule",
+        "sourceCategory": "record-reference",
+        "book": "PHB",
+        "printedPage": 43,
+        "pdfPage": 44,
+        "pages": [
+          43
+        ],
+        "sourcePages": [
+          43
+        ],
+        "catalog": "scans/verified/spells-ua-cleric-ceremony.json",
+        "regionIds": [],
+        "coordinateSpace": null,
+        "reviewStatus": "field-target-pending",
+        "contextStatus": "context-not-assessed",
+        "contextLimitations": [
+          "No independently reviewed field-to-region binding is recorded."
+        ],
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "valuePathStatus": "value-present",
+        "sourceSha256": null,
+        "cropCoordinates": [],
+        "highlightCoordinates": [],
+        "regionEvidence": [],
+        "targetReview": null
+      }
+    },
+    {
+      "index": 2338,
+      "binding": {
+        "collection": "spells",
+        "itemId": "ua-cleric-ceremony",
+        "fieldPointer": "/references/1",
+        "sourceObjectPointer": "/references/1",
+        "sourceOwner": {
+          "collection": "spells",
+          "itemId": "ua-cleric-ceremony"
+        },
+        "sourceObject": "Protection from evil for burial",
+        "sourceCategory": "record-reference",
+        "book": "PHB",
+        "printedPage": 44,
+        "pdfPage": 45,
+        "pages": [
+          44
+        ],
+        "sourcePages": [
+          44
+        ],
+        "catalog": "scans/verified/spells-ua-cleric-ceremony.json",
+        "regionIds": [],
+        "coordinateSpace": null,
+        "reviewStatus": "field-target-pending",
+        "contextStatus": "context-not-assessed",
+        "contextLimitations": [
+          "No independently reviewed field-to-region binding is recorded."
+        ],
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "valuePathStatus": "value-present",
+        "sourceSha256": null,
+        "cropCoordinates": [],
+        "highlightCoordinates": [],
+        "regionEvidence": [],
+        "targetReview": null
+      }
+    },
+    {
+      "index": 2397,
+      "binding": {
+        "collection": "spells",
+        "itemId": "ua-cleric-rainbow",
+        "fieldPointer": "",
+        "sourceObjectPointer": "",
+        "sourceOwner": {
+          "collection": "spells",
+          "itemId": "ua-cleric-rainbow"
+        },
+        "sourceObject": "Rainbow",
+        "sourceCategory": "record-page-reference",
+        "book": "UA",
+        "printedPage": 39,
+        "pdfPage": 40,
+        "pages": [
+          39
+        ],
+        "sourcePages": [
+          39,
+          40
+        ],
+        "catalog": "scans/verified/spells-ua-cleric-rainbow.json",
+        "regionIds": [],
+        "coordinateSpace": null,
+        "reviewStatus": "field-target-pending",
+        "contextStatus": "context-not-assessed",
+        "contextLimitations": [
+          "No independently reviewed field-to-region binding is recorded."
+        ],
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "valuePathStatus": "value-present",
+        "sourceSha256": null,
+        "cropCoordinates": [],
+        "highlightCoordinates": [],
+        "regionEvidence": [],
+        "targetReview": null
+      }
+    },
+    {
+      "index": 2398,
+      "binding": {
+        "collection": "spells",
+        "itemId": "ua-cleric-rainbow",
+        "fieldPointer": "",
+        "sourceObjectPointer": "",
+        "sourceOwner": {
+          "collection": "spells",
+          "itemId": "ua-cleric-rainbow"
+        },
+        "sourceObject": "Rainbow",
+        "sourceCategory": "record-page-reference",
+        "book": "UA",
+        "printedPage": 40,
+        "pdfPage": 41,
+        "pages": [
+          40
+        ],
+        "sourcePages": [
+          39,
+          40
+        ],
+        "catalog": "scans/verified/spells-ua-cleric-rainbow.json",
+        "regionIds": [],
+        "coordinateSpace": null,
+        "reviewStatus": "field-target-pending",
+        "contextStatus": "context-not-assessed",
+        "contextLimitations": [
+          "No independently reviewed field-to-region binding is recorded."
+        ],
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "valuePathStatus": "value-present",
+        "sourceSha256": null,
+        "cropCoordinates": [],
+        "highlightCoordinates": [],
+        "regionEvidence": [],
+        "targetReview": null
+      }
+    },
+    {
+      "index": 2412,
+      "binding": {
+        "collection": "spells",
+        "itemId": "ua-druid-ceremony",
+        "fieldPointer": "",
+        "sourceObjectPointer": "",
+        "sourceOwner": {
+          "collection": "spells",
+          "itemId": "ua-druid-ceremony"
+        },
+        "sourceObject": "Ceremony",
+        "sourceCategory": "record-page-reference",
+        "book": "UA",
+        "printedPage": 32,
+        "pdfPage": 33,
+        "pages": [
+          32
+        ],
+        "sourcePages": [
+          32,
+          41,
+          42
+        ],
+        "catalog": "scans/verified/spells-ua-druid-ceremony.json",
+        "regionIds": [],
+        "coordinateSpace": null,
+        "reviewStatus": "field-target-pending",
+        "contextStatus": "context-not-assessed",
+        "contextLimitations": [
+          "No independently reviewed field-to-region binding is recorded."
+        ],
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "valuePathStatus": "value-present",
+        "sourceSha256": null,
+        "cropCoordinates": [],
+        "highlightCoordinates": [],
+        "regionEvidence": [],
+        "targetReview": null
+      }
+    },
+    {
+      "index": 2413,
+      "binding": {
+        "collection": "spells",
+        "itemId": "ua-druid-ceremony",
+        "fieldPointer": "",
+        "sourceObjectPointer": "",
+        "sourceOwner": {
+          "collection": "spells",
+          "itemId": "ua-druid-ceremony"
+        },
+        "sourceObject": "Ceremony",
+        "sourceCategory": "record-page-reference",
+        "book": "UA",
+        "printedPage": 41,
+        "pdfPage": 42,
+        "pages": [
+          41
+        ],
+        "sourcePages": [
+          32,
+          41,
+          42
+        ],
+        "catalog": "scans/verified/spells-ua-druid-ceremony.json",
+        "regionIds": [],
+        "coordinateSpace": null,
+        "reviewStatus": "field-target-pending",
+        "contextStatus": "context-not-assessed",
+        "contextLimitations": [
+          "No independently reviewed field-to-region binding is recorded."
+        ],
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "valuePathStatus": "value-present",
+        "sourceSha256": null,
+        "cropCoordinates": [],
+        "highlightCoordinates": [],
+        "regionEvidence": [],
+        "targetReview": null
+      }
+    },
+    {
+      "index": 2414,
+      "binding": {
+        "collection": "spells",
+        "itemId": "ua-druid-ceremony",
+        "fieldPointer": "",
+        "sourceObjectPointer": "",
+        "sourceOwner": {
+          "collection": "spells",
+          "itemId": "ua-druid-ceremony"
+        },
+        "sourceObject": "Ceremony",
+        "sourceCategory": "record-page-reference",
+        "book": "UA",
+        "printedPage": 42,
+        "pdfPage": 43,
+        "pages": [
+          42
+        ],
+        "sourcePages": [
+          32,
+          41,
+          42
+        ],
+        "catalog": "scans/verified/spells-ua-druid-ceremony.json",
+        "regionIds": [],
+        "coordinateSpace": null,
+        "reviewStatus": "field-target-pending",
+        "contextStatus": "context-not-assessed",
+        "contextLimitations": [
+          "No independently reviewed field-to-region binding is recorded."
+        ],
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "valuePathStatus": "value-present",
+        "sourceSha256": null,
+        "cropCoordinates": [],
+        "highlightCoordinates": [],
+        "regionEvidence": [],
+        "targetReview": null
+      }
+    },
+    {
+      "index": 2677,
+      "binding": {
+        "collection": "spells",
+        "itemId": "ua-magic-user-bind",
+        "fieldPointer": "",
+        "sourceObjectPointer": "",
+        "sourceOwner": {
+          "collection": "spells",
+          "itemId": "ua-magic-user-bind"
+        },
+        "sourceObject": "Bind",
+        "sourceCategory": "record-page-reference",
+        "book": "UA",
+        "printedPage": 53,
+        "pdfPage": 54,
+        "pages": [
+          53
+        ],
+        "sourcePages": [
+          53
+        ],
+        "catalog": "scans/verified/spells-ua-magic-user-bind.json",
+        "regionIds": [],
+        "coordinateSpace": null,
+        "reviewStatus": "field-target-pending",
+        "contextStatus": "context-not-assessed",
+        "contextLimitations": [
+          "No independently reviewed field-to-region binding is recorded."
+        ],
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "valuePathStatus": "value-present",
+        "sourceSha256": null,
+        "cropCoordinates": [],
+        "highlightCoordinates": [],
+        "regionEvidence": [],
+        "targetReview": null
+      }
+    },
+    {
+      "index": 2678,
+      "binding": {
+        "collection": "spells",
+        "itemId": "ua-magic-user-bind",
+        "fieldPointer": "/references/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceOwner": {
+          "collection": "spells",
+          "itemId": "ua-magic-user-bind"
+        },
+        "sourceObject": "Druid entangle base rule",
+        "sourceCategory": "record-reference",
+        "book": "PHB",
+        "printedPage": 54,
+        "pdfPage": 55,
+        "pages": [
+          54
+        ],
+        "sourcePages": [
+          54
+        ],
+        "catalog": "scans/verified/spells-ua-magic-user-bind.json",
+        "regionIds": [],
+        "coordinateSpace": null,
+        "reviewStatus": "field-target-pending",
+        "contextStatus": "context-not-assessed",
+        "contextLimitations": [
+          "No independently reviewed field-to-region binding is recorded."
+        ],
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "valuePathStatus": "value-present",
+        "sourceSha256": null,
+        "cropCoordinates": [],
+        "highlightCoordinates": [],
+        "regionEvidence": [],
+        "targetReview": null
+      }
+    },
+    {
+      "index": 2804,
+      "binding": {
+        "collection": "spells",
+        "itemId": "ua-illusionist-chromatic-orb",
+        "fieldPointer": "",
+        "sourceObjectPointer": "",
+        "sourceOwner": {
+          "collection": "spells",
+          "itemId": "ua-illusionist-chromatic-orb"
+        },
+        "sourceObject": "Chromatic Orb",
+        "sourceCategory": "record-page-reference",
+        "book": "UA",
+        "printedPage": 66,
+        "pdfPage": 67,
+        "pages": [
+          66
+        ],
+        "sourcePages": [
+          66,
+          67
+        ],
+        "catalog": "scans/verified/spells-ua-illusionist-chromatic-orb.json",
+        "regionIds": [],
+        "coordinateSpace": null,
+        "reviewStatus": "field-target-pending",
+        "contextStatus": "context-not-assessed",
+        "contextLimitations": [
+          "No independently reviewed field-to-region binding is recorded."
+        ],
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "valuePathStatus": "value-present",
+        "sourceSha256": null,
+        "cropCoordinates": [],
+        "highlightCoordinates": [],
+        "regionEvidence": [],
+        "targetReview": null
+      }
+    },
+    {
+      "index": 2805,
+      "binding": {
+        "collection": "spells",
+        "itemId": "ua-illusionist-chromatic-orb",
+        "fieldPointer": "",
+        "sourceObjectPointer": "",
+        "sourceOwner": {
+          "collection": "spells",
+          "itemId": "ua-illusionist-chromatic-orb"
+        },
+        "sourceObject": "Chromatic Orb",
+        "sourceCategory": "record-page-reference",
+        "book": "UA",
+        "printedPage": 67,
+        "pdfPage": 68,
+        "pages": [
+          67
+        ],
+        "sourcePages": [
+          66,
+          67
+        ],
+        "catalog": "scans/verified/spells-ua-illusionist-chromatic-orb.json",
+        "regionIds": [],
+        "coordinateSpace": null,
+        "reviewStatus": "field-target-pending",
+        "contextStatus": "context-not-assessed",
+        "contextLimitations": [
+          "No independently reviewed field-to-region binding is recorded."
+        ],
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "valuePathStatus": "value-present",
+        "sourceSha256": null,
+        "cropCoordinates": [],
+        "highlightCoordinates": [],
+        "regionEvidence": [],
+        "targetReview": null
+      }
+    }
+  ],
+  "sourceOnlyContentReview": {
+    "path": "research/source-audit-pass8-ua-content-phb-join-independent-review-v1.json",
+    "sha256": "e9de8f99e85382de1aa300775ba4c2d09bccab7dfe7a6908ff6c87e28ce5847b",
+    "status": "explicitly does not approve source-value or mechanics grades; cannot authorize corrected-and-checked records"
+  }
+}

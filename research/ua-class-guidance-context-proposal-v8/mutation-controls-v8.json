@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "ua-class-guidance-context-v8-mutation-controls",
+  "status": "All negative mutation controls rejected by the candidate’s exact-hash, native metadata, or typed-diff checks.",
+  "controls": [
+    {
+      "mutation": "Remove one accepted UA region review record",
+      "expected": "Native owner review becomes unreviewed and owner-link hash changes.",
+      "observed": "Rejected; native status unreviewed, recordedReview null, owner-link hash differs.",
+      "pass": true
+    },
+    {
+      "mutation": "Replace one accepted defaultOrderSha256 with 64 zeroes",
+      "expected": "Must not equal exact accepted ordered page-group hash.",
+      "observed": "Rejected; mutated hash does not equal the pinned accepted group order.",
+      "expectedDefaultOrderSha256": "e2169a974f80b9339afbecfdf52836e128a3613323074ed27a1742e38d827258",
+      "observedDefaultOrderSha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "pass": true
+    },
+    {
+      "mutation": "Change image SHA on one accepted candidate region",
+      "expected": "Source visual record must be stale against catalog evidence.",
+      "observed": "Rejected; native region status is stale, hashesMatch=false.",
+      "pass": true
+    },
+    {
+      "mutation": "Alter an existing record in the preserved 1,849-entry prefix",
+      "expected": "Unpublished weapon ledger prefix must remain byte-object exact.",
+      "observed": "Rejected by exact prefix comparison.",
+      "pass": true
+    },
+    {
+      "mutation": "Alter a registered core geometry value",
+      "expected": "All 102 core source/image/focus/geometry tuples must remain exact.",
+      "observed": "Rejected; registered normalizedPageRect differs.",
+      "pass": true
+    },
+    {
+      "mutation": "Add an untyped registry leaf change outside the 22 authorized pins",
+      "expected": "Typed bridge diff must contain only six catalog map entries and two pin fields on eight rows.",
+      "observed": "Rejected by exact bridge leaf-path comparison.",
+      "pass": true
+    }
+  ],
+  "validation": {
+    "allControlsPassed": true,
+    "productionFilesChanged": 0
+  }
+}

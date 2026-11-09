@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readBeforePass8WeaponSourceFile as readFileSync} from './helpers/pass8-weapon-source-history.mjs';
+import {readBeforePass8WeaponSourceFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
 import {dmg175HistoryContract} from './helpers/batch6-dmg175-source-history.mjs';
-import {addedDmg74MatrixIds,reverseDmg74MatrixBatchFromData,reverseDmg74MatrixBatchFromInventory,reverseSupplementalPdfNoticeViewer} from './helpers/dmg74-matrix-batch.mjs';
+import {addedDmg74MatrixIds,reverseDmg74MatrixBatchFromData,reverseDmg74MatrixBatchFromInventory,reverseSupplementalPdfNoticeViewer} from './helpers/ua-source-dmg74-matrix-batch.mjs';
 const read=path=>JSON.parse(readFileSync(new URL(`../${path}`,import.meta.url)));
 const data=read('dist/data.json'),inventory=read('research/price-source-inventory.json');
 const prior=dmg175HistoryContract().files;

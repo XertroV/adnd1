@@ -1,0 +1,623 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "read-only-UA-revised-body-monetary-source-pointer-reconciliation-candidate",
+  "status": "PROPOSAL ONLY; scanner observations and existing source records, no semantic/site mapping activation",
+  "baseCommit": "9b77aeb620b1d671ff1d59b0e14790206523b327",
+  "actualMergedWeaponDependency": "6717c6f22bbf2f2b421327e4c8561b1d81df00d4",
+  "inputs": [
+    {
+      "path": "tools/citation-systemic-inventory.mjs",
+      "sha256": "68032e56cc7ff9245d8e9912c1f2c02d416f39ea284a18aa4b18acce801aefa6",
+      "bytes": 97053
+    },
+    {
+      "path": "dist/data.json",
+      "sha256": "c076e0f6bb898eb52650fd886630089f17edc86cbc8e3c4ac349b817bceba0d3",
+      "bytes": 15732215
+    },
+    {
+      "path": "research/price-source-inventory.json",
+      "sha256": "2d050385af4b5ce68152ed1cef9c7f1cc7774612a291db910c5e44d26509d210",
+      "bytes": 13392005
+    },
+    {
+      "path": "research/monetary-source-inventory.json",
+      "sha256": "30ac827809df7e435ad16178b0ab02d46db95c503230fc7344b54da917c3bee6",
+      "bytes": 34451297
+    },
+    {
+      "path": "research/source-audit-batch5-price-discovery-reconciliation.json",
+      "sha256": "4b17762a3a9744af2776802a9913caad4106322e49989ba19b3c13a50adb2e5d",
+      "bytes": 1365763
+    },
+    {
+      "path": "research/price-source-inventory-ua-other.json",
+      "sha256": "f1f797d9e8664589af5308737d9bc9d5e5dd536339349609fbeec5dc2a58c4b9",
+      "bytes": 98761
+    }
+  ],
+  "scanner": {
+    "api": "buildSystemicInventory(data,reader,{includeVisual:false})",
+    "artifact": "tools/citation-systemic-inventory.mjs",
+    "beforeAllMoneyLikePropertyCount": 773,
+    "currentAllMoneyLikePropertyCount": 775,
+    "selectedBeforeClaims": 1,
+    "selectedCurrentClaims": 2,
+    "newSelectedMoneyLikePointers": 1,
+    "revisedSelectedExistingMoneyLikePointers": 1,
+    "reviewPolicy": "Scanner classification and parsed1000gp value establish no independent source-value review. Exact existing occurrences remain unmapped with independent semantic/overlay pending."
+  },
+  "proposedReconciliations": [
+    {
+      "collection": "spells",
+      "itemId": "ua-cleric-ceremony",
+      "fieldPointer": "/exceptions/0",
+      "delta": "new money-like body pointer; underlying source census occurrence already inventoried",
+      "currentScannerClaim": {
+        "collection": "spells",
+        "itemId": "ua-cleric-ceremony",
+        "pointer": "/spells/414/exceptions/0",
+        "propertyKey": "0",
+        "candidateKind": "currency-text-range",
+        "monetaryInterpretation": "unresolved-money-range-candidate",
+        "rawValue": "An unwilling subject of anathematize receives a save versus spell at −4. Standard service costs are: coming of age 5–15 sp; burial 5–50 gp; marriage 1–20 gp; dedication 1–10 sp (sometimes free); investiture 1–100 gp (sometimes free); consecrate item usually free; ordination usually free but possibly up to 200 gp; special vows 1–100 gp (sometimes free); consecrate ground 100–600 gp depending on area and cleric level; anathematize is performed without charge.",
+        "rangeLike": true,
+        "parsedPrice": null,
+        "matchedCurrencyText": [
+          "15 sp",
+          "50 gp",
+          "20 gp",
+          "10 sp",
+          "100 gp",
+          "200 gp",
+          "100 gp",
+          "600 gp"
+        ],
+        "currencyMatchSpans": [
+          {
+            "text": "15 sp",
+            "start": 117,
+            "end": 122
+          },
+          {
+            "text": "50 gp",
+            "start": 133,
+            "end": 138
+          },
+          {
+            "text": "20 gp",
+            "start": 151,
+            "end": 156
+          },
+          {
+            "text": "10 sp",
+            "start": 171,
+            "end": 176
+          },
+          {
+            "text": "100 gp",
+            "start": 209,
+            "end": 215
+          },
+          {
+            "text": "200 gp",
+            "start": 307,
+            "end": 313
+          },
+          {
+            "text": "100 gp",
+            "start": 330,
+            "end": 336
+          },
+          {
+            "text": "600 gp",
+            "start": 377,
+            "end": 383
+          }
+        ],
+        "encumbranceUnitMatches": [],
+        "auditClass": "candidate",
+        "valueReviewStatus": "no-independent-source-value-status",
+        "valueReviewBindingPointers": [],
+        "staleValueReviewBindingPointers": [],
+        "valueReviewSnapshotChecks": [],
+        "valueReviewSnapshotDrift": [],
+        "sourceAssessability": "not-assessable-no-cited-source-pages",
+        "bindingPointers": [],
+        "reviewStatuses": [],
+        "sourceValueStatuses": [],
+        "bindingGeometry": [],
+        "availableCitedSourcePages": [],
+        "allAvailableSourcePages": [],
+        "routeRecordContextPages": [],
+        "sourceBindingResults": [
+          {
+            "bindingPointer": null,
+            "routeOwner": {
+              "collection": "spells",
+              "itemId": "ua-cleric-ceremony"
+            },
+            "sourceOwner": {
+              "collection": "spells",
+              "itemId": "ua-cleric-ceremony",
+              "explicit": false
+            },
+            "selectedOwnerCatalog": "scans/verified/spells-ua-cleric-ceremony.json",
+            "pages": [],
+            "targetStatus": "source-only-page-reference"
+          }
+        ],
+        "candidateRegionRefs": [],
+        "targetRelation": "not-bound"
+      },
+      "beforeScannerClaim": null,
+      "existingReceipt": {
+        "artifact": "research/source-audit-batch5-price-discovery-reconciliation.json",
+        "jsonPointer": "/claimReceipts/52",
+        "sha256": "b613ad3bd34ca8a3c258956d7bea43a7f59f69ecc9ee119622ef59777b98d1bd",
+        "record": {
+          "receiptId": "ua-census-record-001",
+          "sourceCensusArtifact": "research/price-source-inventory-ua-other.json",
+          "sourceJsonPointer": "/records/0",
+          "book": "UA",
+          "sourceObjectOrPassage": "Clerical ceremony fees",
+          "claimType": "service-fee",
+          "typedClaim": {
+            "printedValue": "5–15 sp (coming of age); 5–50 gp (burial); 1–20 gp (marriage); 1–10 sp or free (dedication); 1–100 gp or free (investiture); usually free (item consecration); usually free, possibly 200 gp (ordination); 1–100 gp or free (special vows); 100–600 gp (consecrate ground); no charge (anathematize).",
+            "formula": null,
+            "currency": "gp",
+            "unit": "per service",
+            "conditions": "Service and circumstances determine the fee; ground consecration varies with area and cleric level.",
+            "notes": "Mixed gp/sp and free/no-charge conditions preserved."
+          },
+          "sourcePassageIdentity": "Ceremonial service schedule lists fees or free service by ceremony.",
+          "source": {
+            "printedPage": 32,
+            "pdfPage": 33,
+            "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+            "boundsStatus": "visually-reviewed-page; exact claim coordinates not separately measured"
+          },
+          "receiptStatus": "direct-typed-census-passage-no-exact-583-row",
+          "linkedTypedSourceRecords": [],
+          "unresolvedRemainder": null,
+          "sourceLinkage": {
+            "kind": "claim-level typed source record and prose identity in 65-record census; no exact matching row in bounded 15-group supplement",
+            "sourceReviewStatus": "visually-reviewed-page; exact claim coordinates not separately measured"
+          },
+          "baselineReceiptStatus": "direct-typed-census-passage-no-exact-583-row",
+          "postRemediation": {
+            "disposition": "typed census claim indexed with source artifact pointer and named passage identity",
+            "receiptOccurrenceId": "price-discovery:ua-census-record-001",
+            "indexedClaimIds": [
+              "price-discovery:ua-census-record-001#/typedClaim/printedValue"
+            ],
+            "typedCurrencyAmountOrFormulaClaimIds": [
+              "price-discovery:ua-census-record-001#/typedClaim/printedValue"
+            ],
+            "nonPriceOrReferenceClaimIds": [],
+            "unassessableClaimIds": [],
+            "linkedSourceOccurrenceIds": [],
+            "linkedSourceClaimIds": [],
+            "passageRecordId": null,
+            "sourceReview": "source census record retained; independent review pending",
+            "geometryAndOverlayReview": "independent geometry/overlay review pending; not certified by the pure builder"
+          }
+        }
+      },
+      "existingSourceOccurrence": {
+        "artifact": "research/monetary-source-inventory.json",
+        "jsonPointer": "/sourceOccurrences/1743",
+        "sha256": "50ebc7d2f48a01af7f621e780dd47a4113b331cdfe306898cf26544c9c048a80",
+        "record": {
+          "sourceOccurrenceId": "price-discovery:ua-census-record-001",
+          "occurrenceKind": "bounded-price-discovery-census-receipt",
+          "object": "Clerical ceremony fees",
+          "variant": null,
+          "purpose": "service-fee",
+          "source": {
+            "book": "UA",
+            "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+            "printedPage": 32,
+            "pdfPage": 33,
+            "sourceFile": null
+          },
+          "sourceIdentity": {
+            "receiptId": "ua-census-record-001",
+            "bookKey": "UA",
+            "sourceObjectOrPassage": "Clerical ceremony fees",
+            "passageIdentity": "Ceremonial service schedule lists fees or free service by ceremony.",
+            "claimType": "service-fee",
+            "discoveryStatus": "direct-typed-census-passage-no-exact-583-row",
+            "censusArtifact": "research/price-source-inventory-ua-other.json",
+            "censusJsonPointer": "/records/0",
+            "linkedSourceOccurrenceIds": [],
+            "passageRecordId": null,
+            "sourceBoundsStatus": "visually-reviewed-page; exact claim coordinates not separately measured",
+            "unresolvedRemainder": null,
+            "linkedSourceClaimIds": []
+          },
+          "evidence": {
+            "contextCropBounds": null,
+            "rowHighlightBounds": null,
+            "reportedSourcePageBounds": null,
+            "sourcePassageEvidence": null,
+            "geometryAssessment": {
+              "status": "not-assessable",
+              "reason": "No source crop or claim-specific highlight bounds are recorded."
+            },
+            "sourceReviewStatus": "visually-reviewed-page; exact claim coordinates not separately measured",
+            "excerptPublication": {
+              "status": "source-only; no full-page PDF or crop image published"
+            }
+          },
+          "siteMapping": {
+            "status": "unmapped",
+            "collection": null,
+            "itemId": null,
+            "fieldPointer": null,
+            "reason": "No site item/field mapping is recorded in the supplied artifacts."
+          },
+          "quantityOrScale": "per service",
+          "conditions": "Service and circumstances determine the fee; ground consecration varies with area and cleric level.",
+          "qualifiers": [
+            "Mixed gp/sp and free/no-charge conditions preserved."
+          ],
+          "sourceRecord": {
+            "claimType": "service-fee",
+            "classification": null,
+            "typedClaim": {
+              "printedValue": "5–15 sp (coming of age); 5–50 gp (burial); 1–20 gp (marriage); 1–10 sp or free (dedication); 1–100 gp or free (investiture); usually free (item consecration); usually free, possibly 200 gp (ordination); 1–100 gp or free (special vows); 100–600 gp (consecrate ground); no charge (anathematize).",
+              "formula": null,
+              "currency": "gp",
+              "unit": "per service",
+              "conditions": "Service and circumstances determine the fee; ground consecration varies with area and cleric level.",
+              "notes": "Mixed gp/sp and free/no-charge conditions preserved."
+            },
+            "amountOrFormula": null,
+            "currency": null,
+            "moneyCategory": null,
+            "receiptStatus": "direct-typed-census-passage-no-exact-583-row",
+            "sourcePassageIdentity": "Ceremonial service schedule lists fees or free service by ceremony.",
+            "unresolvedRemainder": null
+          },
+          "provenance": {
+            "inputArtifact": {
+              "path": "research/source-audit-batch5-price-discovery-reconciliation.json",
+              "sha256": "4b17762a3a9744af2776802a9913caad4106322e49989ba19b3c13a50adb2e5d",
+              "jsonPointer": "/claimReceipts/52"
+            },
+            "sourceCensusArtifact": "research/price-source-inventory-ua-other.json",
+            "sourceCensusJsonPointer": "/records/0",
+            "sourceCensusArtifactHash": "f1f797d9e8664589af5308737d9bc9d5e5dd536339349609fbeec5dc2a58c4b9",
+            "sourceValueJsonPointer": "/claimReceipts/52/typedClaim"
+          },
+          "reviewStatus": {
+            "originalSourceStatus": "visually-reviewed-page; exact claim coordinates not separately measured",
+            "sourceClaimStatus": "direct-typed-census-passage-no-exact-583-row",
+            "independentSemanticReview": "pending-independent-review",
+            "independentOverlayReview": "pending-independent-review",
+            "indexReview": "inventory-only; no semantic or overlay approval performed"
+          },
+          "valueClaimIds": [
+            "price-discovery:ua-census-record-001#/typedClaim/printedValue"
+          ],
+          "relatedSourceOccurrenceIds": [],
+          "relatedSourceClaimIds": [],
+          "duplicateSourceOccurrenceIds": []
+        }
+      },
+      "proposedSitePointerRegistration": {
+        "status": "candidate exact owner-pointer reconciliation pending independent disposition",
+        "sourceOccurrenceId": "price-discovery:ua-census-record-001",
+        "currentSitePointer": "/spells/414/exceptions/0",
+        "collection": "spells",
+        "itemId": "ua-cleric-ceremony",
+        "fieldPointer": "/exceptions/0",
+        "expectedCurrentRawValueSha256": "c4dde56dfbf35cc06968825b2f55117e3e5e2a0617ce06382e07dc5866a79eef",
+        "independentSemanticReview": "pending-independent-review",
+        "independentOverlayReview": "pending-independent-review",
+        "sourceValueGrade": "NOT PROMOTED",
+        "newSourceRows": 0,
+        "newSourceOccurrences": 0,
+        "newCanonicalEquipmentPriceBindings": 0
+      }
+    },
+    {
+      "collection": "spells",
+      "itemId": "ua-cleric-rainbow",
+      "fieldPointer": "/conditions/0",
+      "delta": "revised raw prose at an existing money-like pointer; old1000gp threshold already present",
+      "currentScannerClaim": {
+        "collection": "spells",
+        "itemId": "ua-cleric-rainbow",
+        "pointer": "/spells/448/conditions/0",
+        "propertyKey": "0",
+        "candidateKind": "currency-text",
+        "monetaryInterpretation": "unresolved-money-like-candidate",
+        "rawValue": "Requires a visible rainbow, or a diamond worth at least 1,000 gp that the cleric has specially prepared with bless and prayer in sight of a rainbow.",
+        "rangeLike": false,
+        "parsedPrice": {
+          "amount": 1000,
+          "currency": "gp"
+        },
+        "matchedCurrencyText": [
+          "1,000 gp"
+        ],
+        "currencyMatchSpans": [
+          {
+            "text": "1,000 gp",
+            "start": 56,
+            "end": 64
+          }
+        ],
+        "encumbranceUnitMatches": [],
+        "auditClass": "candidate",
+        "valueReviewStatus": "no-independent-source-value-status",
+        "valueReviewBindingPointers": [],
+        "staleValueReviewBindingPointers": [],
+        "valueReviewSnapshotChecks": [],
+        "valueReviewSnapshotDrift": [],
+        "sourceAssessability": "not-assessable-no-cited-source-pages",
+        "bindingPointers": [],
+        "reviewStatuses": [],
+        "sourceValueStatuses": [],
+        "bindingGeometry": [],
+        "availableCitedSourcePages": [],
+        "allAvailableSourcePages": [],
+        "routeRecordContextPages": [],
+        "sourceBindingResults": [
+          {
+            "bindingPointer": null,
+            "routeOwner": {
+              "collection": "spells",
+              "itemId": "ua-cleric-rainbow"
+            },
+            "sourceOwner": {
+              "collection": "spells",
+              "itemId": "ua-cleric-rainbow",
+              "explicit": false
+            },
+            "selectedOwnerCatalog": "scans/verified/spells-ua-cleric-rainbow.json",
+            "pages": [],
+            "targetStatus": "source-only-page-reference"
+          }
+        ],
+        "candidateRegionRefs": [],
+        "targetRelation": "not-bound"
+      },
+      "beforeScannerClaim": {
+        "collection": "spells",
+        "itemId": "ua-cleric-rainbow",
+        "pointer": "/spells/448/conditions/0",
+        "propertyKey": "0",
+        "candidateKind": "currency-text",
+        "monetaryInterpretation": "unresolved-money-like-candidate",
+        "rawValue": "Requires a visible rainbow or a diamond worth at least 1,000 gp previously blessed and prayed over in sight of a rainbow.",
+        "rangeLike": false,
+        "parsedPrice": {
+          "amount": 1000,
+          "currency": "gp"
+        },
+        "matchedCurrencyText": [
+          "1,000 gp"
+        ],
+        "currencyMatchSpans": [
+          {
+            "text": "1,000 gp",
+            "start": 55,
+            "end": 63
+          }
+        ],
+        "encumbranceUnitMatches": [],
+        "auditClass": "candidate",
+        "valueReviewStatus": "no-independent-source-value-status",
+        "valueReviewBindingPointers": [],
+        "staleValueReviewBindingPointers": [],
+        "valueReviewSnapshotChecks": [],
+        "valueReviewSnapshotDrift": [],
+        "sourceAssessability": "not-assessable-no-cited-source-pages",
+        "bindingPointers": [],
+        "reviewStatuses": [],
+        "sourceValueStatuses": [],
+        "bindingGeometry": [],
+        "availableCitedSourcePages": [],
+        "allAvailableSourcePages": [],
+        "routeRecordContextPages": [],
+        "sourceBindingResults": [
+          {
+            "bindingPointer": null,
+            "routeOwner": {
+              "collection": "spells",
+              "itemId": "ua-cleric-rainbow"
+            },
+            "sourceOwner": {
+              "collection": "spells",
+              "itemId": "ua-cleric-rainbow",
+              "explicit": false
+            },
+            "selectedOwnerCatalog": "scans/verified/spells-ua-cleric-rainbow.json",
+            "pages": [],
+            "targetStatus": "source-only-page-reference"
+          }
+        ],
+        "candidateRegionRefs": [],
+        "targetRelation": "not-bound"
+      },
+      "existingReceipt": {
+        "artifact": "research/source-audit-batch5-price-discovery-reconciliation.json",
+        "jsonPointer": "/claimReceipts/54",
+        "sha256": "779bfc92e0b10c29bd122837c1bf1f5283185c2f58644a1ac8d1975f51e57d3d",
+        "record": {
+          "receiptId": "ua-census-record-003",
+          "sourceCensusArtifact": "research/price-source-inventory-ua-other.json",
+          "sourceJsonPointer": "/records/2",
+          "book": "UA",
+          "sourceObjectOrPassage": "Rainbow substitute material component",
+          "claimType": "spell-component-value",
+          "typedClaim": {
+            "printedValue": "at least 1,000 gp",
+            "formula": null,
+            "currency": "gp",
+            "unit": "diamond value",
+            "conditions": "Substitute only when no rainbow is nearby; preparation must be performed in sight of a rainbow.",
+            "notes": null
+          },
+          "sourcePassageIdentity": "If no rainbow is nearby, a diamond of not less than 1,000 gp value may substitute, prepared in sight of a rainbow using bless and prayer.",
+          "source": {
+            "printedPage": 40,
+            "pdfPage": 41,
+            "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+            "boundsStatus": "visually-reviewed-page; exact claim coordinates not separately measured"
+          },
+          "receiptStatus": "direct-typed-census-passage-no-exact-583-row",
+          "linkedTypedSourceRecords": [],
+          "unresolvedRemainder": null,
+          "sourceLinkage": {
+            "kind": "claim-level typed source record and prose identity in 65-record census; no exact matching row in bounded 15-group supplement",
+            "sourceReviewStatus": "visually-reviewed-page; exact claim coordinates not separately measured"
+          },
+          "baselineReceiptStatus": "direct-typed-census-passage-no-exact-583-row",
+          "postRemediation": {
+            "disposition": "typed census claim indexed with source artifact pointer and named passage identity",
+            "receiptOccurrenceId": "price-discovery:ua-census-record-003",
+            "indexedClaimIds": [
+              "price-discovery:ua-census-record-003#/typedClaim"
+            ],
+            "typedCurrencyAmountOrFormulaClaimIds": [
+              "price-discovery:ua-census-record-003#/typedClaim"
+            ],
+            "nonPriceOrReferenceClaimIds": [],
+            "unassessableClaimIds": [],
+            "linkedSourceOccurrenceIds": [],
+            "linkedSourceClaimIds": [],
+            "passageRecordId": null,
+            "sourceReview": "source census record retained; independent review pending",
+            "geometryAndOverlayReview": "independent geometry/overlay review pending; not certified by the pure builder"
+          }
+        }
+      },
+      "existingSourceOccurrence": {
+        "artifact": "research/monetary-source-inventory.json",
+        "jsonPointer": "/sourceOccurrences/1745",
+        "sha256": "634e464158693d22b590b99d337b3a874f05cb874516daf603734001e6016b6a",
+        "record": {
+          "sourceOccurrenceId": "price-discovery:ua-census-record-003",
+          "occurrenceKind": "bounded-price-discovery-census-receipt",
+          "object": "Rainbow substitute material component",
+          "variant": null,
+          "purpose": "material-or-construction-cost",
+          "source": {
+            "book": "UA",
+            "sourcePdfSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+            "printedPage": 40,
+            "pdfPage": 41,
+            "sourceFile": null
+          },
+          "sourceIdentity": {
+            "receiptId": "ua-census-record-003",
+            "bookKey": "UA",
+            "sourceObjectOrPassage": "Rainbow substitute material component",
+            "passageIdentity": "If no rainbow is nearby, a diamond of not less than 1,000 gp value may substitute, prepared in sight of a rainbow using bless and prayer.",
+            "claimType": "spell-component-value",
+            "discoveryStatus": "direct-typed-census-passage-no-exact-583-row",
+            "censusArtifact": "research/price-source-inventory-ua-other.json",
+            "censusJsonPointer": "/records/2",
+            "linkedSourceOccurrenceIds": [],
+            "passageRecordId": null,
+            "sourceBoundsStatus": "visually-reviewed-page; exact claim coordinates not separately measured",
+            "unresolvedRemainder": null,
+            "linkedSourceClaimIds": []
+          },
+          "evidence": {
+            "contextCropBounds": null,
+            "rowHighlightBounds": null,
+            "reportedSourcePageBounds": null,
+            "sourcePassageEvidence": null,
+            "geometryAssessment": {
+              "status": "not-assessable",
+              "reason": "No source crop or claim-specific highlight bounds are recorded."
+            },
+            "sourceReviewStatus": "visually-reviewed-page; exact claim coordinates not separately measured",
+            "excerptPublication": {
+              "status": "source-only; no full-page PDF or crop image published"
+            }
+          },
+          "siteMapping": {
+            "status": "unmapped",
+            "collection": null,
+            "itemId": null,
+            "fieldPointer": null,
+            "reason": "No site item/field mapping is recorded in the supplied artifacts."
+          },
+          "quantityOrScale": "diamond value",
+          "conditions": "Substitute only when no rainbow is nearby; preparation must be performed in sight of a rainbow.",
+          "qualifiers": [],
+          "sourceRecord": {
+            "claimType": "spell-component-value",
+            "classification": null,
+            "typedClaim": {
+              "printedValue": "at least 1,000 gp",
+              "formula": null,
+              "currency": "gp",
+              "unit": "diamond value",
+              "conditions": "Substitute only when no rainbow is nearby; preparation must be performed in sight of a rainbow.",
+              "notes": null
+            },
+            "amountOrFormula": null,
+            "currency": null,
+            "moneyCategory": null,
+            "receiptStatus": "direct-typed-census-passage-no-exact-583-row",
+            "sourcePassageIdentity": "If no rainbow is nearby, a diamond of not less than 1,000 gp value may substitute, prepared in sight of a rainbow using bless and prayer.",
+            "unresolvedRemainder": null
+          },
+          "provenance": {
+            "inputArtifact": {
+              "path": "research/source-audit-batch5-price-discovery-reconciliation.json",
+              "sha256": "4b17762a3a9744af2776802a9913caad4106322e49989ba19b3c13a50adb2e5d",
+              "jsonPointer": "/claimReceipts/54"
+            },
+            "sourceCensusArtifact": "research/price-source-inventory-ua-other.json",
+            "sourceCensusJsonPointer": "/records/2",
+            "sourceCensusArtifactHash": "f1f797d9e8664589af5308737d9bc9d5e5dd536339349609fbeec5dc2a58c4b9",
+            "sourceValueJsonPointer": "/claimReceipts/54/typedClaim"
+          },
+          "reviewStatus": {
+            "originalSourceStatus": "visually-reviewed-page; exact claim coordinates not separately measured",
+            "sourceClaimStatus": "direct-typed-census-passage-no-exact-583-row",
+            "independentSemanticReview": "pending-independent-review",
+            "independentOverlayReview": "pending-independent-review",
+            "indexReview": "inventory-only; no semantic or overlay approval performed"
+          },
+          "valueClaimIds": [
+            "price-discovery:ua-census-record-003#/typedClaim"
+          ],
+          "relatedSourceOccurrenceIds": [],
+          "relatedSourceClaimIds": [],
+          "duplicateSourceOccurrenceIds": []
+        }
+      },
+      "proposedSitePointerRegistration": {
+        "status": "candidate exact owner-pointer reconciliation pending independent disposition",
+        "sourceOccurrenceId": "price-discovery:ua-census-record-003",
+        "currentSitePointer": "/spells/448/conditions/0",
+        "collection": "spells",
+        "itemId": "ua-cleric-rainbow",
+        "fieldPointer": "/conditions/0",
+        "expectedCurrentRawValueSha256": "400401c101c89100b0c6e699fa2e7d6eb8e3e6b7f87aa618382c4a2c62c01456",
+        "independentSemanticReview": "pending-independent-review",
+        "independentOverlayReview": "pending-independent-review",
+        "sourceValueGrade": "NOT PROMOTED",
+        "newSourceRows": 0,
+        "newSourceOccurrences": 0,
+        "newCanonicalEquipmentPriceBindings": 0
+      }
+    }
+  ],
+  "limitations": [
+    "Source pages were not newly reviewed in this reconciliation; exact existing source receipts and current scanner results are inventoried.",
+    "The canonical price inventory covers its declared source rows, equipment claims and evidence bindings. Unchanged canonical amounts and old binding objects do not independently review revised arbitrary spell prose.",
+    "The two source occurrences already exist and must not be counted again. Any future owner-pointer mapping must cite these exact occurrence/receipt identities and current prose hashes, with pending semantic/overlay grades retained until independently reviewed.",
+    "Existing page references and owner catalogs are not body-field target approvals. Current scanner says not-bound/no-independent-source-value-status for both pointers; no fallback sourceContext claim is made."
+  ],
+  "activeOutputFilesWritten": 0
+}

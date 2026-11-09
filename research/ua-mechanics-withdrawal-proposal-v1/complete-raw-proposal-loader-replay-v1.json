@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "read-only complete-old-raw-proposal-set plus nested-new-pending replay",
+  "status": "in-memory probe only; invalid raw re-import correctly remains invalid",
+  "nestedPendingSource": {
+    "path": "research/ua-mechanics-withdrawal-proposal-v1/mechanics-ua-source-body-transition-pending-v1.json",
+    "sha256": "04621675d4e26c99a80c56730f2b750b10bce72c77389e7aceecee8f2655cfb2",
+    "bytes": 10964,
+    "records": 5
+  },
+  "currentLocalRootMatchingRawFiles": [],
+  "defaultCallerSemantics": "main imports the complete root-level mechanics-*.json proposal set when any exist; otherwise it uses saved normalized reviewRecords. This fresh checkout has none. Use --from-log explicitly with the qualified1215 active records; the nested source is portable evidence and is not an active root proposal file.",
+  "fullOldRawProposalCount": 1210,
+  "newPendingRawProposalCount": 5,
+  "proposalGroupCount": 15,
+  "counts": {
+    "records": 1003,
+    "totalFields": 14032,
+    "inspectedFields": 13316,
+    "sourceCheckedFields": 12708,
+    "unchangedSourceCheckedFields": 10065,
+    "correctedAndCheckedFields": 2643,
+    "correctionPendingFields": 0,
+    "notExtractedFields": 14,
+    "sourceConflictFields": 22,
+    "editorialReviewedFields": 558,
+    "staleProposalFields": 2,
+    "uncheckedFields": 728
+  },
+  "validationErrors": [
+    "4 proposed changes do not match either current oldValue or newValue.",
+    "Ledger contains checked values that changed without a matching reviewed correction."
+  ],
+  "staleChanges": [
+    {
+      "collection": "spells",
+      "id": "ua-cleric-rainbow",
+      "checker": "mechanics-ua-spells",
+      "path": "/exceptions",
+      "currentValue": [
+        "Only the holy/unholy symbol remains after casting. The rainbow objects and unused flagon water disappear when the spell expires; benefits from consumed flagon water persist."
+      ],
+      "oldValue": [
+        "Only the holy symbol survives casting; unused rainbow objects/drinks vanish on expiry, though consumed spell benefits persist normally.",
+        "Range is withheld because its OCR digit is uncertain."
+      ],
+      "newValue": [
+        "Only the holy symbol survives casting; unused rainbow objects/drinks vanish on expiry, though consumed spell benefits persist normally."
+      ]
+    },
+    {
+      "collection": "spells",
+      "id": "ua-druid-ceremony",
+      "checker": "mechanics-ua-spells",
+      "path": "/exceptions/0",
+      "currentValue": "Cast out’s effects can be lessened by a reversed ceremony cast by the same druid or another druid at least as high level as the original caster, but only a Hierophant Druid can completely cancel it. Higher-ranking druids may punish a druid who was denied permission or whose action is later reversed.",
+      "oldValue": "The OCR says the listed ranks are 'indicated or lower'; this contradicts the hierarchy implied by the rites, so minimum-rank wording is not resolved here.",
+      "newValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-druid-ceremony",
+      "checker": "mechanics-source-adjudication-batch5",
+      "path": "/exceptions/0",
+      "currentValue": "Cast out’s effects can be lessened by a reversed ceremony cast by the same druid or another druid at least as high level as the original caster, but only a Hierophant Druid can completely cancel it. Higher-ranking druids may punish a druid who was denied permission or whose action is later reversed.",
+      "oldValue": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
+      "newValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure."
+    },
+    {
+      "collection": "spells",
+      "id": "ua-illusionist-chromatic-orb",
+      "checker": "mechanics-ua-spells",
+      "path": "/exceptions/1",
+      "currentValue": null,
+      "oldValue": "The essential color/damage/effect table is not transcribed here because it still needs visual verification.",
+      "newValue": "Power details, conditions and saving throws are described in the table notes."
+    }
+  ],
+  "activeLedgerWritten": false
+}

@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-ua-mechanics-withdrawal-and-monetary-pointer-proposal-review",
+  "reviewedOn": "2026-11-09",
+  "reviewer": "independent delegated review",
+  "worktree": "/workspace/adnd1-ua-source-native",
+  "result": "PASS FOR BOUNDED CANDIDATE REPLAY; SOURCE-VALUE REVIEW AND ACTIVATION REMAIN PENDING",
+  "scope": "Read-only verification of the frozen mechanics-withdrawal and monetary-pointer proposals against the current source-phase candidate and existing APIs. This is a transport/status review; it is not a fresh adjudication of the changed spell/class source values, source pages, field-target mappings, or overlay geometry.",
+  "frozenInputs": {
+    "manifest": {
+      "path": "research/ua-mechanics-withdrawal-proposal-v1/proposal-manifest-v1.json",
+      "sha256": "27fcfb06afc8e578ebc7d74b0491231a242bb4722ea80c6d50958d375623de94"
+    },
+    "oldHistoryFixture": {
+      "path": "research/ua-mechanics-withdrawal-proposal-v1/exact-before-mechanics-ledger-v1.json.gz",
+      "sha256": "1a89ff538b8c52baf48a2709b0fa4c513d7108baf32066098469bdcd21710868",
+      "rawSha256": "ba9fe216487c80100cd58e6287d8e9079af5fc5eff1af11f03125a4f44492be1",
+      "rawBytes": 9410852,
+      "reviewRecords": 1210
+    },
+    "withdrawalRegistration": {
+      "path": "research/ua-mechanics-withdrawal-proposal-v1/exact-withdrawal-registration-candidate-v1.json",
+      "sha256": "95fb612f614395700af63a0f7ac82f704fe62bc37d88f10f0b6e06dbde78113b"
+    },
+    "overlapInventory": {
+      "path": "research/ua-mechanics-withdrawal-proposal-v1/exact-checked-field-overlap-inventory-v1.json",
+      "sha256": "60ceb248bfe53423fec540c5446dd6abbda127f8a031a2f75aac7bbec79ec0e2"
+    },
+    "combinedReplay": {
+      "path": "research/ua-mechanics-withdrawal-proposal-v1/explicit-pending-registration-and-replay-v1.json",
+      "sha256": "52692fc25fb28a3b959e4cbf242e67660dca238b93fc2727119608c20cd7b47c"
+    },
+    "mechanicReplayReceipt": {
+      "path": "research/ua-mechanics-withdrawal-proposal-v1/in-memory-replay-receipt-v1.json",
+      "sha256": "5fa667d401e4b008375648de70f476a53ef1bca924639bb6b3123cd18fd3d0d2"
+    },
+    "nestedPendingRecords": {
+      "path": "research/ua-mechanics-withdrawal-proposal-v1/mechanics-ua-source-body-transition-pending-v1.json",
+      "sha256": "04621675d4e26c99a80c56730f2b750b10bce72c77389e7aceecee8f2655cfb2"
+    },
+    "rawLoaderNegativeControl": {
+      "path": "research/ua-mechanics-withdrawal-proposal-v1/complete-raw-proposal-loader-replay-v1.json",
+      "sha256": "970cd455c8cd93ee314a29e498a8b4c6604da4a8dd9484bd1c612365a869ad91"
+    },
+    "monetaryCandidate": {
+      "path": "research/ua-mechanics-withdrawal-proposal-v1/monetary-source-pointer-reconciliation-candidate-v1.json",
+      "sha256": "9a76ad0d013c907a3cb6d5b9588c2aa94fa637ad314624980d99e5fd680e43bc"
+    },
+    "acrobatContextObservation": {
+      "path": "research/ua-mechanics-withdrawal-proposal-v1/additional-acrobat-weight-scanner-match-v1.json",
+      "sha256": "23ad1a10e6e423df793b95d27f76363dc480b352e3cf375759d5f03578bc07bb"
+    }
+  },
+  "frozenPackageIntegrity": {
+    "artifactDenominator": 14,
+    "artifactHashesAndByteSizesMatchingManifest": 14,
+    "mismatches": [],
+    "sourcePhaseManifest": {
+      "path": "research/ua-source-native-integration-v1/source-phase-manifest-v1.json",
+      "sha256": "bc70496d8f4acbef7c9f2cc26427e6a0618605aa58099d41a819c85c34270154",
+      "unchanged": true
+    },
+    "sourcePhaseReceipt": {
+      "path": "research/ua-source-native-integration-v1/source-phase-integration-receipt-v1.json",
+      "sha256": "69478559c7ac44580dffd17d51a877ca4b2c7ead6d9e02fe28efd09f9dab166b",
+      "unchanged": true
+    },
+    "activeSavedMechanicsLedger": {
+      "path": "research/mechanics-audit-progress.json",
+      "sha256": "ba9fe216487c80100cd58e6287d8e9079af5fc5eff1af11f03125a4f44492be1",
+      "unchanged": true
+    }
+  },
+  "baseAndDependency": {
+    "proposalBaseCommit": "9b77aeb620b1d671ff1d59b0e14790206523b327",
+    "observedHead": "9b77aeb620b1d671ff1d59b0e14790206523b327",
+    "actualMergedWeaponDependency": "6717c6f22bbf2f2b421327e4c8561b1d81df00d4",
+    "dependencyObjectType": "commit",
+    "dependencyCheckedOutOrIntegrated": false,
+    "sourceCandidateRawDataSha256": "c076e0f6bb898eb52650fd886630089f17edc86cbc8e3c4ac349b817bceba0d3"
+  },
+  "mechanicsReplay": {
+    "method": "Independent in-memory reconstruction with existing tools/mechanics-audit.mjs buildLedger(data, reviews, {alreadyNormalized:true}) and validateLedger(result,data); no writer invoked.",
+    "result": "PASS",
+    "reviewedDenominators": {
+      "originalRecords": 1210,
+      "qualifiedRecordReplacements": 6,
+      "otherOriginalRecordsPreservedWhole": 1204,
+      "withdrawnRecordPointerPairs": 25,
+      "distinctOwnerPointerPairs": 24,
+      "obsoleteCorrectionsWithdrawn": 4,
+      "retainedCheckedPaths": 48,
+      "retainedCorrections": 5,
+      "appendedPendingRecords": 5,
+      "exactCurrentChangedBodyLeafPendingPointers": 41,
+      "combinedActiveReviewRecords": 1215
+    },
+    "replacements": {
+      "recordIndexes": [
+        806,
+        829,
+        833,
+        848,
+        933,
+        1198
+      ],
+      "onlyChangedReviewProperties": [
+        "checkedPaths",
+        "checkedValues",
+        "changes"
+      ],
+      "allSixBeforeAndAfterRecordHashesMatchRegistration": true,
+      "allOther1204RecordsDeepEqualToHistory": true,
+      "otherPropertiesWithinSixRecordsDeepEqual": true,
+      "retainedCheckedValuesPreserved": true,
+      "obsoleteChangeRegistrationsMatch": true
+    },
+    "resultingReviewRecordsSha256": "cfad75c6e4385af44edc85fe655d5913e2851aa2b948b7dfaf13e6ff01c6065e",
+    "candidateCounts": {
+      "records": 1003,
+      "totalFields": 14032,
+      "inspectedFields": 13294,
+      "sourceCheckedFields": 12708,
+      "unchangedSourceCheckedFields": 10065,
+      "correctedAndCheckedFields": 2643,
+      "correctionPendingFields": 0,
+      "notExtractedFields": 14,
+      "sourceConflictFields": 22,
+      "editorialReviewedFields": 558,
+      "staleProposalFields": 0,
+      "uncheckedFields": 730
+    },
+    "validationErrors": [],
+    "currentDataOldEvidenceComparison": {
+      "oldLedgerStaleFields": 22,
+      "oldLedgerStaleChanges": 4,
+      "candidateStatusTransitions": {
+        "stale-proposal->unchecked": 22
+      },
+      "otherFieldStatusTransitions": 0,
+      "sourceCheckedFieldCountBeforeAndAfter": 12708,
+      "all41ChangedBodyLeavesUnchecked": true,
+      "changedAssertionsReceivedNoNewMechanicsOrSourceValueGrade": true
+    }
+  },
+  "controlResults": [
+    {
+      "control": "original 1,210 records against current source",
+      "expected": "reject stale applications",
+      "observed": "22 stale fields and four stale proposed changes; validator rejects",
+      "result": "PASS_GUARD_RETAINED"
+    },
+    {
+      "control": "append five pending records without the six exact withdrawals",
+      "expected": "reject; notes cannot retire old checked values or corrections",
+      "observed": "22 stale fields and four stale proposed changes remain",
+      "result": "PASS_GUARD_RETAINED"
+    },
+    {
+      "control": "replace exact leaf pending annotations with 12 broad parent annotations",
+      "expected": "reject unintended demotion of unchanged checked Bind /effect/0",
+      "observed": "broad scope demotes the unchanged source-checked field; exact candidate retains its source-checked status",
+      "result": "PASS_SCOPE_GUARD"
+    },
+    {
+      "control": "re-import complete old raw proposal set plus five pending proposals",
+      "expected": "reject stale raw proposal replay",
+      "observed": "four stale changes and two stale-proposal fields; validator rejects",
+      "result": "PASS_GUARD_RETAINED"
+    },
+    {
+      "control": "mutate a retained checked value, withdraw an extra checked pair, remove an extra correction, or alter source-body input",
+      "expected": "reject mutations outside exact registered before/after state",
+      "observed": "whole-record after hashes and current data hash validation detect each mutation",
+      "result": "PASS_MUTATION_GUARDS"
+    }
+  ],
+  "importerAndActivationBoundary": {
+    "rootLevelRawMechanicsProposalFiles": 0,
+    "defaultCliBehaviorWhenNoRawFiles": "uses saved normalized reviewRecords, same evidence set as --from-log",
+    "safeCandidateIntegrationShape": "only the exact qualified 1,215 normalized review records through the existing --from-log path, after root authorization and source/dependency reconciliation",
+    "appendOnlyPendingProposalIsValid": false,
+    "rawPendingFileIsNestedAndNotAutoLoaded": true,
+    "noProductionActivationPerformed": true
+  },
+  "monetaryScanner": {
+    "method": "Re-ran in memory tools/citation-systemic-inventory.mjs buildSystemicInventory(data, reader, {includeVisual:false}) against Git base 9b77aeb and the frozen current source candidate. No report writer or source inventory mutator invoked.",
+    "scannerSource": {
+      "path": "tools/citation-systemic-inventory.mjs",
+      "sha256": "68032e56cc7ff9245d8e9912c1f2c02d416f39ea284a18aa4b18acce801aefa6"
+    },
+    "globalMoneyLikePropertyDenominator": {
+      "base": 773,
+      "current": 775,
+      "proposalMatchesObserved": true
+    },
+    "reconciliations": [
+      {
+        "owner": "spells:ua-cleric-ceremony",
+        "fieldPointer": "/exceptions/0",
+        "currentScannerPointer": "/spells/414/exceptions/0",
+        "delta": "new scanner match",
+        "classification": "unresolved-money-range-candidate",
+        "parsedPrice": null,
+        "sourceValueReviewBindings": 0,
+        "sourceValueReviewStatuses": [],
+        "existingCensusReceipt": {
+          "receiptId": "ua-census-record-001",
+          "receiptArtifact": "research/source-audit-batch5-price-discovery-reconciliation.json",
+          "receiptPointer": "/claimReceipts/52",
+          "receiptSha256": "b613ad3bd34ca8a3c258956d7bea43a7f59f69ecc9ee119622ef59777b98d1bd",
+          "existingSourceOccurrence": "price-discovery:ua-census-record-001",
+          "occurrenceArtifact": "research/monetary-source-inventory.json",
+          "occurrencePointer": "/sourceOccurrences/1743",
+          "occurrenceSha256": "50ebc7d2f48a01af7f621e780dd47a4113b331cdfe306898cf26544c9c048a80",
+          "siteMapping": "unmapped",
+          "semanticReview": "pending",
+          "overlayReview": "pending"
+        },
+        "disposition": "Existing source occurrence is pointer-reconciliation context only; no new row, mapping, semantic approval, overlay approval, or source-value grade."
+      },
+      {
+        "owner": "spells:ua-cleric-rainbow",
+        "fieldPointer": "/conditions/0",
+        "currentScannerPointer": "/spells/448/conditions/0",
+        "delta": "existing scanner match retained; current prose pointer revised",
+        "classification": "unresolved-money-like-candidate",
+        "parsedPrice": {
+          "amount": 1000,
+          "currency": "gp"
+        },
+        "sourceValueReviewBindings": 0,
+        "sourceValueReviewStatuses": [],
+        "sameScannerClaimObservedAtBaseAndCurrent": true,
+        "existingCensusReceipt": {
+          "receiptId": "ua-census-record-003",
+          "receiptArtifact": "research/source-audit-batch5-price-discovery-reconciliation.json",
+          "receiptPointer": "/claimReceipts/54",
+          "receiptSha256": "779bfc92e0b10c29bd122837c1bf1f5283185c2f58644a1ac8d1975f51e57d3d",
+          "existingSourceOccurrence": "price-discovery:ua-census-record-003",
+          "occurrenceArtifact": "research/monetary-source-inventory.json",
+          "occurrencePointer": "/sourceOccurrences/1745",
+          "occurrenceSha256": "634e464158693d22b590b99d337b3a874f05cb874516daf603734001e6016b6a",
+          "siteMapping": "unmapped",
+          "semanticReview": "pending",
+          "overlayReview": "pending"
+        },
+        "disposition": "No new occurrence or grade. Scanner amount alone does not establish reviewed value or a live mapped price."
+      }
+    ],
+    "additionalBroadScannerMatch": {
+      "owner": "classes:ua-thief-acrobat",
+      "fieldPointer": "/guidance/5",
+      "currentScannerPointer": "/classes/13/guidance/5",
+      "scannerParsedPrice": {
+        "amount": 1000,
+        "currency": "gp"
+      },
+      "proposalContextClass": "body/carried-weight prose; not established as a price",
+      "sourceDisposition": "pending",
+      "mechanicsStatus": "unchecked",
+      "newSourceOccurrenceOrPriceBinding": false
+    },
+    "monetaryInventoryOrCanonicalBindingChangesPerformed": false
+  },
+  "limitationsAndNotRun": [
+    "No fresh private-PDF/page/crop inspection or source-semantic/value adjudication was performed for the changed prose or the three monetary scanner matches.",
+    "No mechanics field/value approval was granted. The review covers exact withdrawal transport, candidate statuses, and scanner/source-pointer inventory only.",
+    "No source, metadata, manual binding, canonical price inventory, history file, or active ledger was changed.",
+    "No source-phase activation, 6717 dependency merge into this checkout, metadata refresh, build, full suite, browser check, commit, or publication was performed in this delegated review."
+  ],
+  "worktreeAtReviewStart": {
+    "observedHead": "9b77aeb620b1d671ff1d59b0e14790206523b327",
+    "preexistingGitStatusEntries": 76,
+    "note": "The worktree already contained unrelated frozen source-phase changes/artifacts. This reviewer did not modify them; the only file created by this review is this new receipt."
+  },
+  "authorizationBoundary": "Proposal acceptance is not activation. Root must decide whether to activate the exact normalized 1,215-review candidate after verifying the source/dependency integration boundary. The new or revised source claims remain pending their separate semantic and overlay reviews."
+}

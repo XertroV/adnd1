@@ -25,6 +25,7 @@ Named units overlap by section, table, heading and procedure; they are not addit
 - **continuation-source-frame-consumer**: merged-and-live-independently-verified — [PR](https://github.com/XertroV/adnd1/pull/45), Version 25, merge `ae7f02c6a5aac9ac8da1f7bc5cf5152e422fcd58`.
 - **phb-spell-guidance-class-mechanics-source-overview**: merged-and-live-independently-verified — [PR](https://github.com/XertroV/adnd1/pull/46), Version 25, merge `4aa977788085f67a28a24d40965edf987bc7242b`.
 - **dmg225-locations-and-six-replacement-crop-groups**: merged-and-live-independently-verified — [PR](https://github.com/XertroV/adnd1/pull/47), Version 26, merge `cc9509047746d5e27a71cb5b1e0cfcb739a688c9`.
+- **phb38-ua28-hurled-weapons-discoverability-and-dmg28-continuation**: merged-and-live-independently-verified — [PR](https://github.com/XertroV/adnd1/pull/48), Version 27, merge `6717c6f22bbf2f2b421327e4c8561b1d81df00d4`.
 
 The following book findings and disposition counts describe the frozen baseline. They preserve before evidence; use the repair batches above for current publication status.
 

@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-UA-source-history-native-code-review",
+  "reviewedAt": "2026-11-09",
+  "worktree": "/workspace/adnd1-ua-source-native",
+  "baseMetadataCommit": "7314165d4e5b09772d2e4dee9a17e000ebc96c5b",
+  "scope": "Read-only review of the bounded UA closed-history adapter, current source-owner guard, continuation guard, history test boundary, and focused integration evidence. This is a test/history/current-assertion integration review, not a source-semantic or value approval.",
+  "frozenInputs": {
+    "historyNativeManifest": {
+      "path": "research/ua-source-history-integration-v1/history-native-integration-manifest-v1.json",
+      "sha256": "f1740179ff91700f6b8485cba0a8e631b5c01c87af2b05070c1d88604de32729"
+    },
+    "finalCodeReviewInputs": {
+      "path": "research/ua-source-history-integration-v1/final-code-review-inputs-v1.json",
+      "sha256": "db7b28216f853cf56f7c0f2804b327a2d08c764040b1b0d90413f813f55b1047",
+      "fileCount": 63
+    },
+    "focusedExecutionProof": {
+      "path": "research/ua-source-history-integration-v1/focused-execution-proof-v1.json.gz",
+      "sha256": "da7a13b6a05919fba586463fe0b56a85f34a1e365f9cdfcec1a8e9be09543fc1"
+    },
+    "sourceAndKernelPreservationReceipt": {
+      "path": "research/ua-source-history-integration-v1/source-and-kernel-preservation-v1.json",
+      "sha256": "e3181834e9977ba6ba66f7e9a6976dcfb79198491850cc44822c244158e58749"
+    },
+    "baselineFullFailureFixture": {
+      "path": "tests/fixtures/pass8-ua-source-first-full-failure-v1.json.gz",
+      "sha256": "3bda4c7858514b153fdd0cc71505c1b8238ae5c4a23ec8c42d8ec42b2dd55774"
+    }
+  },
+  "reviewedCodePins": [
+    {
+      "path": "tests/helpers/pass8-ua-source-history.mjs",
+      "sha256": "9c19efb6aaee7ce19a9a84ef57ebd8002a95f7315f95222914910cf8326cfe00"
+    },
+    {
+      "path": "tests/helpers/ua-source-current-cohort.mjs",
+      "sha256": "a0d307bc81013e06713ecd23a1066dcf9c2a47714a1a1293dc5cafa4138fa32f"
+    },
+    {
+      "path": "tests/helpers/ua-source-continuation-current-cohort.mjs",
+      "sha256": "5cf377197b06713bb2a321318345c78ccfb5aeaf03bd878d28dc23f603362749"
+    },
+    {
+      "path": "tests/pass8-ua-source-history.test.mjs",
+      "sha256": "c41519a9f763f265fac34834a98a9762fd0791b222af1ca53279a68b590fd587"
+    },
+    {
+      "path": "tests/ua-source-current-cohort.test.mjs",
+      "sha256": "01d52f3ba5a0ebc37d6e03ae46951dc3bd6e99591358d5ae9255d4678454596f"
+    },
+    {
+      "path": "tools/build-pass8-ua-source-history-contract-v1.mjs",
+      "sha256": "49912c87b4ca7fc56e2303724ff836c0f419408c20f14277e063e98926014e4b"
+    },
+    {
+      "path": "tests/fixtures/pass8-ua-source-history-v1.json.gz",
+      "sha256": "8d4d781dfa364b677d279753991dbe5cb14f3fee0e7ead08538a54d7ca89d89a"
+    },
+    {
+      "path": "tests/fixtures/ua-source-thin-context-bindings-before-v1.json.gz",
+      "sha256": "4a412690b8c74ba858a7fc4f1ae20b22878516dc6992f65b9b1c8c47fc808061"
+    },
+    {
+      "path": "tests/fixtures/ua-source-continuation-root-metadata-before-v1.json.gz",
+      "sha256": "462f0f5426cbf4437a2f6484728d0aadade49a035fbdf5ad9a534601e18fa04a"
+    }
+  ],
+  "findings": [
+    {
+      "area": "closed historical projection",
+      "result": "accepted within the declared boundary",
+      "evidence": "The adapter pins 17 source-stage and 8 metadata-stage existing JSON paths to exact whole-object and raw-byte before/after digests. It restores the complete actual merged V27 predecessor, then calls the existing closed adapters. I found no field-stripping, generic fallback, new-path predecessor, or runtime production import. The tree scanner covers tracked and untracked dist/tools paths and both UA and weapon adapter literals.",
+      "scopeLimit": "The adapter has no raw-file projection paths. Non-UA paths retain native bytes for byte readers and unrecognized JSON paths reject in the UA-only projector."
+    },
+    {
+      "area": "current source-owner guard",
+      "result": "accepted within the declared source-phase cohort",
+      "evidence": "The guard compares the current compiled data to the exact approved source-phase commit and checks explicit owner/property and counter deltas. It re-reads active manifest, controlled-delta, inventory, manual-binding, and mechanics pins. For the 24 UA class reference bindings it accepts only the exact canonical binding or the exact source-owner report projection; the preserved pre-fix thin-row witness now rejects after checking both fixture and helper-preimage hashes. The pinned delta keeps the previous 4,681 whole binding objects and order, adds 24 context-only records, leaves 807 manual declarations unchanged, and introduces no new source-value grades.",
+      "scopeLimit": "The 24 records remain context-not-assessed and source-value-not-assessed; the identity classifier explicitly does not validate evidence."
+    },
+    {
+      "area": "current continuation guard",
+      "result": "accepted as a native exact-preservation assertion",
+      "evidence": "The guard compares all current report root metadata except regionAssessments to the pinned M1 report, checks the declared summary exposed-universe metadata, and enforces 3,506 current rows: 3,473 unchanged historical whole rows, one exact Chromatic successor, and 32 exact class rows. Mutation controls reject unknown root metadata, changed input dist-data hash, changed scope, altered rows, duplicates, truncation, and the preserved prior false-acceptance mutations.",
+      "scopeLimit": "This establishes exact cohort preservation against the M1 pin; it does not independently establish semantic correctness of source pixels, geometry, or class-value interpretation."
+    },
+    {
+      "area": "historical and integration preservation",
+      "result": "no issue found in the reviewed bounds",
+      "evidence": "All 37 old kernel files match their declared preimage bytes. The 44 changed existing test callers match the before/after hashes, with 36 import-only retargets and two identified mixed native/history callers. The worker preservation receipt reports 5,359 tracked inputs checked and only those 44 existing test files changed; its 15 current-core pins all match in this review. The prior seal file is unmodified in the worktree."
+    }
+  ],
+  "verification": {
+    "locallyReproduced": [
+      {
+        "command": "node tools/build-pass8-ua-source-history-contract-v1.mjs --check",
+        "result": "pass; exact deterministic frozen contract reproduced"
+      },
+      {
+        "command": "git diff --check",
+        "result": "pass"
+      },
+      {
+        "check": "Final code-review input manifest",
+        "result": "all 63 listed file hashes and sizes match the worktree"
+      },
+      {
+        "check": "Caller preimages",
+        "result": "all 44 declared preimage and final hashes match Git and worktree bytes"
+      },
+      {
+        "check": "Old kernel preservation",
+        "result": "all 37 files match the declared preimage commit and hashes"
+      },
+      {
+        "check": "Current core pins",
+        "result": "all 15 declared current-core files match their hashes and sizes"
+      },
+      {
+        "check": "History caller retargets",
+        "result": "all 36 declared import-only caller changes reproduce exactly by the four declared helper-path substitutions; the remaining two retargeted XP integration callers are the declared native/history mixed tests"
+      }
+    ],
+    "producerExecutionEvidence": [
+      {
+        "command": "node --test --test-concurrency=1 tests/pass8-ua-source-history.test.mjs",
+        "result": "8/8 passed; execution proof log SHA-256 e01c6d958f33569b75b9f6ae6de65a7710603ca76c144acf91dbe9338d494b5f"
+      },
+      {
+        "command": "focused native callers and new guard (nine test files)",
+        "result": "53/53 passed with the same helper hashes; the run used the pre-final test-file hash 2d8fb52a8eaaa9f39461a3971f62121057347ea4b5dd2990c8b0f6653ebbe6a9"
+      },
+      {
+        "command": "node --test tests/ua-source-current-cohort.test.mjs",
+        "result": "6/6 passed after the final fixture/preimage hash assertions; log SHA-256 628982566e2e49a8bb5e2dbfd801f71973948cba0b57f484ade41a60bf44b967"
+      },
+      {
+        "command": "node --test --test-concurrency=1 --test-name-pattern='the weapon contract restores|wrapper is confined' tests/pass8-weapon-source-history.test.mjs",
+        "result": "2/2 passed; log SHA-256 8d3fdb8d054b50c5aec0b8217911781c4d622fcecf2e928a19ebe6d3012449f5"
+      }
+    ]
+  },
+  "decision": "No blocking code-review defect found within this bounded history/native assertion scope.",
+  "remainingLimits": [
+    "The complete Node suite and final all-24/CI run were not performed as part of this independent review. The sealed baseline fixture records 936 reported tests, 878 pass and 58 fail; file-level early failures limit registration, and two generic file failures remain causally unclassified. This is not evidence that every test body ran or that a resource cause was established.",
+    "This receipt does not approve new value grades, semantic source accuracy, geometry, publication, merge, or release. Source-phase context-only bindings and any pending source review remain pending."
+  ],
+  "authorshipBoundary": "Independent review artifact only. No producer helper, active source data, grade, old fixture, or seal was modified by the reviewer."
+}

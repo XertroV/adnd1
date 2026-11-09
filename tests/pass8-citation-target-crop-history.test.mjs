@@ -4,7 +4,7 @@ import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 import {decodePass8CitationTargetCropHistory,projectPass8CitationTargetCropJson as project,projectPass8CitationTargetCropBytes as projectBytes,projectPass8XpContinuationJson as xp,projectPass8CharacterReferenceJson as character} from './helpers/pass8-citation-target-crop-history.mjs';
-import {readBeforePass8WeaponSourceFile,readBeforePass8CitationTargetCropFile as readBefore} from './helpers/pass8-weapon-source-history.mjs';
+import {readBeforePass8WeaponSourceFile,readBeforePass8CitationTargetCropFile as readBefore} from './helpers/pass8-ua-source-history.mjs';
 import {projectPass8PhbSourceJson as originalPhb} from './helpers/pass8-phb-source-history.mjs';
 import {validateScanCatalog} from '../tools/scan-catalog.mjs';
 import books from '../dist/books.js';

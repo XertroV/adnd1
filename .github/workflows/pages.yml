@@ -341,10 +341,10 @@ jobs:
         run: |
           set -o pipefail
           mkdir -p artifacts/source-domain-audits
-          cmp artifacts/citation-systemic-coverage/citation-systemic-current.json research/weapon-source-audit-v1/systemic/citation-systemic-current.json
-          cmp artifacts/source-visual-coverage/report.json research/weapon-source-audit-v1/visual/report.json
-          cmp artifacts/source-table-citation-coverage/report.json research/weapon-source-audit-v1/table/report.json
-          node tools/refresh-gaps-handoff.mjs --check --systemic-report research/weapon-source-audit-v1/systemic/citation-systemic-current.json --visual-report research/weapon-source-audit-v1/visual/report.json --table-report research/weapon-source-audit-v1/table/report.json | tee artifacts/source-domain-audits/gaps-handoff-check.json
+          gzip -cd research/ua-source-metadata-v1/frozen-systemic-current-v1.json.gz | cmp - artifacts/citation-systemic-coverage/citation-systemic-current.json
+          gzip -cd research/ua-source-metadata-v1/frozen-visual-report-v1.json.gz | cmp - artifacts/source-visual-coverage/report.json
+          gzip -cd research/ua-source-metadata-v1/frozen-table-report-v1.json.gz | cmp - artifacts/source-table-citation-coverage/report.json
+          node tools/refresh-gaps-handoff.mjs --check | tee artifacts/source-domain-audits/gaps-handoff-check.json
       - name: Verify coverage report counts and review scopes
         if: always()
         run: |

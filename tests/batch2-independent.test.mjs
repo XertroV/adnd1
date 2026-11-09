@@ -1,8 +1,8 @@
-import {readBeforeJoFile as readFileSync,withoutBatch6XpSourceMetadata,xpA65HistoryProjection} from './helpers/batch6-jo-fixture.mjs';
+import {readBeforeJoFile as readFileSync,withoutBatch6XpSourceMetadata,xpA65HistoryProjection} from './helpers/ua-source-batch6-jo-fixture.mjs';
 import {readFileSync as readCurrentFileSync} from 'node:fs';
 import {withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import {reverseMechanicsBatchTwo} from './mechanics-batch-two-fixture.mjs';
-import {reverseMatrixCellReview} from './helpers/dmg74-matrix-batch.mjs';
+import {reverseMatrixCellReview} from './helpers/ua-source-dmg74-matrix-batch.mjs';
 import {reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';

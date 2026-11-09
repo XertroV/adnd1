@@ -11,6 +11,7 @@ import {loadMonetaryRowIdentityAudit} from './monetary-row-identity-audit.mjs';
 import {loadJoUnextractedPriceRegistration} from './jo-unextracted-price-registration.mjs';
 import {fieldBindingAxisMetrics, fieldBindingCountMeaning, historicalProducerMetadata, sourceIntegrationDescriptor, currentUncheckedExclusions, uncheckedExclusionTemplate} from './source-report-consistency-audit.mjs';
 import {loadCurrentMonetarySourceQuestions,validateCurrentMonetarySourceQuestionProjection} from './monetary-current-source-questions.mjs';
+import {loadUaSourceHandoffTransition,uaSourceHandoffContextMatches,isQualifiedUaSourceHistoricalChange,uaSourceHistoricalCaution,uaSourceHandoffTransitionPath,uaSourceHandoffTransitionSha256} from './ua-source-handoff-transition.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const require=createRequire(import.meta.url);
@@ -129,11 +130,14 @@ function exactDataTransition({change, baselineData, currentData}) {
   return oldMatches && currentValue.found && same(currentValue.value, change.newValue);
 }
 
-export function validateApprovedTransitions({baselineData, currentData, conflictReceipt, animalReceipt, classRetirementReceipt}) {
+export function validateApprovedTransitions({baselineData, currentData, conflictReceipt, animalReceipt, classRetirementReceipt, sourceBodyTransition = null}) {
+  if(sourceBodyTransition&&!uaSourceHandoffContextMatches(sourceBodyTransition,{baselineData,currentData,conflictReceipt}))fail('UA source-body transition qualification does not match exact current and historical inputs');
   const validated = [];
   for (const change of conflictReceipt.changes || []) {
-    if (!exactDataTransition({change, baselineData, currentData})) fail(`conflict receipt no longer exactly matches historical/current data: ${change.collection}/${change.itemId}${change.pointer}`);
-    validated.push({kind: 'conflict-integration', collection: change.collection, itemId: change.itemId, pointer: change.pointer, reason: change.reason});
+    const current=exactDataTransition({change, baselineData, currentData});
+    const qualifiedHistorical=!current&&sourceBodyTransition&&isQualifiedUaSourceHistoricalChange(sourceBodyTransition,change);
+    if (!current&&!qualifiedHistorical) fail(`conflict receipt no longer exactly matches historical/current data: ${change.collection}/${change.itemId}${change.pointer}`);
+    validated.push(qualifiedHistorical?{kind:'historical-source-body-transition-qualified',collection:change.collection,itemId:change.itemId,pointer:change.pointer,currentFieldStatus:'unchecked',sourceValueGrade:'NOT PROMOTED',receipt:{path:uaSourceHandoffTransitionPath,sha256:uaSourceHandoffTransitionSha256}}:{kind: 'conflict-integration', collection: change.collection, itemId: change.itemId, pointer: change.pointer, reason: change.reason});
   }
   const animal = (animalReceipt.fieldReviews || []).find(record => record.collection === 'spells' && record.itemId === 'phb-magic-user-animal-growth' && record.fieldPointer === '/exceptions/2');
   if (!animal || itemFor(currentData, 'spells', 'phb-magic-user-animal-growth')?.exceptions?.[2] !== animal.valueAfter) fail('Animal Growth source-note transition is not the exact reviewed receipt value');
@@ -167,7 +171,8 @@ function exactReplacement({note, baselineData, currentData, mechanics, changes})
   return null;
 }
 
-export function reconcileCuratedNotes({curatedNotes, currentHandoff, baselineData, currentData, mechanics, conflictReceipt, conflictReceiptSha256, classRetirementReceipt, classRetirementReceiptSha256, animalReceipt, animalReceiptSha256}) {
+export function reconcileCuratedNotes({curatedNotes, currentHandoff, baselineData, currentData, mechanics, conflictReceipt, conflictReceiptSha256, classRetirementReceipt, classRetirementReceiptSha256, animalReceipt, animalReceiptSha256, sourceBodyTransition = null}) {
+  if(sourceBodyTransition&&!uaSourceHandoffContextMatches(sourceBodyTransition,{baselineData,currentData,conflictReceipt}))fail('UA source-body caution qualification does not match exact current and historical inputs');
   if (!Array.isArray(curatedNotes) || curatedNotes.length !== 78) fail('curated note set must contain exactly 78 historical candidates');
   const active = [], history = [], usedCurrent = new Set(), knownChanges = conflictReceipt.changes || [];
   for (const [baselineIndex, note] of curatedNotes.entries()) {
@@ -190,6 +195,8 @@ export function reconcileCuratedNotes({curatedNotes, currentHandoff, baselineDat
       history.push(replacement.history);
       continue;
     }
+    const qualifiedHistory=sourceBodyTransition?uaSourceHistoricalCaution(sourceBodyTransition,note,baselineIndex):null;
+    if(qualifiedHistory){history.push(qualifiedHistory);continue;}
     if (note.collection === 'classes' && note.itemId === 'assassin' && (note.fieldPointer || '').startsWith('/levelChanges/50')) {
       history.push({...clone(note), baselineIndex, disposition: 'retired-unsupported-class-event', receipt: 'research/source-audit-batch5-class-retired-ledger.json', receiptSha256: classRetirementReceiptSha256});
       continue;
@@ -747,14 +754,15 @@ export function buildRefreshedHandoff({repoRoot = root, handoff: currentHandoff,
   const classDetection = read('research/source-audit-batch5-class-progression-baseline.json');
   const priceReview = read('research/source-audit-batch5-price-independent-review.json');
   if (classRetirementReceipt.detectionReceipt !== 'research/source-audit-batch5-class-progression-baseline.json' || classRetirementReceipt.retirementReceipt !== 'research/source-audit-batch5-class-progression-retirement.json' || classRetirement.retired?.source?.itemId !== 'assassin' || classRetirement.retired?.source?.pointer !== '/levelChanges/50' || classRetirement.disposition?.status !== 'removed-from-current-progression' || classRetirement.after?.assassin?.lastEventLevel !== 15 || classDetection.input?.commit !== BASELINE_COMMIT || classDetection.input?.sha256 !== historical.hashes[`git:${BASELINE_COMMIT}:dist/data.json`] || classDetection.counts?.classRecords !== 16 || !Array.isArray(classRetirementReceipt.supersededEvidence)) fail('class progression retirement receipts do not form the reviewed input chain');
-  const transitions = validateApprovedTransitions({baselineData: historical.data, currentData: data, conflictReceipt, animalReceipt, classRetirementReceipt});
+  const sourceBodyTransition=loadUaSourceHandoffTransition({read,hashFile,baselineData:historical.data,currentData:data,mechanics,conflictReceipt});
+  const transitions = validateApprovedTransitions({baselineData: historical.data, currentData: data, conflictReceipt, animalReceipt, classRetirementReceipt,sourceBodyTransition});
   if (classIntegration.promotedSemanticFields !== 49 || classIntegration.promotedPageBindings !== 51 || classIntegration.retiredOrBlockedFields?.length !== 1 || classRetirementReceipt.retiredPointer !== '/levelChanges/50') fail('class integration receipt is no longer the reviewed 49/51/1 disposition');
   for (const [path, expected] of Object.entries(inventory.integrity?.sourceInventoryHashes || {})) if (hashFile(path) !== expected) fail(`canonical source inventory input hash is stale: ${path}`);
   for (const census of currentHandoff.sourcePriceDiscoveryCensuses?.censuses || []) for (const path of census.sourceFiles || []) {
     if (!inventory.integrity?.sourceCensusHashes?.[path] || hashFile(path) !== inventory.integrity.sourceCensusHashes[path]) fail(`historical source census changed: ${path}`);
   }
   hashes['research/price-source-inventory.json'] = hashFile('research/price-source-inventory.json');
-  const noteProjection = reconcileCuratedNotes({curatedNotes: historical.handoff.mechanicsAudit.specificReviewNoteCandidates.notes, currentHandoff, baselineData: historical.data, currentData: data, mechanics, conflictReceipt, conflictReceiptSha256: hashes['research/source-audit-batch5-conflict-integration.json'], classRetirementReceipt, classRetirementReceiptSha256: hashes['research/source-audit-batch5-class-retired-ledger.json'], animalReceipt, animalReceiptSha256: hashes['research/source-audit-batch5-unextracted.json']});
+  const noteProjection = reconcileCuratedNotes({curatedNotes: historical.handoff.mechanicsAudit.specificReviewNoteCandidates.notes, currentHandoff, baselineData: historical.data, currentData: data, mechanics, conflictReceipt, conflictReceiptSha256: hashes['research/source-audit-batch5-conflict-integration.json'], classRetirementReceipt, classRetirementReceiptSha256: hashes['research/source-audit-batch5-class-retired-ledger.json'], animalReceipt, animalReceiptSha256: hashes['research/source-audit-batch5-unextracted.json'],sourceBodyTransition});
   // The underlying mechanics ledger remains immutable historical evidence.
   // Project the current, user-confirmed supplemental availability only onto
   // the active p.175 source reference so an old availability notice does not

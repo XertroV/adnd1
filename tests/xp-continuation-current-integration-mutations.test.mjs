@@ -1,5 +1,5 @@
 import test from 'node:test';
-import {projectPass8PhbSourceJson,projectPass8PhbSourceBytes} from './helpers/pass8-weapon-source-history.mjs';
+import {projectPass8PhbSourceJson,projectPass8PhbSourceBytes,decodePass8UaSourceHistory} from './helpers/pass8-ua-source-history.mjs';
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync, copyFileSync} from 'node:fs';
@@ -22,6 +22,9 @@ const historicalBaselineData=projectPass8PhbSourceJson('dist/data.json',baseline
 const guardPath='tools/class-xp-continuation-target-review.mjs';
 
 const historicalCompanions=new Map(['citation-overrides.json','research/citation-continuations.json','dist/source-continuations.json','research/source-visual-reviews.json','research/price-source-inventory.json','research/field-evidence-bindings.json'].map(path=>[path,projectPass8PhbSourceBytes(path,readFileSync(join(project,path)))]));
+const uaContract=decodePass8UaSourceHistory(readFileSync(join(project,'tests/fixtures/pass8-ua-source-history-v1.json.gz')));
+const historicalCatalogs=new Map(uaContract.sourcePaths.filter(path=>path.startsWith('dist/scans/verified/')).map(path=>[path,projectPass8PhbSourceBytes(path,readFileSync(join(project,path)))]));
+assert.equal(historicalCatalogs.size,8,'only eight changed existing catalog paths have a closed predecessor');
 function sandbox(testBytes,data,{historical=false}={}){
   const root=mkdtempSync(join(tmpdir(),'xp-continuation-integration-mutation-'));
   try{
@@ -32,6 +35,12 @@ function sandbox(testBytes,data,{historical=false}={}){
     mkdirSync(join(root,'dist'));
     for(const name of readdir(join(project,'dist'))){
       if(name==='data.json'||(historical&&historicalCompanions.has(`dist/${name}`)))continue;
+      if(historical&&name==='scans'){
+        mkdirSync(join(root,'dist/scans/verified'),{recursive:true});
+        for(const entry of readdir(join(project,'dist/scans')))if(entry!=='verified')symlinkSync(join(project,'dist/scans',entry),join(root,'dist/scans',entry));
+        for(const entry of readdir(join(project,'dist/scans/verified'))){const path=`dist/scans/verified/${entry}`;if(historicalCatalogs.has(path))writeFileSync(join(root,path),historicalCatalogs.get(path));else symlinkSync(join(project,path),join(root,path));}
+        continue;
+      }
       symlinkSync(join(project,'dist',name),join(root,'dist',name),'dir');
     }
     writeFileSync(join(root,'dist/data.json'),JSON.stringify(data,null,2)+'\n');

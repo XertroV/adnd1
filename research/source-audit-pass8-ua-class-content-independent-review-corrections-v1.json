@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Targeted corrections from independent UA class-content review",
+  "status": "reviewer recommendations; no author data changed",
+  "reviewReceipt": {
+    "path": "research/source-audit-pass8-ua-class-content-independent-review.json",
+    "sha256": "b6b43861a42d58bfc4e07f18ba5cc2d14a7f41a8a75a769f922f5b17186a614e",
+    "instruction": "Calculate after the receipt file is finalized; preserve its exact bytes thereafter."
+  },
+  "requiredBeforeApproval": [
+    {
+      "id": "ranger-adjusted-success-cap",
+      "sourceOwner": "classes:ranger",
+      "pointer": "/guidance/6",
+      "currentIssue": "The appended prose mentions a 110% base ceiling and modifiers but omits the printed rule that any adjusted chance over 100% is treated as 100%.",
+      "suggestedChange": "Add the final adjusted-success cap, explicitly distinguishing it from the 110% base chance ceiling.",
+      "sourceLocator": "UA printed p.21, Outdoor Tracking paragraph; the candidate package's research-only `chanceLimit` already states the cap accurately."
+    },
+    {
+      "id": "acrobat-table-iv-level14-procedure",
+      "sourceOwner": "researchOnlyContentCandidates:ua-thief-acrobat-weight-encumbrance-table-iv",
+      "pointer": "/procedure",
+      "currentIssue": "The candidate conflates the additional 1,000-gp tightrope burden with a separate 100-pound wall-climbing example and expands the restricted movement to all Acrobat functions.",
+      "suggestedChange": "Tie the 1,000-gp additional burden to tightrope walking; name vaulting, jumping, and tumbling as the routines where movement is not free under that burden; retain the distinct 100-pound extra-load wall-climbing limit.",
+      "sourceLocator": "UA printed p.25, Table IV following prose; verified in crop ua-p25-encumbrance-procedure.png."
+    }
+  ],
+  "nonBlockingPrecisionNotes": [
+    "The Fighter/Ranger p.18 summary is partial; clarify initial specialization versus later double specialization, specific weapon type, melee bonus stacking, and the light-crossbow dungeon range interaction, or mark the summary as partial.",
+    "The Barbarian taxonomy count is correct, including separate paddled and rowed small-craft options; enumerate the other tertiary labels if the candidate is intended to be a complete tertiary taxonomy."
+  ],
+  "changesApplied": false
+}

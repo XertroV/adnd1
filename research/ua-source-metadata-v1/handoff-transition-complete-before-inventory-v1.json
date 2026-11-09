@@ -1,0 +1,395 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "complete existing transition/current binding inventory before UA handoff qualification",
+  "sourceInputCommit": "6b3cfc8cb421a2c1fc2379c38abebe2075634981",
+  "fixture": {
+    "path": "tests/fixtures/ua-source-handoff-transition-guard-before-v1.json.gz",
+    "sha256": "8b02152ffb2b4a14c313c858114bc1760a102f8e3cc0862dc42ce9da549a56c3",
+    "rawSha256": "ef8cef66c981858c1174a401950f8f93a74792fbe0aa496b80789db2440bc38a"
+  },
+  "conflictReceipt": {
+    "path": "research/source-audit-batch5-conflict-integration.json",
+    "sha256": "365581fbce32f52dd6c370c3ce32b20605ed02e6a58b33e555135385622eccfd"
+  },
+  "conflictRows": [
+    {
+      "receiptIndex": 0,
+      "file": "phb-magic-user-extra.json",
+      "collection": "spells",
+      "itemId": "phb-magic-user-massmorph",
+      "pointer": "/exceptions/2",
+      "oldValue": "The printed area header appears to read 11′ × 1″ square per level. This unusual dimensional expression remains unresolved.",
+      "newValue": "PHB p.77 Massmorph’s first area-unit glyph remains unclear in the supplied scan: the first dimension may read 11′ × 1″ or 11″ × 1″ square per level. Preserve both readings pending clearer source evidence.",
+      "reason": "Independent review preserves both visible unit readings; no area is inferred.",
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 77,
+          "pdfPage": 78,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "baselineFound": true,
+      "baselineActual": "The printed area header appears to read 11′ × 1″ square per level. This unusual dimensional expression remains unresolved.",
+      "baselineMatches": true,
+      "preUaActual": "PHB p.77 Massmorph’s first area-unit glyph remains unclear in the supplied scan: the first dimension may read 11′ × 1″ or 11″ × 1″ square per level. Preserve both readings pending clearer source evidence.",
+      "preUaMatchesReviewedNewValue": true,
+      "currentFound": true,
+      "currentActual": "PHB p.77 Massmorph’s first area-unit glyph remains unclear in the supplied scan: the first dimension may read 11′ × 1″ or 11″ × 1″ square per level. Preserve both readings pending clearer source evidence.",
+      "currentMatchesReviewedNewValue": true,
+      "status": "exact-current-reviewed-transition"
+    },
+    {
+      "receiptIndex": 1,
+      "file": "phb-magic-user-extra.json",
+      "collection": "spells",
+      "itemId": "phb-magic-user-plant-growth",
+      "pointer": "/exceptions",
+      "oldValue": [
+        "Gap: the inherited druid examples scale square dimensions differently from a literal reading of the area header; verify the intended area with the DM/source."
+      ],
+      "newValue": [],
+      "reason": "The magic-user header and except-as-noted qualification override inherited dimensional examples; remove the stale warning.",
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 78,
+          "pdfPage": 79,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "PHB",
+          "page": 57,
+          "pdfPage": 58,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        },
+        {
+          "book": "PHB",
+          "page": 58,
+          "pdfPage": 59,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "baselineFound": true,
+      "baselineActual": [
+        "Gap: the inherited druid examples scale square dimensions differently from a literal reading of the area header; verify the intended area with the DM/source."
+      ],
+      "baselineMatches": true,
+      "preUaActual": [],
+      "preUaMatchesReviewedNewValue": true,
+      "currentFound": true,
+      "currentActual": [],
+      "currentMatchesReviewedNewValue": true,
+      "status": "exact-current-reviewed-transition"
+    },
+    {
+      "receiptIndex": 2,
+      "file": "classes.json",
+      "collection": "classes",
+      "itemId": "ua-thief-acrobat",
+      "pointer": "/retainedSkillsNote",
+      "oldValue": "UA p. 23 explicitly continues climbing, but describes move silently, hide, hear noise, and read languages as retained from fifth level. Their later progression is ambiguous; no automatic increases are supplied here.",
+      "newValue": "UA p.23 explicitly freezes pick pockets, opening locks, and finding/removing traps at fifth-level ability, and reading magical writings is never gained. It says the acrobat retains move silently, hide in shadows, hear noise, and read languages acquired through fifth level, while climb walls increases with experience level. UA p.25 generally treats the acrobat as a thief except as indicated. These passages do not expressly give a new progression for the four retained abilities; no categorical freeze or automatic increases are supplied here.",
+      "reason": "Retain literal stopped skills, retained abilities, explicit climbing growth and UA25 carryover without inventing a freeze or automatic progression.",
+      "sources": [
+        {
+          "book": "UA",
+          "page": 23,
+          "pdfPage": 24,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 25,
+          "pdfPage": 26,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ],
+      "baselineFound": true,
+      "baselineActual": "UA p. 23 explicitly continues climbing, but describes move silently, hide, hear noise, and read languages as retained from fifth level. Their later progression is ambiguous; no automatic increases are supplied here.",
+      "baselineMatches": true,
+      "preUaActual": "UA p.23 explicitly freezes pick pockets, opening locks, and finding/removing traps at fifth-level ability, and reading magical writings is never gained. It says the acrobat retains move silently, hide in shadows, hear noise, and read languages acquired through fifth level, while climb walls increases with experience level. UA p.25 generally treats the acrobat as a thief except as indicated. These passages do not expressly give a new progression for the four retained abilities; no categorical freeze or automatic increases are supplied here.",
+      "preUaMatchesReviewedNewValue": true,
+      "currentFound": true,
+      "currentActual": "UA p.23 explicitly freezes pick pockets, opening locks, and finding/removing traps at fifth-level ability, and reading magical writings is never gained. It says the acrobat retains move silently, hide in shadows, hear noise, and read languages acquired through fifth level, while climb walls increases with experience level. UA p.25 generally treats the acrobat as a thief except as indicated. These passages do not expressly give a new progression for the four retained abilities; no categorical freeze or automatic increases are supplied here.",
+      "currentMatchesReviewedNewValue": true,
+      "status": "exact-current-reviewed-transition"
+    },
+    {
+      "receiptIndex": 3,
+      "file": "classes.json",
+      "collection": "classes",
+      "itemId": "ua-thief-acrobat",
+      "pointer": "/guidance/3",
+      "oldValue": "Use the specialist acrobatics tables and the continuing climb-walls ability; the future growth of the other retained thief skills needs a campaign ruling on UA p. 23.",
+      "newValue": "Use the specialist acrobatics tables and explicit climbing progression. UA pp.23 and 25 describe stopped, retained and generally inherited thief abilities; later progression of the four retained skills remains a campaign interpretation.",
+      "reason": "Keep the unresolved interpretation visible with both source dependencies.",
+      "sources": [
+        {
+          "book": "UA",
+          "page": 23,
+          "pdfPage": 24,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 25,
+          "pdfPage": 26,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ],
+      "baselineFound": true,
+      "baselineActual": "Use the specialist acrobatics tables and the continuing climb-walls ability; the future growth of the other retained thief skills needs a campaign ruling on UA p. 23.",
+      "baselineMatches": true,
+      "preUaActual": "Use the specialist acrobatics tables and explicit climbing progression. UA pp.23 and 25 describe stopped, retained and generally inherited thief abilities; later progression of the four retained skills remains a campaign interpretation.",
+      "preUaMatchesReviewedNewValue": true,
+      "currentFound": true,
+      "currentActual": "Use the specialist acrobatics tables and explicit climbing progression. UA pp.23 and 25 describe stopped, retained and generally inherited thief abilities; later progression of the four retained skills remains a campaign interpretation.",
+      "currentMatchesReviewedNewValue": true,
+      "status": "exact-current-reviewed-transition"
+    },
+    {
+      "receiptIndex": 4,
+      "file": "ua-spells.json",
+      "collection": "spells",
+      "itemId": "ua-druid-ceremony",
+      "pointer": "/exceptions/0",
+      "oldValue": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
+      "newValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
+      "reason": "Include the rite-specific caster procedure on the continuation; retire the contradiction inferred from hierarchy alone.",
+      "sources": [
+        {
+          "book": "UA",
+          "page": 41,
+          "pdfPage": 42,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 42,
+          "pdfPage": 43,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ],
+      "baselineFound": true,
+      "baselineActual": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
+      "baselineMatches": true,
+      "preUaActual": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
+      "preUaMatchesReviewedNewValue": true,
+      "currentFound": true,
+      "currentActual": "Cast out’s effects can be lessened by a reversed ceremony cast by the same druid or another druid at least as high level as the original caster, but only a Hierophant Druid can completely cancel it. Higher-ranking druids may punish a druid who was denied permission or whose action is later reversed.",
+      "currentMatchesReviewedNewValue": false,
+      "status": "historical-reviewed-transition-replaced-by-pending-UA-body"
+    },
+    {
+      "receiptIndex": 5,
+      "file": "ua-spells.json",
+      "collection": "spells",
+      "itemId": "ua-magic-user-zephyr",
+      "pointer": "/fields/Materials",
+      "oldValue": "Accordion-folded fine parchment and a pin",
+      "newValue": "Piece of fine parchment, accordion-folded and tacked near the bottom with a pin or ivory or silver.",
+      "reason": "Restore all printed material alternatives without normalizing or to of.",
+      "sources": [
+        {
+          "book": "UA",
+          "page": 55,
+          "pdfPage": 56,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ],
+      "baselineFound": true,
+      "baselineActual": "Accordion-folded fine parchment and a pin",
+      "baselineMatches": true,
+      "preUaActual": "Piece of fine parchment, accordion-folded and tacked near the bottom with a pin or ivory or silver.",
+      "preUaMatchesReviewedNewValue": true,
+      "currentFound": true,
+      "currentActual": "Piece of fine parchment, accordion-folded and tacked near the bottom with a pin or ivory or silver.",
+      "currentMatchesReviewedNewValue": true,
+      "status": "exact-current-reviewed-transition"
+    },
+    {
+      "receiptIndex": 6,
+      "file": "ua-spells.json",
+      "collection": "spells",
+      "itemId": "ua-magic-user-zephyr",
+      "pointer": "/exceptions/0",
+      "oldValue": "The printed pin-material wording is ambiguous.",
+      "newValue": "The printed wording is “a pin or ivory or silver”; preserve these alternatives without deciding whether ivory or silver describes the pin or are separate alternatives.",
+      "reason": "Restore all printed material alternatives without normalizing or to of.",
+      "sources": [
+        {
+          "book": "UA",
+          "page": 55,
+          "pdfPage": 56,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ],
+      "baselineFound": true,
+      "baselineActual": "The printed pin-material wording is ambiguous.",
+      "baselineMatches": true,
+      "preUaActual": "The printed wording is “a pin or ivory or silver”; preserve these alternatives without deciding whether ivory or silver describes the pin or are separate alternatives.",
+      "preUaMatchesReviewedNewValue": true,
+      "currentFound": true,
+      "currentActual": "The printed wording is “a pin or ivory or silver”; preserve these alternatives without deciding whether ivory or silver describes the pin or are separate alternatives.",
+      "currentMatchesReviewedNewValue": true,
+      "status": "exact-current-reviewed-transition"
+    },
+    {
+      "receiptIndex": 7,
+      "file": "phb-magic-user-extra.json",
+      "collection": "spells",
+      "itemId": "phb-magic-user-find-familiar",
+      "pointer": "/exceptions/0",
+      "oldValue": "If the familiar dies, its master permanently loses twice the familiar's HP.",
+      "newValue": "If a normal familiar dies, its master permanently loses twice that familiar’s hit points.",
+      "reason": "The PHB66 paragraph explicitly concerns normal familiars; MM special familiar penalties are separately scoped.",
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 66,
+          "pdfPage": 67,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "baselineFound": true,
+      "baselineActual": "If the familiar dies, its master permanently loses twice the familiar's HP.",
+      "baselineMatches": true,
+      "preUaActual": "If a normal familiar dies, its master permanently loses twice that familiar’s hit points.",
+      "preUaMatchesReviewedNewValue": true,
+      "currentFound": true,
+      "currentActual": "If a normal familiar dies, its master permanently loses twice that familiar’s hit points.",
+      "currentMatchesReviewedNewValue": true,
+      "status": "exact-current-reviewed-transition"
+    },
+    {
+      "receiptIndex": 8,
+      "file": "classes.json",
+      "collection": "classes",
+      "itemId": "ua-paladin",
+      "pointer": "/guidance/4",
+      "oldValue": null,
+      "newValue": "Source conflict in the ordinary thrusting/striking weapon attack table: UA p.22 puts level 12 in both 7–12 at 3 attacks/2 rounds and 12–18 at 2/round. The stated under-one-HD/normal-human melee case and fighter/ranger specialization use separate rules. PHB p.25 instead begins 2/round at 13th. Preserve the internal UA overlap without choosing a universal level-12 rate.",
+      "reason": "Independent pixels confirm an internal overlapping band with explicit applicability limits.",
+      "sources": [
+        {
+          "book": "UA",
+          "page": 22,
+          "pdfPage": 23,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "PHB",
+          "page": 25,
+          "pdfPage": 26,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "baselineFound": false,
+      "baselineActual": null,
+      "baselineMatches": true,
+      "preUaActual": "Source conflict in the ordinary thrusting/striking weapon attack table: UA p.22 puts level 12 in both 7–12 at 3 attacks/2 rounds and 12–18 at 2/round. The stated under-one-HD/normal-human melee case and fighter/ranger specialization use separate rules. PHB p.25 instead begins 2/round at 13th. Preserve the internal UA overlap without choosing a universal level-12 rate.",
+      "preUaMatchesReviewedNewValue": true,
+      "currentFound": true,
+      "currentActual": "Source conflict in the ordinary thrusting/striking weapon attack table: UA p.22 puts level 12 in both 7–12 at 3 attacks/2 rounds and 12–18 at 2/round. The stated under-one-HD/normal-human melee case and fighter/ranger specialization use separate rules. PHB p.25 instead begins 2/round at 13th. Preserve the internal UA overlap without choosing a universal level-12 rate.",
+      "currentMatchesReviewedNewValue": true,
+      "status": "exact-current-reviewed-transition"
+    },
+    {
+      "receiptIndex": 9,
+      "file": "phb-spells.json",
+      "collection": "spells",
+      "itemId": "phb-cleric-speak-with-the-dead",
+      "pointer": "/exceptions/0",
+      "oldValue": "The printed p.48 entry gives the range as “1” without a visible unit; its level table overlaps at 7th level. The referee must resolve those uncertainties.",
+      "newValue": "PHB p.48 table places 7th level in both “up to 7th” and “7th–8th” rows. Its range header prints bare 1 without a visible unit; retain the omission without inferring a unit.",
+      "reason": "Independently confirmed printed overlap or competing dimensional readings; no ruling selected.",
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 48,
+          "pdfPage": 49,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "baselineFound": true,
+      "baselineActual": "The printed p.48 entry gives the range as “1” without a visible unit; its level table overlaps at 7th level. The referee must resolve those uncertainties.",
+      "baselineMatches": true,
+      "preUaActual": "PHB p.48 table places 7th level in both “up to 7th” and “7th–8th” rows. Its range header prints bare 1 without a visible unit; retain the omission without inferring a unit.",
+      "preUaMatchesReviewedNewValue": true,
+      "currentFound": true,
+      "currentActual": "PHB p.48 table places 7th level in both “up to 7th” and “7th–8th” rows. Its range header prints bare 1 without a visible unit; retain the omission without inferring a unit.",
+      "currentMatchesReviewedNewValue": true,
+      "status": "exact-current-reviewed-transition"
+    },
+    {
+      "receiptIndex": 10,
+      "file": "phb-spells.json",
+      "collection": "spells",
+      "itemId": "phb-druid-wall-of-thorns",
+      "pointer": "/exceptions/0",
+      "oldValue": "The printed p.62 volume statements and dimensional examples conflict, so total volume remains unresolved.",
+      "newValue": "PHB p.62 header says 10″ cube/level; prose says 10 cubic inches per level; the 14th-level example dimensions imply 14 cubic inches. Preserve all three printed readings; no total volume is inferred.",
+      "reason": "Independently confirmed printed overlap or competing dimensional readings; no ruling selected.",
+      "sources": [
+        {
+          "book": "PHB",
+          "page": 62,
+          "pdfPage": 63,
+          "sourceSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+        }
+      ],
+      "baselineFound": true,
+      "baselineActual": "The printed p.62 volume statements and dimensional examples conflict, so total volume remains unresolved.",
+      "baselineMatches": true,
+      "preUaActual": "PHB p.62 header says 10″ cube/level; prose says 10 cubic inches per level; the 14th-level example dimensions imply 14 cubic inches. Preserve all three printed readings; no total volume is inferred.",
+      "preUaMatchesReviewedNewValue": true,
+      "currentFound": true,
+      "currentActual": "PHB p.62 header says 10″ cube/level; prose says 10 cubic inches per level; the 14th-level example dimensions imply 14 cubic inches. Preserve all three printed readings; no total volume is inferred.",
+      "currentMatchesReviewedNewValue": true,
+      "status": "exact-current-reviewed-transition"
+    }
+  ],
+  "relevantCuratedHistoricalCautions": [
+    {
+      "baselineIndex": 70,
+      "collection": "spells",
+      "itemId": "ua-druid-ceremony",
+      "fieldPointer": "/exceptions/0",
+      "annotationType": "path-reason-object",
+      "reason": "Source ambiguity, UA p.41: the printed introduction says the listed rites can be cast by a druid of the indicated or lower level, while its escalating ranks associate initiation with 7th level and other rites with 9th and 12th level; do not silently replace lower with higher.",
+      "checkers": [
+        "mechanics-ua-spells"
+      ],
+      "sourceReferences": [
+        {
+          "book": "UA",
+          "page": 32,
+          "pdfPage": 33,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 41,
+          "pdfPage": 42,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 42,
+          "pdfPage": 43,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ],
+      "reviewRecordIndexes": [
+        833
+      ]
+    }
+  ],
+  "withdrawalCounts": {
+    "records": 6,
+    "checkedPairs": 25,
+    "obsoleteChanges": 4
+  },
+  "unrelatedTransitionsPreserved": true
+}
