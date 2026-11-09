@@ -59,9 +59,18 @@ test('the exact legacy alias keeps its source, focus and relationship and opens 
   assert.equal(catalog.regions.length,1,owner.id);
   assert.deepEqual([catalog.regions[0].book,catalog.regions[0].printedPage,catalog.regions[0].pdfPage],['DMG',74,75],owner.id);
  }
+ const druid=liveData.rules.filter(owner=>owner.id==='phb-druid-mistletoe-spell-components');
+ assert.equal(druid.length,1,'only the exact new Druid rule extends the current owner census');
+ assert.deepEqual([druid[0].book,druid[0].pages,druid[0].sourceExcerpts.catalog],['PHB',[54],'scans/verified/rules-phb-druid-mistletoe-spell-components.json']);
+ const druidCatalog=JSON.parse(readRawFileSync(new URL(`../dist/${druid[0].sourceExcerpts.catalog}`,import.meta.url),'utf8'));
+ assert.deepEqual([druidCatalog.collection,druidCatalog.itemId],['rules',druid[0].id]);
+ assert.deepEqual(druidCatalog.regions.map(region=>[region.id,region.book,region.printedPage,region.pdfPage]),[
+  ['phb-54-druid-note-grid-ebfa1c01c47e3a9d','PHB',54,55],
+  ['phb-54-druid-note-definitions-c98ac7d9d638ae45','PHB',54,55],
+ ]);
  const current=loadContinuationAliasReport();
- assert.equal(current.denominators.exposedRecords,997+addedDmg74MatrixIds.length,'the current source universe retains the prior published turning-table/Jo records plus exactly three DMG matrix owners');
- assert.equal(current.denominators.referencedCatalogs,1017+addedDmg74MatrixCatalogs.length,'each of the three named DMG matrix owners contributes its scoped catalog');
+ assert.equal(current.denominators.exposedRecords,997+addedDmg74MatrixIds.length+druid.length,'the current source universe preserves the prior owners, three DMG matrix owners and exact Druid owner');
+ assert.equal(current.denominators.referencedCatalogs,1017+addedDmg74MatrixCatalogs.length+1,'the three DMG matrices and exact Druid owner each contribute one scoped catalog');
  assert.equal(current.denominators.declaredGroups,liveManifest.groups.length);
  assert.equal(current.denominators.declaredParts,liveManifest.groups.reduce((count,group)=>count+(group.segments?.length||0),0));
  assert.equal(current.denominators.exactAliasMatches,696);
