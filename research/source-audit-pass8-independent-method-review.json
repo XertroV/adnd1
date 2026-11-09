@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "pass8-independent-engineering-and-source-method-review",
+  "reviewedAt": "2026-11-08T17:12:28.530249+00:00",
+  "status": "bounded-site-snapshot-validated; source-method-findings-open; subsequent-tool-changes-not-approved-by-this-receipt",
+  "reviewRole": "Independent delegated engineering/method review. This reviewer did not author the capture, book ledgers, source repairs, or production implementation.",
+  "scope": {
+    "repository": "XertroV/adnd1",
+    "worktree": "/workspace/adnd1-semantic-audit",
+    "baseCommit": "6d330af372ac809d11ed6029ed8695d0d8dc0909",
+    "baseTree": "3a1122424ac8452530ece6717a753ce73637baa2",
+    "productionOrSourceEditsByReviewer": false,
+    "onlyRepositoryDeliverable": "research/source-audit-pass8-independent-method-review.json",
+    "sourceMeaningReviewed": "One bounded MM2 creature-count classification spot check; not a complete independent source-value review of PHB, DMG, or MM2."
+  },
+  "inputPins": {
+    "siteReceiptAtReview": {
+      "path": "research/source-audit-pass8-site-snapshot.json",
+      "sha256": "515e1c486987b450a1018dc76661c3ae6256f4c9837862ebddc484c7a32d01e7",
+      "bytes": 14320
+    },
+    "captureTool": {
+      "path": "tools/source-semantic-site-snapshot.mjs",
+      "sha256": "b8848a8cf0bacda035d9ef529303b488f7a20d40750861517efc136a78313187",
+      "bytes": 37908,
+      "role": "Exact historical capture-tool bytes recovered by reversing one require relocation; hash equals the original receipt pin."
+    },
+    "reviewedLazyDependencyTool": {
+      "path": "tools/source-semantic-site-snapshot.mjs",
+      "sha256": "8b4fed4c9e3967f41f64ff182e8c186bcac27039fc1a0b621b088474c1c88b29",
+      "role": "Reviewed after lazy browser dependency correction, before planned durability changes. Do not infer approval of later tool hashes."
+    },
+    "focusedTests": {
+      "path": "tests/source-semantic-site-snapshot.test.mjs",
+      "sha256": "f17559a9e539be6aca64a959ac6171cb27a3abbc9b84d01d651478f708a1aece",
+      "tests": 8
+    },
+    "privateSnapshot": {
+      "path": "/workspace/vault-audit-private/pass8-site-snapshot-projection-663ea470af5c.json.gz",
+      "sha256": "663ea470af5cdd272674b264ba96f5a74231d3525143c907596ba41da21194d2",
+      "bytes": 4391595
+    },
+    "privateSummary": {
+      "path": "/workspace/vault-audit-private/pass8-site-snapshot-summary-projection-663ea470af5c.json",
+      "sha256": "67b2d6871e5c7185849c43bb0124c8478130de6514f675ee29424fe3b47c400c",
+      "bytes": 4071826
+    },
+    "bookLedgerCheckpoints": {
+      "phb": {
+        "path": "research/source-audit-pass8-phb-unit-assessments.json",
+        "sha256": "4476d479c7fae7433b5e4f3f6c5bb4e495f0889aa0cf9e63aa2d2983b199b6be",
+        "bytes": 655275
+      },
+      "dmg": {
+        "path": "research/source-audit-pass8-dmg-unit-assessments.json",
+        "sha256": "631eb76fac199ef45067f741b40c3b3d1504e53edc2b14eab22603ef82a947c1",
+        "bytes": 341719
+      },
+      "mm2": {
+        "path": "research/source-audit-pass8-mm2-unit-assessments.json",
+        "sha256": "e6e5b07e1bb6682d866b89d56bba1067d63d202df5856e1ab9d63e5750d6f99e",
+        "bytes": 515879
+      }
+    },
+    "sourceFiles": {
+      "PHB": {
+        "path": "/workspace/vault-audit-private/sources/tsr2010-players-handbook.pdf",
+        "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "bytes": 25016836
+      },
+      "DMG": {
+        "path": "/workspace/vault-audit-private/sources/DMG_1stEd.pdf",
+        "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "bytes": 46298255
+      },
+      "MM2": {
+        "path": "/workspace/vault-audit-private/sources/Monster Manual II.pdf",
+        "sha256": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24",
+        "bytes": 29693734
+      }
+    },
+    "runtimeData": {
+      "path": "dist/data.json",
+      "sha256": "ceb7c8b9a8fe32b676e57c8d007f124a4490684d54558479e555d504075ba4f3",
+      "bytes": 14632564
+    },
+    "runtimeApp": {
+      "path": "dist/app.js",
+      "sha256": "5913dd09673455247367b797d7ae8b7d1375df1fb98c05db0135ce5fd502630e",
+      "bytes": 143227
+    },
+    "runtimeSearch": {
+      "path": "dist/search.js",
+      "sha256": "5e225a2518ae6e50dfcefb668f3587f5cf26aae7353fe0f168e246f1c7657cf3",
+      "bytes": 10449
+    }
+  },
+  "passed": [
+    {
+      "check": "Focused source-semantic snapshot tests and syntax",
+      "result": "8 passed, 0 failed, 0 skipped; node --check succeeds. The same eight tests also pass with PLAYWRIGHT_MODULE set to a nonexistent package after lazy dependency correction. --help succeeds without loading the browser package."
+    },
+    {
+      "check": "Private artifact identity",
+      "result": "Snapshot SHA663ea470af5cdd272674b264ba96f5a74231d3525143c907596ba41da21194d2 and summary SHA67b2d6871e5c7185849c43bb0124c8478130de6514f675ee29424fe3b47c400c match their pins and sizes."
+    },
+    {
+      "check": "Complete stored owner universe and source-record identity",
+      "owners": 1000,
+      "byCollection": {
+        "classes": 16,
+        "rules": 149,
+        "matrices": 4,
+        "progressionExplainer": 1,
+        "spells": 638,
+        "equipment": 192
+      },
+      "result": "Unique collection/id set equals current input; every sourceRecord deep-equals its current owner and every sourceRecordHash matches exact canonical record bytes. All expected headings equal captured detail headings, including three duplicate-ID groups across collections. All ten receipt runtime-file hashes match."
+    },
+    {
+      "check": "Complete stored route and title-probe evidence",
+      "result": "All 1,000 stored routes have matching hash/annotation owner, visible detail root, captured search document, self-matching title probe, and initial18 membership. Stored pageErrors, failedRequests, missingRouteOwners, and missingSearchOwners are empty."
+    },
+    {
+      "check": "Full scalar-projection regeneration",
+      "records": 1000,
+      "leafValues": 233521,
+      "assessableLeafValues": 155069,
+      "unassessableLeaves": 78452,
+      "fieldPatterns": 5779,
+      "patternsWithLiteralAbsence": 3723,
+      "valuesAbsentFromVisibleTextAndSearch": 121327,
+      "valuesAbsentFromDomSearchAndControls": 60825,
+      "result": "All stored fieldProjection rows deep-equal current detector regeneration from captured sourceRecord, actual visible/DOM/search text and source-control attributes; full aggregate deep-equals private summary. These are detector counts only."
+    },
+    {
+      "check": "Independent live actual app/index/probe replay",
+      "browser": "Chromium 155.0.8059.79",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "actualIndexDocumentsExactlyEqual": 1000,
+      "actualTitleProbesExactlyEqual": 1000,
+      "selectedOwnerRoutesReplayed": 13,
+      "duplicateIdGroupsReplayed": 3,
+      "result": "All selected route innerText/textContent exactly equal capture; all five auxiliary routes and all shared-ID owners included. Zero JavaScript errors and failed requests. In-memory instrumented app SHA709cd2b76fae3e12018e7e32988cff58239f6c7d025a93998c716f61698892e3 matches historical capture."
+    },
+    {
+      "check": "Native hidden DOM regression",
+      "result": "Real hidden-attribute and closed-details multiword canaries are excluded from detail innerText and retained in textContent. fieldProjection classifies them DOM-only, not visible or indexed."
+    },
+    {
+      "check": "Transfer vs semantic-completeness wording",
+      "result": "PHB 105 and MM2 41 inherited IDs explicitly denote transfer/bounded assessment rather than all source facts. DMG 10/60 is explicitly an incremental checkpoint. No whole-book semantic completion or validated complete clause/cell denominator is established."
+    },
+    {
+      "check": "Whitespace validation",
+      "result": "git diff --check passes for the shared worktree at review."
+    }
+  ],
+  "failedAndCalibrated": [
+    {
+      "id": "snapshot-eager-browser-import",
+      "status": "corrected-in-reviewed-lazy-load-tool",
+      "location": "tools/source-semantic-site-snapshot.mjs original line16",
+      "finding": "Importing pure helpers eagerly required a workspace-only Playwright package; required CI wildcard tests do not provision that path. Root moved the require into main after help handling.",
+      "calibration": "Exact historical source bytes were recovered and verified against original pinned b8848a8c hash. Replaying that recovered module with a nonexistent browser package produced MODULE_NOT_FOUND. This is a post-discovery replay of exact recovered bytes, not an observed pre-edit CI run. The corrected tool passes 8/8 in the same dependency-absent condition."
+    },
+    {
+      "id": "exploratory-canary-boundary-assumption",
+      "status": "detector-limitation-demonstrated; no production visibility defect found",
+      "finding": "The first independent synthetic test appended single-token canaries directly against neighboring textContent and expected literal detection. Native hidden/closed visibility assertions passed, but normalized whole-token detection did not identify concatenated tokens. The canary was corrected to the detector-supported distinctive multiword case and passed.",
+      "implication": "A literal absence can result from text-node concatenation or transformation. No absence count may be promoted to a source or rendering defect without field-specific examination."
+    }
+  ],
+  "findings": [
+    {
+      "id": "pending-work-is-not-unassessable-source",
+      "priority": "high-method",
+      "status": "open-at-pinned-ledger-checkpoints; authors-notified",
+      "locations": [
+        "PHB /unassessableSourceReadings/0,3,4,5,6",
+        "MM2 /unitReviews/*/sourceAssertions/*/assessmentStatus",
+        "DMG /unassessableSourceReadings/1,2"
+      ],
+      "evidence": "PHB unfinished spell-head/row/marker/prose/XP censuses are grouped with genuine ambiguities. MM2 has 32 source assertions marked unassessable with the stated reason that source portions are unreviewed. DMG untranscribed p175 values and unnumbered folio/printing identity mix pending content work with provenance uncertainty.",
+      "requiredAction": "Classify unfinished accessible-source work pending/not-assessed; retain actual unreadable/missing/ambiguous readings as source limitations and printing/leaf identity as provenance uncertainty. Continue source closure without clearing the pending denominator."
+    },
+    {
+      "id": "dmg-hireling-and-appendix-o-before-claims",
+      "priority": "medium-method",
+      "status": "open-at-pinned-DMG-checkpoint; author-notified",
+      "locations": [
+        "DMG /confirmedRepairCandidates/2/sourceFact",
+        "DMG /confirmedRepairCandidates/3/currentBefore/distinctEquipmentFieldSourceOwners",
+        "DMG /confirmedRepairCandidates/3/sourceFact"
+      ],
+      "evidence": "Hireling sourceFact claims no source rate rows while its currentBefore contains 10 daily/monthly numeric rate rows. AppendixO currentBefore lists 29 distinct owner IDs while its sourceFact says 39 distinct owners.",
+      "requiredAction": "Correct the candidate trigger to the exact remaining gap and distinguish field-reference occurrences from distinct owners. Do not propose re-adding existing rows or equate 39 pointer occurrences with 39 source rows."
+    },
+    {
+      "id": "mm2-creature-quantity-misclassified-as-money",
+      "priority": "medium-method",
+      "status": "open-at-pinned-MM2-checkpoint; author-notified",
+      "location": "MM2 /sourceDenominators/monetaryUnits/sourceCandidateAmountsVisuallyObserved/0",
+      "sourceLocator": {
+        "printedPage": 137,
+        "pdfPage": 138
+      },
+      "evidence": "The source pixels associate a sunken-ship inhabitant outcome with 2–24 lacedons. This is a creature count, not an observed monetary amount. A separate merchant-treasure pointer does not convert that creature count into currency.",
+      "requiredAction": "Type the lacedon expression as encounter creature quantity and preserve its percentile association separately. Keep indirect treasure reference distinct; no monetary amount was transcribed by this spot check."
+    },
+    {
+      "id": "initial18-is-not-physical-palette-visibility",
+      "priority": "medium-claim-boundary",
+      "status": "clarification-requested; root-acknowledged",
+      "location": "site receipt /capture/visibleWithinInitial18Results",
+      "evidence": "The real renderCommands probes execute with the palette closed. The flag tests target rank against commandRows length and has no physical-visibility check.",
+      "requiredAction": "Describe 1,000 targets as returned among the first 18 programmatically rendered result rows. Do not describe 1,000 physically opened/visible search palettes, native typed query flows, or arbitrary source-term search coverage."
+    },
+    {
+      "id": "capture-durability-and-unavailable-history",
+      "priority": "medium-evidence",
+      "status": "prior-full-capture-unavailable; follow-up-tool-change-planned-not-reviewed",
+      "evidence": "Historical full gzip d6ddbee6c1c11aaf0c0a3df87ae0fb146e7af4bc046f84e11c73a87027644216 is unavailable. A 2c14437c... reconstruction failed to match and is correctly disclaimed. Reviewed atomicWrite renames over an existing output, so future recaptures can erase prior raw artifacts.",
+      "requiredAction": "Preserve current 663e snapshot and summary as immutable hash-versioned artifacts. Add output durability controls and test them independently. Preserve capture-tool b884 pin separately from lazy-load/current-tool revisions; no reconstruction should be represented as the unavailable d6 capture."
+    }
+  ],
+  "sourceVsSiteCalibration": {
+    "ownerRouteMeaning": "A current exposed compound owner opens and its stored record/detail/search surfaces were captured. It is not a source-unit denominator.",
+    "titleProbeMeaning": "The owner is returned for its exact public title by real app renderCommands; arbitrary source clauses, numerical queries, ranking requirements and native keyboard interaction remain untested.",
+    "scalarProjectionMeaning": "Value-literal observations in aggregate text surfaces, with incidental-token matches, formatting and text-node concatenation limitations. These do not identify which UI field supplies a literal or establish semantic correctness.",
+    "sourceControlMeaning": "3,593 controls inventoried, including 2,585 visible and 1,008 hidden; no viewer activation, image rendering, precise focus, or context adequacy review is implied.",
+    "bookTransferMeaning": "IDs transferred/assigned a bounded disposition do not prove exhaustive enumeration or review of independent source assertions, rows, table cells, notes, qualifiers, continuations, or monetary packages.",
+    "semanticPass": false,
+    "wholeBookCompletenessClaim": false,
+    "booksSemanticallyCompleteEstablished": 0,
+    "validatedCompleteSemanticDenominator": null
+  },
+  "notRun": [
+    "Independent full1,000-route recrawl; all 1,000 stored route/owner/title evidence was checked and 13 routes live-replayed instead.",
+    "Source-viewer activation, source-image render/context/focus/default-selection checks, mobile layout, copy/history/keyboard citation flows.",
+    "Full source-first transcription/value/qualifier/continuation reconciliation across PHB, DMG or MM2; no closure of source workers pending semantic units.",
+    "All source-specific search terms, exact numeric query ranks, native typed palette interactions or visible palette-open sweep.",
+    "Fresh required 24-workflow-block suite, clean-head CI or deployment/live verification for these pass8 tools.",
+    "Review of subsequent snapshot durability changes, additional tests, receipt revisions or later book-ledger hashes."
+  ],
+  "supportingPrivateEvidence": [
+    {
+      "path": "/workspace/vault-audit-private/pass8-independent-method-review/pass8-independent-live-replay.mjs",
+      "sha256": "586bfab29b7ac2c6c598c4eea982b6bf15a1a426926913237a9bda6cd3ddf90e",
+      "bytes": 5843
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8-independent-method-review/pass8-independent-live-replay-v2.mjs",
+      "sha256": "232d5a2a36ac078fc089506f3543181ee92d641189d46541e581cf50943d35f5",
+      "bytes": 5883
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8-independent-method-review/pass8-independent-live-replay-result-v2.json",
+      "sha256": "69e86c8ad1981662c4c81f1446f987b546290341cf5b610884b5254b8436048b",
+      "bytes": 568
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8-independent-method-review/pass8-independent-projection-reconciliation.json",
+      "sha256": "aa9d19aa11cd0229adc6b1e0f22d5c989d0b4749116ffbf28f49524c47ca7b83",
+      "bytes": 403
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8-independent-method-review/pass8-snapshot-prior-tool-recovered.mjs",
+      "sha256": "b8848a8cf0bacda035d9ef529303b488f7a20d40750861517efc136a78313187",
+      "bytes": 37908
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8-independent-method-review/adnd1-pass8-import-portability-recovered-before.log",
+      "sha256": "32e7ab436ad9be5ec3bb96086ebc2c01f92b08727f06170c5eff7d905196595b",
+      "bytes": 1012
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8-independent-method-review/adnd1-pass8-import-portability-after.tap",
+      "sha256": "9a94ad7641f1aa054bf9cc996dda610855b92f6897fa62ff57e1237b88a4f588",
+      "bytes": 852
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8-independent-method-review/adnd1-pass8-independent-snapshot-tests.tap",
+      "sha256": "65f3b2d97893dc95e50e073b70ec2b5441c5299d62f3a04343f0f917536059c3",
+      "bytes": 855
+    }
+  ],
+  "remainingBlockers": [
+    "Resolve or explicitly retain the pinned source-method findings before presenting those ledger assertions as correct current conclusions.",
+    "Review and test the promised durability revision and distinguish capture/current tool provenance.",
+    "Source semantic closure remains pending regardless of owner capture or transfer-ID coverage."
+  ],
+  "disposition": "The 663e capture is reliable as the bounded actual-site snapshot described here. This receipt is not final approval of later tooling changes, book completeness, source repairs, CI integration or release."
+}

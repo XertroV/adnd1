@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "source-overview-and-endmatter-actual-before-findings",
+  "baseCommit": "77712b831fac3256baf97da385c1dd56b6d82e88",
+  "baselineProblemUniverse": {
+    "registeredSourceBooks": [
+      "PHB",
+      "UA",
+      "DMG",
+      "MM",
+      "MM2"
+    ],
+    "suppliedCanonicalPdfBooks": 5,
+    "liveSourceCards": 3,
+    "sourceCardsPresent": [
+      "PHB",
+      "UA",
+      "DMG"
+    ],
+    "sourceCardsAbsent": [
+      "MM",
+      "MM2"
+    ],
+    "dmgUnnumberedPhysicalPdfLeaves": [
+      239,
+      240
+    ]
+  },
+  "sourceInputs": [
+    {
+      "path": "rules.json",
+      "gitCommit": "77712b831fac3256baf97da385c1dd56b6d82e88",
+      "sha256": "78afec70d0380db08d7e750a8ce1fcec16a8167aaa4107be8af5351a474bfc5d",
+      "sizeBytes": 207685
+    },
+    {
+      "path": "dist/books.js",
+      "gitCommit": "77712b831fac3256baf97da385c1dd56b6d82e88",
+      "sha256": "6284977531e38b3184a15939bb8a68e31b37d1dad61c91392bb57d443045d98d",
+      "sizeBytes": 8843
+    },
+    {
+      "path": "dist/app.js",
+      "gitCommit": "77712b831fac3256baf97da385c1dd56b6d82e88",
+      "sha256": "5913dd09673455247367b797d7ae8b7d1375df1fb98c05db0135ce5fd502630e",
+      "sizeBytes": 143227
+    },
+    {
+      "path": "tests/books.test.mjs",
+      "gitCommit": "77712b831fac3256baf97da385c1dd56b6d82e88",
+      "sha256": "404b59cc38784ae73e15917d4d2993a5ad5d79a2db9a1188f1bdad0ebf4d0f96",
+      "sizeBytes": 2251
+    },
+    {
+      "path": "dist/data.json",
+      "gitCommit": "77712b831fac3256baf97da385c1dd56b6d82e88",
+      "sha256": "568d04bd9fb5f43a3c26d5fc5d54d30f803e11c3b74aca5561a11479cf2d11a9",
+      "sizeBytes": 14633687
+    }
+  ],
+  "actualBeforeSourceObjects": [
+    {
+      "id": "PHB",
+      "title": "Players Handbook",
+      "edition": "AD&D first edition · sixth printing, January 1980",
+      "mapping": "Printed page N corresponds to PDF page N + 1.",
+      "gaps": [],
+      "coverage": "Curated rule summaries, selected spell cards and class progression. Coverage is incomplete. OCR has been checked against the supplied text; visual review is pending."
+    },
+    {
+      "id": "UA",
+      "title": "Unearthed Arcana",
+      "edition": "Original 1985 edition",
+      "mapping": "Printed page N corresponds to PDF page N + 1.",
+      "gaps": [],
+      "coverage": "Selected additions and options, spell cards and class guidance. Coverage is incomplete. The earlier modified PDF is not used. Errata must be identified separately from this printing."
+    },
+    {
+      "id": "DMG",
+      "title": "Dungeon Masters Guide",
+      "edition": "AD&D first edition · revised December 1979",
+      "mapping": "Printed pages 1–174 correspond to PDF page N + 1. Printed pages 176–238 correspond to PDF page N. Printed page 175 is missing; pages 239 and 240 are unverified end matter. PDF page 239 is unnumbered and PDF page 240 is the back cover.",
+      "gaps": [
+        175
+      ],
+      "unverified": [
+        239,
+        240
+      ],
+      "coverage": "Selected combat, advancement and referee procedures. Coverage is incomplete. The supplied canonical PDF omits printed p.175; the user-confirmed correct-edition supplement provides two limited reviewed excerpts, not complete Appendix C coverage. Other missing or unverified pages remain excluded; tables require visual review before a verified label."
+    }
+  ],
+  "actualBeforeBooksCodeUtf8": "'use strict';\n((root)=>{\n const books={\n  PHB:{title:'Players Handbook',lastPage:128,mapping:'Printed page N corresponds to PDF page N+1.',gaps:[]},\n  UA:{title:'Unearthed Arcana',lastPage:128,mapping:'Printed page N corresponds to PDF page N+1.',gaps:[]},\n  DMG:{title:'Dungeon Masters Guide',lastPage:240,mapping:'Printed pp.1–174 correspond to PDF page N+1; pp.176–238 correspond to PDF page N. Printed p.175 is absent from the supplied PDF; a separate image is confirmed by the user as the correct edition and is usable as source evidence through two limited excerpts. The full image is not part of the PDF and is not published. The identity of pp.239–240 is unverified: PDF p.239 is an unnumbered sheet and PDF p.240 is the back cover.',gaps:[175],unverified:[239,240]},\n  MM:{title:'Monster Manual',lastPage:112,mapping:'Printed page N corresponds to PDF page N+1.',gaps:[]},\n  MM2:{title:'Monster Manual II',lastPage:160,mapping:'Printed pp.1–82 correspond to PDF page N+1; printed p.83 is PDF page92; pp.84–91 correspond to PDF page N; pp.92–160 correspond to PDF page N+1. Printed p.83 is misplaced after p.91.',gaps:[]},\n };\n function code(value){\n  const text=String(value||'').toUpperCase().replace(/[’']/g,'').trim();\n  if(['MM2','MMII'].includes(text)||text.includes('MONSTER MANUAL II')||text.includes('MONSTER MANUAL 2'))return'MM2';\n  if(text==='MM'||text.includes('MONSTER MANUAL'))return'MM';\n  if(text==='PHB'||text.includes('PLAYER'))return'PHB';\n  if(text==='UA'||text.includes('UNEARTHED'))return'UA';\n  if(text==='DMG'||text.includes('DUNGEON'))return'DMG';\n  return text;\n }\n function availability(book,printed){\n  const info=books[code(book)],p=Number(printed);\n  if(!info||!Number.isInteger(p)||p<1||p>info.lastPage)return 'invalid';\n  if(info.gaps.includes(p))return 'missing';\n  if(info.unverified?.includes(p))return 'unverified';\n  return 'available';\n }\n function evidenceAvailability(book,printed){\n  const status=availability(book,printed);\n  return status==='missing'&&supplementalEvidence(book,printed)?'supplemental':status;\n }\n function pdfPage(book,printed){\n  const key=code(book),info=books[key],p=Number(printed);\n  if(availability(key,p)!=='available')return null;\n  if(key==='DMG')return p<=174?p+1:p;\n  if(key==='MM2')return p===83?92:p>=84&&p<=91?p:p+1;\n  return p+1;\n }\n function supplementalEvidence(book,printed){\n  return code(book)==='DMG'&&Number(printed)===175?{\n   available:true,\n   medium:'supplemental-image',\n   editionStatus:'user-confirmed-correct-edition',\n   printingStatus:'not-specified',\n   originalPdfContainsPrintedPage:false,\n   originalPdfSha256:'7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669',\n   imageSha256:'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7',\n   imageDimensionsPx:[1329,1796],\n   published:false,\n  }:null;\n }\n const sourceArtifacts=Object.freeze({\n  'dmg175-user-confirmed-supplement':Object.freeze({\n   id:'dmg175-user-confirmed-supplement',\n   type:'supplemental-page-image',\n   book:'DMG',\n   printedPage:175,\n   sha256:'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7',\n   mediaType:'image/jpeg',\n   dimensionsPx:Object.freeze([1329,1796]),\n   canonicalPdfSha256:'7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669',\n   originalPdfContainsPrintedPage:false,\n   editionStatus:'user-confirmed-correct-edition',\n   printingStatus:'not-specified',\n  }),\n });\n const approvedDmg175Crops=Object.freeze({\n  'dmg-175-party-table-context-78c4c383c38c7d10':Object.freeze({image:'dmg-175-party-table-context-78c4c383c38c7d10.png',sha256:'78c4c383c38c7d100a9e66bec4f36de1fdb9453d6e44d1eec53120e849a36e89',width:635,height:490,bounds:Object.freeze([0,1145,635,1635])}),\n  'dmg-175-level-others-context-5aa02e91e35c4c28':Object.freeze({image:'dmg-175-level-others-context-5aa02e91e35c4c28.png',sha256:'5aa02e91e35c4c28152caccd947096943b74889b8596376cb86cb0c7170291b8',width:659,height:372,bounds:Object.freeze([670,120,1329,492])}),\n });\n const HASH=/^[a-f0-9]{64}$/;\n function resolveRegionSourceIdentity(catalog,region){\n  const invalid=reason=>({valid:false,reason});\n  if(!catalog||typeof catalog!=='object'||!region||typeof region!=='object')return invalid('missing-catalog-or-region');\n  if(Object.hasOwn(region,'sourceArtifactId')){\n   const id=region.sourceArtifactId;\n   if(id!=='dmg175-user-confirmed-supplement')return invalid('unknown-or-invalid-source-artifact-id');\n   const approvedCrop=approvedDmg175Crops[region.id];\n   if(!approvedCrop)return invalid('unreviewed-supplement-crop');\n   const artifact=catalog.sourceArtifacts?.[id],expected=sourceArtifacts[id];\n   if(!artifact||typeof artifact!=='object')return invalid('missing-source-artifact');\n   if(artifact.id!==expected.id||artifact.type!==expected.type||artifact.book!==expected.book||artifact.printedPage!==expected.printedPage||artifact.sha256!==expected.sha256||artifact.mediaType!==expected.mediaType||!Array.isArray(artifact.dimensionsPx)||artifact.dimensionsPx.length!==2||artifact.dimensionsPx[0]!==expected.dimensionsPx[0]||artifact.dimensionsPx[1]!==expected.dimensionsPx[1]||artifact.canonicalPdfSha256!==expected.canonicalPdfSha256||artifact.originalPdfContainsPrintedPage!==false||artifact.editionStatus!==expected.editionStatus||artifact.printingStatus!==expected.printingStatus)return invalid('source-artifact-identity-mismatch');\n   if(region.book!=='DMG'||region.printedPage!==175||region.pdfPage!==null)return invalid('supplement-region-page-mismatch');\n   const canonicalPdf=catalog.sources?.DMG;\n   if(!canonicalPdf||canonicalPdf.sha256!==expected.canonicalPdfSha256||!['supplied-handoff','computed-local'].includes(canonicalPdf.hashStatus))return invalid('canonical-pdf-identity-mismatch');\n   const bounds=region.sourceCropBoundsPx;\n   if(!Array.isArray(bounds)||bounds.length!==4||!bounds.every(Number.isInteger)||bounds[0]<0||bounds[1]<0||bounds[2]<=bounds[0]||bounds[3]<=bounds[1]||bounds[2]>expected.dimensionsPx[0]||bounds[3]>expected.dimensionsPx[1])return invalid('invalid-source-image-crop-bounds');\n   if(bounds.some((value,index)=>value!==approvedCrop.bounds[index])||region.image!==approvedCrop.image||region.sha256!==approvedCrop.sha256||region.width!==approvedCrop.width||region.height!==approvedCrop.height)return invalid('supplement-crop-not-in-approved-native-crop-registry');\n   if(region.sourceCoordinateSpace!=='supplement-image pixels; top-left origin; LTRB half-open')return invalid('invalid-source-image-coordinate-space');\n   if(region.width!==bounds[2]-bounds[0]||region.height!==bounds[3]-bounds[1])return invalid('crop-output-dimensions-do-not-match-source-bounds');\n   if(!HASH.test(region.sha256||''))return invalid('invalid-published-crop-hash');\n   return {valid:true,sourceKind:'supplemental-image',sourceArtifactId:id,sourceSha256:artifact.sha256,canonicalPdfSha256:canonicalPdf.sha256,book:'DMG',printedPage:175,pdfPage:null,sourceDimensionsPx:[...expected.dimensionsPx],sourceCropBoundsPx:[...bounds],sourceCoordinateSpace:region.sourceCoordinateSpace};\n  }\n  if(Object.hasOwn(region,'sourceCropBoundsPx')||Object.hasOwn(region,'sourceCoordinateSpace'))return invalid('supplement-frame-without-source-artifact');\n  if(!Object.hasOwn(region,'book')||region.book!==code(region.book)||!Number.isInteger(region.printedPage))return invalid('non-canonical-pdf-source-reference');\n  const key=region.book,mapped=pdfPage(key,region.printedPage),source=catalog.sources?.[key];\n  if(!Object.hasOwn(books,key)||mapped===null||region.pdfPage!==mapped)return invalid('pdf-page-mapping-mismatch');\n  if(!source||!HASH.test(source.sha256||'')||!['supplied-handoff','computed-local'].includes(source.hashStatus))return invalid('missing-or-invalid-pdf-source-identity');\n  return {valid:true,sourceKind:'pdf',sourceSha256:source.sha256,canonicalPdfSha256:source.sha256,book:key,printedPage:region.printedPage,pdfPage:mapped};\n }\n function privateEvidence(book,printed){return supplementalEvidence(book,printed);}\n function missingPageNotice(book,printed){\n  if(supplementalEvidence(book,printed))return 'Printed p. 175 is absent from the supplied DMG PDF. The user confirmed the separate image is from the correct edition; two limited excerpts are available as source evidence. The full image is separate from the PDF and is not published.';\n  return `Printed p. ${printed} is unavailable in the provided ${code(book)} scan.`;\n }\n const api=Object.freeze({books,code,pdfPage,availability,evidenceAvailability,supplementalEvidence,sourceArtifacts,resolveRegionSourceIdentity,privateEvidence,missingPageNotice,title:book=>books[code(book)]?.title||String(book||'Source pending'),mapping:book=>books[code(book)]?.mapping||'Page mapping has not been verified.'});\n root.FirstEditionBooks=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;\n})(globalThis);\n",
+  "actualLiveCapture": {
+    "url": "https://xertrov.github.io/adnd1/#sources",
+    "capturedAt": "2026-11-08T22:01:32.382Z",
+    "sourceCardCount": 3,
+    "cards": [
+      "AD&D\nPHB\nSOURCE 01\nPlayers Handbook\n\nAD&D first edition · sixth printing, January 1980\n\nCURRENT COVERAGE\n\nCurated rule summaries, selected spell cards and class progression. Coverage is incomplete. OCR has been checked against the supplied text; visual review is pending.\n\n55 rule references · 414 spell entries · 414 detailed cards\n\nPrinted page N corresponds to PDF page N + 1.\n\nAnnotate",
+      "AD&D\nUA\nSOURCE 02\nUnearthed Arcana\n\nOriginal 1985 edition\n\nCURRENT COVERAGE\n\nSelected additions and options, spell cards and class guidance. Coverage is incomplete. The earlier modified PDF is not used. Errata must be identified separately from this printing.\n\n15 rule references · 224 spell entries · 224 detailed cards\n\nPrinted page N corresponds to PDF page N + 1.\n\nAnnotate",
+      "AD&D\nDMG\nSOURCE 03\nDungeon Masters Guide\n\nAD&D first edition · revised December 1979\n\nCURRENT COVERAGE\n\nSelected combat, advancement and referee procedures; coverage is incomplete.\n\n79 rule references · 0 spell entries · 0 detailed cards\n\nMissing from the supplied PDF: 175. The user confirmed a separate image is from the correct edition, and two limited excerpts are available as evidence. The full image is not part of the PDF and is not published.\nUnverified printed pages: 239, 240. No PDF page is assigned.\n\nPrinted pp.1–174 correspond to PDF page N+1; pp.176–238 correspond to PDF page N. Printed p.175 is absent from the supplied PDF; a separate image is confirmed by the user as the correct edition and is usable as source evidence through two limited excerpts. The full image is not part of the PDF and is not published. The identity of pp.239–240 is unverified: PDF p.239 is an unnumbered sheet and PDF p.240 is the back cover.\n\nAnnotate"
+    ],
+    "footer": "Version 19 · 77712b8\nBuilt 2026-11-08 20:15:26 UTC",
+    "errors": [],
+    "desktopScreenshotSha256": "d164a9783a1e226d2fd468d285c86ecdbf271673fbf0adb89f84e7becef75da7",
+    "mobileScreenshotSha256": "f17fae95d012aabd938304bd5b154f65686e276ac206be1233fee26fd2b2e692"
+  },
+  "captureProgramSha256": "7134f663d0b8ae514f3a2dab563b62e19b50fce2cbadbfd1cf4683d1d04e0713",
+  "captureJsonSha256": "88eb4d50f17ee8d7ba311046f7e0c75a7b83c169961c99adc93fb33553acae70",
+  "sourceAssessment": {
+    "path": "research/source-audit-pass8-dmg-appendix-endmatter-assessments.json",
+    "sha256": "8f955358bfe7cb2305e55b502cae0624f7d42bb3e54652aa0979cd1f80a91a29",
+    "physicalLeaves": {
+      "239": "Unnumbered inside reference leaf containing repeated encumbrance/armor and hireling tables. No printed folio239 was established.",
+      "240": "Rear cover artwork/marketing; no printed folio240 was established."
+    },
+    "independentReview": "research/source-audit-pass8-dmg-appendices-independent-review.json"
+  },
+  "confirmedFindings": [
+    {
+      "id": "dmg-unprinted-endmatter-as-unverified-printed-pages",
+      "classification": "incorrect-source-overview-metadata",
+      "observedLiveText": "Unverified printed pages: 239, 240. No PDF page is assigned.",
+      "sourceBackedCorrectionScope": "Represent the inspected unnumbered physical PDF leaves as unnumbered leaves, without inventing printed folios or numeric printed-page citation mappings. Preserve the physical printed-p175 PDF omission and the user-confirmed supplemental evidence distinction."
+    },
+    {
+      "id": "mm-and-mm2-missing-from-source-overview",
+      "classification": "source-overview-absence",
+      "observed": "The five-book source registry/canonical source census includes MM/MM2, but neither is a live source overview card.",
+      "correctionScope": "Show supplied source identities and selected consumed-reference coverage with explicit bestiary/table omissions. Adding a source card must not imply full-book or full-profile content coverage."
+    }
+  ],
+  "status": "Before evidence retained; repair not applied. Independent implementation/review and rendered-source-overview checks pending.",
+  "scopeLimits": [
+    "No source-rule or numeric-mechanics values change in this finding capture.",
+    "Inspected end matter does not establish completeness of the rules or table values elsewhere.",
+    "This is separate from the unresolved UA10/DMG11 source glyph losses and from field/excerpt review grades."
+  ]
+}

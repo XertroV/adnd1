@@ -1,0 +1,2859 @@
+{
+  "schemaVersion": 10,
+  "artifactType": "bounded quantization-interval and rational-scale follow-up for v9 unresolved frames",
+  "input": {
+    "commit": "6d330af372ac809d11ed6029ed8695d0d8dc0909",
+    "rawDataSha256": "ceb7c8b9a8fe32b676e57c8d007f124a4490684d54558479e555d504075ba4f3",
+    "v9ReportPath": "/workspace/adnd1-semantic-audit/research/source-audit-pass8-frame-candidate-v9.json",
+    "v9ReportSha256": "204a1d1eb12157df235a1bccf9534d7e115a9e2c132c92115b6532e7d4322489",
+    "v9ToolPath": "/workspace/adnd1-semantic-audit/tools/source-frame-candidate-resolver-v9.py",
+    "v9ToolSha256": "c63d301c8a866472c05f4437b0c1652b1984b9c6ffdb37d03af35e037c2e646e",
+    "sourcePdfs": {
+      "DMG": {
+        "fileName": "DMG_1stEd.pdf",
+        "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "pdfPages": 240,
+        "bytes": 46298255
+      },
+      "MM": {
+        "fileName": "Monster_Manual.pdf",
+        "sha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+        "pdfPages": 114,
+        "bytes": 25126611
+      },
+      "MM2": {
+        "fileName": "Monster Manual II.pdf",
+        "sha256": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24",
+        "pdfPages": 162,
+        "bytes": 29693734
+      },
+      "PHB": {
+        "fileName": "tsr2010-players-handbook.pdf",
+        "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "pdfPages": 130,
+        "bytes": 25016836
+      },
+      "UA": {
+        "fileName": "Unearthed Arcana.pdf",
+        "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "pdfPages": 130,
+        "bytes": 28587063
+      }
+    }
+  },
+  "scope": {
+    "inheritedV9UnresolvedGeometryGroups": 6,
+    "inheritedV9UnresolvedRegionReferences": 7,
+    "geometryGroupsProbed": 6,
+    "regionReferencesProbed": 7,
+    "bookCounts": {
+      "PHB": {
+        "geometryGroups": 3,
+        "regionReferences": 3
+      },
+      "UA": {
+        "geometryGroups": 3,
+        "regionReferences": 4
+      }
+    },
+    "onlyV9UnresolvedQueue": true
+  },
+  "candidateMethod": {
+    "quantizationModel": "For a normalized interval of physical length L, integer crop-edge floor/ceil can add a total of less than 2 pixels to s*L. Necessary scale range per axis is (max(0,(N-2)/L), N/L], where N is the stored native raster dimension. Intersect width and height ranges; empty intersections are retained as metadata/aspect incompatibility within this explicit model.",
+    "frameHypotheses": [
+      "Page.rect/CropBox normalized top-left frame",
+      "MediaBox-normalized top-left frame translated through CropBox into Page.rect coordinates only when MediaBox and Page.rect/CropBox differ"
+    ],
+    "rationalCandidateDenominators": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      8,
+      10,
+      20,
+      25,
+      50,
+      100,
+      1000
+    ],
+    "candidateRange": [
+      0.5,
+      4.0
+    ],
+    "commonTenthGrid": "Scales k/10 from 0.5 to 4.0 are included only when inside the derived interval.",
+    "positiveRequirement": "Exact dimensions, exact complete RGB pixel bytes, and exact PNG SHA must all match. No resizing, padding, changed bounds, approximate RGB, or interval-only result counts as recovered.",
+    "sourceIdentity": "Canonical source PDF hashes and page counts were checked before rendering; catalog source identity, catalog hash, region id, image file hash and dimensions were also checked."
+  },
+  "trialSummary": {
+    "renderTrials": 49,
+    "dimensionMatchedTrials": 21,
+    "exactRgbMatches": 0,
+    "exactPngMatches": 0,
+    "geometryGroupsRecovered": 0,
+    "regionReferencesRecovered": 0,
+    "statusCounts": {
+      "no-exact-rgb-replay-in-derived-rational-set": 9
+    }
+  },
+  "geometryResults": [
+    {
+      "geometryKey": "7cb0872e55667abd72298196310e141769de9322172eddc0dc4eb0c4b5badc47",
+      "book": "PHB",
+      "printedPage": 99,
+      "pdfOrdinal": 100,
+      "targetImageSha256": "4212306ab17751dcc07264480f8143e5170069c9e7ff60d64817f40163a812da",
+      "targetImageDimensions": [
+        536,
+        226
+      ],
+      "targetRgbPixelSha256": "bc5781fc0a213345e901022c2fbbc4b6e15a4b8a50a6292477305ab4ad9d13b9",
+      "normalizedPageRect": {
+        "x": 0.015,
+        "y": 0.809456,
+        "width": 0.475,
+        "height": 0.14635
+      },
+      "normalizedRectSchema": "supported-object-width-height",
+      "pageRect": [
+        0.0,
+        0.0,
+        563.16064453125,
+        772.123779296875
+      ],
+      "cropBox": [
+        5.263179779052734,
+        2.8800048828125,
+        568.423828125,
+        775.0037841796875
+      ],
+      "mediaBox": [
+        0.0,
+        0.0,
+        575.279296875,
+        785.0390625
+      ],
+      "rotation": 0,
+      "referenceCount": 1,
+      "references": [
+        {
+          "catalog": "scans/verified/spells-phb-illusionist-demi-shadow-magic.json",
+          "catalogSha256": "205fbedfd288cab20efdb7dbedc6f0cc6d282577fb31885e230f562668f62764",
+          "regionId": "phb-99-4212306ab17751dc",
+          "ownerBindings": [
+            {
+              "collection": "spells",
+              "itemId": "phb-illusionist-demi-shadow-magic",
+              "binding": "sourceExcerpts"
+            }
+          ],
+          "imageSha256": "4212306ab17751dcc07264480f8143e5170069c9e7ff60d64817f40163a812da",
+          "imageDimensions": [
+            536,
+            226
+          ],
+          "normalizedPageRect": {
+            "x": 0.015,
+            "y": 0.809456,
+            "width": 0.475,
+            "height": 0.14635
+          },
+          "sourceIdentityMatchesBaseline": true,
+          "targetImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/phb-99-4212306ab17751dc.png",
+          "targetRgbPixelSha256": "bc5781fc0a213345e901022c2fbbc4b6e15a4b8a50a6292477305ab4ad9d13b9",
+          "currentImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/phb-99-4212306ab17751dc.png",
+          "currentImageBytesSha256": "4212306ab17751dcc07264480f8143e5170069c9e7ff60d64817f40163a812da",
+          "currentRgbPixelSha256": "bc5781fc0a213345e901022c2fbbc4b6e15a4b8a50a6292477305ab4ad9d13b9"
+        }
+      ],
+      "v9TriedScales": [
+        2.0,
+        2.1,
+        2.2,
+        2.3,
+        2.4,
+        2.5
+      ],
+      "frameHypotheses": [
+        {
+          "frameName": "Page.rect/CropBox",
+          "normalizationBox": [
+            0.0,
+            0.0,
+            563.16064453125,
+            772.123779296875
+          ],
+          "sourceFrameBounds": [
+            8.44740966796875,
+            625.0002258945312,
+            275.9487158203125,
+            738.0005409946289
+          ],
+          "pageCoordinateBounds": [
+            8.44740966796875,
+            625.0002258945312,
+            275.9487158203125,
+            738.0005409946289
+          ],
+          "effectivePageClipBounds": [
+            8.447409629821777,
+            625.000244140625,
+            275.94873046875,
+            738.0005493164062
+          ],
+          "effectiveClipWasPageClipped": true,
+          "coordinateMapping": "normalized x/y/width/height multiplied by Page.rect width/height; origin at Page.rect top-left",
+          "physicalClipSizePoints": {
+            "width": 267.5013208389282,
+            "height": 113.00030517578125
+          },
+          "scaleIntervalFromTwoPixelEdgeQuantization": {
+            "status": "nonempty-width-height-intersection",
+            "x": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9962518253191723,
+              "upperInclusive": 2.0037284239158732
+            },
+            "y": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9822955314284294,
+              "upperInclusive": 1.999994598673326
+            },
+            "lowerExclusive": 1.9962518253191723,
+            "upperInclusive": 1.999994598673326
+          },
+          "rationalDenominatorsTested": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            8,
+            10,
+            20,
+            25,
+            50,
+            100,
+            1000
+          ],
+          "commonTenthGridScalesWithinInterval": [],
+          "finiteRationalCandidatesWithinInterval": [
+            {
+              "numerator": 1997,
+              "denominator": 1000,
+              "fraction": "1997/1000",
+              "scale": 1.997,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 999,
+              "denominator": 500,
+              "fraction": "999/500",
+              "scale": 1.998,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1999,
+              "denominator": 1000,
+              "fraction": "1999/1000",
+              "scale": 1.999,
+              "isCommonTenth": false
+            }
+          ],
+          "candidateCount": 3,
+          "renderTrials": [
+            {
+              "scaleFraction": "1997/1000",
+              "numerator": 1997,
+              "denominator": 1000,
+              "matrixScale": 1.997,
+              "matrix": [
+                1.997,
+                1.997
+              ],
+              "renderedDimensions": [
+                536,
+                226
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "f7685f61c844fa6b8317291b8fc4298109155a4ee9824029a88521beeb59e5c5",
+              "renderedPngSha256": "3fbecf2ae163d51ef959169da6d06ed2ac17dd4d3ac14777eed7120c91e2e16c",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "999/500",
+              "numerator": 999,
+              "denominator": 500,
+              "matrixScale": 1.998,
+              "matrix": [
+                1.998,
+                1.998
+              ],
+              "renderedDimensions": [
+                536,
+                227
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "fb1a5442e7776e6456b3e7c6bf6dc55af117b2f63247c47240376833b43033e9",
+              "renderedPngSha256": "5bfe1914d3035e11b6e8130d6ed5c6f332e1d12c2802176263d79e7ea0715af2",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "1999/1000",
+              "numerator": 1999,
+              "denominator": 1000,
+              "matrixScale": 1.999,
+              "matrix": [
+                1.999,
+                1.999
+              ],
+              "renderedDimensions": [
+                536,
+                227
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "4eceb1d957cdd11a848fe0367dc2bd36d17f4d634345c595fb22cd8626f216a4",
+              "renderedPngSha256": "eb4c47db850f399558d59254061cfa8d22e5d21a4a2a4bac33337fdc4eec93ac",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            }
+          ],
+          "exactSourcePixelReplay": null,
+          "frameStatus": "no-exact-rgb-replay-in-derived-rational-set"
+        },
+        {
+          "frameName": "MediaBox-normalized, transformed into Page.rect/CropBox coordinates",
+          "normalizationBox": [
+            0.0,
+            0.0,
+            575.279296875,
+            785.0390625
+          ],
+          "sourceFrameBounds": [
+            8.629189453124999,
+            34.69401632812503,
+            281.88685546875,
+            149.58448312500002
+          ],
+          "pageCoordinateBounds": [
+            3.3660096740722647,
+            625.4193010546875,
+            276.6236756896973,
+            740.3097678515625
+          ],
+          "effectivePageClipBounds": [
+            3.3660097122192383,
+            625.4193115234375,
+            276.6236877441406,
+            740.3097534179688
+          ],
+          "effectiveClipWasPageClipped": true,
+          "coordinateMapping": "Normalize from MediaBox top-left; translate x by -CropBox.x0 and y by CropBox.y1-MediaBox.y1 into Page.rect coordinates",
+          "physicalClipSizePoints": {
+            "width": 273.2576780319214,
+            "height": 114.89044189453125
+          },
+          "scaleIntervalFromTwoPixelEdgeQuantization": {
+            "status": "nonempty-width-height-intersection",
+            "x": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9541994349290315,
+              "upperInclusive": 1.9615185339362564
+            },
+            "y": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9496835098400151,
+              "upperInclusive": 1.9670913983207294
+            },
+            "lowerExclusive": 1.9541994349290315,
+            "upperInclusive": 1.9615185339362564
+          },
+          "rationalDenominatorsTested": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            8,
+            10,
+            20,
+            25,
+            50,
+            100,
+            1000
+          ],
+          "commonTenthGridScalesWithinInterval": [],
+          "finiteRationalCandidatesWithinInterval": [
+            {
+              "numerator": 391,
+              "denominator": 200,
+              "fraction": "391/200",
+              "scale": 1.955,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 489,
+              "denominator": 250,
+              "fraction": "489/250",
+              "scale": 1.956,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1957,
+              "denominator": 1000,
+              "fraction": "1957/1000",
+              "scale": 1.957,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 979,
+              "denominator": 500,
+              "fraction": "979/500",
+              "scale": 1.958,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1959,
+              "denominator": 1000,
+              "fraction": "1959/1000",
+              "scale": 1.959,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 49,
+              "denominator": 25,
+              "fraction": "49/25",
+              "scale": 1.96,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1961,
+              "denominator": 1000,
+              "fraction": "1961/1000",
+              "scale": 1.961,
+              "isCommonTenth": false
+            }
+          ],
+          "candidateCount": 7,
+          "renderTrials": [
+            {
+              "scaleFraction": "391/200",
+              "numerator": 391,
+              "denominator": 200,
+              "matrixScale": 1.955,
+              "matrix": [
+                1.955,
+                1.955
+              ],
+              "renderedDimensions": [
+                535,
+                226
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "aa9c1713a3c8ebda50fdde1424c438228ba64c94b56904d169c0307db1046dc4",
+              "renderedPngSha256": "3aaeea0d836311c17ec35ad876001664be6283897ffa147695c53c858b980cb6",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "489/250",
+              "numerator": 489,
+              "denominator": 250,
+              "matrixScale": 1.956,
+              "matrix": [
+                1.956,
+                1.956
+              ],
+              "renderedDimensions": [
+                536,
+                226
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "36e421262b5f15e6470d73cee761d90a54ca04920c8ac41f0262f36b056a1063",
+              "renderedPngSha256": "7c94fb4e7150389f64bad0cbc9446321d8e4dbb8d0a497d120df2fee6c9f8d55",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "1957/1000",
+              "numerator": 1957,
+              "denominator": 1000,
+              "matrixScale": 1.957,
+              "matrix": [
+                1.957,
+                1.957
+              ],
+              "renderedDimensions": [
+                536,
+                226
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "64135572aad7d6c1155d30641ebd0dd091201e2b2413407971292425208042a5",
+              "renderedPngSha256": "4483f6f09def2f6af3c258f67250e454c6a0d49b65728f4e7b2fa084bfd765c2",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "979/500",
+              "numerator": 979,
+              "denominator": 500,
+              "matrixScale": 1.958,
+              "matrix": [
+                1.958,
+                1.958
+              ],
+              "renderedDimensions": [
+                536,
+                226
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "36e421262b5f15e6470d73cee761d90a54ca04920c8ac41f0262f36b056a1063",
+              "renderedPngSha256": "7c94fb4e7150389f64bad0cbc9446321d8e4dbb8d0a497d120df2fee6c9f8d55",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "1959/1000",
+              "numerator": 1959,
+              "denominator": 1000,
+              "matrixScale": 1.959,
+              "matrix": [
+                1.959,
+                1.959
+              ],
+              "renderedDimensions": [
+                536,
+                226
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "36e421262b5f15e6470d73cee761d90a54ca04920c8ac41f0262f36b056a1063",
+              "renderedPngSha256": "7c94fb4e7150389f64bad0cbc9446321d8e4dbb8d0a497d120df2fee6c9f8d55",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "49/25",
+              "numerator": 49,
+              "denominator": 25,
+              "matrixScale": 1.96,
+              "matrix": [
+                1.96,
+                1.96
+              ],
+              "renderedDimensions": [
+                537,
+                227
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "888c5a4706cca55f3ae55f8393176fd368157a1f3feec7d4d6848bc087c54f17",
+              "renderedPngSha256": "11a64db2607944d1b56a8e18cfd0bf5f3859404b99d5320e11d2b1c42b3c8ab2",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "1961/1000",
+              "numerator": 1961,
+              "denominator": 1000,
+              "matrixScale": 1.961,
+              "matrix": [
+                1.961,
+                1.961
+              ],
+              "renderedDimensions": [
+                537,
+                226
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "7c8796d9472238122385622bf3d1ff7bc006545b465677c60461159826bd199a",
+              "renderedPngSha256": "59a60dc2c4b073a4b4268d9192fb993493449e3664361ae6d4d9e6b2a555f4ae",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            }
+          ],
+          "exactSourcePixelReplay": null,
+          "frameStatus": "no-exact-rgb-replay-in-derived-rational-set"
+        }
+      ],
+      "geometryOutcome": "unresolved-after-finite-interval-probe"
+    },
+    {
+      "geometryKey": "1c9b86a2d7c2eceab915a0bcc8a06a8efbff030dd2a4c32d035caa6beca0b9cb",
+      "book": "PHB",
+      "printedPage": 99,
+      "pdfOrdinal": 100,
+      "targetImageSha256": "ae531be3faf0648bbd00f05426504c5d08182e9148295308b25dd12692713543",
+      "targetImageDimensions": [
+        536,
+        274
+      ],
+      "targetRgbPixelSha256": "81f5c9628b934ee12cfd7e19671674d9958468aeff2a06b97f78b56656e127af",
+      "normalizedPageRect": {
+        "x": 0.015,
+        "y": 0.317307,
+        "width": 0.475,
+        "height": 0.177433
+      },
+      "normalizedRectSchema": "supported-object-width-height",
+      "pageRect": [
+        0.0,
+        0.0,
+        563.16064453125,
+        772.123779296875
+      ],
+      "cropBox": [
+        5.263179779052734,
+        2.8800048828125,
+        568.423828125,
+        775.0037841796875
+      ],
+      "mediaBox": [
+        0.0,
+        0.0,
+        575.279296875,
+        785.0390625
+      ],
+      "rotation": 0,
+      "referenceCount": 1,
+      "references": [
+        {
+          "catalog": "scans/verified/spells-phb-illusionist-shadow-magic.json",
+          "catalogSha256": "2ff4c7338431c491c493ade9a531909b0e4a7d53fd3811c2926e6a7864557049",
+          "regionId": "phb-99-ae531be3faf0648b",
+          "ownerBindings": [
+            {
+              "collection": "spells",
+              "itemId": "phb-illusionist-shadow-magic",
+              "binding": "sourceExcerpts"
+            }
+          ],
+          "imageSha256": "ae531be3faf0648bbd00f05426504c5d08182e9148295308b25dd12692713543",
+          "imageDimensions": [
+            536,
+            274
+          ],
+          "normalizedPageRect": {
+            "x": 0.015,
+            "y": 0.317307,
+            "width": 0.475,
+            "height": 0.177433
+          },
+          "sourceIdentityMatchesBaseline": true,
+          "targetImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/phb-99-ae531be3faf0648b.png",
+          "targetRgbPixelSha256": "81f5c9628b934ee12cfd7e19671674d9958468aeff2a06b97f78b56656e127af",
+          "currentImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/phb-99-ae531be3faf0648b.png",
+          "currentImageBytesSha256": "ae531be3faf0648bbd00f05426504c5d08182e9148295308b25dd12692713543",
+          "currentRgbPixelSha256": "81f5c9628b934ee12cfd7e19671674d9958468aeff2a06b97f78b56656e127af"
+        }
+      ],
+      "v9TriedScales": [
+        2.0,
+        2.1,
+        2.2,
+        2.3,
+        2.4,
+        2.5
+      ],
+      "frameHypotheses": [
+        {
+          "frameName": "Page.rect/CropBox",
+          "normalizationBox": [
+            0.0,
+            0.0,
+            563.16064453125,
+            772.123779296875
+          ],
+          "sourceFrameBounds": [
+            8.44740966796875,
+            245.00028003735352,
+            275.9487158203125,
+            382.00051856933595
+          ],
+          "pageCoordinateBounds": [
+            8.44740966796875,
+            245.00028003735352,
+            275.9487158203125,
+            382.00051856933595
+          ],
+          "effectivePageClipBounds": [
+            8.447409629821777,
+            245.00027465820312,
+            275.94873046875,
+            382.0005187988281
+          ],
+          "effectiveClipWasPageClipped": true,
+          "coordinateMapping": "normalized x/y/width/height multiplied by Page.rect width/height; origin at Page.rect top-left",
+          "physicalClipSizePoints": {
+            "width": 267.5013208389282,
+            "height": 137.000244140625
+          },
+          "scaleIntervalFromTwoPixelEdgeQuantization": {
+            "status": "nonempty-width-height-intersection",
+            "x": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9962518253191723,
+              "upperInclusive": 2.0037284239158732
+            },
+            "y": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9853979217789088,
+              "upperInclusive": 1.999996435909636
+            },
+            "lowerExclusive": 1.9962518253191723,
+            "upperInclusive": 1.999996435909636
+          },
+          "rationalDenominatorsTested": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            8,
+            10,
+            20,
+            25,
+            50,
+            100,
+            1000
+          ],
+          "commonTenthGridScalesWithinInterval": [],
+          "finiteRationalCandidatesWithinInterval": [
+            {
+              "numerator": 1997,
+              "denominator": 1000,
+              "fraction": "1997/1000",
+              "scale": 1.997,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 999,
+              "denominator": 500,
+              "fraction": "999/500",
+              "scale": 1.998,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1999,
+              "denominator": 1000,
+              "fraction": "1999/1000",
+              "scale": 1.999,
+              "isCommonTenth": false
+            }
+          ],
+          "candidateCount": 3,
+          "renderTrials": [
+            {
+              "scaleFraction": "1997/1000",
+              "numerator": 1997,
+              "denominator": 1000,
+              "matrixScale": 1.997,
+              "matrix": [
+                1.997,
+                1.997
+              ],
+              "renderedDimensions": [
+                536,
+                274
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "460fde6dff318c0a17c5ab2ec8121f5cf33c589b99a6caf662bb1442f86599aa",
+              "renderedPngSha256": "2f23004b7ecf06394430a075aca171e0477b7e30c75fdf40189887535bd658a2",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "999/500",
+              "numerator": 999,
+              "denominator": 500,
+              "matrixScale": 1.998,
+              "matrix": [
+                1.998,
+                1.998
+              ],
+              "renderedDimensions": [
+                536,
+                275
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "bf0f2f7f60b87748df74b9290e0f815fa0675985a4dbc8cb60b694f389908c15",
+              "renderedPngSha256": "b7587e842cf206a745095f03171b8d23719c7985af82575e33c269377ec3fda4",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "1999/1000",
+              "numerator": 1999,
+              "denominator": 1000,
+              "matrixScale": 1.999,
+              "matrix": [
+                1.999,
+                1.999
+              ],
+              "renderedDimensions": [
+                536,
+                275
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "2333b91559b935158c3dccec5ab07e15f7274106c056163c9b14a56d482734ff",
+              "renderedPngSha256": "b0dab0d9955f6eb82dae3f999dbe56ad7e49287b5e67e5f5085468da2bb8e2ef",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            }
+          ],
+          "exactSourcePixelReplay": null,
+          "frameStatus": "no-exact-rgb-replay-in-derived-rational-set"
+        },
+        {
+          "frameName": "MediaBox-normalized, transformed into Page.rect/CropBox coordinates",
+          "normalizationBox": [
+            0.0,
+            0.0,
+            575.279296875,
+            785.0390625
+          ],
+          "sourceFrameBounds": [
+            8.629189453124999,
+            396.64883671875,
+            281.88685546875,
+            535.9406726953125
+          ],
+          "pageCoordinateBounds": [
+            3.3660096740722647,
+            239.06311148437499,
+            276.6236756896973,
+            378.3549474609375
+          ],
+          "effectivePageClipBounds": [
+            3.3660097122192383,
+            239.0631103515625,
+            276.6236877441406,
+            378.3549499511719
+          ],
+          "effectiveClipWasPageClipped": true,
+          "coordinateMapping": "Normalize from MediaBox top-left; translate x by -CropBox.x0 and y by CropBox.y1-MediaBox.y1 into Page.rect coordinates",
+          "physicalClipSizePoints": {
+            "width": 273.2576780319214,
+            "height": 139.29183959960938
+          },
+          "scaleIntervalFromTwoPixelEdgeQuantization": {
+            "status": "nonempty-width-height-intersection",
+            "x": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9541994349290315,
+              "upperInclusive": 1.9615185339362564
+            },
+            "y": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9527346381658583,
+              "upperInclusive": 1.9670929810935485
+            },
+            "lowerExclusive": 1.9541994349290315,
+            "upperInclusive": 1.9615185339362564
+          },
+          "rationalDenominatorsTested": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            8,
+            10,
+            20,
+            25,
+            50,
+            100,
+            1000
+          ],
+          "commonTenthGridScalesWithinInterval": [],
+          "finiteRationalCandidatesWithinInterval": [
+            {
+              "numerator": 391,
+              "denominator": 200,
+              "fraction": "391/200",
+              "scale": 1.955,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 489,
+              "denominator": 250,
+              "fraction": "489/250",
+              "scale": 1.956,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1957,
+              "denominator": 1000,
+              "fraction": "1957/1000",
+              "scale": 1.957,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 979,
+              "denominator": 500,
+              "fraction": "979/500",
+              "scale": 1.958,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1959,
+              "denominator": 1000,
+              "fraction": "1959/1000",
+              "scale": 1.959,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 49,
+              "denominator": 25,
+              "fraction": "49/25",
+              "scale": 1.96,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1961,
+              "denominator": 1000,
+              "fraction": "1961/1000",
+              "scale": 1.961,
+              "isCommonTenth": false
+            }
+          ],
+          "candidateCount": 7,
+          "renderTrials": [
+            {
+              "scaleFraction": "391/200",
+              "numerator": 391,
+              "denominator": 200,
+              "matrixScale": 1.955,
+              "matrix": [
+                1.955,
+                1.955
+              ],
+              "renderedDimensions": [
+                535,
+                273
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "e97a1b6f215b81afb587f89b4939f2f54794fab4683dde343475d454c39e5918",
+              "renderedPngSha256": "f498a21954709e211a7ed2037405060e35a62b13a3114677811fd29f5b055fd3",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "489/250",
+              "numerator": 489,
+              "denominator": 250,
+              "matrixScale": 1.956,
+              "matrix": [
+                1.956,
+                1.956
+              ],
+              "renderedDimensions": [
+                536,
+                274
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "b552251e1572d281106982d6f8a8503c52af817aa1b7a150490b19fa5aba539d",
+              "renderedPngSha256": "1364ef323726bfadd0272fd781f0a4f3497892b5f1900299cbc1162fbb303dfd",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "1957/1000",
+              "numerator": 1957,
+              "denominator": 1000,
+              "matrixScale": 1.957,
+              "matrix": [
+                1.957,
+                1.957
+              ],
+              "renderedDimensions": [
+                536,
+                274
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "8618e23078a8b44d8263d77c29d1139e77363ac3ba65cfe02e9c1703f8b06816",
+              "renderedPngSha256": "bfb3c6496316fe7bc4134b438655094f83ce0916e75ca107dc5118b194454179",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "979/500",
+              "numerator": 979,
+              "denominator": 500,
+              "matrixScale": 1.958,
+              "matrix": [
+                1.958,
+                1.958
+              ],
+              "renderedDimensions": [
+                536,
+                273
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "ed1eb69ee9617482b016d869604f597a7c6a44588a65bab39bf13af812bd9dea",
+              "renderedPngSha256": "b0e907d354784caa4f0375663d7d03a53c051a736e9f7b27517c76c9625fdfdb",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "1959/1000",
+              "numerator": 1959,
+              "denominator": 1000,
+              "matrixScale": 1.959,
+              "matrix": [
+                1.959,
+                1.959
+              ],
+              "renderedDimensions": [
+                536,
+                274
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "b552251e1572d281106982d6f8a8503c52af817aa1b7a150490b19fa5aba539d",
+              "renderedPngSha256": "1364ef323726bfadd0272fd781f0a4f3497892b5f1900299cbc1162fbb303dfd",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "49/25",
+              "numerator": 49,
+              "denominator": 25,
+              "matrixScale": 1.96,
+              "matrix": [
+                1.96,
+                1.96
+              ],
+              "renderedDimensions": [
+                537,
+                274
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "efe442c8891c07d4c199b6dba1a435980c0dcb525385a976b5e8f5b68d71d136",
+              "renderedPngSha256": "899693b99324000deeef4443c74b0e09c5dace56326ee34a47139c86331fb90e",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "1961/1000",
+              "numerator": 1961,
+              "denominator": 1000,
+              "matrixScale": 1.961,
+              "matrix": [
+                1.961,
+                1.961
+              ],
+              "renderedDimensions": [
+                537,
+                274
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "5df425430938f6501789e1121c9ecc3c51e1ce89bc66740b309db67347d83460",
+              "renderedPngSha256": "7a3943688a9b4caeff1a3fc72fdc52e879127a0d6a24cf0a9ee1750461dff44f",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            }
+          ],
+          "exactSourcePixelReplay": null,
+          "frameStatus": "no-exact-rgb-replay-in-derived-rational-set"
+        }
+      ],
+      "geometryOutcome": "unresolved-after-finite-interval-probe"
+    },
+    {
+      "geometryKey": "ab3d22b166a2119050fa90bc31f3ce78a75afdbf32157652a0a483e3f2d184bb",
+      "book": "PHB",
+      "printedPage": 99,
+      "pdfOrdinal": 100,
+      "targetImageSha256": "d6ce0d52b23b9464f466a78312b26907b1f758dd67afe9c55bf9955f83cee2e8",
+      "targetImageDimensions": [
+        542,
+        228
+      ],
+      "targetRgbPixelSha256": "1bbd390f15580466becc23a3f513812c6af111c221d1f5dbbff5075622e22c52",
+      "normalizedPageRect": {
+        "x": 0.505,
+        "y": 0.808161,
+        "width": 0.48,
+        "height": 0.147645
+      },
+      "normalizedRectSchema": "supported-object-width-height",
+      "pageRect": [
+        0.0,
+        0.0,
+        563.16064453125,
+        772.123779296875
+      ],
+      "cropBox": [
+        5.263179779052734,
+        2.8800048828125,
+        568.423828125,
+        775.0037841796875
+      ],
+      "mediaBox": [
+        0.0,
+        0.0,
+        575.279296875,
+        785.0390625
+      ],
+      "rotation": 0,
+      "referenceCount": 1,
+      "references": [
+        {
+          "catalog": "scans/verified/spells-phb-illusionist-veil.json",
+          "catalogSha256": "8ccc357c30c590944eb1ef3b0140c600297ea100b5168fc3ea7a6a653b0ef1c5",
+          "regionId": "phb-99-d6ce0d52b23b9464",
+          "ownerBindings": [
+            {
+              "collection": "spells",
+              "itemId": "phb-illusionist-veil",
+              "binding": "sourceExcerpts"
+            }
+          ],
+          "imageSha256": "d6ce0d52b23b9464f466a78312b26907b1f758dd67afe9c55bf9955f83cee2e8",
+          "imageDimensions": [
+            542,
+            228
+          ],
+          "normalizedPageRect": {
+            "x": 0.505,
+            "y": 0.808161,
+            "width": 0.48,
+            "height": 0.147645
+          },
+          "sourceIdentityMatchesBaseline": true,
+          "targetImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/phb-99-d6ce0d52b23b9464.png",
+          "targetRgbPixelSha256": "1bbd390f15580466becc23a3f513812c6af111c221d1f5dbbff5075622e22c52",
+          "currentImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/phb-99-d6ce0d52b23b9464.png",
+          "currentImageBytesSha256": "d6ce0d52b23b9464f466a78312b26907b1f758dd67afe9c55bf9955f83cee2e8",
+          "currentRgbPixelSha256": "1bbd390f15580466becc23a3f513812c6af111c221d1f5dbbff5075622e22c52"
+        }
+      ],
+      "v9TriedScales": [
+        2.0,
+        2.1,
+        2.2,
+        2.3,
+        2.4,
+        2.5
+      ],
+      "frameHypotheses": [
+        {
+          "frameName": "Page.rect/CropBox",
+          "normalizationBox": [
+            0.0,
+            0.0,
+            563.16064453125,
+            772.123779296875
+          ],
+          "sourceFrameBounds": [
+            284.39612548828126,
+            624.0003256003419,
+            554.7132348632813,
+            738.000540994629
+          ],
+          "pageCoordinateBounds": [
+            284.39612548828126,
+            624.0003256003419,
+            554.7132348632813,
+            738.000540994629
+          ],
+          "effectivePageClipBounds": [
+            284.3961181640625,
+            624.0003051757812,
+            554.7132568359375,
+            738.0005493164062
+          ],
+          "effectiveClipWasPageClipped": true,
+          "coordinateMapping": "normalized x/y/width/height multiplied by Page.rect width/height; origin at Page.rect top-left",
+          "physicalClipSizePoints": {
+            "width": 270.317138671875,
+            "height": 114.000244140625
+          },
+          "scaleIntervalFromTwoPixelEdgeQuantization": {
+            "status": "nonempty-width-height-intersection",
+            "x": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9976535807279319,
+              "upperInclusive": 2.0050522976935907
+            },
+            "y": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9824518947627665,
+              "upperInclusive": 1.999995716840313
+            },
+            "lowerExclusive": 1.9976535807279319,
+            "upperInclusive": 1.999995716840313
+          },
+          "rationalDenominatorsTested": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            8,
+            10,
+            20,
+            25,
+            50,
+            100,
+            1000
+          ],
+          "commonTenthGridScalesWithinInterval": [],
+          "finiteRationalCandidatesWithinInterval": [
+            {
+              "numerator": 999,
+              "denominator": 500,
+              "fraction": "999/500",
+              "scale": 1.998,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1999,
+              "denominator": 1000,
+              "fraction": "1999/1000",
+              "scale": 1.999,
+              "isCommonTenth": false
+            }
+          ],
+          "candidateCount": 2,
+          "renderTrials": [
+            {
+              "scaleFraction": "999/500",
+              "numerator": 999,
+              "denominator": 500,
+              "matrixScale": 1.998,
+              "matrix": [
+                1.998,
+                1.998
+              ],
+              "renderedDimensions": [
+                541,
+                229
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "e5747d87ac528c8f5e4b5b20f1b280474b197c835006eebbd98c896dfa020c5a",
+              "renderedPngSha256": "868d0e4bcd38cf758ff930a6b76007b13758e5fbf733f45b84d0e71b34814628",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "1999/1000",
+              "numerator": 1999,
+              "denominator": 1000,
+              "matrixScale": 1.999,
+              "matrix": [
+                1.999,
+                1.999
+              ],
+              "renderedDimensions": [
+                541,
+                229
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "7b5aff451adb3b4231a1f5bd8b0cf464f9a255b07d42c8157e307a727a5b2f9d",
+              "renderedPngSha256": "ddc005313ada3fc3548e989ee8cf5ab59885e547c818933adc8e5090db623672",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            }
+          ],
+          "exactSourcePixelReplay": null,
+          "frameStatus": "no-exact-rgb-replay-in-derived-rational-set"
+        },
+        {
+          "frameName": "MediaBox-normalized, transformed into Page.rect/CropBox coordinates",
+          "normalizationBox": [
+            0.0,
+            0.0,
+            575.279296875,
+            785.0390625
+          ],
+          "sourceFrameBounds": [
+            290.516044921875,
+            34.69401632812492,
+            566.650107421875,
+            150.60110871093752
+          ],
+          "pageCoordinateBounds": [
+            285.25286514282226,
+            624.40267546875,
+            561.3869276428222,
+            740.3097678515626
+          ],
+          "effectivePageClipBounds": [
+            285.25286865234375,
+            624.4026489257812,
+            561.3869018554688,
+            740.3097534179688
+          ],
+          "effectiveClipWasPageClipped": true,
+          "coordinateMapping": "Normalize from MediaBox top-left; translate x by -CropBox.x0 and y by CropBox.y1-MediaBox.y1 into Page.rect coordinates",
+          "physicalClipSizePoints": {
+            "width": 276.134033203125,
+            "height": 115.9071044921875
+          },
+          "scaleIntervalFromTwoPixelEdgeQuantization": {
+            "status": "nonempty-width-height-intersection",
+            "x": {
+              "status": "nonempty",
+              "lowerExclusive": 1.95557205946713,
+              "upperInclusive": 1.962814918946638
+            },
+            "y": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9498373373241595,
+              "upperInclusive": 1.9670925349995945
+            },
+            "lowerExclusive": 1.95557205946713,
+            "upperInclusive": 1.962814918946638
+          },
+          "rationalDenominatorsTested": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            8,
+            10,
+            20,
+            25,
+            50,
+            100,
+            1000
+          ],
+          "commonTenthGridScalesWithinInterval": [],
+          "finiteRationalCandidatesWithinInterval": [
+            {
+              "numerator": 489,
+              "denominator": 250,
+              "fraction": "489/250",
+              "scale": 1.956,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1957,
+              "denominator": 1000,
+              "fraction": "1957/1000",
+              "scale": 1.957,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 979,
+              "denominator": 500,
+              "fraction": "979/500",
+              "scale": 1.958,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1959,
+              "denominator": 1000,
+              "fraction": "1959/1000",
+              "scale": 1.959,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 49,
+              "denominator": 25,
+              "fraction": "49/25",
+              "scale": 1.96,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1961,
+              "denominator": 1000,
+              "fraction": "1961/1000",
+              "scale": 1.961,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 981,
+              "denominator": 500,
+              "fraction": "981/500",
+              "scale": 1.962,
+              "isCommonTenth": false
+            }
+          ],
+          "candidateCount": 7,
+          "renderTrials": [
+            {
+              "scaleFraction": "489/250",
+              "numerator": 489,
+              "denominator": 250,
+              "matrixScale": 1.956,
+              "matrix": [
+                1.956,
+                1.956
+              ],
+              "renderedDimensions": [
+                542,
+                228
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "559563c397cde54abe8f00768e9ded685aaf3ef73d836d4a7a39693e31fdcd8b",
+              "renderedPngSha256": "63cca32ea69913e26b262ed4dce1fff2ae22cc0fd3fc1fce5dcb6393cd80dea6",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "1957/1000",
+              "numerator": 1957,
+              "denominator": 1000,
+              "matrixScale": 1.957,
+              "matrix": [
+                1.957,
+                1.957
+              ],
+              "renderedDimensions": [
+                541,
+                228
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "c904b05430cc34e29a11cc19b5a6018c91ee0be68a999cfb4e567c8663932334",
+              "renderedPngSha256": "924f17661917b592b6179ced883c6878ebd27f423d7e0b720ffb0731bf960d06",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "979/500",
+              "numerator": 979,
+              "denominator": 500,
+              "matrixScale": 1.958,
+              "matrix": [
+                1.958,
+                1.958
+              ],
+              "renderedDimensions": [
+                542,
+                228
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "559563c397cde54abe8f00768e9ded685aaf3ef73d836d4a7a39693e31fdcd8b",
+              "renderedPngSha256": "63cca32ea69913e26b262ed4dce1fff2ae22cc0fd3fc1fce5dcb6393cd80dea6",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "1959/1000",
+              "numerator": 1959,
+              "denominator": 1000,
+              "matrixScale": 1.959,
+              "matrix": [
+                1.959,
+                1.959
+              ],
+              "renderedDimensions": [
+                542,
+                228
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "559563c397cde54abe8f00768e9ded685aaf3ef73d836d4a7a39693e31fdcd8b",
+              "renderedPngSha256": "63cca32ea69913e26b262ed4dce1fff2ae22cc0fd3fc1fce5dcb6393cd80dea6",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "49/25",
+              "numerator": 49,
+              "denominator": 25,
+              "matrixScale": 1.96,
+              "matrix": [
+                1.96,
+                1.96
+              ],
+              "renderedDimensions": [
+                542,
+                229
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "d6c249ba660df42259beeb2730d3431d14a92d98d8166857b61ebdbfef4d4b0f",
+              "renderedPngSha256": "b51be76cfff87bea6ce4e3318b68929ea5ab9cdbd3ed1d2feefda798ac00809c",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "1961/1000",
+              "numerator": 1961,
+              "denominator": 1000,
+              "matrixScale": 1.961,
+              "matrix": [
+                1.961,
+                1.961
+              ],
+              "renderedDimensions": [
+                542,
+                228
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "004cbe54efc6b41236c91e0c1446a8bcf31e2fccb45c87f2314119a9d706d3dc",
+              "renderedPngSha256": "df4f9d258246442d73c52999df6566698439e4a71e6a5542ae6612e2f39a08b9",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "981/500",
+              "numerator": 981,
+              "denominator": 500,
+              "matrixScale": 1.962,
+              "matrix": [
+                1.962,
+                1.962
+              ],
+              "renderedDimensions": [
+                543,
+                228
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "8ba1acde5fae77d726b2009642b6ea866b68eeb7ceb09e97d4ed911435e15c9a",
+              "renderedPngSha256": "1d2a9c6b6c8fa1d13d8e1a5644be0527acc422ca40481843db7c5abc23046696",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            }
+          ],
+          "exactSourcePixelReplay": null,
+          "frameStatus": "no-exact-rgb-replay-in-derived-rational-set"
+        }
+      ],
+      "geometryOutcome": "unresolved-after-finite-interval-probe"
+    },
+    {
+      "geometryKey": "ce349972b07a9a9a78ee753c604dc4dc7ffe4a296a86b9f1a5608aaff7594ffa",
+      "book": "UA",
+      "printedPage": 46,
+      "pdfOrdinal": 47,
+      "targetImageSha256": "4374f08dbe63db454b46b4dcf1711e4026724be4136a10493ee0dde6447f1808",
+      "targetImageDimensions": [
+        582,
+        76
+      ],
+      "targetRgbPixelSha256": "95abfd08143c4f552ea4c0b6dbc5bc6463b20f354c31b6749c1a8850b8e7d374",
+      "normalizedPageRect": [
+        0.00836,
+        0.03445,
+        0.48662,
+        0.04871
+      ],
+      "normalizedRectSchema": "supported-list",
+      "pageRect": [
+        0.0,
+        0.0,
+        597.8397216796875,
+        772.07958984375
+      ],
+      "cropBox": [
+        0.0,
+        0.0,
+        597.8397216796875,
+        772.07958984375
+      ],
+      "mediaBox": [
+        0.0,
+        0.0,
+        597.8397216796875,
+        772.07958984375
+      ],
+      "rotation": 0,
+      "referenceCount": 1,
+      "references": [
+        {
+          "catalog": "scans/verified/spells-ua-magic-user-dust.json",
+          "catalogSha256": "32cc65f5a7a2d86f42b9559276884d72f868b77913b591d13ae2f3c86de2090d",
+          "regionId": "ua-46-4374f08dbe63db45",
+          "ownerBindings": [
+            {
+              "collection": "spells",
+              "itemId": "ua-magic-user-dust",
+              "binding": "sourceExcerpts"
+            }
+          ],
+          "imageSha256": "4374f08dbe63db454b46b4dcf1711e4026724be4136a10493ee0dde6447f1808",
+          "imageDimensions": [
+            582,
+            76
+          ],
+          "normalizedPageRect": [
+            0.00836,
+            0.03445,
+            0.48662,
+            0.04871
+          ],
+          "sourceIdentityMatchesBaseline": true,
+          "targetImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/ua-46-4374f08dbe63db45.png",
+          "targetRgbPixelSha256": "95abfd08143c4f552ea4c0b6dbc5bc6463b20f354c31b6749c1a8850b8e7d374",
+          "currentImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/ua-46-4374f08dbe63db45.png",
+          "currentImageBytesSha256": "4374f08dbe63db454b46b4dcf1711e4026724be4136a10493ee0dde6447f1808",
+          "currentRgbPixelSha256": "95abfd08143c4f552ea4c0b6dbc5bc6463b20f354c31b6749c1a8850b8e7d374"
+        }
+      ],
+      "v9TriedScales": [
+        2.0,
+        2.1,
+        2.2,
+        2.3,
+        2.4,
+        2.5
+      ],
+      "frameHypotheses": [
+        {
+          "frameName": "Page.rect/CropBox",
+          "normalizationBox": [
+            0.0,
+            0.0,
+            597.8397216796875,
+            772.07958984375
+          ],
+          "sourceFrameBounds": [
+            4.997940073242187,
+            26.59814187011719,
+            295.9187054370117,
+            64.20613869140625
+          ],
+          "pageCoordinateBounds": [
+            4.997940073242187,
+            26.59814187011719,
+            295.9187054370117,
+            64.20613869140625
+          ],
+          "effectivePageClipBounds": [
+            4.9979400634765625,
+            26.598142623901367,
+            295.918701171875,
+            64.20613861083984
+          ],
+          "effectiveClipWasPageClipped": true,
+          "coordinateMapping": "normalized x/y/width/height multiplied by Page.rect width/height; origin at Page.rect top-left",
+          "physicalClipSizePoints": {
+            "width": 290.92076110839844,
+            "height": 37.60799598693848
+          },
+          "scaleIntervalFromTwoPixelEdgeQuantization": {
+            "status": "nonempty-width-height-intersection",
+            "x": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9936700213151488,
+              "upperInclusive": 2.00054474552658
+            },
+            "y": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9676666639110663,
+              "upperInclusive": 2.020846844016771
+            },
+            "lowerExclusive": 1.9936700213151488,
+            "upperInclusive": 2.00054474552658
+          },
+          "rationalDenominatorsTested": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            8,
+            10,
+            20,
+            25,
+            50,
+            100,
+            1000
+          ],
+          "commonTenthGridScalesWithinInterval": [
+            "2/1"
+          ],
+          "finiteRationalCandidatesWithinInterval": [
+            {
+              "numerator": 997,
+              "denominator": 500,
+              "fraction": "997/500",
+              "scale": 1.994,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 399,
+              "denominator": 200,
+              "fraction": "399/200",
+              "scale": 1.995,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 499,
+              "denominator": 250,
+              "fraction": "499/250",
+              "scale": 1.996,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1997,
+              "denominator": 1000,
+              "fraction": "1997/1000",
+              "scale": 1.997,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 999,
+              "denominator": 500,
+              "fraction": "999/500",
+              "scale": 1.998,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1999,
+              "denominator": 1000,
+              "fraction": "1999/1000",
+              "scale": 1.999,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 2,
+              "denominator": 1,
+              "fraction": "2/1",
+              "scale": 2.0,
+              "isCommonTenth": true
+            }
+          ],
+          "candidateCount": 7,
+          "renderTrials": [
+            {
+              "scaleFraction": "997/500",
+              "numerator": 997,
+              "denominator": 500,
+              "matrixScale": 1.994,
+              "matrix": [
+                1.994,
+                1.994
+              ],
+              "renderedDimensions": [
+                582,
+                76
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "8ab8ad2d27d86e4b43aecbf61c1ccbb8cbebf4e15af421eb93d88c802ef50062",
+              "renderedPngSha256": "4c309395a1539dff1d5845fa0a9168cd7eb5b8e4f1d4c5269e0522d055e4712a",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "399/200",
+              "numerator": 399,
+              "denominator": 200,
+              "matrixScale": 1.995,
+              "matrix": [
+                1.995,
+                1.995
+              ],
+              "renderedDimensions": [
+                582,
+                76
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "8ab8ad2d27d86e4b43aecbf61c1ccbb8cbebf4e15af421eb93d88c802ef50062",
+              "renderedPngSha256": "4c309395a1539dff1d5845fa0a9168cd7eb5b8e4f1d4c5269e0522d055e4712a",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "499/250",
+              "numerator": 499,
+              "denominator": 250,
+              "matrixScale": 1.996,
+              "matrix": [
+                1.996,
+                1.996
+              ],
+              "renderedDimensions": [
+                582,
+                76
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "8ab8ad2d27d86e4b43aecbf61c1ccbb8cbebf4e15af421eb93d88c802ef50062",
+              "renderedPngSha256": "4c309395a1539dff1d5845fa0a9168cd7eb5b8e4f1d4c5269e0522d055e4712a",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "1997/1000",
+              "numerator": 1997,
+              "denominator": 1000,
+              "matrixScale": 1.997,
+              "matrix": [
+                1.997,
+                1.997
+              ],
+              "renderedDimensions": [
+                582,
+                76
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "1243cf0ce170a2b888d1e226ad4ebfdf1b44233bf70bee6b7a3d6e4d4e81ef87",
+              "renderedPngSha256": "8c47f1ebcd30971f525903bea6e67d59c2f4d100810baaf0972f4196e1d3a7fd",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "999/500",
+              "numerator": 999,
+              "denominator": 500,
+              "matrixScale": 1.998,
+              "matrix": [
+                1.998,
+                1.998
+              ],
+              "renderedDimensions": [
+                583,
+                76
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "b413d437619f6ebe167be0baa4c024cbe57c7dadefb0bc9e42d75a9c40559c90",
+              "renderedPngSha256": "afc466ee79a304caaa9e2023dc22caf56b2cc1e0110c5ce92179bf58750a736d",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "1999/1000",
+              "numerator": 1999,
+              "denominator": 1000,
+              "matrixScale": 1.999,
+              "matrix": [
+                1.999,
+                1.999
+              ],
+              "renderedDimensions": [
+                583,
+                76
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "fbbbd9eafe286276032f797c0efa8aa2fa6d2e368599484527815255f7bdb5d8",
+              "renderedPngSha256": "332baa83a9ddfb4928196659526b03bdbb7c5749178548af79b6778c8c55dbac",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "2/1",
+              "numerator": 2,
+              "denominator": 1,
+              "matrixScale": 2.0,
+              "matrix": [
+                2.0,
+                2.0
+              ],
+              "renderedDimensions": [
+                583,
+                76
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "7f4e2660e6adada9804825e947ada3fa096c6c89df58fdda3e7fef9c5e51bb64",
+              "renderedPngSha256": "ebd6e3bba04ad5f4231b6b6a835de9395b3fc805b620cf40a5968998cdf32cc2",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            }
+          ],
+          "exactSourcePixelReplay": null,
+          "frameStatus": "no-exact-rgb-replay-in-derived-rational-set"
+        }
+      ],
+      "geometryOutcome": "unresolved-after-finite-interval-probe"
+    },
+    {
+      "geometryKey": "d6fbbc71331cb0103badf3450e68bbc45927d44c020a33502938e5141483a4c3",
+      "book": "UA",
+      "printedPage": 55,
+      "pdfOrdinal": 56,
+      "targetImageSha256": "7c342f3188d1df796196e968dab7fc36069b95b909861f8d2e4111eecf6c10c0",
+      "targetImageDimensions": [
+        574,
+        76
+      ],
+      "targetRgbPixelSha256": "f09db7e6bc015d81584c1e43bef3114f7dfba4f00e826b2e232256e15d7d8820",
+      "normalizedPageRect": [
+        0.00848,
+        0.03556,
+        0.48643,
+        0.04811
+      ],
+      "normalizedRectSchema": "supported-list",
+      "pageRect": [
+        0.0,
+        0.0,
+        589.4395751953125,
+        781.679443359375
+      ],
+      "cropBox": [
+        0.0,
+        0.0,
+        589.4395751953125,
+        781.679443359375
+      ],
+      "mediaBox": [
+        0.0,
+        0.0,
+        589.4395751953125,
+        781.679443359375
+      ],
+      "rotation": 0,
+      "referenceCount": 1,
+      "references": [
+        {
+          "catalog": "scans/verified/spells-ua-magic-user-vocalize.json",
+          "catalogSha256": "55ca8bfd3276019ba4cdcbca0e009fecf5dff86ac599e4760ba1be08c6da6244",
+          "regionId": "ua-55-7c342f3188d1df79",
+          "ownerBindings": [
+            {
+              "collection": "spells",
+              "itemId": "ua-magic-user-vocalize",
+              "binding": "sourceExcerpts"
+            }
+          ],
+          "imageSha256": "7c342f3188d1df796196e968dab7fc36069b95b909861f8d2e4111eecf6c10c0",
+          "imageDimensions": [
+            574,
+            76
+          ],
+          "normalizedPageRect": [
+            0.00848,
+            0.03556,
+            0.48643,
+            0.04811
+          ],
+          "sourceIdentityMatchesBaseline": true,
+          "targetImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/ua-55-7c342f3188d1df79.png",
+          "targetRgbPixelSha256": "f09db7e6bc015d81584c1e43bef3114f7dfba4f00e826b2e232256e15d7d8820",
+          "currentImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/ua-55-7c342f3188d1df79.png",
+          "currentImageBytesSha256": "7c342f3188d1df796196e968dab7fc36069b95b909861f8d2e4111eecf6c10c0",
+          "currentRgbPixelSha256": "f09db7e6bc015d81584c1e43bef3114f7dfba4f00e826b2e232256e15d7d8820"
+        }
+      ],
+      "v9TriedScales": [
+        2.0,
+        2.1,
+        2.2,
+        2.3,
+        2.4,
+        2.5
+      ],
+      "frameHypotheses": [
+        {
+          "frameName": "Page.rect/CropBox",
+          "normalizationBox": [
+            0.0,
+            0.0,
+            589.4395751953125,
+            781.679443359375
+          ],
+          "sourceFrameBounds": [
+            4.9984475976562495,
+            27.796521005859375,
+            291.71954015991207,
+            65.40311902587891
+          ],
+          "pageCoordinateBounds": [
+            4.9984475976562495,
+            27.796521005859375,
+            291.71954015991207,
+            65.40311902587891
+          ],
+          "effectivePageClipBounds": [
+            4.998447418212891,
+            27.796520233154297,
+            291.71954345703125,
+            65.40312194824219
+          ],
+          "effectiveClipWasPageClipped": true,
+          "coordinateMapping": "normalized x/y/width/height multiplied by Page.rect width/height; origin at Page.rect top-left",
+          "physicalClipSizePoints": {
+            "width": 286.72109603881836,
+            "height": 37.60660171508789
+          },
+          "scaleIntervalFromTwoPixelEdgeQuantization": {
+            "status": "nonempty-width-height-intersection",
+            "x": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9949700524392475,
+              "upperInclusive": 2.001945472203021
+            },
+            "y": {
+              "status": "nonempty",
+              "lowerExclusive": 1.967739615523701,
+              "upperInclusive": 2.020921767294612
+            },
+            "lowerExclusive": 1.9949700524392475,
+            "upperInclusive": 2.001945472203021
+          },
+          "rationalDenominatorsTested": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            8,
+            10,
+            20,
+            25,
+            50,
+            100,
+            1000
+          ],
+          "commonTenthGridScalesWithinInterval": [
+            "2/1"
+          ],
+          "finiteRationalCandidatesWithinInterval": [
+            {
+              "numerator": 399,
+              "denominator": 200,
+              "fraction": "399/200",
+              "scale": 1.995,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 499,
+              "denominator": 250,
+              "fraction": "499/250",
+              "scale": 1.996,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1997,
+              "denominator": 1000,
+              "fraction": "1997/1000",
+              "scale": 1.997,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 999,
+              "denominator": 500,
+              "fraction": "999/500",
+              "scale": 1.998,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1999,
+              "denominator": 1000,
+              "fraction": "1999/1000",
+              "scale": 1.999,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 2,
+              "denominator": 1,
+              "fraction": "2/1",
+              "scale": 2.0,
+              "isCommonTenth": true
+            },
+            {
+              "numerator": 2001,
+              "denominator": 1000,
+              "fraction": "2001/1000",
+              "scale": 2.001,
+              "isCommonTenth": false
+            }
+          ],
+          "candidateCount": 7,
+          "renderTrials": [
+            {
+              "scaleFraction": "399/200",
+              "numerator": 399,
+              "denominator": 200,
+              "matrixScale": 1.995,
+              "matrix": [
+                1.995,
+                1.995
+              ],
+              "renderedDimensions": [
+                573,
+                76
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "9a9e6220698a6d697cee1edf57bbd1cab1df943df3f11b5d5af892be41fe0b03",
+              "renderedPngSha256": "022ea9629d8b0d54f9617d436ff92483282e7c6cb0afd482f5edec2b9739fc40",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "499/250",
+              "numerator": 499,
+              "denominator": 250,
+              "matrixScale": 1.996,
+              "matrix": [
+                1.996,
+                1.996
+              ],
+              "renderedDimensions": [
+                574,
+                76
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "42cc37d0fe5e894986ad09179f1d6ae6114fad54e1173fda045308c5284b748f",
+              "renderedPngSha256": "fba2cd7cee782afc6357677f3bb7c6fdeb71c21d07049e2137169637053548eb",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "1997/1000",
+              "numerator": 1997,
+              "denominator": 1000,
+              "matrixScale": 1.997,
+              "matrix": [
+                1.997,
+                1.997
+              ],
+              "renderedDimensions": [
+                574,
+                76
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "b87be91ee03557ce6dc62f1a3910117ccfa201b6336991d0381837522c30f11e",
+              "renderedPngSha256": "671ed15525350deb3ff39a6a3d391acffd63618288bb8ded12380652110c3174",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "999/500",
+              "numerator": 999,
+              "denominator": 500,
+              "matrixScale": 1.998,
+              "matrix": [
+                1.998,
+                1.998
+              ],
+              "renderedDimensions": [
+                574,
+                76
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "b87be91ee03557ce6dc62f1a3910117ccfa201b6336991d0381837522c30f11e",
+              "renderedPngSha256": "671ed15525350deb3ff39a6a3d391acffd63618288bb8ded12380652110c3174",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            },
+            {
+              "scaleFraction": "1999/1000",
+              "numerator": 1999,
+              "denominator": 1000,
+              "matrixScale": 1.999,
+              "matrix": [
+                1.999,
+                1.999
+              ],
+              "renderedDimensions": [
+                575,
+                76
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "f66c4c58361d078a08c60f0e895f568a5ef72d3bf51aaa22263452ba27565393",
+              "renderedPngSha256": "fe0eafa16ce0aa450f252a9eb7e2f39b9dab3940cbc63552375965bd6672a9c0",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "2/1",
+              "numerator": 2,
+              "denominator": 1,
+              "matrixScale": 2.0,
+              "matrix": [
+                2.0,
+                2.0
+              ],
+              "renderedDimensions": [
+                575,
+                76
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "07cbc8596ac62418c29f82c34d794985914f096dfccbbeb7e2a13c54942ccf43",
+              "renderedPngSha256": "8598226e52df07ddd347c370501d99ec1f9b74f7c1ed7c5e57fb68e1e83c3db2",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "2001/1000",
+              "numerator": 2001,
+              "denominator": 1000,
+              "matrixScale": 2.001,
+              "matrix": [
+                2.001,
+                2.001
+              ],
+              "renderedDimensions": [
+                574,
+                76
+              ],
+              "dimensionMatch": true,
+              "renderedRgbPixelSha256": "683864ffff7e51f3da18dcaca8e7b3a727d29afe779824df83cab45c2574aa93",
+              "renderedPngSha256": "6e61dda9c9b61acd800d0d71a9501b2e1359a0f23f4b3a6341121350e451052b",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "exact-rgb-byte-comparison"
+            }
+          ],
+          "exactSourcePixelReplay": null,
+          "frameStatus": "no-exact-rgb-replay-in-derived-rational-set"
+        }
+      ],
+      "geometryOutcome": "unresolved-after-finite-interval-probe"
+    },
+    {
+      "geometryKey": "ea79a71281d8c6e0a81502684d6c30a29302a71446f424f1a4c0ec176604f2bb",
+      "book": "UA",
+      "printedPage": 58,
+      "pdfOrdinal": 59,
+      "targetImageSha256": "6a839b9d9141f495ec111af1ee69f9fc92f840f0cebbaef32dbc025a18e18b08",
+      "targetImageDimensions": [
+        591,
+        77
+      ],
+      "targetRgbPixelSha256": "e8db22f7ba400e8ec9a0fb2ffbed416d396d3d723bbeb320b44d9fa790041f5b",
+      "normalizedPageRect": [
+        0.00824,
+        0.06315,
+        0.48681,
+        0.04848
+      ],
+      "normalizedRectSchema": "supported-list",
+      "pageRect": [
+        0.0,
+        0.0,
+        606.719970703125,
+        780.2391357421875
+      ],
+      "cropBox": [
+        0.0,
+        0.0,
+        606.719970703125,
+        780.2391357421875
+      ],
+      "mediaBox": [
+        0.0,
+        0.0,
+        606.719970703125,
+        780.2391357421875
+      ],
+      "rotation": 0,
+      "referenceCount": 2,
+      "references": [
+        {
+          "catalog": "scans/verified/spells-ua-illusionist-ultravision.json",
+          "catalogSha256": "40e98c683f3d19e2f63f4b8ba2c4e66181a280b72ef85081ac4846af0453c890",
+          "regionId": "ua-58-6a839b9d9141f495",
+          "ownerBindings": [
+            {
+              "collection": "spells",
+              "itemId": "ua-illusionist-ultravision",
+              "binding": "sourceExcerpts"
+            }
+          ],
+          "imageSha256": "6a839b9d9141f495ec111af1ee69f9fc92f840f0cebbaef32dbc025a18e18b08",
+          "imageDimensions": [
+            591,
+            77
+          ],
+          "normalizedPageRect": [
+            0.00824,
+            0.06315,
+            0.48681,
+            0.04848
+          ],
+          "sourceIdentityMatchesBaseline": true,
+          "targetImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/ua-58-6a839b9d9141f495.png",
+          "targetRgbPixelSha256": "e8db22f7ba400e8ec9a0fb2ffbed416d396d3d723bbeb320b44d9fa790041f5b",
+          "currentImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/ua-58-6a839b9d9141f495.png",
+          "currentImageBytesSha256": "6a839b9d9141f495ec111af1ee69f9fc92f840f0cebbaef32dbc025a18e18b08",
+          "currentRgbPixelSha256": "e8db22f7ba400e8ec9a0fb2ffbed416d396d3d723bbeb320b44d9fa790041f5b"
+        },
+        {
+          "catalog": "scans/verified/spells-ua-magic-user-ultravision.json",
+          "catalogSha256": "3d96d2685cfe708eb8bf5e34d0007b9b1cbdc6b85057c84db31b6f797e5fd735",
+          "regionId": "ua-58-6a839b9d9141f495",
+          "ownerBindings": [
+            {
+              "collection": "spells",
+              "itemId": "ua-magic-user-ultravision",
+              "binding": "sourceExcerpts"
+            }
+          ],
+          "imageSha256": "6a839b9d9141f495ec111af1ee69f9fc92f840f0cebbaef32dbc025a18e18b08",
+          "imageDimensions": [
+            591,
+            77
+          ],
+          "normalizedPageRect": [
+            0.00824,
+            0.06315,
+            0.48681,
+            0.04848
+          ],
+          "sourceIdentityMatchesBaseline": true,
+          "targetImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/ua-58-6a839b9d9141f495.png",
+          "targetRgbPixelSha256": "e8db22f7ba400e8ec9a0fb2ffbed416d396d3d723bbeb320b44d9fa790041f5b",
+          "currentImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/ua-58-6a839b9d9141f495.png",
+          "currentImageBytesSha256": "6a839b9d9141f495ec111af1ee69f9fc92f840f0cebbaef32dbc025a18e18b08",
+          "currentRgbPixelSha256": "e8db22f7ba400e8ec9a0fb2ffbed416d396d3d723bbeb320b44d9fa790041f5b"
+        }
+      ],
+      "v9TriedScales": [
+        2.0,
+        2.1,
+        2.2,
+        2.3,
+        2.4,
+        2.5
+      ],
+      "frameHypotheses": [
+        {
+          "frameName": "Page.rect/CropBox",
+          "normalizationBox": [
+            0.0,
+            0.0,
+            606.719970703125,
+            780.2391357421875
+          ],
+          "sourceFrameBounds": [
+            4.99937255859375,
+            49.27210142211914,
+            300.35672149658205,
+            87.0980947229004
+          ],
+          "pageCoordinateBounds": [
+            4.99937255859375,
+            49.27210142211914,
+            300.35672149658205,
+            87.0980947229004
+          ],
+          "effectivePageClipBounds": [
+            4.999372482299805,
+            49.27210235595703,
+            300.3567199707031,
+            87.09809112548828
+          ],
+          "effectiveClipWasPageClipped": true,
+          "coordinateMapping": "normalized x/y/width/height multiplied by Page.rect width/height; origin at Page.rect top-left",
+          "physicalClipSizePoints": {
+            "width": 295.3573474884033,
+            "height": 37.82598876953125
+          },
+          "scaleIntervalFromTwoPixelEdgeQuantization": {
+            "status": "nonempty-width-height-intersection",
+            "x": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9941945071237006,
+              "upperInclusive": 2.0009659655519645
+            },
+            "y": {
+              "status": "nonempty",
+              "lowerExclusive": 1.9827637674447873,
+              "upperInclusive": 2.035637467909982
+            },
+            "lowerExclusive": 1.9941945071237006,
+            "upperInclusive": 2.0009659655519645
+          },
+          "rationalDenominatorsTested": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            8,
+            10,
+            20,
+            25,
+            50,
+            100,
+            1000
+          ],
+          "commonTenthGridScalesWithinInterval": [
+            "2/1"
+          ],
+          "finiteRationalCandidatesWithinInterval": [
+            {
+              "numerator": 399,
+              "denominator": 200,
+              "fraction": "399/200",
+              "scale": 1.995,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 499,
+              "denominator": 250,
+              "fraction": "499/250",
+              "scale": 1.996,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1997,
+              "denominator": 1000,
+              "fraction": "1997/1000",
+              "scale": 1.997,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 999,
+              "denominator": 500,
+              "fraction": "999/500",
+              "scale": 1.998,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 1999,
+              "denominator": 1000,
+              "fraction": "1999/1000",
+              "scale": 1.999,
+              "isCommonTenth": false
+            },
+            {
+              "numerator": 2,
+              "denominator": 1,
+              "fraction": "2/1",
+              "scale": 2.0,
+              "isCommonTenth": true
+            }
+          ],
+          "candidateCount": 6,
+          "renderTrials": [
+            {
+              "scaleFraction": "399/200",
+              "numerator": 399,
+              "denominator": 200,
+              "matrixScale": 1.995,
+              "matrix": [
+                1.995,
+                1.995
+              ],
+              "renderedDimensions": [
+                591,
+                76
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "ebf34e541da53cdd7b1aef016f23cfce061e2d699a58df1f8bf8b21f130887b6",
+              "renderedPngSha256": "bf8968465c623d7040a33044c72aedd77f9dd81294ca234a630fe264643e65fa",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "499/250",
+              "numerator": 499,
+              "denominator": 250,
+              "matrixScale": 1.996,
+              "matrix": [
+                1.996,
+                1.996
+              ],
+              "renderedDimensions": [
+                591,
+                76
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "ebf34e541da53cdd7b1aef016f23cfce061e2d699a58df1f8bf8b21f130887b6",
+              "renderedPngSha256": "bf8968465c623d7040a33044c72aedd77f9dd81294ca234a630fe264643e65fa",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "1997/1000",
+              "numerator": 1997,
+              "denominator": 1000,
+              "matrixScale": 1.997,
+              "matrix": [
+                1.997,
+                1.997
+              ],
+              "renderedDimensions": [
+                591,
+                76
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "ebf34e541da53cdd7b1aef016f23cfce061e2d699a58df1f8bf8b21f130887b6",
+              "renderedPngSha256": "bf8968465c623d7040a33044c72aedd77f9dd81294ca234a630fe264643e65fa",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "999/500",
+              "numerator": 999,
+              "denominator": 500,
+              "matrixScale": 1.998,
+              "matrix": [
+                1.998,
+                1.998
+              ],
+              "renderedDimensions": [
+                592,
+                77
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "d9dd27db3656fd9221f927fb6d9eba9c3c1418e9ba9ae6f5195bfbb65d3c2065",
+              "renderedPngSha256": "62b2baf275bcaa9fb3c79720c205cb70684dedefe74308149dd83026e603ae01",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "1999/1000",
+              "numerator": 1999,
+              "denominator": 1000,
+              "matrixScale": 1.999,
+              "matrix": [
+                1.999,
+                1.999
+              ],
+              "renderedDimensions": [
+                592,
+                77
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "d9dd27db3656fd9221f927fb6d9eba9c3c1418e9ba9ae6f5195bfbb65d3c2065",
+              "renderedPngSha256": "62b2baf275bcaa9fb3c79720c205cb70684dedefe74308149dd83026e603ae01",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            },
+            {
+              "scaleFraction": "2/1",
+              "numerator": 2,
+              "denominator": 1,
+              "matrixScale": 2.0,
+              "matrix": [
+                2.0,
+                2.0
+              ],
+              "renderedDimensions": [
+                592,
+                77
+              ],
+              "dimensionMatch": false,
+              "renderedRgbPixelSha256": "86784d1e5ad84e378b9b29f19d7eb6ffb3a19f64e7cc15dafb496d9e1571cffe",
+              "renderedPngSha256": "4a8c1da9e69f3c313a843bfef8543aed1634978913405e895db8db258729f375",
+              "exactRgbPixelMatch": false,
+              "exactPngFileMatch": false,
+              "pixelComparison": "not-compared-size-mismatch"
+            }
+          ],
+          "exactSourcePixelReplay": null,
+          "frameStatus": "no-exact-rgb-replay-in-derived-rational-set"
+        }
+      ],
+      "geometryOutcome": "unresolved-after-finite-interval-probe"
+    }
+  ],
+  "manualSourceImageReview": {
+    "status": "complete-bounded-frame-only-review",
+    "method": "Viewed each of the six current target crops and each applicable canonical full page as a separate image result, never in a composite. Full-page canonical renders were generated directly from the SHA-pinned PDFs with PyMuPDF at 216 dpi. The PHB p.99 page was inspected once in Page.rect/CropBox frame and once in distinct MediaBox frame. Comparison was used only to locate physical regions and assess visible glyph boundaries; no semantic or completeness grade was made.",
+    "sourcePageRenders": [
+      {
+        "book": "PHB",
+        "pdfOrdinal": 100,
+        "printedFolioVisible": 99,
+        "frame": "Page.rect/CropBox",
+        "renderDpi": 216,
+        "renderPath": "/workspace/vault-audit-private/pass8/frame-candidate-v10/full-pages/PHB-pdf100-PageRect-216dpi.png",
+        "renderSha256": "86b59efa9c021d46893a812c59a97077ec765525ac4629c4d3c1e614c62dfbd2",
+        "dimensionsPx": [
+          1690,
+          2317
+        ],
+        "mode": "RGB",
+        "visuallyInspectedAsSingleImage": true,
+        "observation": "printed folio 99; two-column illusionist spell page; normalized target areas visibly correspond to their respective passage locations"
+      },
+      {
+        "book": "PHB",
+        "pdfOrdinal": 100,
+        "printedFolioVisible": 99,
+        "frame": "MediaBox",
+        "renderDpi": 216,
+        "renderPath": "/workspace/vault-audit-private/pass8/frame-candidate-v10/full-pages/PHB-pdf100-MediaBox-216dpi.png",
+        "renderSha256": "2e654e0aa08b0175ebb05a1a4d591ef108881e0430d93053289251bd3c854c8e",
+        "dimensionsPx": [
+          1726,
+          2356
+        ],
+        "mode": "RGB",
+        "visuallyInspectedAsSingleImage": true,
+        "observation": "same printed folio and page content, with MediaBox margins visible; separate frame hypothesis was inspected"
+      },
+      {
+        "book": "UA",
+        "pdfOrdinal": 47,
+        "printedFolioVisible": 46,
+        "frame": "Page.rect/CropBox",
+        "renderDpi": 216,
+        "renderPath": "/workspace/vault-audit-private/pass8/frame-candidate-v10/full-pages/UA-pdf47-PageRect-216dpi.png",
+        "renderSha256": "58c3632595da7c60f5646ba311f867296fbd4ef305cf424d62addff9d5dad473",
+        "dimensionsPx": [
+          1794,
+          2317
+        ],
+        "mode": "RGB",
+        "visuallyInspectedAsSingleImage": true,
+        "observation": "printed folio 46; two-column cantrip page; target region is the upper-left continuation passage"
+      },
+      {
+        "book": "UA",
+        "pdfOrdinal": 56,
+        "printedFolioVisible": 55,
+        "frame": "Page.rect/CropBox",
+        "renderDpi": 216,
+        "renderPath": "/workspace/vault-audit-private/pass8/frame-candidate-v10/full-pages/UA-pdf56-PageRect-216dpi.png",
+        "renderSha256": "ef6745aa26642c5d6fd33a8782fdb309aa8535afa400e251becb2c9d410de96d",
+        "dimensionsPx": [
+          1769,
+          2346
+        ],
+        "mode": "RGB",
+        "visuallyInspectedAsSingleImage": true,
+        "observation": "printed folio 55; target region is the upper-left passage at the page top"
+      },
+      {
+        "book": "UA",
+        "pdfOrdinal": 59,
+        "printedFolioVisible": 58,
+        "frame": "Page.rect/CropBox",
+        "renderDpi": 216,
+        "renderPath": "/workspace/vault-audit-private/pass8/frame-candidate-v10/full-pages/UA-pdf59-PageRect-216dpi.png",
+        "renderSha256": "44c769bcff43c4cd66141f840b51576b4d8768be2810167866b80c2da078d47c",
+        "dimensionsPx": [
+          1821,
+          2341
+        ],
+        "mode": "RGB",
+        "visuallyInspectedAsSingleImage": true,
+        "observation": "printed folio 58; target region is the upper-left continuation passage at the page top"
+      }
+    ],
+    "targetGeometryReviews": [
+      {
+        "geometryKey": "7cb0872e55667abd72298196310e141769de9322172eddc0dc4eb0c4b5badc47",
+        "book": "PHB",
+        "printedPage": 99,
+        "pdfOrdinal": 100,
+        "referenceCount": 1,
+        "references": [
+          {
+            "catalog": "scans/verified/spells-phb-illusionist-demi-shadow-magic.json",
+            "regionId": "phb-99-4212306ab17751dc",
+            "imageSha256": "4212306ab17751dcc07264480f8143e5170069c9e7ff60d64817f40163a812da",
+            "targetImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/phb-99-4212306ab17751dc.png",
+            "targetImageDimensions": [
+              536,
+              226
+            ],
+            "targetRgbPixelSha256": "bc5781fc0a213345e901022c2fbbc4b6e15a4b8a50a6292477305ab4ad9d13b9",
+            "visuallyInspectedAsSingleImage": true
+          }
+        ],
+        "visiblePhysicalLocator": "PHB printed p.99, lower-left column: Demi-Shadow Magic passage; visible folio is at page foot.",
+        "visualBoundaryAssessment": "The target raster depicts the corresponding physical passage on the separately inspected canonical page. No included glyph is visibly cut by the target image edge. Some targets terminate at passage/line boundaries; semantic completeness and citation scope were not assessed.",
+        "frameAssessment": "Renderer/frame not established. The Page.rect/CropBox-normalized rectangle (and the separate MediaBox hypothesis for PHB PDF 100) points to the observed passage, but none of the finite in-interval renders matches target RGB bytes or PNG bytes exactly. Dimension matches alone are not replay evidence.",
+        "sourceRasterAssessment": "No source-inherent glyph loss or illegibility was observed at the inspected 216 dpi page render; this is limited to the six visible regions and is not a whole-book source-quality claim.",
+        "declaredGeometryAssessment": "No confirmed wrong-area geometry found from visual page-to-target alignment. Exact scale/origin/renderer remain unknown; do not promote the stored normalized rectangle as exact pixel provenance.",
+        "scopeLimit": "Frame/location only; no semantic source validation, excerpt completeness, citation-purpose, focus/highlight, owner-binding, default-order, or catalog assessment."
+      },
+      {
+        "geometryKey": "1c9b86a2d7c2eceab915a0bcc8a06a8efbff030dd2a4c32d035caa6beca0b9cb",
+        "book": "PHB",
+        "printedPage": 99,
+        "pdfOrdinal": 100,
+        "referenceCount": 1,
+        "references": [
+          {
+            "catalog": "scans/verified/spells-phb-illusionist-shadow-magic.json",
+            "regionId": "phb-99-ae531be3faf0648b",
+            "imageSha256": "ae531be3faf0648bbd00f05426504c5d08182e9148295308b25dd12692713543",
+            "targetImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/phb-99-ae531be3faf0648b.png",
+            "targetImageDimensions": [
+              536,
+              274
+            ],
+            "targetRgbPixelSha256": "81f5c9628b934ee12cfd7e19671674d9958468aeff2a06b97f78b56656e127af",
+            "visuallyInspectedAsSingleImage": true
+          }
+        ],
+        "visiblePhysicalLocator": "PHB printed p.99, left column around the middle: Shadow Magic passage.",
+        "visualBoundaryAssessment": "The target raster depicts the corresponding physical passage on the separately inspected canonical page. No included glyph is visibly cut by the target image edge. Some targets terminate at passage/line boundaries; semantic completeness and citation scope were not assessed.",
+        "frameAssessment": "Renderer/frame not established. The Page.rect/CropBox-normalized rectangle (and the separate MediaBox hypothesis for PHB PDF 100) points to the observed passage, but none of the finite in-interval renders matches target RGB bytes or PNG bytes exactly. Dimension matches alone are not replay evidence.",
+        "sourceRasterAssessment": "No source-inherent glyph loss or illegibility was observed at the inspected 216 dpi page render; this is limited to the six visible regions and is not a whole-book source-quality claim.",
+        "declaredGeometryAssessment": "No confirmed wrong-area geometry found from visual page-to-target alignment. Exact scale/origin/renderer remain unknown; do not promote the stored normalized rectangle as exact pixel provenance.",
+        "scopeLimit": "Frame/location only; no semantic source validation, excerpt completeness, citation-purpose, focus/highlight, owner-binding, default-order, or catalog assessment."
+      },
+      {
+        "geometryKey": "ab3d22b166a2119050fa90bc31f3ce78a75afdbf32157652a0a483e3f2d184bb",
+        "book": "PHB",
+        "printedPage": 99,
+        "pdfOrdinal": 100,
+        "referenceCount": 1,
+        "references": [
+          {
+            "catalog": "scans/verified/spells-phb-illusionist-veil.json",
+            "regionId": "phb-99-d6ce0d52b23b9464",
+            "imageSha256": "d6ce0d52b23b9464f466a78312b26907b1f758dd67afe9c55bf9955f83cee2e8",
+            "targetImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/phb-99-d6ce0d52b23b9464.png",
+            "targetImageDimensions": [
+              542,
+              228
+            ],
+            "targetRgbPixelSha256": "1bbd390f15580466becc23a3f513812c6af111c221d1f5dbbff5075622e22c52",
+            "visuallyInspectedAsSingleImage": true
+          }
+        ],
+        "visiblePhysicalLocator": "PHB printed p.99, lower-right column: Veil passage; visible folio is at page foot.",
+        "visualBoundaryAssessment": "The target raster depicts the corresponding physical passage on the separately inspected canonical page. No included glyph is visibly cut by the target image edge. Some targets terminate at passage/line boundaries; semantic completeness and citation scope were not assessed.",
+        "frameAssessment": "Renderer/frame not established. The Page.rect/CropBox-normalized rectangle (and the separate MediaBox hypothesis for PHB PDF 100) points to the observed passage, but none of the finite in-interval renders matches target RGB bytes or PNG bytes exactly. Dimension matches alone are not replay evidence.",
+        "sourceRasterAssessment": "No source-inherent glyph loss or illegibility was observed at the inspected 216 dpi page render; this is limited to the six visible regions and is not a whole-book source-quality claim.",
+        "declaredGeometryAssessment": "No confirmed wrong-area geometry found from visual page-to-target alignment. Exact scale/origin/renderer remain unknown; do not promote the stored normalized rectangle as exact pixel provenance.",
+        "scopeLimit": "Frame/location only; no semantic source validation, excerpt completeness, citation-purpose, focus/highlight, owner-binding, default-order, or catalog assessment."
+      },
+      {
+        "geometryKey": "ce349972b07a9a9a78ee753c604dc4dc7ffe4a296a86b9f1a5608aaff7594ffa",
+        "book": "UA",
+        "printedPage": 46,
+        "pdfOrdinal": 47,
+        "referenceCount": 1,
+        "references": [
+          {
+            "catalog": "scans/verified/spells-ua-magic-user-dust.json",
+            "regionId": "ua-46-4374f08dbe63db45",
+            "imageSha256": "4374f08dbe63db454b46b4dcf1711e4026724be4136a10493ee0dde6447f1808",
+            "targetImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/ua-46-4374f08dbe63db45.png",
+            "targetImageDimensions": [
+              582,
+              76
+            ],
+            "targetRgbPixelSha256": "95abfd08143c4f552ea4c0b6dbc5bc6463b20f354c31b6749c1a8850b8e7d374",
+            "visuallyInspectedAsSingleImage": true
+          }
+        ],
+        "visiblePhysicalLocator": "UA printed p.46, upper-left column at page top: continuation passage.",
+        "visualBoundaryAssessment": "The target raster depicts the corresponding physical passage on the separately inspected canonical page. No included glyph is visibly cut by the target image edge. Some targets terminate at passage/line boundaries; semantic completeness and citation scope were not assessed.",
+        "frameAssessment": "Renderer/frame not established. The Page.rect/CropBox-normalized rectangle (and the separate MediaBox hypothesis for PHB PDF 100) points to the observed passage, but none of the finite in-interval renders matches target RGB bytes or PNG bytes exactly. Dimension matches alone are not replay evidence.",
+        "sourceRasterAssessment": "No source-inherent glyph loss or illegibility was observed at the inspected 216 dpi page render; this is limited to the six visible regions and is not a whole-book source-quality claim.",
+        "declaredGeometryAssessment": "No confirmed wrong-area geometry found from visual page-to-target alignment. Exact scale/origin/renderer remain unknown; do not promote the stored normalized rectangle as exact pixel provenance.",
+        "scopeLimit": "Frame/location only; no semantic source validation, excerpt completeness, citation-purpose, focus/highlight, owner-binding, default-order, or catalog assessment."
+      },
+      {
+        "geometryKey": "d6fbbc71331cb0103badf3450e68bbc45927d44c020a33502938e5141483a4c3",
+        "book": "UA",
+        "printedPage": 55,
+        "pdfOrdinal": 56,
+        "referenceCount": 1,
+        "references": [
+          {
+            "catalog": "scans/verified/spells-ua-magic-user-vocalize.json",
+            "regionId": "ua-55-7c342f3188d1df79",
+            "imageSha256": "7c342f3188d1df796196e968dab7fc36069b95b909861f8d2e4111eecf6c10c0",
+            "targetImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/ua-55-7c342f3188d1df79.png",
+            "targetImageDimensions": [
+              574,
+              76
+            ],
+            "targetRgbPixelSha256": "f09db7e6bc015d81584c1e43bef3114f7dfba4f00e826b2e232256e15d7d8820",
+            "visuallyInspectedAsSingleImage": true
+          }
+        ],
+        "visiblePhysicalLocator": "UA printed p.55, upper-left column at page top: continuation passage.",
+        "visualBoundaryAssessment": "The target raster depicts the corresponding physical passage on the separately inspected canonical page. No included glyph is visibly cut by the target image edge. Some targets terminate at passage/line boundaries; semantic completeness and citation scope were not assessed.",
+        "frameAssessment": "Renderer/frame not established. The Page.rect/CropBox-normalized rectangle (and the separate MediaBox hypothesis for PHB PDF 100) points to the observed passage, but none of the finite in-interval renders matches target RGB bytes or PNG bytes exactly. Dimension matches alone are not replay evidence.",
+        "sourceRasterAssessment": "No source-inherent glyph loss or illegibility was observed at the inspected 216 dpi page render; this is limited to the six visible regions and is not a whole-book source-quality claim.",
+        "declaredGeometryAssessment": "No confirmed wrong-area geometry found from visual page-to-target alignment. Exact scale/origin/renderer remain unknown; do not promote the stored normalized rectangle as exact pixel provenance.",
+        "scopeLimit": "Frame/location only; no semantic source validation, excerpt completeness, citation-purpose, focus/highlight, owner-binding, default-order, or catalog assessment."
+      },
+      {
+        "geometryKey": "ea79a71281d8c6e0a81502684d6c30a29302a71446f424f1a4c0ec176604f2bb",
+        "book": "UA",
+        "printedPage": 58,
+        "pdfOrdinal": 59,
+        "referenceCount": 2,
+        "references": [
+          {
+            "catalog": "scans/verified/spells-ua-illusionist-ultravision.json",
+            "regionId": "ua-58-6a839b9d9141f495",
+            "imageSha256": "6a839b9d9141f495ec111af1ee69f9fc92f840f0cebbaef32dbc025a18e18b08",
+            "targetImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/ua-58-6a839b9d9141f495.png",
+            "targetImageDimensions": [
+              591,
+              77
+            ],
+            "targetRgbPixelSha256": "e8db22f7ba400e8ec9a0fb2ffbed416d396d3d723bbeb320b44d9fa790041f5b",
+            "visuallyInspectedAsSingleImage": true
+          },
+          {
+            "catalog": "scans/verified/spells-ua-magic-user-ultravision.json",
+            "regionId": "ua-58-6a839b9d9141f495",
+            "imageSha256": "6a839b9d9141f495ec111af1ee69f9fc92f840f0cebbaef32dbc025a18e18b08",
+            "targetImagePath": "/workspace/adnd1-semantic-audit/dist/scans/verified/ua-58-6a839b9d9141f495.png",
+            "targetImageDimensions": [
+              591,
+              77
+            ],
+            "targetRgbPixelSha256": "e8db22f7ba400e8ec9a0fb2ffbed416d396d3d723bbeb320b44d9fa790041f5b",
+            "visuallyInspectedAsSingleImage": true
+          }
+        ],
+        "visiblePhysicalLocator": "UA printed p.58, upper-left column at page top: continuation passage; same region is referenced by two owners.",
+        "visualBoundaryAssessment": "The target raster depicts the corresponding physical passage on the separately inspected canonical page. No included glyph is visibly cut by the target image edge. Some targets terminate at passage/line boundaries; semantic completeness and citation scope were not assessed.",
+        "frameAssessment": "Renderer/frame not established. The Page.rect/CropBox-normalized rectangle (and the separate MediaBox hypothesis for PHB PDF 100) points to the observed passage, but none of the finite in-interval renders matches target RGB bytes or PNG bytes exactly. Dimension matches alone are not replay evidence.",
+        "sourceRasterAssessment": "No source-inherent glyph loss or illegibility was observed at the inspected 216 dpi page render; this is limited to the six visible regions and is not a whole-book source-quality claim.",
+        "declaredGeometryAssessment": "No confirmed wrong-area geometry found from visual page-to-target alignment. Exact scale/origin/renderer remain unknown; do not promote the stored normalized rectangle as exact pixel provenance.",
+        "scopeLimit": "Frame/location only; no semantic source validation, excerpt completeness, citation-purpose, focus/highlight, owner-binding, default-order, or catalog assessment."
+      }
+    ],
+    "overallFinding": "All six target images can be visually located on their canonical source pages in the expected physical areas. No included glyph is visibly clipped and no source-inherent glyph defect is established for these areas. Exact RGB/PNG replay remains absent for all six geometries across the finite, metadata-derived candidate scales. Result is renderer/frame-unestablished, not a confirmed declared-rectangle defect.",
+    "decision": "No replacement crop proposed: this bounded geometry task establishes physical location but not intended semantic excerpt boundaries or historical rendering pipeline; replacing or widening crops would require a separate source-content/context review."
+  },
+  "remainingAxes": [
+    {
+      "axis": "source semantics and citation purpose",
+      "status": "not assessed"
+    },
+    {
+      "axis": "crop completeness, context, highlight/focus and default",
+      "status": "not assessed"
+    },
+    {
+      "axis": "historical renderer intent",
+      "status": "not established by exact or interval replay"
+    },
+    {
+      "axis": "six unresolved exact source-frame geometries",
+      "status": "bounded visual review complete; source area identified; renderer/frame remains unestablished"
+    }
+  ],
+  "privateCandidatePixelsDirectory": "/workspace/vault-audit-private/pass8/frame-candidate-v10/candidate-pixels"
+}

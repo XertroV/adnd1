@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "pass8-independent-method-review-additive-followup",
+  "reviewedAt": "2026-11-08T17:21:01.848412+00:00",
+  "status": "bounded-durability-correction-and-pre-repair-binding-baseline-approved; semantic-closure-and-release-not-assessed",
+  "scope": {
+    "repository": "XertroV/adnd1",
+    "worktree": "/workspace/adnd1-semantic-audit",
+    "baseCommit": "6d330af372ac809d11ed6029ed8695d0d8dc0909",
+    "reviewerRole": "Independent delegated engineering/method reviewer",
+    "onlyRepositoryFileWrittenByReviewer": "research/source-audit-pass8-independent-method-followup-review.json",
+    "productionSourceDataOrTestEditsByReviewer": false,
+    "noNewFullRouteRecrawl": true
+  },
+  "reviewedInputs": {
+    "currentTool": {
+      "path": "tools/source-semantic-site-snapshot.mjs",
+      "sha256": "4dadf620da0357af731d0ced5112415b5b6de088f6b82c895533fe7fddaf5e2f",
+      "bytes": 38921
+    },
+    "currentTests": {
+      "path": "tests/source-semantic-site-snapshot.test.mjs",
+      "sha256": "8ac4cee081fd14db264978abbef4f1200859f4be9ef327d265254c7a70c3aedb",
+      "bytes": 7288
+    },
+    "startingState": {
+      "path": "research/source-audit-pass8-starting-state.json",
+      "sha256": "e5b15c28e05218973cebe8d04df46b9cca30ee41ff66553cc347acd18179416b",
+      "bytes": 8665
+    },
+    "bindingBaseline": {
+      "path": "research/source-audit-pass8-field-target-baseline.json.gz",
+      "sha256": "abe09af933e00e51b63ee645bf307e581539bcfa3e343f0310df6bf2331f7cd3",
+      "bytes": 253163
+    },
+    "canonicalBindingInventory": {
+      "path": "research/price-source-inventory.json",
+      "sha256": "669943f7ba32250641f4b6f0073e3b0ee756e15ab02f735b32ae66c93c3c1c19",
+      "bytes": 12743527
+    },
+    "assembledData": {
+      "path": "dist/data.json",
+      "sha256": "ceb7c8b9a8fe32b676e57c8d007f124a4490684d54558479e555d504075ba4f3",
+      "bytes": 14632564
+    },
+    "visualBaselineReport": {
+      "path": "/workspace/vault-audit-private/pass8/baseline-source-visual-coverage/report.json",
+      "sha256": "7171680357c28984fedd09e27adda685f6b51615473e600f3e5f0690d4e7eb32",
+      "bytes": 18267507
+    },
+    "rootFollowupCheckLogMetadata": {
+      "path": "/workspace/vault-audit-private/pass8/root/snapshot-tool-followup-checks.json",
+      "sha256": "bfeddeb7df71eb5e967ca8f12133b067c8ea7249f00fc7e17aa84c46dbe2df78",
+      "bytes": 1299
+    },
+    "rootBaselineBuilderForMethodInspection": {
+      "path": "/workspace/vault-audit-private/pass8/root/build-starting-state.py",
+      "sha256": "365ebb68aa990a2ca377a5b947c3b43f776c19fdd411b4336210d84b83f7235a",
+      "bytes": 6825
+    }
+  },
+  "historicalEvidencePreserved": {
+    "previousIndependentReview": {
+      "path": "research/source-audit-pass8-independent-method-review.json",
+      "sha256": "36a773e7274dbacbc77558380fcbb2d62c7ecaa97f80d38a6ab7c9d2f96cb405",
+      "bytes": 18437
+    },
+    "originalSiteReceipt": {
+      "path": "research/source-audit-pass8-site-snapshot.json",
+      "sha256": "515e1c486987b450a1018dc76661c3ae6256f4c9837862ebddc484c7a32d01e7",
+      "bytes": 14320
+    },
+    "originalCaptureToolSha256": "b8848a8cf0bacda035d9ef529303b488f7a20d40750861517efc136a78313187",
+    "intermediateLazyDependencyToolSha256": "8b4fed4c9e3967f41f64ff182e8c186bcac27039fc1a0b621b088474c1c88b29",
+    "originalPrivateSnapshot": {
+      "path": "/workspace/vault-audit-private/pass8-site-snapshot-projection-663ea470af5c.json.gz",
+      "sha256": "663ea470af5cdd272674b264ba96f5a74231d3525143c907596ba41da21194d2",
+      "bytes": 4391595
+    },
+    "meaning": "This follow-up preserves historical capture/tool provenance. The current durability tool did not produce the historical 663e capture. Prior d6 full gzip remains unavailable; no reconstruction is treated as that original."
+  },
+  "passed": [
+    {
+      "check": "Focused Node suite without browser dependency",
+      "command": "PLAYWRIGHT_MODULE=/nonexistent/audit-browser-package node --test tests/source-semantic-site-snapshot.test.mjs",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "result": "Nine tests include a real filesystem regression for distinct checkpoint preservation, fresh-destination refusal, repeated identical archives and conflicting archives."
+    },
+    {
+      "check": "CLI import/help/refusal boundaries",
+      "result": "--help exits 0 without Playwright; a reused output path exits 1 with the explicit evidence-preservation refusal before loading the missing browser package. Summary-only reuse is also rejected. Refusal preserves existing bytes and creates no new summary."
+    },
+    {
+      "check": "Archive preservation and failure controls",
+      "result": {
+        "status": "passed",
+        "realFilesystemControls": 8,
+        "oldDistinctArchivesRetainExactBytes": true,
+        "identicalArchiveIsNotRewritten": true,
+        "conflictingArchiveIsNotOverwritten": true,
+        "archiveConflictLeavesLatestIntact": true,
+        "temporaryCollisionLeavesLatestIntact": true,
+        "renameFailureLeavesLatestIntact": true,
+        "failedLatestUpdateStillHasImmutableCheckpoint": true,
+        "existingCaptureAndExistingSummaryEachRefused": true,
+        "cliRefusalPrecedesMissingBrowserDependency": true,
+        "cliRefusalExit": 1,
+        "cliHelpWithoutBrowserExit": 0,
+        "pairAtomicityClaimed": false,
+        "concurrentRunLockClaimed": false
+      },
+      "qualification": "Additional reviewer script controls are separate from the nine repository tests. An injected EACCES rename failure is deliberately simulated; actual filesystem archive conflicts and temporary-path collisions are exercised."
+    },
+    {
+      "check": "Narrow production-tool diff",
+      "result": "Compared against the exact reconstructed and hash-verified 8b4f lazy-load version. Changes add fresh-output refusal, checkpoint archive writer, archive metadata, and replace stable-only writes at priority, all-owner route-only and final-projection stages. Capture hook, app instrumentation, renderer route traversal, title probes and scalar-projection logic are unchanged."
+    },
+    {
+      "check": "Full canonical binding baseline reconciliation",
+      "result": {
+        "status": "passed",
+        "canonicalBindings": 4572,
+        "actualRecursiveAssembledBindings": 4572,
+        "nestedEvidenceBindingArrays": 3636,
+        "fullBindingObjectMultisetsDeepEqual": true,
+        "baselineBindingHashesCompleteAndUnique": true,
+        "allProjectedBindingFieldsEqualCanonicalValues": true,
+        "reviewStatusCounts": {
+          "field-target-reviewed": 717,
+          "source-row-transcribed-bounds-provisional": 93,
+          "source-row-value-verified-region-pending": 211,
+          "region-verified": 288,
+          "source-excerpt-only": 2,
+          "field-target-pending": 3261
+        },
+        "fieldTargetReviewed": 717,
+        "otherOrPending": 3855,
+        "allPendingGroupCountsEqual": true,
+        "xpContinuations": 11,
+        "xpContinuationStatuses": {
+          "field-target-pending": 11
+        },
+        "baselineResolutionStates": {
+          "pending-source-review": 3855,
+          "already-field-target-reviewed": 717
+        },
+        "sourceValueStatuses": {
+          "source-value-independently-confirmed": 187,
+          "null": 634,
+          "not-assessed-by-field-target-review": 3692,
+          "source-wording-reviewed-issue-remains-open": 7,
+          "source-wording-reviewed": 1,
+          "existing-value-source-reviewed-with-explicit-class-applicability": 51
+        },
+        "currentScopeApprovalImplied": false
+      },
+      "wrapperOwnerIdentityMatches": 4572,
+      "resultDetail": "Every actual recursive assembled binding object deep-equals canonical inventory as a full-object multiset; every enclosing owner collection/id matches its binding. The baseline has a unique hash for every complete canonical object, and every projected baseline field matches canonical values."
+    },
+    {
+      "check": "Starting-state status and subgroup totals",
+      "result": "All review-status, pending-by-collection, pending-by-book and pending-by-category counts reproduce exactly. All 11 class-xp-continuation owners, pages and pointers match canonical bindings and retain field-target-pending. The 717 reviewed and 3,855 other bindings are preserved without status upgrades."
+    },
+    {
+      "check": "Visual starting checkpoint identity",
+      "result": "Pinned private report 7171680357c28984fedd09e27adda685f6b51615473e600f3e5f0690d4e7eb32 matches the starting-state report hash. Totals and entire sentinelPolicy deep-equal that report. No sentinel or field target was cleared."
+    },
+    {
+      "check": "Preserved existing receipts and syntax/whitespace",
+      "result": "Original 515e site receipt and 36a independent review remain byte-identical; node --check and git diff --check pass."
+    }
+  ],
+  "durabilityMechanism": {
+    "freshRun": "main refuses either existing stable output path before browser dependency loading or capture execution.",
+    "withinRun": "Every checkpoint first writes a SHA-256-named archive using exclusive creation. Existing identical archive bytes are accepted without a rewrite; conflicting bytes fail. Only after archive preservation does the temporary-file rename update the stable latest path.",
+    "archiveConflict": "Tool leaves conflicting archive bytes and existing stable output unchanged.",
+    "latestWriteFailure": "Existing stable output remains intact in the tested temporary-file collision and rename-failure paths; the new exact-byte archive remains available.",
+    "wiring": "The CLI fresh-run guard executes once; normal internal checkpoint updates use the versioned writer at priority/full-route/final-projection stages.",
+    "limits": [
+      "Atomicity is per stable file. Snapshot and summary are not a two-file transaction; a failure between them can leave their latest paths at different revisions, while each completed archive remains available.",
+      "The fresh-path check is a normal single-writer run guard, not a cross-process lock. Use distinct output paths for concurrent runs.",
+      "Filesystem permissions, external file edits and hardware-level durability are outside the immutability claim; the tool itself refuses to replace existing archive bytes."
+    ]
+  },
+  "baselineCounts": {
+    "owners": 1000,
+    "originalOverlappingCandidateUnits": 559,
+    "fieldTargetBindings": 4572,
+    "fieldTargetReviewed": 717,
+    "otherOrPending": 3855,
+    "reviewStatusCounts": {
+      "field-target-reviewed": 717,
+      "source-row-transcribed-bounds-provisional": 93,
+      "source-row-value-verified-region-pending": 211,
+      "region-verified": 288,
+      "source-excerpt-only": 2,
+      "field-target-pending": 3261
+    },
+    "xpContinuationBindings": 11,
+    "rawFullImageSentinelBindings": 2192,
+    "unresolvedHighlightWarnings": 2190,
+    "explicitWholeSpellExceptions": 2,
+    "legacyFrameQueueInherited": 726
+  },
+  "methodCalibration": {
+    "bindingQueue": "A full enumeration of current exposed field evidence uses, not the complete universe of source facts or book clauses.",
+    "reviewedStatus": "Preserves the existing field-target-reviewed label. It does not independently revalidate every prior source-value, image, content, focus or context assessment.",
+    "pendingStatus": "Other statuses retain their distinct meanings. Region verification, excerpt availability or source-row transcription does not become a fully reviewed field target.",
+    "sourceValueStatus": "Source-value status is separate from target-review status. The canonical dataset retains 187 independently confirmed value statuses, 51 scoped existing-value/class-applicability statuses and other distinct pending/null/open-wording states; these do not sum to a new whole-source approval.",
+    "xpContinuations": "The 11 are current continuation bindings, not a physical source-table row census; all remain pending.",
+    "visualPolicy": "A whole-spell highlight exception does not clear a field-target queue or establish precise fact focus.",
+    "legacyFrames": "The 726 count is an inherited unknown-frame queue label. No current pixel replay or promotion of that cohort was independently reviewed in this follow-up; original private census availability remains a separate evidence question.",
+    "semanticPass": false,
+    "wholeBookCompletenessClaim": false,
+    "validatedCompleteSourceAssertionDenominator": null
+  },
+  "failedChecks": [],
+  "remainingFindings": [
+    {
+      "id": "earlier-source-method-findings",
+      "status": "outside-this-followup; remain governed by original 36a review and later source-worker evidence",
+      "meaning": "No automatic closure of unfinished-vs-unassessable taxonomy, DMG before-state assertions, MM2 monetary typing, transfer-level source completeness or source-provenance questions."
+    },
+    {
+      "id": "title-result-membership-wording",
+      "status": "root-followup-receipt-not-yet-reviewed",
+      "meaning": "Original receipt is intentionally preserved. A distinct addendum should clarify top 18 programmatic result-row membership with palette closed, and pin current tool separately from capture tool. No new claim of physically opened/visible search palettes is approved."
+    }
+  ],
+  "notRun": [
+    "No new 1,000-owner route recrawl or source-viewer/browser visual sweep; previous bounded capture review remains available.",
+    "No source-pixel replay or approval of the 726 legacy unknown-frame cohort.",
+    "No independent re-review of 717 historical target approvals or full source facts, values, qualifiers, continuations or book semantics.",
+    "No fresh 24-block required workflow run, clean-head CI, deployment or live-version verification.",
+    "No fault-tolerant two-file transaction, concurrent-output lock or hardware fsync test.",
+    "No review of tool/test/data/receipt revisions after the pinned hashes above."
+  ],
+  "supportingPrivateEvidence": [
+    {
+      "path": "/workspace/vault-audit-private/pass8-independent-method-review/followup/pass8-followup-independent-fs-controls.mjs",
+      "sha256": "eec16e37625d844085893188eb89a7afa5965524d9b388620ec4a504c036a72d",
+      "bytes": 3790
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8-independent-method-review/followup/pass8-followup-independent-fs-controls.json",
+      "sha256": "fbcd0b5da309793929cc5dbebc31a4d6a34ed002d688c14fe9eb7559f9205739",
+      "bytes": 560
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8-independent-method-review/followup/pass8-followup-independent-baseline-reconciliation.json",
+      "sha256": "011f6acd02a16b941daeed91436f7b7be03f965567630a3237f2c3a86559591d",
+      "bytes": 1200
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8-independent-method-review/followup/pass8-followup-independent-focused.tap",
+      "sha256": "0231703a1345764ab6470af2fd3fa16cc2365a0f1608c6bc3f4800d5a91f9e1b",
+      "bytes": 954
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8-independent-method-review/followup/source-semantic-site-snapshot.mjs",
+      "sha256": "4dadf620da0357af731d0ced5112415b5b6de088f6b82c895533fe7fddaf5e2f",
+      "bytes": 38921
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8-independent-method-review/followup/source-semantic-site-snapshot.test.mjs",
+      "sha256": "8ac4cee081fd14db264978abbef4f1200859f4be9ef327d265254c7a70c3aedb",
+      "bytes": 7288
+    }
+  ],
+  "disposition": "Approve the pinned durability correction and pre-repair field-target baseline for bounded audit use. No new blocking defect found in that scope. Source-semantic closure and release gates remain pending."
+}

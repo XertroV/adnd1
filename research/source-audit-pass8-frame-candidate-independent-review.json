@@ -1,0 +1,963 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent bounded review of exact source-frame candidate resolver v6-v8; no coordinate approval or catalog mutation",
+  "inputCommit": "6d330af372ac809d11ed6029ed8695d0d8dc0909",
+  "localInstructionsRead": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "0b238bd4f57eacf04f28c37b91820b1f77f364f7717600277dddeed74b364bf7"
+    },
+    {
+      "path": "agent-docs/citation-images-and-verification.md",
+      "sha256": "e65e71fafcbab672775f85279dd8fec53befc8f00997bc1c9ef3c3fbc0dc67d6"
+    }
+  ],
+  "inputPins": {
+    "rawData": {
+      "path": "dist/data.json",
+      "sha256": "ceb7c8b9a8fe32b676e57c8d007f124a4490684d54558479e555d504075ba4f3"
+    },
+    "sourcePdfs": {
+      "DMG": {
+        "fileName": "DMG_1stEd.pdf",
+        "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "MM": {
+        "fileName": "Monster_Manual.pdf",
+        "sha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81"
+      },
+      "MM2": {
+        "fileName": "Monster Manual II.pdf",
+        "sha256": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24"
+      },
+      "PHB": {
+        "fileName": "tsr2010-players-handbook.pdf",
+        "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+      },
+      "UA": {
+        "fileName": "Unearthed Arcana.pdf",
+        "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      }
+    },
+    "sourcePdfPageCounts": {
+      "DMG": 240,
+      "MM": 114,
+      "MM2": 162,
+      "PHB": 130,
+      "UA": 130
+    },
+    "candidateReceipts": {
+      "v6": {
+        "publicReceipt": {
+          "path": "research/source-audit-pass8-frame-candidate-v6.json",
+          "sha256": "7c3551062947c851638d30b7e80b62cb855dd2e8f89ca74972ed661485b03eec"
+        },
+        "tool": {
+          "path": "tools/source-frame-candidate-resolver-v6.py",
+          "sha256": "951fd1eeae184e1f572e2e64a08b2defcb0e926176235d6602af0371786d832b"
+        },
+        "test": {
+          "path": "tests/source-frame-candidate-resolver-v6.test.py",
+          "sha256": "ee4e5d4bba29c507325a5eca6999881c4d7183afdb26f90b0136307dfcf8606d"
+        },
+        "focusedTestLog": {
+          "privatePath": "/workspace/vault-audit-private/pass8-independent-frame-candidate-review/v6-focused-tests.log",
+          "sha256": "f5f885d03efbcbe50c9de750e8ad012bb0438be0ea6478bda4ac6af2d3a4954b"
+        }
+      },
+      "v7": {
+        "publicReceipt": {
+          "path": "research/source-audit-pass8-frame-candidate-v7.json",
+          "sha256": "752841a47486240d9e574d49e70bdd1d13c46a351e4b8071ef3d00ba1bd7cbd4"
+        },
+        "tool": {
+          "path": "tools/source-frame-candidate-resolver-v7.py",
+          "sha256": "1ab113988f6b58fde981fff4b12a5427754968be9eb796f1fcfc3e1655451546"
+        },
+        "test": {
+          "path": "tests/source-frame-candidate-resolver-v7.test.py",
+          "sha256": "eb109f5c13cdb226e0357b3e4a4088012cf19567e3dd7b649099d0a3c58a5cf3"
+        },
+        "focusedTestLog": {
+          "privatePath": "/workspace/vault-audit-private/pass8-independent-frame-candidate-review/v7-focused-tests.log",
+          "sha256": "140f819e753ab63bb296cef2232ab641fa597976e185f789c9f3b2157d0032f5"
+        }
+      },
+      "v8": {
+        "publicReceipt": {
+          "path": "research/source-audit-pass8-frame-candidate-v8.json",
+          "sha256": "7c709609da55b26c8d56e3745aac2741429cfb4bf29b18bbd6463e16c0f2951c"
+        },
+        "tool": {
+          "path": "tools/source-frame-candidate-resolver-v8.py",
+          "sha256": "31a405c24b3e4c39ee789a21e02e46ac90bdd97af5d9e075b155cf86d185ffbc"
+        },
+        "test": {
+          "path": "tests/source-frame-candidate-resolver-v8.test.py",
+          "sha256": "b140d081fdf68ae3aef72bc48790afb016498ed543888d346c4c17f5a16d92c6"
+        },
+        "focusedTestLog": {
+          "privatePath": "/workspace/vault-audit-private/pass8-independent-frame-candidate-review/v8-focused-tests.log",
+          "sha256": "aaf60dbc58f3beeaf3513546f8cbb9091102a4335e6555302d0d69e204944c4e"
+        }
+      }
+    },
+    "v8ToolAndTestPins": {
+      "6": {
+        "test": "ee4e5d4bba29c507325a5eca6999881c4d7183afdb26f90b0136307dfcf8606d",
+        "tool": "951fd1eeae184e1f572e2e64a08b2defcb0e926176235d6602af0371786d832b"
+      },
+      "7": {
+        "test": "eb109f5c13cdb226e0357b3e4a4088012cf19567e3dd7b649099d0a3c58a5cf3",
+        "tool": "1ab113988f6b58fde981fff4b12a5427754968be9eb796f1fcfc3e1655451546"
+      },
+      "8": {
+        "test": "b140d081fdf68ae3aef72bc48790afb016498ed543888d346c4c17f5a16d92c6",
+        "tool": "31a405c24b3e4c39ee789a21e02e46ac90bdd97af5d9e075b155cf86d185ffbc"
+      }
+    },
+    "v8InputPrivateReports": {
+      "v5": "f5a0a2ba7c4328bcc3ff8bb6d2a7c77881417bcd9f50593285352783c20998c3",
+      "v6": "74614a307faa43c0eec676117be8aeeea836613d28e1047f01ade38175a6497d",
+      "v7": "991f8ec4f80c8f0c5e9a216f05f611729e89beb9941c6795ee89abf6fc1810a8",
+      "v8": "055ae7970b3765f6308c9646b48950c2a7153203ef0b0bcf61f45b5d51d2fd47"
+    },
+    "catalogFilesReadAndRehashed": {
+      "dist/scans/verified/rules-cleric-turning-table.json": "4915381b86e4f01c67eb06a174ae615e008046989693a3f8e6bc72e23c3c0a48",
+      "dist/scans/verified/classes-assassin.json": "a1af57a383a53117be4ef2cbef0cf1bb4ed06c3017632a9351862f4a817f8291",
+      "dist/scans/verified/classes-monk.json": "aa887fdf6d67dfce185eef4a0a5ec120db8bc2c2ed023a4242e3cb7b74ccd49a",
+      "dist/scans/verified/classes-thief.json": "bb19a70c214f293b78f91bc987a1d25ae2933f84373825db9f53f94550baf9b2",
+      "dist/scans/verified/classes-ua-barbarian.json": "55b9499bf89f3fce425e4ddf3dce159a19cf2861b4a2ae4cb2d286a7e895bf4f",
+      "dist/scans/verified/classes-ua-thief-acrobat.json": "a7981bf079c9d0fbdfcbe5a318be51acf9d2db134e46cf577328a01396628035",
+      "dist/scans/verified/classes-cleric.json": "21f2502dc2b959fdd2db193bcddff062f8bafe4610520059e21e66d0ae9b67cc",
+      "dist/scans/verified/classes-druid.json": "5dcae17e60087810510e48a852f30b87efa8b2a4ca900a3451956c82e360b4a2",
+      "dist/scans/verified/classes-fighter.json": "b242b9c86f9448dae305fb667d23c72a51a921f0b2f1a5e3081a400606828905",
+      "dist/scans/verified/classes-illusionist.json": "71fb87c1d93bf7c9f9b34eecbf5623591ce363ae5bf188886e945fb7cbca5f13",
+      "dist/scans/verified/classes-magic-user.json": "f1e60d325147b95de939f41947ee85f8eeedefe751ecdf38cbc3f27ee1e07f2e",
+      "dist/scans/verified/classes-paladin.json": "4ec802cc23862cfe8c58c253a3b1af9ff2b1f97a94304e59e55223742d424f6c",
+      "dist/scans/verified/classes-ranger.json": "b36232e0b3acf8b8cf3b7b77cde4179e80c04f23cff22e46239abe0ef566697e",
+      "dist/scans/verified/progressionexplainer-progression-explainer.json": "3c11eb5ad5ee1e0b43ab8aaadcc62a36f48d54a31b1e8a8bc509ac7cdf006cef",
+      "dist/scans/verified/rules-dual-class.json": "e9678d78d79179f2bdd971d4d4a7aab2b536705abe124b55ec9b27d4884369bd"
+    },
+    "v6PreFixAndCalibrationEvidence": {
+      "preFixV6Helper": {
+        "path": "/workspace/vault-audit-private/pass8-independent-source-frame-review/v6-pre-fix-exact-template-helper.py",
+        "sha256": "a415d1fe4ac1f4d40a11c0f8ce4ea833b078b3617195c582738ed1b4f5f4ba6f"
+      },
+      "preFixV6FailingLog": {
+        "path": "/workspace/vault-audit-private/pass8-independent-source-frame-review/v6-pre-fix-tests.log",
+        "sha256": "7647b3bc88443241743727171ca975a14744a6d18458e1aa8aa342ba87b17e92"
+      },
+      "realPhbCalibrationFixture": {
+        "path": "/workspace/vault-audit-private/pass8-independent-source-frame-review/v6-real-small-fixture.json",
+        "sha256": "15d7c57809d55729d7370744f41a33b7ab4ed48bf9600581c6b573654ec6bad4"
+      },
+      "ua66VisualComparison": {
+        "path": "/workspace/vault-audit-private/pass8-independent-source-frame-review/v8-representative-unmatched-ua67.png",
+        "sha256": "e97d312166a55eceb7ddf228765b78ae85d44086cad599f1aed558079fc5bdbc"
+      }
+    }
+  },
+  "reviewer": {
+    "identity": "independent frame-resolver reviewer",
+    "independentOfCandidateToolAuthor": true,
+    "scope": "input pin check; 11 focused tests; adversarial helper/cache/planner checks; fresh canonical-source RGB replay of all nine accepted candidate geometries; representative unmatched visual check; no semantic/crop approval."
+  },
+  "method": {
+    "matchCriterion": "Full decoded target RGB byte array must equal a contiguous crop of a freshly rendered canonical PDF page at the receipt-recorded renderer and DPI; no resampling, registration, or tolerance.",
+    "freshReplayImplementation": "Independent PyMuPDF/Poppler page render, catalog image rehash/decoding, direct crop byte comparison at recorded pixel bounds, plus independent exact-position census over full RGB page pixels.",
+    "cacheControls": "Adversarial checks exercised validated cache reuse, source-book cache-key separation, and rejection of a changed cached raster RGB digest.",
+    "printedFolioScope": "Each candidate printedPage is retained as declared by v8 and is arithmetically consistent with pdfOrdinal minus one for these nine rows; this review did not separately transcribe each printed folio from page pixels.",
+    "visualSpotCheck": "Viewed the stored UA printed p.66 / PDF ordinal 67 target-vs-source comparison as one image. Similar visible text/layout is qualitative only; receipt remains unmatched because RGB pixels differ."
+  },
+  "denominators": {
+    "baselineCurrentCatalogRegionRows": 3396,
+    "baselineCurrentOwnerUses": 3399,
+    "baselineUnresolvedRegionReferences": 151,
+    "baselineUniqueUnresolvedGeometries": 56,
+    "baselinePixelTestedNoMatchRows": 132,
+    "baselineZeroDimensionCompatiblePixelTrialRows": 19,
+    "historicFrameMemberDenominator": {
+      "count": 726,
+      "status": "unavailable; no membership-level reconciliation claimed"
+    },
+    "finiteSearchStageTotals": {
+      "v6": {
+        "pageRenderConfigurations": 136,
+        "geometryRenderComparisons": 163,
+        "renderErrors": 0,
+        "exactUniqueGeometries": 5,
+        "exactRowReferences": 72
+      },
+      "v7": {
+        "pageRenderConfigurations": 317,
+        "geometryRenderComparisons": 427,
+        "renderErrors": 0,
+        "additionalExactUniqueGeometries": 4,
+        "additionalExactRowReferences": 30
+      },
+      "v8": {
+        "pageRenderConfigurations": 112,
+        "geometryRenderComparisons": 170,
+        "renderErrors": 0,
+        "additionalExactUniqueGeometries": 0,
+        "additionalExactRowReferences": 0
+      },
+      "combined": {
+        "finiteRenderConfigurations": 565,
+        "geometryRenderComparisons": 760,
+        "renderErrors": 0
+      }
+    },
+    "positiveCandidates": {
+      "uniqueGeometries": 9,
+      "catalogRegionReferences": 102,
+      "uniquelyReplayedExactAtRecordedSourcePosition": 9,
+      "catalogFilesRehashed": 15,
+      "targetPngModes": [
+        "RGB"
+      ]
+    },
+    "cumulativeUnmatchedWithinFiniteSets": {
+      "uniqueGeometries": 47,
+      "catalogRegionReferences": 49,
+      "classification": "unmatched only within finite renderer/DPI candidate sets, not source absence or defect"
+    }
+  },
+  "focusedValidation": {
+    "commands": [
+      "python3 tests/source-frame-candidate-resolver-v6.test.py",
+      "python3 tests/source-frame-candidate-resolver-v7.test.py",
+      "python3 tests/source-frame-candidate-resolver-v8.test.py",
+      "PYTHONPYCACHEPREFIX=/tmp/frame-candidate-review-pycache python3 -m py_compile tools/source-frame-candidate-resolver-v6.py tools/source-frame-candidate-resolver-v7.py tools/source-frame-candidate-resolver-v8.py"
+    ],
+    "passed": 11,
+    "failed": 0,
+    "total": 11,
+    "byVersion": {
+      "v6": 6,
+      "v7": 2,
+      "v8": 3
+    },
+    "compiled": true
+  },
+  "adversarialValidation": {
+    "privateArtifact": {
+      "path": "/workspace/vault-audit-private/pass8-independent-frame-candidate-review/adversarial-checks.json",
+      "sha256": "e5c2c73e9838c6db2591d195d753e2afbc109ed362e1c8ba28de14d59b63ed20",
+      "bytes": 3871
+    },
+    "passed": 9,
+    "failed": 0,
+    "total": 9,
+    "allPassed": true,
+    "checks": [
+      "non-top-anchor-at-bottom-right-edge",
+      "max-positions-reports-truncation",
+      "single-channel-near-match-rejected",
+      "target-larger-than-page-rejected",
+      "candidate-plan-deduplicates-identical-render-configs",
+      "pixel-exact-partial-crop-is-still-match",
+      "cache-reopen-hash-validates-hit",
+      "cache-key-separates-source-books",
+      "tampered-cache-rgb-rejected"
+    ],
+    "scopeNote": "Partial exact-crop check intentionally demonstrates an exact frame match can succeed without measuring adjacent omitted context."
+  },
+  "v6BugAndCalibration": {
+    "preFixBehavior": "Preserved pre-fix helper searched the target anchor row at top_y rather than top_y+anchor_y; archived test log records 2 of 5 failures, including the non-first-row crop and repeated exact-crop calibration.",
+    "currentBehavior": "Current pinned v6 helper searches at top_y+anchor_y; six focused tests pass, including measured exact crop, multiple matches, and byte mutation rejection.",
+    "preservedEvidence": {
+      "preFixV6Helper": {
+        "path": "/workspace/vault-audit-private/pass8-independent-source-frame-review/v6-pre-fix-exact-template-helper.py",
+        "sha256": "a415d1fe4ac1f4d40a11c0f8ce4ea833b078b3617195c582738ed1b4f5f4ba6f"
+      },
+      "preFixV6FailingLog": {
+        "path": "/workspace/vault-audit-private/pass8-independent-source-frame-review/v6-pre-fix-tests.log",
+        "sha256": "7647b3bc88443241743727171ca975a14744a6d18458e1aa8aa342ba87b17e92"
+      },
+      "realPhbCalibrationFixture": {
+        "path": "/workspace/vault-audit-private/pass8-independent-source-frame-review/v6-real-small-fixture.json",
+        "sha256": "15d7c57809d55729d7370744f41a33b7ab4ed48bf9600581c6b573654ec6bad4"
+      },
+      "ua66VisualComparison": {
+        "path": "/workspace/vault-audit-private/pass8-independent-source-frame-review/v8-representative-unmatched-ua67.png",
+        "sha256": "e97d312166a55eceb7ddf228765b78ae85d44086cad599f1aed558079fc5bdbc"
+      }
+    },
+    "independentRealSourceCalibration": {
+      "privateArtifact": {
+        "path": "/workspace/vault-audit-private/pass8-independent-frame-candidate-review/phb-calibration-replay.json",
+        "sha256": "52c6aeebb6a5618dd9812ef300e72e0dd90d369f1641ce6843c17f40bf1df1ba",
+        "bytes": 1096
+      },
+      "fixtureSha256": "15d7c57809d55729d7370744f41a33b7ab4ed48bf9600581c6b573654ec6bad4",
+      "book": "PHB",
+      "sourcePdfSha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "pdfOrdinal": 38,
+      "printedPageAsFixture": 37,
+      "renderer": "PyMuPDF 1.26.6",
+      "dpi": 144,
+      "fullPageDimensions": [
+        1160,
+        1573
+      ],
+      "targetDimensions": [
+        543,
+        110
+      ],
+      "expectedAndReplayedUniqueBoundsLTRB": [
+        606,
+        231,
+        1149,
+        341
+      ],
+      "pass": true
+    }
+  },
+  "freshReplay": {
+    "privateArtifact": {
+      "path": "/workspace/vault-audit-private/pass8-independent-frame-candidate-review/independent-positive-replays.json",
+      "sha256": "acff3831404156f260d7317d3eef01b054999fbac54986bda573072133620f2b",
+      "bytes": 27259
+    },
+    "freshGroups": [
+      {
+        "book": "DMG",
+        "printedPageAsCandidateReceipt": 75,
+        "pdfOrdinal": 76,
+        "geometryKey": "03f7d6d4b9e4f010ae98f4b8de9694e8d71eb16de7cb921d7a98b3d2f18b0cc6",
+        "catalogImageSha256": "cb9b590b2c17b184ad7b6703e14ecdf0dbc0ca1cccd46a8492182e3c9218facb",
+        "imageDimensions": [
+          1189,
+          810
+        ],
+        "regionReferenceCount": 17,
+        "catalogFiles": [
+          "scans/verified/rules-cleric-turning-table.json"
+        ],
+        "targetPngModes": [
+          "RGB"
+        ],
+        "renderer": "poppler-pdftoppm",
+        "rendererVersion": "pdftoppm version 26.05.0\nCopyright 2005-2026 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC",
+        "dpi": 300,
+        "freshFullPageDimensions": [
+          2404,
+          3275
+        ],
+        "freshFullPageRawRgbSha256": "9ef942c4e790953bed063bff0b5b70ccb5e9d4ad36aa5717257ee8287628ccb3",
+        "freshCropLTRB": [
+          1200,
+          2420,
+          2389,
+          3230
+        ],
+        "freshCropRawRgbSha256": "067d5dfe3508ae025512cc0399368599e5071a6315f4368839ba21f0ad17fd6b",
+        "independentExactPositions": [
+          [
+            1200,
+            2420
+          ]
+        ],
+        "positionUnique": true,
+        "declaredNormalizedPageRect": [
+          0.502302,
+          0.744761,
+          0.497698,
+          0.253363
+        ],
+        "observedPositionNormalized": [
+          0.49916805324459235,
+          0.7389312977099237,
+          0.49459234608985025,
+          0.24732824427480915
+        ],
+        "observedMinusDeclaredNormalizedComponents": [
+          -0.0031339467554076794,
+          -0.0058297022900762885,
+          -0.0031056539101497194,
+          -0.006034755725190855
+        ],
+        "coordinateInterpretation": "Exact frame occurrence is independently reproduced; the declaration-versus-rendered-position difference is recorded, not adjudicated or applied."
+      },
+      {
+        "book": "DMG",
+        "printedPageAsCandidateReceipt": 76,
+        "pdfOrdinal": 77,
+        "geometryKey": "8f705a1243fb6fd75112d5303cf569e96ba26a6758951e69ce5056ff1695c657",
+        "catalogImageSha256": "69d73be55834a5c4e74ab25871f64c2fc919ebd20dfae557ecca0884afa7854c",
+        "imageDimensions": [
+          1172,
+          1215
+        ],
+        "regionReferenceCount": 20,
+        "catalogFiles": [
+          "scans/verified/rules-cleric-turning-table.json"
+        ],
+        "targetPngModes": [
+          "RGB"
+        ],
+        "renderer": "poppler-pdftoppm",
+        "rendererVersion": "pdftoppm version 26.05.0\nCopyright 2005-2026 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC",
+        "dpi": 300,
+        "freshFullPageDimensions": [
+          2416,
+          3266
+        ],
+        "freshFullPageRawRgbSha256": "b5e17741328fd82eaba65d2a45226aeedb11d7b79135de32d19827dab5a163f6",
+        "freshCropLTRB": [
+          1205,
+          145,
+          2377,
+          1360
+        ],
+        "freshCropRawRgbSha256": "5c47a34f15e7cf4d8a7edfe43ce15c0d3844afebebb42243f2fb317e1b83a49e",
+        "independentExactPositions": [
+          [
+            1205,
+            145
+          ]
+        ],
+        "positionUnique": true,
+        "declaredNormalizedPageRect": [
+          0.506942,
+          0.03325,
+          0.493058,
+          0.381117
+        ],
+        "observedPositionNormalized": [
+          0.49875827814569534,
+          0.044396815676668706,
+          0.48509933774834435,
+          0.37201469687691363
+        ],
+        "observedMinusDeclaredNormalizedComponents": [
+          -0.00818372185430466,
+          0.011146815676668705,
+          -0.007958662251655646,
+          -0.009102303123086353
+        ],
+        "coordinateInterpretation": "Exact frame occurrence is independently reproduced; the declaration-versus-rendered-position difference is recorded, not adjudicated or applied."
+      },
+      {
+        "book": "DMG",
+        "printedPageAsCandidateReceipt": 76,
+        "pdfOrdinal": 77,
+        "geometryKey": "f079410917147e4ed65f9f5d596660d9131cc9f5c3f2068239620c084f710d79",
+        "catalogImageSha256": "c3301320dd020c600fa9ccc6403946e5ab2dbc762e965fcc349e1f8a03afa0d4",
+        "imageDimensions": [
+          1190,
+          1215
+        ],
+        "regionReferenceCount": 24,
+        "catalogFiles": [
+          "scans/verified/rules-cleric-turning-table.json"
+        ],
+        "targetPngModes": [
+          "RGB"
+        ],
+        "renderer": "poppler-pdftoppm",
+        "rendererVersion": "pdftoppm version 26.05.0\nCopyright 2005-2026 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC",
+        "dpi": 300,
+        "freshFullPageDimensions": [
+          2416,
+          3266
+        ],
+        "freshFullPageRawRgbSha256": "b5e17741328fd82eaba65d2a45226aeedb11d7b79135de32d19827dab5a163f6",
+        "freshCropLTRB": [
+          15,
+          145,
+          1205,
+          1360
+        ],
+        "freshCropRawRgbSha256": "3e251015c397ce38812ef26f969453abb56adb7342cabb19f7a0037cbf8497e9",
+        "independentExactPositions": [
+          [
+            15,
+            145
+          ]
+        ],
+        "positionUnique": true,
+        "declaredNormalizedPageRect": [
+          0.00631,
+          0.03325,
+          0.500631,
+          0.381117
+        ],
+        "observedPositionNormalized": [
+          0.006208609271523178,
+          0.044396815676668706,
+          0.4925496688741722,
+          0.37201469687691363
+        ],
+        "observedMinusDeclaredNormalizedComponents": [
+          -0.00010139072847682121,
+          0.011146815676668705,
+          -0.008081331125827873,
+          -0.009102303123086353
+        ],
+        "coordinateInterpretation": "Exact frame occurrence is independently reproduced; the declaration-versus-rendered-position difference is recorded, not adjudicated or applied."
+      },
+      {
+        "book": "PHB",
+        "printedPageAsCandidateReceipt": 19,
+        "pdfOrdinal": 20,
+        "geometryKey": "c9d9d5bb33f225f39c2d1f5fdde2a6ae31d80349c6dc143827a6e1c66f3646c1",
+        "catalogImageSha256": "00ed6d9c8e0545a0b8a43ae8459bd50e7b06ac6e71230d8c28b2a779ff187331",
+        "imageDimensions": [
+          947,
+          37
+        ],
+        "regionReferenceCount": 1,
+        "catalogFiles": [
+          "scans/verified/classes-assassin.json"
+        ],
+        "targetPngModes": [
+          "RGB"
+        ],
+        "renderer": "pymupdf",
+        "rendererVersion": "PyMuPDF 1.26.6",
+        "dpi": 144,
+        "freshFullPageDimensions": [
+          1166,
+          1575
+        ],
+        "freshFullPageRawRgbSha256": "4b29d117ad3a7efa847445387af3f9435dcecaa67458c502c6f70253ce00e5b6",
+        "freshCropLTRB": [
+          42,
+          453,
+          989,
+          490
+        ],
+        "freshCropRawRgbSha256": "c2b4b6ae8b76f947a9c17ee1c4e500cd61c79f6b1ace64dc4008eaa759b44740",
+        "independentExactPositions": [
+          [
+            42,
+            453
+          ]
+        ],
+        "positionUnique": true,
+        "declaredNormalizedPageRect": [
+          0.036042,
+          0.28825,
+          0.8117,
+          0.02286
+        ],
+        "observedPositionNormalized": [
+          0.036020583190394515,
+          0.2876190476190476,
+          0.8121783876500858,
+          0.02349206349206349
+        ],
+        "observedMinusDeclaredNormalizedComponents": [
+          -2.1416809605483145e-05,
+          -0.0006309523809523987,
+          0.00047838765008578754,
+          0.0006320634920634928
+        ],
+        "coordinateInterpretation": "Exact frame occurrence is independently reproduced; the declaration-versus-rendered-position difference is recorded, not adjudicated or applied."
+      },
+      {
+        "book": "PHB",
+        "printedPageAsCandidateReceipt": 27,
+        "pdfOrdinal": 28,
+        "geometryKey": "1137d05533202013db7418330f944fe70c8f87c80f394c6670fdafa350d6df9c",
+        "catalogImageSha256": "7740a09429da1d98b578e37d4fe3e9215da265c639f9b0e6f85a09572a0bf7b3",
+        "imageDimensions": [
+          570,
+          315
+        ],
+        "regionReferenceCount": 1,
+        "catalogFiles": [
+          "scans/verified/classes-assassin.json"
+        ],
+        "targetPngModes": [
+          "RGB"
+        ],
+        "renderer": "poppler-pdftoppm",
+        "rendererVersion": "pdftoppm version 26.05.0\nCopyright 2005-2026 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC",
+        "dpi": 150,
+        "freshFullPageDimensions": [
+          1204,
+          1645
+        ],
+        "freshFullPageRawRgbSha256": "82a0f25bae35ac80d1906508e3fa02fb2c06fd2646ad0771fa5770c2c2fcff80",
+        "freshCropLTRB": [
+          610,
+          35,
+          1180,
+          350
+        ],
+        "freshCropRawRgbSha256": "21b3d2165433216891d88e322bf5ba42697a521255171340f486e3c6f67093f7",
+        "independentExactPositions": [
+          [
+            610,
+            35
+          ]
+        ],
+        "positionUnique": true,
+        "declaredNormalizedPageRect": [
+          0.5066445182724253,
+          0.02127659574468085,
+          0.473421926910299,
+          0.19148936170212766
+        ],
+        "observedPositionNormalized": [
+          0.5066445182724253,
+          0.02127659574468085,
+          0.473421926910299,
+          0.19148936170212766
+        ],
+        "observedMinusDeclaredNormalizedComponents": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "coordinateInterpretation": "Exact frame occurrence is independently reproduced; the declaration-versus-rendered-position difference is recorded, not adjudicated or applied."
+      },
+      {
+        "book": "PHB",
+        "printedPageAsCandidateReceipt": 28,
+        "pdfOrdinal": 29,
+        "geometryKey": "d098e1da2ae8dbd0f0c097bc582134fb9827b2c66261e07bcc8793d113bea4d2",
+        "catalogImageSha256": "8cd00df326339a3e9900447c0b385b7c1f908367f7bd3c6c04d1c737eed076dd",
+        "imageDimensions": [
+          1097,
+          606
+        ],
+        "regionReferenceCount": 5,
+        "catalogFiles": [
+          "scans/verified/classes-assassin.json",
+          "scans/verified/classes-monk.json",
+          "scans/verified/classes-thief.json",
+          "scans/verified/classes-ua-barbarian.json",
+          "scans/verified/classes-ua-thief-acrobat.json"
+        ],
+        "targetPngModes": [
+          "RGB"
+        ],
+        "renderer": "pymupdf",
+        "rendererVersion": "PyMuPDF 1.26.6",
+        "dpi": 144,
+        "freshFullPageDimensions": [
+          1160,
+          1564
+        ],
+        "freshFullPageRawRgbSha256": "ba994653b80e636db4e18bd8af0b024e230f37ff9b17105a12d89ae15a7413bd",
+        "freshCropLTRB": [
+          16,
+          54,
+          1113,
+          660
+        ],
+        "freshCropRawRgbSha256": "b7d8cc6bbd8f2463b058d6f47c518a3237347b6f9dfbb0d50bb6681d45b1b513",
+        "independentExactPositions": [
+          [
+            16,
+            54
+          ]
+        ],
+        "positionUnique": true,
+        "declaredNormalizedPageRect": [
+          0.013803,
+          0.034527,
+          0.945482,
+          0.387257
+        ],
+        "observedPositionNormalized": [
+          0.013793103448275862,
+          0.034526854219948847,
+          0.9456896551724138,
+          0.3874680306905371
+        ],
+        "observedMinusDeclaredNormalizedComponents": [
+          -9.89655172413742e-06,
+          -1.4578005115561954e-07,
+          0.00020765517241372322,
+          0.0002110306905370729
+        ],
+        "coordinateInterpretation": "Exact frame occurrence is independently reproduced; the declaration-versus-rendered-position difference is recorded, not adjudicated or applied."
+      },
+      {
+        "book": "PHB",
+        "printedPageAsCandidateReceipt": 33,
+        "pdfOrdinal": 34,
+        "geometryKey": "f66ad64ed5f9974f03338bb269465430e4d66b74cf31b6e282be811255e44856",
+        "catalogImageSha256": "6fe233ecf3bcfa4018fd6136c2c1e7ab5dce63b7ac70b3547fde8ff61008d0f6",
+        "imageDimensions": [
+          547,
+          889
+        ],
+        "regionReferenceCount": 12,
+        "catalogFiles": [
+          "scans/verified/classes-assassin.json",
+          "scans/verified/classes-cleric.json",
+          "scans/verified/classes-druid.json",
+          "scans/verified/classes-fighter.json",
+          "scans/verified/classes-illusionist.json",
+          "scans/verified/classes-magic-user.json",
+          "scans/verified/classes-monk.json",
+          "scans/verified/classes-paladin.json",
+          "scans/verified/classes-ranger.json",
+          "scans/verified/classes-thief.json",
+          "scans/verified/progressionexplainer-progression-explainer.json",
+          "scans/verified/rules-dual-class.json"
+        ],
+        "targetPngModes": [
+          "RGB"
+        ],
+        "renderer": "pymupdf",
+        "rendererVersion": "PyMuPDF 1.26.6",
+        "dpi": 144,
+        "freshFullPageDimensions": [
+          1165,
+          1577
+        ],
+        "freshFullPageRawRgbSha256": "21ffaf471cd3b4e587ee5d369cb0e2cf3a62e2bc793420fb6322897a7b471ced",
+        "freshCropLTRB": [
+          34,
+          606,
+          581,
+          1495
+        ],
+        "freshCropRawRgbSha256": "b8151a024ac4f9c038da3087bc0aed71d1a641a02c3eea4074839f9c4d5cfe2e",
+        "independentExactPositions": [
+          [
+            34,
+            606
+          ]
+        ],
+        "positionUnique": true,
+        "declaredNormalizedPageRect": [
+          0.03,
+          0.384323,
+          0.468077,
+          0.56342
+        ],
+        "observedPositionNormalized": [
+          0.029184549356223177,
+          0.3842739378566899,
+          0.4695278969957081,
+          0.5637285986049461
+        ],
+        "observedMinusDeclaredNormalizedComponents": [
+          -0.0008154506437768223,
+          -4.9062143310130146e-05,
+          0.0014508969957081064,
+          0.000308598604946031
+        ],
+        "coordinateInterpretation": "Exact frame occurrence is independently reproduced; the declaration-versus-rendered-position difference is recorded, not adjudicated or applied."
+      },
+      {
+        "book": "PHB",
+        "printedPageAsCandidateReceipt": 33,
+        "pdfOrdinal": 34,
+        "geometryKey": "42811b0a9232503b16d2d555349f7adcd142c1a813a8b6f038cf4f680b751fde",
+        "catalogImageSha256": "7d2eca37ce27b8e712c829ea89f4b49512421f082df92121e71d0c91966199e3",
+        "imageDimensions": [
+          539,
+          165
+        ],
+        "regionReferenceCount": 12,
+        "catalogFiles": [
+          "scans/verified/classes-assassin.json",
+          "scans/verified/classes-cleric.json",
+          "scans/verified/classes-druid.json",
+          "scans/verified/classes-fighter.json",
+          "scans/verified/classes-illusionist.json",
+          "scans/verified/classes-magic-user.json",
+          "scans/verified/classes-monk.json",
+          "scans/verified/classes-paladin.json",
+          "scans/verified/classes-ranger.json",
+          "scans/verified/classes-thief.json",
+          "scans/verified/progressionexplainer-progression-explainer.json",
+          "scans/verified/rules-dual-class.json"
+        ],
+        "targetPngModes": [
+          "RGB"
+        ],
+        "renderer": "pymupdf",
+        "rendererVersion": "PyMuPDF 1.26.6",
+        "dpi": 144,
+        "freshFullPageDimensions": [
+          1165,
+          1577
+        ],
+        "freshFullPageRawRgbSha256": "21ffaf471cd3b4e587ee5d369cb0e2cf3a62e2bc793420fb6322897a7b471ced",
+        "freshCropLTRB": [
+          604,
+          56,
+          1143,
+          221
+        ],
+        "freshCropRawRgbSha256": "9d0e17eb6d373160d6b9691cdadb8871599012248c2d754e365c3ece0c952682",
+        "independentExactPositions": [
+          [
+            604,
+            56
+          ]
+        ],
+        "positionUnique": true,
+        "declaredNormalizedPageRect": [
+          0.51868,
+          0.035515,
+          0.46204,
+          0.10401
+        ],
+        "observedPositionNormalized": [
+          0.5184549356223176,
+          0.03551046290424857,
+          0.46266094420600856,
+          0.1046290424857324
+        ],
+        "observedMinusDeclaredNormalizedComponents": [
+          -0.00022506437768243792,
+          -4.537095751426523e-06,
+          0.0006209442060085557,
+          0.000619042485732399
+        ],
+        "coordinateInterpretation": "Exact frame occurrence is independently reproduced; the declaration-versus-rendered-position difference is recorded, not adjudicated or applied."
+      },
+      {
+        "book": "PHB",
+        "printedPageAsCandidateReceipt": 37,
+        "pdfOrdinal": 38,
+        "geometryKey": "d8708dbd2913477b2b0fee56bbfdf64603d302c53989d688818e0f27ff4723d3",
+        "catalogImageSha256": "034b106d1a55aaa0053dd112b8c24148f47198e035abea9ce41be947eb2d88b1",
+        "imageDimensions": [
+          1160,
+          303
+        ],
+        "regionReferenceCount": 10,
+        "catalogFiles": [
+          "scans/verified/classes-assassin.json",
+          "scans/verified/classes-cleric.json",
+          "scans/verified/classes-druid.json",
+          "scans/verified/classes-fighter.json",
+          "scans/verified/classes-illusionist.json",
+          "scans/verified/classes-magic-user.json",
+          "scans/verified/classes-monk.json",
+          "scans/verified/classes-paladin.json",
+          "scans/verified/classes-ranger.json",
+          "scans/verified/classes-thief.json"
+        ],
+        "targetPngModes": [
+          "RGB"
+        ],
+        "renderer": "poppler-pdftoppm",
+        "rendererVersion": "pdftoppm version 26.05.0\nCopyright 2005-2026 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC",
+        "dpi": 150,
+        "freshFullPageDimensions": [
+          1215,
+          1638
+        ],
+        "freshFullPageRawRgbSha256": "df51b9f41d87523759639bd3086ceaac84b78b1e1b5387836d142c1a5a80f2c4",
+        "freshCropLTRB": [
+          42,
+          57,
+          1202,
+          360
+        ],
+        "freshCropRawRgbSha256": "32c0d1bdec5f2412f66e8d0b0849c73a5a71e339f4ce4dbd54bfc0d788a05c42",
+        "independentExactPositions": [
+          [
+            42,
+            57
+          ]
+        ],
+        "positionUnique": true,
+        "declaredNormalizedPageRect": [
+          0.0345679012345679,
+          0.0347985347985348,
+          0.9547325102880658,
+          0.184981684981685
+        ],
+        "observedPositionNormalized": [
+          0.0345679012345679,
+          0.0347985347985348,
+          0.9547325102880658,
+          0.184981684981685
+        ],
+        "observedMinusDeclaredNormalizedComponents": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "coordinateInterpretation": "Exact frame occurrence is independently reproduced; the declaration-versus-rendered-position difference is recorded, not adjudicated or applied."
+      }
+    ],
+    "allNineAtRecordedFrameAndUniquelyLocated": true,
+    "allCatalogImagesRehashedAndDimensionsChecked": true,
+    "fullPageRendersAndCropPixelsRemainPrivate": true
+  },
+  "candidateAssessment": {
+    "positiveCandidateClass": "All nine v8 accepted groups reproduced byte-exactly from the pinned canonical PDFs at their recorded renderer/DPI/page and each had one exact position in its independently scanned page raster. This is current frame evidence only.",
+    "unmatchedQualitativeUAExample": {
+      "book": "UA",
+      "printedPage": 66,
+      "pdfOrdinal": 67,
+      "regionId": "ua-66-357f606fa27d25cf",
+      "targetImageSha256": "4e8e57d5f1f2120ea87d04026faae3d823cb1251d7436b532e8101a7a1e89901",
+      "comparisonImageSha256": "e97d312166a55eceb7ddf228765b78ae85d44086cad599f1aed558079fc5bdbc",
+      "derivedSourceCropRgbSha256": "ab0b5aad6f56af60879008d4ad612736ca2fd5328ba5c44b0ae9bc9ce1ce1b7e",
+      "differentRgbChannels": 549894,
+      "status": "qualitatively similar in the inspected side-by-side, remains a no-exact-match; do not count as a positive or infer absence/defect"
+    },
+    "coordinateDeclarationFinding": "Three DMG exact groups have a material declared-normalized-rectangle versus observed-rendered-frame delta (see per-component values in freshReplay.freshGroups). Exact occurrence is reproduced at the observed pixel coordinates, but the declaration discrepancy is not adjudicated, approved, or written back.",
+    "noSourceOrSiteMutation": true
+  },
+  "conclusions": [
+    {
+      "status": "supported",
+      "claim": "The v6-v8 tools implement the documented exact RGB subimage criterion on the exercised candidate sets; all 11 focused tests and 9 additional adversarial checks pass."
+    },
+    {
+      "status": "independentlyReproduced",
+      "claim": "All 9 positive geometry groups / 102 catalog-region references were freshly matched to unique exact positions in canonical-PDF page renders."
+    },
+    {
+      "status": "boundedOnly",
+      "claim": "Across the stated 565 finite render configurations, 9 geometry groups / 102 references have exact candidate evidence; 47 groups / 49 references remain unmatched only within those finite sets."
+    },
+    {
+      "status": "notAssessed",
+      "claim": "Semantic relevance, crop completeness/context, printed-folio visual transcription for each candidate, highlight accuracy, row/owner correctness, historical authoring recipe, and citation/coordinate approval."
+    }
+  ],
+  "limits": [
+    "Finite renderer/DPI search does not prove absence or defect for unmatched frames, and does not exhaust all possible historical rendering transformations.",
+    "Exact byte identity proves a crop occurs in a current render at a specific position. It does not prove that the crop is complete, semantically apt, correctly highlighted, attached to the right row, or historically authored that way.",
+    "The historical 726-frame cohort has no available membership-level denominator; current catalog totals cannot stand in for it.",
+    "No tools, source PDFs, data, catalog images, coordinates, or approval flags were modified; this receipt is a new audit artifact only."
+  ],
+  "privateEvidenceArtifacts": {
+    "independent-positive-replays.json": {
+      "path": "/workspace/vault-audit-private/pass8-independent-frame-candidate-review/independent-positive-replays.json",
+      "sha256": "acff3831404156f260d7317d3eef01b054999fbac54986bda573072133620f2b",
+      "bytes": 27259
+    },
+    "adversarial-checks.json": {
+      "path": "/workspace/vault-audit-private/pass8-independent-frame-candidate-review/adversarial-checks.json",
+      "sha256": "e5c2c73e9838c6db2591d195d753e2afbc109ed362e1c8ba28de14d59b63ed20",
+      "bytes": 3871
+    },
+    "phb-calibration-replay.json": {
+      "path": "/workspace/vault-audit-private/pass8-independent-frame-candidate-review/phb-calibration-replay.json",
+      "sha256": "52c6aeebb6a5618dd9812ef300e72e0dd90d369f1641ce6843c17f40bf1df1ba",
+      "bytes": 1096
+    },
+    "independent-replay.py": {
+      "path": "/workspace/vault-audit-private/pass8-independent-frame-candidate-review/independent-replay.py",
+      "sha256": "eda76ac19af1307a994bc180760fe131bf6dd52bb091b6de99119cebde988d32",
+      "bytes": 8641
+    },
+    "adversarial-checks.py": {
+      "path": "/workspace/vault-audit-private/pass8-independent-frame-candidate-review/adversarial-checks.py",
+      "sha256": "1ad6e9abac0cd0d0b76c9907521f8e534d5dc4a95047aa8e3af7723636ddb74b",
+      "bytes": 6879
+    }
+  }
+}

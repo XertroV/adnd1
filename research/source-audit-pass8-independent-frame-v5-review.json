@@ -1,0 +1,292 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent engineering review of additive v5 normalized-coordinate schema support and actual full source-frame replay",
+  "recordedAtUtc": "2026-11-08T19:20:56.864458+00:00",
+  "reviewer": {
+    "agent": "release_review",
+    "independentOfV5Author": true,
+    "priorRole": "Authored v4; v4 was separately independently reviewed by site_inventory. This review concerns site_inventory-authored v5 additions."
+  },
+  "inputCommit": "6d330af372ac809d11ed6029ed8695d0d8dc0909",
+  "inputData": {
+    "path": "dist/data.json",
+    "sha256": "ceb7c8b9a8fe32b676e57c8d007f124a4490684d54558479e555d504075ba4f3",
+    "bytes": 14632564
+  },
+  "reviewedArtifacts": [
+    {
+      "path": "tools/source-frame-universe-v5.py",
+      "sha256": "bcd0b251fc741af873d271a763f3d622c1980fe6f422b0472ecfc35d1f7919cb",
+      "bytes": 48624
+    },
+    {
+      "path": "tests/source-frame-universe-v5.test.py",
+      "sha256": "0590481cc13d1086c3a0bf0f2b851d058ef8f07c65167f82b806b75dab02f5b7",
+      "bytes": 4043
+    },
+    {
+      "path": "research/source-audit-pass8-frame-universe-v5.json",
+      "sha256": "1742a5790d7b59c660c22813360b35c2469dd520c3866f887015d754fccce54d",
+      "bytes": 8524
+    },
+    {
+      "path": "tools/source-frame-universe-v4.py",
+      "sha256": "2dee3572eb989c63ef1a441949f41e54ddb8c8bf1a469372c68e37869316da0e",
+      "bytes": 41268
+    },
+    {
+      "path": "research/source-audit-pass8-independent-frame-v4-review.json",
+      "sha256": "4cabaf20c3d800814823a945abe0c03da9e799b1f229c1e67451008e3e97f539",
+      "bytes": 4687
+    },
+    {
+      "path": "research/source-audit-pass8-independent-source-and-frame-review.json",
+      "sha256": "ac8bba232e5941e8cea64728d85bbb4d6817f8f676fe60380dbd37d0388722da",
+      "bytes": 27358
+    }
+  ],
+  "scope": {
+    "catalogs": 1020,
+    "currentRegionRows": 3396,
+    "currentOwnerUses": 3399,
+    "v2FrozenCandidateRows": 740,
+    "historical726MemberCensus": "Unavailable; no identity or completeness claim is made for that historical cohort.",
+    "productionDataCatalogOrFlagChanges": false,
+    "wholeBookCompletenessApproved": false
+  },
+  "implementationReview": {
+    "status": "approved for bounded current-frame schema support and outcome classification",
+    "changesReviewed": [
+      "Add x/y/w/h interpretation alongside existing numeric-list and x/y/width/height forms.",
+      "Reject conflicting complete aliases; accept equal duplicate aliases only with an explicit equal-alias status; reject partial mixed dimension aliases.",
+      "Preserve each raw declaration verbatim and expose parsed-schema status and actual pixel-comparison count.",
+      "Distinguish unsupported or conflicting schemas, supported-but-no-dimension-compatible candidates, and actual pixel-tested misses.",
+      "Retain source/document-bound caches, immutable earlier-tool/report pins, finite DPI schedules and isolated MuPDF rendering."
+    ],
+    "scopeLimits": [
+      "Supported coordinate parsing is a candidate interpretation, not source intent or semantic approval.",
+      "A whole-row exact status means at least one tested declared recipe matched. It is not a blanket validation of every possible focus/relevance/context claim.",
+      "V5 has no source-value, highlight, target-grade or book-completeness activation."
+    ]
+  },
+  "actualIndependentFullReplay": {
+    "command": "python tools/source-frame-universe-v5.py --private-output /workspace/vault-audit-private/pass8-independent-v5-review/v5-independent-full.json",
+    "status": "completed successfully without supplied render cache",
+    "output": {
+      "path": "/workspace/vault-audit-private/pass8-independent-v5-review/v5-independent-full.json.gz",
+      "sha256": "4173ecf53b2930eccb9bbc06a1d381a935373d08f2d98d0380b5e5ceaf2fffc1",
+      "bytes": 575905
+    },
+    "rawSha256": "f5a0a2ba7c4328bcc3ff8bb6d2a7c77881417bcd9f50593285352783c20998c3",
+    "entireRawReportEqualsAuthorReport": true,
+    "frameStatusCounts": {
+      "exact-dimension-guided-full-page-recipe": 11,
+      "exact-direct-pymupdf-pdf-clip": 3146,
+      "exact-explicit-full-page-recipe": 86,
+      "exact-supplement-image-crop-not-pdf": 2,
+      "supported-schema-no-dimension-compatible-pixel-recipe": 19,
+      "tried-no-exact-pixel-match": 132
+    },
+    "coordinateSchema": {
+      "normalizedPageRectStatusCounts": {
+        "absent": 99,
+        "supported-list": 959,
+        "supported-object-w-h": 541,
+        "supported-object-width-height": 1797
+      },
+      "unsupportedSchemaZeroAttemptRows": 0,
+      "conflictingSchemaRows": 0,
+      "supportedSchemaPixelAttemptRows": 3278,
+      "supportedSchemaNoCompatiblePixelRecipeRows": 19,
+      "triedNoExactPixelMatchRows": 132,
+      "unresolvedSourceIdentityFailures": 0,
+      "typedSupplementRows": 2
+    },
+    "unresolvedPopulation": {
+      "rows": 151,
+      "uniqueImageSha256": 56,
+      "uniqueSourcePageCoordinateTargetGeometries": 56,
+      "outcomeCounts": {
+        "supported-schema-no-dimension-compatible-pixel-recipe": 19,
+        "tried-no-exact-pixel-match": 132
+      }
+    },
+    "identity": {
+      "regionImageShaMatches": 3396,
+      "regionDimensionMatches": 3396,
+      "ownerUseImageHashMatches": 3399,
+      "ownerUseSourceHashMatches": 3399,
+      "ownerUses": 3399,
+      "identityFailureRows": 0
+    },
+    "runtime": {
+      "pymupdf": "1.26.6",
+      "pillow": "13.0.0",
+      "pdftoppm": "pdftoppm version 26.05.0\nCopyright 2005-2026 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC",
+      "pixelMode": "RGB; exact decoded pixel equality; no perceptual or registration tolerance",
+      "mupdfStorePolicy": "clear global MuPDF store before every actual get_pixmap call"
+    },
+    "rendererCache": {
+      "fullPageRenderCacheMisses": 45,
+      "fullPageRenderCacheHits": 41,
+      "privateCacheDirectorySupplied": false,
+      "cacheVisibility": "private temporary directory; removed at completion",
+      "fullCacheContentKeyFields": [
+        "sourceSha256",
+        "pdfOrdinal",
+        "renderer",
+        "rendererVersion",
+        "dpi",
+        "colorMode",
+        "measuredDimensions",
+        "rawRgbSha256",
+        "mupdfStorePolicy"
+      ],
+      "directCacheIdentityFields": [
+        "book",
+        "verifiedSourceSha256",
+        "boundDocumentIdentity",
+        "pageOrdinal",
+        "clipLTRBPoints",
+        "targetRawRgbSha256",
+        "targetDimensions",
+        "effectiveDpiCandidates",
+        "mupdfStorePolicy"
+      ],
+      "priorAttempt02CacheReuse": "none; prior cache has no provenance sidecars and cannot be validated against complete keys",
+      "suppliedCacheValidation": "all indexed rasters are verified against source/renderer/runtime, measured dimensions and decoded RGB hashes before reuse"
+    },
+    "sourceFiles": {
+      "PHB": {
+        "name": "tsr2010-players-handbook.pdf",
+        "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095"
+      },
+      "DMG": {
+        "name": "DMG_1stEd.pdf",
+        "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+      },
+      "UA": {
+        "name": "Unearthed Arcana.pdf",
+        "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      },
+      "MM": {
+        "name": "Monster_Manual.pdf",
+        "sha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81"
+      },
+      "MM2": {
+        "name": "Monster Manual II.pdf",
+        "sha256": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24"
+      },
+      "DMG-175-supplement-image": {
+        "name": "dmg175.jpg",
+        "sha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+        "pdf": false
+      }
+    }
+  },
+  "v4Comparison": {
+    "priorExactWholeRecordsUnchangedAfterRemovingOnlyNewInstrumentation": 2704,
+    "newExactRows": 541,
+    "newRowsAllPreviouslyUnparsedWHOnlyDeclarations": true,
+    "remainingUnresolvedRecordsUnchangedExceptStatusRefinementAndInstrumentation": 151,
+    "comparison": {
+      "path": "/workspace/vault-audit-private/pass8-independent-v5-review/full-comparison.json",
+      "sha256": "817c9f448526a793663aef21fd07258b16e862c610de335ec9d8d071f2e3ba71",
+      "bytes": 2509
+    },
+    "exactTotal": 3245,
+    "unresolvedRows": 151,
+    "unresolvedUniqueImages": 56,
+    "unresolvedUniqueSourcePageCoordinateTargetGeometries": 56,
+    "allSixSourceFileHashesRecomputed": true,
+    "allPerRowPixelComparisonCountsRecomputed": true
+  },
+  "checks": [
+    {
+      "command": "python tests/source-frame-universe-v5.test.py",
+      "status": "passed",
+      "tests": 6,
+      "failures": 0,
+      "log": {
+        "path": "/workspace/vault-audit-private/pass8-independent-v5-review/v5-tests.log",
+        "sha256": "64a2e8bf7d290ac69f8751ecec051052ebd0f96adfe17713419f7a01238bc929",
+        "bytes": 1130
+      }
+    },
+    {
+      "command": "generated-PDF v5 schema-to-pixel adversarial controls",
+      "status": "passed",
+      "controls": 12,
+      "script": {
+        "path": "/workspace/vault-audit-private/pass8-independent-v5-review/v5-adversarial.py",
+        "sha256": "041415bdead341d6abdd4e0e25106af730e0e767cf5846bc5c7b4292fbf1cc88",
+        "bytes": 2414
+      },
+      "result": {
+        "path": "/workspace/vault-audit-private/pass8-independent-v5-review/v5-adversarial.json",
+        "sha256": "9bb480788965461bd2572ce3f6e1f66875d45caa66d7de507ccc05c91f6875f2",
+        "bytes": 6249
+      },
+      "cases": "Five supported forms produce real exact crops; conflicts, partial mixtures, NaN, zero size and missing x reject; one-pixel mutation after a warm positive rejects."
+    },
+    {
+      "command": "all five executable v4 cache/render-order regression tests against actual v5 Replay",
+      "status": "passed",
+      "tests": 5,
+      "failures": 0,
+      "adapter": {
+        "path": "/workspace/vault-audit-private/pass8-independent-v5-review/v5-cache-regressions.py",
+        "sha256": "81a64b496a63c1648512de68e9066566f304c7411b14146ec05a9bb8cc187c6c",
+        "bytes": 595
+      },
+      "log": {
+        "path": "/workspace/vault-audit-private/pass8-independent-v5-review/v5-cache-regressions.log",
+        "sha256": "e733c6d13bd48f8c8d30a238a473c2d582b9105444d03d13c7c3fb6ce1b88a0e",
+        "bytes": 908
+      }
+    },
+    {
+      "command": "python tests/source-frame-universe-v4.test.py",
+      "status": "passed",
+      "tests": 5,
+      "failures": 0,
+      "scope": "Original v4 suite remains green; this is separate from the five regressions retargeted to v5.",
+      "log": {
+        "path": "/workspace/vault-audit-private/pass8-independent-v5-review/v4-tests.log",
+        "sha256": "16ae4ac6af8ff74200b8d801634c59d4e9c7636478bfd847045a336c210a0122",
+        "bytes": 913
+      }
+    },
+    {
+      "command": "git diff --check",
+      "status": "passed",
+      "scope": "No tracked-diff whitespace errors; no production file edits made by this review."
+    }
+  ],
+  "corrections": [
+    {
+      "severity": "terminology correction; no replay count change",
+      "preservedArtifact": {
+        "path": "research/source-audit-pass8-frame-universe-v5.json",
+        "sha256": "1742a5790d7b59c660c22813360b35c2469dd520c3866f887015d754fccce54d",
+        "bytes": 8524
+      },
+      "pointer": "/v4ToV5OutcomeRefinement/v4SupportedSchemaUnresolvedPixelTestedRows",
+      "historicalValue": 151,
+      "correction": "151 is the supported-schema unresolved cohort. Only132 rows had actual pixel comparisons;19 had zero dimension-compatible pixel recipes.",
+      "evidence": "Direct and full-page trial counts were recomputed from both full reports, yielding132 actual-pixel misses and19 zero-comparison rows.",
+      "alsoSupersedes": "Any earlier broad reviewer wording that described all151 as pixel-tested, including the earlier source-and-frame review. All earlier receipt bytes remain preserved.",
+      "consumerRequirement": "Use132 pixel-tested misses plus19 no-compatible-candidate rows when citing tested coverage."
+    }
+  ],
+  "privateEvidenceIndex": {
+    "path": "/workspace/vault-audit-private/pass8-independent-v5-review/evidence-index.json",
+    "sha256": "55119e2736f7865f59d9bbdbf2322228c90d0674c5e2cc7fa0a498ba856f395c",
+    "bytes": 3793
+  },
+  "remainingGates": [
+    "No source-semantic closure, focus/context/default approval, historical726 census reconstruction or whole-book completion is inferred.",
+    "Full24 workflow, exact-head CI and deployment are outside this delegated review and were not run here."
+  ],
+  "disposition": "V5 implementation and actual current-frame replay approved within the stated scope. The preserved receipt has one superseded151-pixel-tested terminology error; the correct unresolved partition is132 actual misses plus19 no-compatible-candidate rows. No flag activation."
+}
