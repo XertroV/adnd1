@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "qualified-whitespace-check-for-immutable-unified-diff-evidence",
+  "inputCommit": "45018b8894d94dbbc12fdd6bd1d5ad5bfd17a179",
+  "sealedPatch": {
+    "path": "research/ua-dmg225-current-history-boundary-v1/exact-proposed-change-v1.patch",
+    "sha256": "b598b1fda6d9a4189bbdacab4fce7174e1633ae0a0a3dfbec84588b2d74ee360",
+    "bytesUnchanged": true,
+    "onlyTrailingWhitespaceLines": [
+      {
+        "line": 26,
+        "literal": " "
+      },
+      {
+        "line": 45,
+        "literal": " "
+      }
+    ]
+  },
+  "actualBefore": {
+    "command": [
+      "git",
+      "diff",
+      "23ba5dd12a007a759e36d98822eb9040c395eeef",
+      "45018b8894d94dbbc12fdd6bd1d5ad5bfd17a179",
+      "--check"
+    ],
+    "exitCode": 2,
+    "stdout": "research/ua-dmg225-current-history-boundary-v1/exact-proposed-change-v1.patch:26: trailing whitespace.\n+ \nresearch/ua-dmg225-current-history-boundary-v1/exact-proposed-change-v1.patch:45: trailing whitespace.\n+ \n",
+    "stderr": ""
+  },
+  "cause": "The exact proposed unified diff contains standard single-space context markers for empty source lines. Git treats these two newly added evidence-file lines as trailing whitespace; the active JavaScript test has no such errors.",
+  "qualification": "The earlier integration receipt recorded a clean whitespace check of the then-tracked test-only diff. The later staged check included the new literal patch and failed; the shell did not stop, so commit45018 was pushed. Treat that earlier claim as incomplete for the complete staged artifact set.",
+  "fix": {
+    "path": ".gitattributes",
+    "rule": "research/ua-dmg225-current-history-boundary-v1/exact-proposed-change-v1.patch whitespace=-blank-at-eol",
+    "scope": "Disable blank-at-eol only for this exact sealed patch path. No source/prod/test whitespace policy or other files are changed."
+  },
+  "actualAfter": {
+    "sameCommand": true,
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "sourceDataMechanicsAndGradesChanged": false,
+  "prior1513SealsPreserved": true,
+  "fullWorkflow": "Fresh local24 and remoteCI pending; this receipt does not approve publication."
+}
