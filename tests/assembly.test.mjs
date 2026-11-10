@@ -2,7 +2,10 @@ import {reverseClosureCorrections} from './mechanics-closure-fixture.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
-import {assertApprovedUaClassSource} from './helpers/ua-source-current-cohort.mjs';
+import {assertUaSourceContextBindingCohort} from './helpers/ua-source-closed-v28-context.mjs';
+import {readDmg175CurrentSourceInputs,assertDmg175CurrentSourceCohort} from './helpers/dmg175-source-current-cohort.mjs';
+import {resolve} from 'node:path';
+const root=resolve(import.meta.dirname,'..');
 
 const load = file => JSON.parse(readFileSync(new URL(`../${file}`, import.meta.url), 'utf8'));
 const data = load('dist/data.json');
@@ -14,7 +17,9 @@ const byId = new Map(data.spells.map(spell => [spell.id, spell]));
 test('assembly includes every indexed spell and the current class checkpoint plus reviewed progression metadata', () => {
   assert.equal(data.spells.length, 638);
   assert.equal(data.spells.filter(spell => spell.effect?.length).length, 638);
-  assertApprovedUaClassSource(data);
+  assertDmg175CurrentSourceCohort(readDmg175CurrentSourceInputs(root));
+  const classBindings=data.classes.flatMap(owner=>(owner.references||[]).flatMap(reference=>reference.evidenceBindings||[]));
+  assert.equal(assertUaSourceContextBindingCohort(classBindings).length,24,'the exact prior 24 UA class reference objects remain present in current SOURCE987 data');
   const currentClasses=reverseClosureCorrections(data.classes,'classes');
   const authoredClasses=reverseClosureCorrections(authorClasses.map(cls=>({...cls,...progression.classes[cls.id]})),'classes');
   for(const [index,authored]of authoredClasses.entries())assert.deepEqual(Object.fromEntries(Object.keys(authored).map(key=>[key,currentClasses[index][key]])),authored,'every current authored class property and reviewed progression value survives assembly; the native guard separately checks the complete generated reference and excerpt metadata');

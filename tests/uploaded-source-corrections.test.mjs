@@ -1,4 +1,5 @@
 import {reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
+import {projectDmg175EquipmentLeavesForHistoricalFixture} from '../research/dmg175-validation-coordinator-v1/history-recovery-v1/dmg175-equipment-epoch-outer-v2.proposed.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -14,7 +15,7 @@ const get = (items, id) => {
 };
 
 test('PHB weapon corrections retain separate purchase and encumbrance values', () => {
-  const originalEquipment = reverseApprovedEquipmentChanges(assembled.equipment);
+  const originalEquipment = reverseApprovedEquipmentChanges(projectDmg175EquipmentLeavesForHistoricalFixture(assembled.equipment));
   const partisan = get(originalEquipment, 'phb-partisan');
   const ranseur = get(originalEquipment, 'phb-ranseur');
   for (const [weapon, amount] of [[partisan, 10], [ranseur, 4]]) {

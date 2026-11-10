@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent review of research-only native current cohort v3",
+  "status": "reviewed; complete for the stated structural cohort-proof scope",
+  "scope": "Read-only independent review of the versioned v3 helper, fixture, and focused tests. The proposal remains research-only and is not active test infrastructure.",
+  "reviewedArtifacts": [
+    {
+      "path": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-native-cohort-v3/materialized/tests/helpers/dmg175-source-current-cohort.mjs",
+      "sha256": "7422510ac694c322e05b5436ea922c1437f99c6c4ebf5cc9544035dee28ed4cf"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-native-cohort-v3/materialized/tests/fixtures/dmg175-source-current-cohort-v1.json",
+      "sha256": "b1a39cd6379d1fc34f906781982f9fc049d94089459fd0f7b0243aaeb8476685"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-native-cohort-v3/materialized/tests/dmg175-source-current-cohort.test.mjs",
+      "sha256": "8ecc489f32ef1516e889903035a1797a6ba3f7a932ab621edd779ecef009fdbe"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-native-cohort-v3/focused-native-current-cohort-replay-v3.json",
+      "sha256": "feb29930c5b0f6f1c276d48719b5863938390b7c96609e766d0340390ed8725e"
+    }
+  ],
+  "independentReplay": {
+    "command": "node --test tests/dmg175-source-current-cohort.test.mjs",
+    "context": "Independent isolated /tmp test root with copied proposal files and read-only symlinks to the six exact source inputs.",
+    "tests": 37,
+    "passed": 37,
+    "failed": 0,
+    "durationMs": 29008.545265,
+    "fullSuiteRun": false,
+    "activeWrites": 0
+  },
+  "sourceLineageChecks": {
+    "sourceCommit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+    "sourceTree": "d7ac09ce9abe4ef94ae355a44b8e0c5ca6f74ea3",
+    "baselineCommit": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
+    "baselineIsAncestorOfSource": true,
+    "sourceCommitTreeMatchesFixture": true,
+    "currentPinnedInputsMatchSourceCommitTree": true,
+    "baselineDerivationVerified": {
+      "canonicalInventoryBindings": "The 4705 ordered binding hashes exactly equal the complete fieldEvidenceBindings array at the baseline commit.",
+      "manualBindings": "The 807 baseline manual declarations exactly match the frozen prefix hash.",
+      "unchangedDataCollections": "The full spells, classes, matrices, and progressionExplainer canonical hashes match the baseline commit.",
+      "historicalMechanicsReviews": "All 1215 review records and their canonical hash match the baseline commit."
+    },
+    "runtimeBoundary": "The helper checks exact source byte and canonical object hashes; it does not query Git HEAD. The embedded source commit is input provenance, not a runtime assertion of checkout identity."
+  },
+  "verifiedCohort": {
+    "currentOwners": 1014,
+    "canonicalBindings": 4931,
+    "previousBindingsWholeObjectAndRelativeOrder": 4705,
+    "additionalCanonicalBindings": 226,
+    "addedCategories": {
+      "structured-source-reference": 174,
+      "record-reference": 37,
+      "record-page-reference": 12,
+      "weapon-missile-table-fact": 3
+    },
+    "manual": {
+      "exactOldOrderedPrefix": 807,
+      "newDeclarations": 123,
+      "dmg175Pending": 120,
+      "uaFieldLocationReviewed": 3,
+      "nonmanualCanonicalAdditions": 103,
+      "dmg175ProseBindings": 33,
+      "uniqueProsePointers": 21,
+      "tableRowTargets": 87
+    },
+    "addedReferenceStatuses": {
+      "field-target-pending": 219,
+      "region-verified": 4,
+      "field-target-reviewed": 3
+    },
+    "newRules": 11,
+    "structuredTableRows": 87,
+    "equipmentStrings": 3,
+    "equipmentSourceCells": 33,
+    "historicalMechanicsReviewRecords": 1215
+  },
+  "reviewFindings": [
+    {
+      "severity": "none blocking within stated scope",
+      "finding": "The v1 gap is closed. v3 validates every supplied source object as a strict JSON tree, binds currentWholeDataCanonicalHash, and binds complete canonical hashes for inventory, manual declarations, and mechanics input. This rejects post-load in-memory mutations even if the separately supplied raw input hash map is unchanged.",
+      "support": "The 36 mutation controls include changed source/release metadata, unknown data/input properties, hidden own properties, accessors, proxies, cycles, non-finite and negative-zero numbers, sparse arrays, symbols, review promotions, and prior-binding loss/reordering. All reject with the intended guard."
+    },
+    {
+      "severity": "no semantic-grade overclaim found",
+      "finding": "The three UA p.28 equipment fields are exact current strings parsed into 33 cells, while each corresponding formal mechanics record remains unchecked, uninspected, and without value checkers. The 120 DMG175 manual targets and their values/context remain pending or unassessed; UA target-location reviews do not imply numerical value or context review. The four region-verified records remain a separate reference-level status count.",
+      "support": "The focused positive case, exact whole-object pins, status assertions, and mutation controls agree. The source-cohort test is a structural preservation proof, not independent source-pixel or semantic verification."
+    },
+    {
+      "severity": "nonblocking provenance note",
+      "finding": "The source commit/tree relationship was independently checked against Git, but the helper itself does not verify HEAD or ancestry. Its sourceCommit field is returned from the closed fixture. This is acceptable for content-bound replay against descendants with identical pinned inputs; describe it as input provenance rather than proof of the active checkout identity."
+    }
+  ],
+  "reviewDecision": {
+    "v3CompleteForClosedNativeCohortContract": true,
+    "v1FindingAddressed": true,
+    "currentInputsConsumedWithoutHistoricalProjection": true,
+    "sourceValueAssessment": "No new source-value approval is provided by this artifact.",
+    "remainingLimitations": [
+      "The proposal has not been installed into active tests or the release pipeline.",
+      "No full Node suite or 24-block run was performed as part of this review.",
+      "Structural hash consistency does not substitute for source-pixel, semantic, or whole-book review."
+    ]
+  }
+}

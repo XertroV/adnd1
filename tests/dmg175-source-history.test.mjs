@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
+import {readBeforeDmg175SourceCharacterReferenceFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
 import test from 'node:test';
 import {createHash} from 'node:crypto';
 import vm from 'node:vm';

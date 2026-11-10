@@ -2,9 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import {validScanCatalogPath,validateScanCatalog} from '../tools/scan-catalog.mjs';
 const require=createRequire(import.meta.url),books=require('../dist/books.js');
 const data=JSON.parse(readFileSync(new URL('../dist/data.json',import.meta.url),'utf8'));
+const dmg175UniverseBytes=readFileSync(new URL('./fixtures/dmg175-current-supplemental-usage-universe-v1.json',import.meta.url));
+const dmg175Universe=JSON.parse(dmg175UniverseBytes.toString('utf8'));
+const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const verification={state:'source-excerpt-checked',catalog:'scans/verified/test-item.json',regionCount:1};
 const item={id:'test-item',scanVerification:verification};
 const catalog={schemaVersion:1,itemId:'test-item',scope:'Passage only',sources:{DMG:{sha256:'a'.repeat(64),hashStatus:'computed-local'}},regions:[{id:'test-region',book:'DMG',printedPage:176,pdfPage:176,image:'dmg176-test.png',width:10,height:10,sha256:'b'.repeat(64),verification:'visually-checked-crop',verificationScope:'source-excerpt',focusRects:[[0,0,1,1]],title:'Passage',alt:'Passage',summary:'Passage checked',checkedFields:{}}]};
@@ -23,7 +27,9 @@ test('scoped metadata and book mapping are checked',()=>{
 });
 test('the explicit DMG 175 supplement resolves to its JPEG frame without changing the canonical PDF identity',()=>{
  const c=JSON.parse(readFileSync(new URL('../dist/scans/verified/rules-encounter-types.json',import.meta.url),'utf8'));
- const v={...verification,collection:'rules',catalog:'scans/verified/rules-encounter-types.json',regionCount:3},entry={id:'encounter-types',scanVerification:v};
+ const entry=data.rules.find(item=>item.id==='encounter-types');
+ const v=entry.sourceExcerpts;
+ assert.equal(v.catalog,'scans/verified/rules-encounter-types.json');assert.equal(v.regionCount,c.regions.length);
  const region=c.regions.find(r=>r.id==='dmg-175-party-table-context-78c4c383c38c7d10'),identity=books.resolveRegionSourceIdentity(c,region);
  assert.equal(identity.valid,true);assert.equal(identity.sourceKind,'supplemental-image');assert.equal(identity.sourceArtifactId,'dmg175-user-confirmed-supplement');assert.equal(identity.sourceSha256,'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7');assert.equal(identity.canonicalPdfSha256,'7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669');assert.deepEqual(identity.sourceCropBoundsPx,[0,1145,635,1635]);
  assert.equal(books.pdfPage('DMG',175),null);assert.equal(c.sources.DMG.sha256,identity.canonicalPdfSha256);assert.equal(validateScanCatalog(c,entry,books,v),c);
@@ -56,7 +62,7 @@ test('invalid supplemental identities, page mappings and source-image bounds fai
  ];
  for(const [label,mutate] of mutations){const c=make();mutate(c);assert.equal(books.resolveRegionSourceIdentity(c,c.regions[0]).valid,false,label);assert.throws(()=>validateScanCatalog(c,{...item,scanVerification:{...verification,regionCount:1}},books,{...verification,regionCount:1}),label);}
 });
-test('all active catalog regions preserve strict PDF identity while both supplemental crops resolve',()=>{
+test('all active catalog regions preserve strict PDF identity while current supplemental usages resolve',()=>{
  const catalogs=new Map();
  for(const collection of ['rules','spells','equipment','matrices','classes','progressionExplainer']){
   const items=collection==='progressionExplainer'?(data[collection]?[data[collection]]:[]):data[collection]||[];
@@ -65,7 +71,7 @@ test('all active catalog regions preserve strict PDF identity while both supplem
    catalogs.set(selected.catalog,{entry:{...entry,scanVerification:selected},verification:selected});
   }
  }
- let regionCount=0,pdfCount=0,supplementCount=0,stringPageRejected=0,lowerBookRejected=0,paddedBookRejected=0;
+ let regionCount=0,pdfCount=0,supplementCount=0,stringPageRejected=0,lowerBookRejected=0,paddedBookRejected=0;const supplementalRegionIds=new Set();
  for(const [catalogPath,{entry,verification:selected}] of catalogs){
   const c=JSON.parse(readFileSync(new URL(`../dist/${catalogPath}`,import.meta.url),'utf8'));
   assert.equal(validateScanCatalog(c,entry,books,selected),c,catalogPath);
@@ -74,7 +80,7 @@ test('all active catalog regions preserve strict PDF identity while both supplem
    const identity=books.resolveRegionSourceIdentity(c,region);
    assert.equal(identity.valid,true,`${catalogPath}/${region.id}`);
    if(identity.sourceKind==='supplemental-image'){
-    supplementCount++;
+    supplementCount++;supplementalRegionIds.add(region.id);
     assert.equal(region.book,'DMG');assert.equal(region.printedPage,175);assert.equal(region.pdfPage,null);
     continue;
    }
@@ -87,7 +93,10 @@ test('all active catalog regions preserve strict PDF identity while both supplem
    assert.equal(books.resolveRegionSourceIdentity(c,paddedBook).valid,false,`${catalogPath}/${region.id}: padded book`);paddedBookRejected++;
   }
  }
- assert.ok(catalogs.size>=1016);assert.equal(regionCount,pdfCount+supplementCount);assert.equal(supplementCount,2);
+ assert.ok(catalogs.size>=1016);assert.equal(regionCount,pdfCount+supplementCount);
+ assert.equal(sha(dmg175UniverseBytes),'c5162dd3f52982b223fea95a9bdef0f0654cc2f03982acaafb2981e34aa7d56e');
+ assert.equal(supplementCount,dmg175Universe.counts.activeUsageRows);assert.equal(supplementalRegionIds.size,dmg175Universe.counts.activeDistinctRegionIds);
+ assert.deepEqual([...supplementalRegionIds].sort(),dmg175Universe.registryRegionIds);
  assert.equal(stringPageRejected,pdfCount);assert.equal(lowerBookRejected,pdfCount);assert.equal(paddedBookRejected,pdfCount);
  assert.equal(books.pdfPage('phb','1'),2,'public page lookup remains alias-friendly');
 });

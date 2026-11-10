@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent static review of DMG175 postmetadata facade V2 boundaries",
+  "status": "static review passed; focused runtime replay pending",
+  "sourceCommit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+  "reviewScope": {
+    "v2Freeze": [
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs",
+        "sha256": "ab080c03052095d20b0c0367a9a0484d2f088816e651fcca229fe3462985557b"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs",
+        "sha256": "09da403f955f463a65fc38d28df8cc2c9a32b6f60b729cce2b966669576a1d84"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/closed-completeness-coverage-contract-v1.json",
+        "sha256": "1426257cdb61272b14c03deb9bc4c3750368d6c88d6ebe8c0dc6cecf7f1d6818"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/proposed-caller-retarget-v2.patch",
+        "sha256": "305ca3a0819b20415083bce22e1c315e693a97bb9d9a81686aff67e30adc8fd2"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/jo-closed-loader-v28-context-v1.proposed.mjs",
+        "sha256": "85003bbcc64c3f6aa2081fb93ec443171876a3b766ea07cc76381c558fa5c876"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/jo-closed-loader-v28-context-controls-v1.json",
+        "sha256": "11d792826054f55cc9e2f11c3e98e4c7ae6b319c1e4bdd591593e8d85bb7f607"
+      }
+    ],
+    "preservedV1": [
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs",
+        "sha256": "e3a9bd7c2b1a0c077917b2cb259f51eb199dae67059bac1f72d821235ee6f16b"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs",
+        "sha256": "fe387262b288b3680acd383f28e926b039b1e71c0786928f5192c2775642443b"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/proposed-caller-retarget-v1.patch",
+        "sha256": "dfa6f7c57b1a766276fdeb794253126a5315b64dc9f90c7ba664fba9c405dfc4"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/closed-metadata-contract-v1.json",
+        "sha256": "21800d8e6ac4727d559ebe34e1f2033a8407a1f80189c5ba1d929e16096aba1d"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/closed-runtime-source-viewer-contract-v1.json",
+        "sha256": "be0a128238bfb4d1ba6e34598b3a06982ee6149ed2512e73c6d63be9bdba9714"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/closed-runtime-viewer-contract-v1.json",
+        "sha256": "6c6f1da8faa508212728168cf619fbb66b0b4dca47c1cf8217ee6c0d0ce22728"
+      }
+    ]
+  },
+  "findings": [
+    "The V2 facade adds SOURCE11/V28, current eight-path metadata, one runtime-file, and a separately pinned one-file completeness-coverage stage while importing the unchanged V1 facade; the original path predicates and historical kernels are not changed by the proposed patch.",
+    "The explicit outer JSON path validates plain JSON structure before cloning and hashing, and the current dist/data.json normalization is called immediately before the unchanged XP kernel. The released-stage identity return remains in that kernel; the seven existing XP mutant cases remain in the test patch.",
+    "The Jo equipment reader invokes readV28Dmg175EquipmentFile outside its path-resolution catch, so exact equipment-helper failures propagate. The closed Jo loader proposal pins its arguments and six physical context files, calls the original pinned loader in a temporary V28 context, and removes that context in finally.",
+    "The caller patch now uses loadJoUnextractedPriceRegistrationAtV28 from the canonical closed-loader module. The nine existing pure-validator mutation canaries remain unchanged in the Jo test hunk. The earlier jo-unextracted-price-v28-context draft is not referenced by the final patch.",
+    "The frozen E3 facade, fe38 Jo fixture, dfa patch, and V1 contracts retain their exact recorded hashes."
+  ],
+  "reviewChecks": {
+    "nodeSyntaxChecks": {
+      "status": "pass",
+      "paths": [
+        "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs",
+        "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs",
+        "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/jo-closed-loader-v28-context-v1.proposed.mjs"
+      ]
+    },
+    "joClosedLoaderControls": {
+      "status": "all eight controls recorded as passed; supplied control receipt hash-bound above",
+      "independentReplay": "pending"
+    },
+    "sixFileActualFocusedReadOnlyEsmUrlReplay": "pending; coordinator-owned",
+    "fullSuite": "not run by this reviewer"
+  },
+  "limitations": [
+    "This receipt is a frozen-byte static review. Runtime behavior of the final V2 URL-reader and mutation probes remains pending the coordinator's focused replay.",
+    "No active source input, active test file, Git metadata, or frozen V1/V2 proposal file was changed by this reviewer."
+  ]
+}

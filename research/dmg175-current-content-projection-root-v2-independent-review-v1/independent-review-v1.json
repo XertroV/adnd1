@@ -1,0 +1,363 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Independent review of D175 current-content projection root V2 guard",
+  "reviewState": "V2 closes V1 forged-ID failure and native crop-tuple negatives pass; owner-to-region/catalog-content binding remains open for V3; no production preview approval",
+  "scope": "Read-only review of the root-authored V2 module, its closed region set, catalog inputs, native Books registry checks, and focused mutation suite. The test was run from a temporary copy because it writes its control-result file. Root package and active files were not changed.",
+  "inputs": {
+    "v1ReviewReceipt": {
+      "path": "/workspace/adnd1-ua-source-native/research/dmg175-current-content-projection-independent-review-v1/independent-review-v1.json",
+      "sha256": "bb52c9d0f188f64065c35e45c0a09dc352a9f3352c18af574017db1b6146e7ec"
+    },
+    "v2Package": "research/dmg175-current-content-projection-root-v2",
+    "packageFiles": {
+      "test-root-v2.mjs": "f9cbd7560b481319d6b5398f8240d824e7980a7ce3fe1838de4d55ebbc668ce8",
+      "dmg175-availability-projection-target-v2.mjs": "cfdf387c257975042080cd1f9c657c497c38e1940846a956705e9c21eeac77a4",
+      "root-control-result-v2.json": "3d1ff3d1f4dd3c75e3be2165a6e975a509eac2aa80fa5e43cac3115f246003ac",
+      "source-catalog-pins-v2.json": "0ef3c24dc7c10a9521128f94671f40c789b327ea6b35aa12556a744a9c1fb1da"
+    },
+    "sourceCatalogPinCount": 12,
+    "sourceCatalogPins": [
+      {
+        "path": "dist/scans/verified/rules-appendix-c-character-guidance.json",
+        "expectedSha256": "06aca643a116795eb8da20ed9447a2495ec71b150e047005db48dfac0c8a0102",
+        "observedSha256": "06aca643a116795eb8da20ed9447a2495ec71b150e047005db48dfac0c8a0102",
+        "matches": true
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-character-levels.json",
+        "expectedSha256": "f7f2c6b0e3272ee9c078686ce03b065160bde6b0f1218a9c8d9e9efdd51e66ff",
+        "observedSha256": "f7f2c6b0e3272ee9c078686ce03b065160bde6b0f1218a9c8d9e9efdd51e66ff",
+        "matches": true
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-character-subtable.json",
+        "expectedSha256": "0df6a6dde3884e3dc81810c1d8750aab7a645e85674af4a37b5b479c4bbe2e19",
+        "observedSha256": "0df6a6dde3884e3dc81810c1d8750aab7a645e85674af4a37b5b479c4bbe2e19",
+        "matches": true
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-henchmen.json",
+        "expectedSha256": "dc1e6e42c6a21dee554f583da43518bbdd0f44bf0de9ce87a375b8270a15fa87",
+        "observedSha256": "dc1e6e42c6a21dee554f583da43518bbdd0f44bf0de9ce87a375b8270a15fa87",
+        "matches": true
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-magic-item-notes.json",
+        "expectedSha256": "ef15db32b4af72fc52984f2bc1e87dd0b3ea5e4a26f9df44b0a9f21272adf116",
+        "observedSha256": "ef15db32b4af72fc52984f2bc1e87dd0b3ea5e4a26f9df44b0a9f21272adf116",
+        "matches": true
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-magic-table-i.json",
+        "expectedSha256": "b8b6331b7a73db2706c2fa7cd182436eb630543952cd5eba0815a4f43b659de0",
+        "observedSha256": "b8b6331b7a73db2706c2fa7cd182436eb630543952cd5eba0815a4f43b659de0",
+        "matches": true
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-magic-table-ii.json",
+        "expectedSha256": "4e0bd4444cbde7a7589ef528f0b9df20457baa97b594410aefb1b042c8b9e7fb",
+        "observedSha256": "4e0bd4444cbde7a7589ef528f0b9df20457baa97b594410aefb1b042c8b9e7fb",
+        "matches": true
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-magic-table-iii.json",
+        "expectedSha256": "b9a17461b509c194906dfd4bc81cb7ab2d2d1db3f780d408675096736bcf86c5",
+        "observedSha256": "b9a17461b509c194906dfd4bc81cb7ab2d2d1db3f780d408675096736bcf86c5",
+        "matches": true
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-magic-table-iv.json",
+        "expectedSha256": "489e3ad4eb09edd2eb241c7192063f7e7ecccb9dff9040d4ece89a051b225511",
+        "observedSha256": "489e3ad4eb09edd2eb241c7192063f7e7ecccb9dff9040d4ece89a051b225511",
+        "matches": true
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-party-magic-distribution.json",
+        "expectedSha256": "52c01795856e9e6ec69aca061109e490d8b876cdcfcbfc1ca414351684def18f",
+        "observedSha256": "52c01795856e9e6ec69aca061109e490d8b876cdcfcbfc1ca414351684def18f",
+        "matches": true
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-party-size.json",
+        "expectedSha256": "617df82bf7a79f243106bf3b424546164a1832b0106e7e3deb51dff797cb1b8a",
+        "observedSha256": "617df82bf7a79f243106bf3b424546164a1832b0106e7e3deb51dff797cb1b8a",
+        "matches": true
+      },
+      {
+        "path": "dist/scans/verified/rules-encounter-types.json",
+        "expectedSha256": "ffbe682e5c4ba3f2d2f45e0e6fc9361654fa6527c231f3a4fc220b4510e1aa3d",
+        "observedSha256": "ffbe682e5c4ba3f2d2f45e0e6fc9361654fa6527c231f3a4fc220b4510e1aa3d",
+        "matches": true
+      }
+    ],
+    "expectedRegionIdCount": 34,
+    "expectedRegionIds": [
+      "dmg-175-level-others-context-5aa02e91e35c4c28",
+      "dmg-175-party-table-context-78c4c383c38c7d10",
+      "dmg175-character-level-left-level-of-characters-paragraph-left-column-portion",
+      "dmg175-character-level-right-level-of-characters-paragraph-right-column-continuation",
+      "dmg175-character-subtable-character-subtable-row-00",
+      "dmg175-character-subtable-character-subtable-row-01-17",
+      "dmg175-character-subtable-character-subtable-row-18-20",
+      "dmg175-character-subtable-character-subtable-row-21-60",
+      "dmg175-character-subtable-character-subtable-row-61-62",
+      "dmg175-character-subtable-character-subtable-row-63-65",
+      "dmg175-character-subtable-character-subtable-row-66-86",
+      "dmg175-character-subtable-character-subtable-row-87-88",
+      "dmg175-character-subtable-character-subtable-row-89-98",
+      "dmg175-character-subtable-character-subtable-row-99",
+      "dmg175-character-subtable-complete-character-subtable-heading-column-labels-and-all-rows",
+      "dmg175-level-others-abilities-guidance-character-and-henchman-abilities-alignment-paragraph",
+      "dmg175-level-others-abilities-guidance-character-and-henchman-equipment-paragraph",
+      "dmg175-level-others-abilities-guidance-character-spells-paragraph",
+      "dmg175-level-others-abilities-guidance-complete-level-of-others-with-characters-paragraph",
+      "dmg175-party-magic-items-party-magic-items-complete-introductory-paragraph",
+      "dmg175-party-magic-items-party-magic-items-distribution-10th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-11th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-12th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-1st-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-2nd-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-3rd-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-4th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-5th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-6th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-7th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-8th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-9th-level",
+      "dmg175-party-size-number-of-characters-in-party-procedure",
+      "dmg175-party-size-separate-party-procedure-clause-incompatible-profession-and-class-maximum-results"
+    ],
+    "currentV28Commit": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
+    "currentV28Hashes": {
+      "rules.json": "1e8cf08832da0c086e30715a0f14eeb456e54371dcf22d4e1dd5ef942d4a862a",
+      "dist/data.json": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+      "dist/books.js": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811",
+      "dist/app.js": "8ae754da261d2b54be9dab3d2f6073ecf8af65516cbf9ba7396453ab99cb8436"
+    },
+    "privateSourceIdentity": {
+      "jpegSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+      "pdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "jpegDimensionsPx": [
+        1329,
+        1796
+      ],
+      "printingStatus": "not-specified",
+      "pdfPage175": null,
+      "noPrivateSourceBytesCopied": true
+    }
+  },
+  "findings": [
+    {
+      "id": "PASS-01",
+      "level": "pass",
+      "finding": "V2 has a closed 34-ID expected set; derive and published-entry paths compare the emitted p.175 IDs and approved crop hash set against it. The exact V1 forged prefix mutant is rejected by the registered Books crop tuple guard."
+    },
+    {
+      "id": "PASS-02",
+      "level": "pass",
+      "finding": "All 12 catalog SHA pins match the current 386b catalogs. Their p.175 regions resolve through the current Books registry with exact source/crop tuple identity; the catalog set has 34 unique p.175 IDs, 8 unique p.175 crop hashes, and 15 total catalog image assets. All 8 p.175 crop assets are byte-hash matched to their catalog and pixel-identical to the pinned private JPEG at the registered bounds, including fd13."
+    },
+    {
+      "id": "PASS-03",
+      "level": "pass",
+      "finding": "The accepted fd13 left-column crop is registered under the existing Level-of-Characters region ID, p.175/PDF null, source bounds [0,1625,650,1760], and output size 650x135. The old 07fd footer crop tuple is rejected. Crop replacement changes only the available-image set; it does not promote the two legacy context reviews or source/value/mechanics grades."
+    },
+    {
+      "id": "PASS-04",
+      "level": "pass",
+      "finding": "V2 retains the exact two legacy context IDs, preserves the two-crop monetary screen (deep equality test), leaves p.175 canonical PDF page null, preserves 11 owners/87 table rows (22 p.175, 65 p.176), and carries 120 field targets as pending. The summary now explicitly scopes reviewedCropCount=2 to the legacy context regions."
+    },
+    {
+      "id": "PASS-05",
+      "level": "pass",
+      "finding": "Copied test-root-v2.mjs passed in an isolated temporary package (6 native tuple negatives, 2 published-evidence negatives, V1 mutant accepted/V2 mutant rejected). The resulting control JSON was byte-identical to the frozen root-control-result-v2.json. No full product build or source-value assessment was run."
+    },
+    {
+      "id": "OPEN-01",
+      "level": "integration-guard",
+      "finding": "The V2 module and its focused test do not consume/enforce source-catalog-pins-v2.json as an exact per-catalog pin. A cross-owner mutation that swaps the registered left Level-of-Characters region object with the registered Party Size region object between those two catalogs (each catalog count preserved, all tuples/IDs still registered, global closed set unchanged) is accepted at 8 images/34 IDs. The current 12 catalog files match the companion pins, so the observed current output is valid; the code alone does not reject this catalog reassociation unless integration enforces those exact hashes. V3 should bind per-catalog expected region/source tuples or enforce the canonical 12-file pin map."
+    },
+    {
+      "id": "OPEN-02",
+      "level": "integration-pending",
+      "finding": "This is a projection-module/control package, not an assembled current V28 preview. The current dist/data.json remains the captured 6a data while raw rules.json was updated afterward; source-card coverage still needs fresh reassembly and an actual preview check before release."
+    }
+  ],
+  "currentCounts": {
+    "distinctSupplementalCropImages": 8,
+    "distinctP175RegionIds": 34,
+    "previouslyReviewedContextRegions": 2,
+    "newlyCatalogedSupplementalImages": 6,
+    "catalogImagesAcrossP175P176AndPHB103": 15,
+    "supplementalCropImageSha256s": [
+      "15cef5c40c9874f77299346be8030c81d5304e252576bc949bd2bae9d7a237cd",
+      "559d4fbdf082168cf66bd5249127ceed62dde39fec6feb57738cfd1b4c613c77",
+      "5aa02e91e35c4c28152caccd947096943b74889b8596376cb86cb0c7170291b8",
+      "78c4c383c38c7d100a9e66bec4f36de1fdb9453d6e44d1eec53120e849a36e89",
+      "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
+      "b71ff06cac3fecd606cb6d6e42b5be8eb23faf5e03594fba9902ef8f3ea86a0b",
+      "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
+      "fd13f5d51d4f527d8887c31627d39ce224c33ccd810a78bd8b01ba204f8aa3fc"
+    ],
+    "p175RegionIds": [
+      "dmg-175-level-others-context-5aa02e91e35c4c28",
+      "dmg-175-party-table-context-78c4c383c38c7d10",
+      "dmg175-character-level-left-level-of-characters-paragraph-left-column-portion",
+      "dmg175-character-level-right-level-of-characters-paragraph-right-column-continuation",
+      "dmg175-character-subtable-character-subtable-row-00",
+      "dmg175-character-subtable-character-subtable-row-01-17",
+      "dmg175-character-subtable-character-subtable-row-18-20",
+      "dmg175-character-subtable-character-subtable-row-21-60",
+      "dmg175-character-subtable-character-subtable-row-61-62",
+      "dmg175-character-subtable-character-subtable-row-63-65",
+      "dmg175-character-subtable-character-subtable-row-66-86",
+      "dmg175-character-subtable-character-subtable-row-87-88",
+      "dmg175-character-subtable-character-subtable-row-89-98",
+      "dmg175-character-subtable-character-subtable-row-99",
+      "dmg175-character-subtable-complete-character-subtable-heading-column-labels-and-all-rows",
+      "dmg175-level-others-abilities-guidance-character-and-henchman-abilities-alignment-paragraph",
+      "dmg175-level-others-abilities-guidance-character-and-henchman-equipment-paragraph",
+      "dmg175-level-others-abilities-guidance-character-spells-paragraph",
+      "dmg175-level-others-abilities-guidance-complete-level-of-others-with-characters-paragraph",
+      "dmg175-party-magic-items-party-magic-items-complete-introductory-paragraph",
+      "dmg175-party-magic-items-party-magic-items-distribution-10th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-11th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-12th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-1st-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-2nd-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-3rd-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-4th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-5th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-6th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-7th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-8th-level",
+      "dmg175-party-magic-items-party-magic-items-distribution-9th-level",
+      "dmg175-party-size-number-of-characters-in-party-procedure",
+      "dmg175-party-size-separate-party-procedure-clause-incompatible-profession-and-class-maximum-results"
+    ]
+  },
+  "registeredP175AssetFiles": [
+    {
+      "file": "dmg-175-dmg175-character-level-left-fd13f5d51d4f527d.png",
+      "sha256": "fd13f5d51d4f527d8887c31627d39ce224c33ccd810a78bd8b01ba204f8aa3fc",
+      "catalogRegionSha256": "fd13f5d51d4f527d8887c31627d39ce224c33ccd810a78bd8b01ba204f8aa3fc",
+      "boundsPx": [
+        0,
+        1625,
+        650,
+        1760
+      ],
+      "matchesCatalog": true,
+      "sourcePixelExact": true
+    },
+    {
+      "file": "dmg-175-dmg175-character-level-right-559d4fbdf082168c.png",
+      "sha256": "559d4fbdf082168cf66bd5249127ceed62dde39fec6feb57738cfd1b4c613c77",
+      "catalogRegionSha256": "559d4fbdf082168cf66bd5249127ceed62dde39fec6feb57738cfd1b4c613c77",
+      "boundsPx": [
+        665,
+        0,
+        1329,
+        125
+      ],
+      "matchesCatalog": true,
+      "sourcePixelExact": true
+    },
+    {
+      "file": "dmg-175-dmg175-character-subtable-d04058b90644212a.png",
+      "sha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
+      "catalogRegionSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
+      "boundsPx": [
+        0,
+        1144,
+        650,
+        1445
+      ],
+      "matchesCatalog": true,
+      "sourcePixelExact": true
+    },
+    {
+      "file": "dmg-175-dmg175-level-others-abilities-guidance-b71ff06cac3fecd6.png",
+      "sha256": "b71ff06cac3fecd606cb6d6e42b5be8eb23faf5e03594fba9902ef8f3ea86a0b",
+      "catalogRegionSha256": "b71ff06cac3fecd606cb6d6e42b5be8eb23faf5e03594fba9902ef8f3ea86a0b",
+      "boundsPx": [
+        660,
+        115,
+        1329,
+        978
+      ],
+      "matchesCatalog": true,
+      "sourcePixelExact": true
+    },
+    {
+      "file": "dmg-175-dmg175-party-magic-items-81e4e0a51df9ed17.png",
+      "sha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
+      "catalogRegionSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
+      "boundsPx": [
+        630,
+        990,
+        1329,
+        1796
+      ],
+      "matchesCatalog": true,
+      "sourcePixelExact": true
+    },
+    {
+      "file": "dmg-175-dmg175-party-size-15cef5c40c9874f7.png",
+      "sha256": "15cef5c40c9874f77299346be8030c81d5304e252576bc949bd2bae9d7a237cd",
+      "catalogRegionSha256": "15cef5c40c9874f77299346be8030c81d5304e252576bc949bd2bae9d7a237cd",
+      "boundsPx": [
+        0,
+        1432,
+        650,
+        1635
+      ],
+      "matchesCatalog": true,
+      "sourcePixelExact": true
+    },
+    {
+      "file": "dmg-175-level-others-context-5aa02e91e35c4c28.png",
+      "sha256": "5aa02e91e35c4c28152caccd947096943b74889b8596376cb86cb0c7170291b8",
+      "catalogRegionSha256": "5aa02e91e35c4c28152caccd947096943b74889b8596376cb86cb0c7170291b8",
+      "boundsPx": [
+        670,
+        120,
+        1329,
+        492
+      ],
+      "matchesCatalog": true,
+      "sourcePixelExact": true
+    },
+    {
+      "file": "dmg-175-party-table-context-78c4c383c38c7d10.png",
+      "sha256": "78c4c383c38c7d100a9e66bec4f36de1fdb9453d6e44d1eec53120e849a36e89",
+      "catalogRegionSha256": "78c4c383c38c7d100a9e66bec4f36de1fdb9453d6e44d1eec53120e849a36e89",
+      "boundsPx": [
+        0,
+        1145,
+        635,
+        1635
+      ],
+      "matchesCatalog": true,
+      "sourcePixelExact": true
+    }
+  ],
+  "failingMutationEvidence": {
+    "v1ModuleSha256": "f0059c68e300bf0214779c9f622fb14f263b5c173474be38ae71eaa1b694d49d",
+    "v1Result": "forged valid-prefix region ID accepted; 8 crops/34 IDs",
+    "v2ModuleSha256": "cfdf387c257975042080cd1f9c657c497c38e1940846a956705e9c21eeac77a4",
+    "v2Result": "same forged ID rejected by Books-registered tuple validation",
+    "additionalCatalogAssociationMutation": "Swap the exact registered p.175 left Level-of-Characters region and Party Size region objects between their two owner catalogs; V2 accepts with 8 crops/34 IDs."
+  },
+  "testRun": {
+    "command": "node test-root-v2.mjs from temporary copy of all four package files",
+    "exitCode": 0,
+    "output": "status pass; nativeTupleNegatives 6; publishedEvidenceNegatives 2; baselineMutantAccepted true; newMutantRejected true",
+    "temporaryOutputMatchesFrozenControlResult": true
+  },
+  "limits": [
+    "No source-value, mechanics, target-field, context, or completeness grades were changed.",
+    "No canonical PDF page was assigned to supplemental printed p.175.",
+    "The root-owned V2 package, 386b current input, and production data were not modified by this review."
+  ]
+}

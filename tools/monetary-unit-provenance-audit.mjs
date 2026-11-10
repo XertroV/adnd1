@@ -8,7 +8,8 @@ import {fileURLToPath} from 'node:url';
 import {gunzipSync} from 'node:zlib';
 import {loadAuditInputs} from './quantity-source-absence-audit.mjs';
 import {collectMonetaryRowIdentityRecords,monetaryRowIdentityInputs} from './monetary-row-identity-audit.mjs';
-import {loadJoUnextractedPriceRegistration,joPriceRegistrationPath} from './jo-unextracted-price-registration.mjs';
+import {loadJoCurrentSuccessor,joPriceRegistrationPath,joPriceRegistrationSha256} from './dmg175-jo-unextracted-price-registration-v1.mjs';
+import {joPriceRegistrationPath as legacyJoPriceRegistrationPath} from './jo-unextracted-price-registration.mjs';
 
 const root=resolve(import.meta.dirname,'..');
 export const unitFieldPattern=/(?:unit|quantit|qty|count|number|pieces?|scale|size|interval|duration|period|basis|measure|rate|amount(?:per|or)|perUnit|frequency|timeunit)/i;
@@ -149,7 +150,7 @@ function loadJoUnitAdmissionBeforeCapture({repoRoot=root}={}){
   throw new Error('Frozen Jo unit-admission before capture scope changed.');
  if(capture.joAdmission?.uid!==expectedJoUnitRecord.uid||capture.joAdmission?.input!==expectedJoUnitRecord.input
    ||capture.joAdmission?.pointer!==expectedJoUnitRecord.pointer||capture.joAdmission?.recordSha256!==expectedJoUnitRecord.recordSha256
-   ||capture.joAdmission?.currentJoRegistrationPath!==joPriceRegistrationPath)
+   ||capture.joAdmission?.currentJoRegistrationPath!==legacyJoPriceRegistrationPath)
   throw new Error('Frozen Jo unit-admission before capture does not bind the exact registered Jo record.');
  return {capture,captureSha256};
 }
@@ -177,10 +178,10 @@ function currentJoUnitAdmission({documents,records,frozen,repoRoot=root}){
    ||siteClaim.value.sourcePageReference!==null||siteClaim.value.estimate!==null
    ||!Array.isArray(siteClaim.value.sourceRowIds)||siteClaim.value.sourceRowIds.length!==0)
   throw new Error('Current Jo price-claim pointer no longer proves only the exact unextracted, unknown-price state.');
- const registration=loadJoUnextractedPriceRegistration({repoRoot,data:distDoc.data,inventory:canonicalDoc.data});
+ const registration=loadJoCurrentSuccessor({repoRoot,data:distDoc.data,inventory:canonicalDoc.data});
  if(registration.itemId!=='ua-jo-stick'||registration.recordSha256!=='25c8c40eab79b1b1dc44fa701e200bbd63b9594596878a82dd8325479451153b'
    ||registration.sourceAbsence!==false||registration.valueReviewed!==false||registration.registryRef?.path!==joPriceRegistrationPath
-   ||registration.registryRef?.sha256!==before.capture.joAdmission.currentJoRegistrationSha256)
+   ||registration.registryRef?.sha256!==joPriceRegistrationSha256)
   throw new Error('Jo price registration no longer preserves the exact unextracted source-unknown state.');
  const matchedUnitQuantityFields=[];
  walkScalarLeaves(siteClaim.value,leaf=>{const fieldName=String(leaf.parts.at(-1)??'');if(unitFieldPattern.test(fieldName))matchedUnitQuantityFields.push(expectedJoUnitRecord.pointer+leaf.jsonPointer);});

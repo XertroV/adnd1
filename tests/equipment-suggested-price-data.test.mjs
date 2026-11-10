@@ -1,4 +1,5 @@
 import {withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
+import {projectDmg175EquipmentLeavesForHistoricalFixture} from '../research/dmg175-validation-coordinator-v1/history-recovery-v1/dmg175-equipment-epoch-outer-v2.proposed.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -18,7 +19,7 @@ test('editorial suggestions preserve unknown printed prices and match reviewed c
    assert.equal(other.price.amount,c.amount);assert.equal(other.price.currency,c.currency);assert.equal(other.price.book,c.book);assert.ok(c.pages.every(p=>other.price.pages.includes(p)));assert.match(c.label,/not this item price/);
   }
  }
- assert.equal(withoutSourceFirstEquipment(data.equipment).filter(x=>x.price!=null).length,84);
+ assert.equal(withoutSourceFirstEquipment(projectDmg175EquipmentLeavesForHistoricalFixture(data.equipment)).filter(x=>x.price!=null).length,84);
  const clean=reverseSuggestedPriceChanges(data.equipment);assert.ok(clean.filter(x=>suggestedPriceCorrections.records.some(r=>r.id===x.id)).every(x=>!Object.hasOwn(x,'suggestedPrice')));
  const tampered=structuredClone(data.equipment);tampered.find(x=>x.id===suggestedPriceCorrections.records[0].id).suggestedPrice.comparisons[0].unit='tampered';assert.throws(()=>reverseSuggestedPriceChanges(tampered),/approved value/);
 });

@@ -4,12 +4,15 @@ import {readFileSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
-import {projectPass8PhbSourceBytes,projectPass8PhbSourceJson} from './helpers/pass8-ua-source-history.mjs';
+import {fileURLToPath} from 'node:url';
+import {projectPass8PhbSourceBytes,projectPass8PhbSourceJson} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 import {assertReviewedClassXpContinuationTarget} from '../tools/class-xp-continuation-target-review.mjs';
-import {assertCurrentUaSourceOwnerCohort,assertCompiledWeaponBindingPreservation,assertUaSourceContextBindingCohort} from './helpers/ua-source-current-cohort.mjs';
+import {readDmg175CurrentSourceInputs,assertDmg175CurrentSourceCohort} from './helpers/dmg175-source-current-cohort.mjs';
+import {assertUaSourceContextBindingCohort as assertClosedV28UaSourceContextBindingCohort} from './helpers/ua-source-closed-v28-context.mjs';
 
 // Native assertions read current files directly. The four retained XP application
 // comparisons then receive the complete closed ae7 predecessor through history.
+const root=fileURLToPath(new URL('../',import.meta.url));
 const read=path=>readFileSync(new URL(`../${path}`,import.meta.url));
 const nativeJson=path=>JSON.parse(read(path));
 const json=path=>JSON.parse(projectPass8PhbSourceBytes(path,read(path)));
@@ -93,27 +96,32 @@ test('native PHB distribution retains all eleven strict continuation targets and
     assert.equal(previous.xpContinuation.evidenceBindings[0].reviewStatus,'field-target-pending');
     assertCurrentRegionReviews(item,previous,{native:true});
   }
-  assertCurrentUaSourceOwnerCohort(current);
+  const currentInputs=readDmg175CurrentSourceInputs(root);
+  assert.deepEqual(currentInputs.data,current,'native current guard uses the exact PHB distribution parsed by this test');
+  assert.deepEqual(assertDmg175CurrentSourceCohort(currentInputs),{sourceCommit:'987a25d3ba2dcac0940569a2afab73f775e38028',owners:1014,canonicalBindings:4931,priorWholeBindings:4705,addedBindings:226,manualAdditions:123,nonmanualAdditions:103,newRules:11,sourceTableRows:87,renderedEquipmentFields:3,sourceCells:33,historicalMechanicsReviews:1215});
+  assertClosedV28UaSourceContextBindingCohort(currentInputs.inventory.fieldEvidenceBindings);
   assert.deepEqual(projectPass8PhbSourceJson('dist/data.json',current),json('dist/data.json'),'only the exact whole PHB application may precede the unchanged XP history checks');
 });
 
 test('native current references preserve all4681 weapon-stage bindings and add exactly24 unassessed UA context references',()=>{
   const gitJson=path=>JSON.parse(execFileSync('git',['show',`cc9509047746d5e27a71cb5b1e0cfcb739a688c9:${path}`],{maxBuffer:64*1024*1024}));
-  const current=nativeJson('research/price-source-inventory.json').fieldEvidenceBindings,published=gitJson('research/price-source-inventory.json').fieldEvidenceBindings;
-  assert.equal(published.length,4574);assert.equal(current.length,4681+24);
-  assertCompiledWeaponBindingPreservation();assertUaSourceContextBindingCohort(current);
+  const currentInputs=readDmg175CurrentSourceInputs(root);
+  assert.deepEqual(assertDmg175CurrentSourceCohort(currentInputs),{sourceCommit:'987a25d3ba2dcac0940569a2afab73f775e38028',owners:1014,canonicalBindings:4931,priorWholeBindings:4705,addedBindings:226,manualAdditions:123,nonmanualAdditions:103,newRules:11,sourceTableRows:87,renderedEquipmentFields:3,sourceCells:33,historicalMechanicsReviews:1215});
+  const current=currentInputs.inventory.fieldEvidenceBindings,published=gitJson('research/price-source-inventory.json').fieldEvidenceBindings;
+  assert.equal(published.length,4574);assert.equal(current.length,4931);
   const oldObjects=new Set(published.map(binding=>JSON.stringify(binding)));
   assert.equal(oldObjects.size,4574);
   assert.deepEqual(current.filter(binding=>oldObjects.has(JSON.stringify(binding))),published,'all4574 complete old binding objects and their relative order remain exact');
-  const added=current.filter(binding=>!oldObjects.has(JSON.stringify(binding))&&binding.collection==='rules');
+  assertClosedV28UaSourceContextBindingCohort(current);
+  const weaponOwnerIds=new Set(['rules:phb-hurled-weapons-and-missiles-table','rules:ua-hurled-weapons-and-missiles-table','rules:weapon-versus-armor-adjustments']);
+  const added=current.filter(binding=>!oldObjects.has(JSON.stringify(binding))&&weaponOwnerIds.has(`${binding.collection}:${binding.itemId}`));
   assert.equal(added.length,107);
   assert.deepEqual(added.reduce((counts,binding)=>{const key=`${binding.collection}:${binding.itemId}`;counts[key]=(counts[key]||0)+1;return counts;},{}),{
     'rules:phb-hurled-weapons-and-missiles-table':43,
     'rules:ua-hurled-weapons-and-missiles-table':63,
     'rules:weapon-versus-armor-adjustments':1,
-  },'only the two new table owners and the existing DMG28 source-context field add bindings');
-  assert.ok(added.every(binding=>binding.reviewStatus==='field-target-pending'&&binding.sourceValueStatus==='not-assessed-by-field-target-review'&&binding.valueReview==null),'all107 added bindings retain pending field and unassessed source-value status');
-  assertCurrentUaSourceOwnerCohort(nativeJson('dist/data.json'));
+  },'only the two new table owners and the existing DMG28 source-context field add these 107 bindings');
+  assert.ok(added.every(binding=>binding.reviewStatus==='field-target-pending'&&binding.sourceValueStatus==='not-assessed-by-field-target-review'&&binding.valueReview==null),'all107 added weapon bindings retain pending field and unassessed source-value status');
 });
 
 test('all eleven current continuation mappings pass their real source-bound guard without changing class mechanics',()=>{

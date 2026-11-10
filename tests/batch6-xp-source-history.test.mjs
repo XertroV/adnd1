@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
+import {readBeforePass8XpContinuationFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 import {execFileSync} from 'node:child_process';
 import {reverseApprovedGrandDruidSourcePage, xpBeforeCatalogsForAliasReplay, reverseApprovedXpExcerptCounts} from './helpers/ua-source-batch6-xp-source-history.mjs';
 const read = path => JSON.parse(readFileSync(new URL('../' + path, import.meta.url)));

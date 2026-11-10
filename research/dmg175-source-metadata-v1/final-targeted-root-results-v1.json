@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "dmg175-actual-root-final-targeted-repair-results",
+  "status": "all-diagnosed-failures-closed-in-targeted-runs-full-workflow-pending",
+  "priorDiagnostic": {
+    "path": "research/dmg175-source-metadata-v1/fullsuite-after-reviewed-migrations-v2/failure-census-v1.json",
+    "sha256": "d0de8bc9231857f6ab56b6b82eee3d85587447c2431f5caa9f22596ecf76049a",
+    "counts": {
+      "tests": 1118,
+      "pass": 1106,
+      "fail": 12,
+      "skipped": 0
+    },
+    "maskedAliasCasesSubsequentlyChecked": 2
+  },
+  "executions": [
+    {
+      "label": "final historical/source and alias context",
+      "execution": {
+        "finished": "2026-11-10T08:39:19.899719+00:00",
+        "results": [
+          {
+            "command": [
+              "node",
+              "--test",
+              "--test-name-pattern=XP-to-Jo stage rejects|captured historical pairs|distinct Jo owner|fifth unextracted price|UA history restores whole",
+              "tests/batch2-independent.test.mjs",
+              "tests/dmg175-source-history.test.mjs",
+              "tests/jo-stick-source-mapping.test.mjs",
+              "tests/pass8-ua-source-history.test.mjs"
+            ],
+            "exitCode": 0
+          },
+          {
+            "command": [
+              "node",
+              "--test",
+              "tests/continuation-alias-audit.test.mjs",
+              "tests/equipment-price-completion-73.test.mjs"
+            ],
+            "exitCode": 0
+          }
+        ]
+      },
+      "logs": [
+        {
+          "privatePath": "/workspace/vault-audit-private/pass8/root/final-historical-context-focused-root-v3/0.tap",
+          "sha256": "c275472795b3b4c9c87dee695a964180ecf0b8fa9f5b8990e4282dc35d7938e1",
+          "sizeBytes": 753,
+          "stats": {
+            "tests": 5,
+            "pass": 5,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          }
+        },
+        {
+          "privatePath": "/workspace/vault-audit-private/pass8/root/final-historical-context-focused-root-v3/1.tap",
+          "sha256": "247da8d5af449bb788a5f6a4b3125e16a5a33bc9d280f8b4606d96c91e2bed7b",
+          "sizeBytes": 1024,
+          "stats": {
+            "tests": 9,
+            "pass": 9,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          }
+        }
+      ]
+    },
+    {
+      "label": "DMG225 native target proofs",
+      "execution": {
+        "command": [
+          "node",
+          "--test",
+          "tests/pass8-dmg225-field-mapping-target-proof.test.mjs"
+        ],
+        "finished": "2026-11-10T08:20:04.344113+00:00",
+        "exitCode": 0
+      },
+      "logs": [
+        {
+          "privatePath": "/workspace/vault-audit-private/pass8/root/dmg225-target-test-root-after-v1/suite.tap",
+          "sha256": "9ad0a9bb92915aa127d2d03ab14875c5d6b07116d27e6787c1e6bd0d73a2d861",
+          "sizeBytes": 688,
+          "stats": {
+            "tests": 5,
+            "pass": 5,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          }
+        }
+      ]
+    },
+    {
+      "label": "current monetary producer and stale legacy input rejection",
+      "execution": {
+        "command": [
+          "node",
+          "--test",
+          "--test-name-pattern=monetary successor",
+          "tests/pass8-citation-target-crop-history.test.mjs"
+        ],
+        "exitCode": 0,
+        "finished": "2026-11-10T08:33:25.483175+00:00"
+      },
+      "logs": [
+        {
+          "privatePath": "/workspace/vault-audit-private/pass8/root/crop-monetary-current-producer-test-after-v2/suite.tap",
+          "sha256": "f77dc86e5f87b0e7b66a8bcabb401142d01fffbf6c5c084d89f91635bd30d2c4",
+          "sizeBytes": 220,
+          "stats": {
+            "tests": 1,
+            "pass": 1,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          }
+        }
+      ]
+    },
+    {
+      "label": "XP native current integration",
+      "execution": {
+        "command": [
+          "node",
+          "--test",
+          "tests/xp-continuation-current-integration.test.mjs"
+        ],
+        "exitCode": 0,
+        "finished": "2026-11-10T08:48:26.525135+00:00"
+      },
+      "logs": [
+        {
+          "privatePath": "/workspace/vault-audit-private/pass8/root/xp-current-native-root-after-v2/suite.tap",
+          "sha256": "22e6cf1b93de0070c76538753aa53779bb6ac896d97cc0dde0ca210c11cc6c7c",
+          "sizeBytes": 839,
+          "stats": {
+            "tests": 6,
+            "pass": 6,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          }
+        }
+      ]
+    }
+  ],
+  "runtimeSource": {
+    "dataSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+    "viewerSha256": "960507018352998d7b1c7f6633ea40a5c9973cff2ffb17c15a0ab7a6413b8f6f",
+    "searchSha256": "3a82651aa36e36a0a0697b91f6ce5db31350911ce1aa858e59fb91f2b40c66da"
+  },
+  "actualBrowserResults": [
+    {
+      "path": "research/dmg175-actual-app-browser-v7/actual-app-browser-result-v7.json",
+      "sha256": "09b1a6bc5c3edf676834dbb52abf7d7f6bb9d88ee58e6a5e3e4b37ab95054db1",
+      "checks": 329,
+      "servedAssets": 37,
+      "pendingControlsObservedAndClicked": 120
+    },
+    {
+      "path": "research/dmg175-rule-notes-search-v1/actual-browser/actual-browser-result-v1.json",
+      "sha256": "f02c86a5200292aef15202a929802c958de8adf9bcf1674dbb542f9505a2eb97",
+      "checks": 124,
+      "distinctServedAssets": 26
+    }
+  ],
+  "metadataCommandsAfterFinalRuntimeChanges": {
+    "node tools/refresh-gaps-handoff.mjs --check": 0,
+    "node tools/source-report-consistency-audit.mjs --check": 0,
+    "node tools/monetary-source-inventory.mjs --check research/monetary-source-inventory.json": 0
+  },
+  "scopeLimits": [
+    "These are targeted actual runs plus final actual browser runs, not a claim that the complete suite or publication has passed.",
+    "Canonical old binding objects retain filtered relative order; the 226 additions are interleaved. The 807 prior manual declarations remain a literal prefix.",
+    "Field-target review does not promote numeric/source-value, contextual adequacy, default-selection or whole-book review."
+  ],
+  "createdAt": "2026-11-10T08:53:03.229476+00:00"
+}

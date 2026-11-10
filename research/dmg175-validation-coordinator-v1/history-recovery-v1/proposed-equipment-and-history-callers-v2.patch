@@ -1,0 +1,110 @@
+--- a/tests/bone-case-price.test.mjs
++++ b/tests/bone-case-price.test.mjs
+@@ -2,6 +2,7 @@
+ import assert from 'node:assert/strict';
+ import {readFileSync} from 'node:fs';
+ import {reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
++import {projectDmg175EquipmentLeavesForHistoricalFixture} from '../research/dmg175-validation-coordinator-v1/history-recovery-v1/dmg175-equipment-epoch-outer-v2.proposed.mjs';
+ import {withoutGeneratedCitationTransport} from './equipment-source-first-fixture.mjs';
+ 
+ const read=path=>JSON.parse(readFileSync(new URL(path,import.meta.url),'utf8'));
+@@ -12,7 +13,7 @@
+  const fixture=read('./fixtures/equipment-bone-case-price-correction.json').records[0].changes[0];
+  assert.deepEqual(withoutGeneratedCitationTransport(fixture.newValue),withoutGeneratedCitationTransport(item.price));assert.equal(fixture.oldValue.currency,'sp');
+  assert.equal(fixture.independentReview.verdict,'confirmed');
+- const old=reverseApprovedEquipmentChanges(equipment).find(x=>x.id===item.id);
++ const old=reverseApprovedEquipmentChanges(projectDmg175EquipmentLeavesForHistoricalFixture(equipment)).find(x=>x.id===item.id);
+  assert.equal(old.price.currency,'sp');
+  const catalog=read('../dist/scans/verified/equipment-phb-bone-case.json');
+  assert.deepEqual(catalog.regions.find(x=>x.id==='phb-36-d3d596c3f9310d33').checkedFields.purchasePrice,{amount:5,currency:'gp',book:'PHB',pages:[36]});
+--- a/tests/equipment-completeness.test.mjs
++++ b/tests/equipment-completeness.test.mjs
+@@ -3,6 +3,7 @@
+ import {readFileSync} from 'node:fs';
+ import {equipmentCompletenessCorrections,reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
+ import {withoutGeneratedCitationTransport} from './equipment-source-first-fixture.mjs';
++import {projectDmg175EquipmentLeavesForHistoricalFixture} from '../research/dmg175-validation-coordinator-v1/history-recovery-v1/dmg175-equipment-epoch-outer-v2.proposed.mjs';
+ const data=JSON.parse(readFileSync(new URL('../dist/data.json',import.meta.url),'utf8'));
+ const find=id=>{const item=data.equipment.find(x=>x.id===id);assert.ok(item,id);return item};
+ const get=(obj,p)=>p.split('/').slice(1).map(x=>x.replaceAll('~1','/').replaceAll('~0','~')).reduce((x,k)=>x[k],obj);
+@@ -13,7 +14,7 @@
+  assert.equal(changes.filter(c=>c.path.startsWith('/fields/')).length,118);
+  assert.equal(changes.filter(c=>c.path.startsWith('/fieldSources/')).length,118);
+  assert.equal(changes.filter(c=>c.path==='/summary').length,7);
+- const reversed=reverseApprovedEquipmentChanges(data.equipment);
++ const reversed=reverseApprovedEquipmentChanges(projectDmg175EquipmentLeavesForHistoricalFixture(data.equipment));
+  for(const r of records) for(const c of r.changes){
+   assert.deepEqual(withoutGeneratedCitationTransport(get(find(r.id),c.path)),withoutGeneratedCitationTransport(c.newValue),`${r.id} ${c.path}: approved current value`);
+   const review=c.independentReview;
+--- a/tests/equipment-suggested-price-data.test.mjs
++++ b/tests/equipment-suggested-price-data.test.mjs
+@@ -1,4 +1,5 @@
+ import {withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
++import {projectDmg175EquipmentLeavesForHistoricalFixture} from '../research/dmg175-validation-coordinator-v1/history-recovery-v1/dmg175-equipment-epoch-outer-v2.proposed.mjs';
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+ import {readFileSync} from 'node:fs';
+@@ -18,7 +19,7 @@
+    assert.equal(other.price.amount,c.amount);assert.equal(other.price.currency,c.currency);assert.equal(other.price.book,c.book);assert.ok(c.pages.every(p=>other.price.pages.includes(p)));assert.match(c.label,/not this item price/);
+   }
+  }
+- assert.equal(withoutSourceFirstEquipment(data.equipment).filter(x=>x.price!=null).length,84);
++ assert.equal(withoutSourceFirstEquipment(projectDmg175EquipmentLeavesForHistoricalFixture(data.equipment)).filter(x=>x.price!=null).length,84);
+  const clean=reverseSuggestedPriceChanges(data.equipment);assert.ok(clean.filter(x=>suggestedPriceCorrections.records.some(r=>r.id===x.id)).every(x=>!Object.hasOwn(x,'suggestedPrice')));
+  const tampered=structuredClone(data.equipment);tampered.find(x=>x.id===suggestedPriceCorrections.records[0].id).suggestedPrice.comparisons[0].unit='tampered';assert.throws(()=>reverseSuggestedPriceChanges(tampered),/approved value/);
+ });
+--- a/tests/uploaded-source-corrections.test.mjs
++++ b/tests/uploaded-source-corrections.test.mjs
+@@ -1,4 +1,5 @@
+ import {reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
++import {projectDmg175EquipmentLeavesForHistoricalFixture} from '../research/dmg175-validation-coordinator-v1/history-recovery-v1/dmg175-equipment-epoch-outer-v2.proposed.mjs';
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+ import {readFileSync} from 'node:fs';
+@@ -14,7 +15,7 @@
+ };
+ 
+ test('PHB weapon corrections retain separate purchase and encumbrance values', () => {
+-  const originalEquipment = reverseApprovedEquipmentChanges(assembled.equipment);
++  const originalEquipment = reverseApprovedEquipmentChanges(projectDmg175EquipmentLeavesForHistoricalFixture(assembled.equipment));
+   const partisan = get(originalEquipment, 'phb-partisan');
+   const ranseur = get(originalEquipment, 'phb-ranseur');
+   for (const [weapon, amount] of [[partisan, 10], [ranseur, 4]]) {
+--- a/tests/search-ranking.test.mjs
++++ b/tests/search-ranking.test.mjs
+@@ -4,6 +4,7 @@
+ import test from 'node:test';
+ import {gunzipSync} from 'node:zlib';
+ import {hash} from '../tools/monetary-row-identity-audit.mjs';
++import {projectDmg175EquipmentLeavesForHistoricalFixture} from '../research/dmg175-validation-coordinator-v1/history-recovery-v1/dmg175-equipment-epoch-outer-v2.proposed.mjs';
+ import {joIntegration,semanticJoFixture} from './helpers/ua-source-batch6-jo-fixture.mjs';
+ 
+ const require=createRequire(import.meta.url);
+@@ -31,8 +32,9 @@
+  const historicalEquipment=JSON.parse(historicalBytes).equipment,jo=data.equipment.filter(item=>item.id==='ua-jo-stick');
+  assert.equal(historicalEquipment.length,191);assert.equal(jo.length,1);assert.equal(hash(semanticJoFixture(jo[0])),joIntegration.currentJo.assembledSemanticRecordSha256,'only the exact registered Jo owner extends the current search catalog');
+  const previous=data.equipment.filter(item=>item.id!=='ua-jo-stick');assert.deepEqual(previous.map(item=>item.id),historicalEquipment.map(item=>item.id),'all191 existing equipment IDs and order are preserved');
++ const previousHistorical=projectDmg175EquipmentLeavesForHistoricalFixture(data.equipment).filter(item=>item.id!=='ua-jo-stick');
+  const sourceValues=item=>semanticJoFixture(Object.fromEntries(['id','name','aliases','book','category','pages','fields','price','priceNote','priceState','suggestedPrice','summary'].filter(key=>Object.hasOwn(item,key)).map(key=>[key,item[key]])));
+- for(let i=0;i<previous.length;i++)assert.deepEqual(sourceValues(previous[i]),sourceValues(historicalEquipment[i]),`${previous[i].id}: all recorded source values remain unchanged`);
++ for(let i=0;i<previousHistorical.length;i++)assert.deepEqual(sourceValues(previousHistorical[i]),sourceValues(historicalEquipment[i]),`${previousHistorical[i].id}: all recorded source values remain unchanged`);
+  assert.equal(jo[0].price,null);assert.equal(jo[0].priceState,'unextracted');assert.equal(Object.hasOwn(jo[0],'suggestedPrice'),false);
+  assert.deepEqual(Object.fromEntries(['equipment','classes'].map(key=>[key,data[key].length])),{equipment:191+1,classes:16});
+  assert.equal(before.exposed.searchableCatalogRecords,993);
+--- a/tests/source-audit-batch5-ua75-armor-current-item-reconciliation.test.mjs
++++ b/tests/source-audit-batch5-ua75-armor-current-item-reconciliation.test.mjs
+@@ -1,4 +1,5 @@
+ import {readBeforeJoFile as readFileSync} from './helpers/ua-source-batch6-jo-fixture.mjs';
++import {readBeforeJoEquipmentFileThroughDmg175Epoch} from '../research/dmg175-validation-coordinator-v1/history-recovery-v1/dmg175-equipment-epoch-outer-v2.proposed.mjs';
+ import assert from 'node:assert/strict';
+ import {createHash} from 'node:crypto';
+ 
+@@ -19,7 +20,7 @@
+   const sourceBytes = gunzipSync(readFileSync(resolve(root, archivePath)));
+   assert.equal(artifact.inputArtifacts.uaSupplement.path, 'research/source-audit-batch5-ua-additional-prices.json');
+   assert.equal(sha256(sourceBytes), artifact.inputArtifacts.uaSupplement.sha256);
+-  const equipmentBytes = readFileSync(resolve(root, artifact.inputArtifacts.equipment.path));
++  const equipmentBytes = readBeforeJoEquipmentFileThroughDmg175Epoch(resolve(root, artifact.inputArtifacts.equipment.path));
+   assert.equal(sha256(equipmentBytes), artifact.inputArtifacts.equipment.sha256);
+   assert.equal(artifact.denominators.sourceRows, 17);
+   assert.equal(artifact.denominators.printedPage, 75);

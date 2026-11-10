@@ -2,6 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
+import {createRequire} from 'node:module';
+
+const require=createRequire(import.meta.url),FirstEditionBooks=require('../dist/books.js');
 
 const before=JSON.parse(readFileSync(new URL('../research/missile-table-discoverability/implementation-candidate/renderer-before.json',import.meta.url),'utf8'));
 const current=readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
@@ -12,14 +15,20 @@ function renderer(source){
  assert.ok(start>=0&&end>start,'ruleTableHTML boundaries exist');
  return source.slice(start,end);
 }
+function rendererDependencies(source){
+ const bookCodeStart=source.indexOf('function bookCode(book) {'),bookCodeEnd=source.indexOf('\n',bookCodeStart);
+ const locationStart=source.indexOf('function validRuleTableSourceLocation('),locationEnd=source.indexOf('\nfunction supplementalBindingRegionEvidence(',locationStart);
+ assert.ok(bookCodeStart>=0&&bookCodeEnd>bookCodeStart,'production bookCode helper exists');
+ assert.ok(locationStart>=0&&locationEnd>locationStart,'production source-location validator exists');
+ return source.slice(bookCodeStart,bookCodeEnd)+'\n'+source.slice(locationStart,locationEnd);
+}
 function render(source,table){
  const context={
   esc:value=>String(value??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;'),
-  bookCode:value=>String(value||''),
   displaySourceValue:value=>typeof value==='string'||typeof value==='number'?String(value):String(value?.text??value?.meaning??value?.label??''),
   tableFactSourceChip:(_item,fact)=>fact?.sourceReference?'[exact source]':'[pending source]',
  };
- vm.runInNewContext(`${source}\nresult=ruleTableHTML(item);`,Object.assign(context,{item:{id:'table-fixture',category:'Combat',title:'Table fixture',sourceReferences:[],table}}));
+ vm.runInNewContext(`${rendererDependencies(current)}\n${source}\nresult=ruleTableHTML(item);`,Object.assign(context,{FirstEditionBooks,item:{id:'table-fixture',category:'Combat',title:'Table fixture',sourceReferences:[],table}}));
  return context.result;
 }
 

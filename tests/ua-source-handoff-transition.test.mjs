@@ -1,13 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {resolve} from 'node:path';
 import {loadUaSourceHandoffTransition,uaSourceHandoffContextMatches,uaSourceHandoffTransitionPath} from '../tools/ua-source-handoff-transition.mjs';
 import {validateApprovedTransitions,reconcileCuratedNotes} from '../tools/refresh-gaps-handoff.mjs';
 
-const root=resolve(import.meta.dirname,'..'),read=p=>readFileSync(resolve(root,p)),json=p=>JSON.parse(read(p)),hashFile=p=>createHash('sha256').update(read(p)).digest('hex');
+const root=resolve(import.meta.dirname,'..'),json=p=>JSON.parse(execFileSync('git',['show',`386b08a4678ee033d6daabc0ffa2cc17265a7c1f:${p}`],{cwd:root,maxBuffer:100*1024*1024,encoding:'utf8'})),hashFile=p=>createHash('sha256').update(execFileSync('git',['show',`386b08a4678ee033d6daabc0ffa2cc17265a7c1f:${p}`],{cwd:root,maxBuffer:100*1024*1024})).digest('hex');
 const baselineData=JSON.parse(execFileSync('git',['show','679b15d1c580172e54314829c1c3c86dc78b65f3:dist/data.json'],{cwd:root,maxBuffer:40*1024*1024}));
 const baselineHandoff=JSON.parse(execFileSync('git',['show','679b15d1c580172e54314829c1c3c86dc78b65f3:research/gaps-limitations-next-task.json'],{cwd:root,maxBuffer:10*1024*1024}));
 const priorHandoff=JSON.parse(execFileSync('git',['show','6b3cfc8cb421a2c1fc2379c38abebe2075634981:research/gaps-limitations-next-task.json'],{cwd:root,maxBuffer:10*1024*1024}));

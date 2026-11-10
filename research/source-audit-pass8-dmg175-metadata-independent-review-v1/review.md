@@ -1,0 +1,11 @@
+# D175 metadata audit review
+
+This read-only review supports metadata-only activation of the new raster and continuation snapshot pointers. The report hashes, source identities, source-frame bridge, and cross-report denominators reconcile to source commit `987a25d3ba2dcac0940569a2afab73f775e38028` (tree `d7ac09ce9abe4ef94ae355a44b8e0c5ca6f74ea3`). The bound receipt is `research/source-audit-input-dmg175-source-987a25d3ba2d.json`, SHA-256 `f3449210a281b3c7604847cea39508b0a48d65d8971e569494cc14db1588565e`.
+
+The report denominators stay separate: 3,625 visual/raster binding uses; 1,336 unique image hashes; 1,328 PDF image-geometry bindings; 366 candidate geometries; 921 text-box-crossing candidate usages; and 1,327 PDF geometries with raster boundary-crossing candidates. The continuation snapshot covers 3,622 catalog-region rows, 3,625 binding uses, 247,223 property pointers, 231 source pages, and 190 flow candidates, including 2 unlinked pairs. There are 45 supplemental-image uses outside PDF geometry and 269 continuation regions with missing or invalid crop geometry.
+
+The continuation report contains geometry, identifiers, and categorical text-layer status, without page-text dumps, OCR transcripts, PDF bytes, or image bytes. The p.175 source JPEG remains private; the registry describes 34 regions in 8 limited crops. The source bridge is bounded to 9 frame groups, 7 PDF pages, and 102 joins; 3,478 other uses are outside its correction registry.
+
+No metadata binding blocker was found for pointer activation. The source-value and semantic review remains unresolved. The empty warning list is local to the new visual run: preserve the 2,190 historical highlight warnings and 726 legacy frames, along with the current 2,185 full-image sentinel uses. These counts and the 921/1,327 geometric candidates are not defect findings or clearance.
+
+The binder is a one-time exact-commit bootstrap. It requires its output paths to be absent from the source commit and current seal manifest, then writes one receipt. Do not treat it as a general rerunnable validator after pointer activation or sealing. This review did not run the binder, producers, suites, source-image review, or pointer updates. Root integration still needs to publish/seal the receipt and reports and update the pointers in its separate authorized change.

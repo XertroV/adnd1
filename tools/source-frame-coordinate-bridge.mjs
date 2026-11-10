@@ -2,8 +2,8 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {resolve, dirname} from 'node:path';
 
-export const SOURCE_FRAME_BRIDGE_PATH = 'research/source-frame-coordinate-bridge-ua-source-v1.json';
-export const SOURCE_FRAME_BRIDGE_SHA256 = '1013eb540a2bc9034963472b3b48a9a1ea61af224392806386db1091c5b35a65';
+export const SOURCE_FRAME_BRIDGE_PATH = 'research/source-frame-coordinate-bridge-dmg175-source-v1.json';
+export const SOURCE_FRAME_BRIDGE_SHA256 = '137b9c0044a72b587cc7ef6273e398106d574727f1656d58c742ac8c47ac68b3';
 const OUTSIDE_REASON = 'No exact owner/region binding is present in this bounded correction registry; this does not make a claim about separate frame evidence.';
 const OUTSIDE_RESOLUTION_STATUS = 'legacy-diagnostic-projection-retained; no new frame approval by this registry';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');

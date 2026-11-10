@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "actual current-source bounded native probes before final handoff refresh",
+  "sourceDataSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+  "probes": [
+    {
+      "command": "node tools/ua-source-context-obligations-cli.mjs --check",
+      "exitCode": 0,
+      "status": "structural-pass-source-semantics-and-applicability-pending",
+      "rows": 583,
+      "activeTargets": 43
+    },
+    {
+      "command": "mkdir -p artifacts/source-domain-audits; node tools/class-progression-audit.mjs --input dist/data.json --output artifacts/source-domain-audits/class-progression.json --check",
+      "exitCode": 0,
+      "classRecords": 16,
+      "xpRows": 206,
+      "xpContinuationRecords": 11,
+      "eventCoverageUnclassified": 0,
+      "qualification": "Structural progression-domain coverage only. Three physical XPsubrank rows remain outside the reviewed tuple denominator."
+    },
+    {
+      "command": "node tools/quantity-source-absence-audit.mjs --output-dir artifacts/quantity-source-absence --check",
+      "exitCode": 0,
+      "status": "structural-check-passed",
+      "records": 1014,
+      "allScalarLeaves": 615593,
+      "qualification": "Lexical candidates/nulls do not prove printed source absence or completeness."
+    },
+    {
+      "command": "mkdir -p artifacts/source-owner-identity; node tools/source-owner-identity-audit.mjs --check --replay --write artifacts/source-owner-identity/report.json",
+      "exitCode": 0,
+      "foreignOwnerBindings": 0,
+      "crossOwnerSharedAliases": 0,
+      "ambiguousActiveOverrides": 0
+    }
+  ],
+  "setupErrorsPreserved": "The first class and owner probe calls omitted their required artifact mkdir and exited ENOENT on output paths. Root created those output directories and reran; no product code was changed for those invocation errors.",
+  "outputs": [
+    {
+      "path": "artifacts/source-domain-audits/class-progression.json",
+      "sha256": "a18f5095d303e58ac0b4fa5aefe363832c787019c36726113b619dd1f389b2f1"
+    },
+    {
+      "path": "artifacts/quantity-source-absence/report.json",
+      "sha256": "80b16fb27eceda10da17519206f9ca62233dec7aac212ccb55e004daf737cfc1"
+    },
+    {
+      "path": "artifacts/source-owner-identity/report.json",
+      "sha256": "1883f60c8f6369cddfd74857daf037b3d7e68fde7d17b9d2a989ebd0620c1c48"
+    }
+  ],
+  "fullWorkflowPassed": false,
+  "published": false
+}

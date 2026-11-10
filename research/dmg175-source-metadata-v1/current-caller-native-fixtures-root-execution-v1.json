@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "dmg175-root-current-caller-native-fixture-actual-execution",
+  "currentInputsRemainNative": true,
+  "currentCallerNodeCases": {
+    "passed": 77,
+    "failed": 0,
+    "skipped": 0
+  },
+  "nativeFixtureNodeCases": {
+    "passed": 34,
+    "failed": 0,
+    "skipped": 0
+  },
+  "pythonFixtureCasesDefaultCi": {
+    "passed": 8,
+    "failed": 0,
+    "skippedPrivateSource": 1
+  },
+  "pythonFixtureCasesWithAuthorizedPrivateSource": {
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "note": "Root reran with ADND1_PRIVATE_SOURCE_DIR pointing to the materialized hash-verified inputs; tool output confirmed exit0. This additional run did not save a raw logfile."
+  },
+  "executions": [
+    {
+      "label": "current-caller-v2",
+      "execution": {
+        "command": [
+          "node",
+          "--test",
+          "tests/assembly.test.mjs",
+          "tests/data.test.mjs",
+          "tests/source-scan-inventory.test.mjs",
+          "tests/source-target-label-audit-current.test.mjs",
+          "tests/source-owner-identity-audit.test.mjs",
+          "tests/site-search-coverage.test.mjs",
+          "tests/ua-source-current-cohort.test.mjs",
+          "tests/dmg175-source-current-cohort.test.mjs"
+        ],
+        "started": "2026-11-10T07:39:45.432862+00:00",
+        "finished": "2026-11-10T07:41:28.685178+00:00",
+        "exitCode": 0
+      },
+      "logs": [
+        {
+          "privatePath": "/workspace/vault-audit-private/pass8/root/current-caller-v2-root-activation-results/suite.tap",
+          "sha256": "b594326eeb1beb097942de3b283bd1a311444798a598cc1ae4d433c3427137a9",
+          "sizeBytes": 7186
+        }
+      ]
+    },
+    {
+      "label": "native-v2",
+      "execution": {
+        "finished": "2026-11-10T07:42:02.404044+00:00",
+        "results": [
+          {
+            "command": [
+              "node",
+              "--test",
+              "tests/cleric-turning-helper-schema-history.test.mjs",
+              "tests/rules-source-notes-renderer.test.mjs",
+              "tests/scan-catalog.test.mjs",
+              "tests/source-raster-coverage.test.mjs",
+              "tests/source-viewer-excerpt-navigation.test.mjs"
+            ],
+            "exitCode": 0
+          },
+          {
+            "command": [
+              "python",
+              "tests/continuation-candidates-fixtures.py"
+            ],
+            "exitCode": 0
+          }
+        ]
+      },
+      "logs": [
+        {
+          "privatePath": "/workspace/vault-audit-private/pass8/root/native-v2-root-activation-results/0.log",
+          "sha256": "bf0c35038b9350410efbe1a29768358c73518490bcd132c40105bcb72a6747f3",
+          "sizeBytes": 3769
+        },
+        {
+          "privatePath": "/workspace/vault-audit-private/pass8/root/native-v2-root-activation-results/1.log",
+          "sha256": "325d4fead28ecbd3ac655d4d747f31eaa991093402bf34b65a418e8dd2455c7e",
+          "sizeBytes": 1882
+        }
+      ]
+    }
+  ],
+  "notAFullSuiteOrPublicationApproval": true
+}

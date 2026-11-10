@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 2,
+  "artifactType": "independent review of the additive three-catalog boundary and native alias census",
+  "status": "focused boundary review passed; full suite remains pending",
+  "sourceCommit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+  "supersedesReviewReceipt": {
+    "path": "research/dmg175-validation-coordinator-v1/jo-v2-boundary-review-v1/independent-static-review-v1.json",
+    "sha256": "3bb211b63880772f29ec844752551201b6069885d0df106c5b680c460c41b078",
+    "scope": "The prior receipt's static V2 review remains valid. This receipt adds the subsequently discovered three-catalog raw boundary and native alias-census repair."
+  },
+  "frozenArtifacts": [
+    {
+      "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-catalog-reader-v2/closed-three-catalog-epoch-v1.json",
+      "sha256": "0da70c72f088884bb47ee999e0e68c1b6d0b9461ca7efcee2d337a9624933395"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-catalog-reader-v2/jo-source-catalog-reader-v2.proposed.mjs",
+      "sha256": "824a0f55fec2a397048691e5ba372585c29e1bcd0a93126fcd4b5bf94121cfd3"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-catalog-reader-v2/proposed-three-catalog-reader-caller-v2.patch",
+      "sha256": "3a1a85533dc207afaa1e64eb1fa1658eed33d6fab19a183a9c8742f6d04cdfc1"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-catalog-reader-v2/continuation-alias-audit.combined.proposed.mjs",
+      "sha256": "d844afd3ebfc5889cfc21d22009d9e0b1a61445ea0666e049ccfc29fdd28c1c3"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-catalog-reader-v2/catalog-epoch-negative-controls-v1.json",
+      "sha256": "b1e0c171323856d2f08d49b8febbc0827e27b34de11d0ee8fed005b0d38c8149"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/continuation-alias-native-current-v1/continuation-alias-audit.native-current.proposed.mjs",
+      "sha256": "177597fc3adebc56bdabd88bc33dd6f726af4ca44e113606b5cf83804c8c8ecf"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/continuation-alias-native-current-v1/proposed-native-current-alias-caller-v1.patch",
+      "sha256": "d029181887df14536650fcc580fbf8f5d71befb1593ccd0beb9f5e1dede9d857"
+    }
+  ],
+  "retainedFailedPrototype": {
+    "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-catalog-reader-v1/jo-source-catalog-reader-v1.proposed.mjs",
+    "sha256": "c1b12fceeda87014f30b1dee88c37e7b6a7e1325a0b1541cc735ba416268f6db",
+    "disposition": "Preserved as an ineffective prototype. It delegated these catalogs to SOURCE11 normalization even though they are outside its eleven paths; the observed historical catalog count remained 3072 instead of 3066."
+  },
+  "reviewFindings": [
+    "The V2 catalog helper fixes the prototype gap with a separate closed raw-byte contract for exactly the PHB hammer, PHB javelin, and UA harpoon catalogs. It verifies the current live bytes, SOURCE Git blobs, V28 Git blobs, sizes, and region counts, and accepts only the complete SOURCE or V28 hashes for each exact path.",
+    "The explicit catalog projector returns a copy of the exact V28 blob and rejects unknown paths, unknown hashes, whitespace drift, changed focus, and mixed appended states. The reader wrapper catches only path canonicalization errors; projection assertions propagate.",
+    "The historical caller patch changes only the readBeforeJoFile import. The native-current patch keeps live raw inputs on the current reader, guards the current source cohort, preserves the exact published 1001-owner prefix, and adds only the two earlier tables and eleven Appendix C owners/catalogs. The whole published alias census remains 696, with the two reciprocal Tools aliases yielding 698; semantic certification remains false.",
+    "The earlier v1 prototype is explicitly retained as failed evidence and is not imported by the final v2 caller patch."
+  ],
+  "verification": {
+    "independentChecks": {
+      "threeCatalogContractShaAndLiveGitEndpoints": "pass for all three current SOURCE and V28 blob pairs; sizes and region counts match the closed contract",
+      "nodeSyntaxChecks": "pass for the v2 catalog reader and combined alias candidate",
+      "activeSourceOrTestInputsChangedByReviewer": false,
+      "fullSuiteRunByReviewer": false
+    },
+    "coordinatorFocusedEvidence": {
+      "catalogEpochNegativeControls": {
+        "status": "22/22 pass",
+        "receiptPath": "research/dmg175-validation-coordinator-v1/source-postmetadata-catalog-reader-v2/catalog-epoch-negative-controls-v1.json",
+        "sha256": "b1e0c171323856d2f08d49b8febbc0827e27b34de11d0ee8fed005b0d38c8149"
+      },
+      "sixFileFrozenV2Replay": {
+        "status": "35/37 pass; two alias-census cases failed when the outside-SOURCE11 catalog rows became visible",
+        "evidenceSha256": "5c8e8d567cd885ed0dcc07f808ca7dc42f9a8df9ab7542988de825089e245ee2",
+        "interpretation": "All other cases passed, including the original UA history cases, nine Jo canaries, and seven XP mutants. The two failures prompted the separate catalog boundary below."
+      },
+      "finalCombinedAliasReplay": {
+        "status": "4/4 pass, exit 0",
+        "evidenceSha256": "1f759addb54a0652f6bb48fcd1dd781a0b79566b01e433b632118c3ff75732ef",
+        "interpretation": "The combined replay uses the new three-catalog inverse and native-current patch; it closes both previously exposed alias-census cases."
+      }
+    }
+  },
+  "limitations": [
+    "The six-file replay is not a 37/37 pass; its two alias failures were followed by the focused combined 4/4 replay that exercises the final catalog and native-current proposals.",
+    "No full-suite pass is claimed. The coordinator owns the broader suite and final integration result.",
+    "This reviewer changed only this new version-2 receipt; the V1 receipt, frozen V2 facade, and active source/test inputs remain unchanged."
+  ]
+}

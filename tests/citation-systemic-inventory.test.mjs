@@ -30,7 +30,13 @@ test('systemic catalog regions report typed actual source and retain canonical P
   assert.ok(regions.every(region => region.sourceIdentityValid === true), 'every selected region is resolved through the shared typed source-identity resolver');
 
   const supplement = regions.filter(region => region.book === 'DMG' && region.printedPage === 175);
-  assert.equal(supplement.length, 2);
+  assert.equal(supplement.length,45,'current selected-catalog supplemental usage denominator');
+  const registryBytes=readFileSync(path.join(root,'research/dmg175-supplement-crop-registry-v1.json'));
+  assert.equal(sha256(registryBytes),'94fad75fb5a0b235b7f81b7dfddf65fc098194148cada86c5d963d8462d1cbf6','closed current supplemental crop registry');
+  const registry=JSON.parse(registryBytes);
+  assert.equal(registry.counts.legacyTuplesPreserved,2,'both historical supplemental crop tuples remain in the exact current registry');
+  assert.deepEqual([...new Set(supplement.map(region=>region.regionId))].sort(),registry.regions.map(region=>region.regionId).sort(),'all34current supplemental region IDs are present');
+  assert.equal(new Set(supplement.map(region=>region.regionId)).size,34);
   for (const region of supplement) {
     assert.equal(region.pdfPage, null, region.regionId);
     assert.equal(region.sourceKind, 'supplemental-image', region.regionId);

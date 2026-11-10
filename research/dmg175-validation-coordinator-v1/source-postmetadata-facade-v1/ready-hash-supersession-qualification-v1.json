@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "qualification of facade READY hash supersession; actual frozen e3 metadata JSON correction",
+  "priorReportedSha256": "855cccadc2a18d56e7aa0f170f0cb685557fa1dcce17353fadc786beef2fe29b",
+  "actualFrozenSha256": "e3a9bd7c2b1a0c077917b2cb259f51eb199dae67059bac1f72d821235ee6f16b",
+  "prior855ExactlyReconstructed": false,
+  "reason": "The late worker change retained the verified current metadata bytes in its stage map, so JSON metadata normalization can parse them. The earlier 855 report omitted that property. No assertion or allowed path/hash set changed. Late mutation of a reported READY artifact was inappropriate; root correctly aborted activation on mismatch. e3 is now frozen and this qualification does not rewrite it.",
+  "freshReadOnlyPositiveProbe": {
+    "projectPass8WeaponSourceJson_mechanics": "passed; output1001historicalrecords",
+    "projectPass8XpContinuationJson_mechanics": "passed; output1000historicalrecords",
+    "source": "actual0fepostSOURCEmechanicsJSONthroughfrozene3"
+  },
+  "possibleMetadataJsonBugDisposition": "Confirmed only in reconstructed855; fresh frozen e3 already contains the correction. No v2 implementation needed.",
+  "materialDiff": "--- prior-reported855\n+++ actual-frozen-e3\n@@ -144,9 +144,10 @@\n   assert.equal(sha(baselineBytes), stage.v28Baseline.sha256, `${path}: exact V28 metadata predecessor hash`);\n   assert.equal(baselineBytes.length, stage.v28Baseline.sizeBytes, `${path}: exact V28 metadata predecessor length`);\n   assert.deepEqual(sourceBytes, baselineBytes, `${path}: SOURCE and V28 raw predecessor bytes must be identical`);\n-  assert.equal(sha(readFileSync(resolve(root, path))), stage.currentMetadata.sha256, `${path}: exact current metadata endpoint`);\n-  assert.equal(readFileSync(resolve(root, path)).length, stage.currentMetadata.sizeBytes, `${path}: current metadata byte length`);\n-  metadataStageBytes.set(path, {sourceBytes, baselineBytes, currentSha256: stage.currentMetadata.sha256});\n+  const currentBytes = readFileSync(resolve(root, path));\n+  assert.equal(sha(currentBytes), stage.currentMetadata.sha256, `${path}: exact current metadata endpoint`);\n+  assert.equal(currentBytes.length, stage.currentMetadata.sizeBytes, `${path}: current metadata byte length`);\n+  metadataStageBytes.set(path, {sourceBytes, baselineBytes, currentBytes, currentSha256: stage.currentMetadata.sha256});\n }\n \n for (const pin of metadataContract.qualificationPins) {\n"
+}

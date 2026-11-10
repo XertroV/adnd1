@@ -38,6 +38,22 @@ function archivedPdfSelection(){
  writeFileSync(summaryPath,summaryBytes);writeFileSync(fullPath,fullBytes);
  return {summary,summaryPath,fullPath};
 }
+function historicalUaSelection(){
+ const commit='386b08a4678ee033d6daabc0ffa2cc17265a7c1f';
+ const gitBytes=relativePath=>{
+  const result=spawnSync('git',['show',`${commit}:${relativePath}`],{cwd:root,maxBuffer:150*1024*1024});
+  assert.equal(result.status,0,`V28 historical source pair remains available: ${relativePath}`);return result.stdout;
+ };
+ const pointer=JSON.parse(gitBytes('research/current-continuation-candidate-snapshot.json'));
+ assert.deepEqual(pointer,{schemaVersion:1,summary:{path:'research/source-audit-pass8-ua-source-continuation-v1.json',sha256:'1449825ca788066d75d673cd1672c5d6748bd799ed703712b05c39f305da2014'},fullEvidence:{path:'research/source-audit-pass8-ua-source-continuation-v1-full.json.gz',sha256:'1119279eebf467b98eac14d1289fd074cff953bfb8f4d1fb2cfd80e5500bbb5d'}});
+ const summaryBytes=gitBytes(pointer.summary.path),fullBytes=gitBytes(pointer.fullEvidence.path),summary=JSON.parse(summaryBytes);
+ assert.equal(sha(summaryBytes),pointer.summary.sha256);assert.equal(sha(fullBytes),pointer.fullEvidence.sha256);
+ assert.equal(summary.input.sourceTreeMode,'pinned-git-commit');
+ assert.equal(summary.input.gitCommit,'6b3cfc8cb421a2c1fc2379c38abebe2075634981');
+ const dir=mkdtempSync(path.join(temp,'ua-v28-')),summaryPath=path.join(dir,'summary.json'),fullPath=path.join(dir,'full.json.gz');
+ writeFileSync(summaryPath,summaryBytes);writeFileSync(fullPath,fullBytes);
+ return {summary,summaryPath,fullPath};
+}
 function mutant(change,{source=selected,treeSelection='current-worktree'}={}){
  const full=JSON.parse(gunzipSync(readFileSync(source.fullPath))),summary=structuredClone(source.summary);
  change(full,summary);
@@ -69,6 +85,27 @@ test('the active pair covers the complete current tree without a semantic-source
  assert.equal(result.counts.distinctSourcePageBindings,selected.summary.exposedUniverse.uniqueSourcePageBindings);
  assert.match(result.sourcePdfRegeneration,/not regenerated from private PDFs/);
 });
+test('native current3622-row DMG175 producer remains guarded against the live source',()=>{
+ assert.equal(path.relative(root,selected.summaryPath),'research/source-audit-pass8-dmg175-continuation-987a25d3ba2d.json');
+ assert.equal(path.relative(root,selected.fullPath),'research/source-audit-pass8-dmg175-continuation-987a25d3ba2d-full.json.gz');
+ assert.equal(sha(readFileSync(selected.summaryPath)),'05dd7e9e219a551129b6b1852828db53625ef9625123f61ce9657fd3c8621366');
+ assert.equal(sha(readFileSync(selected.fullPath)),'90cc57263606d27082aea5b51ed627e280071076f801fd434d8e07add6afb3c8');
+ assert.equal(sha(readFileSync('research/source-audit-input-dmg175-source-987a25d3ba2d.json')),'f3449210a281b3c7604847cea39508b0a48d65d8971e569494cc14db1588565e');
+ assert.equal(sha(readFileSync('dist/data.json')),'fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d');
+ assert.equal(sha(readFileSync('research/source-frame-coordinate-bridge-dmg175-source-v1.json')),'137b9c0044a72b587cc7ef6273e398106d574727f1656d58c742ac8c47ac68b3');
+ const full=JSON.parse(gunzipSync(readFileSync(selected.fullPath)));
+ assert.equal(full.input.gitCommit,'987a25d3ba2dcac0940569a2afab73f775e38028');
+ assert.equal(full.input.distDataRawFileSha256,'fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d');
+ assert.equal(full.regionAssessments.length,3622);
+ const current=validateContinuationSnapshot({root,summaryPath:selected.summaryPath,fullPath:selected.fullPath,treeSelection:'current-worktree'});
+ assert.deepEqual(current.errors,[]);assert.equal(current.valid,true);assert.equal(current.counts.catalogRegionRows,3622);
+ let removed;
+ const options=mutant((candidate,summary)=>{removed=candidate.regionAssessments.shift();summary.exposedCatalogSummary.catalogRegionRows--;});
+ const result=validateContinuationSnapshot(options);
+ assert.equal(result.valid,false);
+ assert.ok(result.errors.some(error=>error.code==='current-region-assessment-missing'&&error.detail===`${removed.owner.catalog}:${removed.regionId}`));
+});
+
 test('current mode rejects missing bridge declarations and removed per-use frame annotations',()=>{
  const missingDeclaration=mutant((full,summary)=>{delete full.sourceFrameCoordinateBridge;delete summary.sourceFrameCoordinateBridge;});
  const declarationResult=validateContinuationSnapshot(missingDeclaration);
@@ -180,11 +217,16 @@ test('the sealed historical3474-row weapon universe retains all3420 prior rows a
  assert.deepEqual(currentNewMatrixRows,newMatrixOwners.map(expected=>({collection:'matrices',...expected,book:'DMG',printedPage:74,pdfPage:75})).sort((a,b)=>a.itemId.localeCompare(b.itemId)));
  assert.deepEqual(supplemental.map(r=>r.regionId).sort(),['dmg-175-level-others-context-5aa02e91e35c4c28','dmg-175-party-table-context-78c4c383c38c7d10']);
  for(const row of supplemental){assert.equal(row.sourceSha256,'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7');assert.equal(row.sourceArtifactId,'dmg175-user-confirmed-supplement');assert.equal(row.pdfPage,null);}
- const options=mutant((copy,summary)=>{copy.regionAssessments=copy.regionAssessments.filter(r=>!(r.regionId==='ua-69-b8b05ef9807ad0f8'&&r.owner.itemId==='ua-illusionist-death-fog'));assert.equal(copy.regionAssessments.length,3505);assert.deepEqual(copy.regionAssessments.filter(r=>r.sourceKind==='supplemental-image'),supplemental);summary.exposedCatalogSummary.catalogRegionRows--;});
+ const historicalUa=historicalUaSelection();
+ const historicalBaseline=validateContinuationSnapshot({root,summaryPath:historicalUa.summaryPath,fullPath:historicalUa.fullPath,treeSelection:'pinned-git-commit'});
+ assert.equal(historicalBaseline.valid,true);assert.deepEqual(historicalBaseline.errors,[]);
+ assert.equal(historicalBaseline.validationBase,'pinned-git-tree');assert.equal(historicalBaseline.counts.catalogRegionRows,3506);
+ const options=mutant((copy,summary)=>{copy.regionAssessments=copy.regionAssessments.filter(r=>!(r.regionId==='ua-69-b8b05ef9807ad0f8'&&r.owner.itemId==='ua-illusionist-death-fog'));assert.equal(copy.regionAssessments.length,3505);assert.deepEqual(copy.regionAssessments.filter(r=>r.sourceKind==='supplemental-image'),supplemental);summary.exposedCatalogSummary.catalogRegionRows--;},{source:historicalUa,treeSelection:'pinned-git-commit'});
  const result=validateContinuationSnapshot(options);assert.equal(result.valid,false);
  assert.ok(result.errors.some(x=>x.code==='current-region-assessment-missing'&&x.detail.includes('ua-69-b8b05ef9807ad0f8')));
 });
 test('the native3506-row UA universe preserves3473 old whole assessments, one exact crop successor and32 exact class additions',()=>{
+ const selected=historicalUaSelection();
  const full=JSON.parse(gunzipSync(readFileSync(selected.fullPath)));
  assertCurrentUaContinuationCohort(full,selected.summary);
  for(const mutate of [

@@ -1,4 +1,4 @@
-import {readBeforeJoFile as readFileSync} from './helpers/ua-source-batch6-jo-fixture.mjs';
+import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
 import {reverseMatrixCellReview} from './helpers/ua-source-dmg74-matrix-batch.mjs';
 import {reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
 import {withoutBatch5OfferEquipment,withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';

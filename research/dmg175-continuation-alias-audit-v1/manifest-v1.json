@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "research-only continuation alias source-identity candidate",
+  "status": "proposed; not integrated into the active audit tool",
+  "scope": "Resolve source identity with FirstEditionBooks for alias comparison. Preserve the existing ordinary-PDF identity and output rows; type supplemental-image aliases with JPEG and canonical-PDF hashes separately; reject malformed supplemental regions before comparison.",
+  "candidate": {
+    "path": "research/dmg175-continuation-alias-audit-v1/continuation-alias-audit-source-identity-v1.mjs",
+    "sha256": "dfacfcbf83d7a798a91caeea309fffd8a54d8e141b9001affa5c4f6191815afa"
+  },
+  "actualBeforeFixture": {
+    "path": "research/dmg175-continuation-alias-audit-v1/actual-before-and-controls-v1.json",
+    "sha256": "6166f40cb67a273c11225303ee1caee8baa355971ebd23fb663b52cc89509383",
+    "captureScript": {
+      "path": "research/dmg175-continuation-alias-audit-v1/capture-actual-before-v1.mjs",
+      "sha256": "38a3fc7f3df76a9f3d36aa9fb1639c304dd75ffca61d4df6810eb635b7a1760f"
+    }
+  },
+  "tests": {
+    "path": "research/dmg175-continuation-alias-audit-v1/test-source-identity-v1.mjs",
+    "sha256": "43e4f8999c859b30900bc28347d1096a8f8e3ccbcd181ca13491dccb95252cf3",
+    "command": "node --test research/dmg175-continuation-alias-audit-v1/test-source-identity-v1.mjs",
+    "result": "5 passed, 0 failed"
+  },
+  "actualBeforeInputs": {
+    "repositoryHead": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
+    "worktreeWasDirty": true,
+    "tools/continuation-alias-audit.mjs": "8ecfbd80c303d6e9e1db505f930ed64d1a5a889e9ba513f483e06f32c4987911",
+    "dist/books.js": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811",
+    "dist/data.json": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+    "research/citation-continuations.json": "f1bfc6cffbfdd625e96bb5398e7f8db16730264a7f46ce4bcc7667ca2ef24cc7",
+    "dist/scans/verified/rules-appendix-c-party-magic-distribution.json": "52c01795856e9e6ec69aca061109e490d8b876cdcfcbfc1ca414351684def18f"
+  },
+  "actualCurrentAliasAudit": {
+    "exposedRecords": 1014,
+    "referencedCatalogs": 1034,
+    "catalogRegionRows": 3622,
+    "declaredGroups": 273,
+    "declaredParts": 540,
+    "exactAliasMatches": 698,
+    "missingAliasLinks": 0,
+    "unassessableDeclaredParts": 27,
+    "typedDmg175Groups": 2,
+    "typedDmg175Matches": 0,
+    "typedDmg175UnassessableParts": 0,
+    "structuralCheckValid": true,
+    "sourceSemanticsCertified": false
+  },
+  "controls": [
+    "Reproduce the old audit's acceptance of a forged DMG175 alias and its canonical-PDF/JPEG source-hash conflation.",
+    "Use the actual Books resolver to reject wrong supplemental artifact, crop bounds, image hash and imputed PDF-page controls.",
+    "Require malformed declared supplemental segments to be unassessable and prevent malformed alias rows from becoming matches.",
+    "Deep-compare the complete current report and an ordinary-DMG-PDF alias control against the old audit output.",
+    "Exercise supplemental match serialization with an isolated test-only resolver adapter; this verifies output fields and does not claim a currently existing D175 alias or publication evidence."
+  ],
+  "limitations": [
+    "No current continuation group has a same-catalog exact DMG175 alias, so the live current report has zero DMG175 alias matches before and after this candidate.",
+    "The candidate is research-only and must be independently reviewed before any source-phase integration.",
+    "The isolated serializer adapter is a unit-test aid; actual invalid-source rejection uses the current registered Books resolver."
+  ]
+}

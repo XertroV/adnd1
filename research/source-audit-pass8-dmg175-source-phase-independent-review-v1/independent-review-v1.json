@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent DMG175 source-phase integration review receipt",
+  "reviewedAt": "2026-11-09T18:57:01Z",
+  "decision": "non-refuted-source-phase-freeze-ready; full-integration-gates-open",
+  "scope": "Read-only integration consistency review of the current research draft: raw change bounds, source identity and catalog guards, field and context status, source-viewer continuations, alias behavior, and preservation of prior evidence. This receipt does not review source pixels, transcriptions against the full book, mechanics, the full distribution, or release readiness.",
+  "input": {
+    "worktree": "/workspace/adnd1-next-source-native",
+    "branch": "codex/ua28-dmg175-source-integration-v1",
+    "baseCommit": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
+    "baseCommitIsOriginMaster": true,
+    "draftIsUncommittedWorkingTree": true,
+    "currentDataPath": "dist/data.json",
+    "currentDataSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+    "baselineDataSha256": "c076e0f6bb898eb52650fd886630089f17edc86cbc8e3c4ac349b817bceba0d3",
+    "booksRuntimePath": "dist/books.js",
+    "booksRuntimeSha256": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811"
+  },
+  "findings": [
+    {
+      "id": "bounded-source-record-delta",
+      "status": "consistent",
+      "evidence": {
+        "newRuleOwners": 11,
+        "structuredRows": 87,
+        "rowsFromSupplementalPage175": 22,
+        "rowsFromCanonicalPdfPage176": 65,
+        "proseTargets": 33,
+        "pendingDmgTargets": 120,
+        "changedEquipmentOwners": ["phb-hammer", "phb-javelin", "ua-harpoon"],
+        "equipmentAdjustmentCells": 33,
+        "unchangedExistingRules": 152,
+        "unchangedEquipmentObjectsExceptThoseThree": 189
+      },
+      "assessment": "The production projection and focused control tests agree on the 11 new owners, 87 rows, and 120 pending targets. The three equipment additions are short-range AC0–10 arrays with 11 values each and explicit pending source-value status. No source-value or mechanics grade is promoted."
+    },
+    {
+      "id": "canonical-and-supplemental-provenance-guards",
+      "status": "consistent",
+      "evidence": {
+        "availabilityModulePath": "tools/dmg175-availability-projection.mjs",
+        "availabilityModuleSha256": "4636fba4200aae83353a70e77d31762300244cc1128f956e845b194116eee1cb",
+        "catalogsGuarded": 12,
+        "rawCatalogFileHashesGuarded": 12,
+        "canonicalCatalogContentHashesGuarded": 12,
+        "cropRegistryPath": "research/dmg175-supplement-crop-registry-v1.json",
+        "cropRegistrySha256": "94fad75fb5a0b235b7f81b7dfddf65fc098194148cada86c5d963d8462d1cbf6",
+        "cropRegistryCounts": {"catalogs": 12, "uniqueRegionIds": 34, "distinctCropImageHashes": 8, "legacyTuplesPreserved": 2},
+        "canonicalPdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "supplementalSourceSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+        "supplementalPage175PdfPage": null,
+        "supplementalFullImagePublished": false
+      },
+      "assessment": "The p.175 crop identity remains supplemental-image evidence tied to the separately hashed canonical PDF; p.176 regions remain tied to PDF page 176. The projection rejects catalog/source tuple drift and preserves the explicit missing-p.175-PDF, unspecified-printing, and unpublished-full-image limits."
+    },
+    {
+      "id": "pending-field-and-context-boundaries",
+      "status": "consistent",
+      "evidence": {
+        "manualBindingPath": "research/field-evidence-bindings.json",
+        "manualBindingCount": 930,
+        "priorManualBindingCount": 807,
+        "priorManualBindingsAreExactPrefix": true,
+        "newDmgTargets": 120,
+        "newDmgTargetsPending": 120,
+        "newUa28LocationOnlyTargets": 3,
+        "currentManualReviewStatuses": {"field-target-reviewed": 760, "field-target-pending": 170},
+        "inventoryBindingCount": 4931,
+        "priorInventoryBindingCount": 4705,
+        "priorInventoryBindingsPreservedUnchangedInOrder": true,
+        "inventoryPendingRegionBindings": 3685
+      },
+      "assessment": "All 120 new DMG targets remain field-target-pending, with source values and context unassessed. The three UA28 records review owner-specific field location only; their source values and contextual adequacy remain unassessed. The prior manual prefix and all 4,705 prior inventory binding objects are preserved."
+    },
+    {
+      "id": "visual-evidence-scope-and-legacy-separation",
+      "status": "consistent",
+      "evidence": {
+        "sourceVisualReviewCountBefore": 1881,
+        "sourceVisualReviewCountCurrent": 1882,
+        "priorVisualReviewsAreExactPrefix": true,
+        "newVisualReviewRecords": 1,
+        "newRecordRegionId": "dmg175-character-level-left-level-of-characters-paragraph-left-column-portion",
+        "newRecordScope": "crop and paragraph-focus geometry only",
+        "newRecordFieldTargetContextAndDefaultGrades": false,
+        "priorContextRegionsPreserved": 2,
+        "priorMonetaryScreenCropCount": 2,
+        "monetaryScreenPreservedSeparately": true
+      },
+      "assessment": "The sole added manual visual review is bound to the fd13 crop and its focus/content hashes, and explicitly excludes field target, source value, mechanics, context adequacy, and default selection. The two older context reviews and the two-crop monetary screen remain distinct and unchanged in the availability projection."
+    },
+    {
+      "id": "continuation-and-alias-integration",
+      "status": "consistent",
+      "evidence": {
+        "priorContinuationGroups": 271,
+        "priorContinuationSegments": 536,
+        "priorContinuationGroupsPreservedAsExactPrefix": true,
+        "currentContinuationGroups": 273,
+        "currentContinuationSegments": 540,
+        "currentPresentSegments": 540,
+        "newContinuationGroups": [
+          "appendix-c-party-magic-distribution-dmg-175-176",
+          "appendix-c-character-levels-dmg-175-same-page-continuation"
+        ],
+        "newSegments": 4,
+        "aliasHelperPath": "tools/continuation-alias-audit.mjs",
+        "aliasHelperSha256": "fdc6eaa214ca1b58c83e3d5ddc48c146ce6d062b535e2e2d5ecb57a59df7fbea",
+        "ordinaryPdfAliasMatchesPreserved": 698,
+        "currentDmg175AliasMatches": 0,
+        "sourceFrameBridgePath": "research/source-frame-coordinate-bridge-dmg175-source-v1.json",
+        "sourceFrameBridgeSha256": "137b9c0044a72b587cc7ef6273e398106d574727f1656d58c742ac8c47ac68b3",
+        "sourceFrameBridgeCounts": {"frameGroups": 9, "physicalPdfPages": 7, "regionBindings": 102, "ownerBindings": 102}
+      },
+      "assessment": "Both new passage groups append without altering the prior continuation prefix. The alias tests preserve all current ordinary-PDF rows and the zero-current-DMG175 result; malformed supplemental tuples are exercised as synthetic rejection controls, not reported as live published defects. The frame bridge remains bounded to geometric provenance."
+    },
+    {
+      "id": "no-completeness-promotion",
+      "status": "consistent",
+      "evidence": {
+        "availabilityClaimsSourceValuesAssessed": false,
+        "availabilityClaimsMechanicsGradesPromoted": false,
+        "availabilityClaimsContextReviewExpanded": false,
+        "availabilityClaimsCompleteAppendixCTranscription": false,
+        "availabilityStatus": "physical-gap-in-supplied-pdf; limited-supplemental-excerpts-available"
+      },
+      "assessment": "The user-facing availability wording says the supplied PDF omits printed p.175, printing details are unspecified, all 11 cards and their numerical values remain pending verification, and Appendix C and DMG coverage remain incomplete. No full-book completion claim is added."
+    }
+  ],
+  "focusedChecks": [
+    {
+      "command": "node --test tests/dmg175-native-structured-controls-current.test.mjs tests/dmg175-continuation-alias-current.test.mjs tests/dmg-private-evidence.test.mjs",
+      "result": "11 passed, 0 failed"
+    },
+    {
+      "command": "node --test research/dmg175-current-content-projection-v5-production-test/dmg175-availability-projection-production-v5.test.mjs",
+      "result": "7 passed, 0 failed"
+    }
+  ],
+  "blockers": [
+    {
+      "id": "stale-coverage-gap-handoff",
+      "status": "reported-by-parent; not independently rerun",
+      "detail": "The full assembler reached strict canonical data and source-continuation generation, then failed at the stale coverage-gap handoff. This is a remaining full-integration blocker outside the bounded source-phase checks."
+    },
+    {
+      "id": "downstream-metadata-and-release-gates",
+      "status": "pending",
+      "detail": "Geometry/raster/continuation snapshots, mechanics and scan metadata, handoff refresh, and the full CI matrix remain pending. This receipt supports a research-only source-phase freeze and does not clear a complete build, PR, or release."
+    }
+  ],
+  "limits": [
+    "No private full-page JPEG or PDF was opened or reviewed.",
+    "No source-pixel, full-book, table-value, or mechanics audit was performed.",
+    "Passing focused structural tests establish integration guards and preservation behavior only; they do not establish content correctness or contextual adequacy."
+  ]
+}

@@ -9,7 +9,7 @@ const fixtureBytes=read('tests/fixtures/cleric-turning-helper-schema-history.jso
 const schemaBytes=read(fixture.schemaFixture.path),schema=JSON.parse(schemaBytes);
 const data=JSON.parse(read('dist/data.json')),item=data.rules.find(r=>r.id==='cleric-turning-table');
 const facts=[...item.table.rows,...item.table.symbols,...item.table.procedure,...item.table.footnotes,item.table.progressionNote];
-function extract(source){const start=source.indexOf('function exactTableFactSourceReference(');assert.ok(start>=0);const end=source.indexOf('function tableFactSourceChip(',start);assert.ok(end>start);return source.slice(start,end);}
+function extract(source){const legacy=source.indexOf('function exactLegacyTableFactSourceReference('),start=source.indexOf('function exactTableFactSourceReference(');assert.ok(legacy>=0&&start>legacy);const end=source.indexOf('function tableFactSourceChip(',start);assert.ok(end>start);return source.slice(legacy,end);}
 function helper(source){const context={};vm.createContext(context);vm.runInContext(read('dist/books.js').toString(),context);vm.runInContext(read('dist/citations.js').toString(),context);vm.runInContext(fixture.sharedProductionHelpers+'\n'+source+'\nthis.resolveFact=exactTableFactSourceReference;',context);return context.resolveFact;}
 test('saved pre-fix production helper rejects all32 real facts while current helper resolves them',()=>{
  assert.equal(sha(fixtureBytes),'337ff946827c9a9e3563e7911c4b0443d2083c8587bd80ec17bb927f712043a5');

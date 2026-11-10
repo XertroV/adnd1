@@ -1,17 +1,19 @@
 import test from 'node:test';
 import {dmg175HistoryContract,projectDmg175Books} from './helpers/batch6-dmg175-source-history.mjs';
 import assert from 'node:assert/strict';
-import {readBeforePass8XpContinuationFile as readFileSync,projectPass8XpContinuationBytes} from './helpers/pass8-ua-source-history.mjs';
+import {readBeforeJoXpFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
+import {projectPass8XpContinuationBytes} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 import {execFileSync} from 'node:child_process';
 // Exact released777 source/Jo history. The active252-group/728-target census
 // is exercised separately by current-integration and native browser checks.
 import {gunzipSync} from 'node:zlib';
 import {resolve} from 'node:path';
-import {readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from './helpers/ua-source-batch6-jo-fixture.mjs';
+import {readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs';
 import {createHash} from 'node:crypto';
 import vm from 'node:vm';
 import {hash} from '../tools/monetary-row-identity-audit.mjs';
-import {validateJoUnextractedPriceRegistration,loadJoUnextractedPriceRegistration} from '../tools/jo-unextracted-price-registration.mjs';
+import {validateJoUnextractedPriceRegistration} from '../tools/jo-unextracted-price-registration.mjs';
+import {loadJoUnextractedPriceRegistrationAtV28} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/jo-closed-loader-v28-context-v1.proposed.mjs';
 import {validateContinuationManifest} from '../tools/continuation-contract.mjs';
 import {buildSystemicInventory} from '../tools/citation-systemic-inventory.mjs';
 import {fieldBindingAxisMetrics,fieldBindingCountMeaning} from '../tools/source-report-consistency-audit.mjs';
@@ -92,7 +94,7 @@ test('redundant Jo locators use explicit XYWH and the bound crop/page frame with
 test('the fifth unextracted price preserves the exact historical four and cannot become source absence or a Bo estimate',()=>{
  const registration=read('research/source-audit-batch6-jo-unextracted-price.json'),historicalReceipt=read('research/source-audit-batch5-null-price-notes.json');
  const args={registration,beforeEquipment:old,currentEquipment:equipment,historicalReceipt,data,inventory};
- const addition=validateJoUnextractedPriceRegistration(args);assert.equal(addition.itemId,'ua-jo-stick');assert.equal(addition.sourceAbsence,false);assert.equal(addition.valueReviewed,false);assert.equal(loadJoUnextractedPriceRegistration({repoRoot:root,data,inventory}).recordSha256,hash(jo));
+ const addition=validateJoUnextractedPriceRegistration(args);assert.equal(addition.itemId,'ua-jo-stick');assert.equal(addition.sourceAbsence,false);assert.equal(addition.valueReviewed,false);assert.equal(loadJoUnextractedPriceRegistrationAtV28({repoRoot:root,data,inventory}).recordSha256,hash(jo));
  for(const edit of [a=>a.registration.owner.itemId='phb-bo-stick',a=>a.registration.sourcePriceAbsenceReviewed=true,a=>a.registration.extractedPriceReviewed=true,a=>a.registration.semanticPass=true,a=>a.data.equipment.find(e=>e.id==='ua-jo-stick').price={amount:40,currency:'gp'},a=>a.data.equipment.find(e=>e.id==='ua-jo-stick').suggestedPrice={amount:5,currency:'sp'},a=>a.inventory.siteClaims.find(c=>c.itemId==='phb-club').itemId='another-unknown',a=>a.registration.currentUnextractedIds[0]='another-unknown',a=>a.beforeEquipment.equipment.push(structuredClone(jo))]){const bad=structuredClone(args);edit(bad);assert.throws(()=>validateJoUnextractedPriceRegistration(bad));}
 });
 

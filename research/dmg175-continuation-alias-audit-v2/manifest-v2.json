@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "research-only production-facing continuation alias regression test successor",
+  "status": "proposed for CI after production source integration; no active source edits",
+  "purpose": "Replace the V1 research test's dependency on the old live-tool hash with a byte-exact frozen-before module and test the live production API names and CLI after integration.",
+  "productionApi": {
+    "module": "tools/continuation-alias-audit.mjs",
+    "requiredExports": ["buildContinuationAliasReport", "loadContinuationAliasReport"],
+    "cli": "node tools/continuation-alias-audit.mjs --check",
+    "cliGuardMustRemain": true,
+    "defaultTestTarget": "live production module",
+    "preintegrationCandidateTarget": "DMG175_ALIAS_AUDIT_TARGET=candidate selects a research-only facade with the same export names"
+  },
+  "frozenBeforeModule": {
+    "path": "research/dmg175-continuation-alias-audit-v2/continuation-alias-audit-before-v1.mjs",
+    "sha256": "8ecfbd80c303d6e9e1db505f930ed64d1a5a889e9ba513f483e06f32c4987911",
+    "sourceBytesCopiedExactly": true,
+    "adapter": {
+      "path": "research/dmg175-continuation-alias-audit-v2/frozen-before-adapter-v2.mjs",
+      "sha256": "da2f957cb4731e74151b11dc8c266551f10884e624a06f5f619974a9829493ee",
+      "boundedRewrites": [
+        "Replace the single relative sourceRect import with an absolute URL to the same repository helper.",
+        "Replace the single import.meta.dirname root expression with the explicitly supplied repository root."
+      ],
+      "cliBlockRewritten": false,
+      "tempCopyRemovedAfterImport": true
+    }
+  },
+  "candidateFacade": {
+    "path": "research/dmg175-continuation-alias-audit-v2/production-api-candidate-v2.mjs",
+    "sha256": "e4596ba3e130292aa610780c0fec4abcd47d538ae5d43d2b31b0623c9f2b8f75",
+    "publicNamesRetained": ["buildContinuationAliasReport", "loadContinuationAliasReport"],
+    "note": "Test-only facade; do not import it from the live production tool."
+  },
+  "test": {
+    "path": "research/dmg175-continuation-alias-audit-v2/test-production-alias-v2.mjs",
+    "sha256": "5d0a29790f250e6f13bd35207287b051201aba3ee7493902cafd4679a0614b5d",
+    "ciCommandAfterIntegration": "node --test research/dmg175-continuation-alias-audit-v2/test-production-alias-v2.mjs",
+    "candidatePreflightCommand": "DMG175_ALIAS_AUDIT_TARGET=candidate node --test research/dmg175-continuation-alias-audit-v2/test-production-alias-v2.mjs",
+    "candidatePreflightResult": "6 passed, 0 failed",
+    "currentLiveBeforeIntegrationResult": "4 passed, 2 failed as expected: malformed supplemental identity is not rejected and serialized source kind is absent",
+    "cases": [
+      "Frozen-before source reproduces actual current baseline and the forged-alias/JPEG-vs-PDF mislabel.",
+      "Whole live report equals the frozen-before report, retaining all ordinary-PDF objects and the truthful zero-current-DMG175-alias result.",
+      "Malformed supplemental artifact, crop, image hash and invented PDF-page identities fail before assessment or match emission.",
+      "Ordinary PDF alias objects remain exactly equal to frozen-before output.",
+      "Supplemental alias serialization carries the JPEG source hash and separate canonical PDF hash.",
+      "The original production --check CLI remains runnable and reports the pinned current denominators."
+    ]
+  },
+  "preservedActualBeforeFixture": {
+    "path": "research/dmg175-continuation-alias-audit-v1/actual-before-and-controls-v1.json",
+    "sha256": "6166f40cb67a273c11225303ee1caee8baa355971ebd23fb663b52cc89509383",
+    "pinnedCurrentDenominators": {
+      "exposedRecords": 1014,
+      "referencedCatalogs": 1034,
+      "catalogRegionRows": 3622,
+      "declaredGroups": 273,
+      "declaredParts": 540,
+      "exactAliasMatches": 698,
+      "missingAliasLinks": 0,
+      "unassessableDeclaredParts": 27
+    },
+    "typedDmg175Groups": 2,
+    "typedDmg175CurrentMatches": 0,
+    "typedDmg175CurrentUnassessableParts": 0
+  },
+  "v1Preservation": {
+    "v1ManifestPath": "research/dmg175-continuation-alias-audit-v1/manifest-v1.json",
+    "v1ManifestSha256": "dc93491d566a62e2d47e9d3142e5418cf136a5cd641e531df29bbcac00be85be",
+    "v1CandidateSha256": "dfacfcbf83d7a798a91caeea309fffd8a54d8e141b9001affa5c4f6191815afa",
+    "v1ActualBeforeFixtureSha256": "6166f40cb67a273c11225303ee1caee8baa355971ebd23fb663b52cc89509383"
+  },
+  "limits": [
+    "No current DMG175 alias match is claimed or added by this test package.",
+    "The supplemental serialization control injects a test-only trusted resolver for a synthetic alias ID; it does not establish a live catalog alias.",
+    "The suite is a bounded integration test candidate, not permission to edit the active tool or release files."
+  ]
+}

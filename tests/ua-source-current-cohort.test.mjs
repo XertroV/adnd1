@@ -3,6 +3,8 @@ import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import test from 'node:test';
+import {execFileSync} from 'node:child_process';
+import {resolve} from 'node:path';
 import {buildSourceOwnerIdentityAudit} from '../tools/source-owner-identity-audit.mjs';
 import {
   assertApprovedUaClassSource,
@@ -14,13 +16,15 @@ import {
   assertWeaponPendingBindingCohort,
   classifyUaSourceContextBinding,
   uaSourceCohortPins,
-} from './helpers/ua-source-current-cohort.mjs';
+} from './helpers/ua-source-closed-v28-context.mjs';
 
-const readJson=path=>JSON.parse(readFileSync(new URL(`../${path}`,import.meta.url),'utf8'));
+const root=resolve(import.meta.dirname,'..');
+const V28='386b08a4678ee033d6daabc0ffa2cc17265a7c1f';
+const readV28Json=path=>JSON.parse(execFileSync('git',['-C',root,'show',`${V28}:${path}`],{cwd:root,maxBuffer:80*1024*1024,encoding:'utf8'}));
 const clone=value=>structuredClone(value);
-const currentData=readJson('dist/data.json');
-const rawClasses=readJson('classes.json').classes;
-const currentInventory=readJson('research/price-source-inventory.json');
+const currentData=readV28Json('dist/data.json');
+const rawClasses=readV28Json('classes.json').classes;
+const currentInventory=readV28Json('research/price-source-inventory.json');
 const classRows=currentData.classes.flatMap(owner=>(owner.references||[]).flatMap(reference=>reference.evidenceBindings||[]));
 const uaRows=classRows.filter(row=>row.sourceCategory==='record-reference'&&row.book==='UA'&&row.contextStatus==='context-not-assessed');
 

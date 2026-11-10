@@ -1,5 +1,5 @@
 import test from 'node:test';
-import {projectPass8PhbSourceJson,projectPass8PhbSourceBytes,decodePass8UaSourceHistory} from './helpers/pass8-ua-source-history.mjs';
+import {projectPass8PhbSourceJson,projectPass8PhbSourceBytes,decodePass8UaSourceHistory} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync, copyFileSync} from 'node:fs';

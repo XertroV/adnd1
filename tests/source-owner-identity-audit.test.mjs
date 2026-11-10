@@ -4,7 +4,8 @@ import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 import {assertWeaponPendingBindingCohort,weaponBindingAdditionCount} from './helpers/weapon-source-current-cohort.mjs';
-import {assertCompiledWeaponBindingPreservation,assertUaSourceContextBindingCohort} from './helpers/ua-source-current-cohort.mjs';
+import {assertUaSourceContextBindingCohort} from './helpers/ua-source-closed-v28-context.mjs';
+import {readDmg175CurrentSourceInputs,assertDmg175CurrentSourceCohort} from './helpers/dmg175-source-current-cohort.mjs';
 import {buildSourceOwnerIdentityAudit, sourceOwnerIdentityCheck} from '../tools/source-owner-identity-audit.mjs';
 import {buildPriceSourceInventory} from '../tools/price-source-inventory.mjs';
 import {ambiguousItemOverrideIds, appendOverrideReferences, classProgressionOverride, collectionOverride, collectionReferenceOverrides, equipmentPriceStateOverride} from '../tools/citation-override-identity.mjs';
@@ -24,6 +25,10 @@ const priorBindingCount = 4489 + 40 + 20 + 1 + ua75.referenceAppends.length;
 const dmg74MatrixBindingCount = dmg74MatrixIds.length * 2;
 const druidBindingCount = 2;
 const uaSourceContextBindingCount = 24;
+const dmg175BindingAdditionCount = 226;
+const sourcePhaseBindingCount = priorBindingCount + dmg74MatrixBindingCount + druidBindingCount + weaponBindingAdditionCount + uaSourceContextBindingCount;
+const currentBindingCount = sourcePhaseBindingCount + dmg175BindingAdditionCount;
+assert.equal(sourcePhaseBindingCount,4705,'the closed SOURCE phase still has its exact 4,705 binding objects');
 function assertDruidBindings(bindings,itemIdField="itemId") {
  const rows=bindings.filter(row=>row[itemIdField]==='phb-druid-mistletoe-spell-components');
  assert.equal(rows.length,2);assert.deepEqual(rows.map(row=>row.fieldPointer).sort(),['','/sourceReferences/0']);
@@ -134,6 +139,7 @@ test('current source assembly resolves scoped citations, preserves legacy intent
     const historical = migration.overrides.removedLegacyBareEntries.find(row => row.legacyBareKey === itemId);
     assert.deepEqual(historical.exactPriorValue, {references: baseline.knownCollisionCases.find(row => row.itemId === itemId).unscopedItemOverride.references});
   }
+  assertDmg175CurrentSourceCohort(readDmg175CurrentSourceInputs(root));
   const currentData = JSON.parse(readFileSync(resolve(root, 'dist/data.json'), 'utf8'));
   const grandDruidLevel15 = currentData.classes.find(item => item.id === 'ua-druid').levelChanges[0];
   const grandDruidPage16Companion = grandDruidLevel15.evidenceBindings.filter(binding => binding.sourceCategory === 'class-level-change');
@@ -157,12 +163,11 @@ test('current source assembly resolves scoped citations, preserves legacy intent
   const currentReplay = buildSourceOwnerIdentityAudit({replayAssembly: true}).inMemoryCurrentAssemblyReplay;
   assert.equal(currentReplay.preAttachCrossOwnerObjectAliasCount, 0);
   assert.equal(currentReplay.foreignOwnerBindings.length, 0);
-  assert.equal(currentReplay.counts.evidenceBindings, priorBindingCount + dmg74MatrixBindingCount + druidBindingCount + weaponBindingAdditionCount + uaSourceContextBindingCount);
-  assertCompiledWeaponBindingPreservation();
+  assert.equal(currentReplay.counts.evidenceBindings, currentBindingCount);
   assert.equal(currentReplay.counts.dispositions.validatedExplicitComparatorSource, 6);
   const currentReport = buildSourceOwnerIdentityAudit();
   assert.equal(sourceOwnerIdentityCheck(currentReport).pass, true);
-  assert.equal(currentReport.report.evidenceBindings.denominator, priorBindingCount + dmg74MatrixBindingCount + druidBindingCount + weaponBindingAdditionCount + uaSourceContextBindingCount);
+  assert.equal(currentReport.report.evidenceBindings.denominator, currentBindingCount);
   assertUaSourceContextBindingCohort(currentReport.report.evidenceBindings.attachedBindingPaths,'bindingItemId');
   assertWeaponPendingBindingCohort(currentReport.report.evidenceBindings.attachedBindingPaths,'bindingItemId');
   assertDmg74MatrixBindings(currentReport.report.evidenceBindings.attachedBindingPaths, 'bindingItemId');
@@ -316,6 +321,7 @@ test('pending singleton owners participate before collection overrides are appli
 });
 
 test('standalone price-source inventory uses scoped owner references without rule-owner leakage', () => {
+  assertDmg175CurrentSourceCohort(readDmg175CurrentSourceInputs(root));
   const inventory = buildPriceSourceInventory();
   const currentData = JSON.parse(readFileSync(resolve(root, 'dist/data.json'), 'utf8'));
   const historicalData = {...currentData, equipment: beforeUa75Equipment(currentData.equipment)};
@@ -338,8 +344,8 @@ test('standalone price-source inventory uses scoped owner references without rul
   });
   const historicalGrandDruidCompanion = historicalInventory.fieldEvidenceBindings.filter(binding => binding.collection === 'classes' && binding.itemId === 'ua-druid' && binding.fieldPointer === '/levelChanges/0' && binding.sourceCategory === 'class-level-change');
   assert.deepEqual(historicalGrandDruidCompanion, grandDruidCompanion);
-  assert.equal(historicalInventory.counts.fieldEvidenceBindings, 4489 + 40 + 20 + 1 + dmg74MatrixBindingCount + druidBindingCount + weaponBindingAdditionCount + uaSourceContextBindingCount);
-  assert.equal(inventory.counts.fieldEvidenceBindings, priorBindingCount + dmg74MatrixBindingCount + druidBindingCount + weaponBindingAdditionCount + uaSourceContextBindingCount);
+  assert.equal(historicalInventory.counts.fieldEvidenceBindings, 4489 + 40 + 20 + 1 + dmg74MatrixBindingCount + druidBindingCount + weaponBindingAdditionCount + uaSourceContextBindingCount + dmg175BindingAdditionCount);
+  assert.equal(inventory.counts.fieldEvidenceBindings, currentBindingCount);
   assertUaSourceContextBindingCohort(historicalInventory.fieldEvidenceBindings);assertUaSourceContextBindingCohort(inventory.fieldEvidenceBindings);
   assertWeaponPendingBindingCohort(historicalInventory.fieldEvidenceBindings);assertWeaponPendingBindingCohort(inventory.fieldEvidenceBindings);
   assertDmg74MatrixBindings(historicalInventory.fieldEvidenceBindings);

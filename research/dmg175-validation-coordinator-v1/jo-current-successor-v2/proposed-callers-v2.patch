@@ -1,0 +1,54 @@
+--- a/tools/monetary-unit-provenance-audit.mjs
++++ b/tools/monetary-unit-provenance-audit.mjs
+@@ -8,7 +8,8 @@
+ import {gunzipSync} from 'node:zlib';
+ import {loadAuditInputs} from './quantity-source-absence-audit.mjs';
+ import {collectMonetaryRowIdentityRecords,monetaryRowIdentityInputs} from './monetary-row-identity-audit.mjs';
+-import {loadJoUnextractedPriceRegistration,joPriceRegistrationPath} from './jo-unextracted-price-registration.mjs';
++import {loadJoCurrentSuccessor,joPriceRegistrationPath,joPriceRegistrationSha256} from './dmg175-jo-unextracted-price-registration-v1.mjs';
++import {joPriceRegistrationPath as legacyJoPriceRegistrationPath} from './jo-unextracted-price-registration.mjs';
+ 
+ const root=resolve(import.meta.dirname,'..');
+ export const unitFieldPattern=/(?:unit|quantit|qty|count|number|pieces?|scale|size|interval|duration|period|basis|measure|rate|amount(?:per|or)|perUnit|frequency|timeunit)/i;
+@@ -149,7 +150,7 @@
+   throw new Error('Frozen Jo unit-admission before capture scope changed.');
+  if(capture.joAdmission?.uid!==expectedJoUnitRecord.uid||capture.joAdmission?.input!==expectedJoUnitRecord.input
+    ||capture.joAdmission?.pointer!==expectedJoUnitRecord.pointer||capture.joAdmission?.recordSha256!==expectedJoUnitRecord.recordSha256
+-   ||capture.joAdmission?.currentJoRegistrationPath!==joPriceRegistrationPath)
++   ||capture.joAdmission?.currentJoRegistrationPath!==legacyJoPriceRegistrationPath)
+   throw new Error('Frozen Jo unit-admission before capture does not bind the exact registered Jo record.');
+  return {capture,captureSha256};
+ }
+@@ -177,10 +178,10 @@
+    ||siteClaim.value.sourcePageReference!==null||siteClaim.value.estimate!==null
+    ||!Array.isArray(siteClaim.value.sourceRowIds)||siteClaim.value.sourceRowIds.length!==0)
+   throw new Error('Current Jo price-claim pointer no longer proves only the exact unextracted, unknown-price state.');
+- const registration=loadJoUnextractedPriceRegistration({repoRoot,data:distDoc.data,inventory:canonicalDoc.data});
++ const registration=loadJoCurrentSuccessor({repoRoot,data:distDoc.data,inventory:canonicalDoc.data});
+  if(registration.itemId!=='ua-jo-stick'||registration.recordSha256!=='25c8c40eab79b1b1dc44fa701e200bbd63b9594596878a82dd8325479451153b'
+    ||registration.sourceAbsence!==false||registration.valueReviewed!==false||registration.registryRef?.path!==joPriceRegistrationPath
+-   ||registration.registryRef?.sha256!==before.capture.joAdmission.currentJoRegistrationSha256)
++   ||registration.registryRef?.sha256!==joPriceRegistrationSha256)
+   throw new Error('Jo price registration no longer preserves the exact unextracted source-unknown state.');
+  const matchedUnitQuantityFields=[];
+  walkScalarLeaves(siteClaim.value,leaf=>{const fieldName=String(leaf.parts.at(-1)??'');if(unitFieldPattern.test(fieldName))matchedUnitQuantityFields.push(expectedJoUnitRecord.pointer+leaf.jsonPointer);});
+--- a/tools/refresh-gaps-handoff.mjs
++++ b/tools/refresh-gaps-handoff.mjs
+@@ -9,7 +9,7 @@
+ import {buildCoverageGaps} from './coverage-gaps.mjs';
+ import {deriveDmg175Availability, projectDmg175Handoff, DMG175_OWNER_CATALOGS} from './dmg175-availability-projection.mjs';
+ import {loadMonetaryRowIdentityAudit} from './monetary-row-identity-audit.mjs';
+-import {loadJoUnextractedPriceRegistration} from './jo-unextracted-price-registration.mjs';
++import {loadJoCurrentSuccessor} from './dmg175-jo-unextracted-price-registration-v1.mjs';
+ import {fieldBindingAxisMetrics, fieldBindingCountMeaning, historicalProducerMetadata, sourceIntegrationDescriptor, currentUncheckedExclusions, uncheckedExclusionTemplate} from './source-report-consistency-audit.mjs';
+ import {validateCurrentMonetarySourceQuestionProjection} from './monetary-current-source-questions.mjs';
+ import {loadCurrentMonetarySourceQuestions} from './dmg175-current-monetary-source-questions-v1.mjs';
+@@ -771,7 +771,7 @@
+   hashes[`${HANDOFF_PATH}#refresh-template`] = handoffTemplateSha256;
+   const conflictReceipt = read('research/source-audit-batch5-conflict-integration.json');
+   const nullPriceReceipt = read('research/source-audit-batch5-null-price-notes.json');
+-  const joAddition=loadJoUnextractedPriceRegistration({repoRoot,data,inventory});
++  const joAddition=loadJoCurrentSuccessor({repoRoot,data,inventory});
+   for(const ref of joAddition.inputRefs){assertCurrentFileHash({path:ref.path,expected:ref.sha256,hashFile,label:'Jo unextracted-price registration'});hashes[ref.path]=ref.sha256;}
+   const animalReceipt = read('research/source-audit-batch5-unextracted.json');
+   const classIntegration = read('research/source-audit-batch5-class-integration.json');

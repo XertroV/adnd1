@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
+import {readBeforePass8CharacterReferenceFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 import {gunzipSync} from 'node:zlib';
 import {resolve} from 'node:path';
 import {buildLedger, validateLedger} from '../tools/mechanics-audit.mjs';

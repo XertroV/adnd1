@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "actual root current metadata refresh assembly and native validation",
+  "sourceInputCommit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+  "sourceDataSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+  "handoffSha256": "d89a5ab0d2e9b7de0e2ada53f14fd925622b853fbbdef0a44407618f2ec94d1c",
+  "publishedGapsSha256": "15b4291776f526dd19ae8b816492a9f75752c359bdbac2a131b7ac56912c31c2",
+  "checks": [
+    {
+      "command": "node tools/refresh-gaps-handoff.mjs --systemic-report artifacts/citation-systemic-coverage/citation-systemic-current.json --visual-report artifacts/source-visual-coverage/report.json --table-report artifacts/source-table-citation-coverage/report.json",
+      "exitCode": 0
+    },
+    {
+      "command": "node tools/assemble.mjs",
+      "exitCode": 0,
+      "qualification": "Direct command with separately observed exit after the first successful assembled output; source data bytes reproduced exactly."
+    },
+    {
+      "command": "node tools/refresh-gaps-handoff.mjs --check",
+      "exitCode": 0
+    },
+    {
+      "command": "node tools/source-report-consistency-audit.mjs --check",
+      "exitCode": 0,
+      "findings": 0
+    },
+    {
+      "command": "node tools/monetary-unit-provenance-audit.mjs --output-dir artifacts/monetary-unit-provenance --check",
+      "exitCode": 0
+    }
+  ],
+  "logs": [
+    {
+      "name": "native-refresh-after-jo-v2.log",
+      "sha256": "6bd9415cde8bc9e2368d8cec46cffd86eb721b33edcbfee52a85608452174750"
+    },
+    {
+      "name": "native-assemble-explicit-exit-v3.log",
+      "sha256": "4cee46941331cacb593eee370d66aafb5801533c9571fd84a12be7b49a3cfa0f"
+    },
+    {
+      "name": "native-handoff-check-after-jo-v2.log",
+      "sha256": "ac88b2ae5b31babd07e42f8cef1ee79ec827a9bc5773b83ba0f66b89c98a22b8"
+    },
+    {
+      "name": "native-report-consistency-after-jo-v2.log",
+      "sha256": "d8b5777cb4d60434092aa29ef9434f095aeaf9819be494517a14d481f2634fda"
+    },
+    {
+      "name": "native-unit-provenance-after-jo-v2.log",
+      "sha256": "8aaa8c5c215ec2e623e5ac2bd7c38f2a4527d3bcac150ea87b880376911513ee"
+    }
+  ],
+  "activeCautions": 76,
+  "historicalDispositions": 3,
+  "bindingAxes": {
+    "total": 4931,
+    "empty": 3685,
+    "resolvedFields": 1074,
+    "regionKnownFieldReviewPending": 170,
+    "resolvedRecords": 2,
+    "fieldTargetsReviewed": 760,
+    "otherFieldTargetStates": 4171
+  },
+  "sourceValueGradeChanges": 0,
+  "runtimeReadyForBoundedBrowser": true,
+  "fullSuitePassed": false,
+  "all24WorkflowBlocksPassed": false,
+  "published": false
+}

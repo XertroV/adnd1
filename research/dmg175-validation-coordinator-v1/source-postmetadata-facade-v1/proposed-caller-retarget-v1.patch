@@ -1,0 +1,327 @@
+--- a/tests/batch2-independent.test.mjs
++++ b/tests/batch2-independent.test.mjs
+@@ -1,4 +1,4 @@
+-import {readBeforeJoFile as readFileSync,withoutBatch6XpSourceMetadata,xpA65HistoryProjection} from './helpers/ua-source-batch6-jo-fixture.mjs';
++import {readBeforeJoFile as readFileSync,withoutBatch6XpSourceMetadata,xpA65HistoryProjection} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+ import {readFileSync as readCurrentFileSync} from 'node:fs';
+ import {withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
+ import {reverseMechanicsBatchTwo} from './mechanics-batch-two-fixture.mjs';
+--- a/tests/batch6-xp-source-history.test.mjs
++++ b/tests/batch6-xp-source-history.test.mjs
+@@ -1,6 +1,6 @@
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+-import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8XpContinuationFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import {execFileSync} from 'node:child_process';
+ import {reverseApprovedGrandDruidSourcePage, xpBeforeCatalogsForAliasReplay, reverseApprovedXpExcerptCounts} from './helpers/ua-source-batch6-xp-source-history.mjs';
+ const read = path => JSON.parse(readFileSync(new URL('../' + path, import.meta.url)));
+--- a/tests/class-source-context-batch5.test.mjs
++++ b/tests/class-source-context-batch5.test.mjs
+@@ -1,5 +1,5 @@
+ import test from 'node:test';import assert from 'node:assert/strict';
+-import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
++import {readBeforePass8XpContinuationFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
+ import {containsContext} from '../tools/citation-context-contract.mjs';
+ import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';
+ // Retain the exact released777 class-target census; active XP-continuation
+--- a/tests/continuation-alias-audit.test.mjs
++++ b/tests/continuation-alias-audit.test.mjs
+@@ -1,6 +1,6 @@
+-import {readBeforeJoFile as readFileSync} from './helpers/ua-source-batch6-jo-fixture.mjs';
++import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+ import test from 'node:test';
+-import {readBeforePass8CitationTargetCropFile} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8CitationTargetCropFile} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import assert from 'node:assert/strict';
+ import {readFileSync as readRawFileSync} from 'node:fs';
+ import {execFileSync} from 'node:child_process';
+--- a/tests/continuation-final-bundle.test.mjs
++++ b/tests/continuation-final-bundle.test.mjs
+@@ -1,4 +1,4 @@
+-import {readBeforeJoFile} from './helpers/ua-source-batch6-jo-fixture.mjs';
++import {readBeforeJoFile} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+ import {frozenDmgBeforeManifest,dmgContextBefore} from './helpers/dmg-context-frozen-manifest.mjs';
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+--- a/tests/dagger-independent.test.mjs
++++ b/tests/dagger-independent.test.mjs
+@@ -1,4 +1,4 @@
+-import {readBeforeJoFile as readFileSync} from './helpers/ua-source-batch6-jo-fixture.mjs';
++import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+ import {reverseMatrixCellReview} from './helpers/ua-source-dmg74-matrix-batch.mjs';
+ import {reverseApprovedEquipmentChanges} from './equipment-mechanics-fixture.mjs';
+ import {withoutBatch5OfferEquipment,withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
+--- a/tests/dmg-context-three-chains.test.mjs
++++ b/tests/dmg-context-three-chains.test.mjs
+@@ -1,11 +1,11 @@
+ import test from 'node:test';
+ import {projectDmg175Json} from './helpers/batch6-dmg175-source-history.mjs';
+ import assert from 'node:assert/strict';
+-import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8XpContinuationFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import {createHash} from 'node:crypto';
+ import {execFileSync} from 'node:child_process';
+ import {gunzipSync} from 'node:zlib';
+-import {withoutBatch6JoManifest,withoutBatch6XpManifest,beforeJoSearchOverridesForXp,readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from './helpers/ua-source-batch6-jo-fixture.mjs';
++import {withoutBatch6JoManifest,withoutBatch6XpManifest,beforeJoSearchOverridesForXp,readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+ import {auditRequiredSegmentPresence,validateContinuationManifest} from '../tools/continuation-contract.mjs';
+ import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';
+ import {reverseApprovedXpExcerptCounts} from './helpers/ua-source-batch6-xp-source-history.mjs';
+--- a/tests/dmg175-source-history.test.mjs
++++ b/tests/dmg175-source-history.test.mjs
+@@ -1,5 +1,5 @@
+ import assert from 'node:assert/strict';
+-import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8CharacterReferenceFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import test from 'node:test';
+ import {createHash} from 'node:crypto';
+ import vm from 'node:vm';
+--- a/tests/dmg225-context-continuations.test.mjs
++++ b/tests/dmg225-context-continuations.test.mjs
+@@ -1,4 +1,4 @@
+-import {readBeforeJoFile as readFileSync} from './helpers/ua-source-batch6-jo-fixture.mjs';
++import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+ import {frozenDmgBeforeManifest,dmgContextBefore} from './helpers/dmg-context-frozen-manifest.mjs';
+ import assert from 'node:assert/strict';
+ import test from 'node:test';
+--- a/tests/dmg74-matrix-additions.test.mjs
++++ b/tests/dmg74-matrix-additions.test.mjs
+@@ -1,7 +1,7 @@
+ import assert from 'node:assert/strict';
+ import {createHash} from 'node:crypto';
+ import {createRequire} from 'node:module';
+-import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8XpContinuationFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ // Preserve the released777 matrix-activation evidence and prior review census.
+ // The new XP source assessments are independently checked on active inputs.
+ import {execFileSync} from 'node:child_process';
+--- a/tests/equipment-matrices.test.mjs
++++ b/tests/equipment-matrices.test.mjs
+@@ -1,4 +1,4 @@
+-import {readBeforeJoFile as readFileSync} from './helpers/ua-source-batch6-jo-fixture.mjs';
++import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+ import {frozenDmgBeforeManifest,dmgContextBefore} from './helpers/dmg-context-frozen-manifest.mjs';
+ import {withoutGeneratedCitationTransport,withoutBatch5OfferEquipment,withoutPriceCompletionEquipment, withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
+ import {ambiguousItemOverrideIds, collectionReferenceOverrides} from '../tools/citation-override-identity.mjs';
+--- a/tests/equipment-mechanics-corrections.test.mjs
++++ b/tests/equipment-mechanics-corrections.test.mjs
+@@ -1,4 +1,4 @@
+-import {readBeforeJoFile as readFileSync} from './helpers/ua-source-batch6-jo-fixture.mjs';
++import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+ import {withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+--- a/tests/equipment-offers-batch5.test.mjs
++++ b/tests/equipment-offers-batch5.test.mjs
+@@ -1,4 +1,4 @@
+-import {readBeforeJoFile as readFileSync} from './helpers/ua-source-batch6-jo-fixture.mjs';
++import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+ import assert from 'node:assert/strict';
+ import test from 'node:test';
+ import {createHash} from 'node:crypto';
+--- a/tests/equipment-price-completion-73.test.mjs
++++ b/tests/equipment-price-completion-73.test.mjs
+@@ -1,4 +1,4 @@
+-import {readBeforeJoFile as readFileSync} from './helpers/ua-source-batch6-jo-fixture.mjs';
++import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+ import {createHash} from 'node:crypto';
+--- a/tests/equipment-source-first-batch1.test.mjs
++++ b/tests/equipment-source-first-batch1.test.mjs
+@@ -1,4 +1,4 @@
+-import {readBeforeJoFile as readFileSync} from './helpers/ua-source-batch6-jo-fixture.mjs';
++import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+ 
+--- a/tests/jo-stick-source-mapping.test.mjs
++++ b/tests/jo-stick-source-mapping.test.mjs
+@@ -1,13 +1,13 @@
+ import test from 'node:test';
+ import {dmg175HistoryContract,projectDmg175Books} from './helpers/batch6-dmg175-source-history.mjs';
+ import assert from 'node:assert/strict';
+-import {readBeforePass8XpContinuationFile as readFileSync,projectPass8XpContinuationBytes} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8XpContinuationFile as readFileSync,projectPass8XpContinuationBytes} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import {execFileSync} from 'node:child_process';
+ // Exact released777 source/Jo history. The active252-group/728-target census
+ // is exercised separately by current-integration and native browser checks.
+ import {gunzipSync} from 'node:zlib';
+ import {resolve} from 'node:path';
+-import {readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from './helpers/ua-source-batch6-jo-fixture.mjs';
++import {readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+ import {createHash} from 'node:crypto';
+ import vm from 'node:vm';
+ import {hash} from '../tools/monetary-row-identity-audit.mjs';
+--- a/tests/matrix-batch-reversal.test.mjs
++++ b/tests/matrix-batch-reversal.test.mjs
+@@ -1,6 +1,6 @@
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+-import {readBeforePass8WeaponSourceFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8WeaponSourceFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import {dmg175HistoryContract} from './helpers/batch6-dmg175-source-history.mjs';
+ import {addedDmg74MatrixIds,reverseDmg74MatrixBatchFromData,reverseDmg74MatrixBatchFromInventory,reverseSupplementalPdfNoticeViewer} from './helpers/ua-source-dmg74-matrix-batch.mjs';
+ const read=path=>JSON.parse(readFileSync(new URL(`../${path}`,import.meta.url)));
+--- a/tests/mechanics-citation-page-transfer.test.mjs
++++ b/tests/mechanics-citation-page-transfer.test.mjs
+@@ -1,6 +1,6 @@
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+-import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8CharacterReferenceFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import {gunzipSync} from 'node:zlib';
+ import {resolve} from 'node:path';
+ import {buildLedger, validateLedger} from '../tools/mechanics-audit.mjs';
+--- a/tests/mechanics-final.test.mjs
++++ b/tests/mechanics-final.test.mjs
+@@ -1,6 +1,6 @@
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+-import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8CharacterReferenceFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import {finalCorrections,reverseFinalCorrections,validateFinalIndependentReviews} from './mechanics-final-fixture.mjs';
+ const load=name=>JSON.parse(readFileSync(new URL('../'+name,import.meta.url),'utf8'));
+ test('final mechanics corrections retain exact independent review bindings',()=>{
+--- a/tests/mechanics-followup.test.mjs
++++ b/tests/mechanics-followup.test.mjs
+@@ -1,7 +1,7 @@
+ import {reverseFinalCorrections} from './mechanics-final-fixture.mjs';
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+-import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8CharacterReferenceFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import {followupCorrections,reverseFollowupCorrections,validateFollowupIndependentReviews} from './mechanics-followup-fixture.mjs';
+ const load=name=>JSON.parse(readFileSync(new URL('../'+name,import.meta.url),'utf8'));
+ test('follow-up mechanics corrections retain exact independent review bindings',()=>{
+--- a/tests/mechanics-next.test.mjs
++++ b/tests/mechanics-next.test.mjs
+@@ -1,6 +1,6 @@
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+-import {readBeforePass8CharacterReferenceFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8CharacterReferenceFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import {nextCorrections,reverseNextCorrections,validateNextIndependentReviews} from './mechanics-next-fixture.mjs';
+ const load=name=>JSON.parse(readFileSync(new URL('../'+name,import.meta.url),'utf8'));
+ test('next mechanics corrections retain exact independent review bindings',()=>{
+--- a/tests/pass8-character-reference-history.test.mjs
++++ b/tests/pass8-character-reference-history.test.mjs
+@@ -1,6 +1,6 @@
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+-import {readBeforePass8XpContinuationFile as readFileSync} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8XpContinuationFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ // Exercise the original character-reference adapter at its exact777 successor
+ // checkpoint, after the separately guarded XP outer stage has been reversed.
+ import {execFileSync} from 'node:child_process';
+@@ -12,7 +12,7 @@
+   projectPass8CharacterReferenceBytes as projectBytes,
+ } from './helpers/pass8-xp-continuation-history.mjs';
+ 
+-import {readBeforePass8CharacterReferenceFile as readBefore} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8CharacterReferenceFile as readBefore} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ 
+ const root = new URL('../', import.meta.url);
+ const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+--- a/tests/pass8-citation-target-crop-history.test.mjs
++++ b/tests/pass8-citation-target-crop-history.test.mjs
+@@ -4,7 +4,7 @@
+ import {createHash} from 'node:crypto';
+ import {gunzipSync} from 'node:zlib';
+ import {decodePass8CitationTargetCropHistory,projectPass8CitationTargetCropJson as project,projectPass8CitationTargetCropBytes as projectBytes,projectPass8XpContinuationJson as xp,projectPass8CharacterReferenceJson as character} from './helpers/pass8-citation-target-crop-history.mjs';
+-import {readBeforePass8WeaponSourceFile,readBeforePass8CitationTargetCropFile as readBefore} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8WeaponSourceFile,readBeforePass8CitationTargetCropFile as readBefore} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import {projectPass8PhbSourceJson as originalPhb} from './helpers/pass8-phb-source-history.mjs';
+ import {validateScanCatalog} from '../tools/scan-catalog.mjs';
+ import books from '../dist/books.js';
+--- a/tests/pass8-dmg225-field-mapping-target-proof.test.mjs
++++ b/tests/pass8-dmg225-field-mapping-target-proof.test.mjs
+@@ -4,7 +4,7 @@
+ import {readFileSync} from 'node:fs';
+ import {gunzipSync} from 'node:zlib';
+ import test from 'node:test';
+-import {readBeforePass8UaSourceFile} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8UaSourceFile} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import {assertCurrentUaSourceOwnerCohort,assertCompiledWeaponBindingPreservation} from './helpers/ua-source-current-cohort.mjs';
+ import {
+   assertPass8Dmg225FieldTargetProof,
+--- a/tests/pass8-phb-source-history.test.mjs
++++ b/tests/pass8-phb-source-history.test.mjs
+@@ -1,5 +1,5 @@
+ import test from 'node:test';
+-import {readBeforePass8CitationTargetCropFile,readBeforePass8PhbSourceFile as readBefore} from './helpers/pass8-ua-source-history.mjs';
++import {readBeforePass8CitationTargetCropFile,readBeforePass8PhbSourceFile as readBefore} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import assert from 'node:assert/strict';
+ import {execFileSync} from 'node:child_process';
+ import {readFileSync} from 'node:fs';
+--- a/tests/pass8-ua-source-history.test.mjs
++++ b/tests/pass8-ua-source-history.test.mjs
+@@ -4,7 +4,7 @@
+ import {createHash} from 'node:crypto';
+ import {readFileSync} from 'node:fs';
+ import {gunzipSync,gzipSync} from 'node:zlib';
+-import * as history from './helpers/pass8-ua-source-history.mjs';
++import * as history from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import * as prior from './helpers/pass8-weapon-source-history.mjs';
+ const root=new URL('../',import.meta.url),read=p=>readFileSync(new URL(p,root));
+ const sha=b=>createHash('sha256').update(b).digest('hex');
+--- a/tests/pass8-weapon-source-history.test.mjs
++++ b/tests/pass8-weapon-source-history.test.mjs
+@@ -4,7 +4,7 @@
+ import {createHash} from 'node:crypto';
+ import {readFileSync} from 'node:fs';
+ import {gunzipSync} from 'node:zlib';
+-import * as history from './helpers/pass8-ua-source-history.mjs';
++import * as history from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import * as original from './helpers/pass8-citation-target-crop-history.mjs';
+ const root=new URL('../',import.meta.url),read=path=>readFileSync(new URL(path,root)),sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+ const compressed=read('tests/fixtures/pass8-weapon-source-history-v1.json.gz'),contract=history.decodePass8WeaponSourceHistory(compressed),git=(ref,path)=>execFileSync('git',['show',`${ref}:${path}`],{cwd:root,maxBuffer:100*1024*1024});
+--- a/tests/pass8-xp-continuation-history.test.mjs
++++ b/tests/pass8-xp-continuation-history.test.mjs
+@@ -12,7 +12,7 @@
+   projectPass8CharacterReferenceBytes as projectCharacterBytes,
+ } from './helpers/pass8-xp-continuation-history.mjs';
+ // Explicit PHB outer input stage; all original XP projectors and negative assertions remain closed.
+-import {projectPass8PhbSourceBytes,readBeforePass8XpContinuationFile as readBefore,readBeforePass8CharacterReferenceFile as readBeforeCharacter} from './helpers/pass8-ua-source-history.mjs';
++import {projectPass8PhbSourceBytes,readBeforePass8XpContinuationFile as readBefore,readBeforePass8CharacterReferenceFile as readBeforeCharacter} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ 
+ const root = new URL('../', import.meta.url), sha = bytes => createHash('sha256').update(bytes).digest('hex');
+ const liveBytes = path => readFileSync(new URL(path, root));
+--- a/tests/remaining-batches.test.mjs
++++ b/tests/remaining-batches.test.mjs
+@@ -1,4 +1,4 @@
+-import {readBeforeJoFile as readFileSync} from './helpers/ua-source-batch6-jo-fixture.mjs';
++import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+ import {readdirSync} from 'node:fs';
+--- a/tests/source-price-token-inventory.test.mjs
++++ b/tests/source-price-token-inventory.test.mjs
+@@ -1,5 +1,5 @@
+ import assert from 'node:assert/strict';
+-import {projectPass8PhbSourceBytes} from './helpers/pass8-ua-source-history.mjs';
++import {projectPass8PhbSourceBytes} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import {projectDmg175Books} from './helpers/batch6-dmg175-source-history.mjs';
+ import {createHash} from 'node:crypto';
+ import {readFileSync} from 'node:fs';
+--- a/tests/xp-continuation-current-integration-mutations.test.mjs
++++ b/tests/xp-continuation-current-integration-mutations.test.mjs
+@@ -1,5 +1,5 @@
+ import test from 'node:test';
+-import {projectPass8PhbSourceJson,projectPass8PhbSourceBytes,decodePass8UaSourceHistory} from './helpers/pass8-ua-source-history.mjs';
++import {projectPass8PhbSourceJson,projectPass8PhbSourceBytes,decodePass8UaSourceHistory} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import assert from 'node:assert/strict';
+ import {spawnSync} from 'node:child_process';
+ import {mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync, copyFileSync} from 'node:fs';
+--- a/tests/xp-continuation-current-integration.test.mjs
++++ b/tests/xp-continuation-current-integration.test.mjs
+@@ -4,7 +4,7 @@
+ import {gunzipSync} from 'node:zlib';
+ import {createHash} from 'node:crypto';
+ import {execFileSync} from 'node:child_process';
+-import {projectPass8PhbSourceBytes,projectPass8PhbSourceJson} from './helpers/pass8-ua-source-history.mjs';
++import {projectPass8PhbSourceBytes,projectPass8PhbSourceJson} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import {assertReviewedClassXpContinuationTarget} from '../tools/class-xp-continuation-target-review.mjs';
+ import {assertCurrentUaSourceOwnerCohort,assertCompiledWeaponBindingPreservation,assertUaSourceContextBindingCohort} from './helpers/ua-source-current-cohort.mjs';
+ 

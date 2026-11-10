@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "input": {
     "path": "dist/data.json",
-    "sha256": "713fee3fdea33c061ff0986b82884c32e8bd60c81090c4aedd20bff1bde348e5",
+    "sha256": "684cfdaba767a887fdf1c2a83d5b2305979436603d5c18940e3971f3ccddb724",
     "hashFormat": "mechanics-only SHA-256 of JSON.stringify(parsed data after recursively removing generated evidenceBindings and regionReviews transport metadata; distinct from raw data.json/provenance hashes)",
     "denominator": "Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.",
     "countSemantics": "Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap."
   },
   "counts": {
-    "records": 1003,
-    "totalFields": 14032,
+    "records": 1014,
+    "totalFields": 14069,
     "inspectedFields": 13294,
     "sourceCheckedFields": 12708,
     "unchangedSourceCheckedFields": 10065,
@@ -19,16 +19,16 @@
     "sourceConflictFields": 22,
     "editorialReviewedFields": 558,
     "staleProposalFields": 0,
-    "uncheckedFields": 730
+    "uncheckedFields": 767
   },
   "percentages": {
-    "inspectedFields": 94.74,
-    "sourceCheckedFields": 90.56,
-    "unchangedSourceCheckedFields": 71.73,
-    "correctedAndCheckedFields": 18.84,
+    "inspectedFields": 94.49,
+    "sourceCheckedFields": 90.33,
+    "unchangedSourceCheckedFields": 71.54,
+    "correctedAndCheckedFields": 18.79,
     "correctionPendingFields": 0,
     "notExtractedFields": 0.1,
-    "uncheckedFields": 5.2
+    "uncheckedFields": 5.45
   },
   "records": [
     {
@@ -122982,6 +122982,13 @@
           ]
         },
         {
+          "path": "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
+          "value": "AC 0 through 10: -4, -3, -2, -1, 0, 0, 0, 0, 0, 0, +1",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
           "path": "/summary",
           "value": "Listed in the PHB equipment costs table. Only the printed item or package and its legible cost are recorded.",
           "status": "unchecked",
@@ -123037,6 +123044,13 @@
           "checkers": [
             "mechanics-equipment-price-context-review"
           ]
+        },
+        {
+          "path": "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
+          "value": "AC 0 through 10: -7, -6, -5, -4, -3, -2, -1, 0, +1, 0, +1",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/summary",
@@ -125137,6 +125151,13 @@
           "checkers": [
             "mechanics-equipment-price-context-review"
           ]
+        },
+        {
+          "path": "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
+          "value": "AC 0 through 10: -6, -5, -4, -3, -2, -1, 0, 0, 0, 0, +1",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         },
         {
           "path": "/summary",
@@ -136920,6 +136941,354 @@
         {
           "path": "/summary",
           "value": "A source-specific missile lookup. Its numeric Armor Class columns are explained by the PHB p. 36 Armor Class Table: leather or padded armor is AC 8, plate mail is AC 3, and plate mail with shield is AC 2. Those armor examples identify numeric AC labels; the printed medium- and long-range adjustments remain separate from the armor-class key.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "appendix-c-character-subtable",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "A complete 00–99 Character Subtable used for character-party encounters on all dungeon levels.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/0",
+          "value": "Roll the listed dice-score range, then use the printed character type and maximum number per party. The separate party procedure says to ignore contradictory profession results and results exceeding a class maximum.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "appendix-c-party-size",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "The source procedure generates two to five characters, then fills the group to nine with men-at-arms or henchmen.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/0",
+          "value": "Roll d4 and add 1 to get the number of characters (2–5).",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/1",
+          "value": "Roll on the Character Subtable for each character profession; ignore contradictory results and any result above that profession’s per-party maximum.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/2",
+          "value": "Subtract the number of characters from 9 to get the number of accompanying men-at-arms or henchmen.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "appendix-c-character-levels",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "The source gives a dungeon/monster-level rule through dungeon level 4, then a d6-based level and one-step adjustment procedure.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/0",
+          "value": "Through dungeon level 4, a character’s level equals the greater of the dungeon level or monster level.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/1",
+          "value": "Thereafter, determine a level from 7th through 12th by rolling d6 + 6.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/2",
+          "value": "If that total is above the dungeon level, reduce it by 1. If below, increase it by 1, but do not exceed 12 unless the dungeon level is 16th or deeper.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "appendix-c-henchmen",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "The source distinguishes men-at-arms from henchmen by dungeon level and gives class-compatibility, party-composition, and henchman-level guidance.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/0",
+          "value": "Men-at-arms accompany characters only on dungeon levels 1–3; at level 4 or deeper, the other party members are henchmen.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/1",
+          "value": "Determine henchman professions on the Character Subtable; ignore incompatible results. The printed examples include a paladin as a thief’s henchman and a ranger below 8th level with any henchman.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/2",
+          "value": "Pair each character with one or more henchmen in rotation until the party totals nine members.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/3",
+          "value": "The source describes each henchman’s level as one-third the master’s level, with its stated fractional rounding, plus 1 level per 3 levels of the master’s experience when the master is above 8th. It gives examples: a 5th-level master has a 2nd-level henchman; at 9th it prints “3 + 3” or 6th level; it says the bonus is 3 at 11th and 4 at 12th.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "appendix-c-character-guidance",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "Bounded guidance for generating abilities and alignment, equipping character levels and men-at-arms, and selecting cleric or magic-user spells.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/0",
+          "value": "Generate abilities and alignment for each group, or use prepared non-player-character lists; men-at-arms need only hit points, and alignments must be compatible.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/1",
+          "value": "The source suggests minimal ordinary equipment for 1st-level characters, fuller gear at 2nd level, and lower-value armor and fewer weapons for men-at-arms.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/2",
+          "value": "Choose cleric and magic-user spells suited to the party while observing known-spell limits; henchmen with spell ability receive similarly selected spells.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "appendix-c-party-magic-distribution",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "The source lists possible magic-item quantities by individual character level, using Tables I–IV; levels 1–12 are on supplemental p.175 and level 13 continues on p.176.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/0",
+          "value": "The source says it is absolutely necessary that characters and henchmen have and employ some magic devices. It then suggests using the following lists rather than giving parties the whole gamut of items listed.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/1",
+          "value": "Personally select appropriate items; use random determination only when any item would be suitable to the particular individual. Some results are groups or multiples.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "appendix-c-magic-table-i",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "The complete I table lists 20 source rows for character-encounter magic-item selection.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets",
+          "value": [],
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "appendix-c-magic-table-ii",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "The complete II table lists 16 source rows for character-encounter magic-item selection.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets",
+          "value": [],
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "appendix-c-magic-table-iii",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "The complete III table lists 16 source rows for character-encounter magic-item selection.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets",
+          "value": [],
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "appendix-c-magic-table-iv",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "The complete IV table lists 12 source rows for character-encounter magic-item selection.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets",
+          "value": [],
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "appendix-c-magic-item-notes",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "The source permits substitutions following its examples, warns that characters may use all items if hostilities begin, and cautions about items carried into a campaign after defeat and about groups.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/0",
+          "value": "The source says to substitute freely using its examples.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/1",
+          "value": "It cautions that characters may use all items if hostilities begin and that some items may enter the campaign after the characters are defeated.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/2",
+          "value": "It ends with an explicit caution about handling groups.",
           "status": "unchecked",
           "inspected": false,
           "checkers": []

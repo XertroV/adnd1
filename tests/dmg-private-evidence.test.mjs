@@ -29,6 +29,7 @@ test('supplemental DMG p.175 evidence remains separate from the missing PDF page
  assert.equal(evidence.published,false);
  assert.deepEqual(books.privateEvidence('DMG',175),evidence);
  assert.match(books.missingPageNotice('DMG',175),/absent from the supplied DMG PDF.*user confirmed.*correct edition.*limited excerpts are available as source evidence/i);
+ assert.doesNotMatch(books.missingPageNotice('DMG',175),/two limited excerpts/i);
  assert.doesNotMatch(books.missingPageNotice('DMG',175),/printing (?:is )?(?:unknown|unverified)/i);
  assert.equal(books.privateEvidence('DMG',176),null);
  assert.equal(books.privateEvidence('PHB',175),null);
@@ -38,7 +39,8 @@ test('supplemental DMG p.175 evidence remains separate from the missing PDF page
  assert.equal(p.supplementalEvidence.editionStatus,'user-confirmed-correct-edition');
  assert.equal(p.supplementalEvidence.originalPdfContainsPrintedPage,false);
  const blocked=inventory.queue.blocked.find(p=>p.book==='DMG'&&p.page===175);
- assert.match(blocked.reason,/absent from the supplied PDF.*user confirmed the separate image is from the correct edition.*two limited excerpts are available as source evidence/i);
+ assert.match(blocked.reason,/absent from the supplied PDF.*user confirmed the separate image is from the correct edition.*bounded limited excerpts are available as source evidence/i);
+ assert.doesNotMatch(blocked.reason,/two limited excerpts/i);
  assert.doesNotMatch(blocked.reason,/obtain/i);
  assert.ok(!inventory.queue.batches.some(b=>b.book==='DMG'&&b.pages.includes(175)));
  assert.equal(books.availability('DMG',239),'invalid');assert.equal(books.availability('DMG',240),'invalid');assert.deepEqual(inventory.pages.filter(p=>p.book==='DMG'&&(p.page===239||p.page===240)),[]);

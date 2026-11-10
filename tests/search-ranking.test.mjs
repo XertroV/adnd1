@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {gunzipSync} from 'node:zlib';
 import {hash} from '../tools/monetary-row-identity-audit.mjs';
+import {projectDmg175EquipmentLeavesForHistoricalFixture} from '../research/dmg175-validation-coordinator-v1/history-recovery-v1/dmg175-equipment-epoch-outer-v2.proposed.mjs';
 import {joIntegration,semanticJoFixture} from './helpers/ua-source-batch6-jo-fixture.mjs';
 
 const require=createRequire(import.meta.url);
@@ -31,8 +32,9 @@ test('pre-change search rankings, index scope and visible cutoffs are preserved 
  const historicalEquipment=JSON.parse(historicalBytes).equipment,jo=data.equipment.filter(item=>item.id==='ua-jo-stick');
  assert.equal(historicalEquipment.length,191);assert.equal(jo.length,1);assert.equal(hash(semanticJoFixture(jo[0])),joIntegration.currentJo.assembledSemanticRecordSha256,'only the exact registered Jo owner extends the current search catalog');
  const previous=data.equipment.filter(item=>item.id!=='ua-jo-stick');assert.deepEqual(previous.map(item=>item.id),historicalEquipment.map(item=>item.id),'all191 existing equipment IDs and order are preserved');
+ const previousHistorical=projectDmg175EquipmentLeavesForHistoricalFixture(data.equipment).filter(item=>item.id!=='ua-jo-stick');
  const sourceValues=item=>semanticJoFixture(Object.fromEntries(['id','name','aliases','book','category','pages','fields','price','priceNote','priceState','suggestedPrice','summary'].filter(key=>Object.hasOwn(item,key)).map(key=>[key,item[key]])));
- for(let i=0;i<previous.length;i++)assert.deepEqual(sourceValues(previous[i]),sourceValues(historicalEquipment[i]),`${previous[i].id}: all recorded source values remain unchanged`);
+ for(let i=0;i<previousHistorical.length;i++)assert.deepEqual(sourceValues(previousHistorical[i]),sourceValues(historicalEquipment[i]),`${previousHistorical[i].id}: all recorded source values remain unchanged`);
  assert.equal(jo[0].price,null);assert.equal(jo[0].priceState,'unextracted');assert.equal(Object.hasOwn(jo[0],'suggestedPrice'),false);
  assert.deepEqual(Object.fromEntries(['equipment','classes'].map(key=>[key,data[key].length])),{equipment:191+1,classes:16});
  assert.equal(before.exposed.searchableCatalogRecords,993);

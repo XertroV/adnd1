@@ -1,0 +1,330 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Independent D175 current-content projection review receipt",
+  "reviewState": "historical projection logic mostly validates; exact region/source-tuple guard is blocked; current V28 integration remains pending",
+  "scope": "Read-only independent review of the frozen D175 availability/content projection candidate. No candidate, active, or draft input files were changed; this receipt is the only new artifact.",
+  "candidate": {
+    "path": "research/dmg175-current-content-projection-v1/manifest-v1.json",
+    "sha256": "a4ceebec7b7085055108cf2704ac7ede0629175a480ab8ff72e1810d1e65b1d4",
+    "baselineCommit": "0110be279f4bb54e6cddef7842a81f62cd56cd2f",
+    "baselineTree": "2611405f3c8ab151936cb0f83ed57334141e1146",
+    "currentDraftCommit": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
+    "currentDraftDataSha256": "6a5a7356f40a38e467277a4e0a35b4bbab79acfb72cea8d8ee479d92c783f9ff",
+    "candidateScope": "dist/data.json at the initial V28 draft capture; raw rules.json and dist/books.js are not inputs to this availability/count projection",
+    "candidateREADME": {
+      "path": "research/dmg175-current-content-projection-v1/README.md",
+      "sha256": "a63cc5810a5507bd8f8eb62fc57699439cab32535deb2d64925b526732d71e88"
+    },
+    "module": {
+      "path": "research/dmg175-current-content-projection-v1/implementation/dmg175-availability-projection.mjs",
+      "sha256": "f0059c68e300bf0214779c9f622fb14f263b5c173474be38ae71eaa1b694d49d"
+    },
+    "focusedTests": {
+      "path": "research/dmg175-current-content-projection-v1/tests/availability-projection.test.mjs",
+      "sha256": "5b3b4b709051c14901a8579625bce9fe60ccce456f409960a20572b35022ca6a"
+    },
+    "inputPins": {
+      "path": "research/dmg175-current-content-projection-v1/inputs/current-source-pins-v1.json",
+      "sha256": "341ee7a6db4a7e8461b2910d4b81c7b539a9e4a4a25544a51bb0a06975f40ffe"
+    },
+    "targetPlan": {
+      "path": "research/dmg175-current-content-projection-v1/inputs/target-plan-manifest-v2.json",
+      "sha256": "1f7ab9d2c84fafd62231b9fbd6fc58933a0179cba97dc51fd728ad1cafc6458f"
+    },
+    "targetPlanBoundPendingFile": {
+      "path": "research/dmg175-current-ua-native-successor-v2/pending-field-binding-additions-v2.json",
+      "sha256": "5a03485480a1cbb281e57a420d1adc6f7d134b18df50e77d0ad351cd23606d34"
+    }
+  },
+  "checksums": {
+    "candidateAll36FilesMatchFrozenManifest": true,
+    "candidateManifestSha256": "a4ceebec7b7085055108cf2704ac7ede0629175a480ab8ff72e1810d1e65b1d4",
+    "candidateDataSha256": "6a5a7356f40a38e467277a4e0a35b4bbab79acfb72cea8d8ee479d92c783f9ff",
+    "candidateDataMatchesPinnedSha256": true,
+    "candidateSourceJpegSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+    "candidateCanonicalPdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
+  },
+  "catalogInputs": [
+    {
+      "path": "scans/verified/rules-appendix-c-character-guidance.json",
+      "sha256": "06aca643a116795eb8da20ed9447a2495ec71b150e047005db48dfac0c8a0102",
+      "matchesInputPin": true
+    },
+    {
+      "path": "scans/verified/rules-appendix-c-character-levels.json",
+      "sha256": "58e330d350c635f704a5cfed9f3d2b1c05b5a0ca3fb4b87197df5b29c25e66ab",
+      "matchesInputPin": true
+    },
+    {
+      "path": "scans/verified/rules-appendix-c-character-subtable.json",
+      "sha256": "0df6a6dde3884e3dc81810c1d8750aab7a645e85674af4a37b5b479c4bbe2e19",
+      "matchesInputPin": true
+    },
+    {
+      "path": "scans/verified/rules-appendix-c-henchmen.json",
+      "sha256": "dc1e6e42c6a21dee554f583da43518bbdd0f44bf0de9ce87a375b8270a15fa87",
+      "matchesInputPin": true
+    },
+    {
+      "path": "scans/verified/rules-appendix-c-magic-item-notes.json",
+      "sha256": "ef15db32b4af72fc52984f2bc1e87dd0b3ea5e4a26f9df44b0a9f21272adf116",
+      "matchesInputPin": true
+    },
+    {
+      "path": "scans/verified/rules-appendix-c-magic-table-i.json",
+      "sha256": "b8b6331b7a73db2706c2fa7cd182436eb630543952cd5eba0815a4f43b659de0",
+      "matchesInputPin": true
+    },
+    {
+      "path": "scans/verified/rules-appendix-c-magic-table-ii.json",
+      "sha256": "4e0bd4444cbde7a7589ef528f0b9df20457baa97b594410aefb1b042c8b9e7fb",
+      "matchesInputPin": true
+    },
+    {
+      "path": "scans/verified/rules-appendix-c-magic-table-iii.json",
+      "sha256": "b9a17461b509c194906dfd4bc81cb7ab2d2d1db3f780d408675096736bcf86c5",
+      "matchesInputPin": true
+    },
+    {
+      "path": "scans/verified/rules-appendix-c-magic-table-iv.json",
+      "sha256": "489e3ad4eb09edd2eb241c7192063f7e7ecccb9dff9040d4ece89a051b225511",
+      "matchesInputPin": true
+    },
+    {
+      "path": "scans/verified/rules-appendix-c-party-magic-distribution.json",
+      "sha256": "52c01795856e9e6ec69aca061109e490d8b876cdcfcbfc1ca414351684def18f",
+      "matchesInputPin": true
+    },
+    {
+      "path": "scans/verified/rules-appendix-c-party-size.json",
+      "sha256": "617df82bf7a79f243106bf3b424546164a1832b0106e7e3deb51dff797cb1b8a",
+      "matchesInputPin": true
+    },
+    {
+      "path": "scans/verified/rules-encounter-types.json",
+      "sha256": "ffbe682e5c4ba3f2d2f45e0e6fc9361654fa6527c231f3a4fc220b4510e1aa3d",
+      "matchesInputPin": true
+    }
+  ],
+  "findings": [
+    {
+      "id": "PASS-01",
+      "level": "pass",
+      "finding": "Frozen candidate files and their top-level manifest pins match byte-for-byte. The 386b data file still has the pinned 6a SHA; the projection explicitly scopes itself to that data snapshot and excludes raw rules/books from its input."
+    },
+    {
+      "id": "PASS-02",
+      "level": "pass",
+      "finding": "The private JPEG and canonical DMG PDF hashes match the declared source identities. The eight p.175 crop files in the captured catalog set were each present, SHA-matched, and pixel-identical to their sourceCropBoundsPx cut from the private 1329x1796 JPEG. The 15 p.175/p.176/PHB asset files were present and matched catalog SHA values."
+    },
+    {
+      "id": "PASS-03",
+      "level": "pass",
+      "finding": "The pinned 6a current data contains exactly 11 listed Appendix C owners (owner-record JSON SHA 2534fef3f4ccf0ad5bba2351d493ef62c69cc54e4c38c317ebca1a0ec5aac83e). Six table owners have 87 rows and 87 row references: 22 use printed 175 with PDF null and supplemental image provenance; 65 use printed/PDF 176 with canonical PDF provenance. All row targets remain field-target-pending."
+    },
+    {
+      "id": "PASS-04",
+      "level": "pass",
+      "finding": "The exact V2 target binding file SHA 5a03485480a1cbb281e57a420d1adc6f7d134b18df50e77d0ad351cd23606d34 contains 120 bindings: 87 structured-source-reference row targets and 33 record-reference prose targets. Every binding is field-target-pending, sourceValueStatus not-assessed, and contextStatus context-not-assessed."
+    },
+    {
+      "id": "PASS-05",
+      "level": "pass",
+      "finding": "Projection preserves pdfPage:null, correct-edition but printing-unspecified identity, full-image privacy, the two historical context region IDs, and the separate two-crop monetary source screen. Code clones the handoff and changes only the D175 page metadata plus summary.currentSupplementalSourcePage; all other handoff fields, including the monetary question block and other-page/gap data, remain intact."
+    },
+    {
+      "id": "PASS-06",
+      "level": "pass",
+      "finding": "The generated coverage entry has seven valid direct links: the existing encounter procedure and the six bounded Appendix C table cards. Its description is scoped to the 11 owners/87 rows/120 pending targets and disclaims full Appendix C and DMG coverage."
+    },
+    {
+      "id": "BLOCK-01",
+      "level": "blocker",
+      "finding": "The runtime validator enforces exact crop/image/region counts but not the expected p.175 region-ID set or registered region/source tuples. A mutation changing one valid p.175 ID in rules-appendix-c-character-guidance.json to `dmg175-fabricated-but-valid-prefix` was ACCEPTED; result still reported 8 crop images and 34 IDs and emitted the fabricated ID. Preserve this actual failing mutant/result. The guard should bind all 34 expected IDs and source tuples while permitting only separately documented crop hash/bounds updates for the same registered ID."
+    },
+    {
+      "id": "BLOCK-02",
+      "level": "integration-pending",
+      "finding": "The candidate is a 0110/6a historical projection, not a current V28 render. Its pinned dist/data.json still has sources[2].coverage text saying two limited reviewed excerpts are available. The current 386b raw rules.json has since moved to generic `Limited excerpts are available`, but dist/data.json remains 6a. Source cards display sources.DMG.coverage directly. Require reassembly from current raw rules, a fresh source-card check, and a refreshed projection run before treating the user-facing preview as current."
+    },
+    {
+      "id": "NOTE-01",
+      "level": "integration-note",
+      "finding": "All six candidate patches pass git apply --check against the pinned 0110 baseline. The books.js patch does not apply to the current 386b V4 books file (expected baseline-context mismatch); current V4 wording is already count-agnostic. Keep this patch baseline-scoped or omit/narrow it during V28 integration."
+    },
+    {
+      "id": "NOTE-02",
+      "level": "integration-note",
+      "finding": "V1 catalog input for the left Level-of-Characters crop is still the prior 58e330 catalog with image 07fd3a... and bounds [0,1625,650,1796]. The separate fd13f5... 650x135 / proposed catalog 9c35... package is outside V1. The geometry is separately reviewed, but its catalog metadata remains a successor input; V1 does not bind or approve that updated catalog. Re-pin and rerun projection with the new catalog evidence before making a current-count claim on that catalog set."
+    },
+    {
+      "id": "NOTE-03",
+      "level": "scope-note",
+      "finding": "The sealed before-state matches the actual 0110 dist/coverage-gaps.json entry. It proves the stale two-excerpt / cannot-transcribe copy. The claimed fallthrough when limitedCropsStaged becomes 8 follows from the old exact `=== 2` source condition, but was not captured as an actual old-projector execution against an 8-valued handoff; the V1 handoff-before still has 2."
+    }
+  ],
+  "verification": {
+    "focusedProjectionTests": {
+      "command": "node --test research/dmg175-current-content-projection-v1/tests/availability-projection.test.mjs",
+      "passed": 8,
+      "failed": 0
+    },
+    "baselineTests": {
+      "command": "node --test tests/dmg-private-evidence.test.mjs tests/coverage-gaps.test.mjs",
+      "passed": 11,
+      "failed": 0
+    },
+    "isolatedCandidateTests": {
+      "command": "node --test tests/dmg-private-evidence.test.mjs in temporary reduced tree using proposed source-scan-inventory.mjs, proposed books.js, baseline scan-catalog/citations, and frozen before fixture",
+      "passed": 2,
+      "failed": 0
+    },
+    "patchSyntaxBaseline": {
+      "command": "git apply --check with all six candidate patches concatenated against pinned 0110 tree",
+      "passed": true
+    },
+    "patchApplicabilityCurrentDraftBooks": {
+      "command": "git apply --check patches/books.js.patch against 386b worktree dist/books.js",
+      "passed": false,
+      "error": "patch failed at dist/books.js:98; expected donor-context mismatch, current V4 already count-agnostic"
+    },
+    "fullSuiteOrProductBuild": false
+  },
+  "limits": [
+    "No value transcription, source-value/mechanics grades, global target approval, full-page review, complete Appendix C transcription, or whole-DMG coverage claim.",
+    "No current full V28/data regeneration or source-card preview was approved by this review.",
+    "The static V1 evidence catalog set predates the fd13 crop metadata successor."
+  ],
+  "currentDraftAsInspected": {
+    "commit": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
+    "hashes": {
+      "rules.json": "1e8cf08832da0c086e30715a0f14eeb456e54371dcf22d4e1dd5ef942d4a862a",
+      "dist/data.json": "6a5a7356f40a38e467277a4e0a35b4bbab79acfb72cea8d8ee479d92c783f9ff",
+      "dist/books.js": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811",
+      "dist/app.js": "8ae754da261d2b54be9dab3d2f6073ecf8af65516cbf9ba7396453ab99cb8436"
+    },
+    "dmgSourceCoverageRawRules": "generic limited-excerpts wording, without a count",
+    "dmgSourceCoverageDistData": "stale two-limited-excerpts wording (data still hash 6a)"
+  },
+  "sourceReview": {
+    "sourceIdentity": {
+      "book": "DMG",
+      "printedPage": 175,
+      "canonicalPdfPage": null,
+      "canonicalPdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "supplementalImageSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+      "sourceImageDimensionsPx": [
+        1329,
+        1796
+      ],
+      "editionStatus": "user-confirmed-correct-edition",
+      "printingStatus": "not-specified",
+      "fullImageIncludedInReceipt": false
+    },
+    "availabilityDenominator": {
+      "distinctP175CropImages": 8,
+      "distinctP175RegionIds": 34,
+      "legacyContextRegions": 2,
+      "additionalCatalogImagesAtV1Capture": 6,
+      "totalCatalogImageFilesAcrossP175P176AndPHB103": 15,
+      "all15CatalogAssetFilesFoundAndSHA256Matched": true,
+      "all8P175CropFilesPixelMatchPrivateSourceBounds": true,
+      "expectedP175RegionIds": [
+        "dmg-175-level-others-context-5aa02e91e35c4c28",
+        "dmg-175-party-table-context-78c4c383c38c7d10",
+        "dmg175-character-level-left-level-of-characters-paragraph-left-column-portion",
+        "dmg175-character-level-right-level-of-characters-paragraph-right-column-continuation",
+        "dmg175-character-subtable-character-subtable-row-00",
+        "dmg175-character-subtable-character-subtable-row-01-17",
+        "dmg175-character-subtable-character-subtable-row-18-20",
+        "dmg175-character-subtable-character-subtable-row-21-60",
+        "dmg175-character-subtable-character-subtable-row-61-62",
+        "dmg175-character-subtable-character-subtable-row-63-65",
+        "dmg175-character-subtable-character-subtable-row-66-86",
+        "dmg175-character-subtable-character-subtable-row-87-88",
+        "dmg175-character-subtable-character-subtable-row-89-98",
+        "dmg175-character-subtable-character-subtable-row-99",
+        "dmg175-character-subtable-complete-character-subtable-heading-column-labels-and-all-rows",
+        "dmg175-level-others-abilities-guidance-character-and-henchman-abilities-alignment-paragraph",
+        "dmg175-level-others-abilities-guidance-character-and-henchman-equipment-paragraph",
+        "dmg175-level-others-abilities-guidance-character-spells-paragraph",
+        "dmg175-level-others-abilities-guidance-complete-level-of-others-with-characters-paragraph",
+        "dmg175-party-magic-items-party-magic-items-complete-introductory-paragraph",
+        "dmg175-party-magic-items-party-magic-items-distribution-10th-level",
+        "dmg175-party-magic-items-party-magic-items-distribution-11th-level",
+        "dmg175-party-magic-items-party-magic-items-distribution-12th-level",
+        "dmg175-party-magic-items-party-magic-items-distribution-1st-level",
+        "dmg175-party-magic-items-party-magic-items-distribution-2nd-level",
+        "dmg175-party-magic-items-party-magic-items-distribution-3rd-level",
+        "dmg175-party-magic-items-party-magic-items-distribution-4th-level",
+        "dmg175-party-magic-items-party-magic-items-distribution-5th-level",
+        "dmg175-party-magic-items-party-magic-items-distribution-6th-level",
+        "dmg175-party-magic-items-party-magic-items-distribution-7th-level",
+        "dmg175-party-magic-items-party-magic-items-distribution-8th-level",
+        "dmg175-party-magic-items-party-magic-items-distribution-9th-level",
+        "dmg175-party-size-number-of-characters-in-party-procedure",
+        "dmg175-party-size-separate-party-procedure-clause-incompatible-profession-and-class-maximum-results"
+      ]
+    },
+    "contentDenominator": {
+      "owners": 11,
+      "tableOwners": 6,
+      "structuredRows": 87,
+      "rowsPrinted175Supplement": 22,
+      "rowsPrinted176Pdf": 65,
+      "targetBindings": 120,
+      "rowTargets": 87,
+      "proseTargets": 33,
+      "all120ReviewStatus": "field-target-pending",
+      "all120SourceValueStatus": "not-assessed-by-field-target-review",
+      "all120ContextStatus": "context-not-assessed",
+      "targetPlanPendingBindingAppend": 120
+    },
+    "preservation": {
+      "priorReviewedContextRegionIds": [
+        "dmg-175-party-table-context-78c4c383c38c7d10",
+        "dmg-175-level-others-context-5aa02e91e35c4c28"
+      ],
+      "priorReviewedContextRegionsRemain2": true,
+      "supplementalMonetaryScreenCropRegionsRemain2": true,
+      "supplementalMonetaryScreenUnchanged": true,
+      "otherHandoffFieldsUnchanged": true,
+      "noSourceValueOrMechanicsGradePromotion": true,
+      "noAppendixCOrDMGCompletenessClaim": true
+    },
+    "cropSuccessorSeparation": {
+      "v1CharacterLevelsCatalogSha256": "58e330d350c635f704a5cfed9f3d2b1c05b5a0ca3fb4b87197df5b29c25e66ab",
+      "v1LeftCropImageSha256": "07fd3a11c0cc61f10ecf3bc812e8c91b34731c81855a72aec0ce3786f1242c3d",
+      "v1LeftCropBoundsPx": [
+        0,
+        1625,
+        650,
+        1796
+      ],
+      "replacementImageSha256": "fd13f5d51d4f527d8887c31627d39ce224c33ccd810a78bd8b01ba204f8aa3fc",
+      "replacementCatalogCandidateSha256": "9c35cf281a309c6a800c1324af32fce1a9e7d29cfe4d13f26d9ffca66217e37e",
+      "replacementPackageManifestSha256": "7aa652ce9f355579568d6b69d49440a33691b6419ac5e10dc94a7d599bbf5960",
+      "replacementCatalogMetadataStatus": "separate successor candidate; not part of this V1 frozen catalog evidence"
+    }
+  },
+  "failingMutationEvidence": {
+    "candidateModulePath": "research/dmg175-current-content-projection-v1/implementation/dmg175-availability-projection.mjs",
+    "candidateModuleSha256": "f0059c68e300bf0214779c9f622fb14f263b5c173474be38ae71eaa1b694d49d",
+    "dataSha256": "6a5a7356f40a38e467277a4e0a35b4bbab79acfb72cea8d8ee479d92c783f9ff",
+    "catalogMutation": {
+      "catalog": "rules-appendix-c-character-guidance.json",
+      "operation": "replace first printedPage=175 region ID with `dmg175-fabricated-but-valid-prefix`",
+      "otherFields": "unchanged"
+    },
+    "observed": "ACCEPTED; deriveDmg175Availability returned 8 distinct p.175 crop images and 34 p.175 region IDs; the emitted ID list contained `dmg175-fabricated-but-valid-prefix`.",
+    "interpretation": "Exact count and prefix checks do not validate the registered 34-ID/source-tuple set. This is a preserved actual failure, not a candidate mutation."
+  },
+  "historicalBeforeState": {
+    "beforeStatePath": "research/dmg175-current-content-projection-v1/before-state-v1.json",
+    "beforeStateSha256": "dfa38ff656ef98753f7ec91d38b53f5a25599069f2d6d4c6f93352543127174b",
+    "actualBaselineCoverageOutputPath": "dist/coverage-gaps.json",
+    "actualBaselineCoverageOutputSha256": "de25ad7d99a79be4a2c2962482a1f3dd0aa6442e881642830c70ac9a38654fb1",
+    "actualEntryMatched": true,
+    "conditionalFallthrough": "The old source condition is limitedCropsStaged === 2. The frozen handoff-before has 2; fallthrough at an 8-valued projected handoff is inferred from the code path, not from a captured before-run."
+  }
+}

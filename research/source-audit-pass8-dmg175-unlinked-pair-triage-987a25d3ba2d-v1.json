@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-bounded-continuation-unlinked-pair-triage",
+  "reviewedOn": "2026-11-09",
+  "scope": {
+    "purpose": "Classify the two unlinked same-page continuation pair candidates in the final 987a25d3ba2d DMG continuation report.",
+    "boundedTo": "The two reported pair combinations for equipment:phb-thieves-tools, DMG printed/PDF p.225, and their corresponding declared groups and source excerpts.",
+    "explicitlyNotAWholeBookOrCoverageApproval": true
+  },
+  "inputs": {
+    "sourceCommit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+    "continuationSummary": {
+      "path": "research/source-audit-pass8-dmg175-continuation-987a25d3ba2d.json",
+      "sha256": "05dd7e9e219a551129b6b1852828db53625ef9625123f61ce9657fd3c8621366"
+    },
+    "continuationFullReport": {
+      "path": "research/source-audit-pass8-dmg175-continuation-987a25d3ba2d-full.json.gz",
+      "sha256": "90cc57263606d27082aea5b51ed627e280071076f801fd434d8e07add6afb3c8"
+    },
+    "continuationManifest": {
+      "path": "research/citation-continuations.json",
+      "sha256": "f1bfc6cffbfdd625e96bb5398e7f8db16730264a7f46ce4bcc7667ca2ef24cc7",
+      "declaredGroupCount": 273
+    },
+    "renderedContinuationProjection": {
+      "path": "dist/source-continuations.json",
+      "sha256": "32f177b264f8673edf054b25a0bd9b8df6668c5b9fb55a17d4161cf5b0cc1e5d",
+      "groupCount": 273
+    },
+    "ownerCatalog": {
+      "path": "dist/scans/verified/equipment-phb-thieves-tools.json",
+      "sha256": "e0752d3bb7d7decf33fb5ace057bece4ea36a2e39032be0adbf45b3ef92a04cd",
+      "owner": "equipment:phb-thieves-tools"
+    },
+    "source": {
+      "book": "DMG",
+      "printedPage": 225,
+      "pdfPage": 225,
+      "pdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "privateSourceUsed": true
+    }
+  },
+  "reportDenominators": {
+    "continuationPairCandidatesOnThisPage": 2,
+    "unlinkedPairCandidatesInFullReport": 2,
+    "sameCatalogFlowCandidatesInFullReport": 46,
+    "broaderAuditCandidateUsages": 921,
+    "broaderAuditUniquePdfGeometryCases": 366,
+    "broaderAuditPdfGeometries": 1328,
+    "broaderAuditImages": 1336,
+    "broaderAuditJpegImages": 8,
+    "interpretation": "Separate denominators for heuristic candidates, unique PDF geometries, and images; none of these counts is a semantic pass rate."
+  },
+  "declaredGroups": [
+    {
+      "id": "batch5-cont-dmg-p225-phb-thieves-tools",
+      "status": "segments-present-pending-deployment",
+      "orderedRegions": [
+        "dmg-225-e8ddcda7bb0d9586",
+        "dmg-225-90b02a4c3e47a923"
+      ],
+      "sourceRelationship": "Existing older group for the lower-left passage opening and upper-right list continuation."
+    },
+    {
+      "id": "pass8-dmg225-thieves-tools-exclusion-context",
+      "status": "segments-present-pending-deployment",
+      "orderedRegions": [
+        "pass8-dmg225-thieves-tools-exclusion-lead-in",
+        "pass8-dmg225-thieves-tools-exclusion-list-item"
+      ],
+      "sourceRelationship": "Newer, narrower lower-left lead-in alias paired with an alias for the same upper-right list-item image."
+    }
+  ],
+  "unlinkedPairs": [
+    {
+      "openingRegionId": "dmg-225-e8ddcda7bb0d9586",
+      "continuationRegionId": "pass8-dmg225-thieves-tools-exclusion-list-item",
+      "declaredCounterpart": [
+        "dmg-225-e8ddcda7bb0d9586",
+        "dmg-225-90b02a4c3e47a923"
+      ],
+      "classification": "present-related-source; alias cross-pair structural candidate, not a confirmed missing continuation"
+    },
+    {
+      "openingRegionId": "pass8-dmg225-thieves-tools-exclusion-lead-in",
+      "continuationRegionId": "dmg-225-90b02a4c3e47a923",
+      "declaredCounterpart": [
+        "pass8-dmg225-thieves-tools-exclusion-lead-in",
+        "pass8-dmg225-thieves-tools-exclusion-list-item"
+      ],
+      "classification": "present-related-source; alias cross-pair structural candidate, not a confirmed missing continuation"
+    }
+  ],
+  "sourcePixelReview": {
+    "method": "Reviewed three individually rendered limited clips from the hash-pinned private DMG PDF page 225 using PyMuPDF at 4x scale. Clips used page.rect [0,0,572.15918,777.83899] and the catalog's normalized rectangles; no full page was exported.",
+    "clips": [
+      {
+        "regionId": "dmg-225-e8ddcda7bb0d9586",
+        "normalizedPageRect": [0.02, 0.89, 0.48, 0.095],
+        "pdfPointRect": [11.4432, 692.2767, 286.0796, 766.1714],
+        "observation": "The broader lower-left excerpt contains surrounding text and the complete exclusion-list introduction at its end."
+      },
+      {
+        "regionId": "pass8-dmg225-thieves-tools-exclusion-lead-in",
+        "normalizedPageRect": [0.02446871517056927, 0.9397831814749931, 0.4666533536101425, 0.03471155389852915],
+        "pdfPointRect": [14, 731, 281, 758],
+        "observation": "The narrower crop contains the same lower-left introduction seen within the broader canonical opening. It is an overlapping alias, not a distinct source passage."
+      },
+      {
+        "regionId": "dmg-225-90b02a4c3e47a923",
+        "normalizedPageRect": [0.52, 0.04, 0.46, 0.055],
+        "pdfPointRect": [297.5228, 31.1136, 560.716, 73.8947],
+        "observation": "The upper-right excerpt contains the list entries, including the item named by the lower-left introduction."
+      }
+    ],
+    "aliasContinuationIdentity": {
+      "canonicalRegionId": "dmg-225-90b02a4c3e47a923",
+      "aliasRegionId": "pass8-dmg225-thieves-tools-exclusion-list-item",
+      "sameImageSha256": "90b02a4c3e47a923fbc5efe15895d55c8f286d73684b3339ce6905d6e7802690",
+      "sameNormalizedPageRect": true,
+      "sameFocusRects": true
+    },
+    "overallFinding": "Both report pairs combine present segments from the same DMG p.225 exclusion passage. The manifest already declares the older canonical pair and the newer alias pair. The two unlinked combinations arise from mixing each opening with the other group's continuation alias."
+  },
+  "disposition": {
+    "confirmedMissingContinuation": false,
+    "confirmedSourceDefect": false,
+    "structuralCandidatesRemaining": 2,
+    "compiledRoutingReviewed": false,
+    "wholeOrderedGroupAndDefaultReviewComplete": false,
+    "sourceValueOrMechanicsGradesChanged": false,
+    "requiredFollowUp": "Keep both declared groups and the two structural cross-pair candidates traceable. A future navigation/default review may verify their intended routes; this bounded source review does not approve deployment or group defaults."
+  },
+  "limits": [
+    "This receipt assesses only the two p.225 pairings and their source-region identity/content.",
+    "No browser, compiled-route, default-selection, field-relevance, or mechanics review was performed.",
+    "The manifest and rendered projection each contain 273 groups, but group count or projection presence does not certify runtime behavior or semantic completeness.",
+    "The broader report's candidate and geometry denominators are heuristic inventories, not book-completeness measures."
+  ]
+}

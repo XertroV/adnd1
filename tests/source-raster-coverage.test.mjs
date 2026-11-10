@@ -2,6 +2,7 @@ import test from 'node:test';
 import {after} from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
+import {createRequire} from 'node:module';
 import {mkdtempSync, readFileSync, rmSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -17,6 +18,54 @@ const releasedJoSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research
 const priorJoSearchSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research/source-raster-boundary-batch6-search-cleric-post-pr34.json.gz',import.meta.url))));
 const dmg175MapperBeforeBytes=readFileSync(new URL('./fixtures/source-raster-dmg175-live-mapper-reconstruction-v1.json.gz',import.meta.url));
 const dmg175MapperBefore=JSON.parse(gunzipSync(dmg175MapperBeforeBytes));
+const dmg175UniverseBytes=readFileSync(new URL('./fixtures/dmg175-current-supplemental-usage-universe-v1.json',import.meta.url));
+const dmg175Universe=JSON.parse(dmg175UniverseBytes.toString('utf8'));
+const dmg175Require=createRequire(import.meta.url),dmg175Books=dmg175Require('../dist/books.js');
+const dmg175DataBytes=readFileSync(new URL('../dist/data.json',import.meta.url)),dmg175Data=JSON.parse(dmg175DataBytes.toString('utf8'));
+const dmg175Tuple=row=>[row.collection,row.itemId,row.binding,row.catalog,row.regionId,row.book,row.printedPage,row.pdfPage,row.imageSha256,row.sourceKind,row.sourceArtifactId,row.sourceArtifactSha256,row.sourcePdfSha256];
+const dmg175UsageOrder=(a,b)=>`${a.catalog}:${a.regionId}`.localeCompare(`${b.catalog}:${b.regionId}`);
+const sortedDmg175Tuples=rows=>rows.slice().sort(dmg175UsageOrder).map(dmg175Tuple);
+function sourceDerivedDmg175UsageRows(){
+ assert.equal(createHash('sha256').update(dmg175UniverseBytes).digest('hex'),'c5162dd3f52982b223fea95a9bdef0f0654cc2f03982acaafb2981e34aa7d56e');
+ assert.equal(createHash('sha256').update(dmg175DataBytes).digest('hex'),dmg175Universe.inputs.dataSha256);
+ const registryBytes=readFileSync(new URL('../research/dmg175-supplement-crop-registry-v1.json',import.meta.url));
+ assert.equal(createHash('sha256').update(registryBytes).digest('hex'),dmg175Universe.inputs.registrySha256);
+ const registry=JSON.parse(registryBytes.toString('utf8'));
+ assert.deepEqual(registry.sourceIdentity,dmg175Universe.sourceIdentity);
+ assert.deepEqual(registry.regions,dmg175Universe.registryRegions);
+ assert.equal(createHash('sha256').update(JSON.stringify(registry.regions)).digest('hex'),dmg175Universe.inputs.registryRegionMetadataSha256);
+ const registryIds=registry.regions.map(region=>region.regionId).sort();
+ assert.deepEqual(registryIds,dmg175Universe.registryRegionIds);
+ assert.equal(createHash('sha256').update(JSON.stringify(registryIds)).digest('hex'),dmg175Universe.inputs.registryRegionIdsSha256);
+ const actualGroups=[],actualRows=[];
+ for(const group of dmg175Universe.activeCatalogs){
+  const owners=group.collection==='progressionExplainer'?(dmg175Data[group.collection]?[dmg175Data[group.collection]]:[]):(dmg175Data[group.collection]||[]);
+  const owner=owners.find(item=>item.id===group.itemId);assert.ok(owner,`${group.collection}:${group.itemId} exists`);
+  const bindingName=owner.sourceExcerpts?'sourceExcerpts':owner.scanVerification?'scanVerification':null;
+  assert.equal(bindingName,group.binding,`${group.collection}:${group.itemId} selected binding`);
+  const binding=owner[bindingName];assert.equal(binding.catalog,group.catalog);
+  const catalogBytes=readFileSync(new URL(`../dist/${group.catalog}`,import.meta.url));
+  assert.equal(createHash('sha256').update(catalogBytes).digest('hex'),group.catalogSha256,group.catalog);
+  const catalog=JSON.parse(catalogBytes.toString('utf8'));
+  assert.equal(catalog.collection,group.collection);assert.equal(catalog.itemId,group.itemId);
+  assert.equal(binding.regionCount,catalog.regions.length,`${group.catalog} binding region count`);
+  const regions=catalog.regions.filter(region=>region.sourceArtifactId==='dmg175-user-confirmed-supplement');
+  assert.deepEqual(regions.map(region=>region.id).sort(),group.regionIds,`${group.catalog} supplemental regions`);
+  actualGroups.push({collection:group.collection,itemId:group.itemId,binding:bindingName,catalog:group.catalog,catalogSha256:createHash('sha256').update(catalogBytes).digest('hex'),regionIds:regions.map(region=>region.id).sort()});
+  for(const regionId of group.regionIds){
+   const region=regions.find(candidate=>candidate.id===regionId);assert.ok(region,`${group.catalog}#${regionId} exists`);
+   const identity=dmg175Books.resolveRegionSourceIdentity(catalog,region);assert.equal(identity.valid,true,`${group.catalog}#${regionId} source identity`);
+   actualRows.push({collection:group.collection,itemId:group.itemId,binding:bindingName,catalog:group.catalog,regionId:region.id,book:region.book,printedPage:region.printedPage,pdfPage:region.pdfPage,imageSha256:region.sha256,sourceKind:identity.sourceKind,sourceArtifactId:identity.sourceArtifactId,sourceArtifactSha256:identity.sourceSha256,sourcePdfSha256:identity.canonicalPdfSha256});
+  }
+ }
+ assert.deepEqual(actualGroups,dmg175Universe.activeCatalogs);
+ assert.equal(actualGroups.length,dmg175Universe.counts.activeCatalogs);
+ assert.equal(actualRows.length,dmg175Universe.counts.activeUsageRows);
+ assert.equal(new Set(actualRows.map(row=>row.regionId)).size,dmg175Universe.counts.activeDistinctRegionIds);
+ assert.deepEqual([...new Set(actualRows.map(row=>row.regionId))].sort(),dmg175Universe.registryRegionIds);
+ assert.deepEqual(sortedDmg175Tuples(actualRows),sortedDmg175Tuples(dmg175Universe.expectedUsages));
+ return actualRows;
+}
 const legacyFixture = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/source-raster-coverage-derived-metrics-before.json.gz', import.meta.url))));
 const legacySource = legacyFixture.files['tools/source-raster-coverage.mjs'];
 assert.equal(createHash('sha256').update(legacySource.utf8).digest('hex'), legacySource.sha256);
@@ -148,7 +197,7 @@ test('the frozen released Jo snapshot preserves its exact seven-use extension an
   assert.equal(releasedJoSnapshot.geometries.length,releasedJoSnapshot.counts.uniqueImageGeometryBindings);
 });
 
-test('the reconstructed pre-fix mapper omits page 175; the current live mapper carries both typed supplemental crops',()=>{
+test('the reconstructed pre-fix mapper preserves its exact two rows; the current live mapper matches the closed 45-use source universe',()=>{
  assert.equal(createHash('sha256').update(dmg175MapperBeforeBytes).digest('hex'),'5f253065ab442a67ca1d0d7467226b30685c9bc6a6d2f7840a495d90c2186f98');
  assert.equal(createHash('sha256').update(dmg175MapperBefore.beforeCapture.helperSource).digest('hex'),dmg175MapperBefore.beforeCapture.helperSha256);
  assert.equal(dmg175MapperBefore.captureMode,'retrospective-reconstruction');
@@ -159,16 +208,22 @@ test('the reconstructed pre-fix mapper omits page 175; the current live mapper c
  const oldRows=dmg175MapperBefore.beforeCapture.liveUniverse.usages.filter(row=>row.sourceKind==='supplemental-image');
  assert.deepEqual(oldRows.map(row=>row.regionId).sort(),['dmg-175-level-others-context-5aa02e91e35c4c28','dmg-175-party-table-context-78c4c383c38c7d10']);
  assert.ok(oldRows.every(row=>row.printedPage===undefined));
+ const historicalTuples=[
+  ['rules','encounter-types','sourceExcerpts','scans/verified/rules-encounter-types.json','dmg-175-party-table-context-78c4c383c38c7d10','DMG',undefined,null,'78c4c383c38c7d100a9e66bec4f36de1fdb9453d6e44d1eec53120e849a36e89','supplemental-image','dmg175-user-confirmed-supplement','e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7','7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669'],
+  ['rules','encounter-types','sourceExcerpts','scans/verified/rules-encounter-types.json','dmg-175-level-others-context-5aa02e91e35c4c28','DMG',undefined,null,'5aa02e91e35c4c28152caccd947096943b74889b8596376cb86cb0c7170291b8','supplemental-image','dmg175-user-confirmed-supplement','e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7','7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669'],
+ ];
+ assert.deepEqual(oldRows.map(dmg175Tuple).sort((a,b)=>String(a[4]).localeCompare(String(b[4]))),historicalTuples.sort((a,b)=>String(a[4]).localeCompare(String(b[4]))),'the sealed reconstructed historical rows remain exact and untyped by printedPage');
  assert.ok(dmg175MapperBefore.beforeCapture.reportedPipelineFailure.errors.includes('Not-assessable usages must be exactly the live typed DMG p.175 supplemental-image rows with the approved unassessed reason.'));
  assert.ok(dmg175MapperBefore.beforeCapture.reportedPipelineFailure.errors.includes('A supplemental raster usage has an invalid typed source identity.'));
+ const sourceRows=sourceDerivedDmg175UsageRows();
  const supplemental=live.usages.filter(row=>row.sourceKind==='supplemental-image');
  const pdfFrameUsages=live.usages.filter(row=>row.sourceKind==='pdf'||row.sourceKind===undefined);
- assert.equal(supplemental.length,2);assert.equal(pdfFrameUsages.length,snapshot.counts.regionUsages-snapshot.counts.notAssessableUsages);
+ assert.equal(live.catalogSnapshotSha256,dmg175Universe.inputs.catalogSnapshotSha256);
+ assert.deepEqual(sortedDmg175Tuples(sourceRows),sortedDmg175Tuples(dmg175Universe.expectedUsages));
+ assert.deepEqual(sortedDmg175Tuples(supplemental),sortedDmg175Tuples(sourceRows),'live raster mapping equals the independently joined closed catalog universe');
+ assert.equal(dmg175Universe.counts.activeUsageRows,45);assert.equal(dmg175Universe.counts.activeCatalogs,7);assert.equal(dmg175Universe.counts.activeDistinctRegionIds,34);
+ assert.equal(supplemental.length,dmg175Universe.counts.activeUsageRows);assert.equal(pdfFrameUsages.length,snapshot.counts.regionUsages-snapshot.counts.notAssessableUsages);
  assert.equal(live.usages.length,pdfFrameUsages.length+supplemental.length);
- assert.deepEqual(supplemental.map(row=>[row.regionId,row.book,row.printedPage,row.pdfPage,row.sourceArtifactId,row.sourceArtifactSha256,row.sourcePdfSha256]).sort((a,b)=>a[0].localeCompare(b[0])),[
-  ['dmg-175-level-others-context-5aa02e91e35c4c28','DMG',175,null,'dmg175-user-confirmed-supplement','e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7','7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669'],
-  ['dmg-175-party-table-context-78c4c383c38c7d10','DMG',175,null,'dmg175-user-confirmed-supplement','e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7','7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669'],
- ].sort((a,b)=>a[0].localeCompare(b[0])));
  assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateValidation.valid,true);
  assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateCounts.regionUsages,3132);
  assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateCounts.notAssessableUsages,2);
@@ -185,7 +240,7 @@ test('typed DMG 175 supplemental rows stay in the raster denominator as explicit
  const synthetic={...supplemental,usageOrdinal:++ordinal,notAssessableReason:reason};copy.notAssessableUsages.push(synthetic);liveCopy.usages.push(supplemental);
  const all=[...copy.usages,...copy.notAssessableUsages];copy.inputs.distDataSha256=live.dataSha256;copy.inputs.catalogSnapshotSha256=live.catalogSnapshotSha256;copy.inputs.catalogCount=live.catalogCount;
  copy.counts.regionUsages=all.length;copy.counts.uniqueImages=new Set(all.map(row=>row.imageSha256)).size;copy.counts.regionUsagesByBook=Object.fromEntries([...new Set(all.map(row=>row.book))].sort().map(book=>[book,all.filter(row=>row.book===book).length]));copy.counts.notAssessableUsages=copy.notAssessableUsages.length;copy.counts.assessedUsages=copy.usages.length;
- const report=buildSourceRasterCoverage(copy,liveCopy);assert.equal(report.validation.valid,false);assert.ok(report.validation.errors.some(error=>error.includes('Caller snapshot differs from the repository-pinned active current snapshot.')));assert.equal(report.liveUniverse.regionUsages,live.usages.length);assert.deepEqual(report.sourceIdentityCoverage,{pdfFrameUsages:live.usages.length-2,supplementalImageUsages:2,supplementalImageUsagesNotAssessed:2});
+ const report=buildSourceRasterCoverage(copy,liveCopy);assert.equal(report.validation.valid,false);assert.ok(report.validation.errors.some(error=>error.includes('Caller snapshot differs from the repository-pinned active current snapshot.')));assert.equal(report.liveUniverse.regionUsages,live.usages.length);const supplementalCount=live.usages.filter(row=>row.sourceKind==='supplemental-image').length;assert.deepEqual(report.sourceIdentityCoverage,{pdfFrameUsages:live.usages.length-supplementalCount,supplementalImageUsages:supplementalCount,supplementalImageUsagesNotAssessed:supplementalCount});
  for(const mutate of [row=>row.sourceArtifactSha256='a'.repeat(64),row=>row.notAssessableReason='unreviewed',row=>row.pdfPage=176,row=>delete row.printedPage]){const bad=structuredClone(copy);mutate(bad.notAssessableUsages.at(-1));assert.equal(buildSourceRasterCoverage(bad,liveCopy).validation.valid,false);}
 });
 

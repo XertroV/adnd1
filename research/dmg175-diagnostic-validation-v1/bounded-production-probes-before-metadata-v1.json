@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "actual bounded production probes before metadata epoch repairs",
+  "sourceCommit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+  "inputs": [
+    {
+      "path": "tools/ua26-note-marker-audit.mjs",
+      "sha256": "4cd3e158451d842c4b097a0ddc726b5c248dfe2b0428cae719f1e4b27a85c49c"
+    },
+    {
+      "path": "tools/jo-unextracted-price-registration.mjs",
+      "sha256": "dc939de98ff9f796f6a1ec910aa8f0fc287508d6fbe5729c824af1ed4046f7c2"
+    },
+    {
+      "path": "tools/monetary-unit-provenance-audit.mjs",
+      "sha256": "58d0af2b07c18c86fc2b11c63e12a5cb3402f49f4c5ab4d7ed1ff3feec5d351d"
+    },
+    {
+      "path": "tools/source-report-consistency-audit.mjs",
+      "sha256": "b96d02f95ebd3b6fc83f6e9ea0ed1e39d45021949c00ef86f4b72412c2dffafa"
+    }
+  ],
+  "probes": [
+    {
+      "command": "node tools/source-target-label-audit.mjs --current --check --output-dir artifacts/citation-target-labels",
+      "exitCode": 0,
+      "counts": {
+        "records": 1014,
+        "targets": 4931,
+        "numericOnlyAfterFormatter": 0
+      },
+      "limits": "Current collector plus formatter, not browser sweep or semantic correctness."
+    },
+    {
+      "command": "node tools/ua26-note-marker-audit.mjs",
+      "exitCode": 1,
+      "failures": [
+        "dist/scans/verified/equipment-ua-harpoon.json: current catalog hash differs from correction receipt",
+        "dist/scans/verified/equipment-phb-hammer.json: current catalog hash differs from correction receipt",
+        "dist/scans/verified/equipment-phb-javelin.json: current catalog hash differs from correction receipt"
+      ],
+      "counts": {
+        "physicalRows": 68,
+        "marked": 17,
+        "unmarked": 51,
+        "aliases": 66
+      }
+    },
+    {
+      "command": "node tools/monetary-unit-provenance-audit.mjs --check",
+      "exitCode": 1,
+      "error": "Invalid Jo unextracted-price registration: stale evidence equipment.json"
+    },
+    {
+      "command": "node tools/source-report-consistency-audit.mjs --check",
+      "exitCode": 1,
+      "error": "Report consistency input: mechanics unchecked denominator is stale",
+      "qualification": "Expected while current handoff has not yet been refreshed; no completed current projection claimed."
+    }
+  ],
+  "status": "Observed pre-final-metadata results, not final workflow checks",
+  "published": false
+}

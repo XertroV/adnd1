@@ -1,0 +1,29 @@
+--- a/tests/source-overview-metadata.test.mjs
++++ b/tests/source-overview-metadata.test.mjs
+@@ -22,7 +22,8 @@
+  assert.deepEqual(dmg.gaps,[175]);
+  assert.equal(dmg.printedLastPage,238);
+  assert.match(dmg.coverage,/exact printing is not established/i);
+- assert.match(dmg.coverage,/two limited reviewed excerpts/i);
++ assert.match(dmg.coverage,/limited excerpts are available as source evidence/i);
++ assert.equal(books.supplementalEvidence('DMG',175).published,false,'the complete private JPEG remains unpublished');
+  assert.equal(books.availability('DMG',175),'missing');
+  assert.equal(books.evidenceAvailability('DMG',175),'supplemental');
+  assert.deepEqual(books.pdfPage('DMG',175),null);
+--- a/tests/citation-systemic-inventory.test.mjs
++++ b/tests/citation-systemic-inventory.test.mjs
+@@ -30,7 +30,13 @@
+   assert.ok(regions.every(region => region.sourceIdentityValid === true), 'every selected region is resolved through the shared typed source-identity resolver');
+ 
+   const supplement = regions.filter(region => region.book === 'DMG' && region.printedPage === 175);
+-  assert.equal(supplement.length, 2);
++  assert.equal(supplement.length,45,'current selected-catalog supplemental usage denominator');
++  const registryBytes=readFileSync(path.join(root,'research/dmg175-supplement-crop-registry-v1.json'));
++  assert.equal(sha256(registryBytes),'94fad75fb5a0b235b7f81b7dfddf65fc098194148cada86c5d963d8462d1cbf6','closed current supplemental crop registry');
++  const registry=JSON.parse(registryBytes);
++  assert.equal(registry.counts.legacyTuplesPreserved,2,'both historical supplemental crop tuples remain in the exact current registry');
++  assert.deepEqual([...new Set(supplement.map(region=>region.regionId))].sort(),registry.regions.map(region=>region.regionId).sort(),'all34current supplemental region IDs are present');
++  assert.equal(new Set(supplement.map(region=>region.regionId)).size,34);
+   for (const region of supplement) {
+     assert.equal(region.pdfPage, null, region.regionId);
+     assert.equal(region.sourceKind, 'supplemental-image', region.regionId);

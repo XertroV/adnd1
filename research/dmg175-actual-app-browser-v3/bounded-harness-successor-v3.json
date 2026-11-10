@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "bounded known optional-host issue classification for actual browser harness",
+  "beforeRunner": {
+    "path": "research/dmg175-actual-app-browser-v2/dmg175-actual-app.browser.mjs",
+    "sha256": "1720ed95f24673314fae1476d12c55b25de3f4e04c46c0109b940bea7b83979a"
+  },
+  "afterRunner": {
+    "path": "research/dmg175-actual-app-browser-v3/dmg175-actual-app.browser.mjs",
+    "sha256": "c94ccbca95de8ed2efd669cedb0bc14371469c45b8b1319b846dd5c8697909db"
+  },
+  "actualOperationalPreflight": {
+    "sha256": "b403e4b43432726e6b5ea6485f804ada048cf8d5d252af57d7a0cf7930a92242",
+    "pageErrors": [],
+    "observedConsoleError": {
+      "message": "Failed to load resource: the server responded with a status of 404 (File not found)",
+      "location": {
+        "url": "http://127.0.0.1:8875/favicon.ico",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    }
+  },
+  "scope": "Classify only exact local-origin /favicon.ico 404 endpoint and exact observed console message/location. All other errors remain fatal. All source fixture and app assertions stay intact. No request interception or product mutation.",
+  "fullV2Run": "not run; the operational preflight exposed the exact optional favicon condition before the full loop",
+  "pendingGuidanceObservation": "Additional read-only capture of the first p.175 pending route; no added source grade or automatic region selection."
+}

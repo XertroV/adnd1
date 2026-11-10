@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Actual DMG175 mechanics and source-scan metadata replay",
+  "sourceInputCommit": "2af25997fb831b89a5ff158ed55e17ccf5943fbe",
+  "executedAt": "2026-11-09T19:09:02.202169+00:00",
+  "producerCommands": [
+    "node tools/mechanics-audit.mjs --from-log",
+    "node tools/source-scan-inventory.mjs"
+  ],
+  "producerExitCodes": [
+    0,
+    0
+  ],
+  "mechanics": {
+    "path": "research/mechanics-audit-progress.json",
+    "sha256": "0fe09edf9fe2b37874f3acb4488b439bf5efca2dd2f355107eadb218373c84c6",
+    "reviewRecordsExact": 1215,
+    "countDelta": {
+      "records": [
+        1003,
+        1014
+      ],
+      "totalFields": [
+        14032,
+        14069
+      ],
+      "uncheckedFields": [
+        730,
+        767
+      ]
+    },
+    "allOtherCountCategoriesUnchanged": true,
+    "scope": "Formal enumerated fields only. The existing enumerator excludes the 87 structured rule-table rows, and the 3 UA array fields contain 33 cells. These counts do not establish whole-book or source completeness."
+  },
+  "sourceScan": {
+    "path": "tests/fixtures/source-scan-inventory.json",
+    "sha256": "5e3da176c59258d3e4440112eecd5009bbb459f70fd6b38f1e2f8738cda57a26",
+    "counts": {
+      "records": 1014,
+      "recordPagePairs": 2137,
+      "citedPages": 232,
+      "knownGapPages": 1,
+      "pdfOmittedCitedPages": 1,
+      "supplementedCitedPages": 1,
+      "evidenceUnavailableCitedPages": 0,
+      "unverifiedPages": 0,
+      "pagesWithSomeSuppliedCropPixels": 232,
+      "citedPagesWithoutSuppliedCropPixels": 0,
+      "batches": 25
+    },
+    "scope": "The 232 currently cited pages are a different denominator from the 776 supplied PDF pages. Some crop pixels do not establish complete page, context or field verification. The physical omission of p.175 from the PDF and the accepted supplemental evidence are separate dimensions."
+  },
+  "noNewNumericMechanicsGrade": true,
+  "remaining": "New geometry/raster/continuation snapshots, monetary/handoff epochs, first fullsuite failurecapture, historical adapters, browser,24workflowblocks and publication."
+}

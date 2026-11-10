@@ -1,0 +1,466 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "bounded DMG175 monetary current-input provenance migration proof",
+  "status": "research-only successor; exact source commit and in-memory monetary payload checked",
+  "semanticPass": false,
+  "generalSourceReviewPending": true,
+  "wholePayloadProvenanceOnly": true,
+  "sourceInputCommit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+  "sourceInputTree": "d7ac09ce9abe4ef94ae355a44b8e0c5ca6f74ea3",
+  "sourceArtifacts": {
+    "rawDataSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+    "parsedDataSha256": "eaa0272264047dd990260b16cfe0909b76e9ec50479989a8cfd579c89490dd8b",
+    "booksSha256": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811",
+    "canonicalInventorySha256": "678e1bd62bedc4523b21958825e4d9a205eaa333521ce28ebc506d3983ba96b8",
+    "equipmentSha256": "714d40b9ed9908a069fddc08525d43437c9e974b984572eb1c505c37ee8cae95",
+    "mechanicsScanReplay": {
+      "path": "research/source-audit-pass8-dmg175-actual-mechanics-scan-replay-v1.json",
+      "sha256": "52d387687727e8dd9916e291a023780e3b59eacea2ce9c9441201dde98b81785",
+      "mechanicsSha256": "0fe09edf9fe2b37874f3acb4488b439bf5efca2dd2f355107eadb218373c84c6",
+      "sourceScanSha256": "5e3da176c59258d3e4440112eecd5009bbb459f70fd6b38f1e2f8738cda57a26"
+    },
+    "manualTargetDenominators": {
+      "path": "research/source-audit-pass8-dmg175-manual-target-denominators-v1.json",
+      "sha256": "18bd91fdab975ab8957e3ecdd66f8433ae03ac9325d0d43da8deed3fbbe164e0",
+      "proseBindings": 33,
+      "distinctProseFields": 21,
+      "newAppendixCFields": 19,
+      "existingEncounterFields": 2
+    }
+  },
+  "predecessorRegistry": {
+    "path": "research/source-audit-pass8-ua-source-current-monetary-source-questions-v1.json",
+    "sha256": "864ae05ad5eab345e299a128b6b43c9a364bec7f9fee113ea409078c9afd4b0c"
+  },
+  "successorRegistry": {
+    "path": "research/source-audit-pass8-dmg175-source-current-monetary-source-questions-v1.json",
+    "allowedPayloadDelta": [
+      "/currentInputs/canonical/sha256",
+      "/currentInputs/monetaryIndex/sha256",
+      "/dmg175SourceInputMigration"
+    ],
+    "allOtherCompleteRegistryPayloadExact": true,
+    "originalEightDispositionsExact": true,
+    "sourceProofsAndIndependentReviewExact": true,
+    "canonicalSha256": "678e1bd62bedc4523b21958825e4d9a205eaa333521ce28ebc506d3983ba96b8",
+    "monetaryIndexSha256": "563058d3fff815621cb00f5c38e6c6c1abde40b83a9148795b8989abfbbd1f53"
+  },
+  "beforeIndex": {
+    "path": "research/monetary-source-inventory.json",
+    "sourceCommit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+    "sha256": "ecd93e4f6daa54e0f60676c0bc8b53985d815a14641365a118e2a8998997468f"
+  },
+  "afterIndex": {
+    "path": "research/monetary-source-inventory.json",
+    "sha256": "563058d3fff815621cb00f5c38e6c6c1abde40b83a9148795b8989abfbbd1f53"
+  },
+  "afterCanonical": {
+    "path": "research/price-source-inventory.json",
+    "sha256": "678e1bd62bedc4523b21958825e4d9a205eaa333521ce28ebc506d3983ba96b8"
+  },
+  "inMemoryBuild": {
+    "method": "buildMonetarySourceIndex plus read-only validatePriceSourceInventory; serialized bytes compared against the root-generated active index",
+    "serializedIndexMatchesActiveBytes": true,
+    "sourceOccurrences": 1871,
+    "claims": 2317,
+    "monetaryAmountClaims": 2169,
+    "monetaryClaimRecords": 2244,
+    "denominatorsExact": true,
+    "rootInputArtifactHashChanges": 2,
+    "canonicalOccurrenceProvenanceHashChanges": 710,
+    "canonicalClaimProvenanceHashChanges": 728,
+    "equipmentClaimProvenanceHashChanges": 187,
+    "validationArtifactCounts": {
+      "before": 1031,
+      "after": 1042
+    },
+    "existingValidationArtifactHashChanges": [
+      {
+        "path": "citation-overrides.json",
+        "before": "0055269564046a1a80f0db9e3c6b8ae10845c0b6d19bc1a751805e670c506178",
+        "after": "5b1b7d9933916b2dade9f9aa8bd725e2cf410653807fd888b5baffe06d64ac61"
+      },
+      {
+        "path": "dist/books.js",
+        "before": "804deee6fffd2852bc6326e33046e888c10f8f5224835b29dceb42195a571a4f",
+        "after": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811"
+      },
+      {
+        "path": "dist/data.json",
+        "before": "c076e0f6bb898eb52650fd886630089f17edc86cbc8e3c4ac349b817bceba0d3",
+        "after": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d"
+      },
+      {
+        "path": "dist/scans/verified/equipment-phb-hammer.json",
+        "before": "cfb47569d010a1bfd7a540da1eb9a550417da3a6787e00e716989ded93574538",
+        "after": "e2293b6b01573627f56751b1c9bb5050a7589ef126f7d1958e10a2be843f5943"
+      },
+      {
+        "path": "dist/scans/verified/equipment-phb-javelin.json",
+        "before": "c3df025fa7a92e993fed997ba871f82bbee2c78b559a88ced8a7cf1d11fb106c",
+        "after": "129dddbaac75f1d255725f265318c330a6f0b50259bf015b8f1e1513d332b1f6"
+      },
+      {
+        "path": "dist/scans/verified/equipment-ua-harpoon.json",
+        "before": "6278d7e6104692e83c8c7312d127b8ee5faa5999bc5fa1abce9ea8ae58787247",
+        "after": "cdce6ea87e3d859ae84868dead02b4780687fbfc1dbb2ca86efb450733deb852"
+      },
+      {
+        "path": "dist/scans/verified/rules-encounter-types.json",
+        "before": "906ce41c1cb2c6691048231a2123977b7b27421487e7a0bca6f8ae0aa25c86dd",
+        "after": "ffbe682e5c4ba3f2d2f45e0e6fc9361654fa6527c231f3a4fc220b4510e1aa3d"
+      },
+      {
+        "path": "equipment.json",
+        "before": "9c831f319a8d58bd3c943c610a89326975f622015b760073217ecf0f7b55e6f7",
+        "after": "714d40b9ed9908a069fddc08525d43437c9e974b984572eb1c505c37ee8cae95"
+      },
+      {
+        "path": "research/field-evidence-bindings.json",
+        "before": "6422b17cf193470a01da432f77ba61d61abe0e69653ceb493048616b4da448b9",
+        "after": "fe02ce08ca28136b128741a61933f704f161c4860c9ee398c51016d158bb7a3d"
+      }
+    ],
+    "newValidationCatalogs": [
+      {
+        "path": "dist/scans/verified/rules-appendix-c-character-guidance.json",
+        "sha256": "06aca643a116795eb8da20ed9447a2495ec71b150e047005db48dfac0c8a0102"
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-character-levels.json",
+        "sha256": "f7f2c6b0e3272ee9c078686ce03b065160bde6b0f1218a9c8d9e9efdd51e66ff"
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-character-subtable.json",
+        "sha256": "0df6a6dde3884e3dc81810c1d8750aab7a645e85674af4a37b5b479c4bbe2e19"
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-henchmen.json",
+        "sha256": "dc1e6e42c6a21dee554f583da43518bbdd0f44bf0de9ce87a375b8270a15fa87"
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-magic-item-notes.json",
+        "sha256": "ef15db32b4af72fc52984f2bc1e87dd0b3ea5e4a26f9df44b0a9f21272adf116"
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-magic-table-i.json",
+        "sha256": "b8b6331b7a73db2706c2fa7cd182436eb630543952cd5eba0815a4f43b659de0"
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-magic-table-ii.json",
+        "sha256": "4e0bd4444cbde7a7589ef528f0b9df20457baa97b594410aefb1b042c8b9e7fb"
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-magic-table-iii.json",
+        "sha256": "b9a17461b509c194906dfd4bc81cb7ab2d2d1db3f780d408675096736bcf86c5"
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-magic-table-iv.json",
+        "sha256": "489e3ad4eb09edd2eb241c7192063f7e7ecccb9dff9040d4ece89a051b225511"
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-party-magic-distribution.json",
+        "sha256": "52c01795856e9e6ec69aca061109e490d8b876cdcfcbfc1ca414351684def18f"
+      },
+      {
+        "path": "dist/scans/verified/rules-appendix-c-party-size.json",
+        "sha256": "617df82bf7a79f243106bf3b424546164a1832b0106e7e3deb51dff797cb1b8a"
+      }
+    ],
+    "removedValidationArtifacts": [],
+    "wholePayloadDifferencesOutsideProvenance": 0
+  },
+  "currentQuestionCounts": {
+    "historicalRegisteredQuestions": 8,
+    "currentInterpretationQuestions": 7,
+    "independentSourceScopeQuestions": 2,
+    "derivedAdjudications": 1,
+    "sourceScopeRows": 9,
+    "currentUnresolvedQuestions": 9
+  },
+  "legacyCompatibility": {
+    "legacyProjectionPayloadExact": true,
+    "oldInputPrefixExactExceptRegistryAndTwoCurrentHashRefs": true,
+    "predecessorInputs": 12,
+    "additiveInputs": 2
+  },
+  "currentQuestionIdsInOrder": [
+    "relative-monetary-reading-ua-census-record-006",
+    "relative-monetary-reading-ua-census-record-038",
+    "uncertain-scimitar-marker-ua-other-008-H1-cont-r030",
+    "uncertain-scimitar-marker-ua-other-008-H2-r070",
+    "uncertain-scimitar-marker-ua-other-008-H2-r071",
+    "uncertain-scimitar-marker-ua-other-008-H2-r072",
+    "uncertain-scimitar-marker-ua-other-008-H2-r073",
+    "phb-dmg-commodity-adjustment-scope",
+    "phb-dmg-alchemist-discount-scope"
+  ],
+  "sourceScopeQuestions": [
+    {
+      "id": "phb-dmg-commodity-adjustment-scope",
+      "status": "unresolved",
+      "interpretation": "Whether the neighboring d10 instruction applies to the eight commodity rates remains unresolved.",
+      "extractionRepresentation": "independently-reviewed-qualified-representation",
+      "affectedRows": [
+        "phb-dmg-supplement-row:dmg-commodity-01",
+        "phb-dmg-supplement-row:dmg-commodity-02",
+        "phb-dmg-supplement-row:dmg-commodity-03",
+        "phb-dmg-supplement-row:dmg-commodity-04",
+        "phb-dmg-supplement-row:dmg-commodity-05",
+        "phb-dmg-supplement-row:dmg-commodity-06",
+        "phb-dmg-supplement-row:dmg-commodity-07",
+        "phb-dmg-supplement-row:dmg-commodity-08"
+      ]
+    },
+    {
+      "id": "phb-dmg-alchemist-discount-scope",
+      "status": "unresolved",
+      "interpretation": "The current candidate quantifies only timeReductionPct=50. Monetary reduction percentage and covered components remain unclear. Frozen finding reason mentioning50%money is historical and must not become a current numeric UI claim.",
+      "extractionRepresentation": "independently-reviewed-qualified-representation",
+      "affectedRows": [
+        "phb-dmg-supplement-row:dmg-potion-alchemist-discount"
+      ]
+    }
+  ],
+  "questionInterpretationsExact": true,
+  "sourceScopeIdsAndNineAffectedRowsExact": true,
+  "derivedMammothAdjudication": {
+    "id": "relative-monetary-reading-mm-mammoth-tusks-relative",
+    "value": {
+      "kind": "range",
+      "currency": "gp",
+      "minimumAmount": 150,
+      "maximumAmount": 900,
+      "formula": "(100–600 gp per elephant tusk) × (1 + 0.50)",
+      "unit": "per tusk",
+      "condition": "Mammoth tusks are 50% heavier and their value is proportionately higher. Apply the explicit proportional value relation to the Elephant value of 100–600 gp each. The resulting 150–900 gp per mammoth tusk is derived, not a printed range.",
+      "sourceText": "(100–600 gp per elephant tusk) × 1.5 = 150–900 gp per mammoth tusk (derived)",
+      "reason": "Arithmetic from the explicit proportionate value relation and the separate Elephant per-tusk baseline; this range is not printed in the source.",
+      "normalizationStatus": "source-backed-derived-range-not-printed",
+      "rawStructuredValue": {
+        "amountOrFormula": "(100–600 gp per elephant tusk) × 1.5 = 150–900 gp per mammoth tusk (derived)",
+        "currency": "gp",
+        "unit": "per tusk",
+        "conditions": "Mammoth tusks are 50% heavier and their value is proportionately higher. Apply the explicit proportional value relation to the Elephant value of 100–600 gp each. The resulting 150–900 gp per mammoth tusk is derived, not a printed range.",
+        "valuationDerivation": {
+          "kind": "source-proportional-value-range",
+          "factor": 1.5,
+          "increasePercentage": 50,
+          "relation": "explicit-value-proportionate-to-tusk-weight-increase",
+          "baseline": {
+            "claimId": "mm-elephant-tusks",
+            "minimumAmount": 100,
+            "maximumAmount": 600,
+            "currency": "gp",
+            "unit": "each"
+          },
+          "derivedRange": {
+            "minimumAmount": 150,
+            "maximumAmount": 900,
+            "currency": "gp",
+            "unit": "per tusk"
+          },
+          "formula": "(100–600 gp per elephant tusk) × (1 + 0.50)",
+          "printedAsRange": false,
+          "isSourcePrinted": false,
+          "sourceDependencies": [
+            {
+              "book": "MM",
+              "printedPage": 65,
+              "pdfPage": 66,
+              "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+              "role": "explicit-proportional-value-relation"
+            },
+            {
+              "book": "MM",
+              "printedPage": 38,
+              "pdfPage": 39,
+              "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+              "role": "elephant-per-tusk-valuation-baseline"
+            }
+          ],
+          "sourceProofs": [
+            {
+              "path": "research/source-audit-batch6-mammoth-source-proof.json",
+              "sha256": "6e0b3cacd78475c6c7dc38ae40834a13a6996af56dd9afc45c9cf57a19b7ad1b"
+            },
+            {
+              "path": "research/source-audit-batch6-retained-source-first-review.json",
+              "sha256": "3e3c02c5c0f139417375fbd675fe169571dcdc691fcfd7dd2d8fe59c417a7d34"
+            }
+          ]
+        }
+      },
+      "derivation": {
+        "kind": "source-proportional-value-range",
+        "factor": 1.5,
+        "increasePercentage": 50,
+        "relation": "explicit-value-proportionate-to-tusk-weight-increase",
+        "baseline": {
+          "claimId": "mm-elephant-tusks",
+          "minimumAmount": 100,
+          "maximumAmount": 600,
+          "currency": "gp",
+          "unit": "each"
+        },
+        "derivedRange": {
+          "minimumAmount": 150,
+          "maximumAmount": 900,
+          "currency": "gp",
+          "unit": "per tusk"
+        },
+        "formula": "(100–600 gp per elephant tusk) × (1 + 0.50)",
+        "printedAsRange": false,
+        "isSourcePrinted": false,
+        "sourceDependencies": [
+          {
+            "book": "MM",
+            "printedPage": 65,
+            "pdfPage": 66,
+            "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+            "role": "explicit-proportional-value-relation"
+          },
+          {
+            "book": "MM",
+            "printedPage": 38,
+            "pdfPage": 39,
+            "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+            "role": "elephant-per-tusk-valuation-baseline"
+          }
+        ],
+        "sourceProofs": [
+          {
+            "path": "research/source-audit-batch6-mammoth-source-proof.json",
+            "sha256": "6e0b3cacd78475c6c7dc38ae40834a13a6996af56dd9afc45c9cf57a19b7ad1b"
+          },
+          {
+            "path": "research/source-audit-batch6-retained-source-first-review.json",
+            "sha256": "3e3c02c5c0f139417375fbd675fe169571dcdc691fcfd7dd2d8fe59c417a7d34"
+          }
+        ]
+      },
+      "derivationStatus": "source-backed-derived-interpretation",
+      "printedAsRange": false,
+      "isSourcePrinted": false
+    },
+    "sourcePrintedValuePass": false,
+    "independentIntegrationReview": "confirmed",
+    "remainsOutsideNineOpenQuestionRows": true
+  },
+  "negativeControls": {
+    "wholePayload": [
+      {
+        "name": "monetary-value-mutation",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "whole monetary index payload differs outside the provenance allowlist"
+      },
+      {
+        "name": "monetary-unit-mutation",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "whole monetary index payload differs outside the provenance allowlist"
+      },
+      {
+        "name": "source-mapping-mutation",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "whole monetary index payload differs outside the provenance allowlist"
+      },
+      {
+        "name": "review-status-mutation",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "whole monetary index payload differs outside the provenance allowlist"
+      },
+      {
+        "name": "duplicate-validation-artifact-row",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "whole monetary index payload differs outside the provenance allowlist"
+      },
+      {
+        "name": "extra-validation-artifact-property",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "whole monetary index payload differs outside the provenance allowlist"
+      },
+      {
+        "name": "missing-index-input-hash",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "missing or stale monetary index input hash"
+      },
+      {
+        "name": "stale-index-input-hash",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "missing or stale monetary index input hash"
+      }
+    ],
+    "questionAndScope": [
+      {
+        "name": "question-id-mutation",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "all nine current question IDs and their order"
+      },
+      {
+        "name": "question-order-mutation",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "all nine current question IDs and their order"
+      },
+      {
+        "name": "question-interpretation-mutation",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "original question identities or unchanged current unresolved records"
+      },
+      {
+        "name": "question-drop",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "all nine current question IDs and their order"
+      },
+      {
+        "name": "scope-id-mutation",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "all nine current question IDs and their order"
+      },
+      {
+        "name": "scope-row-drop",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "source scope question or affected row set changed"
+      }
+    ],
+    "registryInputs": [
+      {
+        "name": "missing-successor-input-hash",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "current input identity or hash schema changed"
+      },
+      {
+        "name": "stale-successor-input-hash",
+        "mutatedExistingField": true,
+        "rejected": true,
+        "expectedError": "in-memory monetary index or canonical input hash is missing/stale"
+      }
+    ],
+    "allPassed": true
+  },
+  "acceptanceBoundary": {
+    "proposedHelperProjectionValidatedAgainstCurrentIndex": true,
+    "productionRegistryInstalledAtTargetPath": false,
+    "productionCallerImportApplied": false,
+    "fullNodeSuiteRun": false,
+    "workflow24BlocksRun": false,
+    "newMonetaryOrSourceValueGrades": 0,
+    "semanticPass": false,
+    "generalSourceReviewPending": true,
+    "wholePayloadProvenanceOnly": true
+  }
+}

@@ -3,6 +3,7 @@ import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {dirname, isAbsolute, relative, resolve, sep} from 'node:path';
 import {isDeepStrictEqual} from 'node:util';
+import books from '../dist/books.js';
 import {auditContinuationOrder} from './continuation-order-audit.mjs';
 import {sourceVisualRegionHashes} from './price-source-inventory.mjs';
 
@@ -199,11 +200,107 @@ function loadBoundCatalog(group, catalogRoot) {
   return catalog;
 }
 
+
+const DMG175_SUPPLEMENT = Object.freeze({
+  artifactId:'dmg175-user-confirmed-supplement', jpegSha256:'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7',
+  canonicalPdfSha256:'7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669',
+  partyGroup:'appendix-c-party-magic-distribution-dmg-175-176', levelGroup:'appendix-c-character-levels-dmg-175-same-page-continuation',
+});
+const DMG175_PARTY_PHYSICAL=[
+  'dmg175-party-magic-items-party-magic-items-complete-introductory-paragraph',
+  'dmg176-level13-magic-items-party-magic-items-distribution-13th-level',
+];
+const DMG175_PARTY_P175=[DMG175_PARTY_PHYSICAL[0],...Array.from({length:12},(_,i)=>'dmg175-party-magic-items-party-magic-items-distribution-'+(i+1)+(['st','nd','rd'][i]||'th')+'-level')];
+const DMG175_PARTY_P176=[DMG175_PARTY_PHYSICAL[1],'dmg176-level13-magic-items-level-13-continuation-personal-selection-and-groups-multiples-advice'];
+function isTypedDmg175Group(group){return group?.source?.sourceArtifactId===DMG175_SUPPLEMENT.artifactId;}
+function checkedDmg175Region(catalog,region,description){
+  const identity=region&&books.resolveRegionSourceIdentity(catalog,region);
+  requireValue(identity?.valid,description+' does not resolve through the registered source/crop identity');
+  return identity;
+}
+function validateTypedDmg175Group(group,catalog){
+  requireValue([DMG175_SUPPLEMENT.partyGroup,DMG175_SUPPLEMENT.levelGroup].includes(group.id),group.id+' uses an unapproved supplemental-page group');
+  requireValue(group.collection==='rules'&&group.status==='segments-present-pending-deployment',group.id+' is not the exact pending rules continuation');
+  const isParty=group.id===DMG175_SUPPLEMENT.partyGroup;
+  requireValue(group.itemId===(isParty?'appendix-c-party-magic-distribution':'appendix-c-character-levels')
+    &&group.catalog==='scans/verified/'+(isParty?'rules-appendix-c-party-magic-distribution.json':'rules-appendix-c-character-levels.json'),group.id+' owner/catalog changed');
+  const expectedSegments=isParty?2:2;
+  requireValue(group.segments.length===expectedSegments,group.id+' physical-segment count changed');
+  const ordered=[...group.segments].sort((a,b)=>a.order-b.order);
+  const expectedIds=isParty?DMG175_PARTY_PHYSICAL:[
+    'dmg175-character-level-left-level-of-characters-paragraph-left-column-portion',
+    'dmg175-character-level-right-level-of-characters-paragraph-right-column-continuation',
+  ];
+  requireValue(ordered.every((segment,index)=>segment.regionId===expectedIds[index]&&segment.order===index+1
+    &&segment.role===(index===0?'opening':'continuation')&&segment.state==='present'),group.id+' physical region order/role changed');
+  for(const segment of ordered){
+    const region=catalog.regions.find(candidate=>candidate.id===segment.regionId);
+    const identity=checkedDmg175Region(catalog,region,group.id+' '+segment.regionId);
+    requireValue(segment.book===identity.book&&segment.printedPage===identity.printedPage&&segment.pdfPage===identity.pdfPage
+      &&segment.sourceSha256===identity.sourceSha256&&segment.image===region.image&&segment.imageSha256===region.sha256
+      &&segment.sourceIdentityKind===(identity.sourceKind==='supplemental-image'?'supplemental-image':'canonical-pdf')
+      &&segment.sourceArtifactId===(identity.sourceKind==='supplemental-image'?identity.sourceArtifactId:'dmg-canonical-pdf')
+      &&segment.canonicalPdfSha256===identity.canonicalPdfSha256,
+      group.id+' segment fields differ from its resolved source identity');
+  }
+  const expectedPages=isParty?[
+    {book:'DMG',printedPage:175,pdfPage:null,sourceArtifactId:DMG175_SUPPLEMENT.artifactId,sourceIdentityKind:'supplemental-image',sourceSha256:DMG175_SUPPLEMENT.jpegSha256,canonicalPdfSha256:DMG175_SUPPLEMENT.canonicalPdfSha256},
+    {book:'DMG',printedPage:176,pdfPage:176,sourceArtifactId:'dmg-canonical-pdf',sourceIdentityKind:'canonical-pdf',sourceSha256:DMG175_SUPPLEMENT.canonicalPdfSha256,canonicalPdfSha256:DMG175_SUPPLEMENT.canonicalPdfSha256},
+  ]:[{book:'DMG',printedPage:175,pdfPage:null,sourceArtifactId:DMG175_SUPPLEMENT.artifactId,sourceIdentityKind:'supplemental-image',sourceSha256:DMG175_SUPPLEMENT.jpegSha256,canonicalPdfSha256:DMG175_SUPPLEMENT.canonicalPdfSha256}];
+  requireValue(group.sourceComparison?.status==='compared-to-source-artifacts'
+    &&Array.isArray(group.sourceComparison.pages)&&group.sourceComparison.pages.length===expectedPages.length,
+    group.id+' source-comparison page set changed');
+  for(const expected of expectedPages){
+    const review=group.sourceComparison.pages.find(page=>page.book===expected.book&&page.printedPage===expected.printedPage);
+    const segment=ordered.find(part=>part.book===expected.book&&part.printedPage===expected.printedPage);
+    const region=segment&&catalog.regions.find(candidate=>candidate.id===segment.regionId);
+    const identity=checkedDmg175Region(catalog,region,group.id+' comparison page '+expected.printedPage);
+    requireValue(review&&Object.entries(expected).every(([key,value])=>review[key]===value)
+      &&identity.book===expected.book&&identity.printedPage===expected.printedPage&&identity.pdfPage===expected.pdfPage
+      &&identity.sourceSha256===expected.sourceSha256&&identity.canonicalPdfSha256===expected.canonicalPdfSha256,
+      group.id+' compared page does not match its exact typed source identity');
+  }
+  const first=ordered[0], firstIdentity=checkedDmg175Region(catalog,catalog.regions.find(region=>region.id===first.regionId),group.id+' group source');
+  const expectedGroupSource={book:firstIdentity.book,printedPage:firstIdentity.printedPage,pdfPage:firstIdentity.pdfPage,
+    sourceArtifactId:firstIdentity.sourceArtifactId,sourceIdentityKind:firstIdentity.sourceKind,
+    sourceSha256:firstIdentity.sourceSha256,canonicalPdfSha256:firstIdentity.canonicalPdfSha256};
+  requireValue(isDeepStrictEqual(group.source,expectedGroupSource),group.id+' group source identity changed');
+  requireValue(isDeepStrictEqual(group.sourceComparison.pages.map(page=>[page.book,page.printedPage,page.pdfPage]),
+    expectedPages.map(page=>[page.book,page.printedPage,page.pdfPage])),group.id+' source-comparison page order changed');
+  if(isParty){
+    requireValue(isDeepStrictEqual(ordered[0].focusAliasRegionIds,DMG175_PARTY_P175.slice(1))
+      &&isDeepStrictEqual(ordered[1].focusAliasRegionIds,DMG175_PARTY_P176.slice(1))
+      &&isDeepStrictEqual(group.requiredRegionIds,[...DMG175_PARTY_P175,...DMG175_PARTY_P176]),group.id+' focus-alias set changed');
+    requireValue(group.currentCitationPages?.length===2
+      &&isDeepStrictEqual(group.currentCitationPages.map(page=>page.regionIds),[DMG175_PARTY_P175,DMG175_PARTY_P176]),group.id+' cited focus pages changed');
+  }else{
+    requireValue(ordered.every(segment=>!Object.hasOwn(segment,'focusAliasRegionIds'))
+      &&isDeepStrictEqual(group.requiredRegionIds,expectedIds)
+      &&group.currentCitationPages?.length===1
+      &&isDeepStrictEqual(group.currentCitationPages[0].regionIds,expectedIds),group.id+' character continuation scope changed');
+  }
+  for(const segment of ordered){
+    const primary=catalog.regions.find(region=>region.id===segment.regionId);
+    for(const aliasId of segment.focusAliasRegionIds||[]){
+      const alias=catalog.regions.find(region=>region.id===aliasId);
+      const identity=checkedDmg175Region(catalog,alias,group.id+' alias '+aliasId);
+      requireValue(alias.book===primary.book&&alias.printedPage===primary.printedPage&&alias.pdfPage===primary.pdfPage
+        &&alias.image===primary.image&&alias.sha256===primary.sha256&&alias.sourceArtifactId===primary.sourceArtifactId
+        &&isDeepStrictEqual(alias.sourceCropBoundsPx,primary.sourceCropBoundsPx)
+        &&alias.sourceCoordinateSpace===primary.sourceCoordinateSpace
+        &&Array.isArray(alias.focusRects)&&alias.focusRects.length>0
+        &&identity.sourceSha256===segment.sourceSha256,
+        group.id+' alias is not the same exact published crop/source');
+    }
+  }
+}
+
 function validateSegment(group, segment, catalog, catalogRoot) {
   requireValue(Number.isInteger(segment.order) && segment.order > 0, `${group.id} segment order must be a positive integer`);
   requireValue(['opening', 'continuation', 'context'].includes(segment.role), `${group.id} has an unsupported segment role`);
   requireValue(typeof segment.book === 'string' && Number.isInteger(segment.printedPage) && segment.printedPage > 0, `${group.id} segment source location is invalid`);
-  requireValue(Number.isInteger(segment.pdfPage) && segment.pdfPage > 0, `${group.id} segment PDF page is invalid`);
+  const typedDmg175Group=isTypedDmg175Group(group);
+  requireValue(typedDmg175Group ? (segment.pdfPage===null || (Number.isInteger(segment.pdfPage)&&segment.pdfPage>0)) : (Number.isInteger(segment.pdfPage)&&segment.pdfPage>0), `${group.id} segment PDF page is invalid`);
   requireValue(typeof segment.relevance === 'string' && segment.relevance.trim(), `${group.id} segment relevance is required`);
   requireValue(['present', 'blocked-source-unavailable'].includes(segment.state), `${group.id} segment state is invalid`);
   const matches = catalog.regions.filter(region => region.book === segment.book && region.printedPage === segment.printedPage);
@@ -222,9 +319,16 @@ function validateSegment(group, segment, catalog, catalogRoot) {
   requireValue(/^[a-f0-9]{64}$/.test(segment.imageSha256 || ''), `${group.id} present segment image hash is invalid`);
   const region = catalog.regions.find(candidate => candidate.id === segment.regionId);
   requireValue(region, `${group.id} segment region ${segment.regionId} is missing`);
-  requireValue(region.book === segment.book && region.printedPage === segment.printedPage && region.pdfPage === segment.pdfPage, `${group.id} segment source location changed`);
-  requireValue(region.image === segment.image && region.sha256 === segment.imageSha256, `${group.id} segment image binding changed`);
-  requireValue(catalog.sources?.[segment.book]?.sha256 === segment.sourceSha256, `${group.id} segment source hash changed`);
+  if(typedDmg175Group){
+    const identity=checkedDmg175Region(catalog,region,`${group.id} segment source`);
+    requireValue(identity.book===segment.book&&identity.printedPage===segment.printedPage&&identity.pdfPage===segment.pdfPage
+      &&identity.sourceSha256===segment.sourceSha256&&region.image===segment.image&&region.sha256===segment.imageSha256,
+      `${group.id} segment source/image identity changed`);
+  }else{
+    requireValue(region.book === segment.book && region.printedPage === segment.printedPage && region.pdfPage === segment.pdfPage, `${group.id} segment source location changed`);
+    requireValue(region.image === segment.image && region.sha256 === segment.imageSha256, `${group.id} segment image binding changed`);
+    requireValue(catalog.sources?.[segment.book]?.sha256 === segment.sourceSha256, `${group.id} segment source hash changed`);
+  }
   const imagePath = safePath(resolve(catalogRoot, dirname(group.catalog)), segment.image, `Image for ${group.id}`);
   requireValue(sha256(readFileSync(imagePath)) === segment.imageSha256, `${group.id} image bytes do not match the manifest`);
   return 'present';
@@ -372,11 +476,24 @@ export function validateContinuationManifest(manifest, {data, catalogRoot}) {
     requireValue(presence.mismatches.length === 0, `${group.id} required segment ${presence.mismatches[0]?.regionId} does not match the catalog binding`);
     requireValue(presence.duplicateRegionIds.length === 0, `${group.id} duplicate required segment ${presence.duplicateRegionIds[0]}`);
     requireValue(presence.orderMismatches.length === 0, `${group.id} required segment order disagrees with the catalog/viewer order`);
-    requireValue(catalog.sources?.[group.source.book]?.sha256 === group.source.sourceSha256, `${group.id} group source identity changed`);
-    requireValue(group.sourceComparison?.status === 'compared-to-verified-original' && Array.isArray(group.sourceComparison.pages) && group.sourceComparison.pages.length > 0, `${group.id} needs source-bound page comparison evidence`);
+    const typedDmg175Group=isTypedDmg175Group(group);
+    if(typedDmg175Group)validateTypedDmg175Group(group,catalog);
+    else {
+      requireValue(group.segments.every(segment=>!Object.hasOwn(segment,'focusAliasRegionIds')), `${group.id} focusAliasRegionIds are reserved for the exact reviewed D175 Party Magic group`);
+      requireValue(catalog.sources?.[group.source.book]?.sha256 === group.source.sourceSha256, `${group.id} group source identity changed`);
+    }
+    requireValue(group.sourceComparison?.status === (typedDmg175Group?'compared-to-source-artifacts':'compared-to-verified-original') && Array.isArray(group.sourceComparison.pages) && group.sourceComparison.pages.length > 0, `${group.id} needs source-bound page comparison evidence`);
     for (const review of group.sourceComparison.pages) {
-      requireValue(typeof review.book === 'string' && Number.isInteger(review.printedPage) && Number.isInteger(review.pdfPage), `${group.id} source comparison page is invalid`);
-      requireValue(catalog.sources?.[review.book]?.sha256 === review.sourceSha256, `${group.id} comparison source identity changed for ${review.book}`);
+      if(typedDmg175Group){
+        const segment=group.segments.find(part=>part.book===review.book&&part.printedPage===review.printedPage&&part.pdfPage===review.pdfPage);
+        const region=segment&&catalog.regions.find(candidate=>candidate.id===segment.regionId);
+        const identity=checkedDmg175Region(catalog,region,`${group.id} source-comparison page`);
+        requireValue(review.sourceSha256===identity.sourceSha256&&review.canonicalPdfSha256===identity.canonicalPdfSha256
+          &&review.sourceIdentityKind===(identity.sourceKind==='supplemental-image'?'supplemental-image':'canonical-pdf'),`${group.id} comparison source identity changed`);
+      }else{
+        requireValue(typeof review.book === 'string' && Number.isInteger(review.printedPage) && Number.isInteger(review.pdfPage), `${group.id} source comparison page is invalid`);
+        requireValue(catalog.sources?.[review.book]?.sha256 === review.sourceSha256, `${group.id} comparison source identity changed for ${review.book}`);
+      }
       requireValue(catalog.regions.some(region => region.book === review.book && region.printedPage === review.printedPage && region.pdfPage === review.pdfPage), `${group.id} compared page ${review.book} ${review.printedPage} has no catalog region`);
     }
     validateCitationPages(group, catalog, item);
@@ -385,7 +502,10 @@ export function validateContinuationManifest(manifest, {data, catalogRoot}) {
     requireValue(ordered.every((segment, i) => segment.order === i + 1), `${group.id} segment order must be contiguous from 1`);
     const regionIds = new Set();
     for (const segment of ordered) {
-      requireValue(segment.sourceSha256 === group.source.sourceSha256||(relatedCrossBook&&segment.book!==group.source.book), `${group.id} segment source hash disagrees with its group`);
+      if(isTypedDmg175Group(group)){
+        const comparisonPage=group.sourceComparison.pages.find(page=>page.book===segment.book&&page.printedPage===segment.printedPage&&page.pdfPage===segment.pdfPage&&page.sourceSha256===segment.sourceSha256);
+        requireValue(Boolean(comparisonPage),`${group.id} segment lacks its exact typed source comparison`);
+      }else requireValue(segment.sourceSha256 === group.source.sourceSha256||(relatedCrossBook&&segment.book!==group.source.book), `${group.id} segment source hash disagrees with its group`);
       if (segment.regionId) {
         requireValue(!regionIds.has(segment.regionId), `${group.id} repeats segment region ${segment.regionId}`);
         regionIds.add(segment.regionId);

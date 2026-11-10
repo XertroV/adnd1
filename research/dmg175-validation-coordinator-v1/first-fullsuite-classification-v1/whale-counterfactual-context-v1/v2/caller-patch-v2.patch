@@ -1,0 +1,21 @@
+--- a/tests/monetary-unit-provenance-audit.test.mjs
++++ b/tests/monetary-unit-provenance-audit.test.mjs
+@@ -12,6 +12,7 @@
+  expectedWhaleUnitBeforeSha256,expectedWhaleUnitNullSha256,expectedWhaleCarcassUnitSha256,
+  quantityUnitBeforeSha256,joUnitAdmissionBeforePath,joUnitAdmissionBeforeSha256,expectedCurrentUnitRecordCount,expectedJoUnitRecord,
+ } from '../tools/monetary-unit-provenance-audit.mjs';
++import {buildWhalePerPoundCounterfactualReport} from '../research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/whale-counterfactual-context-v1/v2/whale-counterfactual-context-v2.mjs';
+ 
+ const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
+ const repoRoot=resolve(import.meta.dirname,'..');
+@@ -177,8 +178,8 @@
+  assert.equal(validateMonetaryUnitProvenanceReport(report,{documents,records,reviewReceiptPath:null}),true);
+ });
+ 
+-test('an arbitrary changed Whale unit is not auto-curated',()=>{
+- const documents=documentsWithAmbergrisUnit('per pound'),records=recordsFor(documents),{report}=currentReport({documents,records});
++test('an arbitrary changed Whale unit is not auto-curated',async()=>{
++ const documents=documentsWithAmbergrisUnit('per pound'),records=recordsFor(documents),{report}=await buildWhalePerPoundCounterfactualReport({documents,records,repoRoot,sourceRepoRoot:process.env.DMG175_WHALE_CONTEXT_SOURCE_ROOT||repoRoot});
+  const ambergris=report.sourceWitnesses.whaleAmbergris;
+  assert.equal(ambergris.currentState.currentState,'unrecognized-current-value');
+  for(const ref of ambergris.pointerValues){
