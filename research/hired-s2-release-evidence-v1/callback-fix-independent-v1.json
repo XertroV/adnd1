@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent-bounded-review-native-handoff-every-callback-fix",
+  "status": "accepted-narrow-fix",
+  "scope": "Review only the Array.every callback signature correction in the native HIRED source handoff transition helper. This does not approve source values, field review, publication, or broader source integration.",
+  "targets": {
+    "activePath": "/workspace/adnd1-next-source-native/tools/dmg175-hired-native-source-handoff-v2.mjs",
+    "activeSha256": "bb138cca91364191b9e5ce9df9f00b3079f800d1ee9a8a1aac2778378b6a7ed8",
+    "candidatePath": "/workspace/research/hirelings-current-next-batch-v1/native-handoff-every-callback-fix-v1/dmg175-hired-native-source-handoff-v2.proposed.mjs",
+    "candidateSha256": "bb138cca91364191b9e5ce9df9f00b3079f800d1ee9a8a1aac2778378b6a7ed8",
+    "preservedPreimagePath": "/workspace/vault-audit-private/pass8/root/hired-s2-handoff-callback-root-fix-v1/preserved-failing-installed-module.mjs",
+    "preservedPreimageSha256": "f78cdadc74140f773ab10392ce8b0489ac238e4ddb5266ef9678694a05ad075a"
+  },
+  "diffEvidence": {
+    "exactChangedSites": 2,
+    "allOtherBytesUnchanged": true,
+    "method": "Replace both .every(value=>plainJson(value)) forms with the original .every(plainJson) in the candidate; reconstructed SHA matches preserved preimage."
+  },
+  "independentChecks": {
+    "passed": 14,
+    "tests": [
+      "verifyContext fixed JSON guard",
+      "verifyContext preimage TypeError reproduces",
+      "verifyContext cycle rejected cleanly",
+      "verifyContext nonplain rejected cleanly",
+      "loader fixed JSON guard reaches later identity check",
+      "loader preimage TypeError reproduces",
+      "loader rejects cycle with domain error",
+      "loader rejects proxy with domain error",
+      "loader rejects class instance with domain error",
+      "loader rejects sparse array with domain error",
+      "loader rejects accessor with domain error",
+      "caller guard accepts 4-key object and 4-entry array",
+      "caller guard rejects cycle and proxy with domain errors",
+      "postimage is exact two-wrapper correction over f78 preimage"
+    ],
+    "oldFailureReproducedAtBothSites": "TypeError active.has is not a function",
+    "fixedNormalJsonBehavior": "Both callback sites avoid Array.every argument confusion; loader advances to the later exact historical-baseline/current-data identity check for intentionally mismatched inputs.",
+    "malformedValues": "Cycles, proxies, non-plain instances, sparse arrays, and accessors were rejected through the helper’s intended domain errors or false result; no TypeError from the callback path."
+  },
+  "actualContextEvidence": {
+    "producer": "Parent-run actual refresh with active helper bb138cca… proceeded beyond source-handoff validation to the expected stale systemic-report guard; the source-transition loader and full current-context verifier therefore completed before that downstream stop.",
+    "stderrPath": "/workspace/vault-audit-private/pass8/root/hired-s2-handoff-callback-root-fix-v1/refresh.stderr",
+    "stderrSha256": "5662a99b428f5f2a65d3fb0174cbc623ae65f5e0c446b251723693cc7e2c41fb"
+  },
+  "authorityBoundary": "Review approval covers the exact two callback wrappers only. Original module bytes remain preserved; no Git/source mutation was made by this reviewer."
+}

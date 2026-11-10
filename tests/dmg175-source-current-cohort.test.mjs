@@ -1,12 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {resolve} from 'node:path';
-import {readDmg175CurrentSourceInputs,assertDmg175CurrentSourceCohort} from './helpers/dmg175-source-current-cohort.mjs';
+import {assertDmg175CurrentSourceCohort as assertVersion29HistoricalDmg175SourceCohort} from './helpers/dmg175-source-current-cohort.mjs';
+import {readVersion29HistoricalSourceInputs} from './helpers/version29-native-source-context.mjs';
 
 const root=resolve(import.meta.dirname,'..');
-const load=()=>readDmg175CurrentSourceInputs(root);
-test('native DMG175 source cohort protects actual current owners, rows, strings, bindings and unchanged review records',()=>{
- assert.deepEqual(assertDmg175CurrentSourceCohort(load()),{sourceCommit:'987a25d3ba2dcac0940569a2afab73f775e38028',owners:1014,canonicalBindings:4931,priorWholeBindings:4705,addedBindings:226,manualAdditions:123,nonmanualAdditions:103,newRules:11,sourceTableRows:87,renderedEquipmentFields:3,sourceCells:33,historicalMechanicsReviews:1215});
+const load=()=>readVersion29HistoricalSourceInputs(root);
+test('historical Version29 DMG175 source cohort protects its owners, rows, strings, bindings and unchanged review records',()=>{
+ assert.deepEqual(assertVersion29HistoricalDmg175SourceCohort(load()),{sourceCommit:'987a25d3ba2dcac0940569a2afab73f775e38028',owners:1014,canonicalBindings:4931,priorWholeBindings:4705,addedBindings:226,manualAdditions:123,nonmanualAdditions:103,newRules:11,sourceTableRows:87,renderedEquipmentFields:3,sourceCells:33,historicalMechanicsReviews:1215});
 });
 
 const findField=input=>input.mechanics.records.find(record=>record.id==='phb-hammer').fields.find(field=>field.path.includes('Hurled or missile weapon AC'));
@@ -48,4 +49,4 @@ const cases=[
  ['unknown mechanics metadata',input=>{input.mechanics.auditBypassCanary={};},/mechanics: complete current input object exact/],
  ['promoted new rule formal field grade',input=>{input.mechanics.records.find(record=>record.id==='appendix-c-character-subtable').fields.find(field=>field.path==='/summary').status='source-checked';},/mechanics: complete current input object exact/],
 ];
-for(const [name,mutate,error]of cases)test(`native current source rejects ${name}`,()=>{const input=load();mutate(input);assert.throws(()=>assertDmg175CurrentSourceCohort(input),error);});
+for(const [name,mutate,error]of cases)test(`historical Version29 source rejects ${name}`,()=>{const input=load();mutate(input);assert.throws(()=>assertVersion29HistoricalDmg175SourceCohort(input),error);});

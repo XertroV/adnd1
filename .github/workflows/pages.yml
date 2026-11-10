@@ -173,7 +173,7 @@ jobs:
         if: always()
         run: |
           mkdir -p artifacts/monetary-review-coverage
-          node tools/dmg175-current-monetary-source-questions-v1.mjs --output artifacts/monetary-review-coverage/current-source-questions.json --check
+          node tools/dmg175-current-monetary-source-questions-native-v2.mjs --output artifacts/monetary-review-coverage/current-source-questions.json --check
       - name: Upload monetary values and review coverage
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

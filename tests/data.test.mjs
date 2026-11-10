@@ -3,15 +3,16 @@ import {resolve} from 'node:path';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {assertWeaponPendingBindingCohort} from './helpers/weapon-source-current-cohort.mjs';
-import {readDmg175CurrentSourceInputs,assertDmg175CurrentSourceCohort} from './helpers/dmg175-source-current-cohort.mjs';
+import {readHirelingsCurrentSourceInputs,assertHirelingsCurrentSourceCohort} from './helpers/hirelings-source-current-cohort.mjs';
 import {createRequire} from 'node:module';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {assertCurrentWeaponOwnerAdditions as partialWeaponOwnerAdditions} from './fixtures/weapon-source-current-cohort-partial-before.mjs';
 const root=resolve(import.meta.dirname,'..');
 const require=createRequire(import.meta.url),books=require('../dist/books.js');
-const currentInputs=readDmg175CurrentSourceInputs(root);
-const currentRuleIds=new Set(JSON.parse(readFileSync(resolve(root,'tests/fixtures/dmg175-source-current-cohort-v1.json'),'utf8')).newRuleIds);
+const currentInputs=readHirelingsCurrentSourceInputs(root);
+const currentHirelingRuleIds=new Set(JSON.parse(readFileSync(resolve(root,'tests/fixtures/hirelings-source-current-cohort-v1.json'),'utf8')).newRuleIds);
+const priorAppendixCRuleIds=new Set(JSON.parse(readFileSync(resolve(root,'tests/fixtures/dmg175-source-current-cohort-v1.json'),'utf8')).newRuleIds);
 const allowedDmg175Owners=new Set(['appendix-c-character-subtable','appendix-c-party-size','appendix-c-character-levels','appendix-c-henchmen','appendix-c-character-guidance','appendix-c-party-magic-distribution']);
 const data=JSON.parse(readFileSync(resolve(root,'dist/data.json'),'utf8'));
 function assertPrintedDmgPageAllowed(collection,item,page){
@@ -28,7 +29,14 @@ function assertPrintedDmgPageAllowed(collection,item,page){
  assert.ok(![239,240].includes(page),`${item.id}: cites unnumbered PDF leaf as a printed page`);
 }
 test('all entries have unique stable identifiers and valid source locations',()=>{
- assertDmg175CurrentSourceCohort(currentInputs);
+ assertHirelingsCurrentSourceCohort(currentInputs);
+ for(const id of currentHirelingRuleIds){
+  const item=data.rules.find(row=>row.id===id);assert.ok(item,`${id}: current Hireling rule owner required`);assert.ok(item.status,`${id}: current rule owner carries status metadata`);
+  const attached=currentInputs.inventory.fieldEvidenceBindings.filter(binding=>binding.collection==='rules'&&binding.itemId===id);
+  assert.ok(attached.length,`${id}: attached canonical source bindings required`);
+  assert.ok(attached.every(binding=>binding.sourceValueStatus==='not-assessed-by-field-target-review'),`${id}: source values remain unassessed on attached bindings`);
+  assert.ok(attached.some(binding=>binding.reviewStatus==='field-target-pending'),`${id}: pending review status lives on an attached binding`);
+ }
  for(const collection of ['rules','spells','classes']) {
   const ids=new Set();
   for(const item of data[collection]) {
@@ -43,7 +51,7 @@ test('all entries have unique stable identifiers and valid source locations',()=
     assertPrintedDmgPageAllowed(collection,item,page);
    }
    if(!item.status){
-    if(currentRuleIds.has(item.id)){
+    if(priorAppendixCRuleIds.has(item.id)){
      assert.equal(collection,'rules',`${item.id}: exact current Appendix C owner`);
      assert.equal(item.book,'DMG');
      assert.equal(item.sourceExcerpts?.state,'source-excerpt-checked','excerpt availability is source evidence, not a value-grade approval');
@@ -70,19 +78,19 @@ test('DMG p.175 remains a bounded supplemental exception and 239/240 remain inva
 });
 
 test('native current guard preserves the exact current owner graph and prior weapon bindings',()=>{
- assertDmg175CurrentSourceCohort(currentInputs);
+ assertHirelingsCurrentSourceCohort(currentInputs);
  const inventory=JSON.parse(readFileSync(resolve(root,'research/price-source-inventory.json'),'utf8'));
  assert.equal(assertWeaponPendingBindingCohort(inventory.fieldEvidenceBindings).length,107);
 });
 test('the historical partial guard accepts unknown DMG metadata and the native current guard rejects it',()=>{
- assertDmg175CurrentSourceCohort(currentInputs);
+ assertHirelingsCurrentSourceCohort(currentInputs);
  const beforeBytes=execFileSync('git',['show','6717c6f22bbf2f2b421327e4c8561b1d81df00d4:dist/data.json'],{cwd:root,maxBuffer:40*1024*1024});
  assert.equal(createHash('sha256').update(beforeBytes).digest('hex'),'6643d7b58c90d982244f1d8f03b6f03a7587446ba25c402be8f9a81a8b701f8f');
  for(const key of ['sourceContext','sourceExcerpts']){
   const historicalMutation=JSON.parse(beforeBytes);historicalMutation.rules.find(item=>item.id==='weapon-versus-armor-adjustments')[key].unapprovedNativeCanary=true;
   assert.doesNotThrow(()=>partialWeaponOwnerAdditions(historicalMutation),'preserved partial guard accepts the mutation at its actual historical source state');
   const mutation=structuredClone(data);mutation.rules.find(item=>item.id==='weapon-versus-armor-adjustments')[key].unapprovedNativeCanary=true;
-  assert.throws(()=>assertDmg175CurrentSourceCohort({...currentInputs,data:mutation}));
+  assert.throws(()=>assertHirelingsCurrentSourceCohort({...currentInputs,data:mutation}));
  }
 });
 test('XP thresholds are cumulative, integral and strictly increasing',()=>{

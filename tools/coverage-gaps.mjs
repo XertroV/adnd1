@@ -1,4 +1,4 @@
-import {validateCurrentMonetarySourceQuestionProjection} from './monetary-current-source-questions.mjs';
+import {validateCurrentMonetarySourceQuestionProjection} from './dmg175-current-monetary-source-questions-native-v2.mjs';
 import {createHash} from 'node:crypto';
 import {buildDmg175CoverageEntry} from './dmg175-availability-projection.mjs';
 

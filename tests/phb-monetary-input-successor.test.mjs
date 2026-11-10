@@ -6,7 +6,7 @@ import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
-import {loadCurrentMonetarySourceQuestions,currentSourceQuestionRegistryPath} from '../tools/dmg175-current-monetary-source-questions-v1.mjs';
+import {loadCurrentMonetarySourceQuestions,currentSourceQuestionRegistryPath} from '../tools/dmg175-current-monetary-source-questions-native-v2.mjs';
 const root=new URL('../',import.meta.url),read=p=>readFileSync(new URL(p,root)),sha=b=>createHash('sha256').update(b).digest('hex');
 const fixture=JSON.parse(gunzipSync(read('tests/fixtures/pass8-phb-stale-monetary-input-before.json.gz')));
 test('actual old monetary loader rejects PHB input drift; current trusted successor retains8/7/1 questions',()=>{

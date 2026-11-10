@@ -5,10 +5,16 @@ import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {projectPass8PhbSourceBytes,projectPass8PhbSourceJson} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+import {projectPass8PhbSourceBytes,projectPass8PhbSourceJson} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 import {assertReviewedClassXpContinuationTarget} from '../tools/class-xp-continuation-target-review.mjs';
-import {readDmg175CurrentSourceInputs,assertDmg175CurrentSourceCohort} from './helpers/dmg175-source-current-cohort.mjs';
+import {readHirelingsCurrentSourceInputs,assertHirelingsCurrentSourceCohort} from './helpers/hirelings-source-current-cohort.mjs';
+import {readVersion29HistoricalSourceInputs} from './helpers/version29-native-source-context.mjs';
 import {assertUaSourceContextBindingCohort as assertClosedV28UaSourceContextBindingCohort} from './helpers/ua-source-closed-v28-context.mjs';
+
+function assertExpectedHirelingsCurrentSourceSummary(summary){
+  assert.deepEqual(summary,{sourceCommit:'bc819621e49788260bb34ea47c1f7a8b35af6edf',owners:1062,canonicalBindings:5655,priorWholeBindings:4931,addedBindings:724,manualAdditions:321,newRules:48,sourceTableRows:244,sourceCells:343,historicalMechanicsReviews:1215});
+  assert.equal(summary.canonicalBindings,4931+summary.addedBindings,'the pinned summary retains the exact prior ordered cohort and reports its H-current addition count');
+}
 
 // Native assertions read current files directly. The four retained XP application
 // comparisons then receive the complete closed ae7 predecessor through history.
@@ -96,19 +102,26 @@ test('native PHB distribution retains all eleven strict continuation targets and
     assert.equal(previous.xpContinuation.evidenceBindings[0].reviewStatus,'field-target-pending');
     assertCurrentRegionReviews(item,previous,{native:true});
   }
-  const currentInputs=readDmg175CurrentSourceInputs(root);
+  const currentInputs=readHirelingsCurrentSourceInputs(root);
   assert.deepEqual(currentInputs.data,current,'native current guard uses the exact PHB distribution parsed by this test');
-  assert.deepEqual(assertDmg175CurrentSourceCohort(currentInputs),{sourceCommit:'987a25d3ba2dcac0940569a2afab73f775e38028',owners:1014,canonicalBindings:4931,priorWholeBindings:4705,addedBindings:226,manualAdditions:123,nonmanualAdditions:103,newRules:11,sourceTableRows:87,renderedEquipmentFields:3,sourceCells:33,historicalMechanicsReviews:1215});
+  const currentCohortSummary=assertHirelingsCurrentSourceCohort(currentInputs);
+  assertExpectedHirelingsCurrentSourceSummary(currentCohortSummary);
   assertClosedV28UaSourceContextBindingCohort(currentInputs.inventory.fieldEvidenceBindings);
   assert.deepEqual(projectPass8PhbSourceJson('dist/data.json',current),json('dist/data.json'),'only the exact whole PHB application may precede the unchanged XP history checks');
 });
 
-test('native current references preserve all4681 weapon-stage bindings and add exactly24 unassessed UA context references',()=>{
+test('native current references preserve Version29 bindings, prior UA and weapon cohorts, and Hireling additions',()=>{
   const gitJson=path=>JSON.parse(execFileSync('git',['show',`cc9509047746d5e27a71cb5b1e0cfcb739a688c9:${path}`],{maxBuffer:64*1024*1024}));
-  const currentInputs=readDmg175CurrentSourceInputs(root);
-  assert.deepEqual(assertDmg175CurrentSourceCohort(currentInputs),{sourceCommit:'987a25d3ba2dcac0940569a2afab73f775e38028',owners:1014,canonicalBindings:4931,priorWholeBindings:4705,addedBindings:226,manualAdditions:123,nonmanualAdditions:103,newRules:11,sourceTableRows:87,renderedEquipmentFields:3,sourceCells:33,historicalMechanicsReviews:1215});
+  const currentInputs=readHirelingsCurrentSourceInputs(root);
+  const currentCohortSummary=assertHirelingsCurrentSourceCohort(currentInputs);
+  assertExpectedHirelingsCurrentSourceSummary(currentCohortSummary);
   const current=currentInputs.inventory.fieldEvidenceBindings,published=gitJson('research/price-source-inventory.json').fieldEvidenceBindings;
-  assert.equal(published.length,4574);assert.equal(current.length,4931);
+  assert.equal(published.length,4574);assert.equal(current.length,currentCohortSummary.canonicalBindings);
+  const version29Bindings=readVersion29HistoricalSourceInputs(root).inventory.fieldEvidenceBindings;
+  assert.equal(version29Bindings.length,4931);
+  const version29Objects=new Set(version29Bindings.map(binding=>JSON.stringify(binding)));
+  assert.deepEqual(current.filter(binding=>version29Objects.has(JSON.stringify(binding))),version29Bindings,'all4931 prior native current bindings remain whole and in relative order');
+  assert.equal(current.filter(binding=>!version29Objects.has(JSON.stringify(binding))).length,currentCohortSummary.addedBindings,'only the exact pinned H-current additions extend that prior cohort');
   const oldObjects=new Set(published.map(binding=>JSON.stringify(binding)));
   assert.equal(oldObjects.size,4574);
   assert.deepEqual(current.filter(binding=>oldObjects.has(JSON.stringify(binding))),published,'all4574 complete old binding objects and their relative order remain exact');

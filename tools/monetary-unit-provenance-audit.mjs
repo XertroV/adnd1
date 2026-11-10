@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 import {gunzipSync} from 'node:zlib';
 import {loadAuditInputs} from './quantity-source-absence-audit.mjs';
 import {collectMonetaryRowIdentityRecords,monetaryRowIdentityInputs} from './monetary-row-identity-audit.mjs';
-import {loadJoCurrentSuccessor,joPriceRegistrationPath,joPriceRegistrationSha256} from './dmg175-jo-unextracted-price-registration-v1.mjs';
+import {loadJoCurrentSuccessor,joPriceRegistrationPath,joPriceRegistrationSha256} from './dmg175-hired-native-successors-v2.mjs';
 import {joPriceRegistrationPath as legacyJoPriceRegistrationPath} from './jo-unextracted-price-registration.mjs';
 
 const root=resolve(import.meta.dirname,'..');

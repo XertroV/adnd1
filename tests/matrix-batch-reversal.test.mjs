@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readBeforePass8WeaponSourceFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+import {readBeforePass8WeaponSourceFile as readFileSync} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 import {dmg175HistoryContract} from './helpers/batch6-dmg175-source-history.mjs';
 import {addedDmg74MatrixIds,reverseDmg74MatrixBatchFromData,reverseDmg74MatrixBatchFromInventory,reverseSupplementalPdfNoticeViewer} from './helpers/ua-source-dmg74-matrix-batch.mjs';
 const read=path=>JSON.parse(readFileSync(new URL(`../${path}`,import.meta.url)));

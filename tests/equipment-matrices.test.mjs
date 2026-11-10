@@ -1,4 +1,4 @@
-import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+import {readBeforeJoFile as readFileSync} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
 import {frozenDmgBeforeManifest,dmgContextBefore} from './helpers/dmg-context-frozen-manifest.mjs';
 import {withoutGeneratedCitationTransport,withoutBatch5OfferEquipment,withoutPriceCompletionEquipment, withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import {ambiguousItemOverrideIds, collectionReferenceOverrides} from '../tools/citation-override-identity.mjs';

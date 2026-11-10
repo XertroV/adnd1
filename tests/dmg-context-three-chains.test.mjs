@@ -1,11 +1,11 @@
 import test from 'node:test';
 import {projectDmg175Json} from './helpers/batch6-dmg175-source-history.mjs';
 import assert from 'node:assert/strict';
-import {readBeforePass8XpContinuationFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+import {readBeforePass8XpContinuationFile as readFileSync} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {gunzipSync} from 'node:zlib';
-import {withoutBatch6JoManifest,withoutBatch6XpManifest,beforeJoSearchOverridesForXp,readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+import {withoutBatch6JoManifest,withoutBatch6XpManifest,beforeJoSearchOverridesForXp,readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
 import {auditRequiredSegmentPresence,validateContinuationManifest} from '../tools/continuation-contract.mjs';
 import {sourceVisualRegionHashes} from '../tools/price-source-inventory.mjs';
 import {reverseApprovedXpExcerptCounts} from './helpers/ua-source-batch6-xp-source-history.mjs';

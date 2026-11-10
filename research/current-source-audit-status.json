@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "artifactType": "current-vault-source-audit-status",
   "verifiedRuntime": {
-    "version": 28,
-    "mergeCommit": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
-    "verifiedLiveReceipt": "research/source-audit-pass8-pr49-version28-live-release.json",
-    "receiptSha256": "f5ac40bcef621ae27b3ca9407777c1722209e6f1b7238d7acc1ab1e6f5d4b911"
+    "version": 29,
+    "mergeCommit": "1f79d909344ebe7d41a432d8673f3eedb491fa3b",
+    "verifiedLiveReceipt": "research/source-audit-pass8-pr50-version29-live-release.json",
+    "receiptSha256": "3c16c44b15144d56af25c8cf0161efa67978de7190d05781c7cfd15f0624758e"
   },
   "currentRepairRegister": {
     "path": "research/source-completeness-repairs-version28.json",
@@ -49,35 +49,44 @@
     },
     {
       "id": "dmg-hirelings-henchmen",
-      "scope": "38tables/244physicalrows,38authorednote summaries,19reviewed contextcrops.",
-      "state": "Research V7 preserves the printed blank MONKS/T25 c3 cell. Its 244 rows and 343 cells and an independent blank-cell review are complete within their bounded scope. Additive integration with the current 4,931 bindings, row focus, context, defaults and browser review remain pending.",
-      "published": false
-    },
-    {
-      "id": "dmg175-character-party-tables",
-      "scope": "87rows/10prose segments from correct-edition175supplement and176PDF.",
-      "state": "Local SOURCE987 integrates 11 cards, 87 rows and 120 pending manual targets. Current metadata, historical contexts, full workflow and browser validation remain in progress. The physical PDF omits p.175; the accepted supplement has unspecified printing.",
-      "published": false
+      "scope": "48 cards total: 38 tables and 10 procedures; 244 physical rows, 343 cells, 35 bullet fields, 38 authored note summaries, and 19 reviewed context crops. Continuation: 9 multi-part flows / 18 parts plus 2 one-part aliases / 2 parts, totaling 11 new groups / 20 segments; the viewer renders the 9 multi-part flows.",
+      "state": "S2 source-only commit bc819621e49788260bb34ea47c1f7a8b35af6edf contains this work. Source, renderer, and focused-browser checks passed. There is no H PR or deployment yet. Final metadata integration, full suite, runtime-browser verification, and release remain pending. The 321 new manual declarations remain pending; no source-value or whole-book semantic completion is inferred.",
+      "published": false,
+      "counts": {
+        "cards": 48,
+        "tables": 38,
+        "procedures": 10,
+        "physicalRows": 244,
+        "cells": 343,
+        "bulletFields": 35,
+        "authoredNoteSummaries": 38,
+        "reviewedContextCrops": 19,
+        "continuation": {
+          "multiPartFlowGroups": 9,
+          "multiPartFlowSegments": 18,
+          "onePartAliasGroups": 2,
+          "onePartAliasSegments": 2,
+          "newGroupsTotal": 11,
+          "newSegmentsTotal": 20,
+          "viewerRenderedFlows": 9
+        },
+        "newManualDeclarationsPending": 321
+      }
     },
     {
       "id": "mm2-shared-tables",
       "scope": "Seven tables94core rows and11support rows;105proposedrowbuttons/132bindingplans.",
       "state": "Research V4 contains 94 core rows, 304 cells and 11 supporting facts, with 105 target proposals and 132 focus plans. Two Number Ranges foci were corrected. Current native integration and uncertain readings remain pending.",
       "published": false
-    },
-    {
-      "id": "ua28-equipment-field-locations",
-      "scope": "Three rendered strings representing 33 UA p.28 source cells.",
-      "state": "Local SOURCE987 field-location reviews are accepted. Source values and context remain unassessed; publication is pending.",
-      "published": false
     }
   ],
   "remainingAxes": [
     "The initial 29 missing and 242 partial categories belong to the frozen 559-unit broad join; they are not current unresolved totals.",
     "All 282 core units have bounded source-first assessment reports. The 275 historical exclusions and two outside-core bounded monster cases remain distinct. This does not establish complete source semantics or completed repairs and mapping.",
-    "Current SOURCE987 has 4,931 field bindings: 760 reviewed field targets and 4,171 other states. Binding resolution, source values, context, highlights, recipes and continuations use separate denominators.",
-    "The current visual report retains 2,183 unresolved highlight warnings from 2,185 raw sentinels; this source batch clears none. The historical 726 legacy-frame memberships remain unassessable; nine frames with 102 joins are separately bridged.",
-    "UA p.10 and DMG p.11 source glyph limitations, unknown continuations, seven monetary interpretation questions and two independent scope questions affecting nine rows remain unresolved."
+    "At the verified V29 runtime there were 4,931 canonical binding objects: 760 with field-target-reviewed status and 4,171 in other review states. The committed S2 source snapshot has 5,655 canonical binding objects: 760 with field-target-reviewed status and 4,895 in other states. Of those 4,895, 640 have region-verified source-location status. These 640 are a subset, not additional binding records or formal field-target reviews.",
+    "The committed S2 source snapshot contains 1,251 manual declarations; 321 are new and pending. The verified V29 runtime predates S2 and does not include the new hireling work. The S2 tracked mechanics universe has 14,189 fields with 887 unchecked; whole-book semantic completeness remains 0.",
+    "The V29 receipt records 2,183 unresolved highlight warnings out of 2,185 raw sentinels. The S2 visual report separately observes 2,185 current raw sentinel uses; that audit clears none of the historic warning inventory. The historical 726 legacy-frame usages remain separate from the bounded nine-frame / 102-join bridge and the S2 outside-registry diagnostics.",
+    "UA p.10 and DMG p.11 source glyph limitations, unknown continuations, seven monetary interpretation questions and two independent scope questions affecting nine rows remain unresolved. No S2 geometry or metadata audit clears these queues."
   ],
   "privacy": "Full PDFs, full-page renders, the full DMG175JPEG and full browser snapshot remain private. Public evidence consists of bounded excerpts, data/provenance and review artifacts.",
   "publishedWorkAtVerifiedRuntime": [
@@ -109,6 +118,33 @@
         "sha256": "f5ac40bcef621ae27b3ca9407777c1722209e6f1b7238d7acc1ab1e6f5d4b911"
       },
       "scope": "Five bounded spell repairs and 21 guide fields across seven classes; scoped location and context reviews confer no new source-value grade."
+    },
+    {
+      "id": "dmg175-character-party-tables",
+      "published": true,
+      "version": 29,
+      "releaseReceipt": {
+        "path": "research/source-audit-pass8-pr50-version29-live-release.json",
+        "sha256": "3c16c44b15144d56af25c8cf0161efa67978de7190d05781c7cfd15f0624758e"
+      },
+      "scope": "11 Appendix C owner cards (6 table owners and 5 top-level notes), 87 structured rows (22 from the separate correct-edition p.175 supplement and 65 from canonical PDF p.176), and 120 manual targets still pending (87 row targets and 33 bullet bindings). Six new limited crops were included; the canonical DMG PDF still omits p.175 and the supplement printing is unspecified.",
+      "manualPendingTargets": 120,
+      "sourceValueGradeActivations": 0,
+      "contextGradeActivations": 0
+    },
+    {
+      "id": "ua28-equipment-field-locations",
+      "published": true,
+      "version": 29,
+      "releaseReceipt": {
+        "path": "research/source-audit-pass8-pr50-version29-live-release.json",
+        "sha256": "3c16c44b15144d56af25c8cf0161efa67978de7190d05781c7cfd15f0624758e"
+      },
+      "scope": "3 UA p.28 equipment location targets, representing 33 source cells via three rendered strings. Publication verifies source locations only; source values and contextual adequacy remain unassessed.",
+      "locationOnlyTargets": 3,
+      "sourceCellsRepresented": 33,
+      "sourceValueGradeActivations": 0,
+      "contextGradeActivations": 0
     }
   ],
   "resolvedPublicationBlocks": [
@@ -165,5 +201,100 @@
         "sha256": "f5ac40bcef621ae27b3ca9407777c1722209e6f1b7238d7acc1ab1e6f5d4b911"
       }
     }
-  ]
+  ],
+  "runtimeVsSourceQualification": {
+    "verifiedRuntimeBoundary": "Published status is qualified through the verified V29 PR #50 live release only.",
+    "currentCommittedSourceBoundary": "The S2 source commit below is source-only and was not deployed. S2 findings must not be read as live-runtime verification.",
+    "versionClaim": "No V30 release or live-runtime claim is made.",
+    "publishedWorkAtVerifiedRuntimeMeaning": "Entries in publishedWorkAtVerifiedRuntime were confirmed by the V29 live release receipt; they do not imply later S2 additions were published."
+  },
+  "committedSourceSnapshot": {
+    "commit": "bc819621e49788260bb34ea47c1f7a8b35af6edf",
+    "tree": "e6bc420f70656825a926297b959bc6d98758bfcd",
+    "parent": "9d5d4f0910143ac1d0737fe6c40ef9c284c76197",
+    "sourceOnly": true,
+    "deployed": false,
+    "asOf": "2026-11-10T16:47:14.688309+00:00",
+    "counts": {
+      "owners": {
+        "count": 1062,
+        "unit": "exposed content owners"
+      },
+      "canonicalBindings": {
+        "count": 5655,
+        "unit": "field-evidence binding objects"
+      },
+      "fieldTargetsReviewed": {
+        "count": 760,
+        "unit": "canonical binding objects with field-target-reviewed status"
+      },
+      "otherTargetStates": {
+        "count": 4895,
+        "unit": "canonical binding objects without field-target-reviewed status"
+      },
+      "regionVerified": {
+        "count": 640,
+        "unit": "canonical binding objects with region-verified status; subset of the 4,895 other review states"
+      },
+      "manualDeclarations": {
+        "count": 1251,
+        "unit": "manual declarations"
+      },
+      "newManualDeclarationsPending": {
+        "count": 321,
+        "unit": "new manual declarations pending"
+      },
+      "mechanicsFields": {
+        "count": 14189,
+        "unit": "tracked mechanics fields"
+      },
+      "uncheckedMechanicsFields": {
+        "count": 887,
+        "unit": "tracked mechanics fields"
+      },
+      "wholeBookSemanticCompleteness": {
+        "count": 0,
+        "unit": "books certified semantically complete"
+      }
+    },
+    "qualification": "Committed S2 source snapshot; not the verified V29 runtime. The 760 field-target-reviewed bindings and 4,895 bindings in other states partition the 5,655 canonical binding objects. The 640 region-verified source-location associations are a subset of those other states. Manual declarations and tracked mechanics fields use separate denominators."
+  },
+  "publicationHistoryTransitionsVersion29": [
+    {
+      "priorRecord": {
+        "id": "dmg175-character-party-tables",
+        "scope": "87rows/10prose segments from correct-edition175supplement and176PDF.",
+        "state": "Local SOURCE987 integrates 11 cards, 87 rows and 120 pending manual targets. Current metadata, historical contexts, full workflow and browser validation remain in progress. The physical PDF omits p.175; the accepted supplement has unspecified printing.",
+        "published": false
+      },
+      "published": true,
+      "resolvedByVersion": 29,
+      "releaseReceipt": {
+        "path": "research/source-audit-pass8-pr50-version29-live-release.json",
+        "sha256": "3c16c44b15144d56af25c8cf0161efa67978de7190d05781c7cfd15f0624758e"
+      },
+      "qualification": "The V29 release published the bounded 11-owner/87-row source integration while retaining all 120 manual target controls as pending."
+    },
+    {
+      "priorRecord": {
+        "id": "ua28-equipment-field-locations",
+        "scope": "Three rendered strings representing 33 UA p.28 source cells.",
+        "state": "Local SOURCE987 field-location reviews are accepted. Source values and context remain unassessed; publication is pending.",
+        "published": false
+      },
+      "published": true,
+      "resolvedByVersion": 29,
+      "releaseReceipt": {
+        "path": "research/source-audit-pass8-pr50-version29-live-release.json",
+        "sha256": "3c16c44b15144d56af25c8cf0161efa67978de7190d05781c7cfd15f0624758e"
+      },
+      "qualification": "V29 published location-only evidence for three UA p.28 equipment targets; no source-value or context grade was activated."
+    }
+  ],
+  "s2AuditQualification": {
+    "qualificationArtifact": "research/hirelings-current-next-batch-v1/native-audit-metadata-s2-v1/actual-source-audit-metadata-bc819621e497-v3-qualifier.json",
+    "qualification": "Actual-source S2 visual/raster/continuation reports are source/hash/geometry inventories, not semantic review or deployment proof. The v3 qualifier corrects the H continuation group scope while preserving v1 readout and v2 binder bytes.",
+    "actualS2SourceAuditReports": "Privately generated and hash-bound; repository installation and metadata activation remain pending.",
+    "activePointerWrites": false
+  }
 }
