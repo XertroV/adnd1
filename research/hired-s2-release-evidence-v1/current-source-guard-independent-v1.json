@@ -1,0 +1,149 @@
+{
+  "artifactType": "Independent final S2 native-current guard review",
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-11-10T16:59:20Z",
+  "disposition": "ACCEPT for native-current source-epoch guard readiness at the stated scope; no material guard defect found.",
+  "qualification": "This is source-epoch acceptance and mutation-resistance evidence only. It does not approve numerical content, whole-source completeness, or publication/release.",
+  "reviewedInputs": {
+    "repository": "/workspace/adnd1-next-source-native",
+    "sourceHead": "bc819621e49788260bb34ea47c1f7a8b35af6edf",
+    "sourceTree": "e6bc420f70656825a926297b959bc6d98758bfcd",
+    "baselineCommit": "1f79d909344ebe7d41a432d8673f3eedb491fa3b",
+    "s1ParentCommit": "9d5d4f0910143ac1d0737fe6c40ef9c284c76197",
+    "baselineContract": {
+      "path": "/workspace/research/hirelings-current-next-batch-v1/root-epoch-preparation-v1/version29-baseline-contract-v2.json",
+      "sha256": "327f3870e9b19465aec6c7934f18e6fd25b851df24d52493b4eafcda54d1b73e"
+    },
+    "finalFixture": {
+      "path": "tests/fixtures/hirelings-source-current-cohort-v1.json",
+      "sha256": "62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f"
+    },
+    "kernel": {
+      "path": "tests/helpers/hirelings-source-current-cohort-kernel-v1.mjs",
+      "sha256": "aca1b4ddef5ee0f1b66684fb22a8879fa77a0c925d5c5da4f909c0430fcba9df"
+    },
+    "installedLoader": {
+      "path": "tests/helpers/hirelings-source-current-cohort.mjs",
+      "sha256": "9cec0405991d67fef08eba7859c8b8f300942295379e1f83c84ee8b21d048998"
+    },
+    "loaderTemplate": {
+      "path": "/workspace/research/hirelings-current-next-batch-v1/root-epoch-preparation-v1/closed-current-helper-loader-template-v1.mjs",
+      "sha256": "a8f2e1e15adabebabf0235e276bc6a3b98cf7ae58d7a75b58eb882c6e6346da8"
+    },
+    "loaderTemplatePinCheck": "Installed loader bytes equal the template with only __FINAL_REVIEWED_FIXTURE_SHA256__ replaced by the exact final fixture SHA."
+  },
+  "lineage": {
+    "baselineIsAncestorOfSource": true,
+    "sourceIsAncestorOfCurrentHead": true,
+    "committedSourceTreeMatchesFixture": true,
+    "rawCommittedGitBlobsChecked": 8,
+    "rawBytesIncludesGitBlobNewlines": true,
+    "sourceRawInputsSha256": {
+      "dist/data.json": "2cddb11a82ecc3b9d77cb3fa2ae49eef5623a5470ac85a540d1baf483e096a95",
+      "research/price-source-inventory.json": "3073ce4f92e772b91ede42cf111d118acaf4a66e636ebbab064b8085708ff3e6",
+      "research/field-evidence-bindings.json": "7ad198b8f8b48605fb2d48aac114769fa06467def45d51c5864014b6e655c0f3",
+      "equipment.json": "714d40b9ed9908a069fddc08525d43437c9e974b984572eb1c505c37ee8cae95",
+      "rules.json": "d2b19d365d6899e75b41f43fe5eb3541f224aecb6594fa65c633fd04a5b1cc7c",
+      "dist/books.js": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811",
+      "dist/app.js": "f4381ff282ea6ff7d245c915ab17fafd4b19e025e2af6c2a496145429285f2c7",
+      "dist/source-viewer.js": "3355a2c28b03d72cf0b1a097a1fc211cd99942555dbc502cacea41e99023fd2c"
+    }
+  },
+  "actualKernelResult": {
+    "installedLoaderImportedSuccessfully": true,
+    "positivePassed": true,
+    "summary": {
+      "owners": 1062,
+      "canonicalBindings": 5655,
+      "baselineWholeBindings": 4931,
+      "addedFromV29": 724,
+      "manualDeclarations": 1251,
+      "baselineManualPrefix": 930,
+      "newManualPending": 321,
+      "newRules": 48,
+      "sourceTableRows": 244,
+      "sourceCells": 343,
+      "historicalMechanicsReviews": 1215
+    },
+    "formalMechanicsCounts": {
+      "records": 1062,
+      "totalFields": 14189,
+      "uncheckedFields": 887
+    },
+    "priorV29OwnersAndBindingsAndManualPrefixAndMechanicsHistoryChecked": true
+  },
+  "s1ToS2Associations": {
+    "s1ParentCommit": "9d5d4f0910143ac1d0737fe6c40ef9c284c76197",
+    "s1CanonicalBindingCount": 5602,
+    "s2CanonicalBindingCount": 5655,
+    "newAssociationIdentities": 53,
+    "removedPriorAssociationIdentities": 0,
+    "s1AssociationIdentitiesRemainInOriginalOrder": true,
+    "reviewStatusCounts": {
+      "region-verified": 25,
+      "field-target-pending": 28
+    },
+    "allNewTargetReviewValuesNull": true,
+    "allNewSourceValueStatuses": "not-assessed-by-field-target-review",
+    "allNewContextStatuses": "context-not-assessed"
+  },
+  "independentMutations": [
+    {
+      "case": "new-row foreign metadata",
+      "result": "rejected",
+      "assertion": "whole new owner exact"
+    },
+    {
+      "case": "new source-note foreign metadata",
+      "result": "rejected",
+      "assertion": "whole new owner exact"
+    },
+    {
+      "case": "new row target-review promotion",
+      "result": "rejected",
+      "assertion": "no target review silently introduced"
+    },
+    {
+      "case": "new manual field-review promotion",
+      "result": "rejected",
+      "assertion": "new field review remains pending"
+    },
+    {
+      "case": "canonical-binding deletion",
+      "result": "rejected",
+      "assertion": "native current canonical binding denominator"
+    },
+    {
+      "case": "committed raw input hash mutation",
+      "result": "rejected",
+      "assertion": "closed actual current source bytes exact"
+    }
+  ],
+  "frozenD175Baseline": {
+    "comparisonCommit": "1f79d909344ebe7d41a432d8673f3eedb491fa3b",
+    "files": {
+      "tests/helpers/dmg175-source-current-cohort.mjs": {
+        "baselineSha256": "7422510ac694c322e05b5436ea922c1437f99c6c4ebf5cc9544035dee28ed4cf",
+        "workingTreeSha256": "7422510ac694c322e05b5436ea922c1437f99c6c4ebf5cc9544035dee28ed4cf",
+        "exact": true
+      },
+      "tests/fixtures/dmg175-source-current-cohort-v1.json": {
+        "baselineSha256": "b1a39cd6379d1fc34f906781982f9fc049d94089459fd0f7b0243aaeb8476685",
+        "workingTreeSha256": "b1a39cd6379d1fc34f906781982f9fc049d94089459fd0f7b0243aaeb8476685",
+        "exact": true
+      }
+    }
+  },
+  "supportingActualPreflight": {
+    "path": "/workspace/vault-audit-private/pass8/root/hired-actual-s2-source-install-v1/actual-native-current-preflight-s2-v1.json",
+    "sha256": "8ec22d2e942b77fde1bdcbfe0a0d502f7b130e13be1eb54939e4d8a150c93849",
+    "positivePassed": true,
+    "negativeRejected": 12
+  },
+  "remainingBlockers": [],
+  "boundaries": [
+    "No numerical/source-value or contextual-adequacy approval is implied.",
+    "No whole-source completeness or publication/release approval is implied.",
+    "The local test helper install is not itself a production release."
+  ]
+}

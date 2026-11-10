@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "status": "Research-only actual native-HIRED proposal; original-guard failures/current-positive independent review required before caller activation",
+  "contractSha256": "3a4f78b7c2fb26a3384b4acb705fa645ec6ae7c0547544f28744d624cb7c3b93",
+  "changes": [
+    {
+      "path": "research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs",
+      "originalPath": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs",
+      "originalSha256": "e3a9bd7c2b1a0c077917b2cb259f51eb199dae67059bac1f72d821235ee6f16b",
+      "successorSha256": "cbad2f3c11b0b39a48bfe5dd722e2abccf220da71ef4a3beb54d0570eb3d1a85",
+      "fsImportBefore": "import {readFileSync, realpathSync} from 'node:fs';",
+      "fsImportAfter": "import {realpathSync} from 'node:fs';\nimport {readVersion29HistoricalFile, normalizeVersion29HistoricalBytes, normalizeVersion29HistoricalJson} from '../closed-version29-reader-v2.proposed.mjs';\nconst readFileSync=readVersion29HistoricalFile;",
+      "entryChanges": [
+        {
+          "needle": "function normalizeBytes(path, bytes, oldScope) {",
+          "insertion": "  bytes = normalizeVersion29HistoricalBytes(path, bytes);"
+        },
+        {
+          "needle": "function normalizeJson(path, value, oldScope) {",
+          "insertion": "  value = normalizeVersion29HistoricalJson(path, value);"
+        }
+      ],
+      "postGenerationFormatting": {
+        "removedTrailingBlankLines": 1,
+        "beforeSha256": "8f7c39b53e900b8e52965cc624577b9465bee02161f6ec48a1be8ad1e8ae201b",
+        "afterSha256": "cee75626dac1e8751333173ab20c366144a3182f890ebec218acd97a0bd269cc"
+      },
+      "priorReaderV2SuccessorSha256": "cee75626dac1e8751333173ab20c366144a3182f890ebec218acd97a0bd269cc"
+    },
+    {
+      "path": "research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs",
+      "originalPath": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs",
+      "originalSha256": "fe387262b288b3680acd383f28e926b039b1e71c0786928f5192c2775642443b",
+      "successorSha256": "4c54f37a3496029b72eecbdfc852bba6dd34a9f1575c04aa0e6e7813f93ebcaa",
+      "fsImportBefore": "import {readFileSync as fsReadFileSync, realpathSync} from 'node:fs';",
+      "fsImportAfter": "import {realpathSync} from 'node:fs';\nimport {readVersion29HistoricalFile, normalizeVersion29HistoricalBytes, normalizeVersion29HistoricalJson} from '../closed-version29-reader-v2.proposed.mjs';\nconst fsReadFileSync=readVersion29HistoricalFile;",
+      "entryChanges": [],
+      "priorReaderV2SuccessorSha256": "fc0d798df8570ec7350d8e1fa17ed01f76f495bb3d23283ac20c1583f8d399c6"
+    },
+    {
+      "path": "research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs",
+      "originalPath": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs",
+      "originalSha256": "ab080c03052095d20b0c0367a9a0484d2f088816e651fcca229fe3462985557b",
+      "successorSha256": "1e9b97917e43ae0baf64ec4c45f8f5e252878d6278a9ce645a0838146d370dcc",
+      "fsImportBefore": "import {readFileSync, realpathSync} from 'node:fs';",
+      "fsImportAfter": "import {realpathSync} from 'node:fs';\nimport {readVersion29HistoricalFile, normalizeVersion29HistoricalBytes, normalizeVersion29HistoricalJson} from '../closed-version29-reader-v2.proposed.mjs';\nconst readFileSync=readVersion29HistoricalFile;",
+      "entryChanges": [
+        {
+          "needle": "export function projectKnownDmg175OuterBytes(path, bytes) {",
+          "insertion": "  bytes = normalizeVersion29HistoricalBytes(path, bytes);"
+        },
+        {
+          "needle": "export function isExactCurrentDmg175Bytes(path, bytes) {",
+          "insertion": "  bytes = normalizeVersion29HistoricalBytes(path, bytes);"
+        },
+        {
+          "needle": "export function projectKnownDmg175OuterJson(path, value) {",
+          "insertion": "  value = normalizeVersion29HistoricalJson(path, value);"
+        },
+        {
+          "needle": "export function isExactCurrentDmg175Json(path, value) {",
+          "insertion": "  value = normalizeVersion29HistoricalJson(path, value);"
+        }
+      ],
+      "postGenerationFormatting": {
+        "removedTrailingBlankLines": 1,
+        "beforeSha256": "ead34b86429de31df41ed6e194cdf4171d3c42a530f8be39afdc6db52023f834",
+        "afterSha256": "5577d6fcd26bf7c4ce8ed5ef76fb1fc424f1006f2e1075ef9b902bd16fb96422"
+      },
+      "priorReaderV2SuccessorSha256": "5577d6fcd26bf7c4ce8ed5ef76fb1fc424f1006f2e1075ef9b902bd16fb96422"
+    },
+    {
+      "path": "research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs",
+      "originalPath": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs",
+      "originalSha256": "09da403f955f463a65fc38d28df8cc2c9a32b6f60b729cce2b966669576a1d84",
+      "successorSha256": "3054a2e1fd60c138cb3c1fb1393122f0f1e665ca81b69a4750e2507e4c410dab",
+      "fsImportBefore": "import {readFileSync as fsReadFileSync, realpathSync} from 'node:fs';",
+      "fsImportAfter": "import {realpathSync} from 'node:fs';\nimport {readVersion29HistoricalFile, normalizeVersion29HistoricalBytes, normalizeVersion29HistoricalJson} from '../closed-version29-reader-v2.proposed.mjs';\nconst fsReadFileSync=readVersion29HistoricalFile;",
+      "entryChanges": [],
+      "priorReaderV2SuccessorSha256": "1ed8ff5d42599456716a73e2e55f5db034c96e861c9011c8a02c82c8d0b7fb92"
+    },
+    {
+      "path": "research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v2/jo-closed-loader-v28-context-v1.proposed.mjs",
+      "originalPath": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/jo-closed-loader-v28-context-v1.proposed.mjs",
+      "originalSha256": "85003bbcc64c3f6aa2081fb93ec443171876a3b766ea07cc76381c558fa5c876",
+      "successorSha256": "bbbaed1a3cc35a2ee7b6d5585da9d730e873b07182d5749363198b205be81fa0",
+      "fsImportBefore": "import {readFileSync,writeFileSync,mkdtempSync,mkdirSync,rmSync,realpathSync,lstatSync} from 'node:fs';",
+      "fsImportAfter": "import {writeFileSync, mkdtempSync, mkdirSync, rmSync, realpathSync, lstatSync} from 'node:fs';\nimport {readVersion29HistoricalFile, normalizeVersion29HistoricalBytes, normalizeVersion29HistoricalJson} from '../closed-version29-reader-v2.proposed.mjs';\nconst readFileSync=readVersion29HistoricalFile;",
+      "entryChanges": [],
+      "priorReaderV2SuccessorSha256": "b4a1821febce3f0c0255ca2fc5b3f405c63b769ce547c5dc8151d1e6687c3758"
+    },
+    {
+      "path": "research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v2/jo-unextracted-price-v28-context-v1.proposed.mjs",
+      "originalPath": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/jo-unextracted-price-v28-context-v1.proposed.mjs",
+      "originalSha256": "07933f784c11c85e661002c6376f4dce9ecaa558fe8323afb92f5811214e1ccd",
+      "successorSha256": "7745e0f35345d95998d168d575f4ec96d449ec1bf95dabcfd3ffa8e4cd5181d8",
+      "fsImportBefore": "import {mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync} from 'node:fs';",
+      "fsImportAfter": "import {mkdirSync, mkdtempSync, readdirSync, rmSync, writeFileSync} from 'node:fs';\nimport {readVersion29HistoricalFile, normalizeVersion29HistoricalBytes, normalizeVersion29HistoricalJson} from '../closed-version29-reader-v2.proposed.mjs';\nconst readFileSync=readVersion29HistoricalFile;",
+      "entryChanges": [],
+      "priorReaderV2SuccessorSha256": "781ec0e10f39400befa6450b45a67a7f2304498ccfca4ccc8127dbd5f9b99c5f"
+    },
+    {
+      "path": "research/hirelings-source-epoch-proposal-v5/history-recovery-v1/dmg175-equipment-epoch-outer-v2.proposed.mjs",
+      "originalPath": "research/dmg175-validation-coordinator-v1/history-recovery-v1/dmg175-equipment-epoch-outer-v2.proposed.mjs",
+      "originalSha256": "cfecd53983b23f6baa7ddd1eae6a83cafba171bd514e0dfb59da6c56ff22aca8",
+      "successorSha256": "91bb1f702e1feb01da2f21c03ad2ca049ddaf06293d5b3aab333e44d8ff65937",
+      "fsImportBefore": "import {readFileSync} from 'node:fs';",
+      "fsImportAfter": "import {readVersion29HistoricalFile, normalizeVersion29HistoricalBytes, normalizeVersion29HistoricalJson} from '../closed-version29-reader-v2.proposed.mjs';\nconst readFileSync=readVersion29HistoricalFile;",
+      "entryChanges": [],
+      "priorReaderV2SuccessorSha256": "6d4e90bdc38c7761419c87e8cee0a071f7123390cf4238e851609a447b3a7658"
+    }
+  ],
+  "copiedContracts": [
+    {
+      "path": "research/hirelings-source-epoch-proposal-v5/history-epoch-proposal-v1/history-epoch-proposal-987-final-v1.json",
+      "originalPath": "research/dmg175-validation-coordinator-v1/history-epoch-proposal-v1/history-epoch-proposal-987-final-v1.json",
+      "sha256": "6eaa68018b064c1209ce81656b915aa0ed7b02f4fc7b59a149b6571aad0ff7f5"
+    },
+    {
+      "path": "research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/closed-metadata-contract-v1.json",
+      "originalPath": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/closed-metadata-contract-v1.json",
+      "sha256": "21800d8e6ac4727d559ebe34e1f2033a8407a1f80189c5ba1d929e16096aba1d"
+    },
+    {
+      "path": "research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/closed-runtime-source-viewer-contract-v1.json",
+      "originalPath": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/closed-runtime-source-viewer-contract-v1.json",
+      "sha256": "be0a128238bfb4d1ba6e34598b3a06982ee6149ed2512e73c6d63be9bdba9714"
+    },
+    {
+      "path": "research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/closed-runtime-viewer-contract-v1.json",
+      "originalPath": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/closed-runtime-viewer-contract-v1.json",
+      "sha256": "6c6f1da8faa508212728168cf619fbb66b0b4dca47c1cf8217ee6c0d0ce22728"
+    },
+    {
+      "path": "research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v2/closed-completeness-coverage-contract-v1.json",
+      "originalPath": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/closed-completeness-coverage-contract-v1.json",
+      "sha256": "1426257cdb61272b14c03deb9bc4c3750368d6c88d6ebe8c0dc6cecf7f1d6818"
+    }
+  ],
+  "activeCallersChanged": false,
+  "predecessorManifest": {
+    "path": "research/hirelings-source-epoch-proposal-v5/transport-manifest-v2.json",
+    "sha256": "512c717471b08b4a2f47643a6f93c6e4b23fa4128397da01cbabd1aebb79f2ba",
+    "qualification": "Frozen builder output; v3 records two subsequent one-byte EOF-only formatting corrections."
+  },
+  "postGenerationFormatting": [
+    {
+      "path": "research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs",
+      "beforeSha256": "8f7c39b53e900b8e52965cc624577b9465bee02161f6ec48a1be8ad1e8ae201b",
+      "afterSha256": "cee75626dac1e8751333173ab20c366144a3182f890ebec218acd97a0bd269cc",
+      "beforeBytes": 21809,
+      "afterBytes": 21808,
+      "change": "Remove exactly one inherited blank line at EOF; every other byte preserved."
+    },
+    {
+      "path": "research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs",
+      "beforeSha256": "ead34b86429de31df41ed6e194cdf4171d3c42a530f8be39afdc6db52023f834",
+      "afterSha256": "5577d6fcd26bf7c4ce8ed5ef76fb1fc424f1006f2e1075ef9b902bd16fb96422",
+      "beforeBytes": 20012,
+      "afterBytes": 20011,
+      "change": "Remove exactly one inherited blank line at EOF; every other byte preserved."
+    }
+  ],
+  "predecessorManifestV3": {
+    "path": "research/hirelings-source-epoch-proposal-v5/transport-manifest-v3.json",
+    "sha256": "c366553fd9bfe3e0193fc740cbedb7bb3da06a3a13bb251651a78c504b456666"
+  },
+  "currentHistoricalReader": {
+    "path": "research/hirelings-source-epoch-proposal-v5/closed-version29-reader-v3.proposed.mjs",
+    "sha256": "bbf2c9e810903732ff3e72c684ba599c8c8b7c9bd3c7cbf73ebd3917795515e8",
+    "preservedReaderV2": {
+      "path": "research/hirelings-source-epoch-proposal-v5/closed-version29-reader-v2.proposed.mjs",
+      "sha256": "ef41a5eef3e635e5218b4bd67bb5809217ecf38596d5cf1f930ae7c76c35a208"
+    },
+    "reason": "Reject intermediate Array.prototype serialization hooks before whole-object fingerprinting."
+  },
+  "additionalDirectReaderConsumer": {
+    "path": "research/hirelings-source-epoch-proposal-v5/dmg175-current-h-successors-v2/continuation-contract/continuation-contract-current-h-v2.test.mjs",
+    "beforeSha256": "ccd1f5fc3fe4bb76958ce2b80b09aaf8673332cd3bf25a7405184c3c38bcae5a",
+    "afterSha256": "cd0e4b30b7eb0322771ef236e4023e82e25f6407cea134d97015ac0dcc1e04df"
+  }
+}

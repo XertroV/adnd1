@@ -30,6 +30,45 @@ const pointKey = (book, pdfPage) => JSON.stringify([book, pdfPage]);
 const sortedCounts = counts => Object.fromEntries([...counts].sort(([a], [b]) => String(a) < String(b) ? -1 : String(a) > String(b) ? 1 : 0));
 const increment = (counts, key, amount = 1) => counts.set(key, (counts.get(key) || 0) + amount);
 
+// The source raster contract is mathematical round-half-up on decimal point
+// coordinates: floor(point * dpi / 72 - deviceOrigin + 0.5). Convert each JSON
+// number's shortest decimal form to a rational so exact half-pixel ties do not
+// change side because of binary floating-point representation.
+function decimalFraction(value, label) {
+  if (!isFiniteNumber(value)) throw new TypeError(`${label} must be a finite JSON number.`);
+  const match = /^([+-]?)(\d+)(?:\.(\d*))?(?:e([+-]?\d+))?$/i.exec(String(value));
+  if (!match) throw new TypeError(`${label} has no finite decimal representation.`);
+  const sign = match[1] === '-' ? -1n : 1n;
+  const fraction = match[3] || '';
+  let numerator = sign * BigInt(`${match[2]}${fraction}` || '0');
+  const scale = fraction.length - Number(match[4] || 0);
+  let denominator = 1n;
+  if (scale > 0) denominator = 10n ** BigInt(scale);
+  else if (scale < 0) numerator *= 10n ** BigInt(-scale);
+  return {numerator, denominator};
+}
+
+function floorRational(numerator, denominator) {
+  let quotient = numerator / denominator;
+  if (numerator < 0n && numerator % denominator !== 0n) quotient--;
+  return quotient;
+}
+
+// This preserves the repository's explicit floor(x + 0.5) rule, including
+// its negative-tie direction, while applying it exactly to the decimal inputs.
+export function roundHalfUpRasterPixel(pointPdf, dpi, deviceOriginPx) {
+  if (!Number.isSafeInteger(deviceOriginPx)) throw new TypeError('Raster device origin must be a safe integer pixel coordinate.');
+  const point = decimalFraction(pointPdf, 'PDF point coordinate');
+  const renderDpi = decimalFraction(dpi, 'render DPI');
+  if (renderDpi.numerator <= 0n) throw new RangeError('Render DPI must be positive.');
+  const denominator = point.denominator * renderDpi.denominator * 72n;
+  const numerator = point.numerator * renderDpi.numerator - BigInt(deviceOriginPx) * denominator;
+  const rounded = floorRational(2n * numerator + denominator, 2n * denominator);
+  const result = Number(rounded);
+  if (!Number.isSafeInteger(result)) throw new RangeError('Rounded raster coordinate exceeds JavaScript safe integer range.');
+  return result;
+}
+
 function rectangle(rect, {allowEmpty = false} = {}) {
   return Array.isArray(rect) && rect.length === 4 && rect.every(isInt) &&
     rect[0] >= 0 && rect[1] >= 0 &&
@@ -295,12 +334,11 @@ function buildCurrentSourceRasterCoverage(snapshot, live, sourceGeometry, mode =
           !Array.isArray(rectPoints) || pdfBounds[2] > rectPoints[2] - rectPoints[0] + 0.002 || pdfBounds[3] > rectPoints[3] - rectPoints[1] + 0.002) {
         errors.push('Raster geometry PDF-page bounds are invalid or outside the frame.');
       } else if (isFiniteNumber(geometry.renderDpi)) {
-        const halfUp = value => Math.floor(value + 0.5);
         const expectedPx = [
-          halfUp(pdfBounds[0] * geometry.renderDpi / 72 - originX),
-          halfUp(pdfBounds[1] * geometry.renderDpi / 72 - originY),
-          halfUp(pdfBounds[2] * geometry.renderDpi / 72 - originX),
-          halfUp(pdfBounds[3] * geometry.renderDpi / 72 - originY),
+          roundHalfUpRasterPixel(pdfBounds[0], geometry.renderDpi, originX),
+          roundHalfUpRasterPixel(pdfBounds[1], geometry.renderDpi, originY),
+          roundHalfUpRasterPixel(pdfBounds[2], geometry.renderDpi, originX),
+          roundHalfUpRasterPixel(pdfBounds[3], geometry.renderDpi, originY),
         ];
         if (!rectangle(geometry.boundsRasterPixelsLTRB) || geometry.boundsRasterPixelsLTRB[2] > width || geometry.boundsRasterPixelsLTRB[3] > height ||
             !isDeepStrictEqual(geometry.boundsRasterPixelsLTRB, expectedPx)) errors.push('Raster geometry pixel bounds do not match its PDF bounds and frame.');

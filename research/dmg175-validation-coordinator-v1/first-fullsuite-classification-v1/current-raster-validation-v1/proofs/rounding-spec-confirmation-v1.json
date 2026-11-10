@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "source-raster point-to-pixel rounding spec confirmation",
+  "status": "RESEARCH_ONLY_CANDIDATE_SEMANTICS",
+  "source": {
+    "path": "research/source-raster-boundary-audit.py",
+    "sha256": "fb87a5810917c01d67c914549995db736e3eacb8fff4c74947cb1d154af1899d",
+    "halfUpDefinition": "lines 79-80: math.floor(value + 0.5)",
+    "coordinateFormula": "lines 89-97: page-relative point \u00d7 (dpi / 72.0) minus PyMuPDF Pixmap x/y device origin for each LTRB coordinate",
+    "halfOpenBounds": "lines 94-97 and 834",
+    "rasterScale": "lines 242-245: grayscale page raster at dpi/72.0; record pix.x/pix.y and native dimensions"
+  },
+  "model": {
+    "candidate": "exact rational evaluation over each parsed JSON number\u2019s shortest round-trip decimal form",
+    "formula": "floor(((decimal(point) * decimal(dpi) / 72) - integer(origin)) + 1/2)",
+    "epsilon": null,
+    "negativeTies": "same as explicit floor(x + 0.5); -1.5 maps to -1, not away from zero",
+    "whyNoEpsilon": "any epsilon can move a true value arbitrarily close below a boundary; rational arithmetic preserves both sides and exact ties"
+  },
+  "failingActiveRecord": {
+    "activePointerSha256": "bd8ba4a5d7159c5dbce44b191e160510d45cb9b4cc746d53ae36ff3affe4995b",
+    "snapshotGzipSha256": "b0b48a785cfddd5a1cb3931ad823c609aa884779edf4da820be3133f528d0faf",
+    "sourceGeometrySha256": "87d301d54b7c72b7024ac8fb716ba757e553dbb4cedd8cf999055d2799548bb2",
+    "geometryId": "raster-edge-f697c8ecdc5948abc65d",
+    "book": "DMG",
+    "printedPage": 19,
+    "pdfPage": 20,
+    "boundsPdfPagePointsLTRB": [
+      21.24,
+      74.27,
+      288.43,
+      133.08
+    ],
+    "renderDpi": 300,
+    "rasterOriginPx": [
+      0,
+      0
+    ],
+    "storedBoundsRasterPixelsLTRB": [
+      89,
+      309,
+      1202,
+      555
+    ]
+  },
+  "exactEdge": {
+    "pointDecimal": "21.24",
+    "dpi": 300,
+    "originPx": 0,
+    "rational": "(2124/100) \u00d7 300 / 72 = 177/2",
+    "exactCoordinate": 88.5,
+    "requiredPixel": 89,
+    "baselineJavascriptScaled": "88.499999999999986",
+    "baselineJavascriptPixel": 88,
+    "baselinePythonScaled": "88.49999999999999",
+    "baselinePythonPixel": 88
+  },
+  "candidateCases": {
+    "positiveNearTie": [
+      {
+        "point": 21.239999999999,
+        "dpi": 300,
+        "originPx": 0,
+        "expected": 88
+      },
+      {
+        "point": 21.24,
+        "dpi": 300,
+        "originPx": 0,
+        "expected": 89
+      },
+      {
+        "point": 21.240000000001,
+        "dpi": 300,
+        "originPx": 0,
+        "expected": 89
+      }
+    ],
+    "negativeNearTie": [
+      {
+        "point": -0.360000000001,
+        "dpi": 300,
+        "originPx": 0,
+        "expected": -2
+      },
+      {
+        "point": -0.36,
+        "dpi": 300,
+        "originPx": 0,
+        "expected": -1
+      },
+      {
+        "point": -0.359999999999,
+        "dpi": 300,
+        "originPx": 0,
+        "expected": -1
+      }
+    ],
+    "positiveOrigin": [
+      {
+        "point": 1.799999999999,
+        "dpi": 300,
+        "originPx": 5,
+        "expected": 2
+      },
+      {
+        "point": 1.8,
+        "dpi": 300,
+        "originPx": 5,
+        "expected": 3
+      },
+      {
+        "point": 1.800000000001,
+        "dpi": 300,
+        "originPx": 5,
+        "expected": 3
+      }
+    ],
+    "negativeOrigin": [
+      {
+        "point": 0.119999999999,
+        "dpi": 300,
+        "originPx": -2,
+        "expected": 2
+      },
+      {
+        "point": 0.12,
+        "dpi": 300,
+        "originPx": -2,
+        "expected": 3
+      },
+      {
+        "point": 0.120000000001,
+        "dpi": 300,
+        "originPx": -2,
+        "expected": 3
+      }
+    ],
+    "negativeCoordinatePositiveOrigin": [
+      {
+        "point": -0.360000000001,
+        "dpi": 300,
+        "originPx": 5,
+        "expected": -7
+      },
+      {
+        "point": -0.36,
+        "dpi": 300,
+        "originPx": 5,
+        "expected": -6
+      },
+      {
+        "point": -0.359999999999,
+        "dpi": 300,
+        "originPx": 5,
+        "expected": -6
+      }
+    ],
+    "exponentialNumberForm": [
+      {
+        "point": 1e-07,
+        "dpi": 360000000,
+        "originPx": 0,
+        "expected": 1
+      },
+      {
+        "point": -1e-07,
+        "dpi": 360000000,
+        "originPx": 0,
+        "expected": 0
+      }
+    ]
+  }
+}

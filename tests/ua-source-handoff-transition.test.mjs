@@ -2,51 +2,362 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
+import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
-import {loadUaSourceHandoffTransition,uaSourceHandoffContextMatches,uaSourceHandoffTransitionPath} from '../tools/ua-source-handoff-transition.mjs';
-import {validateApprovedTransitions,reconcileCuratedNotes} from '../tools/refresh-gaps-handoff.mjs';
+import {pathToFileURL} from 'node:url';
 
-const root=resolve(import.meta.dirname,'..'),json=p=>JSON.parse(execFileSync('git',['show',`386b08a4678ee033d6daabc0ffa2cc17265a7c1f:${p}`],{cwd:root,maxBuffer:100*1024*1024,encoding:'utf8'})),hashFile=p=>createHash('sha256').update(execFileSync('git',['show',`386b08a4678ee033d6daabc0ffa2cc17265a7c1f:${p}`],{cwd:root,maxBuffer:100*1024*1024})).digest('hex');
-const baselineData=JSON.parse(execFileSync('git',['show','679b15d1c580172e54314829c1c3c86dc78b65f3:dist/data.json'],{cwd:root,maxBuffer:40*1024*1024}));
-const baselineHandoff=JSON.parse(execFileSync('git',['show','679b15d1c580172e54314829c1c3c86dc78b65f3:research/gaps-limitations-next-task.json'],{cwd:root,maxBuffer:10*1024*1024}));
-const priorHandoff=JSON.parse(execFileSync('git',['show','6b3cfc8cb421a2c1fc2379c38abebe2075634981:research/gaps-limitations-next-task.json'],{cwd:root,maxBuffer:10*1024*1024}));
-const currentData=json('dist/data.json'),mechanics=json('research/mechanics-audit-progress.json'),conflictReceipt=json('research/source-audit-batch5-conflict-integration.json'),animalReceipt=json('research/source-audit-batch5-unextracted.json'),classRetirementReceipt=json('research/source-audit-batch5-class-retired-ledger.json');
-const context={baselineData,currentData,mechanics,conflictReceipt},args={...context,animalReceipt,classRetirementReceipt};
-const sourceBodyTransition=loadUaSourceHandoffTransition({...context,read:json,hashFile});
+const root = resolve(import.meta.dirname, '..');
+const baselineCommit = '679b15d1c580172e54314829c1c3c86dc78b65f3';
+const source6bCommit = '6b3cfc8cb421a2c1fc2379c38abebe2075634981';
+const legacyReceiptCommit = '386b08a4678ee033d6daabc0ffa2cc17265a7c1f';
+const sourceCommit = 'bc819621e49788260bb34ea47c1f7a8b35af6edf';
+const currentContractSha256 = '62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f';
+const currentReceiptSha256 = '644992717168c73584a4d30084237aa253fcc5f9143b288a41f1ca6ba8bc4575';
+const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
+const gitBytes = (commit, path) => execFileSync('git', ['show', `${commit}:${path}`], {
+  cwd: root, maxBuffer: 128 * 1024 * 1024,
+});
+const gitJson = (commit, path) => JSON.parse(gitBytes(commit, path).toString('utf8'));
+const readBytes = path => readFileSync(resolve(root, path));
+const readJson = path => JSON.parse(readBytes(path).toString('utf8'));
+const hashCurrent = path => sha256(readBytes(path));
 
-test('exact source6b qualification keeps the old guard and current body pending',()=>{
- assert.throws(()=>validateApprovedTransitions(args),/conflict receipt no longer exactly matches/);
- const transitions=validateApprovedTransitions({...args,sourceBodyTransition});
- assert.equal(transitions.length,12);
- const qualified=transitions.filter(r=>r.kind==='historical-source-body-transition-qualified');assert.equal(qualified.length,1);
- assert.equal(qualified[0].itemId,'ua-druid-ceremony');assert.equal(qualified[0].pointer,'/exceptions/0');assert.equal(qualified[0].currentFieldStatus,'unchecked');assert.equal(qualified[0].sourceValueGrade,'NOT PROMOTED');
- assert.equal(mechanics.reviewRecords.length,1215);assert.equal(mechanics.counts.staleProposalFields,0);
+const [legacyModule, nativeModule, refreshModule, version29Module] = await Promise.all([
+  import(pathToFileURL(resolve(root, 'tools/ua-source-handoff-transition.mjs'))),
+  import(pathToFileURL(resolve(root, 'tools/dmg175-hired-native-successors-v2.mjs'))),
+  import(pathToFileURL(resolve(root, 'tools/refresh-gaps-handoff.mjs'))),
+  import(pathToFileURL(resolve(root, 'tests/helpers/version29-native-source-context.mjs'))),
+]);
+
+const baselineData = gitJson(baselineCommit, 'dist/data.json');
+const baselineHandoff = gitJson(baselineCommit, 'research/gaps-limitations-next-task.json');
+const priorHandoff = gitJson(source6bCommit, 'research/gaps-limitations-next-task.json');
+const currentData = readJson('dist/data.json');
+const currentHandoff = readJson('research/gaps-limitations-next-task.json');
+const mechanics = readJson('research/mechanics-audit-progress.json');
+const conflictReceipt = readJson('research/source-audit-batch5-conflict-integration.json');
+const animalReceipt = readJson('research/source-audit-batch5-unextracted.json');
+const classRetirementReceipt = readJson('research/source-audit-batch5-class-retired-ledger.json');
+const currentContext = {baselineData, currentData, conflictReceipt};
+const currentArgs = {...currentContext, mechanics, animalReceipt, classRetirementReceipt};
+const loadCurrentTransition = overrides => nativeModule.loadSourceHandoffTransition({
+  read: readJson,
+  hashFile: hashCurrent,
+  baselineData,
+  currentData,
+  mechanics,
+  conflictReceipt,
+  repoRoot: root,
+  ...overrides,
+});
+const currentTransition = loadCurrentTransition();
+
+function source6bHistoricalTransition() {
+  const historicalCurrentData = gitJson(source6bCommit, 'dist/data.json');
+  const historicalMechanics = gitJson(source6bCommit, 'research/mechanics-audit-progress.json');
+  const historicalConflict = gitJson(source6bCommit, 'research/source-audit-batch5-conflict-integration.json');
+  const readLegacyReceipt = path => gitJson(legacyReceiptCommit, path);
+  const hashLegacyInput = path => sha256(gitBytes(legacyReceiptCommit, path));
+  return {
+    historicalCurrentData,
+    historicalMechanics,
+    historicalConflict,
+    transition: legacyModule.loadUaSourceHandoffTransition({
+      read: readLegacyReceipt,
+      hashFile: hashLegacyInput,
+      baselineData,
+      currentData: historicalCurrentData,
+      mechanics: historicalMechanics,
+      conflictReceipt: historicalConflict,
+    }),
+  };
+}
+
+test('the source6b UA qualification remains an explicitly historical record', () => {
+  const version29 = version29Module.readVersion29HistoricalSourceInputs(root);
+  const historical = source6bHistoricalTransition();
+  const transition = historical.transition;
+  assert.ok(transition);
+  assert.equal(transition.sourceInputCommit, source6bCommit);
+  assert.equal(sha256(gitBytes(source6bCommit, 'dist/data.json')), transition.sourceData.rawSha256);
+  assert.equal(legacyModule.uaSourceHandoffContextMatches(transition, {
+    baselineData,
+    currentData: historical.historicalCurrentData,
+    conflictReceipt: historical.historicalConflict,
+  }), true);
+  assert.equal(legacyModule.isQualifiedUaSourceHistoricalChange(
+    transition, historical.historicalConflict.changes[4],
+  ), true);
+  assert.equal(legacyModule.isQualifiedUaSourceHistoricalChange(
+    transition, {...historical.historicalConflict.changes[4], pointer: '/exceptions/1'},
+  ), false);
+
+  // Keep the closed Version 29 snapshot available for historical checks only.
+  // The native H positive case below reads actual current files and fixture data.
+  assert.equal(version29.sourceRawInputs['dist/data.json'], 'fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d');
+  assert.equal(version29.mechanics.reviewRecords.length, 1215);
+  assert.notEqual(version29.sourceRawInputs['dist/data.json'], transition.sourceData.rawSha256);
+  assert.notEqual(sha256(Buffer.from(JSON.stringify(version29.data))), sha256(Buffer.from(JSON.stringify(currentData))));
 });
 
-test('wrong receipt/source/owner/pointer/value or additional conflict rows fail closed',()=>{
- for(const change of [q=>q.sourceInputCommit='6717c6f22bbf2f2b421327e4c8561b1d81df00d4',q=>q.sourceData.rawSha256='0'.repeat(64),q=>q.qualifiedTarget.itemId='ua-cleric-ceremony',q=>q.qualifiedTarget.pointer='/exceptions/1',q=>q.qualifiedTarget.currentValue+=' changed']){
-  const q=structuredClone(sourceBodyTransition);change(q);assert.throws(()=>validateApprovedTransitions({...args,sourceBodyTransition:q}),/qualification does not match/);
- }
- const data=structuredClone(currentData);data.rules[0].summary+=' changed';assert.throws(()=>validateApprovedTransitions({...args,currentData:data,sourceBodyTransition}),/qualification does not match/);
- const receipt=structuredClone(conflictReceipt);receipt.changes[0].newValue='unapproved';assert.throws(()=>validateApprovedTransitions({...args,conflictReceipt:receipt,sourceBodyTransition}),/qualification does not match/);
- const duplicate=structuredClone(conflictReceipt);duplicate.changes.push(structuredClone(duplicate.changes[4]));assert.throws(()=>validateApprovedTransitions({...args,conflictReceipt:duplicate,sourceBodyTransition}),/qualification does not match/);
+test('the actual H receipt qualifies exactly one historical change and leaves the body pending', () => {
+  assert.equal(nativeModule.sourceHandoffTransitionPath, 'research/hirelings-native-h-v1/source-body-handoff-transition-v1.json');
+  assert.equal(nativeModule.sourceHandoffTransitionSha256, currentReceiptSha256);
+  assert.equal(currentTransition.sourceEpoch.sourceCommit, sourceCommit);
+  assert.equal(currentTransition.sourceEpoch.contract.sha256, currentContractSha256);
+  assert.equal(nativeModule.sourceHandoffContextMatches(currentTransition, currentContext), true);
+
+  assert.throws(() => refreshModule.validateApprovedTransitions(currentArgs), /conflict receipt no longer exactly matches/);
+  const transitions = refreshModule.validateApprovedTransitions({...currentArgs, sourceBodyTransition: currentTransition});
+  assert.equal(transitions.length, 12);
+  const qualified = transitions.filter(row => row.kind === 'historical-source-body-transition-qualified');
+  assert.equal(qualified.length, 1);
+  assert.deepEqual({
+    collection: qualified[0].collection,
+    itemId: qualified[0].itemId,
+    pointer: qualified[0].pointer,
+    currentFieldStatus: qualified[0].currentFieldStatus,
+    sourceValueGrade: qualified[0].sourceValueGrade,
+    receipt: qualified[0].receipt,
+  }, {
+    collection: 'spells',
+    itemId: 'ua-druid-ceremony',
+    pointer: '/exceptions/0',
+    currentFieldStatus: 'unchecked',
+    sourceValueGrade: 'NOT PROMOTED',
+    receipt: {path: nativeModule.sourceHandoffTransitionPath, sha256: currentReceiptSha256},
+  });
+  assert.equal(mechanics.reviewRecords.length, 1215);
+  assert.equal(mechanics.counts.staleProposalFields, 0);
+  assert.equal(currentTransition.semanticPass, false);
+  assert.equal(currentTransition.currentSourceValueGrade, 'NOT PROMOTED');
+  const field = mechanics.records.find(row => row.collection === 'spells' && row.id === 'ua-druid-ceremony')
+    ?.fields.find(row => row.path === '/exceptions/0');
+  assert.equal(field.status, 'unchecked');
+  assert.equal(field.inspected, false);
 });
 
-test('qualification rejects hidden/nonJSON/proxy/spoofed values and changed mechanics grade',()=>{
- for(const mutate of [q=>q.hidden=undefined,q=>Object.defineProperty(q,'hidden',{value:1}),q=>q.hidden=NaN,q=>q.hidden=-0,q=>q.hidden=()=>1,q=>q.hidden=new Proxy({},{}),q=>q.toJSON=()=>sourceBodyTransition]){
-  const q=structuredClone(sourceBodyTransition);mutate(q);assert.equal(uaSourceHandoffContextMatches(q,context),false);
- }
- const changed=structuredClone(mechanics);changed.records.find(r=>r.id==='ua-druid-ceremony').fields.find(f=>f.path==='/exceptions/0').status='source-checked';
- assert.throws(()=>loadUaSourceHandoffTransition({...context,mechanics:changed,read:json,hashFile}),/pending field grade/);
- assert.throws(()=>loadUaSourceHandoffTransition({...context,read:p=>p===uaSourceHandoffTransitionPath?{...json(p),sourceInputCommit:'wrong'}:json(p),hashFile}),/qualification identity/);
+test('native H qualification rejects changed inputs, copied receipts, and reader drift', () => {
+  const copied = structuredClone(currentTransition);
+  assert.equal(nativeModule.sourceHandoffContextMatches(copied, currentContext), false);
+  assert.throws(() => refreshModule.validateApprovedTransitions({...currentArgs, sourceBodyTransition: copied}), /qualification does not match/);
+  assert.equal(nativeModule.sourceHandoffContextMatches(currentTransition, {
+    ...currentContext,
+    baselineData: {...baselineData, rules: [...baselineData.rules, {id: 'mutated'}]},
+  }), false);
+  assert.equal(nativeModule.sourceHandoffContextMatches(currentTransition, {
+    ...currentContext,
+    currentData: {...currentData, rules: [...currentData.rules, {id: 'mutated'}]},
+  }), false);
+  assert.equal(nativeModule.sourceHandoffContextMatches(currentTransition, {
+    ...currentContext,
+    conflictReceipt: {...conflictReceipt, changes: [...conflictReceipt.changes, conflictReceipt.changes[0]]},
+  }), false);
+
+  const changedMechanics = structuredClone(mechanics);
+  changedMechanics.records.find(row => row.id === 'ua-druid-ceremony').fields.find(row => row.path === '/exceptions/0').status = 'source-checked';
+  assert.throws(() => loadCurrentTransition({mechanics: changedMechanics}), /complete current mechanics input/);
+  const changedConflict = structuredClone(conflictReceipt);
+  changedConflict.changes[0].newValue += ' changed';
+  assert.throws(() => loadCurrentTransition({conflictReceipt: changedConflict}), /passed conflict object differs/);
+  const alteredCallerReceipt = path => path === nativeModule.sourceHandoffTransitionPath
+    ? {...readJson(path), status: 'mutated'}
+    : readJson(path);
+  assert.throws(() => nativeModule.loadSourceHandoffTransition({
+    read: alteredCallerReceipt,
+    hashFile: hashCurrent,
+    baselineData,
+    currentData,
+    mechanics,
+    conflictReceipt,
+    repoRoot: root,
+  }), /caller receipt reader differs/);
+
+  assert.equal(Object.isFrozen(currentTransition), true);
+  assert.equal(Object.isFrozen(currentTransition.qualifiedTarget), true);
+  assert.equal(Reflect.set(currentTransition, 'status', 'mutated'), false);
+  assert.equal(Reflect.set(currentTransition.qualifiedTarget, 'pointer', '/exceptions/1'), false);
 });
 
-test('only the exact historical caution changes history; all unrelated dispositions remain exact',()=>{
- const options={...args,currentHandoff:priorHandoff,curatedNotes:baselineHandoff.mechanicsAudit.specificReviewNoteCandidates.notes,conflictReceiptSha256:hashFile('research/source-audit-batch5-conflict-integration.json'),classRetirementReceiptSha256:hashFile('research/source-audit-batch5-class-retired-ledger.json'),animalReceiptSha256:hashFile('research/source-audit-batch5-unextracted.json')};
- assert.throws(()=>reconcileCuratedNotes(options),/unreceipted caution transition/);
- const result=reconcileCuratedNotes({...options,sourceBodyTransition}),row=result.history.find(r=>r.baselineIndex===70);
- assert.equal(row.disposition,'historical-reviewed-correction-replaced-by-pending-source-body');assert.equal(row.currentFieldStatus,'unchecked');assert.equal(row.sourceValueGrade,'NOT PROMOTED');assert.deepEqual(row.priorHandoffDisposition,sourceBodyTransition.priorHandoffDisposition);
- assert.deepEqual(result.history.filter(r=>r.itemId!=='ua-druid-ceremony'),priorHandoff.mechanicsAudit.specificReviewNoteCandidates.history.filter(r=>r.itemId!=='ua-druid-ceremony'));
- assert.deepEqual(classRetirementReceipt,JSON.parse(execFileSync('git',['show','6b3cfc8cb421a2c1fc2379c38abebe2075634981:research/source-audit-batch5-class-retired-ledger.json'],{cwd:root,encoding:'utf8'})));
- const changed=structuredClone(options.curatedNotes);changed[70].reason+=' changed';assert.throws(()=>reconcileCuratedNotes({...options,curatedNotes:changed,sourceBodyTransition}),/unreceipted caution transition/);
+test('only caution 70 changes historical disposition; unrelated history stays exact', () => {
+  const note = baselineHandoff.mechanicsAudit.specificReviewNoteCandidates.notes[70];
+  const options = {
+    ...currentArgs,
+    currentHandoff,
+    curatedNotes: baselineHandoff.mechanicsAudit.specificReviewNoteCandidates.notes,
+    conflictReceiptSha256: hashCurrent('research/source-audit-batch5-conflict-integration.json'),
+    classRetirementReceiptSha256: hashCurrent('research/source-audit-batch5-class-retired-ledger.json'),
+    animalReceiptSha256: hashCurrent('research/source-audit-batch5-unextracted.json'),
+  };
+  assert.equal(nativeModule.sourceHistoricalCaution(currentTransition, note, 70).nativeSourceQualification.sourceCommit, sourceCommit);
+  assert.equal(nativeModule.sourceHistoricalCaution(currentTransition, note, 69), null);
+  assert.equal(nativeModule.sourceHistoricalCaution(currentTransition, {...note, reason: note.reason + ' changed'}, 70), null);
+  assert.throws(() => refreshModule.reconcileCuratedNotes(options), /unreceipted caution transition/);
+
+  const result = refreshModule.reconcileCuratedNotes({...options, sourceBodyTransition: currentTransition});
+  const row = result.history.find(record => record.baselineIndex === 70);
+  assert.equal(row.disposition, 'historical-reviewed-correction-replaced-by-pending-source-body');
+  assert.equal(row.currentFieldStatus, 'unchecked');
+  assert.equal(row.sourceValueGrade, 'NOT PROMOTED');
+  assert.equal(row.nativeSourceQualification.sourceCommit, sourceCommit);
+  assert.deepEqual(row.priorHandoffDisposition, currentTransition.priorHandoffDisposition);
+  assert.deepEqual(
+    result.history.filter(record => record.itemId !== 'ua-druid-ceremony'),
+    priorHandoff.mechanicsAudit.specificReviewNoteCandidates.history.filter(record => record.itemId !== 'ua-druid-ceremony'),
+  );
+  assert.deepEqual(
+    classRetirementReceipt,
+    gitJson(source6bCommit, 'research/source-audit-batch5-class-retired-ledger.json'),
+  );
+
+  const changedNotes = structuredClone(options.curatedNotes);
+  changedNotes[70].reason += ' changed';
+  assert.throws(() => refreshModule.reconcileCuratedNotes({...options, curatedNotes: changedNotes, sourceBodyTransition: currentTransition}), /unreceipted caution transition/);
+});
+
+
+test('legacy source6b guard rejects every original wrong receipt identity and context mutation', () => {
+  const historical = source6bHistoricalTransition();
+  const context = {
+    baselineData,
+    currentData: historical.historicalCurrentData,
+    conflictReceipt: historical.historicalConflict,
+  };
+  for (const [label, mutate] of [
+    ['wrong source input commit', receipt => { receipt.sourceInputCommit = '6717c6f22bbf2f2b421327e4c8561b1d81df00d4'; }],
+    ['wrong source raw digest', receipt => { receipt.sourceData.rawSha256 = '0'.repeat(64); }],
+    ['wrong qualified owner', receipt => { receipt.qualifiedTarget.itemId = 'ua-cleric-ceremony'; }],
+    ['wrong qualified pointer', receipt => { receipt.qualifiedTarget.pointer = '/exceptions/1'; }],
+    ['wrong qualified current value', receipt => { receipt.qualifiedTarget.currentValue += ' changed'; }],
+  ]) {
+    const candidate = structuredClone(historical.transition);
+    mutate(candidate);
+    assert.equal(legacyModule.uaSourceHandoffContextMatches(candidate, context), false, label);
+  }
+
+  const changedData = structuredClone(historical.historicalCurrentData);
+  changedData.rules[0].summary += ' changed';
+  assert.equal(legacyModule.uaSourceHandoffContextMatches(historical.transition, {
+    ...context, currentData: changedData,
+  }), false, 'changed historical source data is rejected');
+  const changedConflict = structuredClone(historical.historicalConflict);
+  changedConflict.changes[0].newValue = 'unapproved';
+  assert.equal(legacyModule.uaSourceHandoffContextMatches(historical.transition, {
+    ...context, conflictReceipt: changedConflict,
+  }), false, 'changed conflict rows are rejected');
+  const duplicateConflict = structuredClone(historical.historicalConflict);
+  duplicateConflict.changes.push(structuredClone(duplicateConflict.changes[4]));
+  assert.equal(legacyModule.uaSourceHandoffContextMatches(historical.transition, {
+    ...context, conflictReceipt: duplicateConflict,
+  }), false, 'an additional conflict row is rejected');
+});
+
+test('legacy source6b guard preserves all seven forged-value negative controls', () => {
+  const historical = source6bHistoricalTransition();
+  const context = {
+    baselineData,
+    currentData: historical.historicalCurrentData,
+    conflictReceipt: historical.historicalConflict,
+  };
+  for (const [label, mutate] of [
+    ['own undefined property', receipt => { receipt.hidden = undefined; }],
+    ['non-enumerable property', receipt => { Object.defineProperty(receipt, 'hidden', {value: 1}); }],
+    ['NaN value', receipt => { receipt.hidden = NaN; }],
+    ['negative zero', receipt => { receipt.hidden = -0; }],
+    ['function value', receipt => { receipt.hidden = () => 1; }],
+    ['Proxy value', receipt => { receipt.hidden = new Proxy({}, {}); }],
+    ['toJSON spoof', receipt => { receipt.toJSON = () => historical.transition; }],
+  ]) {
+    const candidate = structuredClone(historical.transition);
+    mutate(candidate);
+    assert.equal(legacyModule.uaSourceHandoffContextMatches(candidate, context), false, label);
+  }
+
+  const changedMechanics = structuredClone(historical.historicalMechanics);
+  changedMechanics.records.find(row => row.id === 'ua-druid-ceremony')
+    .fields.find(field => field.path === '/exceptions/0').status = 'source-checked';
+  const readLegacyReceipt = path => gitJson(legacyReceiptCommit, path);
+  const hashLegacyInput = path => sha256(gitBytes(legacyReceiptCommit, path));
+  assert.throws(() => legacyModule.loadUaSourceHandoffTransition({
+    read: readLegacyReceipt,
+    hashFile: hashLegacyInput,
+    baselineData,
+    currentData: historical.historicalCurrentData,
+    mechanics: changedMechanics,
+    conflictReceipt: historical.historicalConflict,
+  }), /pending field grade/);
+  assert.throws(() => legacyModule.loadUaSourceHandoffTransition({
+    read: path => path === legacyModule.uaSourceHandoffTransitionPath
+      ? {...readLegacyReceipt(path), sourceInputCommit: 'wrong'}
+      : readLegacyReceipt(path),
+    hashFile: hashLegacyInput,
+    baselineData,
+    currentData: historical.historicalCurrentData,
+    mechanics: historical.historicalMechanics,
+    conflictReceipt: historical.historicalConflict,
+  }), /qualification identity/);
+});
+
+test('native H loader rejects changed baseline, current data, conflict rows, and duplicates', () => {
+  const changedBaseline = structuredClone(baselineData);
+  changedBaseline.rules[0].summary += ' changed';
+  assert.throws(() => loadCurrentTransition({baselineData: changedBaseline}), /historical baseline or complete current data identity/);
+
+  const changedCurrent = structuredClone(currentData);
+  changedCurrent.rules[0].summary += ' changed';
+  assert.throws(() => loadCurrentTransition({currentData: changedCurrent}), /historical baseline or complete current data identity/);
+
+  const changedConflict = structuredClone(conflictReceipt);
+  changedConflict.changes[0].newValue = 'unapproved';
+  assert.throws(() => loadCurrentTransition({conflictReceipt: changedConflict}), /passed conflict object differs/);
+  const duplicateConflict = structuredClone(conflictReceipt);
+  duplicateConflict.changes.push(structuredClone(duplicateConflict.changes[4]));
+  assert.throws(() => loadCurrentTransition({conflictReceipt: duplicateConflict}), /passed conflict object differs/);
+
+  const changedMechanics = structuredClone(mechanics);
+  changedMechanics.records.find(row => row.id === 'ua-druid-ceremony')
+    .fields.find(field => field.path === '/exceptions/0').status = 'source-checked';
+  assert.throws(() => loadCurrentTransition({mechanics: changedMechanics}), /complete current mechanics input/);
+  assert.equal(currentTransition.currentSourceValueGrade, 'NOT PROMOTED');
+  assert.equal(currentTransition.qualifiedTarget.currentMechanicsField.status, 'unchecked');
+});
+
+test('native H caller receipt reader rejects every forged-value form and identity spoof', () => {
+  const forgedReceiptMutations = [
+    ['own undefined property', receipt => { receipt.hidden = undefined; }],
+    ['non-enumerable property', receipt => { Object.defineProperty(receipt, 'hidden', {value: 1}); }],
+    ['NaN value', receipt => { receipt.hidden = NaN; }],
+    ['negative zero', receipt => { receipt.hidden = -0; }],
+    ['function value', receipt => { receipt.hidden = () => 1; }],
+    ['Proxy value', receipt => { receipt.hidden = new Proxy({}, {}); }],
+    ['toJSON spoof', receipt => { receipt.toJSON = () => currentTransition; }],
+    ['source commit spoof', receipt => { receipt.sourceEpoch.sourceCommit = '6717c6f22bbf2f2b421327e4c8561b1d81df00d4'; }],
+    ['target owner spoof', receipt => { receipt.qualifiedTarget.itemId = 'ua-cleric-ceremony'; }],
+    ['target pointer spoof', receipt => { receipt.qualifiedTarget.pointer = '/exceptions/1'; }],
+    ['target value spoof', receipt => { receipt.qualifiedTarget.currentValue += ' changed'; }],
+    ['status spoof', receipt => { receipt.status = 'mutated'; }],
+  ];
+  for (const [label, mutate] of forgedReceiptMutations) {
+    assert.throws(() => nativeModule.loadSourceHandoffTransition({
+      read: path => {
+        const receipt = readJson(path);
+        if (path !== nativeModule.sourceHandoffTransitionPath) return receipt;
+        const candidate = structuredClone(receipt);
+        mutate(candidate);
+        return candidate;
+      },
+      hashFile: hashCurrent,
+      baselineData,
+      currentData,
+      mechanics,
+      conflictReceipt,
+      repoRoot: root,
+    }), /caller receipt reader differs/, label);
+  }
+  assert.equal(currentTransition.semanticPass, false);
+  assert.equal(currentTransition.currentSourceValueGrade, 'NOT PROMOTED');
+  const field = mechanics.records.find(row => row.collection === 'spells' && row.id === 'ua-druid-ceremony')
+    ?.fields.find(row => row.path === '/exceptions/0');
+  assert.equal(field.status, 'unchecked');
+  assert.equal(field.inspected, false);
 });

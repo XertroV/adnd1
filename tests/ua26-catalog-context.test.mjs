@@ -5,8 +5,9 @@ import {execFileSync} from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import {gunzipSync} from 'node:zlib';
 import {fileURLToPath} from 'node:url';
-import {auditUa26MarkerReceiptWithDmg175CurrentEpoch} from '../tools/ua26-note-marker-audit-dmg175-v2.mjs';
+import {auditUa26MarkerReceiptWithHCurrentSourceEpoch} from '../tools/ua26-note-marker-audit-h-v2.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const read=rel=>JSON.parse(readBeforeJoFile(path.join(root,rel),'utf8'));
@@ -22,6 +23,7 @@ const ua75Before=read(ua75BeforePath);
 const ua75Review=read(ua75ReviewPath);
 const ua75Integration=read(ua75IntegrationPath);
 const ua75OwnerBefore=read(ua75OwnerBeforePath);
+const markerJoAppend=read('research/source-audit-batch6-jo-ua26-alias-append.json');
 const ua75ReceiptHashes={
   [ua75BeforePath]:'5d2f3bfd2d719cf8ae8d90308140d2a690d40fdde7b825ce8984dc831ec1992c',
   [ua75ReviewPath]:'5810e1a6c5ee2ce01f41fbe5d8d4248fd9867917a5c713687d13decfadff4a5b',
@@ -112,14 +114,25 @@ test('current UA26 catalog rows, p.27 notes and group proposals preserve reviewe
   assert.equal(app.rowBindings.length,90);
 
   verifyUa75Receipts();
-  const currentEpoch=auditUa26MarkerReceiptWithDmg175CurrentEpoch();
+  const currentEpoch=auditUa26MarkerReceiptWithHCurrentSourceEpoch();
   assert.equal(currentEpoch.ok,true);
   assert.deepEqual(currentEpoch.catalogReviewScope,{fieldTargetOwners:3,appendedUa28Regions:6,captionOnlySummaryEdits:6,sourceValueGrade:'NOT PROMOTED',contextualAdequacy:'NOT ASSESSED'});
   const qualifiedCatalogs=new Map(currentEpoch.currentEpoch.catalogTransitions.map(row=>[row.path,row]));
-  assert.equal(qualifiedCatalogs.size,3,'only the three exact SOURCE987 UA28 append/caption transitions qualify');
+  assert.equal(qualifiedCatalogs.size,3,'only the three exact native-H UA28 append/caption transitions qualify');
   const checkpointBytes=catalogPath=>{
     const actual=bytes(catalogPath),qualified=qualifiedCatalogs.get(catalogPath);
-    if(!qualified)return actual;
+    if(!qualified){
+      const extension=markerJoAppend.caltropCatalogExtension;
+      if(catalogPath===extension?.after?.path){
+        assert.equal(sha(actual),extension.before.uncompressedSha256,`${catalogPath}: exact historical pre-Jo projection supplied by readBeforeJoFile`);
+        const installedCurrent=fs.readFileSync(path.join(root,catalogPath));
+        assert.equal(sha(installedCurrent),extension.after.sha256,`${catalogPath}: exact registered current Jo append bytes`);
+        const before=gunzipSync(bytes(extension.before.path));
+        assert.equal(sha(before),extension.before.uncompressedSha256,`${catalogPath}: exact frozen pre-Jo checkpoint bytes`);
+        return before;
+      }
+      return actual;
+    }
     assert.equal(sha(actual),qualified.currentSha256,`${catalogPath}: complete current catalog must match the qualified source epoch`);
     const checkpoint=gitBytes('386b08a4678ee033d6daabc0ffa2cc17265a7c1f',catalogPath);
     assert.equal(sha(checkpoint),qualified.previousReceiptSha256,`${catalogPath}: the whole immutable V28 catalog retains the old UA26 checkpoint`);

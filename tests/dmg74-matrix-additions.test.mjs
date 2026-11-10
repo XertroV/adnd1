@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
-import {readBeforePass8XpContinuationFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+import {readBeforePass8XpContinuationFile as readFileSync} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 // Preserve the released777 matrix-activation evidence and prior review census.
 // The new XP source assessments are independently checked on active inputs.
 import {execFileSync} from 'node:child_process';

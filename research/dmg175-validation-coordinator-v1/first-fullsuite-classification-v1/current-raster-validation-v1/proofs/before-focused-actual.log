@@ -1,0 +1,65 @@
+✖ the active pointer snapshot covers the complete actual current catalog universe (1602.396215ms)
+✖ the reconstructed pre-fix mapper preserves its exact two rows; the current live mapper matches the closed 45-use source universe (16.144199ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3303.127039
+
+✖ failing tests:
+
+test at tests/source-raster-coverage.test.mjs:180:1
+✖ the active pointer snapshot covers the complete actual current catalog universe (1602.396215ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   errors: [
+  +     'Raster geometry pixel bounds do not match its PDF bounds and frame.'
+  +   ],
+  +   valid: false
+  -   errors: [],
+  -   valid: true
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/adnd1-next-source-native/tests/source-raster-coverage.test.mjs:182:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { valid: false, errors: [ 'Raster geometry pixel bounds do not match its PDF bounds and frame.' ] },
+    expected: { valid: true, errors: [] },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/source-raster-coverage.test.mjs:200:1
+✖ the reconstructed pre-fix mapper preserves its exact two rows; the current live mapper matches the closed 45-use source universe (16.144199ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '2cddb11a82ecc3b9d77cb3fa2ae49eef5623a5470ac85a540d1baf483e096a95'
+  - 'fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d'
+  
+      at sourceDerivedDmg175UsageRows (file:///workspace/adnd1-next-source-native/tests/source-raster-coverage.test.mjs:30:9)
+      at TestContext.<anonymous> (file:///workspace/adnd1-next-source-native/tests/source-raster-coverage.test.mjs:218:19)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at node:internal/test_runner/test:1305:31
+      at node:internal/process/task_queues:151:7
+      at AsyncResource.runInAsyncScope (node:async_hooks:227:14)
+      at AsyncResource.runMicrotask (node:internal/process/task_queues:148:8) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '2cddb11a82ecc3b9d77cb3fa2ae49eef5623a5470ac85a540d1baf483e096a95',
+    expected: 'fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -5,12 +5,12 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {auditUa26MarkerReceiptWithDmg175CurrentEpoch} from '../tools/ua26-note-marker-audit-dmg175-v2.mjs';
+import {auditUa26MarkerReceiptWithHCurrentSourceEpoch} from '../tools/ua26-note-marker-audit-h-v2.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 // This is the production layout: tests/ is directly under the repository root.
 const repoRoot = path.resolve(here, '..');
-const registryPath = 'research/dmg175-validation-coordinator-v1/marker-recovery-v2/ua26-marker-dmg175-transition-v2.json';
+const registryPath = 'research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/ua26-current-h-successor-v1/ua26-marker-dmg175-transition-h-v1.json';
 const markerReceiptPath = 'research/source-audit-batch5-ua26-marker-correction.json';
 const readJson = (root, rel) => JSON.parse(fs.readFileSync(path.join(root, rel), 'utf8'));
 const add = (set, rel) => { if (typeof rel === 'string' && rel.length && !path.isAbsolute(rel)) set.add(rel); };
@@ -32,7 +32,7 @@ const required = new Set([
   'research/ua28-field-target-review-v1/independent-review-evidence-v1.json',
   'research/source-audit-pass8-ua28-caption-metadata-independent-review-v1.json',
   'research/source-audit-pass8-ua28-v7-row-caption-independent-review-v1.json',
-  'research/dmg175-validation-coordinator-v1/marker-recovery-v2/validation/ua26-marker-full-catalog-diff-v2.json',
+  'research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/ua26-current-h-successor-v1/validation/ua26-marker-full-catalog-diff-h-v1.json',
   'tools/ua26-note-marker-audit.mjs',
   registryPath
 ]);
@@ -42,22 +42,36 @@ for (const ref of [joAppend.sourcePeer, joAppend.frameDerivation, joAppend.catal
   joAppend.caltropCatalogExtension?.before, joAppend.caltropCatalogExtension?.after]) add(required, ref?.path);
 add(required, currentAppend.row?.catalog?.path);
 add(required, 'tests/helpers/ua-source-batch6-jo-fixture.mjs');
+add(required, 'tests/fixtures/hirelings-source-current-cohort-v1.json');
+add(required, 'tests/helpers/hirelings-source-current-cohort.mjs');
+add(required, 'tests/helpers/hirelings-source-current-cohort-kernel-v1.mjs');
+add(required, 'research/hirelings-native-h-v1/source-body-handoff-transition-v1.json');
+add(required, 'research/mechanics-audit-progress.json');
+add(required, 'tools/ua26-note-marker-audit-h-v2.mjs');
+const nativeHFixture = readJson(repoRoot, 'tests/fixtures/hirelings-source-current-cohort-v1.json');
+for (const rel of Object.keys(nativeHFixture.sourceRawInputs)) add(required, rel);
 
-const mutablePaths = new Set([
+const copiedPaths = new Set([
   'dist/data.json',
   'dist/scans/verified/equipment-ua-harpoon.json',
   'dist/scans/verified/equipment-phb-hammer.json',
   'dist/scans/verified/equipment-phb-javelin.json',
-  'dist/scans/verified/equipment-ua-aklys-hurled.json'
+  'dist/scans/verified/equipment-ua-aklys-hurled.json',
+  'tests/fixtures/hirelings-source-current-cohort-v1.json',
+  'tests/helpers/hirelings-source-current-cohort.mjs',
+  'tests/helpers/hirelings-source-current-cohort-kernel-v1.mjs',
+  'research/mechanics-audit-progress.json',
+  'tools/ua26-note-marker-audit-h-v2.mjs'
 ]);
 const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ua26-marker-dmg175-installed-canary-'));
 for (const rel of required) {
   const source = path.join(repoRoot, rel);
   const destination = path.join(tempRoot, rel);
   fs.mkdirSync(path.dirname(destination), {recursive: true});
-  if (mutablePaths.has(rel)) fs.copyFileSync(source, destination);
+  if (copiedPaths.has(rel)) fs.copyFileSync(source, destination);
   else fs.symlinkSync(source, destination);
 }
+fs.symlinkSync(path.join(repoRoot, '.git'), path.join(tempRoot, '.git'), 'file');
 after(() => fs.rmSync(tempRoot, {recursive: true, force: true}));
 
 function mutateTempFile(rel, transform, expectedError = /bytes or epoch/) {
@@ -67,7 +81,7 @@ function mutateTempFile(rel, transform, expectedError = /bytes or epoch/) {
   assert.ok(!Buffer.from(changed).equals(before), `${rel} mutation must change bytes`);
   try {
     fs.writeFileSync(destination, changed);
-    assert.throws(() => auditUa26MarkerReceiptWithDmg175CurrentEpoch(tempRoot), expectedError);
+    assert.throws(() => auditUa26MarkerReceiptWithHCurrentSourceEpoch(tempRoot), expectedError);
   } finally {
     fs.writeFileSync(destination, before);
   }
@@ -82,7 +96,7 @@ function changeCatalog(rel, mutate, expectedError = /bytes or epoch/) {
 }
 
 test('installed production-root helper passes the exact current epoch and frozen marker contract', () => {
-  const result = auditUa26MarkerReceiptWithDmg175CurrentEpoch(repoRoot);
+  const result = auditUa26MarkerReceiptWithHCurrentSourceEpoch(repoRoot);
   assert.equal(result.ok, true);
   assert.equal(result.semanticPass, false);
   assert.deepEqual(result.counts, {
@@ -108,7 +122,7 @@ test('installed production-root helper passes the exact current epoch and frozen
 });
 
 test('installed CLI locates the production root and emits the same qualified receipt', () => {
-  const output = execFileSync(process.execPath, ['tools/ua26-note-marker-audit-dmg175-v2.mjs'], {
+  const output = execFileSync(process.execPath, ['tools/ua26-note-marker-audit-h-v2.mjs'], {
     cwd: repoRoot,
     encoding: 'utf8'
   });

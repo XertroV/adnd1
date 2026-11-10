@@ -12,7 +12,7 @@ import {
  expectedWhaleUnitBeforeSha256,expectedWhaleUnitNullSha256,expectedWhaleCarcassUnitSha256,
  quantityUnitBeforeSha256,joUnitAdmissionBeforePath,joUnitAdmissionBeforeSha256,expectedCurrentUnitRecordCount,expectedJoUnitRecord,
 } from '../tools/monetary-unit-provenance-audit.mjs';
-import {buildWhalePerPoundCounterfactualReport} from '../research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/whale-counterfactual-context-v1/v2/whale-counterfactual-context-v2.mjs';
+import {buildWhalePerPoundCounterfactualReport} from '../research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/whale-counterfactual-context-v1/v5/whale-counterfactual-context-v5.mjs';
 
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 const repoRoot=resolve(import.meta.dirname,'..');

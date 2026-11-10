@@ -4,20 +4,30 @@ import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import vm from 'node:vm';
+import {createRequire} from 'node:module';
 import {auditInlineProducerSites,auditRouteQueryContract,auditSourceNavigationAttributes} from '../tools/citation-navigation-coverage.mjs';
 
 const app=readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
+const data=JSON.parse(readFileSync(new URL('../dist/data.json',import.meta.url),'utf8'));
+const require=createRequire(import.meta.url);
+const citations=require('../dist/citations.js');
 const before=JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/citation-navigation-unclassified-producers-before.json.gz',import.meta.url))));
 
 test('citation navigation inventory captures all current chip producer classes and sites',()=>{
  const inventory=auditInlineProducerSites(app);
- assert.equal(inventory.sites.length,20);
- assert.equal(inventory.classes.length,14);
+ assert.equal(inventory.sites.length,22);
+ assert.equal(inventory.classes.length,15);
  assert.deepEqual(inventory.classes,[
-  'class-abilities-table-record','class-advancement','class-progression-reference','class-xp-table','cleric-turning-table-fact','dynamic-xp-result',
+  'class-abilities-table-record','class-advancement','class-progression-reference','class-xp-table','dynamic-xp-result',
   'equipment-estimate-comparison','equipment-related-reference','field-attribute-layout',
-  'fighter-matrix-reference','matrix-detail-reference','progression-explainer-detail-reference','progression-explainer-reference','rule-bullet-field-reference'
+  'fighter-matrix-reference','hireling-pending-pdf-bullet-field-reference','matrix-detail-reference','progression-explainer-detail-reference','progression-explainer-reference','rule-bullet-field-reference','source-table-fact-reference'
  ]);
+});
+
+test('the HIRED pending PDF bullet producer has its own field-reference class',()=>{
+ const sites=auditInlineProducerSites(app).sites.filter(site=>site.function==='exactPendingPdfHirelingBulletSourceChips');
+ assert.equal(sites.length,1);
+ assert.equal(sites[0].producerClass,'hireling-pending-pdf-bullet-field-reference');
 });
 
 test('the preserved clean-workflow failure is detected before and explicitly classified after',()=>{
@@ -53,18 +63,82 @@ test('auxiliary detail producers retain their collection owner classes',()=>{
  ]);
 });
 
-test('turning-table record and fact citation producers have distinct bounded classifications',()=>{
+test('source-table record and fact citation producers have distinct bounded classifications',()=>{
  const inventory=auditInlineProducerSites(app);
  const recordSites=inventory.sites.filter(site=>site.function==='classAbilitiesHTML');
  const factSites=inventory.sites.filter(site=>site.function==='tableFactSourceChip');
  assert.equal(recordSites.length,1);
  assert.equal(recordSites[0].producerClass,'class-abilities-table-record');
- assert.equal(factSites.length,1);
- assert.equal(factSites[0].producerClass,'cleric-turning-table-fact');
+ assert.equal(factSites.length,2);
+ assert.ok(factSites.every(site=>site.producerClass==='source-table-fact-reference'));
 });
 
 test('an unclassified new source-chip producer fails closed',()=>{
  assert.throws(()=>auditInlineProducerSites(`${app}\nfunction futureCitationControl(){return inlineSourceChip(ref,'Future')}`),/Unclassified citation chip producer/);
+});
+
+test('all current HIRED pending PDF bullet bindings resolve to their own pending rule field and source owners',()=>{
+ const owners=data.rules.filter(item=>/^dmg-hireling-(?:table-t(?:0[1-9]|[12]\d|3[0-8])|procedure-u(?:0[1-9]|10))$/.test(item?.id||''));
+ assert.equal(owners.length,48);
+ const bindings=[];const ownerFields=new Set();
+ for(const owner of owners){
+  for(let bulletIndex=0;bulletIndex<(owner.bullets||[]).length;bulletIndex++){
+   const fieldPointer=`/bullets/${bulletIndex}`;
+   for(const [referenceIndex,reference] of (owner.references||[]).entries()){
+    const sourceObjectPointer=`/references/${referenceIndex}`;
+    for(const binding of reference?.evidenceBindings||[]){
+     if(binding?.collection!=='rules'||binding.itemId!==owner.id||binding.fieldPointer!==fieldPointer||binding.sourceObjectPointer!==sourceObjectPointer)continue;
+     assert.equal(binding.sourceCategory,'hireling-procedure-bullet-reference');
+     assert.equal(binding.reviewStatus,'field-target-pending');
+     assert.equal(binding.sourceValueStatus,'not-assessed-by-field-target-review');
+     assert.equal(binding.targetReview,null);
+     assert.deepEqual(binding.sourceOwner,{collection:'rules',itemId:owner.id});
+     const matches=citations.targets(reference).filter(target=>target.fieldPointer===fieldPointer
+      &&target.fieldOwner?.collection==='rules'&&target.fieldOwner?.itemId===owner.id
+      &&target.sourceOwner?.collection==='rules'&&target.sourceOwner?.itemId===owner.id
+      &&JSON.stringify(target.regionIds)===JSON.stringify(binding.regionIds));
+     assert.equal(matches.length,1,`${owner.id}${fieldPointer}: binding must resolve to one exact-region target`);
+     const [target]=matches;
+     assert.equal(target.sourceCategory,'hireling-procedure-bullet-reference');
+     assert.equal(target.reviewStatus,'field-target-pending');assert.equal(target.targetStatus,'pending');
+     assert.equal(target.contextStatus,'context-not-assessed');
+     assert.equal(target.book,binding.book);assert.equal(target.page,binding.printedPage);assert.equal(target.pdfPage,binding.pdfPage);
+     assert.equal(target.catalog,binding.catalog);assert.deepEqual(target.regionIds,binding.regionIds);
+     bindings.push({ownerId:owner.id,fieldPointer,regionIds:binding.regionIds});ownerFields.add(`${owner.id}\0${fieldPointer}`);
+    }
+   }
+  }
+ }
+ assert.equal(bindings.length,36);assert.equal(ownerFields.size,35);
+});
+
+test('all HIRED pending PDF table-note bindings keep their table field and rule source owners',()=>{
+ const owners=data.rules.filter(item=>/^dmg-hireling-table-t(?:0[1-9]|[12]\d|3[0-8])$/.test(item?.id||''));
+ assert.equal(owners.length,38);
+ const bindings=[];const ownerFields=new Set();
+ for(const owner of owners){
+  for(let noteIndex=0;noteIndex<(owner.table?.sourceNotes||[]).length;noteIndex++){
+   const note=owner.table.sourceNotes[noteIndex],reference=note?.sourceReference;
+   const fieldPointer=`/table/sourceNotes/${noteIndex}`,sourceObjectPointer=`${fieldPointer}/sourceReference`;
+   for(const binding of reference?.evidenceBindings||[]){
+    if(binding?.collection!=='rules'||binding.itemId!==owner.id||binding.fieldPointer!==fieldPointer||binding.sourceObjectPointer!==sourceObjectPointer)continue;
+    assert.ok(['hireling-table-note-reference','hireling-table-note-page-reference'].includes(binding.sourceCategory));
+    assert.equal(binding.reviewStatus,'field-target-pending');assert.equal(binding.sourceValueStatus,'not-assessed-by-field-target-review');
+    assert.equal(binding.targetReview,null);assert.deepEqual(binding.sourceOwner,{collection:'rules',itemId:owner.id});
+    const matches=citations.targets(reference).filter(target=>target.fieldPointer===fieldPointer
+     &&target.fieldOwner?.collection==='rules'&&target.fieldOwner?.itemId===owner.id
+     &&target.sourceOwner?.collection==='rules'&&target.sourceOwner?.itemId===owner.id
+     &&JSON.stringify(target.regionIds)===JSON.stringify(binding.regionIds));
+    assert.equal(matches.length,1,`${owner.id}${fieldPointer}: note binding must resolve to one exact-region target`);
+    const [target]=matches;assert.equal(target.sourceCategory,binding.sourceCategory);
+    assert.equal(target.reviewStatus,'field-target-pending');assert.equal(target.targetStatus,'pending');
+    assert.equal(target.contextStatus,'context-not-assessed');assert.equal(target.book,binding.book);
+    assert.equal(target.page,binding.printedPage);assert.equal(target.pdfPage,binding.pdfPage);assert.equal(target.catalog,binding.catalog);
+    assert.deepEqual(target.regionIds,binding.regionIds);bindings.push({ownerId:owner.id,fieldPointer,regionIds:binding.regionIds});ownerFields.add(`${owner.id}\0${fieldPointer}`);
+   }
+  }
+ }
+ assert.equal(bindings.length,41);assert.equal(ownerFields.size,38);
 });
 
 test('route parser and permalink builder agree on every source query parameter',()=>{

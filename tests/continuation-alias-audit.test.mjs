@@ -1,13 +1,13 @@
-import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-catalog-reader-v2/jo-source-catalog-reader-v2.proposed.mjs';
+import {readBeforeJoFile as readFileSync} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-catalog-reader-v2/jo-source-catalog-reader-v2.proposed.mjs';
 import test from 'node:test';
-import {readBeforePass8CitationTargetCropFile} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+import {readBeforePass8CitationTargetCropFile} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync as readRawFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 
 import {gunzipSync} from 'node:zlib';
 import {buildContinuationAliasReport,loadContinuationAliasReport} from '../tools/continuation-alias-audit.mjs';
-import {assertDmg175CurrentSourceCohort,readDmg175CurrentSourceInputs} from './helpers/dmg175-source-current-cohort.mjs';
+import {assertHirelingsCurrentSourceCohort,readHirelingsCurrentSourceInputs} from './helpers/hirelings-source-current-cohort.mjs';
 import {xpBeforeCatalogsForAliasReplay} from './helpers/ua-source-batch6-xp-source-history.mjs';
 const read=p=>JSON.parse(readFileSync(p));
 const before=read('research/source-audit-batch5-continuation-alias-before.json');
@@ -28,6 +28,7 @@ for(const collection of ['rules','spells','equipment','matrices','classes','prog
  for(const item of values)for(const key of ['sourceExcerpts','scanVerification']){const path=item[key]?.catalog;if(path&&!catalogs.has(path))catalogs.set(path,read('dist/'+path));}
 }
 const oldManifest=JSON.parse(gunzipSync(readFileSync(integration.beforeManifestFixture)));
+const currentHirelingRuleIds=JSON.parse(readRawFileSync(new URL('./fixtures/hirelings-source-current-cohort-v1.json',import.meta.url),'utf8')).newRuleIds;
 
 test('the complete before universe detects the real unlinked Solid Fog region alias',()=>{
  const replay=buildContinuationAliasReport({data,manifest:oldManifest,catalogs:xpBeforeCatalogsForAliasReplay(catalogs)});
@@ -75,29 +76,32 @@ test('the exact legacy alias keeps its source, focus and relationship and opens 
  const publishedData=JSON.parse(execFileSync('git',['show','cc9509047746d5e27a71cb5b1e0cfcb739a688c9:dist/data.json'],{maxBuffer:32*1024*1024}));
  const tableIds=['phb-hurled-weapons-and-missiles-table','ua-hurled-weapons-and-missiles-table'];
  const ownerRows=value=>['rules','spells','equipment','matrices','classes','progressionExplainer'].flatMap(collection=>(Array.isArray(value[collection])?value[collection]:value[collection]?[value[collection]]:[]).map(item=>({collection,itemId:item.id})));
- const nativeInputs=readDmg175CurrentSourceInputs(import.meta.dirname+'/..');assert.deepEqual(nativeInputs.data,liveData,'the alias census uses the complete actual current source');assertDmg175CurrentSourceCohort(nativeInputs);
+ const nativeInputs=readHirelingsCurrentSourceInputs(import.meta.dirname+'/..');assert.deepEqual(nativeInputs.data,liveData,'the alias census uses the complete actual current source');assertHirelingsCurrentSourceCohort(nativeInputs);
  const appendixCIds=['appendix-c-character-subtable','appendix-c-party-size','appendix-c-character-levels','appendix-c-henchmen','appendix-c-character-guidance','appendix-c-party-magic-distribution','appendix-c-magic-table-i','appendix-c-magic-table-ii','appendix-c-magic-table-iii','appendix-c-magic-table-iv','appendix-c-magic-item-notes'];
  const publishedOwners=ownerRows(publishedData),nativeOwners=ownerRows(liveData);
  assert.equal(publishedOwners.length,1001);
  const publishedOwnerKeys=new Set(publishedOwners.map(row=>JSON.stringify(row)));
  assert.deepEqual(nativeOwners.filter(row=>publishedOwnerKeys.has(JSON.stringify(row))),publishedOwners,'all1001 published owner identities remain in exact relative order');
- assert.deepEqual(nativeOwners.filter(row=>!publishedOwnerKeys.has(JSON.stringify(row))),[...tableIds,...appendixCIds].map(itemId=>({collection:'rules',itemId})),'the exact two earlier tables and eleven native Appendix C owners extend all1001 published owner identities');
+ assert.deepEqual(nativeOwners.filter(row=>!publishedOwnerKeys.has(JSON.stringify(row))),[...tableIds,...appendixCIds,...currentHirelingRuleIds].map(itemId=>({collection:'rules',itemId})),'the two earlier tables, eleven prior Appendix C owners and48 Hireling owners extend all1001 published identities');
  const catalogPaths=value=>[...new Set(['rules','spells','equipment','matrices','classes','progressionExplainer'].flatMap(collection=>(Array.isArray(value[collection])?value[collection]:value[collection]?[value[collection]]:[]).flatMap(item=>['sourceExcerpts','scanVerification'].flatMap(key=>item[key]?.catalog?[item[key].catalog]:[]))))].sort();
  const publishedPaths=catalogPaths(publishedData),nativePaths=catalogPaths(liveData);
  assert.equal(publishedPaths.length,1021);
  assert.deepEqual(nativePaths.filter(path=>publishedPaths.includes(path)),publishedPaths,'every published scoped catalog remains referenced');
- assert.deepEqual(nativePaths.filter(path=>!publishedPaths.includes(path)),[...tableIds,...appendixCIds].map(id=>`scans/verified/rules-${id}.json`).sort());
+ assert.deepEqual(nativePaths.filter(path=>!publishedPaths.includes(path)),[...tableIds,...appendixCIds,...currentHirelingRuleIds].map(id=>`scans/verified/rules-${id}.json`).sort());
  for(const [index,itemId]of tableIds.entries()){
   const owner=liveData.rules.find(item=>item.id===itemId),catalog=JSON.parse(readRawFileSync(new URL(`../dist/${owner.sourceExcerpts.catalog}`,import.meta.url),'utf8'));
   assert.deepEqual([owner.book,owner.pages,owner.table.rows.length],index===0?['PHB',[38],15]:['UA',[28],24]);
   assert.deepEqual([catalog.collection,catalog.itemId,catalog.regions.length],['rules',itemId,index===0?21:31]);
  }
- assert.equal(current.denominators.exposedRecords,1014,'the native report counts all retained owners, the two earlier tables and eleven exact Appendix C owners');
- assert.equal(current.denominators.referencedCatalogs,1034,'the native report counts all retained catalogs plus two earlier table catalogs and eleven exact Appendix C catalogs');
+ assert.equal(current.denominators.exposedRecords,1062,'the native report counts all retained owners, two earlier tables, eleven prior Appendix C owners and48 Hireling owners');
+ assert.equal(current.denominators.referencedCatalogs,1082,'the native report counts all retained catalogs plus61 native source catalogs');
+ assert.equal(current.denominators.declaredGroups,284,'the current manifest has the preserved273-group prefix and repaired Hireling alias groups');
+ assert.equal(current.denominators.declaredParts,560,'the current manifest has the preserved540-part prefix and repaired Hireling alias parts');
  assert.equal(current.denominators.declaredGroups,liveManifest.groups.length);
  assert.equal(current.denominators.declaredParts,liveManifest.groups.reduce((count,group)=>count+(group.segments?.length||0),0));
- assert.equal(current.denominators.exactAliasMatches,698);
+ assert.equal(current.denominators.exactAliasMatches,710);
  assert.equal(current.denominators.missingAliasLinks,0);
+ assert.equal(current.denominators.unassessableDeclaredParts,27,'the 27 blocked or unassessable parts remain a separate source-context measure');
  assert.equal(current.missingAliases.length,0);
  assert.equal(current.structuralCheck.valid,true);
  assert.equal(current.structuralCheck.sourceSemanticsCertified,false);
@@ -114,14 +118,16 @@ test('an owner change cannot inherit alias coverage from the other collection',(
 
 // This exact whole-state replay preserves the published696 census separately
 // from the two new reciprocal Tools list aliases in native current data.
-test('all696 published alias objects remain exact beside two declared Tools aliases',()=>{
+test('all696 published alias objects remain exact beside two Tools aliases and twelve Hireling matches',()=>{
  const readPublished=p=>JSON.parse(readBeforePass8CitationTargetCropFile(new URL('../'+p,import.meta.url))),publishedData=readPublished('dist/data.json'),publishedManifest=readPublished('research/citation-continuations.json'),publishedCatalogs=new Map();
  for(const collection of ['rules','spells','equipment','matrices','classes','progressionExplainer'])for(const item of Array.isArray(publishedData[collection])?publishedData[collection]:publishedData[collection]?[publishedData[collection]]:[])for(const key of ['sourceExcerpts','scanVerification']){const path=item[key]?.catalog;if(path&&!publishedCatalogs.has(path))publishedCatalogs.set(path,readPublished('dist/'+path));}
  const published=buildContinuationAliasReport({data:publishedData,manifest:publishedManifest,catalogs:publishedCatalogs}),current=loadContinuationAliasReport();
- assert.equal(published.denominators.exactAliasMatches,696);assert.equal(current.denominators.exactAliasMatches,698);
+ assert.equal(published.denominators.exactAliasMatches,696);assert.equal(current.denominators.exactAliasMatches,710);
  const old=new Set(published.matches.map(row=>JSON.stringify(row))),newRows=current.matches.filter(row=>!old.has(JSON.stringify(row)));
  assert.deepEqual(current.matches.filter(row=>old.has(JSON.stringify(row))),published.matches,'all696 whole old alias objects and order remain exact');
  const shared={collection:'equipment',itemId:'phb-thieves-tools',catalog:'scans/verified/equipment-phb-thieves-tools.json',role:'continuation',sourceSha256:'7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669',imageSha256:'90b02a4c3e47a923fbc5efe15895d55c8f286d73684b3339ce6905d6e7802690',sourceCropBounds:[0.52,0.04,0.46,0.055],focusSha256:'c88f7947c373297102cef0b0cc331111b64417eb4f10b932f102d43af57a2244',status:'alias-participates-in-declared-group'};
- assert.deepEqual(newRows,[{groupId:'batch5-cont-dmg-p225-phb-thieves-tools',...shared,segmentRegionId:'dmg-225-90b02a4c3e47a923',aliasRegionId:'pass8-dmg225-thieves-tools-exclusion-list-item'},{groupId:'pass8-dmg225-thieves-tools-exclusion-context',...shared,segmentRegionId:'pass8-dmg225-thieves-tools-exclusion-list-item',aliasRegionId:'dmg-225-90b02a4c3e47a923'}]);
- assert.equal(current.denominators.missingAliasLinks,0);assert.equal(current.structuralCheck.sourceSemanticsCertified,false);
+ const hirelingRows=newRows.filter(row=>row.groupId.startsWith('dmg-hireling-'));assert.equal(hirelingRows.length,12,'the repaired Hireling groups contribute twelve exact alias matches');
+ assert.deepEqual(newRows.filter(row=>!row.groupId.startsWith('dmg-hireling-')),[{groupId:'batch5-cont-dmg-p225-phb-thieves-tools',...shared,segmentRegionId:'dmg-225-90b02a4c3e47a923',aliasRegionId:'pass8-dmg225-thieves-tools-exclusion-list-item'},{groupId:'pass8-dmg225-thieves-tools-exclusion-context',...shared,segmentRegionId:'pass8-dmg225-thieves-tools-exclusion-list-item',aliasRegionId:'dmg-225-90b02a4c3e47a923'}]);
+ assert.equal(current.denominators.missingAliasLinks,0);
+ assert.equal(current.denominators.unassessableDeclaredParts,27,'the 27 blocked or unassessable parts remain a separate source-context measure');assert.equal(current.structuralCheck.sourceSemanticsCertified,false);
 });

@@ -10,6 +10,10 @@ const selectionSource=app.slice(app.indexOf('function sourceTargetSelection('),a
 const inlineChipSource=app.slice(app.indexOf('function inlineSourceChip('),app.indexOf('\nfunction classTarget('));
 const routeSource=app.slice(app.indexOf('function parseReferenceRoute('),app.indexOf('\nfunction routeSourceOwner('));
 const recordResolverSource=app.slice(app.indexOf('function recordsForView('),app.indexOf('\nfunction pdfPage(',app.indexOf('function recordsForView(')));
+const displayLabelStart=app.indexOf('function routeFieldTargetDisplayLabel(');
+const displayLabelEnd=app.indexOf('\nfunction unresolvedFieldRouteTarget(',displayLabelStart);
+assert.ok(displayLabelStart>=0&&displayLabelEnd>displayLabelStart,'Production field-target display-label helper is available');
+const displayLabelSource=app.slice(displayLabelStart,displayLabelEnd);
 const source=app.slice(app.indexOf('function showSource('),app.indexOf('\nfunction openNote('));
 let opened;
 const context=vm.createContext({data,views:['spells','rules','equipment','classes','matrices','progressionExplainer','notebook','sources'],URLSearchParams,view:'spells',selectedId:'ua-cleric-abjure',location:{hash:''},history:{pushState(_state,_title,hash){context.location.hash=hash;},replaceState(_state,_title,hash){context.location.hash=hash;}},sourceLinkHash:(...args)=>`#${args[0]}/${args[1]}?source=${args[2].book}%3A${args[2].page}${args[2].region?`&region=${args[2].region}`:''}${args[4]==='pending'?'&target=pending':''}${args[5]?.fieldPointer?`&field=${encodeURIComponent(args[5].fieldPointer)}`:''}`,renderedRouteHash:'',FirstEditionCitations:citations,bookCode:books.code,FirstEditionSourceViewer:{open:args=>{opened=args;}}});
@@ -85,7 +89,9 @@ test('field citation opens its own reviewed target and preserves an explicit pen
 });
 test('rendered inline chips carry the exact field target metadata',()=>{
  const reference={book:'UA',pages:[26],evidenceBindings:[{fieldPointer:'/price',book:'UA',printedPage:26,regionIds:['ua-aklys-price-row'],reviewStatus:'field-target-reviewed',label:'Purchase price'}]};
- const ctx=vm.createContext({pagesFor:value=>value.pages,FirstEditionCitations:citations,esc:value=>String(value??'').replaceAll('&','&amp;').replaceAll('"','&quot;'),bookCode:books.code});
+ const ctx=vm.createContext({data,pagesFor:value=>value.pages,FirstEditionCitations:citations,esc:value=>String(value??'').replaceAll('&','&amp;').replaceAll('"','&quot;'),bookCode:books.code});
+ vm.runInContext(recordResolverSource,ctx);
+ vm.runInContext(displayLabelSource,ctx);
  vm.runInContext(inlineChipSource,ctx);
  const markup=ctx.inlineSourceChip(reference,'Aklys · Purchase price'),attribute=markup.match(/data-ref-targets="([^"]*)"/)?.[1];
  assert.ok(attribute);const payload=JSON.parse(attribute.replaceAll('&quot;','"').replaceAll('&amp;','&'));

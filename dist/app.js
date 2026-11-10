@@ -300,7 +300,7 @@ function parseReferenceRoute(hashValue=location.hash) {
  const routeView=views.includes(parts[0])?parts[0]:'spells';
  let id='';try{id=decodeURIComponent(parts.slice(1).join('/'));}catch{}
  const params=new URLSearchParams(query),match=params.get('source')?.match(/^(PHB|UA|DMG|MM|MM2):(\d+)$/),region=params.get('region'),fieldPointer=params.get('field'),pending=params.get('target')==='pending',owner=params.get('owner')?.match(/^(rules|spells|equipment|classes|matrices|progressionExplainer):([a-z0-9][a-z0-9-]{0,100})$/),fieldOwner=params.get('fieldOwner')?.match(/^(rules|spells|equipment|classes|matrices|progressionExplainer):([a-z0-9][a-z0-9-]{0,100})$/);
- return {view:routeView,id,owner:owner?{view:owner[1],id:owner[2]}:null,source:match?{book:match[1],page:Number(match[2]),...(region&&region.length<=200?{region}: {}),...(fieldPointer&&fieldPointer.length<=250?{fieldPointer}: {}),...(params.has('fieldOwner')?{fieldOwner:fieldOwner?{collection:fieldOwner[1],itemId:fieldOwner[2]}:null,fieldOwnerSpecified:true}:{}),...(pending&&!region?{targetStatus:'pending'}:{})}:null};
+ return {view:routeView,id,owner:owner?{view:owner[1],id:owner[2]}:null,source:match?{book:match[1],page:Number(match[2]),...(region&&region.length<=200?{region}: {}),...(fieldPointer&&fieldPointer.length<=250?{fieldPointer}: {}),...(params.has('fieldOwner')?{fieldOwner:fieldOwner?{collection:fieldOwner[1],itemId:fieldOwner[2]}:null,fieldOwnerSpecified:true}:{}),...(pending?{targetStatus:'pending'}:{})}:null};
 }
 function sourceLinkHash(routeView,id,ref,owner=null,targetStatus='',activeTarget=null) {
  const targetOwner=activeTarget?.sourceOwner;
@@ -309,7 +309,7 @@ function sourceLinkHash(routeView,id,ref,owner=null,targetStatus='',activeTarget
  const routeOwner=routeOwnerValue?.collection==='progressionExplainer'&&routeView==='classes'?{view:'classes',id:'progression-explainer'}:routeOwnerValue?.collection?{view:routeOwnerValue.collection,id:routeOwnerValue.itemId}:routeOwnerValue;
  const fieldOwner=activeTarget?.fieldOwner;
  const fieldOwnerDiffers=activeTarget?.fieldPointer&&fieldOwner&&typeof fieldOwner.collection==='string'&&typeof fieldOwner.itemId==='string'&&(fieldOwner.collection!==routeView||fieldOwner.itemId!==id);
- return `#${routeView}/${encodeURIComponent(id)}?source=${encodeURIComponent(`${ref.book}:${ref.page}`)}${ref.region?`&region=${encodeURIComponent(ref.region)}`:''}${targetStatus==='pending'&&!ref.region?'&target=pending':''}${activeTarget?.fieldPointer?`&field=${encodeURIComponent(activeTarget.fieldPointer)}`:''}${fieldOwnerDiffers?`&fieldOwner=${encodeURIComponent(`${fieldOwner.collection}:${fieldOwner.itemId}`)}`:''}${routeOwner?`&owner=${encodeURIComponent(`${routeOwner.view}:${routeOwner.id}`)}`:''}`;
+ return `#${routeView}/${encodeURIComponent(id)}?source=${encodeURIComponent(`${ref.book}:${ref.page}`)}${ref.region?`&region=${encodeURIComponent(ref.region)}`:''}${targetStatus==='pending'?'&target=pending':''}${activeTarget?.fieldPointer?`&field=${encodeURIComponent(activeTarget.fieldPointer)}`:''}${fieldOwnerDiffers?`&fieldOwner=${encodeURIComponent(`${fieldOwner.collection}:${fieldOwner.itemId}`)}`:''}${routeOwner?`&owner=${encodeURIComponent(`${routeOwner.view}:${routeOwner.id}`)}`:''}`;
 }
 function syncSelectionRoute(previousId){
  if(previousId===selectedId)return;
@@ -341,6 +341,26 @@ function routeFieldOwner(source,routeItem) {
  if(owner.collection==='progressionExplainer')return recordForView('progressionExplainer',owner.itemId);
  return recordForView(owner.collection,owner.itemId);
 }
+function routeFieldTargetDisplayLabel(target,fieldOwnerItem) {
+ if(!target||!fieldOwnerItem)return target;
+ const pointer=target.fieldPointer||'',category=target.sourceCategory||'',table=fieldOwnerItem.table;
+ let match,index,label='';
+ if(category==='hireling-table-row-reference'&&(match=/^\/table\/rows\/(0|[1-9]\d*)\/sourceReference$/.exec(pointer))){
+  index=Number(match[1]);
+  const row=Number.isSafeInteger(index)?table?.rows?.[index]:null;
+  if(row)label=`${table.title||fieldOwnerItem.title||'Table'} · ${row.label||'row'}`;
+ }else if((category==='hireling-table-note-reference'||category==='hireling-table-note-page-reference')&&(match=/^\/table\/sourceNotes\/(0|[1-9]\d*)$/.exec(pointer))){
+  index=Number(match[1]);
+  const note=Number.isSafeInteger(index)?table?.sourceNotes?.[index]:null;
+  if(note)label=`${table.title||fieldOwnerItem.title||'Table'} · ${note.label||note.marker||'source note'}`;
+ }else if(category==='hireling-procedure-bullet-reference'&&(match=/^\/bullets\/(0|[1-9]\d*)$/.exec(pointer))){
+  index=Number(match[1]);
+  if(Number.isSafeInteger(index)&&fieldOwnerItem.bullets?.[index]!==undefined)label=`${fieldOwnerItem.title||fieldOwnerItem.name||fieldOwnerItem.id} · bullet ${index+1} source`;
+ }
+ const existingLabel=String(target.label||'').trim(),sourceObject=String(target.sourceObject||'').trim();
+ if(!label||(existingLabel&&existingLabel!==sourceObject))return target;
+ return {...target,label};
+}
 function unresolvedFieldRouteTarget(source,fieldPointer,candidate=null,sourceOwner=null) {
  return {...(candidate||{}),book:source.book,page:source.page,regionIds:[],label:candidate?.label||'Requested field',status:candidate?.status||'Field target mapping or source owner is unavailable',targetStatus:'pending',reviewStatus:'field-target-pending',fieldPointer,...(source.fieldOwner?{fieldOwner:source.fieldOwner}:{}),sourceOwner:sourceOwner||candidate?.sourceOwner};
 }
@@ -368,20 +388,28 @@ function route({force=false}={}) {
   let initialReference=target.source,activeTarget=null,targets=FirstEditionCitations.targets(item),fieldScoped=!!target.source.fieldPointer;
   const primarySourceContext=item?.table?.sourceContext||item?.sourceContext;
   if(!fieldScoped&&!initialReference.region&&primarySourceContext&&bookCode(primarySourceContext.book)===initialReference.book&&Number(primarySourceContext.printedPage)===initialReference.page&&typeof primarySourceContext.regionId==='string')initialReference={...initialReference,region:primarySourceContext.regionId};
-  let targetStatus=target.source.targetStatus||(target.source.region?'resolved':'');
+ // The target=pending query preserves human-readable route intent, but it is never
+ // authoritative: a matching collector target supplies the actual review state below.
+ let targetStatus=target.source.region?'resolved':'';
   if(fieldScoped){
    const fieldOwnerItem=routeFieldOwner(target.source,routeItem);
    const originTargets=fieldOwnerItem?FirstEditionCitations.targets(fieldOwnerItem):[];
-   const candidates=originTargets.filter(candidate=>candidate.fieldPointer===target.source.fieldPointer);
+   const candidates=originTargets.filter(candidate=>candidate.fieldPointer===target.source.fieldPointer)
+    .map(candidate=>routeFieldTargetDisplayLabel(candidate,fieldOwnerItem));
    const ownerCandidates=candidates.filter(candidate=>citationSourceOwnerMatches(target,candidate.sourceOwner));
    activeTarget=ownerCandidates.find(candidate=>candidate.book===target.source.book&&candidate.page===target.source.page)||null;
    if(activeTarget){
     targets=ownerCandidates;
-    targetStatus=target.source.targetStatus||(activeTarget.targetStatus==='pending'?'pending':target.source.region?'resolved':activeTarget.targetStatus);
+    const resolvedCollectorTarget=activeTarget.targetStatus==='resolved'||['field-target-reviewed','region-verified'].includes(activeTarget.reviewStatus);
+    const unresolvedCollectorTarget=!resolvedCollectorTarget;
+    targetStatus=unresolvedCollectorTarget?'pending':'resolved';
     if(target.source.region&&!activeTarget.regionIds.includes(target.source.region)){
-     // An explicit region remains an exact page-level link if it is not part of this field target.
-     initialReference={book:target.source.book,page:target.source.page,region:target.source.region};
-     activeTarget=null;fieldScoped=false;targetStatus='resolved';targets=FirstEditionCitations.targets(item).filter(candidate=>candidate.regionIds.includes(target.source.region));
+     const pendingCandidate=unresolvedCollectorTarget&&!!activeTarget.fieldPointer;
+     if(!pendingCandidate){
+      // A resolved field stays page-level when its explicit region is unrelated.
+      initialReference={book:target.source.book,page:target.source.page,region:target.source.region};
+      activeTarget=null;fieldScoped=false;targetStatus='resolved';targets=FirstEditionCitations.targets(item).filter(candidate=>candidate.regionIds.includes(target.source.region));
+     }
     }
    }else if(target.source.region){
     // Preserve the exact user-supplied region without claiming it supports an unavailable field target.
@@ -619,7 +647,8 @@ function thresholdForLevel(x, level) {
 }
 function inlineSourceChip(reference,title, prefix='', className='') {
  const pages=pagesFor(reference);
- const targets=FirstEditionCitations.targets(reference,title);
+ const targets=FirstEditionCitations.targets(reference,title).map(target=>routeFieldTargetDisplayLabel(target,
+  target.fieldOwner?recordForView(target.fieldOwner.collection,target.fieldOwner.itemId):null));
  const pageLabel=pages.length?`${pages.length===1?'p.':'pp.'} ${pages.join(', ')}`:'page pending';
  const classNames=['source-chip',className].filter(Boolean).join(' ');
  return `<button class="${esc(classNames)}" data-inline-source data-ref-book="${esc(reference.book)}" data-ref-pages="${esc(pages.join(','))}" data-ref-title="${esc(title)}" data-ref-status="${esc(reference.status||'Source extraction pending')}" data-ref-targets="${esc(JSON.stringify(targets))}" aria-label="Open source for ${esc(title)}: ${esc(bookCode(reference.book))} ${esc(pageLabel)}">${esc(prefix)}${esc(bookCode(reference.book))} ${pageLabel}</button>`;
@@ -835,6 +864,8 @@ function validPendingBulletSourceIdentity(item,reference,binding,regionId) {
   &&(binding.sourceArtifactId===undefined||binding.sourceArtifactId==='dmg-canonical-pdf');
 }
 function ruleBulletSourceChips(item,index) {
+ const pendingHirelingSourceChips=exactPendingPdfHirelingBulletSourceChips(item,index);
+ if(pendingHirelingSourceChips!==null)return pendingHirelingSourceChips;
  const fieldPointer='/bullets/'+index,refs=Array.isArray(item.references)?item.references:[],chips=[];
  for(const reference of refs){
   if(!reference||typeof reference!=='object'||!Array.isArray(reference.evidenceBindings))continue;
@@ -863,7 +894,184 @@ function ruleBulletSourceChips(item,index) {
  }
  return chips.join(' ');
 }
+function exactPendingPdfHirelingFieldSourceReferences(item,fact,fieldPointer,sourceObjectPointer,reference,sourceKind) {
+ const fail=()=>[];
+ const tableOwner=/^dmg-hireling-table-t(?:0[1-9]|[12]\d|3[0-8])$/.test(item?.id||''),procedureOwner=/^dmg-hireling-procedure-u(?:0[1-9]|10)$/.test(item?.id||'');
+ if(!tableOwner&&!procedureOwner)return null;
+ if(!reference||typeof reference!=='object'||Array.isArray(reference))return fail();
+ const sourceSha256='7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669';
+ const expectedCatalog=`scans/verified/rules-${item.id}.json`;
+ const same=(left,right)=>{
+  if(left===right)return true;
+  if(left===null||right===null||typeof left!==typeof right)return false;
+  if(Array.isArray(left)||Array.isArray(right))return Array.isArray(left)&&Array.isArray(right)&&left.length===right.length&&left.every((value,index)=>same(value,right[index]));
+  if(typeof left==='object'){
+   const leftKeys=Object.keys(left).filter(key=>left[key]!==undefined).sort(),rightKeys=Object.keys(right).filter(key=>right[key]!==undefined).sort();
+   return leftKeys.length===rightKeys.length&&leftKeys.every((key,index)=>key===rightKeys[index]&&same(left[key],right[key]));
+  }
+  return false;
+ };
+ const fieldMatch=sourceKind==='note'?/^\/table\/sourceNotes\/(0|[1-9]\d*)$/.exec(fieldPointer||''):sourceKind==='bullet'?/^\/bullets\/(0|[1-9]\d*)$/.exec(fieldPointer||''):null;
+ if(!fieldMatch)return fail();
+ const index=Number(fieldMatch[1]);
+ if(sourceKind==='note'){
+  if(!tableOwner||sourceObjectPointer!==fieldPointer+'/sourceReference'||item.table?.sourceNotes?.[index]!==fact||fact?.sourceReference!==reference)return fail();
+ }else{
+  if(!Array.isArray(item.bullets)||index>=item.bullets.length||item.bullets[index]!==fact||!/^\/references\/(0|[1-9]\d*)$/.test(sourceObjectPointer||'')||tableSourcePointerValue(item,sourceObjectPointer)!==reference)return fail();
+ }
+ if(tableSourcePointerValue(item,sourceObjectPointer)!==reference)return fail();
+ if(reference.sourceArtifactId!==undefined&&reference.sourceArtifactId!=='dmg-canonical-pdf')return fail();
+ if(reference.sourceIdentityKind!==undefined&&reference.sourceIdentityKind!=='canonical-pdf')return fail();
+ if(reference.reviewStatus!==undefined&&reference.reviewStatus!=='field-target-pending')return fail();
+ if(reference.status!==undefined&&!/pending/i.test(reference.status))return fail();
+ for(const key of ['grade','valueGrade','fieldGrade','contextGrade','defaultGrade','selectionGrade'])if(reference[key]!==undefined&&!/^(pending|unassessed)$/i.test(String(reference[key])))return fail();
+ const book=bookCode(reference.book);
+ if(book!=='DMG'||reference.book!=='DMG'||typeof reference.id!=='string'||!reference.id)return fail();
+ if(!Array.isArray(reference.pages)||!reference.pages.length||reference.pages.some((page,index)=>!Number.isInteger(page)||page<1||(index>0&&reference.pages[index-1]>=page)))return fail();
+ for(const page of reference.pages)if(!Number.isInteger(FirstEditionBooks.pdfPage(book,page))||FirstEditionBooks.pdfPage(book,page)<1)return fail();
+ const displayPages=reference.sourceDisplayPages??reference.displayPages??reference.pages;
+ if(!Array.isArray(displayPages)||displayPages.length!==reference.pages.length||new Set(displayPages).size!==reference.pages.length||!same([...displayPages].sort((a,b)=>a-b),reference.pages))return fail();
+ if(!Number.isInteger(reference.printedPage)||!Number.isInteger(reference.pdfPage)||FirstEditionBooks.pdfPage(book,reference.printedPage)!==reference.pdfPage||!reference.pages.includes(reference.printedPage))return fail();
+ if(reference.canonicalPdfSha256!==undefined&&reference.canonicalPdfSha256!==sourceSha256)return fail();
+ const bindings=Array.isArray(reference.evidenceBindings)?reference.evidenceBindings:[];
+ if(bindings.length!==reference.pages.length)return fail();
+ let sourceRecord=null,sourceRecordIndex=-1;
+ if(sourceKind==='note'){
+  const sourceRecords=Array.isArray(item.sourceReferences)?item.sourceReferences:[];
+  const sourceMatches=sourceRecords.map((value,recordIndex)=>({value,recordIndex})).filter(entry=>entry.value?.id===reference.id);
+  if(sourceMatches.length!==1)return fail();
+  ({value:sourceRecord,recordIndex:sourceRecordIndex}=sourceMatches[0]);
+  if(sourceRecord===reference)return fail();
+  for(const key of ['id','book','pages','printedPage','pdfPage','sourceArtifactId','sourceIdentityKind','sourceSha256','canonicalPdfSha256','image','imageSha256','regionId','sourceFocusId','verification','focusRects','supportingSegments','sourceSegments'])if(!same(sourceRecord[key],reference[key]))return fail();
+  if(!Array.isArray(sourceRecord.evidenceBindings)||sourceRecord.evidenceBindings.length!==reference.pages.length)return fail();
+ }
+ const rawSegments=Array.isArray(reference.sourceSegments)?reference.sourceSegments:null;
+ if(sourceKind==='bullet'&&(!rawSegments||!rawSegments.length||!same(reference.supportingSegments||[],rawSegments.slice(1))))return fail();
+ const segments=rawSegments||[
+  {regionId:reference.regionId,sourceFocusId:reference.sourceFocusId,printedPage:reference.printedPage,pdfPage:reference.pdfPage,...(reference.image?{image:reference.image}:{}),...(reference.imageSha256?{imageSha256:reference.imageSha256}:{}),...(reference.sourceCropPdfBounds?{sourceCropPdfBounds:reference.sourceCropPdfBounds}:{}),...(reference.focusRectsData?{focusRects:reference.focusRectsData}:{})},
+  ...(Array.isArray(reference.supportingSegments)?reference.supportingSegments:[]),
+ ];
+ if(!segments.length||!reference.regionId||!reference.sourceFocusId)return fail();
+ const regionInfo=new Map(),focusIds=new Set();
+ const validRect=rect=>Array.isArray(rect)&&rect.length===4&&rect.every(Number.isFinite);
+ const validBounds=bounds=>validRect(bounds)&&bounds[0]<bounds[2]&&bounds[1]<bounds[3];
+ const validFocusRects=rects=>Array.isArray(rects)&&rects.length>0&&rects.every(rect=>validRect(rect)&&rect[0]>=0&&rect[1]>=0&&rect[2]>0&&rect[3]>0&&rect[0]+rect[2]<=1.000001&&rect[1]+rect[3]<=1.000001);
+ for(const segment of segments){
+  const unfocusedContext=segment?.selectionKind==='context-unfocused'&&segment?.role==='unfocused-context'&&Array.isArray(segment?.focusRects)&&segment.focusRects.length===0&&!segment.sourceFocusId;
+  if(!segment||typeof segment.regionId!=='string'||!segment.regionId||(!unfocusedContext&&(typeof segment.sourceFocusId!=='string'||!segment.sourceFocusId))
+   ||!Number.isInteger(segment.printedPage)||!reference.pages.includes(segment.printedPage)||!Number.isInteger(segment.pdfPage)
+   ||FirstEditionBooks.pdfPage(book,segment.printedPage)!==segment.pdfPage||(segment.sourceFocusId&&focusIds.has(segment.sourceFocusId)))return fail();
+  if(segment.sourceFocusId)focusIds.add(segment.sourceFocusId);
+  if(segment.imageSha256!==undefined&&!/^[a-f0-9]{64}$/.test(segment.imageSha256))return fail();
+  if(segment.image!==undefined&&(typeof segment.image!=='string'||!segment.image))return fail();
+  if(segment.width!==undefined&&(!Number.isInteger(segment.width)||segment.width<1))return fail();
+  if(segment.height!==undefined&&(!Number.isInteger(segment.height)||segment.height<1))return fail();
+  if(segment.sourceCropPdfBounds!==undefined&&!validBounds(segment.sourceCropPdfBounds))return fail();
+  if(segment.sourceFocusBoundsPdfPoints!==undefined&&(!Array.isArray(segment.sourceFocusBoundsPdfPoints)||!segment.sourceFocusBoundsPdfPoints.length||!segment.sourceFocusBoundsPdfPoints.every(validBounds)))return fail();
+  if(segment.focusRects!==undefined&&!(unfocusedContext||validFocusRects(segment.focusRects)))return fail();
+  if(segment.sourceReferenceFocus!==undefined&&(segment.sourceReferenceFocus?.id!==segment.sourceFocusId||segment.sourceReferenceFocus?.regionId!==segment.regionId))return fail();
+  const existing=regionInfo.get(segment.regionId);
+  const descriptor={printedPage:segment.printedPage,pdfPage:segment.pdfPage,image:segment.image??null,imageSha256:segment.imageSha256??null,width:segment.width??null,height:segment.height??null,sourceCropPdfBounds:segment.sourceCropPdfBounds??null};
+  if(existing&&!same(existing,descriptor))return fail();
+  if(!existing)regionInfo.set(segment.regionId,descriptor);
+  const focusEntries=(Array.isArray(reference.focusRects)?reference.focusRects:[]).filter(entry=>segment.sourceFocusId&&entry?.id===segment.sourceFocusId);
+  if(segment.sourceFocusId?(focusEntries.length!==1||(focusEntries[0].regionId!==undefined&&focusEntries[0].regionId!==segment.regionId)):(focusEntries.length!==0||!unfocusedContext))return fail();
+ }
+ if(!regionInfo.has(reference.regionId)||segments.find(segment=>segment.regionId===reference.regionId&&segment.sourceFocusId===reference.sourceFocusId)?.printedPage!==reference.printedPage)return fail();
+ const verificationRegions=reference.verification?.regions;
+ if(!Array.isArray(verificationRegions)||!verificationRegions.length||verificationRegions.some((regionId,index)=>typeof regionId!=='string'||!regionId||!regionInfo.has(regionId)||(index>0&&verificationRegions.indexOf(regionId)!==index))||new Set(verificationRegions).size!==verificationRegions.length||verificationRegions.length!==regionInfo.size)return fail();
+ const pageRegions=new Map(reference.pages.map(page=>[page,verificationRegions.filter(regionId=>regionInfo.get(regionId)?.printedPage===page)]));
+ if([...pageRegions.values()].some(regionIds=>!regionIds.length))return fail();
+ const targets=[];
+ for(const page of displayPages){
+  const pagePdf=FirstEditionBooks.pdfPage(book,page),pageBindings=bindings.filter(binding=>binding?.printedPage===page);
+  if(pageBindings.length!==1)return fail();
+  const binding=pageBindings[0],regionIds=pageRegions.get(page);
+  if(binding.collection!=='rules'||binding.itemId!==item.id||binding.fieldPointer!==fieldPointer||binding.sourceObjectPointer!==sourceObjectPointer
+   ||binding.sourceOwner?.collection!=='rules'||binding.sourceOwner?.itemId!==item.id
+   ||!(sourceKind==='note'?['hireling-table-note-reference','hireling-table-note-page-reference'].includes(binding.sourceCategory):binding.sourceCategory==='hireling-procedure-bullet-reference')
+   ||binding.book!==book||binding.printedPage!==page||binding.pdfPage!==pagePdf||binding.catalog!==expectedCatalog
+   ||binding.reviewStatus!=='field-target-pending'||binding.sourceValueStatus!=='not-assessed-by-field-target-review'
+   ||binding.contextStatus!=='context-not-assessed'||binding.targetReview!==null||binding.requiresPassageEvidence!==true
+   ||binding.sourceSha256!==sourceSha256||!Array.isArray(binding.sourcePages)||!same(binding.sourcePages,[page])
+   ||!Array.isArray(binding.regionIds)||!same(binding.regionIds,regionIds)||binding.unmappedRegionIds?.length
+   ||binding.valuePathStatus!=='value-present'||binding.expectedTargetProof!==undefined)return fail();
+  if(!Array.isArray(binding.regionEvidence)||binding.regionEvidence.length!==regionIds.length||!Array.isArray(binding.cropCoordinates)||binding.cropCoordinates.length!==regionIds.length
+   ||!Array.isArray(binding.highlightCoordinates)||binding.highlightCoordinates.length!==regionIds.length)return fail();
+  for(let offset=0;offset<regionIds.length;offset++){
+   const regionId=regionIds[offset],region=regionInfo.get(regionId),evidence=binding.regionEvidence[offset],crop=binding.cropCoordinates[offset],highlight=binding.highlightCoordinates[offset];
+   if(evidence?.regionId!==regionId||evidence.book!==book||evidence.printedPage!==page||evidence.pdfPage!==pagePdf||evidence.sourceSha256!==sourceSha256
+    ||!/^([a-f0-9]{64})$/.test(evidence.imageSha256||'')||crop?.regionId!==regionId||crop.coordinateSpace!=='catalog-bounds-pdf-points-as-recorded'
+    ||crop.format!=='x0-y0-x1-y1'||!validBounds(crop.rect)||highlight?.regionId!==regionId||highlight.coordinateSpace!=='excerpt-image-normalized-top-left-xywh'
+    ||highlight.origin!=='top-left'||highlight.format!=='xywh'||!Array.isArray(highlight.rects)||!highlight.rects.every(validRect))return fail();
+   if(region.imageSha256!==null&&evidence.imageSha256!==region.imageSha256)return fail();
+   if(region.sourceCropPdfBounds!==null&&!same(crop.rect,region.sourceCropPdfBounds))return fail();
+   const partFocusRects=segments.filter(segment=>segment.regionId===regionId&&segment.focusRects!==undefined).flatMap(segment=>segment.focusRects);
+   if(partFocusRects.length&&!same(highlight.rects,partFocusRects))return fail();
+   if(!highlight.rects.length){
+    const focus=reference.focusRects?.find(entry=>entry?.regionId===regionId||(!entry?.regionId&&entry?.id===reference.sourceFocusId));
+    const isUnfocusedContext=segments.some(segment=>segment.regionId===regionId&&segment.selectionKind==='context-unfocused'&&segment.role==='unfocused-context'&&!segment.sourceFocusId&&Array.isArray(segment.focusRects)&&segment.focusRects.length===0);
+    const hasEvidenceFocus=regionIds.some((otherId,otherIndex)=>otherIndex!==offset&&binding.highlightCoordinates[otherIndex]?.rects?.length>0);
+    if(offset===0||!hasEvidenceFocus||!(isUnfocusedContext||/(context|unfocused)/i.test(focus?.role||'')))return fail();
+   }
+  }
+  if(sourceKind==='note'){
+   const sourcePointer=`/sourceReferences/${sourceRecordIndex}`,sourceBindingMatches=sourceRecord.evidenceBindings.filter(sourceBinding=>sourceBinding?.printedPage===page);
+   if(sourceBindingMatches.length!==1)return fail();
+   const sourceBinding=sourceBindingMatches[0];
+   if(sourceBinding.collection!=='rules'||sourceBinding.itemId!==item.id||sourceBinding.fieldPointer!==sourcePointer||sourceBinding.sourceObjectPointer!==sourcePointer
+    ||sourceBinding.sourceOwner?.collection!=='rules'||sourceBinding.sourceOwner?.itemId!==item.id||sourceBinding.book!==book||sourceBinding.printedPage!==page
+    ||sourceBinding.pdfPage!==pagePdf||sourceBinding.catalog!==expectedCatalog||sourceBinding.sourceSha256!==sourceSha256
+    ||!same(sourceBinding.regionIds,regionIds)||!same(sourceBinding.regionEvidence,binding.regionEvidence)||!same(sourceBinding.cropCoordinates,binding.cropCoordinates)
+    ||!same(sourceBinding.highlightCoordinates,binding.highlightCoordinates)||sourceBinding.contextStatus!=='context-not-assessed'
+    ||sourceBinding.sourceValueStatus!=='not-assessed-by-field-target-review'||sourceBinding.targetReview!==null)return fail();
+  }
+  const scopedReference={...reference,pages:[page],sourceDisplayPages:[page],printedPage:page,pdfPage:pagePdf,regionId:regionIds[0],sourceFocusId:segments.find(segment=>segment.regionId===regionIds[0])?.sourceFocusId,
+   verification:{...reference.verification,regions:[...regionIds]},focusRects:(Array.isArray(reference.focusRects)?reference.focusRects:[]).filter(entry=>regionIds.includes(entry?.regionId)||(!entry?.regionId&&entry?.id===reference.sourceFocusId)||segments.some(segment=>segment.regionId===entry?.regionId&&segment.sourceFocusId===entry?.id)),
+   ...(Array.isArray(reference.supportingSegments)?{supportingSegments:reference.supportingSegments.filter(segment=>regionInfo.get(segment?.regionId)?.printedPage===page)}:{}),
+   ...(Array.isArray(reference.sourceSegments)?{sourceSegments:reference.sourceSegments.filter(segment=>segment?.printedPage===page)}:{}),evidenceBindings:[binding]};
+  const pageTargets=FirstEditionCitations.targets(scopedReference,`${item.title||item.name||item.id} source field`);
+  if(!Array.isArray(pageTargets)||pageTargets.length!==1)return fail();
+  const [target]=pageTargets;
+  if(target.book!==book||target.page!==page||target.fieldPointer!==fieldPointer||target.fieldOwner?.collection!=='rules'||target.fieldOwner?.itemId!==item.id
+   ||target.sourceOwner?.collection!=='rules'||target.sourceOwner?.itemId!==item.id||target.catalog!==expectedCatalog||target.pdfPage!==pagePdf
+   ||target.sourceSha256!==sourceSha256||!same(target.regionIds,regionIds)||target.reviewStatus!=='field-target-pending'||target.targetStatus!=='pending'
+   ||target.contextStatus!=='context-not-assessed')return fail();
+  targets.push(scopedReference);
+ }
+ return targets;
+}
+function exactPendingPdfSourceNoteReferences(item,fact) {
+ const notes=item?.table?.sourceNotes;
+ if(!/^dmg-hireling-table-t(?:0[1-9]|[12]\d|3[0-8])$/.test(item?.id||'')||!Array.isArray(notes))return null;
+ const index=notes.indexOf(fact);
+ if(index<0){const matching=notes.some(note=>note?.id===fact?.id&&note?.sourceReference?.id===fact?.sourceReference?.id);return matching?[]:null;}
+ if(notes.lastIndexOf(fact)!==index)return [];
+ const fieldPointer=`/table/sourceNotes/${index}`,sourceObjectPointer=`${fieldPointer}/sourceReference`,reference=fact?.sourceReference;
+ return exactPendingPdfHirelingFieldSourceReferences(item,fact,fieldPointer,sourceObjectPointer,reference,'note');
+}
+function exactPendingPdfHirelingBulletSourceChips(item,index) {
+ if(!/^dmg-hireling-(?:table-t(?:0[1-9]|[12]\d|3[0-8])|procedure-u(?:0[1-9]|10))$/.test(item?.id||'')||!Array.isArray(item.bullets)||!Number.isInteger(index)||index<0||index>=item.bullets.length)return null;
+ const fieldPointer=`/bullets/${index}`,references=Array.isArray(item.references)?item.references:[];
+ const candidates=references.map((reference,referenceIndex)=>({reference,referenceIndex})).filter(({reference,referenceIndex})=>Array.isArray(reference?.evidenceBindings)
+  &&reference.evidenceBindings.some(binding=>binding?.collection==='rules'&&binding.itemId===item.id&&binding.fieldPointer===fieldPointer&&binding.sourceObjectPointer===`/references/${referenceIndex}`));
+ if(candidates.length!==1)return '<span class="source-focus-pending small muted">Exact source focus unavailable</span>';
+ const {reference,referenceIndex}=candidates[0],sourceObjectPointer=`/references/${referenceIndex}`;
+ const scoped=exactPendingPdfHirelingFieldSourceReferences(item,item.bullets[index],fieldPointer,sourceObjectPointer,reference,'bullet');
+ if(!Array.isArray(scoped)||!scoped.length)return '<span class="source-focus-pending small muted">Exact source focus unavailable</span>';
+ const title=`${item.title||item.name||item.id} · bullet ${index+1} source`;
+ return scoped.map(pageReference=>inlineSourceChip(pageReference,title,'','bullet-source-chip')).join(' ');
+}
+
 function tableFactSourceChip(item,fact,title,className) {
+ const pendingNoteReferences=exactPendingPdfSourceNoteReferences(item,fact);
+ if(pendingNoteReferences!==null){
+  if(!pendingNoteReferences.length)return '<span class="source-focus-pending small muted">Exact source focus unavailable</span>';
+  return pendingNoteReferences.map(reference=>{
+   const labeledReference={...reference,evidenceBindings:reference.evidenceBindings.map(binding=>({...binding,label:title}))};
+   return inlineSourceChip(labeledReference,title,'',className);
+  }).join(' ');
+ }
  const reference=exactTableFactSourceReference(item,fact);
  if(!reference)return '<span class="source-focus-pending small muted">Exact source focus unavailable</span>';
  const labeledReference={...reference,evidenceBindings:reference.evidenceBindings.map(binding=>({...binding,label:title}))};

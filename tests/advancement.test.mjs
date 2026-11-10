@@ -8,6 +8,7 @@ import vm from 'node:vm';
 const app = fs.readFileSync(new URL('../dist/app.js', import.meta.url), 'utf8');
 const require=createRequire(import.meta.url);
 const citations=require('../dist/citations.js');
+const combat=require('../dist/combat.js');
 const start = app.indexOf('function xpThresholds(x) {');
 const end = app.indexOf('function inlineSourceChip(', start);
 assert.ok(start >= 0 && end > start, 'Production advancement functions are available');
@@ -68,12 +69,24 @@ test('a source-backed level limit prevents calculating a higher threshold', () =
 });
 
 const classes = JSON.parse(fs.readFileSync(new URL('../classes.json',import.meta.url),'utf8')).classes;
+const appData = JSON.parse(fs.readFileSync(new URL('../dist/data.json',import.meta.url),'utf8'));
+const recordResolverStart=app.indexOf('function recordsForView(');
+const recordResolverEnd=app.indexOf('\nfunction pdfPage(',recordResolverStart);
+const displayLabelStart=app.indexOf('function routeFieldTargetDisplayLabel(');
+const displayLabelEnd=app.indexOf('\nfunction unresolvedFieldRouteTarget(',displayLabelStart);
+const fighterStateStart=app.indexOf('let fighterAltOpen=false;');
+const fighterStateEnd=app.indexOf('\n',app.indexOf('let fighterMatrixOpen=false;',fighterStateStart))+1;
+assert.ok(recordResolverStart>=0&&recordResolverEnd>recordResolverStart,'Production record lookup helpers are available');
+assert.ok(displayLabelStart>=0&&displayLabelEnd>displayLabelStart,'Production field-target display-label helper is available');
+assert.ok(fighterStateStart>=0&&fighterStateEnd>fighterStateStart,'Production fighter disclosure state is available');
+const renderEnd=app.indexOf('function renderSources()',start);
+assert.ok(renderEnd>start,'Production advancement renderer boundary is available');
 const renderContext=vm.createContext({
   esc:value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),
   bookCode:value=>String(value||''), pagesFor:value=>Array.isArray(value.pages)?value.pages:[],
-  noteButton:()=>'', classTargets:new Map(),data:{classes},FirstEditionCitations:citations
+  noteButton:()=>'', classTargets:new Map(),data:{...appData,classes},FirstEditionCitations:citations,FirstEditionCombat:combat
 });
-vm.runInContext(app.slice(start,app.indexOf('function renderSources()',start)),renderContext);
+vm.runInContext(app.slice(fighterStateStart,fighterStateEnd)+app.slice(recordResolverStart,recordResolverEnd)+app.slice(displayLabelStart,displayLabelEnd)+app.slice(start,renderEnd),renderContext);
 const fighter=classes.find(c=>c.id==='fighter');
 const uaDruid=classes.find(c=>c.id==='ua-druid');
 

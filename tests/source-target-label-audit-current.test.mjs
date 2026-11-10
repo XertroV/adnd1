@@ -8,23 +8,23 @@ import {join} from 'node:path';
 import {gunzipSync} from 'node:zlib';
 import {weaponOwnerIds} from './helpers/weapon-source-current-cohort.mjs';
 import {assertUaSourceContextBindingCohort} from './helpers/ua-source-closed-v28-context.mjs';
-import {readDmg175CurrentSourceInputs,assertDmg175CurrentSourceCohort} from './helpers/dmg175-source-current-cohort.mjs';
+import {readHirelingsCurrentSourceInputs,assertHirelingsCurrentSourceCohort} from './helpers/hirelings-source-current-cohort.mjs';
 import {resolve} from 'node:path';
 const root=resolve(import.meta.dirname,'..');
 
 test('current label mode audits the present collector without claiming a fresh rendered sweep', () => {
   const outputDir = mkdtempSync(join(tmpdir(), 'source-target-label-audit-'));
   try {
-    assertDmg175CurrentSourceCohort(readDmg175CurrentSourceInputs(root));
+    const currentCohortSummary=assertHirelingsCurrentSourceCohort(readHirelingsCurrentSourceInputs(root));
     execFileSync(process.execPath, ['tools/source-target-label-audit.mjs', '--current', '--output-dir', outputDir, '--check'], {stdio: 'pipe'});
     const summary = JSON.parse(readFileSync(join(outputDir, 'current-summary.json'), 'utf8'));
     const compressed = readFileSync(join(outputDir, 'current.json.gz'));
     const hash = createHash('sha256').update(compressed).digest('hex');
     assert.equal(hash, summary.fullReport.sha256);
     const report = JSON.parse(gunzipSync(compressed).toString('utf8'));
-    assert.equal(report.denominator.contentRecords, 1014);
-    assert.equal(report.denominator.routeRecords, 1014);
-    assert.equal(report.denominator.primaryRouteRecords, 1009);
+    assert.equal(report.denominator.contentRecords, 1062);
+    assert.equal(report.denominator.routeRecords, 1062);
+    assert.equal(report.denominator.primaryRouteRecords, 1057);
     assert.equal(report.denominator.auxiliaryRouteRecords, 5);
     assert.ok(report.entries.some(row=>row.owner?.collection==='rules'&&row.owner?.itemId==='phb-druid-mistletoe-spell-components'),'current collector includes the exact new Druid owner');
     assert.equal(report.denominator.collections.matrices, 4);
@@ -32,7 +32,7 @@ test('current label mode audits the present collector without claiming a fresh r
     assert.equal(report.denominator.collectorTargets, report.entries.length);
     const bindings=JSON.parse(readFileSync('research/price-source-inventory.json')).fieldEvidenceBindings;
     const uaContexts=assertUaSourceContextBindingCohort(bindings);
-    assert.equal(uaContexts.length,24);assert.equal(report.denominator.collectorTargets,4705+226,'4,705 SOURCE-phase bindings plus exactly 226 current DMG bindings');
+    assert.equal(uaContexts.length,24);assert.equal(report.denominator.collectorTargets,currentCohortSummary.canonicalBindings,'the collector target count equals the pinned actual current canonical inventory');
     const targetIdentity=row=>JSON.stringify([row.collection,row.itemId,row.fieldPointer]);
     const expectedTargets=bindings.filter(row=>row.collection==='classes'&&row.fieldPointer.startsWith('/references/')).map(targetIdentity).sort();
     assert.equal(expectedTargets.length,25,'one old class reference and24 new context references');

@@ -1,4 +1,4 @@
-import '../research/dmg175-continuation-contract-production-test-v1/continuation-contract-production-v1.test.mjs';
+import '../research/hirelings-source-epoch-proposal-v5/dmg175-current-h-successors-v2/continuation-contract/continuation-contract-current-h-v2.test.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';

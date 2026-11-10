@@ -1,0 +1,2579 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "read-only citation producer before-after guard proof",
+  "git": {
+    "head": "346c7634f8cad08998389ecd1d084b7082fb91a9",
+    "tree": "24cd8b1e03b3244aa9fc8caaad749780749ee337"
+  },
+  "inputs": {
+    "tools/citation-navigation-coverage.mjs": "59c230e290880ed644410249e6087f0be9ed7796e8f20c333ca184c89cb4ee5a",
+    "tests/citation-navigation-inventory.test.mjs": "5e49b4eccba9198921eba6821e560f6dbe5f75870c220ea720bee43ff33dfa62",
+    "dist/app.js": "f4381ff282ea6ff7d245c915ab17fafd4b19e025e2af6c2a496145429285f2c7",
+    "dist/citations.js": "63e1667cd93c773e950bf6c53d8cf56e6beb29490278cecdeeb952cfa2663032",
+    "dist/data.json": "2cddb11a82ecc3b9d77cb3fa2ae49eef5623a5470ac85a540d1baf483e096a95"
+  },
+  "proposal": {
+    "tools/citation-navigation-coverage.mjs": "06d35f88de92b3f2cc02522693a1aa0a4efab8552bf0aa2b88bd8d10ab36eda7",
+    "tests/citation-navigation-inventory.test.mjs": "cf36d345937c89861f716d67c1dcdf970e73236b0e79dfdf28bbc32e87cdc631"
+  },
+  "before": {
+    "actualCliFailure": "Preserved separately from a real node CLI invocation at the same HEAD; exact message identifies dist/app.js:1063 in exactPendingPdfHirelingBulletSourceChips.",
+    "detectorThrowsAsExpected": true,
+    "importTestFailure": "Preserved separately from a real node --test module-import invocation at the same HEAD."
+  },
+  "after": {
+    "proposalOnly": true,
+    "proposedAddedClass": "hireling-pending-pdf-bullet-field-reference",
+    "producerSiteCount": 22,
+    "producerFunctionCount": 16,
+    "producerClassCount": 15,
+    "newProducerSites": [
+      {
+        "line": 1063,
+        "function": "exactPendingPdfHirelingBulletSourceChips",
+        "producerClass": "hireling-pending-pdf-bullet-field-reference"
+      }
+    ],
+    "producerSites": [
+      {
+        "line": 93,
+        "function": "attributeLayoutHTML",
+        "producerClass": "field-attribute-layout",
+        "sourceLine": "if(attributeMode==='table')return `<div class=\"attribute-table-wrap\"><table class=\"attribute-table\"><caption class=\"sr-only\">Extracted attributes for ${esc(item.name||item.title||item._title)}</caption><thead><tr><th scope=\"col\">Source field</th><th scope=\"col\">Extracted value</th>${equipment?'<th scope=\"col\">Source</th>':''}</tr></thead><tbody>${rows.map(({label,value,reference,estimated})=>`<tr data-field-label=\"${esc(label)}\"><th scope=\"row\">${esc(label)}</th><td>${esc(fieldValue(value))}</td>${equipment?`<td>${reference?inlineSourceChip(reference,`${item.name} · ${label}`):estimated?'<span class=\"small muted\">Estimate; no printed price citation</span>':'<span class=\"small muted\">Field citation pending</span>'}</td>`:''}</tr>`).join('')}</tbody></table></div>`;"
+      },
+      {
+        "line": 95,
+        "function": "attributeLayoutHTML",
+        "producerClass": "field-attribute-layout",
+        "sourceLine": "return `<dl class=\"compact-facts ${equipment?'equipment-facts':'spell-facts'}\">${rows.map(attributeFactHTML).join('')}</dl>${cited.length?`<details class=\"attribute-citations\" data-attribute-citations><summary>Field sources</summary><div class=\"attribute-citation-list\">${cited.map(({label,reference})=>`<div><span>${esc(label)}</span>${inlineSourceChip(reference,`${item.name} · ${label}`)}</div>`).join('')}</div></details>`:''}`;"
+      },
+      {
+        "line": 519,
+        "function": "suggestedPriceHTML",
+        "producerClass": "equipment-estimate-comparison",
+        "sourceLine": "return `<section class=\"suggested-price\"><h3>Suggested (estimate)</h3><p>${esc(equipmentPriceLabel(item))}. This is an estimate; no printed purchase price is claimed.</p>${p.rationale?`<p>${esc(p.rationale)}</p>`:''}${comparisons.length?`<h4>Price comparisons</h4><p>These citations document the comparison items, not a printed price for this estimate.</p><ul>${comparisons.map(c=>{const match=data.equipment.find(x=>x.id===c.itemId),name=match?.name||c.itemId;return `<li data-source-context=\"${esc(c.itemId)}\" data-source-view=\"equipment\">${esc(name)}: ${esc(c.amount)} ${esc(c.currency)} / ${esc(c.unit)} ${inlineSourceChip(c,`Price comparison: ${name}`)}</li>`}).join('')}</ul>`:''}</section>`;"
+      },
+      {
+        "line": 528,
+        "function": "equipmentDetailHTML",
+        "producerClass": "equipment-related-reference",
+        "sourceLine": "return `<article class=\"detail-card equipment-card\" data-annotation-target=\"${esc(item.id)}\" data-annotation-title=\"${esc(item.name)}\">${detailHeaderHTML(item,{eyebrow:item.category||'EQUIPMENT',status:grade,statusClass:checked?'':'unverified',attributes})}<div class=\"detail-body\">${checked?`<p class=\"small muted scan-verification-scope\">${esc(checked.scope||'Selected values were checked against limited source crops. This reference remains partial.')}</p>`:''}${!known?`<p class=\"price-gap\"><strong>${esc(equipmentPriceLabel(item))}.</strong> ${esc(priceGapNote)}</p>`:item.priceNote?`<p class=\"small muted\">${esc(item.priceNote)}</p>`:''}${suggestedPriceHTML(item)}${item.summary?`<h3>At a glance</h3><p>${esc(item.summary)}</p>`:''}${Array.isArray(item.references)&&item.references.length?`<details class=\"additional-references\"><summary>Related source references</summary><div class=\"equipment-references\">${item.references.map(reference=>`<div><span>${esc(reference.label||'Source reference')}</span>${inlineSourceChip(reference,`${item.name} · ${reference.label||'reference'}`)}</div>`).join('')}</div></details>`:''}<div class=\"callout\"><strong>Keep the units separate.</strong> Purchase prices are coin amounts. “gp-weight” is an encumbrance unit, not a price. Printed prices and suggested estimates are labeled separately. Weapon values retain the source’s numeric ranges.</div></div>${inlineNotes(item.id)}<footer class=\"detail-footer\"><span>${icon('book')}${esc(footerGrade)}</span>${originalScansButton(item)}<button class=\"source-chip\" data-copy-link=\"${esc(item.id)}\">Copy reference link ↗</button></footer></article>`;"
+      },
+      {
+        "line": 579,
+        "function": "progressionExplainerHTML",
+        "producerClass": "progression-explainer-reference",
+        "sourceLine": "return `<details class=\"progression-explainer\" data-source-context=\"progression-explainer\" data-full-attributes><summary>${esc(explainer.title||'Class progression paths')}<small>Class tracks, concurrent combinations, and sequential changes</small></summary><div class=\"progression-explainer-body\"><p>${esc(explainer.description||'')}</p>${(explainer.sections||[]).map(section=>`<section><h3>${esc(section.label)}</h3><p>${esc(section.description)}</p><div class=\"progression-source-list\">${(section.references||[]).map(reference=>inlineSourceChip(reference,section.label)).join('')}</div></section>`).join('')}${Array.isArray(explainer.terminologyNotes)&&explainer.terminologyNotes.length?`<h3>Terminology &amp; source qualifications</h3><ul>${explainer.terminologyNotes.map(note=>`<li>${esc(note)}</li>`).join('')}</ul>`:''}</div></details>`;"
+      },
+      {
+        "line": 582,
+        "function": "progressionExplainerDetailHTML",
+        "producerClass": "progression-explainer-detail-reference",
+        "sourceLine": "const sections=(explainer.sections||[]).map(section=>`<section class=\"progression-detail-section\"><h3>${esc(section.label)}</h3><p>${esc(section.description)}</p><div class=\"progression-source-list\">${(section.references||[]).map(reference=>inlineSourceChip(reference,section.label)).join('')}</div></section>`).join('');"
+      },
+      {
+        "line": 584,
+        "function": "progressionExplainerDetailHTML",
+        "producerClass": "progression-explainer-detail-reference",
+        "sourceLine": "const references=Array.isArray(explainer.references)&&explainer.references.length?`<section class=\"progression-source-list progression-overview-sources\"><h3>Overview sources</h3>${explainer.references.map(reference=>inlineSourceChip(reference,'Class progression overview')).join('')}</section>`:'';"
+      },
+      {
+        "line": 592,
+        "function": "matrixDetailHTML",
+        "producerClass": "matrix-detail-reference",
+        "sourceLine": "const ruleNotes=Array.isArray(matrix.ruleNotes)&&matrix.ruleNotes.length?`<section class=\"matrix-rule-notes\"><h3>Related rules and options</h3>${matrix.ruleNotes.map(note=>`<article class=\"matrix-rule-note\"><h4>${esc(note.title||'Source note')}</h4><p>${esc(note.text||'')}</p>${inlineSourceChip(note,`${matrix.title||'Matrix'} · ${note.title||'source note'}`)}${note.status?`<span class=\"status-chip\">${esc(note.status)}</span>`:''}</article>`).join('')}</section>`:'';"
+      },
+      {
+        "line": 892,
+        "function": "ruleBulletSourceChips",
+        "producerClass": "rule-bullet-field-reference",
+        "sourceLine": "if(target)chips.push(inlineSourceChip(scopedReference,`${item.title||item._title} · bullet ${index+1} source`,'','bullet-source-chip'));"
+      },
+      {
+        "line": 1063,
+        "function": "exactPendingPdfHirelingBulletSourceChips",
+        "producerClass": "hireling-pending-pdf-bullet-field-reference",
+        "sourceLine": "return scoped.map(pageReference=>inlineSourceChip(pageReference,title,'','bullet-source-chip')).join(' ');"
+      },
+      {
+        "line": 1072,
+        "function": "tableFactSourceChip",
+        "producerClass": "source-table-fact-reference",
+        "sourceLine": "return inlineSourceChip(labeledReference,title,'',className);"
+      },
+      {
+        "line": 1078,
+        "function": "tableFactSourceChip",
+        "producerClass": "source-table-fact-reference",
+        "sourceLine": "return inlineSourceChip(labeledReference,title,'',className);"
+      },
+      {
+        "line": 1113,
+        "function": "advancementControlsHTML",
+        "producerClass": "class-advancement",
+        "sourceLine": "return `<section class=\"advancement-planner\" aria-labelledby=\"advancementTitle\"><div class=\"planner-heading\"><span class=\"eyebrow\">PLAN AN ADVANCEMENT</span><span class=\"status-chip unverified\">Partial extraction</span></div><div class=\"planner-controls\"><div><label for=\"advancementClass\">Class &amp; rules variant</label><select id=\"advancementClass\">${[...data.classes].sort((a,b)=>a.name.localeCompare(b.name)).map(c=>`<option value=\"${esc(c.id)}\"${c.id===x.id?' selected':''}>${esc(c.name)} · ${esc(bookCode(c.book))}</option>`).join('')}</select></div><div><label for=\"targetLevel\">Target level</label><select id=\"targetLevel\">${Array.from({length:limit-classTargetMinimum(x)+1},(_,i)=>i+classTargetMinimum(x)).map(level=>`<option value=\"${level}\"${level===target?' selected':''}>Level ${level}</option>`).join('')}</select></div></div><div id=\"advancementAnnouncement\" class=\"sr-only\" role=\"status\" aria-live=\"polite\"></div><div id=\"advancementSummary\">${advancementSummaryHTML(x,target)}</div><p class=\"planner-range\">${x.maxLevel?`This source track has a stated level limit of ${esc(x.maxLevel)}. ${x.levelLimit?inlineSourceChip(x.levelLimit,`${x.name} · level limit`):''}`:'The selector’s upper bound is a display range, not a class-level cap.'} Class eligibility and special rank requirements still apply.</p></section>`;"
+      },
+      {
+        "line": 1121,
+        "function": "advancementSummaryHTML",
+        "producerClass": "class-advancement",
+        "sourceLine": "return `<div class=\"advancement-transition\"><h3 id=\"advancementTitle\">Level ${previous} <span aria-hidden=\"true\">→</span><span class=\"sr-only\">to</span> ${target}</h3>${noteButton(x,`${x.id}:level:${target}`,`${x.name} · Level ${previous} → ${target}`)}</div><div class=\"advancement-xp\"><div><span>Target threshold${to?.derived?' · derived':''}</span><strong>${to?`${to.xp.toLocaleString()} XP`:'Not yet extracted'}</strong>${to?inlineSourceChip(to,`${x.name} · Level ${target} XP`,to.derived?'Rule · ':''):''}</div><div><span>From level ${previous} threshold</span><strong>${sameTrack?`${(to.xp-from.xp).toLocaleString()} XP`:'Comparison unavailable'}</strong><small>${sameTrack?'Difference between consecutive level thresholds':from&&to?'These levels use different XP tracks.':'One or both level thresholds are missing.'}</small></div></div>${to?.track?`<p class=\"track-label\">XP track: ${esc(xpTrackLabel(x,to.track))}</p>`:''}${to?.derived?`<p class=\"derived-explanation\">Derived from the cited rule: +${to.increment.toLocaleString()} XP per level after level ${to.anchorLevel}, using its explicit XP anchor.</p>`:''}${fighterCombatHTML(x,target)}<h4>Changes at this level</h4>${changes.length?entries.map(entry=>`<div class=\"level-change-group\">${entry.option?`<div class=\"level-change-option\">Optional rule · ${esc(entry.option)}</div>`:''}<ul>${(entry.changes||[]).map(change=>`<li>${esc(change)}</li>`).join('')}</ul><div class=\"level-change-sources\">${inlineSourceChip(entry,`${x.name} · Level ${target} changes`)}${(Array.isArray(entry.additionalSources)?entry.additionalSources:[]).map(source=>inlineSourceChip({...source,status:source.status||entry.status},`${x.name} · Level ${target} related source`)).join('')}</div></div>`).join(''):'<p class=\"pending-mechanics\">Level-specific changes for this transition have not yet been extracted. Consult the class and relevant ability tables in the cited source.</p>'}${incomplete?'<div class=\"advancement-gap\"><strong>Incomplete level-up guide.</strong> Attack, saving throw, spell-slot, and skill-table changes have not been exhaustively extracted. Other class mechanics may still be missing; use the source before finalizing the character sheet.</div>':''}`;"
+      },
+      {
+        "line": 1131,
+        "function": "xpTableHTML",
+        "producerClass": "class-xp-table",
+        "sourceLine": "html+=`<tr data-xp-level=\"${row.level}\"><td>${row.level}${row.label?` · ${esc(row.label)}`:''}${row.track&&row.track!=='main'?`<small class=\"row-track\">${esc(xpTrackLabel(x,row.track))}</small>`:''}</td><td>${row.xp.toLocaleString()}</td><td>${comparable?`${(next.xp-row.xp).toLocaleString()}${next.derived?' (derived)':''}`:next?'Different XP track':'Not yet extracted'}</td><td>${inlineSourceChip(row,`${x.name} · Level ${row.level} XP`)}</td><td><button class=\"table-note\" data-annotate=\"${esc(x.id)}:level:${row.level}\" data-note-title=\"${esc(x.name)} · Level ${row.level}\" data-note-view=\"classes\" aria-label=\"Annotate ${esc(x.name)} level ${row.level}\">${icon('pen')}</button></td></tr>`;"
+      },
+      {
+        "line": 1133,
+        "function": "xpTableHTML",
+        "producerClass": "class-xp-table",
+        "sourceLine": "return `<h3>Known experience thresholds</h3><p class=\"small muted\">Source-listed rows only. Missing levels stay unavailable. XP is cumulative within the labeled track; eligibility and training also apply.</p><div class=\"table-scroll\"><table><thead><tr><th scope=\"col\">Level</th><th scope=\"col\">Minimum XP</th><th scope=\"col\">Next-level increase</th><th scope=\"col\">Source</th><th scope=\"col\"><span class=\"sr-only\">Annotate level</span></th></tr></thead><tbody>${html}</tbody></table></div>${x.xpNote||typeof x.progression==='string'?`<div class=\"callout\">${esc(x.xpNote||(typeof x.progression==='string'?x.progression:''))}</div>`:''}${x.xpContinuation?`<p class=\"small muted\" style=\"margin-top:12px\">${continuationFor(x)?'Higher thresholds may be derived only from the cited continuation rule and its explicit XP anchor.':'The continuation rule is recorded, but its XP anchor is missing or unverified; higher thresholds are not calculated.'} ${inlineSourceChip(x.xpContinuation,`${x.name} · XP continuation rule`)}</p>`:''}`;"
+      },
+      {
+        "line": 1144,
+        "function": "classAbilitiesHTML",
+        "producerClass": "class-abilities-table-record",
+        "sourceLine": "return `<section class=\"class-abilities\" data-source-context=\"${esc(turningTable.id)}\" data-source-view=\"rules\" aria-labelledby=\"classAbilitiesTitle\"><h3 id=\"classAbilitiesTitle\">Class abilities</h3><p>Turn undead table and its printed procedure.</p><a class=\"button secondary\" href=\"#rules/${encodeURIComponent(turningTable.id)}\">${esc(turningTable.title||'Turn undead table')}</a> ${inlineSourceChip(turningTable,'Cleric · turn undead table')}</section>`;"
+      },
+      {
+        "line": 1155,
+        "function": "classDetailHTML",
+        "producerClass": "class-progression-reference",
+        "sourceLine": "return `<article class=\"detail-card\" data-annotation-target=\"${esc(x.id)}\" data-annotation-title=\"${esc(x.name)}\">${detailHeaderHTML(x,{eyebrow:x.variant||`${bookCode(x.book)} CLASS GUIDE`,extra:`${x.hitDie?`<span class=\"class-header-stat\">${icon('die')}Hit die ${esc(x.hitDie)}</span>`:''}${x.progression&&typeof x.progression==='object'&&x.progression.label?`<span class=\"progression-label\">${esc(x.progression.label)}</span>`:''}`})}<div class=\"detail-body\">${x.description?`<p>${esc(x.description)}</p>`:''}${x.progression&&typeof x.progression==='object'&&x.progression.description?`<div class=\"progression-context\"><strong>${esc(x.progression.label||'Progression track')}</strong><p>${esc(x.progression.description)}</p><div>${(x.progression.references||[]).map(reference=>inlineSourceChip(reference,`${x.name} · progression`)).join('')}</div></div>`:''}${classAbilitiesHTML(x)}${advancementControlsHTML(x)}${xpCalculatorHTML(x)}${xpTableHTML(x)}${Array.isArray(x.guidance)&&x.guidance.length?`<h3>General class checklist</h3><p class=\"small muted\">These are general class reminders, separate from the selected level’s changes.</p><ul>${x.guidance.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:'<h3>General class checklist</h3><p>Class-wide advancement reminders are still being extracted. Check the class section, relevant ability tables, and DMG training guidance in your own books.</p>'}${classRecordNotesHTML(x)}${x.errata?`<h3>Errata — separate from the printing</h3><div class=\"callout\">${esc(Array.isArray(x.errata)?x.errata.join(' '):x.errata)}</div>`:''}<div class=\"callout\">XP indicates a threshold, not automatic advancement. Class prerequisites, campaign eligibility, rank limits, and the Dungeon Master’s training procedure can affect advancement.</div></div>${inlineNotes(x.id)}<footer class=\"detail-footer\"><span>${icon('book')}Partial level-up extraction · visual table verification pending</span>${originalScansButton(x)}<button class=\"source-chip\" data-copy-link=\"${esc(x.id)}\">Copy reference link ↗</button></footer></article>`;"
+      },
+      {
+        "line": 1165,
+        "function": "calculateXP",
+        "producerClass": "dynamic-xp-result",
+        "sourceLine": "if(cap&&cap.track===track&&value>=cap.xp){output.innerHTML=`${cap.derived?'Derived':'Highest listed'} threshold reached: <strong>level ${cap.level}</strong>. This source track has a stated level limit of ${cap.level}; additional XP does not establish a higher level here. ${inlineSourceChip(x.levelLimit||cap,`${x.name} · source level limit`)}`;$$('[data-xp-level]').filter(el=>Number(el.dataset.xpLevel)===cap.level).forEach(el=>el.classList.add('current'));meter.style.width='100%';bindInlineSources(output);return;}"
+      },
+      {
+        "line": 1168,
+        "function": "calculateXP",
+        "producerClass": "dynamic-xp-result",
+        "sourceLine": "output.innerHTML=`<strong>Derived threshold reached: level ${level}.</strong> ${(next-value).toLocaleString()} XP to the next derived threshold. Uses +${continuation.increment.toLocaleString()} XP per level after level ${continuation.afterLevel}; class eligibility and rank limits still apply. ${inlineSourceChip(continuation,`${x.name} · XP continuation`)}`;"
+      },
+      {
+        "line": 1177,
+        "function": "calculateXP",
+        "producerClass": "dynamic-xp-result",
+        "sourceLine": "output.innerHTML=`Highest listed threshold reached: <strong>level ${current.level}</strong>. ${next?`${(next.xp-value).toLocaleString()} XP to ${gap?'the next listed threshold, ':''}level ${next.level}.`: 'No higher threshold can be determined from the current extraction.'}${gap?' Intermediate XP rows are missing, so your exact current level cannot be determined from this table.':''}${!next?' Higher levels may have missing XP rows; this is not a class-level cap.':''} ${inlineSourceChip(current,`${x.name} · Level ${current.level} XP`)}`;"
+      },
+      {
+        "line": 1209,
+        "function": "fighterCombatHTML",
+        "producerClass": "fighter-matrix-reference",
+        "sourceLine": "return `<section class=\"fighter-combat\" data-source-context=\"dmg-original-fighter-attack-matrix\" data-source-view=\"matrices\" aria-label=\"Fighter attack target comparison\"><div class=\"standard-attack\"><h4>Standard · original AC0 matrix</h4><strong>${esc(combatTargetLabel(standard.from))} <span aria-hidden=\"true\">→</span><span class=\"sr-only\">to</span> ${esc(combatTargetLabel(standard.to))}</strong><p>Unmodified d20 target against AC 0, level ${previous} → ${target}. ${standard.fromBand===standard.toBand?'Both levels share the same printed matrix band; the standard target is unchanged.':'Uses the source-listed cell for each level band.'} This is an AC0 comparison, not a universal attack bonus.</p>${inlineSourceChip(matrix,`Fighter level ${previous} to ${target} · standard AC0 matrix`)}</div><details class=\"combat-disclosure fighter-alt\" data-fighter-alt${fighterAltOpen?' open':''}><summary>Alt · fighter house rule</summary><div class=\"disclosure-body\"><h4>Alt · AC0 target</h4><strong class=\"alt-attack-target\">${esc(combatTargetLabel(alt.from))} <span aria-hidden=\"true\">→</span><span class=\"sr-only\">to</span> ${esc(combatTargetLabel(alt.to))}</strong><p>Informational house-rule comparison: +1 to hit for each fighter level above 1st. Anchor: fighter level 1 has an AC0 target of ${esc(combatTargetLabel(alt.anchorTarget))} in the original matrix.</p><p class=\"combat-formula\">Alt AC0 target = ${esc(combatTargetLabel(alt.anchorTarget))} − (fighter level − 1)</p><p>This comparison does not change the standard reference or apply to other classes. It does not decide natural-20 or other attack-resolution rules.</p>${inlineSourceChip(matrix,'Fighter house-rule comparison · source level1 AC0 anchor','Anchor · ')}</div></details><details class=\"combat-disclosure matrix-disclosure\" data-fighter-matrix${fighterMatrixOpen?' open':''}><summary>Original fighter matrix · ${coverage.known}/${coverage.total} cells transcribed</summary><div class=\"disclosure-body\"><p>${matrix.cellVerification?.cellCount===coverage.total && coverage.missing===0 ? `<strong>Source table:</strong> All ${coverage.total} cells were visually checked against the supplied DMG scan. Other combat mechanics and notes retain their own review status.` : `<strong>Partial source table:</strong> ${coverage.known} known cells; ${coverage.missing} not transcribed. “Not transcribed” is an extraction gap, never zero or an automatic miss.`}</p>${inlineSourceChip(matrix,'Original fighter attack matrix')} <a class=\"matrix-record-link\" href=\"#matrices/${encodeURIComponent(matrix.id)}\">Open the full matrix record ↗</a>${matrixTableHTML(matrix)}<h4>Why simple subtraction can disagree</h4><p>The original matrix repeats 20 in some AC columns. These illustrations use only source-listed cells; the linear calculation is a comparison, not a replacement rule.</p><div class=\"table-scroll\" tabindex=\"0\" role=\"region\" aria-label=\"Repeated-20 source examples, horizontally scrollable\"><table class=\"matrix-examples\"><caption class=\"sr-only\">Source-listed repeated20 examples</caption><thead><tr><th scope=\"col\">Fighter level</th><th scope=\"col\">Defender AC</th><th scope=\"col\">Printed target</th><th scope=\"col\">AC0 − AC</th></tr></thead><tbody>${(matrix.comparisonExamples||[]).map(example=>`<tr><th scope=\"row\">${example.levelMin}${example.levelMax!==example.levelMin?`–${example.levelMax}`:''}</th><td>${example.armorClass}</td><td>${example.matrixTarget}</td><td>${example.simpleSubtractionTarget}</td></tr>`).join('')}</tbody></table></div>${naturalOption?`<section class=\"natural-twenty-option\"><h4>Separate optional amendment · natural 20</h4><p>${esc(naturalOption.text)}</p>${inlineSourceChip(naturalOption,'Optional natural20 amendment')}</section>`:''}<p class=\"small muted\">${esc((matrix.notes||[]).find(note=>note.includes('paladins'))||'See the source for other attacker groups and adjustments.')}</p></div></details></section>`;"
+      }
+    ],
+    "unknownFutureProducerStillFatal": {
+      "tested": true,
+      "error": "Unclassified citation chip producer at dist/app.js:1621 in futureCitationControl"
+    },
+    "allProducerFunctions": {
+      "attributeLayoutHTML": {
+        "producerClass": "field-attribute-layout",
+        "siteCount": 2,
+        "lines": [
+          93,
+          95
+        ]
+      },
+      "suggestedPriceHTML": {
+        "producerClass": "equipment-estimate-comparison",
+        "siteCount": 1,
+        "lines": [
+          519
+        ]
+      },
+      "equipmentDetailHTML": {
+        "producerClass": "equipment-related-reference",
+        "siteCount": 1,
+        "lines": [
+          528
+        ]
+      },
+      "progressionExplainerHTML": {
+        "producerClass": "progression-explainer-reference",
+        "siteCount": 1,
+        "lines": [
+          579
+        ]
+      },
+      "progressionExplainerDetailHTML": {
+        "producerClass": "progression-explainer-detail-reference",
+        "siteCount": 2,
+        "lines": [
+          582,
+          584
+        ]
+      },
+      "matrixDetailHTML": {
+        "producerClass": "matrix-detail-reference",
+        "siteCount": 1,
+        "lines": [
+          592
+        ]
+      },
+      "ruleBulletSourceChips": {
+        "producerClass": "rule-bullet-field-reference",
+        "siteCount": 1,
+        "lines": [
+          892
+        ]
+      },
+      "exactPendingPdfHirelingBulletSourceChips": {
+        "producerClass": "hireling-pending-pdf-bullet-field-reference",
+        "siteCount": 1,
+        "lines": [
+          1063
+        ]
+      },
+      "tableFactSourceChip": {
+        "producerClass": "source-table-fact-reference",
+        "siteCount": 2,
+        "lines": [
+          1072,
+          1078
+        ]
+      },
+      "advancementControlsHTML": {
+        "producerClass": "class-advancement",
+        "siteCount": 1,
+        "lines": [
+          1113
+        ]
+      },
+      "advancementSummaryHTML": {
+        "producerClass": "class-advancement",
+        "siteCount": 1,
+        "lines": [
+          1121
+        ]
+      },
+      "xpTableHTML": {
+        "producerClass": "class-xp-table",
+        "siteCount": 2,
+        "lines": [
+          1131,
+          1133
+        ]
+      },
+      "classAbilitiesHTML": {
+        "producerClass": "class-abilities-table-record",
+        "siteCount": 1,
+        "lines": [
+          1144
+        ]
+      },
+      "classDetailHTML": {
+        "producerClass": "class-progression-reference",
+        "siteCount": 1,
+        "lines": [
+          1155
+        ]
+      },
+      "calculateXP": {
+        "producerClass": "dynamic-xp-result",
+        "siteCount": 3,
+        "lines": [
+          1165,
+          1168,
+          1177
+        ]
+      },
+      "fighterCombatHTML": {
+        "producerClass": "fighter-matrix-reference",
+        "siteCount": 1,
+        "lines": [
+          1209
+        ]
+      }
+    },
+    "classes": [
+      "class-abilities-table-record",
+      "class-advancement",
+      "class-progression-reference",
+      "class-xp-table",
+      "dynamic-xp-result",
+      "equipment-estimate-comparison",
+      "equipment-related-reference",
+      "field-attribute-layout",
+      "fighter-matrix-reference",
+      "hireling-pending-pdf-bullet-field-reference",
+      "matrix-detail-reference",
+      "progression-explainer-detail-reference",
+      "progression-explainer-reference",
+      "rule-bullet-field-reference",
+      "source-table-fact-reference"
+    ]
+  },
+  "hirelingBulletTargetRoleCensus": {
+    "hirelingOwners": 48,
+    "bindingCount": 36,
+    "uniqueOwnerFieldCount": 35,
+    "fieldOwners": [
+      "rules"
+    ],
+    "sourceOwners": [
+      "rules"
+    ],
+    "sourceCategories": [
+      "hireling-procedure-bullet-reference"
+    ],
+    "reviewStatuses": [
+      "field-target-pending"
+    ],
+    "targetStatuses": [
+      "pending"
+    ],
+    "sourceValueStatuses": [
+      "not-assessed-by-field-target-review"
+    ],
+    "contextStatuses": [
+      "context-not-assessed"
+    ],
+    "targetRoleErrors": 0,
+    "fieldsByOwner": {
+      "dmg-hireling-table-t23": {
+        "bindingCount": 3,
+        "fieldPointers": [
+          "/bullets/0",
+          "/bullets/1",
+          "/bullets/2"
+        ]
+      },
+      "dmg-hireling-procedure-u01": {
+        "bindingCount": 2,
+        "fieldPointers": [
+          "/bullets/0",
+          "/bullets/1"
+        ]
+      },
+      "dmg-hireling-procedure-u02": {
+        "bindingCount": 2,
+        "fieldPointers": [
+          "/bullets/0",
+          "/bullets/1"
+        ]
+      },
+      "dmg-hireling-procedure-u03": {
+        "bindingCount": 2,
+        "fieldPointers": [
+          "/bullets/0",
+          "/bullets/1"
+        ]
+      },
+      "dmg-hireling-procedure-u04": {
+        "bindingCount": 4,
+        "fieldPointers": [
+          "/bullets/0",
+          "/bullets/1",
+          "/bullets/2",
+          "/bullets/3"
+        ]
+      },
+      "dmg-hireling-procedure-u05": {
+        "bindingCount": 2,
+        "fieldPointers": [
+          "/bullets/0",
+          "/bullets/1"
+        ]
+      },
+      "dmg-hireling-procedure-u06": {
+        "bindingCount": 4,
+        "fieldPointers": [
+          "/bullets/0",
+          "/bullets/1",
+          "/bullets/2",
+          "/bullets/3"
+        ]
+      },
+      "dmg-hireling-procedure-u07": {
+        "bindingCount": 4,
+        "fieldPointers": [
+          "/bullets/0",
+          "/bullets/1",
+          "/bullets/2",
+          "/bullets/3"
+        ]
+      },
+      "dmg-hireling-procedure-u08": {
+        "bindingCount": 4,
+        "fieldPointers": [
+          "/bullets/0",
+          "/bullets/1",
+          "/bullets/2",
+          "/bullets/3"
+        ]
+      },
+      "dmg-hireling-procedure-u09": {
+        "bindingCount": 3,
+        "fieldPointers": [
+          "/bullets/0",
+          "/bullets/1",
+          "/bullets/2"
+        ]
+      },
+      "dmg-hireling-procedure-u10": {
+        "bindingCount": 6,
+        "fieldPointers": [
+          "/bullets/0",
+          "/bullets/1",
+          "/bullets/2",
+          "/bullets/3",
+          "/bullets/4"
+        ]
+      }
+    },
+    "bindings": [
+      {
+        "ownerId": "dmg-hireling-table-t23",
+        "fieldPointer": "/bullets/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t23"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t23"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 34,
+        "pdfPage": 35,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t23.json",
+        "regionIds": [
+          "dmg-hireling-table-t23-bullet-u14-1-u14-left-source-v1",
+          "dmg-hireling-table-t23-bullet-u14-1-u14-right-source-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t23",
+        "fieldPointer": "/bullets/1",
+        "sourceObjectPointer": "/references/1",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t23"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t23"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 34,
+        "pdfPage": 35,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t23.json",
+        "regionIds": [
+          "dmg-hireling-table-t23-bullet-u14-2-u14-right-source-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t23",
+        "fieldPointer": "/bullets/2",
+        "sourceObjectPointer": "/references/2",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t23"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t23"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 34,
+        "pdfPage": 35,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t23.json",
+        "regionIds": [
+          "dmg-hireling-table-t23-bullet-u14-3-u14-right-source-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u01",
+        "fieldPointer": "/bullets/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u01"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u01"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 16,
+        "pdfPage": 17,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u01.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u01-bullet-u01-1-part-1-v1",
+          "dmg-hireling-procedure-u01-bullet-u01-1-part-2-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u01",
+        "fieldPointer": "/bullets/1",
+        "sourceObjectPointer": "/references/1",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u01"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u01"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 16,
+        "pdfPage": 17,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u01.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u01-bullet-u01-2-part-1-v1",
+          "dmg-hireling-procedure-u01-bullet-u01-2-part-2-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u02",
+        "fieldPointer": "/bullets/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u02"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u02"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 16,
+        "pdfPage": 17,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u02.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u02-bullet-u02-1-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u02",
+        "fieldPointer": "/bullets/1",
+        "sourceObjectPointer": "/references/1",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u02"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u02"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 16,
+        "pdfPage": 17,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u02.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u02-bullet-u02-2-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u03",
+        "fieldPointer": "/bullets/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u03"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u03"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 16,
+        "pdfPage": 17,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u03.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u03-bullet-u03-1-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u03",
+        "fieldPointer": "/bullets/1",
+        "sourceObjectPointer": "/references/1",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u03"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u03"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 16,
+        "pdfPage": 17,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u03.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u03-bullet-u03-2-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u04",
+        "fieldPointer": "/bullets/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u04"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u04"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 16,
+        "pdfPage": 17,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u04.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u04-bullet-u04-1-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u04",
+        "fieldPointer": "/bullets/1",
+        "sourceObjectPointer": "/references/1",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u04"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u04"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 16,
+        "pdfPage": 17,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u04.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u04-bullet-u04-2-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u04",
+        "fieldPointer": "/bullets/2",
+        "sourceObjectPointer": "/references/2",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u04"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u04"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 16,
+        "pdfPage": 17,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u04.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u04-bullet-u04-3-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u04",
+        "fieldPointer": "/bullets/3",
+        "sourceObjectPointer": "/references/3",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u04"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u04"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u04.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u04-bullet-u04-4-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u05",
+        "fieldPointer": "/bullets/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u05"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u05"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u05.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u05-bullet-u05-1-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u05",
+        "fieldPointer": "/bullets/1",
+        "sourceObjectPointer": "/references/1",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u05"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u05"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u05.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u05-bullet-u05-2-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u06",
+        "fieldPointer": "/bullets/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u06"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u06"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u06.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u06-bullet-u06-1-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u06",
+        "fieldPointer": "/bullets/1",
+        "sourceObjectPointer": "/references/1",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u06"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u06"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u06.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u06-bullet-u06-2-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u06",
+        "fieldPointer": "/bullets/2",
+        "sourceObjectPointer": "/references/2",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u06"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u06"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u06.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u06-bullet-u06-3-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u06",
+        "fieldPointer": "/bullets/3",
+        "sourceObjectPointer": "/references/3",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u06"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u06"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u06.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u06-bullet-u06-4-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u07",
+        "fieldPointer": "/bullets/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u07"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u07"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u07.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u07-bullet-u07-1-u07-source-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u07",
+        "fieldPointer": "/bullets/1",
+        "sourceObjectPointer": "/references/1",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u07"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u07"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u07.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u07-bullet-u07-2-u07-source-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u07",
+        "fieldPointer": "/bullets/2",
+        "sourceObjectPointer": "/references/2",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u07"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u07"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u07.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u07-bullet-u07-3-u07-source-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u07",
+        "fieldPointer": "/bullets/3",
+        "sourceObjectPointer": "/references/3",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u07"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u07"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u07.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u07-bullet-u07-4-u07-source-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u08",
+        "fieldPointer": "/bullets/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u08"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u08"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u08.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u08-bullet-u08-1-part-1-v1",
+          "dmg-hireling-procedure-u08-bullet-u08-1-part-2-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u08",
+        "fieldPointer": "/bullets/1",
+        "sourceObjectPointer": "/references/1",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u08"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u08"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u08.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u08-bullet-u08-2-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u08",
+        "fieldPointer": "/bullets/2",
+        "sourceObjectPointer": "/references/2",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u08"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u08"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u08.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u08-bullet-u08-3-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u08",
+        "fieldPointer": "/bullets/3",
+        "sourceObjectPointer": "/references/3",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u08"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u08"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u08.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u08-bullet-u08-4-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u09",
+        "fieldPointer": "/bullets/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u09"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u09"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u09.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u09-bullet-u09-1-u09-source-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u09",
+        "fieldPointer": "/bullets/1",
+        "sourceObjectPointer": "/references/1",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u09"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u09"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u09.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u09-bullet-u09-2-u09-source-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u09",
+        "fieldPointer": "/bullets/2",
+        "sourceObjectPointer": "/references/2",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u09"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u09"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u09.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u09-bullet-u09-3-u09-source-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u10",
+        "fieldPointer": "/bullets/0",
+        "sourceObjectPointer": "/references/0",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u10"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u10"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u10.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u10-bullet-u10-1-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u10",
+        "fieldPointer": "/bullets/1",
+        "sourceObjectPointer": "/references/1",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u10"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u10"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u10.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u10-bullet-u10-2-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u10",
+        "fieldPointer": "/bullets/2",
+        "sourceObjectPointer": "/references/2",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u10"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u10"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u10.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u10-bullet-u10-3-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u10",
+        "fieldPointer": "/bullets/3",
+        "sourceObjectPointer": "/references/3",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u10"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u10"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u10.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u10-bullet-u10-4-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u10",
+        "fieldPointer": "/bullets/4",
+        "sourceObjectPointer": "/references/4",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u10"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u10"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u10.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u10-bullet-u10-5-part-1-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-procedure-u10",
+        "fieldPointer": "/bullets/4",
+        "sourceObjectPointer": "/references/4",
+        "sourceCategory": "hireling-procedure-bullet-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u10"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-procedure-u10"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "catalog": "scans/verified/rules-dmg-hireling-procedure-u10.json",
+        "regionIds": [
+          "dmg-hireling-procedure-u10-bullet-u10-5-part-2-v1"
+        ],
+        "targetCount": 1
+      }
+    ]
+  },
+  "hirelingTableNoteTargetRoleCensus": {
+    "tableOwners": 38,
+    "bindingCount": 41,
+    "uniqueOwnerFieldCount": 38,
+    "sourceCategories": [
+      "hireling-table-note-reference",
+      "hireling-table-note-page-reference"
+    ],
+    "fieldOwners": [
+      "rules"
+    ],
+    "sourceOwners": [
+      "rules"
+    ],
+    "reviewStatuses": [
+      "field-target-pending"
+    ],
+    "targetStatuses": [
+      "pending"
+    ],
+    "sourceValueStatuses": [
+      "not-assessed-by-field-target-review"
+    ],
+    "contextStatuses": [
+      "context-not-assessed"
+    ],
+    "targetRoleErrors": 0,
+    "bindings": [
+      {
+        "ownerId": "dmg-hireling-table-t01",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t01"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t01"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 16,
+        "pdfPage": 17,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t01.json",
+        "regionIds": [
+          "dmg-hireling-table-t01-note-support-p16-roll-each-category-intro-v1",
+          "dmg-hireling-table-t01-note-t01",
+          "dmg-hireling-table-t01-note-support-p16-type-selection-instruction-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t02",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t02"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t02"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 16,
+        "pdfPage": 17,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t02.json",
+        "regionIds": [
+          "dmg-hireling-table-t02-note-support-p16-fighter-roll-intro-v1",
+          "dmg-hireling-table-t02-note-t02"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t03",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t03"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t03"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 16,
+        "pdfPage": 17,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t03.json",
+        "regionIds": [
+          "dmg-hireling-table-t03-note-support-p16-fighter-roll-intro-v1",
+          "dmg-hireling-table-t03-note-t03",
+          "dmg-hireling-table-t03-note-support-p16-polearm-type-selection-instruction-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t04",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t04"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t04"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 16,
+        "pdfPage": 17,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t04.json",
+        "regionIds": [
+          "dmg-hireling-table-t04-note-t04",
+          "dmg-hireling-table-t04-note-support-p16-reroll-invalid-modifier-prose-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t05",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-page-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t05"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t05"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 16,
+        "pdfPage": 17,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t05.json",
+        "regionIds": [
+          "dmg-hireling-table-t05-note-support-p16-ranger-roll-and-count-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t05",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-page-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t05"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t05"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t05.json",
+        "regionIds": [
+          "dmg-hireling-table-t05-note-t05"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t06",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t06"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t06"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t06.json",
+        "regionIds": [
+          "dmg-hireling-table-t06-note-t06"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t07",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t07"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t07"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t07.json",
+        "regionIds": [
+          "dmg-hireling-table-t07-note-t07",
+          "dmg-hireling-table-t07-note-support-p17-thief-alignment-footnote-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t08",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t08"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t08"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t08.json",
+        "regionIds": [
+          "dmg-hireling-table-t08-note-t08"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t09",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t09"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t09"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t09.json",
+        "regionIds": [
+          "dmg-hireling-table-t09-note-t09"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t10",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t10"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t10"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t10.json",
+        "regionIds": [
+          "dmg-hireling-table-t10-note-t10"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t11",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t11"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t11"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t11.json",
+        "regionIds": [
+          "dmg-hireling-table-t11-note-t11",
+          "dmg-hireling-table-t11-note-support-p17-dragon-footnote-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t12",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t12"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t12"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t12.json",
+        "regionIds": [
+          "dmg-hireling-table-t12-note-support-p17-thief-number-race-level-instruction-v1",
+          "dmg-hireling-table-t12-note-t12"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t13",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t13"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t13"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t13.json",
+        "regionIds": [
+          "dmg-hireling-table-t13-note-t13"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t14",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t14"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t14"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t14.json",
+        "regionIds": [
+          "dmg-hireling-table-t14-note-t14"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t15",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t15"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t15"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t15.json",
+        "regionIds": [
+          "dmg-hireling-table-t15-note-support-p17-thief-multiclass-prerequisite-footnote-v1",
+          "dmg-hireling-table-t15-note-t15"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t16",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t16"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t16"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t16.json",
+        "regionIds": [
+          "dmg-hireling-table-t16-note-t16",
+          "dmg-hireling-table-t16-note-support-p17-assassin-multiclass-footnote-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t17",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t17"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t17"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t17.json",
+        "regionIds": [
+          "dmg-hireling-table-t17-note-t17",
+          "dmg-hireling-table-t17-note-support-p17-assassin-multiclass-footnote-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t18",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-page-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t18"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t18"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 17,
+        "pdfPage": 18,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t18.json",
+        "regionIds": [
+          "dmg-hireling-table-t18-context-p17-thief-assassin-follower-tables"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t18",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-page-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t18"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t18"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t18.json",
+        "regionIds": [
+          "dmg-hireling-table-t18-note-t18",
+          "dmg-hireling-table-t18-context-p18-assassin-guild-followers-and-warhorse"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t19",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t19"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t19"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t19.json",
+        "regionIds": [
+          "dmg-hireling-table-t19-note-support-p18-player-character-vs-npc-spy-success-prose-v1",
+          "dmg-hireling-table-t19-note-t19"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t20",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-page-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t20"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t20"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 18,
+        "pdfPage": 19,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t20.json",
+        "regionIds": [
+          "dmg-hireling-table-t20-note-support-p18-daily-discovery-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t20",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-page-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t20"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t20"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t20.json",
+        "regionIds": [
+          "dmg-hireling-table-t20-note-t20",
+          "dmg-hireling-table-t20-note-support-p19-precaution-definitions-v1",
+          "dmg-hireling-table-t20-note-support-p19-group-leader-category-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t21",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t21"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t21"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t21.json",
+        "regionIds": [
+          "dmg-hireling-table-t21-note-support-p19-spy-failure-table-discovery-reference-v1",
+          "dmg-hireling-table-t21-note-t21",
+          "dmg-hireling-table-t21-note-support-p19-counterspy-footnote-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t22",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t22"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t22"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t22.json",
+        "regionIds": [
+          "dmg-hireling-table-t22-note-t22"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t23",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t23"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t23"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 34,
+        "pdfPage": 35,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t23.json",
+        "regionIds": [
+          "dmg-hireling-table-t23-note-support-p34-weapon-production-rates-prose-v1",
+          "dmg-hireling-table-t23-note-t23",
+          "dmg-hireling-table-t23-note-support-p34-scabbard-leatherwork-prose-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t24",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t24"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t24"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 35,
+        "pdfPage": 36,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t24.json",
+        "regionIds": [
+          "dmg-hireling-table-t24-note-t24",
+          "dmg-hireling-table-t24-note-support-p35-method-frequency-combination-and-inn-cost-prose-v1",
+          "dmg-hireling-table-t24-note-support-p35-multiple-establishments-reduction-prose-v2"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t25",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-page-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t25"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t25"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 35,
+        "pdfPage": 36,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t25.json",
+        "regionIds": [
+          "dmg-hireling-table-t25-note-support-p35-class-denominator-intro-v1",
+          "dmg-hireling-table-t25-note-t25",
+          "dmg-hireling-table-t25-note-support-p35-nonhuman-class-count-and-two-profession-exception-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t26",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-page-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t26"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t26"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 36,
+        "pdfPage": 37,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t26.json",
+        "regionIds": [
+          "dmg-hireling-table-t26-note-t26",
+          "dmg-hireling-table-t26-context-p36-loyalty-score-and-base-modifiers"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t27",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t27"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t27"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 36,
+        "pdfPage": 37,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t27.json",
+        "regionIds": [
+          "dmg-hireling-table-t27-note-t27"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t28",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t28"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t28"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 36,
+        "pdfPage": 37,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t28.json",
+        "regionIds": [
+          "dmg-hireling-table-t28-note-t28"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t29",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t29"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t29"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 36,
+        "pdfPage": 37,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t29.json",
+        "regionIds": [
+          "dmg-hireling-table-t29-note-t29",
+          "dmg-hireling-table-t29-note-support-p36-length-association-footnote-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t30",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t30"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t30"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 36,
+        "pdfPage": 37,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t30.json",
+        "regionIds": [
+          "dmg-hireling-table-t30-note-t30"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t31",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t31"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t31"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 36,
+        "pdfPage": 37,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t31.json",
+        "regionIds": [
+          "dmg-hireling-table-t31-note-t31",
+          "dmg-hireling-table-t31-note-support-p36-typical-magic-items-footnote-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t32",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t32"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t32"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 36,
+        "pdfPage": 37,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t32.json",
+        "regionIds": [
+          "dmg-hireling-table-t32-note-t32"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t33",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t33"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t33"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 36,
+        "pdfPage": 37,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t33.json",
+        "regionIds": [
+          "dmg-hireling-table-t33-note-t33",
+          "dmg-hireling-table-t33-note-support-p36-cruel-liege-condition-footnote-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t34",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-page-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t34"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t34"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 37,
+        "pdfPage": 38,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t34.json",
+        "regionIds": [
+          "dmg-hireling-table-t34-note-support-p37-racial-preference-cumulative-note-v1",
+          "dmg-hireling-table-t34-context-p37-racial-preference-and-alignment-full-width-v2"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t35",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t35"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t35"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 37,
+        "pdfPage": 38,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t35.json",
+        "regionIds": [
+          "dmg-hireling-table-t35-note-t35",
+          "dmg-hireling-table-t35-note-support-p37-alignment-distance-examples-v1"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t36",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t36"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t36"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 37,
+        "pdfPage": 38,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t36.json",
+        "regionIds": [
+          "dmg-hireling-table-t36-note-t36"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t37",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t37"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t37"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 37,
+        "pdfPage": 38,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t37.json",
+        "regionIds": [
+          "dmg-hireling-table-t37-note-t37",
+          "dmg-hireling-table-t37-note-support-p37-one-penalty-one-bonus-cap-note-v2"
+        ],
+        "targetCount": 1
+      },
+      {
+        "ownerId": "dmg-hireling-table-t38",
+        "fieldPointer": "/table/sourceNotes/0",
+        "sourceObjectPointer": "/table/sourceNotes/0/sourceReference",
+        "sourceCategory": "hireling-table-note-reference",
+        "reviewStatus": "field-target-pending",
+        "sourceValueStatus": "not-assessed-by-field-target-review",
+        "targetReview": null,
+        "fieldOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t38"
+        },
+        "sourceOwner": {
+          "collection": "rules",
+          "itemId": "dmg-hireling-table-t38"
+        },
+        "targetStatus": "pending",
+        "contextStatus": "context-not-assessed",
+        "book": "DMG",
+        "printedPage": 37,
+        "pdfPage": 38,
+        "catalog": "scans/verified/rules-dmg-hireling-table-t38.json",
+        "regionIds": [
+          "dmg-hireling-table-t38-note-t38"
+        ],
+        "targetCount": 1
+      }
+    ]
+  },
+  "guardPolicy": "Finite exact function-name classification; no generic inlineSourceChip fallback, no unknown-producer waiver. Source chips carry actual rules fieldOwner and sourceOwner equal to the HIRED owner; every target stays pending and context-unassessed."
+}

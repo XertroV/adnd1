@@ -1,0 +1,239 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "exact-HIRED-native-source-body-historical-transition-qualification",
+  "status": "historical-correction-qualified-current-body-unchecked",
+  "sourceEpoch": {
+    "contract": {
+      "path": "tests/fixtures/hirelings-source-current-cohort-v1.json",
+      "sha256": "62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f"
+    },
+    "sourceCommit": "bc819621e49788260bb34ea47c1f7a8b35af6edf",
+    "sourceTree": "e6bc420f70656825a926297b959bc6d98758bfcd",
+    "baselineCommit": "1f79d909344ebe7d41a432d8673f3eedb491fa3b",
+    "baselineAncestorOfSource": true,
+    "sourceAncestorOfCurrentHead": true,
+    "sourceRawInputs": [
+      {
+        "path": "dist/data.json",
+        "sha256": "2cddb11a82ecc3b9d77cb3fa2ae49eef5623a5470ac85a540d1baf483e096a95"
+      },
+      {
+        "path": "research/price-source-inventory.json",
+        "sha256": "3073ce4f92e772b91ede42cf111d118acaf4a66e636ebbab064b8085708ff3e6"
+      },
+      {
+        "path": "research/field-evidence-bindings.json",
+        "sha256": "7ad198b8f8b48605fb2d48aac114769fa06467def45d51c5864014b6e655c0f3"
+      },
+      {
+        "path": "equipment.json",
+        "sha256": "714d40b9ed9908a069fddc08525d43437c9e974b984572eb1c505c37ee8cae95"
+      },
+      {
+        "path": "rules.json",
+        "sha256": "d2b19d365d6899e75b41f43fe5eb3541f224aecb6594fa65c633fd04a5b1cc7c"
+      },
+      {
+        "path": "dist/books.js",
+        "sha256": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811"
+      },
+      {
+        "path": "dist/app.js",
+        "sha256": "f4381ff282ea6ff7d245c915ab17fafd4b19e025e2af6c2a496145429285f2c7"
+      },
+      {
+        "path": "dist/source-viewer.js",
+        "sha256": "3355a2c28b03d72cf0b1a097a1fc211cd99942555dbc502cacea41e99023fd2c"
+      }
+    ]
+  },
+  "priorTransition": {
+    "path": "research/source-audit-pass8-dmg175-source-body-handoff-transition-v1.json",
+    "sha256": "01b659d865c8c36eaf7a7a9bf26e3ceebf72ec25c4b431c6b316de2111ebc182",
+    "valueSha256": "b595af00888043e480fa22a43db473763cacb62d358174574f1a500253b0afd7"
+  },
+  "currentSourceData": {
+    "path": "dist/data.json",
+    "rawSha256": "2cddb11a82ecc3b9d77cb3fa2ae49eef5623a5470ac85a540d1baf483e096a95",
+    "parsedSha256": "2ae8ca455d0c57c6e9ea3a68fac6c3ac74fad74fec5ccf354eed8d2d9c71545e"
+  },
+  "currentMechanics": {
+    "path": "research/mechanics-audit-progress.json",
+    "rawSha256": "5627488c038354a15e4cc3ab1871dab02eb1f3eec9fa84a5ff3666cf253bcc43",
+    "parsedSha256": "c87fe66dfcc213a8bb0101e28ee88349107e74b49047e5f12d5c3db438440f94",
+    "mechanicsInputSha256": "33e9e63af234a48d9d6039d83235238d76efc2b43cf6afc9c7a4346bdbaa9097",
+    "reviewRecords": 1215,
+    "reviewRecordsSha256": "cfad75c6e4385af44edc85fe655d5913e2851aa2b948b7dfaf13e6ff01c6065e"
+  },
+  "historicalBaseline": {
+    "commit": "679b15d1c580172e54314829c1c3c86dc78b65f3",
+    "parsedDataSha256": "b617db17b85a468b36ceda4e570bc5c8b4d85557c2b67f42e567ba1780e4bae6"
+  },
+  "originalConflictReceipt": {
+    "path": "research/source-audit-batch5-conflict-integration.json",
+    "sha256": "365581fbce32f52dd6c370c3ce32b20605ed02e6a58b33e555135385622eccfd",
+    "qualifiedChangeIndex": 4,
+    "change": {
+      "file": "ua-spells.json",
+      "collection": "spells",
+      "itemId": "ua-druid-ceremony",
+      "pointer": "/exceptions/0",
+      "oldValue": "The printed text says the listed ranks are “indicated or lower”; this conflicts with the implied hierarchy of the rites, so minimum-rank wording remains unresolved.",
+      "newValue": "UA p.41 prints that a druid of the indicated or lower level can cast each listed rite. Initiation is performed on a druid beginning seventh-level advancement; pp.41–42 say the recipient usually seeks another druid of seventh or higher level to perform it, with unusual self-casting allowed. Preserve the printed general wording and this rite-specific procedure.",
+      "reason": "Include the rite-specific caster procedure on the continuation; retire the contradiction inferred from hierarchy alone.",
+      "sources": [
+        {
+          "book": "UA",
+          "page": 41,
+          "pdfPage": 42,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 42,
+          "pdfPage": 43,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ]
+    }
+  },
+  "qualifiedTarget": {
+    "collection": "spells",
+    "itemId": "ua-druid-ceremony",
+    "pointer": "/exceptions/0",
+    "currentValue": "Cast out’s effects can be lessened by a reversed ceremony cast by the same druid or another druid at least as high level as the original caster, but only a Hierophant Druid can completely cancel it. Higher-ranking druids may punish a druid who was denied permission or whose action is later reversed.",
+    "currentValueSha256": "0b99ec231ff146049e856ad9e25eb90ed3503eacaafeb56da9309386c13952e8",
+    "wholeCurrentOwnerSha256": "10935b5f68822fe32345ee226633f017934e6b57ac90a02f4d63b9271b1a16a7",
+    "currentMechanicsField": {
+      "path": "/exceptions/0",
+      "value": "Cast out’s effects can be lessened by a reversed ceremony cast by the same druid or another druid at least as high level as the original caster, but only a Hierophant Druid can completely cancel it. Higher-ranking druids may punish a druid who was denied permission or whose action is later reversed.",
+      "status": "unchecked",
+      "inspected": false,
+      "checkers": [
+        "mechanics-ua-source-body-transition-pending-v1"
+      ],
+      "unresolved": [
+        {
+          "checker": "mechanics-ua-source-body-transition-pending-v1",
+          "path": "/exceptions/0",
+          "reason": "Pending separate mechanics-field review after the source-only UA body expansion; no source-value or field-target approval is recorded for this revised assertion."
+        }
+      ]
+    }
+  },
+  "curatedHistoricalCaution": {
+    "baselineIndex": 70,
+    "note": {
+      "collection": "spells",
+      "itemId": "ua-druid-ceremony",
+      "fieldPointer": "/exceptions/0",
+      "annotationType": "path-reason-object",
+      "reason": "Source ambiguity, UA p.41: the printed introduction says the listed rites can be cast by a druid of the indicated or lower level, while its escalating ranks associate initiation with 7th level and other rites with 9th and 12th level; do not silently replace lower with higher.",
+      "checkers": [
+        "mechanics-ua-spells"
+      ],
+      "sourceReferences": [
+        {
+          "book": "UA",
+          "page": 32,
+          "pdfPage": 33,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 41,
+          "pdfPage": 42,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        },
+        {
+          "book": "UA",
+          "page": 42,
+          "pdfPage": 43,
+          "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+        }
+      ],
+      "reviewRecordIndexes": [
+        833
+      ]
+    }
+  },
+  "priorHandoffDisposition": {
+    "collection": "spells",
+    "itemId": "ua-druid-ceremony",
+    "fieldPointer": "/exceptions/0",
+    "annotationType": "path-reason-object",
+    "reason": "The exact reviewed source transition removed or replaced the prior caution; the current ledger has no matching unresolved candidate.",
+    "checkers": [
+      "mechanics-ua-spells"
+    ],
+    "sourceReferences": [
+      {
+        "book": "UA",
+        "page": 32,
+        "pdfPage": 33,
+        "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      },
+      {
+        "book": "UA",
+        "page": 41,
+        "pdfPage": 42,
+        "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      },
+      {
+        "book": "UA",
+        "page": 42,
+        "pdfPage": 43,
+        "sourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+      }
+    ],
+    "reviewRecordIndexes": [
+      833
+    ],
+    "disposition": "resolved-by-reviewed-source-transition",
+    "receipt": "research/source-audit-batch5-conflict-integration.json",
+    "receiptPointer": "/changes/4",
+    "baselineIndex": 70,
+    "receiptSha256": "365581fbce32f52dd6c370c3ce32b20605ed02e6a58b33e555135385622eccfd"
+  },
+  "inheritedHistoricalQualification": {
+    "path": "research/source-audit-pass8-ua-source-body-handoff-transition-v1.json",
+    "sha256": "f79f4e38d79eff161748e683461b377508d2feff95f86833ba41853370025c05",
+    "valueSha256": "a4f2a8573fe0e7c37e1747927134ac4ef1e0abcff74e54d852262b67646d3eb3",
+    "sourceInputCommit": "6b3cfc8cb421a2c1fc2379c38abebe2075634981",
+    "approvedWithdrawal": {
+      "qualifiedRecords": 6,
+      "withdrawnRecordPointerPairs": 25,
+      "withdrawnObsoleteChanges": 4,
+      "unaffectedOriginalRecords": 1204,
+      "retainedCheckedPaths": 48,
+      "retainedCorrections": 5,
+      "appendedEmptyCheckRecords": 5,
+      "currentChangedPendingLeaves": 41,
+      "newSourceValueOrMechanicsApprovals": 0
+    },
+    "scope": "The prior bounded UA withdrawal remains historical. Its counts are not a new-source global denominator."
+  },
+  "evidence": [
+    {
+      "path": "tests/fixtures/hirelings-source-current-cohort-v1.json",
+      "sha256": "62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f"
+    },
+    {
+      "path": "research/mechanics-audit-progress.json",
+      "sha256": "5627488c038354a15e4cc3ab1871dab02eb1f3eec9fa84a5ff3666cf253bcc43"
+    },
+    {
+      "path": "research/source-audit-batch5-conflict-integration.json",
+      "sha256": "365581fbce32f52dd6c370c3ce32b20605ed02e6a58b33e555135385622eccfd"
+    }
+  ],
+  "policy": [
+    "Exactly the original conflict change 4 and curated caution 70 qualify as inherited history. No second conflict row or caution is waived.",
+    "The current HIRED source data and mechanics inputs are validated from actual files under the exact native source epoch; no projected Version 29 data is accepted.",
+    "The prior D175 receipt and its caution meaning remain unchanged and are referenced as history. This receipt adds only the native HIRED source qualification.",
+    "The ua-druid-ceremony /exceptions/0 assertion and its mechanics field remain unchanged, unchecked, and NOT PROMOTED.",
+    "This metadata qualification records historical intent only. It grants no source-value, field-target, context, continuation, overlay, whole-book, publication, or release approval."
+  ],
+  "semanticPass": false,
+  "currentSourceValueGrade": "NOT PROMOTED"
+}

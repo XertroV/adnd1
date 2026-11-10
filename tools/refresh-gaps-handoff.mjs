@@ -9,11 +9,10 @@ import {validatePriceSourceInventory} from './price-source-inventory.mjs';
 import {buildCoverageGaps} from './coverage-gaps.mjs';
 import {deriveDmg175Availability, projectDmg175Handoff, DMG175_OWNER_CATALOGS} from './dmg175-availability-projection.mjs';
 import {loadMonetaryRowIdentityAudit} from './monetary-row-identity-audit.mjs';
-import {loadJoCurrentSuccessor} from './dmg175-jo-unextracted-price-registration-v1.mjs';
+import {loadJoCurrentSuccessor} from './dmg175-hired-native-successors-v2.mjs';
 import {fieldBindingAxisMetrics, fieldBindingCountMeaning, historicalProducerMetadata, sourceIntegrationDescriptor, currentUncheckedExclusions, uncheckedExclusionTemplate} from './source-report-consistency-audit.mjs';
-import {validateCurrentMonetarySourceQuestionProjection} from './monetary-current-source-questions.mjs';
-import {loadCurrentMonetarySourceQuestions} from './dmg175-current-monetary-source-questions-v1.mjs';
-import {loadSourceHandoffTransition,sourceHandoffContextMatches,isQualifiedSourceHistoricalChange,sourceHistoricalCaution,sourceHandoffTransitionReference} from './dmg175-source-handoff-transition-v1.mjs';
+import {validateCurrentMonetarySourceQuestionProjection,loadCurrentMonetarySourceQuestions} from './dmg175-current-monetary-source-questions-native-v2.mjs';
+import {loadSourceHandoffTransition,sourceHandoffContextMatches,isQualifiedSourceHistoricalChange,sourceHistoricalCaution,sourceHandoffTransitionReference} from './dmg175-hired-native-successors-v2.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const require=createRequire(import.meta.url);
