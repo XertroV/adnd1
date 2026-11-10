@@ -6,7 +6,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {markerTokensFor,noteIdsForTokens} from '../tools/ua26-note-marker-audit.mjs';
-import {auditUa26MarkerReceiptWithDmg175CurrentEpoch} from '../tools/ua26-note-marker-audit-dmg175-v2.mjs';
+import {auditUa26MarkerReceiptWithHCurrentSourceEpoch} from '../tools/ua26-note-marker-audit-h-v2.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const read=rel=>JSON.parse(readBeforeJoFile(path.join(root,rel),'utf8'));
@@ -48,7 +48,7 @@ test('literal marker tokenization keeps 2* and 6* distinct from asterisk-pair no
 });
 
 test('all 68 source markers, corrective66 aliases and registered current appends retain exact note associations',()=>{
-  const result=auditUa26MarkerReceiptWithDmg175CurrentEpoch(root);
+  const result=auditUa26MarkerReceiptWithHCurrentSourceEpoch(root);
   assert.equal(result.ok,true,JSON.stringify(result.failures));
   assert.deepEqual(result.counts,{physicalRows:68,marked:17,unmarked:51,corrective66Aliases:66,currentTargetAppends:2,currentWDAliases:68,explicitMarkerRows:17,baselineWrongSpecificAssignments:2,previouslyUnresolvedNowSourceAdjudicated:3,correctedCatalogs:5,checkedCatalogs:65});
   assert.equal(result.sourceMarkerCensusSha256,'28573d886140523dafd6b2a21060932751a72b090773371ecbb4807942ecc2b0');

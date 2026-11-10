@@ -4,7 +4,7 @@ import {projectDmg175Json} from '../../../tests/helpers/batch6-dmg175-source-his
 import {dmg175HistoryContract} from '../../../tests/helpers/batch6-dmg175-source-history.mjs';
 import {reverseDmg74MatrixBatchFromData,withoutDmg74MatrixSourceExcerptOverrides} from '../../../tests/helpers/ua-source-dmg74-matrix-batch.mjs';
 import {realpathSync} from 'node:fs';
-import {readVersion29HistoricalFile, normalizeVersion29HistoricalBytes, normalizeVersion29HistoricalJson} from '../closed-version29-reader-v2.proposed.mjs';
+import {readVersion29HistoricalFile, normalizeVersion29HistoricalBytes, normalizeVersion29HistoricalJson} from '../closed-version29-reader-v3.proposed.mjs';
 const fsReadFileSync=readVersion29HistoricalFile;
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';

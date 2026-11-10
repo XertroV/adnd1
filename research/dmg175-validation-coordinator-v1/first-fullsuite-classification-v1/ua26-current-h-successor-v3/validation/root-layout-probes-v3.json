@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "UA26 V3 faithful root-layout Caltrop pairing reproduction and focused test replay",
+  "status": "passed",
+  "rootCause": {
+    "v2BaselineTestExitCode": 1,
+    "v2BaselineReproducedProjectedBeforeHash": "f0eb5c844829ed7eceaabe4c419bb29a58b8b49e0efbac6de648d3502f6d0379",
+    "v2BaselineExpectedLiveAfterHash": "d1888665bc90d8cf3b2dd226cfa67a27295a9d10da3c6c67313810b5bd5331fb",
+    "priorV2StagingDifference": "V2 staging symlinked tests/helpers/ua-source-batch6-jo-fixture.mjs. Node resolved that module to the production checkout, while the copied test passed it a temporary-root absolute path. readBeforeJoFile therefore derived a relative path outside its scoped-history list and returned raw live bytes, so staged V2 bypassed the production-root projection and passed 17/17.",
+    "explanation": "In this root-layout replay, tests/helpers/ua-source-batch6-jo-fixture.mjs is copied into the staged root, so readBeforeJoFile and the copied test share a root. The scoped Caltrop read projects to the pinned pre-Jo checkpoint. The installed V2 assertion compared that projected value to the live after hash. V3 verifies the projection against the before hash and separately reads the live filesystem bytes for the after hash."
+  },
+  "sourceEpoch": {
+    "commit": "bc819621e49788260bb34ea47c1f7a8b35af6edf",
+    "tree": "e6bc420f70656825a926297b959bc6d98758bfcd",
+    "nativeFixtureSha256": "62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f"
+  },
+  "fullNativeCohortHelperCopied": true,
+  "readOnlyGitPointerInstalled": true,
+  "v2BaselineOutputSha256": "595beca3382d5fefc115c2808eb983bbe89f39cb8e1c76b7d98b0cf381b02a21",
+  "v2BaselineOutput": "✔ 679 regression fixture pins the actual old row crops and missing facing-page links (234.844487ms)\n✖ current UA26 catalog rows, p.27 notes and group proposals preserve reviewed scopes (2169.792402ms)\n✔ Aklys base-property proof is preserved through the independently reviewed source association (10.433794ms)\nℹ tests 3\nℹ suites 0\nℹ pass 2\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 2886.707456\n\n✖ failing tests:\n\ntest at ../../tmp/ua26-caltrop-root-layout-v3-07UiHf/tests/ua26-catalog-context.test.mjs:94:1\n✖ current UA26 catalog rows, p.27 notes and group proposals preserve reviewed scopes (2169.792402ms)\n  AssertionError [ERR_ASSERTION]: dist/scans/verified/equipment-ua-caltrop.json: exact registered current Jo append bytes\n  + actual - expected\n  \n  + 'f0eb5c844829ed7eceaabe4c419bb29a58b8b49e0efbac6de648d3502f6d0379'\n  - 'd1888665bc90d8cf3b2dd226cfa67a27295a9d10da3c6c67313810b5bd5331fb'\n  \n      at checkpointBytes (file:///tmp/ua26-caltrop-root-layout-v3-07UiHf/tests/ua26-catalog-context.test.mjs:127:16)\n      at TestContext.<anonymous> (file:///tmp/ua26-caltrop-root-layout-v3-07UiHf/tests/ua26-catalog-context.test.mjs:152:28)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: 'f0eb5c844829ed7eceaabe4c419bb29a58b8b49e0efbac6de648d3502f6d0379',\n    expected: 'd1888665bc90d8cf3b2dd226cfa67a27295a9d10da3c6c67313810b5bd5331fb',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "testFiles": [
+    "ua26-catalog-context.test.mjs",
+    "ua26-note-marker-correction.test.mjs",
+    "ua26-note-marker-dmg175-v2.test.mjs"
+  ],
+  "commandAfterV3Patch": "node --test <three root-layout focused test copies>",
+  "installedLayout": "The V2 helper, full native H helper/kernel/fixture/mechanics, and history-projection helper are copied into the isolated root; other source inputs use path-addressed symlinks and .git is a read-only pointer.",
+  "afterExitCode": 0,
+  "afterOutputSha256": "2cf81b0f317083657039e59fcb2bb8715027cf7a412d37cc5891c8b8de89401c",
+  "afterOutput": "✔ 679 regression fixture pins the actual old row crops and missing facing-page links (288.922322ms)\n✔ current UA26 catalog rows, p.27 notes and group proposals preserve reviewed scopes (3497.092129ms)\n✔ Aklys base-property proof is preserved through the independently reviewed source association (13.795935ms)\n✔ post-application, pre-correction all-66 note-association snapshot preserves the five source-marker divergences (2.777439ms)\n✔ literal marker tokenization keeps 2* and 6* distinct from asterisk-pair notes (0.867173ms)\n✔ all 68 source markers, corrective66 aliases and registered current appends retain exact note associations (2794.978086ms)\n✔ current hand-quarrel owner is an explicit post-correction append with its original price proof intact (1.263866ms)\n✔ installed production-root helper passes the exact current epoch and frozen marker contract (3358.002661ms)\n✔ installed CLI locates the production root and emits the same qualified receipt (2667.907004ms)\n✔ wrong UA26 marker token is rejected (2192.021805ms)\n✔ removed UA26 note alias is rejected (267.886802ms)\n✔ source identity metadata mutation is rejected (252.933355ms)\n✔ new UA28 row summary cannot be silently widened into numeric approval (257.103798ms)\n✔ new UA28 field review scope cannot be promoted (266.617424ms)\n✔ extra catalog property on an approved transition owner is rejected (279.418977ms)\n✔ stale source epoch bytes are rejected (73.906042ms)\n✔ a fourth catalog hash transition remains a hard failure (314.438067ms)\nℹ tests 17\nℹ suites 0\nℹ pass 17\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 10087.458418\n",
+  "tempRootRemoved": true
+}

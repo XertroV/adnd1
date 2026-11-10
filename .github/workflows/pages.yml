@@ -331,7 +331,7 @@ jobs:
           class_status=$?
           node tools/source-qualifier-coverage.mjs --input dist/data.json --output artifacts/source-domain-audits/source-qualifiers.json --check
           qualifier_status=$?
-          node tools/ua26-note-marker-audit-dmg175-v2.mjs > artifacts/source-domain-audits/ua26-note-markers.json
+          node tools/ua26-note-marker-audit-h-v2.mjs > artifacts/source-domain-audits/ua26-note-markers.json
           marker_status=$?
           set -e
           echo "Class-domain and source-qualifier JSON reports are in the source-domain-audits artifact. Generic semantic qualifier completeness is not certified." >> "$GITHUB_STEP_SUMMARY"
@@ -341,9 +341,9 @@ jobs:
         run: |
           set -o pipefail
           mkdir -p artifacts/source-domain-audits
-          gzip -cd research/dmg175-source-metadata-v1/frozen-systemic-current-v1.json.gz | cmp - artifacts/citation-systemic-coverage/citation-systemic-current.json
-          gzip -cd research/dmg175-source-metadata-v1/frozen-visual-report-v1.json.gz | cmp - artifacts/source-visual-coverage/report.json
-          gzip -cd research/dmg175-source-metadata-v1/frozen-table-report-v1.json.gz | cmp - artifacts/source-table-citation-coverage/report.json
+          gzip -cd research/hirelings-source-metadata-v1/frozen-systemic-current-v1.json.gz | cmp - artifacts/citation-systemic-coverage/citation-systemic-current.json
+          gzip -cd research/hirelings-source-metadata-v1/frozen-visual-report-v1.json.gz | cmp - artifacts/source-visual-coverage/report.json
+          gzip -cd research/hirelings-source-metadata-v1/frozen-table-report-v1.json.gz | cmp - artifacts/source-table-citation-coverage/report.json
           node tools/refresh-gaps-handoff.mjs --check | tee artifacts/source-domain-audits/gaps-handoff-check.json
       - name: Verify coverage report counts and review scopes
         if: always()

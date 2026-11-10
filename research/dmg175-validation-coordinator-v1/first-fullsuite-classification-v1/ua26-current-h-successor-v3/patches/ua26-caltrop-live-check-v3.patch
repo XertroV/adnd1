@@ -1,0 +1,13 @@
+--- a/tests/ua26-catalog-context.test.mjs
++++ b/tests/ua26-catalog-context.test.mjs
+@@ -124,7 +124,9 @@
+     if(!qualified){
+       const extension=markerJoAppend.caltropCatalogExtension;
+       if(catalogPath===extension?.after?.path){
+-        assert.equal(sha(actual),extension.after.sha256,`${catalogPath}: exact registered current Jo append bytes`);
++        assert.equal(sha(actual),extension.before.uncompressedSha256,`${catalogPath}: exact historical pre-Jo projection supplied by readBeforeJoFile`);
++        const installedCurrent=fs.readFileSync(path.join(root,catalogPath));
++        assert.equal(sha(installedCurrent),extension.after.sha256,`${catalogPath}: exact registered current Jo append bytes`);
+         const before=gunzipSync(bytes(extension.before.path));
+         assert.equal(sha(before),extension.before.uncompressedSha256,`${catalogPath}: exact frozen pre-Jo checkpoint bytes`);
+         return before;

@@ -1,0 +1,13 @@
+# HIRED S2 release-audit proposal, version 2
+
+This directory contains a finite, metadata-only public release-audit proposal for the committed HIRED S2 source. It is not an active deployment receipt: Version 29 remains the last verified live runtime, the S2 source is not deployed, and no Version 30 claim is made.
+
+`receipt-proposal-v1.json` and `public-private-filelist-v1.json` are preserved snapshots. Read `receipt-addendum-v2.json` with them; it updates qualifications and adds the bounded 48-unit detection-to-repair ledger, accepted refresh/factory evidence, the corrected historical-caller installation receipt, and the later XP expectation adjustment. It does not replace either frozen v1 artifact.
+
+`source-unit-detection-repair-ledger-v1.json` is derived from the frozen source-owner join and current S2 catalogs. It includes only identifiers, counts, locations/page bindings, review statuses, and source hashes; it carries no literal source prose, crop pixels, screenshots, or PDF data. It preserves the historical 47-absent/T24-incomplete distinction and qualifies the historical 32 prose bullets separately from the current 35 bullet fields and 36 target declarations.
+
+`public-private-filelist-v2.json` is the finite staging candidate map. It maps all nine S2 visual/raster/continuation reports to their current repository paths and hashes; it lists the bounded H research files, source-CI files, independent review copies, exact historical-caller corrections, and selected generated metadata. It does not authorize staging entire private audit, research-history, or screenshot directories. The map is a snapshot, and root must re-pin root-managed current metadata after final validation. Its own digest is reported separately because a file cannot embed its own hash.
+
+The actual H browser report is local evidence (399 checks), while the 321-control app renderer report is an extracted-function VM check; neither is a live browser or deployment verification. V29 local regression evidence (333 browser checks and 124 notes/search checks) is likewise distinct from live Pages verification. The root full suite, 24 workflow blocks, and capture were still running at the time of this addendum, so this packet leaves final release sealing to root.
+
+The original financial metadata refresh failure remains preserved. A narrow fix was independently accepted and the subsequent refresh, assembly, and check all exited successfully. Seven monetary interpretation questions and two independent scope questions still affect nine rows; these remain unresolved and are not cleared by callback/factory acceptance or by the source/geometry audits.

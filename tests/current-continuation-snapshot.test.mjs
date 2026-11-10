@@ -10,6 +10,7 @@ import {gzipSync,gunzipSync} from 'node:zlib';
 import {spawnSync,execFileSync} from 'node:child_process';
 import {loadCurrentContinuationCandidateSnapshot,validateContinuationSnapshot} from '../tools/continuation-candidates-validate.mjs';
 import {assertCurrentUaContinuationCohort} from './helpers/ua-source-continuation-current-cohort.mjs';
+import {readHirelingsCurrentSourceInputs,assertHirelingsCurrentSourceCohort} from './helpers/hirelings-source-current-cohort.mjs';
 const root=process.cwd(),sha=b=>createHash('sha256').update(b).digest('hex');
 const fixtureBytes=readFileSync('tests/fixtures/dmg-current-continuation-a5a-before.json.gz');
 const before=JSON.parse(gunzipSync(fixtureBytes));
@@ -54,6 +55,11 @@ function historicalUaSelection(){
  writeFileSync(summaryPath,summaryBytes);writeFileSync(fullPath,fullBytes);
  return {summary,summaryPath,fullPath};
 }
+function historicalDmg175Selection(){
+ const summaryPath=path.resolve(root,'research/source-audit-pass8-dmg175-continuation-987a25d3ba2d.json');
+ const fullPath=path.resolve(root,'research/source-audit-pass8-dmg175-continuation-987a25d3ba2d-full.json.gz');
+ return {summaryPath,fullPath,summary:JSON.parse(readFileSync(summaryPath)),fullBytes:readFileSync(fullPath)};
+}
 function mutant(change,{source=selected,treeSelection='current-worktree'}={}){
  const full=JSON.parse(gunzipSync(readFileSync(source.fullPath))),summary=structuredClone(source.summary);
  change(full,summary);
@@ -74,36 +80,69 @@ test('forcing the old snapshot against the current tree still fails',()=>{
  assert.equal(result.valid,false);assert.ok(result.errors.some(x=>x.code==='stale-data-input'));
  assert.ok(result.errors.some(x=>x.code==='stale-continuation-manifest'));
 });
-test('the active pair covers the complete current tree without a semantic-source pass',()=>{
+test('the active pair covers the exact current HIRED source and continuation metadata',()=>{
+ const sourceInputs=readHirelingsCurrentSourceInputs(root);
+ const sourceCounts=assertHirelingsCurrentSourceCohort(sourceInputs);
+ assert.deepEqual(sourceCounts,{sourceCommit:'bc819621e49788260bb34ea47c1f7a8b35af6edf',owners:1062,canonicalBindings:5655,priorWholeBindings:4931,addedBindings:724,manualAdditions:321,newRules:48,sourceTableRows:244,sourceCells:343,historicalMechanicsReviews:1215});
+ assert.equal(selected.pointer.sha256,'04c54609386a837d1948e6b265c0cf51c18245f2853d0854abd86364d946c9c9');
+ assert.equal(path.relative(root,selected.summaryPath),'research/source-audit-pass8-hired-source-bc819621e497-continuation.json');
+ assert.equal(path.relative(root,selected.fullPath),'research/source-audit-pass8-hired-source-bc819621e497-continuation-full.json.gz');
+ assert.equal(sha(readFileSync(selected.summaryPath)),'37ccd45292b964c4c738e2ca96cafc4c317d900772e20819274de5acea69316d');
+ assert.equal(sha(readFileSync(selected.fullPath)),'0374c0fa3f3d070adb594dea3a4eac2c153fa52ef74856c5f2d7125cdc331431');
  const result=validateContinuationSnapshot({root,summaryPath:selected.summaryPath,fullPath:selected.fullPath,treeSelection:'current-worktree'});
  assert.deepEqual(result.errors,[]);assert.equal(result.valid,true);
  assert.deepEqual(result.sourceFrameValidation,{status:'current-active-source-frame-bridge-required',valid:true,errors:[]});
- const full=JSON.parse(gunzipSync(readFileSync(selected.fullPath)));
+ const full=JSON.parse(gunzipSync(readFileSync(selected.fullPath))),summary=selected.summary;
+ assert.deepEqual(full.input,summary.input);
+ assert.equal(full.input.gitCommit,sourceCounts.sourceCommit);
+ assert.equal(full.input.sourceTreeMode,'pinned-git-commit');
+ assert.equal(full.input.distDataRawFileSha256,sourceInputs.sourceRawInputs['dist/data.json']);
+ assert.equal(full.input.continuationManifestSha256,sha(readFileSync('research/citation-continuations.json')));
+ assert.equal(full.input.generatorSha256,sha(readFileSync('tools/continuation-candidates.py')));
+ assert.equal(full.input.sourceFrameCoordinateBridgeSha256,sha(readFileSync(full.sourceFrameCoordinateBridge.path)));
+ assert.deepEqual(full.runMode,{status:'current-active-source-frame-bridge-required'});
+ assert.deepEqual(full.privatePdfFrameReplay,{status:'current-pdf-boxes-match-registered-frames',frameGroups:9,pdfPageBoxesValidated:9});
+ assert.deepEqual(full.sourceFrameCoordinateBridge,summary.sourceFrameCoordinateBridge);
+ assert.deepEqual(full.input.sourceFrameRegistryValidation,{status:'current-pins-match',frameGroups:9,ownerJoinsValidated:102,mismatchCount:0,mismatches:[]});
+ assert.deepEqual(summary.sourceFrameCoordinateBridge.resolutionCounts,{matched:102,'not-applicable-supplemental-image-frame':45,'outside-bounded-correction-registry':3928});
+ assert.deepEqual(full.exposedCatalogSummary,summary.exposedCatalogSummary);
+ assert.deepEqual(full.exposedUniverse,summary.exposedUniverse);
+ assert.equal(full.regionAssessments.length,4072);
+ assert.equal(new Set(full.regionAssessments.map(row=>JSON.stringify([row.owner.collection,row.owner.itemId,row.owner.catalog,row.regionId]))).size,4072);
+ assert.deepEqual({catalogFiles:summary.exposedCatalogSummary.catalogJsonFilesUnderScans,catalogsReferenced:summary.exposedCatalogSummary.catalogFilesReferencedByExposedRecords,catalogRegionRows:summary.exposedCatalogSummary.catalogRegionRows,recordCatalogBindingUsages:summary.exposedCatalogSummary.recordCatalogBindingUsages,regionBindingUsageCount:summary.exposedCatalogSummary.regionBindingUsageCount,catalogSourcePages:summary.exposedCatalogSummary.catalogSourcePages,sourcePageBindings:summary.exposedUniverse.uniqueSourcePageBindings,regionBindingUsageCountsByBindingKey:summary.exposedCatalogSummary.regionBindingUsageCountsByBindingKey,catalogCountByBindingKey:summary.exposedCatalogSummary.catalogCountByBindingKey,bookCounts:summary.exposedCatalogSummary.bookCounts,regionBoundCounts:summary.exposedCatalogSummary.regionBoundCounts},{catalogFiles:1082,catalogsReferenced:1082,catalogRegionRows:4072,recordCatalogBindingUsages:1083,regionBindingUsageCount:4075,catalogSourcePages:240,sourcePageBindings:239,regionBindingUsageCountsByBindingKey:{sourceExcerpts:3995,scanVerification:80},catalogCountByBindingKey:{sourceExcerpts:1061,scanVerification:22},bookCounts:{DMG:905,MM:15,MM2:2,PHB:1881,UA:1269},regionBoundCounts:{'normalized-rect-missing-or-invalid':269,'normalized-rect-present':3803}});
+ assert.deepEqual({recordCount:summary.exposedUniverse.propertyUniverse.recordCount,propertyPointerCount:summary.exposedUniverse.propertyUniverse.propertyPointerCount,mechanicsRecords:summary.exposedUniverse.propertyUniverse.mechanicsFieldDenominator.records,mechanicsFields:summary.exposedUniverse.propertyUniverse.mechanicsFieldDenominator.totalFields},{recordCount:1062,propertyPointerCount:303299,mechanicsRecords:1062,mechanicsFields:14189});
  assert.equal(result.counts.propertyRecords,full.propertyPointerInventory.records.length);
- assert.equal(result.counts.catalogRegionRows,full.regionAssessments.length);
+ assert.equal(result.counts.catalogRegionRows,4072);
  assert.equal(result.counts.propertyPointers,full.propertyPointerInventory.propertyRows.length);
- assert.equal(result.counts.distinctSourcePageBindings,selected.summary.exposedUniverse.uniqueSourcePageBindings);
+ assert.equal(result.counts.distinctSourcePageBindings,239);
  assert.match(result.sourcePdfRegeneration,/not regenerated from private PDFs/);
+ let removed;
+ const options=mutant((candidate,report)=>{removed=candidate.regionAssessments.shift();report.exposedCatalogSummary.catalogRegionRows--;});
+ const mutation=validateContinuationSnapshot(options);
+ assert.equal(mutation.valid,false);
+ assert.ok(mutation.errors.some(error=>error.code==='current-region-assessment-missing'&&error.detail===`${removed.owner.catalog}:${removed.regionId}`));
 });
-test('native current3622-row DMG175 producer remains guarded against the live source',()=>{
- assert.equal(path.relative(root,selected.summaryPath),'research/source-audit-pass8-dmg175-continuation-987a25d3ba2d.json');
- assert.equal(path.relative(root,selected.fullPath),'research/source-audit-pass8-dmg175-continuation-987a25d3ba2d-full.json.gz');
- assert.equal(sha(readFileSync(selected.summaryPath)),'05dd7e9e219a551129b6b1852828db53625ef9625123f61ce9657fd3c8621366');
- assert.equal(sha(readFileSync(selected.fullPath)),'90cc57263606d27082aea5b51ed627e280071076f801fd434d8e07add6afb3c8');
+test('the sealed historical V29 3622-row DMG175 snapshot remains pinned to its original source tree',()=>{
+ const historical=historicalDmg175Selection();
+ assert.equal(path.relative(root,historical.summaryPath),'research/source-audit-pass8-dmg175-continuation-987a25d3ba2d.json');
+ assert.equal(path.relative(root,historical.fullPath),'research/source-audit-pass8-dmg175-continuation-987a25d3ba2d-full.json.gz');
+ assert.equal(sha(readFileSync(historical.summaryPath)),'05dd7e9e219a551129b6b1852828db53625ef9625123f61ce9657fd3c8621366');
+ assert.equal(sha(historical.fullBytes),'90cc57263606d27082aea5b51ed627e280071076f801fd434d8e07add6afb3c8');
  assert.equal(sha(readFileSync('research/source-audit-input-dmg175-source-987a25d3ba2d.json')),'f3449210a281b3c7604847cea39508b0a48d65d8971e569494cc14db1588565e');
- assert.equal(sha(readFileSync('dist/data.json')),'fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d');
  assert.equal(sha(readFileSync('research/source-frame-coordinate-bridge-dmg175-source-v1.json')),'137b9c0044a72b587cc7ef6273e398106d574727f1656d58c742ac8c47ac68b3');
- const full=JSON.parse(gunzipSync(readFileSync(selected.fullPath)));
+ const oldFixture=JSON.parse(readFileSync('tests/fixtures/dmg175-source-current-cohort-v1.json'));
+ assert.equal(sha(readFileSync('tests/fixtures/dmg175-source-current-cohort-v1.json')),'b1a39cd6379d1fc34f906781982f9fc049d94089459fd0f7b0243aaeb8476685');
+ assert.equal(oldFixture.sourceCommit,'987a25d3ba2dcac0940569a2afab73f775e38028');
+ const full=JSON.parse(gunzipSync(historical.fullBytes));
+ assert.equal(full.input.sourceTreeMode,'pinned-git-commit');
  assert.equal(full.input.gitCommit,'987a25d3ba2dcac0940569a2afab73f775e38028');
  assert.equal(full.input.distDataRawFileSha256,'fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d');
  assert.equal(full.regionAssessments.length,3622);
- const current=validateContinuationSnapshot({root,summaryPath:selected.summaryPath,fullPath:selected.fullPath,treeSelection:'current-worktree'});
- assert.deepEqual(current.errors,[]);assert.equal(current.valid,true);assert.equal(current.counts.catalogRegionRows,3622);
- let removed;
- const options=mutant((candidate,summary)=>{removed=candidate.regionAssessments.shift();summary.exposedCatalogSummary.catalogRegionRows--;});
- const result=validateContinuationSnapshot(options);
- assert.equal(result.valid,false);
- assert.ok(result.errors.some(error=>error.code==='current-region-assessment-missing'&&error.detail===`${removed.owner.catalog}:${removed.regionId}`));
+ assert.equal(historical.summary.exposedCatalogSummary.catalogRegionRows,3622);
+ assert.equal(historical.summary.exposedCatalogSummary.regionBindingUsageCount,3625);
+ const pinned=validateContinuationSnapshot({root,summaryPath:historical.summaryPath,fullPath:historical.fullPath,treeSelection:'pinned-git-commit'});
+ assert.deepEqual(pinned.errors,[]);assert.equal(pinned.valid,true);assert.equal(pinned.validationBase,'pinned-git-tree');
+ assert.equal(pinned.sourceFrameValidation.status,'historical-sealed-diagnostics-only');
 });
 
 test('current mode rejects missing bridge declarations and removed per-use frame annotations',()=>{

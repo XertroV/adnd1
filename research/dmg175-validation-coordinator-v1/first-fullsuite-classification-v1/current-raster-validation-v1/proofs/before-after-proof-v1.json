@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "current raster focused before/after proof",
+  "status": "PROPOSAL_NOT_ACTIVE; candidate replay passed; root review required before application",
+  "repository": {
+    "head": "346c7634f8cad08998389ecd1d084b7082fb91a9",
+    "sourceCommit": "bc819621e49788260bb34ea47c1f7a8b35af6edf",
+    "sourceTree": "e6bc420f70656825a926297b959bc6d98758bfcd"
+  },
+  "before": {
+    "focusedCommand": "node --test --test-name-pattern='active pointer snapshot|reconstructed pre-fix mapper' tests/source-raster-coverage.test.mjs",
+    "status": "exit 1; 0/2 passed",
+    "log": {
+      "path": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-raster-validation-v1/proofs/before-focused-actual.log",
+      "sha256": "92e8251eaf9d33e169a1650312d1a38fa2f8be0d2552089620f536383d0c6c77"
+    },
+    "workflowBlock13": {
+      "logPath": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-raster-validation-v1/proofs/before-workflow-step-13.log",
+      "logSha256": "5d330773aebb6afbac14dabdc80b18761482a9aabf59dc186e73db64ca9a8ba6",
+      "result": {
+        "output": "artifacts/source-raster-coverage/report.json",
+        "validation": {
+          "valid": false,
+          "errors": [
+            "Raster geometry pixel bounds do not match its PDF bounds and frame."
+          ]
+        },
+        "liveUniverse": {
+          "regionUsages": 4075,
+          "catalogs": 1082,
+          "dataSha256": "2cddb11a82ecc3b9d77cb3fa2ae49eef5623a5470ac85a540d1baf483e096a95",
+          "catalogSnapshotSha256": "4111e30bd4ec805ea43b487dc58c8083e5468fc3bd4e5712e0807e9dec5abf9a"
+        },
+        "runMode": {
+          "status": "current-active-bridge-required"
+        },
+        "semanticPass": false
+      }
+    },
+    "classifications": {
+      "rasterGeometry": "one DMG printed p.19/PDF p.20 record has pdfBounds x 21.24, 300 dpi, origin 0, stored x=89; float check calculates slightly below 88.5 and returns 88, while exact source formula gives 177/2=88.5, half-up 89",
+      "currentOracle": "V1 fixture expects Version29 data fd73ee5f\u2026 and catalog snapshot 607ae98a\u2026; current is 2cddb11a\u2026 and 4111e30b\u2026. Failure precedes tuple compare; exact current 45 tuples and seven groups were independently shown unchanged."
+    }
+  },
+  "after": {
+    "focusedCommand": "node --test --test-name-pattern=active pointer snapshot|Version29 V1 usage|decimal rational half-up|reconstructed Version29|unprojected current hirelings tests/source-raster-coverage.test.mjs",
+    "status": "exit 0; 5/5 passed",
+    "log": {
+      "path": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-raster-validation-v1/proofs/after-focused-candidate-v1.log",
+      "sha256": "558aa14abe7e2709c97fc276a5276a7e250105ed5794a9a0357fa7a68d4350ca"
+    },
+    "currentReport": {
+      "activePointer": {
+        "path": "research/current-source-raster-snapshot.json",
+        "sha256": "bd8ba4a5d7159c5dbce44b191e160510d45cb9b4cc746d53ae36ff3affe4995b",
+        "snapshotSha256": "b0b48a785cfddd5a1cb3931ad823c609aa884779edf4da820be3133f528d0faf",
+        "sourceGeometrySha256": "87d301d54b7c72b7024ac8fb716ba757e553dbb4cedd8cf999055d2799548bb2"
+      },
+      "validation": {
+        "valid": true,
+        "errors": []
+      },
+      "currentUniverse": {
+        "catalogs": 1082,
+        "regionUsages": 4075,
+        "pdfFrameUsages": 4030,
+        "supplementalImageUsages": 45,
+        "sourcePagesRendered": 239
+      },
+      "actualTieGeometry": {
+        "geometryId": "raster-edge-f697c8ecdc5948abc65d",
+        "book": "DMG",
+        "printedPage": 19,
+        "pdfPage": 20,
+        "boundsPdfPagePointsLTRB": [
+          21.24,
+          74.27,
+          288.43,
+          133.08
+        ],
+        "boundsRasterPixelsLTRB": [
+          89,
+          309,
+          1202,
+          555
+        ],
+        "exactDecimalScaledX": "177/2 = 88.5",
+        "candidateHalfUpX": 89
+      },
+      "currentUniverseFixture": {
+        "path": "tests/fixtures/dmg175-current-supplemental-usage-universe-v2.json",
+        "sha256": "023fcc8eaac62a005e465b602fc81828b833eb2aabade85e52583de6a45a55dd",
+        "sourceCommit": "bc819621e49788260bb34ea47c1f7a8b35af6edf",
+        "sourceTree": "e6bc420f70656825a926297b959bc6d98758bfcd",
+        "usageRows": 45,
+        "catalogs": 7,
+        "distinctRegionIds": 34
+      },
+      "preservedV1": {
+        "sha256": "c5162dd3f52982b223fea95a9bdef0f0654cc2f03982acaafb2981e34aa7d56e",
+        "dataSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+        "catalogSnapshotSha256": "607ae98a5215dd46a2ff2b0cee4867fc02e4bb865900be872071c5b4a5c56a9d",
+        "usageRows": 45
+      },
+      "historicalMapperFixture": {
+        "sha256": "5f253065ab442a67ca1d0d7467226b30685c9bc6a6d2f7840a495d90c2186f98",
+        "sealedTwoRowAssertionKept": true
+      }
+    },
+    "roundingSpecPath": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-raster-validation-v1/proofs/rounding-spec-confirmation-v1.json",
+    "roundingSpecSha256": "11a83237630e1e05edbc362e82c6ec4e60ec980c67d1b4eb508b5c067f98dee7",
+    "ciBoundaryPath": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-raster-validation-v1/proofs/ci-validator-hash-boundary-v1.json",
+    "ciBoundarySha256": "8994295e73da16080390fc6e98e125d7183efef56f19c94f658cc0503c28ad99",
+    "fullRasterTestModule": {
+      "command": "node --test tests/source-raster-coverage.test.mjs",
+      "status": "exit 0; 16/16 passed",
+      "logPath": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-raster-validation-v1/proofs/after-full-module-candidate-v1.log",
+      "logSha256": "eac85dc8d7b9a5aacb0c8947bdc37ef5e84f7461579032c2e75320aff664ea44",
+      "statusPath": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-raster-validation-v1/proofs/after-full-module-candidate-v1.status",
+      "statusSha256": "28c1f0950b762bf43faa692d393aa0ca800b77d9dd01ca6b77659fc032ab3336",
+      "stageEphemeral": true,
+      "readOnlyHistoricalInputs": {
+        "research/citation-evidence-seals.json": "3e7f705d9793e42b1e073f3ea525c9a1e6de8ff6b5f151e7e684bb0869669b62",
+        "research/source-raster-boundary-current-a46-frame-guard-v2.json.gz": "270429a8a20aabf889d807277bc274331b29404b770a0565497266a5090f81d6",
+        "tests/fixtures/source-frame-forged-history-snapshot-before.json.gz": "ddc5f4bc602bb3943d8e5b4db81828421d684bbae54977e7c10d693a1ac0a471"
+      }
+    }
+  },
+  "currentHirelingsNativeGuard": {
+    "fixturePath": "tests/fixtures/hirelings-source-current-cohort-v1.json",
+    "fixtureSha256": "62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f",
+    "sourceRawInputCount": 8,
+    "sourceRawInputs": {
+      "dist/data.json": "2cddb11a82ecc3b9d77cb3fa2ae49eef5623a5470ac85a540d1baf483e096a95",
+      "research/price-source-inventory.json": "3073ce4f92e772b91ede42cf111d118acaf4a66e636ebbab064b8085708ff3e6",
+      "research/field-evidence-bindings.json": "7ad198b8f8b48605fb2d48aac114769fa06467def45d51c5864014b6e655c0f3",
+      "equipment.json": "714d40b9ed9908a069fddc08525d43437c9e974b984572eb1c505c37ee8cae95",
+      "rules.json": "d2b19d365d6899e75b41f43fe5eb3541f224aecb6594fa65c633fd04a5b1cc7c",
+      "dist/books.js": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811",
+      "dist/app.js": "f4381ff282ea6ff7d245c915ab17fafd4b19e025e2af6c2a496145429285f2c7",
+      "dist/source-viewer.js": "3355a2c28b03d72cf0b1a097a1fc211cd99942555dbc502cacea41e99023fd2c"
+    },
+    "sourceCommit": "bc819621e49788260bb34ea47c1f7a8b35af6edf",
+    "sourceTree": "e6bc420f70656825a926297b959bc6d98758bfcd",
+    "helperPassedInCandidateTest": true
+  },
+  "currentMapping": {
+    "totalUses": 4075,
+    "pdfFrameUses": 4030,
+    "supplementalImageUses": 45,
+    "supplementalPage": 175,
+    "supplementalPdfPage": null,
+    "supplementalSourceKind": "supplemental-image",
+    "supplementalRowsNotAssessedByRasterScan": true,
+    "closedUniverseFixtureSha256": "023fcc8eaac62a005e465b602fc81828b833eb2aabade85e52583de6a45a55dd",
+    "closedUniverseRows": 45,
+    "activeCatalogs": 7,
+    "distinctRegionIds": 34
+  },
+  "history": {
+    "v1UniverseSha256": "c5162dd3f52982b223fea95a9bdef0f0654cc2f03982acaafb2981e34aa7d56e",
+    "v1DataSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+    "v1CatalogSnapshotSha256": "607ae98a5215dd46a2ff2b0cee4867fc02e4bb865900be872071c5b4a5c56a9d",
+    "twoRowMapperFixtureSha256": "5f253065ab442a67ca1d0d7467226b30685c9bc6a6d2f7840a495d90c2186f98",
+    "exactTwoRowAssertionsPass": true,
+    "bothOldFixturesUnchanged": true
+  },
+  "activePreimages": {
+    "tools/source-raster-coverage.mjs": "214bef56afd9c5b4e70a136a334885590dfed6a0d16c34de63319c34bfb873b5",
+    "tests/source-raster-coverage.test.mjs": "f3e76830e3761d2acf4e32f59571315f59ae773609fb1f4506cb37b2f532ba95",
+    "tests/fixtures/dmg175-current-supplemental-usage-universe-v1.json": "c5162dd3f52982b223fea95a9bdef0f0654cc2f03982acaafb2981e34aa7d56e",
+    "tests/fixtures/source-raster-dmg175-live-mapper-reconstruction-v1.json.gz": "5f253065ab442a67ca1d0d7467226b30685c9bc6a6d2f7840a495d90c2186f98",
+    "research/current-source-raster-snapshot.json": "bd8ba4a5d7159c5dbce44b191e160510d45cb9b4cc746d53ae36ff3affe4995b",
+    "research/source-raster-boundary-hired-source-bc819621e497.json.gz": "b0b48a785cfddd5a1cb3931ad823c609aa884779edf4da820be3133f528d0faf",
+    "research/source-visual-audit-hired-source-bc819621e497.json": "87d301d54b7c72b7024ac8fb716ba757e553dbb4cedd8cf999055d2799548bb2",
+    "research/dmg175-supplement-crop-registry-v1.json": "94fad75fb5a0b235b7f81b7dfddf65fc098194148cada86c5d963d8462d1cbf6",
+    "dist/data.json": "2cddb11a82ecc3b9d77cb3fa2ae49eef5623a5470ac85a540d1baf483e096a95",
+    "research/source-raster-boundary-audit.py": "fb87a5810917c01d67c914549995db736e3eacb8fff4c74947cb1d154af1899d",
+    "tools/source-frame-coordinate-bridge.mjs": "3e5ddbeb3d62d787297fab50b267296d97db930a9b761f4542ddaa0e5bcd51f1"
+  },
+  "candidateHashes": {
+    "tools/source-raster-coverage.mjs": "e7c0f2e988037a84a3cddb93b2d5b9e9d2a86037f9894476902290361c709db5",
+    "tests/source-raster-coverage.test.mjs": "8ca7d7ba2e52a7005c6e323f96a3d28188755c6706275ef1129fc8570187e9de",
+    "tests/fixtures/dmg175-current-supplemental-usage-universe-v2.json": "023fcc8eaac62a005e465b602fc81828b833eb2aabade85e52583de6a45a55dd",
+    "tools/source-frame-coordinate-bridge.mjs": "3e5ddbeb3d62d787297fab50b267296d97db930a9b761f4542ddaa0e5bcd51f1",
+    "tests/helpers/hirelings-source-current-cohort.mjs": "9cec0405991d67fef08eba7859c8b8f300942295379e1f83c84ee8b21d048998",
+    "tests/helpers/hirelings-source-current-cohort-kernel-v1.mjs": "aca1b4ddef5ee0f1b66684fb22a8879fa77a0c925d5c5da4f909c0430fcba9df",
+    "tests/fixtures/hirelings-source-current-cohort-v1.json": "62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f"
+  },
+  "activeWrites": false,
+  "gitWrites": false
+}

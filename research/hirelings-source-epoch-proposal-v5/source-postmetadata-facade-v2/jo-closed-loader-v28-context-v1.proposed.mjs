@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {writeFileSync, mkdtempSync, mkdirSync, rmSync, realpathSync, lstatSync} from 'node:fs';
-import {readVersion29HistoricalFile, normalizeVersion29HistoricalBytes, normalizeVersion29HistoricalJson} from '../closed-version29-reader-v2.proposed.mjs';
+import {readVersion29HistoricalFile, normalizeVersion29HistoricalBytes, normalizeVersion29HistoricalJson} from '../closed-version29-reader-v3.proposed.mjs';
 const readFileSync=readVersion29HistoricalFile;
 import {tmpdir} from 'node:os';
 import {dirname,join,resolve} from 'node:path';

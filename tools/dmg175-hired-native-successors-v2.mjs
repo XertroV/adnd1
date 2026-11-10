@@ -1,7 +1,7 @@
 // Static actual-H adapter; install only with its pinned artifacts below.
 import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
-import {createNativeHirelingsJoSuccessor} from './dmg175-hired-native-jo-successor-v2.mjs';
+import {createNativeHirelingsJoSuccessor} from './dmg175-hired-native-jo-successor-v3.mjs';
 import {createNativeHirelingsSourceHandoffTransition} from './dmg175-hired-native-source-handoff-v2.mjs';
 
 const repoRoot=resolve(import.meta.dirname,'..');

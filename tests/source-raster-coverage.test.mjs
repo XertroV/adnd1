@@ -8,7 +8,8 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {gzipSync, gunzipSync} from 'node:zlib';
-import {buildHistoricalSourceRasterCoverage, buildSourceRasterCoverage, collectLiveRasterUniverse, loadRasterSnapshotInput, runSourceRasterCoverage} from '../tools/source-raster-coverage.mjs';
+import {buildHistoricalSourceRasterCoverage, buildSourceRasterCoverage, collectLiveRasterUniverse, loadRasterSnapshotInput, roundHalfUpRasterPixel, runSourceRasterCoverage} from '../tools/source-raster-coverage.mjs';
+import {assertHirelingsCurrentSourceCohort, readHirelingsCurrentSourceInputs} from './helpers/hirelings-source-current-cohort.mjs';
 
 const snapshot = JSON.parse(gunzipSync(loadRasterSnapshotInput().bytes));
 const historicalSnapshot = JSON.parse(gunzipSync(readFileSync(new URL('../research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz', import.meta.url))));
@@ -18,15 +19,23 @@ const releasedJoSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research
 const priorJoSearchSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research/source-raster-boundary-batch6-search-cleric-post-pr34.json.gz',import.meta.url))));
 const dmg175MapperBeforeBytes=readFileSync(new URL('./fixtures/source-raster-dmg175-live-mapper-reconstruction-v1.json.gz',import.meta.url));
 const dmg175MapperBefore=JSON.parse(gunzipSync(dmg175MapperBeforeBytes));
-const dmg175UniverseBytes=readFileSync(new URL('./fixtures/dmg175-current-supplemental-usage-universe-v1.json',import.meta.url));
+const dmg175UniverseV1Bytes=readFileSync(new URL('./fixtures/dmg175-current-supplemental-usage-universe-v1.json',import.meta.url));
+const dmg175UniverseV1=JSON.parse(dmg175UniverseV1Bytes.toString('utf8'));
+const dmg175UniverseBytes=readFileSync(new URL('./fixtures/dmg175-current-supplemental-usage-universe-v2.json',import.meta.url));
 const dmg175Universe=JSON.parse(dmg175UniverseBytes.toString('utf8'));
+const hirelingsCurrentFixtureBytes=readFileSync(new URL('./fixtures/hirelings-source-current-cohort-v1.json',import.meta.url));
+const hirelingsCurrentFixture=JSON.parse(hirelingsCurrentFixtureBytes.toString('utf8'));
 const dmg175Require=createRequire(import.meta.url),dmg175Books=dmg175Require('../dist/books.js');
 const dmg175DataBytes=readFileSync(new URL('../dist/data.json',import.meta.url)),dmg175Data=JSON.parse(dmg175DataBytes.toString('utf8'));
 const dmg175Tuple=row=>[row.collection,row.itemId,row.binding,row.catalog,row.regionId,row.book,row.printedPage,row.pdfPage,row.imageSha256,row.sourceKind,row.sourceArtifactId,row.sourceArtifactSha256,row.sourcePdfSha256];
 const dmg175UsageOrder=(a,b)=>`${a.catalog}:${a.regionId}`.localeCompare(`${b.catalog}:${b.regionId}`);
 const sortedDmg175Tuples=rows=>rows.slice().sort(dmg175UsageOrder).map(dmg175Tuple);
 function sourceDerivedDmg175UsageRows(){
- assert.equal(createHash('sha256').update(dmg175UniverseBytes).digest('hex'),'c5162dd3f52982b223fea95a9bdef0f0654cc2f03982acaafb2981e34aa7d56e');
+ assert.equal(createHash('sha256').update(dmg175UniverseBytes).digest('hex'),'023fcc8eaac62a005e465b602fc81828b833eb2aabade85e52583de6a45a55dd');
+ assert.equal(dmg175Universe.sourceEpoch.sourceCommit,hirelingsCurrentFixture.sourceCommit);
+ assert.equal(dmg175Universe.sourceEpoch.sourceTree,hirelingsCurrentFixture.sourceTree);
+ assert.equal(dmg175Universe.sourceEpoch.nativeHirelingsCohortFixtureSha256,'62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f');
+ assert.equal(dmg175Universe.inputs.dataSha256,hirelingsCurrentFixture.sourceRawInputs['dist/data.json']);
  assert.equal(createHash('sha256').update(dmg175DataBytes).digest('hex'),dmg175Universe.inputs.dataSha256);
  const registryBytes=readFileSync(new URL('../research/dmg175-supplement-crop-registry-v1.json',import.meta.url));
  assert.equal(createHash('sha256').update(registryBytes).digest('hex'),dmg175Universe.inputs.registrySha256);
@@ -197,7 +206,29 @@ test('the frozen released Jo snapshot preserves its exact seven-use extension an
   assert.equal(releasedJoSnapshot.geometries.length,releasedJoSnapshot.counts.uniqueImageGeometryBindings);
 });
 
-test('the reconstructed pre-fix mapper preserves its exact two rows; the current live mapper matches the closed 45-use source universe',()=>{
+test('the Version29 V1 usage universe stays explicit historical evidence',()=>{
+ assert.equal(createHash('sha256').update(dmg175UniverseV1Bytes).digest('hex'),'c5162dd3f52982b223fea95a9bdef0f0654cc2f03982acaafb2981e34aa7d56e');
+ assert.equal(dmg175UniverseV1.inputs.dataSha256,'fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d');
+ assert.equal(dmg175UniverseV1.inputs.catalogSnapshotSha256,'607ae98a5215dd46a2ff2b0cee4867fc02e4bb865900be872071c5b4a5c56a9d');
+ assert.equal(dmg175UniverseV1.counts.activeUsageRows,45);
+ assert.equal(dmg175UniverseV1.counts.activeCatalogs,7);
+});
+
+test('decimal rational half-up keeps the recorded DMG p.19 boundary and handles ties around both signs and frame origins',()=>{
+ const actualPdfBounds=[21.24,74.27,288.43,133.08],actualOrigin=[0,0];
+ assert.deepEqual(actualPdfBounds.map((point,index)=>roundHalfUpRasterPixel(point,300,actualOrigin[index%2])),[89,309,1202,555]);
+ assert.deepEqual([
+  roundHalfUpRasterPixel(21.239999999999,300,0),roundHalfUpRasterPixel(21.24,300,0),roundHalfUpRasterPixel(21.240000000001,300,0),
+  roundHalfUpRasterPixel(-0.360000000001,300,0),roundHalfUpRasterPixel(-0.36,300,0),roundHalfUpRasterPixel(-0.359999999999,300,0),
+  roundHalfUpRasterPixel(1.799999999999,300,5),roundHalfUpRasterPixel(1.8,300,5),roundHalfUpRasterPixel(1.800000000001,300,5),
+  roundHalfUpRasterPixel(0.119999999999,300,-2),roundHalfUpRasterPixel(0.12,300,-2),roundHalfUpRasterPixel(0.120000000001,300,-2),
+  roundHalfUpRasterPixel(-0.360000000001,300,5),roundHalfUpRasterPixel(-0.36,300,5),roundHalfUpRasterPixel(-0.359999999999,300,5),
+ ],[88,89,89,-2,-1,-1,2,3,3,2,3,3,-7,-6,-6]);
+ assert.equal(roundHalfUpRasterPixel(1e-7,360000000,0),1,'shortest exponential JSON number form retains an exact positive half tie');
+ assert.equal(roundHalfUpRasterPixel(-1e-7,360000000,0),0,'negative half tie matches floor(x + 0.5) semantics');
+});
+
+test('the reconstructed Version29 pre-fix mapper preserves its exact two historical rows and old failure evidence',()=>{
  assert.equal(createHash('sha256').update(dmg175MapperBeforeBytes).digest('hex'),'5f253065ab442a67ca1d0d7467226b30685c9bc6a6d2f7840a495d90c2186f98');
  assert.equal(createHash('sha256').update(dmg175MapperBefore.beforeCapture.helperSource).digest('hex'),dmg175MapperBefore.beforeCapture.helperSha256);
  assert.equal(dmg175MapperBefore.captureMode,'retrospective-reconstruction');
@@ -215,19 +246,29 @@ test('the reconstructed pre-fix mapper preserves its exact two rows; the current
  assert.deepEqual(oldRows.map(dmg175Tuple).sort((a,b)=>String(a[4]).localeCompare(String(b[4]))),historicalTuples.sort((a,b)=>String(a[4]).localeCompare(String(b[4]))),'the sealed reconstructed historical rows remain exact and untyped by printedPage');
  assert.ok(dmg175MapperBefore.beforeCapture.reportedPipelineFailure.errors.includes('Not-assessable usages must be exactly the live typed DMG p.175 supplemental-image rows with the approved unassessed reason.'));
  assert.ok(dmg175MapperBefore.beforeCapture.reportedPipelineFailure.errors.includes('A supplemental raster usage has an invalid typed source identity.'));
- const sourceRows=sourceDerivedDmg175UsageRows();
- const supplemental=live.usages.filter(row=>row.sourceKind==='supplemental-image');
- const pdfFrameUsages=live.usages.filter(row=>row.sourceKind==='pdf'||row.sourceKind===undefined);
- assert.equal(live.catalogSnapshotSha256,dmg175Universe.inputs.catalogSnapshotSha256);
- assert.deepEqual(sortedDmg175Tuples(sourceRows),sortedDmg175Tuples(dmg175Universe.expectedUsages));
- assert.deepEqual(sortedDmg175Tuples(supplemental),sortedDmg175Tuples(sourceRows),'live raster mapping equals the independently joined closed catalog universe');
- assert.equal(dmg175Universe.counts.activeUsageRows,45);assert.equal(dmg175Universe.counts.activeCatalogs,7);assert.equal(dmg175Universe.counts.activeDistinctRegionIds,34);
- assert.equal(supplemental.length,dmg175Universe.counts.activeUsageRows);assert.equal(pdfFrameUsages.length,snapshot.counts.regionUsages-snapshot.counts.notAssessableUsages);
- assert.equal(live.usages.length,pdfFrameUsages.length+supplemental.length);
  assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateValidation.valid,true);
  assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateCounts.regionUsages,3132);
  assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateCounts.notAssessableUsages,2);
  assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateCounts.assessedUsages,3130);
+});
+
+test('the unprojected current hirelings cohort and native mapper match the closed 45-use supplement universe',()=>{
+ const currentInputs=readHirelingsCurrentSourceInputs();
+ const cohort=assertHirelingsCurrentSourceCohort(currentInputs);
+ assert.equal(cohort.sourceCommit,hirelingsCurrentFixture.sourceCommit);
+ assert.equal(createHash('sha256').update(hirelingsCurrentFixtureBytes).digest('hex'),'62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f');
+ const sourceRows=sourceDerivedDmg175UsageRows();
+ const supplemental=live.usages.filter(row=>row.sourceKind==='supplemental-image');
+ const pdfFrameUsages=live.usages.filter(row=>row.sourceKind==='pdf'||row.sourceKind===undefined);
+ assert.equal(live.dataSha256,dmg175Universe.inputs.dataSha256);
+ assert.equal(live.catalogSnapshotSha256,dmg175Universe.inputs.catalogSnapshotSha256);
+ assert.equal(live.catalogCount,dmg175Universe.inputs.catalogCount);
+ assert.deepEqual(sortedDmg175Tuples(sourceRows),sortedDmg175Tuples(dmg175Universe.expectedUsages));
+ assert.deepEqual(sortedDmg175Tuples(supplemental),sortedDmg175Tuples(sourceRows),'live native mapping equals the independently joined current closed catalog universe');
+ assert.equal(dmg175Universe.counts.activeUsageRows,45);assert.equal(dmg175Universe.counts.activeCatalogs,7);assert.equal(dmg175Universe.counts.activeDistinctRegionIds,34);
+ assert.equal(supplemental.length,dmg175Universe.counts.activeUsageRows);assert.equal(pdfFrameUsages.length,4030);
+ assert.equal(live.usages.length,pdfFrameUsages.length+supplemental.length);
+ assert.deepEqual({regionUsages:live.usages.length,pdfFrameUsages:pdfFrameUsages.length,supplementalImageUsages:supplemental.length},{regionUsages:4075,pdfFrameUsages:4030,supplementalImageUsages:45});
 });
 
 test('typed DMG 175 supplemental rows stay in the raster denominator as explicit unassessable image frames',()=>{

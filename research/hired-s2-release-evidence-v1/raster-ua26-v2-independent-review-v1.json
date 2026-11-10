@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Independent raster and UA26 native-H V2 proposal review",
+  "status": "raster proposal reviewed; UA26 V2 requires a corrective successor before application",
+  "reviewedAt": "2026-11-10",
+  "scope": "Read-only review of exact raster conversion, origin/sign/range behavior, UA26 current-H helper/test/workflow bundle, negative coverage, runtime layout, and the reported installed focused-test failure.",
+  "raster": {
+    "status": "PASS",
+    "files": [
+      {
+        "path": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-raster-validation-v1/proposed/tools/source-raster-coverage.mjs",
+        "sha256": "e7c0f2e988037a84a3cddb93b2d5b9e9d2a86037f9894476902290361c709db5"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-raster-validation-v1/proposed/tests/source-raster-coverage.test.mjs",
+        "sha256": "8ca7d7ba2e52a7005c6e323f96a3d28188755c6706275ef1129fc8570187e9de"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-raster-validation-v1/proofs/source-raster-candidate-v1.patch",
+        "sha256": "bf8304a00ce5be668e197ce3da481e4c70007bf9cbd1671fdeef340af945e8b1"
+      }
+    ],
+    "findings": [
+      "The BigInt rational implementation matches floor((point*dpi/72 - deviceOrigin) + 0.5), with negative ties following floor(x + 0.5), not rounding away from zero.",
+      "Origin subtraction occurs before rounding. Safe-integer origin and output guards, positive-DPI validation, and finite-number checks are present.",
+      "Focused tests cover the recorded DMG p.19 half-pixel boundary, near-ties on both signs, positive and negative origins, negative ties, and exponent-form values. Candidate logs record 16/16 module tests and a valid current report.",
+      "The public build API derives the trusted snapshot from its pinned repository pointer; caller-supplied snapshot mutations are rejected instead of being used to reach malformed-origin or DPI branches. No meaningful conversion or guard regression found."
+    ],
+    "evidence": {
+      "roundingSpec": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-raster-validation-v1/proofs/rounding-spec-confirmation-v1.json",
+      "focusedStatus": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-raster-validation-v1/proofs/after-focused-candidate-v1.status",
+      "fullModuleStatus": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-raster-validation-v1/proofs/after-full-module-candidate-v1.status",
+      "currentReportStatus": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/current-raster-validation-v1/proofs/after-current-report-v1.status"
+    }
+  },
+  "ua26": {
+    "status": "BLOCKED_PENDING_TEST_FIX",
+    "reviewedFiles": [
+      {
+        "path": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/ua26-current-h-successor-v2/tools/ua26-note-marker-audit-h-v2.mjs",
+        "sha256": "e1538ae7ecde0a02c78a833689b178d44e341154943f167ce260e1192ecb79ba"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/ua26-current-h-successor-v2/proposed/tests/ua26-catalog-context.test.mjs",
+        "sha256": "899f8278d8b863214ab8b62ea5f253d9a11b05829dfe1de4c90237503d1149a2"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/ua26-current-h-successor-v2/patches/retarget-three-tests-h-v2.patch",
+        "sha256": "ee7467b2ec8487a851034608249ab728f3184cfe5a5d19f9111625993959fe1e"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/ua26-current-h-successor-v2/patches/workflow-cli-retarget-h-v2.patch",
+        "sha256": "4b8af682cf93002e84dec458bbc11bde738b69a90c6f1401a5e9405077c0176f"
+      }
+    ],
+    "finding": {
+      "severity": "must-fix before application",
+      "path": "tests/ua26-catalog-context.test.mjs:127",
+      "cause": "The new Caltrop current-checkpoint branch calls bytes(), which delegates to readBeforeJoFile(). That facade intentionally returns the frozen pre-Jo projection for the Caltrop catalog, but the branch compares it to the post-Jo extension.after.sha256.",
+      "independentHashCheck": {
+        "catalog": "dist/scans/verified/equipment-ua-caltrop.json",
+        "rawCurrentSha256": "d1888665bc90d8cf3b2dd226cfa67a27295a9d10da3c6c67313810b5bd5331fb",
+        "readBeforeJoSha256": "f0eb5c844829ed7eceaabe4c419bb29a58b8b49e0efbac6de648d3502f6d0379",
+        "registeredPostJoSha256": "d1888665bc90d8cf3b2dd226cfa67a27295a9d10da3c6c67313810b5bd5331fb",
+        "registeredPreJoSha256": "f0eb5c844829ed7eceaabe4c419bb29a58b8b49e0efbac6de648d3502f6d0379"
+      },
+      "repairDirection": "Read raw current catalog bytes from the test root for the post-Jo hash assertion; retain the frozen gzip fixture and its uncompressed hash for the pre-Jo checkpoint returned to the historical comparison. Preserve all V2 and inherited negative controls."
+    },
+    "guardAndCoverageReview": {
+      "nativeSourceGuard": "Requires exact H registry, fixture, helper, kernel, mechanics input, raw-input hashes, actual .git metadata, source tree and ancestry, and a required full-cohort subprocess; no missing-source fallback found.",
+      "scope": "Result keeps semanticPass false, sourceValueGrade NOT PROMOTED, and contextualAdequacy NOT ASSESSED.",
+      "negativeControlsRetained": [
+        "wrong UA26 marker token",
+        "removed UA26 note alias",
+        "mutated source identity metadata",
+        "widened numeric approval summary",
+        "promoted field review scope",
+        "extra catalog property",
+        "stale source epoch bytes",
+        "unregistered fourth catalog transition"
+      ],
+      "layout": "The test's root calculation resolves tests/ under the repository root; the helper requires and uses the staged .git pointer. The workflow patch is a one-line CLI retarget."
+    },
+    "stagedEvidence": {
+      "reportedFocusedTests": "17/17 in the proposal's isolated staging log; the root-installed focused run subsequently failed on the Caltrop assertion described above.",
+      "workflowRetarget": "Included in the V2 patch; no runtime-layout issue found in reviewed paths."
+    }
+  },
+  "treeChanges": {
+    "activeFilesChangedByThisReview": false,
+    "gitOrSealChangesByThisReview": false,
+    "temporaryProbeArtifactsRetained": false
+  }
+}

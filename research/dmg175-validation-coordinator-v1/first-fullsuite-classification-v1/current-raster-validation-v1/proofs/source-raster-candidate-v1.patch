@@ -1,0 +1,1871 @@
+--- a/tools/source-raster-coverage.mjs
++++ b/tools/source-raster-coverage.mjs
+@@ -29,6 +29,45 @@
+ const pointKey = (book, pdfPage) => JSON.stringify([book, pdfPage]);
+ const sortedCounts = counts => Object.fromEntries([...counts].sort(([a], [b]) => String(a) < String(b) ? -1 : String(a) > String(b) ? 1 : 0));
+ const increment = (counts, key, amount = 1) => counts.set(key, (counts.get(key) || 0) + amount);
++
++// The source raster contract is mathematical round-half-up on decimal point
++// coordinates: floor(point * dpi / 72 - deviceOrigin + 0.5). Convert each JSON
++// number's shortest decimal form to a rational so exact half-pixel ties do not
++// change side because of binary floating-point representation.
++function decimalFraction(value, label) {
++  if (!isFiniteNumber(value)) throw new TypeError(`${label} must be a finite JSON number.`);
++  const match = /^([+-]?)(\d+)(?:\.(\d*))?(?:e([+-]?\d+))?$/i.exec(String(value));
++  if (!match) throw new TypeError(`${label} has no finite decimal representation.`);
++  const sign = match[1] === '-' ? -1n : 1n;
++  const fraction = match[3] || '';
++  let numerator = sign * BigInt(`${match[2]}${fraction}` || '0');
++  const scale = fraction.length - Number(match[4] || 0);
++  let denominator = 1n;
++  if (scale > 0) denominator = 10n ** BigInt(scale);
++  else if (scale < 0) numerator *= 10n ** BigInt(-scale);
++  return {numerator, denominator};
++}
++
++function floorRational(numerator, denominator) {
++  let quotient = numerator / denominator;
++  if (numerator < 0n && numerator % denominator !== 0n) quotient--;
++  return quotient;
++}
++
++// This preserves the repository's explicit floor(x + 0.5) rule, including
++// its negative-tie direction, while applying it exactly to the decimal inputs.
++export function roundHalfUpRasterPixel(pointPdf, dpi, deviceOriginPx) {
++  if (!Number.isSafeInteger(deviceOriginPx)) throw new TypeError('Raster device origin must be a safe integer pixel coordinate.');
++  const point = decimalFraction(pointPdf, 'PDF point coordinate');
++  const renderDpi = decimalFraction(dpi, 'render DPI');
++  if (renderDpi.numerator <= 0n) throw new RangeError('Render DPI must be positive.');
++  const denominator = point.denominator * renderDpi.denominator * 72n;
++  const numerator = point.numerator * renderDpi.numerator - BigInt(deviceOriginPx) * denominator;
++  const rounded = floorRational(2n * numerator + denominator, 2n * denominator);
++  const result = Number(rounded);
++  if (!Number.isSafeInteger(result)) throw new RangeError('Rounded raster coordinate exceeds JavaScript safe integer range.');
++  return result;
++}
+ 
+ function rectangle(rect, {allowEmpty = false} = {}) {
+   return Array.isArray(rect) && rect.length === 4 && rect.every(isInt) &&
+@@ -295,12 +334,11 @@
+           !Array.isArray(rectPoints) || pdfBounds[2] > rectPoints[2] - rectPoints[0] + 0.002 || pdfBounds[3] > rectPoints[3] - rectPoints[1] + 0.002) {
+         errors.push('Raster geometry PDF-page bounds are invalid or outside the frame.');
+       } else if (isFiniteNumber(geometry.renderDpi)) {
+-        const halfUp = value => Math.floor(value + 0.5);
+         const expectedPx = [
+-          halfUp(pdfBounds[0] * geometry.renderDpi / 72 - originX),
+-          halfUp(pdfBounds[1] * geometry.renderDpi / 72 - originY),
+-          halfUp(pdfBounds[2] * geometry.renderDpi / 72 - originX),
+-          halfUp(pdfBounds[3] * geometry.renderDpi / 72 - originY),
++          roundHalfUpRasterPixel(pdfBounds[0], geometry.renderDpi, originX),
++          roundHalfUpRasterPixel(pdfBounds[1], geometry.renderDpi, originY),
++          roundHalfUpRasterPixel(pdfBounds[2], geometry.renderDpi, originX),
++          roundHalfUpRasterPixel(pdfBounds[3], geometry.renderDpi, originY),
+         ];
+         if (!rectangle(geometry.boundsRasterPixelsLTRB) || geometry.boundsRasterPixelsLTRB[2] > width || geometry.boundsRasterPixelsLTRB[3] > height ||
+             !isDeepStrictEqual(geometry.boundsRasterPixelsLTRB, expectedPx)) errors.push('Raster geometry pixel bounds do not match its PDF bounds and frame.');
+--- a/tests/source-raster-coverage.test.mjs
++++ b/tests/source-raster-coverage.test.mjs
+@@ -8,7 +8,8 @@
+ import {join} from 'node:path';
+ import {pathToFileURL} from 'node:url';
+ import {gzipSync, gunzipSync} from 'node:zlib';
+-import {buildHistoricalSourceRasterCoverage, buildSourceRasterCoverage, collectLiveRasterUniverse, loadRasterSnapshotInput, runSourceRasterCoverage} from '../tools/source-raster-coverage.mjs';
++import {buildHistoricalSourceRasterCoverage, buildSourceRasterCoverage, collectLiveRasterUniverse, loadRasterSnapshotInput, roundHalfUpRasterPixel, runSourceRasterCoverage} from '../tools/source-raster-coverage.mjs';
++import {assertHirelingsCurrentSourceCohort, readHirelingsCurrentSourceInputs} from './helpers/hirelings-source-current-cohort.mjs';
+ 
+ const snapshot = JSON.parse(gunzipSync(loadRasterSnapshotInput().bytes));
+ const historicalSnapshot = JSON.parse(gunzipSync(readFileSync(new URL('../research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz', import.meta.url))));
+@@ -18,15 +19,23 @@
+ const priorJoSearchSnapshot=JSON.parse(gunzipSync(readFileSync(new URL('../research/source-raster-boundary-batch6-search-cleric-post-pr34.json.gz',import.meta.url))));
+ const dmg175MapperBeforeBytes=readFileSync(new URL('./fixtures/source-raster-dmg175-live-mapper-reconstruction-v1.json.gz',import.meta.url));
+ const dmg175MapperBefore=JSON.parse(gunzipSync(dmg175MapperBeforeBytes));
+-const dmg175UniverseBytes=readFileSync(new URL('./fixtures/dmg175-current-supplemental-usage-universe-v1.json',import.meta.url));
++const dmg175UniverseV1Bytes=readFileSync(new URL('./fixtures/dmg175-current-supplemental-usage-universe-v1.json',import.meta.url));
++const dmg175UniverseV1=JSON.parse(dmg175UniverseV1Bytes.toString('utf8'));
++const dmg175UniverseBytes=readFileSync(new URL('./fixtures/dmg175-current-supplemental-usage-universe-v2.json',import.meta.url));
+ const dmg175Universe=JSON.parse(dmg175UniverseBytes.toString('utf8'));
++const hirelingsCurrentFixtureBytes=readFileSync(new URL('./fixtures/hirelings-source-current-cohort-v1.json',import.meta.url));
++const hirelingsCurrentFixture=JSON.parse(hirelingsCurrentFixtureBytes.toString('utf8'));
+ const dmg175Require=createRequire(import.meta.url),dmg175Books=dmg175Require('../dist/books.js');
+ const dmg175DataBytes=readFileSync(new URL('../dist/data.json',import.meta.url)),dmg175Data=JSON.parse(dmg175DataBytes.toString('utf8'));
+ const dmg175Tuple=row=>[row.collection,row.itemId,row.binding,row.catalog,row.regionId,row.book,row.printedPage,row.pdfPage,row.imageSha256,row.sourceKind,row.sourceArtifactId,row.sourceArtifactSha256,row.sourcePdfSha256];
+ const dmg175UsageOrder=(a,b)=>`${a.catalog}:${a.regionId}`.localeCompare(`${b.catalog}:${b.regionId}`);
+ const sortedDmg175Tuples=rows=>rows.slice().sort(dmg175UsageOrder).map(dmg175Tuple);
+ function sourceDerivedDmg175UsageRows(){
+- assert.equal(createHash('sha256').update(dmg175UniverseBytes).digest('hex'),'c5162dd3f52982b223fea95a9bdef0f0654cc2f03982acaafb2981e34aa7d56e');
++ assert.equal(createHash('sha256').update(dmg175UniverseBytes).digest('hex'),'023fcc8eaac62a005e465b602fc81828b833eb2aabade85e52583de6a45a55dd');
++ assert.equal(dmg175Universe.sourceEpoch.sourceCommit,hirelingsCurrentFixture.sourceCommit);
++ assert.equal(dmg175Universe.sourceEpoch.sourceTree,hirelingsCurrentFixture.sourceTree);
++ assert.equal(dmg175Universe.sourceEpoch.nativeHirelingsCohortFixtureSha256,'62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f');
++ assert.equal(dmg175Universe.inputs.dataSha256,hirelingsCurrentFixture.sourceRawInputs['dist/data.json']);
+  assert.equal(createHash('sha256').update(dmg175DataBytes).digest('hex'),dmg175Universe.inputs.dataSha256);
+  const registryBytes=readFileSync(new URL('../research/dmg175-supplement-crop-registry-v1.json',import.meta.url));
+  assert.equal(createHash('sha256').update(registryBytes).digest('hex'),dmg175Universe.inputs.registrySha256);
+@@ -197,7 +206,29 @@
+   assert.equal(releasedJoSnapshot.geometries.length,releasedJoSnapshot.counts.uniqueImageGeometryBindings);
+ });
+ 
+-test('the reconstructed pre-fix mapper preserves its exact two rows; the current live mapper matches the closed 45-use source universe',()=>{
++test('the Version29 V1 usage universe stays explicit historical evidence',()=>{
++ assert.equal(createHash('sha256').update(dmg175UniverseV1Bytes).digest('hex'),'c5162dd3f52982b223fea95a9bdef0f0654cc2f03982acaafb2981e34aa7d56e');
++ assert.equal(dmg175UniverseV1.inputs.dataSha256,'fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d');
++ assert.equal(dmg175UniverseV1.inputs.catalogSnapshotSha256,'607ae98a5215dd46a2ff2b0cee4867fc02e4bb865900be872071c5b4a5c56a9d');
++ assert.equal(dmg175UniverseV1.counts.activeUsageRows,45);
++ assert.equal(dmg175UniverseV1.counts.activeCatalogs,7);
++});
++
++test('decimal rational half-up keeps the recorded DMG p.19 boundary and handles ties around both signs and frame origins',()=>{
++ const actualPdfBounds=[21.24,74.27,288.43,133.08],actualOrigin=[0,0];
++ assert.deepEqual(actualPdfBounds.map((point,index)=>roundHalfUpRasterPixel(point,300,actualOrigin[index%2])),[89,309,1202,555]);
++ assert.deepEqual([
++  roundHalfUpRasterPixel(21.239999999999,300,0),roundHalfUpRasterPixel(21.24,300,0),roundHalfUpRasterPixel(21.240000000001,300,0),
++  roundHalfUpRasterPixel(-0.360000000001,300,0),roundHalfUpRasterPixel(-0.36,300,0),roundHalfUpRasterPixel(-0.359999999999,300,0),
++  roundHalfUpRasterPixel(1.799999999999,300,5),roundHalfUpRasterPixel(1.8,300,5),roundHalfUpRasterPixel(1.800000000001,300,5),
++  roundHalfUpRasterPixel(0.119999999999,300,-2),roundHalfUpRasterPixel(0.12,300,-2),roundHalfUpRasterPixel(0.120000000001,300,-2),
++  roundHalfUpRasterPixel(-0.360000000001,300,5),roundHalfUpRasterPixel(-0.36,300,5),roundHalfUpRasterPixel(-0.359999999999,300,5),
++ ],[88,89,89,-2,-1,-1,2,3,3,2,3,3,-7,-6,-6]);
++ assert.equal(roundHalfUpRasterPixel(1e-7,360000000,0),1,'shortest exponential JSON number form retains an exact positive half tie');
++ assert.equal(roundHalfUpRasterPixel(-1e-7,360000000,0),0,'negative half tie matches floor(x + 0.5) semantics');
++});
++
++test('the reconstructed Version29 pre-fix mapper preserves its exact two historical rows and old failure evidence',()=>{
+  assert.equal(createHash('sha256').update(dmg175MapperBeforeBytes).digest('hex'),'5f253065ab442a67ca1d0d7467226b30685c9bc6a6d2f7840a495d90c2186f98');
+  assert.equal(createHash('sha256').update(dmg175MapperBefore.beforeCapture.helperSource).digest('hex'),dmg175MapperBefore.beforeCapture.helperSha256);
+  assert.equal(dmg175MapperBefore.captureMode,'retrospective-reconstruction');
+@@ -215,19 +246,29 @@
+  assert.deepEqual(oldRows.map(dmg175Tuple).sort((a,b)=>String(a[4]).localeCompare(String(b[4]))),historicalTuples.sort((a,b)=>String(a[4]).localeCompare(String(b[4]))),'the sealed reconstructed historical rows remain exact and untyped by printedPage');
+  assert.ok(dmg175MapperBefore.beforeCapture.reportedPipelineFailure.errors.includes('Not-assessable usages must be exactly the live typed DMG p.175 supplemental-image rows with the approved unassessed reason.'));
+  assert.ok(dmg175MapperBefore.beforeCapture.reportedPipelineFailure.errors.includes('A supplemental raster usage has an invalid typed source identity.'));
+- const sourceRows=sourceDerivedDmg175UsageRows();
+- const supplemental=live.usages.filter(row=>row.sourceKind==='supplemental-image');
+- const pdfFrameUsages=live.usages.filter(row=>row.sourceKind==='pdf'||row.sourceKind===undefined);
+- assert.equal(live.catalogSnapshotSha256,dmg175Universe.inputs.catalogSnapshotSha256);
+- assert.deepEqual(sortedDmg175Tuples(sourceRows),sortedDmg175Tuples(dmg175Universe.expectedUsages));
+- assert.deepEqual(sortedDmg175Tuples(supplemental),sortedDmg175Tuples(sourceRows),'live raster mapping equals the independently joined closed catalog universe');
+- assert.equal(dmg175Universe.counts.activeUsageRows,45);assert.equal(dmg175Universe.counts.activeCatalogs,7);assert.equal(dmg175Universe.counts.activeDistinctRegionIds,34);
+- assert.equal(supplemental.length,dmg175Universe.counts.activeUsageRows);assert.equal(pdfFrameUsages.length,snapshot.counts.regionUsages-snapshot.counts.notAssessableUsages);
+- assert.equal(live.usages.length,pdfFrameUsages.length+supplemental.length);
+  assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateValidation.valid,true);
+  assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateCounts.regionUsages,3132);
+  assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateCounts.notAssessableUsages,2);
+  assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateCounts.assessedUsages,3130);
++});
++
++test('the unprojected current hirelings cohort and native mapper match the closed 45-use supplement universe',()=>{
++ const currentInputs=readHirelingsCurrentSourceInputs();
++ const cohort=assertHirelingsCurrentSourceCohort(currentInputs);
++ assert.equal(cohort.sourceCommit,hirelingsCurrentFixture.sourceCommit);
++ assert.equal(createHash('sha256').update(hirelingsCurrentFixtureBytes).digest('hex'),'62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f');
++ const sourceRows=sourceDerivedDmg175UsageRows();
++ const supplemental=live.usages.filter(row=>row.sourceKind==='supplemental-image');
++ const pdfFrameUsages=live.usages.filter(row=>row.sourceKind==='pdf'||row.sourceKind===undefined);
++ assert.equal(live.dataSha256,dmg175Universe.inputs.dataSha256);
++ assert.equal(live.catalogSnapshotSha256,dmg175Universe.inputs.catalogSnapshotSha256);
++ assert.equal(live.catalogCount,dmg175Universe.inputs.catalogCount);
++ assert.deepEqual(sortedDmg175Tuples(sourceRows),sortedDmg175Tuples(dmg175Universe.expectedUsages));
++ assert.deepEqual(sortedDmg175Tuples(supplemental),sortedDmg175Tuples(sourceRows),'live native mapping equals the independently joined current closed catalog universe');
++ assert.equal(dmg175Universe.counts.activeUsageRows,45);assert.equal(dmg175Universe.counts.activeCatalogs,7);assert.equal(dmg175Universe.counts.activeDistinctRegionIds,34);
++ assert.equal(supplemental.length,dmg175Universe.counts.activeUsageRows);assert.equal(pdfFrameUsages.length,4030);
++ assert.equal(live.usages.length,pdfFrameUsages.length+supplemental.length);
++ assert.deepEqual({regionUsages:live.usages.length,pdfFrameUsages:pdfFrameUsages.length,supplementalImageUsages:supplemental.length},{regionUsages:4075,pdfFrameUsages:4030,supplementalImageUsages:45});
+ });
+ 
+ test('typed DMG 175 supplemental rows stay in the raster denominator as explicit unassessable image frames',()=>{
+--- /dev/null
++++ b/tests/fixtures/dmg175-current-supplemental-usage-universe-v2.json
+@@ -0,0 +1,1695 @@
++{
++  "schemaVersion": 2,
++  "artifactType": "closed-DMG-p175-active-supplemental-usage-fixture-v2",
++  "status": "research-only current-source-epoch identity/count fixture; no semantic value or source completeness assessment",
++  "scope": "All current exposed typed supplemental-image catalog usages, not only the Encounter Types catalog. Usage rows, unique region IDs, catalog files, and distinct image hashes are separate denominators. Encounter Types p.175 has thirteen local navigation stops within this wider universe. The closed usage tuple set is rejoined against the actual bc819621 source epoch with the native hirelings cohort guard; the Version29 v1 fixture remains unchanged as history.",
++  "inputs": {
++    "dataPath": "dist/data.json",
++    "dataSha256": "2cddb11a82ecc3b9d77cb3fa2ae49eef5623a5470ac85a540d1baf483e096a95",
++    "catalogSnapshotSha256": "4111e30bd4ec805ea43b487dc58c8083e5468fc3bd4e5712e0807e9dec5abf9a",
++    "registryPath": "research/dmg175-supplement-crop-registry-v1.json",
++    "registrySha256": "94fad75fb5a0b235b7f81b7dfddf65fc098194148cada86c5d963d8462d1cbf6",
++    "registryRegionMetadataSha256": "54c4cc49bbe022a2740f506588e74a054272e26ef7c83189dfc2b5d88d22e9a6",
++    "registryRegionIdsSha256": "0ed5da9ad5a33a57960f1ee98c1dd6c411490d58b2e13d2581619182466b75f0",
++    "catalogCount": 1082,
++    "sourceCommit": "bc819621e49788260bb34ea47c1f7a8b35af6edf",
++    "sourceTree": "e6bc420f70656825a926297b959bc6d98758bfcd"
++  },
++  "sourceIdentity": {
++    "book": "DMG",
++    "printedPage": 175,
++    "pdfPage": null,
++    "canonicalPdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
++    "supplementalImageSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++    "sourceDimensionsPx": [
++      1329,
++      1796
++    ],
++    "editionStatus": "user-confirmed-correct-edition",
++    "printingStatus": "not-specified",
++    "originalPdfContainsPrintedPage": false,
++    "fullImagePublished": false,
++    "coordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++  },
++  "counts": {
++    "activeCatalogs": 7,
++    "activeUsageRows": 45,
++    "activeDistinctRegionIds": 34,
++    "registryUniqueRegionIds": 34,
++    "distinctCropImageHashes": 8,
++    "encounterTypesCatalogP175Stops": 13
++  },
++  "registryRegionIds": [
++    "dmg-175-level-others-context-5aa02e91e35c4c28",
++    "dmg-175-party-table-context-78c4c383c38c7d10",
++    "dmg175-character-level-left-level-of-characters-paragraph-left-column-portion",
++    "dmg175-character-level-right-level-of-characters-paragraph-right-column-continuation",
++    "dmg175-character-subtable-character-subtable-row-00",
++    "dmg175-character-subtable-character-subtable-row-01-17",
++    "dmg175-character-subtable-character-subtable-row-18-20",
++    "dmg175-character-subtable-character-subtable-row-21-60",
++    "dmg175-character-subtable-character-subtable-row-61-62",
++    "dmg175-character-subtable-character-subtable-row-63-65",
++    "dmg175-character-subtable-character-subtable-row-66-86",
++    "dmg175-character-subtable-character-subtable-row-87-88",
++    "dmg175-character-subtable-character-subtable-row-89-98",
++    "dmg175-character-subtable-character-subtable-row-99",
++    "dmg175-character-subtable-complete-character-subtable-heading-column-labels-and-all-rows",
++    "dmg175-level-others-abilities-guidance-character-and-henchman-abilities-alignment-paragraph",
++    "dmg175-level-others-abilities-guidance-character-and-henchman-equipment-paragraph",
++    "dmg175-level-others-abilities-guidance-character-spells-paragraph",
++    "dmg175-level-others-abilities-guidance-complete-level-of-others-with-characters-paragraph",
++    "dmg175-party-magic-items-party-magic-items-complete-introductory-paragraph",
++    "dmg175-party-magic-items-party-magic-items-distribution-10th-level",
++    "dmg175-party-magic-items-party-magic-items-distribution-11th-level",
++    "dmg175-party-magic-items-party-magic-items-distribution-12th-level",
++    "dmg175-party-magic-items-party-magic-items-distribution-1st-level",
++    "dmg175-party-magic-items-party-magic-items-distribution-2nd-level",
++    "dmg175-party-magic-items-party-magic-items-distribution-3rd-level",
++    "dmg175-party-magic-items-party-magic-items-distribution-4th-level",
++    "dmg175-party-magic-items-party-magic-items-distribution-5th-level",
++    "dmg175-party-magic-items-party-magic-items-distribution-6th-level",
++    "dmg175-party-magic-items-party-magic-items-distribution-7th-level",
++    "dmg175-party-magic-items-party-magic-items-distribution-8th-level",
++    "dmg175-party-magic-items-party-magic-items-distribution-9th-level",
++    "dmg175-party-size-number-of-characters-in-party-procedure",
++    "dmg175-party-size-separate-party-procedure-clause-incompatible-profession-and-class-maximum-results"
++  ],
++  "registryRegions": [
++    {
++      "regionId": "dmg-175-level-others-context-5aa02e91e35c4c28",
++      "image": "dmg-175-level-others-context-5aa02e91e35c4c28.png",
++      "imageSha256": "5aa02e91e35c4c28152caccd947096943b74889b8596376cb86cb0c7170291b8",
++      "cropBoundsPx": [
++        670,
++        120,
++        1329,
++        492
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 659,
++      "height": 372,
++      "normalizedImageRect": {
++        "x": 0.5041384499623778,
++        "y": 0.066815144766147,
++        "width": 0.4958615500376223,
++        "height": 0.2071269487750557
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg-175-party-table-context-78c4c383c38c7d10",
++      "image": "dmg-175-party-table-context-78c4c383c38c7d10.png",
++      "imageSha256": "78c4c383c38c7d100a9e66bec4f36de1fdb9453d6e44d1eec53120e849a36e89",
++      "cropBoundsPx": [
++        0,
++        1145,
++        635,
++        1635
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 635,
++      "height": 490,
++      "normalizedImageRect": {
++        "x": 0,
++        "y": 0.6375278396436526,
++        "width": 0.4778028592927013,
++        "height": 0.2728285077951002
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-character-level-left-level-of-characters-paragraph-left-column-portion",
++      "image": "dmg-175-dmg175-character-level-left-fd13f5d51d4f527d.png",
++      "imageSha256": "fd13f5d51d4f527d8887c31627d39ce224c33ccd810a78bd8b01ba204f8aa3fc",
++      "cropBoundsPx": [
++        0,
++        1625,
++        650,
++        1760
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 650,
++      "height": 135,
++      "normalizedImageRect": {
++        "x": 0,
++        "y": 0.9047884187082406,
++        "width": 0.4890895410082769,
++        "height": 0.07516703786191536
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-character-level-right-level-of-characters-paragraph-right-column-continuation",
++      "image": "dmg-175-dmg175-character-level-right-559d4fbdf082168c.png",
++      "imageSha256": "559d4fbdf082168cf66bd5249127ceed62dde39fec6feb57738cfd1b4c613c77",
++      "cropBoundsPx": [
++        665,
++        0,
++        1329,
++        125
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 664,
++      "height": 125,
++      "normalizedImageRect": {
++        "x": 0.5003762227238525,
++        "y": 0,
++        "width": 0.4996237772761475,
++        "height": 0.06959910913140312
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-character-subtable-character-subtable-row-00",
++      "image": "dmg-175-dmg175-character-subtable-d04058b90644212a.png",
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "cropBoundsPx": [
++        0,
++        1144,
++        650,
++        1445
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 650,
++      "height": 301,
++      "normalizedImageRect": {
++        "x": 0,
++        "y": 0.6369710467706013,
++        "width": 0.4890895410082769,
++        "height": 0.1675946547884187
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-character-subtable-character-subtable-row-01-17",
++      "image": "dmg-175-dmg175-character-subtable-d04058b90644212a.png",
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "cropBoundsPx": [
++        0,
++        1144,
++        650,
++        1445
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 650,
++      "height": 301,
++      "normalizedImageRect": {
++        "x": 0,
++        "y": 0.6369710467706013,
++        "width": 0.4890895410082769,
++        "height": 0.1675946547884187
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-character-subtable-character-subtable-row-18-20",
++      "image": "dmg-175-dmg175-character-subtable-d04058b90644212a.png",
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "cropBoundsPx": [
++        0,
++        1144,
++        650,
++        1445
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 650,
++      "height": 301,
++      "normalizedImageRect": {
++        "x": 0,
++        "y": 0.6369710467706013,
++        "width": 0.4890895410082769,
++        "height": 0.1675946547884187
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-character-subtable-character-subtable-row-21-60",
++      "image": "dmg-175-dmg175-character-subtable-d04058b90644212a.png",
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "cropBoundsPx": [
++        0,
++        1144,
++        650,
++        1445
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 650,
++      "height": 301,
++      "normalizedImageRect": {
++        "x": 0,
++        "y": 0.6369710467706013,
++        "width": 0.4890895410082769,
++        "height": 0.1675946547884187
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-character-subtable-character-subtable-row-61-62",
++      "image": "dmg-175-dmg175-character-subtable-d04058b90644212a.png",
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "cropBoundsPx": [
++        0,
++        1144,
++        650,
++        1445
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 650,
++      "height": 301,
++      "normalizedImageRect": {
++        "x": 0,
++        "y": 0.6369710467706013,
++        "width": 0.4890895410082769,
++        "height": 0.1675946547884187
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-character-subtable-character-subtable-row-63-65",
++      "image": "dmg-175-dmg175-character-subtable-d04058b90644212a.png",
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "cropBoundsPx": [
++        0,
++        1144,
++        650,
++        1445
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 650,
++      "height": 301,
++      "normalizedImageRect": {
++        "x": 0,
++        "y": 0.6369710467706013,
++        "width": 0.4890895410082769,
++        "height": 0.1675946547884187
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-character-subtable-character-subtable-row-66-86",
++      "image": "dmg-175-dmg175-character-subtable-d04058b90644212a.png",
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "cropBoundsPx": [
++        0,
++        1144,
++        650,
++        1445
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 650,
++      "height": 301,
++      "normalizedImageRect": {
++        "x": 0,
++        "y": 0.6369710467706013,
++        "width": 0.4890895410082769,
++        "height": 0.1675946547884187
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-character-subtable-character-subtable-row-87-88",
++      "image": "dmg-175-dmg175-character-subtable-d04058b90644212a.png",
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "cropBoundsPx": [
++        0,
++        1144,
++        650,
++        1445
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 650,
++      "height": 301,
++      "normalizedImageRect": {
++        "x": 0,
++        "y": 0.6369710467706013,
++        "width": 0.4890895410082769,
++        "height": 0.1675946547884187
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-character-subtable-character-subtable-row-89-98",
++      "image": "dmg-175-dmg175-character-subtable-d04058b90644212a.png",
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "cropBoundsPx": [
++        0,
++        1144,
++        650,
++        1445
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 650,
++      "height": 301,
++      "normalizedImageRect": {
++        "x": 0,
++        "y": 0.6369710467706013,
++        "width": 0.4890895410082769,
++        "height": 0.1675946547884187
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-character-subtable-character-subtable-row-99",
++      "image": "dmg-175-dmg175-character-subtable-d04058b90644212a.png",
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "cropBoundsPx": [
++        0,
++        1144,
++        650,
++        1445
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 650,
++      "height": 301,
++      "normalizedImageRect": {
++        "x": 0,
++        "y": 0.6369710467706013,
++        "width": 0.4890895410082769,
++        "height": 0.1675946547884187
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-character-subtable-complete-character-subtable-heading-column-labels-and-all-rows",
++      "image": "dmg-175-dmg175-character-subtable-d04058b90644212a.png",
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "cropBoundsPx": [
++        0,
++        1144,
++        650,
++        1445
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 650,
++      "height": 301,
++      "normalizedImageRect": {
++        "x": 0,
++        "y": 0.6369710467706013,
++        "width": 0.4890895410082769,
++        "height": 0.1675946547884187
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-level-others-abilities-guidance-character-and-henchman-abilities-alignment-paragraph",
++      "image": "dmg-175-dmg175-level-others-abilities-guidance-b71ff06cac3fecd6.png",
++      "imageSha256": "b71ff06cac3fecd606cb6d6e42b5be8eb23faf5e03594fba9902ef8f3ea86a0b",
++      "cropBoundsPx": [
++        660,
++        115,
++        1329,
++        978
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 669,
++      "height": 863,
++      "normalizedImageRect": {
++        "x": 0.4966139954853273,
++        "y": 0.06403118040089087,
++        "width": 0.5033860045146726,
++        "height": 0.48051224944320714
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-level-others-abilities-guidance-character-and-henchman-equipment-paragraph",
++      "image": "dmg-175-dmg175-level-others-abilities-guidance-b71ff06cac3fecd6.png",
++      "imageSha256": "b71ff06cac3fecd606cb6d6e42b5be8eb23faf5e03594fba9902ef8f3ea86a0b",
++      "cropBoundsPx": [
++        660,
++        115,
++        1329,
++        978
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 669,
++      "height": 863,
++      "normalizedImageRect": {
++        "x": 0.4966139954853273,
++        "y": 0.06403118040089087,
++        "width": 0.5033860045146726,
++        "height": 0.48051224944320714
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-level-others-abilities-guidance-character-spells-paragraph",
++      "image": "dmg-175-dmg175-level-others-abilities-guidance-b71ff06cac3fecd6.png",
++      "imageSha256": "b71ff06cac3fecd606cb6d6e42b5be8eb23faf5e03594fba9902ef8f3ea86a0b",
++      "cropBoundsPx": [
++        660,
++        115,
++        1329,
++        978
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 669,
++      "height": 863,
++      "normalizedImageRect": {
++        "x": 0.4966139954853273,
++        "y": 0.06403118040089087,
++        "width": 0.5033860045146726,
++        "height": 0.48051224944320714
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-level-others-abilities-guidance-complete-level-of-others-with-characters-paragraph",
++      "image": "dmg-175-dmg175-level-others-abilities-guidance-b71ff06cac3fecd6.png",
++      "imageSha256": "b71ff06cac3fecd606cb6d6e42b5be8eb23faf5e03594fba9902ef8f3ea86a0b",
++      "cropBoundsPx": [
++        660,
++        115,
++        1329,
++        978
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 669,
++      "height": 863,
++      "normalizedImageRect": {
++        "x": 0.4966139954853273,
++        "y": 0.06403118040089087,
++        "width": 0.5033860045146726,
++        "height": 0.48051224944320714
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-party-magic-items-party-magic-items-complete-introductory-paragraph",
++      "image": "dmg-175-dmg175-party-magic-items-81e4e0a51df9ed17.png",
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "cropBoundsPx": [
++        630,
++        990,
++        1329,
++        1796
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 699,
++      "height": 806,
++      "normalizedImageRect": {
++        "x": 0.47404063205417607,
++        "y": 0.5512249443207127,
++        "width": 0.5259593679458239,
++        "height": 0.4487750556792873
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-10th-level",
++      "image": "dmg-175-dmg175-party-magic-items-81e4e0a51df9ed17.png",
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "cropBoundsPx": [
++        630,
++        990,
++        1329,
++        1796
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 699,
++      "height": 806,
++      "normalizedImageRect": {
++        "x": 0.47404063205417607,
++        "y": 0.5512249443207127,
++        "width": 0.5259593679458239,
++        "height": 0.4487750556792873
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-11th-level",
++      "image": "dmg-175-dmg175-party-magic-items-81e4e0a51df9ed17.png",
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "cropBoundsPx": [
++        630,
++        990,
++        1329,
++        1796
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 699,
++      "height": 806,
++      "normalizedImageRect": {
++        "x": 0.47404063205417607,
++        "y": 0.5512249443207127,
++        "width": 0.5259593679458239,
++        "height": 0.4487750556792873
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-12th-level",
++      "image": "dmg-175-dmg175-party-magic-items-81e4e0a51df9ed17.png",
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "cropBoundsPx": [
++        630,
++        990,
++        1329,
++        1796
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 699,
++      "height": 806,
++      "normalizedImageRect": {
++        "x": 0.47404063205417607,
++        "y": 0.5512249443207127,
++        "width": 0.5259593679458239,
++        "height": 0.4487750556792873
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-1st-level",
++      "image": "dmg-175-dmg175-party-magic-items-81e4e0a51df9ed17.png",
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "cropBoundsPx": [
++        630,
++        990,
++        1329,
++        1796
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 699,
++      "height": 806,
++      "normalizedImageRect": {
++        "x": 0.47404063205417607,
++        "y": 0.5512249443207127,
++        "width": 0.5259593679458239,
++        "height": 0.4487750556792873
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-2nd-level",
++      "image": "dmg-175-dmg175-party-magic-items-81e4e0a51df9ed17.png",
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "cropBoundsPx": [
++        630,
++        990,
++        1329,
++        1796
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 699,
++      "height": 806,
++      "normalizedImageRect": {
++        "x": 0.47404063205417607,
++        "y": 0.5512249443207127,
++        "width": 0.5259593679458239,
++        "height": 0.4487750556792873
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-3rd-level",
++      "image": "dmg-175-dmg175-party-magic-items-81e4e0a51df9ed17.png",
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "cropBoundsPx": [
++        630,
++        990,
++        1329,
++        1796
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 699,
++      "height": 806,
++      "normalizedImageRect": {
++        "x": 0.47404063205417607,
++        "y": 0.5512249443207127,
++        "width": 0.5259593679458239,
++        "height": 0.4487750556792873
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-4th-level",
++      "image": "dmg-175-dmg175-party-magic-items-81e4e0a51df9ed17.png",
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "cropBoundsPx": [
++        630,
++        990,
++        1329,
++        1796
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 699,
++      "height": 806,
++      "normalizedImageRect": {
++        "x": 0.47404063205417607,
++        "y": 0.5512249443207127,
++        "width": 0.5259593679458239,
++        "height": 0.4487750556792873
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-5th-level",
++      "image": "dmg-175-dmg175-party-magic-items-81e4e0a51df9ed17.png",
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "cropBoundsPx": [
++        630,
++        990,
++        1329,
++        1796
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 699,
++      "height": 806,
++      "normalizedImageRect": {
++        "x": 0.47404063205417607,
++        "y": 0.5512249443207127,
++        "width": 0.5259593679458239,
++        "height": 0.4487750556792873
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-6th-level",
++      "image": "dmg-175-dmg175-party-magic-items-81e4e0a51df9ed17.png",
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "cropBoundsPx": [
++        630,
++        990,
++        1329,
++        1796
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 699,
++      "height": 806,
++      "normalizedImageRect": {
++        "x": 0.47404063205417607,
++        "y": 0.5512249443207127,
++        "width": 0.5259593679458239,
++        "height": 0.4487750556792873
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-7th-level",
++      "image": "dmg-175-dmg175-party-magic-items-81e4e0a51df9ed17.png",
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "cropBoundsPx": [
++        630,
++        990,
++        1329,
++        1796
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 699,
++      "height": 806,
++      "normalizedImageRect": {
++        "x": 0.47404063205417607,
++        "y": 0.5512249443207127,
++        "width": 0.5259593679458239,
++        "height": 0.4487750556792873
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-8th-level",
++      "image": "dmg-175-dmg175-party-magic-items-81e4e0a51df9ed17.png",
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "cropBoundsPx": [
++        630,
++        990,
++        1329,
++        1796
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 699,
++      "height": 806,
++      "normalizedImageRect": {
++        "x": 0.47404063205417607,
++        "y": 0.5512249443207127,
++        "width": 0.5259593679458239,
++        "height": 0.4487750556792873
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-9th-level",
++      "image": "dmg-175-dmg175-party-magic-items-81e4e0a51df9ed17.png",
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "cropBoundsPx": [
++        630,
++        990,
++        1329,
++        1796
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 699,
++      "height": 806,
++      "normalizedImageRect": {
++        "x": 0.47404063205417607,
++        "y": 0.5512249443207127,
++        "width": 0.5259593679458239,
++        "height": 0.4487750556792873
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-party-size-number-of-characters-in-party-procedure",
++      "image": "dmg-175-dmg175-party-size-15cef5c40c9874f7.png",
++      "imageSha256": "15cef5c40c9874f77299346be8030c81d5304e252576bc949bd2bae9d7a237cd",
++      "cropBoundsPx": [
++        0,
++        1432,
++        650,
++        1635
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 650,
++      "height": 203,
++      "normalizedImageRect": {
++        "x": 0,
++        "y": 0.7973273942093542,
++        "width": 0.4890895410082769,
++        "height": 0.11302895322939867
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    },
++    {
++      "regionId": "dmg175-party-size-separate-party-procedure-clause-incompatible-profession-and-class-maximum-results",
++      "image": "dmg-175-dmg175-party-size-15cef5c40c9874f7.png",
++      "imageSha256": "15cef5c40c9874f77299346be8030c81d5304e252576bc949bd2bae9d7a237cd",
++      "cropBoundsPx": [
++        0,
++        1432,
++        650,
++        1635
++      ],
++      "sourceDimensionsPx": [
++        1329,
++        1796
++      ],
++      "width": 650,
++      "height": 203,
++      "normalizedImageRect": {
++        "x": 0,
++        "y": 0.7973273942093542,
++        "width": 0.4890895410082769,
++        "height": 0.11302895322939867
++      },
++      "sourceCoordinateSpace": "supplement-image pixels; top-left origin; LTRB half-open"
++    }
++  ],
++  "activeCatalogs": [
++    {
++      "collection": "rules",
++      "itemId": "encounter-types",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-encounter-types.json",
++      "catalogSha256": "ffbe682e5c4ba3f2d2f45e0e6fc9361654fa6527c231f3a4fc220b4510e1aa3d",
++      "regionIds": [
++        "dmg-175-level-others-context-5aa02e91e35c4c28",
++        "dmg-175-party-table-context-78c4c383c38c7d10",
++        "dmg175-character-subtable-character-subtable-row-00",
++        "dmg175-character-subtable-character-subtable-row-01-17",
++        "dmg175-character-subtable-character-subtable-row-18-20",
++        "dmg175-character-subtable-character-subtable-row-21-60",
++        "dmg175-character-subtable-character-subtable-row-61-62",
++        "dmg175-character-subtable-character-subtable-row-63-65",
++        "dmg175-character-subtable-character-subtable-row-66-86",
++        "dmg175-character-subtable-character-subtable-row-87-88",
++        "dmg175-character-subtable-character-subtable-row-89-98",
++        "dmg175-character-subtable-character-subtable-row-99",
++        "dmg175-character-subtable-complete-character-subtable-heading-column-labels-and-all-rows"
++      ]
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-subtable",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-subtable.json",
++      "catalogSha256": "0df6a6dde3884e3dc81810c1d8750aab7a645e85674af4a37b5b479c4bbe2e19",
++      "regionIds": [
++        "dmg175-character-subtable-character-subtable-row-00",
++        "dmg175-character-subtable-character-subtable-row-01-17",
++        "dmg175-character-subtable-character-subtable-row-18-20",
++        "dmg175-character-subtable-character-subtable-row-21-60",
++        "dmg175-character-subtable-character-subtable-row-61-62",
++        "dmg175-character-subtable-character-subtable-row-63-65",
++        "dmg175-character-subtable-character-subtable-row-66-86",
++        "dmg175-character-subtable-character-subtable-row-87-88",
++        "dmg175-character-subtable-character-subtable-row-89-98",
++        "dmg175-character-subtable-character-subtable-row-99",
++        "dmg175-character-subtable-complete-character-subtable-heading-column-labels-and-all-rows",
++        "dmg175-party-size-separate-party-procedure-clause-incompatible-profession-and-class-maximum-results"
++      ]
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-size",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-size.json",
++      "catalogSha256": "617df82bf7a79f243106bf3b424546164a1832b0106e7e3deb51dff797cb1b8a",
++      "regionIds": [
++        "dmg175-party-size-number-of-characters-in-party-procedure"
++      ]
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-levels",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-levels.json",
++      "catalogSha256": "f7f2c6b0e3272ee9c078686ce03b065160bde6b0f1218a9c8d9e9efdd51e66ff",
++      "regionIds": [
++        "dmg175-character-level-left-level-of-characters-paragraph-left-column-portion",
++        "dmg175-character-level-right-level-of-characters-paragraph-right-column-continuation"
++      ]
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-henchmen",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-henchmen.json",
++      "catalogSha256": "dc1e6e42c6a21dee554f583da43518bbdd0f44bf0de9ce87a375b8270a15fa87",
++      "regionIds": [
++        "dmg175-level-others-abilities-guidance-complete-level-of-others-with-characters-paragraph"
++      ]
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-guidance",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-guidance.json",
++      "catalogSha256": "06aca643a116795eb8da20ed9447a2495ec71b150e047005db48dfac0c8a0102",
++      "regionIds": [
++        "dmg175-level-others-abilities-guidance-character-and-henchman-abilities-alignment-paragraph",
++        "dmg175-level-others-abilities-guidance-character-and-henchman-equipment-paragraph",
++        "dmg175-level-others-abilities-guidance-character-spells-paragraph"
++      ]
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-magic-distribution",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-magic-distribution.json",
++      "catalogSha256": "52c01795856e9e6ec69aca061109e490d8b876cdcfcbfc1ca414351684def18f",
++      "regionIds": [
++        "dmg175-party-magic-items-party-magic-items-complete-introductory-paragraph",
++        "dmg175-party-magic-items-party-magic-items-distribution-10th-level",
++        "dmg175-party-magic-items-party-magic-items-distribution-11th-level",
++        "dmg175-party-magic-items-party-magic-items-distribution-12th-level",
++        "dmg175-party-magic-items-party-magic-items-distribution-1st-level",
++        "dmg175-party-magic-items-party-magic-items-distribution-2nd-level",
++        "dmg175-party-magic-items-party-magic-items-distribution-3rd-level",
++        "dmg175-party-magic-items-party-magic-items-distribution-4th-level",
++        "dmg175-party-magic-items-party-magic-items-distribution-5th-level",
++        "dmg175-party-magic-items-party-magic-items-distribution-6th-level",
++        "dmg175-party-magic-items-party-magic-items-distribution-7th-level",
++        "dmg175-party-magic-items-party-magic-items-distribution-8th-level",
++        "dmg175-party-magic-items-party-magic-items-distribution-9th-level"
++      ]
++    }
++  ],
++  "expectedUsages": [
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-guidance",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-guidance.json",
++      "regionId": "dmg175-level-others-abilities-guidance-character-and-henchman-abilities-alignment-paragraph",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "b71ff06cac3fecd606cb6d6e42b5be8eb23faf5e03594fba9902ef8f3ea86a0b",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-guidance",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-guidance.json",
++      "regionId": "dmg175-level-others-abilities-guidance-character-and-henchman-equipment-paragraph",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "b71ff06cac3fecd606cb6d6e42b5be8eb23faf5e03594fba9902ef8f3ea86a0b",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-guidance",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-guidance.json",
++      "regionId": "dmg175-level-others-abilities-guidance-character-spells-paragraph",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "b71ff06cac3fecd606cb6d6e42b5be8eb23faf5e03594fba9902ef8f3ea86a0b",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-levels",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-levels.json",
++      "regionId": "dmg175-character-level-left-level-of-characters-paragraph-left-column-portion",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "fd13f5d51d4f527d8887c31627d39ce224c33ccd810a78bd8b01ba204f8aa3fc",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-levels",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-levels.json",
++      "regionId": "dmg175-character-level-right-level-of-characters-paragraph-right-column-continuation",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "559d4fbdf082168cf66bd5249127ceed62dde39fec6feb57738cfd1b4c613c77",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-subtable",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-subtable.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-00",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-subtable",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-subtable.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-01-17",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-subtable",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-subtable.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-18-20",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-subtable",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-subtable.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-21-60",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-subtable",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-subtable.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-61-62",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-subtable",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-subtable.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-63-65",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-subtable",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-subtable.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-66-86",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-subtable",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-subtable.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-87-88",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-subtable",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-subtable.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-89-98",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-subtable",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-subtable.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-99",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-subtable",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-subtable.json",
++      "regionId": "dmg175-character-subtable-complete-character-subtable-heading-column-labels-and-all-rows",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-character-subtable",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-character-subtable.json",
++      "regionId": "dmg175-party-size-separate-party-procedure-clause-incompatible-profession-and-class-maximum-results",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "15cef5c40c9874f77299346be8030c81d5304e252576bc949bd2bae9d7a237cd",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-henchmen",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-henchmen.json",
++      "regionId": "dmg175-level-others-abilities-guidance-complete-level-of-others-with-characters-paragraph",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "b71ff06cac3fecd606cb6d6e42b5be8eb23faf5e03594fba9902ef8f3ea86a0b",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-magic-distribution",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-magic-distribution.json",
++      "regionId": "dmg175-party-magic-items-party-magic-items-complete-introductory-paragraph",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-magic-distribution",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-magic-distribution.json",
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-10th-level",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-magic-distribution",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-magic-distribution.json",
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-11th-level",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-magic-distribution",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-magic-distribution.json",
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-12th-level",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-magic-distribution",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-magic-distribution.json",
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-1st-level",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-magic-distribution",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-magic-distribution.json",
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-2nd-level",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-magic-distribution",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-magic-distribution.json",
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-3rd-level",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-magic-distribution",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-magic-distribution.json",
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-4th-level",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-magic-distribution",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-magic-distribution.json",
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-5th-level",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-magic-distribution",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-magic-distribution.json",
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-6th-level",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-magic-distribution",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-magic-distribution.json",
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-7th-level",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-magic-distribution",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-magic-distribution.json",
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-8th-level",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-magic-distribution",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-magic-distribution.json",
++      "regionId": "dmg175-party-magic-items-party-magic-items-distribution-9th-level",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "81e4e0a51df9ed17963832bfec79edf4d2bc1ccef7322676e74b82bbdac8dd1f",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "appendix-c-party-size",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-appendix-c-party-size.json",
++      "regionId": "dmg175-party-size-number-of-characters-in-party-procedure",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "15cef5c40c9874f77299346be8030c81d5304e252576bc949bd2bae9d7a237cd",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "encounter-types",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-encounter-types.json",
++      "regionId": "dmg-175-level-others-context-5aa02e91e35c4c28",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "5aa02e91e35c4c28152caccd947096943b74889b8596376cb86cb0c7170291b8",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "encounter-types",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-encounter-types.json",
++      "regionId": "dmg-175-party-table-context-78c4c383c38c7d10",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "78c4c383c38c7d100a9e66bec4f36de1fdb9453d6e44d1eec53120e849a36e89",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "encounter-types",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-encounter-types.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-00",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "encounter-types",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-encounter-types.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-01-17",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "encounter-types",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-encounter-types.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-18-20",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "encounter-types",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-encounter-types.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-21-60",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "encounter-types",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-encounter-types.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-61-62",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "encounter-types",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-encounter-types.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-63-65",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "encounter-types",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-encounter-types.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-66-86",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "encounter-types",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-encounter-types.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-87-88",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "encounter-types",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-encounter-types.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-89-98",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "encounter-types",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-encounter-types.json",
++      "regionId": "dmg175-character-subtable-character-subtable-row-99",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    },
++    {
++      "collection": "rules",
++      "itemId": "encounter-types",
++      "binding": "sourceExcerpts",
++      "catalog": "scans/verified/rules-encounter-types.json",
++      "regionId": "dmg175-character-subtable-complete-character-subtable-heading-column-labels-and-all-rows",
++      "book": "DMG",
++      "printedPage": 175,
++      "pdfPage": null,
++      "imageSha256": "d04058b90644212aff6d74606720833c96084bfb1dd836fc2525b7a2c03ec142",
++      "sourceKind": "supplemental-image",
++      "sourceArtifactId": "dmg175-user-confirmed-supplement",
++      "sourceArtifactSha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
++      "sourcePdfSha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669"
++    }
++  ],
++  "sourceEpoch": {
++    "sourceCommit": "bc819621e49788260bb34ea47c1f7a8b35af6edf",
++    "sourceTree": "e6bc420f70656825a926297b959bc6d98758bfcd",
++    "nativeHirelingsCohortFixturePath": "tests/fixtures/hirelings-source-current-cohort-v1.json",
++    "nativeHirelingsCohortFixtureSha256": "62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f",
++    "currentDataRawSha256": "2cddb11a82ecc3b9d77cb3fa2ae49eef5623a5470ac85a540d1baf483e096a95",
++    "previousUniverseFixture": {
++      "path": "tests/fixtures/dmg175-current-supplemental-usage-universe-v1.json",
++      "sha256": "c5162dd3f52982b223fea95a9bdef0f0654cc2f03982acaafb2981e34aa7d56e",
++      "sourceEpoch": "Version29 data fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d"
++    }
++  }
++}

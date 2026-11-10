@@ -30,8 +30,9 @@ const producerClassByFunction={
  xpTableHTML:'class-xp-table',
  classDetailHTML:'class-progression-reference',
  classAbilitiesHTML:'class-abilities-table-record',
- tableFactSourceChip:'cleric-turning-table-fact',
+ tableFactSourceChip:'source-table-fact-reference',
  ruleBulletSourceChips:'rule-bullet-field-reference',
+ exactPendingPdfHirelingBulletSourceChips:'hireling-pending-pdf-bullet-field-reference',
  calculateXP:'dynamic-xp-result',
  fighterCombatHTML:'fighter-matrix-reference'
 };
@@ -157,7 +158,8 @@ const report={
   {id:'progression-explainer-detail',producer:'progressionExplainerDetailHTML',line:lineOf(app,'function progressionExplainerDetailHTML('),scope:['progressionExplainer'],identity:'section and overview chips retain progressionExplainer sourceOwner/fieldOwner and the standalone compound progression route; never reassign to a class'},
   {id:'matrix-detail-source-notes',producer:'matrixDetailHTML',line:lineOf(app,'function matrixDetailHTML('),scope:['matrices'],identity:'rule-note chips retain their authored matrix/source/field owners under the matrices collection; no owner reassignment to Fighter or another class'},
   {id:'class-abilities-table-record',producer:'classAbilitiesHTML',line:lineOf(app,'function classAbilitiesHTML('),scope:['classes'],identity:'record-level citation for the Cleric turning table; its enclosing source context is explicitly rules:cleric-turning-table. This is a page/group reference, not an individual fact target.'},
-  {id:'cleric-turning-table-fact',producer:'tableFactSourceChip',line:lineOf(app,'function tableFactSourceChip('),scope:['rules:cleric-turning-table'],identity:'renders one of 32 reviewed table facts across row, symbol, procedure, footnote and progression kinds only when a unique matching focus and exact rules owner, printed/PDF page, field pointer, source object, catalog, region and verification region are present; otherwise it fails closed to a pending placeholder. This bounded table check does not classify generic inline chips as reviewed.'},
+  {id:'hireling-pending-pdf-bullet-field-reference',producer:'exactPendingPdfHirelingBulletSourceChips',line:lineOf(app,'function exactPendingPdfHirelingBulletSourceChips('),selector:'data-inline-source',scope:['rules:dmg-hireling-procedure-u01 through rules:dmg-hireling-procedure-u10','rules:dmg-hireling-table-t01 through rules:dmg-hireling-table-t38'],identity:'field-scoped bullet chips resolve only their own pending rules field/source owners and preserve field-target-pending, not-assessed source values, and context-not-assessed status; no crop approval or value review is implied.'},
+  {id:'source-table-fact-reference',producer:'tableFactSourceChip',line:lineOf(app,'function tableFactSourceChip('),scope:['HIRED rules table sourceNotes','rules:cleric-turning-table'],identity:'the exact pending HIRED sourceNotes branch keeps the note field and rules source owners with pending target/context status; the existing Cleric branch still renders reviewed row, symbol, procedure, footnote and progression facts only with its unique exact focus. The classification is function-scoped and does not promote generic inline chips.'},
   {id:'fighter-matrix-context',producer:'fighterCombatHTML',line:lineOf(app,'function fighterCombatHTML('),scope:['classes','matrices'],identity:'embedded Fighter matrix context changes to the existing matrix source owner'},
   {id:'copy-reference-address',producer:'detail footer data-copy-link handler',line:606,selector:'data-copy-link',scope:['spells','rules','equipment','classes','matrices','progressionExplainer'],identity:'copies the collection-native entry route without a source query'}
  ],

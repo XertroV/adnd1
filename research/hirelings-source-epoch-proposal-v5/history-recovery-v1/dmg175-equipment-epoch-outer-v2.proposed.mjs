@@ -4,7 +4,7 @@
 import assert from 'node:assert/strict';
 import {execFileSync, spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {readVersion29HistoricalFile, normalizeVersion29HistoricalBytes, normalizeVersion29HistoricalJson} from '../closed-version29-reader-v2.proposed.mjs';
+import {readVersion29HistoricalFile, normalizeVersion29HistoricalBytes, normalizeVersion29HistoricalJson} from '../closed-version29-reader-v3.proposed.mjs';
 const readFileSync=readVersion29HistoricalFile;
 import {dirname, relative, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';

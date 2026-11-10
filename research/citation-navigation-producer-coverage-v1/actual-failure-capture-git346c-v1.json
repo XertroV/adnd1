@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "actual-citation-producer-classifier-failure-capture",
+  "capturedAt": "2026-11-10T18:20:58.011933+00:00",
+  "gitHead": "346c7634f8cad08998389ecd1d084b7082fb91a9",
+  "gitTree": "24cd8b1e03b3244aa9fc8caaad749780749ee337",
+  "toolSha256": "59c230e290880ed644410249e6087f0be9ed7796e8f20c333ca184c89cb4ee5a",
+  "inventoryTestSha256": "5e49b4eccba9198921eba6821e560f6dbe5f75870c220ea720bee43ff33dfa62",
+  "distHashes": {
+    "app.js": "f4381ff282ea6ff7d245c915ab17fafd4b19e025e2af6c2a496145429285f2c7",
+    "citations.js": "63e1667cd93c773e950bf6c53d8cf56e6beb29490278cecdeeb952cfa2663032",
+    "data.json": "2cddb11a82ecc3b9d77cb3fa2ae49eef5623a5470ac85a540d1baf483e096a95"
+  },
+  "commands": [
+    {
+      "command": [
+        "node",
+        "tools/citation-navigation-coverage.mjs"
+      ],
+      "cwd": "/workspace/adnd1-next-source-native",
+      "returnCode": 1,
+      "stdout": {
+        "path": "actual-failure-git346c-cli-1.stdout.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "actual-failure-git346c-cli-1.stderr.bin",
+        "sha256": "e9fe4e3ce0eae37387cf44cec6715b61552f92f532f7ec01b4a94972e8488f0e",
+        "bytes": 595
+      }
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        "tests/citation-navigation-inventory.test.mjs"
+      ],
+      "cwd": "/workspace/adnd1-next-source-native",
+      "returnCode": 1,
+      "stdout": {
+        "path": "actual-failure-git346c-cli-2.stdout.bin",
+        "sha256": "b37c5e202b083625b0e571efe993f2453d663096243d86403ed954c12c5d3759",
+        "bytes": 932
+      },
+      "stderr": {
+        "path": "actual-failure-git346c-cli-2.stderr.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  ],
+  "capturePolicy": "Raw stdout and stderr are preserved as exact bytes from execution against the checked-out 346c source tree. No application/tool/test source was edited and no failure was reconstructed."
+}
