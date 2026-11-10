@@ -167,13 +167,20 @@
       if (!selectedRegion) return;
       const selectedTarget = targetForPage(ref);
       const targetMatches = selectedTarget && isResolvedTarget(selectedTarget) && selectedTarget.regionIds.includes(selectedRegion?.id);
-      if (!targetMatches && (selectedTarget || previousIssue || targetPageMatches(requestedInitialRegion, ref))) targetDismissed = true;
+      const unresolvedFieldCandidate = isUnresolvedFieldTarget(selectedTarget);
+      if (!targetMatches && !unresolvedFieldCandidate && (selectedTarget || previousIssue || targetPageMatches(requestedInitialRegion, ref))) targetDismissed = true;
       if (ref && targetPageMatches(unavailableTarget, ref)) unavailableTarget = null;
-      if (ref && targetPageMatches(pendingTargetPage, ref)) { pendingTargetPage = null; targetStatus = ''; }
+      if (!unresolvedFieldCandidate && ref && targetPageMatches(pendingTargetPage, ref)) { pendingTargetPage = null; targetStatus = ''; }
       if (ref && targetPageMatches(requestedInitialRegion, ref)) requestedInitialRegion = null;
       if (!targetMatches) {
-        activeTarget = null;
-        targetStatus = '';
+        if (unresolvedFieldCandidate) {
+          targetDismissed = false;
+          activeTarget = selectedTarget;
+          targetStatus = 'pending';
+        } else {
+          activeTarget = null;
+          targetStatus = '';
+        }
       }
       regionIndex = matchingRegions(ref).findIndex(region => region.id === selectedRegion.id);
       resetZoom(); update(); notifySourceChange();
@@ -268,12 +275,14 @@
     const initialIndex = refs.findIndex(ref => ref.book === initialBook && ref.page === initialPage);
     current = initialIndex < 0 ? 0 : initialIndex; resetZoom(); regionIndex = 0; showHighlights = true;
     requestedInitialRegion = initialIndex >= 0 && typeof initialReference?.region === 'string' ? { book: initialBook, page: initialPage, id: initialReference.region } : null;
-    targetStatus = requestedTargetStatus === 'pending' && activeTarget?.fieldPointer ? 'pending' : '';
+    targetStatus = requestedTargetStatus === 'pending' && activeTarget?.fieldPointer && !isResolvedTarget(activeTarget) ? 'pending' : '';
     pendingTargetPage = targetStatus === 'pending'
       ? (initialIndex >= 0 ? { book: initialBook, page: initialPage } : targets.find(target => !target.regionIds.length) || null)
       : null;
     unavailableTarget = null;
-    if (targetPageMatches(pendingTargetPage, refs[current])) { regionIndex = -1; requestedMode = 'pdf'; }
+    const pendingCandidateRoute = targetStatus === 'pending' && !!activeTarget?.fieldPointer && !!requestedInitialRegion;
+    if (pendingCandidateRoute) { regionIndex = -1; requestedMode = excerptSource ? 'excerpts' : 'pdf'; }
+    else if (targetPageMatches(pendingTargetPage, refs[current])) { regionIndex = -1; requestedMode = 'pdf'; }
     else if (requestedInitialRegion) regionIndex = -1;
     returnFocus = document.activeElement;
     el.privacyNotice.hidden = privacyDismissed;
@@ -333,7 +342,7 @@
   function notifySourceChange() {
     if (!refs[current] || !onSourceChange) return;
     const issue = targetIssue(refs[current]);
-    const regionId = issue?.type === 'stale' ? issue.id : issue?.type === 'pending' ? null : viewingExcerpts() ? matchingRegions()[regionIndex]?.id : null;
+    const regionId = issue?.type === 'stale' ? issue.id : viewingExcerpts() ? matchingRegions()[regionIndex]?.id || null : null;
     onSourceChange(refs[current], regionId, sourceChangeMeta(refs[current], regionId, issue));
   }
   function specificFocusRects(rects) { return rects.filter(([x,y,w,h]) => !(x === 0 && y === 0 && w === 1 && h === 1)); }
@@ -384,6 +393,9 @@
   }
   function targetPageMatches(target, ref) { return !!target && !!ref && target.book === ref.book && target.page === ref.page; }
   function isResolvedTarget(target) { return !!target && (target.targetStatus === 'resolved' || ['field-target-reviewed','region-verified'].includes(target.reviewStatus)); }
+  function isUnresolvedFieldTarget(target) {
+    return !!target?.fieldPointer && !isResolvedTarget(target);
+  }
   function targetForPage(ref) {
     if (!ref || targetDismissed || !activeTarget?.fieldPointer) return null;
     const target = targets.find(candidate => targetPageMatches(candidate, ref) && candidate.fieldPointer === activeTarget.fieldPointer);
@@ -449,17 +461,31 @@
     if (targetDismissed) return { activeTarget: false };
     const target = targetForPage(ref);
     if (issue?.type === 'pending') return { targetStatus: 'pending', activeTarget: target || activeTarget || false };
-    if (issue?.type === 'stale') return { targetStatus: 'resolved', activeTarget: target || activeTarget || false };
+    if (issue?.type === 'stale') return target && !isResolvedTarget(target)
+      ? { targetStatus: 'pending', activeTarget: target }
+      : { targetStatus: 'resolved', activeTarget: target || activeTarget || false };
     if (regionId && target && isResolvedTarget(target) && target.regionIds.includes(regionId)) return { targetStatus: 'resolved', activeTarget: target };
     if (activeTarget) return { activeTarget: false };
     return undefined;
   }
   function defaultRegionIndex(ref) {
     const issue = targetIssue(ref);
-    if (issue) return -1;
-    if (!excerptCatalog) return 0;
     const regions = matchingRegions();
     const requested = refs[current] === ref && targetPageMatches(requestedInitialRegion, ref) ? requestedInitialRegion.id : targetRegionIds(ref)[0];
+    if (issue) {
+      if (issue.type === 'pending' && requested) {
+        const candidateIndex = regions.findIndex(region => region.id === requested);
+        if (candidateIndex >= 0) {
+          unavailableTarget = null;
+          return candidateIndex;
+        }
+        // A route can name a candidate that is not in this page's actual catalog.
+        // Wait until the catalog has loaded before treating that route target as stale.
+        if (excerptCatalog) unavailableTarget = { book: ref.book, page: ref.page, id: requested };
+      }
+      return -1;
+    }
+    if (!excerptCatalog) return 0;
     if (requested) {
       const index = regions.findIndex(region => region.id === requested);
       if (index < 0) { unavailableTarget = { book: ref.book, page: ref.page, id: requested }; return -1; }
@@ -506,6 +532,12 @@
   function dismissMismatchedFieldTarget(ref, region) {
     const target = targetForPage(ref);
     if (!target || !region) return;
+    if (isUnresolvedFieldTarget(target)) {
+      targetDismissed = false;
+      activeTarget = target;
+      targetStatus = 'pending';
+      return;
+    }
     if (isResolvedTarget(target) && target.regionIds.includes(region.id)) return;
     targetDismissed = true;
     if (targetPageMatches(pendingTargetPage, ref)) { pendingTargetPage = null; targetStatus = ''; }
@@ -695,11 +727,14 @@
     const privateOnly = !!(ref && excerptCatalog && !regions.length && books().privateEvidence(ref.book, ref.page));
     const issue = targetIssue(ref);
     const suppliedPageMissing = !!ref && pageNumber(ref) === null && books().privateEvidence(ref.book, ref.page);
+    const pendingCandidateSelected = issue?.type === 'pending' && excerpts && regionIndex >= 0;
     el.targetNotice.hidden = !issue;
     const fieldLabel = fieldTargetLabel(fieldTarget || activeTarget);
     el.targetNotice.textContent = issue?.type === 'stale'
-      ? `The linked excerpt “${issue.id}” is not available for this page in the current catalog. Choose another excerpt or open your PDF.`
-      : issue?.type === 'pending' ? `${fieldLabel ? `The field target “${fieldLabel}”` : 'This citation'} has no reviewed excerpt mapping yet. ${suppliedPageMissing ? `Printed p. ${ref.page} is absent from the supplied PDF. Choose an available excerpt only if it supports the field.` : 'The cited page is open in your PDF view; choose an excerpt only if it supports the field.'}` : '';
+      ? `The linked excerpt “${issue.id}” is not available for this page in the current catalog. Choose another excerpt or open your PDF.${fieldTarget && !isResolvedTarget(fieldTarget) ? ` The field target “${fieldLabel || 'Requested field'}” remains unresolved; the unavailable excerpt does not approve it.` : ''}`
+      : issue?.type === 'pending' ? pendingCandidateSelected
+        ? `Candidate excerpt selected for inspection only. The field target “${fieldLabel || 'Requested field'}” remains unresolved; this selection does not approve the source link or alter its source-value, context, or default review status.`
+        : `${fieldLabel ? `The field target “${fieldLabel}”` : 'This citation'} has no reviewed excerpt mapping yet. ${suppliedPageMissing ? `Printed p. ${ref.page} is absent from the supplied PDF. Choose an available excerpt only if it supports the field.` : 'The cited page is open in your PDF view; choose an excerpt only if it supports the field.'}` : '';
     el.modes.hidden = !excerptSource;
     el.excerptMode.disabled = excerptLoading || !!excerptCatalog && !regions.length && !privateOnly;
     el.excerptMode.setAttribute('aria-pressed', String(excerpts));

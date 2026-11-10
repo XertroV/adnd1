@@ -300,7 +300,7 @@ function parseReferenceRoute(hashValue=location.hash) {
  const routeView=views.includes(parts[0])?parts[0]:'spells';
  let id='';try{id=decodeURIComponent(parts.slice(1).join('/'));}catch{}
  const params=new URLSearchParams(query),match=params.get('source')?.match(/^(PHB|UA|DMG|MM|MM2):(\d+)$/),region=params.get('region'),fieldPointer=params.get('field'),pending=params.get('target')==='pending',owner=params.get('owner')?.match(/^(rules|spells|equipment|classes|matrices|progressionExplainer):([a-z0-9][a-z0-9-]{0,100})$/),fieldOwner=params.get('fieldOwner')?.match(/^(rules|spells|equipment|classes|matrices|progressionExplainer):([a-z0-9][a-z0-9-]{0,100})$/);
- return {view:routeView,id,owner:owner?{view:owner[1],id:owner[2]}:null,source:match?{book:match[1],page:Number(match[2]),...(region&&region.length<=200?{region}: {}),...(fieldPointer&&fieldPointer.length<=250?{fieldPointer}: {}),...(params.has('fieldOwner')?{fieldOwner:fieldOwner?{collection:fieldOwner[1],itemId:fieldOwner[2]}:null,fieldOwnerSpecified:true}:{}),...(pending&&!region?{targetStatus:'pending'}:{})}:null};
+ return {view:routeView,id,owner:owner?{view:owner[1],id:owner[2]}:null,source:match?{book:match[1],page:Number(match[2]),...(region&&region.length<=200?{region}: {}),...(fieldPointer&&fieldPointer.length<=250?{fieldPointer}: {}),...(params.has('fieldOwner')?{fieldOwner:fieldOwner?{collection:fieldOwner[1],itemId:fieldOwner[2]}:null,fieldOwnerSpecified:true}:{}),...(pending?{targetStatus:'pending'}:{})}:null};
 }
 function sourceLinkHash(routeView,id,ref,owner=null,targetStatus='',activeTarget=null) {
  const targetOwner=activeTarget?.sourceOwner;
@@ -309,7 +309,7 @@ function sourceLinkHash(routeView,id,ref,owner=null,targetStatus='',activeTarget
  const routeOwner=routeOwnerValue?.collection==='progressionExplainer'&&routeView==='classes'?{view:'classes',id:'progression-explainer'}:routeOwnerValue?.collection?{view:routeOwnerValue.collection,id:routeOwnerValue.itemId}:routeOwnerValue;
  const fieldOwner=activeTarget?.fieldOwner;
  const fieldOwnerDiffers=activeTarget?.fieldPointer&&fieldOwner&&typeof fieldOwner.collection==='string'&&typeof fieldOwner.itemId==='string'&&(fieldOwner.collection!==routeView||fieldOwner.itemId!==id);
- return `#${routeView}/${encodeURIComponent(id)}?source=${encodeURIComponent(`${ref.book}:${ref.page}`)}${ref.region?`&region=${encodeURIComponent(ref.region)}`:''}${targetStatus==='pending'&&!ref.region?'&target=pending':''}${activeTarget?.fieldPointer?`&field=${encodeURIComponent(activeTarget.fieldPointer)}`:''}${fieldOwnerDiffers?`&fieldOwner=${encodeURIComponent(`${fieldOwner.collection}:${fieldOwner.itemId}`)}`:''}${routeOwner?`&owner=${encodeURIComponent(`${routeOwner.view}:${routeOwner.id}`)}`:''}`;
+ return `#${routeView}/${encodeURIComponent(id)}?source=${encodeURIComponent(`${ref.book}:${ref.page}`)}${ref.region?`&region=${encodeURIComponent(ref.region)}`:''}${targetStatus==='pending'?'&target=pending':''}${activeTarget?.fieldPointer?`&field=${encodeURIComponent(activeTarget.fieldPointer)}`:''}${fieldOwnerDiffers?`&fieldOwner=${encodeURIComponent(`${fieldOwner.collection}:${fieldOwner.itemId}`)}`:''}${routeOwner?`&owner=${encodeURIComponent(`${routeOwner.view}:${routeOwner.id}`)}`:''}`;
 }
 function syncSelectionRoute(previousId){
  if(previousId===selectedId)return;
@@ -341,6 +341,26 @@ function routeFieldOwner(source,routeItem) {
  if(owner.collection==='progressionExplainer')return recordForView('progressionExplainer',owner.itemId);
  return recordForView(owner.collection,owner.itemId);
 }
+function routeFieldTargetDisplayLabel(target,fieldOwnerItem) {
+ if(!target||!fieldOwnerItem)return target;
+ const pointer=target.fieldPointer||'',category=target.sourceCategory||'',table=fieldOwnerItem.table;
+ let match,index,label='';
+ if(category==='hireling-table-row-reference'&&(match=/^\/table\/rows\/(0|[1-9]\d*)\/sourceReference$/.exec(pointer))){
+  index=Number(match[1]);
+  const row=Number.isSafeInteger(index)?table?.rows?.[index]:null;
+  if(row)label=`${table.title||fieldOwnerItem.title||'Table'} · ${row.label||'row'}`;
+ }else if((category==='hireling-table-note-reference'||category==='hireling-table-note-page-reference')&&(match=/^\/table\/sourceNotes\/(0|[1-9]\d*)$/.exec(pointer))){
+  index=Number(match[1]);
+  const note=Number.isSafeInteger(index)?table?.sourceNotes?.[index]:null;
+  if(note)label=`${table.title||fieldOwnerItem.title||'Table'} · ${note.label||note.marker||'source note'}`;
+ }else if(category==='hireling-procedure-bullet-reference'&&(match=/^\/bullets\/(0|[1-9]\d*)$/.exec(pointer))){
+  index=Number(match[1]);
+  if(Number.isSafeInteger(index)&&fieldOwnerItem.bullets?.[index]!==undefined)label=`${fieldOwnerItem.title||fieldOwnerItem.name||fieldOwnerItem.id} · bullet ${index+1} source`;
+ }
+ const existingLabel=String(target.label||'').trim(),sourceObject=String(target.sourceObject||'').trim();
+ if(!label||(existingLabel&&existingLabel!==sourceObject))return target;
+ return {...target,label};
+}
 function unresolvedFieldRouteTarget(source,fieldPointer,candidate=null,sourceOwner=null) {
  return {...(candidate||{}),book:source.book,page:source.page,regionIds:[],label:candidate?.label||'Requested field',status:candidate?.status||'Field target mapping or source owner is unavailable',targetStatus:'pending',reviewStatus:'field-target-pending',fieldPointer,...(source.fieldOwner?{fieldOwner:source.fieldOwner}:{}),sourceOwner:sourceOwner||candidate?.sourceOwner};
 }
@@ -368,20 +388,28 @@ function route({force=false}={}) {
   let initialReference=target.source,activeTarget=null,targets=FirstEditionCitations.targets(item),fieldScoped=!!target.source.fieldPointer;
   const primarySourceContext=item?.table?.sourceContext||item?.sourceContext;
   if(!fieldScoped&&!initialReference.region&&primarySourceContext&&bookCode(primarySourceContext.book)===initialReference.book&&Number(primarySourceContext.printedPage)===initialReference.page&&typeof primarySourceContext.regionId==='string')initialReference={...initialReference,region:primarySourceContext.regionId};
-  let targetStatus=target.source.targetStatus||(target.source.region?'resolved':'');
+ // The target=pending query preserves human-readable route intent, but it is never
+ // authoritative: a matching collector target supplies the actual review state below.
+ let targetStatus=target.source.region?'resolved':'';
   if(fieldScoped){
    const fieldOwnerItem=routeFieldOwner(target.source,routeItem);
    const originTargets=fieldOwnerItem?FirstEditionCitations.targets(fieldOwnerItem):[];
-   const candidates=originTargets.filter(candidate=>candidate.fieldPointer===target.source.fieldPointer);
+   const candidates=originTargets.filter(candidate=>candidate.fieldPointer===target.source.fieldPointer)
+    .map(candidate=>routeFieldTargetDisplayLabel(candidate,fieldOwnerItem));
    const ownerCandidates=candidates.filter(candidate=>citationSourceOwnerMatches(target,candidate.sourceOwner));
    activeTarget=ownerCandidates.find(candidate=>candidate.book===target.source.book&&candidate.page===target.source.page)||null;
    if(activeTarget){
     targets=ownerCandidates;
-    targetStatus=target.source.targetStatus||(activeTarget.targetStatus==='pending'?'pending':target.source.region?'resolved':activeTarget.targetStatus);
+    const resolvedCollectorTarget=activeTarget.targetStatus==='resolved'||['field-target-reviewed','region-verified'].includes(activeTarget.reviewStatus);
+    const unresolvedCollectorTarget=!resolvedCollectorTarget;
+    targetStatus=unresolvedCollectorTarget?'pending':'resolved';
     if(target.source.region&&!activeTarget.regionIds.includes(target.source.region)){
-     // An explicit region remains an exact page-level link if it is not part of this field target.
-     initialReference={book:target.source.book,page:target.source.page,region:target.source.region};
-     activeTarget=null;fieldScoped=false;targetStatus='resolved';targets=FirstEditionCitations.targets(item).filter(candidate=>candidate.regionIds.includes(target.source.region));
+     const pendingCandidate=unresolvedCollectorTarget&&!!activeTarget.fieldPointer;
+     if(!pendingCandidate){
+      // A resolved field stays page-level when its explicit region is unrelated.
+      initialReference={book:target.source.book,page:target.source.page,region:target.source.region};
+      activeTarget=null;fieldScoped=false;targetStatus='resolved';targets=FirstEditionCitations.targets(item).filter(candidate=>candidate.regionIds.includes(target.source.region));
+     }
     }
    }else if(target.source.region){
     // Preserve the exact user-supplied region without claiming it supports an unavailable field target.
@@ -619,7 +647,8 @@ function thresholdForLevel(x, level) {
 }
 function inlineSourceChip(reference,title, prefix='', className='') {
  const pages=pagesFor(reference);
- const targets=FirstEditionCitations.targets(reference,title);
+ const targets=FirstEditionCitations.targets(reference,title).map(target=>routeFieldTargetDisplayLabel(target,
+  target.fieldOwner?recordForView(target.fieldOwner.collection,target.fieldOwner.itemId):null));
  const pageLabel=pages.length?`${pages.length===1?'p.':'pp.'} ${pages.join(', ')}`:'page pending';
  const classNames=['source-chip',className].filter(Boolean).join(' ');
  return `<button class="${esc(classNames)}" data-inline-source data-ref-book="${esc(reference.book)}" data-ref-pages="${esc(pages.join(','))}" data-ref-title="${esc(title)}" data-ref-status="${esc(reference.status||'Source extraction pending')}" data-ref-targets="${esc(JSON.stringify(targets))}" aria-label="Open source for ${esc(title)}: ${esc(bookCode(reference.book))} ${esc(pageLabel)}">${esc(prefix)}${esc(bookCode(reference.book))} ${pageLabel}</button>`;
