@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent read-only review of Version 30 live-release receipt",
+  "reviewedDate": "2026-11-10",
+  "verdict": "verified-within-bounded-scope; no material discrepancy found",
+  "target": {
+    "repository": "/workspace/adnd1-next-source-native",
+    "head": "5c6a57386af372c7c0d89e342003a7edf68ca0dd",
+    "receipt": "research/source-audit-pass8-pr51-version30-live-release.json",
+    "receiptSha256": "9d2961f3e6abd737b7a3c6b0dcad131c7da674184d7f3c23306417e011f290a6"
+  },
+  "reviewMethod": "Targeted comparison of the receipt to named private result JSON/log captures and read-only Git objects. No test/build reruns, live site requests, source/appdata writes, or public-receipt edits.",
+  "checks": [
+    {
+      "claim": "Release identity and source lineage",
+      "result": "pass",
+      "evidence": "HEAD matches release commit; PR tested head and merge commit have the same tree 391026a96811e7bcf0dfcb61c3753ff708308fe1; source commit bc819621e49788260bb34ea47c1f7a8b35af6edf is an ancestor."
+    },
+    {
+      "claim": "Local workflow and unit suite",
+      "result": "pass",
+      "evidence": "Private results.json SHA afc4809c62350c269a3e22148e26f1fec0bf57cb2205540461503800a55ad773 reports 25/25 passed (24 validation blocks and one conditional build-metadata block). Its step-01 log SHA c05542026cab72b1d106c531dbd46d338867879c0779f8894ea6654a54ca7daf reports 1,141 pass, 0 fail, 0 skip."
+    },
+    {
+      "claim": "PR 51 CI",
+      "result": "pass",
+      "evidence": "Private decoded build log identifies run 42891878168, job 130094829732, head 2b4425314053d429492b19114859ca4a084e7404; its decoded content hash matches the receipt. Merge evidence records the PR CI conclusion as success."
+    },
+    {
+      "claim": "Master Pages deployment and build identity",
+      "result": "pass-with-evidence-note",
+      "evidence": "Run 42895728758 deploy log identifies merge commit 5c6a57386af372c7c0d89e342003a7edf68ca0dd, uploads Pages artifact 13802281301 with digest c276700f38b747e1869f1db1da1c83f9bb37dc2c33b6007068eecc8541105e6a, consumes verified-app artifact 13802410432 with digest f5174cf5f42a526296931a582410da62067c87c0541b6b38a5d1a6db22098cba, and reports deployment success. Separate decoded output for build job 130108244337 was not present in the local evidence snapshot, so its unit-count line was not independently re-read."
+    },
+    {
+      "claim": "Version 30 stamped Pages index",
+      "result": "pass",
+      "evidence": "Private readiness record and captured deployed index agree on build time 2026-11-10T20:45:49.375Z and SHA-256 814a81720c8401c6e1a869fcdda5240e37928d13fd7e62072448015ff26f871f."
+    },
+    {
+      "claim": "Three live browser runs",
+      "result": "pass",
+      "evidence": "Archived results match receipt hashes and statuses: hired 401, legacy 333, notes/search 124 assertions (858 executions total). Hired run covers 321 pending controls, 48 entry defaults and 11 continuation groups. Error records show no unexpected browser/server errors; only the stated optional favicon 404 appears."
+    },
+    {
+      "claim": "Selected live asset byte-match scope",
+      "result": "pass",
+      "evidence": "The 141-entry private manifest SHA is 9ae85c7ad419eed744a61dccffb60caafadc511c2ac972a54a593722bc432f24. Its exact path/hash map equals the union of the three archived runners (108 + 37 + 24 observations, 141 unique paths), with no conflicts."
+    },
+    {
+      "claim": "Bounded source content counts and pending status",
+      "result": "pass",
+      "evidence": "Read-only parse of the merged tree gives 48 new owners: 38 tables, 10 procedures, 244 table rows and 343 literal cells. The 321 added evidence bindings all remain field-target-pending; the live controls remain pending and nested targetReview values are null. The pre-release evidence records these cells outside the formal mechanics denominator."
+    },
+    {
+      "claim": "Source8 and seal preservation",
+      "result": "pass",
+      "evidence": "All eight source8 raw input hashes match at source commit and merged commit. The source-cohort fixture SHA is 62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f in the tested/merged tree. Merged seal manifest contains 1,867 entries; its ordered first 1,798 match the pre-source version and first 1,794 match base master."
+    },
+    {
+      "claim": "Privacy and claim boundaries",
+      "result": "pass",
+      "evidence": "Public receipt contains release metadata, paths and hashes only; it contains no embedded PDF/image/screenshot payload, private absolute paths, or Library IDs. It explicitly says the whole-source audit continues, scopes the 141 assets to selected byte-matched files, and does not claim whole-book completeness."
+    },
+    {
+      "claim": "Unresolved monetary questions",
+      "result": "pass",
+      "evidence": "The supporting validation receipt records seven interpretation and two scope questions unresolved; the public receipt retains this as nine open questions."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "none",
+      "finding": "No material mismatch found between the public Version 30 receipt and the checked private evidence."
+    },
+    {
+      "severity": "informational",
+      "finding": "The release is bounded as stated. The 343 new literal cells are outside the formal mechanics denominator; all 321 new manual targets remain pending; nine monetary questions remain unresolved; whole-source semantic review is incomplete."
+    },
+    {
+      "severity": "evidence-limit",
+      "finding": "A separate decoded master build-job log for job 130108244337 was not present in the local capture. The successful downstream Pages deployment and exact verified-app artifact are present; the receipt’s master build test count was not independently recomputed from that missing log."
+    }
+  ],
+  "notPerformed": [
+    "No whole-book/source-completeness audit",
+    "No re-run of broad checks, CI, or browser harnesses",
+    "No external live-site requests"
+  ],
+  "changesMade": []
+}
