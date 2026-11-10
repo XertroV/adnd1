@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "preserved-PR50-first-CI-missing-runtime-input-failure",
+  "run": {
+    "url": "https://github.com/XertroV/adnd1/actions/runs/42791654820",
+    "id": 42791654820,
+    "job": 129746327347,
+    "head": "dba45dcf1341a2ce32106a53fd7f636075a5c742",
+    "conclusion": "failure",
+    "failedSteps": [
+      "Verify reference data and scan integrity"
+    ]
+  },
+  "nodeStats": {
+    "tests": 1123,
+    "pass": 1122,
+    "fail": 1,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "missingInput": {
+    "path": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/whale-counterfactual-context-v1/v2/dmg175-jo-test-context-shim-v2.mjs",
+    "sha256": "23094dd833c7879d732d9135826a8d0fe8145f36ba5b543e04516365e1962e27",
+    "sizeBytes": 4445,
+    "alreadyExpectedByCommittedHelper": true,
+    "wasUntrackedInLocalSuccessfulRun": true,
+    "fix": "Commit these exact already-tested template bytes; application files and data are unchanged."
+  },
+  "actualLog": {
+    "privatePath": "/workspace/vault-audit-private/pass8/root/pr50-ci-first-failure-v1/build.log",
+    "sha256": "17553ba80cbb33836ded081d76b45662ab892b9f0f7e96f188307514710b3a91",
+    "sizeBytes": 357466
+  },
+  "localVerificationQualification": {
+    "receiptPath": "research/source-audit-pass8-pr50-local-workflow-verification-v1.json",
+    "receiptSha256": "9af72f48055ee4f5abac85770dd499977480c45a0e5eb61b6ff32c0dac7c4693",
+    "clarification": "All25 local blocks did pass, but the working directory contained the untracked template. This was not a complete cold-checkout validation of dba45dc. Preserve the original receipt and its actual logs; do not treat it as proof of a complete committed runtime-file closure."
+  },
+  "priorSealCount": 1792,
+  "sealCountAfterThisTwoFileEvidenceCorrection": 1794,
+  "sourceOrApplicationRepair": false,
+  "createdAt": "2026-11-10T10:03:19.648190+00:00"
+}
