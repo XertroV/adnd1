@@ -31,6 +31,7 @@ const producerClassByFunction={
  classDetailHTML:'class-progression-reference',
  classAbilitiesHTML:'class-abilities-table-record',
  tableFactSourceChip:'cleric-turning-table-fact',
+ ruleBulletSourceChips:'rule-bullet-field-reference',
  calculateXP:'dynamic-xp-result',
  fighterCombatHTML:'fighter-matrix-reference'
 };

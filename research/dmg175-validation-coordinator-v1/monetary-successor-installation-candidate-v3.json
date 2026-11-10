@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "final research-only monetary successor installation candidate",
+  "status": "REVIEWED_PROPOSAL_NOT_INSTALLED_BY_COORDINATOR",
+  "sourceInputCommit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+  "sourceInputTree": "d7ac09ce9abe4ef94ae355a44b8e0c5ca6f74ea3",
+  "files": [
+    {
+      "source": {
+        "path": "research/dmg175-validation-coordinator-v1/monetary-proposal-v1/source-987a25d3ba2d-v2/dmg175-current-monetary-source-questions-v2.mjs",
+        "sha256": "b234e164e14218be1e130554016e51d36dd685bccb18ae40f5bc5c01e7ee0139",
+        "sizeBytes": 26939
+      },
+      "target": "tools/dmg175-current-monetary-source-questions-v1.mjs",
+      "role": "Final v2 helper bytes retain the v1 production filename used by the caller patch",
+      "notPartOfSourceInputCommit": true
+    },
+    {
+      "source": {
+        "path": "research/dmg175-validation-coordinator-v1/monetary-proposal-v1/source-987a25d3ba2d/source-audit-pass8-dmg175-source-current-monetary-source-questions-v1.json",
+        "sha256": "56cd03c646e971adcd5f5240849b17606b9d07e2cc6b397a75cb75f7495efbe3",
+        "sizeBytes": 12362
+      },
+      "target": "research/source-audit-pass8-dmg175-source-current-monetary-source-questions-v1.json",
+      "role": "Additive exact successor registry; old UA registry remains unchanged"
+    },
+    {
+      "source": {
+        "path": "research/dmg175-validation-coordinator-v1/monetary-proposal-v1/source-987a25d3ba2d/monetary-provenance-migration-proof-v1.json",
+        "sha256": "2a23bd6d7d9084e5b6f6ee61fd525b8d96ddae97499dac83d1e7252cad6f2a92",
+        "sizeBytes": 19373
+      },
+      "target": "research/dmg175-source-metadata-v1/monetary-provenance-migration-proof-v1.json",
+      "role": "Closed exact whole-payload and question preservation proof"
+    }
+  ],
+  "callerPatch": {
+    "path": "research/dmg175-validation-coordinator-v1/monetary-proposal-v1/source-987a25d3ba2d/proposed-refresh-gaps-handoff-import-transition.patch",
+    "sha256": "82ddbcf14d3e3854b20606de30426fb505dd2adbe902b29f10775e30e7f6c89b",
+    "sizeBytes": 1119
+  },
+  "callerPatchScope": "Import only the new loader in refresh-gaps-handoff, retain the old pure validator and current source-handoff import. Patch is not applied by this coordinator.",
+  "independentReview": {
+    "path": "research/dmg175-validation-coordinator-v1/monetary-proposal-v1/source-987a25d3ba2d-v2/independent-review-v2.json",
+    "sha256": "4ef9a8aec17b166f4bbeee0a42d97506a5e106d4e82cdf83212b78c29ec885ac",
+    "sizeBytes": 3375
+  },
+  "evidence": [
+    {
+      "path": "research/dmg175-validation-coordinator-v1/monetary-proposal-v1/source-987a25d3ba2d/negative-controls-v1.json",
+      "sha256": "393a74d7ff443c1a5e901f21023bd6e2ecc0ebb328b59ad9fb258e68d9d4e05a",
+      "sizeBytes": 4487
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/monetary-proposal-v1/source-987a25d3ba2d-v2/exact-registry-loader-v2-replay-v1.json",
+      "sha256": "2727da1a3f1db82e4355030db96d303d98e2a7ac06e183d826c0d76bd6571c93",
+      "sizeBytes": 1435
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/monetary-proposal-v1/source-987a25d3ba2d/verify-monetary-provenance-v1.mjs",
+      "sha256": "6d241cb0c84deceeedf5bf7374280ff5029b55bf42e67d8c8f2bdde834c84d58",
+      "sizeBytes": 40123
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/monetary-proposal-v1/source-987a25d3ba2d-v2/verify-exact-registry-loader-v2.mjs",
+      "sha256": "68dcf5d91f4d17f6cbbb43fe036db954a503f2681a95b58bcb25a8a80e70862a",
+      "sizeBytes": 6613
+    }
+  ],
+  "supersededRuntimeCandidate": {
+    "path": "research/dmg175-validation-coordinator-v1/monetary-proposal-v1/source-987a25d3ba2d/dmg175-current-monetary-source-questions-v1.mjs",
+    "reason": "Use v2 bytes with the exact successor registry raw-byte pin."
+  },
+  "expectedCurrentIndex": {
+    "path": "research/monetary-source-inventory.json",
+    "sha256": "563058d3fff815621cb00f5c38e6c6c1abde40b83a9148795b8989abfbbd1f53",
+    "sourceOccurrences": 1871,
+    "claims": 2317
+  },
+  "questionBoundary": {
+    "historicalRegisteredQuestions": 8,
+    "legacyUnresolvedInterpretations": 7,
+    "independentSourceScopeQuestions": 2,
+    "distinctScopeRows": 9,
+    "totalCurrentOpenQuestions": 9,
+    "derivedMammothAdjudications": 1,
+    "semanticPass": false,
+    "generalSourceReviewPending": true
+  },
+  "rootExecutionBoundary": "Root is running the first diagnostic full Node suite. This record authorizes no active writes during that run; installation and later current-metadata checks remain root-owned.",
+  "afterRootReviewCommands": [
+    "node tools/dmg175-current-monetary-source-questions-v1.mjs --output artifacts/monetary-review-coverage/current-source-questions.json --check",
+    "node tools/refresh-gaps-handoff.mjs --systemic-report artifacts/citation-systemic-coverage/citation-systemic-current.json --visual-report artifacts/source-visual-coverage/report.json --table-report artifacts/source-table-citation-coverage/report.json",
+    "node tools/assemble.mjs",
+    "node tools/refresh-gaps-handoff.mjs --check",
+    "node tools/source-report-consistency-audit.mjs --check"
+  ],
+  "fullNodeSuiteClaimed": false,
+  "workflow24BlocksClaimed": false,
+  "revision": 3,
+  "supersedesResearchManifest": "research/dmg175-validation-coordinator-v1/monetary-successor-installation-candidate-v2.json",
+  "workflowPatch": {
+    "path": "research/dmg175-validation-coordinator-v1/current-metadata-projection-proposal-v1/workflow-monetary-cli-transition-v1.patch",
+    "sha256": "d3a37940a23a3e9e725f36c51818d8a8297bb023f4631c595422295ff6fa46f8",
+    "sizeBytes": 747
+  },
+  "workflowPatchScope": "Switch the one workflow CLI call to the new loader, retain the full --output path and --check flags; the closed old UA tool remains unchanged.",
+  "validationBoundary": {
+    "newLoader": "Checks the exact registry/proof/index dependencies and complete9question payload, including7interpretations+2scope questions/9scope rows.",
+    "legacyPureValidator": "Refresh and coverage deliberately retain the old pure8record validator. It does not detect dropped sourceQuestions scope or text fields.",
+    "nativeRefreshCheck": "The complete regenerated current question projection must be compared through refresh-gaps-handoff --check; dropping a scope/text field must make that whole projection check fail.",
+    "bindingConsistency": "The generic report consistency helper rederives all4931binding/review rows and their counts; it does not independently validate every monetary question string."
+  },
+  "workflowPatchCheck": {
+    "command": "git apply --check research/dmg175-validation-coordinator-v1/current-metadata-projection-proposal-v1/workflow-monetary-cli-transition-v1.patch",
+    "exitCode": 0,
+    "patchApplied": false
+  }
+}

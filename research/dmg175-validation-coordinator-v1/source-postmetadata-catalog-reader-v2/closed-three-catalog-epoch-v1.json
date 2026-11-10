@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "separate exact three-catalog raw epoch for the historical alias reader",
+  "sourcePhase": {
+    "commit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+    "tree": "d7ac09ce9abe4ef94ae355a44b8e0c5ca6f74ea3"
+  },
+  "baseline": {
+    "commit": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
+    "tree": "2611405f3c8ab151936cb0f83ed57334141e1146"
+  },
+  "files": [
+    {
+      "path": "dist/scans/verified/equipment-phb-hammer.json",
+      "sourceCurrent": {
+        "sha256": "e2293b6b01573627f56751b1c9bb5050a7589ef126f7d1958e10a2be843f5943",
+        "sizeBytes": 17446,
+        "regionRows": 10
+      },
+      "v28Before": {
+        "sha256": "cfb47569d010a1bfd7a540da1eb9a550417da3a6787e00e716989ded93574538",
+        "sizeBytes": 13680,
+        "regionRows": 8
+      }
+    },
+    {
+      "path": "dist/scans/verified/equipment-phb-javelin.json",
+      "sourceCurrent": {
+        "sha256": "129dddbaac75f1d255725f265318c330a6f0b50259bf015b8f1e1513d332b1f6",
+        "sizeBytes": 14710,
+        "regionRows": 8
+      },
+      "v28Before": {
+        "sha256": "c3df025fa7a92e993fed997ba871f82bbee2c78b559a88ced8a7cf1d11fb106c",
+        "sizeBytes": 10938,
+        "regionRows": 6
+      }
+    },
+    {
+      "path": "dist/scans/verified/equipment-ua-harpoon.json",
+      "sourceCurrent": {
+        "sha256": "cdce6ea87e3d859ae84868dead02b4780687fbfc1dbb2ca86efb450733deb852",
+        "sizeBytes": 12324,
+        "regionRows": 7
+      },
+      "v28Before": {
+        "sha256": "6278d7e6104692e83c8c7312d127b8ee5faa5999bc5fa1abce9ea8ae58787247",
+        "sizeBytes": 8554,
+        "regionRows": 5
+      }
+    }
+  ],
+  "qualificationPins": [
+    {
+      "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs",
+      "sha256": "09da403f955f463a65fc38d28df8cc2c9a32b6f60b729cce2b966669576a1d84"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs",
+      "sha256": "ab080c03052095d20b0c0367a9a0484d2f088816e651fcca229fe3462985557b"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/marker-recovery-v2/ua26-marker-dmg175-transition-v2.json",
+      "sha256": "1705708a0cc5c6244aa793762560c312500465ac19380db4b64c5d55171f84e1"
+    },
+    {
+      "path": "research/source-audit-input-dmg175-source-987a25d3ba2d.json",
+      "sha256": "f3449210a281b3c7604847cea39508b0a48d65d8971e569494cc14db1588565e"
+    }
+  ],
+  "scope": "These three catalogs are outside the pre-existing SOURCE11 history contract. This separate reader-only inverse restores their complete exact V28 bytes before the unchanged historical Jo/XP alias census. The six appended UA28 regions and later captions are distinct changes; marker caption reviews do not approve new numeric values or context. Current native tests and readers retain actual SOURCE catalogs.",
+  "observedPreservedFailure": {
+    "beforeFixtureCatalogRegionRows": 3066,
+    "v2ReaderCatalogRegionRows": 3072,
+    "difference": 6,
+    "allOtherHistoricalDenominatorsUnchanged": true,
+    "originalWholeSolidFogMissingAliasObjectUnchanged": true
+  },
+  "predecessorPrototypeQualification": {
+    "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-catalog-reader-v1/jo-source-catalog-reader-v1.proposed.mjs",
+    "sha256": "c1b12fceeda87014f30b1dee88c37e7b6a7e1325a0b1541cc735ba416268f6db",
+    "disposition": "ineffective prototype; it called SOURCE11 normalization for three paths outside that set; preserved, never activated"
+  },
+  "negativePolicy": "Only the three declared paths and complete current SOURCE/V28 raw SHA endpoints are accepted; foreign paths, partial edits, whitespace and unknown/mixed states reject. Returned buffers are copies.",
+  "activeInputsChanged": false
+}

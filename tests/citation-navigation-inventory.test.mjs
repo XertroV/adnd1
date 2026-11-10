@@ -11,12 +11,12 @@ const before=JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/citation-nav
 
 test('citation navigation inventory captures all current chip producer classes and sites',()=>{
  const inventory=auditInlineProducerSites(app);
- assert.equal(inventory.sites.length,19);
- assert.equal(inventory.classes.length,13);
+ assert.equal(inventory.sites.length,20);
+ assert.equal(inventory.classes.length,14);
  assert.deepEqual(inventory.classes,[
   'class-abilities-table-record','class-advancement','class-progression-reference','class-xp-table','cleric-turning-table-fact','dynamic-xp-result',
   'equipment-estimate-comparison','equipment-related-reference','field-attribute-layout',
-  'fighter-matrix-reference','matrix-detail-reference','progression-explainer-detail-reference','progression-explainer-reference'
+  'fighter-matrix-reference','matrix-detail-reference','progression-explainer-detail-reference','progression-explainer-reference','rule-bullet-field-reference'
  ]);
 });
 
@@ -117,4 +117,10 @@ test('the actual source-card metadata failure remains reproducible and narrowly 
  assert.throws(()=>context.auditBefore(capturedApp),/Unclassified citation navigation attribute\(s\): data-source-card/);
  assert.deepEqual(auditSourceNavigationAttributes(capturedApp).metadata,['data-source-card']);
  assert.throws(()=>auditSourceNavigationAttributes(capturedApp+' <article data-source-unreviewed-card>'),/Unclassified citation navigation attribute/);
+});
+
+test('current rule bullet field chips retain a distinct explicit producer class',()=>{
+ const inventory=auditInlineProducerSites(app);
+ const sites=inventory.sites.filter(site=>site.function==='ruleBulletSourceChips');
+ assert.equal(sites.length,1);assert.equal(sites[0].producerClass,'rule-bullet-field-reference');
 });

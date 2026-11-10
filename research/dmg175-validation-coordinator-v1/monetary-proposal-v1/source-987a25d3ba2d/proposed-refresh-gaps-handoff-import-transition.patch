@@ -1,0 +1,11 @@
+diff --git a/tools/refresh-gaps-handoff.mjs b/tools/refresh-gaps-handoff.mjs
+--- a/tools/refresh-gaps-handoff.mjs
++++ b/tools/refresh-gaps-handoff.mjs
+@@ -11,5 +11,6 @@
+ import {loadMonetaryRowIdentityAudit} from './monetary-row-identity-audit.mjs';
+ import {loadJoUnextractedPriceRegistration} from './jo-unextracted-price-registration.mjs';
+ import {fieldBindingAxisMetrics, fieldBindingCountMeaning, historicalProducerMetadata, sourceIntegrationDescriptor, currentUncheckedExclusions, uncheckedExclusionTemplate} from './source-report-consistency-audit.mjs';
+-import {loadCurrentMonetarySourceQuestions,validateCurrentMonetarySourceQuestionProjection} from './monetary-current-source-questions.mjs';
++import {validateCurrentMonetarySourceQuestionProjection} from './monetary-current-source-questions.mjs';
++import {loadCurrentMonetarySourceQuestions} from './dmg175-current-monetary-source-questions-v1.mjs';
+ import {loadSourceHandoffTransition,sourceHandoffContextMatches,isQualifiedSourceHistoricalChange,sourceHistoricalCaution,sourceHandoffTransitionReference} from './dmg175-source-handoff-transition-v1.mjs';

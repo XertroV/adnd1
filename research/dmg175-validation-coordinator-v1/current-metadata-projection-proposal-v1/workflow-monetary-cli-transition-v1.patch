@@ -1,0 +1,13 @@
+diff --git a/.github/workflows/pages.yml b/.github/workflows/pages.yml
+index bae0b29..ea28a6b 100644
+--- a/.github/workflows/pages.yml
++++ b/.github/workflows/pages.yml
+@@ -173,7 +173,7 @@ jobs:
+         if: always()
+         run: |
+           mkdir -p artifacts/monetary-review-coverage
+-          node tools/monetary-current-source-questions.mjs --output artifacts/monetary-review-coverage/current-source-questions.json --check
++          node tools/dmg175-current-monetary-source-questions-v1.mjs --output artifacts/monetary-review-coverage/current-source-questions.json --check
+       - name: Upload monetary values and review coverage
+         if: always()
+         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

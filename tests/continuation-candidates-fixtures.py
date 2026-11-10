@@ -17,7 +17,22 @@ class ContinuationCandidateFixtures(unittest.TestCase):
     def test_user_confirmed_supplemental_page_has_typed_identity_not_pdf_page_status(self):
         catalog = json.loads((ROOT / "dist/scans/verified/rules-encounter-types.json").read_text())
         regions = [region for region in catalog["regions"] if region.get("printedPage") == 175]
-        self.assertEqual(len(regions), 2)
+        expected_ids = [
+            "dmg-175-level-others-context-5aa02e91e35c4c28",
+            "dmg-175-party-table-context-78c4c383c38c7d10",
+            "dmg175-character-subtable-character-subtable-row-00",
+            "dmg175-character-subtable-character-subtable-row-01-17",
+            "dmg175-character-subtable-character-subtable-row-18-20",
+            "dmg175-character-subtable-character-subtable-row-21-60",
+            "dmg175-character-subtable-character-subtable-row-61-62",
+            "dmg175-character-subtable-character-subtable-row-63-65",
+            "dmg175-character-subtable-character-subtable-row-66-86",
+            "dmg175-character-subtable-character-subtable-row-87-88",
+            "dmg175-character-subtable-character-subtable-row-89-98",
+            "dmg175-character-subtable-character-subtable-row-99",
+            "dmg175-character-subtable-complete-character-subtable-heading-column-labels-and-all-rows",
+        ]
+        self.assertEqual(sorted(region["id"] for region in regions), expected_ids)
         for region in regions:
             identity = detector.supplemental_region_identity(catalog, region)
             self.assertIsNotNone(identity)

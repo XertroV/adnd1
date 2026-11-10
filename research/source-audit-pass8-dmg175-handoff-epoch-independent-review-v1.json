@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent review of DMG175 research handoff epoch proposal",
+  "reviewedAt": "2026-11-09T19:28:51Z",
+  "decision": "proposal-controls-confirmed-within-bounded-research-scope",
+  "scope": "Read-only review of the materialized 987-v2 helper and caller proposal, proposed transition receipt, isolated control proof, raw source pins, preservation of the closed UA epoch, and historical output parity. This review does not activate the helper or refresh the handoff, run the full suite, or approve source content or release readiness.",
+  "proposal": {
+    "status": "PROPOSED_NOT_ACTIVE",
+    "sourceInputCommit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+    "sourceInputTree": "d7ac09ce9abe4ef94ae355a44b8e0c5ca6f74ea3",
+    "actualCommitAndTreeMatch": true,
+    "manifestPath": "research/dmg175-validation-coordinator-v1/handoff-epoch-proposal-v1/materialized-987-v2/proposal-manifest-v1.json",
+    "manifestSha256": "a0364becefe783527f310901915860a7a93f492b5f2746537b3f092ac395db8f"
+  },
+  "sourcePins": {
+    "sourceDataPath": "dist/data.json",
+    "sourceDataRawSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+    "sourceDataParsedSha256": "eaa0272264047dd990260b16cfe0909b76e9ec50479989a8cfd579c89490dd8b",
+    "booksRuntimeSha256": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811",
+    "sourceInputFiles": 19,
+    "allRawSourceInputPinsMatchGitShow987": true,
+    "changedSourceAuditCode": {
+      "path": "research/source-visual-audit.py",
+      "987Sha256": "58c6a52801e022ba596432d139fff096cc78e4c2af741a51977974037635d3e9",
+      "2afSha256": "708382f86b7ed75b8f42cc92acb7028a59e23d65c1e558b3aa9a33e90a007288",
+      "scopeChange": "two published crops -> cataloged limited crops",
+      "oldCodePinIsRejected": true
+    },
+    "commitDeltaFrom2af": {
+      "operationalSourceChange": "Only the source-visual-audit.py JSON scope wording changes; dist/data, runtime, catalogs, manuals, and other source content are unchanged.",
+      "otherChangedPaths": [
+        "research/source-audit-pass8-dmg175-visual-json-scope-wording-v1.json",
+        "research/citation-evidence-seals.json"
+      ]
+    }
+  },
+  "mechanicsAndScanPins": {
+    "mechanicsPath": "research/mechanics-audit-progress.json",
+    "mechanicsRawSha256": "0fe09edf9fe2b37874f3acb4488b439bf5efca2dd2f355107eadb218373c84c6",
+    "mechanicsParsedSha256": "d31c539eac8ad5480bdf570877cdf5ef292f1e16964c1ed1e493333e954b85e8",
+    "mechanicsInputSha256": "684cfdaba767a887fdf1c2a83d5b2305979436603d5c18940e3971f3ccddb724",
+    "records": 1014,
+    "totalFields": 14069,
+    "uncheckedFields": 767,
+    "reviewRecords": 1215,
+    "producerReplayReceiptSha256": "52d387687727e8dd9916e291a023780e3b59eacea2ce9c9441201dde98b81785",
+    "sourceScanFixture": {
+      "path": "tests/fixtures/source-scan-inventory.json",
+      "sha256": "5e3da176c59258d3e4440112eecd5009bbb459f70fd6b38f1e2f8738cda57a26",
+      "records": 1014,
+      "recordPagePairs": 2137,
+      "citedPages": 232
+    }
+  },
+  "proposalArtifacts": {
+    "receiptPath": "research/dmg175-validation-coordinator-v1/handoff-epoch-proposal-v1/materialized-987-v2/proposed/research/source-audit-pass8-dmg175-source-body-handoff-transition-v1.json",
+    "receiptSha256": "01b659d865c8c36eaf7a7a9bf26e3ceebf72ec25c4b431c6b316de2111ebc182",
+    "helperPath": "research/dmg175-validation-coordinator-v1/handoff-epoch-proposal-v1/materialized-987-v2/proposed/tools/dmg175-source-handoff-transition-v1.mjs",
+    "helperSha256": "8f246f4fb0e9ed2d970819140c7881f2ccc2e1384219fab0af2a98e4bb81b8be",
+    "isolatedHelperBytesMatchProposal": true,
+    "callerBeforeSha256": "980e3dab94900c7ab11f83b93e09028c97fa1fce0cd3e90cc1af62d32aca9029",
+    "proposedCallerSha256": "12ad4a46bdb9cefd225a08b3da1dfb31d7b30cebfafdfa726969d9350cec782b",
+    "callerPatchChangesOnlyHandoffTransitionApiWiring": true
+  },
+  "preservedUaEpoch": {
+    "closedHelperPath": "tools/ua-source-handoff-transition.mjs",
+    "closedHelperSha256": "3adfe83ac23945e103c00c0c860d4d741b2ee0af4015db3bb91925d34e544cc2",
+    "closedBinderSha256": "7509199474dff77001afa9cd819a37b377fb292512e7c11bde5bf68623d65a2b",
+    "closedReceiptSha256": "f79f4e38d79eff161748e683461b377508d2feff95f86833ba41853370025c05",
+    "allClosedFilesMatchManifestAnd987": true,
+    "legacyDataCommit": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
+    "legacyDataRawSha256": "c076e0f6bb898eb52650fd886630089f17edc86cbc8e3c4ac349b817bceba0d3",
+    "oldUaTransitionsEqualOriginalProducer": true,
+    "oldUaNotesEqualOriginalProducer": true,
+    "currentActiveCautionsPreserved": true,
+    "allUnrelatedHistoricalDispositionsPreserved": true
+  },
+  "readOnlyBehaviorChecks": {
+    "currentDmgReceiptLoadsExactly": true,
+    "transitionRows": 12,
+    "qualifiedHistoricalRows": 1,
+    "qualifiedTarget": "spells/ua-druid-ceremony/exceptions/0",
+    "qualifiedFieldStatus": "unchecked",
+    "qualifiedSourceValueGrade": "NOT PROMOTED",
+    "activeCautions": 76,
+    "historyDispositions": 3,
+    "oldUaLoaderReturnsNullFor987CurrentData": true,
+    "oldDefaultProducerRejectsCurrentSourceEpoch": true,
+    "old2afSourceCodeCanaryRejected": true,
+    "old2afCanaryError": "Invalid exact DMG175 handoff transition: stale exact source input research/source-visual-audit.py",
+    "method": "Re-invoked the proposed helper and isolated producer directly with a read-only Node script; compared current and legacy producer outputs by deep equality. No files were written by these checks."
+  },
+  "isolatedVerificationProof": {
+    "path": "research/dmg175-validation-coordinator-v1/handoff-epoch-proposal-v1/materialized-987-v2/verification-proof-v1.json",
+    "sha256": "133496a0ef2e1ca5b90c9fa6e7a5608bf9844b38fce78735c11ef5d8c88fe6a7",
+    "negativeControlsPassed": 32,
+    "negativeControlOutcomes": "32 rejected",
+    "includes": [
+      "wrong source commit/tree, raw data, target owner/pointer/value, conflict row, mechanics grade, review record and mechanics count",
+      "unrelated data and caution mutation",
+      "stale dependency pins, including the old 2af source-visual-audit.py hash",
+      "undefined, non-enumerable, NaN, negative zero, proxy, toJSON, cycle, and unevaluated getter inputs"
+    ],
+    "scopeLimit": "The isolated proof records direct pure-function controls, not native current handoff CLI reproduction. The writeful proof generator was not rerun; read-only direct controls were independently executed."
+  },
+  "remainingLimits": [
+    "The proposal remains PROPOSED_NOT_ACTIVE; the root helper and caller were not modified.",
+    "No refreshed handoff, native current producer integration, full suite, or release approval is established by this review.",
+    "Current source-value/mechanics grade remains unchecked and is explicitly not promoted."
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "root verification after research scratch Gitfile incident",
+  "workerIncident": {
+    "path": "research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/native-failure-recovery-v1/git-pointer-incident-receipt-v1.json",
+    "sha256": "72df3d57d8919bd7dd2b7148a487d93da6c38c08a08b69abf1a1b65efbff8051"
+  },
+  "rootObservedGitfile": {
+    "path": ".git",
+    "sha256": "5559a59f3e0de26b652283b92744d7b7951e5aefd407be09e79a851b7c34e0f7",
+    "state": "restored regular worktree pointer"
+  },
+  "rootCapturedBrokenPreimage": false,
+  "rootPerformedRepair": false,
+  "verifiedHead": "987a25d3ba2dcac0940569a2afab73f775e38028",
+  "baselineObjectAccessible": true,
+  "postIncidentChecks": {
+    "all1607SealsValid": true,
+    "1514OrderedPrefixPreserved": true,
+    "nativeWholeCurrentSourceInputsValid": true,
+    "runtimeGateAssetsUnchanged": 37
+  },
+  "scope": "The worker reported writing through a scratch .git symlink and restoring the active pointer. Root independently verified the restored state, current source inputs and sealed evidence; it did not capture the broken file before restoration.",
+  "prevention": "No more Gitfile writes/repairs by workers; only small copied mutable fixtures and read-only inputs in scratch layouts. Unsafe replay and full archive removed after preserving receipts/logs.",
+  "sourceValueOrGradeChanges": 0
+}

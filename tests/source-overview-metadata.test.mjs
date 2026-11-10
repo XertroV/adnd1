@@ -22,7 +22,8 @@ test('DMG p.175 remains a missing printed page with separate limited supplement 
  assert.deepEqual(dmg.gaps,[175]);
  assert.equal(dmg.printedLastPage,238);
  assert.match(dmg.coverage,/exact printing is not established/i);
- assert.match(dmg.coverage,/two limited reviewed excerpts/i);
+ assert.match(dmg.coverage,/limited excerpts are available as source evidence/i);
+ assert.equal(books.supplementalEvidence('DMG',175).published,false,'the complete private JPEG remains unpublished');
  assert.equal(books.availability('DMG',175),'missing');
  assert.equal(books.evidenceAvailability('DMG',175),'supplemental');
  assert.deepEqual(books.pdfPage('DMG',175),null);

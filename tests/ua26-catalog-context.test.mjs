@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
+import {auditUa26MarkerReceiptWithDmg175CurrentEpoch} from '../tools/ua26-note-marker-audit-dmg175-v2.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const read=rel=>JSON.parse(readBeforeJoFile(path.join(root,rel),'utf8'));
@@ -111,6 +112,19 @@ test('current UA26 catalog rows, p.27 notes and group proposals preserve reviewe
   assert.equal(app.rowBindings.length,90);
 
   verifyUa75Receipts();
+  const currentEpoch=auditUa26MarkerReceiptWithDmg175CurrentEpoch();
+  assert.equal(currentEpoch.ok,true);
+  assert.deepEqual(currentEpoch.catalogReviewScope,{fieldTargetOwners:3,appendedUa28Regions:6,captionOnlySummaryEdits:6,sourceValueGrade:'NOT PROMOTED',contextualAdequacy:'NOT ASSESSED'});
+  const qualifiedCatalogs=new Map(currentEpoch.currentEpoch.catalogTransitions.map(row=>[row.path,row]));
+  assert.equal(qualifiedCatalogs.size,3,'only the three exact SOURCE987 UA28 append/caption transitions qualify');
+  const checkpointBytes=catalogPath=>{
+    const actual=bytes(catalogPath),qualified=qualifiedCatalogs.get(catalogPath);
+    if(!qualified)return actual;
+    assert.equal(sha(actual),qualified.currentSha256,`${catalogPath}: complete current catalog must match the qualified source epoch`);
+    const checkpoint=gitBytes('386b08a4678ee033d6daabc0ffa2cc17265a7c1f',catalogPath);
+    assert.equal(sha(checkpoint),qualified.previousReceiptSha256,`${catalogPath}: the whole immutable V28 catalog retains the old UA26 checkpoint`);
+    return checkpoint;
+  };
   const correctedCatalogs=new Map(markerCorrection.affectedCatalogs.map(change=>[change.catalogPath,change]));
   const ua26CatalogChanges=new Map(app.catalogChanges.map(change=>[change.catalogPath,change]));
   const ua75CatalogAppends=new Map(ua75Integration.catalogAppends.map(change=>[change.path,change]));
@@ -124,7 +138,7 @@ test('current UA26 catalog rows, p.27 notes and group proposals preserve reviewe
     if(ua75Append){
       const beforeUa75Hash=verifyCatalogIsOnlyExtendedByUa75(ua75Append);
       assert.equal(beforeUa75Hash,checkpointHash,`${change.catalogPath}: removing the exact UA75 row restores the UA26/marker-correction catalog checkpoint`);
-    }else assert.equal(sha(bytes(change.catalogPath)),checkpointHash,`${change.catalogPath}: no unreceipted catalog mutation follows the UA26 checkpoint`);
+    }else assert.equal(sha(checkpointBytes(change.catalogPath)),checkpointHash,`${change.catalogPath}: only the exact qualified UA28 append/caption transition may follow the frozen UA26 checkpoint`);
   }
   for(const append of ua75Integration.catalogAppends){
     if(ua26CatalogChanges.has(append.path))continue;

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Equipment field representation terminology correction",
+  "sourceInputCommit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+  "dataSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+  "scope": "Terminology only. The three equipment additions render source-table AC adjustments in string-valued fields; they are not literal array leaves in the formal mechanics data. The source table contributes 33 individual cells, and three field-location reviews do not constitute 33 numerical reviews.",
+  "correctCurrentMeaning": {
+    "renderedEquipmentStringFields": 3,
+    "sourceTableCellsRepresented": 33,
+    "formalEquipmentLeavesAdded": 3,
+    "numericGradesAdded": 0
+  },
+  "observedFields": [
+    {
+      "collection": "equipment",
+      "itemId": "phb-hammer",
+      "fieldPointer": "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
+      "jsonValueType": "string",
+      "targetReviewStatus": "field-target-reviewed",
+      "sourceValueStatus": "not-assessed-by-field-target-review"
+    },
+    {
+      "collection": "equipment",
+      "itemId": "ua-harpoon",
+      "fieldPointer": "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
+      "jsonValueType": "string",
+      "targetReviewStatus": "field-target-reviewed",
+      "sourceValueStatus": "not-assessed-by-field-target-review"
+    },
+    {
+      "collection": "equipment",
+      "itemId": "phb-javelin",
+      "fieldPointer": "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
+      "jsonValueType": "string",
+      "targetReviewStatus": "field-target-reviewed",
+      "sourceValueStatus": "not-assessed-by-field-target-review"
+    }
+  ],
+  "qualifiesEarlierLabels": [
+    {
+      "path": "research/source-audit-pass8-dmg175-manual-target-denominators-v1.json",
+      "sha256": "18bd91fdab975ab8957e3ecdd66f8433ae03ac9325d0d43da8deed3fbbe164e0",
+      "qualification": "The phrase UA array fields is a representation misnomer; all recorded source-cell, manual-binding and unique-field counts remain unchanged."
+    },
+    {
+      "path": "research/source-audit-pass8-dmg175-actual-mechanics-scan-replay-v1.json",
+      "sha256": "52d387687727e8dd9916e291a023780e3b59eacea2ce9c9441201dde98b81785",
+      "qualification": "Read the three UA array fields as three rendered string fields. The actual producer counts and preserved 1,215 review records are unchanged."
+    }
+  ],
+  "formalScope": "The current formal increase is 37 leaves: 34 rules leaves and 3 equipment strings. The 87 structured rule-table rows remain outside the existing formal enumerator, separate from pending source-target review."
+}

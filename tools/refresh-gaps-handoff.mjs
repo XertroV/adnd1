@@ -9,10 +9,11 @@ import {validatePriceSourceInventory} from './price-source-inventory.mjs';
 import {buildCoverageGaps} from './coverage-gaps.mjs';
 import {deriveDmg175Availability, projectDmg175Handoff, DMG175_OWNER_CATALOGS} from './dmg175-availability-projection.mjs';
 import {loadMonetaryRowIdentityAudit} from './monetary-row-identity-audit.mjs';
-import {loadJoUnextractedPriceRegistration} from './jo-unextracted-price-registration.mjs';
+import {loadJoCurrentSuccessor} from './dmg175-jo-unextracted-price-registration-v1.mjs';
 import {fieldBindingAxisMetrics, fieldBindingCountMeaning, historicalProducerMetadata, sourceIntegrationDescriptor, currentUncheckedExclusions, uncheckedExclusionTemplate} from './source-report-consistency-audit.mjs';
-import {loadCurrentMonetarySourceQuestions,validateCurrentMonetarySourceQuestionProjection} from './monetary-current-source-questions.mjs';
-import {loadUaSourceHandoffTransition,uaSourceHandoffContextMatches,isQualifiedUaSourceHistoricalChange,uaSourceHistoricalCaution,uaSourceHandoffTransitionPath,uaSourceHandoffTransitionSha256} from './ua-source-handoff-transition.mjs';
+import {validateCurrentMonetarySourceQuestionProjection} from './monetary-current-source-questions.mjs';
+import {loadCurrentMonetarySourceQuestions} from './dmg175-current-monetary-source-questions-v1.mjs';
+import {loadSourceHandoffTransition,sourceHandoffContextMatches,isQualifiedSourceHistoricalChange,sourceHistoricalCaution,sourceHandoffTransitionReference} from './dmg175-source-handoff-transition-v1.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const require=createRequire(import.meta.url);
@@ -132,13 +133,13 @@ function exactDataTransition({change, baselineData, currentData}) {
 }
 
 export function validateApprovedTransitions({baselineData, currentData, conflictReceipt, animalReceipt, classRetirementReceipt, sourceBodyTransition = null}) {
-  if(sourceBodyTransition&&!uaSourceHandoffContextMatches(sourceBodyTransition,{baselineData,currentData,conflictReceipt}))fail('UA source-body transition qualification does not match exact current and historical inputs');
+  if(sourceBodyTransition&&!sourceHandoffContextMatches(sourceBodyTransition,{baselineData,currentData,conflictReceipt}))fail('UA source-body transition qualification does not match exact current and historical inputs');
   const validated = [];
   for (const change of conflictReceipt.changes || []) {
     const current=exactDataTransition({change, baselineData, currentData});
-    const qualifiedHistorical=!current&&sourceBodyTransition&&isQualifiedUaSourceHistoricalChange(sourceBodyTransition,change);
+    const qualifiedHistorical=!current&&sourceBodyTransition&&isQualifiedSourceHistoricalChange(sourceBodyTransition,change);
     if (!current&&!qualifiedHistorical) fail(`conflict receipt no longer exactly matches historical/current data: ${change.collection}/${change.itemId}${change.pointer}`);
-    validated.push(qualifiedHistorical?{kind:'historical-source-body-transition-qualified',collection:change.collection,itemId:change.itemId,pointer:change.pointer,currentFieldStatus:'unchecked',sourceValueGrade:'NOT PROMOTED',receipt:{path:uaSourceHandoffTransitionPath,sha256:uaSourceHandoffTransitionSha256}}:{kind: 'conflict-integration', collection: change.collection, itemId: change.itemId, pointer: change.pointer, reason: change.reason});
+    validated.push(qualifiedHistorical?{kind:'historical-source-body-transition-qualified',collection:change.collection,itemId:change.itemId,pointer:change.pointer,currentFieldStatus:'unchecked',sourceValueGrade:'NOT PROMOTED',receipt:sourceHandoffTransitionReference(sourceBodyTransition)}:{kind: 'conflict-integration', collection: change.collection, itemId: change.itemId, pointer: change.pointer, reason: change.reason});
   }
   const animal = (animalReceipt.fieldReviews || []).find(record => record.collection === 'spells' && record.itemId === 'phb-magic-user-animal-growth' && record.fieldPointer === '/exceptions/2');
   if (!animal || itemFor(currentData, 'spells', 'phb-magic-user-animal-growth')?.exceptions?.[2] !== animal.valueAfter) fail('Animal Growth source-note transition is not the exact reviewed receipt value');
@@ -173,7 +174,7 @@ function exactReplacement({note, baselineData, currentData, mechanics, changes})
 }
 
 export function reconcileCuratedNotes({curatedNotes, currentHandoff, baselineData, currentData, mechanics, conflictReceipt, conflictReceiptSha256, classRetirementReceipt, classRetirementReceiptSha256, animalReceipt, animalReceiptSha256, sourceBodyTransition = null}) {
-  if(sourceBodyTransition&&!uaSourceHandoffContextMatches(sourceBodyTransition,{baselineData,currentData,conflictReceipt}))fail('UA source-body caution qualification does not match exact current and historical inputs');
+  if(sourceBodyTransition&&!sourceHandoffContextMatches(sourceBodyTransition,{baselineData,currentData,conflictReceipt}))fail('UA source-body caution qualification does not match exact current and historical inputs');
   if (!Array.isArray(curatedNotes) || curatedNotes.length !== 78) fail('curated note set must contain exactly 78 historical candidates');
   const active = [], history = [], usedCurrent = new Set(), knownChanges = conflictReceipt.changes || [];
   for (const [baselineIndex, note] of curatedNotes.entries()) {
@@ -196,7 +197,7 @@ export function reconcileCuratedNotes({curatedNotes, currentHandoff, baselineDat
       history.push(replacement.history);
       continue;
     }
-    const qualifiedHistory=sourceBodyTransition?uaSourceHistoricalCaution(sourceBodyTransition,note,baselineIndex):null;
+    const qualifiedHistory=sourceBodyTransition?sourceHistoricalCaution(sourceBodyTransition,note,baselineIndex):null;
     if(qualifiedHistory){history.push(qualifiedHistory);continue;}
     if (note.collection === 'classes' && note.itemId === 'assassin' && (note.fieldPointer || '').startsWith('/levelChanges/50')) {
       history.push({...clone(note), baselineIndex, disposition: 'retired-unsupported-class-event', receipt: 'research/source-audit-batch5-class-retired-ledger.json', receiptSha256: classRetirementReceiptSha256});
@@ -753,7 +754,7 @@ export function buildRefreshedHandoff({repoRoot = root, handoff: currentHandoff,
   if (dmg175CatalogPaths.length !== 12) fail('the p.175 catalog set changed');
   const dmg175Catalogs = new Map();
   const loadDmg175Catalog = catalogPath => {
-    if (!dmg175Catalogs.has(catalogPath)) dmg175Catalogs.set(catalogPath, read(`dist/${catalogPath}`));
+    if (!dmg175Catalogs.has(catalogPath)) dmg175Catalogs.set(catalogPath, read(catalogPath));
     return dmg175Catalogs.get(catalogPath);
   };
   const dmg175EvidenceBase = deriveDmg175Availability({data, baselineData: historical.data, handoff: currentHandoff, loadCatalog: loadDmg175Catalog, targetPlan: dmg175TargetPlan});
@@ -770,7 +771,7 @@ export function buildRefreshedHandoff({repoRoot = root, handoff: currentHandoff,
   hashes[`${HANDOFF_PATH}#refresh-template`] = handoffTemplateSha256;
   const conflictReceipt = read('research/source-audit-batch5-conflict-integration.json');
   const nullPriceReceipt = read('research/source-audit-batch5-null-price-notes.json');
-  const joAddition=loadJoUnextractedPriceRegistration({repoRoot,data,inventory});
+  const joAddition=loadJoCurrentSuccessor({repoRoot,data,inventory});
   for(const ref of joAddition.inputRefs){assertCurrentFileHash({path:ref.path,expected:ref.sha256,hashFile,label:'Jo unextracted-price registration'});hashes[ref.path]=ref.sha256;}
   const animalReceipt = read('research/source-audit-batch5-unextracted.json');
   const classIntegration = read('research/source-audit-batch5-class-integration.json');
@@ -779,7 +780,7 @@ export function buildRefreshedHandoff({repoRoot = root, handoff: currentHandoff,
   const classDetection = read('research/source-audit-batch5-class-progression-baseline.json');
   const priceReview = read('research/source-audit-batch5-price-independent-review.json');
   if (classRetirementReceipt.detectionReceipt !== 'research/source-audit-batch5-class-progression-baseline.json' || classRetirementReceipt.retirementReceipt !== 'research/source-audit-batch5-class-progression-retirement.json' || classRetirement.retired?.source?.itemId !== 'assassin' || classRetirement.retired?.source?.pointer !== '/levelChanges/50' || classRetirement.disposition?.status !== 'removed-from-current-progression' || classRetirement.after?.assassin?.lastEventLevel !== 15 || classDetection.input?.commit !== BASELINE_COMMIT || classDetection.input?.sha256 !== historical.hashes[`git:${BASELINE_COMMIT}:dist/data.json`] || classDetection.counts?.classRecords !== 16 || !Array.isArray(classRetirementReceipt.supersededEvidence)) fail('class progression retirement receipts do not form the reviewed input chain');
-  const sourceBodyTransition=loadUaSourceHandoffTransition({read,hashFile,baselineData:historical.data,currentData:data,mechanics,conflictReceipt});
+  const sourceBodyTransition=loadSourceHandoffTransition({read,hashFile,baselineData:historical.data,currentData:data,mechanics,conflictReceipt});
   const transitions = validateApprovedTransitions({baselineData: historical.data, currentData: data, conflictReceipt, animalReceipt, classRetirementReceipt,sourceBodyTransition});
   if (classIntegration.promotedSemanticFields !== 49 || classIntegration.promotedPageBindings !== 51 || classIntegration.retiredOrBlockedFields?.length !== 1 || classRetirementReceipt.retiredPointer !== '/levelChanges/50') fail('class integration receipt is no longer the reviewed 49/51/1 disposition');
   for (const [path, expected] of Object.entries(inventory.integrity?.sourceInventoryHashes || {})) if (hashFile(path) !== expected) fail(`canonical source inventory input hash is stale: ${path}`);

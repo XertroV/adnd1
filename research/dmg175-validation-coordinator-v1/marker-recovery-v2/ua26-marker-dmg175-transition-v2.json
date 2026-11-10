@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 2,
+  "artifactType": "exact DMG175-current-input successor and full catalog-transition qualification for the frozen UA26 marker audit",
+  "status": "research-only proposed compatibility bridge; source/value review status unchanged",
+  "semanticPass": false,
+  "sourceValueGradePromoted": false,
+  "contextualAdequacyPromoted": false,
+  "sourceEpoch": {
+    "commit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+    "tree": "d7ac09ce9abe4ef94ae355a44b8e0c5ca6f74ea3",
+    "inputReceipt": {
+      "path": "research/source-audit-input-dmg175-source-987a25d3ba2d.json",
+      "sha256": "f3449210a281b3c7604847cea39508b0a48d65d8971e569494cc14db1588565e"
+    },
+    "sourceHandoffTransition": {
+      "path": "research/source-audit-pass8-dmg175-source-body-handoff-transition-v1.json",
+      "sha256": "01b659d865c8c36eaf7a7a9bf26e3ceebf72ec25c4b431c6b316de2111ebc182"
+    },
+    "rawInputs": {
+      "dist/data.json": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+      "dist/books.js": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811",
+      "research/price-source-inventory.json": "678e1bd62bedc4523b21958825e4d9a205eaa333521ce28ebc506d3983ba96b8"
+    }
+  },
+  "predecessor": {
+    "auditModule": {
+      "path": "tools/ua26-note-marker-audit.mjs",
+      "sha256": "4cd3e158451d842c4b097a0ddc726b5c248dfe2b0428cae719f1e4b27a85c49c"
+    },
+    "correctionReceipt": {
+      "path": "research/source-audit-batch5-ua26-marker-correction.json",
+      "sha256": "8bff58b97b34b3d4de085dc4bf33acbdd0508a645e438211f1a03172c2be73db"
+    },
+    "sourceMarkerCensusSha256": "28573d886140523dafd6b2a21060932751a72b090773371ecbb4807942ecc2b0",
+    "frozenCounts": {
+      "physicalRows": 68,
+      "markedRows": 17,
+      "unmarkedRows": 51,
+      "correctiveAliases": 66,
+      "currentAppendAliases": 2,
+      "currentAliases": 68,
+      "baselineWrongSpecificAssignments": 2,
+      "previouslyUnresolvedNowSourceAdjudicated": 3,
+      "correctedCatalogs": 5,
+      "checkedCatalogs": 65
+    }
+  },
+  "catalogTransitionQualification": {
+    "baseline": {
+      "commit": "d4229f438757ee2cad5ecbe8327e21731a38a3ed",
+      "tree": "7cab21346a5f34c333418a88bb8a9faacf14e030",
+      "receiptMatchesAllThreeCatalogBytes": true
+    },
+    "catalogPayloadCommit": {
+      "commit": "2af25997fb831b89a5ff158ed55e17ccf5943fbe",
+      "tree": "53f25e4bd350fe72cba9869f80f6e72ee0b5c245"
+    },
+    "currentInputCommit": {
+      "commit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+      "tree": "d7ac09ce9abe4ef94ae355a44b8e0c5ca6f74ea3"
+    },
+    "diff": {
+      "method": "Full parsed JSON comparison keyed by stable region IDs; baseline raw hashes equal the three frozen UA26 correction-receipt hashes.",
+      "preexistingCatalogPropertiesUnchanged": true,
+      "onlyChanges": "two appended UA28 region objects per catalog; no existing region or non-region property changed",
+      "appendedRegionCount": 6,
+      "appendedRegionRoles": {
+        "row": 3,
+        "context": 3
+      },
+      "proof": {
+        "path": "research/dmg175-validation-coordinator-v1/marker-recovery-v2/validation/ua26-marker-full-catalog-diff-v2.json",
+        "sha256": "3290b9f2e95d6b3bc5e2f0460e1cce1fac6f31f05964a17e48ffa7d829582351"
+      }
+    },
+    "captionReviewMeaning": "Caption receipts qualify only their six named summary-field edits; they do not independently approve the three catalogs, the six UA28 region additions, numeric values, or context.",
+    "fieldTargetScope": {
+      "fieldPointer": "/fields/Hurled or missile weapon AC adjustments at short range (UA p.28)",
+      "owners": [
+        {
+          "itemId": "phb-hammer",
+          "regionIds": [
+            "ua28-ac-field-phb-hammer-v2",
+            "ua28-ac-range-note-phb-hammer-v2"
+          ]
+        },
+        {
+          "itemId": "ua-harpoon",
+          "regionIds": [
+            "ua28-ac-field-ua-harpoon-v2",
+            "ua28-ac-range-note-ua-harpoon-v2"
+          ]
+        },
+        {
+          "itemId": "phb-javelin",
+          "regionIds": [
+            "ua28-ac-field-phb-javelin-v2",
+            "ua28-ac-range-note-phb-javelin-v2"
+          ]
+        }
+      ]
+    },
+    "reviews": {
+      "fieldTarget": {
+        "path": "research/ua28-field-target-review-v1/independent-review-evidence-v1.json",
+        "sha256": "96289241276133718f10b7f1fff5b0aa69a1f092fb749bd093aea993ee0e1a2c"
+      },
+      "noteCaption": {
+        "path": "research/source-audit-pass8-ua28-caption-metadata-independent-review-v1.json",
+        "sha256": "49dafe92a8add4e32b66d2bb9f6a39d773db054be1bf9632d7c4bbf4e5b8fcd1"
+      },
+      "rowCaption": {
+        "path": "research/source-audit-pass8-ua28-v7-row-caption-independent-review-v1.json",
+        "sha256": "279fe5ba9fbb842602542b4fbdbe9542912dd81a55e6d1d24fe737182e4a623d"
+      }
+    },
+    "catalogs": [
+      {
+        "owner": "ua-harpoon",
+        "path": "dist/scans/verified/equipment-ua-harpoon.json",
+        "previousReceiptSha256": "6278d7e6104692e83c8c7312d127b8ee5faa5999bc5fa1abce9ea8ae58787247",
+        "baselineCatalogSha256": "6278d7e6104692e83c8c7312d127b8ee5faa5999bc5fa1abce9ea8ae58787247",
+        "currentSha256": "cdce6ea87e3d859ae84868dead02b4780687fbfc1dbb2ca86efb450733deb852",
+        "noteCaptionIntermediateSha256": "f8b4adcc4b3e52ea55863a2f6a799b5a62de98f30e9f874b468b9f915385c54b",
+        "rowCaptionBeforeCatalogSha256": "f8b4adcc4b3e52ea55863a2f6a799b5a62de98f30e9f874b468b9f915385c54b",
+        "v7AfterCatalogSha256": "cdce6ea87e3d859ae84868dead02b4780687fbfc1dbb2ca86efb450733deb852",
+        "addedRegions": [
+          "ua28-ac-field-ua-harpoon-v2",
+          "ua28-ac-range-note-ua-harpoon-v2"
+        ],
+        "beforeRegionCount": 5,
+        "afterRegionCount": 7
+      },
+      {
+        "owner": "phb-hammer",
+        "path": "dist/scans/verified/equipment-phb-hammer.json",
+        "previousReceiptSha256": "cfb47569d010a1bfd7a540da1eb9a550417da3a6787e00e716989ded93574538",
+        "baselineCatalogSha256": "cfb47569d010a1bfd7a540da1eb9a550417da3a6787e00e716989ded93574538",
+        "currentSha256": "e2293b6b01573627f56751b1c9bb5050a7589ef126f7d1958e10a2be843f5943",
+        "noteCaptionIntermediateSha256": "b5b4b3e3c5d6e771298942a76a8c9348542cf75461b8a48c53eb40b492d563a9",
+        "rowCaptionBeforeCatalogSha256": "b5b4b3e3c5d6e771298942a76a8c9348542cf75461b8a48c53eb40b492d563a9",
+        "v7AfterCatalogSha256": "e2293b6b01573627f56751b1c9bb5050a7589ef126f7d1958e10a2be843f5943",
+        "addedRegions": [
+          "ua28-ac-field-phb-hammer-v2",
+          "ua28-ac-range-note-phb-hammer-v2"
+        ],
+        "beforeRegionCount": 8,
+        "afterRegionCount": 10
+      },
+      {
+        "owner": "phb-javelin",
+        "path": "dist/scans/verified/equipment-phb-javelin.json",
+        "previousReceiptSha256": "c3df025fa7a92e993fed997ba871f82bbee2c78b559a88ced8a7cf1d11fb106c",
+        "baselineCatalogSha256": "c3df025fa7a92e993fed997ba871f82bbee2c78b559a88ced8a7cf1d11fb106c",
+        "currentSha256": "129dddbaac75f1d255725f265318c330a6f0b50259bf015b8f1e1513d332b1f6",
+        "noteCaptionIntermediateSha256": "16b4e7150d8f0b399fcafcc745efc56221a62f40bc76be4ba61345aaec1f09c7",
+        "rowCaptionBeforeCatalogSha256": "16b4e7150d8f0b399fcafcc745efc56221a62f40bc76be4ba61345aaec1f09c7",
+        "v7AfterCatalogSha256": "129dddbaac75f1d255725f265318c330a6f0b50259bf015b8f1e1513d332b1f6",
+        "addedRegions": [
+          "ua28-ac-field-phb-javelin-v2",
+          "ua28-ac-range-note-phb-javelin-v2"
+        ],
+        "beforeRegionCount": 6,
+        "afterRegionCount": 8
+      }
+    ],
+    "addedRegionProofs": [
+      {
+        "path": "dist/scans/verified/equipment-ua-harpoon.json",
+        "regionId": "ua28-ac-field-ua-harpoon-v2",
+        "role": "row",
+        "verificationScope": "selected-values",
+        "regionObjectSha256": "1c7902334812349cda7fd124cec85cacae341698ee8b1514147510dee7f0278f",
+        "summarySha256": "7e5ba21bcda01244077a2266603af9a21309c5215e001760919f64ffbc58ee18"
+      },
+      {
+        "path": "dist/scans/verified/equipment-ua-harpoon.json",
+        "regionId": "ua28-ac-range-note-ua-harpoon-v2",
+        "role": "context",
+        "verificationScope": "source-excerpt",
+        "regionObjectSha256": "a3bd9297f4d5352f81c354988739c2ddb1a3c914c7807dc9e73c51e3dfc2dff4",
+        "summarySha256": "a58b041f58f778ff3009d832585227bd6f8734a984cc06df44bbecd0be4f3762"
+      },
+      {
+        "path": "dist/scans/verified/equipment-phb-hammer.json",
+        "regionId": "ua28-ac-field-phb-hammer-v2",
+        "role": "row",
+        "verificationScope": "selected-values",
+        "regionObjectSha256": "ac233e7290b088f623d2cbe398009448c6ec2c15d8a8d7b32668a41d524984b0",
+        "summarySha256": "5d4f9c6fe1a14562e8ab116a771a96875ce84550720604995c3f4bff1e6b8793"
+      },
+      {
+        "path": "dist/scans/verified/equipment-phb-hammer.json",
+        "regionId": "ua28-ac-range-note-phb-hammer-v2",
+        "role": "context",
+        "verificationScope": "source-excerpt",
+        "regionObjectSha256": "6183cd55635717bdf2d33cc0f0b29062eb20713e378f57f31bb7a47d44f30c6f",
+        "summarySha256": "a58b041f58f778ff3009d832585227bd6f8734a984cc06df44bbecd0be4f3762"
+      },
+      {
+        "path": "dist/scans/verified/equipment-phb-javelin.json",
+        "regionId": "ua28-ac-field-phb-javelin-v2",
+        "role": "row",
+        "verificationScope": "selected-values",
+        "regionObjectSha256": "ead9cbb8ad6c77a3f507344809a40d8deee1d3d6366947bf3051ea9d9bc5ae8b",
+        "summarySha256": "197a921d84630fbb983f498a03fe7ae9e1b247bfe373669f6e7a193252e0553b"
+      },
+      {
+        "path": "dist/scans/verified/equipment-phb-javelin.json",
+        "regionId": "ua28-ac-range-note-phb-javelin-v2",
+        "role": "context",
+        "verificationScope": "source-excerpt",
+        "regionObjectSha256": "a401a022c7e64fb67ca8404f4d25d3b012ea6a659e2b1a5de7aab5c86f6e71b4",
+        "summarySha256": "a58b041f58f778ff3009d832585227bd6f8734a984cc06df44bbecd0be4f3762"
+      }
+    ]
+  },
+  "allowedOldAuditHashErrorsOnly": [
+    "dist/scans/verified/equipment-ua-harpoon.json: current catalog hash differs from correction receipt",
+    "dist/scans/verified/equipment-phb-hammer.json: current catalog hash differs from correction receipt",
+    "dist/scans/verified/equipment-phb-javelin.json: current catalog hash differs from correction receipt"
+  ],
+  "activationBoundary": {
+    "productionHelperInstalled": false,
+    "productionCallerUpdated": false,
+    "oldAuditModuleChanged": false,
+    "legacyAssertionsRetargeted": false,
+    "fullSuiteRun": false,
+    "sourceSemanticReview": false,
+    "newNumericGrades": 0
+  }
+}

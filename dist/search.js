@@ -48,6 +48,9 @@
  const searchableAuthoredNotesText = item => item&&typeof item==='object'
   ? Object.entries(item).filter(([key,value])=>authoredNoteFields.has(key)&&typeof value==='string'&&!isPrivateSearchKey(key)).map(([,value])=>value).join(' ')
   : '';
+ const searchableRuleNotesText = item => item?._view==='rules'
+  ? (typeof item.notes==='string'?item.notes:Array.isArray(item.notes)?item.notes.filter(note=>typeof note==='string').join(' '):'')
+  : '';
  const searchableMatrixText = item => {
   if(item?._view!=='matrices')return '';
   const conflict=item.sourceConflict&&typeof item.sourceConflict==='object'&&!Array.isArray(item.sourceConflict)?item.sourceConflict:null;
@@ -92,7 +95,7 @@
    ...(item.tags||[]),...(item.effect||[]),...(item.conditions||[]),...(item.exceptions||[]),
    ...(item.bullets||[]),...(item.pendingMechanics||[]),...(item.guidance||[]),
    item.xpNote, item.progression?.label, item.progression?.description,searchableClassChangeText(item),searchableClassXpText(item),
-   searchableAuthoredNotesText(item),searchableMatrixText(item),searchableProgressionExplainerText(item),
+   searchableAuthoredNotesText(item),searchableRuleNotesText(item),searchableMatrixText(item),searchableProgressionExplainerText(item),
    searchableTableText(item.table),...aliases
   ].filter(value=>value!==undefined&&value!==null).join(' '));
   const bodyWords=body.split(' ').filter(Boolean);

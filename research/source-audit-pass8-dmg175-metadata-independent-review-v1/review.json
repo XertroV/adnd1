@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "metadata-only independent source-audit readiness review",
+  "reviewDate": "2026-11-09",
+  "status": "metadata-pointer activation supported with scope caveats",
+  "reviewScope": {
+    "sourceCommit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+    "sourceTree": "d7ac09ce9abe4ef94ae355a44b8e0c5ca6f74ea3",
+    "parentCommit": "2af25997fb831b89a5ff158ed55e17ccf5943fbe",
+    "reviewType": "read-only inspection of the exact source-input receipt, binder implementation, report metadata, report hashes, and cross-report denominators",
+    "actionsNotTaken": [
+      "Did not run the binder or any source report producer.",
+      "Did not render or inspect private source-page or full-page pixels.",
+      "Did not perform source-value, continuation-semantic, crop-completeness, or highlight-meaning review.",
+      "Did not run repository suites or update source-audit pointers."
+    ]
+  },
+  "evidence": {
+    "inputReceipt": {
+      "path": "research/source-audit-input-dmg175-source-987a25d3ba2d.json",
+      "sha256": "f3449210a281b3c7604847cea39508b0a48d65d8971e569494cc14db1588565e"
+    },
+    "binder": {
+      "path": "tools/bind-dmg175-source-audit-input-commit-v1.mjs",
+      "sha256": "1efed3cf4763b73f0c273d3d51994fadb7af00968619855cd898feed18bdc1b6"
+    },
+    "reports": [
+      {
+        "path": "research/source-visual-audit-dmg175-source-987a25d3ba2d.json",
+        "sha256": "79ca74e6674d94d0bf07e4cfd28bf2e85cc52d75c92dfd69759cc601711b37cd"
+      },
+      {
+        "path": "research/source-raster-boundary-dmg175-source-987a25d3ba2d.json.gz",
+        "sha256": "91f6f8aa64df18e00b53c27fbe5b7a7f09817b11ce6daf142970c5ea95eb7024"
+      },
+      {
+        "path": "research/source-audit-pass8-dmg175-continuation-987a25d3ba2d.json",
+        "sha256": "05dd7e9e219a551129b6b1852828db53625ef9625123f61ce9657fd3c8621366"
+      },
+      {
+        "path": "research/source-audit-pass8-dmg175-continuation-987a25d3ba2d-full.json.gz",
+        "sha256": "90cc57263606d27082aea5b51ed627e280071076f801fd434d8e07add6afb3c8",
+        "decompressedSha256": "0354e3cbebd2f2e9fd9a8471adabf409229cca617178536c28a71231c6a4dc52"
+      }
+    ],
+    "sourceData": {
+      "distDataSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+      "distBooksJsSha256": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811",
+      "sourceFrameBridge": {
+        "path": "research/source-frame-coordinate-bridge-dmg175-source-v1.json",
+        "sha256": "137b9c0044a72b587cc7ef6273e398106d574727f1656d58c742ac8c47ac68b3"
+      },
+      "supplementCropRegistry": {
+        "path": "research/dmg175-source-metadata-regeneration-v2/outputs/dmg175-supplement-crop-registry-v2.json",
+        "sha256": "94fad75fb5a0b235b7f81b7dfddf65fc098194148cada86c5d963d8462d1cbf6"
+      },
+      "privateSourceHashesCheckedWithoutCopyingOrRendering": [
+        { "filename": "tsr2010-players-handbook.pdf", "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095" },
+        { "filename": "DMG_1stEd.pdf", "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669" },
+        { "filename": "Unearthed Arcana.pdf", "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4" },
+        { "filename": "Monster_Manual.pdf", "sha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81" },
+        { "filename": "Monster Manual II.pdf", "sha256": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24" },
+        { "filename": "dmg175.jpg", "sha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7" }
+      ]
+    }
+  },
+  "checks": [
+    {
+      "id": "source-commit-and-scope",
+      "result": "pass",
+      "details": "HEAD and tree match the receipt's exact source commit. The parent delta is limited to the count-agnostic p.175 scope wording, its review record, and its seal. The source data, catalog, manual records, bridge geometry, and audit algorithms remain pinned to the declared input tree."
+    },
+    {
+      "id": "hash-and-input-linkage",
+      "result": "pass",
+      "details": "The receipt's hashes and byte sizes match all nine listed visual, queue, raster, and continuation outputs. The continuation summary links to both the compressed full report and its decompressed hash. The six private source-file hashes match the receipt; source files were hashed only, not rendered or copied."
+    },
+    {
+      "id": "source-frame-bridge",
+      "result": "pass-scoped",
+      "details": "The bridge has 9 frame groups, 7 physical PDF pages, and 102 region/owner joins with no mismatches. Normalized comparison with the preserved old registry shows no geometry or binding change; only provenance.booksJsSha256 differs. Its coverage is bounded: 102 usages match, 45 supplemental-image usages are not applicable, and 3478 usages are outside the correction registry."
+    },
+    {
+      "id": "visual-denominators",
+      "result": "pass-count-reconciled",
+      "details": "The 3625 usages reconcile by book, collection, and crop-edge status. Keep image hashes, PDF geometry bindings, unique candidate geometries, and candidate usages as separate measures: 1336 unique image hashes; 1328 PDF image-geometry bindings; 366 candidate geometries; 921 text-box-crossing candidate usages. The 921 figure counts usages, not unique image cases. The current report has 2185 full-image sentinel usages and 1382 partial-focus usages."
+    },
+    {
+      "id": "raster-denominators",
+      "result": "pass-count-reconciled",
+      "details": "The 3625 uses divide into 3580 assessed PDF uses and 45 supplemental-image uses not assessable by PDF geometry. The raster snapshot covers 1328 PDF geometries; 1327 have a boundary-crossing component candidate. There are 231 rendered source pages and 42660 components counted across edges. Component categories overlap and are candidates, not defects."
+    },
+    {
+      "id": "continuation-denominators",
+      "result": "pass-count-reconciled",
+      "details": "The continuation report reconciles 3622 catalog-region rows, 3625 binding uses, 247223 property pointers, and 231 source pages. It reports 190 source-page flow candidates, including 2 unlinked pairs, and separately keeps 269 missing/invalid crop geometries plus 45 supplemental-image cases not assessable. No-signal is explicitly not a semantic pass."
+    },
+    {
+      "id": "source-payload-privacy",
+      "result": "pass-metadata-only",
+      "details": "The checked continuation payload contains word-box geometry, counts, identifiers, and categorical text-layer-presence markers; it does not contain page-text strings, OCR transcripts, PDF bytes, or image bytes. The source visual report carries catalog-linked region labels/summaries and numeric geometry. No full-page pixel payload fields were found. The separately supplied p.175 image remains private; its public registry describes 34 regions across 8 limited crops and records publishedFullImage=false."
+    },
+    {
+      "id": "warnings-and-historical-findings",
+      "result": "carry-forward-required",
+      "details": "The new visual report's empty warning list is local to that run and does not clear its 2185 current full-image sentinel usages or inherited historical work. Preserve the previously recorded 2190 historical highlight warnings and 726 legacy frames as unresolved historical findings; they were not re-reviewed in this task."
+    },
+    {
+      "id": "binder-lifecycle",
+      "result": "bootstrap-only-qualified",
+      "details": "The binder is pinned to HEAD 987a25d3ba2dcac0940569a2afab73f775e38028, requires the report paths to be absent from that input commit and the current seal manifest, then writes one new receipt. It is a closed bootstrap binder, not a generally rerunnable validator after pointer activation, sealing, or a later metadata commit. Future validation should use the preserved receipt and snapshot consumers; no future idempotence claim is made here."
+    }
+  ],
+  "currentPointers": {
+    "sourceRaster": {
+      "path": "research/current-source-raster-snapshot.json",
+      "sha256": "e552fb531184f758f893cfc34cab4bd9938b5346738f6c5c8a1a4cdc2e042de6",
+      "stillTargets": "research/source-raster-boundary-ua-source-v1.json.gz and research/source-visual-audit-ua-source-v1.json"
+    },
+    "continuation": {
+      "path": "research/current-continuation-candidate-snapshot.json",
+      "sha256": "f7a35db5f6ead27a57be305c997958bf91e6e41889cb0b87a101222e8bc22c0d",
+      "stillTargets": "research/source-audit-pass8-ua-source-continuation-v1.json and research/source-audit-pass8-ua-source-continuation-v1-full.json.gz"
+    },
+    "updatedByThisReview": false
+  },
+  "readiness": {
+    "metadataPointerActivation": "No report-binding or denominator inconsistency was found that blocks activation of pointers to these hash-bound metadata snapshots. The root integration step must publish/seal the new receipt and outputs, then update pointers in its separate authorized change.",
+    "semanticOrSourceValueApproval": "not granted; unresolved",
+    "blockersForMetadataPointerActivation": [],
+    "remainingOpenWork": [
+      "Keep all text-box, raster, and flow signals labeled as candidates pending source review.",
+      "Keep the 45 supplemental-image uses, 269 invalid/missing continuation crop geometries, and 2 unlinked flow pairs visible as unresolved scope.",
+      "Preserve historical highlight warnings and legacy-frame findings; this review did not adjudicate them.",
+      "Do not describe zero warnings, a clean binding receipt, or these structural reports as semantic completeness or source-value verification."
+    ]
+  }
+}

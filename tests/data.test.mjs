@@ -2,14 +2,33 @@ import {readFileSync,readdirSync,statSync} from 'node:fs';
 import {resolve} from 'node:path';
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {weaponOwnerIds} from './helpers/weapon-source-current-cohort.mjs';
-import {assertCurrentWeaponOwnerAdditions} from './helpers/ua-source-current-cohort.mjs';
+import {assertWeaponPendingBindingCohort} from './helpers/weapon-source-current-cohort.mjs';
+import {readDmg175CurrentSourceInputs,assertDmg175CurrentSourceCohort} from './helpers/dmg175-source-current-cohort.mjs';
+import {createRequire} from 'node:module';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {assertCurrentWeaponOwnerAdditions as partialWeaponOwnerAdditions} from './fixtures/weapon-source-current-cohort-partial-before.mjs';
 const root=resolve(import.meta.dirname,'..');
+const require=createRequire(import.meta.url),books=require('../dist/books.js');
+const currentInputs=readDmg175CurrentSourceInputs(root);
+const currentRuleIds=new Set(JSON.parse(readFileSync(resolve(root,'tests/fixtures/dmg175-source-current-cohort-v1.json'),'utf8')).newRuleIds);
+const allowedDmg175Owners=new Set(['appendix-c-character-subtable','appendix-c-party-size','appendix-c-character-levels','appendix-c-henchmen','appendix-c-character-guidance','appendix-c-party-magic-distribution']);
 const data=JSON.parse(readFileSync(resolve(root,'dist/data.json'),'utf8'));
+function assertPrintedDmgPageAllowed(collection,item,page){
+ if(item.book!=='DMG')return;
+ if(page===175){
+  assert.equal(collection,'rules',`${item.id}: p.175 supplement is limited to registered current rule owners`);
+  assert.ok(allowedDmg175Owners.has(item.id),`${item.id}: unregistered owner cannot use p.175 supplement`);
+  assert.equal(books.pdfPage('DMG',175),null,'the physical PDF still has no printed p.175 mapping');
+  assert.equal(books.availability('DMG',175),'missing','p.175 remains absent from the supplied PDF');
+  assert.equal(books.evidenceAvailability('DMG',175),'supplemental');
+  assert.equal(books.supplementalEvidence('DMG',175).published,false,'the full supplemental image remains unpublished');
+  return;
+ }
+ assert.ok(![239,240].includes(page),`${item.id}: cites unnumbered PDF leaf as a printed page`);
+}
 test('all entries have unique stable identifiers and valid source locations',()=>{
+ assertDmg175CurrentSourceCohort(currentInputs);
  for(const collection of ['rules','spells','classes']) {
   const ids=new Set();
   for(const item of data[collection]) {
@@ -21,10 +40,17 @@ test('all entries have unique stable identifiers and valid source locations',()=
     assert.ok(Number.isInteger(page)&&page>0,`${item.id}: invalid page`);
     const max={PHB:128,UA:128,DMG:240}[item.book];
     assert.ok(page<=max,`${item.id}: page out of range`);
-    if(item.book==='DMG') assert.ok(![175,239,240].includes(page),`${item.id}: cites missing or unverified page`);
+    assertPrintedDmgPageAllowed(collection,item,page);
    }
    if(!item.status){
-    assert.equal(collection,'rules');assert.ok(weaponOwnerIds.includes(item.id),`${item.id}: missing verification status`);
+    if(currentRuleIds.has(item.id)){
+     assert.equal(collection,'rules',`${item.id}: exact current Appendix C owner`);
+     assert.equal(item.book,'DMG');
+     assert.equal(item.sourceExcerpts?.state,'source-excerpt-checked','excerpt availability is source evidence, not a value-grade approval');
+     for(const row of item.table?.rows||[]){assert.equal(row.sourceReference.reviewStatus,'field-target-pending');assert.equal(row.sourceReference.sourceValueStatus,'not-assessed-by-field-target-review');}
+     continue;
+    }
+    assert.equal(collection,'rules');assert.ok(['phb-hurled-weapons-and-missiles-table','ua-hurled-weapons-and-missiles-table'].includes(item.id),`${item.id}: only the closed prior weapon cohort uses this branch`);
     assert.equal(item.sourceExcerpts?.state,'source-excerpt-checked','the source excerpt state supplies the bounded status; no value review is implied');
     const facts=[...item.table.rows,...item.table.sourceNotes,...(item.table.footnotes||[])];
     assert.equal(facts.length,item.book==='PHB'?20:30);
@@ -34,15 +60,29 @@ test('all entries have unique stable identifiers and valid source locations',()=
   }
  }
 });
-test('current UA owners and the two native weapon tables preserve every unrelated prior owner and exact approved lookup values',()=>assertCurrentWeaponOwnerAdditions(data));
+test('DMG p.175 remains a bounded supplemental exception and 239/240 remain invalid printed pages',()=>{
+ for(const itemId of allowedDmg175Owners)assert.doesNotThrow(()=>assertPrintedDmgPageAllowed('rules',{id:itemId,book:'DMG'},175));
+ assert.throws(()=>assertPrintedDmgPageAllowed('rules',{id:'unregistered-current-owner',book:'DMG'},175),/unregistered owner/);
+ assert.throws(()=>assertPrintedDmgPageAllowed('equipment',{id:'appendix-c-party-size',book:'DMG'},175),/limited to registered current rule owners/);
+ for(const page of [239,240])assert.throws(()=>assertPrintedDmgPageAllowed('rules',{id:'appendix-c-party-size',book:'DMG'},page),/unnumbered PDF leaf/);
+ assert.equal(books.pdfPage('DMG',175),null);assert.equal(books.availability('DMG',175),'missing');
+ assert.equal(books.supplementalEvidence('DMG',175).published,false);
+});
+
+test('native current guard preserves the exact current owner graph and prior weapon bindings',()=>{
+ assertDmg175CurrentSourceCohort(currentInputs);
+ const inventory=JSON.parse(readFileSync(resolve(root,'research/price-source-inventory.json'),'utf8'));
+ assert.equal(assertWeaponPendingBindingCohort(inventory.fieldEvidenceBindings).length,107);
+});
 test('the historical partial guard accepts unknown DMG metadata and the native current guard rejects it',()=>{
+ assertDmg175CurrentSourceCohort(currentInputs);
  const beforeBytes=execFileSync('git',['show','6717c6f22bbf2f2b421327e4c8561b1d81df00d4:dist/data.json'],{cwd:root,maxBuffer:40*1024*1024});
  assert.equal(createHash('sha256').update(beforeBytes).digest('hex'),'6643d7b58c90d982244f1d8f03b6f03a7587446ba25c402be8f9a81a8b701f8f');
  for(const key of ['sourceContext','sourceExcerpts']){
   const historicalMutation=JSON.parse(beforeBytes);historicalMutation.rules.find(item=>item.id==='weapon-versus-armor-adjustments')[key].unapprovedNativeCanary=true;
   assert.doesNotThrow(()=>partialWeaponOwnerAdditions(historicalMutation),'preserved partial guard accepts the mutation at its actual historical source state');
   const mutation=structuredClone(data);mutation.rules.find(item=>item.id==='weapon-versus-armor-adjustments')[key].unapprovedNativeCanary=true;
-  assert.throws(()=>assertCurrentWeaponOwnerAdditions(mutation));
+  assert.throws(()=>assertDmg175CurrentSourceCohort({...currentInputs,data:mutation}));
  }
 });
 test('XP thresholds are cumulative, integral and strictly increasing',()=>{

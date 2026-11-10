@@ -1,5 +1,5 @@
 import test from 'node:test';
-import {readBeforePass8CitationTargetCropFile,readBeforePass8PhbSourceFile as readBefore} from './helpers/pass8-ua-source-history.mjs';
+import {readBeforePass8CitationTargetCropFile,readBeforePass8PhbSourceFile as readBefore} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {readFileSync} from 'node:fs';

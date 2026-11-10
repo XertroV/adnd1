@@ -33,6 +33,10 @@
   const books = () => root.FirstEditionBooks;
   const title = book => books()?.title(book) || book;
   const pageNumber = ref => books()?.pdfPage(ref.book, ref.page) ?? null;
+  const locationOnlySelectedValues = region => region?.verificationScope === 'selected-values'
+    && Object.keys(region.checkedFields || {}).length === 1
+    && typeof region.checkedFields.sourceLocation === 'string'
+    && region.checkedFields.sourceLocation.trim().length > 0;
   function resolveExcerptSource(item, contextItemId) {
     const ids = [item?.id, contextItemId, item?.contextItemId].filter(id => id !== undefined && id !== null);
     const itemId = ids[0];
@@ -690,17 +694,19 @@
     const regions = matchingRegions();
     const privateOnly = !!(ref && excerptCatalog && !regions.length && books().privateEvidence(ref.book, ref.page));
     const issue = targetIssue(ref);
+    const suppliedPageMissing = !!ref && pageNumber(ref) === null && books().privateEvidence(ref.book, ref.page);
     el.targetNotice.hidden = !issue;
     const fieldLabel = fieldTargetLabel(fieldTarget || activeTarget);
     el.targetNotice.textContent = issue?.type === 'stale'
       ? `The linked excerpt “${issue.id}” is not available for this page in the current catalog. Choose another excerpt or open your PDF.`
-      : issue?.type === 'pending' ? `${fieldLabel ? `The field target “${fieldLabel}”` : 'This citation'} has no reviewed excerpt mapping yet. The cited page is open in your PDF view; choose an excerpt only if it supports the field.` : '';
+      : issue?.type === 'pending' ? `${fieldLabel ? `The field target “${fieldLabel}”` : 'This citation'} has no reviewed excerpt mapping yet. ${suppliedPageMissing ? `Printed p. ${ref.page} is absent from the supplied PDF. Choose an available excerpt only if it supports the field.` : 'The cited page is open in your PDF view; choose an excerpt only if it supports the field.'}` : '';
     el.modes.hidden = !excerptSource;
     el.excerptMode.disabled = excerptLoading || !!excerptCatalog && !regions.length && !privateOnly;
     el.excerptMode.setAttribute('aria-pressed', String(excerpts));
     el.pdfMode.setAttribute('aria-pressed', String(!excerpts));
     el.privacy.textContent = excerpts && privateOnly
       ? 'No approved excerpt is available in this view. The user-confirmed supplemental image is a separate source artifact; the supplied PDF omits printed p.175, and the full image is not published.'
+      : excerpts && locationOnlySelectedValues(regions[regionIndex]) ? `${excerptSource.name}: only this excerpt’s source location has been checked. Its printed numeric values and contextual adequacy remain unassessed. Complete source PDFs are not hosted. Your own PDF can be opened privately.`
       : excerpts ? excerptSource.state === 'source-excerpt-checked' ? `${excerptSource.name}: these limited source excerpts have been checked for the cited passage; the entry's extracted values retain their existing status. Complete source PDFs are not hosted. Your own PDF can be opened privately.` : `${excerptSource.name}: only the selected values and accompanying notes in these limited excerpts have been checked. Complete source PDFs are not hosted. Your own PDF can be opened privately.`
       : 'Open your own PDF to read the cited pages. Your file stays in this tab; it is never uploaded or saved by this site.';
     el.fileRow.hidden = el.editionHelp.hidden = excerpts;
@@ -984,7 +990,7 @@
       el.fit.setAttribute('aria-pressed', String(imageFit && zoom === 1));
       el.placeholder.hidden = true;
       el.captionTitle.textContent = region.title;
-      el.checked.textContent = `${region.verificationScope === 'source-excerpt' ? 'Source excerpt checked. ' : region.verificationScope === 'selected-values' ? 'Selected values checked. ' : ''}${region.summary}${focusRects.length ? '' : ' Excerpt shown without a marked passage.'}`;
+      el.checked.textContent = `${region.verificationScope === 'source-excerpt' ? 'Source excerpt checked. ' : region.verificationScope === 'selected-values' ? locationOnlySelectedValues(region) ? 'Source location checked. ' : 'Selected values checked. ' : ''}${region.summary}${focusRects.length ? '' : ' Excerpt shown without a marked passage.'}`;
       const format = value => Array.isArray(value) ? value.map(format).join(' / ') : value && typeof value === 'object' ? Object.entries(value).map(([key,v]) => `${key}: ${format(v)}`).join('; ') : String(value);
       const label = key => key.replace(/_/g,' ').replace(/\bac\b/gi,'AC').replace(/^./,c => c.toUpperCase());
       el.checkedValues.replaceChildren(...Object.entries(region.checkedFields).flatMap(([key,value]) => [node('dt', {}, label(key)),node('dd', {}, format(value))]));

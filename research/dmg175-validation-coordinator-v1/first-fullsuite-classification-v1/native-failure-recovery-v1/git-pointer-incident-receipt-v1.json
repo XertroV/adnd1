@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "research scratch setup Git pointer incident receipt",
+  "status": "incident-only; native failure patch/replay work stopped on parent instruction",
+  "incidentWindowUtc": {
+    "firstObservedCorruption": "2026-11-10 06:10 UTC (minute precision from ls output)",
+    "restoredPointerMtimeObserved": "2026-11-10 06:11:34.523299668 +0000"
+  },
+  "offendingScratchPath": "/tmp/dmg175-native-failure-replay-v1",
+  "activeWorktreePath": "/workspace/adnd1-next-source-native",
+  "cause": "Scratch setup linked each top-level regular file from the source tree, including .git, then Path.write_text on the scratch .git symlink followed it and overwrote the active worktree pointer. This crossed the .git read-only boundary.",
+  "preincidentEvidence": {
+    "activeGitPreimageCapturedBeforeWrite": false,
+    "preincidentGitCommandsHadSucceeded": true,
+    "lastKnownHead": "987a25d3ba2dcac0940569a2afab73f775e38028",
+    "expectedPreimagePointerInferredFromCommonWorktreeMetadata": "gitdir: /workspace/adnd1/.git/worktrees/adnd1-next-source-native\\n",
+    "inferenceBasis": "The common worktree metadata directory /workspace/adnd1/.git/worktrees/adnd1-next-source-native contains a gitdir file pointing back to /workspace/adnd1-next-source-native/.git. The actual source .git bytes were not read before writing, so this expected preimage is inferred, not captured."
+  },
+  "firstSetupToolCommand": "python - <<'PY'\nfrom pathlib import Path\nimport shutil, os\nsrc=Path('/workspace/adnd1-next-source-native')\ntmp=Path('/tmp/dmg175-native-failure-replay-v1')\nif tmp.exists(): shutil.rmtree(tmp)\ntmp.mkdir()\nfor name in ['dist','tools','research','artifacts','agent-docs','.github']:\n p=src/name\n if p.exists(): (tmp/name).symlink_to(p, target_is_directory=True)\nshutil.copytree(src/'tests', tmp/'tests')\nfor p in src.iterdir():\n if p.is_file() and p.name not in {'AGENTS.md','README.md'}:\n  (tmp/p.name).symlink_to(p)\nfor name in ['AGENTS.md','README.md']:\n p=src/name\n if p.exists(): (tmp/name).symlink_to(p)\n(tmp/'.git').write_text(f'gitdir: {src}/.git\\n')\nprint(tmp)\nPY",
+  "firstSetupCommandOutput": "/tmp/dmg175-native-failure-replay-v1",
+  "corruptingWrite": {
+    "operation": "Path(tmp/'.git').write_text(f'gitdir: {src}/.git\\n') while tmp/.git was a symlink to active /workspace/adnd1-next-source-native/.git",
+    "corruptingBytes": "gitdir: /workspace/adnd1-next-source-native/.git\\n",
+    "corruptingByteCount": 49,
+    "observedCommand": "ls -l .git && cat .git && git rev-parse --show-toplevel && git rev-parse HEAD",
+    "observedOutput": "-rw------- 1 agent agent 49 Nov 10 06:10 .git\ngitdir: /workspace/adnd1-next-source-native/.git\nfatal: not a git repository: /workspace/adnd1-next-source-native/.git",
+    "tempGitCheckOutput": "fatal: not a git repository: /workspace/adnd1-next-source-native/.git"
+  },
+  "restorationAction": {
+    "command": "rm -f /tmp/dmg175-native-failure-replay-v1/.git && python - <<'PY'\nfrom pathlib import Path\nPath('/workspace/adnd1-next-source-native/.git').write_text('gitdir: /workspace/adnd1/.git/worktrees/adnd1-next-source-native\\n')\nPath('/tmp/dmg175-native-failure-replay-v1/.git').write_text('gitdir: /workspace/adnd1/.git/worktrees/adnd1-next-source-native\\n')\nPY\ngit rev-parse --show-toplevel && git rev-parse HEAD && git rev-parse --git-dir",
+    "writeTarget": "/workspace/adnd1-next-source-native/.git",
+    "restoredBytes": "gitdir: /workspace/adnd1/.git/worktrees/adnd1-next-source-native\\n",
+    "restorationWasAuthorizedByRoot": false,
+    "restoredPointerWasInferredFromCommonWorktreeMetadata": true,
+    "observedVerificationOutput": "/workspace/adnd1-next-source-native\n987a25d3ba2dcac0940569a2afab73f775e38028\n/workspace/adnd1/.git/worktrees/adnd1-next-source-native"
+  },
+  "currentReadOnlyInspection": {
+    "command": "stat -c 'path=%n type=%F inode=%i links=%h size=%s mtime=%y mode=%a' /tmp/dmg175-native-failure-replay-v1/.git /workspace/adnd1-next-source-native/.git && readlink /tmp/dmg175-native-failure-replay-v1/.git || true && sha256sum /tmp/dmg175-native-failure-replay-v1/.git /workspace/adnd1-next-source-native/.git && cat /tmp/dmg175-native-failure-replay-v1/.git && cat /workspace/adnd1-next-source-native/.git",
+    "observedOutput": "path=/tmp/dmg175-native-failure-replay-v1/.git type=regular file inode=1596586 links=1 size=65 mtime=2026-11-10 06:11:34.523595762 +0000 mode=600\npath=/workspace/adnd1-next-source-native/.git type=regular file inode=1071303 links=1 size=65 mtime=2026-11-10 06:11:34.523299668 +0000 mode=600\n5559a59f3e0de26b652283b92744d7b7951e5aefd407be09e79a851b7c34e0f7  /tmp/dmg175-native-failure-replay-v1/.git\n5559a59f3e0de26b652283b92744d7b7951e5aefd407be09e79a851b7c34e0f7  /workspace/adnd1-next-source-native/.git\ngitdir: /workspace/adnd1/.git/worktrees/adnd1-next-source-native\ngitdir: /workspace/adnd1/.git/worktrees/adnd1-next-source-native"
+  },
+  "otherWorktreeMutation": false,
+  "testsRun": false,
+  "patchArtifactGenerated": false,
+  "sourceDataFixtureAndSealedFilesChanged": false,
+  "scratchTreePreserved": true,
+  "parentInstruction": "Stop all Git-file writes or repairs, preserve the scratch path and record this incident in a new research artifact only. No test runs or further proposal writes."
+}

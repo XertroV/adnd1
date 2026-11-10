@@ -1,4 +1,5 @@
 import {readBeforeJoFile as readFileSync} from './helpers/ua-source-batch6-jo-fixture.mjs';
+import {readBeforeJoEquipmentFileThroughDmg175Epoch} from '../research/dmg175-validation-coordinator-v1/history-recovery-v1/dmg175-equipment-epoch-outer-v2.proposed.mjs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 
@@ -19,7 +20,7 @@ test('all 17 UA p.75 armor rows are traced to source rows and current item candi
   const sourceBytes = gunzipSync(readFileSync(resolve(root, archivePath)));
   assert.equal(artifact.inputArtifacts.uaSupplement.path, 'research/source-audit-batch5-ua-additional-prices.json');
   assert.equal(sha256(sourceBytes), artifact.inputArtifacts.uaSupplement.sha256);
-  const equipmentBytes = readFileSync(resolve(root, artifact.inputArtifacts.equipment.path));
+  const equipmentBytes = readBeforeJoEquipmentFileThroughDmg175Epoch(resolve(root, artifact.inputArtifacts.equipment.path));
   assert.equal(sha256(equipmentBytes), artifact.inputArtifacts.equipment.sha256);
   assert.equal(artifact.denominators.sourceRows, 17);
   assert.equal(artifact.denominators.printedPage, 75);

@@ -4,11 +4,13 @@ import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 import {decodePass8CitationTargetCropHistory,projectPass8CitationTargetCropJson as project,projectPass8CitationTargetCropBytes as projectBytes,projectPass8XpContinuationJson as xp,projectPass8CharacterReferenceJson as character} from './helpers/pass8-citation-target-crop-history.mjs';
-import {readBeforePass8WeaponSourceFile,readBeforePass8CitationTargetCropFile as readBefore} from './helpers/pass8-ua-source-history.mjs';
+import {readBeforePass8WeaponSourceFile,readBeforePass8CitationTargetCropFile as readBefore} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 import {projectPass8PhbSourceJson as originalPhb} from './helpers/pass8-phb-source-history.mjs';
 import {validateScanCatalog} from '../tools/scan-catalog.mjs';
 import books from '../dist/books.js';
-import {loadCurrentMonetarySourceQuestions} from '../tools/monetary-current-source-questions.mjs';
+import {loadCurrentMonetarySourceQuestions} from '../tools/dmg175-current-monetary-source-questions-v1.mjs';
+import {loadCurrentMonetarySourceQuestions as loadLegacyMonetarySourceQuestions} from '../tools/monetary-current-source-questions.mjs';
+import {readFileSync} from 'node:fs';
 const root=new URL('../',import.meta.url),read=p=>readBeforePass8WeaponSourceFile(new URL(p,root)),sha=b=>createHash('sha256').update(b).digest('hex'),json=p=>JSON.parse(read(p));
 const zipped=read('tests/fixtures/pass8-citation-target-crop-history-v1.json.gz'),contract=decodePass8CitationTargetCropHistory(zipped);
 const git=(ref,p)=>execFileSync('git',['show',`${ref}:${p}`],{cwd:root,maxBuffer:100*1024*1024});
@@ -59,4 +61,8 @@ test('actual four stale region-count failures require exactly four4-to6 descript
 test('monetary successor changes provenance only and retains all8/7/1 question boundaries',()=>{
  const before=json('research/source-audit-pass8-phb-current-monetary-source-questions-v1.json'),after=json('research/source-audit-pass8-citation-target-crop-current-monetary-source-questions-v1.json'),restored=structuredClone(after);assert.equal(after.citationTargetCropInputMigration.sourceInputCommit,contract.sourceCommit);delete restored.citationTargetCropInputMigration;for(const key of ['canonical','monetaryIndex']){assert.equal(after.currentInputs[key].sha256,sha(read(after.currentInputs[key].path)));restored.currentInputs[key]=before.currentInputs[key];}assert.deepEqual(restored,before);
  const report=loadCurrentMonetarySourceQuestions();assert.deepEqual(report.counts,{historicalRegisteredQuestions:8,currentUnresolvedQuestions:7,derivedAdjudications:1});assert.equal(report.semanticPass,false);assert.equal(report.generalSourceReviewPending,true);
+ const v28='386b08a4678ee033d6daabc0ffa2cc17265a7c1f',oldLoaderBytes=git(v28,'tools/monetary-current-source-questions.mjs'),oldRegistryBytes=git(v28,'research/source-audit-pass8-ua-source-current-monetary-source-questions-v1.json');
+ assert.equal(sha(oldLoaderBytes),'72c9d2b1992ac0960cea8c3e8855a141339142b0ed32bfe194c933491948bc9e');assert.deepEqual(readFileSync(new URL('tools/monetary-current-source-questions.mjs',root)),oldLoaderBytes,'the original historical loader stays byte-exact');
+ assert.equal(sha(oldRegistryBytes),'864ae05ad5eab345e299a128b6b43c9a364bec7f9fee113ea409078c9afd4b0c');assert.deepEqual(readFileSync(new URL('research/source-audit-pass8-ua-source-current-monetary-source-questions-v1.json',root)),oldRegistryBytes,'the original historical registry stays byte-exact');assert.deepEqual(JSON.parse(oldRegistryBytes).dispositions,before.dispositions,'all eight whole historical question dispositions remain exact');
+ assert.throws(()=>loadLegacyMonetarySourceQuestions(),/stale input research\/price-source-inventory\.json/,'the original loader must reject the changed current canonical bytes under its old source pin');
 });

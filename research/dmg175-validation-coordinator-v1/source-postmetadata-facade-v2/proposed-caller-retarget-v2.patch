@@ -1,0 +1,78 @@
+--- a/tests/batch2-independent.test.mjs
++++ b/tests/batch2-independent.test.mjs
+@@ -1,4 +1,4 @@
+-import {readBeforeJoFile as readFileSync,withoutBatch6XpSourceMetadata,xpA65HistoryProjection} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
++import {readBeforeJoFile as readFileSync,withoutBatch6XpSourceMetadata,xpA65HistoryProjection} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs';
+ import {readFileSync as readCurrentFileSync} from 'node:fs';
+ import {withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
+ import {reverseMechanicsBatchTwo} from './mechanics-batch-two-fixture.mjs';
+--- a/tests/continuation-alias-audit.test.mjs
++++ b/tests/continuation-alias-audit.test.mjs
+@@ -1,4 +1,4 @@
+-import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
++import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs';
+ import test from 'node:test';
+ import {readBeforePass8CitationTargetCropFile} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import assert from 'node:assert/strict';
+--- a/tests/dmg175-source-history.test.mjs
++++ b/tests/dmg175-source-history.test.mjs
+@@ -1,5 +1,5 @@
+ import assert from 'node:assert/strict';
+-import {readBeforePass8CharacterReferenceFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
++import {readBeforeDmg175SourceCharacterReferenceFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
+ import test from 'node:test';
+ import {createHash} from 'node:crypto';
+ import vm from 'node:vm';
+--- a/tests/jo-stick-source-mapping.test.mjs
++++ b/tests/jo-stick-source-mapping.test.mjs
+@@ -1,17 +1,19 @@
+ import test from 'node:test';
+ import {dmg175HistoryContract,projectDmg175Books} from './helpers/batch6-dmg175-source-history.mjs';
+ import assert from 'node:assert/strict';
+-import {readBeforePass8XpContinuationFile as readFileSync,projectPass8XpContinuationBytes} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
++import {readBeforeJoXpFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
++import {projectPass8XpContinuationBytes} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+ import {execFileSync} from 'node:child_process';
+ // Exact released777 source/Jo history. The active252-group/728-target census
+ // is exercised separately by current-integration and native browser checks.
+ import {gunzipSync} from 'node:zlib';
+ import {resolve} from 'node:path';
+-import {readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
++import {readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs';
+ import {createHash} from 'node:crypto';
+ import vm from 'node:vm';
+ import {hash} from '../tools/monetary-row-identity-audit.mjs';
+-import {validateJoUnextractedPriceRegistration,loadJoUnextractedPriceRegistration} from '../tools/jo-unextracted-price-registration.mjs';
++import {validateJoUnextractedPriceRegistration} from '../tools/jo-unextracted-price-registration.mjs';
++import {loadJoUnextractedPriceRegistrationAtV28} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/jo-closed-loader-v28-context-v1.proposed.mjs';
+ import {validateContinuationManifest} from '../tools/continuation-contract.mjs';
+ import {buildSystemicInventory} from '../tools/citation-systemic-inventory.mjs';
+ import {fieldBindingAxisMetrics,fieldBindingCountMeaning} from '../tools/source-report-consistency-audit.mjs';
+@@ -92,7 +94,7 @@
+ test('the fifth unextracted price preserves the exact historical four and cannot become source absence or a Bo estimate',()=>{
+  const registration=read('research/source-audit-batch6-jo-unextracted-price.json'),historicalReceipt=read('research/source-audit-batch5-null-price-notes.json');
+  const args={registration,beforeEquipment:old,currentEquipment:equipment,historicalReceipt,data,inventory};
+- const addition=validateJoUnextractedPriceRegistration(args);assert.equal(addition.itemId,'ua-jo-stick');assert.equal(addition.sourceAbsence,false);assert.equal(addition.valueReviewed,false);assert.equal(loadJoUnextractedPriceRegistration({repoRoot:root,data,inventory}).recordSha256,hash(jo));
++ const addition=validateJoUnextractedPriceRegistration(args);assert.equal(addition.itemId,'ua-jo-stick');assert.equal(addition.sourceAbsence,false);assert.equal(addition.valueReviewed,false);assert.equal(loadJoUnextractedPriceRegistrationAtV28({repoRoot:root,data,inventory}).recordSha256,hash(jo));
+  for(const edit of [a=>a.registration.owner.itemId='phb-bo-stick',a=>a.registration.sourcePriceAbsenceReviewed=true,a=>a.registration.extractedPriceReviewed=true,a=>a.registration.semanticPass=true,a=>a.data.equipment.find(e=>e.id==='ua-jo-stick').price={amount:40,currency:'gp'},a=>a.data.equipment.find(e=>e.id==='ua-jo-stick').suggestedPrice={amount:5,currency:'sp'},a=>a.inventory.siteClaims.find(c=>c.itemId==='phb-club').itemId='another-unknown',a=>a.registration.currentUnextractedIds[0]='another-unknown',a=>a.beforeEquipment.equipment.push(structuredClone(jo))]){const bad=structuredClone(args);edit(bad);assert.throws(()=>validateJoUnextractedPriceRegistration(bad));}
+ });
+ 
+--- a/tests/equipment-price-completion-73.test.mjs
++++ b/tests/equipment-price-completion-73.test.mjs
+@@ -1,4 +1,4 @@
+-import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
++import {readBeforeJoFile as readFileSync} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs';
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
+ import {createHash} from 'node:crypto';
+--- a/tests/pass8-ua-source-history.test.mjs
++++ b/tests/pass8-ua-source-history.test.mjs
+@@ -4,7 +4,7 @@
+ import {createHash} from 'node:crypto';
+ import {readFileSync} from 'node:fs';
+ import {gunzipSync,gzipSync} from 'node:zlib';
+-import * as history from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
++import * as history from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
+ import * as prior from './helpers/pass8-weapon-source-history.mjs';
+ const root=new URL('../',import.meta.url),read=p=>readFileSync(new URL(p,root));
+ const sha=b=>createHash('sha256').update(b).digest('hex');

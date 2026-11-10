@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "final research-only historical/current-caller proposal readiness",
+  "sourcePhase": {
+    "commit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+    "dataSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+    "viewerSha256": "960507018352998d7b1c7f6633ea40a5c9973cff2ffb17c15a0ab7a6413b8f6f"
+  },
+  "status": "ready for root review and activation; final root full suite and workflow gates remain required",
+  "exactDeliverables": [
+    {
+      "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs",
+      "sha256": "ab080c03052095d20b0c0367a9a0484d2f088816e651fcca229fe3462985557b"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs",
+      "sha256": "09da403f955f463a65fc38d28df8cc2c9a32b6f60b729cce2b966669576a1d84"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/closed-completeness-coverage-contract-v1.json",
+      "sha256": "1426257cdb61272b14c03deb9bc4c3750368d6c88d6ebe8c0dc6cecf7f1d6818"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/jo-closed-loader-v28-context-v1.proposed.mjs",
+      "sha256": "85003bbcc64c3f6aa2081fb93ec443171876a3b766ea07cc76381c558fa5c876"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/proposed-caller-retarget-v2.patch",
+      "sha256": "305ca3a0819b20415083bce22e1c315e693a97bb9d9a81686aff67e30adc8fd2"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/continuation-alias-native-current-v1/proposed-native-current-alias-caller-v1.patch",
+      "sha256": "d029181887df14536650fcc580fbf8f5d71befb1593ccd0beb9f5e1dede9d857"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-catalog-reader-v2/closed-three-catalog-epoch-v1.json",
+      "sha256": "0da70c72f088884bb47ee999e0e68c1b6d0b9461ca7efcee2d337a9624933395"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-catalog-reader-v2/jo-source-catalog-reader-v2.proposed.mjs",
+      "sha256": "824a0f55fec2a397048691e5ba372585c29e1bcd0a93126fcd4b5bf94121cfd3"
+    },
+    {
+      "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-catalog-reader-v2/proposed-three-catalog-reader-caller-v2.patch",
+      "sha256": "3a1a85533dc207afaa1e64eb1fa1658eed33d6fab19a183a9c8742f6d04cdfc1"
+    }
+  ],
+  "activationOrder": [
+    "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/proposed-caller-retarget-v2.patch",
+    "research/dmg175-validation-coordinator-v1/continuation-alias-native-current-v1/proposed-native-current-alias-caller-v1.patch",
+    "research/dmg175-validation-coordinator-v1/source-postmetadata-catalog-reader-v2/proposed-three-catalog-reader-caller-v2.patch"
+  ],
+  "actualValidation": {
+    "frozenV2SixFileReplay": {
+      "logSha256": "5c8e8d567cd885ed0dcc07f808ca7dc42f9a8df9ab7542988de825089e245ee2",
+      "reportedCounts": {
+        "tests": 37,
+        "suites": 0,
+        "pass": 35,
+        "fail": 2,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "exitCode": 1,
+      "interpretation": "All six originally reported failures in this lane are closed. Loading the formerly aborted alias module exposed two actual assertion failures: historical catalog rows3072 versus3066, and native owner additions13 versus2. Other35 tests passed. This is not a claimed37/37 run.",
+      "temporaryCopiedTestFiles": 6,
+      "temporaryGitFiles": 0,
+      "temporaryRootRemoved": true
+    },
+    "finalCombinedAliasReplay": {
+      "logSha256": "1f759addb54a0652f6bb48fcd1dd781a0b79566b01e433b632118c3ff75732ef",
+      "reportedCounts": {
+        "tests": 4,
+        "suites": 0,
+        "pass": 4,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "exitCode": 0,
+      "interpretation": "The separate exact three-catalog raw inverse retains the historical3066-row assertion; the independent native-caller change requires actual FD1014owners/1034catalogs and exact11newrulecohort. All696 prior whole aliases,2Tools aliases/698total and semanticsfalse assertions remain."
+    },
+    "controls": [
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/jo-closed-loader-v28-context-controls-v1.json",
+        "sha256": "11d792826054f55cc9e2f11c3e98e4c7ae6b319c1e4bdd591593e8d85bb7f607",
+        "passedControls": 8
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-catalog-reader-v2/catalog-epoch-negative-controls-v1.json",
+        "sha256": "b1e0c171323856d2f08d49b8febbc0827e27b34de11d0ee8fed005b0d38c8149",
+        "passedControls": 22
+      }
+    ]
+  },
+  "preservation": {
+    "originalKernelFiles": 37,
+    "allExactPreservationManifestHashes": true,
+    "immutableEarlierContracts": [
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs",
+        "sha256": "e3a9bd7c2b1a0c077917b2cb259f51eb199dae67059bac1f72d821235ee6f16b"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs",
+        "sha256": "fe387262b288b3680acd383f28e926b039b1e71c0786928f5192c2775642443b"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/closed-metadata-contract-v1.json",
+        "sha256": "21800d8e6ac4727d559ebe34e1f2033a8407a1f80189c5ba1d929e16096aba1d"
+      },
+      {
+        "path": "research/dmg175-validation-coordinator-v1/history-epoch-proposal-v1/history-epoch-proposal-987-final-v1.json",
+        "sha256": "6eaa68018b064c1209ce81656b915aa0ed7b02f4fc7b59a149b6571aad0ff7f5"
+      }
+    ],
+    "oldJoModuleAndRegistry": "unchanged; actual original loader executes against six exact physical V28 files; all nine pure-validator canaries remain",
+    "sixOriginalHistoricalScopePredicates": "unchanged",
+    "source11AndEightMetadataContract": "unchanged; completeness one-file and three-catalog inverses are separately closed"
+  },
+  "qualifications": {
+    "ineffectiveCatalogReaderV1": "preserved and never activated; it attempted SOURCE11 normalization for three paths outside that set. Final V2 adds their separate closed whole-raw epoch.",
+    "readyHash855ToE3": "See separate readiness-qualification-v2; exact855 preimage missing, no complete old/new material diff is claimed.",
+    "runtime": "Current source/native callers retain actual new data and actual catalogs. These historical contexts do not certify source values, context adequacy or whole-book completeness."
+  },
+  "activeInputsWrittenByCoordinator": false,
+  "remainingGates": "Root review/apply plus actual full Node/workflow validation and final runtime gate after the independently activated search change."
+}

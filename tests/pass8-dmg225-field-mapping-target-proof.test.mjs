@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
 import {readFileSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import test from 'node:test';
-import {readBeforePass8UaSourceFile} from './helpers/pass8-ua-source-history.mjs';
-import {assertCurrentUaSourceOwnerCohort,assertCompiledWeaponBindingPreservation} from './helpers/ua-source-current-cohort.mjs';
+import {readBeforePass8UaSourceFile} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+import {readDmg175CurrentSourceInputs,assertDmg175CurrentSourceCohort} from './helpers/dmg175-source-current-cohort.mjs';
+import {assertUaSourceContextBindingCohort} from './helpers/ua-source-closed-v28-context.mjs';
 import {
   assertPass8Dmg225FieldTargetProof,
   assertPass8Dmg225TargetUniverse,
@@ -69,11 +71,10 @@ test('A46 before fixture retains all29 empty-region targets and the explicit his
     assert.equal(target.beforeBinding.sourceOwner.collection,target.collection);
     assert.equal(target.beforeBinding.sourceOwner.itemId,target.itemId);
   }
-  assert.equal(hash(readFileSync(new URL('../equipment.json',import.meta.url))),beforeFixture.files['equipment.json'].sha256);
+  const capturedEquipment=execFileSync('git',['show',`${baselineCommit}:equipment.json`],{maxBuffer:32*1024*1024});
+  assert.equal(hash(capturedEquipment),beforeFixture.files['equipment.json'].sha256,'the original A46 equipment source remains exact in its captured Git stage');
   const capturedData=execFileSync('git',['show',`${baselineCommit}:dist/data.json`],{maxBuffer:32*1024*1024});
   assert.equal(hash(capturedData),beforeFixture.files['dist/data.json'].sha256,'the original unassembled A46 data remains exact in its captured Git stage');
-  const nativeBytes=readFileSync(new URL('../dist/data.json',import.meta.url));
-  assert.equal(hash(nativeBytes),'c076e0f6bb898eb52650fd886630089f17edc86cbc8e3c4ac349b817bceba0d3','complete current UA source data remains native; compare hashes before any whole-buffer assertion');
   const historicalBytes=readBeforePass8UaSourceFile(new URL('dist/data.json',root));
   const weaponBytes=execFileSync('git',['show','9ee2550e9793e6aae9a7ac8fd71525704894950f:dist/data.json'],{maxBuffer:32*1024*1024});
   assert.equal(hash(historicalBytes),'6643d7b58c90d982244f1d8f03b6f03a7587446ba25c402be8f9a81a8b701f8f','closed UA history restores the complete actual merged V27 predecessor');
@@ -122,13 +123,13 @@ test('all 29 exact owners and source pointers carry closed hash-bound location p
   assert.equal(manualsBefore.bindings.length,728);
   assert.deepEqual(bindingsFile.bindings.slice(0,728),manualsBefore.bindings,'old manual field bindings changed');
   const publishedBindings=publishedJson('research/field-evidence-bindings.json').bindings;
-  assert.equal(publishedBindings.length,757);assert.equal(bindingsFile.bindings.length,807);
+  assert.equal(publishedBindings.length,757);assert.equal(bindingsFile.bindings.length,930);
   assert.deepEqual(bindingsFile.bindings.slice(0,757),publishedBindings,'all757 published manual bindings remain whole-object exact and in order');
   const proposedPath='research/missile-table-discoverability/native-manual-declarations-cc950-v1/proposed-50-manual-bindings.json';
   const proposedBytes=readFileSync(new URL(proposedPath,root));
   assert.equal(hash(proposedBytes),'a20d3252a10cef22551648fe1be65714b5488c8f9285634301112879cf4ad081');
-  assert.deepEqual(bindingsFile.bindings.slice(757),JSON.parse(proposedBytes).bindings,'only the exact50 declared pending manual bindings are appended');
-  assert.ok(bindingsFile.bindings.slice(757).every(binding=>binding.reviewStatus==='field-target-pending'&&binding.sourceValueStatus==='not-assessed-by-field-target-review'&&binding.valueReview===undefined),'the new declarations carry no field or source-value promotion');
+  assert.deepEqual(bindingsFile.bindings.slice(757,807),JSON.parse(proposedBytes).bindings,'the exact50 declared pending manual bindings remain in their original interval');
+  assert.ok(bindingsFile.bindings.slice(757,807).every(binding=>binding.reviewStatus==='field-target-pending'&&binding.sourceValueStatus==='not-assessed-by-field-target-review'&&binding.valueReview===undefined),'the original50 declarations carry no field or source-value promotion');
   assert.equal(fieldReview.cases.length,29);
   const mapped=new Map(currentBindings.map(binding=>[[binding.collection,binding.itemId,binding.fieldPointer].join('|'),binding]));
   for(let index=0;index<29;index++){
@@ -239,19 +240,18 @@ test('the exact target proof rejects borrowed, stale-value, owner, pointer, regi
 
 // Separate actual-current assertions: these do not receive historical objects.
 test('current UA owners, current metadata prefixes and all29 DMG225 target proofs remain native',()=>{
-  const nativeBytes=readFileSync(new URL('dist/data.json',root));
-  assert.equal(hash(nativeBytes),'c076e0f6bb898eb52650fd886630089f17edc86cbc8e3c4ac349b817bceba0d3');
-  const current=JSON.parse(nativeBytes);
-  assertCurrentUaSourceOwnerCohort(current);
-  assertCompiledWeaponBindingPreservation();
-  assert.equal(sourceReviews.reviews.length,1881);
-  assert.deepEqual(sourceReviews.reviews.slice(0,1849),weaponSourceReviews.reviews,'all1849 historical weapon review objects remain exact in the actual1881-review ledger');
-  assert.equal(continuations.groups.length,271);
-  assert.equal(continuations.groups.reduce((sum,group)=>sum+group.segments.length,0),536);
-  assert.deepEqual(continuations.groups.slice(0,261),weaponContinuations.groups,'all261 historical weapon continuation objects remain exact in the actual271-group manifest');
+  const currentInputs=readDmg175CurrentSourceInputs(fileURLToPath(root));
+  assertDmg175CurrentSourceCohort(currentInputs);
+  const current=currentInputs.data;
+  assert.equal(assertUaSourceContextBindingCohort(currentInputs.inventory.fieldEvidenceBindings).length,24,'the prior UA class-context cohort remains exact within the native current source');
+  assert.equal(sourceReviews.reviews.length,1882);
+  assert.deepEqual(sourceReviews.reviews.slice(0,1849),weaponSourceReviews.reviews,'all1849 historical weapon review objects remain exact in the actual1882-review ledger');
+  assert.equal(continuations.groups.length,273);
+  assert.equal(continuations.groups.reduce((sum,group)=>sum+group.segments.length,0),540);
+  assert.deepEqual(continuations.groups.slice(0,261),weaponContinuations.groups,'all261 historical weapon continuation objects remain exact in the actual273-group manifest');
   assertPass8Dmg225TargetUniverse(bindingsFile.bindings);
   const canonical=read('research/price-source-inventory.json');
-  assert.equal(canonical.fieldEvidenceBindings.length,4705);
+  assert.equal(canonical.fieldEvidenceBindings.length,4931);
   assertPass8Dmg225TargetUniverse(canonical.fieldEvidenceBindings);
   for(const binding of currentBindings){
     const matches=canonical.fieldEvidenceBindings.filter(row=>row.collection===binding.collection&&row.itemId===binding.itemId&&row.fieldPointer===binding.fieldPointer);

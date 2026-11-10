@@ -10,6 +10,8 @@ const read=path=>JSON.parse(readFileSync(path,'utf8'));
 const baseline=read('research/source-viewer-navigation-baseline.json');
 const data=read('dist/data.json');
 const manifest=read('research/citation-continuations.json');
+const dmg175UniverseBytes=readFileSync('tests/fixtures/dmg175-current-supplemental-usage-universe-v1.json');
+const dmg175Universe=JSON.parse(dmg175UniverseBytes.toString('utf8'));
 const published=buildPublishedContinuations({manifest,data,catalogRoot:'dist'});
 const require=createRequire(import.meta.url);
 const citations=require('../dist/citations.js');
@@ -137,7 +139,7 @@ test('bounded full-data selected-catalog navigation has no missing stops, cycles
   assert.equal(typeof hooks.navigationDestination,'function','navigationDestination(direction) is required');
   const names=['rules','spells','equipment','classes','matrices'];
   const catalogCache=new Map();
-  let recordsInspected=0,catalogItems=0,selectedCatalogPageStops=0,selectedCatalogExcerptStops=0,totalStops=0,missingExcerptPageStops=0,p175SupplementExcerptStops=0;
+  let recordsInspected=0,catalogItems=0,selectedCatalogPageStops=0,selectedCatalogExcerptStops=0,totalStops=0,missingExcerptPageStops=0,p175EncounterTypesCatalogStops=0;
   const refsFor=item=>citations.collect(item).flatMap(group=>group.pages.map(page=>({book:group.book,page,labels:[]})));
   const owners=names.flatMap(collection=>(data[collection]||[]).map(item=>({collection,item}))).concat([{collection:'progressionExplainer',item:data.progressionExplainer}]);
   for(const {collection,item} of owners){
@@ -157,9 +159,10 @@ test('bounded full-data selected-catalog navigation has no missing stops, cycles
         const pageRegions=catalog.regions.filter(region=>region.book===ref.book&&region.printedPage===ref.page).sort((a,b)=>Number(a.role==='context')-Number(b.role==='context'));
         selectedCatalogPageStops++;
         if(collection==='rules'&&item.id==='encounter-types'&&ref.book==='DMG'&&ref.page===175){
-          assert.deepEqual(pageRegions.map(region=>region.id),['dmg-175-party-table-context-78c4c383c38c7d10','dmg-175-level-others-context-5aa02e91e35c4c28'],'the current typed DMG p.175 citation exposes both approved supplemental excerpts');
+          assert.deepEqual(pageRegions.map(region=>region.id),['dmg175-character-subtable-character-subtable-row-01-17','dmg175-character-subtable-character-subtable-row-18-20','dmg175-character-subtable-character-subtable-row-21-60','dmg175-character-subtable-character-subtable-row-61-62','dmg175-character-subtable-character-subtable-row-63-65','dmg175-character-subtable-character-subtable-row-66-86','dmg175-character-subtable-character-subtable-row-87-88','dmg175-character-subtable-character-subtable-row-89-98','dmg175-character-subtable-character-subtable-row-99','dmg175-character-subtable-character-subtable-row-00','dmg-175-party-table-context-78c4c383c38c7d10','dmg-175-level-others-context-5aa02e91e35c4c28','dmg175-character-subtable-complete-character-subtable-heading-column-labels-and-all-rows'],'these are the 13 DMG p.175 navigation stops in the Encounter Types catalog only');
+          assert.deepEqual(pageRegions.map(region=>region.id).sort(),dmg175Universe.activeCatalogs.find(group=>group.catalog==='scans/verified/rules-encounter-types.json').regionIds,'Encounter Types stops match the independently pinned catalog subset');
           assert.ok(pageRegions.every(region=>region.pdfPage===null),'supplemental p.175 excerpts do not invent a PDF page');
-          p175SupplementExcerptStops+=pageRegions.length;
+          assert.equal(pageRegions.length,13);p175EncounterTypesCatalogStops+=pageRegions.length;
         }
         if(pageRegions.length){
           pageRegions.forEach((_,regionIndex)=>expected.push({referenceIndex,regionIndex}));
@@ -184,7 +187,9 @@ test('bounded full-data selected-catalog navigation has no missing stops, cycles
   assert.equal(recordsInspected,owners.length,'the denominator covers every current core exposed record');
   assert.equal(catalogItems,owners.length,'all current owners have one selected catalog');
   assert.equal(selectedCatalogPageStops,owners.reduce((sum,{item})=>sum+citations.pages(item).length,0),'every current cited book/page is visited');
-  assert.equal(p175SupplementExcerptStops,2,'the two current p.175 excerpts are represented as navigation stops');
+  assert.equal(sha(dmg175UniverseBytes),'c5162dd3f52982b223fea95a9bdef0f0654cc2f03982acaafb2981e34aa7d56e');
+  assert.deepEqual(dmg175Universe.counts,{activeCatalogs:7,activeUsageRows:45,activeDistinctRegionIds:34,registryUniqueRegionIds:34,distinctCropImageHashes:8,encounterTypesCatalogP175Stops:13});
+  assert.equal(p175EncounterTypesCatalogStops,13,'all thirteen Encounter Types p.175 catalog stops are represented; the global current universe is 45 usages across seven catalogs and 34 region IDs');
   assert.equal(missingExcerptPageStops,0,'every current cited page has at least one excerpt, including supplemental p.175');
   assert.equal(totalStops,selectedCatalogExcerptStops+missingExcerptPageStops,'every excerpt and unavailable-page stop is visited');
 });

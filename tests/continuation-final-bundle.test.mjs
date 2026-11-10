@@ -1,4 +1,4 @@
-import {readBeforeJoFile} from './helpers/ua-source-batch6-jo-fixture.mjs';
+import {readBeforeJoFile} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
 import {frozenDmgBeforeManifest,dmgContextBefore} from './helpers/dmg-context-frozen-manifest.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';

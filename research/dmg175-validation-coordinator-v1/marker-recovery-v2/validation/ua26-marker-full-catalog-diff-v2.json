@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "full parsed-catalog transition evidence for UA26 marker audit recovery v2",
+  "status": "research-only diff qualification; no source-value or context grade",
+  "comparison": {
+    "method": "Compared complete parsed JSON catalogs; compared every non-regions top-level property and matched all preexisting region objects by stable region ID.",
+    "baselineCommit": "d4229f438757ee2cad5ecbe8327e21731a38a3ed",
+    "baselineTree": "7cab21346a5f34c333418a88bb8a9faacf14e030",
+    "catalogPayloadCommit": "2af25997fb831b89a5ff158ed55e17ccf5943fbe",
+    "catalogPayloadTree": "53f25e4bd350fe72cba9869f80f6e72ee0b5c245",
+    "currentInputCommit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+    "currentInputTree": "d7ac09ce9abe4ef94ae355a44b8e0c5ca6f74ea3",
+    "results": {
+      "allTopLevelPropertiesUnchanged": true,
+      "preexistingRegionObjectsChanged": 0,
+      "regionRemovals": 0,
+      "appendedRegionObjects": 6,
+      "currentCatalogBytesEqualPayloadCommit": true
+    }
+  },
+  "catalogs": [
+    {
+      "path": "dist/scans/verified/equipment-ua-harpoon.json",
+      "owner": "ua-harpoon",
+      "baselineReceiptSha256": "6278d7e6104692e83c8c7312d127b8ee5faa5999bc5fa1abce9ea8ae58787247",
+      "baselineRawSha256": "6278d7e6104692e83c8c7312d127b8ee5faa5999bc5fa1abce9ea8ae58787247",
+      "currentRawSha256": "cdce6ea87e3d859ae84868dead02b4780687fbfc1dbb2ca86efb450733deb852",
+      "baselineRegionCount": 5,
+      "currentRegionCount": 7,
+      "addedRegions": [
+        {"id": "ua28-ac-field-ua-harpoon-v2", "role": "row", "verificationScope": "selected-values"},
+        {"id": "ua28-ac-range-note-ua-harpoon-v2", "role": "context", "verificationScope": "source-excerpt"}
+      ]
+    },
+    {
+      "path": "dist/scans/verified/equipment-phb-hammer.json",
+      "owner": "phb-hammer",
+      "baselineReceiptSha256": "cfb47569d010a1bfd7a540da1eb9a550417da3a6787e00e716989ded93574538",
+      "baselineRawSha256": "cfb47569d010a1bfd7a540da1eb9a550417da3a6787e00e716989ded93574538",
+      "currentRawSha256": "e2293b6b01573627f56751b1c9bb5050a7589ef126f7d1958e10a2be843f5943",
+      "baselineRegionCount": 8,
+      "currentRegionCount": 10,
+      "addedRegions": [
+        {"id": "ua28-ac-field-phb-hammer-v2", "role": "row", "verificationScope": "selected-values"},
+        {"id": "ua28-ac-range-note-phb-hammer-v2", "role": "context", "verificationScope": "source-excerpt"}
+      ]
+    },
+    {
+      "path": "dist/scans/verified/equipment-phb-javelin.json",
+      "owner": "phb-javelin",
+      "baselineReceiptSha256": "c3df025fa7a92e993fed997ba871f82bbee2c78b559a88ced8a7cf1d11fb106c",
+      "baselineRawSha256": "c3df025fa7a92e993fed997ba871f82bbee2c78b559a88ced8a7cf1d11fb106c",
+      "currentRawSha256": "129dddbaac75f1d255725f265318c330a6f0b50259bf015b8f1e1513d332b1f6",
+      "baselineRegionCount": 6,
+      "currentRegionCount": 8,
+      "addedRegions": [
+        {"id": "ua28-ac-field-phb-javelin-v2", "role": "row", "verificationScope": "selected-values"},
+        {"id": "ua28-ac-range-note-phb-javelin-v2", "role": "context", "verificationScope": "source-excerpt"}
+      ]
+    }
+  ],
+  "reviewQualification": {
+    "appendedRegionReview": {
+      "path": "research/ua28-field-target-review-v1/independent-review-evidence-v1.json",
+      "sha256": "96289241276133718f10b7f1fff5b0aa69a1f092fb749bd093aea993ee0e1a2c",
+      "scope": "Three owners' short-range AC field-to-row locations, each primary row across AC 0–10 plus a supporting range-note region.",
+      "sourceValue": "NOT ASSESSED",
+      "contextualAdequacy": "NOT ASSESSED"
+    },
+    "separateCaptionOnlyReviews": [
+      {
+        "path": "research/source-audit-pass8-ua28-caption-metadata-independent-review-v1.json",
+        "sha256": "49dafe92a8add4e32b66d2bb9f6a39d773db054be1bf9632d7c4bbf4e5b8fcd1",
+        "scope": "Three UA28 range-note summary properties only, each V4-to-V6 intermediate catalog successor."
+      },
+      {
+        "path": "research/source-audit-pass8-ua28-v7-row-caption-independent-review-v1.json",
+        "sha256": "279fe5ba9fbb842602542b4fbdbe9542912dd81a55e6d1d24fe737182e4a623d",
+        "scope": "Three UA28 row summary properties only, each V6-to-V7 final catalog successor; the note caption remains as separately accepted in V6."
+      }
+    ],
+    "interpretation": "The caption receipts qualify those six summary-field edits only. They do not approve the full d4229f4-to-current catalog transition, the appended regions as a whole, numeric values, or complete context.",
+    "newImageInspectionPerformedForThisArtifact": false
+  }
+}

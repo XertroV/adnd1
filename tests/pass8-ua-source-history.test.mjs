@@ -4,7 +4,7 @@ import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {gunzipSync,gzipSync} from 'node:zlib';
-import * as history from './helpers/pass8-ua-source-history.mjs';
+import * as history from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
 import * as prior from './helpers/pass8-weapon-source-history.mjs';
 const root=new URL('../',import.meta.url),read=p=>readFileSync(new URL(p,root));
 const sha=b=>createHash('sha256').update(b).digest('hex');

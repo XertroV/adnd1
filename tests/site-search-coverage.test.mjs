@@ -3,6 +3,10 @@ import {readFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {beforeWeaponData,weaponOwnerIds} from './helpers/weapon-source-current-cohort.mjs';
+import {readDmg175CurrentSourceInputs,assertDmg175CurrentSourceCohort} from './helpers/dmg175-source-current-cohort.mjs';
+import {resolve} from 'node:path';
+const root=resolve(import.meta.dirname,'..');
+const dmg175RuleIds=JSON.parse(readFileSync(new URL('./fixtures/dmg175-source-current-cohort-v1.json',import.meta.url))).newRuleIds;
 const require=createRequire(import.meta.url);
 const search=require('../dist/search.js');
 const data=JSON.parse(readFileSync(new URL('../dist/data.json',import.meta.url),'utf8'));
@@ -21,18 +25,20 @@ const matrixDocs=data.matrices.map(item=>{
 const progressionDoc=search.prepare({...data.progressionExplainer,_view:'progressionExplainer',_title:data.progressionExplainer.title,_subtitle:'Class progression reference'});
 const byClass=id=>classDocs.find(item=>item.id===id);
 
-test('current global content owner set preserves 1001 prior docs and adds exactly the two missile table owners',()=>{
+test('current global content owner set preserves 1001 prior docs and adds the two missile owners plus eleven Appendix C rules',()=>{
+ assertDmg175CurrentSourceCohort(readDmg175CurrentSourceInputs(root));
  const count=data.spells.length+data.rules.length+data.equipment.length+data.classes.length+data.matrices.length+1;
  const newMatrixIds=data.matrices.filter(item=>addedDmg74MatrixIds.includes(item.id)).map(item=>item.id).sort();
  assert.deepEqual(newMatrixIds,[...addedDmg74MatrixIds].sort());
- assert.equal(count,997+addedDmg74MatrixIds.length+1+weaponOwnerIds.length);
- assert.equal(count,1003,'the matrices, Druid rule and two new weapon owners preserve separate additions');
+ assert.equal(count,997+addedDmg74MatrixIds.length+1+weaponOwnerIds.length+dmg175RuleIds.length);
+ assert.equal(count,1014,'the three matrices, Druid rule, two weapon owners, and eleven Appendix C rules remain distinct additions');
  assert.deepEqual(data.rules.filter(row=>row.id==='phb-druid-mistletoe-spell-components').map(row=>[row.id,row.book,row.pages]),[['phb-druid-mistletoe-spell-components','PHB',[54]]]);
  const identities=[...['spells','rules','equipment','classes','matrices'].flatMap(collection=>data[collection].map(item=>`${collection}:${item.id}`)),`progressionExplainer:${data.progressionExplainer.id}`];
- assert.equal(new Set(identities).size,997+addedDmg74MatrixIds.length+1+weaponOwnerIds.length);
- assert.equal(new Set(identities).size,1003);
+ assert.equal(new Set(identities).size,997+addedDmg74MatrixIds.length+1+weaponOwnerIds.length+dmg175RuleIds.length);
+ assert.equal(new Set(identities).size,1014);
+ const addedOwnerKeys=new Set([...weaponOwnerIds,...dmg175RuleIds].map(id=>`rules:${id}`));
  const beforeIds=['spells','rules','equipment','classes','matrices'].flatMap(collection=>beforeWeaponData[collection].map(item=>`${collection}:${item.id}`)).concat(`progressionExplainer:${beforeWeaponData.progressionExplainer.id}`);
- assert.deepEqual(identities.filter(id=>!weaponOwnerIds.some(itemId=>id===`rules:${itemId}`)),beforeIds);
+ assert.deepEqual(identities.filter(id=>!addedOwnerKeys.has(id)),beforeIds,'all prior owner identities remain in relative order after the exact additions');
  assert.equal(matrixDocs.length,data.matrices.length);
 });
 
