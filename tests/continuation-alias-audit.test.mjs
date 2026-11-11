@@ -1,15 +1,14 @@
-import {readBeforeJoFile as readFileSync} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-catalog-reader-v2/jo-source-catalog-reader-v2.proposed.mjs';
 import test from 'node:test';
-import {readBeforePass8CitationTargetCropFile} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {readFileSync as readRawFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 
 import {gunzipSync} from 'node:zlib';
 import {buildContinuationAliasReport,loadContinuationAliasReport} from '../tools/continuation-alias-audit.mjs';
-import {assertHirelingsCurrentSourceCohort,readHirelingsCurrentSourceInputs} from './helpers/hirelings-source-current-cohort.mjs';
-import {xpBeforeCatalogsForAliasReplay} from './helpers/ua-source-batch6-xp-source-history.mjs';
-const read=p=>JSON.parse(readFileSync(p));
+import {projectPass8CitationTargetCropBytes} from './helpers/pass8-ua-source-history.mjs';
+import {assertMmTreasureCurrentSourceCohort,readMmTreasureCurrentSourceInputs} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
+const read=p=>JSON.parse(readRawFileSync(p,'utf8'));
 const before=read('research/source-audit-batch5-continuation-alias-before.json');
 const integration=read('research/source-audit-batch5-continuation-alias-integration.json');
 const manifest=read('research/citation-continuations.json');
@@ -27,11 +26,29 @@ for(const collection of ['rules','spells','equipment','matrices','classes','prog
  const values=Array.isArray(data[collection])?data[collection]:data[collection]?[data[collection]]:[];
  for(const item of values)for(const key of ['sourceExcerpts','scanVerification']){const path=item[key]?.catalog;if(path&&!catalogs.has(path))catalogs.set(path,read('dist/'+path));}
 }
-const oldManifest=JSON.parse(gunzipSync(readFileSync(integration.beforeManifestFixture)));
+const oldManifestBytes=gunzipSync(readRawFileSync(integration.beforeManifestFixture));
+const oldManifest=JSON.parse(oldManifestBytes);
+const aliasBeforeCommit='d4229f438757ee2cad5ecbe8327e21731a38a3ed';
+const aliasBeforeBytes=path=>execFileSync('git',['show',`${aliasBeforeCommit}:${path}`],{maxBuffer:32*1024*1024});
+const aliasBeforeDataBytes=aliasBeforeBytes('dist/data.json');
+assert.equal(createHash('sha256').update(aliasBeforeDataBytes).digest('hex'),before.inputHashes.data.sha256,'the exact 995-owner alias preimage is read from its immutable Git commit');
+assert.equal(createHash('sha256').update(oldManifestBytes).digest('hex'),before.inputHashes.manifest.sha256,'the exact historical alias manifest is read from its sealed fixture');
+const aliasBeforeData=JSON.parse(aliasBeforeDataBytes),aliasBeforeCatalogs=new Map();
+for(const collection of ['rules','spells','equipment','matrices','classes','progressionExplainer']){
+ const owners=Array.isArray(aliasBeforeData[collection])?aliasBeforeData[collection]:aliasBeforeData[collection]?[aliasBeforeData[collection]]:[];
+ for(const owner of owners)for(const key of ['sourceExcerpts','scanVerification']){
+  const path=owner[key]?.catalog;if(!path||aliasBeforeCatalogs.has(path))continue;
+  const bytes=aliasBeforeBytes(`dist/${path}`);
+  assert.equal(createHash('sha256').update(bytes).digest('hex'),before.inputHashes.catalogs[path],`${path}: exact historical Git catalog preimage`);
+  aliasBeforeCatalogs.set(path,JSON.parse(bytes));
+ }
+}
+assert.equal(aliasBeforeCatalogs.size,before.denominators.referencedCatalogs,'the historical source preimage closes all1015 catalogs');
 const currentHirelingRuleIds=JSON.parse(readRawFileSync(new URL('./fixtures/hirelings-source-current-cohort-v1.json',import.meta.url),'utf8')).newRuleIds;
+const mmTreasureRuleIds=JSON.parse(readRawFileSync(new URL('./fixtures/mm-treasure-current-m1-cohort-v1.json',import.meta.url),'utf8')).mmSource.addedRuleIds;
 
 test('the complete before universe detects the real unlinked Solid Fog region alias',()=>{
- const replay=buildContinuationAliasReport({data,manifest:oldManifest,catalogs:xpBeforeCatalogsForAliasReplay(catalogs)});
+ const replay=buildContinuationAliasReport({data:aliasBeforeData,manifest:oldManifest,catalogs:aliasBeforeCatalogs});
  assert.deepEqual(replay.denominators,before.denominators,'exact XP catalog rollback composes with the exact Jo history stage to reproduce the complete historical universe');
  assert.equal(replay.denominators.exposedRecords,995);
  assert.equal(replay.denominators.referencedCatalogs,1015);
@@ -76,25 +93,25 @@ test('the exact legacy alias keeps its source, focus and relationship and opens 
  const publishedData=JSON.parse(execFileSync('git',['show','cc9509047746d5e27a71cb5b1e0cfcb739a688c9:dist/data.json'],{maxBuffer:32*1024*1024}));
  const tableIds=['phb-hurled-weapons-and-missiles-table','ua-hurled-weapons-and-missiles-table'];
  const ownerRows=value=>['rules','spells','equipment','matrices','classes','progressionExplainer'].flatMap(collection=>(Array.isArray(value[collection])?value[collection]:value[collection]?[value[collection]]:[]).map(item=>({collection,itemId:item.id})));
- const nativeInputs=readHirelingsCurrentSourceInputs(import.meta.dirname+'/..');assert.deepEqual(nativeInputs.data,liveData,'the alias census uses the complete actual current source');assertHirelingsCurrentSourceCohort(nativeInputs);
+ const nativeInputs=readMmTreasureCurrentSourceInputs(import.meta.dirname+'/..');assert.deepEqual(nativeInputs.data,liveData,'the alias census uses the complete actual current source');assertMmTreasureCurrentSourceCohort(nativeInputs);
  const appendixCIds=['appendix-c-character-subtable','appendix-c-party-size','appendix-c-character-levels','appendix-c-henchmen','appendix-c-character-guidance','appendix-c-party-magic-distribution','appendix-c-magic-table-i','appendix-c-magic-table-ii','appendix-c-magic-table-iii','appendix-c-magic-table-iv','appendix-c-magic-item-notes'];
  const publishedOwners=ownerRows(publishedData),nativeOwners=ownerRows(liveData);
  assert.equal(publishedOwners.length,1001);
  const publishedOwnerKeys=new Set(publishedOwners.map(row=>JSON.stringify(row)));
  assert.deepEqual(nativeOwners.filter(row=>publishedOwnerKeys.has(JSON.stringify(row))),publishedOwners,'all1001 published owner identities remain in exact relative order');
- assert.deepEqual(nativeOwners.filter(row=>!publishedOwnerKeys.has(JSON.stringify(row))),[...tableIds,...appendixCIds,...currentHirelingRuleIds].map(itemId=>({collection:'rules',itemId})),'the two earlier tables, eleven prior Appendix C owners and48 Hireling owners extend all1001 published identities');
+ assert.deepEqual(nativeOwners.filter(row=>!publishedOwnerKeys.has(JSON.stringify(row))),[...tableIds,...appendixCIds,...currentHirelingRuleIds,...mmTreasureRuleIds].map(itemId=>({collection:'rules',itemId})),'the two earlier tables, eleven prior Appendix C owners, 48 H owners and2 MM owners extend all1001 published identities');
  const catalogPaths=value=>[...new Set(['rules','spells','equipment','matrices','classes','progressionExplainer'].flatMap(collection=>(Array.isArray(value[collection])?value[collection]:value[collection]?[value[collection]]:[]).flatMap(item=>['sourceExcerpts','scanVerification'].flatMap(key=>item[key]?.catalog?[item[key].catalog]:[]))))].sort();
  const publishedPaths=catalogPaths(publishedData),nativePaths=catalogPaths(liveData);
  assert.equal(publishedPaths.length,1021);
  assert.deepEqual(nativePaths.filter(path=>publishedPaths.includes(path)),publishedPaths,'every published scoped catalog remains referenced');
- assert.deepEqual(nativePaths.filter(path=>!publishedPaths.includes(path)),[...tableIds,...appendixCIds,...currentHirelingRuleIds].map(id=>`scans/verified/rules-${id}.json`).sort());
+ assert.deepEqual(nativePaths.filter(path=>!publishedPaths.includes(path)),[...tableIds,...appendixCIds,...currentHirelingRuleIds,...mmTreasureRuleIds].map(id=>`scans/verified/rules-${id}.json`).sort());
  for(const [index,itemId]of tableIds.entries()){
   const owner=liveData.rules.find(item=>item.id===itemId),catalog=JSON.parse(readRawFileSync(new URL(`../dist/${owner.sourceExcerpts.catalog}`,import.meta.url),'utf8'));
   assert.deepEqual([owner.book,owner.pages,owner.table.rows.length],index===0?['PHB',[38],15]:['UA',[28],24]);
   assert.deepEqual([catalog.collection,catalog.itemId,catalog.regions.length],['rules',itemId,index===0?21:31]);
  }
- assert.equal(current.denominators.exposedRecords,1062,'the native report counts all retained owners, two earlier tables, eleven prior Appendix C owners and48 Hireling owners');
- assert.equal(current.denominators.referencedCatalogs,1082,'the native report counts all retained catalogs plus61 native source catalogs');
+ assert.equal(current.denominators.exposedRecords,1064,'the native report counts all retained owners, two earlier tables, eleven prior Appendix C owners, 48 H owners, and2 MM owners');
+ assert.equal(current.denominators.referencedCatalogs,1084,'the native report counts all retained catalogs plus63 native source catalogs');
  assert.equal(current.denominators.declaredGroups,284,'the current manifest has the preserved273-group prefix and repaired Hireling alias groups');
  assert.equal(current.denominators.declaredParts,560,'the current manifest has the preserved540-part prefix and repaired Hireling alias parts');
  assert.equal(current.denominators.declaredGroups,liveManifest.groups.length);
@@ -119,7 +136,8 @@ test('an owner change cannot inherit alias coverage from the other collection',(
 // This exact whole-state replay preserves the published696 census separately
 // from the two new reciprocal Tools list aliases in native current data.
 test('all696 published alias objects remain exact beside two Tools aliases and twelve Hireling matches',()=>{
- const readPublished=p=>JSON.parse(readBeforePass8CitationTargetCropFile(new URL('../'+p,import.meta.url))),publishedData=readPublished('dist/data.json'),publishedManifest=readPublished('research/citation-continuations.json'),publishedCatalogs=new Map();
+ const publishedCommit='6b3cfc8cb421a2c1fc2379c38abebe2075634981';
+ const readPublished=p=>JSON.parse(projectPass8CitationTargetCropBytes(p,execFileSync('git',['show',`${publishedCommit}:${p}`],{maxBuffer:32*1024*1024}))),publishedData=readPublished('dist/data.json'),publishedManifest=readPublished('research/citation-continuations.json'),publishedCatalogs=new Map();
  for(const collection of ['rules','spells','equipment','matrices','classes','progressionExplainer'])for(const item of Array.isArray(publishedData[collection])?publishedData[collection]:publishedData[collection]?[publishedData[collection]]:[])for(const key of ['sourceExcerpts','scanVerification']){const path=item[key]?.catalog;if(path&&!publishedCatalogs.has(path))publishedCatalogs.set(path,readPublished('dist/'+path));}
  const published=buildContinuationAliasReport({data:publishedData,manifest:publishedManifest,catalogs:publishedCatalogs}),current=loadContinuationAliasReport();
  assert.equal(published.denominators.exactAliasMatches,696);assert.equal(current.denominators.exactAliasMatches,710);

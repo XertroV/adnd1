@@ -1,0 +1,328 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent MM treasure source payload review",
+  "reviewedAtUtc": "2026-11-10",
+  "disposition": {
+    "boundedSourceContent": "accepted for the stated bounded scope after the p.74 crop repair",
+    "release": "not cleared for publication",
+    "reason": "The final crop evidence is source-checked, but the preserved local browser verification is pinned to pre-repair hashes and repository documentation still says strict successor metadata migration/required-workflow completion is pending. Field targets, formal context grades, defaults, and whole-book profile-modifier completeness remain pending or unassessed."
+  },
+  "reviewScope": {
+    "repo": "/workspace/adnd1-next-source-native",
+    "reviewedCommit": "0f2d70a135e3ad486152bf00f21387d60a1a97ef",
+    "reviewedTree": "08010faf457df22cdb0a5ec35d2dcf79e622ade9",
+    "previousCandidateCommitWithConfirmedDefect": "167ec2f88fb52785303385f148157f8b51dda9b5",
+    "m1BaselineCommit": "5c6a57386af372c7c0d89e342003a7edf68ca0dd",
+    "sourcePdf": {
+      "identity": "Monster_Manual.pdf",
+      "sha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+      "folio": "printed page n maps to PDF page n+1",
+      "edition": "AD&D first edition; title-page imprint says 4th Edition, August 1979",
+      "exactPrintingAndScanProvenance": "unknown"
+    },
+    "instructionsRead": [
+      "/workspace/adnd1-next-source-native/AGENTS.md",
+      "/workspace/adnd1-next-source-native/agent-docs/citation-images-and-verification.md",
+      "/workspace/adnd1-next-source-native/agent-docs/citation-checks.md"
+    ],
+    "scopeLimit": "This is a source-content, crop, and bounded-delta review. It is not whole-book completeness, live deployment, formal field-target approval, or release-workflow certification."
+  },
+  "findings": [
+    {
+      "id": "source-table-literal-transcription",
+      "status": "accepted-bounded",
+      "evidence": {
+        "rows": 26,
+        "labels": "A-Z",
+        "dataColumns": 8,
+        "literalCells": 208,
+        "currentRowsComparedWithIndependentPhysicalReceipt": 26,
+        "exactCellwiseMatches": 208,
+        "cellMismatches": 0,
+        "allRawCellsRemainStrings": true,
+        "allCellKinds": "printed-text",
+        "currentTableImageSha256": "c1073fb2929cc0d111f558de3eade1df9f53f576a72ebac91156996bda2395d0",
+        "tableCropPdfPoints": [
+          15,
+          4,
+          539,
+          652
+        ],
+        "freshSourceRenderPixelIdentical": true,
+        "physicalReviewReceiptSha256": "a1dc0d630d28e4c2b0c48afca01dbd79f49a717d4c72ca6c1e9fff84b6531a37",
+        "priorIndependentFullFocusOverlayEvidence": "/workspace/research/mm-treasure-usage-independent-review-v1/evidence.json, sha256 d646f3e3085b4ebd89d15d3d44a22189535a6e660232b9840e50f7b50b45f83e; 26/26 complete focus-array overlays matched the prior physical receipt"
+      },
+      "qualification": "The headings retain thousands for copper, silver, electrum, and gold, and hundreds for platinum. Rows J-N preserve five literal pieces-per-individual qualifiers and are not multiplied by header scales. This confirms the bounded cell transcription; it does not assign value-target, context, or default-selection grades."
+    },
+    {
+      "id": "governing-use-prose-and-examples",
+      "status": "accepted-bounded",
+      "evidence": {
+        "paragraphs": 3,
+        "distinctClaimBullets": 10,
+        "p5NumberAppearingImage": "mm-p5-number-appearing-216dpi.png",
+        "p5LairAndTreasureTypeImage": "mm-p5-lair-treasure-type-216dpi.png",
+        "sourceSupportedDistinctions": [
+          "Number Appearing is an adaptable average-spread guideline, not a fixed dungeon-population prescription.",
+          "% IN LAIR is an encounter-location chance, distinct from probabilities in treasure-table cells.",
+          "Individual treasure and lair-only treasure differ; lair status can remain unknown until after an encounter.",
+          "A lair encounter and a Treasure Type do not guarantee treasure gained by defeating the creature.",
+          "Separate category rolls can leave a lair with no wealth, including magic items.",
+          "Use mean-number and profile-specific adjustments; the source generally discourages Treasure Types for dungeon-guarded treasure.",
+          "A parenthesized X 10 multiplier remains distinct from a separate Type X code."
+        ],
+        "profileExamples": [
+          {
+            "page": 14,
+            "localExample": "Centaur leader double treasure"
+          },
+          {
+            "page": 31,
+            "localExample": "Dragon age-specific treasure adjustment"
+          },
+          {
+            "page": 74,
+            "localExample": "Nymph Treasure Type Q (X 10), X"
+          },
+          {
+            "page": 100,
+            "localExample": "Carnivorous Whale treasure conditions and value-bearing material"
+          }
+        ],
+        "wholeBookProfileModifierCensus": "not performed; examples are illustrative only"
+      },
+      "qualification": "The two separate no-guarantee caveats remain separate claims. The profile examples do not imply a complete bestiary census or a generalized modifier rule."
+    },
+    {
+      "id": "p74-confirmed-crop-defect-and-repair",
+      "status": "before-rejected-after-accepted-source-crop-only",
+      "before": {
+        "regionId": "mm-074-parenthetical-x10-and-type-x",
+        "image": "research/mm-treasure-source-batch-v1/before-mm74-clipped-context-v1.png",
+        "imageSha256": "0c60a43dd4a99872a04a5bc72705973e87ede3cd7108856035afaf2a94bad726",
+        "boundsPdfPoints": [
+          282,
+          252,
+          389,
+          273
+        ],
+        "actualEdgeDetectorCandidate": "edge-e3bdd31d688ab247",
+        "wordBoxCrossings": 8,
+        "physicalFinding": "The cited Treasure Type line itself was complete, but adjacent % IN LAIR and NO. OF ATTACKS rows were visibly cut at the top and bottom."
+      },
+      "after": {
+        "regionId": "mm-074-parenthetical-x10-and-type-x",
+        "image": "dist/scans/verified/mm-p74-nymph-treasure-context-216dpi-v2.png",
+        "imageSha256": "f983d1bf5561a704fd97dc366fea3ed11a051de4fa91931edafbca12c6790ccb",
+        "catalogSha256": "eb0681f4c6f7e355335e04f35b5e9f8032e02dd15ca4b7aeaae251417b11c919",
+        "boundsPdfPoints": [
+          282,
+          184,
+          399,
+          358
+        ],
+        "dimensionsPx": [
+          351,
+          522
+        ],
+        "freshDirectPdfRenderPixelIdentical": true,
+        "focusWorldBoundsPdfPoints": [
+          287.649999966,
+          257.260015866,
+          93.335620105,
+          9.524310306
+        ],
+        "worldFocusUnchangedFromBefore": true,
+        "focusMeaning": "Only the Nymph Treasure Type line; it visibly retains Q (X 10), X."
+      },
+      "repairReceipt": "research/mm-treasure-source-batch-v1/mm74-crop-edge-repair-v1.json, sha256 310b96650102833c76cbf3ba2c75f0922e351931392ceea4a30b74003eb82697",
+      "newSourceVisualAudit": "research/source-visual-audit-mm-treasure-mm74-fixed-v2.json, sha256 ecb57b3a2c4cb75dea42cb3e78eedf59e9d44032b9c37408246bf033224e33ec; current p.74 binding has no text-edge candidate. The report retains the wider unresolved candidate universe and is geometry evidence, not semantic approval.",
+      "gradePromotions": 0
+    },
+    {
+      "id": "other-source-images-and-crop-edges",
+      "status": "accepted-bounded-no-clipping-observed",
+      "method": "Rendered each current image directly from the authorized source PDF in memory with PyMuPDF at its cataloged crop bounds and compared RGB pixels; visually inspected the bounded crops.",
+      "pixelIdenticalCrops": [
+        {
+          "printedPage": 5,
+          "pdfPage": 6,
+          "image": "mm-p5-number-appearing-216dpi.png",
+          "sha256": "864b341b01847dbf24df3c1d32f5eb8cb431559d25f33561b6573aba7a21fb73",
+          "boundsPdfPoints": [
+            28,
+            296,
+            292,
+            373
+          ]
+        },
+        {
+          "printedPage": 5,
+          "pdfPage": 6,
+          "image": "mm-p5-lair-treasure-type-216dpi.png",
+          "sha256": "6c5e268205bcd58a7a05df26855723169535284c12166d31d631263533b1bcdf",
+          "boundsPdfPoints": [
+            300,
+            12,
+            572,
+            425
+          ]
+        },
+        {
+          "printedPage": 14,
+          "pdfPage": 15,
+          "image": "mm-p14-centaur-double-treasure-216dpi.png",
+          "sha256": "d92087b9c066e70800ee8f2b85c8491feba57c650e9cff5277dadc3e9417a3d3",
+          "boundsPdfPoints": [
+            8,
+            326,
+            268,
+            410
+          ]
+        },
+        {
+          "printedPage": 31,
+          "pdfPage": 32,
+          "image": "mm-p31-dragon-treasure-216dpi.png",
+          "sha256": "466285f05a2695a8738c0aa165fb4b6f308b293d0d1642cb005809ad9c64d772",
+          "boundsPdfPoints": [
+            10,
+            46,
+            273,
+            119
+          ]
+        },
+        {
+          "printedPage": 100,
+          "pdfPage": 101,
+          "image": "mm-p100-carnivorous-whale-treasure-216dpi.png",
+          "sha256": "1d4515741eba09296d2934d1e73ceac62b70ffc4c7c2d9d4ef42169493543510",
+          "boundsPdfPoints": [
+            278,
+            277,
+            541,
+            349
+          ]
+        },
+        {
+          "printedPage": 105,
+          "pdfPage": 106,
+          "image": "mm-treasure-types-p105-complete-table.png",
+          "sha256": "c1073fb2929cc0d111f558de3eade1df9f53f576a72ebac91156996bda2395d0",
+          "boundsPdfPoints": [
+            15,
+            4,
+            539,
+            652
+          ]
+        }
+      ],
+      "limitation": "Exact pixel reproduction confirms the declared crop windows, not full-page completeness by itself; source meaning and unobserved continuations remain separately scoped."
+    },
+    {
+      "id": "source-unit-and-locator-denominator",
+      "status": "accepted-with-explicit-scope-qualification",
+      "evidence": {
+        "joinedDistinctFrozenSourceUnitIds": 33,
+        "breakdown": {
+          "governingDefinitionAndProcedureUnits": 6,
+          "wholeTableUnit": 1,
+          "physicalRowUnits": 26
+        },
+        "interpretation": "These are overlapping granularities, not 33 independent verified rules.",
+        "frozenSourceInventorySha256": "0f319cf99cc9ef207df052551dafd77519b7190d04c603de691766bf1ed29be3",
+        "inventoryChanged": false,
+        "locatorCorrection": "Units 249 and 250 are corrected additively to printed p.5/PDF p.6 for the generic population-adjustment and multiplier prose. Broader units 235, 236, and 248 remain broader p.5-p.6 scopes where they include profile material."
+      },
+      "evidenceArtifact": "research/mm-treasure-source-batch-v1/source-unit-join-denominator-addendum-v1.json, sha256 830275b954eacfdd7b1a3083c6b8d60402dbd425173107b232931a52f446d76a",
+      "qualification": "Full source-unit inventory completeness remains unproved."
+    },
+    {
+      "id": "additive-owner-binding-and-review-state",
+      "status": "accepted-as-additive-with-canonical-count-basis-qualified",
+      "evidence": {
+        "oldM1Owners": 1062,
+        "currentOwners": 1064,
+        "oldOwnerObjectsComparedExact": 1062,
+        "oldM1Rules": 211,
+        "currentRules": 213,
+        "oldRulePrefixExact": true,
+        "oldManualDeclarations": 1251,
+        "currentManualDeclarations": 1293,
+        "oldManualPrefixExact": true,
+        "newManualDeclarations": 42,
+        "newManualStatus": "field-target-pending",
+        "newManualSourceValueStatus": "not-assessed-by-field-target-review",
+        "newManualTargetReviewNonNullCount": 0,
+        "recordedCanonicalCounts": {
+          "baseline": 5655,
+          "new": 76,
+          "postAppend": 5731,
+          "newBreakdown": {
+            "manual": 42,
+            "generatedRegionHelpers": 26,
+            "automaticPageOrContext": 8
+          }
+        },
+        "canonicalCountBasis": "The exact 5655-to-5731 delta is recorded in actual-delta-adjudication-v1.json and pre-repair local browser evidence. No assembler/cohort/full browser suite was rerun by this reviewer after the p.74 repair.",
+        "distDataPreRepairToFinalDifference": "Only p.74 region crop/focus/image evidence metadata changed in the generated p.74 binding and excerpt review; owner text, bullets, table values, and collection counts did not change."
+      },
+      "evidenceArtifact": "research/mm-treasure-source-batch-v1/actual-delta-adjudication-v1.json, sha256 709e9adfce99ae78d99303e38c880a61b3130958a26922a8f2d2ba482eaf560a"
+    },
+    {
+      "id": "MM-source-coverage-metadata",
+      "status": "single-source-field-updated-as-documented",
+      "evidence": {
+        "M1SourceRecordsCompared": true,
+        "onlySourceMetadataFieldChanged": "rules.json#/sources/3/coverage",
+        "newCoverageStatesSelectedTreasureTypeLookupAndProceduresIncluded": true,
+        "absentSearchableMonsterProfileCatalogueRetained": true,
+        "coverageExplicitlyIncomplete": true
+      },
+      "evidenceArtifact": "research/mm-treasure-source-batch-v1/mm-source-scope-metadata-addendum-v1.json, sha256 a851c58cc5833879beca3a5c447e839a437322b2ff914c4f443f9cfffd82bebe"
+    }
+  ],
+  "releaseBlockers": [
+    {
+      "id": "required-workflow-and-successor-metadata-migration",
+      "status": "pending",
+      "evidence": "Current source-batch README says the batch is not published and requires a strict successor metadata migration before the complete required workflow can pass. A preserved prior assembly log records stale handoff data-hash rejection; this review did not rerun assembly."
+    },
+    {
+      "id": "post-repair-browser-verification",
+      "status": "pending",
+      "evidence": {
+        "priorLocalBrowserReportSha256": "164345f8903581d1d13485bcfca50a1cfe655995925ee0b7ac70cb5db785fc28",
+        "priorInputDataSha256": "d7428fc62875dc7f8d00782593372e70a2df9eac366969d259da775309681dca",
+        "priorProcedureCatalogSha256": "2a6739a5a5345c5c3dce16df9837fb126db6ea25fb7bc5a24131e4da9c0330f4",
+        "currentInputDataSha256": "2ab84cfe5e4234e5d0303b2062f941f7d8e1b93d798a7402c16e78d6d2e4672c",
+        "currentProcedureCatalogSha256": "eb0681f4c6f7e355335e04f35b5e9f8032e02dd15ca4b7aeaae251417b11c919",
+        "meaning": "Earlier browser pass is not a final-state browser proof; rerun the required focused/runtime checks after the repaired image/catalog is assembled and successor metadata is migrated."
+      }
+    },
+    {
+      "id": "formal-field-target-context-and-default-review",
+      "status": "pending-or-unassessed",
+      "evidence": "All 42 new manual declarations remain field-target-pending with value status not-assessed-by-field-target-review and no targetReview object. Formal context and default-selection grades were not promoted. The 208 literal cells are not a whole-book source or mechanics completeness proof."
+    },
+    {
+      "id": "whole-book-MM-profile-modifier-completeness",
+      "status": "unassessed",
+      "evidence": "Only four illustrative profiles were checked. The source-unit denominator and bounded excerpt set do not claim a full MM profile census."
+    }
+  ],
+  "privacyAndExecution": {
+    "sourcePdfCopied": false,
+    "fullPageRasterCreatedByReviewer": false,
+    "privateSourcePixelOutputWrittenByReviewer": false,
+    "pdfRenderComparison": "In-memory only; no render files written.",
+    "repoAppDataTestOrGitEditsByReviewer": false,
+    "testsOrBroadChecksRun": false,
+    "gitOperations": "Read-only history/status queries only.",
+    "worktreeNote": "The shared repository already had unrelated dirty and untracked work; it was left untouched.",
+    "newDeliverables": [
+      "/workspace/research/mm-treasure-source-independent-review-v1/report.md",
+      "/workspace/research/mm-treasure-source-independent-review-v1/evidence.json"
+    ]
+  }
+}

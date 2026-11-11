@@ -5,8 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {readFileSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import test from 'node:test';
-import {readBeforePass8UaSourceFile} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
-import {readHirelingsCurrentSourceInputs,assertHirelingsCurrentSourceCohort} from './helpers/hirelings-source-current-cohort.mjs';
+import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
 import {assertUaSourceContextBindingCohort} from './helpers/ua-source-closed-v28-context.mjs';
 import {
   assertPass8Dmg225FieldTargetProof,
@@ -36,8 +35,10 @@ const sourceReviews=read('research/source-visual-reviews.json');
 const continuations=read('research/citation-continuations.json');
 // The two historical suffix assertions below receive only complete V27 objects
 // through the already approved closed UA boundary. Live guard inputs stay raw.
-const weaponContinuations=JSON.parse(readBeforePass8UaSourceFile(new URL('research/citation-continuations.json',root)));
-const weaponSourceReviews=JSON.parse(readBeforePass8UaSourceFile(new URL('research/source-visual-reviews.json',root)));
+const weaponSourceCommit='9ee2550e9793e6aae9a7ac8fd71525704894950f';
+const weaponSourceFile=path=>execFileSync('git',['show',`${weaponSourceCommit}:${path}`],{maxBuffer:32*1024*1024});
+const weaponContinuations=JSON.parse(weaponSourceFile('research/citation-continuations.json'));
+const weaponSourceReviews=JSON.parse(weaponSourceFile('research/source-visual-reviews.json'));
 const manualsBefore=gitJson('research/field-evidence-bindings.json');
 const visualReviewsBefore=gitJson('research/source-visual-reviews.json');
 const continuationsBefore=gitJson('research/citation-continuations.json');
@@ -75,7 +76,7 @@ test('A46 before fixture retains all29 empty-region targets and the explicit his
   assert.equal(hash(capturedEquipment),beforeFixture.files['equipment.json'].sha256,'the original A46 equipment source remains exact in its captured Git stage');
   const capturedData=execFileSync('git',['show',`${baselineCommit}:dist/data.json`],{maxBuffer:32*1024*1024});
   assert.equal(hash(capturedData),beforeFixture.files['dist/data.json'].sha256,'the original unassembled A46 data remains exact in its captured Git stage');
-  const historicalBytes=readBeforePass8UaSourceFile(new URL('dist/data.json',root));
+  const historicalBytes=weaponSourceFile('dist/data.json');
   const weaponBytes=execFileSync('git',['show','9ee2550e9793e6aae9a7ac8fd71525704894950f:dist/data.json'],{maxBuffer:32*1024*1024});
   assert.equal(hash(historicalBytes),'6643d7b58c90d982244f1d8f03b6f03a7587446ba25c402be8f9a81a8b701f8f','closed UA history restores the complete actual merged V27 predecessor');
   assert.equal(hash(weaponBytes),'6643d7b58c90d982244f1d8f03b6f03a7587446ba25c402be8f9a81a8b701f8f','the literal weapon source state remains separate historical evidence');
@@ -123,7 +124,10 @@ test('all 29 exact owners and source pointers carry closed hash-bound location p
   assert.equal(manualsBefore.bindings.length,728);
   assert.deepEqual(bindingsFile.bindings.slice(0,728),manualsBefore.bindings,'old manual field bindings changed');
   const publishedBindings=publishedJson('research/field-evidence-bindings.json').bindings;
-  assert.equal(publishedBindings.length,757);assert.equal(bindingsFile.bindings.length,1251);
+  const hCurrentManual=JSON.parse(execFileSync('git',['show','5c6a57386af372c7c0d89e342003a7edf68ca0dd:research/field-evidence-bindings.json'],{maxBuffer:32*1024*1024})).bindings;
+  assert.equal(publishedBindings.length,757);assert.equal(hCurrentManual.length,1251);
+  assert.deepEqual(bindingsFile.bindings.slice(0,hCurrentManual.length),hCurrentManual,'all1251 historical H manual bindings remain whole-object exact before the MM suffix');
+  assert.equal(bindingsFile.bindings.length,hCurrentManual.length+42,'only the exact42 MM manual bindings extend the H-era total');
   assert.deepEqual(bindingsFile.bindings.slice(0,757),publishedBindings,'all757 published manual bindings remain whole-object exact and in order');
   const proposedPath='research/missile-table-discoverability/native-manual-declarations-cc950-v1/proposed-50-manual-bindings.json';
   const proposedBytes=readFileSync(new URL(proposedPath,root));
@@ -240,8 +244,9 @@ test('the exact target proof rejects borrowed, stale-value, owner, pointer, regi
 
 // Separate actual-current assertions: these do not receive historical objects.
 test('current UA owners, current metadata prefixes and all29 DMG225 target proofs remain native',()=>{
-  const currentInputs=readHirelingsCurrentSourceInputs(fileURLToPath(root));
-  const currentCohortSummary=assertHirelingsCurrentSourceCohort(currentInputs);
+  const currentInputs=readMmTreasureCurrentSourceInputs(fileURLToPath(root));
+  const currentCohortSummary=assertMmTreasureCurrentSourceCohort(currentInputs);
+  assert.equal(currentCohortSummary.addedManualBindings,42,'the exact MM cohort remains a42-binding append');
   const current=currentInputs.data;
   assert.equal(assertUaSourceContextBindingCohort(currentInputs.inventory.fieldEvidenceBindings).length,24,'the prior UA class-context cohort remains exact within the native current source');
   assert.equal(sourceReviews.reviews.length,1882);

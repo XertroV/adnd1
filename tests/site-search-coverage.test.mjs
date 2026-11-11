@@ -3,11 +3,13 @@ import {readFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {beforeWeaponData,weaponOwnerIds} from './helpers/weapon-source-current-cohort.mjs';
-import {readHirelingsCurrentSourceInputs,assertHirelingsCurrentSourceCohort} from './helpers/hirelings-source-current-cohort.mjs';
+import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
 import {resolve} from 'node:path';
 const root=resolve(import.meta.dirname,'..');
 const hirelingRuleIds=JSON.parse(readFileSync(new URL('./fixtures/hirelings-source-current-cohort-v1.json',import.meta.url))).newRuleIds;
 const hirelingRuleIdSet=new Set(hirelingRuleIds);
+const mmTreasureRuleIds=JSON.parse(readFileSync(new URL('./fixtures/mm-treasure-current-m1-cohort-v1.json',import.meta.url))).mmSource.addedRuleIds;
+const mmTreasureRuleIdSet=new Set(mmTreasureRuleIds);
 const priorAppendixCRuleIds=JSON.parse(readFileSync(new URL('./fixtures/dmg175-source-current-cohort-v1.json',import.meta.url))).newRuleIds;
 const require=createRequire(import.meta.url);
 const search=require('../dist/search.js');
@@ -30,18 +32,18 @@ const progressionDoc=search.prepare({...data.progressionExplainer,_view:'progres
 const byClass=id=>classDocs.find(item=>item.id===id);
 const searchRuleIds=query=>new Set(ruleSearchDocs.filter(item=>Number.isFinite(search.score(item,query))).map(item=>item.id));
 
-test('current global content owner set preserves 1001 prior docs and adds the missile, Appendix C, and Hireling owners',()=>{
- assertHirelingsCurrentSourceCohort(readHirelingsCurrentSourceInputs(root));
+test('current global content owner set preserves prior docs and appends the exact weapon, Appendix C, H, and MM owners',()=>{
+ assertMmTreasureCurrentSourceCohort(readMmTreasureCurrentSourceInputs(root));
  const count=data.spells.length+data.rules.length+data.equipment.length+data.classes.length+data.matrices.length+1;
  const newMatrixIds=data.matrices.filter(item=>addedDmg74MatrixIds.includes(item.id)).map(item=>item.id).sort();
  assert.deepEqual(newMatrixIds,[...addedDmg74MatrixIds].sort());
- assert.equal(count,997+addedDmg74MatrixIds.length+1+weaponOwnerIds.length+priorAppendixCRuleIds.length+hirelingRuleIds.length);
- assert.equal(count,1062,'the 1001-owner baseline, two missile owners, eleven prior Appendix C owners, and48 Hireling rules remain distinct');
+ assert.equal(count,997+addedDmg74MatrixIds.length+1+weaponOwnerIds.length+priorAppendixCRuleIds.length+hirelingRuleIds.length+mmTreasureRuleIds.length);
+ assert.equal(count,1064,'the 1001-owner baseline, prior weapon and Appendix C additions, 48 H owners, and2 MM owners remain distinct');
  assert.deepEqual(data.rules.filter(row=>row.id==='phb-druid-mistletoe-spell-components').map(row=>[row.id,row.book,row.pages]),[['phb-druid-mistletoe-spell-components','PHB',[54]]]);
  const identities=[...['spells','rules','equipment','classes','matrices'].flatMap(collection=>data[collection].map(item=>`${collection}:${item.id}`)),`progressionExplainer:${data.progressionExplainer.id}`];
- assert.equal(new Set(identities).size,997+addedDmg74MatrixIds.length+1+weaponOwnerIds.length+priorAppendixCRuleIds.length+hirelingRuleIds.length);
- assert.equal(new Set(identities).size,1062);
- const addedOwnerKeys=new Set([...weaponOwnerIds,...priorAppendixCRuleIds,...hirelingRuleIds].map(id=>`rules:${id}`));
+ assert.equal(new Set(identities).size,997+addedDmg74MatrixIds.length+1+weaponOwnerIds.length+priorAppendixCRuleIds.length+hirelingRuleIds.length+mmTreasureRuleIds.length);
+ assert.equal(new Set(identities).size,1064);
+ const addedOwnerKeys=new Set([...weaponOwnerIds,...priorAppendixCRuleIds,...hirelingRuleIds,...mmTreasureRuleIds].map(id=>`rules:${id}`));
  const beforeIds=['spells','rules','equipment','classes','matrices'].flatMap(collection=>beforeWeaponData[collection].map(item=>`${collection}:${item.id}`)).concat(`progressionExplainer:${beforeWeaponData.progressionExplainer.id}`);
  assert.deepEqual(identities.filter(id=>!addedOwnerKeys.has(id)),beforeIds,'all prior owner identities remain in relative order after the exact additions');
  assert.equal(matrixDocs.length,data.matrices.length);
@@ -61,6 +63,13 @@ test('Hireling tables and procedures are discoverable through the compiled rule 
   assert.ok(hirelingRuleIdSet.has(itemId),`${itemId}: H-current fixture owner required`);
   assert.ok(searchRuleIds(query).has(itemId),`${itemId}: authored owner text remains discoverable for ${query}`);
  }
+});
+
+test('MM Treasure Types lookup and procedure terms are discoverable through the compiled rule search index',()=>{
+ assert.ok(mmTreasureRuleIdSet.has('mm-treasure-types-table'));
+ assert.ok(mmTreasureRuleIdSet.has('mm-treasure-type-use'));
+ assert.ok(searchRuleIds('Treasure Type A').has('mm-treasure-types-table'));
+ assert.ok(searchRuleIds('lair status').has('mm-treasure-type-use'));
 });
 
 test('class note fields and every existing pending mechanics value remain searchable',()=>{

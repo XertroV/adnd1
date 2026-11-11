@@ -6,10 +6,10 @@ import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
-import {loadCurrentMonetarySourceQuestions,currentSourceQuestionRegistryPath} from '../tools/dmg175-current-monetary-source-questions-native-v2.mjs';
+import {loadCurrentMonetarySourceQuestions} from '../tools/dmg175-current-monetary-source-questions-mm-v1.mjs';
 const root=new URL('../',import.meta.url),read=p=>readFileSync(new URL(p,root)),sha=b=>createHash('sha256').update(b).digest('hex');
 const fixture=JSON.parse(gunzipSync(read('tests/fixtures/pass8-phb-stale-monetary-input-before.json.gz')));
-test('actual old monetary loader rejects PHB input drift; current trusted successor retains8/7/1 questions',()=>{
+test('actual old monetary loader rejects PHB input drift; current-MM successor retains historical8/7/1 dispositions and records current scope questions',()=>{
   assert.equal(fixture.exitCode,1);assert.match(fixture.output,/stale input research\/price-source-inventory.json/);
   assert.equal(sha(fixture.loaderBefore.utf8),fixture.loaderBefore.sha256);assert.equal(sha(fixture.registryBefore.utf8),fixture.registryBefore.sha256);
   const temp=mkdtempSync(join(tmpdir(),'phb-monetary-before-'));
@@ -28,6 +28,8 @@ test('actual old monetary loader rejects PHB input drift; current trusted succes
   assert.deepEqual(read(fixture.registryBefore.path),Buffer.from(fixture.registryBefore.utf8),'original registry bytes remain frozen');
   const report=loadCurrentMonetarySourceQuestions();
   assert.deepEqual(report.counts,{historicalRegisteredQuestions:8,currentUnresolvedQuestions:7,derivedAdjudications:1});
+  assert.deepEqual(report.questionCounts,{currentInterpretationQuestions:7,independentSourceScopeQuestions:2,distinctScopeRows:9,currentUnresolvedQuestions:9});
+  assert.equal(report.currentInputs.nativeSourceEpoch.sourceCommit,'0f2d70a135e3ad486152bf00f21387d60a1a97ef');
   assert.equal(report.semanticPass,false);assert.equal(report.generalSourceReviewPending,true);
   assert.deepEqual(report.records.map(r=>r.id),before.dispositions.map(r=>r.id));
   for(const row of report.records){assert.equal(row.semanticPass,false);if(row.derivedValue){assert.equal(row.printedValuePass,false);assert.equal(row.derivedValue.isSourcePrinted,false);}}

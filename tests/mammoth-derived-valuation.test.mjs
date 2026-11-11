@@ -7,8 +7,7 @@ import {createHash} from 'node:crypto';
 import {quantitySourceAbsenceInputs,buildQuantitySourceAbsenceReport,quantityUncertaintyPattern,lexicalAbsencePattern,numericSourceAbsencePattern} from '../tools/quantity-source-absence-audit.mjs';
 import {normalizeMammothDerivedValuation} from '../tools/monetary-source-inventory.mjs';
 import {hash} from '../tools/monetary-row-identity-audit.mjs';
-import {validateCurrentMonetarySourceQuestionProjection} from '../tools/dmg175-current-monetary-source-questions-native-v2.mjs';
-import {loadCurrentMonetarySourceQuestions} from '../tools/dmg175-current-monetary-source-questions-native-v2.mjs';
+import {validateCurrentMonetarySourceQuestionProjection,loadCurrentMonetarySourceQuestions} from '../tools/dmg175-current-monetary-source-questions-mm-v1.mjs';
 const root=resolve(import.meta.dirname,'..'),read=p=>JSON.parse(readFileSync(resolve(root,p))),sha=b=>createHash('sha256').update(b).digest('hex');
 const before=read('tests/fixtures/mammoth-derived-valuation-before.json');
 const raw=read('research/price-source-inventory-monster-books.json'),receipts=read('research/source-audit-batch5-price-discovery-reconciliation.json');
@@ -75,9 +74,15 @@ test('a weight-only relation, altered arithmetic, pair unit or missing source bi
  const badBaseline=structuredClone(elephant);badBaseline.typedClaim.unit='per pair';assert.equal(normalizeMammothDerivedValuation(mammoth,badBaseline)[0].value.kind,'unassessable');
 });
 
-test('current projection retains all eight historical questions and all 195 known reviews without promotion',()=>{
+test('current-MM projection retains the eight historical questions and all 195 known reviews without promotion',()=>{
  const projection=loadCurrentMonetarySourceQuestions();
  assert.deepEqual(projection.counts,{historicalRegisteredQuestions:8,currentUnresolvedQuestions:7,derivedAdjudications:1});
+ assert.deepEqual(projection.questionCounts,{currentInterpretationQuestions:7,independentSourceScopeQuestions:2,distinctScopeRows:9,currentUnresolvedQuestions:9});
+ assert.equal(projection.currentInputs.nativeSourceEpoch.sourceCommit,'0f2d70a135e3ad486152bf00f21387d60a1a97ef');
+ assert.equal(projection.currentInputs.nativeSourceEpoch.sourceTree,'08010faf457df22cdb0a5ec35d2dcf79e622ade9');
+ assert.equal(projection.currentInputs.nativeSourceEpoch.cohortSummary.owners,1064);
+ assert.equal(projection.currentInputs.nativeSourceEpoch.cohortSummary.addedCanonicalBindings,76);
+ assert.equal(projection.currentInputs.canonical.sha256,'e48c221347b1bac7a1dc4dd882317b22f20a4df151273157bb030b350eb43690');
  assert.ok(projection.records.every(r=>r.historicalQuestion.id===r.id&&r.semanticPass===false));
  const derived=projection.records.find(r=>r.currentDisposition==='source-backed-derived-valuation');assert.equal(derived.printedValuePass,false);assert.equal(derived.independentIntegrationReview,'confirmed');assert.equal(derived.integrationReview.path,'research/source-audit-batch6-mammoth-root-independent-review.json');
  assert.equal(derived.beforeRecordSha256,'83d6e640a62f7bb008cd115c73383e9d1ff0a23d5b9883a6acbe8fca80904ed9');assert.notEqual(derived.currentRecordSha256,derived.beforeRecordSha256);
@@ -86,7 +91,7 @@ test('current projection retains all eight historical questions and all 195 know
  for(const edit of [p=>p.records.pop(),p=>p.records[0].id=p.records[1].id,p=>p.records.find(r=>r.currentDisposition==='source-backed-derived-valuation').printedValuePass=true,p=>p.records.find(r=>r.currentDisposition==='source-backed-derived-valuation').independentIntegrationReview='pending',p=>p.records.find(r=>r.currentDisposition==='source-backed-derived-valuation').integrationReview.sha256='not-a-hash',p=>p.semanticPass=true,p=>p.counts.currentUnresolvedQuestions=0]){const bad=structuredClone(projection);edit(bad);assert.throws(()=>validateCurrentMonetarySourceQuestionProjection(bad));}
 });
 
-test('gaps entries expose all eight identities and link the current registry plus immutable history',async()=>{
+test('gaps entries expose all eight retained monetary identities and link the current-MM registry plus immutable history',async()=>{
  const {currentMonetarySourceQuestionEntries}=await import('../tools/coverage-gaps.mjs');
  const projection=loadCurrentMonetarySourceQuestions(),entries=currentMonetarySourceQuestionEntries(projection);
  assert.equal(entries.length,8);assert.equal(entries.filter(e=>e.status==='unresolved-source-question').length,7);

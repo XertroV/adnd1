@@ -4,6 +4,7 @@ import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {assertCurrentMmSourceEpoch} from './mm-current-source-gate-v1.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
@@ -31,13 +32,15 @@ export function historicalProducerMetadata(report){
  return {sourceInput:{path:report.path,sha256:report.sha256},temporalScope:'historical-producer-phase',status:report.upstreamReviewStatus??null,independentOverlayReviewNeeded:report.upstreamIndependentOverlayReviewPending===true,scope:'Preserved producer-phase metadata. It is not a current application or scoped-review disposition, and no general overlay approval is inferred.'};
 }
 const uncheckedExclusionPattern=/^All ordinary unchecked mechanics fields \(([\d,]+)\);$/;
+const legacyEndMatterExclusion='DMG printed pp.239–240 are unverified and uncited, not confirmed missing.';
+const currentEndMatterExclusion='DMG unnumbered PDF leaves 239–240 remain unverified and uncited; they are not printed-page citations or confirmed missing.';
 export function currentUncheckedExclusions(exclusions,count){
  requireValue(Array.isArray(exclusions)&&Number.isInteger(count)&&count>=0,'unchecked exclusion list and current denominator required');
  requireValue(exclusions.filter(text=>uncheckedExclusionPattern.test(text)).length===1,'one current ordinary-unchecked exclusion is required');
- return exclusions.map(text=>uncheckedExclusionPattern.test(text)?`All ordinary unchecked mechanics fields (${format(count)});`:text);
+ return exclusions.map(text=>uncheckedExclusionPattern.test(text)?`All ordinary unchecked mechanics fields (${format(count)});`:text===legacyEndMatterExclusion?currentEndMatterExclusion:text);
 }
 export function uncheckedExclusionTemplate(exclusions){
- return exclusions.map(text=>uncheckedExclusionPattern.test(text)?'All ordinary unchecked mechanics fields (current denominator);':text);
+ return exclusions.map(text=>uncheckedExclusionPattern.test(text)?'All ordinary unchecked mechanics fields (current denominator);':text===currentEndMatterExclusion?legacyEndMatterExclusion:text);
 }
 export function sourceIntegrationDescriptor(report,{registration,registrationRef,currentHashes}){
  requireValue(registration?.artifactType==='current-exact-monetary-known-finding-registration','current registration schema required');
@@ -88,6 +91,7 @@ export function analyzeReportConsistency({handoff,gaps,systemic,registration,reg
  return {artifactType:'source-report-consistency-proposal-audit',metrics,findings,proposedMonetaryMetadata,validation:{valid:findings.length===0,semanticPass:false},limits:['This validation reads current report inputs; it does not edit source values or certify source completeness.','Exact195 known dimensions are distinct from whole-row, whole-book and global overlay review.','Historical census/baseline text and raw producer focus/crop metadata are preserved; lexical candidates are not automatically defects.']};
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
+ assertCurrentMmSourceEpoch(root);
  const read=path=>JSON.parse(readFileSync(resolve(root,path),'utf8')),hashFile=path=>sha(readFileSync(resolve(root,path))),handoff=read('research/gaps-limitations-next-task.json'),registrationPath='research/source-audit-batch5-current-finding-disposition-registration.json',registration=read(registrationPath);
  const reports=handoff.reviewQueuesNotSourceAbsences.rowNormalizedMonetaryReview?.reports||[],paths=[...reports.map(report=>report.path),'research/monetary-row-identity-reviews.json','tools/monetary-row-identity-audit.mjs','tools/monetary-context-extent-contract.mjs',registration.migrationBridge.path,registration.authorityAvailability.path];
  paths.push('dist/data.json','research/gaps-limitations-next-task.json',handoff.reviewQueuesNotSourceAbsences.fieldBindingAndHistoricalScopeQueues.systemicReportPath);

@@ -7,6 +7,7 @@ import {isDeepStrictEqual} from 'node:util';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {fieldsFor} from './mechanics-audit.mjs';
+import {assertCurrentMmSourceEpoch} from './mm-current-source-gate-v1.mjs';
 import {SOURCE_FRAME_BRIDGE_PATH, SOURCE_FRAME_BRIDGE_SHA256, validateLiveSourceFrameBridge, projectRegisteredRect} from './source-frame-coordinate-bridge.mjs';
 
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -257,6 +258,7 @@ function sealedHistoricalContinuationInputs(summaryPath, fullPath, summaryBytes,
 export function validateContinuationSnapshot({root, summaryPath = path.join(root, 'research/source-audit-batch5-continuation.json'), fullPath = null, dataBytesOverride = null, catalogBytesOverride = {}, treeSelection = 'current-worktree'}) {
   const errors = [];
   if (!['current-worktree', 'pinned-git-commit'].includes(treeSelection)) return {valid: false, errors: [{code: 'validation-mode-invalid', detail: `Unknown tree selection: ${treeSelection}`}], sourcePdfRegeneration: 'unavailable-in-CI'};
+  if (treeSelection === 'current-worktree') assertCurrentMmSourceEpoch(root);
   if (treeSelection === 'current-worktree') {
     let trustedRoot = false;
     try { trustedRoot = realpathSync(root) === realpathSync(trustedModuleRoot); } catch { /* fail closed below */ }

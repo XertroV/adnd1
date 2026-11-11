@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
 import {assertUaSourceContextBindingCohort} from './helpers/ua-source-closed-v28-context.mjs';
-import {readHirelingsCurrentSourceInputs,assertHirelingsCurrentSourceCohort} from './helpers/hirelings-source-current-cohort.mjs';
+import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
 import {resolve} from 'node:path';
 const root=resolve(import.meta.dirname,'..');
 
@@ -17,7 +17,7 @@ const byId = new Map(data.spells.map(spell => [spell.id, spell]));
 test('assembly includes every indexed spell and the current class checkpoint plus reviewed progression metadata', () => {
   assert.equal(data.spells.length, 638);
   assert.equal(data.spells.filter(spell => spell.effect?.length).length, 638);
-  assertHirelingsCurrentSourceCohort(readHirelingsCurrentSourceInputs(root));
+  assertMmTreasureCurrentSourceCohort(readMmTreasureCurrentSourceInputs(root));
   const classBindings=data.classes.flatMap(owner=>(owner.references||[]).flatMap(reference=>reference.evidenceBindings||[]));
   assert.equal(assertUaSourceContextBindingCohort(classBindings).length,24,'the exact prior 24 UA class reference objects remain present in the current native source');
   const currentClasses=reverseClosureCorrections(data.classes,'classes');
