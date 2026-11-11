@@ -189,6 +189,21 @@ function normalizeOrDispatchOlderJson(path, value) {
     return {value: normalizeVersion29HistoricalJson(path, supplied), olderLiteral: false};
   } catch (error) {
     if (!isExactUnsupportedBridgeLiteral(error, path, 'object')) throw error;
+    // The exact data.json predecessor emitted by projectDmg175Json is an
+    // allowed intermediate for its owning XP/Jo kernel. Bind this one object
+    // state by a fixed digest; every other unsupported state still reaches the
+    // unchanged preserved-owner contracts and fails closed if unrecognized.
+    if (path === 'dist/data.json' && objectSha(supplied) === '00c7794cc7a8e888cfdc524291da7269226d98bfc216c4d9c8bcd5ac0c7e3250') {
+      return {value: supplied, olderLiteral: true};
+    }
+    // The released XP no-op input is the full A65 master data object. Its raw
+    // Git blob is pinned by the closed XP projection fixture; this object digest
+    // is computed as objectSha() over JSON.parse of that exact Git blob. It is
+    // accepted only at dist/data.json so the unchanged XP owner kernel can
+    // recognize its already-released records and return the same object.
+    if (path === 'dist/data.json' && objectSha(supplied) === 'fac1edee2865650e938833bf1c30a6b456bb8122fe3ae0a79fe6c9ff8d4840d9') {
+      return {value: supplied, olderLiteral: true};
+    }
     return {value: validateWithPreservedOwner(path, supplied, 'json'), olderLiteral: true};
   }
 }

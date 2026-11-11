@@ -1,6 +1,7 @@
-// Research-only adapter. It never intercepts filesystem APIs and never alters
-// the frozen H/Version29 readers or their historical fixtures.
-import {readFileSync as nodeReadFileSync} from 'node:fs';
+// Qualified MM -> H -> Version29 historical test reader.
+// Cache only a fully qualified private proof and pinned Git blobs; recheck
+// current physical inputs, contracts, code, fixture, root, ancestry and path.
+import {readFileSync as nodeReadFileSync, realpathSync} from 'node:fs';
 import {execFileSync as nodeExecFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {relative, resolve, sep} from 'node:path';
@@ -127,8 +128,8 @@ function readEncoding(options) {
 /**
  * Private constructor for the MM -> exact full-M1 H preimage -> Version29
  * chain. The installed reader has no caller-supplied source, filesystem, Git,
- * or contract dependencies; the fixed v2 current-MM guard is invoked on each
- * public reader/predicate call.
+ * or contract dependencies. Mapped reads and normalization revalidate the
+ * current source identities; the path predicate checks fixed membership only.
  */
 function createCurrentMmVersion29HistoricalReader(repoRoot) {
   if (typeof repoRoot !== 'string' || !repoRoot) fail('fixed repository root is required');
@@ -165,6 +166,40 @@ function createCurrentMmVersion29HistoricalReader(repoRoot) {
   const assertBlob = (bytes, expected, label) => {
     if (!Buffer.isBuffer(bytes) || hash(bytes) !== expected.sha256 || bytes.length !== expected.sizeBytes) fail(label + ': raw blob SHA/size mismatch');
   };
+  // Git objects are immutable under their pinned commit/tree identity. Keep
+  // validated bytes private and return an owned copy at every call boundary.
+  const pinnedGitBlobs = new Map();
+  let pinnedGitBlobsSealed = false;
+  function pinnedBlob(commit, path, expected, label) {
+    const key = commit + '\0' + path;
+    const cached = pinnedGitBlobs.get(key);
+    if (cached) {
+      if (cached.sha256 !== expected.sha256
+          || (expected.sizeBytes !== undefined && cached.sizeBytes !== expected.sizeBytes)) {
+        fail(label + ': pinned immutable Git blob manifest mismatch');
+      }
+      return Buffer.from(cached.bytes);
+    }
+    if (pinnedGitBlobsSealed) fail(label + ': immutable Git blob cache is closed');
+    const bytes = blob(commit, path);
+    if (!Buffer.isBuffer(bytes) || hash(bytes) !== expected.sha256
+        || (expected.sizeBytes !== undefined && bytes.length !== expected.sizeBytes)) {
+      fail(label + ': pinned immutable Git blob SHA/size mismatch');
+    }
+    pinnedGitBlobs.set(key, {
+      sha256: expected.sha256,
+      sizeBytes: bytes.length,
+      bytes: Buffer.from(bytes),
+    });
+    return Buffer.from(bytes);
+  }
+  function assertPinnedBlobCached(commit, path, expected, label) {
+    const cached = pinnedGitBlobs.get(commit + '\0' + path);
+    if (!cached || cached.sha256 !== expected.sha256
+        || (expected.sizeBytes !== undefined && cached.sizeBytes !== expected.sizeBytes)) {
+      fail(label + ': immutable Git blob cache identity');
+    }
+  }
   const assertJsonObject = (bytes, expected, label) => {
     const value = parseJson(bytes, label);
     assertPlainJson(value, label);
@@ -206,6 +241,16 @@ function createCurrentMmVersion29HistoricalReader(repoRoot) {
     }
   }
 
+  function verifyCurrentCohortFixtureBytes() {
+    const strict = bridge.sourceEpoch.strictGuard;
+    const fixturePath = safeRepoPath(strict.fixturePath);
+    if (typeof strict.fixtureSha256 !== 'string' || !/^[a-f0-9]{64}$/.test(strict.fixtureSha256)) {
+      fail('current-MM cohort fixture SHA manifest');
+    }
+    const bytes = readFileSync(resolve(root, fixturePath));
+    if (hash(bytes) !== strict.fixtureSha256) fail(fixturePath + ': current-MM cohort fixture identity');
+  }
+
   function verifyContractWorktreeBytes() {
     const currentBridgeBytes = readFileSync(resolve(root, bridgeContractPath));
     const currentHContractBytes = readFileSync(resolve(root, preservedHReaderContractPath));
@@ -215,15 +260,35 @@ function createCurrentMmVersion29HistoricalReader(repoRoot) {
     }
     const fixturePath = safeRepoPath(bridge.historicalH.fixturePath);
     const fixtureBytes = readFileSync(resolve(root, fixturePath));
-    const fixtureBlob = blob(bridge.historicalH.fullM1PreimageCommit, fixturePath);
+    const fixtureBlob = pinnedBlob(bridge.historicalH.fullM1PreimageCommit, fixturePath,
+      {sha256: bridge.historicalH.fixtureSha256}, fixturePath + ' H fixture');
     if (hash(fixtureBytes) !== bridge.historicalH.fixtureSha256
         || hash(fixtureBlob) !== bridge.historicalH.fixtureSha256) fail('historical H source fixture identity');
   }
 
-  function currentGuard() {
-    verifyContractWorktreeBytes();
-    verifyStrictGuardCode();
-    const checked = assertCurrentMmSourceEpoch(root);
+  let cachedCurrentProof = null;
+  function assertFixedRepositoryRoot() {
+    let actualRoot;
+    try { actualRoot = realpathSync(root); }
+    catch { fail('fixed repository root is unavailable'); }
+    if (actualRoot !== root) fail('fixed repository root identity changed');
+    const gitRoot = git('rev-parse', '--show-toplevel').toString('utf8').trim();
+    if (resolve(gitRoot) !== root) fail('fixed repository root differs from Git worktree root');
+  }
+  function freshlyHashCurrentInputs() {
+    const strict = bridge.sourceEpoch.strictGuard;
+    const rawInputs = Object.fromEntries(Object.entries(strict.rawInputs).map(([path]) => [
+      path, hash(readFileSync(resolve(root, safeRepoPath(path)))),
+    ]));
+    const additionalInputs = Object.fromEntries(Object.entries(strict.selectedAdditionalInputs).map(([path]) => [
+      path, hash(readFileSync(resolve(root, safeRepoPath(path)))),
+    ]));
+    if (!same(rawInputs, strict.rawInputs) || !same(additionalInputs, strict.selectedAdditionalInputs)) {
+      fail('fresh current-MM raw/selected physical input hashes');
+    }
+    return {rawInputs, additionalInputs};
+  }
+  function currentSummaryMatches(checked) {
     const summary = checked?.summary, inputs = checked?.inputs;
     if (!summary || summary.sourceCommit !== bridge.sourceEpoch.mmSourceCommit
         || summary.sourceTree !== bridge.sourceEpoch.mmSourceTree
@@ -234,8 +299,44 @@ function createCurrentMmVersion29HistoricalReader(repoRoot) {
         || !same(inputs?.additionalInputs, bridge.sourceEpoch.strictGuard.selectedAdditionalInputs)) {
       fail('strict full current-MM v2 source cohort or raw/selected inputs');
     }
+  }
+  function currentGuard() {
+    assertFixedRepositoryRoot();
+    verifyContractWorktreeBytes();
+    verifyStrictGuardCode();
+    verifyCurrentCohortFixtureBytes();
+    let checked;
+    if (cachedCurrentProof === null) {
+      checked = assertCurrentMmSourceEpoch(root);
+      currentSummaryMatches(checked);
+      cachedCurrentProof = detachedFrozenJson({
+        summary: checked.summary,
+        rawInputs: checked.inputs.rawInputs,
+        additionalInputs: checked.inputs.additionalInputs,
+      }, 'private immutable current-MM proof');
+    } else {
+      const hashes = freshlyHashCurrentInputs();
+      if (!same(hashes.rawInputs, cachedCurrentProof.rawInputs)
+          || !same(hashes.additionalInputs, cachedCurrentProof.additionalInputs)) {
+        fail('fresh current-MM files differ from the privately cached proof inputs');
+      }
+      checked = {
+        summary: cachedCurrentProof.summary,
+        inputs: {
+          rawInputs: hashes.rawInputs,
+          additionalInputs: hashes.additionalInputs,
+        },
+      };
+      currentSummaryMatches(checked);
+    }
     assertCommitChain();
-    return checked;
+    return {
+      summary: structuredClone(checked.summary),
+      inputs: {
+        rawInputs: structuredClone(checked.inputs.rawInputs),
+        additionalInputs: structuredClone(checked.inputs.additionalInputs),
+      },
+    };
   }
 
   function verifyAllMappings() {
@@ -245,9 +346,9 @@ function createCurrentMmVersion29HistoricalReader(repoRoot) {
           || row.historicalH.sizeBytes !== hRow.current.sizeBytes
           || row.version29Baseline.sha256 !== hRow.baseline.sha256
           || row.version29Baseline.sizeBytes !== hRow.baseline.sizeBytes) fail(path + ': bridge does not match preserved H/V29 pins');
-      const mmBlob = blob(bridge.sourceEpoch.currentSnapshotCommit, path);
-      const hBlob = blob(bridge.historicalH.fullM1PreimageCommit, path);
-      const v29Blob = blob(bridge.version29.baselineCommit, path);
+      const mmBlob = pinnedBlob(bridge.sourceEpoch.currentSnapshotCommit, path, row.currentMm, path + ' MM snapshot');
+      const hBlob = pinnedBlob(bridge.historicalH.fullM1PreimageCommit, path, row.historicalH, path + ' H preimage');
+      const v29Blob = pinnedBlob(bridge.version29.baselineCommit, path, row.version29Baseline, path + ' Version29 baseline');
       assertBlob(mmBlob, row.currentMm, path + ' MM snapshot');
       assertBlob(hBlob, row.historicalH, path + ' H preimage');
       assertBlob(v29Blob, row.version29Baseline, path + ' Version29 baseline');
@@ -262,22 +363,19 @@ function createCurrentMmVersion29HistoricalReader(repoRoot) {
   }
   currentGuard();
   verifyAllMappings();
+  pinnedGitBlobsSealed = true;
 
   function rowFor(path) { return bridgeRows.get(safeRepoPath(path)); }
   function historicalHBlob(row) {
-    const bytes = blob(bridge.historicalH.fullM1PreimageCommit, row.path);
-    assertBlob(bytes, row.historicalH, row.path + ' H preimage');
-    return bytes;
+    return pinnedBlob(bridge.historicalH.fullM1PreimageCommit, row.path, row.historicalH, row.path + ' H preimage');
   }
   function version29Blob(row) {
-    const bytes = blob(bridge.version29.baselineCommit, row.path);
-    assertBlob(bytes, row.version29Baseline, row.path + ' Version29 baseline');
-    return bytes;
+    return pinnedBlob(bridge.version29.baselineCommit, row.path, row.version29Baseline, row.path + ' Version29 baseline');
   }
   function assertLiveMmPath(row) {
     const bytes = readFileSync(resolve(root, row.path));
     assertBlob(bytes, row.currentMm, row.path + ' live MM worktree');
-    assertBlob(blob(bridge.sourceEpoch.currentSnapshotCommit, row.path), row.currentMm, row.path + ' MM Git snapshot');
+    assertPinnedBlobCached(bridge.sourceEpoch.currentSnapshotCommit, row.path, row.currentMm, row.path + ' MM snapshot');
     return bytes;
   }
   function mmToHBytes(row, bytes) {

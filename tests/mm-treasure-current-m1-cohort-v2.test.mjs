@@ -1,17 +1,16 @@
-// Focused negative controls for the uninstalled successor. The loader and its
-// closed candidate fixture are generated only after the source-fix commit is
-// independently fixed; this file is intentionally not run against the known
-// p.74 crop-defect source commit.
+// Focused negative controls for the fixed current MM source cohort. Resolve
+// the checkout from this module so the same strict controls run locally and in CI.
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {dirname, join, resolve} from 'node:path';
 import {createHash} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
 import {assertMmTreasureCurrentSourceCohort, readMmTreasureCurrentSourceInputs} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
 import {createMmTreasureCurrentSourceCohort} from './helpers/mm-treasure-current-m1-cohort-factory-v2.mjs';
 
-const repoRoot = '/workspace/adnd1-next-source-native';
+const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const original = readMmTreasureCurrentSourceInputs(repoRoot);
 const clone = () => structuredClone(original);
 const mustReject = (name, mutate, messagePattern = /exact|preserv|denominator|pending|MM|source|retained|table|byte/) => {

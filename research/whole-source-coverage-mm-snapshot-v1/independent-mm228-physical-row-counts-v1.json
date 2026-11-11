@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "mm228-tt-physical-row-crosswalk-audit-v1",
+  "artifactType": "independent-physical-row-identity-audit",
+  "status": "pass",
+  "inputs": [
+    {
+      "path": "/workspace/research/mm-current-228-source-semantic-v1/assessment-v1.json",
+      "sha256": "36ac2b0604716f9c1f8b319f409bd63875d5940c51bc19099aa90d586040fd40"
+    },
+    {
+      "path": "/workspace/research/mm-profile-treasure-modifier-census-v1/aggregate-validation-v1.json",
+      "sha256": "80012c912f48372c5f1988d8fac9b3bbae3efd19cd00451478e363579bf0f96c"
+    }
+  ],
+  "checks": {
+    "all167CrosswalkProfilesFieldsAndPhysicalRowsResolve": true,
+    "selectedPhysicalRowIdsAre167UniqueRecords": true,
+    "selectedSharedRowsDifferentiatedByPhysicalIdentity": true,
+    "sharedRowFullFieldCountCalculatedFromPhysicalRows": true,
+    "matchedFieldsInSelectedSharedRowsCalculatedSeparately": true,
+    "allSelectedRowsAccountForThe167Records": true
+  },
+  "counts": {
+    "crosswalkFieldRecords": 167,
+    "uniqueProfileIds": 167,
+    "uniqueFieldIds": 167,
+    "uniquePhysicalRowIds": 167,
+    "selectedSharedPhysicalRows": 11,
+    "selectedSingletonPhysicalRows": 156,
+    "allCensusFieldIdsAcrossSelectedSharedRows": 27,
+    "MM228CrosswalkFieldRecordsInSelectedSharedRows": 11,
+    "otherFieldValuesOnSelectedSharedRows": 16,
+    "wholeCensusProfileSpecificFields": 358,
+    "wholeCensusPhysicalRows": 300
+  },
+  "limit": "The independent check validates ID linkage and row multiplicity from the supplied machine-readable census. It is not a visual/source-page review and does not promote profile or unit completion grades.",
+  "failedChecks": []
+}
