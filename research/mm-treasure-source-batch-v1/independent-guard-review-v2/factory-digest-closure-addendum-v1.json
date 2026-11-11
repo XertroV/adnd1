@@ -1,0 +1,24 @@
+{
+  "artifactType": "Independent MM factory digest-closure addendum",
+  "reviewedAt": "2026-11-10",
+  "source": {
+    "commit": "0f2d70a135e3ad486152bf00f21387d60a1a97ef",
+    "tree": "08010faf457df22cdb0a5ec35d2dcf79e622ade9"
+  },
+  "factorySha256": "9fb6cb9eac8259eec5c1b1da518a0d3f11e2893e1a715d4c3cd6e9442e137d65",
+  "loaderSha256": "dfdd6e9b2d937599fdc6a9b2322db574122d83de1e794de5cf181e28f093ccef",
+  "fixtureSha256": "7456f0269d85df85900332ec535f495c93623c71752fb4d280a9174ca6337550",
+  "reproduction": {
+    "status": "rejected",
+    "shape": "Mutated mechanics.records[0], updated copied contract canonical mechanics digest to match, passed copied bytes with caller-computed digest",
+    "result": "MM factory accepts only the fixed reviewed contract digest"
+  },
+  "test": {
+    "command": "node --test --test-name-pattern='the exported MM factory rejects' tests/mm-current-factory-contract-closure.test.mjs",
+    "passed": 1,
+    "failed": 0
+  },
+  "broadSuiteRun": false,
+  "activeFilesEdited": false,
+  "priorReviewPreserved": true
+}

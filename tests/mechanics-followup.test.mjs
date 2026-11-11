@@ -1,7 +1,7 @@
 import {reverseFinalCorrections} from './mechanics-final-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readBeforePass8CharacterReferenceFile as readFileSync} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+import {readBeforePass8CharacterReferenceFile as readFileSync} from '../research/mm-source-history-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 import {followupCorrections,reverseFollowupCorrections,validateFollowupIndependentReviews} from './mechanics-followup-fixture.mjs';
 const load=name=>JSON.parse(readFileSync(new URL('../'+name,import.meta.url),'utf8'));
 test('follow-up mechanics corrections retain exact independent review bindings',()=>{

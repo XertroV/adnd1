@@ -1,0 +1,367 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "portable research evidence for MM source-history runtime corrections",
+  "status": "research evidence only; root owns commits and release",
+  "currentSourceEpoch": {
+    "currentMMCommit": "0f2d70a135e3ad486152bf00f21387d60a1a97ef",
+    "currentMMTree": "08010faf457df22cdb0a5ec35d2dcf79e622ade9",
+    "snapshotCommit": "ac60970626fd5e0421fc4b99c141cc11f53ffff3",
+    "cohortContractSha256": "7456f0269d85df85900332ec535f495c93623c71752fb4d280a9174ca6337550",
+    "owners": 1064,
+    "canonicalBindings": 5731,
+    "retainedCanonicalBindings": 5655,
+    "addedCanonicalBindings": 76,
+    "manualBindings": 1293,
+    "addedManualBindings": 42,
+    "addedOwners": 2,
+    "mechanicsFormalFields": 14201,
+    "mechanicsUncheckedFields": 899,
+    "reviewGrade": "no grade promotion; source semantics remain uncertified"
+  },
+  "historicalInputs": {
+    "historicalHSourceCommit": "bc819621e49788260bb34ea47c1f7a8b35af6edf",
+    "historicalHSourceTree": "e6bc420f70656825a926297b959bc6d98758bfcd",
+    "fullM1HPreimageCommit": "5c6a57386af372c7c0d89e342003a7edf68ca0dd",
+    "fullM1HPreimageTree": "391026a96811e7bcf0dfcb61c3753ff708308fe1",
+    "version29Commit": "1f79d909344ebe7d41a432d8673f3eedb491fa3b",
+    "frozenAvailabilityBaselineCommit": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
+    "frozenAvailabilityBaselineHandoffSha256": "54cb148c3c9e5cfaf4a1a4e55509cd6e93f6f8ce45fedc17e9460ddd81698d77"
+  },
+  "runtimeResults": [
+    {
+      "logPath": "logs/initial/availability-helper323.log",
+      "label": "availability H under helper323",
+      "tests": 7,
+      "pass": 5,
+      "fail": 2,
+      "exitCode": 1,
+      "exitCodeEvidence": "log footer"
+    },
+    {
+      "logPath": "logs/final/availability-helper25bf.log",
+      "label": "availability H under corrected helper25bf",
+      "tests": 7,
+      "pass": 7,
+      "fail": 0,
+      "exitCode": 0,
+      "exitCodeEvidence": "log footer"
+    },
+    {
+      "logPath": "logs/initial/alias-summary-before-fix.log",
+      "label": "alias H before exact current-MM metric assertions",
+      "tests": 7,
+      "pass": 5,
+      "fail": 2,
+      "exitCode": 1,
+      "exitCodeEvidence": "log footer"
+    },
+    {
+      "logPath": "logs/final/alias-summary-fixed.log",
+      "label": "alias H with exact v2 metric assertions",
+      "tests": 7,
+      "pass": 7,
+      "fail": 0,
+      "exitCode": 0,
+      "exitCodeEvidence": "log footer"
+    },
+    {
+      "logPath": "logs/final/continuation-contract.log",
+      "label": "continuation H exact full-M1 preimage",
+      "tests": 7,
+      "pass": 7,
+      "fail": 0,
+      "exitCode": 0,
+      "exitCodeEvidence": "log footer"
+    },
+    {
+      "logPath": "logs/initial/handoff-mutable-adapter-e1ee.log",
+      "label": "UA handoff under mutable e1ee adapter",
+      "tests": 8,
+      "pass": 7,
+      "fail": 1,
+      "exitCode": 1,
+      "exitCodeEvidence": "log footer"
+    },
+    {
+      "logPath": "logs/final/handoff-frozen-adapter.log",
+      "label": "UA handoff under frozen MM adapter",
+      "tests": 8,
+      "pass": 8,
+      "fail": 0,
+      "exitCode": 0,
+      "exitCodeEvidence": "log footer"
+    },
+    {
+      "logPath": "logs/initial/mm-successors-frozen-predicate-before-fix.log",
+      "label": "MM successors after first 3b80 freeze, before nested-predicate fix",
+      "tests": 5,
+      "pass": 4,
+      "fail": 1,
+      "exitCode": 1,
+      "exitCodeEvidence": "log footer"
+    },
+    {
+      "logPath": "logs/final/mm-successors-final.log",
+      "label": "MM successors with final 921 adapter",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "exitCode": 0,
+      "exitCodeEvidence": "log footer"
+    },
+    {
+      "logPath": "logs/core/current-mm-reader-final.log",
+      "label": "strict current-MM historical reader final",
+      "tests": 7,
+      "pass": 7,
+      "fail": 0,
+      "exitCode": 0,
+      "exitCodeEvidence": "root-provided run receipt"
+    }
+  ],
+  "nonExecutedPreflight": {
+    "candidate": "before/rejected-helper-a448-preflight-typo-not-executed.mjs",
+    "candidateSha256": "a448e3065a8231c9566457b07072f4e0019521f3629426fd2c6f4aae50031470",
+    "status": "root rejected before active write and before any test execution",
+    "badLiteral": "54cb148c3c9e5cfaf4a1e4a55509cd6e93f6f8ce45fedc17e9460ddd81698d77",
+    "correctGitBlobSha256": "54cb148c3c9e5cfaf4a1a4e55509cd6e93f6f8ce45fedc17e9460ddd81698d77",
+    "replacementSha256": "25bf0403a3f2409e8b49fb66afe35ea54524c0dc0ca8031c3fd05f8129786a21",
+    "rootPreflightReference": "/workspace/vault-audit-private/pass8/root/mm-adapter-two-runtime-corrections-v1/v2 (reference supplied by root; rejection occurred before execution)"
+  },
+  "rootControlledInstallReceipts": [
+    {
+      "path": "/workspace/vault-audit-private/pass8/root/mm-four-runtime-corrections-controlled-v1/installation-receipt-v1.json",
+      "sha256": "435f9a973d5d9617682af6ab2e056d2c662452c4324961e082fae8e153afddc6"
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8/root/mm-handoff-frozen-nested-predicate-v2/installation-receipt-v2.json",
+      "sha256": "bb6ec04b204634e68ae182fc40afa5c599bec6c3d096c9a6a5dae822023e1941"
+    }
+  ],
+  "writeThroughProvenance": {
+    "scratchPath": "/tmp/mm-historical-probe-LVGQHR",
+    "cause": "The temporary runner symlinked each immediate file under active tests/ into scratch/tests/, then copied test candidates into scratch/tests/. cp followed the file symlinks.",
+    "affectedActiveTargets": [
+      "tests/dmg175-availability-current.test.mjs",
+      "tests/dmg175-continuation-alias-current.test.mjs",
+      "tests/dmg175-continuation-contract-current.test.mjs",
+      "tests/mm-current-historical-reader-v1.test.mjs",
+      "tests/ua-source-handoff-transition.test.mjs"
+    ],
+    "preservedBeforeCopies": [
+      "before/tests/dmg175-availability-current.test.mjs",
+      "before/tests/dmg175-continuation-alias-current.test.mjs",
+      "before/tests/dmg175-continuation-contract-current.test.mjs",
+      "before/core-test-active-observed-03f.mjs",
+      "before/tests/ua-source-handoff-transition.test.mjs"
+    ],
+    "resolution": "Incident was disclosed; root preserved the active target bytes and controlled-adopted the reviewed targets. Root reports all 22 physical MM source/metadata pins unchanged. No restoration was made."
+  },
+  "exclusions": "This package contains no PDFs, page images, JPEG source assets, catalog payloads, or private handoff receipt bodies. Only code, manifests, test logs, hashes, and provenance summaries are included.",
+  "includedFiles": [
+    {
+      "path": "before/historical-h-test-input-helper-323.mjs",
+      "sha256": "323fcde71a672c3316c95f1552047487e315a520913cf7842e12a9e42132870a",
+      "sizeBytes": 13114,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/before/tests/helpers/mm-current-historical-test-inputs-before-323-v1.mjs"
+    },
+    {
+      "path": "before/rejected-helper-a448-preflight-typo-not-executed.mjs",
+      "sha256": "a448e3065a8231c9566457b07072f4e0019521f3629426fd2c6f4aae50031470",
+      "sizeBytes": 13645,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/before/tests/helpers/mm-current-historical-test-inputs-before-a448-v1.mjs"
+    },
+    {
+      "path": "before/mm-handoff-adapter-e1ee-mutable-return.mjs",
+      "sha256": "e1ee50c2a0286f4fe92acea6d282ad552b5510c4153eec50eccce8414d8e77af",
+      "sizeBytes": 10783,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/handoff-immutability-v1/before/tools/dmg175-current-source-handoff-mm-v1.mjs"
+    },
+    {
+      "path": "before/mm-handoff-adapter-3b80-frozen-return-predicate-failure.mjs",
+      "sha256": "3b8040e63e9dead460ca04e7cca1065f21aa53e0a9f745b44e693ea8ba0a05fc",
+      "sizeBytes": 11025,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/handoff-immutability-v1/before/tools/dmg175-current-source-handoff-mm-v1-before-frozen-predicate-fix-v1.mjs"
+    },
+    {
+      "path": "before/mm-handoff-test-before-freeze.mjs",
+      "sha256": "842b0db28387ab970a96924409743ce57ecb66fc212b9c03dad98cf9735cda9e",
+      "sizeBytes": 9071,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/handoff-immutability-v1/before/tests/dmg175-current-successors-mm-v1.test.mjs"
+    },
+    {
+      "path": "before/core-reader-before-path-input-fix-1dde.mjs",
+      "sha256": "1dde20cfd074fd5ee46afbd967833b59d574aca3e0249824aa33635e299cc0ed",
+      "sizeBytes": 20897,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/before/closed-version29-reader-before-path-input-preflight-v1.mjs"
+    },
+    {
+      "path": "before/core-test-active-observed-03f.mjs",
+      "sha256": "03f7e05a7dc064e91135546b3261e8517350ce94d5940df6b2490bd1bf9ab5dc",
+      "sizeBytes": 7928,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/before/tests/mm-current-historical-reader-v1-before-03f-v1.test.mjs"
+    },
+    {
+      "path": "before/core-test-earlier-ff711.mjs",
+      "sha256": "ff71126ebfc750fc024ee83126794a3415c4a84d0e35bdba39afd557323bbe6a",
+      "sizeBytes": 6018,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/before/tests/mm-current-historical-reader-v1.test.mjs"
+    },
+    {
+      "path": "final/historical-h-test-input-helper-25bf.mjs",
+      "sha256": "25bf0403a3f2409e8b49fb66afe35ea54524c0dc0ca8031c3fd05f8129786a21",
+      "sizeBytes": 13645,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/install/tests/helpers/mm-current-historical-test-inputs-v1.mjs"
+    },
+    {
+      "path": "final/historical-h-alias-test-3540.mjs",
+      "sha256": "354090ccb5bb2ff42cf15814537c22d6c0793a6e330317e34a7fa5c37bb316bc",
+      "sizeBytes": 11439,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/install/research/mm-source-history-v1/dmg175-historical-tests/alias/alias-h-v1.test.mjs"
+    },
+    {
+      "path": "final/historical-h-availability-test.mjs",
+      "sha256": "c7c1816f31519cc02c666a759eb386720d1011fcf2880d285b79662456f99477",
+      "sizeBytes": 12635,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/install/research/mm-source-history-v1/dmg175-historical-tests/availability/availability-h-v1.test.mjs"
+    },
+    {
+      "path": "final/historical-h-continuation-contract-test.mjs",
+      "sha256": "c14685112c7f4e7515640788c33f8c9472b00192fa29f0d49920745fbd2f4b3f",
+      "sizeBytes": 12602,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/install/research/mm-source-history-v1/dmg175-historical-tests/continuation-contract/continuation-contract-h-v1.test.mjs"
+    },
+    {
+      "path": "final/current-mm-handoff-adapter-9215.mjs",
+      "sha256": "92151e6d05b5b7097454c4f3130cf7f7c61c894cad80c2524304def78c0ee00b",
+      "sizeBytes": 11493,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/handoff-immutability-v1/install/tools/dmg175-current-source-handoff-mm-v1.mjs"
+    },
+    {
+      "path": "final/current-mm-successors-test-f4d0.mjs",
+      "sha256": "f4d07461e411159bdd953550a165dc64ebe656d340f80835faf8b54f4171ca68",
+      "sizeBytes": 9360,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/handoff-immutability-v1/install/tests/dmg175-current-successors-mm-v1.test.mjs"
+    },
+    {
+      "path": "final/current-mm-history-reader-493f.mjs",
+      "sha256": "493f7959162fc48c2c111bd2f2ce3e9833dc3dfea5c90ab71594e3fb4ebb506b",
+      "sizeBytes": 20952,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/install/research/mm-source-history-v1/closed-version29-reader-current-mm-v1.mjs"
+    },
+    {
+      "path": "final/current-mm-history-reader-test-1144.mjs",
+      "sha256": "114436f3b825841cd89b2cd07908e1e665217695cd0978ff8d0c26a7bafd5f75",
+      "sizeBytes": 8368,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/install/tests/mm-current-historical-reader-v1.test.mjs"
+    },
+    {
+      "path": "final/test-wrapper-dmg175-availability-current.mjs",
+      "sha256": "09d3821329032342be8edd59e5240331214d3f7264bb33aced6103310d2d44c3",
+      "sizeBytes": 184,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/install/tests/dmg175-availability-current.test.mjs"
+    },
+    {
+      "path": "final/test-wrapper-dmg175-alias-current.mjs",
+      "sha256": "8d4c4adb947104a6fbef4ebffa6274838eb02ef5448a2c2bd40c52ad3d9bbf81",
+      "sizeBytes": 174,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/install/tests/dmg175-continuation-alias-current.test.mjs"
+    },
+    {
+      "path": "final/test-wrapper-dmg175-continuation-current.mjs",
+      "sha256": "0fe2fc2b0f9aafa3a98afa592484f10301a2a437f4cf7c816dead561647602c3",
+      "sizeBytes": 204,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/install/tests/dmg175-continuation-contract-current.test.mjs"
+    },
+    {
+      "path": "final/test-wrapper-ua-source-handoff-transition.mjs",
+      "sha256": "b40f122ff28ff1671c79e5e4c54e9a5b380e1a68d27e3d7a25391ae2811b40a6",
+      "sizeBytes": 21243,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/install/tests/ua-source-handoff-transition.test.mjs"
+    },
+    {
+      "path": "manifests/current-mm-historic-adapter-package-v6.json",
+      "sha256": "9f938a6284d7c49525f72289e5cbdf18d63988e2a7d73b7cc23b561fb0ee9eac",
+      "sizeBytes": 14389,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/install-manifest-v6.json"
+    },
+    {
+      "path": "manifests/mm-handoff-immutability-package-v3.json",
+      "sha256": "9691e56ebb538384238b4733538b167905f909dab67844b9704f93ca7e93b42f",
+      "sizeBytes": 2682,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/handoff-immutability-v1/install-manifest-v3.json"
+    },
+    {
+      "path": "manifests/focused-checks-v5.json",
+      "sha256": "931fa62a1ab1a83bf96b1a7819a775ab7f06406cf37ab369002c34ec7c9130ba",
+      "sizeBytes": 2195,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/focused-checks-v5.json"
+    },
+    {
+      "path": "manifests/serial-run-receipts-v2.json",
+      "sha256": "5a4919ba555b7cbb0676a5d3ba774b3b403bfd79855959bc14a8e2d37425345f",
+      "sizeBytes": 2456,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/runtime-results-v2/run-receipts-v2.json"
+    },
+    {
+      "path": "logs/initial/availability-helper323.log",
+      "sha256": "43538b6cae3babfdf8626b09e51f8e59d01ffbec97e410fce96ba131c5a2640b",
+      "sizeBytes": 2512,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/runtime-results-v1/availability-h-wrapper-v1.log"
+    },
+    {
+      "path": "logs/final/availability-helper25bf.log",
+      "sha256": "685acea84e5a37dd019d3f069dec3f1521dfbc229f8e70c5f4e7edd60f8668ff",
+      "sizeBytes": 904,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/runtime-results-v2/availability-h-wrapper-v2.log"
+    },
+    {
+      "path": "logs/initial/alias-summary-before-fix.log",
+      "sha256": "bfbf5cd5e2e8a71842eea7208b2c9a497477c0ffbc550f840b4062dddc8ac519",
+      "sizeBytes": 5571,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/runtime-results-v1/alias-h-wrapper-v1.log"
+    },
+    {
+      "path": "logs/final/alias-summary-fixed.log",
+      "sha256": "a9783a1c8da6ba3c45bbb53595afcfc73d8a20637fbb2633a829debd1f7f2a66",
+      "sizeBytes": 856,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/runtime-results-v2/alias-h-wrapper-v2.log"
+    },
+    {
+      "path": "logs/final/continuation-contract.log",
+      "sha256": "86d5354597638b72f8e105ee08b7f96ba1e1268bb1a30960c52724adca220953",
+      "sizeBytes": 931,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/runtime-results-v1/continuation-contract-h-wrapper-v1.log"
+    },
+    {
+      "path": "logs/initial/handoff-mutable-adapter-e1ee.log",
+      "sha256": "b87133c736f7a5956ac48b47d37fe7885971caa8ad959ac301c630c38c348f8c",
+      "sizeBytes": 1929,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/runtime-results-v1/ua-source-handoff-transition-v1.log"
+    },
+    {
+      "path": "logs/final/handoff-frozen-adapter.log",
+      "sha256": "98020a8a90b84f47163395f7a4f0d7d25d0010bc92ac4d91a7affb784c50b09c",
+      "sizeBytes": 979,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/runtime-results-v2/ua-source-handoff-transition-v2.log"
+    },
+    {
+      "path": "logs/initial/mm-successors-frozen-predicate-before-fix.log",
+      "sha256": "cb3bb4481e14e8377da3f5e6c9dbf096aa56315e1f1e067310d6b40b04e0548f",
+      "sizeBytes": 1644,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/runtime-results-v2/dmg175-current-successors-mm-v2.log"
+    },
+    {
+      "path": "logs/final/mm-successors-final.log",
+      "sha256": "56da0760dce3143426ab20a3cbc4e0f0b9cad8de28e0f8630a82a3f677016f34",
+      "sizeBytes": 681,
+      "sourceReference": "/workspace/research/mm-historical-reader-successor-proposal-v1/three-fatal-modules-v1/runtime-results-v2/dmg175-current-successors-mm-v3.log"
+    },
+    {
+      "path": "logs/core/current-mm-reader-final.log",
+      "sha256": "7fb8d1e3f64debed504215af62298870a2afa593b0b99bcfc3056913f94537d5",
+      "sizeBytes": 814,
+      "sourceReference": "/workspace/vault-audit-private/pass8/root/mm-historical-reader-preflight-v4/focused-final-core-reader-v4.log"
+    }
+  ]
+}

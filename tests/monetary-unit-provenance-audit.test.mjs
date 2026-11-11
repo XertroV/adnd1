@@ -1,8 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync} from 'node:fs';
-import {resolve} from 'node:path';
+import {execFileSync} from 'node:child_process';
+import {mkdirSync,mkdtempSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
+import {dirname,resolve} from 'node:path';
+import {tmpdir} from 'node:os';
+import {pathToFileURL} from 'node:url';
 import {gunzipSync} from 'node:zlib';
 import {loadAuditInputs} from '../tools/quantity-source-absence-audit.mjs';
 import {collectMonetaryRowIdentityRecords} from '../tools/monetary-row-identity-audit.mjs';
@@ -12,7 +15,9 @@ import {
  expectedWhaleUnitBeforeSha256,expectedWhaleUnitNullSha256,expectedWhaleCarcassUnitSha256,
  quantityUnitBeforeSha256,joUnitAdmissionBeforePath,joUnitAdmissionBeforeSha256,expectedCurrentUnitRecordCount,expectedJoUnitRecord,
 } from '../tools/monetary-unit-provenance-audit.mjs';
-import {buildWhalePerPoundCounterfactualReport} from '../research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/whale-counterfactual-context-v1/v5/whale-counterfactual-context-v5.mjs';
+import {
+ buildWhalePerPoundCounterfactualReport,inputPins as whaleHInputPins,dependencyPins as whaleHDependencyPins,
+} from '../research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/whale-counterfactual-context-v1/v5/whale-counterfactual-context-v5.mjs';
 
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 const repoRoot=resolve(import.meta.dirname,'..');
@@ -21,8 +26,8 @@ function setAt(data,pointer,value){
  let target=data;for(const part of parts.slice(0,-1))target=Array.isArray(target)?target[Number(part)]:target[part];
  target[parts.at(-1)]=value;
 }
-function documentsWithAmbergrisUnit(value){
- const docs=loadAuditInputs().map(doc=>({...doc,data:structuredClone(doc.data)}));
+function documentsWithAmbergrisUnit(value,sourceDocuments=loadAuditInputs()){
+ const docs=sourceDocuments.map(doc=>({...doc,data:structuredClone(doc.data)}));
  const refs=[
   ['canonical','/sourcePageCensuses/2/claims/36/unit'],
   ['canonical','/sourcePageCensuses/2/sourceArtifact/claims/36/unit'],
@@ -32,10 +37,101 @@ function documentsWithAmbergrisUnit(value){
  for(const [key,pointer]of refs){const doc=docs.find(item=>item.key===key);setAt(doc.data,pointer,value);doc.bytes=Buffer.from(JSON.stringify(doc.data,null,2)+'\n');doc.sha256=digest(doc.bytes);}
  return docs;
 }
-function recordsFor(documents){return collectMonetaryRowIdentityRecords(new Map(documents.filter(doc=>doc.key!=='dist').map(doc=>[doc.key,doc]))).records;}
+function recordsFor(documents,collector=collectMonetaryRowIdentityRecords){return collector(new Map(documents.filter(doc=>doc.key!=='dist').map(doc=>[doc.key,doc]))).records;}
 function currentReport(options={}){
  const documents=options.documents||loadAuditInputs(),records=recordsFor(documents);
  return {documents,records,report:buildMonetaryUnitProvenanceReport({documents,records,...options})};
+}
+
+// V5 is a deliberately frozen H-era semantic regression. Build only its pinned
+// historical inputs in a temporary source view; never run its H assertions on
+// the current MM worktree or copy a complete historical checkout.
+function withHistoricalWhaleHSourceRoot(){
+ const sourceCommit='2b4425314053d429492b19114859ca4a084e7404';
+ const root=mkdtempSync(resolve(tmpdir(),'whale-v5-historical-h-source-'));
+ const git=(...args)=>execFileSync('git',['-C',repoRoot,...args],{maxBuffer:128*1024*1024});
+ const show=path=>git('show',`${sourceCommit}:${path}`);
+ const addPath=(set,path)=>{
+  if(typeof path==='string'&&(/^(?:dist|research|tests|tools)\//.test(path)||/^[A-Za-z0-9._-]+$/.test(path))&&!path.split('/').includes('..'))set.add(path);
+ };
+ const files=new Set([
+  ...whaleHInputPins.map(row=>row.path),...Object.keys(whaleHDependencyPins),
+  'dist/books.js','dist/app.js','dist/source-viewer.js','equipment.json','rules.json',
+  'research/field-evidence-bindings.json','research/mechanics-audit-progress.json',
+  'research/monetary-source-render-frames.json',
+  'research/source-audit-batch5-pd179-v5-fresh-frame-replay-independent-review.json',
+  'research/source-audit-batch5-pd179-v5-crop-frame-bindings-independent-review.json',
+  'research/quantity-source-absence-detector-baseline.json','research/quantity-source-absence-before-calibrations.json',
+  'research/quantity-unit-provenance-before-v1.json','research/source-audit-batch5-whale-unit-root-independent-review-v3.json',
+  'research/monetary-source-inventory.json',
+  'research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/whale-counterfactual-context-v1/v5/whale-counterfactual-context-v5.mjs',
+  'research/dmg175-validation-coordinator-v1/jo-current-successor-v1/registration-v1.json',
+  'research/source-audit-batch6-jo-unextracted-price.json',
+  'tests/fixtures/whale-unit-exact-inputs-and-proposal-before-root.json.gz',
+  'tests/fixtures/monetary-unit-provenance-jo-2162-before.json.gz',
+ ]);
+ const index=JSON.parse(show('research/monetary-source-inventory.json').toString('utf8'));
+ for(const ref of [...index.inputArtifacts,...index.currentInputValidation.validationArtifacts])addPath(files,ref.path);
+ const joArtifacts=[
+  'research/dmg175-validation-coordinator-v1/jo-current-successor-v1/registration-v1.json',
+  'research/source-audit-batch6-jo-unextracted-price.json',
+ ];
+ for(const path of joArtifacts){
+  const value=JSON.parse(show(path).toString('utf8'));
+  const visit=node=>{
+   if(!node||typeof node!=='object')return;
+   if(!Array.isArray(node)&&typeof node.path==='string'&&typeof node.sha256==='string')addPath(files,node.path);
+   for(const child of Object.values(node))visit(child);
+  };
+  visit(value);
+ }
+ const rawPaths=['dist/data.json','research/price-source-inventory.json','research/field-evidence-bindings.json','equipment.json','rules.json','dist/books.js','dist/app.js','dist/source-viewer.js'];
+ for(const path of rawPaths)addPath(files,path);
+ const queuedJson=new Set(joArtifacts),visitedJson=new Set();
+ // Follow only the bounded Jo registration and legacy-evidence references.
+ for(let pass=0;pass<4&&queuedJson.size;pass++){
+  const next=new Set();
+  for(const path of queuedJson){
+   if(visitedJson.has(path)||!path.endsWith('.json'))continue;
+   visitedJson.add(path);
+   let value;try{value=JSON.parse(show(path).toString('utf8'));}catch{continue;}
+   const visit=node=>{
+    if(!node||typeof node!=='object')return;
+    if(!Array.isArray(node)&&typeof node.path==='string'&&typeof node.sha256==='string'
+      &&/\.(?:json|json\.gz|gz|mjs|js)$/.test(node.path)&&/^(?:dist|research|tests|tools)\//.test(node.path)){
+     addPath(files,node.path);
+     if(node.path.endsWith('.json')&&!visitedJson.has(node.path))next.add(node.path);
+    }
+    for(const child of Object.values(node))visit(child);
+   };
+   visit(value);
+  }
+  queuedJson.clear();for(const path of next)queuedJson.add(path);
+ }
+ let changed=true;
+ while(changed){
+  changed=false;
+  for(const path of [...files].filter(path=>path.endsWith('.mjs'))){
+   const source=show(path).toString('utf8');
+   for(const match of source.matchAll(/(?:from\s*|import\s*)['"](\.[^'"]+)['"]/g)){
+    const dependency=resolve(dirname(`/${path}`),match[1]).slice(1);
+    if(/^(?:dist|research|tests|tools)\//.test(dependency)&&!files.has(dependency)){files.add(dependency);changed=true;}
+   }
+  }
+ }
+ for(const path of files){
+  const bytes=show(path),destination=resolve(root,path);
+  mkdirSync(dirname(destination),{recursive:true});writeFileSync(destination,bytes);
+ }
+ execFileSync('git',['init','--quiet',root]);
+ writeFileSync(resolve(root,'.git/HEAD'),`${sourceCommit}\n`);
+ mkdirSync(resolve(root,'.git/objects/info'),{recursive:true});
+ const common=git('rev-parse','--path-format=absolute','--git-common-dir').toString('utf8').trim();
+ writeFileSync(resolve(root,'.git/objects/info/alternates'),`${resolve(common,'objects')}\n`);
+ return {
+  root,
+  dispose(){rmSync(root,{recursive:true,force:true});},
+ };
 }
 
 test('current inventory retains full denominators and binds the immutable before snapshot',()=>{
@@ -50,6 +146,9 @@ test('current inventory retains full denominators and binds the immutable before
  assert.equal(report.monetaryRecordInventory.length,expectedCurrentUnitRecordCount);
  assert.equal(report.monetaryRecordInventory.filter(row=>row.matchedUnitQuantityFields.length).length,report.scope.monetaryRecordsWithMatchedFields);
  assert.equal(report.beforeBaseline.sha256,quantityUnitBeforeSha256);
+ assert.equal(report.status,'current-MM structural inventory; source provenance unassessed except exact hash-bound review fixtures');
+ assert.equal(report.currentSourceEpoch.sourceCommit,'0f2d70a135e3ad486152bf00f21387d60a1a97ef');
+ assert.equal(report.currentSourceEpoch.sourceTree,'08010faf457df22cdb0a5ec35d2dcf79e622ade9');
  assert.equal(frozen.baselineSha256,quantityUnitBeforeSha256);
  assert.match(report.baseline.inputs.find(row=>row.key==='canonical').sha256,/^[a-f0-9]{64}$/);
  assert.deepEqual(report.joUnitAdmission.additionalRecordUids,[expectedJoUnitRecord.uid]);
@@ -155,6 +254,8 @@ test('approved exact null correction remains unassessable and null itself is nev
  assert.equal(ambergris.currentState.currentState,'approved-null-correction-applied');
  assert.equal(ambergris.currentState.sourceAbsenceProof,false);
  assert.ok(ambergris.pointerValues.every(row=>row.valueSha256===expectedWhaleUnitNullSha256));
+ assert.equal(report.status,'synthetic input mutation projection; not a current-MM report');
+ assert.equal(report.currentSourceEpoch,null);
  for(const row of ambergris.pointerValues){
   const field=report.fieldRows.find(item=>item.inputKey===row.inputKey&&item.jsonPointer===row.jsonPointer);
   assert.equal(field.classification,'unassessable');
@@ -179,14 +280,23 @@ test('null without a verified receipt stays pending and unassessable',()=>{
 });
 
 test('an arbitrary changed Whale unit is not auto-curated',async()=>{
- const documents=documentsWithAmbergrisUnit('per pound'),records=recordsFor(documents),{report}=await buildWhalePerPoundCounterfactualReport({documents,records,repoRoot,sourceRepoRoot:process.env.DMG175_WHALE_CONTEXT_SOURCE_ROOT||repoRoot});
- const ambergris=report.sourceWitnesses.whaleAmbergris;
- assert.equal(ambergris.currentState.currentState,'unrecognized-current-value');
- for(const ref of ambergris.pointerValues){
-  const field=report.fieldRows.find(item=>item.inputKey===ref.inputKey&&item.jsonPointer===ref.jsonPointer);
-  assert.equal(field.classification,'missing-provenance');
-  assert.equal(field.curatedCaseId,null);
- }
+ const historical=withHistoricalWhaleHSourceRoot();
+ try{
+  const historicalQuantity=await import(pathToFileURL(resolve(historical.root,'tools/quantity-source-absence-audit.mjs')).href);
+  const historicalCollector=await import(pathToFileURL(resolve(historical.root,'tools/monetary-row-identity-audit.mjs')).href);
+  const baselineDocuments=historicalQuantity.loadAuditInputs({repoRoot:historical.root});
+  const documents=documentsWithAmbergrisUnit('per pound',baselineDocuments);
+  const records=recordsFor(documents,historicalCollector.collectMonetaryRowIdentityRecords);
+  const {report}=await buildWhalePerPoundCounterfactualReport({documents,records,
+   recordsBuilder:historicalCollector.collectMonetaryRowIdentityRecords,repoRoot:historical.root,sourceRepoRoot:historical.root});
+  const ambergris=report.sourceWitnesses.whaleAmbergris;
+  assert.equal(ambergris.currentState.currentState,'unrecognized-current-value');
+  for(const ref of ambergris.pointerValues){
+   const field=report.fieldRows.find(item=>item.inputKey===ref.inputKey&&item.jsonPointer===ref.jsonPointer);
+   assert.equal(field.classification,'missing-provenance');
+   assert.equal(field.curatedCaseId,null);
+  }
+ }finally{historical.dispose();}
 });
 
 test('unreviewed units and null unit metadata never become semantic source-absence passes',()=>{

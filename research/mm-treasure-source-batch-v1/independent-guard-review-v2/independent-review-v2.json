@@ -1,0 +1,44 @@
+{
+  "artifactType": "Independent MM current-source guard v2 review",
+  "reviewedAt": "2026-11-10",
+  "source": {
+    "commit": "0f2d70a135e3ad486152bf00f21387d60a1a97ef",
+    "tree": "08010faf457df22cdb0a5ec35d2dcf79e622ade9"
+  },
+  "candidateFiles": {
+    "factory": "5517646670f6b57830c2e96c8e0fd553d3513fd83121e1f335a7fb0c53be5f91",
+    "loader": "dfdd6e9b2d937599fdc6a9b2322db574122d83de1e794de5cf181e28f093ccef",
+    "fixture": "7456f0269d85df85900332ec535f495c93623c71752fb4d280a9174ca6337550",
+    "test": "543253b32c3048340f78933c5d39b72e39981ebddd0d4e772ca4b0d44af54270"
+  },
+  "validation": {
+    "command": "node --test tests/mm-treasure-current-m1-cohort-v2.test.mjs",
+    "passed": 19,
+    "failed": 0,
+    "durationSeconds": 15.3
+  },
+  "findings": [
+    {
+      "severity": "conditional-api-boundary",
+      "status": "reproduced",
+      "finding": "The exported factory accepts arbitrary contractBytes plus a caller-controlled expectedContractSha256. A caller can alter a current canonical-object hash in a copied contract, pass the copied bytes' own digest, and have the factory accept an object mutation while the fixed loader rejects that same mutation. The production loader pins the fixture digest, so no bypass was found through that loader.",
+      "recommendation": "Hardcode the reviewed fixture digest inside the factory, or keep the factory test-only/private and expose only the fixed loader to production consumers."
+    },
+    {
+      "severity": "none",
+      "status": "passed",
+      "finding": "Fresh per-assertion physical-file hashing rejects stale snapshots after a selected catalog changes in an isolated temp worktree; active source catalog remains unchanged."
+    },
+    {
+      "severity": "none",
+      "status": "passed",
+      "finding": "Outer wrapper preflight rejects Proxy, accessor, and custom prototype/inherited toJSON cases before triggers execute."
+    },
+    {
+      "severity": "scope-limit",
+      "status": "not-reviewed",
+      "finding": "This guard review does not establish downstream consumer migration or publication readiness."
+    }
+  ],
+  "activeFilesEdited": false
+}

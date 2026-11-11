@@ -10,7 +10,7 @@ import {gzipSync,gunzipSync} from 'node:zlib';
 import {spawnSync,execFileSync} from 'node:child_process';
 import {loadCurrentContinuationCandidateSnapshot,validateContinuationSnapshot} from '../tools/continuation-candidates-validate.mjs';
 import {assertCurrentUaContinuationCohort} from './helpers/ua-source-continuation-current-cohort.mjs';
-import {readHirelingsCurrentSourceInputs,assertHirelingsCurrentSourceCohort} from './helpers/hirelings-source-current-cohort.mjs';
+import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
 const root=process.cwd(),sha=b=>createHash('sha256').update(b).digest('hex');
 const fixtureBytes=readFileSync('tests/fixtures/dmg-current-continuation-a5a-before.json.gz');
 const before=JSON.parse(gunzipSync(fixtureBytes));
@@ -80,15 +80,15 @@ test('forcing the old snapshot against the current tree still fails',()=>{
  assert.equal(result.valid,false);assert.ok(result.errors.some(x=>x.code==='stale-data-input'));
  assert.ok(result.errors.some(x=>x.code==='stale-continuation-manifest'));
 });
-test('the active pair covers the exact current HIRED source and continuation metadata',()=>{
- const sourceInputs=readHirelingsCurrentSourceInputs(root);
- const sourceCounts=assertHirelingsCurrentSourceCohort(sourceInputs);
- assert.deepEqual(sourceCounts,{sourceCommit:'bc819621e49788260bb34ea47c1f7a8b35af6edf',owners:1062,canonicalBindings:5655,priorWholeBindings:4931,addedBindings:724,manualAdditions:321,newRules:48,sourceTableRows:244,sourceCells:343,historicalMechanicsReviews:1215});
- assert.equal(selected.pointer.sha256,'04c54609386a837d1948e6b265c0cf51c18245f2853d0854abd86364d946c9c9');
- assert.equal(path.relative(root,selected.summaryPath),'research/source-audit-pass8-hired-source-bc819621e497-continuation.json');
- assert.equal(path.relative(root,selected.fullPath),'research/source-audit-pass8-hired-source-bc819621e497-continuation-full.json.gz');
- assert.equal(sha(readFileSync(selected.summaryPath)),'37ccd45292b964c4c738e2ca96cafc4c317d900772e20819274de5acea69316d');
- assert.equal(sha(readFileSync(selected.fullPath)),'0374c0fa3f3d070adb594dea3a4eac2c153fa52ef74856c5f2d7125cdc331431');
+test('the active pair covers the exact current H+MM source and continuation metadata',()=>{
+ const sourceInputs=readMmTreasureCurrentSourceInputs(root);
+ const sourceCounts=assertMmTreasureCurrentSourceCohort(sourceInputs);
+ assert.deepEqual(sourceCounts,{sourceCommit:'0f2d70a135e3ad486152bf00f21387d60a1a97ef',sourceTree:'08010faf457df22cdb0a5ec35d2dcf79e622ade9',owners:1064,addedOwners:2,canonicalBindings:5731,retainedCanonicalBindings:5655,addedCanonicalBindings:76,manualBindings:1293,addedManualBindings:42,tableRows:26,tableCells:208,historicalMechanicsReviewRecords:1215,mechanicsOwnerRecords:1064,mechanicsFormalFields:14201,mechanicsUncheckedFields:899});
+ assert.equal(selected.pointer.sha256,'7ba01f5104c9aacb1a8c527f27419c40ddbf4cd4d751a3c39e698f44c29cd233');
+ assert.equal(path.relative(root,selected.summaryPath),'research/mm-source-metadata-v1/continuation/continuation-candidates-mm-current-summary.json');
+ assert.equal(path.relative(root,selected.fullPath),'research/mm-source-metadata-v1/continuation/continuation-candidates-mm-current-full.json.gz');
+ assert.equal(sha(readFileSync(selected.summaryPath)),'7af2173b3df693aa0e6d3a1912bcfd716a309512820f2730f4d400d163be3289');
+ assert.equal(sha(readFileSync(selected.fullPath)),'0477918faedb702b43c26406ab374ea353b16a6f1f0d174fb9403659f1f330f8');
  const result=validateContinuationSnapshot({root,summaryPath:selected.summaryPath,fullPath:selected.fullPath,treeSelection:'current-worktree'});
  assert.deepEqual(result.errors,[]);assert.equal(result.valid,true);
  assert.deepEqual(result.sourceFrameValidation,{status:'current-active-source-frame-bridge-required',valid:true,errors:[]});
@@ -96,7 +96,7 @@ test('the active pair covers the exact current HIRED source and continuation met
  assert.deepEqual(full.input,summary.input);
  assert.equal(full.input.gitCommit,sourceCounts.sourceCommit);
  assert.equal(full.input.sourceTreeMode,'pinned-git-commit');
- assert.equal(full.input.distDataRawFileSha256,sourceInputs.sourceRawInputs['dist/data.json']);
+ assert.equal(full.input.distDataRawFileSha256,sourceInputs.rawInputs['dist/data.json']);
  assert.equal(full.input.continuationManifestSha256,sha(readFileSync('research/citation-continuations.json')));
  assert.equal(full.input.generatorSha256,sha(readFileSync('tools/continuation-candidates.py')));
  assert.equal(full.input.sourceFrameCoordinateBridgeSha256,sha(readFileSync(full.sourceFrameCoordinateBridge.path)));
@@ -104,17 +104,17 @@ test('the active pair covers the exact current HIRED source and continuation met
  assert.deepEqual(full.privatePdfFrameReplay,{status:'current-pdf-boxes-match-registered-frames',frameGroups:9,pdfPageBoxesValidated:9});
  assert.deepEqual(full.sourceFrameCoordinateBridge,summary.sourceFrameCoordinateBridge);
  assert.deepEqual(full.input.sourceFrameRegistryValidation,{status:'current-pins-match',frameGroups:9,ownerJoinsValidated:102,mismatchCount:0,mismatches:[]});
- assert.deepEqual(summary.sourceFrameCoordinateBridge.resolutionCounts,{matched:102,'not-applicable-supplemental-image-frame':45,'outside-bounded-correction-registry':3928});
+ assert.deepEqual(summary.sourceFrameCoordinateBridge.resolutionCounts,{matched:102,'not-applicable-supplemental-image-frame':45,'outside-bounded-correction-registry':3970});
  assert.deepEqual(full.exposedCatalogSummary,summary.exposedCatalogSummary);
  assert.deepEqual(full.exposedUniverse,summary.exposedUniverse);
- assert.equal(full.regionAssessments.length,4072);
- assert.equal(new Set(full.regionAssessments.map(row=>JSON.stringify([row.owner.collection,row.owner.itemId,row.owner.catalog,row.regionId]))).size,4072);
- assert.deepEqual({catalogFiles:summary.exposedCatalogSummary.catalogJsonFilesUnderScans,catalogsReferenced:summary.exposedCatalogSummary.catalogFilesReferencedByExposedRecords,catalogRegionRows:summary.exposedCatalogSummary.catalogRegionRows,recordCatalogBindingUsages:summary.exposedCatalogSummary.recordCatalogBindingUsages,regionBindingUsageCount:summary.exposedCatalogSummary.regionBindingUsageCount,catalogSourcePages:summary.exposedCatalogSummary.catalogSourcePages,sourcePageBindings:summary.exposedUniverse.uniqueSourcePageBindings,regionBindingUsageCountsByBindingKey:summary.exposedCatalogSummary.regionBindingUsageCountsByBindingKey,catalogCountByBindingKey:summary.exposedCatalogSummary.catalogCountByBindingKey,bookCounts:summary.exposedCatalogSummary.bookCounts,regionBoundCounts:summary.exposedCatalogSummary.regionBoundCounts},{catalogFiles:1082,catalogsReferenced:1082,catalogRegionRows:4072,recordCatalogBindingUsages:1083,regionBindingUsageCount:4075,catalogSourcePages:240,sourcePageBindings:239,regionBindingUsageCountsByBindingKey:{sourceExcerpts:3995,scanVerification:80},catalogCountByBindingKey:{sourceExcerpts:1061,scanVerification:22},bookCounts:{DMG:905,MM:15,MM2:2,PHB:1881,UA:1269},regionBoundCounts:{'normalized-rect-missing-or-invalid':269,'normalized-rect-present':3803}});
- assert.deepEqual({recordCount:summary.exposedUniverse.propertyUniverse.recordCount,propertyPointerCount:summary.exposedUniverse.propertyUniverse.propertyPointerCount,mechanicsRecords:summary.exposedUniverse.propertyUniverse.mechanicsFieldDenominator.records,mechanicsFields:summary.exposedUniverse.propertyUniverse.mechanicsFieldDenominator.totalFields},{recordCount:1062,propertyPointerCount:303299,mechanicsRecords:1062,mechanicsFields:14189});
+ assert.equal(full.regionAssessments.length,4114);
+ assert.equal(new Set(full.regionAssessments.map(row=>JSON.stringify([row.owner.collection,row.owner.itemId,row.owner.catalog,row.regionId]))).size,4114);
+ assert.deepEqual({catalogFiles:summary.exposedCatalogSummary.catalogJsonFilesUnderScans,catalogsReferenced:summary.exposedCatalogSummary.catalogFilesReferencedByExposedRecords,catalogRegionRows:summary.exposedCatalogSummary.catalogRegionRows,recordCatalogBindingUsages:summary.exposedCatalogSummary.recordCatalogBindingUsages,regionBindingUsageCount:summary.exposedCatalogSummary.regionBindingUsageCount,catalogSourcePages:summary.exposedCatalogSummary.catalogSourcePages,sourcePageBindings:summary.exposedUniverse.uniqueSourcePageBindings,regionBindingUsageCountsByBindingKey:summary.exposedCatalogSummary.regionBindingUsageCountsByBindingKey,catalogCountByBindingKey:summary.exposedCatalogSummary.catalogCountByBindingKey,bookCounts:summary.exposedCatalogSummary.bookCounts,regionBoundCounts:summary.exposedCatalogSummary.regionBoundCounts},{catalogFiles:1084,catalogsReferenced:1084,catalogRegionRows:4114,recordCatalogBindingUsages:1085,regionBindingUsageCount:4117,catalogSourcePages:246,sourcePageBindings:245,regionBindingUsageCountsByBindingKey:{sourceExcerpts:4037,scanVerification:80},catalogCountByBindingKey:{sourceExcerpts:1063,scanVerification:22},bookCounts:{PHB:1881,UA:1269,DMG:905,MM:57,MM2:2},regionBoundCounts:{'normalized-rect-missing-or-invalid':269,'normalized-rect-present':3845}});
+ assert.deepEqual({recordCount:summary.exposedUniverse.propertyUniverse.recordCount,propertyPointerCount:summary.exposedUniverse.propertyUniverse.propertyPointerCount,mechanicsRecords:summary.exposedUniverse.propertyUniverse.mechanicsFieldDenominator.records,mechanicsFields:summary.exposedUniverse.propertyUniverse.mechanicsFieldDenominator.totalFields},{recordCount:1064,propertyPointerCount:308590,mechanicsRecords:1064,mechanicsFields:14201});
  assert.equal(result.counts.propertyRecords,full.propertyPointerInventory.records.length);
- assert.equal(result.counts.catalogRegionRows,4072);
+ assert.equal(result.counts.catalogRegionRows,4114);
  assert.equal(result.counts.propertyPointers,full.propertyPointerInventory.propertyRows.length);
- assert.equal(result.counts.distinctSourcePageBindings,239);
+ assert.equal(result.counts.distinctSourcePageBindings,245);
  assert.match(result.sourcePdfRegeneration,/not regenerated from private PDFs/);
  let removed;
  const options=mutant((candidate,report)=>{removed=candidate.regionAssessments.shift();report.exposedCatalogSummary.catalogRegionRows--;});
@@ -157,10 +157,7 @@ test('current mode rejects missing bridge declarations and removed per-use frame
  assert.ok(annotationResult.errors.some(x=>x.code==='source-frame-use-annotation-mismatch'));
 });
 test('current mode derives trusted frame pins only from the validator-owning repository root',()=>{
- const result=validateContinuationSnapshot({root:temp,summaryPath:selected.summaryPath,fullPath:selected.fullPath,treeSelection:'current-worktree'});
- assert.equal(result.valid,false);
- assert.ok(result.errors.some(x=>x.code==='untrusted-current-repository-root'));
- assert.equal(result.sourceFrameValidation.valid,false);
+ assert.throws(()=>validateContinuationSnapshot({root:temp,summaryPath:selected.summaryPath,fullPath:selected.fullPath,treeSelection:'current-worktree'}),/current MM reader consumes the configured current worktree directly/);
 });
 test('current mode rejects all eleven known PHB windows when old page.rect bounds are transplanted under valid bridge annotations',()=>{
  const controls=JSON.parse(readFileSync('research/source-audit-pass8-continuation-frame-negative-controls-v1.json','utf8'));

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import {after} from 'node:test';
 import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 import {mkdtempSync, readFileSync, rmSync, writeFileSync} from 'node:fs';
@@ -9,7 +10,7 @@ import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {gzipSync, gunzipSync} from 'node:zlib';
 import {buildHistoricalSourceRasterCoverage, buildSourceRasterCoverage, collectLiveRasterUniverse, loadRasterSnapshotInput, roundHalfUpRasterPixel, runSourceRasterCoverage} from '../tools/source-raster-coverage.mjs';
-import {assertHirelingsCurrentSourceCohort, readHirelingsCurrentSourceInputs} from './helpers/hirelings-source-current-cohort.mjs';
+import {assertMmTreasureCurrentSourceCohort, readMmTreasureCurrentSourceInputs} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
 
 const snapshot = JSON.parse(gunzipSync(loadRasterSnapshotInput().bytes));
 const historicalSnapshot = JSON.parse(gunzipSync(readFileSync(new URL('../research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz', import.meta.url))));
@@ -26,10 +27,33 @@ const dmg175Universe=JSON.parse(dmg175UniverseBytes.toString('utf8'));
 const hirelingsCurrentFixtureBytes=readFileSync(new URL('./fixtures/hirelings-source-current-cohort-v1.json',import.meta.url));
 const hirelingsCurrentFixture=JSON.parse(hirelingsCurrentFixtureBytes.toString('utf8'));
 const dmg175Require=createRequire(import.meta.url),dmg175Books=dmg175Require('../dist/books.js');
-const dmg175DataBytes=readFileSync(new URL('../dist/data.json',import.meta.url)),dmg175Data=JSON.parse(dmg175DataBytes.toString('utf8'));
+const hM1Commit='bc819621e49788260bb34ea47c1f7a8b35af6edf';
+const dmg175DataBytes=execFileSync('git',['show',`${hM1Commit}:dist/data.json`],{maxBuffer:32*1024*1024});
+const dmg175Data=JSON.parse(dmg175DataBytes.toString('utf8'));
 const dmg175Tuple=row=>[row.collection,row.itemId,row.binding,row.catalog,row.regionId,row.book,row.printedPage,row.pdfPage,row.imageSha256,row.sourceKind,row.sourceArtifactId,row.sourceArtifactSha256,row.sourcePdfSha256];
 const dmg175UsageOrder=(a,b)=>`${a.catalog}:${a.regionId}`.localeCompare(`${b.catalog}:${b.regionId}`);
 const sortedDmg175Tuples=rows=>rows.slice().sort(dmg175UsageOrder).map(dmg175Tuple);
+function historicalCatalogSnapshot(data){
+ const paths=[...new Set(['rules','spells','equipment','matrices','classes','progressionExplainer'].flatMap(collection=>{
+  const owners=Array.isArray(data[collection])?data[collection]:data[collection]?[data[collection]]:[];
+  return owners.flatMap(owner=>['sourceExcerpts','scanVerification'].flatMap(key=>owner[key]?.catalog?[`dist/${owner[key].catalog}`]:[]));
+ }))].sort();
+ const tree=execFileSync('git',['ls-tree','-r','-z',hM1Commit,'--','dist/scans'],{maxBuffer:16*1024*1024}).toString('utf8');
+ const objectByPath=new Map(tree.split('\0').filter(Boolean).map(row=>{const [meta,path]=row.split('\t');return[path,meta.split(' ')[2]];}));
+ assert.equal(paths.length,dmg175Universe.inputs.catalogCount,'historical H M1 exposes the exact catalog denominator');
+ const objectIds=paths.map(path=>{const oid=objectByPath.get(path);assert.ok(oid,`${path}: exact H M1 catalog Git object exists`);return oid;});
+ const batch=execFileSync('git',['cat-file','--batch'],{input:`${objectIds.join('\n')}\n`,maxBuffer:128*1024*1024});
+ const hashes={};let offset=0;
+ for(let index=0;index<objectIds.length;index++){
+  const headerEnd=batch.indexOf(0x0a,offset);assert.notEqual(headerEnd,-1,'git cat-file returns a complete H catalog header');
+  const [oid,type,sizeText]=batch.subarray(offset,headerEnd).toString('utf8').split(' ');
+  assert.equal(oid,objectIds[index]);assert.equal(type,'blob');const size=Number(sizeText);assert.ok(Number.isSafeInteger(size)&&size>=0);
+  const start=headerEnd+1,end=start+size;assert.equal(batch[end],0x0a,'git cat-file terminates each complete catalog blob');
+  hashes[paths[index].slice('dist/'.length)]=createHash('sha256').update(batch.subarray(start,end)).digest('hex');offset=end+1;
+ }
+ assert.equal(offset,batch.length,'all H M1 catalog blobs are consumed exactly once');
+ return{count:paths.length,sha256:createHash('sha256').update(JSON.stringify(hashes)).digest('hex')};
+}
 function sourceDerivedDmg175UsageRows(){
  assert.equal(createHash('sha256').update(dmg175UniverseBytes).digest('hex'),'023fcc8eaac62a005e465b602fc81828b833eb2aabade85e52583de6a45a55dd');
  assert.equal(dmg175Universe.sourceEpoch.sourceCommit,hirelingsCurrentFixture.sourceCommit);
@@ -37,6 +61,7 @@ function sourceDerivedDmg175UsageRows(){
  assert.equal(dmg175Universe.sourceEpoch.nativeHirelingsCohortFixtureSha256,'62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f');
  assert.equal(dmg175Universe.inputs.dataSha256,hirelingsCurrentFixture.sourceRawInputs['dist/data.json']);
  assert.equal(createHash('sha256').update(dmg175DataBytes).digest('hex'),dmg175Universe.inputs.dataSha256);
+ assert.deepEqual(historicalCatalogSnapshot(dmg175Data),{count:dmg175Universe.inputs.catalogCount,sha256:dmg175Universe.inputs.catalogSnapshotSha256},'the sealed 1082-catalog H M1 universe remains exact in Git');
  const registryBytes=readFileSync(new URL('../research/dmg175-supplement-crop-registry-v1.json',import.meta.url));
  assert.equal(createHash('sha256').update(registryBytes).digest('hex'),dmg175Universe.inputs.registrySha256);
  const registry=JSON.parse(registryBytes.toString('utf8'));
@@ -252,23 +277,24 @@ test('the reconstructed Version29 pre-fix mapper preserves its exact two histori
  assert.equal(dmg175MapperBefore.afterFix.sourceRasterCandidateCounts.assessedUsages,3130);
 });
 
-test('the unprojected current hirelings cohort and native mapper match the closed 45-use supplement universe',()=>{
- const currentInputs=readHirelingsCurrentSourceInputs();
- const cohort=assertHirelingsCurrentSourceCohort(currentInputs);
- assert.equal(cohort.sourceCommit,hirelingsCurrentFixture.sourceCommit);
+test('the current H+MM raster universe retains the exact historical H 45-use supplement universe',()=>{
+ const currentInputs=readMmTreasureCurrentSourceInputs();
+ const cohort=assertMmTreasureCurrentSourceCohort(currentInputs);
+ const mmFixture=JSON.parse(readFileSync(new URL('./fixtures/mm-treasure-current-m1-cohort-v1.json',import.meta.url),'utf8'));
+ assert.equal(cohort.sourceCommit,mmFixture.sourceEpoch.sourceCommit);
+ assert.equal(cohort.sourceTree,mmFixture.sourceEpoch.sourceTree);
  assert.equal(createHash('sha256').update(hirelingsCurrentFixtureBytes).digest('hex'),'62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f');
  const sourceRows=sourceDerivedDmg175UsageRows();
  const supplemental=live.usages.filter(row=>row.sourceKind==='supplemental-image');
  const pdfFrameUsages=live.usages.filter(row=>row.sourceKind==='pdf'||row.sourceKind===undefined);
- assert.equal(live.dataSha256,dmg175Universe.inputs.dataSha256);
- assert.equal(live.catalogSnapshotSha256,dmg175Universe.inputs.catalogSnapshotSha256);
- assert.equal(live.catalogCount,dmg175Universe.inputs.catalogCount);
+ assert.equal(live.dataSha256,currentInputs.rawInputs['dist/data.json'],'the live raster mapper follows the complete current H+MM data input');
+ assert.equal(live.catalogCount,1084,'the live raster mapper includes the two MM-era catalogs');
  assert.deepEqual(sortedDmg175Tuples(sourceRows),sortedDmg175Tuples(dmg175Universe.expectedUsages));
  assert.deepEqual(sortedDmg175Tuples(supplemental),sortedDmg175Tuples(sourceRows),'live native mapping equals the independently joined current closed catalog universe');
  assert.equal(dmg175Universe.counts.activeUsageRows,45);assert.equal(dmg175Universe.counts.activeCatalogs,7);assert.equal(dmg175Universe.counts.activeDistinctRegionIds,34);
- assert.equal(supplemental.length,dmg175Universe.counts.activeUsageRows);assert.equal(pdfFrameUsages.length,4030);
+ assert.equal(supplemental.length,dmg175Universe.counts.activeUsageRows);assert.equal(pdfFrameUsages.length,4072);
  assert.equal(live.usages.length,pdfFrameUsages.length+supplemental.length);
- assert.deepEqual({regionUsages:live.usages.length,pdfFrameUsages:pdfFrameUsages.length,supplementalImageUsages:supplemental.length},{regionUsages:4075,pdfFrameUsages:4030,supplementalImageUsages:45});
+ assert.deepEqual({regionUsages:live.usages.length,pdfFrameUsages:pdfFrameUsages.length,supplementalImageUsages:supplemental.length},{regionUsages:4117,pdfFrameUsages:4072,supplementalImageUsages:45});
 });
 
 test('typed DMG 175 supplemental rows stay in the raster denominator as explicit unassessable image frames',()=>{

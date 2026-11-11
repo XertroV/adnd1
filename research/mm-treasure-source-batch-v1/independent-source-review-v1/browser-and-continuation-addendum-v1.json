@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "browser verification and targeted MM continuation review addendum",
+  "reviewedAtUtc": "2026-11-10",
+  "supersedes": {
+    "originalReport": "/workspace/research/mm-treasure-source-independent-review-v1/report.md",
+    "originalReportSha256": "4061275dc04abb106daed9ad1ab17221cf32425535c1657a296ae68f2192a320",
+    "originalEvidence": "/workspace/research/mm-treasure-source-independent-review-v1/evidence.json",
+    "originalEvidenceSha256": "0285276e6d74e2b4464d1717e69e448f0e4dfc0bc65cbb5a25c884bda643c244",
+    "priorReleaseBlockerId": "post-repair-browser-verification",
+    "priorBlockerStatus": "pending because the then-available saved browser report predated the p.74 replacement",
+    "newStatus": "cleared for the bounded local browser checks by post-repair natural and controlled-delay V3 reports"
+  },
+  "releaseStatus": {
+    "localBrowserEvidence": "passed against the exact repaired source commit and asset hashes",
+    "publication": "still blocked",
+    "remainingBlockers": [
+      "strict successor source-metadata migration and completion of the required workflow remain pending",
+      "local browser checks are not deployed-release proof",
+      "formal field-target, source-value, context/default grades and whole-book profile-modifier completeness remain pending or unassessed"
+    ]
+  },
+  "naturalV3": {
+    "path": "/workspace/research/mm-treasure-actual-renderer-check-v3/renderer-check-report-v3.json",
+    "sha256": "bade26c6cf73810e953c806f94c0c7297fe566dc1eabf8b8b754d8dc143c982e",
+    "sourceCommit": "0f2d70a135e3ad486152bf00f21387d60a1a97ef",
+    "inputHashMatchCurrentFiles": true,
+    "inputHashes": {
+      "dist/data.json": "2ab84cfe5e4234e5d0303b2062f941f7d8e1b93d798a7402c16e78d6d2e4672c",
+      "dist/app.js": "f4381ff282ea6ff7d245c915ab17fafd4b19e025e2af6c2a496145429285f2c7",
+      "dist/search.js": "3a82651aa36e36a0a0697b91f6ce5db31350911ce1aa858e59fb91f2b40c66da",
+      "dist/books.js": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811",
+      "dist/scans/verified/rules-mm-treasure-types-table.json": "24c29663b8b755e9d1ecf2d0afa591e1218938a8da8977be0015172ebf52c0ce",
+      "dist/scans/verified/rules-mm-treasure-type-use.json": "eb0681f4c6f7e355335e04f35b5e9f8032e02dd15ca4b7aeaae251417b11c919"
+    },
+    "startAndEndInputHashesIdentical": true,
+    "collectionCounts": {
+      "rules": 213,
+      "owners": 1064,
+      "canonicalBindings": 5731,
+      "sourceExcerptItems": 1063
+    },
+    "checks": [
+      {
+        "name": "rendered_table_rows_and_targets",
+        "status": "passed",
+        "rows": 26,
+        "sourceButtons": 26,
+        "exactTargetAndExcerptLoads": 26
+      },
+      {
+        "name": "procedure_claims_and_support_controls",
+        "status": "passed",
+        "bullets": 10,
+        "sourceButtons": 15,
+        "loadedTargetImages": 15
+      },
+      {
+        "name": "live_search_index_and_MM_book_filter",
+        "status": "passed",
+        "queries": 9
+      },
+      {
+        "name": "keyboard_source_control_focus",
+        "status": "passed"
+      },
+      {
+        "name": "direct_pending_source_link_reload",
+        "status": "passed"
+      },
+      {
+        "name": "active_inputs_unchanged",
+        "status": "passed",
+        "files": 6
+      }
+    ],
+    "loadedExcerptImages": 41,
+    "allLoadedImagesReadable": true,
+    "repairedP74ImageLoaded": {
+      "regionId": "mm-074-parenthetical-x10-and-type-x",
+      "imageSha256": "f983d1bf5561a704fd97dc366fea3ed11a051de4fa91931edafbca12c6790ccb",
+      "viewerStatus": "readable"
+    },
+    "browserErrors": 0,
+    "finalBrowserErrors": 0,
+    "testsRun": false,
+    "activeAppFilesModified": false,
+    "interpretation": "The warning entries in loadedExcerptImages describe still-pending field targets; they are not browser or image-load errors."
+  },
+  "controlledDelayV3": {
+    "path": "/workspace/research/mm-treasure-actual-renderer-check-v3-delayed/renderer-check-report-v3-delayed.json",
+    "sha256": "a0dc729c48769173cb056fea9fd7ef851461f102d68ab02b7985c00142c27c5e",
+    "controlledCatalogDelayMs": 750,
+    "inputHashesEqualNaturalV3": true,
+    "startAndEndInputHashesIdentical": true,
+    "checksPassed": 6,
+    "loadedExcerptImages": 41,
+    "browserErrors": 0,
+    "finalBrowserErrors": 0,
+    "catalogRaceCapture": {
+      "ownerId": "mm-treasure-type-use",
+      "expectedRegion": "mm-005-number-appearing-mean-guideline",
+      "foundAtInitialDialogOpen": false,
+      "initialOptionCount": 1,
+      "afterStateBasedWait": "Expected region appeared and the complete assertions passed.",
+      "interpretation": "Controlled reproduction of asynchronous catalog readiness; this diagnoses the earlier initial-state race without changing app behavior.",
+      "initialState": {
+        "options": [
+          {
+            "text": "No field excerpt mapped",
+            "disabled": true
+          }
+        ],
+        "viewExcerptsDisabled": true
+      },
+      "screenshot": {
+        "path": "/workspace/research/mm-treasure-actual-renderer-check-v3-delayed/first-p5-dialog-before-catalog-ready.png",
+        "sha256": "34436a7f33f7fe6f35046e8d8c256cddd34cf37297d199e8f32c1faf0fcf3649",
+        "review": "Visually shows the p.5 dialog at the controlled initial state before the procedure catalog is ready."
+      }
+    },
+    "delayedCatalogRequests": 1
+  },
+  "savedWrapper": {
+    "path": "/workspace/adnd1-next-source-native/research/mm-treasure-source-batch-v1/local-browser-verification-after-mm74-v3.json",
+    "sha256": "52d57cef1017db113e5721cd6a1d9b5df0d5435c3a1ce6d374a1ea613a6239ec",
+    "status": "passed local browser checks; not a deployed release proof",
+    "sourceValueAndTargetPromotions": 0,
+    "delayedReportSha256": "a0dc729c48769173cb056fea9fd7ef851461f102d68ab02b7985c00142c27c5e"
+  },
+  "targetedContinuationReview": {
+    "detectorEvidence": {
+      "summaryPath": "/workspace/research/mm-current-continuation-snapshot-v1/continuation-candidates-mm-current-summary.json",
+      "summarySha256": "7af2173b3df693aa0e6d3a1912bcfd716a309512820f2730f4d400d163be3289",
+      "fullEvidencePath": "/workspace/research/mm-current-continuation-snapshot-v1/continuation-candidates-mm-current-full.json.gz",
+      "fullEvidenceSha256": "0477918faedb702b43c26406ab374ea353b16a6f1f0d174fb9403659f1f330f8",
+      "sourceCommit": "0f2d70a135e3ad486152bf00f21387d60a1a97ef",
+      "dataSha256": "2ab84cfe5e4234e5d0303b2062f941f7d8e1b93d798a7402c16e78d6d2e4672c",
+      "role": "Discovery cues only; this review adjudicates the three specified binding-to-source-flow relationships. It does not clear the broader detector queue or assign context/default grades."
+    },
+    "sourcePdfSha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+    "cases": [
+      {
+        "regionId": "mm-014-centaur-double-treasure",
+        "cue": "weak adjacent-PDF-page opening",
+        "physicalSourceFlow": "A real Wild Cattle description continues from printed p.13/PDF p.14 into printed p.14/PDF p.15 (ending its first sentence at the top of the left column). It is unrelated to the Centaur paragraph, which appears later on p.14.",
+        "targetPassage": "The Centaur description paragraph including “Leaders will have double treasure” is one complete paragraph and ends in terminal punctuation on p.14/PDF p.15.",
+        "additionalNearbyContent": "A distinct following Centaur paragraph describes lair family composition and a 90% ransom chance for the main treasure. It is not a continuation of the leader-doubling paragraph.",
+        "decision": "No continuation crop is needed for the narrow local double-treasure example. Do not present this excerpt as a complete inventory of Centaur lair/treasure rules; whole-profile coverage remains outside scope."
+      },
+      {
+        "regionId": "mm-031-dragon-treasure-adjustments",
+        "cue": "elevated adjacent-PDF-page opening",
+        "physicalSourceFlow": "A preceding Dragon mated-pair passage continues from printed p.30/PDF p.31 and completes with “attacked simultaneously.” at the top of printed p.31/PDF p.32, before a separate “Treasure:” heading.",
+        "targetPassage": "The p.31 “Treasure:” age-adjustment paragraph is complete on the same page, has a terminal period, and is followed by the separate “Weaknesses of Dragons” heading. No part continues onto p.32.",
+        "decision": "No p.30 continuation segment belongs in this treasure-adjustment excerpt; the elevated cue concerns adjacent Dragon prose preceding the target paragraph."
+      },
+      {
+        "regionId": "mm-074-parenthetical-x10-and-type-x",
+        "cue": "weak same-page column-opening cue plus open-unpunctuated-at-crop-bottom signal",
+        "physicalSourceFlow": "The left-column Nixie passage at the bottom of printed p.74/PDF p.75 continues at the top of the right column (“The latter are used as spears…”). This is a real continuation, but it is unrelated to the Nymph entry.",
+        "targetPassage": "The repaired crop contains the complete Nymph stat block; the Treasure Type line is a self-contained label/value row. The last “Attack/Defense Modes: Nil” row is a completed stat-block field, not an unfinished prose sentence. The following Nymph description remains on the page and contains no treasure-related continuation; printed p.75 begins with Ochre Jelly/Ogre entries.",
+        "decision": "No Nixie segment or Nymph prose continuation is required for the narrow notation example. The broader Nymph profile, source-value grade, field target, context adequacy and default remain unassessed/pending."
+      }
+    ],
+    "reviewMethod": "Inspected the original MM PDF at the specified page/column endpoints and the bounded treasure passages. Temporary endpoint crops were written only under /tmp for visual inspection; no PDF/page image was copied into the research deliverable or repository.",
+    "necessaryFixesForTheseThreePassages": "None. The p.74 crop repair already supplies complete local Nymph stat-block context. The specific p.14 and p.31 treasure passages are complete and not the passages identified by the cross-page detector cues."
+  },
+  "unchangedReviewArtifacts": {
+    "reportMdSha256": "4061275dc04abb106daed9ad1ab17221cf32425535c1657a296ae68f2192a320",
+    "evidenceJsonSha256": "0285276e6d74e2b4464d1717e69e448f0e4dfc0bc65cbb5a25c884bda643c244",
+    "changedByAddendum": false
+  },
+  "scopeAndNonPromotion": {
+    "sourceValueOrTargetPromotions": 0,
+    "contextOrDefaultGradePromotions": 0,
+    "globalContinuationQueueCleared": false,
+    "fullProfileCensusClaimed": false,
+    "deploymentOrPublicationClaimed": false,
+    "repoAppDataTestOrGitEditsByReviewer": false,
+    "broadTestsRerun": false
+  }
+}

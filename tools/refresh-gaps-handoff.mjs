@@ -9,10 +9,10 @@ import {validatePriceSourceInventory} from './price-source-inventory.mjs';
 import {buildCoverageGaps} from './coverage-gaps.mjs';
 import {deriveDmg175Availability, projectDmg175Handoff, DMG175_OWNER_CATALOGS} from './dmg175-availability-projection.mjs';
 import {loadMonetaryRowIdentityAudit} from './monetary-row-identity-audit.mjs';
-import {loadJoCurrentSuccessor} from './dmg175-hired-native-successors-v2.mjs';
+import {loadJoCurrentSuccessor, loadSourceHandoffTransition, sourceHandoffContextMatches, isQualifiedSourceHistoricalChange, sourceHistoricalCaution, sourceHandoffTransitionReference} from './dmg175-current-successors-mm-v1.mjs';
 import {fieldBindingAxisMetrics, fieldBindingCountMeaning, historicalProducerMetadata, sourceIntegrationDescriptor, currentUncheckedExclusions, uncheckedExclusionTemplate} from './source-report-consistency-audit.mjs';
-import {validateCurrentMonetarySourceQuestionProjection,loadCurrentMonetarySourceQuestions} from './dmg175-current-monetary-source-questions-native-v2.mjs';
-import {loadSourceHandoffTransition,sourceHandoffContextMatches,isQualifiedSourceHistoricalChange,sourceHistoricalCaution,sourceHandoffTransitionReference} from './dmg175-hired-native-successors-v2.mjs';
+import {validateCurrentMonetarySourceQuestionProjection,loadCurrentMonetarySourceQuestions} from './dmg175-current-monetary-source-questions-mm-v1.mjs';
+import {assertCurrentMmSourceEpoch} from './mm-current-source-gate-v1.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const require=createRequire(import.meta.url);
@@ -929,6 +929,7 @@ export function handoffDate({checking, existingDate, now = new Date()}) {
 
 export function runRefresh({repoRoot = root, args = process.argv.slice(2), now = new Date()} = {}) {
   const options = parseArgs(args);
+  assertCurrentMmSourceEpoch(repoRoot);
   const paths = {systemic: options.systemic, visual: options.visual, table: options.table};
   const filePath = path => resolve(repoRoot, path);
   const hashFile = path => sha256(readFileSync(filePath(path)));

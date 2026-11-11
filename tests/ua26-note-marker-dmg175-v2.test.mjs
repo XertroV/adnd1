@@ -4,15 +4,20 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
-import {fileURLToPath} from 'node:url';
+import {createHash} from 'node:crypto';
 import {auditUa26MarkerReceiptWithHCurrentSourceEpoch} from '../tools/ua26-note-marker-audit-h-v2.mjs';
+import {assertHistoricalHPreimage} from '../research/mm-source-history-v1/closed-version29-reader-current-mm-v1.mjs';
 
-const here = path.dirname(fileURLToPath(import.meta.url));
-// This is the production layout: tests/ is directly under the repository root.
-const repoRoot = path.resolve(here, '..');
+// The strict reader is fixed to this configured repository root.
+const repoRoot = path.resolve(process.cwd());
 const registryPath = 'research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/ua26-current-h-successor-v1/ua26-marker-dmg175-transition-h-v1.json';
 const markerReceiptPath = 'research/source-audit-batch5-ua26-marker-correction.json';
 const readJson = (root, rel) => JSON.parse(fs.readFileSync(path.join(root, rel), 'utf8'));
+const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+const hPreimageCommit = '5c6a57386af372c7c0d89e342003a7edf68ca0dd';
+const hPreimageProof = assertHistoricalHPreimage();
+assert.equal(hPreimageProof.historicalHPreimageCommit, hPreimageCommit);
+assert.equal(hPreimageProof.historicalHPreimageTree, '391026a96811e7bcf0dfcb61c3753ff708308fe1');
 const add = (set, rel) => { if (typeof rel === 'string' && rel.length && !path.isAbsolute(rel)) set.add(rel); };
 
 const receipt = readJson(repoRoot, markerReceiptPath);
@@ -49,6 +54,7 @@ add(required, 'research/hirelings-native-h-v1/source-body-handoff-transition-v1.
 add(required, 'research/mechanics-audit-progress.json');
 add(required, 'tools/ua26-note-marker-audit-h-v2.mjs');
 const nativeHFixture = readJson(repoRoot, 'tests/fixtures/hirelings-source-current-cohort-v1.json');
+const historicalHInputHashes = {...nativeHFixture.sourceRawInputs, 'research/mechanics-audit-progress.json': '5627488c038354a15e4cc3ab1871dab02eb1f3eec9fa84a5ff3666cf253bcc43'};
 for (const rel of Object.keys(nativeHFixture.sourceRawInputs)) add(required, rel);
 
 const copiedPaths = new Set([
@@ -68,7 +74,11 @@ for (const rel of required) {
   const source = path.join(repoRoot, rel);
   const destination = path.join(tempRoot, rel);
   fs.mkdirSync(path.dirname(destination), {recursive: true});
-  if (copiedPaths.has(rel)) fs.copyFileSync(source, destination);
+  if (Object.hasOwn(historicalHInputHashes, rel)) {
+    const hBytes = execFileSync('git', ['show', `${hPreimageCommit}:${rel}`], {cwd: repoRoot, maxBuffer: 64 * 1024 * 1024});
+    assert.equal(sha(hBytes), historicalHInputHashes[rel], `${rel}: exact H M1 Git blob`);
+    fs.writeFileSync(destination, hBytes);
+  } else if (copiedPaths.has(rel)) fs.copyFileSync(source, destination);
   else fs.symlinkSync(source, destination);
 }
 fs.symlinkSync(path.join(repoRoot, '.git'), path.join(tempRoot, '.git'), 'file');
@@ -95,8 +105,8 @@ function changeCatalog(rel, mutate, expectedError = /bytes or epoch/) {
   }, expectedError);
 }
 
-test('installed production-root helper passes the exact current epoch and frozen marker contract', () => {
-  const result = auditUa26MarkerReceiptWithHCurrentSourceEpoch(repoRoot);
+test('bounded H-preimage production-root view passes the frozen marker contract', () => {
+  const result = auditUa26MarkerReceiptWithHCurrentSourceEpoch(tempRoot);
   assert.equal(result.ok, true);
   assert.equal(result.semanticPass, false);
   assert.deepEqual(result.counts, {
@@ -123,7 +133,7 @@ test('installed production-root helper passes the exact current epoch and frozen
 
 test('installed CLI locates the production root and emits the same qualified receipt', () => {
   const output = execFileSync(process.execPath, ['tools/ua26-note-marker-audit-h-v2.mjs'], {
-    cwd: repoRoot,
+    cwd: tempRoot,
     encoding: 'utf8'
   });
   const result = JSON.parse(output);

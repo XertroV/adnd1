@@ -1,0 +1,39 @@
+{
+  "artifactType": "actual configured-root MM historical-reader stale-metadata regression probe",
+  "status": "passed",
+  "target": "tests/fixtures/source-scan-inventory.json",
+  "mutation": "one trailing newline only; parsed fixture content unchanged",
+  "originalSha256": "ca675e6d3a82488d2c9e2e0520a2c96a3d14b340b4bc3738d03887289b658e77",
+  "mutatedSha256": "e930ec55f50d32b37e25424b0e5f65d70ea9d193a451632933e5ba9672a9131e",
+  "restoredSha256": "ca675e6d3a82488d2c9e2e0520a2c96a3d14b340b4bc3738d03887289b658e77",
+  "rejected": [
+    {
+      "name": "cachedRawBytes",
+      "rejected": true,
+      "message": "Invalid MM-to-H historical source reader: tests/fixtures/source-scan-inventory.json live MM worktree: raw blob SHA/size mismatch"
+    },
+    {
+      "name": "cachedJsonObject",
+      "rejected": true,
+      "message": "Invalid MM-to-H historical source reader: tests/fixtures/source-scan-inventory.json live MM worktree: raw blob SHA/size mismatch"
+    },
+    {
+      "name": "namedHPreimage",
+      "rejected": true,
+      "message": "Invalid MM-to-H historical source reader: tests/fixtures/source-scan-inventory.json live MM worktree: raw blob SHA/size mismatch"
+    }
+  ],
+  "importMs": 14594.986268,
+  "durationsMs": {
+    "positiveBytes": 15567.622174000002,
+    "positiveJson": 2340.5236589999986,
+    "positiveHPreimage": 1706.2258939999992,
+    "afterRestoreBytes": 4612.170049
+  },
+  "readerSha256": "03131690f1c2b09f790a0b678ef5c188f1043ecba95ac4bef998e1a3e758631c",
+  "contractSha256": "23afdc77bfbc2eb31eda6304035fab4ea6e08f5d1d94342b964871ae1dc47cce",
+  "trackedDiffEmpty": true,
+  "sourceDataSha256": "2ab84cfe5e4234e5d0303b2062f941f7d8e1b93d798a7402c16e78d6d2e4672c",
+  "fullSourcePdfsOrAppCodeChanged": false,
+  "callerMigrationsActivated": false
+}

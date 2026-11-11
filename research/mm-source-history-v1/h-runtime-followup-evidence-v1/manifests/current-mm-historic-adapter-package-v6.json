@@ -1,0 +1,276 @@
+{
+  "schemaVersion": 1,
+  "status": "focused H/MM reader and adapter tests all pass serially; two root-controlled adoption receipts verify the finalized candidates",
+  "repositorySnapshotCommit": "ac60970626fd5e0421fc4b99c141cc11f53ffff3",
+  "intendedInstallRoot": "/workspace/adnd1-next-source-native",
+  "sourceEpoch": {
+    "currentMMCommit": "0f2d70a135e3ad486152bf00f21387d60a1a97ef",
+    "currentMMTree": "08010faf457df22cdb0a5ec35d2dcf79e622ade9",
+    "historicalHSourceCommit": "bc819621e49788260bb34ea47c1f7a8b35af6edf",
+    "historicalHSourceTree": "e6bc420f70656825a926297b959bc6d98758bfcd",
+    "fullM1HPreimageCommit": "5c6a57386af372c7c0d89e342003a7edf68ca0dd",
+    "fullM1HPreimageTree": "391026a96811e7bcf0dfcb61c3753ff708308fe1",
+    "version29Commit": "1f79d909344ebe7d41a432d8673f3eedb491fa3b"
+  },
+  "files": [
+    {
+      "targetPath": "research/mm-source-history-v1/closed-version29-reader-current-mm-v1.mjs",
+      "sha256": "493f7959162fc48c2c111bd2f2ce3e9833dc3dfea5c90ab71594e3fb4ebb506b",
+      "sizeBytes": 20952,
+      "role": "strict current-MM to exact H preimage and unchanged Version29 bridge reader",
+      "preservedBefore": {
+        "path": "before/closed-version29-reader-before-path-input-preflight-v1.mjs",
+        "sha256": "1dde20cfd074fd5ee46afbd967833b59d574aca3e0249824aa33635e299cc0ed",
+        "sizeBytes": 20897
+      },
+      "action": "reviewed target replacement"
+    },
+    {
+      "targetPath": "research/mm-source-history-v1/dmg175-historical-tests/alias/alias-h-v1.test.mjs",
+      "sha256": "354090ccb5bb2ff42cf15814537c22d6c0793a6e330317e34a7fa5c37bb316bc",
+      "sizeBytes": 11439,
+      "role": "explicit H retrospective alias regression",
+      "action": "new additive target",
+      "preservedBefore": {
+        "path": "before/research/mm-source-history-v1/dmg175-historical-tests/alias/alias-h-v1-before-604-v1.test.mjs",
+        "sha256": "60400badcd8daf224dbca4650b819355ab36881ea16e0f7c2ac77ff0392325cd",
+        "sizeBytes": 11289,
+        "note": "earlier reviewed H test before adding exact v2 MM summary metrics"
+      }
+    },
+    {
+      "targetPath": "research/mm-source-history-v1/dmg175-historical-tests/availability/availability-h-v1.test.mjs",
+      "sha256": "c7c1816f31519cc02c666a759eb386720d1011fcf2880d285b79662456f99477",
+      "sizeBytes": 12635,
+      "role": "explicit H retrospective availability regression",
+      "action": "new additive target"
+    },
+    {
+      "targetPath": "research/mm-source-history-v1/dmg175-historical-tests/continuation-contract/continuation-contract-h-v1.test.mjs",
+      "sha256": "c14685112c7f4e7515640788c33f8c9472b00192fa29f0d49920745fbd2f4b3f",
+      "sizeBytes": 12602,
+      "role": "explicit H retrospective continuation regression",
+      "action": "new additive target"
+    },
+    {
+      "targetPath": "research/mm-source-history-v1/historical-h-catalog-blobs-v1.json",
+      "sha256": "c35dbe28d2d4a96dceac0a78979dcd97972b4c3a776c129976d627993642b28e",
+      "sizeBytes": 209937,
+      "role": "closed exact full-M1 H catalog blob pins",
+      "action": "new additive target"
+    },
+    {
+      "targetPath": "research/mm-source-history-v1/historical-h-continuation-images-v2.json",
+      "sha256": "54da91999758bb4d4ad236fcf16196d9d46ace2820fe8a3065837a586762c0fe",
+      "sizeBytes": 65989,
+      "role": "closed exact full-M1 H continuation image pins",
+      "action": "new additive target"
+    },
+    {
+      "targetPath": "research/mm-source-history-v1/mm-to-historical-h-v1.json",
+      "sha256": "23afdc77bfbc2eb31eda6304035fab4ea6e08f5d1d94342b964871ae1dc47cce",
+      "sizeBytes": 36180,
+      "role": "existing reviewed closed MM-to-H mapping contract; verify unchanged",
+      "action": "verify unchanged; do not overwrite"
+    },
+    {
+      "targetPath": "tests/dmg175-availability-current.test.mjs",
+      "sha256": "09d3821329032342be8edd59e5240331214d3f7264bb33aced6103310d2d44c3",
+      "sizeBytes": 184,
+      "role": "historical-H availability wrapper using strict current-MM proof",
+      "preservedBefore": {
+        "path": "before/tests/dmg175-availability-current.test.mjs",
+        "sha256": "fb55ccdd0028408b6b5f2411ac651136e59d505405aac0e8919f6b8b2e3a4c28",
+        "sizeBytes": 294
+      },
+      "action": "reviewed target replacement",
+      "materializationStatus": "candidate bytes were unintentionally written through scratch-mirror test-file symlinks; root read-only reconciliation found active bytes equal this target SHA; do not revert; root may adopt after review",
+      "runtime": {
+        "status": "pass",
+        "tests": "7/7",
+        "logPath": "runtime-results-v2/availability-h-wrapper-v2.log",
+        "logSha256": "685acea84e5a37dd019d3f069dec3f1521dfbc229f8e70c5f4e7edd60f8668ff"
+      }
+    },
+    {
+      "targetPath": "tests/dmg175-continuation-alias-current.test.mjs",
+      "sha256": "8d4c4adb947104a6fbef4ebffa6274838eb02ef5448a2c2bd40c52ad3d9bbf81",
+      "sizeBytes": 174,
+      "role": "historical-H regression plus actual current-MM CLI check",
+      "preservedBefore": {
+        "path": "before/tests/dmg175-continuation-alias-current.test.mjs",
+        "sha256": "3e24108d62e8d6b4929283d8e5ba1b83091a964ea633daee5f6fdbf9e97e59e9",
+        "sizeBytes": 272
+      },
+      "action": "reviewed target replacement",
+      "materializationStatus": "candidate bytes were unintentionally written through scratch-mirror test-file symlinks; root read-only reconciliation found active bytes equal this target SHA; do not revert; root may adopt after review",
+      "runtime": {
+        "status": "pass",
+        "tests": "7/7",
+        "logPath": "runtime-results-v2/alias-h-wrapper-v2.log",
+        "logSha256": "a9783a1c8da6ba3c45bbb53595afcfc73d8a20637fbb2633a829debd1f7f2a66"
+      }
+    },
+    {
+      "targetPath": "tests/dmg175-continuation-contract-current.test.mjs",
+      "sha256": "0fe2fc2b0f9aafa3a98afa592484f10301a2a437f4cf7c816dead561647602c3",
+      "sizeBytes": 204,
+      "role": "historical-H continuation regression using closed H catalogs/images",
+      "preservedBefore": {
+        "path": "before/tests/dmg175-continuation-contract-current.test.mjs",
+        "sha256": "0580eaa441447074d09065dc5c063281377c510c1596c6f09fb46407d59cd092",
+        "sizeBytes": 1863
+      },
+      "action": "reviewed target replacement",
+      "materializationStatus": "candidate bytes were unintentionally written through scratch-mirror test-file symlinks; root read-only reconciliation found active bytes equal this target SHA; do not revert; root may adopt after review",
+      "runtime": {
+        "status": "pass",
+        "tests": "7/7",
+        "logPath": "runtime-results-v1/continuation-contract-h-wrapper-v1.log",
+        "logSha256": "86d5354597638b72f8e105ee08b7f96ba1e1268bb1a30960c52724adca220953"
+      }
+    },
+    {
+      "targetPath": "tests/helpers/mm-current-historical-test-inputs-v1.mjs",
+      "sha256": "25bf0403a3f2409e8b49fb66afe35ea54524c0dc0ca8031c3fd05f8129786a21",
+      "sizeBytes": 13645,
+      "role": "strict current-MM plus exact-H test input adapter",
+      "action": "new additive target",
+      "preservedBefore": {
+        "path": "before/tests/helpers/mm-current-historical-test-inputs-before-323-v1.mjs",
+        "sha256": "323fcde71a672c3316c95f1552047487e315a520913cf7842e12a9e42132870a",
+        "sizeBytes": 13114,
+        "note": "exact active helper copy before correction"
+      },
+      "preservedPriorProposal": {
+        "path": "before/tests/helpers/mm-current-historical-test-inputs-before-a448-v1.mjs",
+        "sha256": "a448e3065a8231c9566457b07072f4e0019521f3629426fd2c6f4aae50031470",
+        "sizeBytes": 13645,
+        "note": "first candidate with the incorrect baseline-handoff SHA typo"
+      }
+    },
+    {
+      "targetPath": "tests/mm-current-historical-reader-v1.test.mjs",
+      "sha256": "114436f3b825841cd89b2cd07908e1e665217695cd0978ff8d0c26a7bafd5f75",
+      "sizeBytes": 8368,
+      "role": "focused core source epoch, input, and safety regression tests",
+      "preservedBefore": {
+        "path": "before/tests/mm-current-historical-reader-v1-before-03f-v1.test.mjs",
+        "sha256": "03f7e05a7dc064e91135546b3261e8517350ce94d5940df6b2490bd1bf9ab5dc",
+        "sizeBytes": 7928
+      },
+      "action": "reviewed target replacement",
+      "preservedHistoricalRevision": {
+        "path": "before/tests/mm-current-historical-reader-v1.test.mjs",
+        "sha256": "ff71126ebfc750fc024ee83126794a3415c4a84d0e35bdba39afd557323bbe6a",
+        "sizeBytes": 6018,
+        "note": "earlier ff711 revision retained separately; observed active starting copy for this replacement was 03f"
+      },
+      "materializationStatus": "active path was observed at pre-existing 03f SHA and an identical 03f copy was written through the scratch symlink; final 1144 candidate remains research-only and root can install it after review"
+    },
+    {
+      "targetPath": "tests/ua-source-handoff-transition.test.mjs",
+      "sha256": "b40f122ff28ff1671c79e5e4c54e9a5b380e1a68d27e3d7a25391ae2811b40a6",
+      "sizeBytes": 21243,
+      "role": "actual current-MM handoff plus preserved source6b retrospective controls",
+      "preservedBefore": {
+        "path": "before/tests/ua-source-handoff-transition.test.mjs",
+        "sha256": "42ba3255a981b38a68a656135e19d9a2ce39004158024a1de4062cfe78d6fcca",
+        "sizeBytes": 19737
+      },
+      "action": "reviewed target replacement",
+      "materializationStatus": "candidate bytes were unintentionally written through scratch-mirror test-file symlinks; root read-only reconciliation found active bytes equal this target SHA; do not revert; root may adopt after review",
+      "runtime": {
+        "status": "pass",
+        "tests": "8/8",
+        "logPath": "runtime-results-v2/ua-source-handoff-transition-v2.log",
+        "logSha256": "98020a8a90b84f47163395f7a4f0d7d25d0010bc92ac4d91a7affb784c50b09c"
+      }
+    }
+  ],
+  "preservation": "Historical H reader/facade/receipt/source bytes remain unchanged. Exact prior test copies (including active-observed 03f and earlier ff711 core test) are retained under before/. The active test write-through is disclosed above; no source, data, app, PDF, or Git bytes were changed by this agent.",
+  "materializationIncident": {
+    "cause": "Scratch setup symlinked immediate files under tests/ to active files, then cp into the scratch tests directory followed those file symlinks.",
+    "affectedTargets": [
+      "tests/dmg175-availability-current.test.mjs",
+      "tests/dmg175-continuation-alias-current.test.mjs",
+      "tests/dmg175-continuation-contract-current.test.mjs",
+      "tests/mm-current-historical-reader-v1.test.mjs",
+      "tests/ua-source-handoff-transition.test.mjs"
+    ],
+    "HWrapperTargets": "Root read-only reconciliation says the four active wrapper/handoff files equal their frozen candidate hashes.",
+    "coreTestTarget": "The active core test is the 03f pre-candidate file; the final 1144 candidate is not active.",
+    "restoration": "None. Root asked that reviewed candidate bytes not be reverted or overwritten; exact before copies are in before/."
+  },
+  "runtimeResults": {
+    "availabilityHWrapper": {
+      "path": "runtime-results-v2/availability-h-wrapper-v2.log",
+      "exitCode": 0,
+      "sha256": "685acea84e5a37dd019d3f069dec3f1521dfbc229f8e70c5f4e7edd60f8668ff",
+      "tests": "7/7"
+    },
+    "aliasHWrapper": {
+      "path": "runtime-results-v2/alias-h-wrapper-v2.log",
+      "exitCode": 0,
+      "sha256": "a9783a1c8da6ba3c45bbb53595afcfc73d8a20637fbb2633a829debd1f7f2a66",
+      "tests": "7/7"
+    },
+    "continuationContractHWrapper": {
+      "path": "runtime-results-v1/continuation-contract-h-wrapper-v1.log",
+      "exitCode": 0,
+      "sha256": "86d5354597638b72f8e105ee08b7f96ba1e1268bb1a30960c52724adca220953",
+      "tests": "7/7"
+    },
+    "uaSourceHandoffTransition": {
+      "path": "runtime-results-v2/ua-source-handoff-transition-v2.log",
+      "exitCode": 0,
+      "sha256": "98020a8a90b84f47163395f7a4f0d7d25d0010bc92ac4d91a7affb784c50b09c",
+      "tests": "8/8"
+    },
+    "coreReaderFinal": {
+      "path": "/workspace/vault-audit-private/pass8/root/mm-historical-reader-preflight-v4/focused-final-core-reader-v4.log",
+      "exitCode": 0,
+      "sha256": "7fb8d1e3f64debed504215af62298870a2afa593b0b99bcfc3056913f94537d5",
+      "tests": "7/7"
+    },
+    "currentMmSuccessors": {
+      "path": "runtime-results-v2/dmg175-current-successors-mm-v3.log",
+      "exitCode": 0,
+      "sha256": "56da0760dce3143426ab20a3cbc4e0f0b9cad8de28e0f8630a82a3f677016f34",
+      "tests": "5/5"
+    }
+  },
+  "relatedPackage": {
+    "path": "handoff-immutability-v1/install-manifest-v1.json",
+    "sha256": "193dc64c1855b2f6f19c4a0c10f24f683dcf01f50dc72c35c286a79190ef6c16",
+    "readerRuntimeLog": "runtime-results-v1/ua-source-handoff-transition-v1.log"
+  },
+  "controlledAdoptionReceipt": {
+    "path": "/workspace/vault-audit-private/pass8/root/mm-four-runtime-corrections-controlled-v1/installation-receipt-v1.json",
+    "sha256": "435f9a973d5d9617682af6ab2e056d2c662452c4324961e082fae8e153afddc6"
+  },
+  "pendingSeparateMMHandoffFix": {
+    "status": "installed and pass 5/5",
+    "toolSha256": "92151e6d05b5b7097454c4f3130cf7f7c61c894cad80c2524304def78c0ee00b",
+    "testSha256": "f4d07461e411159bdd953550a165dc64ebe656d340f80835faf8b54f4171ca68",
+    "installReceipt": {
+      "path": "/workspace/vault-audit-private/pass8/root/mm-handoff-frozen-nested-predicate-v2/installation-receipt-v2.json",
+      "sha256": "bb6ec04b204634e68ae182fc40afa5c599bec6c3d096c9a6a5dae822023e1941"
+    }
+  },
+  "controlledAdoptionReceipts": [
+    {
+      "path": "/workspace/vault-audit-private/pass8/root/mm-four-runtime-corrections-controlled-v1/installation-receipt-v1.json",
+      "sha256": "435f9a973d5d9617682af6ab2e056d2c662452c4324961e082fae8e153afddc6"
+    },
+    {
+      "path": "/workspace/vault-audit-private/pass8/root/mm-handoff-frozen-nested-predicate-v2/installation-receipt-v2.json",
+      "sha256": "bb6ec04b204634e68ae182fc40afa5c599bec6c3d096c9a6a5dae822023e1941"
+    }
+  ],
+  "sourcePinPreservation": "All 22 physical MM source/metadata pins remained unchanged according to root\u2019s controlled-install receipt.",
+  "serialRunReceipt": {
+    "path": "runtime-results-v2/run-receipts-v2.json",
+    "sha256": "5a4919ba555b7cbb0676a5d3ba774b3b403bfd79855959bc14a8e2d37425345f"
+  }
+}

@@ -1,4 +1,4 @@
-import {readBeforeJoFile as readFileSync} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs';
+import {readBeforeJoFile as readFileSync} from '../research/mm-source-history-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';

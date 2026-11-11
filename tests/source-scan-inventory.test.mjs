@@ -5,13 +5,16 @@ import {createRequire} from 'node:module';
 import {buildInventory,BATCH_SIZE} from '../tools/source-scan-inventory.mjs';
 import {beforeWeaponScanInventory,weaponOwnerIds} from './helpers/weapon-source-current-cohort.mjs';
 import {assertUaSourceContextBindingCohort} from './helpers/ua-source-closed-v28-context.mjs';
-import {readHirelingsCurrentSourceInputs,assertHirelingsCurrentSourceCohort} from './helpers/hirelings-source-current-cohort.mjs';
+import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
 import {resolve} from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 const require=createRequire(import.meta.url), citations=require('../dist/citations.js');
 const root=resolve(import.meta.dirname,'..');
-const currentRuleIds=JSON.parse(readFileSync(new URL('./fixtures/hirelings-source-current-cohort-v1.json',import.meta.url))).newRuleIds;
+const currentRuleIds=[
+ ...JSON.parse(readFileSync(new URL('./fixtures/hirelings-source-current-cohort-v1.json',import.meta.url))).newRuleIds,
+ ...JSON.parse(readFileSync(new URL('./fixtures/mm-treasure-current-m1-cohort-v1.json',import.meta.url))).mmSource.addedRuleIds,
+];
 const priorDmg175RuleIds=JSON.parse(readFileSync(new URL('./fixtures/dmg175-source-current-cohort-v1.json',import.meta.url))).newRuleIds;
 const isHirelingRule=row=>row.collection==='rules'&&currentRuleIds.includes(row.id);
 const isPriorDmg175Rule=row=>row.collection==='rules'&&priorDmg175RuleIds.includes(row.id);
@@ -26,7 +29,7 @@ test('fixture is reproducible and includes every assembled reference-bearing rec
  if(citations.pages(data.progressionExplainer).length)expected.push('progressionExplainer:progression-explainer');
  assert.deepEqual(inventory.records.map(r=>`${r.collection}:${r.id}`),expected);
  assert.equal(inventory.counts.records,expected.length);
- assertHirelingsCurrentSourceCohort(readHirelingsCurrentSourceInputs(root));
+ assertMmTreasureCurrentSourceCohort(readMmTreasureCurrentSourceInputs(root));
  const classBindings=data.classes.flatMap(owner=>(owner.references||[]).flatMap(reference=>reference.evidenceBindings||[]));
  assert.equal(assertUaSourceContextBindingCohort(classBindings).length,24,'all 24 exact UA class context references remain');
  const owners=['rules','spells','equipment','matrices','classes'].flatMap(collection=>data[collection]||[]).concat(data.progressionExplainer?[data.progressionExplainer]:[]);
@@ -38,11 +41,11 @@ test('fixture is reproducible and includes every assembled reference-bearing rec
  assert.equal(createHash('sha256').update(v27Bytes).digest('hex'),'958a0aef30297a829329eb7b41d4b9119659ebf2c102ec422d9884b47ce5a6cd');
  const v27=JSON.parse(v27Bytes),uaPageAdditions={fighter:[13,26],ranger:[13,26],'ua-cavalier':[25,26],'ua-barbarian':[13,26],'ua-thief-acrobat':[13,22,26],'ua-paladin':[26],'ua-druid':[13,26]};
  assert.equal(v27.counts.recordPagePairs,2111);assert.equal(Object.values(uaPageAdditions).flat().length,14);
- assert.deepEqual(inventory.records.filter(isHirelingRule).map(row=>row.id).sort(),[...currentRuleIds].sort(),'the exact 48 current Hireling rule owners enter source scan');
- assert.equal(inventory.records.filter(isHirelingRule).reduce((sum,row)=>sum+row.pages.length,0),79,'the 48 Hireling owners contribute their exact 79 owner/page pairs after page-only support bindings');
+ assert.deepEqual(inventory.records.filter(isHirelingRule).map(row=>row.id).sort(),[...currentRuleIds].sort(),'the exact 48 H plus2 MM current rule owners enter source scan');
+ assert.equal(inventory.records.filter(isHirelingRule).reduce((sum,row)=>sum+row.pages.length,0),86,'the 48 H owners contribute79 pairs and the two MM owners contribute7 more');
  assert.deepEqual(inventory.records.filter(isPriorDmg175Rule).map(row=>row.id).sort(),[...priorDmg175RuleIds].sort(),'the eleven prior Appendix C owners remain in the current scan');
  assert.equal(inventory.records.filter(isPriorDmg175Rule).reduce((sum,row)=>sum+row.pages.length,0),12,'the prior Appendix C owners contribute twelve owner/page pairs');
- assert.equal(inventory.counts.records,1062);assert.equal(inventory.counts.recordPagePairs,2111+14+12+79);assert.equal(inventory.counts.citedPages,240);assert.equal(inventory.counts.batches,26);
+ assert.equal(inventory.counts.records,1064);assert.equal(inventory.counts.recordPagePairs,2111+14+12+86);assert.equal(inventory.counts.citedPages,246);assert.equal(inventory.counts.batches,26);
  const isUaClass=row=>row.collection==='classes'&&Object.hasOwn(uaPageAdditions,row.id);
  const expectedChangedKeys=[...Object.keys(uaPageAdditions).map(id=>`classes:${id}`),...boundedReferenceDeltaKeys].sort();
  const v27ByKey=new Map(v27.records.map(row=>[ownerKey(row),row]));

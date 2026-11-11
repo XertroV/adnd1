@@ -1,0 +1,94 @@
+✖ actual MM and exact historical-H source identities are separately explicit (4.112537ms)
+✔ byte-exact frozen old source reproduces the historical-H report and the historical forged-alias failure (75.996105ms)
+✔ production API preserves the exact historical-H ordinary-PDF report and truthful zero-H-DMG175 result (145.051438ms)
+✔ production API rejects malformed supplemental identity before matching or assessment (5.038024ms)
+✔ production API preserves ordinary-PDF alias row objects exactly (4.900079ms)
+✔ production supplemental match fields separate JPEG provenance from canonical PDF provenance (1.736263ms)
+✖ current-MM production --check CLI reports actual MM inputs and exits successfully (0.448215ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 26308.545615
+
+✖ failing tests:
+
+test at research/mm-source-history-v1/dmg175-historical-tests/alias/alias-h-v1.test.mjs:35:1
+✖ actual MM and exact historical-H source identities are separately explicit (4.112537ms)
+  AssertionError [ERR_ASSERTION]: actual strict current-MM cohort
+  + actual - expected
+  
+    {
+      addedCanonicalBindings: 76,
+      addedManualBindings: 42,
+      addedOwners: 2,
+      canonicalBindings: 5731,
+  +   historicalMechanicsReviewRecords: 1215,
+      manualBindings: 1293,
+  +   mechanicsFormalFields: 14201,
+  +   mechanicsOwnerRecords: 1064,
+  +   mechanicsUncheckedFields: 899,
+      owners: 1064,
+      retainedCanonicalBindings: 5655,
+      sourceCommit: '0f2d70a135e3ad486152bf00f21387d60a1a97ef',
+      sourceTree: '08010faf457df22cdb0a5ec35d2dcf79e622ade9',
+  +   tableCells: 208,
+  +   tableRows: 26
+    }
+  
+      at assertCurrentMmAndHistoricalH (file:///workspace/adnd1-next-source-native/research/mm-source-history-v1/dmg175-historical-tests/alias/alias-h-v1.test.mjs:15:75)
+      at TestContext.<anonymous> (file:///workspace/adnd1-next-source-native/research/mm-source-history-v1/dmg175-historical-tests/alias/alias-h-v1.test.mjs:35:105)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { sourceCommit: '0f2d70a135e3ad486152bf00f21387d60a1a97ef', sourceTree: '08010faf457df22cdb0a5ec35d2dcf79e622ade9', owners: 1064, addedOwners: 2, canonicalBindings: 5731, retainedCanonicalBindings: 5655, addedCanonicalBindings: 76, manualBindings: 1293, addedManualBindings: 42, tableRows: 26, tableCells: 208, historicalMechanicsReviewRecords: 1215, mechanicsOwnerRecords: 1064, mechanicsFormalFields: 14201, mechanicsUncheckedFields: 899 },
+    expected: { sourceCommit: '0f2d70a135e3ad486152bf00f21387d60a1a97ef', sourceTree: '08010faf457df22cdb0a5ec35d2dcf79e622ade9', owners: 1064, canonicalBindings: 5731, retainedCanonicalBindings: 5655, addedCanonicalBindings: 76, manualBindings: 1293, addedManualBindings: 42, addedOwners: 2 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at research/mm-source-history-v1/dmg175-historical-tests/alias/alias-h-v1.test.mjs:116:1
+✖ current-MM production --check CLI reports actual MM inputs and exits successfully (0.448215ms)
+  AssertionError [ERR_ASSERTION]: actual strict current-MM cohort
+  + actual - expected
+  
+    {
+      addedCanonicalBindings: 76,
+      addedManualBindings: 42,
+      addedOwners: 2,
+      canonicalBindings: 5731,
+  +   historicalMechanicsReviewRecords: 1215,
+      manualBindings: 1293,
+  +   mechanicsFormalFields: 14201,
+  +   mechanicsOwnerRecords: 1064,
+  +   mechanicsUncheckedFields: 899,
+      owners: 1064,
+      retainedCanonicalBindings: 5655,
+      sourceCommit: '0f2d70a135e3ad486152bf00f21387d60a1a97ef',
+      sourceTree: '08010faf457df22cdb0a5ec35d2dcf79e622ade9',
+  +   tableCells: 208,
+  +   tableRows: 26
+    }
+  
+      at assertCurrentMmAndHistoricalH (file:///workspace/adnd1-next-source-native/research/mm-source-history-v1/dmg175-historical-tests/alias/alias-h-v1.test.mjs:15:75)
+      at TestContext.<anonymous> (file:///workspace/adnd1-next-source-native/research/mm-source-history-v1/dmg175-historical-tests/alias/alias-h-v1.test.mjs:117:2)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { sourceCommit: '0f2d70a135e3ad486152bf00f21387d60a1a97ef', sourceTree: '08010faf457df22cdb0a5ec35d2dcf79e622ade9', owners: 1064, addedOwners: 2, canonicalBindings: 5731, retainedCanonicalBindings: 5655, addedCanonicalBindings: 76, manualBindings: 1293, addedManualBindings: 42, tableRows: 26, tableCells: 208, historicalMechanicsReviewRecords: 1215, mechanicsOwnerRecords: 1064, mechanicsFormalFields: 14201, mechanicsUncheckedFields: 899 },
+    expected: { sourceCommit: '0f2d70a135e3ad486152bf00f21387d60a1a97ef', sourceTree: '08010faf457df22cdb0a5ec35d2dcf79e622ade9', owners: 1064, canonicalBindings: 5731, retainedCanonicalBindings: 5655, addedCanonicalBindings: 76, manualBindings: 1293, addedManualBindings: 42, addedOwners: 2 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+exit_code=1

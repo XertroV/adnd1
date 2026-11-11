@@ -3,15 +3,18 @@ import {resolve} from 'node:path';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {assertWeaponPendingBindingCohort} from './helpers/weapon-source-current-cohort.mjs';
-import {readHirelingsCurrentSourceInputs,assertHirelingsCurrentSourceCohort} from './helpers/hirelings-source-current-cohort.mjs';
+import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
 import {createRequire} from 'node:module';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {assertCurrentWeaponOwnerAdditions as partialWeaponOwnerAdditions} from './fixtures/weapon-source-current-cohort-partial-before.mjs';
 const root=resolve(import.meta.dirname,'..');
 const require=createRequire(import.meta.url),books=require('../dist/books.js');
-const currentInputs=readHirelingsCurrentSourceInputs(root);
-const currentHirelingRuleIds=new Set(JSON.parse(readFileSync(resolve(root,'tests/fixtures/hirelings-source-current-cohort-v1.json'),'utf8')).newRuleIds);
+const currentInputs=readMmTreasureCurrentSourceInputs(root);
+const currentSourceRuleIds=new Set([
+ ...JSON.parse(readFileSync(resolve(root,'tests/fixtures/hirelings-source-current-cohort-v1.json'),'utf8')).newRuleIds,
+ ...JSON.parse(readFileSync(resolve(root,'tests/fixtures/mm-treasure-current-m1-cohort-v1.json'),'utf8')).mmSource.addedRuleIds,
+]);
 const priorAppendixCRuleIds=new Set(JSON.parse(readFileSync(resolve(root,'tests/fixtures/dmg175-source-current-cohort-v1.json'),'utf8')).newRuleIds);
 const allowedDmg175Owners=new Set(['appendix-c-character-subtable','appendix-c-party-size','appendix-c-character-levels','appendix-c-henchmen','appendix-c-character-guidance','appendix-c-party-magic-distribution']);
 const data=JSON.parse(readFileSync(resolve(root,'dist/data.json'),'utf8'));
@@ -28,10 +31,23 @@ function assertPrintedDmgPageAllowed(collection,item,page){
  }
  assert.ok(![239,240].includes(page),`${item.id}: cites unnumbered PDF leaf as a printed page`);
 }
+function assertRegisteredPrintedPageAllowed(collection,item,page){
+ const book=item.book;
+ assert.equal(typeof book,'string',`${item.id}: source book must be a canonical registered ID`);
+ assert.equal(book,books.code(book),`${item.id}: source book must be a canonical registered ID`);
+ assert.ok(Object.hasOwn(books.books,book),`${item.id}: unregistered book ${book}`);
+ assert.ok(Number.isInteger(page)&&page>0,`${item.id}: invalid page`);
+ assertPrintedDmgPageAllowed(collection,item,page);
+ const source=books.books[book];
+ assert.ok(page<=source.lastPage,`${item.id}: page out of range for ${book}`);
+ if(book==='DMG'&&page===175)return;
+ assert.equal(books.availability(book,page),'available',`${item.id}: printed page is not physically available`);
+ assert.ok(Number.isInteger(books.pdfPage(book,page))&&books.pdfPage(book,page)>0,`${item.id}: printed page has no physical PDF mapping`);
+}
 test('all entries have unique stable identifiers and valid source locations',()=>{
- assertHirelingsCurrentSourceCohort(currentInputs);
- for(const id of currentHirelingRuleIds){
-  const item=data.rules.find(row=>row.id===id);assert.ok(item,`${id}: current Hireling rule owner required`);assert.ok(item.status,`${id}: current rule owner carries status metadata`);
+ assertMmTreasureCurrentSourceCohort(currentInputs);
+ for(const id of currentSourceRuleIds){
+  const item=data.rules.find(row=>row.id===id);assert.ok(item,`${id}: current source-cohort rule owner required`);assert.ok(item.status,`${id}: current rule owner carries status metadata`);
   const attached=currentInputs.inventory.fieldEvidenceBindings.filter(binding=>binding.collection==='rules'&&binding.itemId===id);
   assert.ok(attached.length,`${id}: attached canonical source bindings required`);
   assert.ok(attached.every(binding=>binding.sourceValueStatus==='not-assessed-by-field-target-review'),`${id}: source values remain unassessed on attached bindings`);
@@ -42,14 +58,8 @@ test('all entries have unique stable identifiers and valid source locations',()=
   for(const item of data[collection]) {
    assert.ok(item.id,`${collection}: missing id`);
    assert.ok(!ids.has(item.id),`duplicate id: ${item.id}`); ids.add(item.id);
-   assert.ok(['PHB','UA','DMG'].includes(item.book),`${item.id}: invalid source`);
    assert.ok(Array.isArray(item.pages)&&item.pages.length,`${item.id}: missing citation`);
-   for(const page of item.pages) {
-    assert.ok(Number.isInteger(page)&&page>0,`${item.id}: invalid page`);
-    const max={PHB:128,UA:128,DMG:240}[item.book];
-    assert.ok(page<=max,`${item.id}: page out of range`);
-    assertPrintedDmgPageAllowed(collection,item,page);
-   }
+   for(const page of item.pages) assertRegisteredPrintedPageAllowed(collection,item,page);
    if(!item.status){
     if(priorAppendixCRuleIds.has(item.id)){
      assert.equal(collection,'rules',`${item.id}: exact current Appendix C owner`);
@@ -77,20 +87,43 @@ test('DMG p.175 remains a bounded supplemental exception and 239/240 remain inva
  assert.equal(books.supplementalEvidence('DMG',175).published,false);
 });
 
+test('registered books enforce canonical printed-page bounds, availability and mappings',()=>{
+ assert.deepEqual(Object.keys(books.books).sort(),['DMG','MM','MM2','PHB','UA']);
+ const mappings=[
+  ['PHB',1,2],['PHB',128,129],
+  ['UA',1,2],['UA',128,129],
+  ['DMG',1,2],['DMG',174,175],['DMG',176,176],['DMG',238,238],
+  ['MM',1,2],['MM',112,113],
+  ['MM2',1,2],['MM2',82,83],['MM2',83,92],['MM2',84,84],['MM2',91,91],['MM2',92,93],['MM2',160,161],
+ ];
+ for(const [book,printed,pdf] of mappings){
+  assert.equal(books.availability(book,printed),'available',`${book} p.${printed}: registered printed page`);
+  assert.equal(books.pdfPage(book,printed),pdf,`${book} p.${printed}: PDF mapping`);
+ }
+ assert.throws(()=>assertRegisteredPrintedPageAllowed('rules',{id:'probe',book:'UNKNOWN'},1),/unregistered book/);
+ assert.throws(()=>assertRegisteredPrintedPageAllowed('rules',{id:'probe',book:'Monster Manual'},105),/canonical registered ID/);
+ assert.throws(()=>assertRegisteredPrintedPageAllowed('rules',{id:'probe',book:'MM'},113),/page out of range/);
+ assert.throws(()=>assertRegisteredPrintedPageAllowed('rules',{id:'probe',book:'MM'},0),/invalid page/);
+ assert.throws(()=>assertRegisteredPrintedPageAllowed('rules',{id:'not-registered-owner',book:'DMG'},175),/unregistered owner/);
+ for(const page of [239,240])assert.throws(()=>assertRegisteredPrintedPageAllowed('rules',{id:'probe',book:'DMG'},page),/unnumbered PDF leaf/);
+ assert.equal(books.pdfPage('DMG',175),null,'the supplemental DMG page has no physical PDF mapping');
+ assert.equal(books.evidenceAvailability('DMG',175),'supplemental');
+});
+
 test('native current guard preserves the exact current owner graph and prior weapon bindings',()=>{
- assertHirelingsCurrentSourceCohort(currentInputs);
+ assertMmTreasureCurrentSourceCohort(currentInputs);
  const inventory=JSON.parse(readFileSync(resolve(root,'research/price-source-inventory.json'),'utf8'));
  assert.equal(assertWeaponPendingBindingCohort(inventory.fieldEvidenceBindings).length,107);
 });
 test('the historical partial guard accepts unknown DMG metadata and the native current guard rejects it',()=>{
- assertHirelingsCurrentSourceCohort(currentInputs);
+ assertMmTreasureCurrentSourceCohort(currentInputs);
  const beforeBytes=execFileSync('git',['show','6717c6f22bbf2f2b421327e4c8561b1d81df00d4:dist/data.json'],{cwd:root,maxBuffer:40*1024*1024});
  assert.equal(createHash('sha256').update(beforeBytes).digest('hex'),'6643d7b58c90d982244f1d8f03b6f03a7587446ba25c402be8f9a81a8b701f8f');
  for(const key of ['sourceContext','sourceExcerpts']){
   const historicalMutation=JSON.parse(beforeBytes);historicalMutation.rules.find(item=>item.id==='weapon-versus-armor-adjustments')[key].unapprovedNativeCanary=true;
   assert.doesNotThrow(()=>partialWeaponOwnerAdditions(historicalMutation),'preserved partial guard accepts the mutation at its actual historical source state');
   const mutation=structuredClone(data);mutation.rules.find(item=>item.id==='weapon-versus-armor-adjustments')[key].unapprovedNativeCanary=true;
-  assert.throws(()=>assertHirelingsCurrentSourceCohort({...currentInputs,data:mutation}));
+  assert.throws(()=>assertMmTreasureCurrentSourceCohort({...currentInputs,data:mutation}));
  }
 });
 test('XP thresholds are cumulative, integral and strictly increasing',()=>{
