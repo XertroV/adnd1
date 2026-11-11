@@ -1,0 +1,55 @@
+// S2 consumer closure. This module is intentionally separate from the native
+// body fixture so current reports/receipts cannot become prerequisites of the
+// S1 body-only gate. Root materializes these code-stage pins after S1 and QUALIFIER_CODE_COMMIT, then preserves these exact bytes while the final working pins module is updated after receipt generation.
+export const currentConsumerCodeStagePins = Object.freeze({
+  schemaVersion: 1,
+  artifactType: 'S2 next-native current-consumer code-stage pins',
+  materialized: false,
+  sourceEpoch: Object.freeze({
+    sourceCommit: '2d35138027f00c0740975e519dbb3a2b6df76d14',
+    sourceTree: '40ecb15130b339658522794db6d9e1bc58f43b50',
+    fixturePath: 'research/class-mapping-source-epoch-v1/closed-native-body-cohort-v1.json',
+    fixtureSha256: null,
+  }),
+  qualifierCodeCommit: null,
+  qualifierCodeTree: null,
+  qualifierCodeParent: null,
+  sourceBodyInputHashes: Object.freeze({
+    'dist/data.json': '16ddcc0ef49ea5ee9ca32b26353edb632d10db160e83bbd464458f5b73c1b573',
+    'research/price-source-inventory.json': 'b32a8f8126e73b28fd0609fc7e0856990a454402b440735a77627f26fe986564',
+    'research/field-evidence-bindings.json': 'dc8a912cd1054572257e83b654cedb63c8d2d6ff29f327ce0151498b4ad59827',
+    'research/mechanics-audit-progress.json': '03643330c73dc3fe88f9abeb8a086883a3955d918cba2573e198563631a75785',
+  }),
+  codePins: Object.freeze({
+    'tools/class-mapping-raw-git-v1.mjs': null,
+    'tools/class-mapping-current-head-commit-v1.mjs': null,
+    'tools/class-mapping-current-consumer-seal-verifier-v1.mjs': null,
+    'tools/class-mapping-current-consumer-runtime-v1.mjs': null,
+    'tools/class-mapping-current-monetary-question-kernel-v1.mjs': null,
+    'tools/class-mapping-current-monetary-questions-v1.mjs': null,
+    'tools/class-mapping-current-jo-gap-v1.mjs': null,
+    'tools/class-mapping-current-source-handoff-v1.mjs': null,
+    'tools/class-mapping-current-ua26-marker-v1.mjs': null,
+    'tools/class-mapping-current-successors-v1.mjs': null,
+    'tools/coverage-gaps-class-mapping-v1.mjs': null,
+    'tools/monetary-row-identity-audit.mjs': null,
+    'tools/monetary-context-extent-contract.mjs': null,
+    'tools/monetary-source-render-frames.mjs': null,
+    'tools/jo-unextracted-price-registration.mjs': null,
+    'tools/ua-source-handoff-transition.mjs': null,
+    'tools/ua26-note-marker-audit.mjs': null,
+    'tools/dmg175-availability-projection.mjs': null,
+    'dist/books.js': null,
+  }),
+  contractPins: Object.freeze({
+    'research/class-mapping-current-adapters-v1/native-monetary-question-contract-v1.json': null,
+    'research/class-mapping-current-adapters-v1/jo-current-source-gap-contract-v1.json': null,
+    'research/class-mapping-current-adapters-v1/source-handoff-current-contract-v1.json': null,
+    'research/class-mapping-current-adapters-v1/ua26-marker-current-contract-v1.json': null,
+    'research/class-mapping-current-adapters-v1/source-body-handoff-transition-v1.template.json': null,
+  }),
+  receiptPins: Object.freeze({
+    'research/class-mapping-current-adapters-v1/source-body-handoff-transition-v1.json': null,
+  }),
+  externalSeal: 'The code-stage seal commits and authenticates these fixed bytes before handoff receipt generation; the final seal authenticates the separate final working pin module.',
+});
