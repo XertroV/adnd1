@@ -1,0 +1,4232 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "source-completeness-coverage-and-unresolved-inventory",
+  "baselineCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+  "scope": "All five supplied books have an explicit physical-page inventory and a source-first named-unit ledger. Actual source-unit semantics, row coverage, qualifiers and unknown continuations remain bounded and explicitly unassessed where not reviewed.",
+  "denominators": {
+    "canonicalPdfs": 5,
+    "physicalPdfPages": 776,
+    "supplementalImages": 1,
+    "namedSourceUnits": 559,
+    "completeSemanticSourceUnitCount": null,
+    "semanticallyCompleteBooks": 0,
+    "beforeSiteOwners": 997,
+    "currentSiteOwners": 1064,
+    "currentOwnersByCollection": {
+      "rules": 213,
+      "spells": 638,
+      "equipment": 192,
+      "matrices": 4,
+      "classes": 16,
+      "progressionExplainer": 1
+    }
+  },
+  "supplement": {
+    "book": "DMG",
+    "printedPage": 175,
+    "pdfPage": null,
+    "fileName": "dmg175.jpg",
+    "sha256": "e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7",
+    "sizeBytes": 623389,
+    "dimensionsPx": [
+      1329,
+      1796
+    ],
+    "editionStatus": "user-confirmed-correct-edition",
+    "canonicalPdfPhysicallyContainsPage": false,
+    "publishedFullImage": false,
+    "semanticCoverage": "independent-unit-review-required"
+  },
+  "bookReports": [
+    {
+      "book": "PHB",
+      "source": {
+        "fileName": "tsr2010-players-handbook.pdf",
+        "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+        "pdfPages": 130,
+        "edition": "AD&D 1st edition, sixth printing, January 1980",
+        "printedToPdfMapping": "Printed page N maps to PDF page N+1 for mapped printed pages 1-128. PDF page 1 is front cover; PDF page 130 is back cover. PDF page 129 maps to printed page 128 advertising/end matter."
+      },
+      "physicalPdfPages": 130,
+      "namedSourceUnits": 105,
+      "sourceUnitsByKind": {
+        "non-rules": 3,
+        "bibliographic": 1,
+        "front-matter": 2,
+        "navigation": 2,
+        "section": 5,
+        "ability-tables": 6,
+        "source-notes": 2,
+        "table-family": 3,
+        "racial-abilities": 7,
+        "class-section": 11,
+        "procedure": 34,
+        "definition": 2,
+        "definitions": 1,
+        "tables-procedures": 2,
+        "table-procedure": 1,
+        "definitions-procedure": 1,
+        "tables": 1,
+        "spell-section": 4,
+        "appendix": 1,
+        "appendix-class": 1,
+        "table": 1,
+        "reprint": 1,
+        "class-tables": 11,
+        "service-fee-table": 1,
+        "class-combat-table": 1
+      },
+      "completeSemanticSourceUnitDenominator": null,
+      "physicalPagesWithoutNamedUnitAssignments": [],
+      "crosslinkScope": "Declared page-to-unit links are checked where supplied. Source-unit span backreferences and missing assignments are structural metadata, not independent visual verification of each source unit.",
+      "unitCountMeaning": "Named source units/candidates can overlap by section, table, heading, procedure and page. This is not a complete atom, row, stat-profile or prose census.",
+      "baselineCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+      "baselineSiteDispositionOccurrences": {
+        "excluded": 8,
+        "citation-only": 2,
+        "absent": 19,
+        "present-findable": 86,
+        "incomplete": 98,
+        "unassessable": 20,
+        "present-unfindable": 2
+      },
+      "dispositionCountMeaning": "A unit can have different dispositions on different repository, rendered, search and citation surfaces. Counts overlap and are not an error total.",
+      "baselineFindings": [
+        {
+          "id": "phb-class-xp-search-omission",
+          "status": "confirmed-open",
+          "category": "field-level-search-projection-limit",
+          "sourceUnitIds": [
+            "class-assassin",
+            "class-bard",
+            "class-cleric",
+            "class-druid",
+            "class-fighter",
+            "class-illusionist",
+            "class-magic-user",
+            "class-monk",
+            "class-paladin",
+            "class-ranger",
+            "class-tables-assassin",
+            "class-tables-bard",
+            "class-tables-cleric",
+            "class-tables-druid",
+            "class-tables-fighter",
+            "class-tables-illusionist",
+            "class-tables-magic-user",
+            "class-tables-monk",
+            "class-tables-paladin",
+            "class-tables-ranger",
+            "class-tables-thief",
+            "class-thief"
+          ],
+          "scope": "Direct search over numeric/raw row fields in all PHB class XP threshold rows stored at classes[*].xpRows and rendered in Classes & Advancement.",
+          "evidence": {
+            "source": "Actual rendered class pages p.20-32 and Bard p.117-118; full-page unit/label review only.",
+            "site": "dist/app.js renders xpTableHTML(x) from class records; dist/search.js prepares a body from descriptive text and levelChanges but has no xpRows traversal.",
+            "codeLocations": {
+              "search": "dist/search.js:37-39,61-68",
+              "renderer": "dist/app.js:634-656"
+            },
+            "catalog": "classes.json /classes; 11 PHB class records, 156 stored XP rows; all 11 have incomplete=true; physical table-row denominator is not established."
+          },
+          "before": {
+            "inputCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+            "fileSha256": {
+              "classes.json": "46c5ad4c404eeb54a75af40e48e2eb8d8a5b952bf134accc7bf7cf1a6fea069e",
+              "dist/data.json": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d",
+              "dist/search.js": "5c341a8bf2d132830574d6f6f1806d4bcc279a64bc140dd126c1fe79fc31744b",
+              "dist/app.js": "d0462ff4b16ee3aba0b67e2f93608101c6e75e9f43357f4df07f5798738ec190"
+            },
+            "caseData": {
+              "jsonPointer": "/classes[*]/xpRows",
+              "rowCount": 156,
+              "rowsByClass": {
+                "cleric": 11,
+                "druid": 14,
+                "fighter": 11,
+                "paladin": 11,
+                "ranger": 12,
+                "magic-user": 18,
+                "illusionist": 12,
+                "thief": 12,
+                "assassin": 15,
+                "monk": 17,
+                "bard": 23
+              },
+              "minimalBeforeFixture": [
+                {
+                  "classId": "cleric",
+                  "rows": [
+                    {
+                      "level": 1,
+                      "xp": 0,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        20
+                      ]
+                    },
+                    {
+                      "level": 2,
+                      "xp": 1501,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        20
+                      ]
+                    },
+                    {
+                      "level": 3,
+                      "xp": 3001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        20
+                      ]
+                    },
+                    {
+                      "level": 4,
+                      "xp": 6001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        20
+                      ]
+                    },
+                    {
+                      "level": 5,
+                      "xp": 13001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        20
+                      ]
+                    },
+                    {
+                      "level": 6,
+                      "xp": 27501,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        20
+                      ]
+                    },
+                    {
+                      "level": 7,
+                      "xp": 55001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        20
+                      ]
+                    },
+                    {
+                      "level": 8,
+                      "xp": 110001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        20
+                      ]
+                    },
+                    {
+                      "level": 9,
+                      "xp": 225001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        20
+                      ]
+                    },
+                    {
+                      "level": 10,
+                      "xp": 450001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        20
+                      ]
+                    },
+                    {
+                      "level": 11,
+                      "xp": 675001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        20
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "classId": "druid",
+                  "rows": [
+                    {
+                      "level": 1,
+                      "xp": 0,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        21
+                      ]
+                    },
+                    {
+                      "level": 2,
+                      "xp": 2001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        21
+                      ]
+                    },
+                    {
+                      "level": 3,
+                      "xp": 4001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        21
+                      ]
+                    },
+                    {
+                      "level": 4,
+                      "xp": 7501,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        21
+                      ]
+                    },
+                    {
+                      "level": 5,
+                      "xp": 12501,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        21
+                      ]
+                    },
+                    {
+                      "level": 6,
+                      "xp": 20001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        21
+                      ]
+                    },
+                    {
+                      "level": 7,
+                      "xp": 35001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        21
+                      ]
+                    },
+                    {
+                      "level": 8,
+                      "xp": 60001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        21
+                      ]
+                    },
+                    {
+                      "level": 9,
+                      "xp": 90001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        21
+                      ]
+                    },
+                    {
+                      "level": 10,
+                      "xp": 125001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        21
+                      ]
+                    },
+                    {
+                      "level": 11,
+                      "xp": 200001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        21
+                      ]
+                    },
+                    {
+                      "level": 12,
+                      "xp": 300001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        21
+                      ]
+                    },
+                    {
+                      "level": 13,
+                      "xp": 750001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        21
+                      ]
+                    },
+                    {
+                      "level": 14,
+                      "xp": 1500001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        21
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "classId": "fighter",
+                  "rows": [
+                    {
+                      "level": 1,
+                      "xp": 0,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        22
+                      ]
+                    },
+                    {
+                      "level": 2,
+                      "xp": 2001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        22
+                      ]
+                    },
+                    {
+                      "level": 3,
+                      "xp": 4001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        22
+                      ]
+                    },
+                    {
+                      "level": 4,
+                      "xp": 8001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        22
+                      ]
+                    },
+                    {
+                      "level": 5,
+                      "xp": 18001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        22
+                      ]
+                    },
+                    {
+                      "level": 6,
+                      "xp": 35001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        22
+                      ]
+                    },
+                    {
+                      "level": 7,
+                      "xp": 70001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        22
+                      ]
+                    },
+                    {
+                      "level": 8,
+                      "xp": 125001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        22
+                      ]
+                    },
+                    {
+                      "level": 9,
+                      "xp": 250001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        22
+                      ]
+                    },
+                    {
+                      "level": 10,
+                      "xp": 500001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        22
+                      ]
+                    },
+                    {
+                      "level": 11,
+                      "xp": 750001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        22
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "classId": "paladin",
+                  "rows": [
+                    {
+                      "level": 1,
+                      "xp": 0,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        24
+                      ]
+                    },
+                    {
+                      "level": 2,
+                      "xp": 2751,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        24
+                      ]
+                    },
+                    {
+                      "level": 3,
+                      "xp": 5501,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        24
+                      ]
+                    },
+                    {
+                      "level": 4,
+                      "xp": 12001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        24
+                      ]
+                    },
+                    {
+                      "level": 5,
+                      "xp": 24001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        24
+                      ]
+                    },
+                    {
+                      "level": 6,
+                      "xp": 45001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        24
+                      ]
+                    },
+                    {
+                      "level": 7,
+                      "xp": 95001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        24
+                      ]
+                    },
+                    {
+                      "level": 8,
+                      "xp": 175001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        24
+                      ]
+                    },
+                    {
+                      "level": 9,
+                      "xp": 350001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        24
+                      ]
+                    },
+                    {
+                      "level": 10,
+                      "xp": 700001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        24
+                      ]
+                    },
+                    {
+                      "level": 11,
+                      "xp": 1050001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        24
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "classId": "ranger",
+                  "rows": [
+                    {
+                      "level": 1,
+                      "xp": 0,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 2,
+                      "xp": 2251,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 3,
+                      "xp": 4501,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 4,
+                      "xp": 10001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 5,
+                      "xp": 20001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 6,
+                      "xp": 40001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 7,
+                      "xp": 90001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 8,
+                      "xp": 150001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 9,
+                      "xp": 225001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 10,
+                      "xp": 325001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 11,
+                      "xp": 650001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 12,
+                      "xp": 975001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "classId": "magic-user",
+                  "rows": [
+                    {
+                      "level": 1,
+                      "xp": 0,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 2,
+                      "xp": 2501,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 3,
+                      "xp": 5001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 4,
+                      "xp": 10001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 5,
+                      "xp": 22501,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 6,
+                      "xp": 40001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 7,
+                      "xp": 60001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 8,
+                      "xp": 90001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 9,
+                      "xp": 135001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 10,
+                      "xp": 250001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 11,
+                      "xp": 375001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 12,
+                      "xp": 750001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        25
+                      ]
+                    },
+                    {
+                      "level": 13,
+                      "xp": 1125001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 14,
+                      "xp": 1500001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 15,
+                      "xp": 1875001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 16,
+                      "xp": 2250001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 17,
+                      "xp": 2625001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 18,
+                      "xp": 3000001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "classId": "illusionist",
+                  "rows": [
+                    {
+                      "level": 1,
+                      "xp": 0,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 2,
+                      "xp": 2251,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 3,
+                      "xp": 4501,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 4,
+                      "xp": 9001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 5,
+                      "xp": 18001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 6,
+                      "xp": 35001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 7,
+                      "xp": 60001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 8,
+                      "xp": 95001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 9,
+                      "xp": 145001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 10,
+                      "xp": 220001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 11,
+                      "xp": 440001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    },
+                    {
+                      "level": 12,
+                      "xp": 660001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        26
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "classId": "thief",
+                  "rows": [
+                    {
+                      "level": 1,
+                      "xp": 0,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        27
+                      ]
+                    },
+                    {
+                      "level": 2,
+                      "xp": 1251,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        27
+                      ]
+                    },
+                    {
+                      "level": 3,
+                      "xp": 2501,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        27
+                      ]
+                    },
+                    {
+                      "level": 4,
+                      "xp": 5001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        27
+                      ]
+                    },
+                    {
+                      "level": 5,
+                      "xp": 10001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        27
+                      ]
+                    },
+                    {
+                      "level": 6,
+                      "xp": 20001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        27
+                      ]
+                    },
+                    {
+                      "level": 7,
+                      "xp": 42501,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        27
+                      ]
+                    },
+                    {
+                      "level": 8,
+                      "xp": 70001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        27
+                      ]
+                    },
+                    {
+                      "level": 9,
+                      "xp": 110001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        27
+                      ]
+                    },
+                    {
+                      "level": 10,
+                      "xp": 160001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        27
+                      ]
+                    },
+                    {
+                      "level": 11,
+                      "xp": 220001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        27
+                      ]
+                    },
+                    {
+                      "level": 12,
+                      "xp": 440001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        27
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "classId": "assassin",
+                  "rows": [
+                    {
+                      "level": 1,
+                      "xp": 0,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        30
+                      ]
+                    },
+                    {
+                      "level": 2,
+                      "xp": 1501,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        30
+                      ]
+                    },
+                    {
+                      "level": 3,
+                      "xp": 3001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        30
+                      ]
+                    },
+                    {
+                      "level": 4,
+                      "xp": 6001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        30
+                      ]
+                    },
+                    {
+                      "level": 5,
+                      "xp": 12001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        30
+                      ]
+                    },
+                    {
+                      "level": 6,
+                      "xp": 25001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        30
+                      ]
+                    },
+                    {
+                      "level": 7,
+                      "xp": 50001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        30
+                      ]
+                    },
+                    {
+                      "level": 8,
+                      "xp": 100001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        30
+                      ]
+                    },
+                    {
+                      "level": 9,
+                      "xp": 200001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        30
+                      ]
+                    },
+                    {
+                      "level": 10,
+                      "xp": 300001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        30
+                      ]
+                    },
+                    {
+                      "level": 11,
+                      "xp": 425001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        30
+                      ]
+                    },
+                    {
+                      "level": 12,
+                      "xp": 575001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        30
+                      ]
+                    },
+                    {
+                      "level": 13,
+                      "xp": 750001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        30
+                      ]
+                    },
+                    {
+                      "level": 14,
+                      "xp": 1000001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        30
+                      ]
+                    },
+                    {
+                      "level": 15,
+                      "xp": 1500001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        30
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "classId": "monk",
+                  "rows": [
+                    {
+                      "level": 1,
+                      "xp": 0,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 2,
+                      "xp": 2251,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 3,
+                      "xp": 4751,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 4,
+                      "xp": 10001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 5,
+                      "xp": 22501,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 6,
+                      "xp": 47501,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 7,
+                      "xp": 98001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 8,
+                      "xp": 200001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 9,
+                      "xp": 350001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 10,
+                      "xp": 500001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 11,
+                      "xp": 700001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 12,
+                      "xp": 950001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 13,
+                      "xp": 1250001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 14,
+                      "xp": 1750001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 15,
+                      "xp": 2250001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 16,
+                      "xp": 2750001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    },
+                    {
+                      "level": 17,
+                      "xp": 3250001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        31
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "classId": "bard",
+                  "rows": [
+                    {
+                      "level": 1,
+                      "xp": 0,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 2,
+                      "xp": 2001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 3,
+                      "xp": 4001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 4,
+                      "xp": 8001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 5,
+                      "xp": 16001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 6,
+                      "xp": 25001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 7,
+                      "xp": 40001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 8,
+                      "xp": 60001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 9,
+                      "xp": 85001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 10,
+                      "xp": 110001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 11,
+                      "xp": 150001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 12,
+                      "xp": 200001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 13,
+                      "xp": 400001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 14,
+                      "xp": 600001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 15,
+                      "xp": 800001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 16,
+                      "xp": 1000001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 17,
+                      "xp": 1200001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 18,
+                      "xp": 1400001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 19,
+                      "xp": 1600001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 20,
+                      "xp": 1800001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 21,
+                      "xp": 2000001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 22,
+                      "xp": 2200001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    },
+                    {
+                      "level": 23,
+                      "xp": 3000001,
+                      "label": null,
+                      "track": "main",
+                      "book": "PHB",
+                      "pages": [
+                        117
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "minimalBeforeFixtureSha256": "ce55a1154605883b20bb9c19588815513e431b7ca1004d9c6efd8f456eafc9cf",
+              "physicalSourceRowNote": "The earlier 206-target tuple audit is a cross-book source-target identity denominator, not a numeric source-value review. Three rows outside that subset are identified in UA (two Cavalier level-0 stages and one Great Druid level-14 row); PHB-specific physical XP rows outside the subset remain not established."
+            }
+          },
+          "impact": "Class documents remain findable by title/topic and their XP tables render when opened. Numeric XP values, level fields, row labels, and tracks are not indexed as direct search terms, so a search targeted only at one of those row fields may not retrieve the class guide.",
+          "proposedRepair": "Queue a separate XP field-search enhancement to include level, XP, track, label and relevant row-note fields while keeping the class guide as the owning result. This audit does not treat the tables themselves as unfindable and applies no repair.",
+          "limits": [
+            "This is a field-level search projection limitation, not a missing or unfindable class document/table.",
+            "Physical source row denominator is not re-opened here; prior work reviewed 206 XP target tuples, and PHB-specific physical rows outside that tuple denominator are not established; three UA rows are documented separately.",
+            "This is not a source-value verdict.",
+            "No data/citation repair applied in this inventory."
+          ]
+        },
+        {
+          "id": "phb-progression-explainer-search-omission",
+          "status": "confirmed-open",
+          "category": "present-unfindable",
+          "sourceUnitIds": [
+            "multiclass",
+            "dual-class",
+            "appendix-bard"
+          ],
+          "scope": "progressionExplainer sections for concurrent multiclass, sequential class change and special published progressions; PHB references include pp.32-33 and 117-118.",
+          "evidence": {
+            "siteData": "dist/data.json contains a top-level progressionExplainer object; dist/app.js renders it at the top of the Classes view via progressionExplainerHTML().",
+            "search": "buildIndex() indexes arrays spells/rules/equipment/classes and notes only; it does not add progressionExplainer.",
+            "codeLocations": {
+              "index": "dist/app.js:265-272",
+              "render": "dist/app.js:508,516-519"
+            },
+            "dataSha256": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d",
+            "appSha256": "d0462ff4b16ee3aba0b67e2f93608101c6e75e9f43357f4df07f5798738ec190",
+            "searchSha256": "5c341a8bf2d132830574d6f6f1806d4bcc279a64bc140dd126c1fe79fc31744b"
+          },
+          "impact": "The explainer is visible in the class view, but its section labels and descriptions have no dedicated indexed item. Individual rules/classes may match overlapping terms; exact help-text findability is not guaranteed.",
+          "proposedRepair": "Add a dedicated progression-explainer search item or index the explainer text against its own Classes result while preserving its source owner and references.",
+          "limits": [
+            "Editorial guide text is not a source-unit denominator.",
+            "No runtime search test was added or run.",
+            "No data/citation repair applied."
+          ]
+        },
+        {
+          "id": "phb-monk-attack-table-conflict",
+          "status": "confirmed-source-conflict-pending-source-worker",
+          "category": "incomplete",
+          "sourceUnitIds": [
+            "class-monk"
+          ],
+          "scope": "Monk attack-table instruction in PHB p.30, with separate DMG p.74 instruction; never harmonize into a single universal table without a campaign decision.",
+          "evidence": {
+            "PHB": {
+              "fileName": "tsr2010-players-handbook.pdf",
+              "sha256": "e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095",
+              "printedPage": 30,
+              "pdfPage": 31,
+              "pixelReview": "Full rendered PHB page viewed; monk section explicitly directs the thief attack table."
+            },
+            "DMG": {
+              "fileName": "DMG_1stEd.pdf",
+              "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+              "printedPage": 74,
+              "pdfPage": 75,
+              "pixelReview": "Parent reports independent source check; preserve as cross-book evidence."
+            },
+            "priorReview": "Root-provided note-source-review approval of authored note meaning; exact source-worker render remains pending. Existing mechanics field log records this as source conflict.",
+            "codeLocations": {
+              "data": "classes.json /classes[id=monk]/attackTableNote and /guidance/1",
+              "renderer": "dist/app.js:655-656 (class detail uses guidance; no attackTableNote consumer found)"
+            },
+            "beforeFileSha256": {
+              "classes.json": "46c5ad4c404eeb54a75af40e48e2eb8d8a5b952bf134accc7bf7cf1a6fea069e",
+              "dist/data.json": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d",
+              "dist/app.js": "d0462ff4b16ee3aba0b67e2f93608101c6e75e9f43357f4df07f5798738ec190"
+            },
+            "beforeCaseData": {
+              "attackTableNote": "Printing conflict: PHB p. 30 says monks attack as thieves; the DMG p. 74 cleric/druid matrix explicitly includes monks. Confirm which table the campaign uses.",
+              "guidance[1]": "Update armor class, open-hand combat, and special abilities; PHB p. 30 and DMG p. 74 disagree on the monk attack table, so confirm the campaign ruling.",
+              "pendingMechanics": [
+                "Complete saving-throw delta",
+                "Complete attack-matrix delta for every armor class",
+                "Character-specific ability, race, equipment, and multiclass adjustments",
+                "Complete class-skill and special-ability table delta",
+                "Printing conflict: PHB p. 30 says monks attack as thieves; the DMG p. 74 cleric/druid matrix explicitly includes monks. Confirm which table the campaign uses."
+              ]
+            },
+            "beforeCaseDataSha256": "d7f0197de4b6bc8b06c4a2ce72662e92713af24d37d2a62128e2fe93b05ffa66"
+          },
+          "impact": "The source conflict is recorded in data and also paraphrased in rendered Monk guidance; the dedicated structured attackTableNote field itself is not consumed by classDetailHTML. The class record remains incomplete for full attack-matrix deltas.",
+          "proposedRepair": "Keep both source statements and source identities attached to a visible conflict note. Bind PHB p.30 and DMG p.74 separately; preserve a referee/campaign ruling rather than choosing one table in catalog data.",
+          "limits": [
+            "The PHB audit does not independently re-review the DMG PDF.",
+            "The source worker needs its own rendered, source-bound evidence before a citation repair.",
+            "No content/citation repair applied."
+          ]
+        }
+      ],
+      "checkedNegativeScope": [
+        {
+          "scope": "All physical pages",
+          "result": "All 130 pages are explicitly listed in pageCoverage and visually screened on contact sheets. This is page screening, not content verification."
+        },
+        {
+          "scope": "Numbering/mapping",
+          "result": "128 mapped printed pages 1-128 plus cover PDF pages 1 and 130; printed page N maps to PDF N+1."
+        },
+        {
+          "scope": "PHB matrix collection",
+          "result": "Current assembled matrices collection has no PHB matrix record; its sole matrix is the DMG fighter matrix. PHB p.105 describes DM-supplied matrices, not PHB table cells."
+        },
+        {
+          "scope": "Spell record denominator",
+          "result": "414 PHB spell records are present, 102 marked incomplete. The PHB physical spell-list/description denominator was not counted, so no claim that all source spells are represented."
+        },
+        {
+          "scope": "Class denominator",
+          "result": "11 PHB class guides are present; all are marked incomplete. Current catalog stores 156 XP rows and 663 level-change events, not a count of all printed prose abilities/procedures."
+        },
+        {
+          "scope": "Equipment denominator",
+          "result": "168 PHB equipment records are present and all are marked incomplete. This is a catalog-entry count, not physical rows, offers, quantities, or variants."
+        },
+        {
+          "scope": "False negatives",
+          "result": "No absence conclusion is based on OCR or lexical search alone; section absence labels mean no corresponding PHB record was found in the current exposed PHB views after catalog inspection."
+        }
+      ],
+      "unassessed": [
+        "Line-by-line PHB rules coverage outside the selected previously reviewed fields.",
+        "Per-class prose ability/procedure atom denominator; the feature labels in class sourceUnits are an inventory aid, not an exhaustive clause count.",
+        "Full class XP physical-row denominator and bindings for any PHB rows outside the earlier tuple subset are not established. Three separate UA rows outside that cross-book subset are documented in counts.crossAuditOutsideTupleRows.",
+        "Class-specific attack/save matrices, every level delta, spell-access delta and all dependent race/ability/equipment/multiclass qualifiers.",
+        "Spell source-row/list denominator, full spell description completeness, all wrapped entries and all cross-page continuations beyond existing scoped reviews.",
+        "Equipment physical-row and offer denominator, variants, quantities, service fees and all price/weight cells; item counts and price counts are separate.",
+        "Complete table footnote/superscript/asterisk census, note-to-row binding and all continuation relationships.",
+        "Appendix I psionic powers/discipline tables, Appendix III alignment graph, Appendix IV planes and Appendix V treasure agreements as source-data units.",
+        "Bard Appendix II all table rows and non-XP ability/procedure values.",
+        "Source images/citation-context correctness for every current PHB page binding; source excerpts only prove their narrow scoped passage."
+      ],
+      "mappingHandoff": {
+        "catalogs": [
+          "rules.json",
+          "classes.json",
+          "equipment.json",
+          "phb-spells.json",
+          "phb-spell-index.json",
+          "phb-magic-user-extra.json",
+          "attack-matrices.json",
+          "dist/data.json"
+        ],
+        "searchAndRender": [
+          "dist/search.js",
+          "dist/app.js"
+        ],
+        "views": [
+          "spells",
+          "rules",
+          "equipment",
+          "classes"
+        ],
+        "keyMappings": [
+          {
+            "source": "PHB race/ability/procedure summaries",
+            "site": "rules[*]",
+            "evidence": "55 PHB rule records; all source statuses are OCR checked / visual review pending."
+          },
+          {
+            "source": "PHB class sections and class tables",
+            "site": "classes[*]",
+            "evidence": "11 PHB class guides; all incomplete=true; class-specific feature inventory is included in corresponding sourceUnit."
+          },
+          {
+            "source": "PHB spell lists and descriptions",
+            "site": "spells[*]",
+            "evidence": "414 PHB records across four spellcasting classes; all OCR checked / visual review pending, 102 flagged incomplete."
+          },
+          {
+            "source": "PHB equipment offers and tables",
+            "site": "equipment[*]",
+            "evidence": "168 records, all incomplete; price/selected-value statuses are narrower than whole-table coverage."
+          },
+          {
+            "source": "PHB p.105 attack/save matrix pointer",
+            "site": "rules:saving-throws-overview; matrices contains DMG only",
+            "evidence": "PHB text points to DM-supplied tables; do not treat a DMG matrix as a PHB matrix."
+          }
+        ],
+        "nextRepairsProposedButNotApplied": [
+          "Index classes[*].xpRows so displayed source thresholds are findable.",
+          "Index or provide a dedicated search result for progressionExplainer text.",
+          "Keep Monk PHB/DMG conflict source-bound and visible; do not resolve by rewriting one source as the other."
+        ],
+        "preservePriorWork": [
+          "Cleric 130-cell matrix",
+          "206 XP target plus 10 Cavalier HP target reviews",
+          "Jo Stick source mapping"
+        ],
+        "sourceDataDenominatorsAreNotInterchangeable": [
+          "source pages",
+          "physical table rows",
+          "catalog items",
+          "spell records",
+          "XP rows",
+          "level-change events",
+          "fields",
+          "citation bindings"
+        ]
+      }
+    },
+    {
+      "book": "DMG",
+      "source": {
+        "fileName": "DMG_1stEd.pdf",
+        "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+        "pdfPages": 240,
+        "privatePath": "/workspace/vault-audit-private/sources/DMG_1stEd.pdf",
+        "edition": "Dungeon Masters Guide, 1st edition / revised December 1979 source scan as recorded in existing matrix review; no broader printing claim."
+      },
+      "physicalPdfPages": 240,
+      "namedSourceUnits": 60,
+      "sourceUnitsByKind": {
+        "cover": 1,
+        "front-matter": 5,
+        "contents": 1,
+        "index": 2,
+        "chapter": 24,
+        "appendix": 16,
+        "glossary": 1,
+        "afterword": 1,
+        "table-family": 1,
+        "numeric-table": 4,
+        "supplemental-page": 1,
+        "source-limitation": 1,
+        "unmapped-source-sheet": 1,
+        "back-cover": 1
+      },
+      "completeSemanticSourceUnitDenominator": null,
+      "physicalPagesWithoutNamedUnitAssignments": [],
+      "crosslinkScope": "Declared page-to-unit links are checked where supplied. Source-unit span backreferences and missing assignments are structural metadata, not independent visual verification of each source unit.",
+      "unitCountMeaning": "Named source units/candidates can overlap by section, table, heading, procedure and page. This is not a complete atom, row, stat-profile or prose census.",
+      "baselineCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+      "baselineSiteDispositionOccurrences": {
+        "excluded": 2,
+        "unassessable": 52,
+        "incomplete": 6,
+        "absent": 3,
+        "citation-only": 3,
+        "present-findable": 1
+      },
+      "dispositionCountMeaning": "A unit can have different dispositions on different repository, rendered, search and citation surfaces. Counts overlap and are not an error total.",
+      "baselineFindings": [
+        {
+          "id": "dmg-p74-nonfighter-attack-matrices-absent",
+          "status": "confirmed-structural-absence-with-pixel-verified-source-denominator",
+          "sourceUnitIds": [
+            "dmg-cleric-druid-monk-attack-matrix",
+            "dmg-magic-user-illusionist-attack-matrix",
+            "dmg-thief-assassin-attack-matrix"
+          ],
+          "sourceDenominator": {
+            "tableCount": 3,
+            "rowsPerTable": 21,
+            "sourceCells": 378,
+            "tableCells": {
+              "I.A": 147,
+              "I.C": 105,
+              "I.D.1": 126
+            }
+          },
+          "siteDisposition": "Structured matrices collection: I.A/I.C/I.D.1 absent (0 of 378 matrix values); three class-card groups contain only partial, repeated AC0 change snippets; the existing location-only catalog crops are citation-only. Complete matrix values and most footnotes are absent from searchable data.",
+          "evidence": [
+            {
+              "path": "research/source-completeness-matrix-before-detector.json",
+              "sha256": "87c2bda729a9e22f2d2caf8aa623d3b57e7e872a3cc8054509d82c1d926e20ff",
+              "result": "Three structured source tables absent, 0 current matrix cells, 378 source numeric cells."
+            },
+            {
+              "path": "research/source-completeness-matrix-before.json.gz",
+              "sha256": "8ded5776633dbc6024952d3e2f17f273a08027271ff52268dadc4fe4e6fa0711",
+              "result": "Compressed pre-repair baseline including all 997 exposed data owners; preserve before any repair."
+            },
+            {
+              "path": "dist/data.json",
+              "sha256": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d"
+            },
+            {
+              "path": "dist/app.js",
+              "sha256": "d0462ff4b16ee3aba0b67e2f93608101c6e75e9f43357f4df07f5798738ec190"
+            },
+            {
+              "path": "dist/combat.js",
+              "sha256": "fdab880b80726f8a84ac86aa2297b1ff2e110bdddbaa3a7dbb3d9fd0dba27eda"
+            },
+            {
+              "path": "dist/books.js",
+              "sha256": "6284977531e38b3184a15939bb8a68e31b37d1dad61c91392bb57d443045d98d"
+            },
+            {
+              "path": "dist/scans/verified/matrices-dmg-original-fighter-attack-matrix.json",
+              "region": "dmg-74-0340da51b8d099f0",
+              "sha256": "0340da51b8d099f0cbc6fa43458edbc94845d17620c66ebb64dcd5ea03c8b00c",
+              "scope": "Existing I.B crop labels heading/table location only; no field-target source binding."
+            }
+          ],
+          "proposedRepair": "Prepare a literal, independently reviewed transcription of the 378 values, source labels and all adjacent qualifiers/footnotes, then add explicit source bindings and searchable/rendered table entries. Preserve the p74 source crop context and the monk PHB/DMG conflict. Do not infer non-matrix class mechanics from these tables. No repair applied in this inventory."
+        },
+        {
+          "id": "dmg-printed-p175-partial-supplement",
+          "status": "confirmed-partial-source-coverage",
+          "sourceUnitIds": [
+            "dmg-appendix-c-printed-page-175-supplement"
+          ],
+          "evidence": [
+            "Supplemental image is correct edition per user; hash and dimensions verified.",
+            "Two existing crops support bounded passage statements only; Character Subtable is context, not transcribed."
+          ],
+          "proposedRepair": "If extending Appendix C coverage, inventory the whole supplemental page and transcribe only separately reviewed rows/procedures with private-source bindings; keep its separate-source and printing status explicit."
+        },
+        {
+          "id": "dmg-p239-visible-content-unmapped",
+          "status": "confirmed-visible-tables-printing-identity-unverified",
+          "sourceUnitIds": [
+            "dmg-p239-unmapped-reference-sheet"
+          ],
+          "evidence": [
+            "PDF p.239 visually inspected as an unnumbered reference sheet with encumbrance and hireling tables.",
+            "The current mapping explicitly leaves printed pp.239–240 unverified; no PDF page is assigned."
+          ],
+          "siteDisposition": "No explicit DMG p.239 references found in assembled data; page/table mapping remains unassessable, not a proven source omission because printed-page identity is unresolved.",
+          "proposedRepair": "Resolve printing/page identity from authorized source evidence before mapping the visible tables to page 225 or hireling pages. Then reconcile rows and qualifiers to current equipment/rules data."
+        },
+        {
+          "id": "dmg-bookwide-source-unit-denominator-open",
+          "status": "known-scope-limit",
+          "evidence": [
+            "240/240 physical PDF pages visually screened: 7 individual initial pages, pages 8–238 in 20 contact sheets, and p239–240 individually.",
+            "Contents and Tables and Charts index inspected; 115 index-label candidates retained as locators."
+          ],
+          "siteDisposition": "No whole-book completeness claim. Most page bodies, procedures, definitions, qualifiers, notes, and continuations remain unassessed.",
+          "proposedRepair": "Continue source-first inventory by chapter/table family with source row denominators recorded before catalog matching."
+        },
+        {
+          "id": "dmg-p11-source-edge-glyphs",
+          "status": "source-limitation-not-reconstructed",
+          "sourceUnitIds": [
+            "dmg-p11-edge-limited-glyphs"
+          ],
+          "evidence": [
+            "Printed p.11/PDF p.12 inspected at 4×. Existing clipping records say the target text reaches the supplied page-image edge; unavailable glyphs cannot be recovered by recropping."
+          ],
+          "proposedRepair": "Keep literal unknowns/edge limitations explicit. Do not reconstruct glyphs from OCR, context, or inference."
+        },
+        {
+          "id": "dmg-appendix-outline-boundary-corrections",
+          "status": "contents-indexed-outline-candidates-confirmed-by-endpoint-pixel-review",
+          "sourceUnitIds": [
+            "dmg-appendix-a",
+            "dmg-appendix-b",
+            "dmg-appendix-c",
+            "dmg-appendix-d",
+            "dmg-appendix-e",
+            "dmg-appendix-f",
+            "dmg-appendix-g",
+            "dmg-appendix-h",
+            "dmg-appendix-i",
+            "dmg-appendix-j",
+            "dmg-appendix-k",
+            "dmg-appendix-l",
+            "dmg-appendix-m",
+            "dmg-appendix-n",
+            "dmg-appendix-o",
+            "dmg-appendix-p",
+            "dmg-glossary",
+            "dmg-afterword",
+            "dmg-index"
+          ],
+          "evidence": [
+            "Scanned Contents printed p.5/PDF6 lists Appendix A p.169, Solo Play p.173, Appendix B p.173, Appendix C p.174, Monster Encounter Adjustment p.174, and Dungeon Random Monster Encounters p.175. Contents pp.5–6 and Tables and Charts p.6/PDF7 were visually inspected.",
+            "Actual PDF endpoint images inspected individually, including PDF173–176 at 2.4x; printed p.175 JPEG separately viewed. Appendix C begins on printed p.174/PDF175, and its broken “max-” passage continues on separate JPEG p.175.",
+            "Printed p.194/PDF194 shows Appendix C final Magic Possessed by Encountered Creatures content and Appendix D opening; Appendix C and D share this folio.",
+            "Other observed same-folio transitions include E/F p.215, G/H p.216, H/I p.217, I/J p.220, J/K p.221, L/M p.222, M/N p.224, O/P p.225, P/Glossary p.227, Glossary/Afterword p.230. Index begins p.231.",
+            "Afterword is visible on printed p.230 only; p.231 begins Index. PDF p.193 is a full-page illustration without a visible folio; printed p.193 remains sequence-assigned rather than observed."
+          ],
+          "siteDisposition": "Section span/outline correction only. Broad chapter bodies remain unassessed except separately recorded bounded source units; this finding makes no claim of whole-book completeness.",
+          "proposedRepair": "No production or citation repair is made. Use the corrected source-unit folio/PDF spans and preserve the supplemental printed-p.175 page as a distinct non-PDF artifact."
+        }
+      ],
+      "checkedNegativeScope": [
+        {
+          "scope": "DMG p.74 structured non-fighter matrix records",
+          "result": "No matrix records for I.A, I.C, or I.D.1; structural detector before data baseline reports 0 current numeric cells for 378 source cells. Partial class progression snippets are separately enumerated and are not full matrices."
+        },
+        {
+          "scope": "DMG p.74 source-cell denominator",
+          "result": "21 AC rows per table; I.A 7 bands/147 cells, I.B 10 bands/210 cells, I.C 5 bands/105 cells, I.D.1 6 bands/126 cells; four-table bounded total 588 numeric cells."
+        },
+        {
+          "scope": "DMG p.175 coverage",
+          "result": "One existing rules record references the supplement with two crops; no complete Character Subtable transcript. The crop set is not a complete Appendix C source-unit inventory."
+        },
+        {
+          "scope": "DMG p.239–240 distribution references",
+          "result": "No explicit DMG p.239 or p.240 citation found in assembled data; this is a bounded search result, not proof of absent source content or page identity."
+        },
+        {
+          "scope": "main-app search implementation",
+          "result": "dist/app.js buildIndex indexes spells, rules, equipment, classes, and notes, but omits matrices. Fighter matrix is reachable through a separate combat UI disclosure. Class queries can find partial AC0 snippets; a main-search probe for “surprise back stab” found no match."
+        }
+      ],
+      "unassessed": [
+        {
+          "scope": "bookwide",
+          "detail": "The complete source-unit denominator remains unknown. Contact-sheet visual screening is not semantic source-unit review. Table bodies away from the specifically inspected p.74 family, all definitions, procedures, exact qualifiers/footnotes, and continuations remain incompletely inventoried and unreconciled."
+        },
+        {
+          "scope": "page175",
+          "detail": "Complete Character Subtable and other page units are not transcribed; supplemental printing identity beyond user-confirmed edition is not established."
+        },
+        {
+          "scope": "endMatter",
+          "detail": "Printed-page identity for PDF pp.239–240 is unverified. PDF p.239 table rows and amounts are not transcribed or attached to site data."
+        },
+        {
+          "scope": "sourceEdges",
+          "detail": "DMG p.11 edge glyphs unavailable in source scan are not reconstructed."
+        },
+        {
+          "scope": "monetaryInterpretations",
+          "detail": {
+            "count": 7,
+            "status": "remain unresolved; not considered cleared by the DMG p.175 inspection",
+            "registry": "research/gaps-limitations-next-task.json#/currentMonetarySourceQuestions",
+            "registrySha256": "d583358fe1658adc06161c7d4d0aeeb91906916398039319524ec4fcdf7d3741",
+            "questionIds": [
+              "relative-monetary-reading-ua-census-record-006",
+              "relative-monetary-reading-ua-census-record-038",
+              "uncertain-scimitar-marker-ua-other-008-H1-cont-r030",
+              "uncertain-scimitar-marker-ua-other-008-H2-r070",
+              "uncertain-scimitar-marker-ua-other-008-H2-r071",
+              "uncertain-scimitar-marker-ua-other-008-H2-r072",
+              "uncertain-scimitar-marker-ua-other-008-H2-r073"
+            ],
+            "scopeNote": "Repository-wide monetary interpretation register; these seven are separate from DMG coverage claims."
+          }
+        },
+        {
+          "scope": "dmgMonetaryScopeQuestions",
+          "detail": {
+            "count": 2,
+            "status": "remain unresolved and distinct from the seven interpretation questions; not cleared by p.175",
+            "registry": "research/gaps-limitations-next-task.json#/currentMonetarySourceQuestions",
+            "questionIds": [
+              "phb-dmg-commodity-adjustment-scope",
+              "phb-dmg-alchemist-discount-scope"
+            ],
+            "labels": [
+              "Commodity adjustment applicability/scope",
+              "Alchemist assistance and potion monetary-cost scope"
+            ]
+          }
+        }
+      ],
+      "mappingHandoff": {
+        "inputCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+        "mappingCode": {
+          "path": "dist/books.js",
+          "sha256": "6284977531e38b3184a15939bb8a68e31b37d1dad61c91392bb57d443045d98d",
+          "rules": "printed pp.1–174 -> PDF N+1; printed pp.176–238 -> PDF N; p.175 omitted from PDF and supplied only by separate user-confirmed image; pp.239–240 unverified; PDF p.239 unnumbered sheet; PDF p.240 back cover."
+        },
+        "distributionSnapshot": {
+          "data": {
+            "path": "dist/data.json",
+            "sha256": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d"
+          },
+          "app": {
+            "path": "dist/app.js",
+            "sha256": "d0462ff4b16ee3aba0b67e2f93608101c6e75e9f43357f4df07f5798738ec190"
+          },
+          "combat": {
+            "path": "dist/combat.js",
+            "sha256": "fdab880b80726f8a84ac86aa2297b1ff2e110bdddbaa3a7dbb3d9fd0dba27eda"
+          }
+        },
+        "matrixBaseline": {
+          "path": "research/source-completeness-matrix-before.json.gz",
+          "sha256": "8ded5776633dbc6024952d3e2f17f273a08027271ff52268dadc4fe4e6fa0711",
+          "detectorPath": "research/source-completeness-matrix-before-detector.json",
+          "detectorSha256": "87c2bda729a9e22f2d2caf8aa623d3b57e7e872a3cc8054509d82c1d926e20ff",
+          "scope": "Pre-repair snapshot of five exact baseline files/all 997 data owners as reported by parent; retain before literal 378-cell proposal or production data edits."
+        },
+        "pageBaseline": {
+          "path": "research/source-completeness-page-baseline.json",
+          "sha256": "04497369894821d9d455c590ab55dd56a011fae0ba18c0e80cc84b7864f6ae8f",
+          "startingStatePath": "research/source-completeness-starting-state.json",
+          "startingStateSha256": "26971263bb360cce28e9f91d9e5e22e7ba03ade26d9f241fe761edf646d2baf4"
+        },
+        "matrixOwnerDisposition": [
+          {
+            "tableId": "dmg-original-fighter-attack-matrix",
+            "sourceHeading": "I.B",
+            "currentStatus": "present-findable through dedicated combat UI; 210/210 cells verified. Core search buildIndex omits matrices; attached note fields remain visual-review-pending."
+          },
+          {
+            "tableId": "dmg-cleric-druid-monk-attack-matrix",
+            "sourceHeading": "I.A",
+            "currentStatus": "incomplete; no matrix record; 15 partial/duplicated AC0 level-change entries across three class cards; not a full table."
+          },
+          {
+            "tableId": "dmg-magic-user-illusionist-attack-matrix",
+            "sourceHeading": "I.C",
+            "currentStatus": "incomplete; no matrix record; four repeated class entries encode only partial AC0 transitions."
+          },
+          {
+            "tableId": "dmg-thief-assassin-attack-matrix",
+            "sourceHeading": "I.D.1",
+            "currentStatus": "incomplete; no matrix record; six repeated class entries encode only partial AC0 transitions; backstab footnotes absent from main search."
+          }
+        ],
+        "page175OwnerDisposition": {
+          "owner": "rules:encounter-types",
+          "state": "partial source text/findable through existing rule reference and two reviewed source crops; no Character Subtable cells transcribed."
+        },
+        "searchHandoff": {
+          "coreSearchCollections": [
+            "spells",
+            "rules",
+            "equipment",
+            "classes",
+            "notes"
+          ],
+          "omittedCollection": "matrices",
+          "specialRendering": "fighter matrix through combat UI disclosure",
+          "probes": [
+            "“cleric attack matrix” finds class-card snippet, not full table",
+            "“magic-user attack matrix” finds class-card snippet, not full table",
+            "“thief attack matrix” finds class-card snippet, not full table",
+            "“surprise back stab” found no main-search match"
+          ],
+          "limit": "Query hits and misses are findability evidence only; not source transcription or completeness checks."
+        },
+        "noProductionEdits": true,
+        "assembledOwnerReferenceCensus": {
+          "assembledDataSha256": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d",
+          "method": "Count top-level assembled records containing nested objects with book=DMG and an integer pages array. A DMG page locator is a candidate association only; this is not a source-unit or semantic pass.",
+          "collections": {
+            "rules": {
+              "totalRecords": 149,
+              "ownersWithDMGLocators": 80,
+              "nestedDMGLocatorObjects": 212,
+              "distinctPrintedPages": [
+                11,
+                12,
+                27,
+                28,
+                38,
+                39,
+                40,
+                47,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                61,
+                63,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                75,
+                76,
+                79,
+                80,
+                82,
+                84,
+                85,
+                86,
+                119,
+                120,
+                121,
+                175
+              ]
+            },
+            "spells": {
+              "totalRecords": 638,
+              "ownersWithDMGLocators": 17,
+              "nestedDMGLocatorObjects": 48,
+              "distinctPrintedPages": [
+                26,
+                60,
+                64,
+                74,
+                75,
+                132,
+                135,
+                141,
+                142
+              ]
+            },
+            "equipment": {
+              "totalRecords": 192,
+              "ownersWithDMGLocators": 51,
+              "nestedDMGLocatorObjects": 65,
+              "distinctPrintedPages": [
+                27,
+                60,
+                64,
+                65,
+                225
+              ]
+            },
+            "matrices": {
+              "totalRecords": 1,
+              "ownersWithDMGLocators": 1,
+              "nestedDMGLocatorObjects": 15,
+              "distinctPrintedPages": [
+                70,
+                74,
+                82
+              ]
+            },
+            "classes": {
+              "totalRecords": 16,
+              "ownersWithDMGLocators": 12,
+              "nestedDMGLocatorObjects": 118,
+              "distinctPrintedPages": [
+                74
+              ]
+            }
+          },
+          "aggregateOwnerCountFromExactFullOwnerBaseline": 997,
+          "explicitPages239or240InData": 0,
+          "page175Owner": "rules:encounter-types"
+        }
+      }
+    },
+    {
+      "book": "UA",
+      "source": {
+        "fileName": "Unearthed Arcana.pdf",
+        "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+        "pdfPages": 130,
+        "privateSource": true
+      },
+      "physicalPdfPages": 130,
+      "namedSourceUnits": 36,
+      "sourceUnitsByKind": {
+        "section": 5,
+        "ability": 2,
+        "class": 6,
+        "table": 8,
+        "note": 1,
+        "continuation": 4,
+        "procedure": 6,
+        "definition": 1,
+        "appendix": 2,
+        "cover": 1
+      },
+      "completeSemanticSourceUnitDenominator": null,
+      "physicalPagesWithoutNamedUnitAssignments": [],
+      "crosslinkScope": "Declared page-to-unit links are checked where supplied. Source-unit span backreferences and missing assignments are structural metadata, not independent visual verification of each source unit.",
+      "unitCountMeaning": "Named source units/candidates can overlap by section, table, heading, procedure and page. This is not a complete atom, row, stat-profile or prose census.",
+      "baselineCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+      "baselineSiteDispositionOccurrences": {
+        "unassessable": 18,
+        "present-findable": 10,
+        "present-unfindable": 1,
+        "incomplete": 12,
+        "absent": 1,
+        "excluded": 5
+      },
+      "dispositionCountMeaning": "A unit can have different dispositions on different repository, rendered, search and citation surfaces. Counts overlap and are not an error total.",
+      "baselineFindings": [
+        {
+          "id": "ua-cavalier-zero-level-rows",
+          "sourceUnitIds": [
+            "ua-cavalier-class",
+            "ua-cavalier-xp-table",
+            "ua-cavalier-level-zero-note"
+          ],
+          "disposition": "incomplete",
+          "severity": "confirmed-source-to-site gap",
+          "sourceEvidence": {
+            "printedPage": 15,
+            "pdfPage": 16,
+            "sourcePixels": {
+              "path": "/workspace/vault-audit-private/ua/pages/pdf-016-cavalier-xp-rows.png",
+              "sha256": "c8b3ac690150cd675e80f4cc5c309d50dc2e46f15afc45d8f814551ef0296dc8",
+              "cropPixelBoundsAt3x": [
+                30,
+                180,
+                900,
+                520
+              ],
+              "rowPixelBoundsAt3x": [
+                {
+                  "physicalRowOrder": 1,
+                  "pdfPagePixelBounds": [
+                    30,
+                    254,
+                    850,
+                    288
+                  ],
+                  "crop": {
+                    "path": "/workspace/vault-audit-private/ua/pages/pdf-016-cavalier-row-1.png",
+                    "sha256": "6416a4d7dc50f7c49a4cb92b9df7e383cdf9dfaa4688d26c1fe9f556812bab60"
+                  }
+                },
+                {
+                  "physicalRowOrder": 2,
+                  "pdfPagePixelBounds": [
+                    30,
+                    288,
+                    850,
+                    313
+                  ],
+                  "crop": {
+                    "path": "/workspace/vault-audit-private/ua/pages/pdf-016-cavalier-row-2.png",
+                    "sha256": "9131c24926a6dcdf8d88fa26a47f6b05f0118cbaf157531abeda202d4e3f0431"
+                  }
+                },
+                {
+                  "physicalRowOrder": 3,
+                  "pdfPagePixelBounds": [
+                    30,
+                    313,
+                    850,
+                    340
+                  ],
+                  "crop": {
+                    "path": "/workspace/vault-audit-private/ua/pages/pdf-016-cavalier-row-3.png",
+                    "sha256": "6f4460de79b993832d1a46e71ba19cdffbaa3ef2f7d33def881dc5961e1f9f98"
+                  }
+                }
+              ]
+            },
+            "tableCrop": {
+              "path": "/workspace/vault-audit-private/ua/pages/pdf-016-cavalier-xp-table.png",
+              "sha256": "9c065e968f8d1f41c80363c208f515b5cca54b0596a28ab7c825a1916036f0ef"
+            },
+            "visualReview": "Source pixel review, not OCR, confirms two physical level-zero rows followed by the first-level Armiger row. The temporary earlier “three level-zero rows” claim was wrong and is corrected here."
+          },
+          "sourceOnlyTranscription": {
+            "tableTitle": "CAVALIERS TABLE I",
+            "columns": [
+              "Experience Points",
+              "Exp. Level",
+              "12-Sided Dice for Accum. Hit Points",
+              "Level Title"
+            ],
+            "rows": [
+              {
+                "physicalRowOrder": 1,
+                "experiencePointsRaw": "(-1,500 — -501",
+                "expLevelRaw": "0",
+                "accumulatedHitPointsRaw": "1d4 + 1",
+                "levelTitleRaw": "Horseman)",
+                "trackIdentity": "UA Cavalier Table I / Horseman grade / experience level 0"
+              },
+              {
+                "physicalRowOrder": 2,
+                "experiencePointsRaw": "(-501 — -1",
+                "expLevelRaw": "0",
+                "accumulatedHitPointsRaw": "2d4 + 1",
+                "levelTitleRaw": "Lancer)",
+                "trackIdentity": "UA Cavalier Table I / Lancer grade / experience level 0"
+              },
+              {
+                "physicalRowOrder": 3,
+                "experiencePointsRaw": "0 — 2,500",
+                "expLevelRaw": "1",
+                "accumulatedHitPointsRaw": "1 + 3*",
+                "levelTitleRaw": "Armiger",
+                "trackIdentity": "UA Cavalier Table I / Armiger / experience level 1 (context row, not one of the two level-0 findings)"
+              }
+            ],
+            "noteRaw": "If qualification for 1st level required progression through the two 0-level grades, then hit dice for 1st level are 3d4 + 1, but in all other cases 1d10 + 3 applies.",
+            "transcriptionLimits": "Parentheses and negative-XP boundary typography are preserved by table column as seen. The shared “-501” edge and interval inclusivity are not normalized or ruled upon.",
+            "sourceOnlyRowCount": 2,
+            "classTrackIdentity": "UA Cavalier, Cavaliers Table I; two separate level-0 grades, followed by the level-1 Armiger row."
+          },
+          "currentBefore": {
+            "file": "classes.json",
+            "sha256": "46c5ad4c404eeb54a75af40e48e2eb8d8a5b952bf134accc7bf7cf1a6fea069e",
+            "pointer": "/classes[id=ua-cavalier]",
+            "currentXpRows": [
+              {
+                "level": 1,
+                "xp": 0,
+                "book": "UA",
+                "pages": [
+                  15
+                ],
+                "track": "main"
+              },
+              {
+                "level": 2,
+                "xp": 2501,
+                "book": "UA",
+                "pages": [
+                  15
+                ],
+                "track": "main"
+              },
+              {
+                "level": 3,
+                "xp": 5001,
+                "book": "UA",
+                "pages": [
+                  15
+                ],
+                "track": "main"
+              },
+              {
+                "level": 4,
+                "xp": 10001,
+                "book": "UA",
+                "pages": [
+                  15
+                ],
+                "track": "main"
+              },
+              {
+                "level": 5,
+                "xp": 18501,
+                "book": "UA",
+                "pages": [
+                  15
+                ],
+                "track": "main"
+              },
+              {
+                "level": 6,
+                "xp": 37001,
+                "book": "UA",
+                "pages": [
+                  15
+                ],
+                "track": "main"
+              },
+              {
+                "level": 7,
+                "xp": 85001,
+                "book": "UA",
+                "pages": [
+                  15
+                ],
+                "track": "main"
+              },
+              {
+                "level": 8,
+                "xp": 140001,
+                "book": "UA",
+                "pages": [
+                  15
+                ],
+                "track": "main"
+              },
+              {
+                "level": 9,
+                "xp": 220001,
+                "book": "UA",
+                "pages": [
+                  15
+                ],
+                "track": "main"
+              },
+              {
+                "level": 10,
+                "xp": 300001,
+                "book": "UA",
+                "pages": [
+                  15
+                ],
+                "track": "main"
+              },
+              {
+                "level": 11,
+                "xp": 600001,
+                "book": "UA",
+                "pages": [
+                  15
+                ],
+                "track": "main"
+              },
+              {
+                "level": 12,
+                "xp": 900001,
+                "book": "UA",
+                "pages": [
+                  15
+                ],
+                "track": "main"
+              }
+            ],
+            "currentLevelSet": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+            ],
+            "pendingMechanics": [
+              "Complete saving-throw delta",
+              "Complete attack-matrix delta for every armor class",
+              "Character-specific ability, race, equipment, and multiclass adjustments"
+            ]
+          },
+          "boundedRepairProposal": "Add two source-backed level-0 grade records with distinct identities Horseman and Lancer and the exact XP/hit-point/title strings above, retaining existing xpRows levels 1–12 unchanged. Do not normalize interval endpoints or add a runtime threshold until the edge interpretation is reviewed. Preserve the separate existing XP10 Cavalier hit-point context target; do not duplicate it. No repair was made."
+        },
+        {
+          "id": "ua-druid-level14-row",
+          "sourceUnitIds": [
+            "ua-druid-class",
+            "ua-druid-xp-table"
+          ],
+          "disposition": "incomplete",
+          "severity": "confirmed partial cross-source representation",
+          "sourceEvidence": {
+            "printedPage": 17,
+            "pdfPage": 18,
+            "sourcePixels": {
+              "path": "/workspace/vault-audit-private/ua/pages/pdf-018-3x.png",
+              "sha256": "859c45bf97f26a60daf22c44b81221a7bc69ba34605007122c3c7c0932cb94df"
+            },
+            "visualReview": "Full 3x rendered source page visually inspected; table shows first physical row level 14."
+          },
+          "sourceOnlyTranscription": {
+            "tableTitle": "DRUIDS (CLERICS) TABLE I",
+            "physicalRowOrder": 1,
+            "experiencePointsRaw": "1,500,001 — 3,000,000",
+            "expLevelRaw": "14",
+            "accumulatedHitPointsRaw": "14",
+            "levelTitleRaw": "The Great Druid",
+            "normalization": "Raw source column strings preserved; no separate inclusivity encoding."
+          },
+          "currentBefore": {
+            "file": "classes.json",
+            "sha256": "46c5ad4c404eeb54a75af40e48e2eb8d8a5b952bf134accc7bf7cf1a6fea069e",
+            "baseDruidPointer": "/classes[id=druid]/xpRows[13]",
+            "baseDruidLevel14": [
+              {
+                "level": 14,
+                "xp": 1500001,
+                "book": "PHB",
+                "pages": [
+                  21
+                ],
+                "track": "main"
+              }
+            ],
+            "uaDruidPointer": "/classes[id=ua-druid]/xpRows",
+            "uaDruidLevels": [
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23
+            ],
+            "historicalTargetSubset": "research/source-audit-batch6-ua50-xp-source-target-proposal.json",
+            "historicalProposalSha256": "d8f0c55239dd0509907f495e8b6e881530453efccbc0e0585b082391cab84b88"
+          },
+          "boundedRepairProposal": "Consider a UA source-specific level-14 row in the UA Druid table/track while preserving the PHB base Druid threshold as a separate source record; do not treat the PHB threshold alone as equivalent to the UA full XP band, accumulated-hit-point cell and title. No repair was made."
+        },
+        {
+          "id": "ua-class-pending-mechanics",
+          "sourceUnitIds": [
+            "ua-cavalier-class",
+            "ua-paladin-class",
+            "ua-druid-class",
+            "ua-fighter-and-barbarian",
+            "ua-thief-acrobat-class",
+            "ua-class-abilities-qualifiers"
+          ],
+          "disposition": "incomplete",
+          "severity": "confirmed current-site queue",
+          "evidence": {
+            "file": "classes.json",
+            "sha256": "46c5ad4c404eeb54a75af40e48e2eb8d8a5b952bf134accc7bf7cf1a6fea069e",
+            "countsByClass": {
+              "ua-cavalier": 3,
+              "ua-barbarian": 5,
+              "ua-thief-acrobat": 5,
+              "ua-paladin": 6,
+              "ua-druid": 4
+            },
+            "total": 23,
+            "categories": [
+              "saving-throw deltas",
+              "attack-matrix deltas",
+              "class-specific ability/race/equipment/multiclass adjustments",
+              "spell slots/access",
+              "class skill/special-ability table deltas",
+              "turn-undead table deltas",
+              "weapon-of-choice accelerated schedule reconciliation",
+              "horde-assistant odd-level rounding",
+              "retained Acrobat skill progression ambiguity"
+            ]
+          },
+          "limits": "These are the current site’s 23 explicit pendingMechanics entries, not a source count or a claim that all remaining UA mechanics are represented by this queue."
+        },
+        {
+          "id": "ua-spell-exact-name-site-inventory",
+          "sourceUnitIds": [
+            "ua-spell-tables",
+            "ua-cleric-spell-lists",
+            "ua-druid-spell-lists",
+            "ua-magic-user-spell-lists",
+            "ua-illusionist-spell-lists"
+          ],
+          "disposition": "present-findable",
+          "evidence": {
+            "siteCount": 224,
+            "definition": "Current UA spell-root entries in ua-spells.json; all current exact titles were found in the built search index.",
+            "file": "ua-spells.json",
+            "sha256": "ac65345ff0c2be92562d4f1be600f12c2cd7f70ff11b497186c8b78bce5aaad3",
+            "searchFile": "dist/search.js",
+            "searchSha256": "b4c88346803ceab134089c121821db7a05dba3512da107bc08cad35fd4fe75ee"
+          },
+          "limits": "224 is strictly a site inventory count, not a source spell denominator. Source class-specific repeated headings, aliases, cantrips, and continuation units remain uncounted."
+        },
+        {
+          "id": "ua-racial-preferences-findability",
+          "sourceUnitIds": [
+            "ua-race-rules"
+          ],
+          "disposition": "present-unfindable",
+          "evidence": {
+            "recordPointer": "rules.json /rules[id=ua-racial-preferences]",
+            "rulesSha256": "b56b4d99a1afd9f40b61dc89a64bc8d138b8e6968d37e58e3ac7fe34a56075c5",
+            "query": "Racial Preferences Table",
+            "resultCount": 0
+          },
+          "limits": "Exact query failure is a findability observation; do not infer source omission."
+        },
+        {
+          "id": "ua-character-generation-scope",
+          "sourceUnitIds": [
+            "ua-method-v-hit-points",
+            "ua-upper-level-followers",
+            "ua-social-class-table",
+            "ua-circumstances-of-birth"
+          ],
+          "disposition": "excluded",
+          "evidence": {
+            "file": "README.md",
+            "sha256": "3517787673c58b21a8f15c03de890bef46e4ea736e02155d5ba92d94bfd175a2",
+            "scope": "Character generation is explicitly deferred to Phase 2."
+          },
+          "limits": "Scope classification, not absence or incompleteness claim."
+        },
+        {
+          "id": "ua-appendix-s-scope",
+          "sourceUnitIds": [
+            "ua-appendix-s-deities"
+          ],
+          "disposition": "excluded",
+          "evidence": {
+            "readmeSha256": "3517787673c58b21a8f15c03de890bef46e4ea736e02155d5ba92d94bfd175a2",
+            "assemblyFile": "tools/assemble.mjs",
+            "assemblySha256": "3e1924f2686121e6101b4e5337fff6607faa45be9be29444f764556d6e204a7b",
+            "assembly": "monsters.json is not an input to the built app data; deity/monster encyclopedia is outside current product scope."
+          },
+          "limits": "Do not treat every deity entry as an automatic missing expectation; re-evaluate only if scope changes."
+        },
+        {
+          "id": "ua-spellbook-cross-source-candidate",
+          "sourceUnitIds": [
+            "ua-spellbooks"
+          ],
+          "disposition": "unassessable",
+          "evidence": {
+            "queries": {
+              "spell books": [
+                "magic-user-spell-acquisition (DMG p.39)",
+                "illusionist-spell-script (DMG p.39)"
+              ],
+              "spellbook": [
+                "starting-magic-user-spellbook (DMG p.39)",
+                "cleric-spell-acquisition (DMG pp.38–39)",
+                "magic-user-spell-acquisition (DMG p.39)",
+                "illusionist-spell-script (DMG p.39)",
+                "intelligence-learning (PHB p.10)",
+                "classes:magic-user"
+              ]
+            },
+            "siteDataSha256": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d"
+          },
+          "limits": "Cross-book same-topic records need semantic source comparison; query result does not resolve UA source-unit coverage."
+        },
+        {
+          "id": "ua-underwater-commentary-candidate",
+          "sourceUnitIds": [
+            "ua-referee-spell-commentary"
+          ],
+          "disposition": "incomplete",
+          "evidence": {
+            "currentSpellRecordsWithUnderwaterMentions": 32,
+            "queryResults": {
+              "underwater spell use": [
+                "ua-magic-user-melfs-minute-meteors"
+              ],
+              "underwater adventures": []
+            },
+            "siteDataSha256": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d"
+          },
+          "limits": "Source pp.80–82 commentary and combat procedures are not fully compared; one query/card or field mentions do not prove full coverage."
+        },
+        {
+          "id": "ua-combat-appendices-candidates",
+          "sourceUnitIds": [
+            "ua-appendix-q",
+            "ua-appendix-r"
+          ],
+          "disposition": "unassessable",
+          "evidence": {
+            "queries": {
+              "weaponless combat": 0,
+              "grappling": 3,
+              "overbearing": 0,
+              "pummeling table": 4
+            },
+            "relatedDmgSubdual": "DMG printed p.67 summary is not established as equivalent to UA Appendix R."
+          },
+          "limits": "Negative lexical searches and adjacent-rule records are candidate evidence only; no source absence conclusion."
+        },
+        {
+          "id": "ua-treasure-and-polearm-candidates",
+          "sourceUnitIds": [
+            "ua-treasure-tables",
+            "ua-appendix-t-polearms"
+          ],
+          "disposition": "unassessable",
+          "evidence": {
+            "queries": {
+              "random treasure determination": 0,
+              "random treasure": 0,
+              "pole arms": 4,
+              "nomenclature of pole arms": 0
+            },
+            "siteInputs": {
+              "rulesSha256": "b56b4d99a1afd9f40b61dc89a64bc8d138b8e6968d37e58e3ac7fe34a56075c5",
+              "equipmentSha256": "9c831f319a8d58bd3c943c610a89326975f622015b760073217ecf0f7b55e6f7"
+            }
+          },
+          "limits": "No source table or entry denominator is counted; equipment overlap/aliases require comparison."
+        }
+      ],
+      "checkedNegativeScope": [
+        {
+          "scope": "UA exact spell-name search coverage",
+          "result": "224 current UA spell-root names matched the built search index.",
+          "interpretation": "Positive site findability only; 224 is not a source denominator."
+        },
+        {
+          "scope": "UA p.79–80 spellbook cross-source terms",
+          "queries": [
+            "spell books",
+            "spellbook"
+          ],
+          "result": "Only PHB/DMG/class topic matches surfaced; no UA page-linked result found in inspected current records.",
+          "interpretation": "Candidate/unassessable until content aliases and cross-book summaries are compared."
+        },
+        {
+          "scope": "UA pp.80–82 underwater/darkness commentary",
+          "queries": [
+            "underwater spell use",
+            "underwater adventures"
+          ],
+          "result": "32 current spell records contain underwater-related terms/conditions; 2 current spell records have darkness mentions; one targeted underwater-use query returned a UA spell card; “underwater adventures” returned zero.",
+          "interpretation": "Not a coverage pass for the source commentary/procedure."
+        },
+        {
+          "scope": "UA character-generation tables",
+          "queries": [
+            "social class table",
+            "circumstances of birth"
+          ],
+          "result": "Two unrelated class results for social class table; zero for circumstances of birth.",
+          "interpretation": "README product scope explicitly excludes these Phase 2 character-generation units."
+        },
+        {
+          "scope": "UA treasure tables",
+          "queries": [
+            "random treasure determination",
+            "random treasure"
+          ],
+          "result": "0 results for each checked phrase.",
+          "interpretation": "Candidate only; no negative conclusion until cross-book summaries, aliases and excerpts are checked."
+        },
+        {
+          "scope": "UA Appendix S deity entries",
+          "queries": [
+            "non human deities",
+            "Clangeddin"
+          ],
+          "result": "0 results.",
+          "interpretation": "Appendix S is excluded by current product scope and assembly surface, not classified absent."
+        },
+        {
+          "scope": "UA combat appendices",
+          "queries": [
+            "weaponless combat",
+            "grappling",
+            "overbearing",
+            "pummeling table"
+          ],
+          "result": "0, 3, 0, and 4 incidental results respectively; no direct UA Appendix Q record identified.",
+          "interpretation": "Lexical result counts are candidate evidence only; Appendix R has a related non-equivalent DMG subdual summary."
+        },
+        {
+          "scope": "UA Appendix T pole arms",
+          "queries": [
+            "pole arms",
+            "nomenclature of pole arms"
+          ],
+          "result": "4 incidental class/specialization results and 0 exact nomenclature results.",
+          "interpretation": "No absence conclusion; equipment aliases and exact source item matches remain unassessed."
+        },
+        {
+          "scope": "UA p.12 Racial Preferences Table",
+          "query": "Racial Preferences Table",
+          "result": "0 search results although rules.json contains ua-racial-preferences.",
+          "interpretation": "Present-unfindable search case; narrow query only."
+        }
+      ],
+      "unassessed": [
+        "Exact source denominator for all individual section headings, class features, abilities, procedures, definitions, qualifiers, footnotes, tables/subtables, spell headings, repeated class-specific spell entries, aliases and continuations.",
+        "Full 130-page OCR/text accuracy, line-by-line transcription and semantic review; contact-sheet screening is not such a pass.",
+        "All UA spell entry coverage and source-to-card matching; 224 denotes current site records only.",
+        "Cross-book equivalence and citation coverage for UA p.79–80 spellbook procedures, pp.80–82 referee spell commentary, pp.84–90 treasure, pp.107–109 combat, pp.123–128 polearms and magic-item descriptions.",
+        "All class ability, race/class qualifier, exception, note and table-cell comparisons beyond the specific source-first XP checks and current 23 pendingMechanics queue.",
+        "UA p.10 fold/shadow/edge-obscured glyphs. Unavailable glyphs remain limited; no OCR reconstruction or inferred punctuation was used as source proof.",
+        "Appendix S item-level content under a future deity/monster scope."
+      ],
+      "mappingHandoff": [
+        {
+          "sourceUnitId": "ua-cavalier-xp-table",
+          "action": "Review the two level-0 raw rows and associated first-level note for a bounded source-only addition. Retain current XP rows 1–12 and the existing XP10 HP-context item unchanged. Preserve raw interval/parenthesis glyphs until boundary interpretation is adjudicated.",
+          "status": "proposed; no edits made"
+        },
+        {
+          "sourceUnitId": "ua-druid-xp-table",
+          "action": "Review whether to add a separate UA level-14 full-row representation. Keep the PHB Druid level-14 lower threshold distinct; do not merge XP tracks.",
+          "status": "proposed; no edits made"
+        },
+        {
+          "sourceUnitId": "ua-class-abilities-qualifiers",
+          "action": "Carry forward existing 23 pendingMechanics across five direct-UA classes; this audit does not duplicate their mechanics repairs.",
+          "status": "existing review queue"
+        },
+        {
+          "sourceUnitId": "ua-spellbooks",
+          "action": "Compare source p.79–80 against PHB/DMG records, aliases, content citations and current UI rendering before classifying coverage.",
+          "status": "unassessed candidate"
+        },
+        {
+          "sourceUnitId": "ua-appendix-s-deities",
+          "action": "Keep excluded under current documented scope; re-evaluate only if deity/monster reference coverage is added.",
+          "status": "scope exclusion"
+        },
+        {
+          "sourceUnitId": "ua-referee-spell-commentary",
+          "action": "Review underwater/darkness prose against individual spell conditions and referee rules; retain unavailable p.10 glyph limitations separately.",
+          "status": "unassessed candidate"
+        },
+        {
+          "sourceUnitId": "ua-treasure-tables",
+          "action": "Resolve cross-book summaries/aliases and build a source-first table inventory before declaring absence or planning edits.",
+          "status": "unassessed candidate"
+        }
+      ]
+    },
+    {
+      "book": "MM",
+      "source": {
+        "fileName": "Monster_Manual.pdf",
+        "sha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+        "pdfPages": 114,
+        "titlePageObserved": "MONSTER MANUAL · 4th Edition, August, 1979",
+        "coverObserved": "PDF front cover carries 2009 wrapper copy; cover is not treated as an interior printed folio.",
+        "editionStatus": "Title-page wording transcribed from visible pixels; exact printing/scan provenance is not independently established."
+      },
+      "physicalPdfPages": 114,
+      "namedSourceUnits": 317,
+      "sourceUnitsByKind": {
+        "monster-entry-heading": 223,
+        "cover": 2,
+        "title-page": 1,
+        "front-matter": 2,
+        "contents": 1,
+        "definitions-and-procedures": 1,
+        "definition-or-qualifier": 17,
+        "supporting-procedure-or-qualifier": 8,
+        "table-candidate": 30,
+        "appendix-table": 1,
+        "table-row": 26,
+        "index": 1,
+        "illustration": 3,
+        "advertising": 1
+      },
+      "completeSemanticSourceUnitDenominator": null,
+      "physicalPagesWithoutNamedUnitAssignments": [
+        {
+          "pdfPage": 18,
+          "printedPage": 17,
+          "status": "source-unit-assignment-unassessed"
+        },
+        {
+          "pdfPage": 19,
+          "printedPage": 18,
+          "status": "source-unit-assignment-unassessed"
+        },
+        {
+          "pdfPage": 20,
+          "printedPage": 19,
+          "status": "source-unit-assignment-unassessed"
+        },
+        {
+          "pdfPage": 22,
+          "printedPage": 21,
+          "status": "source-unit-assignment-unassessed"
+        },
+        {
+          "pdfPage": 23,
+          "printedPage": 22,
+          "status": "source-unit-assignment-unassessed"
+        },
+        {
+          "pdfPage": 25,
+          "printedPage": 24,
+          "status": "source-unit-assignment-unassessed"
+        },
+        {
+          "pdfPage": 26,
+          "printedPage": 25,
+          "status": "source-unit-assignment-unassessed"
+        },
+        {
+          "pdfPage": 27,
+          "printedPage": 26,
+          "status": "source-unit-assignment-unassessed"
+        },
+        {
+          "pdfPage": 28,
+          "printedPage": 27,
+          "status": "source-unit-assignment-unassessed"
+        },
+        {
+          "pdfPage": 31,
+          "printedPage": 30,
+          "status": "source-unit-assignment-unassessed"
+        },
+        {
+          "pdfPage": 32,
+          "printedPage": 31,
+          "status": "source-unit-assignment-unassessed"
+        },
+        {
+          "pdfPage": 33,
+          "printedPage": 32,
+          "status": "source-unit-assignment-unassessed"
+        },
+        {
+          "pdfPage": 34,
+          "printedPage": 33,
+          "status": "source-unit-assignment-unassessed"
+        },
+        {
+          "pdfPage": 59,
+          "printedPage": 58,
+          "status": "source-unit-assignment-unassessed"
+        },
+        {
+          "pdfPage": 68,
+          "printedPage": 67,
+          "status": "source-unit-assignment-unassessed"
+        },
+        {
+          "pdfPage": 69,
+          "printedPage": 68,
+          "status": "source-unit-assignment-unassessed"
+        }
+      ],
+      "crosslinkScope": "Declared page-to-unit links are checked where supplied. Source-unit span backreferences and missing assignments are structural metadata, not independent visual verification of each source unit.",
+      "unitCountMeaning": "Named source units/candidates can overlap by section, table, heading, procedure and page. This is not a complete atom, row, stat-profile or prose census.",
+      "baselineCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+      "baselineSiteDispositionOccurrences": {
+        "present-unfindable": 222,
+        "incomplete": 222,
+        "unassessable": 224,
+        "excluded": 232,
+        "absent": 28,
+        "citation-only": 58
+      },
+      "dispositionCountMeaning": "A unit can have different dispositions on different repository, rendered, search and citation surfaces. Counts overlap and are not an error total.",
+      "baselineFindings": [
+        {
+          "id": "MM-GAP-CENTIPEDE-GIANT-001",
+          "severity": "confirmed-source-data-omission",
+          "summary": "The source TOC and index identify Centipede, Giant as an MM entry, and PDF p.15 visibly contains its printed p.14 article. No MM Centipede record exists in monsters.json at the input commit; the only Centipede name hit is a separate MM2 record.",
+          "evidence": {
+            "source": {
+              "sha256": "c586009f2e5231bf022cf9f593b0ee42fcb5bded3c957d90efc6cb8d1e54bd81",
+              "tocPrintedPages": [
+                3,
+                4
+              ],
+              "indexPrintedPage": 106,
+              "articlePrintedPage": 14,
+              "articlePdfPage": 15,
+              "visualStatus": "TOC, index and article heading visually inspected."
+            },
+            "beforeData": {
+              "file": "monsters.json",
+              "sha256": "460c8cd52d6f7216246cf09406b76d5dfdfd76ae2389f93312988bfa3e99da08",
+              "inputCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+              "checked": "all records with book=MM",
+              "result": "0 matching Centipede/Giant Centipede record; MM2 record is a separate book."
+            }
+          },
+          "boundedProposal": "Add a locator-only MM entry for Centipede, Giant at printed p.14/PDF p.15 if the internal broad source heading index is being maintained. Preserve pending statistics/visual verification. Do not add it to the current runtime catalogue; that catalogue is explicitly out of scope.",
+          "repairApplied": false
+        },
+        {
+          "id": "MM-PRODUCT-SCOPE-EXCLUSION-001",
+          "severity": "documented-scope",
+          "summary": "The assembled product has no searchable MM/MM2 bestiary. This is documented product scope, not an unexpected omission from a promised searchable monster catalogue.",
+          "evidence": {
+            "README": "README.md line 85; explicit statement that source dependencies do not establish a searchable catalogue.",
+            "assembler": "tools/assemble.mjs does not load monsters.json.",
+            "bundle": "dist/data.json top-level collections: rules, spells, equipment, matrices, classes, sources, release, progressionExplainer; no monsters collection.",
+            "hashes": {
+              "monsters.json": "460c8cd52d6f7216246cf09406b76d5dfdfd76ae2389f93312988bfa3e99da08",
+              "rules.json": "b56b4d99a1afd9f40b61dc89a64bc8d138b8e6968d37e58e3ac7fe34a56075c5",
+              "tools/assemble.mjs": "3e1924f2686121e6101b4e5337fff6607faa45be9be29444f764556d6e204a7b",
+              "README.md": "3517787673c58b21a8f15c03de890bef46e4ea736e02155d5ba92d94bfd175a2",
+              "dist/data.json": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d"
+            }
+          }
+        }
+      ],
+      "checkedNegativeScope": [
+        {
+          "scope": "Original PDF page set",
+          "result": "All 114 pages rendered and visually screened for page role, visible folio/running head and large-scale layout. This is not line-level negative evidence."
+        },
+        {
+          "scope": "Printed TOC pp.3-4",
+          "result": "223 main article headings inventoried; 222 have matching MM repository records after title aliases/corrections; Centipede, Giant is the sole confirmed missing main heading in the checked set."
+        },
+        {
+          "scope": "Assembled app",
+          "result": "No monsters collection in current dist/data.json; explicit exclusion confirmed in README and assembler code."
+        },
+        {
+          "scope": "MM records in monsters.json",
+          "result": "305 records checked; coverage labels {'description': 65, 'locator': 153, 'family locator': 87}; status counts {'Source heading indexed · statistics pending visual verification': 305}. These records are incomplete source locators/summaries, not complete verified profiles."
+        },
+        {
+          "scope": "Direct bundled MM references",
+          "result": "11 direct reference/fieldSource objects across assembled data, all citation-only; they do not constitute a searchable bestiary or verify whole entries."
+        }
+      ],
+      "unassessed": [
+        {
+          "scope": "All 223 monster articles",
+          "reason": "Entry prose, profile fields, all statistical values, qualifiers, footnotes and source-specific procedures were not transcribed or compared field by field."
+        },
+        {
+          "scope": "Article subentries and variants",
+          "reason": "The 223-heading count is from the contents list. Individual type/species variants and all index aliases/subentries are not an independently enumerated source denominator."
+        },
+        {
+          "scope": "In-entry tables",
+          "reason": "The visible table candidates are listed as candidates; physical row counts, all cells, wrapped rows, footnotes and context are not assessed."
+        },
+        {
+          "scope": "Continuations",
+          "reason": "Known multi-page sections and front/index continuations are listed below, but every article/page/column continuation has not been inventoried."
+        },
+        {
+          "scope": "Image-only pages",
+          "reason": "PDF pp.92 and 105 (printed pp.91 and 104) are full-page illustrations. Their visual content is not textually assessed."
+        },
+        {
+          "scope": "Outer covers and advertisements",
+          "reason": "Cover and advertising copy are outside monster-entry completeness; title/printing identity is not independently authenticated."
+        },
+        {
+          "scope": "Source-index OCR gaps",
+          "reason": "The PDF text layer is empty on PDF pp.1, 92, 105 and 114; empty image text does not establish absence. These pages were visually screened."
+        }
+      ],
+      "mappingHandoff": {
+        "inheritedMap": "monsters.json says printed pages 1-112 map to PDF page N+1.",
+        "visualCheck": "The interior folios observed on rendered PDF pp.3-113 confirm printed pp.2-112 = PDF N+1. The title page at PDF p.2 has no printed folio; do not treat its positional p.1 assignment as an observed printed number.",
+        "body": "Main monster headings are sourced from printed pp.3-4 contents. printedPages are candidate start locators joined from existing data page fields; the source index at pp.106-109 is the authority, but its rows remain unassessed for per-entry mapping. pdfPages apply the visually confirmed N+1 offset. Full article continuations are outside each heading unit page list unless separately specified.",
+        "privateEvidenceDirectory": "/workspace/vault-audit-private/mm/ (114 full-page renders, contact sheets, high-resolution index renders)."
+      }
+    },
+    {
+      "book": "MM2",
+      "source": {
+        "fileName": "Monster Manual II.pdf",
+        "sha256": "b49b64590a1e2d61aa4ded3af6c9abd598bd8fc142f1caa8f5d7bef4abc5ff24",
+        "pdfPages": 162,
+        "privateSource": true
+      },
+      "physicalPdfPages": 162,
+      "namedSourceUnits": 41,
+      "sourceUnitsByKind": {
+        "cover": 2,
+        "front-matter": 1,
+        "definitions-and-instructions": 1,
+        "monster-entry-sequence": 1,
+        "shared-entry-fields": 1,
+        "entry-table-procedure": 2,
+        "entry-table": 4,
+        "entry-subprofiles-and-tables": 2,
+        "entry-subprofiles": 1,
+        "entry-rules-and-subprofiles": 1,
+        "entry-procedure": 3,
+        "entry-table-and-rules": 1,
+        "entry-tables": 4,
+        "entry-tables-and-qualifiers": 1,
+        "entry-table-and-procedure": 2,
+        "entry-tables-and-rules": 1,
+        "entry-tables-and-procedures": 1,
+        "entry-rules-and-lists": 1,
+        "entry-tables-and-lists": 1,
+        "entry-table-and-subprofiles": 1,
+        "section": 1,
+        "encounter-tables": 4,
+        "supporting-procedure": 1,
+        "reference-table": 2,
+        "index": 1
+      },
+      "completeSemanticSourceUnitDenominator": null,
+      "physicalPagesWithoutNamedUnitAssignments": [],
+      "crosslinkScope": "Declared page-to-unit links are checked where supplied. Source-unit span backreferences and missing assignments are structural metadata, not independent visual verification of each source unit.",
+      "unitCountMeaning": "Named source units/candidates can overlap by section, table, heading, procedure and page. This is not a complete atom, row, stat-profile or prose census.",
+      "baselineCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+      "baselineSiteDispositionOccurrences": {
+        "excluded": 41,
+        "unassessable": 41
+      },
+      "dispositionCountMeaning": "A unit can have different dispositions on different repository, rendered, search and citation surfaces. Counts overlap and are not an error total.",
+      "baselineFindings": [
+        {
+          "id": "physical-page-and-folio-accounting",
+          "status": "confirmed",
+          "summary": "The 162 physical PDF pages are all accounted for by the pageCoverage array: 160 numbered printed pages plus two unnumbered covers.",
+          "detail": "Source page images show a scan-order exception: printed p.83 is PDF p.92, after printed pp.84–91. The mapping accounts for each physical page exactly once."
+        },
+        {
+          "id": "source-section-outline",
+          "status": "visually-screened",
+          "summary": "Front matter pp.1–7; A–Z monster sequence pp.8–132; Random Encounter Tables pp.133–155; cross-book index pp.156–160.",
+          "detail": "The A–Z section contains stat blocks and prose, alternate profiles/subprofiles, special rules, tables, lists, procedures, and continued passages. Candidate embedded units are itemized in sourceUnits; the list is not a complete physical table or entry census."
+        },
+        {
+          "id": "searchable-catalogue-scope",
+          "status": "documented-exclusion",
+          "summary": "The assembled product does not expose a searchable monster catalogue, consistent with the README scope statement.",
+          "detail": "README.md:85 explicitly says monster dependencies link to MM/MM2 and this does not establish a searchable monster catalogue or visual verification. tools/assemble.mjs does not load monsters.json. This is an expected product exclusion; it does not show that MMII source content was complete or that every source entry is absent from every repository artifact."
+        },
+        {
+          "id": "no-unexpected-content-gap-confirmed",
+          "status": "none-confirmed",
+          "summary": "No unexpected missing source-to-product case is confirmed by this page-scope review.",
+          "detail": "The searchable catalogue is explicitly out of product scope. Source heads, subprofiles, table rows, stat fields, and prose have not been reconciled; no completeness or absence claim is made for them."
+        },
+        {
+          "id": "reader-capability-not-citation-join",
+          "status": "unassessable",
+          "summary": "Local PDF reader support does not establish that a source unit is actually cited by an assembled owner.",
+          "detail": "README.md:75 describes reader capability. This ledger has not joined any MMII source unit to an assembled record and matching source page; treat such joins as unassessable unless separately evidenced."
+        }
+      ],
+      "checkedNegativeScope": [
+        {
+          "scope": "assembled searchable monster content",
+          "result": "excluded",
+          "evidence": "README.md:85 documents that no searchable monster catalogue is established; assembler does not load monsters.json. Parent-side distribution inspection reports data collections for rules, spells, equipment, matrices, classes, sources, and progression explainer, with no monster collection.",
+          "interpretation": "Expected product exclusion, not a source-coverage failure. It is not a negative pass for source units or individual monster facts."
+        },
+        {
+          "scope": "source pages and source units",
+          "result": "not-checked-negative",
+          "evidence": "All pages were visually screened, but main heads, embedded units, rows, fields, and continuation fragments were not exhaustively counted or reconciled.",
+          "interpretation": "No absence or completeness conclusion is supported outside the explicitly documented product exclusion."
+        }
+      ],
+      "unassessed": [
+        "Exact source denominator of distinct main monster headings, including repeated headings, family entries, aliases, and shared profiles.",
+        "Subprofile/form/age/sex/caste/variant counts and their relationship to main headings.",
+        "Complete physical table/list/procedure census; every table boundary, row count, column/heading, unit, marker, footnote, and continuation.",
+        "Complete source index row/alias count and pointer reconciliation; the index includes MM, FF, and this volume.",
+        "Entry-by-entry and field-by-field transcription or comparison, including stat blocks, prose, special mechanics, qualifiers, and cross references.",
+        "Current search findability or semantic coverage for any MMII entry, because the product explicitly has no searchable monster catalogue.",
+        "Whether any of the 311 legacy MM2 records correctly represents a unique main head, subprofile, alias, or complete rule/content unit."
+      ],
+      "mappingHandoff": {
+        "targetInventory": {
+          "file": "monsters.json",
+          "targetSideOnly": true,
+          "recordsWithBookMM2": 311,
+          "pageReferences": 312,
+          "distinctPrintedPages": 125,
+          "coverageBuckets": {
+            "locator": 102,
+            "description": 114,
+            "family locator": 95
+          },
+          "sourceDenominator": false,
+          "interpretation": "Legacy locator/summary records only. Not loaded by the assembler and not a searchable UI catalog; these counts must not be used as the book denominator."
+        },
+        "joinPolicy": "A normalized heading plus printed page may propose an identity candidate only. It does not prove that a site record matches the source main head, includes all subprofiles, or contains the source statistics, mechanics, prose, qualifiers, and continuation.",
+        "sourceDenominators": {
+          "printedPages": 160,
+          "physicalPdfPages": 162,
+          "mainMonsterHeadings": null,
+          "subprofiles": null,
+          "embeddedTableRows": null,
+          "indexRowsAndAliases": null
+        },
+        "repairDisposition": "No repair is proposed from this ledger: no unexpected omission was confirmed, and the searchable catalog is explicitly excluded. A later source-to-record repair pass should first establish independent source denominators and preserve before hashes for any confirmed missing cases."
+      }
+    }
+  ],
+  "siteBaseline": {
+    "path": "research/source-completeness-site.json",
+    "denominators": {
+      "exposedContentOwners": 997,
+      "ownersByCollection": {
+        "rules": 149,
+        "spells": 638,
+        "equipment": 192,
+        "classes": 16,
+        "matrices": 1,
+        "progressionExplainer": 1
+      },
+      "arrayBackedOwners": 996,
+      "auxiliarySourceMetadataOwners": 3,
+      "releaseMetadataObjects": 1,
+      "uniqueTopLevelPropertiesByCollection": {
+        "rules": 17,
+        "spells": 18,
+        "equipment": 19,
+        "classes": 26,
+        "matrices": 16,
+        "progressionExplainer": 8
+      },
+      "actualGlobalSearchDocuments": 995,
+      "personalNotebookSearchDocumentsAtProbe": 0,
+      "expectedCurrentSearchDocumentOwners": 995,
+      "unindexedExposedOwners": 2,
+      "pendingMechanicsCandidates": 69,
+      "duplicateOwnerIdentities": 0,
+      "classXPTableRows": 206,
+      "classXPTableOwners": 16,
+      "topLevelPropertyOccurrencesIncludingMetadata": 13661,
+      "propertyOccurrenceScope": "Current exposed record top-level property occurrences, including generated sourceExcerpts, evidenceBindings, scanVerification, and other provenance metadata; this is a structural property count, not an authored semantic field denominator."
+    },
+    "findings": [
+      {
+        "id": "SITE-SEARCH-001",
+        "status": "confirmed-structural-gap",
+        "title": "Two exposed owners have no independent global search documents"
+      },
+      {
+        "id": "SITE-RENDER-002",
+        "status": "confirmed-field-render-gap",
+        "title": "Class-authored note fields are absent from the class detail render"
+      },
+      {
+        "id": "SITE-SEARCH-003",
+        "status": "confirmed-property-projection-gap",
+        "title": "The two class note properties are not selected by the search-field projection"
+      },
+      {
+        "id": "SITE-RENDER-004",
+        "status": "confirmed-searchable-but-not-rendered",
+        "title": "Class pendingMechanics values are indexed but not rendered in class details"
+      },
+      {
+        "id": "SITE-ROUTE-005",
+        "status": "confirmed-context-only-route",
+        "title": "Matrix record is visible only as a collapsed Fighter subpanel and has no direct owner route"
+      },
+      {
+        "id": "SITE-ROUTE-006",
+        "status": "confirmed-in-page-only-route",
+        "title": "Progression explainer is a collapsed Classes-page detail, with no independent route or search document"
+      },
+      {
+        "id": "SITE-SEARCH-007",
+        "status": "confirmed-field-projection-gap",
+        "title": "Displayed class XP thresholds cannot be found by their numeric threshold"
+      }
+    ],
+    "scope": "Captured before repair. Current dispositions belong to the separate repair register; the historical site/property denominator is not a source denominator."
+  },
+  "repairs": {
+    "schemaVersion": 1,
+    "artifactType": "source-completeness-repair-register-version28",
+    "baselineCommit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+    "batches": [
+      {
+        "id": "site-findability-and-rendering",
+        "status": "merged-and-live-independently-verified",
+        "findingIds": [
+          "SITE-SEARCH-001",
+          "SITE-RENDER-002",
+          "SITE-SEARCH-003",
+          "SITE-RENDER-004",
+          "SITE-ROUTE-005",
+          "SITE-ROUTE-006",
+          "SITE-SEARCH-007"
+        ],
+        "scope": [
+          "Independent matrix/progression search documents and direct routes with original citation owners.",
+          "Existing Monk and thief-acrobat notes plus editorial pending-extraction disclosures rendered without changing their meaning.",
+          "Existing 206 class XP rows accept raw and formatted numeric queries; 49 rendered equipment price notes are included in the bounded search projection."
+        ],
+        "sourceDataChanged": false,
+        "currentDataSha256": "36483b8ecadeedb306d6fecd758c162c1da033757f9934bc599e281e62cf0a1d",
+        "release": {
+          "pullRequest": "https://github.com/XertroV/adnd1/pull/39",
+          "mergeCommit": "db7d10957dd4d50e9bab063cffb3b503a16144c2",
+          "version": 17,
+          "headTests": {
+            "passed": 838,
+            "failed": 0,
+            "skipped": 0,
+            "requiredWorkflowBlocksPassed": 24
+          },
+          "pullRequestChecks": "https://github.com/XertroV/adnd1/actions/runs/42489435287",
+          "pagesDeployment": "https://github.com/XertroV/adnd1/actions/runs/42490035412",
+          "liveReceipt": "research/source-completeness-release-17-live.json",
+          "selectedLiveAssetsMatched": 28,
+          "liveBrowserChecksPassed": 41
+        },
+        "latestAuthorReceipt": "research/source-completeness-site-after-v3.json",
+        "independentReview": "research/source-completeness-site-independent-review.json",
+        "latestRootReconciliation": "research/source-completeness-site-final-root.json"
+      },
+      {
+        "id": "dmg74-nonfighter-matrices",
+        "status": "merged-and-live-independently-verified",
+        "sourceTableDenominator": 3,
+        "sourceNumericCellDenominator": 378,
+        "actualBefore": "research/source-completeness-matrix-before.json.gz",
+        "beforeDetector": "research/source-completeness-matrix-before-detector.json",
+        "authorTranscription": "research/source-completeness-matrices-source-transcription.json",
+        "independentTranscription": "research/source-completeness-matrices-independent-transcription.json",
+        "independentReview": "research/source-completeness-matrices-independent-review-v2.json",
+        "release": {
+          "pullRequest": "https://github.com/XertroV/adnd1/pull/40",
+          "mergeCommit": "6d330af372ac809d11ed6029ed8695d0d8dc0909",
+          "version": 18,
+          "headTests": {
+            "passed": 852,
+            "failed": 0,
+            "skipped": 0,
+            "requiredWorkflowBlocksPassed": 24
+          },
+          "pullRequestChecks": "https://github.com/XertroV/adnd1/actions/runs/42496376963",
+          "pagesDeployment": "https://github.com/XertroV/adnd1/actions/runs/42497175078",
+          "selectedLiveAssetsMatched": 34,
+          "liveBrowserChecksPassed": 55
+        },
+        "runtimeImplementation": "Complete in this tree; the three source tables contain 378 independently matched numeric cells, with literal notes and the Monk conflict retained.",
+        "ownerReview": "research/source-completeness-matrix-owner-review.json",
+        "ownerActivation": "research/source-completeness-matrix-owner-activation.json",
+        "fieldTargetActivations": 0,
+        "publicationTracking": "Exactmerge/CI/Pages/live behavior verified; these release values supersede the preserved pre-publication checkpoint."
+      },
+      {
+        "id": "pass8-character-reference-source-repair",
+        "status": "merged-and-live-independently-verified",
+        "owners": [
+          "rules/secondary-skills",
+          "rules/ua-elven-subrace-adjustments",
+          "spells/phb-magic-user-lnfravision"
+        ],
+        "sourceDataChanged": true,
+        "release": {
+          "pullRequest": "https://github.com/XertroV/adnd1/pull/41",
+          "headSha": "e722eb0273f442e910de68aa97be868db2832e0b",
+          "mergeSha": "77712b831fac3256baf97da385c1dd56b6d82e88",
+          "version": 19,
+          "footer": "Version 19 · 77712b8\nBuilt 2026-11-08 20:15:26 UTC",
+          "pullRequestCi": {
+            "id": 42517896330,
+            "url": "https://github.com/XertroV/adnd1/actions/runs/42517896330",
+            "status": "completed",
+            "conclusion": "success",
+            "requiredWorkflowBlocksPassed": 24
+          },
+          "pages": {
+            "id": 42518515949,
+            "url": "https://github.com/XertroV/adnd1/actions/runs/42518515949",
+            "headSha": "77712b831fac3256baf97da385c1dd56b6d82e88",
+            "status": "completed",
+            "conclusion": "success",
+            "deploymentId": 7641227301,
+            "deploymentStatus": "success",
+            "deploymentStatusTime": "2026-11-08T20:16:22Z",
+            "deployJobId": 128848788203
+          }
+        },
+        "validation": {
+          "nodeTests": {
+            "passed": 861,
+            "failed": 0,
+            "skipped": 0
+          },
+          "localRequiredBlocks": {
+            "passed": 24,
+            "firstTwo": "Completed earlier against unchanged files and explicitly marked reused; exact-head PR and merge CI reran the full workflow."
+          },
+          "evidenceSeals": 849,
+          "previous826SealPrefixPreserved": true,
+          "selectedLiveAssets": {
+            "deduplicated": 47,
+            "matched": 47,
+            "mismatched": 0,
+            "paths": [
+              "app.js",
+              "books.js",
+              "citations.js",
+              "combat.js",
+              "coverage-gaps.json",
+              "data.json",
+              "scans/verified/dmg-12-4d67cbcddf22a20f.png",
+              "scans/verified/dmg-12-7a71a02d177e6f24.png",
+              "scans/verified/dmg-175-level-others-context-5aa02e91e35c4c28.png",
+              "scans/verified/dmg-175-party-table-context-78c4c383c38c7d10.png",
+              "scans/verified/dmg-225-b2576ee304734e9b.png",
+              "scans/verified/dmg-225-d1f201bb58ae9b41.png",
+              "scans/verified/dmg-75-turning-cb9b590b2c17b184.png",
+              "scans/verified/dmg-76-turning-69d73be55834a5c4.png",
+              "scans/verified/dmg-76-turning-c3301320dd020c60.png",
+              "scans/verified/dmg74-ia-cleric-druid-monk-315c08264db687ce.png",
+              "scans/verified/dmg74-ic-magic-user-illusionist-25e6e2598775e705.png",
+              "scans/verified/dmg74-id1-thief-assassin-9b0b5ce873850534.png",
+              "scans/verified/equipment-ua-caltrop.json",
+              "scans/verified/equipment-ua-jo-stick.json",
+              "scans/verified/matrices-dmg-cleric-druid-monk-attack-matrix.json",
+              "scans/verified/matrices-dmg-magic-user-illusionist-attack-matrix.json",
+              "scans/verified/matrices-dmg-thief-assassin-attack-matrix.json",
+              "scans/verified/phb-37-a0447e9e609ad119.png",
+              "scans/verified/phb-38-b827f0f8f94a9dca.png",
+              "scans/verified/phb-74-ed70f8a1272fcb4a.png",
+              "scans/verified/rules-cleric-turning-table.json",
+              "scans/verified/rules-encounter-types.json",
+              "scans/verified/rules-secondary-skills.json",
+              "scans/verified/rules-ua-elven-subrace-adjustments.json",
+              "scans/verified/spells-phb-magic-user-lnfravision.json",
+              "scans/verified/ua-10-0f52a85b943013cf.png",
+              "scans/verified/ua-10-391dc1287b053d98.png",
+              "scans/verified/ua-26-740e0e7d3c0f5ea2.png",
+              "scans/verified/ua-26-9e9c6750d95af018.png",
+              "scans/verified/ua-27-ac5c72afd1d4dae7.png",
+              "scans/verified/ua-27-facingside-notes-19783dde2e5c0bb3.png",
+              "scans/verified/ua-7-0b95a1f668740c30.png",
+              "scans/verified/ua-8-23550bc694a323c9.png",
+              "scans/verified/ua-8-bf08d254073fd774.png",
+              "scans/verified/ua-9-f4ddfe9da8689766.png",
+              "scans/verified/ua-9-f72e90393394a4aa.png",
+              "search.js",
+              "source-continuations.json",
+              "source-viewer.css",
+              "source-viewer.js",
+              "styles.css"
+            ]
+          },
+          "previousBehaviorBrowserChecks": 55,
+          "previousBehaviorNumericMatrixCellsCompared": 378,
+          "newCardsChecked": 3,
+          "newSearchQueriesChecked": 7,
+          "newSearchClickThroughs": 7,
+          "sourceViewersChecked": 3,
+          "desktopAnd390pxMobile": true,
+          "pageErrors": [],
+          "failedRequests": []
+        },
+        "liveReceipt": "research/source-audit-pass8-pr41-live-release-verification.json",
+        "sourceReview": "research/source-audit-pass8-content-repair-independent-review.json",
+        "fieldTargetActivations": 0,
+        "sourceValueGradeActivations": 0,
+        "highlightsCleared": 0
+      },
+      {
+        "id": "all-eleven-xp-continuation-field-mappings",
+        "status": "merged-and-live-independently-verified",
+        "scope": "XP continuation sentence/anchor location and complete declared source context only. PHB25+26 Magic-user table parts and PHB24/UA16 Paladin applicability retain distinct page/book identities.",
+        "release": {
+          "pullRequest": "https://github.com/XertroV/adnd1/pull/42",
+          "headCommit": "003eac0e1fb3d4fe9f9449409da99e8e9b1dc861",
+          "mergeCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+          "version": 20,
+          "visibleShortSha": "a46eddc",
+          "buildTimestamp": "2026-11-08T22:23:08.120Z",
+          "desktopAndMobileFooterMatches": true,
+          "prCiRun": 42528583123,
+          "prCiUrl": "https://github.com/XertroV/adnd1/actions/runs/42528583123",
+          "mergePushRun": 42529300629,
+          "mergePushUrl": "https://github.com/XertroV/adnd1/actions/runs/42529300629",
+          "mergeBuildJob": 128879720807,
+          "pagesDeployJob": 128881849850,
+          "pagesDeploymentId": 7642745950,
+          "pagesDeploymentState": "success",
+          "pagesDeploymentSucceededAtUtc": "2026-11-08T22:24:12Z"
+        },
+        "repairs": {
+          "classContinuationControls": 11,
+          "newManualFieldMappings": 11,
+          "newCatalogRegions": 13,
+          "newLimitedPngFiles": 5,
+          "orderedSourceContextGroupsAdded": 2,
+          "numericMechanicsGradesPromoted": 0,
+          "existingGenericPageDefaultsChanged": 0,
+          "retainedOldUa16CropDefects": 1,
+          "scope": "XP continuation sentence/anchor location and complete declared source context only. PHB25+26 Magic-user table parts and PHB24/UA16 Paladin applicability retain distinct page/book identities."
+        },
+        "validation": {
+          "localFullNodeSuite": {
+            "tests": 894,
+            "passed": 894,
+            "failed": 0,
+            "skipped": 0,
+            "logSha256": "b9795d2ed489f7b31a5d3ab97f25a72712eb495c69b749419a20fc5f269c3a3d"
+          },
+          "prospectiveCountCorrection": "An earlier planning receipt expected895. Actual new files add33 tests (11 target guard,6 source model,4 current integration,2 captured-mutation calibration,10 history) to861. No existing tests were removed; actual full registration is894.",
+          "localRequiredWorkflow": {
+            "passed": 24,
+            "failed": 0,
+            "resultsSha256": "e18cbc8ddaa562aa8148834c17bd04e791c2feff930e176fa0388c61aa65ddc4"
+          },
+          "prCiRequiredWorkflow": {
+            "passed": 24,
+            "failed": 0,
+            "headCommit": "003eac0e1fb3d4fe9f9449409da99e8e9b1dc861",
+            "buildJob": 128877519180,
+            "allRequiredStepConclusions": "success"
+          },
+          "mergeCiRequiredWorkflow": {
+            "passed": 24,
+            "failed": 0,
+            "headCommit": "a46eddc41ac6f712d5ad1498195df6a49810aae1",
+            "allRequiredStepConclusions": "success"
+          },
+          "staticOutputReproduces": true,
+          "evidenceSeals": {
+            "current": 880,
+            "prior849OrderedPrefixUnchanged": true,
+            "originalVersion16Prefix": {
+              "commit": "d0d3c0bf55607bdadd956aaa3f72fe9af53618ff",
+              "seals": 763,
+              "unchanged": true
+            }
+          },
+          "selectedStaticAssets": {
+            "denominator": 87,
+            "matched": 87,
+            "mismatched": 0,
+            "receiptSha256": "17011f7bdfd0453cc54e411f239736f73826f31185695b27b7652885a94bf332",
+            "exactStampedHtmlMatchesMergeTemplate": true
+          },
+          "priorLiveBehavior": {
+            "checks": 55,
+            "matrixNumericDomCells": 378,
+            "pageErrors": 0,
+            "failedRequests": 0,
+            "receiptSha256": "7fca69849258310d8d5b8b74853a066426dfdcfee08972966ea21d59ed4bf083"
+          },
+          "newIndependentLiveBehavior": {
+            "path": "research/source-audit-pass8-pr42-live-browser-independent-review.json",
+            "sha256": "170c81316f8a0455ae367a8107313ca0382ee088731ed5b27917a73c4743a655",
+            "denominators": {
+              "realXPControls": 11,
+              "ownerSpecificPrimaryBindings": 11,
+              "acceptedSourceRegions": 13,
+              "linkedGroups": 2,
+              "linkedGroupParts": 4,
+              "directCopiedReloadedPartRoutes": 4,
+              "recordedSettledFocusChecks": 44,
+              "mobileOwnerStages": 11,
+              "keyboardActualSizePanChecks": 11,
+              "touchPanChecksForLinkedGroups": 2,
+              "genericDefaultsComparedWithActualGit777Assets": 11,
+              "TLSValidatingPublicAssetReads": 29,
+              "actualChromeResponseBodiesComparedWithExactMergeBytes": 34
+            },
+            "errors": {
+              "finalBehaviorPageErrors": [],
+              "finalBehaviorFailedRequests": [],
+              "finalBehaviorHTTPFailures": [],
+              "actualResponseCapturePageErrors": [],
+              "actualResponseCaptureFailedRequests": [],
+              "actualResponseFingerprintErrors": []
+            }
+          }
+        },
+        "fieldMappingDenominators": {
+          "manualReviewedFieldTargets": 728,
+          "allFieldBindings": 4572,
+          "allOtherTargetStates": 3844,
+          "regionBoundBindings": 1016,
+          "emptyRegionBindings": 3556,
+          "reviewStates": {
+            "field-target-reviewed": 728,
+            "source-row-transcribed-bounds-provisional": 93,
+            "source-row-value-verified-region-pending": 211,
+            "region-verified": 288,
+            "source-excerpt-only": 2,
+            "field-target-pending": 3250
+          },
+          "meaning": "Location, source-value, contextual completeness and book coverage are separate grades. The4572 inventory includes record-reference envelopes; it is not a denominator of4572 independent mechanical facts."
+        },
+        "ancillaryVerificationNotCompleted": {
+          "action": "Additional raw GitHub Actions build-job log download",
+          "target": "PR42 build job128877519180 log storage",
+          "result": "GitHub-provided signed log storage returned403 Forbidden through the CLI. No retry was made.",
+          "impact": "CI job and all24 required step success states were independently retrieved through GitHub API; full local894-test output is preserved. This does not block the verified publication."
+        }
+      },
+      {
+        "id": "pass8-source-ledger-checkpoint",
+        "status": "merged-and-live-independently-verified",
+        "scope": [
+          "Reproducible five-book source-ledger checkpoint: 776 physical PDF pages plus one separate supplemental image and 559 overlapping broad units.",
+          "Preserved source/review evidence, calibration tests and hash-pinned current repair-register resolution; no runtime source-content or source-grade promotion."
+        ],
+        "sourceDataChanged": false,
+        "numericGradesPromoted": 0,
+        "fieldTargetActivations": 0,
+        "coverageMeaning": "This is a reproducible coverage/evidence checkpoint, not completion of the source-content or mapping audit.",
+        "release": {
+          "pullRequest": "https://github.com/XertroV/adnd1/pull/43",
+          "headSha": "d837a5f55762999db50171287d3200f202aaaba3",
+          "mergeCommit": "ad57b84226cc89446e60d0b7bbaebb379aedc16a",
+          "version": 21,
+          "headTests": {
+            "registered": 926,
+            "passed": 926,
+            "failed": 0,
+            "skipped": 0,
+            "requiredWorkflowBlocksPassed": 24
+          },
+          "pullRequestChecks": "https://github.com/XertroV/adnd1/actions/runs/42542111874",
+          "pagesDeployment": "https://github.com/XertroV/adnd1/actions/runs/42543048712",
+          "liveReceipt": "research/source-audit-pass8-pr43-live-release-verification.json",
+          "receiptSha256": "7022935e75d2f391c4d9063d2531fc9b9d0b05549bfee89879261f8056b7e8c7",
+          "selectedLiveAssetsMatched": 87,
+          "liveBrowserChecksPassed": 55
+        },
+        "independentReview": "research/source-audit-pass8-source-ledger-checkpoint-root-review.json"
+      },
+      {
+        "id": "source-frame-current-guard",
+        "status": "merged-and-live-independently-verified",
+        "scope": [
+          "Nine hash-bound source-frame groups across seven physical PDF pages and 102 registered owner joins; 11 corrected legacy PHB 27/37 audit windows.",
+          "Current raster/visual checks require the active trusted bridge. Exact sealed historical diagnostics remain separate from current validation.",
+          "Systemic baseline and current visual phases retain their own data/geometry identities. No source-content, image, value, grade or field-target activation change."
+        ],
+        "sourceDataChanged": false,
+        "currentDataSha256": "a4225fbd2015c5ba7d225738ec1a9bf4658f4a9a9700e340a37dde79317119f3",
+        "frameRegistrySha256": "2899f53a9cfa1741d9fd9aed3c47ada0eb3a80fc842352c8c64deb3869986318",
+        "frameGroups": 9,
+        "registeredOwnerJoins": 102,
+        "correctedLegacyWindows": 11,
+        "numericGradesPromoted": 0,
+        "fieldTargetActivations": 0,
+        "release": {
+          "pullRequest": "https://github.com/XertroV/adnd1/pull/44",
+          "headSha": "653ac996b8f740c8ba941c7c5b2f5f0d54e423d4",
+          "mergeCommit": "236818f2026f61eb0cb696ffb0ea9ff166a491ff",
+          "version": 22,
+          "headTests": {
+            "registered": 935,
+            "passed": 935,
+            "failed": 0,
+            "skipped": 0,
+            "requiredWorkflowBlocksPassed": 24
+          },
+          "pullRequestChecks": "https://github.com/XertroV/adnd1/actions/runs/42545956724",
+          "pagesDeployment": "https://github.com/XertroV/adnd1/actions/runs/42546832374",
+          "liveReceipt": "research/source-audit-pass8-pr44-live-release-verification.json",
+          "receiptSha256": "2cdd4b84097f149fa512d48f7fdaa2ae5aa9c4ade2904ff13526f3343f339f1c",
+          "selectedLiveAssetsMatched": 87,
+          "liveBrowserChecksPassed": 55
+        },
+        "independentReview": "research/source-frame-coordinate-current-guard-independent-review.json",
+        "systemicCallerIndependentReview": "research/source-frame-systemic-caller-root-independent-review.json",
+        "postsealTestIndependentReview": "research/source-frame-release-postseal-test-root-independent-review.json",
+        "remainingScope": "The same nine frames and102 joins also govern the continuation word-geometry consumer published with V25. Broader frame, highlight, field-target, crop and book-completeness queues remain distinct."
+      },
+      {
+        "id": "continuation-source-frame-consumer",
+        "status": "merged-and-live-independently-verified",
+        "scope": [
+          "Same9frame groups/102owner joins/11corrected windows applied to continuation PDF word geometry.",
+          "Merged ancestor ae7 was initially publication-blocked when Pages attempts23/24 timed out; V25 publishes this ancestor. No source-semantic, numeric or field-target grade promotion."
+        ],
+        "sourceDataChanged": false,
+        "numericGradesPromoted": 0,
+        "fieldTargetActivations": 0,
+        "release": {
+          "pullRequest": "https://github.com/XertroV/adnd1/pull/45",
+          "mergeCommit": "ae7f02c6a5aac9ac8da1f7bc5cf5152e422fcd58",
+          "publishedByMergeCommit": "4aa977788085f67a28a24d40965edf987bc7242b",
+          "version": 25,
+          "liveReceipt": "research/source-audit-pass8-pr46-version25-live-release.json",
+          "receiptSha256": "f43f04c8f96082101bca767c176913b0365ed9abc5a7e32f6610083b9babb532"
+        },
+        "independentReview": "research/source-audit-pass8-continuation-frame-independent-review-v1.json",
+        "historicalPublicationFailure": "research/source-audit-pass8-pr45-merged-publication-blocked.json"
+      },
+      {
+        "id": "phb-spell-guidance-class-mechanics-source-overview",
+        "status": "merged-and-live-independently-verified",
+        "scope": [
+          "Ten PHB spell-guidance records, new Druid component lookup/definitions,24 class-guidance appends and seven independently reviewed mechanics correction leaves.",
+          "Five-book source overview preserves accepted DMG175 correct-edition image availability alongside the factual canonical-PDF omission and unknown printing.",
+          "Same9/102source-frame tuples retain exact PDF/catalog/owner/PNG geometry identities under the declared PHB provenance migration."
+        ],
+        "sourceDataChanged": true,
+        "currentDataSha256": "416ebc32862105042904e40280034772a51640d1ccbba298b9b8bf5ccbf709fe",
+        "mechanicsReviews": 1210,
+        "correctedMechanicsLeaves": 7,
+        "fieldTargetActivations": 0,
+        "release": {
+          "pullRequest": "https://github.com/XertroV/adnd1/pull/46",
+          "headSha": "e10cc33c4e0fa33ad176782c4a8f3d07ccbd3f0e",
+          "mergeCommit": "4aa977788085f67a28a24d40965edf987bc7242b",
+          "version": 25,
+          "headTests": {
+            "registered": 975,
+            "passed": 975,
+            "failed": 0,
+            "skipped": 0,
+            "requiredWorkflowBlocksPassed": 24
+          },
+          "pagesDeployment": "https://github.com/XertroV/adnd1/actions/runs/42565716816",
+          "liveReceipt": "research/source-audit-pass8-pr46-version25-live-release.json",
+          "receiptSha256": "f43f04c8f96082101bca767c176913b0365ed9abc5a7e32f6610083b9babb532",
+          "selectedLiveAssetsMatched": 90,
+          "newPhbAndSourcesBrowserChecksPassed": 36,
+          "priorBehaviorChecksPassed": 55
+        }
+      },
+      {
+        "id": "dmg225-locations-and-six-replacement-crop-groups",
+        "status": "merged-and-live-independently-verified",
+        "scope": [
+          "29DMG225 equipment location-only field targets; no numeric, mechanics or source-value grade changes.",
+          "Six reproducible replacement crop groups, seven image assets and eight owner uses; original images, stable IDs and unresolved old recipes preserved."
+        ],
+        "sourceDataChanged": false,
+        "fieldTargetActivations": 29,
+        "sourceValueGradesPromoted": 0,
+        "release": {
+          "pullRequest": "https://github.com/XertroV/adnd1/pull/47",
+          "headSha": "5be506f557665faaf37d17227c7d2a99c1fcf1b2",
+          "mergeCommit": "cc9509047746d5e27a71cb5b1e0cfcb739a688c9",
+          "version": 26,
+          "testsPassed": 989,
+          "requiredWorkflowBlocksPassed": 24,
+          "selectedLiveAssetsMatched": 167,
+          "liveBrowserChecks": 362,
+          "receipt": "research/source-audit-pass8-pr47-version26-live-release.json",
+          "receiptSha256": "5b4acd96e0504bc5048d38d099eaae5153b755b7db52275e988755fecc058bef"
+        },
+        "remaining": [
+          "Generic old Tools page default is separate from reviewed field routes.",
+          "Illusionist own UA68 context remains pending.",
+          "Six historic recipes remain unknown; reproducible replacements do not recover their history."
+        ]
+      },
+      {
+        "id": "phb38-ua28-hurled-weapons-discoverability-and-dmg28-continuation",
+        "status": "merged-and-live-independently-verified",
+        "scope": [
+          "Two direct searchable source-specific weapon tables:39rows and555literalcells, with original notes and separatePHB36armor key.",
+          "DMG28ordered opening/continuation note with legacy singleton permalink preserved.",
+          "Fifty authored semantic field declarations remain pending; context/default review does not approve their numeric/mechanics/source values."
+        ],
+        "sourceDataChanged": true,
+        "sourceTables": 2,
+        "sourceRows": 39,
+        "literalCells": 555,
+        "pendingSemanticFieldDeclarations": 50,
+        "sourceValueGradesPromoted": 0,
+        "fieldTargetActivations": 0,
+        "release": {
+          "pullRequest": "https://github.com/XertroV/adnd1/pull/48",
+          "headSha": "b7f6389b6ca24778174104cc081da96b4d176f37",
+          "mergeCommit": "6717c6f22bbf2f2b421327e4c8561b1d81df00d4",
+          "version": 27,
+          "testsPassed": 1024,
+          "requiredWorkflowBlocksPassed": 24,
+          "selectedLiveAssetsMatched": 173,
+          "liveBrowserChecks": 259,
+          "receipt": "research/source-audit-pass8-pr48-version27-live-release.json",
+          "receiptSha256": "0734bbc1b0d7e77a64d3559acb38fd9144d525df42f292ab82909d405d7c70b8"
+        },
+        "remaining": [
+          "All50 semantic field targets remain pending.",
+          "Whole-book and global field/source-value/highlight/legacy-scope axes remain unresolved."
+        ]
+      },
+      {
+        "id": "ua-five-spell-bodies-and-class-guidance-source-phase",
+        "status": "merged-and-live-independently-verified",
+        "scope": [
+          "Five bounded UA spell-body repairs, including their scoped source continuations.",
+          "21 guide fields across seven classes with 24 context references, 32 source context review records, 22 new default assessments and 10 continuation groups.",
+          "Source value grades remain unpromoted; 41 changed body leaves await mechanics review. Typed UA tables and three physical XP subrank rows remain separate."
+        ],
+        "release": {
+          "pullRequest": "https://github.com/XertroV/adnd1/pull/49",
+          "mergeCommit": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
+          "version": 28,
+          "headTests": {
+            "passed": 1047,
+            "failed": 0,
+            "skipped": 0,
+            "requiredWorkflowBlocksPassed": 24
+          },
+          "pullRequestChecks": "https://github.com/XertroV/adnd1/actions/runs/42635830284",
+          "pagesDeployment": "https://github.com/XertroV/adnd1/actions/runs/42640111403",
+          "liveReceipt": "research/source-audit-pass8-pr49-version28-live-release.json",
+          "selectedLiveAssetsMatched": 194,
+          "liveBrowserChecksPassed": 185
+        },
+        "releaseReceiptSha256": "f5ac40bcef621ae27b3ca9407777c1722209e6f1b7238d7acc1ab1e6f5d4b911",
+        "sourceDataSha256": "c076e0f6bb898eb52650fd886630089f17edc86cbc8e3c4ac349b817bceba0d3",
+        "sourceValueGradesPromoted": 0
+      }
+    ],
+    "unresolvedCategories": [
+      {
+        "category": "source-unit-semantic-census",
+        "status": "559-broad-unit-dispositions-recorded; finer content remains partial or unassessed",
+        "scope": "Five source books have explicit broad-unit dispositions. This census is not a clause/row/qualifier completeness denominator; all books retain broader unknowns.",
+        "evidence": "research/source-audit-pass8-original-unit-join-review-v2.json"
+      },
+      {
+        "category": "Cavalier-zero-level-source-rows",
+        "status": "transcribed-research-not-runtime",
+        "count": 2,
+        "scope": "Horseman and Lancer remain distinct; source prints a shared −501 endpoint, with no boundary ruling."
+      },
+      {
+        "category": "UA-Druid14",
+        "status": "partial-cross-source-representation",
+        "scope": "The PHB class has the lower XP threshold; the full UA interval/row is not represented in the high-level UA target subset."
+      },
+      {
+        "category": "internal-MM-heading-index",
+        "status": "confirmed-omission-outside-current-runtime-scope",
+        "scope": "Centipede, Giant at MM p.14 has no MM internal locator; a searchable monster catalogue is documented as excluded."
+      },
+      {
+        "category": "MM2-p110-source-candidate-inventory",
+        "status": "page-local-heading-census-closed; broader profile content outside bounded review",
+        "scope": "SKUNK, SLIME CREATURE and SLIME, OLIVE are separately recorded at printed110; same-page column continuation is explicit. This closes the old page-local heading candidate gap, without proving any unexpected site omission or whole-bestiary completeness.",
+        "evidence": "research/source-audit-pass8-mm2-nonprofile-semantic-closure.json"
+      },
+      {
+        "category": "excerpt-field-mapping",
+        "status": "active; deployed location targets and pending semantic declarations remain separate",
+        "scope": "VerifiedV27 has807 authored manual declarations among4681 canonical field/source-reference bindings;50weapon semantic fact declarations remain published as pending. The local unpublished UA source phase adds24class reference envelopes for4705canonical bindings, with source values unassessed and no field targetReview. Source-value, mechanics, context, highlight and default grades remain independent. Historical2190warnings/726legacy uses remain historicalcounts.",
+        "evidence": "research/source-audit-pass8-pr42-live-release-verification.json"
+      },
+      {
+        "category": "source-quality-and-interpretation",
+        "status": "unresolved",
+        "scope": "UA10 source fold/shadow and DMG11 source-edge glyph limits remain. DMG physicalPDF239 is now identified as an unnumbered reference leaf and240 as rear cover, with no invented printed folios. Seven monetary interpretation questions and two independent scope questions across nine rows remain separate unresolved dimensions.",
+        "evidence": "research/source-audit-pass8-dmg-appendix-endmatter-assessments.json"
+      }
+    ],
+    "interpretation": "Finding families and categories overlap. This register is not an all-book error count or completion percentage.",
+    "currentRelease": {
+      "version": 27,
+      "mergeCommit": "6717c6f22bbf2f2b421327e4c8561b1d81df00d4",
+      "verifiedLiveReceipt": "research/source-audit-pass8-pr48-version27-live-release.json",
+      "receiptSha256": "0734bbc1b0d7e77a64d3559acb38fd9144d525df42f292ab82909d405d7c70b8"
+    },
+    "preservedBeforeV19": {
+      "path": "research/source-audit-pass8-repair-register-before-v19.json.gz",
+      "gzipSha256": "85b8421aa961416398baad06a8d615786d0471c8ab73114b65f02907110836dc",
+      "rawSha256": "37e7d5bc22fd16ddfe7bef8170dccd82c9c8aeeade76b929aec32f91b3f8ebb7"
+    },
+    "supersedesFrozenPhaseRegister": {
+      "path": "research/source-completeness-repairs.json",
+      "sha256": "3d6dba1ddb3dd510be4c255b8cca31b82f6b820d0ecec37b11b9495313446a59",
+      "historicalVersion": 19,
+      "meaning": "The original V19 phase register is pinned by the frozen unit-join reports and remains unchanged. This separately named artifact records the verified V20 successor."
+    },
+    "broadUnitCoverage": {
+      "report": "research/source-audit-pass8-original-unit-join-review-v2.json",
+      "sha256": "56fbfe97b3fdb9fa22b794cc255c492e2f28acad8a5a5c1ddb82994a2369f804",
+      "sourceBooks": 5,
+      "physicalPdfPages": 776,
+      "privateSupplementalImages": 1,
+      "broadUnits": 559,
+      "categoryCounts": {
+        "missing": 29,
+        "partial": 242,
+        "present": 6,
+        "citationonly": 6,
+        "excluded": 275,
+        "unassessable": 1
+      },
+      "semanticallyCompleteBooks": 0,
+      "meaning": "Broad named units overlap. Present is bounded source representation, exclusions retain declared scope, and all finer or broader unknowns remain explicit."
+    },
+    "supersedesVersion20Register": {
+      "path": "research/source-completeness-repairs-version20.json",
+      "sha256": "d0e9b69fb62b5849f2ca5583bb022ea39ba6e69a7454769ce98e9874a8f427af",
+      "historicalVersion": 20,
+      "meaning": "The exact sealed V20 register and frozen V19 phase register remain unchanged. This separately named successor records independently verified V21 and V22 releases."
+    },
+    "supersedesVersion22Register": {
+      "path": "research/source-completeness-repairs-version22.json",
+      "sha256": "8b84adcc4c9ac27aba208b66538c00b38b430c4f6b2ee5a70f41597ea4855c3c",
+      "historicalVersion": 22,
+      "meaning": "The frozen V22 and earlier registers remain exact. This separately named register records independently verified V25 publication, including the continuation ancestor whose two earlier deployment attempts failed."
+    },
+    "supersedesVersion25Register": {
+      "path": "research/source-completeness-repairs-version25.json",
+      "sha256": "c9f1f542091b22a46915b8372b5044d27fbb08d9b778d4963e19f855bbbf39f0",
+      "historicalVersion": 25,
+      "meaning": "The frozen V25 register remains exact; this separately named successor records verified PR47 publication."
+    },
+    "supersedesVersion26Register": {
+      "path": "research/source-completeness-repairs-version26.json",
+      "sha256": "da8f3056347fa0ff5bbcdb201c01386d7b831e3be261d631e7ae30dde29abdb8",
+      "historicalVersion": 26,
+      "meaning": "The sealedV26 register remains exact. This separately named successor records verifiedPR48/Version27 publication and identifies the local unpublishedUA source phase separately."
+    },
+    "verifiedRuntime": {
+      "version": 28,
+      "mergeCommit": "386b08a4678ee033d6daabc0ffa2cc17265a7c1f",
+      "verifiedLiveReceipt": "research/source-audit-pass8-pr49-version28-live-release.json",
+      "receiptSha256": "f5ac40bcef621ae27b3ca9407777c1722209e6f1b7238d7acc1ab1e6f5d4b911"
+    },
+    "supersedesVersion27Register": {
+      "path": "research/source-completeness-repairs-version27.json",
+      "sha256": "ccda9667ed5613c7b7d2d510663da783584f5670e7a88c52737cac63e656a55b",
+      "historicalVersion": 27,
+      "meaning": "The sealed Version27 and earlier phase registers remain exact. This additive successor records verified PR49/Version28 and distinguishes local SOURCE987 work from publication."
+    },
+    "historicalUnpublishedImplementationTransitions": [
+      {
+        "priorRecord": {
+          "id": "ua-five-bodies-and-class-guidance-source-phase",
+          "published": false,
+          "state": "Reviewed source-only activation committed locally; metadata/history/full workflow and publication remain pending.",
+          "sourceCommit": "6b3cfc8cb421a2c1fc2379c38abebe2075634981",
+          "sourceDataSha256": "c076e0f6bb898eb52650fd886630089f17edc86cbc8e3c4ac349b817bceba0d3",
+          "scope": "Five bounded spell-body repairs,21UA guidance leaves across7classes,32accepted source-context records,22default assessments and10continuation groups. Existing24PHB guidance leaves remain exact. Seven structuredUA tables and3physicalXPsidecars are excluded.",
+          "mechanics": "Six qualified active old review records withdraw25obsolete checked pairs and4corrections; all1210 original records remain historical,48unchanged checks/5corrections retained,5empty-check records keep41current changed leaves pending. No new checked-value or field-target grade.",
+          "sourceActivationManifest": "research/ua-source-postmerge-activation-v1/source-activation-manifest-v1.json"
+        },
+        "resolvedByVersion": 28,
+        "resolvedByReceipt": "research/source-audit-pass8-pr49-version28-live-release.json"
+      }
+    ],
+    "unpublishedImplementations": [
+      {
+        "id": "ua28-equipment-targets-and-dmg175-source-integration",
+        "published": false,
+        "sourceCommit": "987a25d3ba2dcac0940569a2afab73f775e38028",
+        "sourceDataSha256": "fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d",
+        "state": "Local source committed; current metadata, historical contexts, final tests/workflow and browser validation in progress. No new PR or deployment.",
+        "scope": "11 new Appendix C cards and 87 rows; 120 DMG p.175/176 manual targets remain pending. Three UA equipment rendered strings representing 33 source cells are reviewed for field location only.",
+        "sourceValueGradesPromoted": 0
+      }
+    ]
+  },
+  "interpretation": [
+    "Physical-page accounting is complete for these exact bytes; source-unit semantic completeness is not established.",
+    "Book dispositions and finding records are frozen baseline observations at baselineCommit. Current repair and publication states are recorded separately in repairs; baseline open labels are not current unresolved totals.",
+    "A no-candidate OCR/lexical/geometry result is not a source-completeness pass.",
+    "Documented product exclusions, internal-index omissions, incomplete summaries, citation-only links and unassessable source meaning remain separate.",
+    "Present in data, rendered to users and searchable are independent axes. A parent document can be findable while an exact numeric field is omitted from direct search.",
+    "Historical 453 primary-reference occurrences, 2,190 highlight warnings and 3,849 pending/other field-target states are different captured queues, not missing-table or whole-book error counts."
+  ],
+  "inputs": [
+    {
+      "path": "research/source-completeness-page-baseline.json",
+      "sha256": "04497369894821d9d455c590ab55dd56a011fae0ba18c0e80cc84b7864f6ae8f"
+    },
+    {
+      "path": "research/source-completeness-site.json",
+      "sha256": "b56b165f7693c92f679dd8d6abfa15c992602bc1808092c529b3c8debbf9fe68"
+    },
+    {
+      "path": "research/source-completeness-phb.json",
+      "sha256": "2a8bcf30c39138ea92b36d7c70b7103a82afbaafff221fd1a253306e5adf9e03"
+    },
+    {
+      "path": "research/source-completeness-dmg.json",
+      "sha256": "aa2a54b141bcf3813edd5545d29f0b96d5d6aa25a4404a291463235bc991bc84"
+    },
+    {
+      "path": "research/source-completeness-ua.json",
+      "sha256": "d19143fb4686e6f7069492bf391e2c9884a0cf5d80a8e1b17d72ec9c5198953f"
+    },
+    {
+      "path": "research/source-completeness-mm.json",
+      "sha256": "0f319cf99cc9ef207df052551dafd77519b7190d04c603de691766bf1ed29be3"
+    },
+    {
+      "path": "research/source-completeness-mm2.json",
+      "sha256": "220049803ccc80810f6e97ca9af5a78ef48e57d144f92dc3b05ee0aa1f403b2e"
+    },
+    {
+      "path": "dist/data.json",
+      "sha256": "2ab84cfe5e4234e5d0303b2062f941f7d8e1b93d798a7402c16e78d6d2e4672c"
+    },
+    {
+      "path": "research/current-source-audit-status.json",
+      "sha256": "50e833a5ebfc4899dc2c4fe5439250736f6168b938a3daa61144a790d54a984e"
+    },
+    {
+      "path": "research/source-completeness-repairs-version28.json",
+      "sha256": "8ec6a08e4803ba26ffb921fe6e444425b046e4c370cc4af7ee87783c3b9edad4"
+    }
+  ]
+}

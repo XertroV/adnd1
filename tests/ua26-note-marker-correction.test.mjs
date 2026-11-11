@@ -1,16 +1,80 @@
 import {readBeforeJoFile} from './helpers/ua-source-batch6-jo-fixture.mjs';
-import test from 'node:test';
+import {after,test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import {fileURLToPath} from 'node:url';
+import {execFileSync} from 'node:child_process';
 import {markerTokensFor,noteIdsForTokens} from '../tools/ua26-note-marker-audit.mjs';
 import {auditUa26MarkerReceiptWithHCurrentSourceEpoch} from '../tools/ua26-note-marker-audit-h-v2.mjs';
+import {assertHistoricalHPreimage} from '../research/mm-source-history-v1/closed-version29-reader-current-mm-v1.mjs';
 
-const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const root=path.resolve(process.cwd());
 const read=rel=>JSON.parse(readBeforeJoFile(path.join(root,rel),'utf8'));
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+const markerHPreimageCommit='5c6a57386af372c7c0d89e342003a7edf68ca0dd';
+const markerTransitionRegistryPath='research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/ua26-current-h-successor-v1/ua26-marker-dmg175-transition-h-v1.json';
+const markerReceiptPath='research/source-audit-batch5-ua26-marker-correction.json';
+const markerJoAppendPath='research/source-audit-batch6-jo-ua26-alias-append.json';
+const markerCurrentAppendPath='research/source-audit-batch5-ua26-current-row-append.json';
+const add=(set,rel)=>{if(typeof rel==='string'&&rel.length&&!path.isAbsolute(rel))set.add(rel);};
+const rootJson=rel=>JSON.parse(fs.readFileSync(path.join(root,rel),'utf8'));
+const markerHPreimageRoot=(()=>{
+  const proof=assertHistoricalHPreimage();
+  assert.equal(proof.historicalHPreimageCommit,markerHPreimageCommit,'strict MM guard verifies the exact pinned H preimage');
+  assert.equal(proof.historicalHPreimageTree,'391026a96811e7bcf0dfcb61c3753ff708308fe1');
+  const receipt=rootJson(markerReceiptPath);
+  const joAppend=rootJson(markerJoAppendPath);
+  const currentAppend=rootJson(markerCurrentAppendPath);
+  const nativeHFixture=rootJson('tests/fixtures/hirelings-source-current-cohort-v1.json');
+  const historicalHInputHashes={...nativeHFixture.sourceRawInputs,'research/mechanics-audit-progress.json':'5627488c038354a15e4cc3ab1871dab02eb1f3eec9fa84a5ff3666cf253bcc43'};
+  const required=new Set([
+    markerReceiptPath,markerJoAppendPath,markerCurrentAppendPath,'dist/data.json','dist/books.js',
+    'research/price-source-inventory.json','research/source-audit-input-dmg175-source-987a25d3ba2d.json',
+    'research/source-audit-pass8-dmg175-source-body-handoff-transition-v1.json',
+    'research/ua28-field-target-review-v1/independent-review-evidence-v1.json',
+    'research/source-audit-pass8-ua28-caption-metadata-independent-review-v1.json',
+    'research/source-audit-pass8-ua28-v7-row-caption-independent-review-v1.json',
+    'research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/ua26-current-h-successor-v1/validation/ua26-marker-full-catalog-diff-h-v1.json',
+    'tools/ua26-note-marker-audit.mjs',markerTransitionRegistryPath
+  ]);
+  for(const ref of Object.values(receipt.frozenInputs||{}))add(required,ref?.path);
+  for(const rel of Object.keys(receipt.currentCatalogHashes||{}))add(required,rel);
+  for(const ref of [joAppend.sourcePeer,joAppend.frameDerivation,joAppend.catalog,
+    joAppend.caltropCatalogExtension?.before,joAppend.caltropCatalogExtension?.after])add(required,ref?.path);
+  add(required,currentAppend.row?.catalog?.path);
+  add(required,'tests/helpers/ua-source-batch6-jo-fixture.mjs');
+  add(required,'tests/fixtures/hirelings-source-current-cohort-v1.json');
+  add(required,'tests/helpers/hirelings-source-current-cohort.mjs');
+  add(required,'tests/helpers/hirelings-source-current-cohort-kernel-v1.mjs');
+  add(required,'research/hirelings-native-h-v1/source-body-handoff-transition-v1.json');
+  add(required,'research/mechanics-audit-progress.json');
+  add(required,'tools/ua26-note-marker-audit-h-v2.mjs');
+  for(const rel of Object.keys(nativeHFixture.sourceRawInputs||{}))add(required,rel);
+  const copiedPaths=new Set([
+    'dist/scans/verified/equipment-ua-harpoon.json','dist/scans/verified/equipment-phb-hammer.json',
+    'dist/scans/verified/equipment-phb-javelin.json','dist/scans/verified/equipment-ua-aklys-hurled.json',
+    'tests/fixtures/hirelings-source-current-cohort-v1.json','tests/helpers/hirelings-source-current-cohort.mjs',
+    'tests/helpers/hirelings-source-current-cohort-kernel-v1.mjs','tools/ua26-note-marker-audit-h-v2.mjs'
+  ]);
+  const result=fs.mkdtempSync(path.join(os.tmpdir(),'ua26-marker-h-preimage-'));
+  try{
+    for(const rel of required){
+      const source=path.join(root,rel),destination=path.join(result,rel);
+      fs.mkdirSync(path.dirname(destination),{recursive:true});
+      if(Object.hasOwn(historicalHInputHashes,rel)){
+        const bytes=execFileSync('git',['show',`${markerHPreimageCommit}:${rel}`],{cwd:root,maxBuffer:64*1024*1024});
+        assert.equal(sha(bytes),historicalHInputHashes[rel],`${rel}: exact H M1 Git blob`);
+        fs.writeFileSync(destination,bytes);
+      }else if(copiedPaths.has(rel))fs.copyFileSync(source,destination);
+      else fs.symlinkSync(source,destination);
+    }
+    fs.symlinkSync(path.join(root,'.git'),path.join(result,'.git'),'file');
+    return result;
+  }catch(error){fs.rmSync(result,{recursive:true,force:true});throw error;}
+})();
+after(()=>fs.rmSync(markerHPreimageRoot,{recursive:true,force:true}));
 
 test('post-application, pre-correction all-66 note-association snapshot preserves the five source-marker divergences',()=>{
   const receipt=read('research/source-audit-batch5-ua26-marker-correction.json');
@@ -48,7 +112,7 @@ test('literal marker tokenization keeps 2* and 6* distinct from asterisk-pair no
 });
 
 test('all 68 source markers, corrective66 aliases and registered current appends retain exact note associations',()=>{
-  const result=auditUa26MarkerReceiptWithHCurrentSourceEpoch(root);
+  const result=auditUa26MarkerReceiptWithHCurrentSourceEpoch(markerHPreimageRoot);
   assert.equal(result.ok,true,JSON.stringify(result.failures));
   assert.deepEqual(result.counts,{physicalRows:68,marked:17,unmarked:51,corrective66Aliases:66,currentTargetAppends:2,currentWDAliases:68,explicitMarkerRows:17,baselineWrongSpecificAssignments:2,previouslyUnresolvedNowSourceAdjudicated:3,correctedCatalogs:5,checkedCatalogs:65});
   assert.equal(result.sourceMarkerCensusSha256,'28573d886140523dafd6b2a21060932751a72b090773371ecbb4807942ecc2b0');

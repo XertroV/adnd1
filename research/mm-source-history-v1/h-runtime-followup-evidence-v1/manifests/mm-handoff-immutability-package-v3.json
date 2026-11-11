@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "status": "root-controlled installed and runtime pass 5/5",
+  "sourceSnapshotCommit": "ac60970626fd5e0421fc4b99c141cc11f53ffff3",
+  "files": [
+    {
+      "targetPath": "tools/dmg175-current-source-handoff-mm-v1.mjs",
+      "sha256": "92151e6d05b5b7097454c4f3130cf7f7c61c894cad80c2524304def78c0ee00b",
+      "sizeBytes": 11493,
+      "role": "deep-freeze validated current-MM receipt after separate snapshot/context verification",
+      "before": {
+        "path": "before/tools/dmg175-current-source-handoff-mm-v1.mjs",
+        "sha256": "e1ee50c2a0286f4fe92acea6d282ad552b5510c4153eec50eccce8414d8e77af",
+        "sizeBytes": 10783
+      },
+      "priorProposedCandidate": {
+        "path": "before/tools/dmg175-current-source-handoff-mm-v1-before-frozen-predicate-fix-v1.mjs",
+        "sha256": "3b8040e63e9dead460ca04e7cca1065f21aa53e0a9f745b44e693ea8ba0a05fc",
+        "sizeBytes": 11025,
+        "note": "candidate deep-freeze addition before frozen-nested-predicate fix"
+      }
+    },
+    {
+      "targetPath": "tests/dmg175-current-successors-mm-v1.test.mjs",
+      "sha256": "f4d07461e411159bdd953550a165dc64ebe656d340f80835faf8b54f4171ca68",
+      "sizeBytes": 9360,
+      "role": "preserve receipt mutation negative via frozen write rejection and detached tampered-copy rejection",
+      "before": {
+        "path": "before/tests/dmg175-current-successors-mm-v1.test.mjs",
+        "sha256": "842b0db28387ab970a96924409743ce57ecb66fc212b9c03dad98cf9735cda9e",
+        "sizeBytes": 9071
+      }
+    }
+  ],
+  "behavior": "Validates context and exact private receipt snapshot as before, deep-freezes the parsed return receipt after binding, and permits only the exact nested change/note references within that validated frozen receipt to bypass caller-data preflight. Other caller values still pass current plain-JSON descriptor checks. Caution projection receives a detached clone of the exact pinned note.",
+  "testStatus": "Prior runtime log showed 4/5 in MM successors test; frozen-return check passed and the source-handoff predicate rejected a frozen nested change due descriptor policy. V2 fixes the exact trusted nested value path; actual-root rerun pending controlled adoption.",
+  "controlledInstallReceipt": {
+    "path": "/workspace/vault-audit-private/pass8/root/mm-handoff-frozen-nested-predicate-v2/installation-receipt-v2.json",
+    "sha256": "bb6ec04b204634e68ae182fc40afa5c599bec6c3d096c9a6a5dae822023e1941"
+  },
+  "runtimeLog": {
+    "path": "../runtime-results-v2/dmg175-current-successors-mm-v3.log",
+    "sha256": "56da0760dce3143426ab20a3cbc4e0f0b9cad8de28e0f8630a82a3f677016f34",
+    "tests": "5/5",
+    "exitCode": 0
+  }
+}

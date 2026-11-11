@@ -1,0 +1,40 @@
+✔ the source6b UA qualification remains an explicitly historical record (1580.139892ms)
+✔ the current-MM successor preserves the exact H receipt lineage, qualifies one historical change, and leaves the body pending (727.377927ms)
+✖ current-MM qualification rejects changed inputs, copied receipts, and reader drift (8199.478979ms)
+✔ only caution 70 changes historical disposition; unrelated history stays exact (801.717171ms)
+✔ legacy source6b guard rejects every original wrong receipt identity and context mutation (2030.012771ms)
+✔ legacy source6b guard preserves all seven forged-value negative controls (1700.909126ms)
+✔ current-MM loader rejects changed baseline, current data, conflict rows, and duplicates (11276.056716ms)
+✔ current-MM caller receipt reader rejects every forged-value form and identity spoof (32545.188242ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 64249.281898
+
+✖ failing tests:
+
+test at tests/ua-source-handoff-transition.test.mjs:157:1
+✖ current-MM qualification rejects changed inputs, copied receipts, and reader drift (8199.478979ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/adnd1-next-source-native/tests/ua-source-handoff-transition.test.mjs:193:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+exit_code=1

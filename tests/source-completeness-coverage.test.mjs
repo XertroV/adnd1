@@ -5,10 +5,20 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+import {assertCurrentMmSourceEpoch} from '../tools/mm-current-source-gate-v1.mjs';
+import {assertHistoricalHPreimage} from '../research/mm-source-history-v1/closed-version29-reader-current-mm-v1.mjs';
 import {buildSourceCompletenessCoverage,markdownSourceCompleteness,loadCurrentSourceRepairRegister} from '../tools/source-completeness-coverage.mjs';
 
 const read=path=>JSON.parse(readFileSync(new URL('../'+path,import.meta.url),'utf8'));
-function inputs(){return {pageBaseline:read('research/source-completeness-page-baseline.json'),siteBaseline:read('research/source-completeness-site.json'),ledgers:['phb','dmg','ua','mm','mm2'].map(code=>read(`research/source-completeness-${code}.json`)),currentData:read('dist/data.json')};}
+const currentMm=assertCurrentMmSourceEpoch(process.cwd());
+const historicalH=assertHistoricalHPreimage();
+const historicalHPreimageCommit='5c6a57386af372c7c0d89e342003a7edf68ca0dd';
+const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+const hGitBytes=rel=>execFileSync('git',['show',`${historicalHPreimageCommit}:${rel}`],{cwd:process.cwd(),maxBuffer:64*1024*1024});
+const hBytes=rel=>hGitBytes(rel);
+const hRead=rel=>JSON.parse(hBytes(rel).toString('utf8'));
+function inputs(){return {pageBaseline:read('research/source-completeness-page-baseline.json'),siteBaseline:read('research/source-completeness-site.json'),ledgers:['phb','dmg','ua','mm','mm2'].map(code=>read(`research/source-completeness-${code}.json`)),currentData:currentMm.inputs.data};}
 
 test('frozen baseline findings cannot be mistaken for current repair publication state',()=>{
  const source=inputs(),repairs=read('research/source-completeness-repairs.json');
@@ -86,17 +96,39 @@ test('named source units require a locator rather than an unsupported label alon
   assert.throws(()=>buildSourceCompletenessCoverage(empty),/no source-page locator/);
 });
 
-test('committed coverage JSON, Markdown and input hashes match the complete current inputs',()=>{
-  const committed=read('research/source-completeness-coverage.json');
+test('committed coverage remains the exact H preimage while the current MM report uses its strict epoch',()=>{
+  assert.equal(currentMm.summary.sourceCommit,'0f2d70a135e3ad486152bf00f21387d60a1a97ef');
+  assert.equal(currentMm.summary.owners,1064);
+  assert.equal(historicalH.historicalHPreimageCommit,historicalHPreimageCommit);
+  const committedBytes=readFileSync(new URL('../research/source-completeness-coverage.json',import.meta.url));
+  const exactHBytes=hGitBytes('research/source-completeness-coverage.json');
+  assert.deepEqual(committedBytes,exactHBytes,'the committed artifact remains its exact H preimage');
+  const committed=JSON.parse(exactHBytes.toString('utf8'));
   const {inputs:inputPins,...content}=committed;
+  assert.equal(committed.denominators.currentSiteOwners,1062,'the frozen report keeps the H owner denominator');
+  assert.equal(committed.inputs.find(input=>input.path==='dist/data.json').sha256,'2cddb11a82ecc3b9d77cb3fa2ae49eef5623a5470ac85a540d1baf483e096a95');
+  const historicalPointer=hRead('research/current-source-audit-status.json');
+  const historicalRepairs=hRead(historicalPointer.currentRepairRegister.path);
+  const historicalReport=buildSourceCompletenessCoverage({
+    pageBaseline:hRead('research/source-completeness-page-baseline.json'),
+    siteBaseline:hRead('research/source-completeness-site.json'),
+    ledgers:['phb','dmg','ua','mm','mm2'].map(code=>hRead(`research/source-completeness-${code}.json`)),
+    currentData:hRead('dist/data.json'),
+    repairs:historicalRepairs
+  });
+  assert.deepEqual(content,historicalReport,'all report content reproduces from exact H-preimage inputs');
+  for(const input of inputPins)assert.equal(sha(hBytes(input.path)),input.sha256,`${input.path}: exact H-preimage input hash`);
+  const markdownBytes=readFileSync(new URL('../research/source-completeness-coverage.md',import.meta.url));
+  assert.deepEqual(markdownBytes,hGitBytes('research/source-completeness-coverage.md'),'the Markdown remains the exact H Git blob');
+  assert.equal(markdownBytes.toString('utf8'),markdownSourceCompleteness(committed));
+
   const currentRegister=loadCurrentSourceRepairRegister();
-  assert.deepEqual(content,buildSourceCompletenessCoverage({...inputs(),repairs:currentRegister.repairs}));
-  for(const pin of currentRegister.inputs)assert.deepEqual(inputPins.find(input=>input.path===pin.path),pin);
-  for(const input of inputPins){
-    const bytes=readFileSync(new URL('../'+input.path,import.meta.url));
-    assert.equal(createHash('sha256').update(bytes).digest('hex'),input.sha256,input.path);
-  }
-  assert.equal(readFileSync(new URL('../research/source-completeness-coverage.md',import.meta.url),'utf8'),markdownSourceCompleteness(committed));
+  const currentReport=buildSourceCompletenessCoverage({...inputs(),repairs:currentRegister.repairs});
+  assert.equal(currentReport.denominators.currentSiteOwners,currentMm.summary.owners,'the live report uses the strict current MM owner denominator');
+  assert.equal(currentReport.denominators.currentSiteOwners,1064);
+  assert.equal(currentReport.denominators.namedSourceUnits,559);
+  assert.equal(currentReport.denominators.completeSemanticSourceUnitCount,null);
+  assert.equal(currentReport.denominators.semanticallyCompleteBooks,0);
 });
 
 test('the preserved PR43 failure distinguishes the frozen register from verified release history',()=>{

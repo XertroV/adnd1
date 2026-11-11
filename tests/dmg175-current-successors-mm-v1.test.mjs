@@ -186,10 +186,14 @@ test('current-MM source-handoff wrapper binds the exact historical target withou
   assert.equal(caution.nativeSourceQualification.sourceCommit, '0f2d70a135e3ad486152bf00f21387d60a1a97ef');
   assert.equal(caution.nativeSourceQualification.sourceTree, '08010faf457df22cdb0a5ec35d2dcf79e622ade9');
 
+  assert.equal(Object.isFrozen(receipt), true);
+  assert.equal(Object.isFrozen(receipt.qualifiedTarget), true);
+  assert.equal(Reflect.set(receipt, 'status', 'mutated'), false);
+  assert.equal(Reflect.set(receipt.qualifiedTarget, 'pointer', '/exceptions/1'), false);
   const qualifiedChange = receipt.originalConflictReceipt.change;
-  const unchangedReceipt = structuredClone(receipt);
-  receipt.unapprovedChange = {field: '/unreviewed'};
-  assert.equal(sourceHandoffContextMatches(receipt, context), false);
-  assert.equal(isQualifiedSourceHistoricalChange(receipt, qualifiedChange), false);
-  assert.equal(sourceHistoricalCaution(receipt, unchangedReceipt.curatedHistoricalCaution.note, 70), null);
+  const tamperedReceipt = structuredClone(receipt);
+  tamperedReceipt.unapprovedChange = {field: '/unreviewed'};
+  assert.equal(sourceHandoffContextMatches(tamperedReceipt, context), false);
+  assert.equal(isQualifiedSourceHistoricalChange(tamperedReceipt, qualifiedChange), false);
+  assert.equal(sourceHistoricalCaution(tamperedReceipt, receipt.curatedHistoricalCaution.note, 70), null);
 });

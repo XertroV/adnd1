@@ -1,19 +1,19 @@
 import test from 'node:test';
 import {dmg175HistoryContract,projectDmg175Books} from './helpers/batch6-dmg175-source-history.mjs';
 import assert from 'node:assert/strict';
-import {readBeforeJoXpFile as readFileSync} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
-import {projectPass8XpContinuationBytes} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+import {readBeforeJoXpFile as readFileSync} from '../research/mm-source-history-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
+import {projectPass8XpContinuationBytes} from '../research/mm-source-history-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 import {execFileSync} from 'node:child_process';
 // Exact released777 source/Jo history. The active252-group/728-target census
 // is exercised separately by current-integration and native browser checks.
 import {gunzipSync} from 'node:zlib';
 import {resolve} from 'node:path';
-import {readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs';
+import {readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from '../research/mm-source-history-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs';
 import {createHash} from 'node:crypto';
 import vm from 'node:vm';
 import {hash} from '../tools/monetary-row-identity-audit.mjs';
 import {validateJoUnextractedPriceRegistration} from '../tools/jo-unextracted-price-registration.mjs';
-import {loadJoUnextractedPriceRegistrationAtV28} from '../research/dmg175-validation-coordinator-v1/source-postmetadata-facade-v2/jo-closed-loader-v28-context-v1.proposed.mjs';
+import {loadJoUnextractedPriceRegistrationAtV28} from '../research/mm-source-history-v1/source-postmetadata-facade-v2/jo-closed-loader-context-v1.mjs';
 import {validateContinuationManifest} from '../tools/continuation-contract.mjs';
 import {buildSystemicInventory} from '../tools/citation-systemic-inventory.mjs';
 import {fieldBindingAxisMetrics,fieldBindingCountMeaning} from '../tools/source-report-consistency-audit.mjs';

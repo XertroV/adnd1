@@ -1,4 +1,5 @@
-import '../research/hirelings-source-epoch-proposal-v5/dmg175-current-h-successors-v2/continuation-contract/continuation-contract-current-h-v2.test.mjs';
+// The continuation contract's H regression now reads exact H preimage inputs.
+import '../research/mm-source-history-v1/dmg175-historical-tests/continuation-contract/continuation-contract-h-v1.test.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';

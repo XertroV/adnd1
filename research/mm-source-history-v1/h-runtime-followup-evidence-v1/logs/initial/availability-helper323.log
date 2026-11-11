@@ -1,0 +1,45 @@
+▶ historical H availability projection preserves legacy controls and closed negatives after strict current-MM proof
+  ✖ loads exact production module, immutable baseline inputs, and explicit historical H preimage (12.202781ms)
+  ✔ positive output is 8 supplemental crops, 34 regions, and 120 pending targets (0.18919ms)
+  ✔ historical acceptance controls are preserved and the V5 guards reject them (12.401792ms)
+  ✔ six altered native tuples fail closed (6.152295ms)
+  ✔ canonical object-key reordering remains accepted (5.301982ms)
+  ✔ three published-evidence corruptions fail and monetary screens are preserved (6.134903ms)
+✖ historical H availability projection preserves legacy controls and closed negatives after strict current-MM proof (44.672335ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 26473.035941
+
+✖ failing tests:
+
+test at research/mm-source-history-v1/dmg175-historical-tests/availability/availability-h-v1.test.mjs:131:11
+✖ loads exact production module, immutable baseline inputs, and explicit historical H preimage (12.202781ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'e8a634f9d46ed09e6b7555dfe1ecdaf4ca3edec73681f84c5a7a6248bffbbb70'
+  - '54cb148c3c9e5cfaf4a1a4e55509cd6e93f6f8ce45fedc17e9460ddd81698d77'
+  
+      at TestContext.<anonymous> (file:///workspace/adnd1-next-source-native/research/mm-source-history-v1/dmg175-historical-tests/availability/availability-h-v1.test.mjs:135:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at TestContext.test (node:internal/test_runner/test:400:20)
+      at TestContext.<anonymous> (file:///workspace/adnd1-next-source-native/research/mm-source-history-v1/dmg175-historical-tests/availability/availability-h-v1.test.mjs:131:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'e8a634f9d46ed09e6b7555dfe1ecdaf4ca3edec73681f84c5a7a6248bffbbb70',
+    expected: '54cb148c3c9e5cfaf4a1a4e55509cd6e93f6f8ce45fedc17e9460ddd81698d77',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+exit_code=1

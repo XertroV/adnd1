@@ -32,6 +32,12 @@ function plainJson(value, label = 'context value') {
 }
 const validated = new WeakMap();
 
+function deepFreezeJson(value) {
+  if (value === null || typeof value !== 'object' || Object.isFrozen(value)) return value;
+  for (const key of Object.keys(value)) deepFreezeJson(value[key]);
+  return Object.freeze(value);
+}
+
 function receiptMatchesSnapshot(receipt, pin) {
   if (!pin) return false;
   try {
@@ -113,7 +119,7 @@ export function loadSourceHandoffTransition({read, hashFile, baselineData, curre
     baselineHash: valueHash(baselineData), currentDataHash: valueHash(currentData), conflictHash: valueHash(conflictReceipt)});
   validated.set(receipt, pin);
   if (!sourceHandoffContextMatches(receipt, {baselineData, currentData, conflictReceipt})) fail('source transition context was not bound');
-  return receipt;
+  return deepFreezeJson(receipt);
 }
 
 export function sourceHandoffContextMatches(receipt, {baselineData, currentData, conflictReceipt} = {}) {
@@ -127,20 +133,27 @@ export function sourceHandoffContextMatches(receipt, {baselineData, currentData,
 
 export function isQualifiedSourceHistoricalChange(receipt, change) {
   const pin = validated.get(receipt);
-  return Boolean(receiptMatchesSnapshot(receipt, pin) && plainJson(change)
+  if (!receiptMatchesSnapshot(receipt, pin)) return false;
+  const trustedReceiptValue = change === receipt.originalConflictReceipt.change;
+  return Boolean((trustedReceiptValue || plainJson(change))
     && isDeepStrictEqual(change, pin.receiptSnapshot.originalConflictReceipt.change));
 }
 
 export function sourceHistoricalCaution(receipt, note, baselineIndex) {
   const pin = validated.get(receipt);
-  if (!receiptMatchesSnapshot(receipt, pin) || !plainJson(note) || baselineIndex !== 70
+  if (!receiptMatchesSnapshot(receipt, pin)) return null;
+  const trustedReceiptValue = note === receipt.curatedHistoricalCaution.note;
+  if ((!trustedReceiptValue && !plainJson(note)) || baselineIndex !== 70
       || baselineIndex !== pin.receiptSnapshot.curatedHistoricalCaution.baselineIndex
       || !isDeepStrictEqual(note, pin.receiptSnapshot.curatedHistoricalCaution.note)) return null;
   const inheritedPath = pin.receiptSnapshot.inheritedHistoricalQualification.path;
   const inheritedBytes = readBytes(pin.repoRoot, inheritedPath);
   const inherited = JSON.parse(inheritedBytes.toString('utf8'));
   if (sha256(inheritedBytes) !== pin.receiptSnapshot.inheritedHistoricalQualification.sha256) return null;
-  const caution = uaSourceHistoricalCaution(inherited, note, baselineIndex);
+  // Pass a detached mutable copy of the already verified pinned note to the
+  // legacy pure projector; never thaw or expose caller-owned frozen evidence.
+  const caution = uaSourceHistoricalCaution(inherited,
+    structuredClone(pin.receiptSnapshot.curatedHistoricalCaution.note), baselineIndex);
   if (!caution) return null;
   return addNativeSourceQualificationFromValidatedSnapshot(caution, {
     receiptSnapshot: pin.receiptSnapshot,

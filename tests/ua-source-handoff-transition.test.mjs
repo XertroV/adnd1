@@ -10,9 +10,11 @@ const root = resolve(import.meta.dirname, '..');
 const baselineCommit = '679b15d1c580172e54314829c1c3c86dc78b65f3';
 const source6bCommit = '6b3cfc8cb421a2c1fc2379c38abebe2075634981';
 const legacyReceiptCommit = '386b08a4678ee033d6daabc0ffa2cc17265a7c1f';
-const sourceCommit = 'bc819621e49788260bb34ea47c1f7a8b35af6edf';
-const currentContractSha256 = '62fc72e77be34bff2757ea6d8e69f766d53441c66a9ce61ff2101df413ceda9f';
-const currentReceiptSha256 = '644992717168c73584a4d30084237aa253fcc5f9143b288a41f1ca6ba8bc4575';
+const sourceCommit = '0f2d70a135e3ad486152bf00f21387d60a1a97ef';
+const currentContractSha256 = '7456f0269d85df85900332ec535f495c93623c71752fb4d280a9174ca6337550';
+const currentReceiptSha256 = '66d18297f999a12b76c47e0a66e2758be902a6d4eb1d65d5031d7a97e93a1be7';
+const historicalHReceiptPath = 'research/hirelings-native-h-v1/source-body-handoff-transition-v1.json';
+const historicalHReceiptSha256 = '644992717168c73584a4d30084237aa253fcc5f9143b288a41f1ca6ba8bc4575';
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
 const gitBytes = (commit, path) => execFileSync('git', ['show', `${commit}:${path}`], {
   cwd: root, maxBuffer: 128 * 1024 * 1024,
@@ -22,19 +24,30 @@ const readBytes = path => readFileSync(resolve(root, path));
 const readJson = path => JSON.parse(readBytes(path).toString('utf8'));
 const hashCurrent = path => sha256(readBytes(path));
 
-const [legacyModule, nativeModule, refreshModule, version29Module] = await Promise.all([
+const [legacyModule, nativeModule, refreshModule, version29Module, currentGate] = await Promise.all([
   import(pathToFileURL(resolve(root, 'tools/ua-source-handoff-transition.mjs'))),
-  import(pathToFileURL(resolve(root, 'tools/dmg175-hired-native-successors-v2.mjs'))),
+  import(pathToFileURL(resolve(root, 'tools/dmg175-current-successors-mm-v1.mjs'))),
   import(pathToFileURL(resolve(root, 'tools/refresh-gaps-handoff.mjs'))),
   import(pathToFileURL(resolve(root, 'tests/helpers/version29-native-source-context.mjs'))),
+  import(pathToFileURL(resolve(root, 'tools/mm-current-source-gate-v1.mjs'))),
 ]);
 
 const baselineData = gitJson(baselineCommit, 'dist/data.json');
 const baselineHandoff = gitJson(baselineCommit, 'research/gaps-limitations-next-task.json');
 const priorHandoff = gitJson(source6bCommit, 'research/gaps-limitations-next-task.json');
-const currentData = readJson('dist/data.json');
+const {inputs:strictCurrentInputs,summary:currentMmSummary}=currentGate.assertCurrentMmSourceEpoch(root);
+assert.equal(currentMmSummary.sourceCommit,sourceCommit);
+assert.equal(currentMmSummary.sourceTree,'08010faf457df22cdb0a5ec35d2dcf79e622ade9');
+assert.equal(currentMmSummary.owners,1064);
+assert.equal(currentMmSummary.canonicalBindings,5731);
+assert.equal(currentMmSummary.retainedCanonicalBindings,5655);
+assert.equal(currentMmSummary.addedCanonicalBindings,76);
+assert.equal(currentMmSummary.manualBindings,1293);
+assert.equal(currentMmSummary.addedManualBindings,42);
+assert.equal(currentMmSummary.addedOwners,2);
+const currentData = strictCurrentInputs.data;
 const currentHandoff = readJson('research/gaps-limitations-next-task.json');
-const mechanics = readJson('research/mechanics-audit-progress.json');
+const mechanics = strictCurrentInputs.mechanics;
 const conflictReceipt = readJson('research/source-audit-batch5-conflict-integration.json');
 const animalReceipt = readJson('research/source-audit-batch5-unextracted.json');
 const classRetirementReceipt = readJson('research/source-audit-batch5-class-retired-ledger.json');
@@ -93,16 +106,20 @@ test('the source6b UA qualification remains an explicitly historical record', ()
   ), false);
 
   // Keep the closed Version 29 snapshot available for historical checks only.
-  // The native H positive case below reads actual current files and fixture data.
+  // The current-MM successor below reads actual MM files and a pinned current cohort.
   assert.equal(version29.sourceRawInputs['dist/data.json'], 'fd73ee5f535124883e73081cd02c67360b331591cee17ae5278639230b375e0d');
   assert.equal(version29.mechanics.reviewRecords.length, 1215);
   assert.notEqual(version29.sourceRawInputs['dist/data.json'], transition.sourceData.rawSha256);
   assert.notEqual(sha256(Buffer.from(JSON.stringify(version29.data))), sha256(Buffer.from(JSON.stringify(currentData))));
 });
 
-test('the actual H receipt qualifies exactly one historical change and leaves the body pending', () => {
-  assert.equal(nativeModule.sourceHandoffTransitionPath, 'research/hirelings-native-h-v1/source-body-handoff-transition-v1.json');
-  assert.equal(nativeModule.sourceHandoffTransitionSha256, currentReceiptSha256);
+test('the current-MM successor preserves the exact H receipt lineage, qualifies one historical change, and leaves the body pending', () => {
+  assert.equal(nativeModule.mmSourceHandoffTransitionPath, 'research/mm-current-cli-successors-v1/source-body-handoff-transition-mm-v1.json');
+  assert.equal(nativeModule.mmSourceHandoffTransitionSha256, currentReceiptSha256);
+  assert.equal(hashCurrent(historicalHReceiptPath),historicalHReceiptSha256,'the exact H receipt remains preserved as an ancestor');
+  const historicalHReceipt=readJson(historicalHReceiptPath);
+  assert.equal(historicalHReceipt.sourceEpoch.sourceCommit,'bc819621e49788260bb34ea47c1f7a8b35af6edf');
+  assert.deepEqual(currentTransition.priorTransition,{path:historicalHReceiptPath,sha256:historicalHReceiptSha256,valueSha256:sha256(Buffer.from(JSON.stringify(historicalHReceipt)))});
   assert.equal(currentTransition.sourceEpoch.sourceCommit, sourceCommit);
   assert.equal(currentTransition.sourceEpoch.contract.sha256, currentContractSha256);
   assert.equal(nativeModule.sourceHandoffContextMatches(currentTransition, currentContext), true);
@@ -125,7 +142,7 @@ test('the actual H receipt qualifies exactly one historical change and leaves th
     pointer: '/exceptions/0',
     currentFieldStatus: 'unchecked',
     sourceValueGrade: 'NOT PROMOTED',
-    receipt: {path: nativeModule.sourceHandoffTransitionPath, sha256: currentReceiptSha256},
+    receipt: {path: nativeModule.mmSourceHandoffTransitionPath, sha256: currentReceiptSha256},
   });
   assert.equal(mechanics.reviewRecords.length, 1215);
   assert.equal(mechanics.counts.staleProposalFields, 0);
@@ -137,7 +154,7 @@ test('the actual H receipt qualifies exactly one historical change and leaves th
   assert.equal(field.inspected, false);
 });
 
-test('native H qualification rejects changed inputs, copied receipts, and reader drift', () => {
+test('current-MM qualification rejects changed inputs, copied receipts, and reader drift', () => {
   const copied = structuredClone(currentTransition);
   assert.equal(nativeModule.sourceHandoffContextMatches(copied, currentContext), false);
   assert.throws(() => refreshModule.validateApprovedTransitions({...currentArgs, sourceBodyTransition: copied}), /qualification does not match/);
@@ -156,11 +173,11 @@ test('native H qualification rejects changed inputs, copied receipts, and reader
 
   const changedMechanics = structuredClone(mechanics);
   changedMechanics.records.find(row => row.id === 'ua-druid-ceremony').fields.find(row => row.path === '/exceptions/0').status = 'source-checked';
-  assert.throws(() => loadCurrentTransition({mechanics: changedMechanics}), /complete current mechanics input/);
+  assert.throws(() => loadCurrentTransition({mechanics: changedMechanics}), /actual MM data, mechanics, historical baseline/);
   const changedConflict = structuredClone(conflictReceipt);
   changedConflict.changes[0].newValue += ' changed';
-  assert.throws(() => loadCurrentTransition({conflictReceipt: changedConflict}), /passed conflict object differs/);
-  const alteredCallerReceipt = path => path === nativeModule.sourceHandoffTransitionPath
+  assert.throws(() => loadCurrentTransition({conflictReceipt: changedConflict}), /actual MM data, mechanics, historical baseline/);
+  const alteredCallerReceipt = path => path === nativeModule.mmSourceHandoffTransitionPath
     ? {...readJson(path), status: 'mutated'}
     : readJson(path);
   assert.throws(() => nativeModule.loadSourceHandoffTransition({
@@ -298,31 +315,31 @@ test('legacy source6b guard preserves all seven forged-value negative controls',
   }), /qualification identity/);
 });
 
-test('native H loader rejects changed baseline, current data, conflict rows, and duplicates', () => {
+test('current-MM loader rejects changed baseline, current data, conflict rows, and duplicates', () => {
   const changedBaseline = structuredClone(baselineData);
   changedBaseline.rules[0].summary += ' changed';
-  assert.throws(() => loadCurrentTransition({baselineData: changedBaseline}), /historical baseline or complete current data identity/);
+  assert.throws(() => loadCurrentTransition({baselineData: changedBaseline}), /actual MM data, mechanics, historical baseline/);
 
   const changedCurrent = structuredClone(currentData);
   changedCurrent.rules[0].summary += ' changed';
-  assert.throws(() => loadCurrentTransition({currentData: changedCurrent}), /historical baseline or complete current data identity/);
+  assert.throws(() => loadCurrentTransition({currentData: changedCurrent}), /actual MM data, mechanics, historical baseline/);
 
   const changedConflict = structuredClone(conflictReceipt);
   changedConflict.changes[0].newValue = 'unapproved';
-  assert.throws(() => loadCurrentTransition({conflictReceipt: changedConflict}), /passed conflict object differs/);
+  assert.throws(() => loadCurrentTransition({conflictReceipt: changedConflict}), /actual MM data, mechanics, historical baseline/);
   const duplicateConflict = structuredClone(conflictReceipt);
   duplicateConflict.changes.push(structuredClone(duplicateConflict.changes[4]));
-  assert.throws(() => loadCurrentTransition({conflictReceipt: duplicateConflict}), /passed conflict object differs/);
+  assert.throws(() => loadCurrentTransition({conflictReceipt: duplicateConflict}), /actual MM data, mechanics, historical baseline/);
 
   const changedMechanics = structuredClone(mechanics);
   changedMechanics.records.find(row => row.id === 'ua-druid-ceremony')
     .fields.find(field => field.path === '/exceptions/0').status = 'source-checked';
-  assert.throws(() => loadCurrentTransition({mechanics: changedMechanics}), /complete current mechanics input/);
+  assert.throws(() => loadCurrentTransition({mechanics: changedMechanics}), /actual MM data, mechanics, historical baseline/);
   assert.equal(currentTransition.currentSourceValueGrade, 'NOT PROMOTED');
   assert.equal(currentTransition.qualifiedTarget.currentMechanicsField.status, 'unchecked');
 });
 
-test('native H caller receipt reader rejects every forged-value form and identity spoof', () => {
+test('current-MM caller receipt reader rejects every forged-value form and identity spoof', () => {
   const forgedReceiptMutations = [
     ['own undefined property', receipt => { receipt.hidden = undefined; }],
     ['non-enumerable property', receipt => { Object.defineProperty(receipt, 'hidden', {value: 1}); }],
@@ -341,7 +358,7 @@ test('native H caller receipt reader rejects every forged-value form and identit
     assert.throws(() => nativeModule.loadSourceHandoffTransition({
       read: path => {
         const receipt = readJson(path);
-        if (path !== nativeModule.sourceHandoffTransitionPath) return receipt;
+        if (path !== nativeModule.mmSourceHandoffTransitionPath) return receipt;
         const candidate = structuredClone(receipt);
         mutate(candidate);
         return candidate;

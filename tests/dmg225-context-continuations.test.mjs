@@ -1,4 +1,4 @@
-import {readBeforeJoFile as readFileSync} from '../research/hirelings-source-epoch-proposal-v5/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
+import {readBeforeJoFile as readFileSync} from '../research/mm-source-history-v1/source-postmetadata-facade-v1/ua-source-batch6-jo-fixture-v1.proposed.mjs';
 import {frozenDmgBeforeManifest,dmgContextBefore} from './helpers/dmg-context-frozen-manifest.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';

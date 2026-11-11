@@ -3,10 +3,12 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import {assertCurrentMmSourceEpoch} from '../tools/mm-current-source-gate-v1.mjs';
 
 const require=createRequire(import.meta.url);
+const {inputs: currentMmInputs, summary: currentMmSummary}=assertCurrentMmSourceEpoch(process.cwd());
 const search=require('../dist/search.js');
-const data=JSON.parse(readFileSync(new URL('../dist/data.json',import.meta.url),'utf8'));
+const data=currentMmInputs.data;
 const expectedNotes=new Map([
  ['appendix-c-character-subtable','c73e3249a9c1454dbfb356063e7e97267611eadcf342a406789c4d820908ce29'],
  ['appendix-c-henchmen','81caa1ea424a2174d76fe061cdd0e111ca2bd1a7f717f7aa70dd72dabba84718'],
@@ -19,7 +21,7 @@ const byRule=id=>ruleDocs.find(item=>item.id===id);
 const sha=value=>createHash('sha256').update(value).digest('hex');
 
 test('the five Appendix C top-level rule notes are searchable from their existing owners',()=>{
- const noteRows=data.rules.filter(item=>typeof item.notes==='string'&&item.notes.trim());
+ const noteRows=data.rules.filter(item=>item.id.startsWith('appendix-c-')&&typeof item.notes==='string'&&item.notes.trim());
  assert.deepEqual(noteRows.map(item=>item.id),[...expectedNotes.keys()]);
  for(const item of noteRows){
   assert.equal(sha(item.notes),expectedNotes.get(item.id),`${item.id} retains the reviewed note text`);
@@ -30,6 +32,17 @@ test('the five Appendix C top-level rule notes are searchable from their existin
  }
  const sharedTableNote=data.rules.find(item=>item.id==='appendix-c-magic-table-ii').notes;
  assert.deepEqual(ruleDocs.filter(item=>Number.isFinite(search.score(item,sharedTableNote))).map(item=>item.id),['appendix-c-magic-table-ii','appendix-c-magic-table-iii'],'the identical authored note stays attached to its two distinct table owners');
+});
+
+test('current MM authored note is indexed and findable by a distinctive phrase',()=>{
+ assert.equal(currentMmSummary.sourceCommit,'0f2d70a135e3ad486152bf00f21387d60a1a97ef');
+ assert.equal(currentMmSummary.owners,1064);
+ const item=data.rules.find(rule=>rule.id==='mm-treasure-types-table');
+ assert.ok(item&&typeof item.notes==='string');
+ assert.equal(sha(item.notes),'9a6e1cbb057cb332d4a6c297f09dd905de04edda1737df3e02994fff9b8483d7');
+ const prepared=byRule(item.id);
+ assert.ok(prepared._search.includes(search.normalize(item.notes)),'the complete authored MM note is indexed');
+ assert.ok(Number.isFinite(search.score(prepared,'pieces per individual')),'a distinctive authored phrase finds the current MM owner');
 });
 
 test('rule-note projection stays view-scoped and indexes only string note values',()=>{
