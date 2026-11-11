@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Independent exact-delta review of current source handoff receipt builder",
+  "scope": "Populate the measured mechanics input hash required by the unchanged strict receipt loader; source values and review grades are not changed",
+  "sourceEpochCommit": "2d35138027f00c0740975e519dbb3a2b6df76d14",
+  "actualFailure": {
+    "qualifierCodeCommit": "70f9153bc176c1ff13a8e95b3c773fa4dd7ba191",
+    "receiptFixture": "tests/fixtures/class-mapping-source-handoff-before-mechanics-input-v1.json",
+    "receiptSha256": "8f79a9b023f86a158857feed6b089cc39435384702403b4c7f8eb81e5c975c92",
+    "failedPredicate": "currentMechanics object lacks mechanicsInputSha256",
+    "otherCompoundLoaderPredicatesPassed": 28,
+    "expectedMeasuredHash": "abb0be1209951d4610bdc663f77ee36107ce6c2fb50333c7ded0aa3937c292ac"
+  },
+  "productionDelta": {
+    "path": "tools/class-mapping-current-source-handoff-v1.mjs",
+    "oldSha256": "004f347c453f1d48e21cf793c053c0daa7c815b5d7afe33514ea64f09425c3d8",
+    "newSha256": "4bf69c7d6b5bbc67807ce21476d96c82c72179ecd4108f18af48e8bb6bec8289",
+    "statementsAdded": 1,
+    "strictLoaderBytesUnchanged": true,
+    "reportExpectedHashLiteralsChanged": 1,
+    "runtimeCodePaths": 19,
+    "requiredContracts": 6
+  },
+  "reviewEvidence": {
+    "independentDiagnosisSha256": "224cbd5458ac158d4ea04811bd24fa0095014f500ca647f7643af3ce2a22787e",
+    "rootExpectationDiffSha256": "bbd23da486352d7417b940978589c7bf147c89fb5aec63864dd6b18a62c70b72",
+    "proposalManifestSha256": "0bea1205f03a800f1344bf60cac22fea727601a49f56ea7963a239e40112a807",
+    "exactProductionRegressionCases": 5,
+    "installedCombinedPureTests": 20,
+    "failed": 0,
+    "skipped": 0,
+    "qualificationAndFileTransportMockedInFiveCaseRegression": true
+  },
+  "preserved": {
+    "nullOrWrongHashRejected": true,
+    "historicalLineageRetained": true,
+    "targetFieldStatus": "unchecked",
+    "targetFieldInspected": false,
+    "semanticPass": false,
+    "currentSourceValueGrade": "NOT PROMOTED",
+    "contextualAdequacy": "NOT ASSESSED"
+  },
+  "remainingAtReview": {
+    "actualNewQcc": null,
+    "actualNativeAnd25ReportQualification": false,
+    "publicationClaim": false
+  }
+}
