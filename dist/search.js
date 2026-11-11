@@ -37,6 +37,9 @@
  const searchableClassChangeText = item => item._view==='classes'&&Array.isArray(item.levelChanges)
   ? item.levelChanges.flatMap(entry=>[entry?.option,...(Array.isArray(entry?.changes)?entry.changes:[])]).filter(value=>typeof value==='string'&&value.trim()).join(' ')
   : '';
+ const searchableClassAbilitiesText = item => item._view==='classes'
+  ? [...(Array.isArray(item.classAbilities)?item.classAbilities:[]).flatMap(ability=>[ability?.title,ability?.description]),item.classAbilityInheritance?.description].filter(value=>typeof value==='string'&&value.trim()).join(' ')
+  : '';
  const searchableClassXpText = item => item._view==='classes'
   ? [...(Array.isArray(item.xpRows)?item.xpRows:Array.isArray(item.xp)?item.xp:[])].flatMap((entry,index)=>{
     if(entry===null||entry===undefined||entry==='')return [];
@@ -93,7 +96,7 @@
    item._title,item._subtitle,item.summary,item.description,item.text,item.category,
    searchableFieldsText(item.fields),item.book,item._bookName,...(item.pages||[]),
    ...(item.tags||[]),...(item.effect||[]),...(item.conditions||[]),...(item.exceptions||[]),
-   ...(item.bullets||[]),...(item.pendingMechanics||[]),...(item.guidance||[]),
+   ...(item.bullets||[]),...(item.pendingMechanics||[]),...(item.guidance||[]),searchableClassAbilitiesText(item),
    item.xpNote, item.progression?.label, item.progression?.description,searchableClassChangeText(item),searchableClassXpText(item),
    searchableAuthoredNotesText(item),searchableRuleNotesText(item),searchableMatrixText(item),searchableProgressionExplainerText(item),
    searchableTableText(item.table),...aliases

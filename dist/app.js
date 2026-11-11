@@ -729,6 +729,30 @@ function supplementalBindingRegionEvidence(item,reference,binding,regionId) {
  return {crop,regionEvidence:region};
 }
 function sameRect(left,right){return Array.isArray(left)&&Array.isArray(right)&&left.length===4&&right.length===4&&left.every((value,index)=>value===right[index]);}
+
+const PARTY_MAGIC_LOCATION_REVIEW_PATH='research/dmg175-party-magic-current-h-readiness-v2/current-location-review-v2.json';
+const PARTY_MAGIC_LOCATION_REVIEW_SHA256='1b5cf48445b65f80dbf411bac7e80a2bf0b5ff0cd1df246068409b65c06ee374';
+function reviewedPartyMagicRowLocation(binding,item,fieldPointer,regionId,reference) {
+ const rowMatch=/^\/table\/rows\/(0|[1-9]\d*)$/.exec(fieldPointer||'');
+ if(!rowMatch||Number(rowMatch[1])>12||item?.id!=='appendix-c-party-magic-distribution'
+  ||binding?.collection!=='rules'||binding.itemId!==item.id||binding.fieldPointer!==fieldPointer
+  ||binding.sourceObjectPointer!==fieldPointer+'/sourceReference'||binding.sourceOwner?.collection!=='rules'||binding.sourceOwner?.itemId!==item.id
+  ||binding.reviewStatus!=='field-target-reviewed'||binding.sourceValueStatus!=='not-assessed-by-field-target-review'
+  ||binding.contextStatus!=='context-not-assessed')return false;
+ const targetReview=binding.targetReview;
+ if(targetReview?.status!=='confirmed'||targetReview.independent!==true||targetReview.scope!=='party-magic-exact-row-location-only'
+  ||targetReview.evidence!==PARTY_MAGIC_LOCATION_REVIEW_PATH||targetReview.evidenceSha256!==PARTY_MAGIC_LOCATION_REVIEW_SHA256)return false;
+ const actual=Array.isArray(binding.regionEvidence)?binding.regionEvidence:[];
+ const expected=Array.isArray(binding.expectedRegionEvidence)?binding.expectedRegionEvidence:[];
+ if(actual.length!==1||expected.length!==1||actual[0]?.regionId!==regionId||expected[0]?.regionId!==regionId
+  ||reference?.sourceFocusId!==regionId||reference?.fieldPointer!==fieldPointer)return false;
+ const current=actual[0],reviewed=expected[0];
+ for(const key of ['sourceSha256','imageSha256','focusSha256','contentSha256']){
+  if(typeof current[key]!=='string'||!/^[a-f0-9]{64}$/.test(current[key])||reviewed[key]!==current[key])return false;
+ }
+ return current.book===reference.book&&current.printedPage===reference.printedPage&&current.pdfPage===(reference.pdfPage??null)
+  &&current.sourceSha256===reference.sourceSha256&&current.imageSha256===reference.imageSha256;
+}
 function exactSupplementalTableFactSourceReference(item,fact,reference) {
  const rows=item?.table?.rows;
  if(!Array.isArray(rows))return null;
@@ -749,19 +773,21 @@ function exactSupplementalTableFactSourceReference(item,fact,reference) {
   ||source.sourceSha256!==reference.sourceSha256||source.canonicalPdfSha256!==reference.canonicalPdfSha256
   ||source.imageSha256!==reference.imageSha256||(reference.image&&source.image!==reference.image))return null;
  const [binding]=reference.evidenceBindings||[];
+ const acceptedLocation=reviewedPartyMagicRowLocation(binding,item,fieldPointer,regionId,reference);
+ const pendingLocation=binding?.reviewStatus==='field-target-pending'&&binding.sourceValueStatus==='not-assessed-by-field-target-review'&&binding.targetReview==null;
  if(!binding||typeof binding!=='object'||binding.collection!=='rules'||binding.itemId!==item.id
   ||binding.fieldPointer!==fieldPointer||binding.sourceObjectPointer!==fieldPointer+'/sourceReference'
   ||binding.book!=='DMG'||binding.printedPage!==175||binding.pdfPage!==null
   ||!supplementalBindingRegionEvidence(item,reference,binding,regionId)
   ||!Array.isArray(binding.regionIds)||binding.regionIds.length!==1||binding.regionIds[0]!==regionId
   ||binding.sourceOwner?.collection!=='rules'||binding.sourceOwner?.itemId!==item.id
-  ||binding.reviewStatus!=='field-target-pending'||binding.sourceValueStatus!=='not-assessed-by-field-target-review'||binding.targetReview!=null
+  ||!(acceptedLocation||pendingLocation)
   ||tableSourcePointerValue(item,binding.sourceObjectPointer)!==reference)return null;
  const target=FirstEditionCitations.targets(reference).find(candidate=>candidate.book==='DMG'&&candidate.page===175
   &&candidate.fieldPointer===fieldPointer&&candidate.fieldOwner?.collection==='rules'&&candidate.fieldOwner?.itemId===item.id
   &&candidate.sourceOwner?.collection==='rules'&&candidate.sourceOwner?.itemId===item.id
   &&candidate.catalog===binding.catalog&&candidate.pdfPage===null&&candidate.sourceSha256===binding.sourceSha256
-  &&candidate.regionIds?.length===1&&candidate.regionIds[0]===regionId&&candidate.targetStatus==='pending');
+  &&candidate.regionIds?.length===1&&candidate.regionIds[0]===regionId&&candidate.targetStatus===(acceptedLocation?'resolved':'pending'));
  return target?reference:null;
 }
 function exactPendingPdfTableFactSourceReference(item,fact,reference) {
@@ -784,8 +810,9 @@ function exactPendingPdfTableFactSourceReference(item,fact,reference) {
   ||source.sourceSha256!==reference.sourceSha256||source.canonicalPdfSha256!==reference.canonicalPdfSha256
   ||source.imageSha256!==reference.imageSha256||(reference.image&&source.image!==reference.image))return null;
  const [binding]=reference.evidenceBindings||[];
- if(!binding||binding.collection!=='rules'||binding.itemId!==item.id||binding.reviewStatus!=='field-target-pending'
-  ||binding.sourceValueStatus!=='not-assessed-by-field-target-review'||binding.targetReview!=null
+ const acceptedLocation=reviewedPartyMagicRowLocation(binding,item,fieldPointer,regionId,reference);
+ const pendingLocation=binding?.reviewStatus==='field-target-pending'&&binding.sourceValueStatus==='not-assessed-by-field-target-review'&&binding.targetReview==null;
+ if(!binding||binding.collection!=='rules'||binding.itemId!==item.id||!(acceptedLocation||pendingLocation)
   ||binding.fieldPointer!==fieldPointer||binding.sourceObjectPointer!==fieldPointer+'/sourceReference'
   ||binding.book!==reference.book||binding.printedPage!==reference.printedPage||binding.pdfPage!==reference.pdfPage
   ||binding.catalog!==reference.catalog||!Array.isArray(binding.regionIds)||binding.regionIds.length!==1||binding.regionIds[0]!==regionId
@@ -795,7 +822,7 @@ function exactPendingPdfTableFactSourceReference(item,fact,reference) {
   &&candidate.fieldPointer===fieldPointer&&candidate.fieldOwner?.collection==='rules'&&candidate.fieldOwner?.itemId===item.id
   &&candidate.sourceOwner?.collection==='rules'&&candidate.sourceOwner?.itemId===item.id
   &&candidate.catalog===binding.catalog&&candidate.pdfPage===reference.pdfPage
-  &&candidate.regionIds?.length===1&&candidate.regionIds[0]===regionId&&candidate.targetStatus==='pending');
+  &&candidate.regionIds?.length===1&&candidate.regionIds[0]===regionId&&candidate.targetStatus===(acceptedLocation?'resolved':'pending'));
  return target?reference:null;
 }
 function exactLegacyTableFactSourceReference(item,fact,reference) {
@@ -825,6 +852,65 @@ function exactLegacyTableFactSourceReference(item,fact,reference) {
   &&candidate.regionIds?.length===1&&candidate.regionIds[0]===binding.regionIds[0]);
  return target?reference:null;
 }
+function exactPendingClassMappingTableFactSourceReference(item,fact,reference) {
+ // These source-first additions use bound fact references without the older
+ // aggregate sourceReferences/focusRects wrapper. Keep their target, value,
+ // context and default-selection reviews pending.
+ const sourceBooks={
+  'ua-cavalier-xp-table-i':'UA',
+  'ua-druid-xp-table-i':'UA',
+  'racial-ability-adjustments':'PHB',
+ };
+ const book=sourceBooks[item?.id];
+ if(!book||reference?.book!==book)return null;
+ const sourceSha256=book==='UA'
+  ?'e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4'
+  :'e43e667bad1c2cb093bb28b47f78ec663623b367ae817895bd188bdc3dd4f095';
+ const categories={rows:'table-row',footnotes:book==='UA'?'table-note':'table-footnote',sourceNotes:book==='UA'?'table-note':'table-source-note'};
+ const matches=[];
+ for(const key of Object.keys(categories)){
+  const facts=item.table?.[key];
+  if(!Array.isArray(facts))continue;
+  facts.forEach((candidate,index)=>{if(candidate===fact)matches.push({fieldPointer:`/table/${key}/${index}`,sourceCategory:categories[key]});});
+ }
+ if(matches.length!==1||!Array.isArray(reference.evidenceBindings)||reference.evidenceBindings.length!==1)return null;
+ const {fieldPointer,sourceCategory}=matches[0],binding=reference.evidenceBindings[0],page=binding?.printedPage,pdf=binding?.pdfPage;
+ const catalog=`scans/verified/rules-${item.id}.json`,regionIds=binding?.regionIds;
+ if(!binding||binding.collection!=='rules'||binding.itemId!==item.id||binding.sourceOwner?.collection!=='rules'||binding.sourceOwner?.itemId!==item.id
+  ||binding.fieldPointer!==fieldPointer||binding.sourceObjectPointer!==fieldPointer+'/sourceReference'
+  ||tableSourcePointerValue(item,binding.sourceObjectPointer)!==reference||binding.sourceCategory!==sourceCategory
+  ||binding.book!==book||!Number.isInteger(page)||page<1||!Number.isInteger(pdf)||pdf<1||FirstEditionBooks.pdfPage(book,page)!==pdf
+  ||binding.sourceSha256!==sourceSha256||binding.catalog!==catalog||item.sourceExcerpts?.collection!=='rules'||item.sourceExcerpts?.catalog!==catalog
+  ||!Array.isArray(regionIds)||regionIds.length!==1||typeof regionIds[0]!=='string'||!regionIds[0]
+  ||!Array.isArray(reference.verification?.regions)||reference.verification.regions.length!==1||reference.verification.regions[0]!==regionIds[0]
+  ||!Array.isArray(binding.sourcePages)||binding.sourcePages.length!==1||binding.sourcePages[0]!==page
+  ||!Array.isArray(reference.pages)||reference.pages.length!==1||reference.pages[0]!==page
+  ||(reference.printedPage!==undefined&&reference.printedPage!==page)||(reference.pdfPage!==undefined&&reference.pdfPage!==pdf)
+  ||typeof reference.sourceFocusId!=='string'||!/^[a-z0-9-]+$/.test(reference.sourceFocusId)
+  ||binding.reviewStatus!=='field-target-pending'||binding.targetReview!==null
+  ||binding.contextStatus!=='context-not-assessed'||binding.sourceValueStatus!=='not-assessed-by-field-target-review'
+  ||binding.expectedTargetProof!==undefined)return null;
+ const [evidence]=binding.regionEvidence||[],[crop]=binding.cropCoordinates||[],[highlight]=binding.highlightCoordinates||[];
+ const hash=value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);
+ const rect=value=>Array.isArray(value)&&value.length===4&&value.every(Number.isFinite)&&value[0]>=0&&value[1]>=0&&value[2]>0&&value[3]>0&&value[0]+value[2]<=1.000001&&value[1]+value[3]<=1.000001;
+ if(binding.regionEvidence?.length!==1||binding.cropCoordinates?.length!==1||binding.highlightCoordinates?.length!==1
+  ||evidence?.regionId!==regionIds[0]||evidence.book!==book||evidence.printedPage!==page||evidence.pdfPage!==pdf||evidence.sourceSha256!==sourceSha256
+  ||!hash(evidence.imageSha256)||!hash(evidence.contentSha256)||!hash(evidence.focusRectsSha256)||evidence.focusSha256!==evidence.focusRectsSha256
+  ||crop?.regionId!==regionIds[0]||!Array.isArray(crop.rect)||crop.rect.length!==4||!crop.rect.every(Number.isFinite)
+  ||!(crop.coordinateSpace==='catalog-bounds-pdf-points-as-recorded'&&crop.format==='x0-y0-x1-y1'&&crop.rect[0]>=0&&crop.rect[1]>=0&&crop.rect[2]>crop.rect[0]&&crop.rect[3]>crop.rect[1]
+   ||crop.coordinateSpace==='rendered-source-page-normalized-top-left-xywh'&&crop.format==='xywh'&&rect(crop.rect))
+  ||highlight?.regionId!==regionIds[0]||highlight.coordinateSpace!=='excerpt-image-normalized-top-left-xywh'
+  ||highlight.origin!=='top-left'||highlight.format!=='xywh'||!Array.isArray(highlight.rects)||!highlight.rects.length||!highlight.rects.every(rect))return null;
+ const targets=FirstEditionCitations.targets(reference);
+ if(targets.length!==1)return null;
+ const [target]=targets;
+ return target.book===book&&target.page===page&&target.pdfPage===pdf&&target.sourceSha256===sourceSha256
+  &&target.fieldPointer===fieldPointer&&target.fieldOwner?.collection==='rules'&&target.fieldOwner?.itemId===item.id
+  &&target.sourceOwner?.collection==='rules'&&target.sourceOwner?.itemId===item.id&&target.catalog===catalog
+  &&target.regionIds?.length===1&&target.regionIds[0]===regionIds[0]&&target.targetStatus==='pending'
+  &&target.reviewStatus==='field-target-pending'&&target.contextStatus==='context-not-assessed'?reference:null;
+}
+
 function exactTableFactSourceReference(item,fact) {
  const reference=fact?.sourceReference;
  if(!reference||typeof reference!=='object')return null;
@@ -836,7 +922,7 @@ function exactTableFactSourceReference(item,fact) {
  // and progression-note schema. Only its formerly coercive PDF mapping guard
  // is tightened to positive integer page numbers.
  if(reference.pdfPage===null||reference.pdfPage===0||reference.sourceArtifactId==='dmg175-user-confirmed-supplement')return null;
- return exactLegacyTableFactSourceReference(item,fact,reference);
+ return exactLegacyTableFactSourceReference(item,fact,reference)||exactPendingClassMappingTableFactSourceReference(item,fact,reference);
 }
 function validPendingBulletSourceIdentity(item,reference,binding,regionId) {
  const page=binding.printedPage,book=bookCode(binding.book),pdf=binding.pdfPage;
@@ -1078,6 +1164,11 @@ function tableFactSourceChip(item,fact,title,className) {
  return inlineSourceChip(labeledReference,title,'',className);
 }
 
+function flatSourceTableGrid(item,table,columns,rows) {
+ const grid=`<div class="table-scroll source-rule-table-scroll" tabindex="0" role="region" aria-label="${esc(table.title||item.title||'Source table')}, horizontally scrollable"><table class="source-rule-table"><caption>${esc(table.title||item.title||'Source table')}</caption><thead><tr>${columns.map(column=>`<th scope="col">${esc(column.label||column.id||'')}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>{const cells=new Map((Array.isArray(row.cells)?row.cells:[]).map(cell=>[cell.columnId,cell]));return `<tr>${columns.map((column,index)=>{const cell=cells.get(column.id);const title=(table.title||item.title||'Table')+' · '+(row.label||'row');const citation=index===0?` ${tableFactSourceChip(item,row,title,'table-row-source')}`:'';return `<td${cell?.kind?` data-cell-kind="${esc(cell.kind)}"`:''}>${esc(cell?.raw??'')}${citation}</td>`;}).join('')}</tr>`;}).join('')}</tbody></table></div>`;
+ return grid;
+}
+
 function ruleTableHTML(item) {
  const table=item?.table;
  if(!table||!Array.isArray(table.columns)||!Array.isArray(table.rows))return '';
@@ -1085,7 +1176,7 @@ function ruleTableHTML(item) {
  const symbols=Array.isArray(table.symbols)?table.symbols:[],procedure=Array.isArray(table.procedure)?table.procedure:[],footnotes=Array.isArray(table.footnotes)?table.footnotes:[],sourceNotes=Array.isArray(table.sourceNotes)?table.sourceNotes:[];
  const editorialNotes=Array.isArray(table.notes)?table.notes:[];
  const sourceReferences=Array.isArray(item.sourceReferences)?item.sourceReferences:Array.isArray(table.sourceReferences)?table.sourceReferences:[];
- const grid=`<div class="table-scroll source-rule-table-scroll" tabindex="0" role="region" aria-label="${esc(table.title||item.title||'Source table')}, horizontally scrollable"><table class="source-rule-table"><caption>${esc(table.title||item.title||'Source table')}</caption><thead><tr><th scope="col" rowspan="2">${esc(rowLabel)}</th><th scope="colgroup" colspan="${columns.length}">${esc(table.columnGroup?.label||'Source columns')}</th></tr><tr>${columns.map(column=>`<th scope="col">${esc(column.label||column.id||'')}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>{const cells=new Map((Array.isArray(row.cells)?row.cells:[]).map(cell=>[cell.columnId,cell]));return `<tr><th scope="row">${esc(row.label||'')}${(Array.isArray(row.markers)?row.markers:[]).map(marker=>`<sup class="source-row-marker">${esc(marker)}</sup>`).join('')} ${tableFactSourceChip(item,row,`${table.title||item.title||'Table'} · ${row.label||'row'}`,'table-row-source')}</th>${columns.map(column=>{const cell=cells.get(column.id);return `<td${cell?.kind?` data-cell-kind="${esc(cell.kind)}"`:''}>${esc(cell?.raw??'')}</td>`;}).join('')}</tr>`;}).join('')}</tbody></table></div>`;
+ const grid=table.layout==='flat'?flatSourceTableGrid(item,table,columns,rows):`<div class="table-scroll source-rule-table-scroll" tabindex="0" role="region" aria-label="${esc(table.title||item.title||'Source table')}, horizontally scrollable"><table class="source-rule-table"><caption>${esc(table.title||item.title||'Source table')}</caption><thead><tr><th scope="col" rowspan="2">${esc(rowLabel)}</th><th scope="colgroup" colspan="${columns.length}">${esc(table.columnGroup?.label||'Source columns')}</th></tr><tr>${columns.map(column=>`<th scope="col">${esc(column.label||column.id||'')}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>{const cells=new Map((Array.isArray(row.cells)?row.cells:[]).map(cell=>[cell.columnId,cell]));return `<tr><th scope="row">${esc(row.label||'')}${(Array.isArray(row.markers)?row.markers:[]).map(marker=>`<sup class="source-row-marker">${esc(marker)}</sup>`).join('')} ${tableFactSourceChip(item,row,`${table.title||item.title||'Table'} · ${row.label||'row'}`,'table-row-source')}</th>${columns.map(column=>{const cell=cells.get(column.id);return `<td${cell?.kind?` data-cell-kind="${esc(cell.kind)}"`:''}>${esc(cell?.raw??'')}</td>`;}).join('')}</tr>`;}).join('')}</tbody></table></div>`;
  const symbolBlock=symbols.length?`<section class="source-table-symbols"><h3>Printed symbols</h3><dl>${symbols.map(entry=>`<div><dt>${esc(entry.symbol||'')}</dt><dd>${esc(displaySourceValue(entry.text??entry.meaning))} ${tableFactSourceChip(item,entry,`${table.title||item.title||'Table'} · ${entry.symbol||'symbol'} definition`,'table-symbol-source')}</dd></div>`).join('')}</dl></section>`:'';
  const procedureBlock=procedure.length?`<section class="source-table-procedure"><h3>Printed procedure</h3><ol>${procedure.map(step=>`<li${step.step?` data-step="${esc(step.step)}"`:''}>${esc(displaySourceValue(step.text))} ${tableFactSourceChip(item,step,`${table.title||item.title||'Table'} · ${step.step||'procedure step'}`,'table-procedure-source')}</li>`).join('')}</ol></section>`:'';
  const footnoteBlock=footnotes.length?`<section class="source-table-footnotes"><h3>Printed footnotes</h3><ul>${footnotes.map(note=>`<li><strong>${esc(note.marker||'')}</strong> ${esc(note.text||'')}${note.appliesTo?` <span class="small muted">${esc(note.appliesTo)}</span>`:''} ${tableFactSourceChip(item,note,`${table.title||item.title||'Table'} · footnote ${note.marker||''}`,'table-footnote-source')}</li>`).join('')}</ul></section>`:'';
@@ -1138,10 +1229,14 @@ function xpCalculatorHTML(x) {
  return `<div class="calculator"><label for="xpInput">Your cumulative XP within this track</label>${tracks.length>1?`<label for="xpTrack">XP track</label><select id="xpTrack">${tracks.map(track=>`<option value="${esc(track)}"${track===activeTrack?' selected':''}>${esc(xpTrackLabel(x,track))}</option>`).join('')}</select>`:tracks[0]&&tracks[0]!=='main'?`<p class="small track-label">${esc(xpTrackLabel(x,tracks[0]))}</p>`:''}<div class="xp-input-row"><input id="xpInput" type="number" min="0" max="1000000000" step="1" value="0" inputmode="numeric" aria-describedby="xpOutput" aria-label="Cumulative experience points"><button id="calculateXP" class="button primary">Check progress</button></div><div id="xpOutput" class="xp-output" aria-live="polite"></div><div class="xp-meter" aria-hidden="true"><span id="xpMeter"></span></div></div>`;
 }
 function classAbilitiesHTML(x) {
- if(x.id!=='cleric')return '';
- const turningTable=data.rules.find(rule=>rule.id==='cleric-turning-table');
- if(!turningTable)return '';
- return `<section class="class-abilities" data-source-context="${esc(turningTable.id)}" data-source-view="rules" aria-labelledby="classAbilitiesTitle"><h3 id="classAbilitiesTitle">Class abilities</h3><p>Turn undead table and its printed procedure.</p><a class="button secondary" href="#rules/${encodeURIComponent(turningTable.id)}">${esc(turningTable.title||'Turn undead table')}</a> ${inlineSourceChip(turningTable,'Cleric · turn undead table')}</section>`;
+ const abilities=Array.isArray(x.classAbilities)?x.classAbilities.filter(ability=>ability&&typeof ability.title==='string'&&typeof ability.description==='string'):[];
+ const inheritance=x.classAbilityInheritance&&typeof x.classAbilityInheritance.description==='string'?x.classAbilityInheritance:null;
+ const selectedPaladinBenefits=['paladin','ua-paladin'].includes(x.id);
+ const heading=selectedPaladinBenefits?'Selected PHB Paladin benefits · items 1, 2, 3, 6, and 9 of 10':'Class abilities';
+ const abilitySection=abilities.length?`<section class="class-abilities" aria-labelledby="classAbilitiesTitle-${esc(x.id)}"><h3 id="classAbilitiesTitle-${esc(x.id)}">${esc(heading)}</h3>${inheritance?`<p class="class-ability-inheritance">${esc(inheritance.description)} ${(inheritance.references||[]).map(reference=>inlineSourceChip(reference,`${x.name} · PHB power inheritance`)).join(' ')}</p>`:''}<ul class="class-ability-list">${abilities.map(ability=>`<li class="class-ability-item" data-class-ability="${esc(ability.id||'')}"><strong>${esc(ability.title)}.</strong> ${esc(ability.description)} ${(ability.references||[]).map(reference=>inlineSourceChip(reference,`${x.name} · ${ability.title}`)).join(' ')}</li>`).join('')}</ul></section>`:'';
+ const turningTable=x.id==='cleric'?data.rules.find(rule=>rule.id==='cleric-turning-table'):null;
+ const turningSection=turningTable?`<section class="class-abilities" data-source-context="${esc(turningTable.id)}" data-source-view="rules" aria-labelledby="classAbilitiesTitle"><h3 id="classAbilitiesTitle">Class abilities</h3><p>Turn undead table and its printed procedure.</p><a class="button secondary" href="#rules/${encodeURIComponent(turningTable.id)}">${esc(turningTable.title||'Turn undead table')}</a> ${inlineSourceChip(turningTable,'Cleric · turn undead table')}</section>`:'';
+ return abilitySection+turningSection;
 }
 function classRecordNotesHTML(x){
  const noteFields=Object.entries(x).filter(([key,value])=>['attackTableNote','retainedSkillsNote'].includes(key)&&typeof value==='string'&&value.trim());
@@ -1151,8 +1246,15 @@ function classRecordNotesHTML(x){
  const title=key=>key.replace(/([a-z])([A-Z])/g,'$1 $2').replace(/\b\w/g,letter=>letter.toUpperCase()).replace(/ Note$/,'');
  return `<section class="class-record-notes" aria-label="Recorded class notes">${noteFields.length?`<h3>Recorded class notes</h3>${noteFields.map(([key,value])=>`<div class="recorded-class-note" data-note-field="${esc(key)}"><h4>${esc(title(key))}</h4><p>${esc(value)}</p></div>`).join('')}`:''}${pending.length?`<details class="pending-class-notes"><summary>Remaining extraction notes <span>${pending.length}</span></summary><p>These entries track topics still under extraction and source questions. They are not extracted class rules or resolved mechanics.</p><ul>${pending.map(value=>`<li>${esc(value)}</li>`).join('')}</ul></details>`:''}</section>`;
 }
+function classSourceTablesHTML(x) {
+ const links=Array.isArray(x.sourceTableLinks)?x.sourceTableLinks:[];
+ const rows=links.map(link=>({link,record:data.rules.find(item=>item.id===link.id)})).filter(({record})=>record);
+ if(!rows.length)return '';
+ return `<section class="class-source-tables" aria-label="Printed class tables"><h3>Printed class tables</h3><ul>${rows.map(({link,record})=>`<li><a href="#rules/${encodeURIComponent(record.id)}">${esc(link.title||record.title||record.id)} ↗</a> <span class="small muted">${esc(bookCode(link.book||record.book))} p. ${esc((link.pages||record.pages||[]).join(', '))}</span></li>`).join('')}</ul></section>`;
+}
+
 function classDetailHTML(x) {
- return `<article class="detail-card" data-annotation-target="${esc(x.id)}" data-annotation-title="${esc(x.name)}">${detailHeaderHTML(x,{eyebrow:x.variant||`${bookCode(x.book)} CLASS GUIDE`,extra:`${x.hitDie?`<span class="class-header-stat">${icon('die')}Hit die ${esc(x.hitDie)}</span>`:''}${x.progression&&typeof x.progression==='object'&&x.progression.label?`<span class="progression-label">${esc(x.progression.label)}</span>`:''}`})}<div class="detail-body">${x.description?`<p>${esc(x.description)}</p>`:''}${x.progression&&typeof x.progression==='object'&&x.progression.description?`<div class="progression-context"><strong>${esc(x.progression.label||'Progression track')}</strong><p>${esc(x.progression.description)}</p><div>${(x.progression.references||[]).map(reference=>inlineSourceChip(reference,`${x.name} · progression`)).join('')}</div></div>`:''}${classAbilitiesHTML(x)}${advancementControlsHTML(x)}${xpCalculatorHTML(x)}${xpTableHTML(x)}${Array.isArray(x.guidance)&&x.guidance.length?`<h3>General class checklist</h3><p class="small muted">These are general class reminders, separate from the selected level’s changes.</p><ul>${x.guidance.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:'<h3>General class checklist</h3><p>Class-wide advancement reminders are still being extracted. Check the class section, relevant ability tables, and DMG training guidance in your own books.</p>'}${classRecordNotesHTML(x)}${x.errata?`<h3>Errata — separate from the printing</h3><div class="callout">${esc(Array.isArray(x.errata)?x.errata.join(' '):x.errata)}</div>`:''}<div class="callout">XP indicates a threshold, not automatic advancement. Class prerequisites, campaign eligibility, rank limits, and the Dungeon Master’s training procedure can affect advancement.</div></div>${inlineNotes(x.id)}<footer class="detail-footer"><span>${icon('book')}Partial level-up extraction · visual table verification pending</span>${originalScansButton(x)}<button class="source-chip" data-copy-link="${esc(x.id)}">Copy reference link ↗</button></footer></article>`;
+ return `<article class="detail-card" data-annotation-target="${esc(x.id)}" data-annotation-title="${esc(x.name)}">${detailHeaderHTML(x,{eyebrow:x.variant||`${bookCode(x.book)} CLASS GUIDE`,extra:`${x.hitDie?`<span class="class-header-stat">${icon('die')}Hit die ${esc(x.hitDie)}</span>`:''}${x.progression&&typeof x.progression==='object'&&x.progression.label?`<span class="progression-label">${esc(x.progression.label)}</span>`:''}`})}<div class="detail-body">${x.description?`<p>${esc(x.description)}</p>`:''}${x.progression&&typeof x.progression==='object'&&x.progression.description?`<div class="progression-context"><strong>${esc(x.progression.label||'Progression track')}</strong><p>${esc(x.progression.description)}</p><div>${(x.progression.references||[]).map(reference=>inlineSourceChip(reference,`${x.name} · progression`)).join('')}</div></div>`:''}${classAbilitiesHTML(x)}${classSourceTablesHTML(x)}${advancementControlsHTML(x)}${xpCalculatorHTML(x)}${xpTableHTML(x)}${Array.isArray(x.guidance)&&x.guidance.length?`<h3>General class checklist</h3><p class="small muted">These are general class reminders, separate from the selected level’s changes.</p><ul>${x.guidance.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:'<h3>General class checklist</h3><p>Class-wide advancement reminders are still being extracted. Check the class section, relevant ability tables, and DMG training guidance in your own books.</p>'}${classRecordNotesHTML(x)}${x.errata?`<h3>Errata — separate from the printing</h3><div class="callout">${esc(Array.isArray(x.errata)?x.errata.join(' '):x.errata)}</div>`:''}<div class="callout">XP indicates a threshold, not automatic advancement. Class prerequisites, campaign eligibility, rank limits, and the Dungeon Master’s training procedure can affect advancement.</div></div>${inlineNotes(x.id)}<footer class="detail-footer"><span>${icon('book')}Partial level-up extraction · visual table verification pending</span>${originalScansButton(x)}<button class="source-chip" data-copy-link="${esc(x.id)}">Copy reference link ↗</button></footer></article>`;
 }
 function calculateXP() {
  const input=$('#xpInput');if(!input)return;

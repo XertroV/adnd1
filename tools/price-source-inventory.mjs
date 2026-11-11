@@ -1531,6 +1531,76 @@ function structuredCitationBindings(collections,{knownBindings,catalogs}) {
   return generated;
 }
 
+
+const DMG175_PARTY_MAGIC_REVIEW_PATH='research/dmg175-party-magic-current-h-readiness-v2/current-location-review-v2.json';
+const DMG175_PARTY_MAGIC_REVIEW_SHA256='1b5cf48445b65f80dbf411bac7e80a2bf0b5ff0cd1df246068409b65c06ee374';
+let dmg175PartyMagicReviewCache=null;
+function dmg175PartyMagicReviewReceipt(){
+ if(dmg175PartyMagicReviewCache)return dmg175PartyMagicReviewCache;
+ const bytes=readFileSync(resolve(root,DMG175_PARTY_MAGIC_REVIEW_PATH));
+ if(sha(bytes)!==DMG175_PARTY_MAGIC_REVIEW_SHA256)throw new Error('DMG p.175 Party Magic current-H location review hash is stale');
+ const receipt=JSON.parse(bytes.toString('utf8'));
+ if(receipt.schemaVersion!==1||receipt.artifactType!=='dmg175-party-magic-current-h-location-rebind-v2'
+  ||receipt.reviewStatus!=='metadata-rebound from prior independent location review; 13 location decisions carried forward; root visual recheck of new content hashes required'
+  ||receipt.scope?.acceptedTargets!==13||receipt.scope?.locationOnly!==true||receipt.scope?.productionMutation!==false
+  ||receipt.scope?.metadataOnlyRoleChanges!==13||receipt.scope?.rootIndependentRecheckRequired!==true
+  ||receipt.roleRebind?.roleBefore!=='evidence'||receipt.roleRebind?.roleAfter!=='row'||receipt.roleRebind?.regionCount!==13
+  ||receipt.roleRebind?.pixelsChanged!==false||receipt.roleRebind?.focusGeometryChanged!==false
+  ||receipt.roleRebind?.valueContextDefaultMechanicsGradesChanged!==false||receipt.roleRebind?.regionReviewStatusChanged!==false
+  ||receipt.roleRebind?.independentRootRecheckRequired!==true
+  ||!Array.isArray(receipt.targets)||receipt.targets.length!==13
+  ||receipt.sourceIdentity?.supplementalSource?.userEditionStatus!=='user-confirmed-correct-edition'
+  ||receipt.sourceIdentity?.supplementalSource?.printingStatus!=='not-specified'
+  ||receipt.sourceIdentity?.supplementalSource?.printedPage!==175||receipt.sourceIdentity?.supplementalSource?.pdfPage!==null
+  ||receipt.sourceIdentity?.canonicalPdf?.printedPage175Present!==false)
+  throw new Error('DMG p.175 Party Magic current-H location review schema or limitations changed');
+ const identities=receipt.targets.map(entry=>String(entry.expectedTargetIdentity?.collection)+':'+String(entry.expectedTargetIdentity?.itemId)+String(entry.expectedTargetIdentity?.fieldPointer));
+ if(new Set(identities).size!==13||receipt.targets.some((entry,index)=>entry.targetIndex!==index||entry.reviewDecision!=='accepted-location-only'))
+  throw new Error('DMG p.175 Party Magic location review target universe changed');
+ dmg175PartyMagicReviewCache=receipt;
+ return receipt;
+}
+function assertDmg175PartyMagicLocationReview(binding,{item,sourceObjectPointer,catalog}){
+ if(item?.id!=='appendix-c-party-magic-distribution'||binding?.collection!=='rules')return;
+ const rowMatch=/^\/table\/rows\/(0|[1-9]\d*)$/.exec(binding.fieldPointer||'');
+ if(binding.reviewStatus!=='field-target-reviewed')return;
+ if(!rowMatch||Number(rowMatch[1])>12)throw new Error('The DMG p.175 Party Magic location receipt covers only its 13 table-row pointers');
+ const receipt=dmg175PartyMagicReviewReceipt();
+ const pointer=binding.fieldPointer,index=Number(rowMatch[1]);
+ const matches=receipt.targets.filter(entry=>entry.expectedTargetIdentity?.collection==='rules'
+  &&entry.expectedTargetIdentity?.itemId===item.id&&entry.expectedTargetIdentity?.fieldPointer===pointer
+  &&entry.expectedTargetIdentity?.sourceObjectPointer===sourceObjectPointer);
+ if(matches.length!==1)throw new Error('DMG p.175 Party Magic reviewed row is absent or ambiguous in its location receipt');
+ const entry=matches[0],source=entry.sourceEvidence,regionId=source?.focusRegionId;
+ if(source?.regionRole!=='row'||entry.roleRebind?.regionId!==regionId||entry.roleRebind?.newContentSha256!==source.contentSha256
+  ||entry.roleRebind?.focusSha256Unchanged!==true||entry.roleRebind?.sourceSha256Unchanged!==true||entry.roleRebind?.imageSha256Unchanged!==true
+  ||entry.roleRebind?.regionReviewRemains!=='unreviewed')throw new Error('DMG p.175 Party Magic role/content rebind is missing or exceeds its location-only scope');
+ const review={status:'confirmed',independent:true,scope:'party-magic-exact-row-location-only',evidence:DMG175_PARTY_MAGIC_REVIEW_PATH,evidenceSha256:DMG175_PARTY_MAGIC_REVIEW_SHA256};
+ if(canonical(binding.targetReview)!==canonical(review)||binding.contextStatus!=='context-not-assessed'
+  ||binding.sourceValueStatus!=='not-assessed-by-field-target-review'||binding.sourceOwner?.collection!=='rules'
+  ||binding.sourceOwner?.itemId!==item.id||sourceObjectPointer!==pointer+'/sourceReference'
+  ||binding.sourceObjectPointer!==sourceObjectPointer||binding.regionIds?.length!==1||binding.regionIds[0]!==regionId
+  ||binding.book!==source.book||binding.printedPage!==source.printedPage||binding.pdfPage!==source.pdfPage
+  ||(binding.sourceSha256!==null&&binding.sourceSha256!==undefined&&binding.sourceSha256!==source.sourceSha256)
+  ||binding.expectedRegionEvidence?.length!==1
+  ||canonical(binding.expectedRegionEvidence)!==canonical(source.expectedRegionEvidence))
+  throw new Error('DMG p.175 Party Magic reviewed binding exceeds its exact location-only receipt');
+ const region=catalog?.regions?.find(candidate=>candidate.id===regionId);
+ if(!region)throw new Error('DMG p.175 Party Magic reviewed region is absent from the selected catalog');
+ if(region.role!=='row'||source.regionRole!=='row')throw new Error('DMG p.175 Party Magic reviewed source region must be explicitly declared as the exact row');
+ const currentEvidence={regionId,sourceSha256:regionSourceSha256(catalog,region),imageSha256:region.sha256,
+  focusSha256:sourceVisualRegionHashes(region).focusSha256,contentSha256:sourceVisualRegionHashes(region).contentSha256};
+ if(canonical(currentEvidence)!==canonical(binding.expectedRegionEvidence[0])
+  ||source.book!==region.book||source.printedPage!==region.printedPage||source.pdfPage!==(region.pdfPage??null)
+  ||source.image!==region.image||source.imageSha256!==region.sha256)
+  throw new Error('DMG p.175 Party Magic review hashes no longer match the current source region');
+ if(source.pdfPage===null){
+  if(source.sourceArtifactId!=='dmg175-user-confirmed-supplement'||source.sourceIdentityKind!=='supplemental-image'
+   ||source.book!=='DMG'||source.printedPage!==175)throw new Error('DMG p.175 supplemental source identity changed');
+ }else if(source.sourceArtifactId!=='dmg-canonical-pdf'||source.sourceIdentityKind!=='canonical-pdf'
+  ||source.book!=='DMG'||source.printedPage!==176||source.pdfPage!==176)throw new Error('DMG p.176 continuation source identity changed');
+}
+
 function manualBindingFor(binding,{collections,catalogs}) {
   const item=collectionItem(collections,binding.collection,binding.itemId);
   if(!item) throw new Error(`Manual field evidence target ${binding.collection}:${binding.itemId} is missing`);
@@ -1548,6 +1618,7 @@ function manualBindingFor(binding,{collections,catalogs}) {
   if(binding.reviewStatus==='field-target-reviewed'&&binding.catalog!==selectedCatalog)throw new Error(`Reviewed target ${binding.collection}:${binding.itemId}${binding.fieldPointer} catalog ${binding.catalog??'(missing)'} is not the viewer-selected catalog ${selectedCatalog??'(none)'}`);
   const catalog=selectedCatalog?catalogs.get(selectedCatalog):null;
   if(selectedCatalog&&!catalog) throw new Error(`Viewer-selected catalog ${selectedCatalog} is missing`);
+  assertDmg175PartyMagicLocationReview(binding,{item,sourceObjectPointer,sourceOwner,catalog});
   assertPass8Dmg225FieldTargetProof({...binding,sourceOwner,sourceObjectPointer},
     {item,target,sourceObject,sourceOwner,sourceObjectPointer,catalog});
   const candidateIds=[...new Set(binding.regionIds||[])];
