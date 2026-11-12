@@ -37,8 +37,69 @@ function nonReadingCodeLiteral(codePath,codeSha256,text,match){
  const start=text.lastIndexOf('\n',match.index)+1,ending=text.indexOf('\n',match.index),line=text.slice(start,ending<0?text.length:ending);
  return NON_READING_CODE_LITERALS.some(rule=>rule.codePath===codePath&&rule.codeSha256===codeSha256&&rule.pathParts.join('/')===match[1]&&line===rule.prefix+match[0]+rule.suffix);
 }
+// Exact raw historical caller dependencies omitted from the original H roots.
+// These are physical freshness obligations only; they are never admitted as
+// mapped historical states or as source/value/context review approvals.
+export const HISTORICAL_CALLER_RAW_READ_PATHS=Object.freeze([
+ "dist/scans/dagger/ua28-dagger-thrown.png",
+ "dist/scans/dagger/ua28-missile-notes.png",
+ "dist/scans/verified/dmg-225-2f9de8a9b21e35e1.png",
+ "dist/scans/verified/dmg-225-51d14c515e96b1bb.png",
+ "research/equipment-source-first-batch1-second-review.json",
+ "research/mm-source-history-v1/source-postmetadata-facade-v2/closed-completeness-coverage-contract-v1.json",
+ "research/source-audit-batch5-continuation-alias-integration.json",
+ "research/source-audit-batch5-continuation-final-integration.json",
+ "research/source-audit-batch5-continuation-final-proposal.json",
+ "research/source-audit-batch5-continuation-reconciliation.json",
+ "research/source-audit-batch5-dmg225-context-repair.json",
+ "research/source-audit-batch5-dmg225-contract-integration.json",
+ "research/source-audit-batch5-offer-metadata-repair.json",
+ "research/source-audit-batch5-phb-dmg-table-catalog-patch.json",
+ "research/source-audit-batch5-table-context-baseline-full.json.gz",
+ "research/source-audit-batch5-table-context-baseline.json",
+ "research/source-audit-batch5-table-reference-integration.json",
+ "research/source-audit-batch5-ua10-crop-integration.json",
+ "research/source-audit-batch5-ua26-central-integration.json",
+ "research/source-audit-batch5-ua26-central-proposal.json",
+ "research/source-audit-batch5-ua26-current-group-append.json",
+ "research/source-audit-batch5-ua26-hand-quarrel-independent-review.json",
+ "research/source-audit-batch5-ua26-marker-independent-review.json",
+ "research/source-audit-batch5-ua26-review-integration.json",
+ "research/source-audit-batch5-ua27-reference-integration.json",
+ "research/source-audit-batch5-ua75-review-owner-before.json",
+ "research/source-audit-batch5-ua75-secondary-occurrence-before.json",
+ "research/source-audit-batch5-ua75-secondary-occurrence-integration.json",
+ "research/source-audit-pass8-character-reference-mechanics-before.json.gz",
+ "research/source-audit-pass8-phb-spell-guidance-seven-leaf-mechanics-application.json",
+ "research/source-completeness-matrices-independent-review-v2.json",
+ "research/source-completeness-matrices-independent-transcription.json",
+ "research/source-completeness-matrices-source-transcription.json",
+ "research/source-completeness-matrix-owner-activation.json",
+ "research/source-completeness-matrix-owner-review.json",
+ "research/source-completeness-repairs-version27.json",
+ "research/source-frame-coordinate-bridge-ua-source-v1.json",
+ "research/source-owner-identity-baseline.json",
+ "tests/fixtures/batch2-reviewed-rows.json",
+ "tests/fixtures/dmg175-853-history-projection-contract-v1.json.gz",
+ "tests/fixtures/dmg74-matrix-independent.json",
+ "tests/fixtures/equipment-known-active-cleanup.json",
+ "tests/fixtures/equipment-offers-batch5.json",
+ "tests/fixtures/equipment-price-completion-73.json",
+ "tests/fixtures/equipment-source-first-fulltable.json",
+ "tests/fixtures/matrix-before-cell-review.json",
+ "tests/fixtures/mechanics-closure-corrections.json",
+ "tests/fixtures/mechanics-dependency-corrections.json",
+ "tests/fixtures/mechanics-next-corrections.json",
+ "tests/fixtures/remaining-approved-references.json",
+ "tests/fixtures/remaining-reviewed-rows.json",
+ "tests/fixtures/spell-reference-baseline.json",
+ "tests/fixtures/ua10-ledger-triage-manifest-before.json.gz",
+ "tests/fixtures/ua28-dagger-baseline-679.json.gz",
+ "tests/fixtures/uploaded-source-reference-corrections.json",
+ "tests/fixtures/uploaded-source-references.json"
+]);
 export function literalHistoricalDataPaths(codeFiles){
- const found=new Set(),immutable=immutableMmInputPaths(codeFiles);
+ const found=new Set(HISTORICAL_CALLER_RAW_READ_PATHS),immutable=immutableMmInputPaths(codeFiles);
  for(const [path,bytes]of codeFiles){
   if(!/\.(?:mjs|js)$/.test(path))continue;
   const text=bytes.toString('utf8'),codeSha256=createHash('sha256').update(bytes).digest('hex');

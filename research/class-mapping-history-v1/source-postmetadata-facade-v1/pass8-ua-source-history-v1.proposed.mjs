@@ -222,7 +222,7 @@ function objectStages(path) {
 
 function isExactUnsupportedBridgeLiteral(error, path, kind) {
   return error instanceof Error
-    && error.message === `Invalid MM-to-H historical source reader: ${path}: unknown MM/H/Version29 ${kind} state`;
+    && error.message === `Invalid class-mapping historical projection: ${path}: unknown MM/H/Version29 ${kind} state`;
 }
 
 function copyRawBytesForDispatch(value, label) {

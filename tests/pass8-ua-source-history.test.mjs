@@ -1,12 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {execFileSync} from 'node:child_process';
+import {execFileSync,historicalSourceDirectoryPaths,readHistoricalSourceDirectoryPath} from './helpers/ua-history-source-directory-v1.mjs';
 import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {gunzipSync,gzipSync} from 'node:zlib';
 import * as history from '../research/class-mapping-history-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
 import * as prior from './helpers/pass8-weapon-source-history.mjs';
-const root=new URL('../',import.meta.url),read=p=>readFileSync(new URL(p,root));
+const root=new URL('../',import.meta.url),historicalPaths=new Set(historicalSourceDirectoryPaths()),read=p=>historicalPaths.has(p)?readHistoricalSourceDirectoryPath(p):readFileSync(new URL(p,root));
 const sha=b=>createHash('sha256').update(b).digest('hex');
 const git=(ref,p)=>execFileSync('git',['show',`${ref}:${p}`],{cwd:root,maxBuffer:100*1024*1024});
 const contractBytes=read('tests/fixtures/pass8-ua-source-history-v1.json.gz');

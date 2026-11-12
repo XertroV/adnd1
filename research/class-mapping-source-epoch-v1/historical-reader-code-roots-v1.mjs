@@ -92,6 +92,15 @@ export const HISTORICAL_CODE_ROOTS=Object.freeze([
  'tools/monetary-unit-provenance-audit-next-native-v2.mjs',
  // The pure alias test imports this exact dynamically selected module.
  'tools/source-report-consistency-audit-next-native-v2.mjs',
+ 'tests/helpers/xp-mutation-child-transport-v1.mjs',
+ 'tests/helpers/historical-h-catalog-view-v1.mjs',
+ 'tests/helpers/pass8-s1-paladin-catalog-history-v1.mjs',
+ 'tests/helpers/ua-history-source-directory-v1.mjs',
+ 'research/class-mapping-history-v1/p175-historical-module-v1.mjs',
+ 'tests/mm-search-cjs-transport-v1.test.mjs',
+ 'tests/current-s1-import-boundary-v2.test.mjs',
+ 'tests/p175-historical-current-boundary-v1.test.mjs',
+ 'tests/p175-historical-module-transport-v1.test.mjs',
 ]);
 export const HISTORICAL_FIXED_DATA_PATHS=Object.freeze([
  'research/mm-source-history-v1/historical-h-catalog-blobs-v1.json',
@@ -105,6 +114,7 @@ export const HISTORICAL_FIXED_DATA_PATHS=Object.freeze([
  // Tests read preserved null-pin fixtures after live modules materialize.
  'research/class-mapping-current-adapters-v1/current-consumer-code-stage-pins-v1.qcc-stub.mjs',
  'research/class-mapping-current-adapters-v1/current-consumer-pins-v1.qcc-stub.mjs',
+ 'tests/helpers/pass8-s1-paladin-catalog-history-v1.json',
 ]);
 export const HISTORICAL_INSTALL_PINS_PATH='research/class-mapping-source-epoch-v1/historical-reader-installation-pins-v1.mjs';
 // No caller-provided roots: a code pin can be admitted only when reachable from

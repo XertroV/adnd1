@@ -6,7 +6,7 @@ import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 
-const root = resolve(import.meta.dirname, '..');
+const root = resolve(import.meta.dirname,'..');
 const baselineCommit = '679b15d1c580172e54314829c1c3c86dc78b65f3';
 const source6bCommit = '6b3cfc8cb421a2c1fc2379c38abebe2075634981';
 const legacyReceiptCommit = '386b08a4678ee033d6daabc0ffa2cc17265a7c1f';
@@ -25,11 +25,11 @@ const readJson = path => JSON.parse(readBytes(path).toString('utf8'));
 const hashCurrent = path => sha256(readBytes(path));
 
 const [legacyModule, nativeModule, refreshModule, version29Module, currentGate] = await Promise.all([
-  import(pathToFileURL(resolve(root, 'tools/ua-source-handoff-transition.mjs'))),
-  import(pathToFileURL(resolve(root, 'tools/dmg175-current-successors-mm-v1.mjs'))),
-  import(pathToFileURL(resolve(root, 'tools/refresh-gaps-handoff.mjs'))),
+  import(pathToFileURL(resolve(root, 'research/class-mapping-history-v1/replay-tools/ua-source-handoff-transition.mjs'))),
+  import(pathToFileURL(resolve(root, 'research/class-mapping-history-v1/replay-tools/dmg175-current-successors-mm-v1.mjs'))),
+  import(pathToFileURL(resolve(root, 'research/class-mapping-history-v1/replay-tools/refresh-gaps-handoff.mjs'))),
   import(pathToFileURL(resolve(root, 'tests/helpers/version29-native-source-context.mjs'))),
-  import(pathToFileURL(resolve(root, 'tools/mm-current-source-gate-v1.mjs'))),
+  import(pathToFileURL(resolve(root, 'tests/helpers/class-mapping-historical-mm-test-inputs-v1.mjs'))),
 ]);
 
 const baselineData = gitJson(baselineCommit, 'dist/data.json');

@@ -32,7 +32,7 @@ const sourceContractPath = resolve(root, 'research/mm-source-history-v1/history-
 const metadataContractPath = resolve(v1, 'closed-metadata-contract-v1.json');
 const runtimeContractPath = resolve(v1, 'closed-runtime-source-viewer-contract-v1.json');
 const rootRuntimeEvidencePath = resolve(v1, 'closed-runtime-viewer-contract-v1.json');
-const coverageContractPath = resolve(here, 'closed-completeness-coverage-contract-v1.json');
+const coverageContractPath = resolve(root, 'research/mm-source-history-v1/source-postmetadata-facade-v2/closed-completeness-coverage-contract-v1.json');
 const sourceContractSha256 = '6eaa68018b064c1209ce81656b915aa0ed7b02f4fc7b59a149b6571aad0ff7f5';
 const metadataContractSha256 = '21800d8e6ac4727d559ebe34e1f2033a8407a1f80189c5ba1d929e16096aba1d';
 const runtimeContractSha256 = 'be0a128238bfb4d1ba6e34598b3a06982ee6149ed2512e73c6d63be9bdba9714';
@@ -119,7 +119,7 @@ const preservedOwnerContracts = [
 
 function isExactUnsupportedBridgeLiteral(error, path, kind) {
   return error instanceof Error
-    && error.message === `Invalid MM-to-H historical source reader: ${path}: unknown MM/H/Version29 ${kind} state`;
+    && error.message === `Invalid class-mapping historical projection: ${path}: unknown MM/H/Version29 ${kind} state`;
 }
 
 function copyRawBytesForDispatch(value, label) {

@@ -6,6 +6,7 @@ import {readFileSync} from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {loadHistoricalHAvailabilityInputs} from '../../../../tests/helpers/class-mapping-historical-test-inputs-v1.mjs';
+import {loadHistoricalP175AvailabilityModule} from '../../p175-historical-module-v1.mjs';
 
 const repo = path.resolve(import.meta.dirname, '../../../..');
 // Historical pre-D175 projection comparator. Positive inputs are exact full-M1 H blobs;
@@ -17,7 +18,10 @@ const v1FixturePath = path.join(sealedFixtureDir, 'dmg175-availability-projectio
 const v2FixturePath = path.join(sealedFixtureDir, 'dmg175-availability-projection-v2-cfdf.mjs');
 const planPath = path.join(repo, 'research/dmg175-current-content-projection-v1/inputs/target-plan-manifest-v2.json');
 const sha256 = value => createHash('sha256').update(value).digest('hex');
-const readBytes = p => readFileSync(p);
+let historicalModuleBytes = null;
+// This historical comparator reads its production bytes at the same fixed H
+// epoch as the imported module; every other file read remains unchanged.
+const readBytes = p => p === productionModulePath ? Buffer.from(historicalModuleBytes) : readFileSync(p);
 const readJson = p => JSON.parse(readBytes(p));
 function assertExactHistoricalH(){
   const proof=hInputs.proof;
@@ -54,7 +58,9 @@ async function importHistoricalFixture(fixturePath, expectedSha256, booksAdapter
   return import(`data:text/javascript;base64,${Buffer.from(source).toString('base64')}`);
 }
 
-const production = await import(pathToFileURL(productionModulePath).href);
+const historicalModule = await loadHistoricalP175AvailabilityModule();
+const production = historicalModule.production;
+historicalModuleBytes = historicalModule.moduleBytes;
 const hInputs = loadHistoricalHAvailabilityInputs(Object.values(production.DMG175_OWNER_CATALOGS));
 const baselineDataBytes = gitShow('dist/data.json');
 const baselineData = JSON.parse(baselineDataBytes);
