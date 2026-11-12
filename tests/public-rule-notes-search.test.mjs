@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {assertCurrentMmSourceEpoch} from '../tools/mm-current-source-gate-v1.mjs';
+import {assertCurrentMmSourceEpoch} from './helpers/class-mapping-historical-mm-test-inputs-v1.mjs';
 
 const require=createRequire(import.meta.url);
 const {inputs: currentMmInputs, summary: currentMmSummary}=assertCurrentMmSourceEpoch(process.cwd());

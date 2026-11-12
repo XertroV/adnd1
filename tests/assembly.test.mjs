@@ -1,9 +1,10 @@
+// Preserved exact a29/MM assertions; separate S1 companion tests own current behavior.
 import {reverseClosureCorrections} from './mechanics-closure-fixture.mjs';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
 import test from 'node:test';
 import {assertUaSourceContextBindingCohort} from './helpers/ua-source-closed-v28-context.mjs';
-import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
+import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/class-mapping-historical-mm-test-inputs-v1.mjs';
 import {resolve} from 'node:path';
 const root=resolve(import.meta.dirname,'..');
 

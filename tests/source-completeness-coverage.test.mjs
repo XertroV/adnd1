@@ -1,21 +1,24 @@
+// Historical MM replay: preserved a29 assertions run against the fixed historical stage.
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync,historicalMmTestRoot,assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
-import {execFileSync} from 'node:child_process';
-import {assertCurrentMmSourceEpoch} from '../tools/mm-current-source-gate-v1.mjs';
-import {assertHistoricalHPreimage} from '../research/mm-source-history-v1/closed-version29-reader-current-mm-v1.mjs';
-import {buildSourceCompletenessCoverage,markdownSourceCompleteness,loadCurrentSourceRepairRegister} from '../tools/source-completeness-coverage.mjs';
+import {execFileSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
+import {assertCurrentMmSourceEpoch} from './helpers/class-mapping-historical-mm-test-inputs-v1.mjs';
+import {assertHistoricalHPreimage} from '../research/class-mapping-history-v1/closed-version29-reader-class-mapping-v1.mjs';
+import {buildSourceCompletenessCoverage,markdownSourceCompleteness,loadCurrentSourceRepairRegister} from '../research/class-mapping-history-v1/replay-tools/source-completeness-coverage.mjs';
 
+assertHistoricalMmTestStage();
+const root=historicalMmTestRoot;
 const read=path=>JSON.parse(readFileSync(new URL('../'+path,import.meta.url),'utf8'));
-const currentMm=assertCurrentMmSourceEpoch(process.cwd());
+const currentMm=assertCurrentMmSourceEpoch(root);
 const historicalH=assertHistoricalHPreimage();
 const historicalHPreimageCommit='5c6a57386af372c7c0d89e342003a7edf68ca0dd';
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
-const hGitBytes=rel=>execFileSync('git',['show',`${historicalHPreimageCommit}:${rel}`],{cwd:process.cwd(),maxBuffer:64*1024*1024});
+const hGitBytes=rel=>execFileSync('git',['show',`${historicalHPreimageCommit}:${rel}`],{cwd:root,maxBuffer:64*1024*1024});
 const hBytes=rel=>hGitBytes(rel);
 const hRead=rel=>JSON.parse(hBytes(rel).toString('utf8'));
 function inputs(){return {pageBaseline:read('research/source-completeness-page-baseline.json'),siteBaseline:read('research/source-completeness-site.json'),ledgers:['phb','dmg','ua','mm','mm2'].map(code=>read(`research/source-completeness-${code}.json`)),currentData:currentMm.inputs.data};}

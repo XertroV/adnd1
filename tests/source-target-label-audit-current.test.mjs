@@ -1,14 +1,15 @@
+// Preserved exact a29/MM assertions; separate S1 companion tests own current behavior.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {execFileSync} from 'node:child_process';
+import {execFileSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
 import {createHash} from 'node:crypto';
-import {mkdtempSync, readFileSync, rmSync} from 'node:fs';
+import {mkdtempSync, readFileSync, rmSync} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {gunzipSync} from 'node:zlib';
 import {weaponOwnerIds} from './helpers/weapon-source-current-cohort.mjs';
 import {assertUaSourceContextBindingCohort} from './helpers/ua-source-closed-v28-context.mjs';
-import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
+import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/class-mapping-historical-mm-test-inputs-v1.mjs';
 import {resolve} from 'node:path';
 const root=resolve(import.meta.dirname,'..');
 

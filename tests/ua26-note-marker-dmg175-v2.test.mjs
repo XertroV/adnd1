@@ -6,7 +6,7 @@ import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {auditUa26MarkerReceiptWithHCurrentSourceEpoch} from '../tools/ua26-note-marker-audit-h-v2.mjs';
-import {assertHistoricalHPreimage} from '../research/mm-source-history-v1/closed-version29-reader-current-mm-v1.mjs';
+import {assertHistoricalHPreimage} from '../research/class-mapping-history-v1/closed-version29-reader-class-mapping-v1.mjs';
 
 // The strict reader is fixed to this configured repository root.
 const repoRoot = path.resolve(process.cwd());

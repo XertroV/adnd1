@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: '24'
       - name: Verify reference data and scan integrity
-        run: node --test tests/*.test.mjs
+        run: node tools/run-class-mapping-tests-v1.mjs --python "$(command -v python3)"
       - name: Verify preserved citation evidence
         if: always()
         env:
@@ -56,13 +56,13 @@ jobs:
           if-no-files-found: warn
       - name: Verify committed static output is current
         run: |
-          node tools/assemble.mjs
+          node tools/assemble-class-mapping-v1.mjs --check
           git diff --exit-code -- dist
       - name: Generate citation systemic inventory
         if: always()
         run: |
           set +e
-          node tools/citation-systemic-inventory.mjs --output-dir artifacts/citation-systemic-coverage
+          node tools/verify-class-mapping-current-reports-v1.mjs --kind systemic --output artifacts/citation-systemic-coverage/citation-systemic-current.json --summary artifacts/citation-systemic-coverage/citation-systemic-summary.md
           report_status=$?
           set -e
           if [ -f artifacts/citation-systemic-coverage/citation-systemic-summary.md ]; then
@@ -173,7 +173,7 @@ jobs:
         if: always()
         run: |
           mkdir -p artifacts/monetary-review-coverage
-          node tools/dmg175-current-monetary-source-questions-mm-v1.mjs --output artifacts/monetary-review-coverage/current-source-questions.json --check
+          node tools/class-mapping-current-monetary-questions-v1.mjs > artifacts/monetary-review-coverage/current-source-questions.json
       - name: Upload monetary values and review coverage
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -216,7 +216,7 @@ jobs:
       - name: Validate raster boundary coverage snapshot
         if: always()
         run: |
-          node tools/source-raster-coverage.mjs --output artifacts/source-raster-coverage/report.json --check
+          node tools/source-raster-coverage-next-native-v2.mjs --output artifacts/source-raster-coverage/report.json --check
           echo "The raster snapshot is reconciled against every live catalog use and its component-derived metrics. Boundary candidates require visual review; CI does not rerender private source PDFs or prove semantic context." >> "$GITHUB_STEP_SUMMARY"
       - name: Upload raster boundary coverage
         if: always()
@@ -253,7 +253,7 @@ jobs:
       - name: Verify monetary unit provenance
         if: always()
         run: |
-          node tools/monetary-unit-provenance-audit.mjs --output-dir artifacts/monetary-unit-provenance-current-mm-v1 --check
+          node tools/verify-class-mapping-current-reports-v1.mjs --kind unit --output artifacts/monetary-unit-provenance-current-mm-v1/report.json --summary artifacts/monetary-unit-provenance-current-mm-v1/report.md
           cat artifacts/monetary-unit-provenance-current-mm-v1/report.md >> "$GITHUB_STEP_SUMMARY"
       - name: Upload monetary unit provenance
         if: always()
@@ -281,7 +281,7 @@ jobs:
       - name: Verify current continuation candidate snapshot
         if: always()
         run: |
-          node tools/continuation-candidates-validate.mjs --current-snapshot --force-current-tree --output-dir artifacts/continuation-candidate-coverage
+          node tools/verify-class-mapping-current-reports-v1.mjs --kind continuation --output artifacts/continuation-candidate-coverage/next-native-current-check.json --summary artifacts/continuation-candidate-coverage/validation.md
           cat artifacts/continuation-candidate-coverage/validation.md >> "$GITHUB_STEP_SUMMARY"
       - name: Verify declared continuation aliases
         if: always()
@@ -309,7 +309,7 @@ jobs:
         if: always()
         run: |
           set +e
-          node tools/source-visual-coverage.mjs artifacts/source-visual-coverage
+          node tools/source-visual-coverage-next-native-v2.mjs artifacts/source-visual-coverage
           visual_status=$?
           set -e
           if [ -f artifacts/source-visual-coverage/report.md ]; then
@@ -331,7 +331,7 @@ jobs:
           class_status=$?
           node tools/source-qualifier-coverage.mjs --input dist/data.json --output artifacts/source-domain-audits/source-qualifiers.json --check
           qualifier_status=$?
-          node tools/ua26-note-marker-audit-mm-v1.mjs > artifacts/source-domain-audits/ua26-note-markers.json
+          node tools/verify-class-mapping-current-reports-v1.mjs --kind ua26 --output artifacts/source-domain-audits/ua26-note-markers.json
           marker_status=$?
           set -e
           echo "Class-domain and source-qualifier JSON reports are in the source-domain-audits artifact. Generic semantic qualifier completeness is not certified." >> "$GITHUB_STEP_SUMMARY"
@@ -341,15 +341,12 @@ jobs:
         run: |
           set -o pipefail
           mkdir -p artifacts/source-domain-audits
-          gzip -cd research/mm-source-metadata-v1/frozen-systemic-current-v1.json.gz | cmp - artifacts/citation-systemic-coverage/citation-systemic-current.json
-          gzip -cd research/mm-source-metadata-v1/frozen-visual-report-v1.json.gz | cmp - artifacts/source-visual-coverage/report.json
-          gzip -cd research/mm-source-metadata-v1/frozen-table-report-v1.json.gz | cmp - artifacts/source-table-citation-coverage/report.json
-          node tools/refresh-gaps-handoff.mjs --check | tee artifacts/source-domain-audits/gaps-handoff-check.json
+          node tools/verify-class-mapping-current-reports-v1.mjs --kind all --output artifacts/source-domain-audits/gaps-handoff-check.json
       - name: Verify coverage report counts and review scopes
         if: always()
         run: |
           mkdir -p artifacts/source-domain-audits
-          node tools/source-report-consistency-audit.mjs --check > artifacts/source-domain-audits/report-consistency.json
+          node tools/verify-class-mapping-current-reports-v1.mjs --kind consistency --output artifacts/source-domain-audits/report-consistency.json
       - name: Upload class and qualifier audits
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

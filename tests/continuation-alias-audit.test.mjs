@@ -1,13 +1,14 @@
+// Preserved exact a29/MM assertions; separate S1 companion tests own current behavior.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync as readRawFileSync} from 'node:fs';
-import {execFileSync} from 'node:child_process';
+import {readFileSync as readRawFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
+import {execFileSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
 
 import {gunzipSync} from 'node:zlib';
-import {buildContinuationAliasReport,loadContinuationAliasReport} from '../tools/continuation-alias-audit.mjs';
+import {buildContinuationAliasReport,loadContinuationAliasReport} from '../research/class-mapping-history-v1/replay-tools/continuation-alias-audit.mjs';
 import {projectPass8CitationTargetCropBytes} from './helpers/pass8-ua-source-history.mjs';
-import {assertMmTreasureCurrentSourceCohort,readMmTreasureCurrentSourceInputs} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
+import {assertMmTreasureCurrentSourceCohort,readMmTreasureCurrentSourceInputs} from './helpers/class-mapping-historical-mm-test-inputs-v1.mjs';
 const read=p=>JSON.parse(readRawFileSync(p,'utf8'));
 const before=read('research/source-audit-batch5-continuation-alias-before.json');
 const integration=read('research/source-audit-batch5-continuation-alias-integration.json');

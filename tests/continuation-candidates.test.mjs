@@ -1,16 +1,17 @@
+// Historical MM replay: preserved a29 assertions run against the fixed historical stage.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
-import {mkdtempSync, rmSync, readdirSync} from 'node:fs';
+import {readFileSync,mkdtempSync,rmSync,readdirSync,historicalMmTestRoot,assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
 import os from 'node:os';
-import {spawnSync} from 'node:child_process';
+import {spawnSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
 import {gunzipSync} from 'node:zlib';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-import {regionSourceIdentityIssues, validateContinuationSnapshot} from '../tools/continuation-candidates-validate.mjs';
+import {regionSourceIdentityIssues, validateContinuationSnapshot} from '../research/class-mapping-history-v1/replay-tools/continuation-candidates-validate.mjs';
 import {createRequire} from 'node:module';
 
-const root = path.resolve('.');
+const root = historicalMmTestRoot;
+assertHistoricalMmTestStage();
 const summaryPath = path.join(root, 'research/source-audit-batch5-continuation.json');
 const summary = JSON.parse(readFileSync(summaryPath, 'utf8'));
 const fullPath = path.join(path.dirname(summaryPath), summary.fullEvidence.path);
@@ -96,7 +97,7 @@ test('default and force-current validation never fall back to a historical Git t
 
   const outputDir = mkdtempSync(path.join(os.tmpdir(), 'continuation-validation-'));
   try {
-    const cli = spawnSync('node', ['tools/continuation-candidates-validate.mjs', '--summary', summaryPath, '--full', fullPath, '--output-dir', outputDir, '--repo-root', root, '--force-current-tree'], {cwd: root, encoding: 'utf8'});
+    const cli = spawnSync(process.execPath, ['tools/continuation-candidates-validate.mjs', '--summary', summaryPath, '--full', fullPath, '--output-dir', outputDir, '--repo-root', root, '--force-current-tree'], {cwd: root, encoding: 'utf8'});
     assert.equal(cli.status, 1, cli.stdout + cli.stderr);
     assert.match(cli.stdout, /"validationBase":"current-worktree"/);
     assert.deepEqual(new Set(readdirSync(outputDir)), new Set(['source-audit-batch5-continuation-full.json.gz', 'source-audit-batch5-continuation.json', 'validation.json', 'validation.md']));
@@ -106,7 +107,13 @@ test('default and force-current validation never fall back to a historical Git t
 });
 
 test('CLI requires an explicit current-tree or historical-tree choice', () => {
-  const cli = spawnSync('node', ['tools/continuation-candidates-validate.mjs', '--summary', summaryPath, '--output-dir', os.tmpdir()], {cwd: root, encoding: 'utf8'});
+  const outputDir = mkdtempSync(path.join(os.tmpdir(), 'continuation-validation-args-'));
+  let cli;
+  try {
+    cli = spawnSync(process.execPath, ['tools/continuation-candidates-validate.mjs', '--summary', summaryPath, '--output-dir', outputDir], {cwd: root, encoding: 'utf8'});
+  } finally {
+    rmSync(outputDir, {recursive: true, force: true});
+  }
   assert.equal(cli.status, 2);
   assert.match(cli.stderr, /Choose exactly one/);
 });
@@ -231,7 +238,7 @@ test('CI reports changed data and catalog inputs as stale evidence', () => {
 
 test('numeric source geometry fixtures run without private PDFs', () => {
   const result = spawnSync('python3', ['-S', 'tests/continuation-candidates-fixtures.py'], {
-    cwd: root, encoding: 'utf8', env: {...process.env, ADND1_PRIVATE_SOURCE_DIR: ''},
+    cwd: root, encoding: 'utf8',
   });
   const output = `${result.stdout}\n${result.stderr}`;
   assert.equal(result.status, 0, output);

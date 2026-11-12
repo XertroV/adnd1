@@ -1,10 +1,12 @@
+// Preserved exact a29/MM assertions; separate S1 companion tests own current behavior.
 import test from 'node:test';
+import {assertHistoricalMmTestStage,historicalMmTestRoot} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {execFileSync} from 'node:child_process';
-import {readFileSync} from 'node:fs';
+import {execFileSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
+import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
 import {resolve} from 'node:path';
-import {assertCurrentMmSourceEpoch} from '../tools/mm-current-source-gate-v1.mjs';
+import {assertCurrentMmSourceEpoch} from './helpers/class-mapping-historical-mm-test-inputs-v1.mjs';
 import {
   createMmCurrentMonetaryQuestionSuccessor,
   currentSourceQuestionRegistryPath,
@@ -18,9 +20,10 @@ import {
   sourceHandoffTransitionReference,
   isQualifiedSourceHistoricalChange,
   sourceHistoricalCaution,
-} from '../tools/dmg175-current-successors-mm-v1.mjs';
+} from '../research/class-mapping-history-v1/replay-tools/dmg175-current-successors-mm-v1.mjs';
 
-const repoRoot = resolve(import.meta.dirname, '..');
+assertHistoricalMmTestStage();
+const repoRoot = historicalMmTestRoot;
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
 const readBytes = path => readFileSync(resolve(repoRoot, path));
 const readJson = path => JSON.parse(readBytes(path).toString('utf8'));

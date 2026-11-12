@@ -1,18 +1,21 @@
+// Historical MM replay: preserved a29 assertions run against the fixed historical stage.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {execFileSync} from 'node:child_process';
+import {execFileSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
-import {decodePass8CitationTargetCropHistory,projectPass8CitationTargetCropJson as project,projectPass8CitationTargetCropBytes as projectBytes,projectPass8XpContinuationJson as xp,projectPass8CharacterReferenceJson as character} from './helpers/pass8-citation-target-crop-history.mjs';
-import {projectPass8PhbSourceJson as originalPhb} from './helpers/pass8-phb-source-history.mjs';
-import {validateScanCatalog} from '../tools/scan-catalog.mjs';
+import {decodePass8CitationTargetCropHistory,projectPass8CitationTargetCropJson as project,projectPass8CitationTargetCropBytes as projectBytes,projectPass8XpContinuationJson as xp,projectPass8CharacterReferenceJson as character} from '../research/class-mapping-history-v1/replay-test-helpers/pass8-citation-target-crop-history.mjs';
+import {projectPass8PhbSourceJson as originalPhb} from '../research/class-mapping-history-v1/replay-test-helpers/pass8-phb-source-history.mjs';
+import {validateScanCatalog} from '../research/class-mapping-history-v1/replay-tools/scan-catalog.mjs';
 import books from '../dist/books.js';
-import {loadCurrentMonetarySourceQuestions} from '../tools/dmg175-current-monetary-source-questions-mm-v1.mjs';
-import {loadCurrentMonetarySourceQuestions as loadLegacyMonetarySourceQuestions} from '../tools/monetary-current-source-questions.mjs';
-import {readFileSync} from 'node:fs';
-const root=new URL('../',import.meta.url),read=p=>readFileSync(new URL(p,root)),sha=b=>createHash('sha256').update(b).digest('hex'),json=p=>JSON.parse(read(p));
+import {loadCurrentMonetarySourceQuestions} from '../research/class-mapping-history-v1/replay-tools/dmg175-current-monetary-source-questions-mm-v1.mjs';
+import {loadCurrentMonetarySourceQuestions as loadLegacyMonetarySourceQuestions} from '../research/class-mapping-history-v1/replay-tools/monetary-current-source-questions.mjs';
+import {readFileSync,historicalMmTestRoot,assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
+import {pathToFileURL} from 'node:url';
+assertHistoricalMmTestStage();
+const historicalRoot=historicalMmTestRoot,root=pathToFileURL(historicalRoot+'/'),read=p=>readFileSync(new URL(p,root)),sha=b=>createHash('sha256').update(b).digest('hex'),json=p=>JSON.parse(read(p));
 const zipped=read('tests/fixtures/pass8-citation-target-crop-history-v1.json.gz'),contract=decodePass8CitationTargetCropHistory(zipped);
-const git=(ref,p)=>execFileSync('git',['show',`${ref}:${p}`],{cwd:root,maxBuffer:100*1024*1024});
+const git=(ref,p)=>execFileSync('git',['show',`${ref}:${p}`],{cwd:historicalRoot,maxBuffer:100*1024*1024});
 const hRead=p=>git(contract.sourceCommit,p),hJson=p=>JSON.parse(hRead(p));
 
 test('25 declared whole-file states restore exact4aa Git bytes and objects',()=>{
