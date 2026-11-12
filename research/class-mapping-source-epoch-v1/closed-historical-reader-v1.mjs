@@ -70,6 +70,38 @@ function detachedFrozenJson(value, label) {
   return freezeTree(copy);
 }
 
+// Only the internally qualified proof reaches this projection. Its data may
+// already be deeply frozen; caller JSON still uses the unchanged strict guard.
+function publicNativeS1Summary(value) {
+  function record(node, keys, label) {
+    if (types.isProxy(node) || !node || typeof node !== 'object'
+        || Object.getPrototypeOf(node) !== Object.prototype) fail(label + ': plain internal data record required');
+    const own = Reflect.ownKeys(node);
+    if (own.length !== keys.length || own.some(key => typeof key !== 'string' || !keys.includes(key))) fail(label + ': exact public fields required');
+    return Object.fromEntries(keys.map(key => {
+      const descriptor = Object.getOwnPropertyDescriptor(node, key);
+      if (!descriptor?.enumerable || !Object.hasOwn(descriptor, 'value')) fail(label + ': own enumerable data field required');
+      return [key, descriptor.value];
+    }));
+  }
+  const top = record(value, ['stage','sourceCommit','sourceTree','fixture','ownersByCollection','owners','canonicalBindings','manualBindings','canonicalReviewStatuses','manualReviewStatuses','mechanics'], 'native S1 public summary');
+  const fixture = record(top.fixture, ['path','sha256'], 'native S1 public fixture');
+  const ownersByCollection = record(top.ownersByCollection, ['rules','spells','equipment','classes','matrices','progressionExplainer'], 'native S1 public owners');
+  const canonicalReviewStatuses = record(top.canonicalReviewStatuses, ['field-target-pending','field-target-reviewed','region-verified','source-excerpt-only','source-row-transcribed-bounds-provisional','source-row-value-verified-region-pending'], 'native S1 public canonical counts');
+  const manualReviewStatuses = record(top.manualReviewStatuses, ['field-target-pending','field-target-reviewed'], 'native S1 public manual counts');
+  const mechanics = record(top.mechanics, ['records','totalFields','uncheckedFields','reviewRecords','inputMatchesCurrentData'], 'native S1 public mechanics');
+  if (top.stage !== 's1-body-native' || !commitId(top.sourceCommit) || !commitId(top.sourceTree)
+      || !digest(fixture.sha256) || typeof fixture.path !== 'string') fail('native S1 public identity');
+  safeRepoPath(fixture.path);
+  for (const count of [top.owners,top.canonicalBindings,top.manualBindings,...Object.values(ownersByCollection),...Object.values(canonicalReviewStatuses),...Object.values(manualReviewStatuses),mechanics.records,mechanics.totalFields,mechanics.uncheckedFields,mechanics.reviewRecords]) {
+    if (!integer(count)) fail('native S1 public count');
+  }
+  if (mechanics.inputMatchesCurrentData !== true) fail('native S1 public mechanics input identity');
+  return detachedFrozenJson({stage:top.stage,sourceCommit:top.sourceCommit,sourceTree:top.sourceTree,
+    fixture,ownersByCollection,owners:top.owners,canonicalBindings:top.canonicalBindings,
+    manualBindings:top.manualBindings,canonicalReviewStatuses,manualReviewStatuses,mechanics}, 'native S1 public summary');
+}
+
 function assertBridgeReady(bridge, bridgeBytes) {
   if (installPins.materialized !== true || !digest(EXPECTED_BRIDGE_SHA256)) fail('final bridge digest is not installed; S1/S2 reader pins remain pending');
   if (hash(bridgeBytes) !== EXPECTED_BRIDGE_SHA256) fail('final bridge bytes changed');
@@ -246,7 +278,7 @@ async function createClosedReader() {
   const oldMmRows = new Map(bridge.exact22Rows.map(row => [row.path, row]));
   const byPathRow = path => {
     const row = byPath.get(safeRepoPath(path));
-    if (!row) fail('path is outside the exact 22-path bridge');
+    if (!row) fail('path is outside the closed 22-path bridge');
     return row;
   };
   function mapReaderPath(path) {
@@ -480,7 +512,7 @@ async function createClosedReader() {
     return Object.freeze({status: 'verified-exact-next-to-MM-to-H-to-V29-bridge; historical data is never native current',
       s1SourceCommit: bridge.nativeSourceEpoch.sourceCommit,
       s2Commit: bridge.nativeSourceEpoch.finalS2Commit,
-      currentS1Summary: detachedFrozenJson(proof.summary, 'native S1 summary'),
+      currentS1Summary: publicNativeS1Summary(proof.summary),
       historicalMMCommit: bridge.historicalEpochs.mm.snapshotCommit,
       historicalHCommit: bridge.historicalEpochs.historicalH.fullM1PreimageCommit,
       version29Commit: bridge.historicalEpochs.version29.baselineCommit,

@@ -90,6 +90,32 @@ function verifyTargetRef(ref) {
   assert.equal(rowIdentity.hash(target.value), ref.recordSha256, `${ref.uid} must retain its exact record identity`);
 }
 
+// Question targets may be S1 authored inputs or exact QCC/P static report
+// data. Both are authority roles from the already verified receipt, never a
+// fallback to any file merely present on disk.
+function assertClosedQuestionInputAuthority(receipt, sourceBody, target) {
+  assert.equal(receipt.sourceEpoch.sourceBody.stage, 'S1-body');
+  assert.equal(receipt.qualifierProducer.stage, 'S2-QUALIFIER_CODE_COMMIT');
+  const bodyHash = sourceBody.get(target.inputPath);
+  const bodyPins = receipt.sourceEpoch.sourceBody.inputs.filter(row => row.path === target.inputPath);
+  assert.ok(bodyPins.length <= 1, `${target.inputPath} must have one exact S1 authority`);
+  assert.equal(bodyPins.length, bodyHash === undefined ? 0 : 1, `${target.inputPath} must retain source-map/receipt agreement`);
+  const reportPins = receipt.qualifierProducer.staticAdapterData.filter(row => row.path === target.inputPath);
+  assert.ok(reportPins.length <= 1, `${target.inputPath} must have one exact report-data authority`);
+  assert.ok(reportPins.length === 1, `${target.inputPath} must have a closed qualified input authority`);
+  if (bodyHash !== undefined) {
+    assert.equal(bodyHash, target.inputSha256, `${target.inputPath} must retain its exact S1 input hash`);
+    assert.equal(bodyPins[0].sha256, target.inputSha256);
+    assert.ok(Number.isSafeInteger(bodyPins[0].sizeBytes) && bodyPins[0].sizeBytes >= 0);
+  }
+  for (const pin of reportPins) {
+    assert.equal(pin.stage, 'S2-static-adapter-data', `${target.inputPath} must retain its static report-data role`);
+    assert.equal(pin.sha256, target.inputSha256, `${target.inputPath} must retain its exact QCC/P report-data hash`);
+    assert.ok(Number.isSafeInteger(pin.sizeBytes) && pin.sizeBytes >= 0);
+    if (bodyPins.length) assert.equal(pin.sizeBytes, bodyPins[0].sizeBytes, `${target.inputPath} authority roles must agree on size`);
+  }
+}
+
 test('current S1 reports preserve open questions and join the fresh handoff, unit, source, raster, and continuation evidence', {timeout: 180_000}, async () => {
   // These are current no-argument APIs. The first pins the installed source
   // identity, the verifier checks the sealed output closure, and the question
@@ -225,7 +251,7 @@ test('current S1 reports preserve open questions and join the fresh handoff, uni
     assert.equal(ref.sha256, target.inputSha256);
     assert.equal(ref.recordSha256, target.recordSha256);
     assert.equal(ref.rowIdentitySha256, target.rowIdentitySha256);
-    assert.equal(sourceBody.get(target.inputPath), target.inputSha256, `${target.inputPath} must remain the exact S1 body input`);
+    assertClosedQuestionInputAuthority(receipt, sourceBody, target);
     verifyTargetRef(ref);
     return target;
   }
@@ -368,13 +394,13 @@ test('current S1 reports preserve open questions and join the fresh handoff, uni
     assert.equal(ref.sha256, outputHash(path), `${key} handoff pin must be the exact report output`);
     assert.equal(sha(readBytes(ref.path)), ref.sha256);
   }
-  const geometryRef = visual.inputHashes.geometry;
+  const geometryRef = visual.inputs.geometry;
   assert.equal(geometryRef.file, paths.geometry);
   assert.equal(geometryRef.sha256, outputHash(paths.geometry));
   assert.equal(sha(readBytes(geometryRef.file)), geometryRef.sha256);
   assert.equal(rasterCoverage.snapshot.path, paths.rasterBoundary);
   assert.equal(rasterCoverage.snapshot.sha256, outputHash(paths.rasterBoundary));
-  assert.deepEqual(rasterCoverage.snapshot.sourceGeometry, {path: paths.geometry, sha256: outputHash(paths.geometry)});
+  assert.deepEqual(rasterCoverage.sourceGeometry, {path: paths.geometry, sha256: outputHash(paths.geometry), selection: 'next-native-v2-fresh-output'});
   assert.deepEqual(geometry.sourcePdfSha256, rasterBoundary.inputs.sourcePdfSha256);
   assert.equal(continuationSummary.fullEvidence.sha256, outputHash(paths.continuationFull));
   assert.equal(sha(continuationBytes), continuationSummary.fullEvidence.sha256);
@@ -385,4 +411,46 @@ test('current S1 reports preserve open questions and join the fresh handoff, uni
   assert.equal(consistency.validation.semanticPass, false);
   assert.deepEqual(consistency.findings, []);
   assert.equal(receipt.semantics.semanticPass, false);
+});
+
+
+test('current question input authority keeps source and static report roles exact and rejects undeclared or conflicting pins', () => {
+  const bodyPath = 'dist/data.json';
+  const reportPath = 'research/source-audit-batch5-ua-additional-prices.json';
+  const bodySha = 'a'.repeat(64), reportSha = 'b'.repeat(64);
+  const receipt = {sourceEpoch:{sourceBody:{stage:'S1-body',inputs:[{path:bodyPath,sha256:bodySha,sizeBytes:10}]}},qualifierProducer:{stage:'S2-QUALIFIER_CODE_COMMIT',staticAdapterData:[{path:reportPath,sha256:reportSha,sizeBytes:20,stage:'S2-static-adapter-data'},{path:bodyPath,sha256:bodySha,sizeBytes:10,stage:'S2-static-adapter-data'}]}};
+  const source = new Map([[bodyPath,bodySha]]);
+  assert.doesNotThrow(() => assertClosedQuestionInputAuthority(receipt,source,{inputPath:bodyPath,inputSha256:bodySha}));
+  assert.doesNotThrow(() => assertClosedQuestionInputAuthority(receipt,source,{inputPath:reportPath,inputSha256:reportSha}));
+  assert.throws(() => assertClosedQuestionInputAuthority(receipt,source,{inputPath:'unadmitted-question-input',inputSha256:reportSha}), /closed qualified input authority/);
+  assert.throws(() => assertClosedQuestionInputAuthority(receipt,source,{inputPath:bodyPath,inputSha256:reportSha}), /exact S1 input hash/);
+  assert.throws(() => assertClosedQuestionInputAuthority(receipt,source,{inputPath:reportPath,inputSha256:bodySha}), /exact QCC\/P report-data hash/);
+  const wrongStage = structuredClone(receipt);wrongStage.qualifierProducer.staticAdapterData[0].stage = 'unqualified-data';
+  assert.throws(() => assertClosedQuestionInputAuthority(wrongStage,source,{inputPath:reportPath,inputSha256:reportSha}), /static report-data role/);
+  const duplicate = structuredClone(receipt);duplicate.qualifierProducer.staticAdapterData.push({...duplicate.qualifierProducer.staticAdapterData[0]});
+  assert.throws(() => assertClosedQuestionInputAuthority(duplicate,source,{inputPath:reportPath,inputSha256:reportSha}), /one exact report-data authority/);
+  const conflicting = structuredClone(receipt);conflicting.qualifierProducer.staticAdapterData.find(row => row.path === bodyPath).sha256 = reportSha;
+  assert.throws(() => assertClosedQuestionInputAuthority(conflicting,source,{inputPath:bodyPath,inputSha256:bodySha}), /exact QCC\/P report-data hash/);
+  const sizeConflict = structuredClone(receipt);sizeConflict.qualifierProducer.staticAdapterData.find(row => row.path === bodyPath).sizeBytes = 11;
+  assert.throws(() => assertClosedQuestionInputAuthority(sizeConflict,source,{inputPath:bodyPath,inputSha256:bodySha}), /agree on size/);
+  const sourceOnly = structuredClone(receipt);sourceOnly.qualifierProducer.staticAdapterData = sourceOnly.qualifierProducer.staticAdapterData.filter(row => row.path !== bodyPath);
+  assert.throws(() => assertClosedQuestionInputAuthority(sourceOnly,source,{inputPath:bodyPath,inputSha256:bodySha}), /closed qualified input authority/);
+  const duplicateBody = structuredClone(receipt);duplicateBody.sourceEpoch.sourceBody.inputs.push({...duplicateBody.sourceEpoch.sourceBody.inputs[0]});
+  assert.throws(() => assertClosedQuestionInputAuthority(duplicateBody,source,{inputPath:bodyPath,inputSha256:bodySha}), /one exact S1 authority/);
+});
+
+
+test('each actual dual-role question input retains its mandatory sealed static-adapter pin', () => {
+  const receipt = readJson('research/class-mapping-source-epoch-v1/metadata-stage-v2.json');
+  const contract = readJson(paths.monetaryQuestionContract);
+  const source = new Map(receipt.sourceEpoch.sourceBody.inputs.map(row => [row.path,row.sha256]));
+  for (const inputPath of ['research/price-source-inventory-ua-other.json','research/price-source-inventory-monster-books.json']) {
+    const target = contract.targetSemanticContract.targets.find(row => row.inputPath === inputPath);
+    assert.ok(target);
+    assert.equal(source.get(inputPath), target.inputSha256);
+    assert.doesNotThrow(() => assertClosedQuestionInputAuthority(receipt,source,target));
+    const missingStatic = structuredClone(receipt);
+    missingStatic.qualifierProducer.staticAdapterData = missingStatic.qualifierProducer.staticAdapterData.filter(row => row.path !== inputPath);
+    assert.throws(() => assertClosedQuestionInputAuthority(missingStatic,source,target), /closed qualified input authority/);
+  }
 });
