@@ -213,11 +213,18 @@ jobs:
           overwrite: true
           path: artifacts/monetary-condition-coverage/
           if-no-files-found: warn
-      - name: Validate raster boundary coverage snapshot
+      - name: Rebuild and validate current raster and visual coverage
         if: always()
         run: |
-          node tools/source-raster-coverage-next-native-v2.mjs --output artifacts/source-raster-coverage/report.json --check
-          echo "The raster snapshot is reconciled against every live catalog use and its component-derived metrics. Boundary candidates require visual review; CI does not rerender private source PDFs or prove semantic context." >> "$GITHUB_STEP_SUMMARY"
+          set +e
+          node tools/source-raster-visual-coverage-ci-v1.mjs
+          coverage_status=$?
+          set -e
+          if [ -f artifacts/source-raster-coverage/validation.json ]; then
+            cat artifacts/source-raster-coverage/validation.json >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "Fresh current raster and visual reports were rebuilt from the registered next-native-v2 inputs and checked against the committed report receipt. Geometry and coverage are structural evidence; semantic source review remains separate." >> "$GITHUB_STEP_SUMMARY"
+          exit "$coverage_status"
       - name: Upload raster boundary coverage
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -305,23 +312,26 @@ jobs:
           overwrite: true
           path: artifacts/continuation-candidate-coverage/
           if-no-files-found: warn
-      - name: Generate source visual coverage
+      - name: Summarize source visual coverage
         if: always()
         run: |
-          set +e
-          node tools/source-visual-coverage-next-native-v2.mjs artifacts/source-visual-coverage
-          visual_status=$?
-          set -e
+          visual_status=1
+          if [ -f artifacts/source-visual-coverage/validation-exit-status.txt ]; then
+            visual_status="$(cat artifacts/source-visual-coverage/validation-exit-status.txt)"
+          fi
           if [ -f artifacts/source-visual-coverage/report.md ]; then
             sed -n '1,35p' artifacts/source-visual-coverage/report.md >> "$GITHUB_STEP_SUMMARY"
             echo "Full binding-level JSON and Markdown are available in the source-visual-coverage artifact." >> "$GITHUB_STEP_SUMMARY"
           else
             mkdir -p artifacts/source-visual-coverage
-            echo "Source visual coverage unavailable: generator exited before writing its report (status ${visual_status})." >> "$GITHUB_STEP_SUMMARY"
-            echo "Generator did not write report.md (exit status ${visual_status})." > artifacts/source-visual-coverage/generation-error.txt
-            if [ "$visual_status" -eq 0 ]; then visual_status=1; fi
+            echo "Source visual coverage unavailable: current raster/visual CI wrapper did not write its report (status ${visual_status})." >> "$GITHUB_STEP_SUMMARY"
+            if [ ! -f artifacts/source-visual-coverage/generation-error.txt ]; then
+              echo "Wrapper did not write report.md (exit status ${visual_status})." > artifacts/source-visual-coverage/generation-error.txt
+            fi
+            visual_status=1
           fi
-          exit "$visual_status"
+          if [ "$visual_status" -ne 0 ]; then exit "$visual_status"; fi
+          exit 0
       - name: Check class advancement and source qualifiers
         if: always()
         run: |
