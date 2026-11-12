@@ -286,7 +286,7 @@ async function createClosedReader() {
     if (typeof path === 'string') absolute = isAbsolute(path) ? resolve(path) : resolve(root, safeRepoPath(path));
     else if (!types.isProxy(path) && path && typeof path === 'object'
         && Object.getPrototypeOf(path) === URL.prototype && Reflect.ownKeys(path).length === 0) absolute = resolve(fileURLToPath(path));
-    else fail('reader path must be an exact repository path or plain file URL');
+    else fail('reader path must be an exact repository path or plain file URL; expected a string or plain file URL');
     const local = relative(root, absolute).split(sep).join('/');
     if (local === '..' || local.startsWith('../') || isAbsolute(local)) fail('reader path escapes fixed source repository root');
     return safeRepoPath(local);
