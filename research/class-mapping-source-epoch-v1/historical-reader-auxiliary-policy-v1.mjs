@@ -1,7 +1,7 @@
 // Finite, reproducible auxiliary policy. It does not project arbitrary JSON.
 // Fixed source paths get exact old stage preimages; other admitted files are
 // explicitly closed raw contracts/source assets, never unknown-state no-ops.
-import {gunzipSync} from 'node:zlib';import {TextDecoder} from 'node:util';
+import {gunzipSync} from 'node:zlib';import {TextDecoder} from 'node:util';import {createHash} from 'node:crypto';
 export const HISTORICAL_AUTHORED_READ_PATHS=Object.freeze(['classes.json','attack-matrices.json','phb-spell-index.json','ua-spell-index.json','phb-spells.json','phb-magic-user-extra.json','ua-spells.json','progression-overrides.json','dist/search.js','research/mechanics-audit-progress.md']);
 export const DECLARED_REF_ARRAYS=Object.freeze(['qualificationPins','rootEvidence','proofs','historicalJoReceipts','sourceApprovals']);
 export const DECLARED_REF_SINGLE=Object.freeze(['supersedes','beforeData','beforeCaltropCatalog','beforeContinuationManifest','beforeEquipment','beforeSourceContracts','beforeCitationOverrides','sourceMetadataReview','continuationRepairReview','searchSourceReview','searchMetricReview','nativeEndpointReceipt','sourceContract','metadataContract']);
@@ -26,7 +26,30 @@ export const IMMUTABLE_MM_MANIFEST_PATH='research/class-mapping-history-v1/mm-te
 // They are not physical current-state freshness obligations. Other historical
 // readers keep the original physical-input closure rule, including same paths.
 export function immutableMmInputPaths(codeFiles){const bytes=codeFiles.get(IMMUTABLE_MM_MANIFEST_PATH);if(!bytes)return new Set();const manifest=JSON.parse(new TextDecoder('utf-8',{fatal:true,ignoreBOM:true}).decode(bytes));if(manifest.schemaVersion!==6||manifest.historicalHeadCommit!=='a29d72d5147c497addd9e46f54ea3f8222f6e9c2'||manifest.historicalHeadTree!=='da1c64ea25f178a1155a79c4692964e9b17dd645'||!Array.isArray(manifest.files)||!Array.isArray(manifest.absentPaths))throw Error('Exact immutable MM manifest identity required');const paths=new Set();for(const row of manifest.files){if(!valid(row?.path)||paths.has(row.path)||!/^[a-f0-9]{64}$/.test(row.sha256||'')||!Number.isSafeInteger(row.sizeBytes)||row.sizeBytes<0)throw Error('Closed unique immutable MM file pins required');paths.add(row.path);}for(const path of manifest.absentPaths){if(!valid(path)||paths.has(path))throw Error('Closed disjoint immutable MM absences required');paths.add(path);}return paths;}
-export function literalHistoricalDataPaths(codeFiles){const found=new Set(),immutable=immutableMmInputPaths(codeFiles);for(const [path,bytes]of codeFiles){if(!/\.(?:mjs|js)$/.test(path))continue;const replay=path.startsWith('research/class-mapping-history-v1/replay-tools/')||path.startsWith('research/class-mapping-history-v1/replay-test-helpers/')||/^research\/class-mapping-history-v1\/mm-replay-[a-z-]+-v1\.mjs$/.test(path)||path.startsWith('research/class-mapping-history-v1/replay-kernels/');for(const match of bytes.toString('utf8').matchAll(/['"]((?:research|tests|dist)\/[A-Za-z0-9._/-]+\.(?:json|json\.gz|mjs|js|png))['"]/g))if(!replay||!immutable.has(match[1]))found.add(match[1]);}return [...found].sort();}
+// These are two reviewed non-reading occurrences, never path-wide exclusions.
+// Segment arrays describe role declarations without making this policy's own
+// declaration look like a runtime file read to the conservative literal scan.
+const NON_READING_CODE_LITERALS=Object.freeze([
+ Object.freeze({codePath:'tools/dmg175-availability-projection.mjs',codeSha256:'43d711afd6f086caeef99a907901759ce79fb3123060674426da7a303a6c9689',pathParts:Object.freeze(['research','dmg175-current-ua-native-successor-v2','manifest-v2.json']),prefix:'      targetPlanOriginalPath: ',suffix:',',role:'archival-origin-label'}),
+ Object.freeze({codePath:['tests','class-mapping-current-report-phase-interface-v1.test.mjs'].join('/'),codeSha256:'16f6709b0d8e0447fca96d54db83d3267901549d778ab83e6477be9558df2970',pathParts:Object.freeze(['research','undeclared-report-input.json']),prefix:' assert.throws(()=>buildClosedReader(rows,read).read(',suffix:'),/outside the closed/);',role:'expected-closed-reader-rejection'}),
+]);
+function nonReadingCodeLiteral(codePath,codeSha256,text,match){
+ const start=text.lastIndexOf('\n',match.index)+1,ending=text.indexOf('\n',match.index),line=text.slice(start,ending<0?text.length:ending);
+ return NON_READING_CODE_LITERALS.some(rule=>rule.codePath===codePath&&rule.codeSha256===codeSha256&&rule.pathParts.join('/')===match[1]&&line===rule.prefix+match[0]+rule.suffix);
+}
+export function literalHistoricalDataPaths(codeFiles){
+ const found=new Set(),immutable=immutableMmInputPaths(codeFiles);
+ for(const [path,bytes]of codeFiles){
+  if(!/\.(?:mjs|js)$/.test(path))continue;
+  const text=bytes.toString('utf8'),codeSha256=createHash('sha256').update(bytes).digest('hex');
+  const replay=path.startsWith('research/class-mapping-history-v1/replay-tools/')||path.startsWith('research/class-mapping-history-v1/replay-test-helpers/')||/^research\/class-mapping-history-v1\/mm-replay-[a-z-]+-v1\.mjs$/.test(path)||path.startsWith('research/class-mapping-history-v1/replay-kernels/');
+  for(const match of text.matchAll(/['"]((?:research|tests|dist)\/[A-Za-z0-9._/-]+\.(?:json|json\.gz|mjs|js|png))['"]/g)){
+   if(replay&&immutable.has(match[1]))continue;
+   if(!nonReadingCodeLiteral(path,codeSha256,text,match))found.add(match[1]);
+  }
+ }
+ return [...found].sort();
+}
 function declaredRefs(value){const refs=[];if(!value||typeof value!=='object'||Array.isArray(value))return refs;for(const key of DECLARED_REF_ARRAYS)for(const ref of Array.isArray(value[key])?value[key]:[])if(valid(ref?.path))refs.push(ref.path);for(const key of DECLARED_REF_SINGLE)if(valid(value[key]?.path))refs.push(value[key].path);if(value.upstreamIntegration)refs.push(...declaredRefs(value.upstreamIntegration));return refs;}
 export function declaredHistoricalInputClosure({codeFiles,excludedPaths,read}){const excluded=new Set(excludedPaths),queue=literalHistoricalDataPaths(codeFiles).filter(path=>!excluded.has(path)),seen=new Set();let totalParsed=0;while(queue.length){const path=queue.shift();if(seen.has(path)||excluded.has(path))continue;seen.add(path);const bytes=read(path);if(!/\.json(?:\.gz)?$/.test(path))continue;const decoded=path.endsWith('.gz')?gunzipSync(bytes):bytes;totalParsed+=decoded.length;if(decoded.length>128*1024*1024||totalParsed>512*1024*1024)throw new Error('Historical declared metadata parse budget exceeded');const value=JSON.parse(new TextDecoder('utf-8',{fatal:true,ignoreBOM:true}).decode(decoded));for(const ref of declaredRefs(value))if(!excluded.has(ref))queue.push(ref);}return [...seen].sort();}
 // Optional report inputs retain their exact verified presence state. An absent
