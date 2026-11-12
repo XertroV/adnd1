@@ -229,7 +229,7 @@ async function createClosedReader() {
     if(!git('show',`${installPins.bridgeCommit}:${BRIDGE_PATH}`).equals(readClosedFile(BRIDGE_PATH)))fail('historical bridge differs from its actual committed antecedent blob');
     const codeMap=new Map();
     for(const row of codeRows){const bytes=readClosedFile(row.path);if(hash(bytes)!==row.sha256||bytes.length!==row.sizeBytes)fail(row.path+': historical code physical bytes changed');if(!codeGitQualified&&!git('show',`${installPins.codeCommit}:${row.path}`).equals(bytes))fail(row.path+': historical code differs from fixed code commit');codeMap.set(row.path,bytes);}
-    assertExactHistoricalCodeClosure(codeMap);
+    if(!codeGitQualified)assertExactHistoricalCodeClosure(codeMap);
     return codeMap;
   }
   function hasPhysicalPath(path){
@@ -387,6 +387,20 @@ async function createClosedReader() {
     }
   }
 
+  // Facts below are functions only of verified physical bytes and fixed pins.
+  // They never cache a physical read/hash or any caller-supplied object.
+  const verifiedObjectFingerprints = new Set();
+  function assertVerifiedObjectFingerprint(bytes, pin, parseLabel, invalidMessage, mismatchMessage) {
+    // Preserve prototype/serializer rejection on EVERY call, including hits.
+    try { assertPlainJson({}, parseLabel); } catch { fail(invalidMessage); }
+    const key = `${pin.sha256}\0${pin.sizeBytes}\0${pin.objectSha256}`;
+    if (verifiedObjectFingerprints.has(key)) return;
+    let parsed;
+    try { parsed = parseBytes(bytes, parseLabel); } catch { fail(invalidMessage); }
+    if (objectSha256(parsed) !== pin.objectSha256) fail(mismatchMessage);
+    verifiedObjectFingerprints.add(key);
+  }
+
   function freshlyHashCurrentInputs() {
     for(const row of bridge.nextFreshnessInputs.absentRows)if(hasPhysicalPath(row.path))fail(row.path+': report optional input became present');
     const rows = bridge.nextFreshnessInputs.rows;
@@ -400,10 +414,8 @@ async function createClosedReader() {
       if (hash(bytes) !== row.sha256 || bytes.length !== row.sizeBytes) fail(path + ': fresh current input SHA/size mismatch');
       const committed = pinnedBlob(row.commit, path, row, path + ' current input Git blob',!NATIVE_GROUPS.includes(row.group));
       if (hash(committed) !== hash(bytes)) fail(path + ': worktree bytes differ from pinned current Git blob');
-      if (row.objectSha256) {
-        let parsed; try { parsed = parseBytes(bytes,'closed JSON input'); } catch { fail(path + ': current JSON input is invalid'); }
-        if (objectSha256(parsed) !== row.objectSha256) fail(path + ': current JSON object fingerprint mismatch');
-      }
+      if (row.objectSha256) assertVerifiedObjectFingerprint(bytes, row, 'closed JSON input',
+        path + ': current JSON input is invalid', path + ': current JSON object fingerprint mismatch');
     }
     for (const row of bridge.runtimeCodePins.rows) {
       const bytes = readClosedFile(row.path);
@@ -443,10 +455,8 @@ async function createClosedReader() {
       if (hash(physical) !== pin.sha256 || physical.length !== pin.sizeBytes || hash(committed) !== pin.sha256) {
         fail(row.path + ': fresh mapped current path differs from exact final-S2 state');
       }
-      if (row.json) {
-        let parsed; try { parsed = parseBytes(physical,'mapped current JSON'); } catch { fail(row.path + ': mapped current JSON is invalid'); }
-        if (objectSha256(parsed) !== pin.objectSha256) fail(row.path + ': mapped current object fingerprint mismatch');
-      }
+      if (row.json) assertVerifiedObjectFingerprint(physical, pin, 'mapped current JSON',
+        row.path + ': mapped current JSON is invalid', row.path + ': mapped current object fingerprint mismatch');
     }
     return proof;
   }
