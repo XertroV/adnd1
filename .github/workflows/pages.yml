@@ -15,7 +15,107 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  class-mapping-test-shards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        shard_index: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+      - name: Run exact current test shard
+        timeout-minutes: 350
+        run: >-
+          node tools/run-class-mapping-tests-shard-v1.mjs
+          --python "$(command -v python3)"
+          --shard-index "${{ matrix.shard_index }}"
+          --shard-count 4
+          --receipt "artifacts/test-shards/shard-${{ matrix.shard_index }}.json"
+      - name: Upload exact shard receipt
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: cm-test-shard-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard_index }}
+          path: artifacts/test-shards/shard-${{ matrix.shard_index }}.*
+          if-no-files-found: error
+
+  historical-mm-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+      - name: Run unchanged historical MM replay once and write receipt
+        run: node tools/run-historical-mm-replay-receipt-v1.mjs --receipt artifacts/test-shards/mm.json
+      - name: Upload exact MM receipt
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: cm-test-shard-mm-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/test-shards/mm.*
+          if-no-files-found: error
+
+  test-shard-reducer:
+    needs: [class-mapping-test-shards, historical-mm-replay]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: cm-test-shard-${{ github.run_id }}-${{ github.run_attempt }}-0
+          path: artifacts/test-shards
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: cm-test-shard-${{ github.run_id }}-${{ github.run_attempt }}-1
+          path: artifacts/test-shards
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: cm-test-shard-${{ github.run_id }}-${{ github.run_attempt }}-2
+          path: artifacts/test-shards
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: cm-test-shard-${{ github.run_id }}-${{ github.run_attempt }}-3
+          path: artifacts/test-shards
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: cm-test-shard-mm-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/test-shards
+      - name: Verify current run receipts and exact union
+        env:
+          CM_SHARDS_JOB_RESULT: ${{ needs['class-mapping-test-shards'].result }}
+          CM_MM_JOB_RESULT: ${{ needs['historical-mm-replay'].result }}
+        run: node tools/reduce-class-mapping-test-shards-v1.mjs
+      - name: Upload reducer report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: cm-test-shard-reducer-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/test-shards/reducer.json
+          if-no-files-found: error
+
   build:
+    needs: [class-mapping-test-shards, historical-mm-replay, test-shard-reducer]
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -26,8 +126,6 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '24'
-      - name: Verify reference data and scan integrity
-        run: node tools/run-class-mapping-tests-v1.mjs --python "$(command -v python3)"
       - name: Verify preserved citation evidence
         if: always()
         env:
@@ -373,6 +471,18 @@ jobs:
           overwrite: true
           path: artifacts/source-visual-coverage/
           if-no-files-found: warn
+      - name: Require complete current test suite
+        if: always()
+        env:
+          CM_SHARDS_RESULT: ${{ needs['class-mapping-test-shards'].result }}
+          CM_MM_RESULT: ${{ needs['historical-mm-replay'].result }}
+          CM_REDUCER_RESULT: ${{ needs['test-shard-reducer'].result }}
+        run: |
+          if [ "$CM_SHARDS_RESULT" != "success" ] || [ "$CM_MM_RESULT" != "success" ] || [ "$CM_REDUCER_RESULT" != "success" ]; then
+            echo "Current test suite incomplete: shards=$CM_SHARDS_RESULT mm=$CM_MM_RESULT reducer=$CM_REDUCER_RESULT" >&2
+            exit 1
+          fi
+
       - name: Capture build metadata
         if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
         run: node tools/stamp-build.mjs --capture
