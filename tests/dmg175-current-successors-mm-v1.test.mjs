@@ -1,10 +1,10 @@
 // Preserved exact a29/MM assertions; separate S1 companion tests own current behavior.
 import test from 'node:test';
-import {assertHistoricalMmTestStage,historicalMmTestRoot} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
+import {assertHistoricalMmTestStage,historicalMmTestRoot} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {execFileSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
-import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
+import {execFileSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v2.mjs';
+import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
 import {resolve} from 'node:path';
 import {assertCurrentMmSourceEpoch} from './helpers/class-mapping-historical-mm-test-inputs-v1.mjs';
 import {
@@ -12,7 +12,7 @@ import {
   currentSourceQuestionRegistryPath,
   historicalProjectionBaselinePath,
   researchContractSha256,
-} from '../research/mm-current-cli-successors-v1/native-monetary-source-questions-kernel-mm-v1.mjs';
+} from '../research/class-mapping-history-v1/replay-kernels/native-monetary-source-questions-kernel-mm-v2.mjs';
 import {
   loadJoCurrentSuccessor,
   loadSourceHandoffTransition,
@@ -20,7 +20,7 @@ import {
   sourceHandoffTransitionReference,
   isQualifiedSourceHistoricalChange,
   sourceHistoricalCaution,
-} from '../research/class-mapping-history-v1/replay-tools/dmg175-current-successors-mm-v1.mjs';
+} from '../research/class-mapping-history-v1/replay-tools/dmg175-current-successors-mm-v2.mjs';
 
 assertHistoricalMmTestStage();
 const repoRoot = historicalMmTestRoot;

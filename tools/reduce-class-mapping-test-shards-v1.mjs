@@ -8,6 +8,7 @@ import {createHash} from 'node:crypto';
 import {isDeepStrictEqual} from 'node:util';
 import {assertClassMappingCurrentSourceIdentity} from './class-mapping-current-source-gate-v1.mjs';
 import {controlledGitEnvironment} from './class-mapping-raw-git-v1.mjs';
+import {assertTrackedCheckoutClean} from './class-mapping-ci-tracked-checkout-v1.mjs';
 import {validateReceiptSet, parseTapSummary} from './class-mapping-test-sharding-core-v1.mjs';
 const root=realpathSync(resolve(import.meta.dirname,'..'));
 function check(ok,message){if(!ok)throw new Error(`Shard reducer: ${message}`);}
@@ -30,11 +31,17 @@ function main(){
  check(gitCommit===process.env.GITHUB_SHA,'checkout matches workflow commit');
  const shardReceipts=[0,1,2,3].map(i=>readReceipt(`artifacts/test-shards/shard-${i}.json`));
  const mmReceipt=readReceipt('artifacts/test-shards/mm.json');
+ const trackedCheckout=assertTrackedCheckoutClean(root);
+ for(const receipt of [...shardReceipts,mmReceipt]){
+  check(isDeepStrictEqual(receipt.trackedCheckoutBefore,trackedCheckout)&&isDeepStrictEqual(receipt.trackedCheckoutAfter,trackedCheckout),'whole tracked checkout before/after proof matches this actual checkout');
+ }
  shardReceipts.forEach((receipt,index)=>verifyLogs(receipt,`shard-${index}`));verifyLogs(mmReceipt,'mm');
  const currentIdentity=assertClassMappingCurrentSourceIdentity();
  check(/^[a-f0-9]{40}$/.test(currentIdentity.summary.sourceCommit),'qualified logical source epoch commit');
  execFileSync('/usr/bin/git',['--no-replace-objects','merge-base','--is-ancestor',currentIdentity.summary.sourceCommit,gitCommit],{cwd:root,env,stdio:['ignore','pipe','pipe']});
  const summary=validateReceiptSet({repositoryRoot:root,shardReceipts,mmReceipt,runId,runAttempt,gitCommit,matrixResult:process.env.CM_SHARDS_JOB_RESULT,mmJobResult:process.env.CM_MM_JOB_RESULT,currentIdentity});
+ check(isDeepStrictEqual(assertTrackedCheckoutClean(root),trackedCheckout),'tracked checkout unchanged during reduction');
+ summary.trackedCheckoutIntegrity=trackedCheckout;
  writeReport(summary);process.stdout.write(JSON.stringify(summary)+'\n');
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){try{main();}catch(error){const report={schemaVersion:1,status:'failed',runId:process.env.GITHUB_RUN_ID??null,runAttempt:process.env.GITHUB_RUN_ATTEMPT??null,error:error.stack??String(error)};try{writeReport(report);}catch{}process.stderr.write(`${error.stack??error}\n`);process.exitCode=1;}}

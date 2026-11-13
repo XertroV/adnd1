@@ -1,14 +1,18 @@
+// Original H/MM assertions retain their fixed historical epochs.
+// The current S1 CLI has a separate genuine-current companion.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import {createHash} from 'node:crypto';
-import {execFileSync} from 'node:child_process';
+import {execFileSync} from '../../replay-tools/mm-current-cli-replay-v1.mjs';
+import {assertHistoricalMmTestStage} from '../../mm-replay-fs-v1.mjs';
 import {withFrozenBeforeAliasModule} from '../../../dmg175-continuation-alias-audit-v2/frozen-before-adapter-v2.mjs';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {resolve} from 'node:path';
 import {loadHistoricalHAliasInputs} from '../../../../tests/helpers/class-mapping-historical-test-inputs-v1.mjs';
 
+assertHistoricalMmTestStage();
 const root=new URL('../../../../',import.meta.url),rootPath=fileURLToPath(root),require=createRequire(import.meta.url),books=require(fileURLToPath(new URL('dist/books.js',root)));
 const read=p=>JSON.parse(readFileSync(new URL(p,root),'utf8'));
 const sha=b=>createHash('sha256').update(b).digest('hex');

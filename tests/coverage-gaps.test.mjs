@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
+import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
 import {resolve} from 'node:path';
 import test from 'node:test';
-import {buildCoverageGaps, supplementalMonetaryPresentation} from '../research/class-mapping-history-v1/replay-tools/coverage-gaps.mjs';
+import {buildCoverageGaps, supplementalMonetaryPresentation} from '../research/class-mapping-history-v1/replay-tools/coverage-gaps-mm-v2.mjs';
 
-import {historicalMmTestRoot as root, assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
+import {historicalMmTestRoot as root, assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
 assertHistoricalMmTestStage();
 const read = path => readFileSync(resolve(root, path));
 const data = JSON.parse(read('dist/data.json'));

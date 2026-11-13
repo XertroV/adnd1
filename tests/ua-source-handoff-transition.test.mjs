@@ -26,8 +26,8 @@ const hashCurrent = path => sha256(readBytes(path));
 
 const [legacyModule, nativeModule, refreshModule, version29Module, currentGate] = await Promise.all([
   import(pathToFileURL(resolve(root, 'research/class-mapping-history-v1/replay-tools/ua-source-handoff-transition.mjs'))),
-  import(pathToFileURL(resolve(root, 'research/class-mapping-history-v1/replay-tools/dmg175-current-successors-mm-v1.mjs'))),
-  import(pathToFileURL(resolve(root, 'research/class-mapping-history-v1/replay-tools/refresh-gaps-handoff.mjs'))),
+  import(pathToFileURL(resolve(root, 'research/class-mapping-history-v1/replay-tools/dmg175-current-successors-mm-v2.mjs'))),
+  import(pathToFileURL(resolve(root, 'research/class-mapping-history-v1/replay-tools/refresh-gaps-handoff-mm-v2.mjs'))),
   import(pathToFileURL(resolve(root, 'tests/helpers/version29-native-source-context.mjs'))),
   import(pathToFileURL(resolve(root, 'tests/helpers/class-mapping-historical-mm-test-inputs-v1.mjs'))),
 ]);

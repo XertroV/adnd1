@@ -19,7 +19,7 @@ import {loadJoUnextractedPriceRegistrationAtV28} from '../research/class-mapping
 import {validateContinuationManifest} from '../research/class-mapping-history-v1/replay-tools/continuation-contract.mjs';
 import {buildSystemicInventory} from '../research/class-mapping-history-v1/replay-tools/citation-systemic-inventory.mjs';
 import {fieldBindingAxisMetrics,fieldBindingCountMeaning} from '../research/class-mapping-history-v1/replay-tools/source-report-consistency-audit.mjs';
-import {reverseDmg74MatrixBatchFromData,reverseDmg74MatrixBatchFromInventory,reverseSupplementalPdfNoticeViewer} from '../research/class-mapping-history-v1/replay-test-helpers/ua-source-dmg74-matrix-batch.mjs';
+import {reverseDmg74MatrixBatchFromData,reverseDmg74MatrixBatchFromInventory,reverseSupplementalPdfNoticeViewer} from '../research/class-mapping-history-v1/replay-test-helpers/ua-source-dmg74-matrix-batch-mm-v3.mjs';
 assertHistoricalMmTestStage();
 const root=historicalMmTestRoot,read=p=>JSON.parse(readFileSync(resolve(root,p))),unzip=p=>JSON.parse(gunzipSync(readFileSync(resolve(root,p))));
 const old=unzip('tests/fixtures/equipment-before-jo.json.gz'),equipment=read('equipment.json'),data=read('dist/data.json'),inventory=read('research/price-source-inventory.json');

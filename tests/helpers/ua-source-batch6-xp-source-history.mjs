@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {readBeforePass8XpContinuationFile as readFileSync} from './pass8-ua-source-history.mjs';
+import {readBeforePass8XpContinuationFile as readFileSync} from '../../research/class-mapping-history-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';

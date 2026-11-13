@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {execFileSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
+import {execFileSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v2.mjs';
 import {mkdirSync,mkdtempSync,readFileSync,rmSync,writeFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
 import {dirname,resolve} from 'node:path';
 import {historicalMmTestRoot,assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
@@ -16,7 +16,7 @@ import {
  scanUnitRelatedScalarFields,validateMonetaryUnitProvenanceReport,
  expectedWhaleUnitBeforeSha256,expectedWhaleUnitNullSha256,expectedWhaleCarcassUnitSha256,
  quantityUnitBeforeSha256,joUnitAdmissionBeforePath,joUnitAdmissionBeforeSha256,expectedCurrentUnitRecordCount,expectedJoUnitRecord,
-} from '../research/class-mapping-history-v1/replay-tools/monetary-unit-provenance-audit.mjs';
+} from '../research/class-mapping-history-v1/replay-tools/monetary-unit-provenance-audit-mm-v2.mjs';
 import {
  buildWhalePerPoundCounterfactualReport,inputPins as whaleHInputPins,dependencyPins as whaleHDependencyPins,
 } from '../research/dmg175-validation-coordinator-v1/first-fullsuite-classification-v1/whale-counterfactual-context-v1/v5/whale-counterfactual-context-v5.mjs';

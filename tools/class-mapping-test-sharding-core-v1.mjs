@@ -11,6 +11,11 @@ export const BASELINE_PATH = 'research/class-mapping-history-v1/original-top-lev
 export const BASELINE_SHA256 = '33e7e87992f529f0c90a39b3a0d7103c49da4127f8d8b03ca663832d648d040e';
 export const DEDICATED_MM_PATH = 'tests/mm-treasure-current-m1-cohort-v2.test.mjs';
 export const MM_CAPSULE_SHA256 = '5798f30b425f3a908682dfd860226036fe3a88d017b27d37c9c30bd8afd25003';
+export const TEST_SOURCE_MIGRATIONS_PATH = 'research/class-mapping-ci-sharding-v1/test-source-transition-v1/migrations-v8.json';
+export const TEST_SOURCE_MIGRATIONS_SHA256 = '12d98850dbd48f3a376ae74aa797cde7753b137c90591628b36fc285736238c5';
+export const TEST_SOURCE_MIGRATIONS_SIZE_BYTES = 192895;
+const TEST_SOURCE_EVIDENCE_PREFIX = 'research/class-mapping-ci-sharding-v1/test-source-transition-v1/';
+const HISTORICAL_CODE_PROOF_PREFIX = 'research/class-mapping-history-v1/';
 export function parseTapSummary(text) {
   return Object.fromEntries(['tests','pass','fail','cancelled','skipped','todo'].map(key=>{
     const matches=[...text.matchAll(new RegExp(`^# ${key} (\\d+)$`,'gm'))];
@@ -34,6 +39,123 @@ function safeFile(root, path) {
   const stat = lstatSync(absolute);
   fail(stat.isFile() && !stat.isSymbolicLink() && realpathSync(absolute) === absolute, `regular source file ${path}`);
   return readFileSync(absolute);
+}
+
+function checkedRegularFile(root, path, allowed) {
+  fail(typeof path === 'string' && allowed(path), `allowed pinned proof path ${path}`);
+  fail(!path.startsWith('/') && !path.split('/').some(part => !part || part === '.' || part === '..'), 'proof path is relative without traversal');
+  const absolute = resolve(root, path);
+  const rel = relative(root, absolute);
+  fail(rel !== '..' && !rel.startsWith(`..${sep}`), 'proof path remains inside checkout');
+  const stat = lstatSync(absolute);
+  fail(stat.isFile() && !stat.isSymbolicLink() && realpathSync(absolute) === absolute, `regular proof file ${path}`);
+  return readFileSync(absolute);
+}
+const safeTransitionEvidence = (root, path) => checkedRegularFile(root, path, value => value.startsWith(TEST_SOURCE_EVIDENCE_PREFIX));
+const safeCodeProof = (root, path) => checkedRegularFile(root, path, value => value.startsWith('tests/') || value.startsWith('tools/') || value.startsWith(HISTORICAL_CODE_PROOF_PREFIX));
+export function parsePinnedTestSourceMigrationDocument(bytes) {
+  fail(Buffer.isBuffer(bytes), 'migration document is exact raw bytes');
+  fail(bytes.length === TEST_SOURCE_MIGRATIONS_SIZE_BYTES && sha(bytes) === TEST_SOURCE_MIGRATIONS_SHA256, 'exact fixed R7 test-source migration document');
+  return JSON.parse(bytes.toString('utf8'));
+}
+const isSha256 = value => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value);
+const isSize = value => Number.isSafeInteger(value) && value >= 0;
+function checkPin(actual, expected, label) {
+  fail(actual && expected && actual.sha256 === expected.sha256 && actual.sizeBytes === expected.sizeBytes, `${label}: exact SHA-256 and byte size`);
+}
+function validateAcceptedPeer({transition, acceptedPeer, readEvidence}) {
+  fail(acceptedPeer && typeof acceptedPeer === 'object', `accepted peer receipt is required for ${transition.path}`);
+  fail(typeof acceptedPeer.reviewerId === 'string' && acceptedPeer.reviewerId.length > 0, `reviewer identity for ${transition.path}`);
+  fail(typeof acceptedPeer.receiptPath === 'string' && isSha256(acceptedPeer.receiptSha256) && isSize(acceptedPeer.receiptSizeBytes), `peer receipt pins for ${transition.path}`);
+  fail(acceptedPeer.reviewerId !== transition.authorId, `reviewer is independent of author for ${transition.path}`);
+  const bytes = readEvidence(acceptedPeer.receiptPath);
+  fail(bytes.length === acceptedPeer.receiptSizeBytes && sha(bytes) === acceptedPeer.receiptSha256, `peer receipt bytes for ${transition.path}`);
+  const receipt = JSON.parse(bytes.toString('utf8'));
+  fail(receipt?.schemaVersion === 1 && receipt.status === 'ACCEPTED_BOUNDED_TEST_SOURCE_TRANSITION', `accepted peer status for ${transition.path}`);
+  fail(receipt.reviewer?.id === acceptedPeer.reviewerId && receipt.reviewer?.role === 'independent', `independent reviewer receipt for ${transition.path}`);
+  fail(receipt.authorId === transition.authorId && receipt.authorId !== receipt.reviewer.id, `peer is not the source author for ${transition.path}`);
+  fail(same(receipt.subject, {path:transition.path,before:transition.before,after:transition.after}), `peer reviewed exact before/after source for ${transition.path}`);
+  fail(same(receipt.beforeFixture, {path:transition.before.fixturePath,sha256:transition.before.fixtureSha256,sizeBytes:transition.before.fixtureSizeBytes}), `peer reviewed exact before fixture for ${transition.path}`);
+  fail(same(receipt.proposal, transition.proposal), `peer reviewed exact proposal proof for ${transition.path}`);
+  fail(same(receipt.proofScope, transition.proofScope), `peer reviewed exact bounded scope for ${transition.path}`);
+  fail(same(receipt.codeProof, transition.codeProof), `peer reviewed exact code proof for ${transition.path}`);
+}
+/**
+ * Pure transition admission logic. Production collectRoster supplies bytes read
+ * from fixed, path-checked files. This exported function is used by focused
+ * synthetic contract tests; its synthetic accepted examples are not peer
+ * approval or CI qualification.
+ */
+export function validateR5TestSourceTransitions({r5Entries, currentEntries, transitionDocument, readFixture, readEvidence, readCode}) {
+  fail(Array.isArray(r5Entries) && Array.isArray(currentEntries), 'R5/current source arrays');
+  fail(typeof readFixture === 'function' && typeof readEvidence === 'function' && typeof readCode === 'function', 'closed byte readers are supplied');
+  const r5ByPath = new Map();
+  for (const row of r5Entries) {
+    fail(row && typeof row.path === 'string' && !r5ByPath.has(row.path), 'unique R5 source path');
+    fail(isSha256(row.sha256) && isSize(row.sizeBytes), `complete R5 source pin ${row?.path}`);
+    r5ByPath.set(row.path, row);
+  }
+  const currentByPath = new Map();
+  for (const row of currentEntries) {
+    fail(row && typeof row.path === 'string' && !currentByPath.has(row.path), 'unique current source path');
+    fail(isSha256(row.sha256) && isSize(row.sizeBytes), `complete current source pin ${row?.path}`);
+    currentByPath.set(row.path, row);
+  }
+  const doc = transitionDocument;
+  fail(doc?.schemaVersion === 1 && doc.artifactType === 'finite R7 test-source transitions for immutable R5 roster', 'migration document schema');
+  fail(doc.baseline?.path === R5_ROSTER_PATH && doc.baseline.sha256 === R5_ROSTER_SHA256 && doc.baseline.entryCount === r5Entries.length && doc.baseline.sizeBytes === 53707 && doc.baseline.original200NamesRetained === true, 'migration document names the exact immutable R5 baseline');
+  fail(Array.isArray(doc.transitions) && doc.transitionCount === doc.transitions.length, 'migration transition count');
+  const migrationByPath = new Map();
+  const ids = new Set();
+  for (const transition of doc.transitions) {
+    fail(transition && typeof transition.id === 'string' && !ids.has(transition.id), 'unique migration identifier');
+    ids.add(transition.id);
+    fail(typeof transition.path === 'string' && r5ByPath.has(transition.path) && !migrationByPath.has(transition.path), `unique transition for an original R5 path ${transition?.path}`);
+    const prior = r5ByPath.get(transition.path);
+    checkPin(prior, transition.before, `R5 predecessor ${transition.path}`);
+    fail(typeof transition.before.fixturePath === 'string' && isSha256(transition.before.fixtureSha256) && isSize(transition.before.fixtureSizeBytes), `before fixture pin ${transition.path}`);
+    const fixture = readFixture(transition.before.fixturePath);
+    fail(fixture.length === transition.before.fixtureSizeBytes && sha(fixture) === transition.before.fixtureSha256, `exact before fixture ${transition.path}`);
+    fail(fixture.length === prior.sizeBytes && sha(fixture) === prior.sha256, `before fixture equals the frozen R5 bytes ${transition.path}`);
+    fail(isSha256(transition.after?.sha256) && isSize(transition.after?.sizeBytes), `exact proposed after pin ${transition.path}`);
+    fail(typeof transition.authorId === 'string' && transition.authorId.length > 0, `migration author ${transition.path}`);
+    fail(transition.proposal && typeof transition.proposal.id === 'string' && isSha256(transition.proposal.manifestSha256), `versioned source proposal pin ${transition.path}`);
+    fail(transition.proofScope && typeof transition.proofScope.kind === 'string', `bounded source proof scope ${transition.path}`);
+    fail(Array.isArray(transition.codeProof) && transition.codeProof.length > 0, `nonempty code proof ${transition.path}`);
+    for (const proof of transition.codeProof) {
+      fail(proof && typeof proof.path === 'string' && isSha256(proof.sha256) && isSize(proof.sizeBytes), `code proof pin ${transition.path}`);
+    }
+    fail(transition.candidateStatus !== 'ACCEPTED' || transition.acceptedPeer, `accepted status has peer receipt ${transition.path}`);
+    migrationByPath.set(transition.path, transition);
+  }
+  const active = new Set();
+  for (const prior of r5Entries) {
+    const current = currentByPath.get(prior.path);
+    fail(current, `R5 test source remains present: ${prior.path}`);
+    if (current.sha256 === prior.sha256 && current.sizeBytes === prior.sizeBytes) continue;
+    const transition = migrationByPath.get(prior.path);
+    fail(transition, `unlisted R5 source change rejected: ${prior.path}`);
+    checkPin(current, transition.after, `physical changed source ${prior.path}`);
+    fail(transition.candidateStatus === 'ACCEPTED', `source transition is not accepted: ${prior.path}`);
+    fail(doc.status === 'ACCEPTED_BOUNDED_TEST_SOURCE_TRANSITIONS' && doc.accepted === true, 'accepted migration document status');
+    validateAcceptedPeer({transition, acceptedPeer:transition.acceptedPeer, readEvidence});
+    for (const proof of transition.codeProof) {
+      const bytes = readCode(proof.path);
+      fail(bytes.length === proof.sizeBytes && sha(bytes) === proof.sha256, `scoped code proof bytes ${proof.path}`);
+    }
+    active.add(prior.path);
+  }
+  for (const transition of doc.transitions) {
+    const current = currentByPath.get(transition.path);
+    fail(current, `migration path remains present: ${transition.path}`);
+    if (current.sha256 === transition.after.sha256 && current.sizeBytes === transition.after.sizeBytes) {
+      fail(active.has(transition.path), `active migration admitted exactly once: ${transition.path}`);
+    } else {
+      fail(current.sha256 === transition.before.sha256 && current.sizeBytes === transition.before.sizeBytes, `source matches only pinned before or after bytes: ${transition.path}`);
+      fail(!active.has(transition.path), `inactive transition is not counted: ${transition.path}`);
+    }
+  }
+  return {acceptedTransitions:[...active].sort(compare),pendingTransitions:doc.transitions.filter(row=>!active.has(row.path)).map(row=>row.path).sort(compare)};
 }
 export function rosterDigest(entries) {
   const rows = [...entries].sort((a, b) => compare(a.path, b.path));
@@ -83,10 +205,16 @@ export function collectRoster(repositoryRoot) {
   const r5=JSON.parse(r5Bytes.toString('utf8'));
   fail(r5.schemaVersion===1&&Array.isArray(r5.entries)&&r5.entries.length===217,'217 R5 source entries');
   fail(new Set(r5.entries.map(row=>row.path)).size===217,'unique R5 source entries');
-  for(const prior of r5.entries){
-    const current=entries.find(row=>row.path===prior.path);
-    fail(current&&current.sha256===prior.sha256&&current.sizeBytes===prior.sizeBytes,`R5 test source remains exact: ${prior.path}`);
-  }
+  const transitionBytes=safeTransitionEvidence(root,TEST_SOURCE_MIGRATIONS_PATH);
+  const transitionDocument=parsePinnedTestSourceMigrationDocument(transitionBytes);
+  validateR5TestSourceTransitions({
+    r5Entries:r5.entries,
+    currentEntries:entries,
+    transitionDocument,
+    readFixture:path=>safeTransitionEvidence(root,path),
+    readEvidence:path=>safeTransitionEvidence(root,path),
+    readCode:path=>safeCodeProof(root,path)
+  });
   const rosterSha256 = rosterDigest(entries);
   return {
     schemaVersion: 1,

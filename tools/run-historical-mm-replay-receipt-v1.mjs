@@ -7,6 +7,7 @@ import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {assertClassMappingCurrentSourceIdentity} from './class-mapping-current-source-gate-v1.mjs';
 import {controlledGitEnvironment} from './class-mapping-raw-git-v1.mjs';
+import {assertTrackedCheckoutClean} from './class-mapping-ci-tracked-checkout-v1.mjs';
 import {replayHistoricalMmNativeTests} from './replay-historical-mm-native-tests-v1.mjs';
 import {collectRoster, MM_CAPSULE_SHA256} from './class-mapping-test-sharding-core-v1.mjs';
 const root=realpathSync(resolve(import.meta.dirname,'..'));
@@ -18,20 +19,22 @@ function main(){
  check(/^\d+$/.test(runId??'')&&/^\d+$/.test(runAttempt??''),'GitHub run ID and attempt required');
  const env=controlledGitEnvironment();const gitCommit=execFileSync('/usr/bin/git',['--no-replace-objects','rev-parse','HEAD'],{cwd:root,env,encoding:'utf8'}).trim();
  check(gitCommit===process.env.GITHUB_SHA,'checkout matches workflow commit');
+ const trackedBefore=assertTrackedCheckoutClean(root);
  const roster=collectRoster(root);const before=assertClassMappingCurrentSourceIdentity();
  // This is the only call to the existing immutable replay in this job.
- let replay=null,after=null,rosterAfter=null,gitCommitAfter=null,error=null;
+ let replay=null,after=null,rosterAfter=null,gitCommitAfter=null,error=null,trackedAfter=null;
  try{
   replay=replayHistoricalMmNativeTests();
+  trackedAfter=assertTrackedCheckoutClean(root);
   after=assertClassMappingCurrentSourceIdentity();rosterAfter=collectRoster(root);
   gitCommitAfter=execFileSync('/usr/bin/git',['--no-replace-objects','rev-parse','HEAD'],{cwd:root,env,encoding:'utf8'}).trim();
  }catch(cause){error=cause.stack??String(cause);}
  const result=replay?.result;
  const historicalMmReplay=replay?{capsuleManifestSha256:replay.manifest.sha256,capsuleFileCount:replay.manifest.files,sourceInputCount:replay.manifest.sourcePaths,expectedAssertions:19,actualAssertions:result.tests,passed:result.passed,failed:result.failed,skipped:result.skipped,activeInputMapsUnchanged:replay.activeInputMapsUnchanged,currentS1SourceCommit:replay.currentS1SourceCommit,capsuleAndPrivateTmpRemoved:replay.capsuleAndPrivateTmpRemoved,activeSourceFilesWritten:replay.activeSourceFilesWritten}:null;
  const distClean=execFileSync('/usr/bin/git',['--no-replace-objects','diff','--name-only','HEAD','--','dist'],{cwd:root,env,encoding:'utf8'}).trim()==='';
- const status=!error&&replay.manifest.sha256===MM_CAPSULE_SHA256&&result.status===0&&result.tests===19&&result.passed===19&&result.failed===0&&result.skipped===0&&JSON.stringify(before)===JSON.stringify(after)&&replay.activeInputMapsUnchanged&&rosterAfter?.rosterSha256===roster.rosterSha256&&gitCommitAfter===gitCommit&&distClean?'success':'failed';
+ const status=!error&&replay.manifest.sha256===MM_CAPSULE_SHA256&&result.status===0&&result.tests===19&&result.passed===19&&result.failed===0&&result.skipped===0&&JSON.stringify(before)===JSON.stringify(after)&&replay.activeInputMapsUnchanged&&rosterAfter?.rosterSha256===roster.rosterSha256&&gitCommitAfter===gitCommit&&distClean&&trackedBefore.trackedTreeClean===true&&trackedAfter?.trackedTreeClean===true?'success':'failed';
  const logs=[['mm.tap',result?.stdout??''],['mm.stderr',(result?.stderr??'')+(error??'')]].map(([name,text])=>{const bytes=Buffer.from(text),path=resolve(root,'artifacts/test-shards',name);mkdirSync(dirname(path),{recursive:true});writeFileSync(path,bytes,{flag:'wx',mode:0o600});return {path:relative(root,path),bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')};});
- const receipt={schemaVersion:1,status,runId,runAttempt,gitCommit,gitCommitAfter,sourceRosterSha256:roster.rosterSha256,sourceRosterSha256After:rosterAfter?.rosterSha256??null,topLevelFileCount:roster.topLevelFileCount,mainFileCount:roster.mainFileCount,shardCount:4,rosterEntries:roster.entries,sourceIdentityBefore:before,sourceIdentityAfter:after,historicalMmReplay,distTrackedTreeCleanAfter:distClean,logs,runnerError:error};
+ const receipt={schemaVersion:1,status,runId,runAttempt,gitCommit,gitCommitAfter,sourceRosterSha256:roster.rosterSha256,sourceRosterSha256After:rosterAfter?.rosterSha256??null,topLevelFileCount:roster.topLevelFileCount,mainFileCount:roster.mainFileCount,shardCount:4,rosterEntries:roster.entries,sourceIdentityBefore:before,sourceIdentityAfter:after,historicalMmReplay,trackedCheckoutBefore:trackedBefore,trackedCheckoutAfter:trackedAfter,distTrackedTreeCleanAfter:distClean,logs,runnerError:error};
  writeAtomic(out,receipt);process.stdout.write(JSON.stringify({status:receipt.status,runId,runAttempt,gitCommit,sourceRosterSha256:roster.rosterSha256,receipt:'artifacts/test-shards/mm.json'})+'\n');
  check(status==='success','historical replay failed; receipt and output retained');
 }

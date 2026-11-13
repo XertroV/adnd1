@@ -1,14 +1,14 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {execFileSync, spawnSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
-import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
+import {execFileSync, spawnSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v2.mjs';
+import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
 import {resolve} from 'node:path';
 import test from 'node:test';
 import vm from 'node:vm';
 import {gunzipSync} from 'node:zlib';
-import {currentQueueMetadata, handoffDate, handoffTemplateSnapshot, reconcileCuratedNotes, validateApprovedTransitions, validateNullPriceTransitions, validateReportDependencies, validateSupplementalMonetaryReport, projectCurrentMonetaryReview, projectUaMeaningReview} from '../research/class-mapping-history-v1/replay-tools/refresh-gaps-handoff.mjs';
+import {currentQueueMetadata, handoffDate, handoffTemplateSnapshot, reconcileCuratedNotes, validateApprovedTransitions, validateNullPriceTransitions, validateReportDependencies, validateSupplementalMonetaryReport, projectCurrentMonetaryReview, projectUaMeaningReview} from '../research/class-mapping-history-v1/replay-tools/refresh-gaps-handoff-mm-v2.mjs';
 
-import {historicalMmTestRoot as root, assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
+import {historicalMmTestRoot as root, assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
 assertHistoricalMmTestStage();
 const baselineCommit = '679b15d1c580172e54314829c1c3c86dc78b65f3';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');

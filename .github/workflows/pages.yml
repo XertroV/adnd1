@@ -449,7 +449,7 @@ jobs:
         run: |
           set -o pipefail
           mkdir -p artifacts/source-domain-audits
-          node tools/verify-class-mapping-current-reports-v1.mjs --kind all --output artifacts/source-domain-audits/gaps-handoff-check.json
+          node tools/verify-class-mapping-current-reports-v2.mjs --kind all --output artifacts/source-domain-audits/gaps-handoff-check.json
       - name: Verify coverage report counts and review scopes
         if: always()
         run: |

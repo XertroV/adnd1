@@ -1,13 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
+import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
-import {analyzeReportConsistency,fieldBindingAxisMetrics,fieldBindingCountMeaning} from '../research/class-mapping-history-v1/replay-tools/source-report-consistency-audit.mjs';
+import {analyzeReportConsistency,fieldBindingAxisMetrics,fieldBindingCountMeaning} from '../research/class-mapping-history-v1/replay-tools/source-report-consistency-audit-mm-v2.mjs';
 import {fieldBindingAxisMetrics as originalAxisMetrics} from './fixtures/source-report-consistency-record-target-old-helper-before.mjs';
 import {analyzeReportConsistency as partialAnalyze,fieldBindingAxisMetrics as partialAxisMetrics,fieldBindingCountMeaning as partialCountMeaning} from './fixtures/source-report-consistency-record-target-partial-helper-before.mjs';
 import {fieldBindingAxisMetrics as beforePendingRegionAxisMetrics} from './fixtures/weapon-source-report-consistency-before.mjs';
-import {historicalMmTestRoot, assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
+import {historicalMmTestRoot, assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
 assertHistoricalMmTestStage();
 const root=historicalMmTestRoot;
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');

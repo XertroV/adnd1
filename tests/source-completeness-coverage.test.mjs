@@ -1,15 +1,15 @@
 // Historical MM replay: preserved a29 assertions run against the fixed historical stage.
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync,historicalMmTestRoot,assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
+import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync,historicalMmTestRoot,assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
-import {execFileSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
+import {execFileSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v2.mjs';
 import {assertCurrentMmSourceEpoch} from './helpers/class-mapping-historical-mm-test-inputs-v1.mjs';
 import {assertHistoricalHPreimage} from '../research/class-mapping-history-v1/closed-version29-reader-class-mapping-v1.mjs';
-import {buildSourceCompletenessCoverage,markdownSourceCompleteness,loadCurrentSourceRepairRegister} from '../research/class-mapping-history-v1/replay-tools/source-completeness-coverage.mjs';
+import {buildSourceCompletenessCoverage,markdownSourceCompleteness,loadCurrentSourceRepairRegister} from '../research/class-mapping-history-v1/replay-tools/source-completeness-coverage-mm-v2.mjs';
 
 assertHistoricalMmTestStage();
 const root=historicalMmTestRoot;

@@ -6,6 +6,7 @@ import {spawn, spawnSync, execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {controlledGitEnvironment} from './class-mapping-raw-git-v1.mjs';
+import {assertTrackedCheckoutClean} from './class-mapping-ci-tracked-checkout-v1.mjs';
 import {assertClassMappingCurrentSourceIdentity} from './class-mapping-current-source-gate-v1.mjs';
 import {collectRoster, deriveShards, SHARD_COUNT, parseTapSummary} from './class-mapping-test-sharding-core-v1.mjs';
 const root=realpathSync(resolve(import.meta.dirname,'..'));
@@ -63,18 +64,20 @@ async function main(){
   const env={...controlledGitEnvironment(),PATH:[dirname(process.execPath),dirname(python),'/usr/bin','/bin'].join(':'),TMPDIR:'/tmp',TZ:'UTC',CI:'true'};
   const gitCommit=execFileSync('/usr/bin/git',['--no-replace-objects','rev-parse','HEAD'],{cwd:root,env,encoding:'utf8'}).trim();
   check(gitCommit===process.env.GITHUB_SHA,'checkout matches the workflow commit');
+  const trackedBefore=assertTrackedCheckoutClean(root);
   const before=sourceIdentity();
-  let child=null,dist=null,after=null,error=null,rosterAfter=null,gitCommitAfter=null;
+  let child=null,dist=null,after=null,error=null,rosterAfter=null,gitCommitAfter=null,trackedAfter=null;
   try{
     child=await runNode(shard.entries.map(row=>row.path),env,args.shardIndex);
     dist=cleanTrackedDist(env);
+    trackedAfter=assertTrackedCheckoutClean(root);
     after=sourceIdentity();
     rosterAfter=collectRoster(root);
     gitCommitAfter=execFileSync('/usr/bin/git',['--no-replace-objects','rev-parse','HEAD'],{cwd:root,env,encoding:'utf8'}).trim();
   }catch(cause){error=cause?.stack??String(cause);}
   const selectedFileHashes=Object.fromEntries(shard.entries.map(row=>[row.path,row.sha256]));
-  const status=!error&&child?.status===0&&!child?.processError&&child?.tapSummary?.tests>0&&child?.tapSummary?.fail===0&&child?.tapSummary?.cancelled===0&&dist?.clean===true&&gitCommitAfter===gitCommit&&rosterAfter?.rosterSha256===roster.rosterSha256&&after&&JSON.stringify(before)===JSON.stringify(after)?'success':'failed';
-  const receipt={schemaVersion:1,status,runId,runAttempt,gitCommit,gitCommitAfter,sourceRosterSha256:roster.rosterSha256,sourceRosterSha256After:rosterAfter?.rosterSha256??null,topLevelFileCount:roster.topLevelFileCount,mainFileCount:roster.mainFileCount,shardCount:args.shardCount,rosterEntries:roster.entries,shardIndex:args.shardIndex,selectedFiles:shard.entries.map(row=>row.path),selectedFileHashes,expectedFileCount:shard.entries.length,actualExecutedFiles:child?.status===0?shard.entries.map(row=>row.path):[],nodeExitCode:child?.status??null,processError:child?.processError??error??null,signal:child?.signal??null,tapSummary:child?.tapSummary??null,logs:child?.logs??[],distTrackedTreeCleanAfter:dist?.clean??false,distCheckExitCode:dist?.exitCode??null,sourceIdentityBefore:before,sourceIdentityAfter:after,runnerError:error};
+  const status=!error&&child?.status===0&&!child?.processError&&child?.tapSummary?.tests>0&&child?.tapSummary?.fail===0&&child?.tapSummary?.cancelled===0&&dist?.clean===true&&trackedBefore.trackedTreeClean===true&&trackedAfter?.trackedTreeClean===true&&gitCommitAfter===gitCommit&&rosterAfter?.rosterSha256===roster.rosterSha256&&after&&JSON.stringify(before)===JSON.stringify(after)?'success':'failed';
+  const receipt={schemaVersion:1,status,runId,runAttempt,gitCommit,gitCommitAfter,sourceRosterSha256:roster.rosterSha256,sourceRosterSha256After:rosterAfter?.rosterSha256??null,topLevelFileCount:roster.topLevelFileCount,mainFileCount:roster.mainFileCount,shardCount:args.shardCount,rosterEntries:roster.entries,shardIndex:args.shardIndex,selectedFiles:shard.entries.map(row=>row.path),selectedFileHashes,expectedFileCount:shard.entries.length,actualExecutedFiles:child?.status===0?shard.entries.map(row=>row.path):[],nodeExitCode:child?.status??null,processError:child?.processError??error??null,signal:child?.signal??null,tapSummary:child?.tapSummary??null,logs:child?.logs??[],trackedCheckoutBefore:trackedBefore,trackedCheckoutAfter:trackedAfter,distTrackedTreeCleanAfter:dist?.clean??false,distCheckExitCode:dist?.exitCode??null,sourceIdentityBefore:before,sourceIdentityAfter:after,runnerError:error};
   writeReceipt(output,receipt);
   if(status!=='success')throw new Error(`Shard ${args.shardIndex} failed; receipt retained for reducer: ${JSON.stringify({nodeExitCode:receipt.nodeExitCode,processError:receipt.processError,distTrackedTreeCleanAfter:receipt.distTrackedTreeCleanAfter,tapSummary:receipt.tapSummary})}`);
   process.stdout.write(JSON.stringify({status,shardIndex:args.shardIndex,shardCount:args.shardCount,selectedFileCount:shard.entries.length,sourceRosterSha256:roster.rosterSha256,receipt:args.receiptArg})+'\n');

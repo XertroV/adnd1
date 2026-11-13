@@ -1,14 +1,14 @@
 // Historical MM replay: preserved a29 assertions run against the fixed historical stage.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync,mkdirSync,readFileSync,readdirSync,symlinkSync,writeFileSync,rmSync,historicalMmTestRoot,assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
-import {spawnSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
+import {mkdtempSync,mkdirSync,readFileSync,readdirSync,symlinkSync,writeFileSync,rmSync,historicalMmTestRoot,assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
+import {spawnSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v2.mjs';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
 import {pathToFileURL} from 'node:url';
-import {loadCurrentMonetarySourceQuestions} from '../research/class-mapping-history-v1/replay-tools/dmg175-current-monetary-source-questions-mm-v1.mjs';
+import {loadCurrentMonetarySourceQuestions} from '../research/class-mapping-history-v1/replay-tools/dmg175-current-monetary-source-questions-mm-v2.mjs';
 assertHistoricalMmTestStage();
 const root=pathToFileURL(historicalMmTestRoot+'/'),read=p=>readFileSync(new URL(p,root)),sha=b=>createHash('sha256').update(b).digest('hex');
 const fixture=JSON.parse(gunzipSync(read('tests/fixtures/pass8-phb-stale-monetary-input-before.json.gz')));

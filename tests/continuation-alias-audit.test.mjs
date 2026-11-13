@@ -2,11 +2,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync as readRawFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
+import {readFileSync as readRawFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
 import {execFileSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
 
 import {gunzipSync} from 'node:zlib';
-import {buildContinuationAliasReport,loadContinuationAliasReport} from '../research/class-mapping-history-v1/replay-tools/continuation-alias-audit.mjs';
+import {buildContinuationAliasReport,loadContinuationAliasReport} from '../research/class-mapping-history-v1/replay-tools/continuation-alias-audit-mm-v2.mjs';
 import {projectPass8CitationTargetCropBytes} from './helpers/pass8-ua-source-history.mjs';
 import {assertMmTreasureCurrentSourceCohort,readMmTreasureCurrentSourceInputs} from './helpers/class-mapping-historical-mm-test-inputs-v1.mjs';
 const read=p=>JSON.parse(readRawFileSync(p,'utf8'));
