@@ -5,7 +5,7 @@
 import {readFileSync, writeFileSync} from '../mm-replay-fs-v2.mjs';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {loadMonetaryRowIdentityAudit} from './monetary-row-identity-audit.mjs';
+import {loadMonetaryRowIdentityAudit} from './monetary-row-identity-audit-mm-v5.mjs';
 import {assertCurrentMmSourceEpoch} from '../../../tests/helpers/class-mapping-historical-mm-test-inputs-v1.mjs';
 import {createMmCurrentMonetaryQuestionSuccessor, historicalProjectionBaselinePath,
   currentSourceQuestionRegistryPath, researchContractSha256} from '../replay-kernels/native-monetary-source-questions-kernel-mm-v2.mjs';

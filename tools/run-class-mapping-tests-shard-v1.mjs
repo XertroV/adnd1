@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 import {controlledGitEnvironment} from './class-mapping-raw-git-v1.mjs';
 import {assertTrackedCheckoutClean} from './class-mapping-ci-tracked-checkout-v1.mjs';
 import {assertClassMappingCurrentSourceIdentity} from './class-mapping-current-source-gate-v1.mjs';
-import {collectRoster, deriveShards, SHARD_COUNT, parseTapSummary} from './class-mapping-test-sharding-core-v1.mjs';
+import {collectRoster, deriveShards, SHARD_COUNT, parseTapSummary} from './class-mapping-test-sharding-core-v2.mjs';
 const root=realpathSync(resolve(import.meta.dirname,'..'));
 function check(ok,message){if(!ok)throw new Error(`Current test shard: ${message}`);}
 function parseArgs(argv){

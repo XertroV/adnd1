@@ -9,7 +9,7 @@ import {isDeepStrictEqual} from 'node:util';
 import {assertClassMappingCurrentSourceIdentity} from './class-mapping-current-source-gate-v1.mjs';
 import {controlledGitEnvironment} from './class-mapping-raw-git-v1.mjs';
 import {assertTrackedCheckoutClean} from './class-mapping-ci-tracked-checkout-v1.mjs';
-import {validateReceiptSet, parseTapSummary} from './class-mapping-test-sharding-core-v1.mjs';
+import {validateReceiptSet, parseTapSummary} from './class-mapping-test-sharding-core-v2.mjs';
 const root=realpathSync(resolve(import.meta.dirname,'..'));
 function check(ok,message){if(!ok)throw new Error(`Shard reducer: ${message}`);}
 function readArtifact(path){const absolute=resolve(root,path);check(relative(root,absolute)===path,'fixed in-repository artifact path');check(lstatSync(absolute).isFile()&&realpathSync(absolute)===absolute,'physical artifact file');return readFileSync(absolute);}

@@ -24,7 +24,7 @@ test('genuine current S1 systemic/visual geometry keeps P1 provenance, denominat
  const receipt=proof.receipt,source=receipt.sourceEpoch.sourceBody;
  assert.equal(source.commit,'2d35138027f00c0740975e519dbb3a2b6df76d14');
  assert.equal(source.tree,'40ecb15130b339658522794db6d9e1bc58f43b50');
- const output=path=>{const rows=receipt.outputs.filter(row=>row.path===path);assert.equal(rows.length,1);const bytes=read(path);assert.equal(bytes.length,rows[0].sizeBytes);assert.equal(sha(bytes),rows[0].sha256);return bytes;};
+ const output=path=>{const rows=receipt.outputs.filter(row=>row.path===path);assert.equal(rows.length,1);const bytes=read(path);assert.equal(bytes.length,rows[0].sizeBytes);assert.equal(sha(bytes),rows[0].rawSha256);return bytes;};
  const dataBytes=read('dist/data.json'),data=JSON.parse(dataBytes),bodyRows=source.inputs.filter(row=>row.path==='dist/data.json');assert.equal(bodyRows.length,1);assert.equal(sha(dataBytes),bodyRows[0].sha256);assert.equal(dataBytes.length,bodyRows[0].sizeBytes);
  const visual=JSON.parse(output(paths.visual)),geometryBytes=output(paths.geometry),geometry=JSON.parse(geometryBytes),systemic=JSON.parse(output(paths.systemic));
  const geometryRef={path:paths.geometry,sha256:sha(geometryBytes),inputDataSha256:geometry.inputDataSha256,candidateCount:geometry.candidates.length,usageCount:geometry.usages.length};

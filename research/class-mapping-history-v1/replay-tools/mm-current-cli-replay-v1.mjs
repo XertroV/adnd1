@@ -14,7 +14,7 @@ const manifestPath = 'research/class-mapping-history-v1/mm-current-alias-cli-inp
 const manifestSha256 = '2757c2061ca90a2aa126338ca809752866aecd577ecbd71ceaa8335c4a0f0535';
 const sourceCommit = '0f2d70a135e3ad486152bf00f21387d60a1a97ef';
 const sourceTree = '08010faf457df22cdb0a5ec35d2dcf79e622ade9';
-const expectedCounts = Object.freeze({records: 1064, referencedCatalogs: 1084, catalogRegionRows: 4114, declaredGroups: 284, declaredParts: 560});
+const expectedCounts = Object.freeze({exposedRecords: 1064, referencedCatalogs: 1084, catalogRegionRows: 4114, declaredGroups: 284, declaredParts: 560});
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const raw = createRawGitReader(root);
 let verifiedManifest;

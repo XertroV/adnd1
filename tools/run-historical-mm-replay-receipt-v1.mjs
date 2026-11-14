@@ -9,7 +9,7 @@ import {assertClassMappingCurrentSourceIdentity} from './class-mapping-current-s
 import {controlledGitEnvironment} from './class-mapping-raw-git-v1.mjs';
 import {assertTrackedCheckoutClean} from './class-mapping-ci-tracked-checkout-v1.mjs';
 import {replayHistoricalMmNativeTests} from './replay-historical-mm-native-tests-v1.mjs';
-import {collectRoster, MM_CAPSULE_SHA256} from './class-mapping-test-sharding-core-v1.mjs';
+import {collectRoster, MM_CAPSULE_SHA256} from './class-mapping-test-sharding-core-v2.mjs';
 const root=realpathSync(resolve(import.meta.dirname,'..'));
 function check(ok,message){if(!ok)throw new Error(`MM replay receipt: ${message}`);}
 function receiptPath(argv){check(argv.length===2&&argv[0]==='--receipt','use --receipt artifacts/test-shards/mm.json');check(argv[1]==='artifacts/test-shards/mm.json','fixed receipt path');const path=resolve(root,argv[1]);check(relative(root,path)==='artifacts/test-shards/mm.json','receipt stays inside checkout');return path;}

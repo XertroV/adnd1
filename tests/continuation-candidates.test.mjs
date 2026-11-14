@@ -1,7 +1,7 @@
 // Historical MM replay: preserved a29 assertions run against the fixed historical stage.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync,mkdtempSync,rmSync,readdirSync,historicalMmTestRoot,assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
+import {readFileSync,mkdtempSync,rmSync,readdirSync,historicalMmTestRoot,assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-continuation-baseline-v1.mjs';
 import os from 'node:os';
 import {spawnSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v2.mjs';
 import {gunzipSync} from 'node:zlib';

@@ -1,7 +1,7 @@
 // Preserved exact a29/MM assertions; separate S1 companion tests own current behavior.
 import test from 'node:test';
 import {assertHistoricalMmTestStage,historicalMmTestRoot} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
-import {dmg175HistoryContract,projectDmg175Books} from '../research/class-mapping-history-v1/replay-test-helpers/batch6-dmg175-source-history.mjs';
+import {dmg175HistoryContract,projectDmg175Books} from '../research/class-mapping-history-v1/replay-test-helpers/batch6-dmg175-source-history-mm-v2.mjs';
 import assert from 'node:assert/strict';
 import {readBeforeJoXpFile as readFileSync} from '../research/class-mapping-history-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
 import {projectPass8XpContinuationBytes} from '../research/class-mapping-history-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';

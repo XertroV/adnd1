@@ -74,7 +74,7 @@ function classifyCall(node,functionName,ancestors,source){
   throw new Error(`Unclassified classAbilitiesHTML inlineSourceChip CallExpression at dist/app.js:${node.loc.start.line}:${node.loc.start.column+1}: ${source.slice(node.start,node.end)}`);
  }
  const producerClass=producerClassByFunction[functionName];
- if(!producerClass)throw new Error(`Unclassified citation chip CallExpression at dist/app.js:${node.loc.start.line}:${node.loc.start.column+1} in ${functionName||'(top level)'}: ${source.slice(node.start,node.end)}`);
+ if(!producerClass)throw new Error(`Unclassified citation chip producer CallExpression at dist/app.js:${node.loc.start.line}:${node.loc.start.column+1} in ${functionName||'(top level)'}: ${source.slice(node.start,node.end)}`);
  return {producerClass};
 }
 

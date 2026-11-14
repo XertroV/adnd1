@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
-import {collectRoster,deriveShards,rosterDigest,validateReceiptSet,parseTapSummary,DEDICATED_MM_PATH,SHARD_COUNT,R5_ROSTER_PATH} from '../tools/class-mapping-test-sharding-core-v1.mjs';
+import {collectRoster,deriveShards,rosterDigest,validateReceiptSet,parseTapSummary,DEDICATED_MM_PATH,SHARD_COUNT,R5_ROSTER_PATH} from '../tools/class-mapping-test-sharding-core-v2.mjs';
 const root=process.cwd(),roster=collectRoster(root),shards=deriveShards(roster);
 const checkout='fa45f44c8ccc3d80226984fab7792eac9353b252',logicalSource='2d35138027f00c0740975e519dbb3a2b6df76d14';
 const identity={summary:{sourceCommit:logicalSource,sourceTree:'40ecb15130b339658522794db6d9e1bc58f43b50'},inputHashes:{sourceBody:{'fixture.json':'a'.repeat(64)}}};
@@ -50,7 +50,7 @@ test('all original report commands and pinned actions remain in the gated workfl
  assert.match(workflow,/actions\/checkout@d23441a48e516b6c34aea4fa41551a30e30af803/);assert.match(workflow,/actions\/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38/);
 });
 test('the versioned code receipt pins new executable paths and the old registry bytes',async()=>{
- const receipt=JSON.parse(readFileSync(resolve(root,'research/class-mapping-ci-sharding-v1/code-pins-v1.json'),'utf8'));
+ const receipt=JSON.parse(readFileSync(resolve(root,'research/class-mapping-ci-sharding-v1/code-pins-v2.json'),'utf8'));
  const paths=[
   "research/ci117-citation-navigation-inventory-transition-independent-review-v2/manifest-v1.json",
   "research/ci117-citation-navigation-inventory-transition-independent-review-v2/review-v1.json",
@@ -80,6 +80,8 @@ test('the versioned code receipt pins new executable paths and the old registry 
   "research/ci117-ua26-cli-epoch-transport-independent-review-v2/manifest-v2.json",
   "research/ci117-ua26-cli-epoch-transport-independent-review-v2/review-v2.json",
   "research/ci117-ua26-cli-epoch-transport-proposal-v2/manifest-v2.json",
+  "research/ci118-r8-source-repairs-v1/frozen-component-proposals-v1.json",
+  "research/class-mapping-ci-sharding-v1/code-pins-v1.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/evidence/combined-b-peer-v1/independent-review-v1.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/evidence/combined-b-peer-v1/manifest-v1.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/navigation-before-v1.mjs",
@@ -99,9 +101,20 @@ test('the versioned code receipt pins new executable paths and the old registry 
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r7-v5-r5-original-test-sources/jo-stick-source-mapping.test.mjs",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r7-v5-r5-original-test-sources/ua-source-handoff-transition.test.mjs",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r7-v5-r5-original-test-sources/ua26-note-marker-current-mm-v1.test.mjs",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r8-r7-predecessor-sources/citation-navigation-producer-call-scan-v2.mjs",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r8-r7-predecessor-sources/continuation-candidates.test.mjs",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r8-r7-predecessor-sources/dmg175-current-monetary-source-questions-mm-v2.mjs",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r8-r7-predecessor-sources/jo-stick-source-mapping.test.mjs",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r8-r7-predecessor-sources/mm-current-cli-replay-v1.mjs",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r8-r7-predecessor-sources/mm-replay-child-process-v2.mjs",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r8-r7-predecessor-sources/native-monetary-source-questions-kernel-mm-v2.mjs",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r8-r7-predecessor-sources/pass8-ua-source-history.test.mjs",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r8-r7-predecessor-sources/source-frame-systemic-native-s1-current-v1.test.mjs",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r8-r7-predecessor-sources/ua-source-handoff-transition.test.mjs",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/systemic-before-v1.mjs",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/migrations-v7.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/migrations-v8.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/migrations-v9.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r7v4-mm-addon-continuation-alias-audit.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r7v4-mm-addon-source-report-consistency-audit.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r7v4-mm-transport-continuation-candidates.json",
@@ -142,18 +155,49 @@ test('the versioned code receipt pins new executable paths and the old registry 
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r7v8-root-rebind-mm-transport-refresh-gaps-handoff.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r7v8-root-rebind-mm-transport-source-completeness-coverage.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r7v8-root-rebind-systemic-mm-historical-import-transport.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-bootstrap-v3-jo-stick-source-mapping.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-bootstrap-v3-ua-source-handoff-transition.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-mm-addon-continuation-alias-audit.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-mm-addon-source-report-consistency-audit.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-mm-transport-continuation-candidates.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-mm-transport-coverage-gaps.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-mm-transport-dmg175-current-successors-mm-v1.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-mm-transport-mammoth-derived-valuation.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-mm-transport-monetary-unit-provenance-audit.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-mm-transport-pass8-citation-target-crop-history.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-mm-transport-phb-monetary-input-successor.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-mm-transport-refresh-gaps-handoff.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-mm-transport-source-completeness-coverage.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-nav-v2-current-source-classification.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-r8-original-pass8-ua-source-history.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-systemic-mm-historical-import-transport.json",
+  "research/class-mapping-history-v1/continuation-baseline-v1/mm-test-role-continuation-baseline-v1.json",
+  "research/class-mapping-history-v1/continuation-baseline-v1/requested-input-closure-v1.json",
   "research/class-mapping-history-v1/dmg175-historical-tests/alias/alias-h-v1.test.mjs",
   "research/class-mapping-history-v1/mm-current-alias-cli-input-manifest-v1.json",
   "research/class-mapping-history-v1/mm-replay-child-process-v2.mjs",
+  "research/class-mapping-history-v1/mm-replay-fs-continuation-baseline-v1.mjs",
+  "research/class-mapping-history-v1/mm-replay-fs-dmg175-history-approval-v1.mjs",
   "research/class-mapping-history-v1/mm-replay-fs-v2.mjs",
   "research/class-mapping-history-v1/mm-replay-fs-v3.mjs",
+  "research/class-mapping-history-v1/mm-replay-fs-v4.mjs",
+  "research/class-mapping-history-v1/mm-replay-fs-v5.mjs",
+  "research/class-mapping-history-v1/mm-replay-io-contract-v3.mjs",
+  "research/class-mapping-history-v1/mm-test-dmg175-history-approval-v1.json",
+  "research/class-mapping-history-v1/mm-test-dmg175-history-approval-v1.mjs",
+  "research/class-mapping-history-v1/mm-test-postsource-supplement-continuation-baseline-v1.mjs",
   "research/class-mapping-history-v1/mm-test-postsource-supplement-v1.mjs",
   "research/class-mapping-history-v1/mm-test-postsource-supplement-v2.mjs",
   "research/class-mapping-history-v1/mm-test-postsource-supplement-v3.mjs",
+  "research/class-mapping-history-v1/mm-test-postsource-supplement-v4.mjs",
+  "research/class-mapping-history-v1/mm-test-postsource-supplement-v5.mjs",
   "research/class-mapping-history-v1/mm-test-role-supplement-v1.json",
   "research/class-mapping-history-v1/mm-test-role-supplement-v2.json",
   "research/class-mapping-history-v1/mm-test-role-supplement-v3.json",
+  "research/class-mapping-history-v1/mm-test-role-supplement-v4.json",
+  "research/class-mapping-history-v1/mm-test-role-supplement-v5.json",
   "research/class-mapping-history-v1/replay-kernels/native-monetary-source-questions-kernel-mm-v2.mjs",
+  "research/class-mapping-history-v1/replay-test-helpers/batch6-dmg175-source-history-mm-v2.mjs",
   "research/class-mapping-history-v1/replay-test-helpers/pass8-character-reference-history-mm-v2.mjs",
   "research/class-mapping-history-v1/replay-test-helpers/pass8-character-reference-history-mm-v3.mjs",
   "research/class-mapping-history-v1/replay-test-helpers/pass8-citation-target-crop-history-mm-v2.mjs",
@@ -170,11 +214,15 @@ test('the versioned code receipt pins new executable paths and the old registry 
   "research/class-mapping-history-v1/replay-tools/dmg175-current-monetary-source-questions-mm-v2.mjs",
   "research/class-mapping-history-v1/replay-tools/dmg175-current-successors-mm-v2.mjs",
   "research/class-mapping-history-v1/replay-tools/mm-current-cli-replay-v1.mjs",
+  "research/class-mapping-history-v1/replay-tools/monetary-row-identity-audit-mm-v5.mjs",
   "research/class-mapping-history-v1/replay-tools/monetary-unit-provenance-audit-mm-v2.mjs",
   "research/class-mapping-history-v1/replay-tools/refresh-gaps-handoff-mm-v2.mjs",
   "research/class-mapping-history-v1/replay-tools/source-completeness-coverage-mm-v2.mjs",
   "research/class-mapping-history-v1/replay-tools/source-report-consistency-audit-mm-v2.mjs",
   "research/class-mapping-history-v1/replay-tools/ua26-note-marker-audit-mm-s1-v1.mjs",
+  "research/class-mapping-history-v1/ua-support-twin-history-v1.mjs",
+  "research/class-mapping-history-v1/ua-support-twin-snapshot-v1.json",
+  "research/class-mapping-source-epoch-v1/historical-reader-installation-pins-v1.mjs",
   "research/dmg175-native-structured-controls-r7-independent-peer-v1/independent-review-v1.json",
   "research/dmg175-native-structured-controls-r7-independent-peer-v1/manifest-v1.json",
   "research/dmg175-native-structured-controls-r7-repair-proposal-v1/manifest-v1.json",
@@ -184,6 +232,7 @@ test('the versioned code receipt pins new executable paths and the old registry 
   "research/r7-test-source-transition-guard-v8-root-accepted-rebind-v1/manifest-v8.json",
   "tests/citation-navigation-inventory.test.mjs",
   "tests/class-mapping-ci-tracked-checkout-v1.test.mjs",
+  "tests/class-mapping-monetary-v5-immutability-current-v1.test.mjs",
   "tests/class-mapping-test-sharding-contract-v1.test.mjs",
   "tests/class-mapping-test-source-transition-guard-v1.test.mjs",
   "tests/continuation-alias-audit.test.mjs",
@@ -196,11 +245,13 @@ test('the versioned code receipt pins new executable paths and the old registry 
   "tests/fixtures/dmg175-native-structured-controls-pre-location-target-status-v1.json.gz",
   "tests/helpers/source-frame-systemic-mm-inputs-v1.mjs",
   "tests/helpers/ua-source-batch6-xp-source-history.mjs",
+  "tests/helpers/ua-source-handoff-mm-epoch-reader-v1.mjs",
   "tests/helpers/ua26-historical-cli-v1.mjs",
   "tests/jo-stick-source-mapping.test.mjs",
   "tests/mammoth-derived-valuation.test.mjs",
   "tests/monetary-unit-provenance-audit.test.mjs",
   "tests/pass8-citation-target-crop-history.test.mjs",
+  "tests/pass8-ua-source-history.test.mjs",
   "tests/phb-monetary-input-successor.test.mjs",
   "tests/public-scan-contract.test.mjs",
   "tests/refresh-gaps-handoff.test.mjs",
@@ -216,6 +267,8 @@ test('the versioned code receipt pins new executable paths and the old registry 
   "tools/citation-navigation-producer-call-scan-v2.mjs",
   "tools/class-mapping-ci-tracked-checkout-v1.mjs",
   "tools/class-mapping-test-sharding-core-v1.mjs",
+  "tools/class-mapping-test-sharding-core-v2.mjs",
+  "tools/class-mapping-test-source-lineage-v2.mjs",
   "tools/reduce-class-mapping-test-shards-v1.mjs",
   "tools/refresh-gaps-handoff-next-native-v2-qcc-date-v1.mjs",
   "tools/run-class-mapping-tests-shard-v1.mjs",
@@ -228,7 +281,13 @@ test('the versioned code receipt pins new executable paths and the old registry 
  assert.equal(old.length,175);assert.deepEqual(receipt.allCodePins.slice(0,old.length),old);assert.deepEqual(receipt.allCodePins.slice(old.length),receipt.codePins);
  assert.equal(receipt.historicalPrefixCount,175);assert.equal(receipt.expandedCodePinCount,receipt.allCodePins.length);assert.equal(new Set(receipt.allCodePins.map(pin=>pin.path)).size,receipt.allCodePins.length);
  assert(paths.includes('research/class-mapping-history-v1/dmg175-historical-tests/alias/alias-h-v1.test.mjs'));assert(paths.includes('tests/helpers/ua-source-batch6-xp-source-history.mjs'));
- assert.equal(receipt.parentCommit,'d83bd30f3b74da488f78ea3302fa1e67a94c7607');
+ assert.equal(receipt.parentCommit,'5b76ccca0d2df451dbcc7ce22c78d895a2138f45');
+ assert.equal(receipt.parentRegistry.path,'research/class-mapping-ci-sharding-v1/code-pins-v1.json');
+ assert.equal(receipt.parentRegistry.sha256,'9ac4e10cda071a24ba991e984863da8a2ff00f7976fd0fca3f87f2c234c0edd3');
+ assert.equal(receipt.parentRegistry.sizeBytes,113497);
+ const parentBytes=readFileSync(resolve(root,receipt.parentRegistry.path));
+ assert.equal(createHash('sha256').update(parentBytes).digest('hex'),receipt.parentRegistry.sha256);
+ assert.equal(parentBytes.length,receipt.parentRegistry.sizeBytes);
  assert.equal(receipt.workflow.path,'.github/workflows/pages.yml');assert.equal(receipt.baseline.path,R5_ROSTER_PATH);assert.equal(receipt.historicalRegistry.path,'research/class-mapping-source-epoch-v1/historical-reader-installation-pins-v1.mjs');
  for(const pin of [...receipt.codePins,receipt.workflow,receipt.baseline,receipt.historicalRegistry]){const bytes=readFileSync(resolve(root,pin.path));assert.equal(createHash('sha256').update(bytes).digest('hex'),pin.sha256,pin.path);assert.equal(bytes.length,pin.sizeBytes,pin.path);}
 });

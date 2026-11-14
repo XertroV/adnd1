@@ -1,0 +1,428 @@
+{
+  "schemaVersion": 1,
+  "status": "ACCEPTED_BOUNDED_TEST_SOURCE_TRANSITION",
+  "reviewer": {
+    "id": "root",
+    "role": "independent"
+  },
+  "authorId": "ua-handoff-callback-epoch",
+  "subject": {
+    "path": "tests/ua-source-handoff-transition.test.mjs",
+    "before": {
+      "fixturePath": "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r7-v5-r5-original-test-sources/ua-source-handoff-transition.test.mjs",
+      "fixtureSha256": "34384df113803049d382babd84145481c67c1d6f828bf5508053897ec24ff3e9",
+      "fixtureSizeBytes": 21390,
+      "sha256": "34384df113803049d382babd84145481c67c1d6f828bf5508053897ec24ff3e9",
+      "sizeBytes": 21390
+    },
+    "after": {
+      "sha256": "fcbe884e9964b1d4cd908f9dd2bfb0af2e61413c0397f06fa9da36f854192c53",
+      "sizeBytes": 22471
+    }
+  },
+  "beforeFixture": {
+    "path": "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r7-v5-r5-original-test-sources/ua-source-handoff-transition.test.mjs",
+    "sha256": "34384df113803049d382babd84145481c67c1d6f828bf5508053897ec24ff3e9",
+    "sizeBytes": 21390
+  },
+  "proposal": {
+    "id": "ua-handoff-callback-epoch",
+    "manifestSha256": "3d6dadb4bc6675868775bd50b07cc881d9bed177075b358072b3f604ba3cbf52"
+  },
+  "proofScope": {
+    "kind": "bounded R7 predecessor source revision with preserved immutable R5 ancestry",
+    "componentId": "ua-handoff-callback-epoch",
+    "predecessorScope": {
+      "kind": "bounded shard-zero UA handoff historical-helper source transition; exact single-import V1\u2192V2 current-successor redirect",
+      "sourceEpoch": {
+        "commit": "fa45f44c8ccc3d80226984fab7792eac9353b252",
+        "tree": "278d16f781fa59de88c6f58ff3ce6d28535fd545",
+        "logicalCurrentS1Commit": "2d35138027f00c0740975e519dbb3a2b6df76d14"
+      },
+      "predecessorCandidate": {
+        "manifestPath": "research/ci117-shard0-bootstrap-closure-v2/manifest-v2.json",
+        "manifestSha256": "0d0ec907a2c7ff018ef170014d74bfc4a5096fb431eed47551e63dfe3747b4e9",
+        "intermediateAfterSha256": "a630a239882d5c65ab416ac062c7ff4f5377d696454b53b5af52600733ca41ef"
+      },
+      "finalSuccessor": {
+        "manifestPath": "research/ci117-shard0-bootstrap-closure-v3-ua-successor-v1/manifest-v1.json",
+        "manifestSha256": "0a7edf5cc9d0d114b48839db24a4fb548546afefdd27ed19bedbc7c336e4b0f9",
+        "installMapPath": "research/ci117-shard0-bootstrap-closure-v3-ua-successor-v1/install-map-v1.json",
+        "installMapSha256": "ef24a2db482baa75fd62bae3d02e474f226fce878af82b329950a2d463969bdd",
+        "replacementImport": "research/class-mapping-history-v1/replay-tools/dmg175-current-successors-mm-v2.mjs",
+        "replacementImportSha256": "69e26203c90c738367feec598ef9c8313492f33eea4d04471cc3dfbecc5f93eb"
+      },
+      "exactImportRewriteOccurrences": 1,
+      "callbacksAndAssertionsChanged": false,
+      "peerStatus": "CLEAR_BOUNDED",
+      "wholeSuiteClosure": false,
+      "actualCI": false,
+      "installation": false,
+      "nativeQualification": false,
+      "sourceValueOrGradeApproval": false,
+      "reviewStatus": "CLEAR_BOUNDED_INDEPENDENT_SOURCE_PEER",
+      "combinedIndependentPeer": {
+        "disposition": "CLEAR_BOUNDED",
+        "manifestPath": "research/class-mapping-ci-sharding-v1/test-source-transition-v1/evidence/combined-b-peer-v1/manifest-v1.json",
+        "manifestSha256": "6cc6f6a39652ad37f585be3d3ff8b5852da68235147a95e26b190e2bbd8ceabe",
+        "reviewPath": "research/class-mapping-ci-sharding-v1/test-source-transition-v1/evidence/combined-b-peer-v1/independent-review-v1.json",
+        "reviewSha256": "26b215e04759064ca53090c3ed174eeba859d432de01cbbceccdd3e1701e5694",
+        "reviewerId": "/root/ci117_failure_repair_join",
+        "candidateTestsRun": false,
+        "integratedR7CI": false,
+        "nativeQualification": false
+      }
+    },
+    "fullNativeOrCiQualification": false
+  },
+  "codeProof": [
+    {
+      "path": "research/class-mapping-history-v1/mm-replay-child-process-v1.mjs",
+      "sha256": "0ae7ecb6d60b81146f6c0c0f2306bb5c25d8d5b8878dc82e70e8bec2e7c64731",
+      "sizeBytes": 7052,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-replay-child-process-v2.mjs",
+      "sha256": "c342f0867b74c4afe402d44199cb3e440b48be98ab8058c3e1792aae770f395e",
+      "sizeBytes": 7529
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-replay-fs-v1.mjs",
+      "sha256": "aae501259b9ca46b9b1c91107cda45e978da63c50720e00dd695b156d8b1fd17",
+      "sizeBytes": 10020,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-replay-fs-v2.mjs",
+      "sha256": "d4e657cbfece2f6e0aa19003e12b690bbbd2cfa282c618855232ed02390bcfb9",
+      "sizeBytes": 2131
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-replay-fs-v3.mjs",
+      "sha256": "3c890f4bfe31ff23fa0bea830400644681eec7ac849222c2fdc9285f2075cac1",
+      "sizeBytes": 1268
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-replay-fs-v4.mjs",
+      "sha256": "64296546febb9cb2db6a6db523c7391cd9b69fdde6026b8a201c00ef8fe8c226",
+      "sizeBytes": 1375,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-replay-fs-v5.mjs",
+      "sha256": "8a4f41e42f13db37244c4eeca65def9c0d092b83ef15633e1ec27e54453a766f",
+      "sizeBytes": 1417,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-replay-io-contract-v1.mjs",
+      "sha256": "7a03d1bada79fa6845119ea47fb9f66665f52daf5bbeac46a48b39cecf060223",
+      "sizeBytes": 4956,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-replay-io-contract-v3.mjs",
+      "sha256": "48a3bf211c1f86748b772d106447fe9f5d5cda9b11063a0faa5780368ccd42a4",
+      "sizeBytes": 5011,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-search-cjs-transport-v1.mjs",
+      "sha256": "8030880f7b17a1f0799ecd21cb3b1881ab4e56af70c20d996d55a7b5908410e6",
+      "sizeBytes": 2570,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-test-postsource-supplement-v2.mjs",
+      "sha256": "b4096b1b30550d3fcd1b6526622dc18af951036bf974dd1f87a8241d91145f34",
+      "sizeBytes": 15318
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-test-postsource-supplement-v3.mjs",
+      "sha256": "f7c88d48c1e8d233371744e08fd264f687b6b7a5e7e91743bf704dddcaa043ce",
+      "sizeBytes": 7708
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-test-postsource-supplement-v4.mjs",
+      "sha256": "831ff3781c613434223797dcf7bb8bfbfe75f3b6c69a7853d447c4635a0ac4db",
+      "sizeBytes": 6943,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-test-postsource-supplement-v5.mjs",
+      "sha256": "50c138c9ffbb0e0d27224fdfae5c6267a7bf42573830fa27a79751305d6ea2a0",
+      "sizeBytes": 9931,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-test-role-supplement-v2.json",
+      "sha256": "b8c887c3f75a2ac128c635d7016549df47a372ddc74b7f78d3ab045c3effca12",
+      "sizeBytes": 12788
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-test-role-supplement-v3.json",
+      "sha256": "27856ec212c1e0d9326572e8fd44b1c261f18db6ca838c6277cd6c42face8235",
+      "sizeBytes": 6314
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-test-role-supplement-v4.json",
+      "sha256": "517f8b522abe7da2261f5f03cfdc2d2aa848905ea20fed148755d6067bdbafe4",
+      "sizeBytes": 3022,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/mm-test-role-supplement-v5.json",
+      "sha256": "4ed0c75ba78e865db10a39929cb9e80b3938dcecc98394c2215de2f9fdf1a488",
+      "sizeBytes": 63196,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-kernels/native-monetary-source-questions-kernel-mm-v2.mjs",
+      "sha256": "ca93f1b58006b5081cf64da78bd0c18344b5eaa9b87406e7ed0d4e2183f5ec37",
+      "sizeBytes": 28320,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-test-helpers/pass8-character-reference-history-mm-v3.mjs",
+      "sha256": "1f31f5c5dd399d2175816fb09ed08d89ebdf57dd23b8a80e8a4e4441fdbb27fd",
+      "sizeBytes": 6584
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-test-helpers/pass8-citation-target-crop-history-mm-v3.mjs",
+      "sha256": "cc77da3200d0511481387100f26a9b34fd410af91b3c9676e2ecd82ddf90b304",
+      "sizeBytes": 11554
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-test-helpers/pass8-phb-source-history-mm-v3.mjs",
+      "sha256": "b3f5ac4c51dfd6492ba5ba9a57c4fbbb0cd6b2b9d768a002c9a5553f6d3e649f",
+      "sizeBytes": 9485
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-test-helpers/pass8-xp-continuation-history-mm-v3.mjs",
+      "sha256": "61c82375a70d03f993f768c592d55750b74cd40b512140d837f3579c006581ed",
+      "sizeBytes": 10088
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-test-helpers/ua-source-dmg74-matrix-batch-mm-v3.mjs",
+      "sha256": "f3e3fd0c5ee494ab48842b925521d86b224d3eb36ee5296c8ac59280cea92d02",
+      "sizeBytes": 8232
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/citation-override-identity.mjs",
+      "sha256": "140de83cbc9b039e43615cdc934ca9e2d998ad7fc2c39ae4b140d68ec9123067",
+      "sizeBytes": 4268,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/citation-region-role.mjs",
+      "sha256": "e96802384ce7328055150da935b4279dff252b7ebfd5e5a954559b38b75257c5",
+      "sizeBytes": 1976,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/class-xp-continuation-target-review.mjs",
+      "sha256": "67196db3db83e91a3e5582137613abec9056b47609279299093dffe19c745b69",
+      "sizeBytes": 9082,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/coverage-gaps-mm-v2.mjs",
+      "sha256": "af0b3873e80614bbe82ad4fe2cb2900e84a4f93cbe8d5af14ec7efd70bd8c255",
+      "sizeBytes": 64099,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/dmg175-availability-projection.mjs",
+      "sha256": "1469d1c99d5dc2a59aab7f1e2aa3d2cbecbf3727f716011e81a2107dc0de46ff",
+      "sizeBytes": 30811,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/dmg175-current-jo-source-gap-mm-v2.mjs",
+      "sha256": "6b936625d7eff8ae2c65891caa83cba7d2c77daa28b48d88841d251cdbe1cf41",
+      "sizeBytes": 7562,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/dmg175-current-monetary-source-questions-mm-v2.mjs",
+      "sha256": "3b992d9af7c3dece4d6e7d7494584b61e3ade0045a3eacf284ac1e2e766132aa",
+      "sizeBytes": 3117
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/dmg175-current-source-handoff-mm-v1.mjs",
+      "sha256": "8b10179e630020373bff9658dddd5f8cc73d70700ab4f6a5ff47bea95c131c6a",
+      "sizeBytes": 11650,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/dmg175-current-successors-mm-v2.mjs",
+      "sha256": "69e26203c90c738367feec598ef9c8313492f33eea4d04471cc3dfbecc5f93eb",
+      "sizeBytes": 657
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/dmg175-hired-native-source-handoff-v2.mjs",
+      "sha256": "718ddf789911e84a6888ac8584cb46762b78e93391dee83778b753fd34d06340",
+      "sizeBytes": 17658,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/dmg175-source-handoff-transition-v1.mjs",
+      "sha256": "8f246f4fb0e9ed2d970819140c7881f2ccc2e1384219fab0af2a98e4bb81b8be",
+      "sizeBytes": 7905,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/jo-unextracted-price-registration.mjs",
+      "sha256": "fc6b65c2f62b3aa0ddfa90a72a02b83358de02d43d4d2f85efd1b924a5163dc5",
+      "sizeBytes": 4826,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/mechanics-audit.mjs",
+      "sha256": "3217969241adda3df05cb119635ff691d87fbcefcb5ec29988d76dede8b6c4e4",
+      "sizeBytes": 17012,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/mechanics-citation-page-transfer.mjs",
+      "sha256": "96c75f18696db3b423cbdff5e2f68f1099ae72dc206aa84a150e681e61b384c1",
+      "sizeBytes": 5144,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/mm-current-safe-json-v1.mjs",
+      "sha256": "e024b07175cddb34f5daf35c8b04fcd0a7e06977bcbe3e1a30a2405dac84bb38",
+      "sizeBytes": 2405,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/monetary-context-extent-contract.mjs",
+      "sha256": "64838c56e5303a6a63f4ff0e33c3ee2bb15cd445c4fca50c276dc2906af3074d",
+      "sizeBytes": 10935,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/monetary-row-identity-audit-mm-v5.mjs",
+      "sha256": "e7c18f6fb797be22ce3164fb2ee1a3b4c71d39acdae60fa1ea9ad288ccda19a2",
+      "sizeBytes": 165238,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/monetary-row-identity-audit.mjs",
+      "sha256": "1b36cb1fc9c6449d9c7172974d87293e155fea6613af9666b47c72f4fd6947d5",
+      "sizeBytes": 165238,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/monetary-source-render-frames.mjs",
+      "sha256": "d6abef6fc1cf44f322ffc5a5a203c0539a23c5e4bd6d4827682aa5d947b24de7",
+      "sizeBytes": 2582,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/native-h-epoch-guard-v2.mjs",
+      "sha256": "b20082de376a824e9e6f73bbdf8b510b427588a2eda0f3613e08a55560797afe",
+      "sizeBytes": 4304,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/price-source-inventory.mjs",
+      "sha256": "0bee75f1a3398194f53637a9e4b7b463c559b193d8722edb9a3a40698fc1b951",
+      "sizeBytes": 143163,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/refresh-gaps-handoff-mm-v2.mjs",
+      "sha256": "9b232e5c8026ee72695d93cc0bf0402284864e3c3aef4c672c0020b6ea023ce2",
+      "sizeBytes": 86963
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/source-report-consistency-audit.mjs",
+      "sha256": "ce1a70b89bf9fcb289062b6c7516e131559f2459a8a9b03a942ff7b15bb1dff5",
+      "sizeBytes": 17320,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "research/class-mapping-history-v1/replay-tools/ua-source-handoff-transition.mjs",
+      "sha256": "3adfe83ac23945e103c00c0c860d4d741b2ee0af4015db3bb91925d34e544cc2",
+      "sizeBytes": 5877,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "tests/helpers/class-mapping-current-cohort-factory-v1.mjs",
+      "sha256": "1ded2b77aa722b3650556030ebdbf9fede68ef7a5c547358655bb9993a3ef24e",
+      "sizeBytes": 12122,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "tests/helpers/class-mapping-current-cohort-v1.mjs",
+      "sha256": "dbdcd4bb84de1c74a7f458f94a8610f95ddac38d4a38a4cba5d8f78e815b96f8",
+      "sizeBytes": 1054,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "tests/helpers/class-mapping-historical-mm-test-inputs-v1.mjs",
+      "sha256": "23a8ea646bfc280489a7466646ea3b2aeecca713db87bde36d533a9720296a1f",
+      "sizeBytes": 5069,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "tests/helpers/ua-source-handoff-mm-epoch-reader-v1.mjs",
+      "sha256": "1967e57140ba26ed1a6ed5eb104f051153a6fe987bc50ff6d83e7c9de15ab679",
+      "sizeBytes": 8080,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "tests/helpers/version29-native-source-context.mjs",
+      "sha256": "12296c341deebe41c44111d6eec9cfd1a8d4b9ca7d58a2aa1105cbc746530c09",
+      "sizeBytes": 2016,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "tests/ua-source-handoff-transition.test.mjs",
+      "sha256": "fcbe884e9964b1d4cd908f9dd2bfb0af2e61413c0397f06fa9da36f854192c53",
+      "sizeBytes": 22471
+    },
+    {
+      "path": "tools/class-mapping-current-source-gate-v1.mjs",
+      "sha256": "b1f0a580188bd8a1597ca1b0f5cf8ff72ec38b46555968a5d79f8a3b591a5bd7",
+      "sizeBytes": 376,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "tools/class-mapping-frozen-parent-artifacts-v1.mjs",
+      "sha256": "1307f8693d9c337ba83769bb79be0b31ff9424873b82a86994f6186f221aa53b",
+      "sizeBytes": 4803,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "tools/class-mapping-native-contract-v1.mjs",
+      "sha256": "14002939eac2f3ca2f0f246cf5c0230cf9c2f7daebe4a8b5ecba5723cd7c4c9b",
+      "sizeBytes": 42832,
+      "role": "exact imported runtime dependency of reviewed repair"
+    },
+    {
+      "path": "tools/class-mapping-raw-git-v1.mjs",
+      "sha256": "174d777a6ad719ca783bf8f0345c867469b6b8fb33927e34d744a22362bca909",
+      "sizeBytes": 5374,
+      "role": "exact imported runtime dependency of reviewed repair"
+    }
+  ],
+  "revision": {
+    "transitionId": "bootstrap-v3-ua-source-handoff-transition",
+    "parentTransitionId": "bootstrap-v3-ua-source-handoff-transition",
+    "parentRowSha256": "7808e15d3e2542fc0855de5dd4e25153d04918a4497b280bba339b8168190274",
+    "kind": "source-revision",
+    "authorId": "/root/ci118_r8_integration_orchestrator",
+    "previousAfter": {
+      "sha256": "0e877c5b6583b640fe920dd692c6c6e8d008f2133db32ab972c40b7b2946c712",
+      "sizeBytes": 21396
+    },
+    "beforeFixture": {
+      "path": "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r8-r7-predecessor-sources/ua-source-handoff-transition.test.mjs",
+      "sha256": "0e877c5b6583b640fe920dd692c6c6e8d008f2133db32ab972c40b7b2946c712",
+      "sizeBytes": 21396
+    }
+  }
+}

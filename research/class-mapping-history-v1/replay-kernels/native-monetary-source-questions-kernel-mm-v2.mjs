@@ -3,7 +3,7 @@
 // registries/proofs remain unchanged. The caller injects the live audit loader;
 // this kernel never sends V29 projected data to the historical loader.
 import {createHash} from 'node:crypto';
-import {readFileSync} from '../mm-replay-fs-v2.mjs';
+import {readFileSync} from '../mm-replay-fs-v5.mjs';
 import {resolve} from 'node:path';
 import {execFileSync} from '../mm-replay-child-process-v1.mjs';
 import {types} from 'node:util';
