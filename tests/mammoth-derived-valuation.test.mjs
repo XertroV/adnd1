@@ -1,14 +1,17 @@
+// Preserved exact a29/MM assertions; separate S1 companion tests own current behavior.
 import test from 'node:test';
+import {assertHistoricalMmTestStage,historicalMmTestRoot} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
 import {resolve} from 'node:path';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
-import {quantitySourceAbsenceInputs,buildQuantitySourceAbsenceReport,quantityUncertaintyPattern,lexicalAbsencePattern,numericSourceAbsencePattern} from '../tools/quantity-source-absence-audit.mjs';
-import {normalizeMammothDerivedValuation} from '../tools/monetary-source-inventory.mjs';
-import {hash} from '../tools/monetary-row-identity-audit.mjs';
-import {validateCurrentMonetarySourceQuestionProjection,loadCurrentMonetarySourceQuestions} from '../tools/dmg175-current-monetary-source-questions-mm-v1.mjs';
-const root=resolve(import.meta.dirname,'..'),read=p=>JSON.parse(readFileSync(resolve(root,p))),sha=b=>createHash('sha256').update(b).digest('hex');
+import {quantitySourceAbsenceInputs,buildQuantitySourceAbsenceReport,quantityUncertaintyPattern,lexicalAbsencePattern,numericSourceAbsencePattern} from '../research/class-mapping-history-v1/replay-tools/quantity-source-absence-audit.mjs';
+import {normalizeMammothDerivedValuation} from '../research/class-mapping-history-v1/replay-tools/monetary-source-inventory.mjs';
+import {hash} from '../research/class-mapping-history-v1/replay-tools/monetary-row-identity-audit.mjs';
+import {validateCurrentMonetarySourceQuestionProjection,loadCurrentMonetarySourceQuestions} from '../research/class-mapping-history-v1/replay-tools/dmg175-current-monetary-source-questions-mm-v2.mjs';
+assertHistoricalMmTestStage();
+const root=historicalMmTestRoot,read=p=>JSON.parse(readFileSync(resolve(root,p))),sha=b=>createHash('sha256').update(b).digest('hex');
 const before=read('tests/fixtures/mammoth-derived-valuation-before.json');
 const raw=read('research/price-source-inventory-monster-books.json'),receipts=read('research/source-audit-batch5-price-discovery-reconciliation.json');
 const mammoth=receipts.claimReceipts.find(r=>r.receiptId==='mm-mammoth-tusks-relative'),elephant=receipts.claimReceipts.find(r=>r.receiptId==='mm-elephant-tusks');
@@ -92,7 +95,7 @@ test('current-MM projection retains the eight historical questions and all 195 k
 });
 
 test('gaps entries expose all eight retained monetary identities and link the current-MM registry plus immutable history',async()=>{
- const {currentMonetarySourceQuestionEntries}=await import('../tools/coverage-gaps.mjs');
+ const {currentMonetarySourceQuestionEntries}=await import('../research/class-mapping-history-v1/replay-tools/coverage-gaps-mm-v2.mjs');
  const projection=loadCurrentMonetarySourceQuestions(),entries=currentMonetarySourceQuestionEntries(projection);
  assert.equal(entries.length,8);assert.equal(entries.filter(e=>e.status==='unresolved-source-question').length,7);
  const derived=entries.find(e=>e.status==='source-backed-derived-valuation');

@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Independent bounded peer review of CI117 citation-navigation inventory transition proposal V2",
+  "disposition": "CLEAR_BOUNDED_REVIEW",
+  "reviewedProposal": {
+    "path": "/workspace/research/ci117-citation-navigation-inventory-transition-proposal-v2/manifest-v2.json",
+    "manifestSha256": "83924240616179fa1a90c28e747adf993be0b233702481c50413eb65350420a4",
+    "frozenStatus": "FROZEN_PROPOSAL_PENDING_FRESH_PEER_AND_ROOT_INTEGRATION",
+    "packetFileCount": 22,
+    "allManifestFileHashesAndSizesMatch": true
+  },
+  "sourcePins": {
+    "historicalA29Commit": "a29d72d5147c497addd9e46f54ea3f8222f6e9c2",
+    "historicalA29ExpandedSha256": "f4381ff282ea6ff7d245c915ab17fafd4b19e025e2af6c2a496145429285f2c7",
+    "historicalA29FixtureGzipSha256": "361597559d89eb2c2085cb3ad170f4b29deb9d7d3e226f83e163f1a51dff5ab0",
+    "currentR6Commit": "d83bd30f3b74da488f78ea3302fa1e67a94c7607",
+    "currentR6AppSha256": "876df077e57041e77732ea56cc47123dc1f459ba6badac0ce98d3254345106d6",
+    "currentR6DataSha256": "16ddcc0ef49ea5ee9ca32b26353edb632d10db160e83bbd464458f5b73c1b573",
+    "originalTestSha256": "cf36d345937c89861f716d67c1dcdf970e73236b0e79dfdf28bbc32e87cdc631",
+    "proposedTestSha256": "3ebfc172cc74051847244168e746069245fbbcd91521ed3803ab31251e653eb8",
+    "proposedScannerSha256": "e2b3375ef38610640e951600f196becb578159ecc6db0432ec6c6657f316b5ae",
+    "proposedCoverageToolSha256": "bfd764ba621596f8f55c158e70cbf377740a09c031ef2c9a9c275dbcd094c194"
+  },
+  "checks": {
+    "staticCallCensus": {
+      "method": "Independent Acorn AST parse; app text parsed as data and never evaluated",
+      "parser": {
+        "nodeVersion": "v24.22.1",
+        "acornVersion": "8.18.0",
+        "sourceSha256": "fc3ed7b81e58464715d0291402892f22c3d86ea75302645a330390f85d8015c9"
+      },
+      "A29": {
+        "CallExpressions": 27,
+        "lineFunctionSites": 22,
+        "producerClasses": 15
+      },
+      "R6": {
+        "CallExpressions": 29,
+        "lineFunctionSites": 23,
+        "producerClasses": 16
+      },
+      "R6ProducerClasses": [
+        "class-abilities-table-record",
+        "class-ability-field-reference",
+        "class-advancement",
+        "class-progression-reference",
+        "class-xp-table",
+        "dynamic-xp-result",
+        "equipment-estimate-comparison",
+        "equipment-related-reference",
+        "field-attribute-layout",
+        "fighter-matrix-reference",
+        "hireling-pending-pdf-bullet-field-reference",
+        "matrix-detail-reference",
+        "progression-explainer-detail-reference",
+        "progression-explainer-reference",
+        "rule-bullet-field-reference",
+        "source-table-fact-reference"
+      ],
+      "classAbilities": {
+        "A29": [
+          {
+            "line": 1144,
+            "firstArgument": "turningTable",
+            "producerClass": "class-abilities-table-record",
+            "scope": "rules:cleric-turning-table"
+          }
+        ],
+        "R6": [
+          {
+            "line": 1236,
+            "column": 317,
+            "firstArgument": "reference",
+            "producerClass": "class-ability-field-reference",
+            "scope": null,
+            "sourceContainer": "classes.classAbilityInheritance.references"
+          },
+          {
+            "line": 1236,
+            "column": 643,
+            "firstArgument": "reference",
+            "producerClass": "class-ability-field-reference",
+            "scope": null,
+            "sourceContainer": "classes.classAbilities[].references"
+          },
+          {
+            "line": 1238,
+            "column": 414,
+            "firstArgument": "turningTable",
+            "producerClass": "class-abilities-table-record",
+            "scope": "rules:cleric-turning-table",
+            "sourceContainer": null
+          }
+        ]
+      },
+      "commentsStringsAndInertTemplateTextDoNotAddCalls": true,
+      "templateExpressionIncrementsCount": true,
+      "sameLineUnknownClassAbilitiesCallRejected": true
+    },
+    "testSourceTransition": {
+      "before": {
+        "tests": 13,
+        "assertCallExpressions": 79
+      },
+      "after": {
+        "tests": 16,
+        "assertCallExpressions": 139
+      },
+      "addedNames": [
+        "the exact A29 app f4381ff producer census remains preserved as a source-byte regression",
+        "per-call AST census counts both same-line class-ability chips and rejects unknown calls",
+        "the Paladin ability producer routes only the eleven current class-field references as pending targets"
+      ],
+      "removedNames": [],
+      "modifiedNames": [
+        "citation navigation inventory captures all current chip producer classes and sites",
+        "source-table record and fact citation producers have distinct bounded classifications"
+      ],
+      "unchangedOriginalBodies": 11,
+      "historicalA29Controls": {
+        "sourceLine22": true,
+        "callExpressions27": true,
+        "classes15": true,
+        "oneClassAbilitiesRecord": true
+      },
+      "currentR6Controls": {
+        "sourceLine23": true,
+        "callExpressions29": true,
+        "classes16": true
+      },
+      "historicalVsCurrentExpectationsAreSeparatelyPreserved": true
+    },
+    "pendingReferenceTargets": {
+      "statusArtifactSha256": "443ed5a154cf824ffe5e28e7a8dcb6560aee2fe00dfc56b6e6f6978e348c7bdf",
+      "rows": 11,
+      "verifiedAgainstPinnedCurrentData": true,
+      "exactOwnerFieldSourceObjectBindings": 11,
+      "pendingUnassessedAndTargetReviewNull": true,
+      "targetBreakdown": {
+        "PHBPrinted22PaladinAndUAPaladinClassAbilities": 10,
+        "UAPrinted16Inheritance": 1
+      },
+      "sourceValueOrContextApproval": false
+    }
+  },
+  "nonblockingNotes": [
+    "The V2 proposed test explicitly checks inert comment/string/template text and same-line unknown calls, but has no standalone positive template-expression injection assertion. The AST implementation structurally walks TemplateLiteral expressions; the independent injected check increments the count, and the pinned current app census counts all 29 actual calls.",
+    "The proposed coverage report retains the historical raw-regex inlineProducerSites diagnostic alongside producerScanner derived from the AST. The AST API is the source of truth for scoped classes and call counts; the raw diagnostic should not be used as a classification count."
+  ],
+  "limits": [
+    "No application or test body was executed by this review; source text was parsed as data.",
+    "No test suite, browser check, CI run, integration, field-value/source-context/default review, or production behavior qualification is claimed.",
+    "Independent local parser runtime was Node v24.22.1 with embedded Acorn 8.18.0; the proposal reports CI Node v24.22.2 without a CI parser identity observation."
+  ],
+  "evidenceFiles": [
+    {
+      "path": "evidence/independent-call-audit.mjs",
+      "sha256": "562ffeb0e7686610aa1ee0f28cb0eff67984ae916f34ca7e6139d948e1523ac8"
+    },
+    {
+      "path": "evidence/independent-call-audit-output.json",
+      "sha256": "9aa77efa99b5e73db5ae532d9ff51383c24a11593653dcd83b84e6634a8d93da"
+    },
+    {
+      "path": "evidence/test-transition-check.mjs",
+      "sha256": "35ec796018156a3bf730db7b0e79d6d6e6271d5a322a494314cb9d1b067c99d6"
+    },
+    {
+      "path": "evidence/test-transition-check-output.json",
+      "sha256": "66b39f81365f5466f278878622013425d261d783a39f7078b06a3fca95476519"
+    },
+    {
+      "path": "evidence/git-blob-pins.json",
+      "sha256": "0c8f8db4b80f29f04b9451e4f7d9ce5b5beba7b5f22f519beb60c2a07b68addf"
+    }
+  ]
+}

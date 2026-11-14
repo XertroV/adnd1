@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync} from 'node:fs';
+import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
 import {resolve} from 'node:path';
 import test from 'node:test';
-import {buildCoverageGaps, supplementalMonetaryPresentation} from '../tools/coverage-gaps.mjs';
+import {buildCoverageGaps, supplementalMonetaryPresentation} from '../research/class-mapping-history-v1/replay-tools/coverage-gaps-mm-v2.mjs';
 
-const root = resolve(new URL('..', import.meta.url).pathname);
+import {historicalMmTestRoot as root, assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
+assertHistoricalMmTestStage();
 const read = path => readFileSync(resolve(root, path));
 const data = JSON.parse(read('dist/data.json'));
 const handoff = JSON.parse(read('research/gaps-limitations-next-task.json'));

@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "ci117-public-scan-source-inventory-transition-proposal",
+  "status": "proposal-only; awaiting independent source/test-transition review; not installed or CI-qualified",
+  "createdOnUtc": "2026-11-13",
+  "scope": "Read-only investigation and exact source-test postimage for CI117 shard3 public-scan-contract failure. No current data, Mini, Git, native, or CI writes.",
+  "epochs": {
+    "ciCandidate": {
+      "label": "CURRENT_S1 candidate, not live/deployed behavior",
+      "ciRun": 43350537960,
+      "ciJob": 131640255860,
+      "ciCommit": "d83bd30f3b74da488f78ea3302fa1e67a94c7607",
+      "ciParent": "fa45f44c8ccc3d80226984fab7792eac9353b252",
+      "sourceEpochCommit": "2d35138027f00c0740975e519dbb3a2b6df76d14",
+      "sourceEpochTree": "40ecb15130b339658522794db6d9e1bc58f43b50",
+      "data": {
+        "path": "dist/data.json",
+        "rawSha256": "16ddcc0ef49ea5ee9ca32b26353edb632d10db160e83bbd464458f5b73c1b573",
+        "sizeBytes": 21742098,
+        "canonicalParsedSha256": "06be8cf95fbae3305f96befae32f6dc7c46696e73df265b05cc275f0ec74eead",
+        "referenceBearingRecordCount": 1070
+      },
+      "qualifiedCurrentScanReport": {
+        "path": "research/class-mapping-source-epoch-v1/reports/current/source-scan-inventory-class-mapping-current-v1.json",
+        "rawSha256": "3ad72c7cb841dd9d21c467893f63730eebce438a4e3553adf53f033c6061b94f",
+        "sizeBytes": 7893056,
+        "counts": {
+          "records": 1070,
+          "recordPagePairs": 2232,
+          "nonmissingPairs": 2225,
+          "citedPages": 246,
+          "knownGapPages": 1,
+          "batches": 26
+        },
+        "aliasContract": {
+          "logicalPath": "tests/fixtures/source-scan-inventory.json",
+          "physicalPath": "research/class-mapping-source-epoch-v1/reports/current/source-scan-inventory-class-mapping-current-v1.json"
+        },
+        "metadataStagePath": "research/class-mapping-source-epoch-v1/metadata-stage-v2.json",
+        "metadataStageRawSha256": "86c7749246498f8d53cc7935151cf23569167c6d913f1a77be3c5c1beea4b189"
+      }
+    },
+    "legacyFixture": {
+      "label": "A29 immutable historical replay and parent-attested live public Version31a29 dataset; preserved as-is",
+      "historicalCommit": "a29d72d5147c497addd9e46f54ea3f8222f6e9c2",
+      "historicalManifestPath": "research/class-mapping-history-v1/mm-test-input-manifest-v6.json",
+      "historicalManifestSha256": "a063dd1910847d94e363f1cee502dfa34fd283ccf2c79f1370bcffe00f886070",
+      "data": {
+        "path": "dist/data.json",
+        "rawSha256": "2ab84cfe5e4234e5d0303b2062f941f7d8e1b93d798a7402c16e78d6d2e4672c",
+        "canonicalParsedSha256": "40ec040a637ad840bea8f7c93b6fde30f2300969df17c7236642be0749cfee21",
+        "referenceBearingRecordCount": 1064
+      },
+      "fixture": {
+        "path": "tests/fixtures/source-scan-inventory.json",
+        "rawSha256": "ca675e6d3a82488d2c9e2e0520a2c96a3d14b340b4bc3738d03887289b658e77",
+        "sizeBytes": 7698288,
+        "embeddedCanonicalInputSha256": "40ec040a637ad840bea8f7c93b6fde30f2300969df17c7236642be0749cfee21",
+        "counts": {
+          "records": 1064,
+          "recordPagePairs": 2223,
+          "nonmissingPairs": 2216,
+          "missingDMG175Pairs": 7
+        }
+      }
+    }
+  },
+  "ciFailure": {
+    "logPath": "/workspace/vault-audit-private/pass8/root/ci117-shard3-before-repair-decoded-log-v1.json",
+    "logSha256": "56235ee4183693f9a98e2f0a2658ca48bfd4147eaf6e144a6d6e4429fab1b787",
+    "assertion": "tests/public-scan-contract.test.mjs:26: actual 2225 != fixture-derived expected 2216",
+    "localReproduction": {
+      "command": "node --test tests/public-scan-contract.test.mjs",
+      "result": "3 tests; 2 passed, 1 failed at the same assertion",
+      "catalogAndPngByteAssertions": "PASS",
+      "publicPdfExclusionAssertion": "PASS"
+    }
+  },
+  "reconciliation": {
+    "allRecordPagePairRowsBefore": 2223,
+    "allRecordPagePairRowsCurrent": 2232,
+    "uniquePairRowsBefore": 2223,
+    "uniquePairRowsCurrent": 2232,
+    "availablePairsBefore": 2216,
+    "availablePairsCurrent": 2225,
+    "addedAvailablePairs": 9,
+    "removedPairs": 0,
+    "overlappingAvailabilityChanges": 0,
+    "unchangedMissingDMG175Pairs": 7,
+    "newOwnerRecordCount": 6,
+    "existingOwnerWithAddedPairs": "rules:racial-ability-adjustments (PHB pp.14,16,17)",
+    "sourceCatalogs": 7,
+    "distinctRenderedPngs": 13,
+    "regeneratedCurrentFixture": {
+      "computedInMemoryOnly": true,
+      "sizeBytes": 7892671,
+      "sha256": "fde374a4eac80af1fd6292e26a800242fd4b33c00c9d2c63305167f656d8462c"
+    },
+    "exactAddedPairsPath": "pair-diff-v1.json"
+  },
+  "proposal": {
+    "transitionTarget": "tests/public-scan-contract.test.mjs",
+    "before": {
+      "sourceCommit": "d83bd30f3b74da488f78ea3302fa1e67a94c7607",
+      "sha256": "7a8e3afbeff49691f9dffdf533d65de01b5df406e7b73ec31a9ff8506793e804",
+      "sizeBytes": 3100
+    },
+    "proposedAfter": {
+      "path": "postimage/tests/public-scan-contract.test.mjs",
+      "sha256": "be7e2d1b31c470852092bd1595abe94d4df33f68d5db0378ac895056577ed456",
+      "sizeBytes": 4427
+    },
+    "patchPath": "public-scan-contract.patch",
+    "patchSha256": "ab126cdb10cb3efd73ed5f1f5e79b773652e6a66fe44194f1195bc41dd89eda2",
+    "scope": [
+      "Read the already-qualified Current S1 source report instead of the legacy fixture.",
+      "Assert canonical report input hash matches current parsed data.",
+      "Preserve the per-record catalog checks, aggregate count assertion, PNG-byte check, and PDF-exclusion check.",
+      "Add full current (collection,id,book,page) set equality and duplicate rejection.",
+      "Do not change the legacy fixture, A29 historical replay, source data, source catalogs, reports, or native/current qualification state."
+    ],
+    "reviewRequirements": [
+      "Add exact finite test-source transition row with these before/after pins.",
+      "Bind the current report/source alias proof and pair-diff evidence.",
+      "Fresh independent reviewer must accept the exact postimage before any installation.",
+      "Run the actual full R7 CI suite after an authorized integrated change; this proposal did not run it."
+    ],
+    "postimageSyntax": "node --check passed; proposed test execution not performed because postimage is not installed."
+  },
+  "fixtureConsumers": {
+    "path": "fixture-consumer-inventory-v1.json",
+    "rawSha256": "3c5c0c01dc3fede96542c748d5e088f5b74f9d997f40f821e10e49b504db0013",
+    "literalReferenceLines": 79,
+    "distinctPaths": 59,
+    "classificationSummary": "Includes one live candidate public-scan test, the live generator/handoff readers, the immutable A29 replay test and manifest, alias contracts, test fixtures, documentation, and frozen research/evidence references."
+  },
+  "sourcePins": {
+    "PHB": {
+      "path": "/workspace/vault-audit-private/sources/tsr2010-players-handbook.pdf",
+      "sha256": "e43e667bad1c2cb093bb28f47f78ec663623b367ae817895bd188bdc3dd4f095",
+      "pageCount": 130,
+      "printedToPdf": "N to N+1",
+      "addedPrintedPages": [
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    "UA": {
+      "path": "/workspace/vault-audit-private/sources/Unearthed Arcana.pdf",
+      "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+      "pageCount": 130,
+      "printedToPdf": "N to N+1",
+      "addedPrintedPages": [
+        15,
+        17
+      ]
+    }
+  },
+  "limits": [
+    "Source page existence, availability, source-catalog page pointers, and PNG byte identity were checked; no mechanics, table-value, or wholebook grade is made.",
+    "The current report and regenerated fixture payload are evidence of inventory structure, not approval of all source content.",
+    "Current source data is a candidate snapshot; no deployment claim is made.",
+    "No whole PDFs, source rasters, or full regenerated 7.9 MB fixture were copied into this packet."
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "sizeBytes": 3445,
+      "sha256": "8a62a325f25bb219fbd654c47df45c16f16532dffd970c51d93c59fb9ebedba8"
+    },
+    {
+      "path": "pair-diff-v1.json",
+      "sizeBytes": 22169,
+      "sha256": "9aa6c5d4bcd83c4c47d44fe4f766ac6963841573b0975a65f97658132ab7c6b8"
+    },
+    {
+      "path": "fixture-consumer-inventory-v1.json",
+      "sizeBytes": 17226,
+      "sha256": "3c5c0c01dc3fede96542c748d5e088f5b74f9d997f40f821e10e49b504db0013"
+    },
+    {
+      "path": "verify-v1.mjs",
+      "sizeBytes": 15475,
+      "sha256": "5461c25042409c85aed58b82607979035653f7683104923535d002028e99d727"
+    },
+    {
+      "path": "verification-result-v1.json",
+      "sizeBytes": 3262,
+      "sha256": "b5e8c18df4a4c1ec56e000b15dd3aac0345e02c9845006a44f5cdc395453d8e5"
+    },
+    {
+      "path": "public-scan-contract.patch",
+      "sizeBytes": 2489,
+      "sha256": "ab126cdb10cb3efd73ed5f1f5e79b773652e6a66fe44194f1195bc41dd89eda2"
+    },
+    {
+      "path": "postimage/tests/public-scan-contract.test.mjs",
+      "sizeBytes": 4427,
+      "sha256": "be7e2d1b31c470852092bd1595abe94d4df33f68d5db0378ac895056577ed456"
+    }
+  ]
+}

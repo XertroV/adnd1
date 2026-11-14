@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "S1 source component materialization and bounded validation receipt v2",
+  "status": "source components, precoverage outputs, renderer fix, portable renderer regression, and mechanics progress outputs installed; source epoch/release not qualified",
+  "baseCommit": "a29d72d5147c497addd9e46f54ea3f8222f6e9c2",
+  "scope": {
+    "newPendingFieldTargets": 98,
+    "phbComponentTargets": 70,
+    "uaComponentTargets": 28,
+    "sourceBookCounts": {
+      "PHB": 69,
+      "UA": 29
+    },
+    "partyLocationOnlyTargets": 13,
+    "newRules": 6,
+    "existingGameplayValueScalarChanges": 0,
+    "existingGameplayValueScalarDeletions": 0
+  },
+  "validation": {
+    "activeCatalogOwners": 1070,
+    "activeCatalogUses": 1091,
+    "catalogInvalidUsesAfterMetadataRepair": 0,
+    "preservedAndReplayedPreRepairFailures": 3,
+    "rendererControls": "PASS: 29 previously missing bound controls resolve while remaining pending; 725 negative probes rejected",
+    "portableRendererTest": {
+      "testPath": "tests/class-mapping-table-controls.test.mjs",
+      "fixturePath": "tests/fixtures/class-mapping-table-controls-before-v1.json.gz",
+      "fixtureSha256": "9fa3df3e9f46486b9536a2910e939fed8f88daba073cc9865981dbcc6fd1b24d",
+      "testsPassed": 3,
+      "failClosedMutationCases": 261
+    },
+    "mechanicsAudit": "PASS: --from-log --check; zero stale proposals and zero orphan reviews",
+    "mechanicsPreservation": {
+      "oldFieldRecordsAndStatusesExact": 14201,
+      "reviewObjectsPreservedInOrder": 1215,
+      "newMechanicsFields": 40,
+      "newFieldsUncheckedAndUninspected": true,
+      "intelligenceLearningReviewedPrefixLeaves": 6,
+      "intelligenceLearningAppendedUncheckedLeaves": 2
+    },
+    "portableRegressions": {
+      "testCount": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "rendererTests": 3,
+      "rendererFailClosedCases": 261,
+      "mechanicsPrefixTest": "tests/class-mapping-mechanics-prefix-review.test.mjs"
+    }
+  },
+  "precoverageOutputs": {
+    "dataSha256": "16ddcc0ef49ea5ee9ca32b26353edb632d10db160e83bbd464458f5b73c1b573",
+    "priceInventorySha256": "b32a8f8126e73b28fd0609fc7e0856990a454402b440735a77627f26fe986564",
+    "sourceContinuationsSha256": "beffde7d6ab2391eee11ca7f3e301e4fddeacc5d900b587f29cabf6abad3a8f8",
+    "finalAttempt4MatchesInstalledAttempt3ByteForByte": true,
+    "bodyReproductionReceiptSha256": "d2f48bcdafeae8011f6c9cc8b0762febbca05cb3b11ed98516adcf2220fc1bb3",
+    "mechanicsProgressSha256": "03643330c73dc3fe88f9abeb8a086883a3955d918cba2573e198563631a75785",
+    "mechanicsProgressMarkdownSha256": "6e2a988e833c330e061bf2d35fca3416154f514e289428c53e1983d251003151"
+  },
+  "gradeBoundaries": {
+    "newPhbUaFieldTargetsRemainPending": true,
+    "partyValuesAndContextUnassessed": true,
+    "noAutomaticGradePromotion": true,
+    "oldGameplayValueChanges": 0,
+    "newMechanicsFieldsUnchecked": 40
+  },
+  "qualification": {
+    "sourceBodyStage": "precoverage",
+    "sourceEpochQualified": false,
+    "fullAssemblerRun": false,
+    "nativeQualified": false,
+    "publicationClaim": false
+  },
+  "publicAppendix": [
+    {
+      "path": "research/s1-public-evidence-v2/component-summary-v2.json",
+      "sha256": "7669a31ffa36caf2bcb81d33e17ebb6c7ea6cd0322e375aa886d60f6ec357914"
+    },
+    {
+      "path": "research/s1-public-evidence-v2/catalog-failure-fixture-v2.json",
+      "sha256": "e9bcae087a2f21f2891364e2c69b497812b7a36af0844f13ff9979e13ac93ca9"
+    },
+    {
+      "path": "research/s1-public-evidence-v2/renderer-control-review-v2.json",
+      "sha256": "108f0d3ed9e6b609198f0daaa0069e3860f6c6c2988ec58cb9cad2cb23f1651b"
+    },
+    {
+      "path": "research/s1-mechanics-append-review-preservation-v1/source-receipt-v1.json",
+      "sha256": "27bd1ef8ab5df182b3d1b71518ef283b97c18ce605e3d708deb354528606760c"
+    },
+    {
+      "path": "tests/class-mapping-table-controls.test.mjs",
+      "sha256": "2cdd11628d523d6512602762c58436a8ce6c67377d8689ea206e0c97dce1b696"
+    },
+    {
+      "path": "tests/fixtures/class-mapping-table-controls-before-v1.json.gz",
+      "sha256": "9fa3df3e9f46486b9536a2910e939fed8f88daba073cc9865981dbcc6fd1b24d"
+    },
+    {
+      "path": "tests/class-mapping-mechanics-prefix-review.test.mjs",
+      "sha256": "ef8c5d4108b7b16538a6af573a48e8e8bdc98f7455a95335d332b544624d23eb"
+    }
+  ],
+  "privateAuditRoots": {
+    "mainInstallSha256": "b89ec8fe86484e257dfa73db9a5e031d49ddd020526f9c40ec021d40bc398cc3",
+    "partyInstallSha256": "a7cceae885a37c81c618afdae7d2d196e51e6132ef867cc787008432ca9a90f6",
+    "builderInstallSha256": "3f18be84b84bc012ffbc2c2990493acd7875d3c900e9c64cc2bbb20355dfc0e8",
+    "metadataRepairSha256": "122fc8ea8dddf1be1fc8d1f15c15f8ec3870068238f92b8c610c6b0e7cf3ca74",
+    "bodyOutputsInstallSha256": "30feabd912c17f84676d8f2b4968d2d1436e02c1d72dd4b6709f7e4ffdbb38b4",
+    "finalBodyReproductionSha256": "d2f48bcdafeae8011f6c9cc8b0762febbca05cb3b11ed98516adcf2220fc1bb3",
+    "rendererInstallSha256": "c4ebd54c91a093bddd74714f9ad49fc1f48d91b3b0546b6914b6e9ccb1210b90",
+    "mechanicsFixInstallSha256": "3d9eeb833c1bb7f774801f713abcf99c4de4795c6502fba1ac07b29b5210da7c",
+    "mechanicsOutputPreservationSha256": "02f60741ae66b74250bff40e7d83f940208ba90b433c7f59ceb69ea981967462",
+    "finalPreservationAddendumSha256": "377359c3f0a0357586689c065caa524aca4884b596d8a97e9b587f38f17de7a4",
+    "mechanicsBeforeFixFailureSha256": "a1802dd40ee7796410770cad823d91c2739b319d67c649c00f60d06e45a796eb",
+    "portableRegressionLogSha256": "d06c403020aa36664ca987781a2b10b7c77aed2bf5f96f2f214dbcbf5c800c8e"
+  }
+}

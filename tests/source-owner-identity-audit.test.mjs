@@ -1,14 +1,15 @@
+// Preserved exact a29/MM assertions; separate S1 companion tests own current behavior.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
 import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 import {assertWeaponPendingBindingCohort,weaponBindingAdditionCount} from './helpers/weapon-source-current-cohort.mjs';
 import {assertUaSourceContextBindingCohort} from './helpers/ua-source-closed-v28-context.mjs';
-import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
-import {buildSourceOwnerIdentityAudit, sourceOwnerIdentityCheck} from '../tools/source-owner-identity-audit.mjs';
-import {buildPriceSourceInventory} from '../tools/price-source-inventory.mjs';
-import {ambiguousItemOverrideIds, appendOverrideReferences, classProgressionOverride, collectionOverride, collectionReferenceOverrides, equipmentPriceStateOverride} from '../tools/citation-override-identity.mjs';
+import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/class-mapping-historical-mm-test-inputs-v1.mjs';
+import {buildSourceOwnerIdentityAudit, sourceOwnerIdentityCheck} from '../research/class-mapping-history-v1/replay-tools/source-owner-identity-audit.mjs';
+import {buildPriceSourceInventory} from '../research/class-mapping-history-v1/replay-tools/price-source-inventory.mjs';
+import {ambiguousItemOverrideIds, appendOverrideReferences, classProgressionOverride, collectionOverride, collectionReferenceOverrides, equipmentPriceStateOverride} from '../research/class-mapping-history-v1/replay-tools/citation-override-identity.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const baseline = JSON.parse(readFileSync(resolve(root, 'research/source-owner-identity-baseline.json'), 'utf8'));

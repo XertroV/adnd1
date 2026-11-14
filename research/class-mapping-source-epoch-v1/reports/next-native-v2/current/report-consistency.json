@@ -1,0 +1,137 @@
+{
+  "artifactType": "source-report-consistency-proposal-audit",
+  "metrics": {
+    "denominator": 5851,
+    "emptyRegionTargets": 3794,
+    "resolvedRegionTargets": 1437,
+    "recordTargetResolvedBindings": 2,
+    "regionResolvedFieldReviewPendingBindings": 618,
+    "fieldTargetReviewed": 773,
+    "fieldTargetNotReviewed": 5078,
+    "resolvedButFieldTargetNotReviewed": 664,
+    "targetStatusCounts": {
+      "empty-region-target": 3794,
+      "region-resolved-field-review-pending": 618,
+      "field-target-resolved": 1437,
+      "record-target-resolved": 2
+    },
+    "reviewStatusCounts": {
+      "field-target-pending": 4135,
+      "field-target-reviewed": 773,
+      "region-verified": 666,
+      "source-row-transcribed-bounds-provisional": 93,
+      "source-row-value-verified-region-pending": 182,
+      "source-excerpt-only": 2
+    },
+    "crossTab": [
+      {
+        "targetStatus": "empty-region-target",
+        "reviewStatus": "field-target-pending",
+        "count": 3517
+      },
+      {
+        "targetStatus": "empty-region-target",
+        "reviewStatus": "source-excerpt-only",
+        "count": 2
+      },
+      {
+        "targetStatus": "empty-region-target",
+        "reviewStatus": "source-row-transcribed-bounds-provisional",
+        "count": 93
+      },
+      {
+        "targetStatus": "empty-region-target",
+        "reviewStatus": "source-row-value-verified-region-pending",
+        "count": 182
+      },
+      {
+        "targetStatus": "field-target-resolved",
+        "reviewStatus": "field-target-reviewed",
+        "count": 773
+      },
+      {
+        "targetStatus": "field-target-resolved",
+        "reviewStatus": "region-verified",
+        "count": 664
+      },
+      {
+        "targetStatus": "record-target-resolved",
+        "reviewStatus": "region-verified",
+        "count": 2
+      },
+      {
+        "targetStatus": "region-resolved-field-review-pending",
+        "reviewStatus": "field-target-pending",
+        "count": 618
+      }
+    ]
+  },
+  "findings": [],
+  "proposedMonetaryMetadata": [
+    {
+      "reportIndex": 0,
+      "historicalProducerMetadata": {
+        "sourceInput": {
+          "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+          "sha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6"
+        },
+        "temporalScope": "historical-producer-phase",
+        "status": "private V5 proposal only; not applied; exact V5 source, condition and context review pending",
+        "independentOverlayReviewNeeded": true,
+        "scope": "Preserved producer-phase metadata. It is not a current application or scoped-review disposition, and no general overlay approval is inferred."
+      },
+      "currentIntegration": {
+        "sourceInput": {
+          "path": "research/source-audit-batch5-phb-dmg-additional-prices.json",
+          "sha256": "e4cf124385a7e199672ab9268987d5ebf08f64d4cc08819e9e721596bce8c5e6"
+        },
+        "status": "current-source-matches-registered-application",
+        "registration": {
+          "path": "research/source-audit-batch5-current-finding-disposition-registration.json",
+          "sha256": "499f63b5f0ef409470a2f9c37772ceb9c9cc6855059317c489cba02ea4ac0217"
+        },
+        "scopedFindingReviewStatus": "current-scoped-finding-reviews-recorded",
+        "generalSourceReviewStatus": "pending",
+        "semanticPass": false,
+        "scope": "Exact current source/registration linkage only. Known-finding dispositions do not certify every source row, pixel, field or overlay."
+      }
+    },
+    {
+      "reportIndex": 1,
+      "historicalProducerMetadata": {
+        "sourceInput": {
+          "path": "research/source-audit-batch5-ua-additional-prices.json",
+          "sha256": "c0012f83c1652ff76e8bee5dbed33a6a663b1a8d6e921251a2be6757f0fe100e"
+        },
+        "temporalScope": "historical-producer-phase",
+        "status": null,
+        "independentOverlayReviewNeeded": true,
+        "scope": "Preserved producer-phase metadata. It is not a current application or scoped-review disposition, and no general overlay approval is inferred."
+      },
+      "currentIntegration": {
+        "sourceInput": {
+          "path": "research/source-audit-batch5-ua-additional-prices.json",
+          "sha256": "c0012f83c1652ff76e8bee5dbed33a6a663b1a8d6e921251a2be6757f0fe100e"
+        },
+        "status": "current-source-matches-registered-application",
+        "registration": {
+          "path": "research/source-audit-batch5-current-finding-disposition-registration.json",
+          "sha256": "499f63b5f0ef409470a2f9c37772ceb9c9cc6855059317c489cba02ea4ac0217"
+        },
+        "scopedFindingReviewStatus": "current-scoped-finding-reviews-recorded",
+        "generalSourceReviewStatus": "pending",
+        "semanticPass": false,
+        "scope": "Exact current source/registration linkage only. Known-finding dispositions do not certify every source row, pixel, field or overlay."
+      }
+    }
+  ],
+  "validation": {
+    "valid": true,
+    "semanticPass": false
+  },
+  "limits": [
+    "This validation reads current report inputs; it does not edit source values or certify source completeness.",
+    "Exact195 known dimensions are distinct from whole-row, whole-book and global overlay review.",
+    "Historical census/baseline text and raw producer focus/crop metadata are preserved; lexical candidates are not automatically defects."
+  ]
+}

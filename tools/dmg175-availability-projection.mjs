@@ -87,7 +87,7 @@ const EXPECTED_CATALOG_FILE_HASHES = Object.freeze({
   "scans/verified/rules-appendix-c-magic-table-ii.json": "4e0bd4444cbde7a7589ef528f0b9df20457baa97b594410aefb1b042c8b9e7fb",
   "scans/verified/rules-appendix-c-magic-table-iii.json": "b9a17461b509c194906dfd4bc81cb7ab2d2d1db3f780d408675096736bcf86c5",
   "scans/verified/rules-appendix-c-magic-table-iv.json": "489e3ad4eb09edd2eb241c7192063f7e7ecccb9dff9040d4ece89a051b225511",
-  "scans/verified/rules-appendix-c-party-magic-distribution.json": "52c01795856e9e6ec69aca061109e490d8b876cdcfcbfc1ca414351684def18f",
+  "scans/verified/rules-appendix-c-party-magic-distribution.json": "50f67f70cecb18aa86fd3bbc802da03b02f4b2c5b056be0577e08fa7e40ac706",
   "scans/verified/rules-appendix-c-party-size.json": "617df82bf7a79f243106bf3b424546164a1832b0106e7e3deb51dff797cb1b8a",
   "scans/verified/rules-encounter-types.json": "ffbe682e5c4ba3f2d2f45e0e6fc9361654fa6527c231f3a4fc220b4510e1aa3d"
 });
@@ -101,7 +101,7 @@ const EXPECTED_CATALOG_CONTENT_HASHES = Object.freeze({
   "scans/verified/rules-appendix-c-magic-table-ii.json": "20a37e6a39d5d370b988b1adfd0062f47f2f79658bca4d7d0c73465de190f9b0",
   "scans/verified/rules-appendix-c-magic-table-iii.json": "577076327661ee39bc8274ae67c5f8b7a4806a21d1f2a077bfe0df353ab9ecea",
   "scans/verified/rules-appendix-c-magic-table-iv.json": "bad5af3834f1016a8b7c0e1d9ffc069c4676094c36ae0c61df0a553907e00461",
-  "scans/verified/rules-appendix-c-party-magic-distribution.json": "dc1e30fdd6992db256ae2b45988b0af0443db53130b4ac129d82f55acdacf73b",
+  "scans/verified/rules-appendix-c-party-magic-distribution.json": "6df35d02e51eddd572b2e69b9114e97166c6f63bcc455a34d67f4fa8409bdf65",
   "scans/verified/rules-appendix-c-party-size.json": "c5df44bd163e6362a1e6808beec64fbc2946a51f8be4fce39ee5d82a9bdf9456",
   "scans/verified/rules-encounter-types.json": "747c00b8f5c52d26b0aec0e0b262a78b0ebcbbefe2d2d56435108d5474992c02"
 });

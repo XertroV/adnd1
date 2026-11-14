@@ -1,13 +1,14 @@
+// Preserved exact a29/MM assertions; separate S1 companion tests own current behavior.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
-import {execFileSync,spawnSync} from 'node:child_process';
+import {execFileSync,spawnSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
 import {fileURLToPath} from 'node:url';
 import {projectPass8PhbSourceBytes,projectPass8PhbSourceJson} from './helpers/pass8-ua-source-history.mjs';
-import {assertReviewedClassXpContinuationTarget} from '../tools/class-xp-continuation-target-review.mjs';
-import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
+import {assertReviewedClassXpContinuationTarget} from '../research/class-mapping-history-v1/replay-tools/class-xp-continuation-target-review.mjs';
+import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/class-mapping-historical-mm-test-inputs-v1.mjs';
 import {readVersion29HistoricalSourceInputs} from './helpers/version29-native-source-context.mjs';
 import {assertUaSourceContextBindingCohort as assertClosedV28UaSourceContextBindingCohort} from './helpers/ua-source-closed-v28-context.mjs';
 

@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "minimal additive CI117 R7 caller-import transport successor; proposal only",
+  "status": "frozen candidate; independent peer and active CI execution pending",
+  "sourceEpoch": {
+    "checkoutCommit": "fa45f44c8ccc3d80226984fab7792eac9353b252",
+    "checkoutTree": "278d16f781fa59de88c6f58ff3ce6d28535fd545",
+    "worktreeClean": true,
+    "logicalCurrentS1Commit": "2d35138027f00c0740975e519dbb3a2b6df76d14"
+  },
+  "supersedesInstallPlan": {
+    "path": "/workspace/research/ci117-mm-test-caller-closure-v1/manifest-v1.json",
+    "sha256": "c3c7d634a9d0e74cba43460cb97ef768c8137e31da6a19a3017e04c36363d429",
+    "reason": "Retain the two required V2-aware tool copies and two test import transitions; omit unused alias CLI and V3 child process surface."
+  },
+  "reviewedPredecessor": {
+    "independentReviewPath": "/workspace/research/ci117-mm-test-caller-closure-independent-review-v1/manifest-v1.json",
+    "independentReviewSha256": "67b4c60a0ac230a9cc634cac81daee452763c5c139138e630677fa28eb39c5a1",
+    "reviewSha256": "ef8672c8aa1264a6a552688204c978379c170231fca55ca8304d5aa65fccc079"
+  },
+  "dependencies": {
+    "baseTransportManifest": "/workspace/research/ci117-mm-test-transport-repair-v2/manifest-v2.json",
+    "baseTransportManifestSha256": "c6606e6fdb82d4193dff9c770d3782a3e43fa23d5e56e7a57ec88e16e2e96894",
+    "roleSupplement": "research/class-mapping-history-v1/mm-test-role-supplement-v2.json",
+    "roleSupplementSha256": "b8c887c3f75a2ac128c635d7016549df47a372ddc74b7f78d3ab045c3effca12"
+  },
+  "scope": {
+    "additionalTestTransitions": 2,
+    "newVersionedTools": 2,
+    "addTargetCount": 2,
+    "replaceTargetCount": 2,
+    "newInputRoleCount": 0,
+    "childProcessAdapterChanges": 0,
+    "cliAdapterChanges": 0,
+    "protectedOld175Intersection": [],
+    "wholeSuiteClosureClaimed": false,
+    "nativeQualification": false,
+    "sourceSemanticsCertified": false,
+    "gradeApproval": false
+  },
+  "missingRoles": [
+    {
+      "consumer": "tests/continuation-alias-audit.test.mjs",
+      "role": "historical-test-evidence-continuation-alias-before",
+      "path": "tests/fixtures/continuation-manifest-before-legacy-alias.json.gz",
+      "originCommit": "a29d72d5147c497addd9e46f54ea3f8222f6e9c2",
+      "originTree": "da1c64ea25f178a1155a79c4692964e9b17dd645",
+      "sha256": "3288c21f162493bd040b41305ca71de01fe15cc7451ed43eba9ba15d10e19ab8",
+      "sizeBytes": 40868
+    },
+    {
+      "consumer": "tests/source-report-consistency-audit.test.mjs",
+      "role": "historical-test-evidence-source-report-consistency-before",
+      "path": "tests/fixtures/source-report-consistency-ae5195a-before.json.gz",
+      "originCommit": "a29d72d5147c497addd9e46f54ea3f8222f6e9c2",
+      "originTree": "da1c64ea25f178a1155a79c4692964e9b17dd645",
+      "sha256": "9b8790958c9747b0edcbdf57bc5ca30dfbed6e630b9a0af492f9b0de37fa39ab",
+      "sizeBytes": 194406
+    }
+  ],
+  "failureEvidence": {
+    "path": "/workspace/vault-audit-private/pass8/root/ci117-shard2-before-repair-decoded-log-v1.json",
+    "sha256": "dd73f9ce1ec399e7cca390118e393d89e67c9ba74bad8ec47c8c6ce6dbb59df8",
+    "tapPath": "/workspace/vault-audit-private/pass8/root/ci117-shard2-artifact-before-repair-v1/expanded/shard-2.tap",
+    "tapSha256": "e36544c8030f3200724dbf82a1e8b01f57c372b9a030b613d8ab721ed699dd50",
+    "failures": [
+      "continuation-alias-audit.test.mjs read of continuation-manifest-before-legacy-alias.json.gz outside the old exact manifest",
+      "source-report-consistency-audit.test.mjs read of source-report-consistency-ae5195a-before.json.gz outside the old exact manifest"
+    ]
+  },
+  "installMapPath": "install-map-v1.json",
+  "installMapSha256": "becdabc1caaf83442ab683a076f25eeabfd945b3b44872876e40aa627109033e",
+  "importTransitionsPath": "import-transitions-v1.json",
+  "importTransitionsSha256": "a7e4216b2b0092ecf173ec0955a0c5ae11bcb899159aec95a69d63b131b44a6f",
+  "consumerInventoryPath": "consumer-inventory-v1.json",
+  "consumerInventorySha256": "3f55084c0d82dd48836728715559ca7a10f5236f937bbf640d12d6286f892a53",
+  "verificationPath": "verification-v1.json",
+  "verificationSha256": "e4107363999d0370724555812f3c8c035563084bae3a66625f992667771583b5",
+  "readmePath": "README-v1.md",
+  "readmeSha256": "28b7cfce7341ae7117d27aeb131b003526940bba67065143700dd347f011ac40",
+  "checksumsPath": "SHA256SUMS-v1.txt",
+  "checksumsSha256": "e2449003d38b93cfb90481f15181453f4323dd1fb70719cd2244b6929437aa34",
+  "candidateTargets": [
+    {
+      "action": "add-versioned-fs-aware-tool",
+      "targetPath": "research/class-mapping-history-v1/replay-tools/continuation-alias-audit-mm-v2.mjs",
+      "candidatePath": "proposed/research/class-mapping-history-v1/replay-tools/continuation-alias-audit-mm-v2.mjs",
+      "candidateSha256": "8b28dae122bc9f4226f0a8427747cb5dc71ac9af432830dc6a403936b71ca72c",
+      "candidateSizeBytes": 7631,
+      "preimage": "absent-at-frozen-R6-HEAD-and-physical-root"
+    },
+    {
+      "action": "add-versioned-fs-aware-tool",
+      "targetPath": "research/class-mapping-history-v1/replay-tools/source-report-consistency-audit-mm-v2.mjs",
+      "candidatePath": "proposed/research/class-mapping-history-v1/replay-tools/source-report-consistency-audit-mm-v2.mjs",
+      "candidateSha256": "bb87350d6f1892fb791ffd08fe13a3c44be66b1d5daa38e8cc9368d9993326ef",
+      "candidateSizeBytes": 17320,
+      "preimage": "absent-at-frozen-R6-HEAD-and-physical-root"
+    },
+    {
+      "action": "replace-existing-imports-only",
+      "targetPath": "tests/continuation-alias-audit.test.mjs",
+      "candidatePath": "proposed/tests/continuation-alias-audit.test.mjs",
+      "candidateSha256": "b5a386563af8174cc8caa5568eef8f8ba2d2f2547ffb896e2db4763608f9ec69",
+      "candidateSizeBytes": 14929,
+      "preimageCommit": "fa45f44c8ccc3d80226984fab7792eac9353b252",
+      "preimageTree": "278d16f781fa59de88c6f58ff3ce6d28535fd545",
+      "preimageBlob": "b8fdcc0d263589d1b5537f88022179b5f8eea5bf",
+      "preimageSha256": "c96c8c0f4841e8baae60a6e1c3b540d7ef0c7cc44492e5bdf17bfa262c956333",
+      "preimageSizeBytes": 14923
+    },
+    {
+      "action": "replace-existing-imports-only",
+      "targetPath": "tests/source-report-consistency-audit.test.mjs",
+      "candidatePath": "proposed/tests/source-report-consistency-audit.test.mjs",
+      "candidateSha256": "d507b0991744ca0ae161eeb86df87490d070241bbe4ded8c9e1749b1068eaf60",
+      "candidateSizeBytes": 20703,
+      "preimageCommit": "fa45f44c8ccc3d80226984fab7792eac9353b252",
+      "preimageTree": "278d16f781fa59de88c6f58ff3ce6d28535fd545",
+      "preimageBlob": "4c393c81efe63aee14475b6e0ab357f4da612f87",
+      "preimageSha256": "41a813ad4acb20b6a3fcb99d77c1da4ec2ba82e2d6cf48a7161623e58bc2333b",
+      "preimageSizeBytes": 20697
+    }
+  ]
+}

@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "input": {
     "path": "dist/data.json",
-    "sha256": "2806614989460903361caa2463d42b5c4aba08fee7c7e6781c7b9adb8a9a2e73",
+    "sha256": "abb0be1209951d4610bdc663f77ee36107ce6c2fb50333c7ded0aa3937c292ac",
     "hashFormat": "mechanics-only SHA-256 of JSON.stringify(parsed data after recursively removing generated evidenceBindings and regionReviews transport metadata; distinct from raw data.json/provenance hashes)",
     "denominator": "Existing mechanics leaves under explicitly included paths; empty arrays and nulls are leaves. Nested source provenance and labels excluded.",
     "countSemantics": "Source-checked includes corrected-and-checked. Inspected includes any explicitly checked field or proposed correction, including checked nulls; percentages may overlap."
   },
   "counts": {
-    "records": 1064,
-    "totalFields": 14201,
+    "records": 1070,
+    "totalFields": 14241,
     "inspectedFields": 13294,
     "sourceCheckedFields": 12708,
     "unchangedSourceCheckedFields": 10065,
@@ -19,16 +19,16 @@
     "sourceConflictFields": 22,
     "editorialReviewedFields": 558,
     "staleProposalFields": 0,
-    "uncheckedFields": 899
+    "uncheckedFields": 939
   },
   "percentages": {
-    "inspectedFields": 93.61,
-    "sourceCheckedFields": 89.49,
-    "unchangedSourceCheckedFields": 70.88,
-    "correctedAndCheckedFields": 18.61,
+    "inspectedFields": 93.35,
+    "sourceCheckedFields": 89.24,
+    "unchangedSourceCheckedFields": 70.68,
+    "correctedAndCheckedFields": 18.56,
     "correctionPendingFields": 0,
     "notExtractedFields": 0.1,
-    "uncheckedFields": 6.33
+    "uncheckedFields": 6.59
   },
   "records": [
     {
@@ -125667,6 +125667,20 @@
           "changePaths": [
             "/bullets"
           ]
+        },
+        {
+          "path": "/bullets/6",
+          "value": "Change in Intelligence: If Intelligence goes down or up for any reason and the change is relatively permanent, the magic-user must check known spells again by level group using the procedure above.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/7",
+          "value": "Acquisition of Heretofore Unknown Spells: Although the magic-user must stop checking after the first complete check of each spell in a level group, or immediately when the minimum number knowable is reached during successive checks, additional previously unknown spells may still be acquired up to the Intelligence-based maximum. They may come from captured or otherwise acquired spellbooks or from scrolls; a scroll is destroyed in learning and knowing the spell or spells.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         }
       ],
       "sources": [
@@ -125706,7 +125720,26 @@
           "reason": "Printed ability adjustment table and its explanatory qualifications are legible and omitted from this existing rule card.",
           "book": "PHB",
           "page": 10,
-          "state": "corrected-and-checked"
+          "state": "append-only-prefix-preserved",
+          "appendOnlyReviewTransfer": {
+            "collection": "rules",
+            "id": "intelligence-learning",
+            "checker": "mechanics-rules",
+            "path": "/bullets",
+            "reviewedPrefixPaths": [
+              "/bullets/0",
+              "/bullets/1",
+              "/bullets/2",
+              "/bullets/3",
+              "/bullets/4",
+              "/bullets/5"
+            ],
+            "uncheckedAppendedPaths": [
+              "/bullets/6",
+              "/bullets/7"
+            ],
+            "sourceReceiptSha256": "96b10efbf71a9376e868c10cac6e54980a5c0e1fe8dcc2c9fc95f1ed91111c7c"
+          }
         }
       ]
     },
@@ -130214,6 +130247,13 @@
           "checkers": [
             "mechanics-rules"
           ]
+        },
+        {
+          "path": "/bullets/2",
+          "value": "Starting languages: elvish, gnome, halfling, goblin, hobgoblin, orcish and gnoll, plus common and alignment languages.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         }
       ],
       "sources": [
@@ -130269,6 +130309,13 @@
           "checkers": [
             "mechanics-rules"
           ]
+        },
+        {
+          "path": "/bullets/3",
+          "value": "Starting languages: dwarven, elven, gnome, goblin, halfling and orcish, plus common and alignment languages. Above Intelligence 16, learn one additional language for each point above 16 (one at 17; two at 18).",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
         }
       ],
       "sources": [
@@ -138724,6 +138771,170 @@
       "proposedChanges": []
     },
     {
+      "collection": "rules",
+      "id": "dwarf-languages-vision",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "The PHB lists Dwarven languages, a fixed further-language cap and infravision.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/0",
+          "value": "Languages: dwarven, gnome, goblin, kobold and orcish, plus the common tongue and alignment language.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/1",
+          "value": "Apart from their alignment language, Dwarves can learn no more than two additional languages, regardless of Intelligence.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/2",
+          "value": "Dwarves can see up to 60 feet in the dark by infravision.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "elf-languages-vision",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "The PHB lists Elf languages, the above-15 Intelligence bonus-language rule and infravision.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/0",
+          "value": "Languages: elvish, gnome, halfling, goblin, hobgoblin, orcish and gnoll, plus the chosen alignment language and common tongue.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/1",
+          "value": "Elven characters with Intelligence above 15 can learn one additional language for every point of Intelligence above 15.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/2",
+          "value": "Elves can see up to 60 feet in the dark by infravision.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "gnome-languages-vision",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "The PHB lists Gnome languages, mammal communication, a further-language cap and infravision.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/0",
+          "value": "Languages: dwarvish, gnome, halfling, goblin and kobold, plus the common tongue and alignment language.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/1",
+          "value": "Gnomes can also communicate with any burrowing mammal, including moles, badgers and ground squirrels.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/2",
+          "value": "Gnomes cannot learn more than two languages in addition to those listed above, regardless of Intelligence.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/bullets/3",
+          "value": "Gnomes can see up to 60 feet in the dark by infravision.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "phb-racial-preferences",
+      "fields": [],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "ua-cavalier-xp-table-i",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "Literal transcription of all 14 physical rows and four printed columns. Rows retain source order and named zero-level stages. The lookup record does not add numeric level-0 calculator rows or settle the printed −501 overlap.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
+      "collection": "rules",
+      "id": "ua-druid-xp-table-i",
+      "fields": [
+        {
+          "path": "/summary",
+          "value": "Literal transcription of all 10 physical rows and four printed columns. The level-14 Great Druid row is displayed with the existing levels 15–23. The following source-track note is an editorial paraphrase of the printed successor, abdication, forfeiture, and XP-reset procedure.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        }
+      ],
+      "sources": [],
+      "reviewers": [],
+      "unresolvedNotes": [],
+      "proposedChanges": []
+    },
+    {
       "collection": "classes",
       "id": "cleric",
       "fields": [
@@ -145456,6 +145667,76 @@
         {
           "path": "/guidance/5",
           "value": "PHB pp. 22, 24: a paladin may retain at most 10 magic items (1 suit of armor, 1 shield, 4 weapons, 4 other items); a magic bow and magic arrows together count as one weapon. The paladin retains only enough wealth for a modest lifestyle, henchmen/servants, and a small castle; gives away excess and tithes 10% of all income to a lawful-good charitable religious institution, and attracts no men-at-arms.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/0/title",
+          "value": "Detect Evil",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/0/description",
+          "value": "May detect evil at up to 60 feet as often as desired, but only while the Paladin concentrates on determining the presence of evil and seeks to detect it in the right general direction.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/1/title",
+          "value": "Saving-throw bonus",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/1/description",
+          "value": "Make all saving throws at +2 on the die.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/2/title",
+          "value": "Disease immunity",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/2/description",
+          "value": "The Paladin is immune to all forms of disease.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/3/title",
+          "value": "Continuing Protection from Evil emanation",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/3/description",
+          "value": "The continuing emanation of a Protection from Evil effect (see Character Spells) extends in a 1″ radius around the Paladin. For distance-scale context, see “Range indoors and outdoors” (PHB p. 39), whose rule addresses range.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/4/title",
+          "value": "Holy Sword",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/4/description",
+          "value": "If a Paladin has a “Holy Sword” (a special Magic Sword which the referee is aware of and will explain if the need arises), the Paladin projects a circle of power 1″ in diameter when the Holy Sword is unsheathed and held; this power dispels magic (see Character Spells, “dispel magic”) at a level of magic use equal to the Paladin’s experience level. For distance-scale context, see “Range indoors and outdoors” (PHB p. 39), whose rule addresses range.",
           "status": "unchecked",
           "inspected": false,
           "checkers": []
@@ -182450,6 +182731,83 @@
         {
           "path": "/guidance/6",
           "value": "UA p. 26 shows a starred Paladin weapon-proficiency entry (3*, −3, one added proficiency per two levels). The star note defines zero-level Cavalier grades and names Cavalier/Ranger weapon-choice restrictions, but does not explain the Paladin star; keep that meaning unresolved.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/0/title",
+          "value": "Detect Evil",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/0/description",
+          "value": "May detect evil at up to 60 feet as often as desired, but only while the Paladin concentrates on determining the presence of evil and seeks to detect it in the right general direction.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/1/title",
+          "value": "Saving-throw bonus",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/1/description",
+          "value": "Make all saving throws at +2 on the die.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/2/title",
+          "value": "Disease immunity",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/2/description",
+          "value": "The Paladin is immune to all forms of disease.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/3/title",
+          "value": "Continuing Protection from Evil emanation",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/3/description",
+          "value": "The continuing emanation of a Protection from Evil effect (see Character Spells) extends in a 1″ radius around the Paladin. For distance-scale context, see “Range indoors and outdoors” (PHB p. 39), whose rule addresses range.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/4/title",
+          "value": "Holy Sword",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilities/4/description",
+          "value": "If a Paladin has a “Holy Sword” (a special Magic Sword which the referee is aware of and will explain if the need arises), the Paladin projects a circle of power 1″ in diameter when the Holy Sword is unsheathed and held; this power dispels magic (see Character Spells, “dispel magic”) at a level of magic use equal to the Paladin’s experience level. For distance-scale context, see “Range indoors and outdoors” (PHB p. 39), whose rule addresses range.",
+          "status": "unchecked",
+          "inspected": false,
+          "checkers": []
+        },
+        {
+          "path": "/classAbilityInheritance/description",
+          "value": "The PHB Paladin powers and level advancement remain unchanged in the UA revision.",
           "status": "unchecked",
           "inspected": false,
           "checkers": []
@@ -285286,6 +285644,27 @@
       ],
       "originalReviewPreserved": true,
       "sourceValueGrade": "NOT PROMOTED"
+    }
+  ],
+  "appendOnlyReviewTransfers": [
+    {
+      "collection": "rules",
+      "id": "intelligence-learning",
+      "checker": "mechanics-rules",
+      "path": "/bullets",
+      "reviewedPrefixPaths": [
+        "/bullets/0",
+        "/bullets/1",
+        "/bullets/2",
+        "/bullets/3",
+        "/bullets/4",
+        "/bullets/5"
+      ],
+      "uncheckedAppendedPaths": [
+        "/bullets/6",
+        "/bullets/7"
+      ],
+      "sourceReceiptSha256": "96b10efbf71a9376e868c10cac6e54980a5c0e1fe8dcc2c9fc95f1ed91111c7c"
     }
   ],
   "validation": {

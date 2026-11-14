@@ -6,7 +6,7 @@ import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 
-const root = resolve(import.meta.dirname, '..');
+const root = resolve(import.meta.dirname,'..');
 const baselineCommit = '679b15d1c580172e54314829c1c3c86dc78b65f3';
 const source6bCommit = '6b3cfc8cb421a2c1fc2379c38abebe2075634981';
 const legacyReceiptCommit = '386b08a4678ee033d6daabc0ffa2cc17265a7c1f';
@@ -20,22 +20,26 @@ const gitBytes = (commit, path) => execFileSync('git', ['show', `${commit}:${pat
   cwd: root, maxBuffer: 128 * 1024 * 1024,
 });
 const gitJson = (commit, path) => JSON.parse(gitBytes(commit, path).toString('utf8'));
-const readBytes = path => readFileSync(resolve(root, path));
-const readJson = path => JSON.parse(readBytes(path).toString('utf8'));
-const hashCurrent = path => sha256(readBytes(path));
 
-const [legacyModule, nativeModule, refreshModule, version29Module, currentGate] = await Promise.all([
-  import(pathToFileURL(resolve(root, 'tools/ua-source-handoff-transition.mjs'))),
-  import(pathToFileURL(resolve(root, 'tools/dmg175-current-successors-mm-v1.mjs'))),
-  import(pathToFileURL(resolve(root, 'tools/refresh-gaps-handoff.mjs'))),
+const [legacyModule, nativeModule, refreshModule, version29Module, epochReaderModule] = await Promise.all([
+  import(pathToFileURL(resolve(root, 'research/class-mapping-history-v1/replay-tools/ua-source-handoff-transition.mjs'))),
+  import(pathToFileURL(resolve(root, 'research/class-mapping-history-v1/replay-tools/dmg175-current-successors-mm-v2.mjs'))),
+  import(pathToFileURL(resolve(root, 'research/class-mapping-history-v1/replay-tools/refresh-gaps-handoff-mm-v2.mjs'))),
   import(pathToFileURL(resolve(root, 'tests/helpers/version29-native-source-context.mjs'))),
-  import(pathToFileURL(resolve(root, 'tools/mm-current-source-gate-v1.mjs'))),
+  import(pathToFileURL(resolve(root, 'tests/helpers/ua-source-handoff-mm-epoch-reader-v1.mjs'))),
 ]);
 
 const baselineData = gitJson(baselineCommit, 'dist/data.json');
 const baselineHandoff = gitJson(baselineCommit, 'research/gaps-limitations-next-task.json');
 const priorHandoff = gitJson(source6bCommit, 'research/gaps-limitations-next-task.json');
-const {inputs:strictCurrentInputs,summary:currentMmSummary}=currentGate.assertCurrentMmSourceEpoch(root);
+const {
+  inputs: strictCurrentInputs,
+  summary: currentMmSummary,
+  currentS1Identity,
+  readJson,
+  hashFile: hashCurrent,
+  sourceEpoch: readerEpoch,
+} = epochReaderModule.createUaSourceHandoffMmEpochCallbacks(root);
 assert.equal(currentMmSummary.sourceCommit,sourceCommit);
 assert.equal(currentMmSummary.sourceTree,'08010faf457df22cdb0a5ec35d2dcf79e622ade9');
 assert.equal(currentMmSummary.owners,1064);
@@ -45,6 +49,16 @@ assert.equal(currentMmSummary.addedCanonicalBindings,76);
 assert.equal(currentMmSummary.manualBindings,1293);
 assert.equal(currentMmSummary.addedManualBindings,42);
 assert.equal(currentMmSummary.addedOwners,2);
+assert.equal(currentS1Identity.stage, 's1-body-native');
+assert.equal(currentS1Identity.sourceCommit, '2d35138027f00c0740975e519dbb3a2b6df76d14');
+assert.equal(currentS1Identity.sourceTree, '40ecb15130b339658522794db6d9e1bc58f43b50');
+assert.equal(readerEpoch.sourceCommit, sourceCommit);
+assert.equal(readerEpoch.metadataCommit, 'ac60970626fd5e0421fc4b99c141cc11f53ffff3');
+assert.equal(readerEpoch.m1SourceInputCount, 21);
+assert.equal(readerEpoch.registeredPathCount, 28);
+const physicalReadBytes = path => readFileSync(resolve(root, path));
+const physicalReadJson = path => JSON.parse(physicalReadBytes(path).toString('utf8'));
+const physicalHashCurrent = path => sha256(physicalReadBytes(path));
 const currentData = strictCurrentInputs.data;
 const currentHandoff = readJson('research/gaps-limitations-next-task.json');
 const mechanics = strictCurrentInputs.mechanics;
@@ -152,6 +166,18 @@ test('the current-MM successor preserves the exact H receipt lineage, qualifies 
     ?.fields.find(row => row.path === '/exceptions/0');
   assert.equal(field.status, 'unchecked');
   assert.equal(field.inspected, false);
+});
+
+test('current-MM callback epoch rejects physical S1 hashes for historical M1 mechanics', () => {
+  assert.throws(() => nativeModule.loadSourceHandoffTransition({
+    read: physicalReadJson,
+    hashFile: physicalHashCurrent,
+    baselineData,
+    currentData,
+    mechanics,
+    conflictReceipt,
+    repoRoot: root,
+  }), /Invalid current-MM source-body handoff transition: exact bytes changed: research\/mechanics-audit-progress\.json/);
 });
 
 test('current-MM qualification rejects changed inputs, copied receipts, and reader drift', () => {

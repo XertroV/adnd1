@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent bounded peer review of minimal CI117 caller-closure successor",
+  "status": "CLEAR bounded proposal; active tests and CI still pending",
+  "reviewedCandidate": {
+    "manifestPath": "/workspace/research/ci117-mm-test-caller-closure-v2/manifest-v1.json",
+    "manifestSha256": "131dbc0045eb3f2df02fc9e4d542f1c5287dd9ea2ecb1319a3f38c3ff5100343",
+    "installMapPath": "/workspace/research/ci117-mm-test-caller-closure-v2/install-map-v1.json",
+    "installMapSha256": "becdabc1caaf83442ab683a076f25eeabfd945b3b44872876e40aa627109033e",
+    "candidatePackageChecksumsPassed": true
+  },
+  "sourceEpoch": {
+    "physicalRoot": "/workspace/adnd1-next-source-runtime-v8",
+    "commit": "fa45f44c8ccc3d80226984fab7792eac9353b252",
+    "tree": "278d16f781fa59de88c6f58ff3ce6d28535fd545",
+    "cleanWorktreeObserved": true
+  },
+  "delta": {
+    "targetCount": 4,
+    "addedVersionedTools": 2,
+    "testImportOnlyReplacements": 2,
+    "newInputRoles": 0,
+    "newChildProcessAdapter": false,
+    "newCliAdapter": false,
+    "protectedOld175Intersection": [],
+    "wholeSuiteClosure": false,
+    "nativeQualification": false,
+    "sourceSemanticsOrGradeApproval": false
+  },
+  "checks": [
+    {
+      "id": "candidate-package-pins",
+      "result": "pass",
+      "detail": "All listed package checksums and four target SHA-256/size pairs match."
+    },
+    {
+      "id": "tool-copy-lineage",
+      "result": "pass",
+      "detail": "Both added V2-FS-aware replay-tool copies are byte-identical to their frozen caller-closure V1 candidate copies; both import mm-replay-fs-v2.mjs."
+    },
+    {
+      "id": "test-import-delta",
+      "result": "pass",
+      "detail": "For both tests, applying only the importTransitions-v1.json rewrites to the exact R6 Git preimage reconstructs the candidate bytes. No callback, assertion, test name, or body changes."
+    },
+    {
+      "id": "child-process-preservation",
+      "result": "pass",
+      "detail": "Continuation test retains the existing mm-replay-child-process-v1.mjs import. All three execFileSync sites are fixed git show reads; no V3 child dispatcher or CLI route was added."
+    },
+    {
+      "id": "role-reuse",
+      "result": "pass",
+      "detail": "Both requested fixture roles already exist in the pinned MM V2 role supplement with exact path/hash/size; their a29 origin Git blobs reproduce the pinned bytes. This successor adds zero roles."
+    },
+    {
+      "id": "install-preimages-and-scope",
+      "result": "pass",
+      "detail": "Both added tool paths are absent from R6 Git and disk; both test replacements match their R6 preimage hashes/sizes. The four targets do not overlap the base V2 transport targets or the protected old175 file list."
+    },
+    {
+      "id": "syntax",
+      "result": "pass",
+      "detail": "node --check passed on the two candidate tests and two candidate tool copies with Node v24.22.1."
+    }
+  ],
+  "dependencies": {
+    "baseTransportManifestPath": "/workspace/research/ci117-mm-test-transport-repair-v2/manifest-v2.json",
+    "baseTransportManifestSha256": "c6606e6fdb82d4193dff9c770d3782a3e43fa23d5e56e7a57ec88e16e2e96894",
+    "roleSupplementPath": "research/class-mapping-history-v1/mm-test-role-supplement-v2.json",
+    "roleSupplementSha256": "b8c887c3f75a2ac128c635d7016549df47a372ddc74b7f78d3ab045c3effca12",
+    "priorCallerClosureV1ReviewManifest": "/workspace/research/ci117-mm-test-caller-closure-independent-review-v1/manifest-v1.json",
+    "priorCallerClosureV1ReviewSha256": "67b4c60a0ac230a9cc634cac81daee452763c5c139138e630677fa28eb39c5a1"
+  },
+  "limitations": [
+    "The two required R6 tests were not executed; active CI remains pending installation and review.",
+    "The scope is limited to these two known caller transitions and does not claim whole-suite closure."
+  ]
+}

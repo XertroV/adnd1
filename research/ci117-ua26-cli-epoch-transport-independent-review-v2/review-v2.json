@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 2,
+  "artifactType": "independent additive delta peer for UA26 CLI epoch transport",
+  "status": "CLEAR_BOUNDED_DELTA; INSTALLED_CLI_AND_INTEGRATED_CI_PENDING",
+  "proposalV2": {
+    "manifestPath": "/workspace/research/ci117-ua26-cli-epoch-transport-proposal-v2/manifest-v2.json",
+    "manifestSha256": "ffc7064f77b186eb1dcefbd079717461167d744ef806090e630b5d8c33a6a768",
+    "installMapPath": "/workspace/research/ci117-ua26-cli-epoch-transport-proposal-v2/install-map-v2.json",
+    "installMapSha256": "1be0c75033e1b1c8c776f6fa0a4eaad53b5c2a56726595691e344f1933bdd994"
+  },
+  "priorProposalV1": {
+    "manifestPath": "/workspace/research/ci117-ua26-cli-epoch-transport-proposal-v1/manifest-v1.json",
+    "manifestSha256": "2ccc4d147146294a056a5dd7413951aaa1472b8d019b6ac0953737517ee33aec"
+  },
+  "priorPeerV1": {
+    "manifestPath": "/workspace/research/ci117-ua26-cli-epoch-transport-independent-review-v1/manifest-v1.json",
+    "manifestSha256": "d25fb3b256519a5d47510d7ef092ca1b46a84da45cdfd895fce52f7f21f1b9a4",
+    "status": "V1 preserved; direct-entry raw Git environment blocker resolved by V2"
+  },
+  "delta": {
+    "onlyChangedProposedTarget": "proposed/research/class-mapping-history-v1/replay-tools/ua26-note-marker-audit-mm-s1-v1.mjs",
+    "wrapperV1Sha256": "ba85c046889d19224ea7c21c2077682dd5081c708b613c3c3c12d78b6939a342",
+    "wrapperV2Sha256": "a87ac338c9bd931161b481ff04e37fbc0a1ddddf85395f349d238ff0134f8a45",
+    "unchangedOtherFourTargetsByteExact": true,
+    "changedLines": "node:child_process execFileSync import replaced by createRawGitReader import; gitBytes now constructs reader, calls assertView(), and performs exact read-only `git show <commit>:<path>` through the fixed reader."
+  },
+  "resolvedV1Finding": {
+    "id": "UA26_RAW_GIT_CALL_INHERITS_DIRECT_ENTRY_ENV",
+    "status": "RESOLVED_FOR_DIRECT_WRAPPER_FUNCTION_AND_CLI_GIT_READ_PATH",
+    "mechanism": "createRawGitReader uses absolute /usr/bin/git, controlledGitEnvironment, exact argument grammar, physical Git layout checks, no grafts/shallow/alternates, and replacement-ref assertion.",
+    "directEnvironmentTest": {
+      "command": "GIT_DIR=/tmp/ua26-foreign.git GIT_WORK_TREE=/tmp/foreign-worktree GIT_OBJECT_DIRECTORY=/tmp/foreign-objects GIT_ALTERNATE_OBJECT_DIRECTORIES=/tmp node run-uninstalled-kernel-v3.mjs",
+      "exitCode": 0,
+      "result": "PASS; source reads completed under the hostile inherited Git environment and output remained fixed to genuine S1 plus Source21.",
+      "reportedCurrentS1Owners": 1070,
+      "reportedCurrentDataSha256": "16ddcc0ef49ea5ee9ca32b26353edb632d10db160e83bbd464458f5b73c1b573",
+      "reportedHistoricalMmOwners": 1064,
+      "reportedHistoricalMmDataSha256": "2ab84cfe5e4234e5d0303b2062f941f7d8e1b93d798a7402c16e78d6d2e4672c",
+      "sourceValueGrade": "NOT PROMOTED",
+      "contextualAdequacy": "NOT ASSESSED"
+    }
+  },
+  "retainedFindings": [
+    "Original MM test callback and assertions remain byte-exact apart from import-only replacement and comment.",
+    "The pinned MM historical currentEpoch and genuine currentS1Epoch remain separate and correctly counted.",
+    "Only the three exactly pinned H-reviewed catalog transitions can account for the legacy hash mismatches; unlisted mismatches fail.",
+    "No value, context, default, numeric, mechanics, or semantic grade is promoted.",
+    "Finite command helper and zero-hook protocol checks remain unchanged and pass 2/2.",
+    "All five install preimages/absence checks match the d83 base. Four non-wrapper postimages are byte-identical to V1.",
+    "Protected old175 intersection remains empty."
+  ],
+  "validation": {
+    "manifestPostimageHashes": "PASS (9/9)",
+    "installMapOperations": "PASS (5/5)",
+    "unchangedTargets": "PASS (4/4 byte-identical to V1)",
+    "nodeCheck": "PASS (5/5 files)",
+    "protocolTests": "PASS (inherited V1 review; 2/2 unchanged)",
+    "directWrapperFunctionWithForeignGitEnvironment": "PASS (0 exit; distinct historical/current roles)",
+    "actualInstalledCli": "PENDING",
+    "actualChildProcessHelperSpawn": "PENDING",
+    "integratedR7CI": "PENDING"
+  },
+  "sourceEpochAndPrivacy": {
+    "sourceCommit": "2d35138027f00c0740975e519dbb3a2b6df76d14",
+    "historicalMmCommit": "0f2d70a135e3ad486152bf00f21387d60a1a97ef",
+    "noProductionSourceGradeOrGitWrites": true,
+    "old175Intersection": []
+  }
+}

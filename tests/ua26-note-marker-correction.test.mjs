@@ -8,7 +8,7 @@ import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {markerTokensFor,noteIdsForTokens} from '../tools/ua26-note-marker-audit.mjs';
 import {auditUa26MarkerReceiptWithHCurrentSourceEpoch} from '../tools/ua26-note-marker-audit-h-v2.mjs';
-import {assertHistoricalHPreimage} from '../research/mm-source-history-v1/closed-version29-reader-current-mm-v1.mjs';
+import {assertHistoricalHPreimage} from '../research/class-mapping-history-v1/closed-version29-reader-class-mapping-v1.mjs';
 
 const root=path.resolve(process.cwd());
 const read=rel=>JSON.parse(readBeforeJoFile(path.join(root,rel),'utf8'));

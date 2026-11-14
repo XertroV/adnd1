@@ -11,7 +11,7 @@ import {
   normalizeVersion29HistoricalJson,
   readExactHistoricalHPreimageFile,
   readVersion29HistoricalFile,
-} from '../research/mm-source-history-v1/closed-version29-reader-current-mm-v1.mjs';
+} from '../research/class-mapping-history-v1/closed-version29-reader-class-mapping-v1.mjs';
 
 const root=resolve(import.meta.dirname,'..');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');

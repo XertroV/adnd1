@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Minimal pre-repair catalog-metadata regression fixture",
+  "scope": "Structural catalog identity/count validation only. No source text, private source file, full catalog, or Library identifier is included.",
+  "inputEpoch": {
+    "sourceBodySha256": "16ddcc0ef49ea5ee9ca32b26353edb632d10db160e83bbd464458f5b73c1b573",
+    "owners": 1070,
+    "activeCatalogUses": 1091
+  },
+  "validator": {
+    "path": "tools/scan-catalog.mjs",
+    "sha256": "903e88c09682ac76807203d518ee82b8c23afafc636f325cfdc4e21be87c2273",
+    "booksModuleSha256": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811"
+  },
+  "failureCount": 3,
+  "beforeFailures": [
+    {
+      "owner": "rules/racial-ability-adjustments",
+      "binding": "sourceExcerpts",
+      "catalog": "scans/verified/rules-racial-ability-adjustments.json",
+      "overrideSha256": "f6255ee107f9325ba424db5cf9cf57be49762e508b51145e23f0a6452ea67811",
+      "catalogSha256": "31f0491ae4a9ed190a871bc443d6d676973a2ca2aed57091e35f969e64c3e3a1",
+      "declaredRegionCount": 11,
+      "physicalCatalogRegionCount": 13,
+      "failure": "declared metadata count did not match current catalog; the 13 physical regions include two context-only regions"
+    },
+    {
+      "owner": "rules/ua-cavalier-xp-table-i",
+      "binding": "sourceExcerpts",
+      "catalog": "scans/verified/rules-ua-cavalier-xp-table-i.json",
+      "beforeCatalogSha256": "f627b2d0c283e498691e50a21fb341d97386d173a376a5d48274a76a8d156598",
+      "failure": "/sources/UA/hashStatus absent; production structural validation rejected the catalog"
+    },
+    {
+      "owner": "rules/ua-druid-xp-table-i",
+      "binding": "sourceExcerpts",
+      "catalog": "scans/verified/rules-ua-druid-xp-table-i.json",
+      "beforeCatalogSha256": "70ef8c2c6227c7468839031e9240c3a5307b48ae114cea56fa25d4d3c7ff2278",
+      "failure": "/sources/UA/hashStatus absent; production structural validation rejected the catalog"
+    }
+  ],
+  "narrowRepairs": [
+    {
+      "owner": "rules/racial-ability-adjustments",
+      "pointer": "/sourceExcerpts/regionCount",
+      "before": 11,
+      "after": 13,
+      "catalogGeometryChanged": false
+    },
+    {
+      "owner": "rules/ua-cavalier-xp-table-i",
+      "pointer": "/sources/UA/hashStatus",
+      "before": "absent",
+      "after": "computed-local",
+      "recomputedSourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+    },
+    {
+      "owner": "rules/ua-druid-xp-table-i",
+      "pointer": "/sources/UA/hashStatus",
+      "before": "absent",
+      "after": "computed-local",
+      "recomputedSourceSha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4"
+    }
+  ],
+  "productionValidatorAfterRepair": {
+    "owners": 1070,
+    "activeCatalogUses": 1091,
+    "invalidUses": 0,
+    "semantics": "structural validation only"
+  },
+  "beforeFixtureReplay": {
+    "exactThreeFailuresReproduced": true,
+    "validatorSha256": "903e88c09682ac76807203d518ee82b8c23afafc636f325cfdc4e21be87c2273",
+    "booksModuleSha256": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811",
+    "activeCheckoutWrites": 0
+  },
+  "gradeBoundary": {
+    "sourceImagePixelsChanged": false,
+    "fieldTargetGradesChanged": false,
+    "sourceValueGradesChanged": false,
+    "contextGradesChanged": false,
+    "sourceSemanticAssessment": false
+  }
+}

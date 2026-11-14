@@ -15,7 +15,107 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  class-mapping-test-shards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        shard_index: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+      - name: Run exact current test shard
+        timeout-minutes: 350
+        run: >-
+          node tools/run-class-mapping-tests-shard-v1.mjs
+          --python "$(command -v python3)"
+          --shard-index "${{ matrix.shard_index }}"
+          --shard-count 4
+          --receipt "artifacts/test-shards/shard-${{ matrix.shard_index }}.json"
+      - name: Upload exact shard receipt
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: cm-test-shard-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard_index }}
+          path: artifacts/test-shards/shard-${{ matrix.shard_index }}.*
+          if-no-files-found: error
+
+  historical-mm-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+      - name: Run unchanged historical MM replay once and write receipt
+        run: node tools/run-historical-mm-replay-receipt-v1.mjs --receipt artifacts/test-shards/mm.json
+      - name: Upload exact MM receipt
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: cm-test-shard-mm-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/test-shards/mm.*
+          if-no-files-found: error
+
+  test-shard-reducer:
+    needs: [class-mapping-test-shards, historical-mm-replay]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: cm-test-shard-${{ github.run_id }}-${{ github.run_attempt }}-0
+          path: artifacts/test-shards
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: cm-test-shard-${{ github.run_id }}-${{ github.run_attempt }}-1
+          path: artifacts/test-shards
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: cm-test-shard-${{ github.run_id }}-${{ github.run_attempt }}-2
+          path: artifacts/test-shards
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: cm-test-shard-${{ github.run_id }}-${{ github.run_attempt }}-3
+          path: artifacts/test-shards
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: cm-test-shard-mm-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/test-shards
+      - name: Verify current run receipts and exact union
+        env:
+          CM_SHARDS_JOB_RESULT: ${{ needs['class-mapping-test-shards'].result }}
+          CM_MM_JOB_RESULT: ${{ needs['historical-mm-replay'].result }}
+        run: node tools/reduce-class-mapping-test-shards-v1.mjs
+      - name: Upload reducer report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: cm-test-shard-reducer-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/test-shards/reducer.json
+          if-no-files-found: error
+
   build:
+    needs: [class-mapping-test-shards, historical-mm-replay, test-shard-reducer]
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -26,8 +126,6 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '24'
-      - name: Verify reference data and scan integrity
-        run: node --test tests/*.test.mjs
       - name: Verify preserved citation evidence
         if: always()
         env:
@@ -56,13 +154,13 @@ jobs:
           if-no-files-found: warn
       - name: Verify committed static output is current
         run: |
-          node tools/assemble.mjs
+          node tools/assemble-class-mapping-v1.mjs --check
           git diff --exit-code -- dist
       - name: Generate citation systemic inventory
         if: always()
         run: |
           set +e
-          node tools/citation-systemic-inventory.mjs --output-dir artifacts/citation-systemic-coverage
+          node tools/verify-class-mapping-current-reports-v1.mjs --kind systemic --output artifacts/citation-systemic-coverage/citation-systemic-current.json --summary artifacts/citation-systemic-coverage/citation-systemic-summary.md
           report_status=$?
           set -e
           if [ -f artifacts/citation-systemic-coverage/citation-systemic-summary.md ]; then
@@ -173,7 +271,7 @@ jobs:
         if: always()
         run: |
           mkdir -p artifacts/monetary-review-coverage
-          node tools/dmg175-current-monetary-source-questions-mm-v1.mjs --output artifacts/monetary-review-coverage/current-source-questions.json --check
+          node tools/class-mapping-current-monetary-questions-v1.mjs > artifacts/monetary-review-coverage/current-source-questions.json
       - name: Upload monetary values and review coverage
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -213,11 +311,18 @@ jobs:
           overwrite: true
           path: artifacts/monetary-condition-coverage/
           if-no-files-found: warn
-      - name: Validate raster boundary coverage snapshot
+      - name: Rebuild and validate current raster and visual coverage
         if: always()
         run: |
-          node tools/source-raster-coverage.mjs --output artifacts/source-raster-coverage/report.json --check
-          echo "The raster snapshot is reconciled against every live catalog use and its component-derived metrics. Boundary candidates require visual review; CI does not rerender private source PDFs or prove semantic context." >> "$GITHUB_STEP_SUMMARY"
+          set +e
+          node tools/source-raster-visual-coverage-ci-v1.mjs
+          coverage_status=$?
+          set -e
+          if [ -f artifacts/source-raster-coverage/validation.json ]; then
+            cat artifacts/source-raster-coverage/validation.json >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "Fresh current raster and visual reports were rebuilt from the registered next-native-v2 inputs and checked against the committed report receipt. Geometry and coverage are structural evidence; semantic source review remains separate." >> "$GITHUB_STEP_SUMMARY"
+          exit "$coverage_status"
       - name: Upload raster boundary coverage
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -253,7 +358,7 @@ jobs:
       - name: Verify monetary unit provenance
         if: always()
         run: |
-          node tools/monetary-unit-provenance-audit.mjs --output-dir artifacts/monetary-unit-provenance-current-mm-v1 --check
+          node tools/verify-class-mapping-current-reports-v1.mjs --kind unit --output artifacts/monetary-unit-provenance-current-mm-v1/report.json --summary artifacts/monetary-unit-provenance-current-mm-v1/report.md
           cat artifacts/monetary-unit-provenance-current-mm-v1/report.md >> "$GITHUB_STEP_SUMMARY"
       - name: Upload monetary unit provenance
         if: always()
@@ -281,7 +386,7 @@ jobs:
       - name: Verify current continuation candidate snapshot
         if: always()
         run: |
-          node tools/continuation-candidates-validate.mjs --current-snapshot --force-current-tree --output-dir artifacts/continuation-candidate-coverage
+          node tools/verify-class-mapping-current-reports-v1.mjs --kind continuation --output artifacts/continuation-candidate-coverage/next-native-current-check.json --summary artifacts/continuation-candidate-coverage/validation.md
           cat artifacts/continuation-candidate-coverage/validation.md >> "$GITHUB_STEP_SUMMARY"
       - name: Verify declared continuation aliases
         if: always()
@@ -305,23 +410,26 @@ jobs:
           overwrite: true
           path: artifacts/continuation-candidate-coverage/
           if-no-files-found: warn
-      - name: Generate source visual coverage
+      - name: Summarize source visual coverage
         if: always()
         run: |
-          set +e
-          node tools/source-visual-coverage.mjs artifacts/source-visual-coverage
-          visual_status=$?
-          set -e
+          visual_status=1
+          if [ -f artifacts/source-visual-coverage/validation-exit-status.txt ]; then
+            visual_status="$(cat artifacts/source-visual-coverage/validation-exit-status.txt)"
+          fi
           if [ -f artifacts/source-visual-coverage/report.md ]; then
             sed -n '1,35p' artifacts/source-visual-coverage/report.md >> "$GITHUB_STEP_SUMMARY"
             echo "Full binding-level JSON and Markdown are available in the source-visual-coverage artifact." >> "$GITHUB_STEP_SUMMARY"
           else
             mkdir -p artifacts/source-visual-coverage
-            echo "Source visual coverage unavailable: generator exited before writing its report (status ${visual_status})." >> "$GITHUB_STEP_SUMMARY"
-            echo "Generator did not write report.md (exit status ${visual_status})." > artifacts/source-visual-coverage/generation-error.txt
-            if [ "$visual_status" -eq 0 ]; then visual_status=1; fi
+            echo "Source visual coverage unavailable: current raster/visual CI wrapper did not write its report (status ${visual_status})." >> "$GITHUB_STEP_SUMMARY"
+            if [ ! -f artifacts/source-visual-coverage/generation-error.txt ]; then
+              echo "Wrapper did not write report.md (exit status ${visual_status})." > artifacts/source-visual-coverage/generation-error.txt
+            fi
+            visual_status=1
           fi
-          exit "$visual_status"
+          if [ "$visual_status" -ne 0 ]; then exit "$visual_status"; fi
+          exit 0
       - name: Check class advancement and source qualifiers
         if: always()
         run: |
@@ -331,7 +439,7 @@ jobs:
           class_status=$?
           node tools/source-qualifier-coverage.mjs --input dist/data.json --output artifacts/source-domain-audits/source-qualifiers.json --check
           qualifier_status=$?
-          node tools/ua26-note-marker-audit-mm-v1.mjs > artifacts/source-domain-audits/ua26-note-markers.json
+          node tools/verify-class-mapping-current-reports-v1.mjs --kind ua26 --output artifacts/source-domain-audits/ua26-note-markers.json
           marker_status=$?
           set -e
           echo "Class-domain and source-qualifier JSON reports are in the source-domain-audits artifact. Generic semantic qualifier completeness is not certified." >> "$GITHUB_STEP_SUMMARY"
@@ -341,15 +449,12 @@ jobs:
         run: |
           set -o pipefail
           mkdir -p artifacts/source-domain-audits
-          gzip -cd research/mm-source-metadata-v1/frozen-systemic-current-v1.json.gz | cmp - artifacts/citation-systemic-coverage/citation-systemic-current.json
-          gzip -cd research/mm-source-metadata-v1/frozen-visual-report-v1.json.gz | cmp - artifacts/source-visual-coverage/report.json
-          gzip -cd research/mm-source-metadata-v1/frozen-table-report-v1.json.gz | cmp - artifacts/source-table-citation-coverage/report.json
-          node tools/refresh-gaps-handoff.mjs --check | tee artifacts/source-domain-audits/gaps-handoff-check.json
+          node tools/verify-class-mapping-current-reports-v2.mjs --kind all --output artifacts/source-domain-audits/gaps-handoff-check.json
       - name: Verify coverage report counts and review scopes
         if: always()
         run: |
           mkdir -p artifacts/source-domain-audits
-          node tools/source-report-consistency-audit.mjs --check > artifacts/source-domain-audits/report-consistency.json
+          node tools/verify-class-mapping-current-reports-v1.mjs --kind consistency --output artifacts/source-domain-audits/report-consistency.json
       - name: Upload class and qualifier audits
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -366,6 +471,18 @@ jobs:
           overwrite: true
           path: artifacts/source-visual-coverage/
           if-no-files-found: warn
+      - name: Require complete current test suite
+        if: always()
+        env:
+          CM_SHARDS_RESULT: ${{ needs['class-mapping-test-shards'].result }}
+          CM_MM_RESULT: ${{ needs['historical-mm-replay'].result }}
+          CM_REDUCER_RESULT: ${{ needs['test-shard-reducer'].result }}
+        run: |
+          if [ "$CM_SHARDS_RESULT" != "success" ] || [ "$CM_MM_RESULT" != "success" ] || [ "$CM_REDUCER_RESULT" != "success" ]; then
+            echo "Current test suite incomplete: shards=$CM_SHARDS_RESULT mm=$CM_MM_RESULT reducer=$CM_REDUCER_RESULT" >&2
+            exit 1
+          fi
+
       - name: Capture build metadata
         if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
         run: node tools/stamp-build.mjs --capture
