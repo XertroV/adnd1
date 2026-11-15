@@ -49,7 +49,7 @@ function initialize() {
   const next = new Map();
   for (const row of manifest.files) {
     const bytes = raw.git('show', ORIGIN_COMMIT + ':' + row.path);
-    const blobOid = raw.git('rev-parse', ORIGIN_COMMIT + ':' + row.path).toString('utf8').trim();
+    const blobOid = createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
     if (!Number.isSafeInteger(row.sizeBytes) || bytes.length !== row.sizeBytes
         || hash(bytes) !== row.sha256 || blobOid !== row.gitBlobOid) fail('origin pin differs: ' + row.path);
     next.set(row.path, Buffer.from(bytes));

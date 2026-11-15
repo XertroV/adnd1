@@ -9,7 +9,7 @@ import {projectPass8PhbSourceJson as originalPhb} from '../research/class-mappin
 import {validateScanCatalog} from '../research/class-mapping-history-v1/replay-tools/scan-catalog.mjs';
 import books from '../dist/books.js';
 import {loadCurrentMonetarySourceQuestions} from '../research/class-mapping-history-v1/replay-tools/dmg175-current-monetary-source-questions-mm-v2.mjs';
-import {loadCurrentMonetarySourceQuestions as loadLegacyMonetarySourceQuestions} from '../research/class-mapping-history-v1/replay-tools/monetary-current-source-questions.mjs';
+import {loadCurrentMonetarySourceQuestions as loadLegacyMonetarySourceQuestions} from '../research/class-mapping-history-v1/replay-tools/monetary-current-source-questions-mm-v2.mjs';
 import {readFileSync,historicalMmTestRoot,assertHistoricalMmTestStage} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
 import {pathToFileURL} from 'node:url';
 assertHistoricalMmTestStage();

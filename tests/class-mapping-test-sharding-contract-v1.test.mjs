@@ -4,7 +4,8 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
-import {collectRoster,deriveShards,rosterDigest,validateReceiptSet,parseTapSummary,DEDICATED_MM_PATH,SHARD_COUNT,R5_ROSTER_PATH} from '../tools/class-mapping-test-sharding-core-v2.mjs';
+import {gunzipSync} from 'node:zlib';
+import {collectRoster,deriveShards,rosterDigest,validateReceiptSet,parseTapSummary,DEDICATED_MM_PATH,SHARD_COUNT,R5_ROSTER_PATH} from '../tools/class-mapping-test-sharding-core-v3.mjs';
 const root=process.cwd(),roster=collectRoster(root),shards=deriveShards(roster);
 const checkout='fa45f44c8ccc3d80226984fab7792eac9353b252',logicalSource='2d35138027f00c0740975e519dbb3a2b6df76d14';
 const identity={summary:{sourceCommit:logicalSource,sourceTree:'40ecb15130b339658522794db6d9e1bc58f43b50'},inputHashes:{sourceBody:{'fixture.json':'a'.repeat(64)}}};
@@ -50,7 +51,8 @@ test('all original report commands and pinned actions remain in the gated workfl
  assert.match(workflow,/actions\/checkout@d23441a48e516b6c34aea4fa41551a30e30af803/);assert.match(workflow,/actions\/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38/);
 });
 test('the versioned code receipt pins new executable paths and the old registry bytes',async()=>{
- const receipt=JSON.parse(readFileSync(resolve(root,'research/class-mapping-ci-sharding-v1/code-pins-v2.json'),'utf8'));
+ const registryContainer=readFileSync(resolve(root,'research/class-mapping-ci-sharding-v1/code-pins-v3.json.gz'));
+ const receipt=JSON.parse(gunzipSync(registryContainer,{maxOutputLength:256*1024}).toString('utf8'));
  const paths=[
   "research/ci117-citation-navigation-inventory-transition-independent-review-v2/manifest-v1.json",
   "research/ci117-citation-navigation-inventory-transition-independent-review-v2/review-v1.json",
@@ -82,6 +84,7 @@ test('the versioned code receipt pins new executable paths and the old registry 
   "research/ci117-ua26-cli-epoch-transport-proposal-v2/manifest-v2.json",
   "research/ci118-r8-source-repairs-v1/frozen-component-proposals-v1.json",
   "research/class-mapping-ci-sharding-v1/code-pins-v1.json",
+  "research/class-mapping-ci-sharding-v1/code-pins-v2.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/evidence/combined-b-peer-v1/independent-review-v1.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/evidence/combined-b-peer-v1/manifest-v1.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/navigation-before-v1.mjs",
@@ -111,10 +114,16 @@ test('the versioned code receipt pins new executable paths and the old registry 
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r8-r7-predecessor-sources/pass8-ua-source-history.test.mjs",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r8-r7-predecessor-sources/source-frame-systemic-native-s1-current-v1.test.mjs",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r8-r7-predecessor-sources/ua-source-handoff-transition.test.mjs",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r9-r8-predecessor-sources/coverage-gaps.test.mjs.gz",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r9-r8-predecessor-sources/refresh-gaps-handoff-mm-v2.mjs.gz",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r9-v2-r8-predecessor-sources/pass8-citation-target-crop-history.test.mjs.gz",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/r9-v2-r8-predecessor-sources/ua-support-twin-history-v1.mjs.gz",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/systemic-before-v1.mjs",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/migrations-v7.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/migrations-v8.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/migrations-v9.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/r9-callback-override-v1.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/r9-expanded-override-v2.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r7v4-mm-addon-continuation-alias-audit.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r7v4-mm-addon-source-report-consistency-audit.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r7v4-mm-transport-continuation-candidates.json",
@@ -171,6 +180,8 @@ test('the versioned code receipt pins new executable paths and the old registry 
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-nav-v2-current-source-classification.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-r8-original-pass8-ua-source-history.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r8-root-combined-systemic-mm-historical-import-transport.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r9-independent-callback-override-v1.json",
+  "research/class-mapping-ci-sharding-v1/test-source-transition-v1/receipts/r9-independent-expanded-override-v2.json",
   "research/class-mapping-history-v1/continuation-baseline-v1/mm-test-role-continuation-baseline-v1.json",
   "research/class-mapping-history-v1/continuation-baseline-v1/requested-input-closure-v1.json",
   "research/class-mapping-history-v1/dmg175-historical-tests/alias/alias-h-v1.test.mjs",
@@ -214,6 +225,7 @@ test('the versioned code receipt pins new executable paths and the old registry 
   "research/class-mapping-history-v1/replay-tools/dmg175-current-monetary-source-questions-mm-v2.mjs",
   "research/class-mapping-history-v1/replay-tools/dmg175-current-successors-mm-v2.mjs",
   "research/class-mapping-history-v1/replay-tools/mm-current-cli-replay-v1.mjs",
+  "research/class-mapping-history-v1/replay-tools/monetary-current-source-questions-mm-v2.mjs",
   "research/class-mapping-history-v1/replay-tools/monetary-row-identity-audit-mm-v5.mjs",
   "research/class-mapping-history-v1/replay-tools/monetary-unit-provenance-audit-mm-v2.mjs",
   "research/class-mapping-history-v1/replay-tools/refresh-gaps-handoff-mm-v2.mjs",
@@ -268,7 +280,10 @@ test('the versioned code receipt pins new executable paths and the old registry 
   "tools/class-mapping-ci-tracked-checkout-v1.mjs",
   "tools/class-mapping-test-sharding-core-v1.mjs",
   "tools/class-mapping-test-sharding-core-v2.mjs",
+  "tools/class-mapping-test-sharding-core-v3.mjs",
   "tools/class-mapping-test-source-lineage-v2.mjs",
+  "tools/class-mapping-test-source-override-v1.mjs",
+  "tools/class-mapping-test-source-override-v2.mjs",
   "tools/reduce-class-mapping-test-shards-v1.mjs",
   "tools/refresh-gaps-handoff-next-native-v2-qcc-date-v1.mjs",
   "tools/run-class-mapping-tests-shard-v1.mjs",
@@ -281,13 +296,20 @@ test('the versioned code receipt pins new executable paths and the old registry 
  assert.equal(old.length,175);assert.deepEqual(receipt.allCodePins.slice(0,old.length),old);assert.deepEqual(receipt.allCodePins.slice(old.length),receipt.codePins);
  assert.equal(receipt.historicalPrefixCount,175);assert.equal(receipt.expandedCodePinCount,receipt.allCodePins.length);assert.equal(new Set(receipt.allCodePins.map(pin=>pin.path)).size,receipt.allCodePins.length);
  assert(paths.includes('research/class-mapping-history-v1/dmg175-historical-tests/alias/alias-h-v1.test.mjs'));assert(paths.includes('tests/helpers/ua-source-batch6-xp-source-history.mjs'));
- assert.equal(receipt.parentCommit,'5b76ccca0d2df451dbcc7ce22c78d895a2138f45');
- assert.equal(receipt.parentRegistry.path,'research/class-mapping-ci-sharding-v1/code-pins-v1.json');
- assert.equal(receipt.parentRegistry.sha256,'9ac4e10cda071a24ba991e984863da8a2ff00f7976fd0fca3f87f2c234c0edd3');
- assert.equal(receipt.parentRegistry.sizeBytes,113497);
+ assert.equal(receipt.parentCommit,'a15b84838439562ea380c444caa15205d3c8e680');
+ assert.equal(receipt.parentRegistry.path,'research/class-mapping-ci-sharding-v1/code-pins-v2.json');
+ assert.equal(receipt.parentRegistry.sha256,'bbe795bc1be7d4d542e32f8d4d99d5f4903a21c04efeaa00fc5c74639f87e6bd');
+ assert.equal(receipt.parentRegistry.sizeBytes,139300);
  const parentBytes=readFileSync(resolve(root,receipt.parentRegistry.path));
  assert.equal(createHash('sha256').update(parentBytes).digest('hex'),receipt.parentRegistry.sha256);
  assert.equal(parentBytes.length,receipt.parentRegistry.sizeBytes);
+ const frozenR8Registry=JSON.parse(parentBytes.toString('utf8'));
+ assert.equal(frozenR8Registry.parentRegistry.path,'research/class-mapping-ci-sharding-v1/code-pins-v1.json');
+ assert.equal(frozenR8Registry.parentRegistry.sha256,'9ac4e10cda071a24ba991e984863da8a2ff00f7976fd0fca3f87f2c234c0edd3');
+ assert.equal(frozenR8Registry.parentRegistry.sizeBytes,113497);
+ const frozenV1Bytes=readFileSync(resolve(root,frozenR8Registry.parentRegistry.path));
+ assert.equal(createHash('sha256').update(frozenV1Bytes).digest('hex'),frozenR8Registry.parentRegistry.sha256);
+ assert.equal(frozenV1Bytes.length,frozenR8Registry.parentRegistry.sizeBytes);
  assert.equal(receipt.workflow.path,'.github/workflows/pages.yml');assert.equal(receipt.baseline.path,R5_ROSTER_PATH);assert.equal(receipt.historicalRegistry.path,'research/class-mapping-source-epoch-v1/historical-reader-installation-pins-v1.mjs');
- for(const pin of [...receipt.codePins,receipt.workflow,receipt.baseline,receipt.historicalRegistry]){const bytes=readFileSync(resolve(root,pin.path));assert.equal(createHash('sha256').update(bytes).digest('hex'),pin.sha256,pin.path);assert.equal(bytes.length,pin.sizeBytes,pin.path);}
+ for(const pin of [...receipt.allCodePins,receipt.workflow,receipt.baseline,receipt.historicalRegistry]){const bytes=readFileSync(resolve(root,pin.path));assert.equal(createHash('sha256').update(bytes).digest('hex'),pin.sha256,pin.path);assert.equal(bytes.length,pin.sizeBytes,pin.path);}
 });

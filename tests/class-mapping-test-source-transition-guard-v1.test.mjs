@@ -2,6 +2,9 @@
 // Accepted-peer fixtures below are synthetic branch checks, never real review.
 import test from 'node:test';
 import vm from 'node:vm';
+import {gzipSync} from 'node:zlib';
+import {validateFiniteR9ExpandedOverride} from '../tools/class-mapping-test-source-override-v2.mjs';
+import {getR9AcceptanceSubject,deriveFiniteR9CallbackView,validateFiniteR9CallbackOverride} from '../tools/class-mapping-test-source-override-v1.mjs';
 import {detachedArgvForChildV3,detachedChildOptionsForChildV3} from '../research/class-mapping-history-v1/mm-replay-io-contract-v3.mjs';
 import {validateR8TransitionLineage,validateGlobalCodeProof} from '../tools/class-mapping-test-source-lineage-v2.mjs';
 import assert from 'node:assert/strict';
@@ -10,7 +13,7 @@ import {resolve,dirname,join,relative} from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {createHash,randomUUID} from 'node:crypto';
 import {tmpdir} from 'node:os';
-import {validateR5TestSourceTransitions,parsePinnedTestSourceMigrationDocument,TEST_SOURCE_MIGRATIONS_SHA256,TEST_SOURCE_MIGRATIONS_SIZE_BYTES,TEST_SOURCE_MIGRATIONS_PATH} from '../tools/class-mapping-test-sharding-core-v2.mjs';
+import {validateR5TestSourceTransitions,parsePinnedTestSourceMigrationDocument,TEST_SOURCE_MIGRATIONS_SHA256,TEST_SOURCE_MIGRATIONS_SIZE_BYTES,TEST_SOURCE_MIGRATIONS_PATH,readPinnedR9CallbackOverride,createR8PredecessorReaders,readPinnedR9ExpandedOverride,createR9ExpandedReaders} from '../tools/class-mapping-test-sharding-core-v3.mjs';
 
 const proposedRoot=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
@@ -41,7 +44,15 @@ for(const row of pending.transitions){row.candidateStatus='PENDING_SYNTHETIC_TES
 const system=pending.transitions.find(row=>row.path==='tests/source-frame-systemic-consumer.test.mjs');
 const navigation=pending.transitions.find(row=>row.path==='tests/citation-navigation-inventory.test.mjs');
 const readFixture=path=>readFileSync(resolve(proposedRoot,path));
-const readCode=path=>readFileSync(resolve(proposedRoot,path));
+// All retained R7/R8 protocol controls use the explicitly preserved R8 byte view.
+// The separate R9 controls below validate actual current physical source/proofs.
+const r9CompanionForHistoricalControls=readPinnedR9CallbackOverride(proposedRoot);
+const r9ExpandedForHistoricalControls=readPinnedR9ExpandedOverride(proposedRoot);
+const r8HistoricalReaders=createR8PredecessorReaders(proposedRoot,r9CompanionForHistoricalControls,r9ExpandedForHistoricalControls);
+// The test adapter retains the original raw-fs scope for historical fixtures
+// and peer receipts. Only the four fixed revised source paths use pinned R8 overrides.
+const r8CallbackPredecessorPaths=new Set([...r9CompanionForHistoricalControls.sourceRevisions,...r9ExpandedForHistoricalControls.sourceRevisions].map(row=>row.path));
+const readCode=path=>r8CallbackPredecessorPaths.has(path)?r8HistoricalReaders.readCode(path):readFileSync(resolve(proposedRoot,path));
 function readEvidence(path,extra=new Map()){
  if(extra.has(path)) return extra.get(path);
  assert.match(path,/^research\/class-mapping-ci-sharding-v1\/test-source-transition-v1\//);
@@ -312,7 +323,8 @@ const parent=parentDocument;
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const canonical=value=>Array.isArray(value)?`[${value.map(canonical).join(',')}]`:value&&typeof value==='object'?`{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${canonical(value[key])}`).join(',')}}`:JSON.stringify(value);
 const rowHash=row=>sha(Buffer.from(canonical(row)));
-const currentRead=path=>readFileSync(resolve(fixture,path));
+// Historical R8 proof checks retain their original named controls and exact scope.
+const currentRead=readCode;
 const oldProofFixtures=new Map(fixedDocument.ancestry.proofPreimages.map(pin=>[pin.path,pin.fixturePath]));
 const read=path=>currentRead(oldProofFixtures.get(path)??path);
 function inherited(){return {...structuredClone(parent),artifactType:'finite R8 test-source transitions for immutable R5 roster',ledgerPath:`${evidenceDir}/migrations-v9.json`,ancestry:{parent:{path:`${evidenceDir}/migrations-v8.json`},parentTransitionCount:parent.transitions.length,proofPreimages:structuredClone(fixedDocument.ancestry.proofPreimages)},revisions:[]};}
@@ -533,4 +545,134 @@ test('rejects a forged realm prototype without evaluating constructor accessors'
   assert.throws(()=>detachedChildOptionsForChildV3(options),/Plain historical child options required/);
   assert.equal(nameGets,0,'Caller-supplied constructor name accessor must not execute while rejecting an input');
 });
+}
+
+// Finite R9 controls use synthetic accepted receipts only for protocol branches.
+// No synthetic receipt enters production admission; the final tests read the
+// real expanded companion, real reviewer receipts and actual current code.
+{
+const r8Document=fixedDocument,r5Entries=r5.entries;
+const SOURCE='tests/coverage-gaps.test.mjs',RUNTIME='research/class-mapping-history-v1/replay-tools/refresh-gaps-handoff-mm-v2.mjs',PREFIX='research/class-mapping-ci-sharding-v1/test-source-transition-v1/';
+const ACCEPTED='ACCEPTED_FINITE_R9_CALLBACK_SOURCE_AND_PROOF_OVERRIDE';
+const canonical=x=>Array.isArray(x)?'['+x.map(canonical).join(',')+']':x&&typeof x==='object'?'{'+Object.keys(x).sort().map(k=>JSON.stringify(k)+':'+canonical(x[k])).join(',')+'}':JSON.stringify(x);
+const sha=x=>createHash('sha256').update(x).digest('hex'),digest=x=>sha(Buffer.from(canonical(x)));
+const cache=new Map();
+function r8Read(path){
+ if(!cache.has(path))cache.set(path,readCode(path));
+ return Buffer.from(cache.get(path));
+}
+function fixture({includeRuntime=true}={}){
+ const old=r8Document.transitions.find(row=>row.path===SOURCE);
+ const code=new Map(),evidence=new Map(),sourceRevisions=[];
+ for(const path of (includeRuntime?[RUNTIME,SOURCE]:[SOURCE])){
+  const original=r8Read(path),next=Buffer.concat([original,Buffer.from('\n// Synthetic private callback admission postimage only.\n')]);
+  code.set(path,next);
+  const isTest=path===SOURCE,fixturePath=PREFIX+'fixtures/r9-r8-predecessor-sources/'+(isTest?'coverage-gaps.test.mjs.gz':'refresh-gaps-handoff-mm-v2.mjs.gz');
+  evidence.set(fixturePath,original);
+  sourceRevisions.push({id:isTest?'r9-coverage-gaps-readfile-v5':'r9-refresh-gaps-handoff-readfile-v5',path,kind:isTest?'original-test-source':'runtime-code',r8TransitionId:isTest?old.id:null,r8RowSha256:isTest?digest(old):null,
+   before:{sha256:sha(original),sizeBytes:original.length,fixturePath,fixtureSha256:sha(original),fixtureSizeBytes:original.length,fixtureEncoding:'gzip',fixtureFileSha256:sha(gzipSync(original)),fixtureFileSizeBytes:gzipSync(original).length},after:{sha256:sha(next),sizeBytes:next.length},
+   authorId:isTest?'synthetic-private-author':'synthetic-runtime-author',proposal:{id:'synthetic-private-only',manifestSha256:'a'.repeat(64)},proofScope:{kind:'synthetic private protocol control only; no callback semantic or Native approval'}});
+ }
+ const byPath=new Map(sourceRevisions.map(r=>[r.path,r]));
+ const companion={
+  schemaVersion:1,artifactType:'finite R9 callback source and shared-proof override',status:'PENDING_INDEPENDENT_ACCEPTANCE',accepted:false,
+  parent:{commit:'a15b84838439562ea380c444caa15205d3c8e680',tree:'9f3fc84368ae4f38ab1b0d6905db7fbd7007a6b4',
+   ledger:{path:PREFIX+'migrations-v9.json',sha256:'a0622ae8c713abaa6c31f17563c02f01e4f94313f2ec9e6feb23c3731d431e10',sizeBytes:353215},
+   core:{path:'tools/class-mapping-test-sharding-core-v2.mjs',sha256:'9f389ea215ebf14525e202265ec4acc5bc2c098c6e3a3fab46144eac264de951',sizeBytes:25673},
+   registry:{path:'research/class-mapping-ci-sharding-v1/code-pins-v2.json',sha256:'bbe795bc1be7d4d542e32f8d4d99d5f4903a21c04efeaa00fc5c74639f87e6bd',sizeBytes:139300}},
+  sourceRevisions,proofRebindings:[],acceptedPeer:null};
+ const views=r8Document.transitions.map(row=>({transitionId:row.id,path:row.path,r8RowSha256:digest(row),sourceAfter:row.path===SOURCE?byPath.get(SOURCE).after:row.after,codeProof:row.codeProof.map(p=>byPath.has(p.path)?{...p,...byPath.get(p.path).after}:p)}));
+ companion.proofRebindings=views.filter(view=>view.codeProof.some(p=>byPath.has(p.path))).sort((a,b)=>a.transitionId<b.transitionId?-1:1).map(view=>({transitionId:view.transitionId,r8RowSha256:view.r8RowSha256,effectiveViewSha256:digest(view)}));
+ const readCode=path=>Buffer.from(code.get(path)??r8Read(path));
+ const currentEntries=r5Entries.map(row=>{const bytes=readCode(row.path);return {path:row.path,sha256:sha(bytes),sizeBytes:bytes.length};});
+ const args={r5Entries,currentEntries,r8Document:structuredClone(r8Document),companion,readCode,readFixture:path=>Buffer.from(evidence.get(path)??r8Read(path)),readEvidence:path=>Buffer.from(evidence.get(path)??r8Read(path))};
+ function accept(change=()=>{}){
+  companion.accepted=true;companion.status=ACCEPTED;
+  const receipt={schemaVersion:1,status:ACCEPTED,reviewer:{id:'synthetic-independent-peer',role:'independent'},authorIds:[...new Set(sourceRevisions.map(r=>r.authorId))].sort(),subject:getR9AcceptanceSubject(companion)};
+  change(receipt);
+  const bytes=Buffer.from(JSON.stringify(receipt)),path=PREFIX+'receipts/synthetic-private-r9-only.json';
+  evidence.set(path,bytes);companion.acceptedPeer={reviewerId:receipt.reviewer.id,receiptPath:path,receiptSha256:sha(bytes),receiptSizeBytes:bytes.length};
+ }
+ return {args,code,evidence,testRevision:byPath.get(SOURCE),runtimeRevision:byPath.get(RUNTIME),accept};
+}
+function control(name,run){test('finite R9 synthetic: '+name,run);}
+function reject(name,mutate,pattern){control(name,()=>{const f=fixture();f.accept();mutate(f);assert.throws(()=>validateFiniteR9CallbackOverride(f.args),pattern);});}
+control('pending derivation preserves immutable inputs and derives all nineteen/union/168 paths',()=>{
+ const f=fixture(),before=canonical(f.args.r8Document),d=deriveFiniteR9CallbackView(f.args);
+ assert.equal(d.effectiveViews.length,19);assert.deepEqual(d.affectedConsumerIds,r8Document.transitions.filter(r=>r.codeProof.some(p=>[SOURCE,RUNTIME].includes(p.path))).map(r=>r.id).sort());assert.equal(d.effectiveSourcePins.length,217);
+ assert.equal(new Set(d.effectiveProofRows.flatMap(r=>r.codeProof.map(p=>p.path))).size,168);
+ assert.equal(canonical(f.args.r8Document),before);d.effectiveViews[0].codeProof[0].sha256='b'.repeat(64);assert.equal(canonical(f.args.r8Document),before);
+});
+control('independently accepted synthetic finite override passes',()=>{const f=fixture();f.accept();const d=validateFiniteR9CallbackOverride(f.args);assert.deepEqual(d.acceptanceSubject,getR9AcceptanceSubject(f.args.companion));});
+reject('pending production rejected',f=>{f.args.companion.status='PENDING_INDEPENDENT_ACCEPTANCE';f.args.companion.accepted=false;},/pending override rejected/);
+reject('null peer rejected',f=>{f.args.companion.acceptedPeer=null;},/reviewer/);
+reject('self reviewer rejected',f=>{f.args.companion.acceptedPeer.reviewerId=f.testRevision.authorId;},/independent/);
+reject('wrong receipt subject rejected',f=>f.accept(r=>{r.subject.sourceRevisions.find(x=>x.path===SOURCE).after.sha256='c'.repeat(64);}),/exact finite source/);
+reject('tampered receipt bytes rejected',f=>{const p=f.args.companion.acceptedPeer.receiptPath;f.evidence.set(p,Buffer.concat([f.evidence.get(p),Buffer.from(' ')]));},/accepted receipt bytes/);
+reject('wrong receipt author rejected',f=>f.accept(r=>{r.authorIds[0]='wrong-author';}),/author identity/);
+reject('wrong parent anchor rejected',f=>{f.args.companion.parent.core.sha256='d'.repeat(64);},/parent anchors/);
+reject('mutated frozen V9 document rejected',f=>{f.args.r8Document.transitions[0].after.sha256='e'.repeat(64);},/immutable R8 document/);
+reject('unknown source path rejected',f=>{f.testRevision.path='tests/unlisted.test.mjs';},/unique fixed/);
+reject('wrong source predecessor rejected',f=>{f.testRevision.before.sha256='f'.repeat(64);},/source predecessor/);
+reject('tampered predecessor fixture rejected',f=>{f.evidence.set(f.testRevision.before.fixturePath,Buffer.from('changed'));},/predecessor fixture bytes/);
+reject('additional original source change rejected',f=>{const p=f.args.currentEntries.find(row=>row.path!==SOURCE);const b=Buffer.concat([f.args.readCode(p.path),Buffer.from('changed')]);f.code.set(p.path,b);p.sha256=sha(b);p.sizeBytes=b.length;},/unlisted or incorrect/);
+reject('missing original source rejected',f=>{f.args.currentEntries.pop();},/remains present/);
+reject('duplicate physical source path rejected',f=>{f.args.currentEntries.push({...f.args.currentEntries[0]});},/unique exact physical/);
+reject('wrong consumer identifier rejected',f=>{f.args.companion.proofRebindings[0].transitionId='unlisted';},/consumer rebinding set/);
+reject('stale consumer row hash rejected',f=>{f.args.companion.proofRebindings[0].r8RowSha256='a'.repeat(64);},/consumer row hash/);
+reject('missing consumer rejected',f=>{f.args.companion.proofRebindings.pop();},/consumer rebinding set/);
+reject('extra consumer rejected',f=>{f.args.companion.proofRebindings.push({...f.args.companion.proofRebindings[0]});},/consumer rebinding set/);
+reject('wrong effective view hash rejected',f=>{f.args.companion.proofRebindings[0].effectiveViewSha256='b'.repeat(64);},/effective consumer view hash/);
+reject('changed current shared proof bytes rejected',f=>{const p='research/class-mapping-history-v1/mm-replay-fs-v5.mjs';f.code.set(p,Buffer.concat([f.args.readCode(p),Buffer.from('changed')]));},/effective physical proof bytes/);
+control('coverage-only finite proposal is independently valid',()=>{const f=fixture({includeRuntime:false});f.accept();assert.equal(validateFiniteR9CallbackOverride(f.args).effectiveViews.length,19);});
+reject('runtime author cannot review the combined change',f=>{f.args.companion.acceptedPeer.reviewerId=f.runtimeRevision.authorId;},/independent/);
+reject('an undeclared third source path cannot be admitted',f=>{f.args.companion.sourceRevisions.push({...f.runtimeRevision,path:'tools/not-allowed.mjs',id:'third'});},/mandatory coverage revision/);
+reject('mandatory coverage cannot be omitted',f=>{f.args.companion.sourceRevisions=f.args.companion.sourceRevisions.filter(r=>r.path!==SOURCE);},/mandatory coverage callback/);
+reject('runtime kind cannot masquerade as original test',f=>{f.runtimeRevision.kind='original-test-source';},/revision kind/);
+reject('non-gzip fixture envelope rejected',f=>{f.testRevision.before.fixtureEncoding='raw';},/predecessor fixture pin/);
+reject('malformed compressed container pin rejected',f=>{f.runtimeRevision.before.fixtureFileSha256='not-a-hash';},/predecessor fixture pin/);
+
+// These controls use the actual accepted current subject. Reader mutations are
+// test-only failures; the successful case checks real current bytes first.
+let expandedBase;
+function expandedFixture(){
+ if(!expandedBase){
+  const companion=readPinnedR9ExpandedOverride(proposedRoot),physical=createR9ExpandedReaders(proposedRoot,companion),cached=new Map();
+  const fresh=reader=>path=>{const key=reader+'|'+path;if(!cached.has(key))cached.set(key,physical[reader](path));return Buffer.from(cached.get(key));};
+  const verified=companion.addedRuntime[0].beforeTree;
+  assert.equal(physical.checkTreeAbsence(verified),true);
+  expandedBase={r5Entries:r5.entries,currentEntries:r5.entries.map(row=>{const bytes=physical.readCode(row.path);return {path:row.path,sha256:sha(bytes),sizeBytes:bytes.length};}),r8Document:fixedDocument,companion,
+   readFixture:fresh('readFixture'),readEvidence:fresh('readEvidence'),readCode:fresh('readCode'),readParentSupport:fresh('readParentSupport'),
+   checkTreeAbsence:tuple=>canonical(tuple)===canonical(verified)};
+ }
+ return {...expandedBase,currentEntries:structuredClone(expandedBase.currentEntries),companion:structuredClone(expandedBase.companion)};
+}
+test('finite R9 current admission validates all actual original source bytes and the complete effective physical proof set',()=>{
+ const f=expandedFixture(),result=validateFiniteR9ExpandedOverride(f);
+ assert.equal(result.effectiveSourcePins.length,r5.entries.length);
+ assert.equal(result.effectiveViews.length,fixedDocument.transitionCount);
+ const allRevisions=[...r9CompanionForHistoricalControls.sourceRevisions,...f.companion.sourceRevisions];
+ const affected=fixedDocument.transitions.filter(row=>row.codeProof.some(pin=>allRevisions.some(revision=>revision.path===pin.path))||f.companion.addedRuntime[0].consumerIds.includes(row.id)).map(row=>row.id).sort();
+ assert.deepEqual(result.affectedConsumerIds,affected);
+ const expected=[...new Set([...fixedDocument.transitions.flatMap(row=>row.codeProof.map(pin=>pin.path)),...f.companion.proofDependencies.map(pin=>pin.path),f.companion.addedRuntime[0].path])].sort();
+ assert.deepEqual([...new Set(result.effectiveProofRows.flatMap(row=>row.codeProof.map(pin=>pin.path)))].sort(),expected);
+ assert.equal(expected.length,171);
+ for(const view of result.effectiveViews.filter(view=>f.companion.addedRuntime[0].consumerIds.includes(view.transitionId))){
+  assert.deepEqual(view.codeProof.slice(-3).map(pin=>pin.path),[...f.companion.proofDependencies.map(pin=>pin.path),f.companion.addedRuntime[0].path]);
+ }
+ assert.deepEqual(r9CompanionForHistoricalControls.sourceRevisions.map(row=>row.path),[RUNTIME,SOURCE].sort());
+});
+function expandedReject(name,mutate,pattern){test('finite R9 expanded current: '+name,()=>{const f=expandedFixture();mutate(f);assert.throws(()=>validateFiniteR9ExpandedOverride(f),pattern);});}
+expandedReject('unknown later source path is rejected',f=>{f.companion.sourceRevisions[0].path='tests/unregistered.test.mjs';},/exact sorted late source rev set/);
+expandedReject('added runtime cannot claim an existing predecessor',f=>{f.companion.addedRuntime[0].before={sha256:'a'.repeat(64),sizeBytes:1};},/null predecessor/);
+expandedReject('all twelve runtime consumers remain mandatory',f=>{f.companion.addedRuntime[0].consumerIds.pop();},/exact derived consumers of the added test dependency/);
+expandedReject('an extra runtime consumer is rejected',f=>{f.companion.addedRuntime[0].consumerIds.push('unregistered-consumer');},/exact derived consumers of the added test dependency/);
+expandedReject('stale effective view hash is rejected',f=>{f.companion.proofRebindings[0].effectiveViewSha256='a'.repeat(64);},/exact expanded effective view hash/);
+expandedReject('early accepted callback postimage remains physically required',f=>{const read=f.readCode;f.readCode=path=>path===SOURCE?Buffer.from('changed early callback'):read(path);},/physical original source bytes/);
+expandedReject('later UA helper postimage remains physically required',f=>{const read=f.readCode;f.readCode=path=>path===f.companion.sourceRevisions[0].path?Buffer.from('changed UA helper'):read(path);},/expanded physical proof bytes/);
+expandedReject('immutable geometry dependency remains physically required',f=>{const read=f.readCode,target=f.companion.proofDependencies[0].path;f.readCode=path=>path===target?Buffer.from('changed geometry'):read(path);},/expanded physical proof bytes/);
+expandedReject('support pin uses a separate exact physical reader',f=>{f.readParentSupport=()=>Buffer.from('changed support module');},/separate parent module lineage support, not Native qualification bytes/);
+expandedReject('parent tree absence must be independently checked',f=>{f.checkTreeAbsence=()=>false;},/actual fixed parent-tree absence check required/);
+expandedReject('parent tree check errors cannot become absence',f=>{f.checkTreeAbsence=()=>{throw Error('controlled missing-object failure');};},/controlled missing-object failure/);
+expandedReject('source author cannot review the expanded override',f=>{f.companion.acceptedPeer.reviewerId=f.companion.sourceRevisions[0].authorId;},/independent expanded reviewer required/);
 }

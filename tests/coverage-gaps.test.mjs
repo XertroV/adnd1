@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v2.mjs';
+import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v5.mjs';
 import {resolve} from 'node:path';
 import test from 'node:test';
 import {buildCoverageGaps, supplementalMonetaryPresentation} from '../research/class-mapping-history-v1/replay-tools/coverage-gaps-mm-v2.mjs';

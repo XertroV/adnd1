@@ -1,6 +1,6 @@
 import {createHash} from 'node:crypto';
 import {execFileSync} from '../mm-replay-child-process-v2.mjs';
-import {readFileSync, renameSync, writeFileSync} from '../mm-replay-fs-v2.mjs';
+import {readFileSync, renameSync, writeFileSync} from '../mm-replay-fs-v5.mjs';
 import {createRequire} from 'node:module';
 import {dirname, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
