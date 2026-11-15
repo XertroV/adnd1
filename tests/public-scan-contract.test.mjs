@@ -8,6 +8,7 @@ import {validScanCatalogPath,validateScanCatalog,scanStates} from '../tools/scan
 const require=createRequire(import.meta.url),books=require('../dist/books.js'),citations=require('../dist/citations.js');
 const data=JSON.parse(readFileSync('dist/data.json','utf8'));
 const records=[...['rules','spells','classes','equipment','matrices'].flatMap(k=>data[k]||[]),...(data.progressionExplainer?[{...data.progressionExplainer,id:'progression-explainer'}]:[])];
+const currentRows=[...['rules','spells','classes','equipment','matrices'].flatMap(collection=>(data[collection]||[]).map(item=>({collection,item}))),...(data.progressionExplainer?[{collection:'progressionExplainer',item:{...data.progressionExplainer,id:'progression-explainer'}}]:[])];
 test('every current cited record and available page has a scoped source excerpt',()=>{
  let pairs=0;
  for(const item of records){
@@ -22,8 +23,15 @@ test('every current cited record and available page has a scoped source excerpt'
    pairs++;
   }
  }
- const inventory=JSON.parse(readFileSync('tests/fixtures/source-scan-inventory.json','utf8'));
+ const currentSourceScanPath='research/class-mapping-source-epoch-v1/reports/current/source-scan-inventory-class-mapping-current-v1.json';
+ const inventory=JSON.parse(readFileSync(currentSourceScanPath,'utf8'));
+ assert.equal(inventory.input.sha256,createHash('sha256').update(JSON.stringify(data)).digest('hex'),'source inventory must match this exact current data input');
  assert.equal(pairs,inventory.records.reduce((sum,record)=>sum+record.pages.filter(page=>page.availability!=='missing').length,0),'every current non-missing record/page pair is checked');
+ const inventoryPairs=inventory.records.flatMap(record=>record.pages.filter(page=>page.availability!=='missing').map(page=>JSON.stringify([record.collection,record.id,page.book,page.page])));
+ const currentPairs=currentRows.flatMap(({collection,item})=>citations.pages(item).filter(page=>!page.missing).map(page=>JSON.stringify([collection,item.id,page.book,page.page])));
+ assert.equal(new Set(inventoryPairs).size,inventoryPairs.length,'current source inventory has no duplicate record/page pairs');
+ assert.equal(new Set(currentPairs).size,currentPairs.length,'current data has no duplicate record/page pairs');
+ assert.deepEqual([...inventoryPairs].sort(),[...currentPairs].sort(),'current source inventory enumerates the exact available record/page set');
 });
 test('all public catalogs bind to cited pages and checked PNG bytes',()=>{
  const checked=new Map();let regions=0;

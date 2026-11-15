@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "closed input inventory for the R7 orthogonal continuation detector test",
+  "sourceCommit": "5b76ccca0d2df451dbcc7ce22c78d895a2138f45",
+  "sourceTree": "b9f4de0a48842c1989a2fb198eb2eb15270af0ef",
+  "purpose": "Inventory the literal and declared historical evidence dependencies before adding a new role. Only the full orthogonal report is absent from V6, V2, and V3.",
+  "transportLineage": {
+    "capsule": {"path": "research/class-mapping-history-v1/mm-native-capsule-manifest-v1.json", "sha256": "5798f30b425f3a908682dfd860226036fe3a88d017b27d37c9c30bd8afd25003", "files": 25, "sourceInputs": 21},
+    "v6": {"path": "research/class-mapping-history-v1/mm-test-input-manifest-v6.json", "sha256": "a063dd1910847d94e363f1cee502dfa34fd283ccf2c79f1370bcffe00f886070", "files": 2932},
+    "v2": {"path": "research/class-mapping-history-v1/mm-test-role-supplement-v2.json", "sha256": "b8c887c3f75a2ac128c635d7016549df47a372ddc74b7f78d3ab045c3effca12", "roles": 12},
+    "v3": {"path": "research/class-mapping-history-v1/mm-test-role-supplement-v3.json", "sha256": "27856ec212c1e0d9326572e8fd44b1c261f18db6ca838c6277cd6c42face8235", "roles": 9}
+  },
+  "literalAndDeclaredInputs": [
+    {"path": "research/source-audit-batch5-continuation.json", "use": "legacy summary loaded at module scope; baseline for the detector delta", "transport": "V6 exact file pin", "sha256": "bef82bbff53ae7924f4dc6e169d3700a145aca9bfb41dd75103b0632d286b65e", "sizeBytes": 1357930},
+    {"path": "research/source-audit-batch5-continuation-full.json.gz", "use": "legacy compressed numeric report referenced by the legacy summary", "transport": "V6 exact file pin", "sha256": "9bda77ce4816f6c6b4f57bc8ea5afaa9469e8411c21a7411a6ac3f05644cca38", "sizeBytes": 1787154},
+    {"path": "research/source-audit-batch5-continuation-review.json", "use": "the immutable source-pixel review whose identity and 73-page/887-region scope are asserted", "transport": "V6 exact file pin", "sha256": "300cf300c142e5adc1a4b8bdf95d1bdbd7102c9aaa2e593d0fa7c40c36d4d5df", "sizeBytes": 1870870},
+    {"path": "research/source-audit-batch5-continuation-orthogonal-delta.json", "use": "the literal delta input and declared orthogonal summary/full paths", "transport": "V6 exact file pin", "sha256": "d38c65494c2712772522a86c0f73f2d27157a2a962ec23de29b0a24bc68e406d", "sizeBytes": 5515},
+    {"path": "research/source-audit-batch5-continuation-orthogonal-baseline-summary.json", "use": "declared orthogonal summary path in the delta", "transport": "V2 exact typed role historical-test-evidence-orthogonal-continuation-baseline", "sha256": "ca0ca5b9f8b2460b70167461eeff2948c52c21dfd9f856942fbc799915f96f90", "sizeBytes": 1138473},
+    {"path": "research/source-audit-batch5-continuation-orthogonal-baseline-full.json.gz", "use": "declared orthogonal full-evidence path in the delta and summary; the only missing exact artifact", "transport": "proposed continuation-baseline V1 exact typed role", "originCommit": "0f2d70a135e3ad486152bf00f21387d60a1a97ef", "originTree": "08010faf457df22cdb0a5ec35d2dcf79e622ade9", "mirrorCommit": "a29d72d5147c497addd9e46f54ea3f8222f6e9c2", "mirrorTree": "da1c64ea25f178a1155a79c4692964e9b17dd645", "sha256": "03bc04c79d2c8fa86cc853296fb6550ddba65d3600b740b5740cf77cb3a3f643", "sizeBytes": 1433616},
+    {"path": "research/source-audit-batch6-dmg175-ccd-source-identity-before-v1.json", "use": "contains exact base64 pre-fix detector source and its SHA used by the delta assertion", "transport": "V6 exact file pin", "sha256": "cf3b54db8d04bc6dbcc203925fc1ccc9426e2e45ce3b2dfacf385fded8297b9f", "sizeBytes": 2090931},
+    {"path": "tools/continuation-candidates.py", "use": "declared historical orthogonal detector generator", "transport": "exact base64 source preimage embedded in the V6-pinned DMG175 before artifact; the 679b15d summary commit does not contain this path, so the digest is verified through the preserved preimage rather than a claimed Git blob", "sha256": "359eec092837ec25ccc180c860271faaa5901a92fe9e83fbb7a3e54e4a16ce11"},
+    {"path": "tools/continuation-candidates.py", "use": "actual current M1 source-tree detector read by the historical source-directory adapter", "transport": "exact M1 source-tree blob; the old test asserts it differs from the embedded historical generator preimage", "sha256": "9255716a1f5dd30b55b02151f8cd4b56083f3094063f1870829e82d52de96ad5"},
+    {"path": "dist/data.json", "use": "declared detector baseline input", "transport": "V6 exact file pin and declared hash in summary/delta", "sha256": "47908c8ddc8b68c09e11f600ed0d0dc24b2a3749f8e3f452e245c7ee6635053b"},
+    {"path": null, "use": "declared continuation manifest input; the report records its exact hash but does not name a path", "transport": "hash-only metadata; no path was invented", "sha256": "9504a11f432fd7531f95d0bea4b81a8f50c67e9607c6bfc6faf4aa67b3ef5001"},
+    {"path": null, "use": "declared historical continuation-history fixture input; the report records its exact hash but does not name a path", "transport": "hash-only metadata; no path was invented", "sha256": "0194a0171ed8b6c1603c10a3368adc4a2800497852857305cc31725c1e591889"},
+    {"path": null, "use": "five original source PDF identities are recorded by filename/hash/page count; no PDF path or PDF bytes are needed by this historical test", "transport": "hash-only private-input provenance; no PDF/image copied", "sourceDirectoryWasPrivateInput": true}
+  ],
+  "expectedAssertionContract": {
+    "baselineReport": {"compressedBytes": 1433616, "uncompressedBytes": 14165470, "rawReportSha256": "69486f48698b9545a87f01b7067f08a259255c6905aff7f3694bd10c24965abf"},
+    "sourcePixelReview": {"reviewedElevatedPages": 73, "reviewedRegionRows": 887, "sourceReviewMutated": false},
+    "delta": {"regionsWithWordBoxCrossing": {"before": 2257, "after": 664, "removed": 1593, "added": 0}, "regionsWithAnyCropSignal": {"before": 2383, "after": 1617, "lostAllSignals": 766, "added": 0, "lostCrossingButRetainOtherCue": 827}},
+    "negativeControl": {"page": 67, "book": "DMG", "adjacentCandidatesRequireSemanticReview": true},
+    "privacy": {"privateSourceTextIncluded": false, "PDFsCopied": false, "imagesCopied": false}
+  }
+}

@@ -1,16 +1,17 @@
+// Preserved exact a29/MM assertions; separate S1 companion tests own current behavior.
 import test from 'node:test';
 import {after} from 'node:test';
 import assert from 'node:assert/strict';
-import {execFileSync} from 'node:child_process';
+import {execFileSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
-import {mkdtempSync, readFileSync, rmSync, writeFileSync} from 'node:fs';
+import {mkdtempSync, readFileSync, rmSync, writeFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {gzipSync, gunzipSync} from 'node:zlib';
-import {buildHistoricalSourceRasterCoverage, buildSourceRasterCoverage, collectLiveRasterUniverse, loadRasterSnapshotInput, roundHalfUpRasterPixel, runSourceRasterCoverage} from '../tools/source-raster-coverage.mjs';
-import {assertMmTreasureCurrentSourceCohort, readMmTreasureCurrentSourceInputs} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
+import {buildHistoricalSourceRasterCoverage, buildSourceRasterCoverage, collectLiveRasterUniverse, loadRasterSnapshotInput, roundHalfUpRasterPixel, runSourceRasterCoverage} from '../research/class-mapping-history-v1/replay-tools/source-raster-coverage.mjs';
+import {assertMmTreasureCurrentSourceCohort, readMmTreasureCurrentSourceInputs} from './helpers/class-mapping-historical-mm-test-inputs-v1.mjs';
 
 const snapshot = JSON.parse(gunzipSync(loadRasterSnapshotInput().bytes));
 const historicalSnapshot = JSON.parse(gunzipSync(readFileSync(new URL('../research/source-audit-batch5-raster-boundary-before-source-repairs.json.gz', import.meta.url))));

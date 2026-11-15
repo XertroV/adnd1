@@ -1,6 +1,7 @@
+// Original MM assertions retain their fixed historical fixture under a separate genuine S1 proof.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {execFileSync} from 'node:child_process';
+import {execFileSync} from './helpers/ua26-historical-cli-v1.mjs';
 import {resolve} from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');

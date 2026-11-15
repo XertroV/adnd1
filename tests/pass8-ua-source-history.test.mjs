@@ -1,12 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {execFileSync} from 'node:child_process';
+import {execFileSync,historicalSourceDirectoryPaths,readHistoricalSourceDirectoryPath} from './helpers/ua-history-source-directory-v1.mjs';
 import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {gunzipSync,gzipSync} from 'node:zlib';
-import * as history from '../research/mm-source-history-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
+import * as history from '../research/class-mapping-history-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
 import * as prior from './helpers/pass8-weapon-source-history.mjs';
-const root=new URL('../',import.meta.url),read=p=>readFileSync(new URL(p,root));
+import {readUaSupportTwinAtHistoricalV1} from '../research/class-mapping-history-v1/ua-support-twin-history-v1.mjs';
+const root=new URL('../',import.meta.url),historicalPaths=new Set(historicalSourceDirectoryPaths()),read=p=>historicalPaths.has(p)?readHistoricalSourceDirectoryPath(p):readFileSync(new URL(p,root));
 const sha=b=>createHash('sha256').update(b).digest('hex');
 const git=(ref,p)=>execFileSync('git',['show',`${ref}:${p}`],{cwd:root,maxBuffer:100*1024*1024});
 const contractBytes=read('tests/fixtures/pass8-ua-source-history-v1.json.gz');
@@ -81,9 +82,20 @@ test('actual first failure, caller preimages, support twins and every old helper
  const kernel=JSON.parse(read('research/ua-source-history-integration-v1/old-kernel-preservation-manifest-v1.json'));assert.equal(kernel.files.length,37);for(const row of kernel.files){assert.equal(sha(read(row.path)),row.sha256,row.path);assert.deepEqual(read(row.path),git(kernel.beforeCommit,row.path),row.path);}
  const twins={'batch6-jo-fixture.mjs':'ua-source-batch6-jo-fixture.mjs','batch6-xp-source-history.mjs':'ua-source-batch6-xp-source-history.mjs','dmg74-matrix-batch.mjs':'ua-source-dmg74-matrix-batch.mjs'};
  for(const [old,next]of Object.entries(twins)){
-  let expected=read(`tests/helpers/${old}`).toString().replace("'./pass8-weapon-source-history.mjs'","'./pass8-ua-source-history.mjs'");
+  const historicalOld=readUaSupportTwinAtHistoricalV1(`tests/helpers/${old}`);
+  const historicalNext=readUaSupportTwinAtHistoricalV1(`tests/helpers/${next}`);
+  assert.deepEqual(read(`tests/helpers/${old}`),historicalOld,`${old}: original helper bytes remain exact`);
+  let expected=historicalOld.toString().replace("'./pass8-weapon-source-history.mjs'","'./pass8-ua-source-history.mjs'");
   for(const [a,b]of Object.entries(twins))expected=expected.replaceAll(`'./${a}'`,`'./${b}'`);
-  assert.equal(read(`tests/helpers/${next}`).toString(),expected,'support twins change imports only');
+  assert.equal(historicalNext.toString(),expected,'support twins change imports only in the authored historical state');
+  let runtimeExpected=expected;
+  if(next==='ua-source-batch6-xp-source-history.mjs'){
+   const originalImport="'./pass8-ua-source-history.mjs'";
+   assert.equal(runtimeExpected.split(originalImport).length-1,1,'the XP historical twin has one exact facade dependency to retarget');
+   runtimeExpected=runtimeExpected.replace(originalImport,"'../../research/class-mapping-history-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs'");
+   assert.equal(sha(read('research/class-mapping-history-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs')),'68b4bbcaa3033926191d2a07c45b0ec134625487b290fb8ee4cc1fd0dfc9c311','the current facade is the exact R7 code-pinned runtime dependency');
+  }
+  assert.equal(read(`tests/helpers/${next}`).toString(),runtimeExpected,'current twin equals the historical import transform plus its one declared runtime facade retarget');
  }
 });
 

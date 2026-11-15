@@ -5,6 +5,8 @@ import {execFileSync} from 'node:child_process';
 import {dirname,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createRequire} from 'node:module';
+import {auditInlineProducerCallExpressions,inlineProducerParserIdentity} from './citation-navigation-producer-call-scan-v2.mjs';
+export {auditInlineProducerCallExpressions,inlineProducerParserIdentity};
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const require=createRequire(import.meta.url);
@@ -18,35 +20,18 @@ const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const lineOf=(source,needle)=>source.slice(0,source.indexOf(needle)).split('\n').length;
 const lines=app.split('\n');
 const inlineProducerSites=lines.flatMap((line,index)=>line.includes('inlineSourceChip(')&&!line.includes('function inlineSourceChip(')?[{line:index+1,producerClass:(line.match(/inlineSourceChip\([^,]*/)||['inlineSourceChip'])[0].slice(0,100)}]:[]);
-const producerClassByFunction={
- attributeLayoutHTML:'field-attribute-layout',
- suggestedPriceHTML:'equipment-estimate-comparison',
- equipmentDetailHTML:'equipment-related-reference',
- progressionExplainerHTML:'progression-explainer-reference',
- progressionExplainerDetailHTML:'progression-explainer-detail-reference',
- matrixDetailHTML:'matrix-detail-reference',
- advancementControlsHTML:'class-advancement',
- advancementSummaryHTML:'class-advancement',
- xpTableHTML:'class-xp-table',
- classDetailHTML:'class-progression-reference',
- classAbilitiesHTML:'class-abilities-table-record',
- tableFactSourceChip:'source-table-fact-reference',
- ruleBulletSourceChips:'rule-bullet-field-reference',
- exactPendingPdfHirelingBulletSourceChips:'hireling-pending-pdf-bullet-field-reference',
- calculateXP:'dynamic-xp-result',
- fighterCombatHTML:'fighter-matrix-reference'
-};
 export function auditInlineProducerSites(source){
- const sourceLines=source.split('\n'),sites=[];let currentFunction='';
- for(let index=0;index<sourceLines.length;index++){
-  const line=sourceLines[index],declaration=line.match(/function\s+([A-Za-z0-9_$]+)\s*\(/);
-  if(declaration)currentFunction=declaration[1];
-  if(!line.includes('inlineSourceChip(')||line.includes('function inlineSourceChip('))continue;
-  const producerClass=producerClassByFunction[currentFunction];
-  if(!producerClass)throw new Error(`Unclassified citation chip producer at dist/app.js:${index+1} in ${currentFunction||'(top level)'}`);
-  sites.push({line:index+1,function:currentFunction,producerClass});
+ const callInventory=auditInlineProducerCallExpressions(source),grouped=new Map();
+ for(const call of callInventory.calls){
+  const key=`${call.line}\0${call.function}`;
+  let site=grouped.get(key);
+  if(!site){site={line:call.line,function:call.function,producerClass:call.producerClass,callExpressionCount:0,producerClasses:[]};grouped.set(key,site);}
+  site.callExpressionCount++;
+  if(!site.producerClasses.includes(call.producerClass))site.producerClasses.push(call.producerClass);
+  if(site.producerClass!==call.producerClass)site.producerClass='mixed';
  }
- return {sites,classes:[...new Set(sites.map(site=>site.producerClass))].sort()};
+ const sites=[...grouped.values()];
+ return {unit:'distinct source line and enclosing producer function',sites,classes:callInventory.classes,callExpressionCount:callInventory.callExpressionCount,parser:inlineProducerParserIdentity};
 }
 const routeQueryNames=['source','region','field','fieldOwner','target','owner'];
 export function auditRouteQueryContract(source){
@@ -70,6 +55,7 @@ export function auditSourceNavigationAttributes(source){
  return {observed,missing:[...allowed].filter(name=>!observed.includes(name)).sort(),metadata:sourceMetadataAttributes.filter(name=>observed.includes(name))};
 }
 const producerInventory=auditInlineProducerSites(app);
+const producerCallInventory=auditInlineProducerCallExpressions(app);
 const routeContract=auditRouteQueryContract(app);
 const sourceAttributeContract=auditSourceNavigationAttributes(app);
 const testFiles=[
@@ -126,6 +112,23 @@ const historyEvidence={
  },
  caveat:'Nested owner reload currently asserts displayed source item only. The comparison fixture has no attached field target in dist/data.json at capture time; it does not test origin field identity on reload.'
 };
+export const citationControlClasses=[
+  {id:'entry-book-page-chip',producer:'sourceChip(item)',line:lineOf(app,'function sourceChip('),selector:'data-source-id',scope:['spells','rules','equipment','classes','matrices','progressionExplainer'],identity:'page-level; clicked book group remains attached to the compound collection owner'},
+  {id:'view-all-original-scans',producer:'originalScansButton(item)',line:lineOf(app,'function originalScansButton('),selector:'data-view-scans',scope:['spells','rules','equipment','classes','matrices'],identity:'page-list viewer; no clicked field target'},
+  {id:'inline-source-chip',producer:'inlineSourceChip(reference,title)',line:lineOf(app,'function inlineSourceChip('),selector:'data-inline-source',scope:['spells','rules','equipment','classes','matrices','progressionExplainer'],identity:'passes target metadata serialized by FirstEditionCitations.targets(reference)'},
+  {id:'equipment-field-source',producer:'attributeLayoutHTML / attributeRows',lines:[93,95],scope:['equipment','spell fieldSources when compact layout is used'],identity:'fieldSources values create chips; equipment table mode has a source column'},
+  {id:'equipment-comparator',producer:'suggestedPriceHTML',line:359,selector:'data-source-context',scope:['equipment'],identity:'origin estimate path + comparator source-owner context; reload field-target identity gap reported'},
+  {id:'equipment-related-reference',producer:'equipment detail references',line:368,scope:['equipment'],identity:'nested reference chip under equipment owner'},
+  {id:'class-progression-and-level',producer:'progression/XP/level-limit/level-change chips',lines:[410,467,475,485,495,505,508,517],scope:['classes'],identity:'some are dynamically regenerated by advancement controls and re-bound'},
+  {id:'progression-explainer-detail',producer:'progressionExplainerDetailHTML',line:lineOf(app,'function progressionExplainerDetailHTML('),scope:['progressionExplainer'],identity:'section and overview chips retain progressionExplainer sourceOwner/fieldOwner and the standalone compound progression route; never reassign to a class'},
+  {id:'matrix-detail-source-notes',producer:'matrixDetailHTML',line:lineOf(app,'function matrixDetailHTML('),scope:['matrices'],identity:'rule-note chips retain their authored matrix/source/field owners under the matrices collection; no owner reassignment to Fighter or another class'},
+  {id:'class-abilities-table-record',producer:'classAbilitiesHTML',line:lineOf(app,'function classAbilitiesHTML('),scope:['rules:cleric-turning-table'],identity:'record-level link to the Cleric turning-table rule owner; page/group context only, not an individual class ability field target.'},
+  {id:'class-ability-field-reference',producer:'classAbilitiesHTML',line:lineOf(app,'function classAbilitiesHTML('),scope:['classes.classAbilities[].references','classes.classAbilityInheritance.references'],identity:'Field-reference chips keep the exact class owner and description pointer. Current Paladin ability/inheritance targets stay pending; no source value, context, or default selection is approved.'},
+  {id:'hireling-pending-pdf-bullet-field-reference',producer:'exactPendingPdfHirelingBulletSourceChips',line:lineOf(app,'function exactPendingPdfHirelingBulletSourceChips('),selector:'data-inline-source',scope:['rules:dmg-hireling-procedure-u01 through rules:dmg-hireling-procedure-u10','rules:dmg-hireling-table-t01 through rules:dmg-hireling-table-t38'],identity:'field-scoped bullet chips resolve only their own pending rules field/source owners and preserve field-target-pending, not-assessed source values, and context-not-assessed status; no crop approval or value review is implied.'},
+  {id:'source-table-fact-reference',producer:'tableFactSourceChip',line:lineOf(app,'function tableFactSourceChip('),scope:['HIRED rules table sourceNotes','rules:cleric-turning-table'],identity:'the exact pending HIRED sourceNotes branch keeps the note field and rules source owners with pending target/context status; the existing Cleric branch still renders reviewed row, symbol, procedure, footnote and progression facts only with its unique exact focus. The classification is function-scoped and does not promote generic inline chips.'},
+  {id:'fighter-matrix-context',producer:'fighterCombatHTML',line:lineOf(app,'function fighterCombatHTML('),scope:['classes','matrices'],identity:'embedded Fighter matrix context changes to the existing matrix source owner'},
+  {id:'copy-reference-address',producer:'detail footer data-copy-link handler',line:606,selector:'data-copy-link',scope:['spells','rules','equipment','classes','matrices','progressionExplainer'],identity:'copies the collection-native entry route without a source query'}
+ ];
 const report={
  schemaVersion:1,
  purpose:'Static route/control coverage baseline for citation navigation. This file records the dirty working-tree snapshot and currently implemented test coverage; it is not a claim that every click path passed.',
@@ -146,23 +149,8 @@ const report={
   sourceControls:['data-source-id','data-view-scans','data-inline-source','data-copy-link'],
   path: 'The path view/id identifies the route entry. owner=collection:id selects the contextual item used to render the cited source. This creates two identities for comparator citations: estimate owner in the path, comparator source item in owner query.'
  },
- producerScanner:{classes:producerInventory.classes,siteCount:producerInventory.sites.length,sites:producerInventory.sites,routeQueryContract:routeContract,sourceAttributeContract},
- citationControlClasses:[
-  {id:'entry-book-page-chip',producer:'sourceChip(item)',line:lineOf(app,'function sourceChip('),selector:'data-source-id',scope:['spells','rules','equipment','classes','matrices','progressionExplainer'],identity:'page-level; clicked book group remains attached to the compound collection owner'},
-  {id:'view-all-original-scans',producer:'originalScansButton(item)',line:lineOf(app,'function originalScansButton('),selector:'data-view-scans',scope:['spells','rules','equipment','classes','matrices'],identity:'page-list viewer; no clicked field target'},
-  {id:'inline-source-chip',producer:'inlineSourceChip(reference,title)',line:lineOf(app,'function inlineSourceChip('),selector:'data-inline-source',scope:['spells','rules','equipment','classes','matrices','progressionExplainer'],identity:'passes target metadata serialized by FirstEditionCitations.targets(reference)'},
-  {id:'equipment-field-source',producer:'attributeLayoutHTML / attributeRows',lines:[93,95],scope:['equipment','spell fieldSources when compact layout is used'],identity:'fieldSources values create chips; equipment table mode has a source column'},
-  {id:'equipment-comparator',producer:'suggestedPriceHTML',line:359,selector:'data-source-context',scope:['equipment'],identity:'origin estimate path + comparator source-owner context; reload field-target identity gap reported'},
-  {id:'equipment-related-reference',producer:'equipment detail references',line:368,scope:['equipment'],identity:'nested reference chip under equipment owner'},
-  {id:'class-progression-and-level',producer:'progression/XP/level-limit/level-change chips',lines:[410,467,475,485,495,505,508,517],scope:['classes'],identity:'some are dynamically regenerated by advancement controls and re-bound'},
-  {id:'progression-explainer-detail',producer:'progressionExplainerDetailHTML',line:lineOf(app,'function progressionExplainerDetailHTML('),scope:['progressionExplainer'],identity:'section and overview chips retain progressionExplainer sourceOwner/fieldOwner and the standalone compound progression route; never reassign to a class'},
-  {id:'matrix-detail-source-notes',producer:'matrixDetailHTML',line:lineOf(app,'function matrixDetailHTML('),scope:['matrices'],identity:'rule-note chips retain their authored matrix/source/field owners under the matrices collection; no owner reassignment to Fighter or another class'},
-  {id:'class-abilities-table-record',producer:'classAbilitiesHTML',line:lineOf(app,'function classAbilitiesHTML('),scope:['classes'],identity:'record-level citation for the Cleric turning table; its enclosing source context is explicitly rules:cleric-turning-table. This is a page/group reference, not an individual fact target.'},
-  {id:'hireling-pending-pdf-bullet-field-reference',producer:'exactPendingPdfHirelingBulletSourceChips',line:lineOf(app,'function exactPendingPdfHirelingBulletSourceChips('),selector:'data-inline-source',scope:['rules:dmg-hireling-procedure-u01 through rules:dmg-hireling-procedure-u10','rules:dmg-hireling-table-t01 through rules:dmg-hireling-table-t38'],identity:'field-scoped bullet chips resolve only their own pending rules field/source owners and preserve field-target-pending, not-assessed source values, and context-not-assessed status; no crop approval or value review is implied.'},
-  {id:'source-table-fact-reference',producer:'tableFactSourceChip',line:lineOf(app,'function tableFactSourceChip('),scope:['HIRED rules table sourceNotes','rules:cleric-turning-table'],identity:'the exact pending HIRED sourceNotes branch keeps the note field and rules source owners with pending target/context status; the existing Cleric branch still renders reviewed row, symbol, procedure, footnote and progression facts only with its unique exact focus. The classification is function-scoped and does not promote generic inline chips.'},
-  {id:'fighter-matrix-context',producer:'fighterCombatHTML',line:lineOf(app,'function fighterCombatHTML('),scope:['classes','matrices'],identity:'embedded Fighter matrix context changes to the existing matrix source owner'},
-  {id:'copy-reference-address',producer:'detail footer data-copy-link handler',line:606,selector:'data-copy-link',scope:['spells','rules','equipment','classes','matrices','progressionExplainer'],identity:'copies the collection-native entry route without a source query'}
- ],
+ producerScanner:{classes:producerCallInventory.classes,siteUnit:producerInventory.unit,siteCount:producerInventory.sites.length,sites:producerInventory.sites,callExpressionCount:producerCallInventory.callExpressionCount,callExpressions:producerCallInventory.calls,parser:producerCallInventory.parser,routeQueryContract:routeContract,sourceAttributeContract},
+ citationControlClasses,
  inlineProducerSites,
  urlStateCoverage:[
   {state:'generic page route',implemented:true,test:'citation-navigation.test.mjs; source-viewer-permalink.browser.mjs'},

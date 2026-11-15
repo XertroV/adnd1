@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {readBeforeDmg175SourceCharacterReferenceFile as readFileSync} from '../research/mm-source-history-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
+import {readBeforeDmg175SourceCharacterReferenceFile as readFileSync} from '../research/class-mapping-history-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
 import test from 'node:test';
 import {createHash} from 'node:crypto';
 import vm from 'node:vm';

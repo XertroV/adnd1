@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
 import {createHash, randomUUID} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
-import {copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
+import {existsSync, readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {test} from 'node:test';
+import {createHistoricalHCatalogView} from "./helpers/historical-h-catalog-view-v1.mjs";
 import {createHirelingsNativeCohort} from './helpers/hirelings-source-current-cohort-kernel-v1.mjs';
 
 const repoRoot = resolve(import.meta.dirname, '..');
@@ -31,41 +32,6 @@ const actualInputs = {
 };
 const historicalHKernel = createHirelingsNativeCohort(hFixtureBytes, hFixtureSha256);
 const assertHirelingsCurrentSourceCohort = historicalHKernel.assertHirelingsCurrentSourceCohort;
-
-function materializeHirelingsM1View() {
-  const viewRoot=resolve(repoRoot,'..',`hirelings-m1-view-${process.pid}-${randomUUID()}`);
-  mkdirSync(viewRoot,{recursive:false});
-  const fixtureRoot=resolve(repoRoot,'research/source-cohort-ci');
-  const portableFixture=JSON.parse(readFileSync(resolve(fixtureRoot,'s2-native-source-cohort-fixture.json'),'utf8'));
-  const targetManifest=JSON.parse(readFileSync(resolve(fixtureRoot,'s2-target-asset-manifest-v1.json'),'utf8'));
-  const writeGitFile=path=>{
-    const target=resolve(viewRoot,path);mkdirSync(resolve(target,'..'),{recursive:true});
-    writeFileSync(target,git('show',`${hFixture.sourceCommit}:${path}`));
-  };
-  for(const path of [
-    'rules.json','citation-overrides.json','dist/data.json','dist/source-continuations.json',
-    'research/citation-continuations.json','research/citation-evidence-seals.json',
-    'research/field-evidence-bindings.json','research/mechanics-audit-progress.json',
-    'research/price-source-inventory.json',
-    ...portableFixture.baseline.unchangedSourceFiles.map(file=>file.path),
-  ])writeGitFile(path);
-  symlinkSync(resolve(repoRoot,'tools'),resolve(viewRoot,'tools'),'dir');
-  mkdirSync(resolve(viewRoot,'dist/scans'),{recursive:true});
-  symlinkSync(resolve(repoRoot,'dist/scans/dagger'),resolve(viewRoot,'dist/scans/dagger'),'dir');
-  const liveVerified=resolve(repoRoot,'dist/scans/verified'),viewVerified=resolve(viewRoot,'dist/scans/verified');
-  mkdirSync(viewVerified,{recursive:true});
-  const targeted=new Set(targetManifest.files.map(file=>file.targetPath));
-  for(const entry of readdirSync(liveVerified,{withFileTypes:true})){
-    if(entry.isDirectory())continue;
-    const relativePath=`dist/scans/verified/${entry.name}`,destination=resolve(viewRoot,relativePath),source=resolve(liveVerified,entry.name);
-    if(targeted.has(relativePath))copyFileSync(source,destination);
-    else symlinkSync(source,destination,'file');
-  }
-  mkdirSync(resolve(viewRoot,'research'),{recursive:true});
-  symlinkSync(resolve(repoRoot,'research/source-cohort-ci'),resolve(viewRoot,'research/source-cohort-ci'),'dir');
-  mkdirSync(resolve(viewRoot,'artifacts/hirelings-source-cohort'),{recursive:true});
-  return viewRoot;
-}
 
 function assertMutationRejected(mutate, expectedError) {
   const candidate = structuredClone(actualInputs);
@@ -151,7 +117,8 @@ test('installed portable CI caller preserves the current source-identity closure
 
   // The verifier accepts only checkout-relative outputs. Keep this receipt
   // mutable and outside the pinned inputs, then remove it after inspection.
-  const hView=materializeHirelingsM1View();
+  const hViewContext=createHistoricalHCatalogView();
+  const hView=hViewContext.root;
   const outputPath = `artifacts/hirelings-source-cohort/verification-${process.pid}-${randomUUID()}.json`;
   const absoluteOutputPath = resolve(hView, outputPath);
   assert.equal(existsSync(absoluteOutputPath), false, 'new unique output path must not replace existing evidence');
@@ -174,6 +141,8 @@ test('installed portable CI caller preserves the current source-identity closure
     assert.equal(result.nativeClosure.counts.allOwners, 1062);
     assert.equal(result.nativeClosure.counts.canonicalBindings, 5655);
   } finally {
-    rmSync(hView,{recursive:true,force:true});
+    const activeCatalogsUnchanged=hViewContext.assertActiveCatalogsUnchanged();
+    hViewContext.dispose();
+    assert.equal(activeCatalogsUnchanged,true,'all 1082 active S1 catalog bytes remained unchanged through historical replay');
   }
 });

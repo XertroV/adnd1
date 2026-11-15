@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent bounded code and migration review of CI117 historical-MM transport R7 V2",
+  "status": "CLEAR_BOUNDED_REVIEW; install integration and CI execution remain pending",
+  "candidate": {
+    "path": "/workspace/research/ci117-mm-test-transport-repair-v2/manifest-v2.json",
+    "manifestSha256": "c6606e6fdb82d4193dff9c770d3782a3e43fa23d5e56e7a57ec88e16e2e96894",
+    "installMapSha256": "057d944671e27ac483f073f7ff8339ecabed2857757070354c8666ad91b76d2e",
+    "providerSha256": "b4096b1b30550d3fcd1b6526622dc18af951036bf974dd1f87a8241d91145f34",
+    "roleManifestSha256": "b8c887c3f75a2ac128c635d7016549df47a372ddc74b7f78d3ab045c3effca12"
+  },
+  "observedCheckout": {
+    "root": "/workspace/adnd1-next-source-runtime-v8",
+    "commit": "fa45f44c8ccc3d80226984fab7792eac9353b252",
+    "tree": "278d16f781fa59de88c6f58ff3ce6d28535fd545",
+    "matchesR6Preimage": true
+  },
+  "reviewChecks": [
+    {
+      "check": "package SHA256SUMS-v2.txt verification",
+      "result": "PASS",
+      "detail": "Every listed candidate, metadata, and diagnostic evidence file matched its frozen SHA-256."
+    },
+    {
+      "check": "install target preimages",
+      "result": "PASS",
+      "detail": "All 21 add targets are absent at the observed R6 checkout; all 9 replacement tests match the frozen R6 commit/tree/blob/size/hash preimages."
+    },
+    {
+      "check": "test transition preservation",
+      "result": "PASS",
+      "detail": "All nine proposed test files become byte-exact R6 originals when only listed import lines are reverted; assertions and callbacks remain byte-identical."
+    },
+    {
+      "check": "candidate syntax and relative import closure",
+      "result": "PASS",
+      "detail": "node --check passed for all 27 proposed MJS files; all statically found relative imports resolve against the proposed overlay plus R6 base."
+    },
+    {
+      "check": "protected historical code set",
+      "result": "PASS",
+      "detail": "The pinned 175-entry evidence has empty replacement intersection; all 175 physical file sizes and SHA-256 hashes match the observed R6 checkout."
+    },
+    {
+      "check": "twelve typed role origins",
+      "result": "PASS",
+      "detail": "Each exact origin commit/tree/path yielded the pinned size/SHA; A29 mirrors match where declared; M1 tree, A29 tree, registry tree, direct registry parent M1, and post-source contract absence at M1 were independently checked."
+    },
+    {
+      "check": "supplement boundary",
+      "result": "PASS",
+      "detail": "The 12 role paths are disjoint from the preserved 25-file capsule and 2,932-path v6 replay manifest. The provider pins fixed role names and raw Git blobs, returns copies, rejects unknown roles, and does not call the known-broken V1 supplement validator."
+    },
+    {
+      "check": "read/process boundary review",
+      "result": "PASS_BOUNDED",
+      "detail": "The V2 filesystem adapter adds only exact role reads then delegates all other paths to the closed V1 reader. The V2 child adapter retains fixed executable/tool allowlists, bounded Git grammar via the pinned raw-Git reader, exact Python fixture invocation, and owned-temp output authorization."
+    }
+  ],
+  "findings": [],
+  "limitations": [
+    "The package scope is observed CI117 shard 1–3 consumer paths; shard 0, remaining shards, and unobserved dynamic reads remain unassessed.",
+    "The included provider smoke is synthetic: it stubs assertHistoricalMmTestStage. It validates role-origin/read logic only, not the actual stage guard, installed integration, Native qualification, or current-source semantics.",
+    "No R7 test files or whole CI suite were executed in this review. Actual install and CI run remain parent integration work.",
+    "No source semantics, data values, grades, or Native qualification are approved by this code/migration review."
+  ],
+  "decision": "No blocking defect found within the frozen, finite R7 package. Candidate is ready for parent-owned integration validation subject to the limitations above."
+}

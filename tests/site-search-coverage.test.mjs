@@ -1,9 +1,10 @@
+// Preserved exact a29/MM assertions; separate S1 companion tests own current behavior.
 import {createRequire} from 'node:module';
-import {readFileSync} from 'node:fs';
+import {readFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {beforeWeaponData,weaponOwnerIds} from './helpers/weapon-source-current-cohort.mjs';
-import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
+import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/class-mapping-historical-mm-test-inputs-v1.mjs';
 import {resolve} from 'node:path';
 const root=resolve(import.meta.dirname,'..');
 const hirelingRuleIds=JSON.parse(readFileSync(new URL('./fixtures/hirelings-source-current-cohort-v1.json',import.meta.url))).newRuleIds;

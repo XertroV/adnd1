@@ -862,11 +862,11 @@ export function buildPinnedAndCurrentReports() {
   return {baseline, current};
 }
 
-function companionInventories(current) {
+export function companionInventories(current, reader = readCurrent) {
   const entries = [];
   const add = (file, summarize) => {
     try {
-      const bytes = readCurrent(file);
+      const bytes = reader(file);
       const value = parse(bytes);
       entries.push({path: file, sha256: sha256(bytes), summary: summarize(value)});
     } catch (error) { entries.push({path: file, available: false, error: error.message}); }

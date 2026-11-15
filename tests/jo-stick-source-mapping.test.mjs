@@ -1,24 +1,27 @@
+// Preserved exact a29/MM assertions; separate S1 companion tests own current behavior.
 import test from 'node:test';
-import {dmg175HistoryContract,projectDmg175Books} from './helpers/batch6-dmg175-source-history.mjs';
+import {assertHistoricalMmTestStage,historicalMmTestRoot} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
+import {dmg175HistoryContract,projectDmg175Books} from '../research/class-mapping-history-v1/replay-test-helpers/batch6-dmg175-source-history-mm-v2.mjs';
 import assert from 'node:assert/strict';
-import {readBeforeJoXpFile as readFileSync} from '../research/mm-source-history-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
-import {projectPass8XpContinuationBytes} from '../research/mm-source-history-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
-import {execFileSync} from 'node:child_process';
+import {readBeforeJoXpFile as readFileSync} from '../research/class-mapping-history-v1/source-postmetadata-facade-v2/pass8-ua-source-history-v2.proposed.mjs';
+import {projectPass8XpContinuationBytes} from '../research/class-mapping-history-v1/source-postmetadata-facade-v1/pass8-ua-source-history-v1.proposed.mjs';
+import {execFileSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
 // Exact released777 source/Jo history. The active252-group/728-target census
 // is exercised separately by current-integration and native browser checks.
 import {gunzipSync} from 'node:zlib';
 import {resolve} from 'node:path';
-import {readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from '../research/mm-source-history-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs';
+import {readBeforeJoBytes,joIntegration,xpA65HistoryProjection} from '../research/class-mapping-history-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs';
 import {createHash} from 'node:crypto';
 import vm from 'node:vm';
-import {hash} from '../tools/monetary-row-identity-audit.mjs';
-import {validateJoUnextractedPriceRegistration} from '../tools/jo-unextracted-price-registration.mjs';
-import {loadJoUnextractedPriceRegistrationAtV28} from '../research/mm-source-history-v1/source-postmetadata-facade-v2/jo-closed-loader-context-v1.mjs';
-import {validateContinuationManifest} from '../tools/continuation-contract.mjs';
-import {buildSystemicInventory} from '../tools/citation-systemic-inventory.mjs';
-import {fieldBindingAxisMetrics,fieldBindingCountMeaning} from '../tools/source-report-consistency-audit.mjs';
-import {reverseDmg74MatrixBatchFromData,reverseDmg74MatrixBatchFromInventory,reverseSupplementalPdfNoticeViewer} from './helpers/ua-source-dmg74-matrix-batch.mjs';
-const root=resolve(import.meta.dirname,'..'),read=p=>JSON.parse(readFileSync(resolve(root,p))),unzip=p=>JSON.parse(gunzipSync(readFileSync(resolve(root,p))));
+import {hash} from '../research/class-mapping-history-v1/replay-tools/monetary-row-identity-audit.mjs';
+import {validateJoUnextractedPriceRegistration} from '../research/class-mapping-history-v1/replay-tools/jo-unextracted-price-registration.mjs';
+import {loadJoUnextractedPriceRegistrationAtV28} from '../research/class-mapping-history-v1/source-postmetadata-facade-v2/jo-closed-loader-context-v1.mjs';
+import {validateContinuationManifest} from '../research/class-mapping-history-v1/replay-tools/continuation-contract.mjs';
+import {buildSystemicInventory} from '../research/class-mapping-history-v1/replay-tools/citation-systemic-inventory.mjs';
+import {fieldBindingAxisMetrics,fieldBindingCountMeaning} from '../research/class-mapping-history-v1/replay-tools/source-report-consistency-audit.mjs';
+import {reverseDmg74MatrixBatchFromData,reverseDmg74MatrixBatchFromInventory,reverseSupplementalPdfNoticeViewer} from '../research/class-mapping-history-v1/replay-test-helpers/ua-source-dmg74-matrix-batch-mm-v3.mjs';
+assertHistoricalMmTestStage();
+const root=historicalMmTestRoot,read=p=>JSON.parse(readFileSync(resolve(root,p))),unzip=p=>JSON.parse(gunzipSync(readFileSync(resolve(root,p))));
 const old=unzip('tests/fixtures/equipment-before-jo.json.gz'),equipment=read('equipment.json'),data=read('dist/data.json'),inventory=read('research/price-source-inventory.json');
 const before=read('tests/fixtures/jo-stick-mapping-proposal-v1-stale-after.json'),jo=equipment.equipment.find(e=>e.id==='ua-jo-stick'),catalog=read('dist/scans/verified/equipment-ua-jo-stick.json');
 

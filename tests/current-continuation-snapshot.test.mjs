@@ -1,16 +1,17 @@
+// Preserved exact a29/MM assertions; separate S1 companion tests own current behavior.
 import test from 'node:test';
 import {after} from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync,writeFileSync,mkdtempSync,mkdirSync,rmSync,symlinkSync,unlinkSync,copyFileSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdtempSync,mkdirSync,rmSync,symlinkSync,unlinkSync,copyFileSync} from '../research/class-mapping-history-v1/mm-replay-fs-v1.mjs';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {createHash} from 'node:crypto';
 import {gzipSync,gunzipSync} from 'node:zlib';
-import {spawnSync,execFileSync} from 'node:child_process';
-import {loadCurrentContinuationCandidateSnapshot,validateContinuationSnapshot} from '../tools/continuation-candidates-validate.mjs';
+import {spawnSync,execFileSync} from '../research/class-mapping-history-v1/mm-replay-child-process-v1.mjs';
+import {loadCurrentContinuationCandidateSnapshot,validateContinuationSnapshot} from '../research/class-mapping-history-v1/replay-tools/continuation-candidates-validate.mjs';
 import {assertCurrentUaContinuationCohort} from './helpers/ua-source-continuation-current-cohort.mjs';
-import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/mm-treasure-current-m1-cohort-v2.mjs';
+import {readMmTreasureCurrentSourceInputs,assertMmTreasureCurrentSourceCohort} from './helpers/class-mapping-historical-mm-test-inputs-v1.mjs';
 const root=process.cwd(),sha=b=>createHash('sha256').update(b).digest('hex');
 const fixtureBytes=readFileSync('tests/fixtures/dmg-current-continuation-a5a-before.json.gz');
 const before=JSON.parse(gunzipSync(fixtureBytes));

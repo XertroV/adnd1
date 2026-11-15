@@ -1,0 +1,126 @@
+{
+  "at": "2026-11-13T05:16:02.135937+00:00",
+  "status": "ACCEPTED_BOUNDED_PUBLIC_CURRENT_INVENTORY_TEST_SOURCE_TRANSITION_ACTUAL_UNINSTALLED_DIAGNOSTIC_PASS",
+  "authorManifest": {
+    "path": "/workspace/research/ci117-public-scan-inventory-transition-proposal-v1/manifest-v1.json",
+    "sha256": "4d5df9d4f5ae568c778fb1d96adc615c769fcf03b9b68206c24dc91c33010c81"
+  },
+  "subject": {
+    "transitionTarget": "tests/public-scan-contract.test.mjs",
+    "before": {
+      "sourceCommit": "d83bd30f3b74da488f78ea3302fa1e67a94c7607",
+      "sha256": "7a8e3afbeff49691f9dffdf533d65de01b5df406e7b73ec31a9ff8506793e804",
+      "sizeBytes": 3100
+    },
+    "proposedAfter": {
+      "path": "postimage/tests/public-scan-contract.test.mjs",
+      "sha256": "be7e2d1b31c470852092bd1595abe94d4df33f68d5db0378ac895056577ed456",
+      "sizeBytes": 4427
+    },
+    "patchPath": "public-scan-contract.patch",
+    "patchSha256": "ab126cdb10cb3efd73ed5f1f5e79b773652e6a66fe44194f1195bc41dd89eda2",
+    "scope": [
+      "Read the already-qualified Current S1 source report instead of the legacy fixture.",
+      "Assert canonical report input hash matches current parsed data.",
+      "Preserve the per-record catalog checks, aggregate count assertion, PNG-byte check, and PDF-exclusion check.",
+      "Add full current (collection,id,book,page) set equality and duplicate rejection.",
+      "Do not change the legacy fixture, A29 historical replay, source data, source catalogs, reports, or native/current qualification state."
+    ],
+    "reviewRequirements": [
+      "Add exact finite test-source transition row with these before/after pins.",
+      "Bind the current report/source alias proof and pair-diff evidence.",
+      "Fresh independent reviewer must accept the exact postimage before any installation.",
+      "Run the actual full R7 CI suite after an authorized integrated change; this proposal did not run it."
+    ],
+    "postimageSyntax": "node --check passed; proposed test execution not performed because postimage is not installed."
+  },
+  "independentPairCensus": {
+    "legacyPairs": 2223,
+    "currentPairs": 2232,
+    "addedPairs": [
+      [
+        "rules",
+        "dwarf-languages-vision",
+        "PHB",
+        15
+      ],
+      [
+        "rules",
+        "elf-languages-vision",
+        "PHB",
+        16
+      ],
+      [
+        "rules",
+        "gnome-languages-vision",
+        "PHB",
+        16
+      ],
+      [
+        "rules",
+        "phb-racial-preferences",
+        "PHB",
+        18
+      ],
+      [
+        "rules",
+        "racial-ability-adjustments",
+        "PHB",
+        14
+      ],
+      [
+        "rules",
+        "racial-ability-adjustments",
+        "PHB",
+        16
+      ],
+      [
+        "rules",
+        "racial-ability-adjustments",
+        "PHB",
+        17
+      ],
+      [
+        "rules",
+        "ua-cavalier-xp-table-i",
+        "UA",
+        15
+      ],
+      [
+        "rules",
+        "ua-druid-xp-table-i",
+        "UA",
+        17
+      ]
+    ],
+    "removedPairs": [],
+    "availabilityChanges": 0,
+    "DMG175PhysicalMissingPairsEach": 7,
+    "legacyFixturePreserved": true,
+    "existingCurrentReportExactRawPin": true
+  },
+  "sourcePreservation": {
+    "allOriginalAssertionSourceLinesRetained": true,
+    "all175PhysicalCodeHashSizePinsExact": true,
+    "R5WorkingTreeIncludingUntrackedClean": true,
+    "allPerRecordCatalogPagesAndPNGAndNoPDFChecksRetained": true
+  },
+  "actualCandidateDiagnostic": {
+    "tests": 3,
+    "pass": 3,
+    "fail": 0,
+    "skip": 0,
+    "durationMs": 2884.31758,
+    "method": "Node load hook supplies only exact candidate test source at prospective actual R5 testURL; unchanged real production modules, data, current report, catalogs and image files. No fs/source-module fixture replacement.",
+    "scope": "UNINSTALLED_CANDIDATE_BEHAVIOR; not installed/fullCI/Native/source qualification",
+    "output": {
+      "path": "/workspace/research/ci117-public-scan-root-independent-review-v1/actual-uninstalled-candidate-output-v1.tap",
+      "sha256": "d8c81395bff72e2b37609d3c398a072ff078c075be61027105e906b2096c1b43"
+    }
+  },
+  "requirements": [
+    "Final finite217migrationdocument exact before/after, peer scope and physical code/dependency proof",
+    "Actual integratedR7fullCI before merge/deploy"
+  ],
+  "currentOrMiniOrGitWrites": false
+}

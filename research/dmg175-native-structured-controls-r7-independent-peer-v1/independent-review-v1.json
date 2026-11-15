@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "independent bounded peer review of DMG 175 structured-controls R7 test-source proposal",
+  "status": "CLEAR_BOUNDED",
+  "decision": "The proposed three-file test-source repair is internally consistent with the pinned historical and current S1 evidence. It preserves the historical all-pending assertion, verifies only the 13 independently accepted current row locations, retains the other control guarantees, and leaves all source-value/context/default/mechanics grades unassessed.",
+  "proposal": {
+    "path": "/workspace/research/dmg175-native-structured-controls-r7-repair-proposal-v1/manifest-v1.json",
+    "sha256": "be625f3f9adceb8a4761ad4f52107a7c294ed7be41a5e86d40952d806e0144c2",
+    "status": "FROZEN_CANDIDATE; INDEPENDENT_REVIEW_AND_INTEGRATED_CI_PENDING",
+    "baseCommit": "fa45f44c8ccc3d80226984fab7792eac9353b252",
+    "baseTree": "278d16f781fa59de88c6f58ff3ce6d28535fd545"
+  },
+  "reviewScope": {
+    "readOnly": true,
+    "repositoryInstructions": "/workspace/adnd1-next-source-runtime-v8/AGENTS.md",
+    "additionalRelevantAgentInstructions": false,
+    "productionRepositoryChanged": false,
+    "miniGitSourceOrGradesChanged": false,
+    "pushOrInstall": false
+  },
+  "failure": {
+    "tapPath": "/workspace/vault-audit-private/pass8/root/ci117-shard0-artifact-before-repair-v1/expanded/shard-0.tap",
+    "tapSha256": "1e44e72637a316e32ac81495db422765ac4efdca4e7eb13ec1d6831cc77dce46",
+    "observedFailure": "working controls do not promote target/value/context review",
+    "observedLocation": "tests/dmg175-native-structured-controls-current.test.mjs:82:10",
+    "originalTestSha256": "4b5220b3fd9fc850aef2ace40784d127655a50a2a8c376c7d19982e91c3f1473"
+  },
+  "candidateFiles": {
+    "replacementTest": {
+      "path": "proposed/tests/dmg175-native-structured-controls-current.test.mjs",
+      "sha256": "325614ceeaf4f04f3bb29e1bfc582c1aa787500beb1a625cbe5a145e064e04d8",
+      "sizeBytes": 14562,
+      "syntaxCheck": "PASS",
+      "review": "The three legacy coverage cases remain: 82 legacy controls, the V2 82-to-0 regression, the V3 87-row/33-bullet coverage result, and no fabricated Mistletoe control. The former current all-pending assertion is moved to the pinned pre-location fixture. The current-input case requires the root location summary and bounds reviewed status to the exact 13 expected identities."
+    },
+    "historicalStatusFixture": {
+      "path": "proposed/tests/fixtures/dmg175-native-structured-controls-pre-location-target-status-v1.json.gz",
+      "sha256": "4ae00aad5267062f5ff3d25afe619498dded4781eb4154da30b3173d7705d37b",
+      "historicalCommit": "bc819621e49788260bb34ea47c1f7a8b35af6edf",
+      "historicalTree": "e6bc420f70656825a926297b959bc6d98758bfcd",
+      "historicalInventoryPath": "research/price-source-inventory.json",
+      "historicalInventorySha256": "3073ce4f92e772b91ede42cf111d118acaf4a66e636ebbab064b8085708ff3e6",
+      "originCheck": "PASS: fixture records exactly project the selected historical bindings' identity and status fields; the source blob SHA and byte size match the Git object at the pinned commit.",
+      "recordCount": 120,
+      "statusCheck": "PASS: all records are field-target-pending, targetReview null, sourceValueStatus not-assessed-by-field-target-review, and contextStatus context-not-assessed.",
+      "multiplicity": {
+        "recordCount": 120,
+        "distinctFourPartIdentityKeys": 109,
+        "extraRepeatedIdentityOccurrences": 11,
+        "reason": "The 11 repeats are source-region alternatives for three bullet target keys: two appendix-c-character-subtable records, two appendix-c-character-levels records, and ten encounter-types records. The fixture preserves this historical multiset; they are not extra reviewed row targets."
+      }
+    },
+    "rootAcceptanceSummary": {
+      "path": "proposed/research/dmg175-party-magic-current-s1-location-recheck-v1.json",
+      "sha256": "f607a6fb58c4b61469c109db7182355bd83cbb7e1ab6e7357175cfbd89b0008f",
+      "rootManifestPath": "/workspace/research/party-magic-current-s1-root-location-recheck-v3/manifest-v3.json",
+      "rootManifestSha256": "708b7d155f7471ecbb4f6ea1f964b947552260992a65a232c7d2a3cb2ff0366a",
+      "rootReceiptPath": "/workspace/research/party-magic-current-s1-root-location-recheck-v3/current-location-recheck-v3.json",
+      "rootReceiptSha256": "b7ca2854d61f7c210b383c6c57f9e36c938fee3b8ad6c11294b6f7033b4bec6b",
+      "derivationCheck": "PASS: the raw receipt SHA matches the root manifest entry; the summary's manifest/receipt pins, superseded V2 receipt, source epoch, pixel-check summary, grade boundary, and all 13 target summaries agree with the raw root evidence.",
+      "scope": "Clears only the root visual recheck condition for the exact 13 location targets. It adds no source-value, numeric/mechanics, context, or default/first-region grade."
+    }
+  },
+  "currentSourceEpoch": {
+    "dataPath": "/workspace/adnd1-next-source-runtime-v8/dist/data.json",
+    "dataSha256": "16ddcc0ef49ea5ee9ca32b26353edb632d10db160e83bbd464458f5b73c1b573",
+    "inventoryPath": "/workspace/adnd1-next-source-runtime-v8/research/price-source-inventory.json",
+    "inventorySha256": "b32a8f8126e73b28fd0609fc7e0856990a454402b440735a77627f26fe986564",
+    "manualBindingsSha256": "dc8a912cd1054572257e83b654cedb63c8d2d6ff29f327ce0151498b4ad59827",
+    "ownerCount": 219,
+    "fieldBindingCount": 5851,
+    "currentCohort": {
+      "records": 120,
+      "identityMultisetMatchesHistorical": true,
+      "uniqueFourPartIdentityKeys": 109,
+      "reviewedLocationOnly": 13,
+      "pending": 107,
+      "allSourceValueUnassessed": true,
+      "allContextUnassessed": true
+    },
+    "rootAcceptedTargetChecks": {
+      "uniqueTargets": 13,
+      "inventoryBindingCanonicalHashes": "13/13 match current R5 records",
+      "manualBindingCanonicalHashes": "13/13 match current R5 records; exactly one manual binding per target",
+      "ownerRowCanonicalHashes": "13/13 match current R5 owner rows",
+      "sourceObjectCanonicalHashes": "13/13 match each owner row's sourceReference",
+      "reviewedCurrentIdentities": "exactly the 13 root receipt identities",
+      "additionalReviewedCohortTargets": 0
+    }
+  },
+  "old175Preservation": {
+    "evidencePath": "/workspace/research/ci117-systemic-epoch-transport-repair-v3/evidence/old175-physical-preservation-v1.json",
+    "evidenceSha256": "b59bef6897db3c178ad75890aa6f69c9dc0bd30942d7def44f5548e32e41f4a4",
+    "physicalRows": 175,
+    "independentlyRecomputedCurrentFileHashesAndSizes": "175/175 match",
+    "candidateOperationIntersection": [],
+    "status": "PASS"
+  },
+  "checksPerformed": [
+    "Verified all proposal file pins and all manifest input hashes against the live read-only R5 source inputs.",
+    "Verified the failure TAP hash and its reported assertion/location.",
+    "Ran node --check on the proposed replacement test; PASS.",
+    "Resolved the historical Git source blob and verified its SHA/size, fixture projection, 120-record status set, identity multiset, and intentional repeated-key groups.",
+    "Compared the current source epoch, root manifest/receipt hashes, summary derivation, 13 unique accepted identities, and all four canonical hash classes per accepted target.",
+    "Recomputed all 175 old175 physical record hashes and sizes against the current read-only repository; all match."
+  ],
+  "limitations": [
+    "The proposal's recorded isolated temporary overlay test reports 4/4 passing; this peer review did not rerun that test.",
+    "Integrated R7 CI and shard rerun remain pending; the proposal is not installed or deployed.",
+    "The root image/PDF pixels were not re-reviewed here; the pinned root receipt is treated as the current independent location-review evidence, with its declared limited scope.",
+    "The compact fixture contains 120 binding records and 109 distinct four-part identity keys. The test compares identity arrays as a multiset, preserving 11 legitimate repeated region-alternative records."
+  ]
+}

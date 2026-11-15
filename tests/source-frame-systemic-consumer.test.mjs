@@ -1,11 +1,14 @@
+// Original a29 MM-current checks run only in their explicit closed historical context.
+// Current Native1/S1 geometry has a separate genuine-current companion.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFileSync} from 'node:fs';
+import {readFileSync,assertHistoricalMmTestStage} from './helpers/source-frame-systemic-mm-inputs-v1.mjs';
 import {gunzipSync} from 'node:zlib';
-import {buildSystemicInventory, projectVisualCoverageSummary} from '../tools/citation-systemic-inventory.mjs';
-import {loadRasterSnapshotInput} from '../tools/source-raster-coverage.mjs';
+import {buildSystemicInventory, projectVisualCoverageSummary} from '../research/class-mapping-history-v1/replay-tools/citation-systemic-inventory.mjs';
+import {loadRasterSnapshotInput} from '../research/class-mapping-history-v1/replay-tools/source-raster-coverage.mjs';
 
+assertHistoricalMmTestStage();
 const root = new URL('../', import.meta.url), sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const image = Buffer.from('historical visual fixture');
 const data = {equipment:[{id:'historical-fixture',name:'Historical fixture',book:'PHB',pages:[35],sourceExcerpts:{catalog:'scans/verified/historical-fixture.json'}}]};

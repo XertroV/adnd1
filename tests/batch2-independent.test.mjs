@@ -1,4 +1,4 @@
-import {readBeforeJoFile as readFileSync,withoutBatch6XpSourceMetadata,xpA65HistoryProjection} from '../research/mm-source-history-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs';
+import {readBeforeJoFile as readFileSync,withoutBatch6XpSourceMetadata,xpA65HistoryProjection} from '../research/class-mapping-history-v1/source-postmetadata-facade-v2/ua-source-batch6-jo-fixture-v2.proposed.mjs';
 import {readFileSync as readCurrentFileSync} from 'node:fs';
 import {withoutGeneratedCitationTransport,withoutSourceFirstEquipment} from './equipment-source-first-fixture.mjs';
 import {reverseMechanicsBatchTwo} from './mechanics-batch-two-fixture.mjs';
