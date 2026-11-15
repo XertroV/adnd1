@@ -2,6 +2,8 @@
 // Accepted-peer fixtures below are synthetic branch checks, never real review.
 import test from 'node:test';
 import vm from 'node:vm';
+import {spawnSync} from 'node:child_process';
+import {inspectGitLayout,controlledGitEnvironment} from '../tools/class-mapping-raw-git-v1.mjs';
 import {gzipSync} from 'node:zlib';
 import {validateFiniteR9ExpandedOverride} from '../tools/class-mapping-test-source-override-v2.mjs';
 import {getR9AcceptanceSubject,deriveFiniteR9CallbackView,validateFiniteR9CallbackOverride} from '../tools/class-mapping-test-source-override-v1.mjs';
@@ -13,7 +15,7 @@ import {resolve,dirname,join,relative} from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {createHash,randomUUID} from 'node:crypto';
 import {tmpdir} from 'node:os';
-import {validateR5TestSourceTransitions,parsePinnedTestSourceMigrationDocument,TEST_SOURCE_MIGRATIONS_SHA256,TEST_SOURCE_MIGRATIONS_SIZE_BYTES,TEST_SOURCE_MIGRATIONS_PATH,readPinnedR9CallbackOverride,createR8PredecessorReaders,readPinnedR9ExpandedOverride,createR9ExpandedReaders} from '../tools/class-mapping-test-sharding-core-v3.mjs';
+import {validateR5TestSourceTransitions,parsePinnedTestSourceMigrationDocument,TEST_SOURCE_MIGRATIONS_SHA256,TEST_SOURCE_MIGRATIONS_SIZE_BYTES,TEST_SOURCE_MIGRATIONS_PATH,readPinnedR9CallbackOverride,createR8PredecessorReaders,readPinnedR9ExpandedOverride,createR9ExpandedReaders,checkR9AddedRuntimeBeforeTree} from '../tools/class-mapping-test-sharding-core-v3.mjs';
 
 const proposedRoot=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
@@ -676,3 +678,30 @@ expandedReject('parent tree absence must be independently checked',f=>{f.checkTr
 expandedReject('parent tree check errors cannot become absence',f=>{f.checkTreeAbsence=()=>{throw Error('controlled missing-object failure');};},/controlled missing-object failure/);
 expandedReject('source author cannot review the expanded override',f=>{f.companion.acceptedPeer.reviewerId=f.companion.sourceRevisions[0].authorId;},/independent expanded reviewer required/);
 }
+
+
+test('finite R9 parent absence accepts fixed path with absent and present worktree files',()=>{
+ const before=readPinnedR9ExpandedOverride(proposedRoot).addedRuntime[0].beforeTree;
+ const root=mkdtempSync(join(tmpdir(),'r9-parent-presence-'));
+ try{
+  writeFileSync(join(root,'.git'),'gitdir: '+inspectGitLayout(proposedRoot).gitDir+'\n');
+  const target=join(root,before.path);
+  mkdirSync(dirname(target),{recursive:true});
+  const source=readFileSync(resolve(proposedRoot,before.path));
+  assert.equal(source.length,11446);
+  assert.equal(sha(source),'1287338fdaa2bffbd6b592d69f4bd05dbe50dcf853ce9fe17c899a00ce43b02b');
+  const url=pathToFileURL(resolve(proposedRoot,'tools/class-mapping-test-sharding-core-v3.mjs')).href;
+  const script='const {checkR9AddedRuntimeBeforeTree:check}=await import('+JSON.stringify(url)+');try{console.log(check(process.argv[1],JSON.parse(process.argv[2])));}catch(error){console.error(error.message);process.exitCode=1;}';
+  const check=()=>{
+   const result=spawnSync(process.execPath,['--input-type=module','--eval',script,root,JSON.stringify(before)],{cwd:root,env:controlledGitEnvironment(),encoding:'utf8',maxBuffer:8192,stdio:['ignore','pipe','pipe']});
+   assert.ifError(result.error);
+   assert.equal(result.signal,null);
+   assert.equal(result.status,0,result.stderr);
+   assert.equal(result.stdout,'true\n');
+  };
+  check();
+  writeFileSync(target,source);
+  check();
+  for(const bad of [{...before,commit:'0'.repeat(40)},{...before,path:before.path+'.wrong'},{...before,absent:false}])assert.throws(()=>checkR9AddedRuntimeBeforeTree(proposedRoot,bad),/exact added-runtime parent absence tuple/);
+ }finally{rmSync(root,{recursive:true,force:true});}
+});

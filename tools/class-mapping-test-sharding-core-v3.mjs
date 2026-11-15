@@ -135,7 +135,8 @@ export function checkR9AddedRuntimeBeforeTree(repositoryRoot, beforeTree) {
  try {raw.git('cat-file','-e',expected.commit+':'+expected.path);}
  catch(error){
   const message=error?.stderr?.toString('utf8').trim();
-  fail(error?.status===128&&message==="fatal: path '"+expected.path+"' does not exist in '"+expected.commit+"'",'only exact parent-tree path absence is accepted');
+  const messages=["fatal: path '"+expected.path+"' does not exist in '"+expected.commit+"'","fatal: path '"+expected.path+"' exists on disk, but not in '"+expected.commit+"'"];
+  fail(error?.status===128&&messages.includes(message),'only exact parent-tree path absence is accepted');
   absent=true;
  }
  raw.assertView();fail(absent,'added runtime must be absent from genuine R8 tree');return true;

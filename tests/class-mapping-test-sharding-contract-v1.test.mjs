@@ -51,7 +51,7 @@ test('all original report commands and pinned actions remain in the gated workfl
  assert.match(workflow,/actions\/checkout@d23441a48e516b6c34aea4fa41551a30e30af803/);assert.match(workflow,/actions\/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38/);
 });
 test('the versioned code receipt pins new executable paths and the old registry bytes',async()=>{
- const registryContainer=readFileSync(resolve(root,'research/class-mapping-ci-sharding-v1/code-pins-v3.json.gz'));
+ const registryContainer=readFileSync(resolve(root,'research/class-mapping-ci-sharding-v1/code-pins-v4.json.gz'));
  const receipt=JSON.parse(gunzipSync(registryContainer,{maxOutputLength:256*1024}).toString('utf8'));
  const paths=[
   "research/ci117-citation-navigation-inventory-transition-independent-review-v2/manifest-v1.json",
@@ -85,6 +85,7 @@ test('the versioned code receipt pins new executable paths and the old registry 
   "research/ci118-r8-source-repairs-v1/frozen-component-proposals-v1.json",
   "research/class-mapping-ci-sharding-v1/code-pins-v1.json",
   "research/class-mapping-ci-sharding-v1/code-pins-v2.json",
+  "research/class-mapping-ci-sharding-v1/code-pins-v3.json.gz",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/evidence/combined-b-peer-v1/independent-review-v1.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/evidence/combined-b-peer-v1/manifest-v1.json",
   "research/class-mapping-ci-sharding-v1/test-source-transition-v1/fixtures/navigation-before-v1.mjs",
@@ -296,14 +297,29 @@ test('the versioned code receipt pins new executable paths and the old registry 
  assert.equal(old.length,175);assert.deepEqual(receipt.allCodePins.slice(0,old.length),old);assert.deepEqual(receipt.allCodePins.slice(old.length),receipt.codePins);
  assert.equal(receipt.historicalPrefixCount,175);assert.equal(receipt.expandedCodePinCount,receipt.allCodePins.length);assert.equal(new Set(receipt.allCodePins.map(pin=>pin.path)).size,receipt.allCodePins.length);
  assert(paths.includes('research/class-mapping-history-v1/dmg175-historical-tests/alias/alias-h-v1.test.mjs'));assert(paths.includes('tests/helpers/ua-source-batch6-xp-source-history.mjs'));
- assert.equal(receipt.parentCommit,'a15b84838439562ea380c444caa15205d3c8e680');
- assert.equal(receipt.parentRegistry.path,'research/class-mapping-ci-sharding-v1/code-pins-v2.json');
- assert.equal(receipt.parentRegistry.sha256,'bbe795bc1be7d4d542e32f8d4d99d5f4903a21c04efeaa00fc5c74639f87e6bd');
- assert.equal(receipt.parentRegistry.sizeBytes,139300);
+ assert.equal(receipt.parentCommit,'873581f3fd9474263b5e377390eaf17ff0acb39c');
+ assert.equal(receipt.parentTree,'f132143f4defed8dd39fa01af78483632e25f64f');
+ assert.equal(receipt.parentRegistry.path,'research/class-mapping-ci-sharding-v1/code-pins-v3.json.gz');
+ assert.equal(receipt.parentRegistry.sha256,'4362149193a9da778d02e8904a6370c9583105461079cf2a286de2bad8b6cca4');
+ assert.equal(receipt.parentRegistry.sizeBytes,33896);
+ assert.equal(receipt.parentRegistry.encoding,'gzip');
+ assert.equal(receipt.parentRegistry.decodedSha256,'0aa1bd69563260219064cf461122c79b2935566f44510be669d825a249415f79');
+ assert.equal(receipt.parentRegistry.decodedSizeBytes,123448);
  const parentBytes=readFileSync(resolve(root,receipt.parentRegistry.path));
  assert.equal(createHash('sha256').update(parentBytes).digest('hex'),receipt.parentRegistry.sha256);
  assert.equal(parentBytes.length,receipt.parentRegistry.sizeBytes);
- const frozenR8Registry=JSON.parse(parentBytes.toString('utf8'));
+ const parentDecoded=gunzipSync(parentBytes,{maxOutputLength:receipt.parentRegistry.decodedSizeBytes});
+ assert.equal(createHash('sha256').update(parentDecoded).digest('hex'),receipt.parentRegistry.decodedSha256);
+ assert.equal(parentDecoded.length,receipt.parentRegistry.decodedSizeBytes);
+ const frozenR9Registry=JSON.parse(parentDecoded.toString('utf8'));
+ assert.equal(frozenR9Registry.parentCommit,'a15b84838439562ea380c444caa15205d3c8e680');
+ assert.equal(frozenR9Registry.parentRegistry.path,'research/class-mapping-ci-sharding-v1/code-pins-v2.json');
+ assert.equal(frozenR9Registry.parentRegistry.sha256,'bbe795bc1be7d4d542e32f8d4d99d5f4903a21c04efeaa00fc5c74639f87e6bd');
+ assert.equal(frozenR9Registry.parentRegistry.sizeBytes,139300);
+ const frozenR8Bytes=readFileSync(resolve(root,frozenR9Registry.parentRegistry.path));
+ assert.equal(createHash('sha256').update(frozenR8Bytes).digest('hex'),frozenR9Registry.parentRegistry.sha256);
+ assert.equal(frozenR8Bytes.length,frozenR9Registry.parentRegistry.sizeBytes);
+ const frozenR8Registry=JSON.parse(frozenR8Bytes.toString('utf8'));
  assert.equal(frozenR8Registry.parentRegistry.path,'research/class-mapping-ci-sharding-v1/code-pins-v1.json');
  assert.equal(frozenR8Registry.parentRegistry.sha256,'9ac4e10cda071a24ba991e984863da8a2ff00f7976fd0fca3f87f2c234c0edd3');
  assert.equal(frozenR8Registry.parentRegistry.sizeBytes,113497);
