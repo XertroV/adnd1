@@ -2,12 +2,20 @@
 const freeze=value=>{if(value&&typeof value==='object'){for(const child of Object.values(value))freeze(child);Object.freeze(value);}return value;};
 export const nativeQualificationPins=freeze({
   "schemaVersion": 2,
-  "materialized": false,
+  "materialized": true,
   "fixturePath": "research/class-mapping-source-epoch-v2/closed-native-body-cohort-v2.json",
-  "fixtureSha256": "a0df8069b856d2748f0a0024e5c1b13e5004b900f3d2220fa943f0514c45af25",
-  "fixtureSizeBytes": 1109979,
-  "codeStage": null,
-  "codeStagePinPreimage": null,
+  "fixtureSha256": "a333c3920f5ec5d3dbdca4b32673dd22ba94c77807794103af3eb21af71b14c2",
+  "fixtureSizeBytes": 1111074,
+  "codeStage": {
+    "commit": "3da6f9f59fcca6b5ce7e3b55be15357182591edf",
+    "tree": "42484c6cf36df7dcb8dedb99c05414168e74fb5d",
+    "parentCommit": "400f6e9d123d8a654b9b9af48133a2533506e73d"
+  },
+  "codeStagePinPreimage": {
+    "path": "research/class-mapping-source-epoch-v2/native-qualification-pins-v2.mjs",
+    "sha256": "3fe498d732d09387fe6353eaaf4cb3b779de21e939a563c9d665719e5e53c4c8",
+    "sizeBytes": 2048
+  },
   "codePins": [
     {
       "path": "tests/helpers/class-mapping-current-cohort-factory-v2.mjs",
