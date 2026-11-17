@@ -1,5 +1,6 @@
 // Pure controls over actual Source2 inputs. These are not installed Native2
-// qualification. The actual zero-argument gate has its separate current test.
+// qualification. Pending fixture/pins come from actual raw K in every phase;
+// zero-argument pending negatives use isolated small physical module roots.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,mkdtempSync,mkdirSync,writeFileSync} from 'node:fs';
@@ -13,15 +14,23 @@ import {createClassMappingCurrentSourceCohort} from './helpers/class-mapping-cur
 import * as loader from './helpers/class-mapping-current-cohort-v2.mjs';
 import * as gate from '../tools/class-mapping-current-source-gate-v2.mjs';
 import {createRawGitReader,verifyRawCommit,inspectGitLayout,controlledGitEnvironment,assertReadOnlyGitArgs} from '../tools/class-mapping-raw-git-v1.mjs';
-const sourceRoot=resolve(process.cwd()),fixtureRoot=resolve(import.meta.dirname,'..');
+const sourceRoot=resolve(process.cwd());
 const read=path=>readFileSync(resolve(sourceRoot,path));
 const basis=n.parseBasis(read(n.BASIS_PATH));
-const pendingFixtureBytes=readFileSync(resolve(fixtureRoot,n.FIXTURE_PATH));
+const CODE_STAGE_K='3da6f9f59fcca6b5ce7e3b55be15357182591edf';
+const CODE_STAGE_K_TREE='42484c6cf36df7dcb8dedb99c05414168e74fb5d';
+const raw=createRawGitReader(sourceRoot);
+verifyRawCommit(raw.git('cat-file','commit',CODE_STAGE_K),CODE_STAGE_K,CODE_STAGE_K_TREE,n.SOURCE_COMMIT);
+const pendingFixtureBytes=raw.git('show',CODE_STAGE_K+':'+n.FIXTURE_PATH);
+const pendingPinBytes=raw.git('show',CODE_STAGE_K+':'+n.PIN_PATH);
+const rawPendingPins=n.parsePinModuleBytes(pendingPinBytes,'actual raw K pending pins');
+assert.equal(rawPendingPins.materialized,false);
+assert.equal(rawPendingPins.fixtureSha256,n.sha256(pendingFixtureBytes));
+assert.equal(rawPendingPins.fixtureSizeBytes,pendingFixtureBytes.length);
 const original=n.parseBytes(pendingFixtureBytes,'actual proposed pending fixture');
 const fixture=structuredClone(original);
-fixture.status='body-closed-awaiting-code-stage-and-independent-certificates';fixture.codeStage=null;fixture.qualificationInputs=[];fixture.certificates={preservation:null,closure:null};
+assert.equal(fixture.status,'body-closed-awaiting-code-stage-and-independent-certificates');assert.equal(fixture.codeStage,null);assert.deepEqual(fixture.qualificationInputs,[]);assert.deepEqual(fixture.certificates,{preservation:null,closure:null});assert.deepEqual(rawPendingPins.codePins,fixture.installedCode);
 const clone=()=>structuredClone(fixture);
-const raw=createRawGitReader(sourceRoot);
 const before=raw.git('show',n.PARENT_COMMIT+':'+n.APP_PATH),after=read(n.APP_PATH);
 const snapshot=Object.fromEntries(Object.entries(n.SNAPSHOT_PATHS).map(([key,path])=>[key,n.parseBytes(read(path),key)]));
 const rowsSort=rows=>rows.sort((a,b)=>a.path<b.path?-1:a.path>b.path?1:0);
@@ -163,7 +172,7 @@ test('arbitrary third certificate and source/qualification collisions reject',()
  assert.throws(()=>n.assertFixture(g,basis),/exact fixed independently reviewed certificate/);
 });
 function pendingPins(bytes=pendingFixtureBytes){
- return {schemaVersion:2,materialized:false,fixturePath:n.FIXTURE_PATH,fixtureSha256:n.sha256(bytes),fixtureSizeBytes:bytes.length,codeStage:null,codeStagePinPreimage:null,codePins:fixture.installedCode};
+ return {...structuredClone(rawPendingPins),fixtureSha256:n.sha256(bytes),fixtureSizeBytes:bytes.length};
 }
 const jsonBytes=value=>Buffer.from(JSON.stringify(value,null,2)+'\n');
 test('current pin source is parsed as exact data and extra JavaScript never executes',()=>{
@@ -210,20 +219,30 @@ test('installation pin codec binds fixture size and rejects missing or extra fie
  assert.throws(()=>n.assertInstallationPins(missing,f),/exact key set/);
  assert.throws(()=>n.assertInstallationPins({...pins,unadmitted:true},f),/exact key set/);
 });
-test('installed factory, loader and public gate reject overrides and the pending zero-argument installation',()=>{
- for(const args of [[{}],[sourceRoot],[],[undefined]]){
-  if(args.length)assert.throws(()=>createClassMappingCurrentSourceCohort(...args),/accepts no caller overrides/);
-  else assert.throws(()=>createClassMappingCurrentSourceCohort(),/installation remains unmaterialized/);
+async function isolatedRawKPendingApis(extraPinBytes=Buffer.alloc(0)){
+ // Seven pinned executable modules and the actual raw K stub only. A pending
+ // factory must reject before fixture/assets/Git access, in every later phase.
+ const root=mkdtempSync(resolve(tmpdir(),'native2-raw-k-pending-'));
+ for(const row of fixture.installedCode){
+  const bytes=raw.git('show',CODE_STAGE_K+':'+row.path);
+  assert.equal(bytes.length,row.sizeBytes);assert.equal(n.sha256(bytes),row.sha256);
+  const target=resolve(root,row.path);mkdirSync(dirname(target),{recursive:true});writeFileSync(target,bytes);
  }
- for(const api of [loader.qualifyClassMappingCurrentSourceEpoch,loader.assertClassMappingCurrentSourceIdentity,gate.assertClassMappingCurrentSourceEpoch,gate.assertClassMappingCurrentSourceIdentity]){
-  assert.throws(()=>api({root:sourceRoot,fixture:clone(),fresh:true}),/accepts no caller overrides/);
-  assert.throws(()=>api(),/installation remains unmaterialized/);
- }
+ const pin=resolve(root,n.PIN_PATH);mkdirSync(dirname(pin),{recursive:true});
+ writeFileSync(pin,Buffer.concat([pendingPinBytes,extraPinBytes]));
+ const load=path=>import(pathToFileURL(resolve(root,path)).href);
+ return {factory:await load('tests/helpers/class-mapping-current-cohort-factory-v2.mjs'),loader:await load('tests/helpers/class-mapping-current-cohort-v2.mjs'),gate:await load('tools/class-mapping-current-source-gate-v2.mjs')};
+}
+test('installed factory, loader and public gate reject overrides and the pending zero-argument installation',async()=>{
+ for(const args of [[{}],[sourceRoot],[undefined]])assert.throws(()=>createClassMappingCurrentSourceCohort(...args),/accepts no caller overrides/);
+ for(const api of [loader.qualifyClassMappingCurrentSourceEpoch,loader.assertClassMappingCurrentSourceIdentity,gate.assertClassMappingCurrentSourceEpoch,gate.assertClassMappingCurrentSourceIdentity])assert.throws(()=>api({root:sourceRoot,fixture:clone(),fresh:true}),/accepts no caller overrides/);
  for(const api of [loader.assertClassMappingCurrentSnapshot,gate.assertClassMappingCurrentSnapshot]){
-  assert.throws(()=>api(),/exactly one snapshot/);
-  assert.throws(()=>api(snapshot,{}),/exactly one snapshot/);
-  assert.throws(()=>api(snapshot),/installation remains unmaterialized/);
+  assert.throws(()=>api(),/exactly one snapshot/);assert.throws(()=>api(snapshot,{}),/exactly one snapshot/);
  }
+ const pending=await isolatedRawKPendingApis();
+ assert.throws(()=>pending.factory.createClassMappingCurrentSourceCohort(),/installation remains unmaterialized/);
+ for(const api of [pending.loader.qualifyClassMappingCurrentSourceEpoch,pending.loader.assertClassMappingCurrentSourceIdentity,pending.gate.assertClassMappingCurrentSourceEpoch,pending.gate.assertClassMappingCurrentSourceIdentity])assert.throws(()=>api(),/installation remains unmaterialized/);
+ for(const api of [pending.loader.assertClassMappingCurrentSnapshot,pending.gate.assertClassMappingCurrentSnapshot])assert.throws(()=>api(snapshot),/installation remains unmaterialized/);
 });
 function assertDeepFrozen(value){
  if(value===null||typeof value!=='object')return;
@@ -268,18 +287,14 @@ test('full-image sentinel cannot be cosmetically inset while preserving snapshot
  assert.deepEqual(fixture.gradePromotions,{fieldTargets:0,sourceValues:0,context:0,defaults:0,numeric:0,mechanics:0});
 });
 test('actual factory rejects extra JavaScript in current pin source before any execution',async()=>{
- // This is a small isolated module tree, not a Git checkout or qualification.
- // The valid export values remain unchanged; only an executable tail is added.
- const root=mkdtempSync(resolve(tmpdir(),'native2-pin-codec-'));
- for(const path of n.CODE_PATHS){const target=resolve(root,path);mkdirSync(dirname(target),{recursive:true});writeFileSync(target,readFileSync(resolve(fixtureRoot,path)));}
+ // Valid export values remain the exact actual raw K values. Only an
+ // executable tail is added; neither import nor validation may execute it.
  const marker='__native2_factory_pin_execution__';
  assert.equal(Object.hasOwn(globalThis,marker),false);
- const pin=resolve(root,n.PIN_PATH);mkdirSync(dirname(pin),{recursive:true});
- writeFileSync(pin,Buffer.concat([n.pinModuleBytes(pendingPins()),Buffer.from('globalThis.'+marker+'=true;\n')]));
  try{
-  const isolated=await import(pathToFileURL(resolve(root,'tests/helpers/class-mapping-current-cohort-factory-v2.mjs')).href);
+  const isolated=await isolatedRawKPendingApis(Buffer.from('globalThis.'+marker+'=true;\n'));
   assert.equal(Object.hasOwn(globalThis,marker),false,'factory import cannot execute current pin source');
-  assert.throws(()=>isolated.createClassMappingCurrentSourceCohort(),/fixed pin module source codec/);
+  assert.throws(()=>isolated.factory.createClassMappingCurrentSourceCohort(),/fixed pin module source codec/);
   assert.equal(Object.hasOwn(globalThis,marker),false,'factory validation cannot execute current pin source');
  }finally{delete globalThis[marker];}
 });

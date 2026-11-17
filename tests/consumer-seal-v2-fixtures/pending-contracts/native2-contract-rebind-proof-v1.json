@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Native2 source epoch contract semantic rebind proof",
+  "status": "Source2 core-body binding and core contract readiness flag changes separately proven; report M/N pins, seal, receipt and publication remain pending",
+  "baselineSourceEpoch": {
+    "commit": "2d35138027f00c0740975e519dbb3a2b6df76d14",
+    "tree": "40ecb15130b339658522794db6d9e1bc58f43b50",
+    "fixturePath": "research/class-mapping-source-epoch-v1/closed-native-body-cohort-v1.json",
+    "fixtureSha256": "c534a9c7e925f8630cdcc53dfb41b248b3abb6209ae5e92b3e255db92e0aba10"
+  },
+  "targetSourceEpoch": {
+    "stage": "source2-body-native",
+    "commit": "400f6e9d123d8a654b9b9af48133a2533506e73d",
+    "tree": "664c02504efcece25669d2f9c3fdb26437cd5b09",
+    "fixturePath": "research/class-mapping-source-epoch-v2/closed-native-body-cohort-v2.json",
+    "fixtureSha256": "a333c3920f5ec5d3dbdca4b32673dd22ba94c77807794103af3eb21af71b14c2"
+  },
+  "rebindings": [
+    {
+      "sourcePath": "research/class-mapping-current-adapters-v1/native-monetary-question-contract-v1.json",
+      "sourceSha256": "6f63999336bb41703ca608c3661131fb496c96f6983a8e0e1706f41a1f9a6e17",
+      "targetPath": "research/class-mapping-current-adapters-v2/native-monetary-question-contract-v2.json",
+      "candidateSha256": "b88ad1a100318c2767709e280f653e267f24523cc5d4a40aa87687d401d02dd7",
+      "candidateSizeBytes": 58680,
+      "allowedDifferences": [
+        "/schemaVersion",
+        "/nativeSourceEpochBinding/sourceCommit",
+        "/nativeSourceEpochBinding/sourceTree",
+        "/nativeSourceEpochBinding/fixturePath",
+        "/nativeSourceEpochBinding/fixtureSha256",
+        "/nativeSourceEpochBinding/qualificationMetadataCommit",
+        "/nativeSourceEpochBinding/qualifierCodeCommit"
+      ],
+      "semanticEquivalenceVerified": true,
+      "materialization": "core contract readiness flag approved from live Source2 body proof and inherited semantic-invariant rebind; bytes are immutable through M/N and do not qualify report seals/receipt"
+    },
+    {
+      "sourcePath": "research/class-mapping-current-adapters-v1/jo-current-source-gap-contract-v2.json",
+      "sourceSha256": "9fd26ebccaa5211bdcac50e33ed2f4debc160b93aa0c4bee41d0603058915fdf",
+      "targetPath": "research/class-mapping-current-adapters-v2/jo-current-source-gap-contract-v3.json",
+      "candidateSha256": "616e42e3d5cd2e7c833e33d4724b6863f6804e4e3d0308ce7ddd44485cbd3d01",
+      "candidateSizeBytes": 6042,
+      "allowedDifferences": [
+        "/schemaVersion",
+        "/nativeSourceEpochBinding",
+        "/predecessor"
+      ],
+      "semanticEquivalenceVerified": true,
+      "materialization": "core contract readiness flag approved from live Source2 body proof and inherited semantic-invariant rebind; bytes are immutable through M/N and do not qualify report seals/receipt"
+    },
+    {
+      "sourcePath": "research/class-mapping-current-adapters-v1/source-handoff-current-contract-v1.json",
+      "sourceSha256": "ec9b805b59f0b87a846e179a564c7db51114441fd985a6e6f2c3f9d412ca1374",
+      "targetPath": "research/class-mapping-current-adapters-v2/source-handoff-current-contract-v2.json",
+      "candidateSha256": "a28d3070484defac53823533a83777260e5e77494ea776e4e5c6d14c8b0a7ba1",
+      "candidateSizeBytes": 4123,
+      "allowedDifferences": [
+        "/schemaVersion",
+        "/nativeSourceEpochBinding",
+        "/currentTransition/path"
+      ],
+      "semanticEquivalenceVerified": true,
+      "materialization": "core contract readiness flag approved from live Source2 body proof and inherited semantic-invariant rebind; bytes are immutable through M/N and do not qualify report seals/receipt"
+    },
+    {
+      "sourcePath": "research/class-mapping-current-adapters-v1/ua26-marker-current-contract-v1.json",
+      "sourceSha256": "628f24a5f2b003a6c12f0f4085500be9beb16d31731d5661e8df9bb64fa52164",
+      "targetPath": "research/class-mapping-current-adapters-v2/ua26-marker-current-contract-v2.json",
+      "candidateSha256": "5f4e6fd6600a2d0652e61e1b4489cff573ab2a15fd43db818fc6963f4d64965c",
+      "candidateSizeBytes": 3326,
+      "allowedDifferences": [
+        "/schemaVersion",
+        "/nativeSourceEpochBinding"
+      ],
+      "semanticEquivalenceVerified": true,
+      "materialization": "core contract readiness flag approved from live Source2 body proof and inherited semantic-invariant rebind; bytes are immutable through M/N and do not qualify report seals/receipt"
+    },
+    {
+      "sourcePath": "research/class-mapping-current-adapters-v1/source-body-handoff-transition-v1.template.json",
+      "sourceSha256": "1bbb0d85c59212b4be9385b5c1cb6f4d414848afd4c298497cac4d3272dcb159",
+      "targetPath": "research/class-mapping-current-adapters-v2/source-body-handoff-transition-v2.template.json",
+      "candidateSha256": "6dad77df6ee363699f112cab51cc21da8a5c0ad294a6ef1c41f3db004e021085",
+      "candidateSizeBytes": 6388,
+      "allowedDifferences": [
+        "/schemaVersion",
+        "/sourceEpoch"
+      ],
+      "semanticEquivalenceVerified": true,
+      "materialization": "pending-M candidate remains fail-closed; only listed materialization fields may change in N"
+    }
+  ],
+  "invariants": {
+    "sourceQuestionSemanticsUnchanged": true,
+    "questionIdsAndStatusesUnchanged": true,
+    "joNullUnextractedStateUnchanged": true,
+    "sourceHandoffSemanticPass": false,
+    "sourceHandoffCurrentValueGrade": "NOT PROMOTED",
+    "ua26SourceValueGrade": "NOT PROMOTED",
+    "ua26ContextualAdequacy": "NOT ASSESSED",
+    "ua26DefaultSelectionReview": "NOT PROMOTED",
+    "allReviewStatusesUnchanged": true,
+    "newContractDigestsFinal": false,
+    "publicationReady": false
+  },
+  "codeStage": {
+    "commit": "3da6f9f59fcca6b5ce7e3b55be15357182591edf",
+    "tree": "42484c6cf36df7dcb8dedb99c05414168e74fb5d",
+    "parent": "400f6e9d123d8a654b9b9af48133a2533506e73d"
+  },
+  "metadataStage": {
+    "commit": "06d5278d28bc346ca9b7bca11622d6c8b4ec5a5a",
+    "tree": "3d9f4953dfd8a62674e81cefdec89cf1cc2320f9",
+    "parent": "3da6f9f59fcca6b5ce7e3b55be15357182591edf"
+  },
+  "reportQccStage": {
+    "commit": null,
+    "tree": null,
+    "parent": "06d5278d28bc346ca9b7bca11622d6c8b4ec5a5a",
+    "status": "pending"
+  },
+  "coreSourceBindingScopeEvidence": {
+    "path": "evidence/live-core-source-binding-scope-proof-v1.json",
+    "sha256": "7198400deb09a146ec99183589fb48857d4c53748221b46e37a079a3e169b9e0",
+    "candidateFalsePreimageSha256": "b664fdcb408ab8645f499bfbdc663c6d9a9b01eedc285ce4341527a903e69166",
+    "candidateTrueSha256": "b88ad1a100318c2767709e280f653e267f24523cc5d4a40aa87687d401d02dd7",
+    "authorizedPointer": "/nativeSourceEpochBinding/materialized",
+    "reportM_N_OQualified": false
+  },
+  "kernelLiteralCorrection": {
+    "path": "tools/class-mapping-current-monetary-question-kernel-v2.mjs",
+    "baselineSha256": "5e94c4c105b731e0e7c75d3e87924debd6766d9a699158b45b2f536e23a100ae",
+    "candidateSha256": "c2b34f82b45e51613c7d6ee00ee73c7ec5ebaefbcffc11ca7649411ec9a71814",
+    "previousResearchContractSha256": "525b4b6d7daa9274db6a108f25e7bef9f397138899468c4fe01f09d1603f9313",
+    "currentResearchContractSha256": "b88ad1a100318c2767709e280f653e267f24523cc5d4a40aa87687d401d02dd7",
+    "replacementOccurrences": 1,
+    "exactByteReplacementOnly": true,
+    "sourceOrGradeLogicChanged": false,
+    "semanticApproval": false
+  },
+  "coreContractReadinessFlags": {
+    "path": "evidence/scoped-materialization-core-contract-flag-delta-v1.json",
+    "sha256": "3ab28dbb0c704ca343c054d05fed086ceca097690a267002358bad7c61460561",
+    "changedPointers": {
+      "research/class-mapping-current-adapters-v2/jo-current-source-gap-contract-v3.json": "/materialized",
+      "research/class-mapping-current-adapters-v2/source-handoff-current-contract-v2.json": "/materialized",
+      "research/class-mapping-current-adapters-v2/ua26-marker-current-contract-v2.json": "/materialized"
+    },
+    "mToNPayloadBytesImmutable": true,
+    "currentTransitionSha256RemainsNull": true,
+    "reportM_N_OQualified": false
+  }
+}

@@ -1,0 +1,571 @@
+{
+  "schemaVersion": 1,
+  "kind": "root-reviewed-proposed-24-workflow-block-transition",
+  "at": "2026-11-16T20:30:00.771273+00:00",
+  "status": "COMMAND_ROLES_REVIEWED_IMPLEMENTATION_AND_FULL_SUITE_PENDING",
+  "scope": "Exact command-block transition only; not report qualification or whole-book source review.",
+  "baseline": {
+    "path": "research/class-mapping-ci-sharding-v1/r5-test-roster-v1.json",
+    "sha256": "e5f8917bb9f878fa7ae1e5406584988936fc623e173a9d2a0a2613aaf67b0142",
+    "sizeBytes": 53707
+  },
+  "beforeWorkflow": {
+    "path": ".github/workflows/pages.yml",
+    "sha256": "fa7dcf6701e5622a71161880ea1006ea0104e428c9d63fae1b5276b3494023df",
+    "sizeBytes": 26701
+  },
+  "proposedWorkflow": {
+    "path": ".github/workflows/pages.yml",
+    "sha256": "825e0ce775a87878cd346b74b2ea38d8394738aef04899bd47ba4dfee0bf66a3",
+    "sizeBytes": 29194
+  },
+  "requiredBlockCount": 24,
+  "rows": [
+    {
+      "ordinal": 0,
+      "role": "Verify preserved citation evidence",
+      "mode": "exact-unchanged",
+      "frozenR5BlockSha256": "6dec66738427a06440fd2c531adcbe9b75c41cafc550fdf9411556678341a87f",
+      "before": {
+        "sha256": "6dec66738427a06440fd2c531adcbe9b75c41cafc550fdf9411556678341a87f",
+        "sizeBytes": 1039,
+        "utf8": "      - name: Verify preserved citation evidence\n        if: always()\n        env:\n          EVIDENCE_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}\n        run: |\n          mkdir -p artifacts/citation-evidence-seals\n          evidence_base=\"$EVIDENCE_BASE_SHA\"\n          if [ -z \"$evidence_base\" ] || [ \"$evidence_base\" = \"0000000000000000000000000000000000000000\" ]; then\n            evidence_base=\"$(git rev-parse HEAD^)\"\n          fi\n          set +e\n          node tools/citation-evidence-seals.mjs --check --manifest research/citation-evidence-seals.json --baseline-ref \"$evidence_base\" > artifacts/citation-evidence-seals/report.json 2> artifacts/citation-evidence-seals/errors.txt\n          evidence_status=$?\n          set -e\n          echo \"$evidence_status\" > artifacts/citation-evidence-seals/validation-exit-status.txt\n          cat artifacts/citation-evidence-seals/report.json >> \"$GITHUB_STEP_SUMMARY\"\n          cat artifacts/citation-evidence-seals/errors.txt\n          exit \"$evidence_status\"\n"
+      },
+      "after": {
+        "sha256": "6dec66738427a06440fd2c531adcbe9b75c41cafc550fdf9411556678341a87f",
+        "sizeBytes": 1039,
+        "utf8": "      - name: Verify preserved citation evidence\n        if: always()\n        env:\n          EVIDENCE_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}\n        run: |\n          mkdir -p artifacts/citation-evidence-seals\n          evidence_base=\"$EVIDENCE_BASE_SHA\"\n          if [ -z \"$evidence_base\" ] || [ \"$evidence_base\" = \"0000000000000000000000000000000000000000\" ]; then\n            evidence_base=\"$(git rev-parse HEAD^)\"\n          fi\n          set +e\n          node tools/citation-evidence-seals.mjs --check --manifest research/citation-evidence-seals.json --baseline-ref \"$evidence_base\" > artifacts/citation-evidence-seals/report.json 2> artifacts/citation-evidence-seals/errors.txt\n          evidence_status=$?\n          set -e\n          echo \"$evidence_status\" > artifacts/citation-evidence-seals/validation-exit-status.txt\n          cat artifacts/citation-evidence-seals/report.json >> \"$GITHUB_STEP_SUMMARY\"\n          cat artifacts/citation-evidence-seals/errors.txt\n          exit \"$evidence_status\"\n"
+      },
+      "beforeNodeTools": [
+        "citation-evidence-seals.mjs"
+      ],
+      "afterNodeTools": [
+        "citation-evidence-seals.mjs"
+      ]
+    },
+    {
+      "ordinal": 1,
+      "role": "Verify committed static output is current",
+      "mode": "reviewed-versioned-command-or-error-capture-transition",
+      "frozenR5BlockSha256": "22b03565fa6caf02ae3f969a67b790caa9dcee3722a2a5766c172989bb7d648c",
+      "before": {
+        "sha256": "22b03565fa6caf02ae3f969a67b790caa9dcee3722a2a5766c172989bb7d648c",
+        "sizeBytes": 169,
+        "utf8": "      - name: Verify committed static output is current\n        run: |\n          node tools/assemble-class-mapping-v1.mjs --check\n          git diff --exit-code -- dist\n"
+      },
+      "after": {
+        "sha256": "94edb0d5d2feff9dd1f71da53285de597730794bf235cd587c8a5be36a99da8c",
+        "sizeBytes": 190,
+        "utf8": "      - name: Verify committed static output is current\n        if: always()\n        run: |\n          node tools/assemble-class-mapping-v2.mjs --check\n          git diff --exit-code -- dist\n"
+      },
+      "beforeNodeTools": [
+        "assemble-class-mapping-v1.mjs"
+      ],
+      "afterNodeTools": [
+        "assemble-class-mapping-v2.mjs"
+      ]
+    },
+    {
+      "ordinal": 2,
+      "role": "Generate citation systemic inventory",
+      "mode": "reviewed-versioned-command-or-error-capture-transition",
+      "frozenR5BlockSha256": "c5466ff68606d240b38444f783f405e505ad9049835e9f5df15c5c4516119887",
+      "before": {
+        "sha256": "c5466ff68606d240b38444f783f405e505ad9049835e9f5df15c5c4516119887",
+        "sizeBytes": 1100,
+        "utf8": "      - name: Generate citation systemic inventory\n        if: always()\n        run: |\n          set +e\n          node tools/verify-class-mapping-current-reports-v1.mjs --kind systemic --output artifacts/citation-systemic-coverage/citation-systemic-current.json --summary artifacts/citation-systemic-coverage/citation-systemic-summary.md\n          report_status=$?\n          set -e\n          if [ -f artifacts/citation-systemic-coverage/citation-systemic-summary.md ]; then\n            sed -n '1,35p' artifacts/citation-systemic-coverage/citation-systemic-summary.md >> \"$GITHUB_STEP_SUMMARY\"\n          else\n            mkdir -p artifacts/citation-systemic-coverage\n            echo \"Citation systemic inventory unavailable: generator exited before writing its summary (status ${report_status}).\" >> \"$GITHUB_STEP_SUMMARY\"\n            echo \"Generator did not write citation-systemic-summary.md (exit status ${report_status}).\" > artifacts/citation-systemic-coverage/generation-error.txt\n            if [ \"$report_status\" -eq 0 ]; then report_status=1; fi\n          fi\n          exit \"$report_status\"\n"
+      },
+      "after": {
+        "sha256": "70bc92e695ca53f5eaefbc7faeb0a80e495ff75ac5d2b0a8be3ddebe6aac7a2c",
+        "sizeBytes": 1156,
+        "utf8": "      - name: Generate citation systemic inventory\n        if: always()\n        run: |\n          mkdir -p artifacts/citation-systemic-coverage\n          set +e\n          node tools/verify-class-mapping-current-reports-v3.mjs --kind systemic --output artifacts/citation-systemic-coverage/citation-systemic-current.json --summary artifacts/citation-systemic-coverage/citation-systemic-summary.md\n          report_status=$?\n          set -e\n          if [ -f artifacts/citation-systemic-coverage/citation-systemic-summary.md ]; then\n            sed -n '1,35p' artifacts/citation-systemic-coverage/citation-systemic-summary.md >> \"$GITHUB_STEP_SUMMARY\"\n          else\n            mkdir -p artifacts/citation-systemic-coverage\n            echo \"Citation systemic inventory unavailable: generator exited before writing its summary (status ${report_status}).\" >> \"$GITHUB_STEP_SUMMARY\"\n            echo \"Generator did not write citation-systemic-summary.md (exit status ${report_status}).\" > artifacts/citation-systemic-coverage/generation-error.txt\n            if [ \"$report_status\" -eq 0 ]; then report_status=1; fi\n          fi\n          exit \"$report_status\"\n"
+      },
+      "beforeNodeTools": [
+        "verify-class-mapping-current-reports-v1.mjs"
+      ],
+      "afterNodeTools": [
+        "verify-class-mapping-current-reports-v3.mjs"
+      ]
+    },
+    {
+      "ordinal": 3,
+      "role": "Reconcile source-table row citations",
+      "mode": "exact-unchanged",
+      "frozenR5BlockSha256": "cc79943ad8b3ab3afb5e679d10e20e2bb65e8aa93dfd580548dfb306653b1b60",
+      "before": {
+        "sha256": "cc79943ad8b3ab3afb5e679d10e20e2bb65e8aa93dfd580548dfb306653b1b60",
+        "sizeBytes": 478,
+        "utf8": "      - name: Reconcile source-table row citations\n        if: always()\n        run: |\n          set +e\n          node tools/source-table-citation-coverage.mjs artifacts/source-table-citation-coverage/report.json --check\n          table_status=$?\n          set -e\n          if [ -f artifacts/source-table-citation-coverage/report.md ]; then\n            cat artifacts/source-table-citation-coverage/report.md >> \"$GITHUB_STEP_SUMMARY\"\n          fi\n          exit \"$table_status\"\n"
+      },
+      "after": {
+        "sha256": "cc79943ad8b3ab3afb5e679d10e20e2bb65e8aa93dfd580548dfb306653b1b60",
+        "sizeBytes": 478,
+        "utf8": "      - name: Reconcile source-table row citations\n        if: always()\n        run: |\n          set +e\n          node tools/source-table-citation-coverage.mjs artifacts/source-table-citation-coverage/report.json --check\n          table_status=$?\n          set -e\n          if [ -f artifacts/source-table-citation-coverage/report.md ]; then\n            cat artifacts/source-table-citation-coverage/report.md >> \"$GITHUB_STEP_SUMMARY\"\n          fi\n          exit \"$table_status\"\n"
+      },
+      "beforeNodeTools": [
+        "source-table-citation-coverage.mjs"
+      ],
+      "afterNodeTools": [
+        "source-table-citation-coverage.mjs"
+      ]
+    },
+    {
+      "ordinal": 4,
+      "role": "Verify citation owner identity",
+      "mode": "exact-unchanged",
+      "frozenR5BlockSha256": "98e2a60341f98b63bf5f152b9fa8aa9d4a5044a85c14d1e0e7981dc24e550e64",
+      "before": {
+        "sha256": "98e2a60341f98b63bf5f152b9fa8aa9d4a5044a85c14d1e0e7981dc24e550e64",
+        "sizeBytes": 721,
+        "utf8": "      - name: Verify citation owner identity\n        if: always()\n        run: |\n          mkdir -p artifacts/source-owner-identity\n          set +e\n          node tools/source-owner-identity-audit.mjs --check --replay --write artifacts/source-owner-identity/report.json > artifacts/source-owner-identity/check.json\n          owner_status=$?\n          set -e\n          echo \"$owner_status\" > artifacts/source-owner-identity/validation-exit-status.txt\n          echo \"Citation owners are checked by collection and entry ID; explicit comparator sources remain separately validated.\" >> \"$GITHUB_STEP_SUMMARY\"\n          cat artifacts/source-owner-identity/check.json >> \"$GITHUB_STEP_SUMMARY\"\n          exit \"$owner_status\"\n"
+      },
+      "after": {
+        "sha256": "98e2a60341f98b63bf5f152b9fa8aa9d4a5044a85c14d1e0e7981dc24e550e64",
+        "sizeBytes": 721,
+        "utf8": "      - name: Verify citation owner identity\n        if: always()\n        run: |\n          mkdir -p artifacts/source-owner-identity\n          set +e\n          node tools/source-owner-identity-audit.mjs --check --replay --write artifacts/source-owner-identity/report.json > artifacts/source-owner-identity/check.json\n          owner_status=$?\n          set -e\n          echo \"$owner_status\" > artifacts/source-owner-identity/validation-exit-status.txt\n          echo \"Citation owners are checked by collection and entry ID; explicit comparator sources remain separately validated.\" >> \"$GITHUB_STEP_SUMMARY\"\n          cat artifacts/source-owner-identity/check.json >> \"$GITHUB_STEP_SUMMARY\"\n          exit \"$owner_status\"\n"
+      },
+      "beforeNodeTools": [
+        "source-owner-identity-audit.mjs"
+      ],
+      "afterNodeTools": [
+        "source-owner-identity-audit.mjs"
+      ]
+    },
+    {
+      "ordinal": 5,
+      "role": "Verify monetary source inventory",
+      "mode": "exact-unchanged",
+      "frozenR5BlockSha256": "ae75b5ed703bc23701a8c7e527bfb1b9dc1cc4647b9213bf67b8f38b19f2c99e",
+      "before": {
+        "sha256": "ae75b5ed703bc23701a8c7e527bfb1b9dc1cc4647b9213bf67b8f38b19f2c99e",
+        "sizeBytes": 810,
+        "utf8": "      - name: Verify monetary source inventory\n        if: always()\n        run: |\n          set +e\n          node tools/monetary-source-inventory.mjs --check research/monetary-source-inventory.json\n          monetary_status=$?\n          set -e\n          mkdir -p artifacts/monetary-source-inventory\n          if [ -f research/monetary-source-inventory.json ]; then cp research/monetary-source-inventory.json artifacts/monetary-source-inventory/; fi\n          echo \"$monetary_status\" > artifacts/monetary-source-inventory/validation-exit-status.txt\n          echo \"The monetary inventory preserves source occurrences, package quantities, unresolved pointers and separate XP values. Its declared source scopes do not certify whole-book completeness.\" >> \"$GITHUB_STEP_SUMMARY\"\n          exit \"$monetary_status\"\n"
+      },
+      "after": {
+        "sha256": "ae75b5ed703bc23701a8c7e527bfb1b9dc1cc4647b9213bf67b8f38b19f2c99e",
+        "sizeBytes": 810,
+        "utf8": "      - name: Verify monetary source inventory\n        if: always()\n        run: |\n          set +e\n          node tools/monetary-source-inventory.mjs --check research/monetary-source-inventory.json\n          monetary_status=$?\n          set -e\n          mkdir -p artifacts/monetary-source-inventory\n          if [ -f research/monetary-source-inventory.json ]; then cp research/monetary-source-inventory.json artifacts/monetary-source-inventory/; fi\n          echo \"$monetary_status\" > artifacts/monetary-source-inventory/validation-exit-status.txt\n          echo \"The monetary inventory preserves source occurrences, package quantities, unresolved pointers and separate XP values. Its declared source scopes do not certify whole-book completeness.\" >> \"$GITHUB_STEP_SUMMARY\"\n          exit \"$monetary_status\"\n"
+      },
+      "beforeNodeTools": [
+        "monetary-source-inventory.mjs"
+      ],
+      "afterNodeTools": [
+        "monetary-source-inventory.mjs"
+      ]
+    },
+    {
+      "ordinal": 6,
+      "role": "Verify recorded monetary row identity findings",
+      "mode": "exact-unchanged",
+      "frozenR5BlockSha256": "9e8e03e91fb4795cadcb27fcf2d0e559352127565a6ed36f9f158c943f8af1ec",
+      "before": {
+        "sha256": "9e8e03e91fb4795cadcb27fcf2d0e559352127565a6ed36f9f158c943f8af1ec",
+        "sizeBytes": 1235,
+        "utf8": "      - name: Verify recorded monetary row identity findings\n        if: always()\n        run: |\n          mkdir -p artifacts/monetary-row-identity\n          set +e\n          node tools/monetary-findings-register.mjs --check > artifacts/monetary-row-identity/finding-register.json\n          register_status=$?\n          node tools/monetary-row-identity-audit.mjs --output artifacts/monetary-row-identity/report.json --check > artifacts/monetary-row-identity/summary.json\n          row_status=$?\n          set -e\n          echo \"$register_status\" > artifacts/monetary-row-identity/finding-register-exit-status.txt\n          echo \"$row_status\" > artifacts/monetary-row-identity/validation-exit-status.txt\n          echo \"Known monetary findings require exact current independent dispositions. New duplicate-focus candidates and source ambiguities remain visible; a clean structural check does not certify source completeness.\" >> \"$GITHUB_STEP_SUMMARY\"\n          cat artifacts/monetary-row-identity/finding-register.json >> \"$GITHUB_STEP_SUMMARY\"\n          cat artifacts/monetary-row-identity/summary.json >> \"$GITHUB_STEP_SUMMARY\"\n          if [ \"$register_status\" -ne 0 ]; then exit \"$register_status\"; fi\n          exit \"$row_status\"\n"
+      },
+      "after": {
+        "sha256": "9e8e03e91fb4795cadcb27fcf2d0e559352127565a6ed36f9f158c943f8af1ec",
+        "sizeBytes": 1235,
+        "utf8": "      - name: Verify recorded monetary row identity findings\n        if: always()\n        run: |\n          mkdir -p artifacts/monetary-row-identity\n          set +e\n          node tools/monetary-findings-register.mjs --check > artifacts/monetary-row-identity/finding-register.json\n          register_status=$?\n          node tools/monetary-row-identity-audit.mjs --output artifacts/monetary-row-identity/report.json --check > artifacts/monetary-row-identity/summary.json\n          row_status=$?\n          set -e\n          echo \"$register_status\" > artifacts/monetary-row-identity/finding-register-exit-status.txt\n          echo \"$row_status\" > artifacts/monetary-row-identity/validation-exit-status.txt\n          echo \"Known monetary findings require exact current independent dispositions. New duplicate-focus candidates and source ambiguities remain visible; a clean structural check does not certify source completeness.\" >> \"$GITHUB_STEP_SUMMARY\"\n          cat artifacts/monetary-row-identity/finding-register.json >> \"$GITHUB_STEP_SUMMARY\"\n          cat artifacts/monetary-row-identity/summary.json >> \"$GITHUB_STEP_SUMMARY\"\n          if [ \"$register_status\" -ne 0 ]; then exit \"$register_status\"; fi\n          exit \"$row_status\"\n"
+      },
+      "beforeNodeTools": [
+        "monetary-findings-register.mjs",
+        "monetary-row-identity-audit.mjs"
+      ],
+      "afterNodeTools": [
+        "monetary-findings-register.mjs",
+        "monetary-row-identity-audit.mjs"
+      ]
+    },
+    {
+      "ordinal": 7,
+      "role": "Join monetary values with current review coverage",
+      "mode": "exact-unchanged",
+      "frozenR5BlockSha256": "5c6cc54acb6da8e6232df2381fb4578ba663b5d57c959a501d05c57ab87939d4",
+      "before": {
+        "sha256": "5c6cc54acb6da8e6232df2381fb4578ba663b5d57c959a501d05c57ab87939d4",
+        "sizeBytes": 194,
+        "utf8": "      - name: Join monetary values with current review coverage\n        if: always()\n        run: node tools/monetary-coverage-report.mjs --output artifacts/monetary-review-coverage/report.json\n"
+      },
+      "after": {
+        "sha256": "5c6cc54acb6da8e6232df2381fb4578ba663b5d57c959a501d05c57ab87939d4",
+        "sizeBytes": 194,
+        "utf8": "      - name: Join monetary values with current review coverage\n        if: always()\n        run: node tools/monetary-coverage-report.mjs --output artifacts/monetary-review-coverage/report.json\n"
+      },
+      "beforeNodeTools": [
+        "monetary-coverage-report.mjs"
+      ],
+      "afterNodeTools": [
+        "monetary-coverage-report.mjs"
+      ]
+    },
+    {
+      "ordinal": 8,
+      "role": "Verify current monetary source question dispositions",
+      "mode": "reviewed-versioned-command-or-error-capture-transition",
+      "frozenR5BlockSha256": "9298c4ea6a3da7c518d2517c38250be718ca040b86de3605cef8ad59048c4505",
+      "before": {
+        "sha256": "9298c4ea6a3da7c518d2517c38250be718ca040b86de3605cef8ad59048c4505",
+        "sizeBytes": 293,
+        "utf8": "      - name: Verify current monetary source question dispositions\n        if: always()\n        run: |\n          mkdir -p artifacts/monetary-review-coverage\n          node tools/class-mapping-current-monetary-questions-v1.mjs > artifacts/monetary-review-coverage/current-source-questions.json\n"
+      },
+      "after": {
+        "sha256": "7258670af0719f5b997f1834d939f3583bdcfddf63d9235d252bbdb41227aad3",
+        "sizeBytes": 661,
+        "utf8": "      - name: Verify current monetary source question dispositions\n        if: always()\n        run: |\n          mkdir -p artifacts/monetary-review-coverage\n          set +e\n          node tools/class-mapping-current-monetary-questions-v2.mjs > artifacts/monetary-review-coverage/current-source-questions.json 2> artifacts/monetary-review-coverage/current-source-questions-errors.txt\n          question_status=$?\n          set -e\n          echo \"$question_status\" > artifacts/monetary-review-coverage/current-source-questions-exit-status.txt\n          cat artifacts/monetary-review-coverage/current-source-questions-errors.txt\n          exit \"$question_status\"\n"
+      },
+      "beforeNodeTools": [
+        "class-mapping-current-monetary-questions-v1.mjs"
+      ],
+      "afterNodeTools": [
+        "class-mapping-current-monetary-questions-v2.mjs"
+      ]
+    },
+    {
+      "ordinal": 9,
+      "role": "Verify duplicated monetary focus declarations",
+      "mode": "exact-unchanged",
+      "frozenR5BlockSha256": "7b96b02b76be3b72bcbbce9c18f36abaf5ad8acfba6a5726e527738d13dbefcc",
+      "before": {
+        "sha256": "7b96b02b76be3b72bcbbce9c18f36abaf5ad8acfba6a5726e527738d13dbefcc",
+        "sizeBytes": 430,
+        "utf8": "      - name: Verify duplicated monetary focus declarations\n        if: always()\n        run: |\n          mkdir -p artifacts/monetary-group-focus\n          node tools/monetary-group-focus-audit.mjs --output artifacts/monetary-group-focus/report.json --check\n          echo \"Grouped focus declarations must match their exact primary rows. This consistency check does not certify source pixels or values.\" >> \"$GITHUB_STEP_SUMMARY\"\n"
+      },
+      "after": {
+        "sha256": "7b96b02b76be3b72bcbbce9c18f36abaf5ad8acfba6a5726e527738d13dbefcc",
+        "sizeBytes": 430,
+        "utf8": "      - name: Verify duplicated monetary focus declarations\n        if: always()\n        run: |\n          mkdir -p artifacts/monetary-group-focus\n          node tools/monetary-group-focus-audit.mjs --output artifacts/monetary-group-focus/report.json --check\n          echo \"Grouped focus declarations must match their exact primary rows. This consistency check does not certify source pixels or values.\" >> \"$GITHUB_STEP_SUMMARY\"\n"
+      },
+      "beforeNodeTools": [
+        "monetary-group-focus-audit.mjs"
+      ],
+      "afterNodeTools": [
+        "monetary-group-focus-audit.mjs"
+      ]
+    },
+    {
+      "ordinal": 10,
+      "role": "Inventory monetary conditions and source contracts",
+      "mode": "exact-unchanged",
+      "frozenR5BlockSha256": "8d889adba11420f2494f4490230218036cafcecff02549160fced8657f9245fa",
+      "before": {
+        "sha256": "8d889adba11420f2494f4490230218036cafcecff02549160fced8657f9245fa",
+        "sizeBytes": 436,
+        "utf8": "      - name: Inventory monetary conditions and source contracts\n        if: always()\n        run: |\n          node tools/monetary-condition-coverage.mjs --output artifacts/monetary-condition-coverage/report.json\n          echo \"All recorded monetary conditions and declared source contracts remain visible. Changed conditions require independent source review; empty metadata is not source-absence evidence.\" >> \"$GITHUB_STEP_SUMMARY\"\n"
+      },
+      "after": {
+        "sha256": "8d889adba11420f2494f4490230218036cafcecff02549160fced8657f9245fa",
+        "sizeBytes": 436,
+        "utf8": "      - name: Inventory monetary conditions and source contracts\n        if: always()\n        run: |\n          node tools/monetary-condition-coverage.mjs --output artifacts/monetary-condition-coverage/report.json\n          echo \"All recorded monetary conditions and declared source contracts remain visible. Changed conditions require independent source review; empty metadata is not source-absence evidence.\" >> \"$GITHUB_STEP_SUMMARY\"\n"
+      },
+      "beforeNodeTools": [
+        "monetary-condition-coverage.mjs"
+      ],
+      "afterNodeTools": [
+        "monetary-condition-coverage.mjs"
+      ]
+    },
+    {
+      "ordinal": 11,
+      "role": "Rebuild and validate current raster and visual coverage",
+      "mode": "reviewed-versioned-command-or-error-capture-transition",
+      "frozenR5BlockSha256": "73940eb84d7ba5bfd81b4efc8c437ec2e7fd7eab4b4d435ce7bd789a3095e1b3",
+      "before": {
+        "sha256": "73940eb84d7ba5bfd81b4efc8c437ec2e7fd7eab4b4d435ce7bd789a3095e1b3",
+        "sizeBytes": 719,
+        "utf8": "      - name: Rebuild and validate current raster and visual coverage\n        if: always()\n        run: |\n          set +e\n          node tools/source-raster-visual-coverage-ci-v1.mjs\n          coverage_status=$?\n          set -e\n          if [ -f artifacts/source-raster-coverage/validation.json ]; then\n            cat artifacts/source-raster-coverage/validation.json >> \"$GITHUB_STEP_SUMMARY\"\n          fi\n          echo \"Fresh current raster and visual reports were rebuilt from the registered next-native-v2 inputs and checked against the committed report receipt. Geometry and coverage are structural evidence; semantic source review remains separate.\" >> \"$GITHUB_STEP_SUMMARY\"\n          exit \"$coverage_status\"\n"
+      },
+      "after": {
+        "sha256": "d4eefec67d01b716dc1efdd2daa3b33c7484ca72271e8a95777692a0ec3d4ee1",
+        "sizeBytes": 685,
+        "utf8": "      - name: Rebuild and validate current raster and visual coverage\n        if: always()\n        run: |\n          set +e\n          node tools/source-raster-visual-coverage-ci-v2.mjs\n          coverage_status=$?\n          set -e\n          if [ -f artifacts/source-raster-coverage/validation.json ]; then\n            cat artifacts/source-raster-coverage/validation.json >> \"$GITHUB_STEP_SUMMARY\"\n          fi\n          echo \"Current raster and visual reports were checked against the committed next-native-v3 inputs and report receipt. Geometry and coverage are structural evidence; semantic source review remains separate.\" >> \"$GITHUB_STEP_SUMMARY\"\n          exit \"$coverage_status\"\n"
+      },
+      "beforeNodeTools": [
+        "source-raster-visual-coverage-ci-v1.mjs"
+      ],
+      "afterNodeTools": [
+        "source-raster-visual-coverage-ci-v2.mjs"
+      ]
+    },
+    {
+      "ordinal": 12,
+      "role": "Check current citation field captions",
+      "mode": "exact-unchanged",
+      "frozenR5BlockSha256": "43a2a845c30cc752e9e44a90a3b724a6fce8ea64ab57bc30c6f40abe554b675d",
+      "before": {
+        "sha256": "43a2a845c30cc752e9e44a90a3b724a6fce8ea64ab57bc30c6f40abe554b675d",
+        "sizeBytes": 191,
+        "utf8": "      - name: Check current citation field captions\n        if: always()\n        run: node tools/source-target-label-audit.mjs --current --check --output-dir artifacts/citation-target-labels\n"
+      },
+      "after": {
+        "sha256": "43a2a845c30cc752e9e44a90a3b724a6fce8ea64ab57bc30c6f40abe554b675d",
+        "sizeBytes": 191,
+        "utf8": "      - name: Check current citation field captions\n        if: always()\n        run: node tools/source-target-label-audit.mjs --current --check --output-dir artifacts/citation-target-labels\n"
+      },
+      "beforeNodeTools": [
+        "source-target-label-audit.mjs"
+      ],
+      "afterNodeTools": [
+        "source-target-label-audit.mjs"
+      ]
+    },
+    {
+      "ordinal": 13,
+      "role": "Inventory quantity and source absence assertions",
+      "mode": "exact-unchanged",
+      "frozenR5BlockSha256": "2e610265cd09d64a942ecf26babf09c0ee0021d54edb3bc6a36ea182bee4c662",
+      "before": {
+        "sha256": "2e610265cd09d64a942ecf26babf09c0ee0021d54edb3bc6a36ea182bee4c662",
+        "sizeBytes": 458,
+        "utf8": "      - name: Inventory quantity and source absence assertions\n        if: always()\n        run: |\n          node tools/quantity-source-absence-audit.mjs --output-dir artifacts/quantity-source-absence --check\n          echo \"Quantity uncertainty is inventoried across every scalar property in the current catalog and all nine monetary inputs. Lexical candidates and null metadata do not establish what the printed source contains.\" >> \"$GITHUB_STEP_SUMMARY\"\n"
+      },
+      "after": {
+        "sha256": "2e610265cd09d64a942ecf26babf09c0ee0021d54edb3bc6a36ea182bee4c662",
+        "sizeBytes": 458,
+        "utf8": "      - name: Inventory quantity and source absence assertions\n        if: always()\n        run: |\n          node tools/quantity-source-absence-audit.mjs --output-dir artifacts/quantity-source-absence --check\n          echo \"Quantity uncertainty is inventoried across every scalar property in the current catalog and all nine monetary inputs. Lexical candidates and null metadata do not establish what the printed source contains.\" >> \"$GITHUB_STEP_SUMMARY\"\n"
+      },
+      "beforeNodeTools": [
+        "quantity-source-absence-audit.mjs"
+      ],
+      "afterNodeTools": [
+        "quantity-source-absence-audit.mjs"
+      ]
+    },
+    {
+      "ordinal": 14,
+      "role": "Verify monetary unit provenance",
+      "mode": "reviewed-versioned-command-or-error-capture-transition",
+      "frozenR5BlockSha256": "bdd10f1edf37a1b8b38f0bacaf4926d46adb33666e5bf83f61c84c625b275745",
+      "before": {
+        "sha256": "bdd10f1edf37a1b8b38f0bacaf4926d46adb33666e5bf83f61c84c625b275745",
+        "sizeBytes": 397,
+        "utf8": "      - name: Verify monetary unit provenance\n        if: always()\n        run: |\n          node tools/verify-class-mapping-current-reports-v1.mjs --kind unit --output artifacts/monetary-unit-provenance-current-mm-v1/report.json --summary artifacts/monetary-unit-provenance-current-mm-v1/report.md\n          cat artifacts/monetary-unit-provenance-current-mm-v1/report.md >> \"$GITHUB_STEP_SUMMARY\"\n"
+      },
+      "after": {
+        "sha256": "d49fec145387cf24a53c11d3bf8a90645d0f3d1ba8c5b0d309e821fdc5e898dc",
+        "sizeBytes": 397,
+        "utf8": "      - name: Verify monetary unit provenance\n        if: always()\n        run: |\n          node tools/verify-class-mapping-current-reports-v3.mjs --kind unit --output artifacts/monetary-unit-provenance-current-mm-v1/report.json --summary artifacts/monetary-unit-provenance-current-mm-v1/report.md\n          cat artifacts/monetary-unit-provenance-current-mm-v1/report.md >> \"$GITHUB_STEP_SUMMARY\"\n"
+      },
+      "beforeNodeTools": [
+        "verify-class-mapping-current-reports-v1.mjs"
+      ],
+      "afterNodeTools": [
+        "verify-class-mapping-current-reports-v3.mjs"
+      ]
+    },
+    {
+      "ordinal": 15,
+      "role": "Verify UA source context obligations",
+      "mode": "exact-unchanged",
+      "frozenR5BlockSha256": "ade26426f28fbe030ba608a8fbab081acc62f01f913cbf90d63e13e5f6a9a761",
+      "before": {
+        "sha256": "ade26426f28fbe030ba608a8fbab081acc62f01f913cbf90d63e13e5f6a9a761",
+        "sizeBytes": 522,
+        "utf8": "      - name: Verify UA source context obligations\n        if: always()\n        run: |\n          mkdir -p artifacts/ua-source-context-obligations\n          node tools/ua-source-context-obligations-cli.mjs --output artifacts/ua-source-context-obligations/report.json\n          node tools/ua-source-context-obligations-cli.mjs --check\n          echo \"UA table contexts, source frames and note dependencies are checked structurally. Note applicability and source pixels require independent review.\" >> \"$GITHUB_STEP_SUMMARY\"\n"
+      },
+      "after": {
+        "sha256": "ade26426f28fbe030ba608a8fbab081acc62f01f913cbf90d63e13e5f6a9a761",
+        "sizeBytes": 522,
+        "utf8": "      - name: Verify UA source context obligations\n        if: always()\n        run: |\n          mkdir -p artifacts/ua-source-context-obligations\n          node tools/ua-source-context-obligations-cli.mjs --output artifacts/ua-source-context-obligations/report.json\n          node tools/ua-source-context-obligations-cli.mjs --check\n          echo \"UA table contexts, source frames and note dependencies are checked structurally. Note applicability and source pixels require independent review.\" >> \"$GITHUB_STEP_SUMMARY\"\n"
+      },
+      "beforeNodeTools": [
+        "ua-source-context-obligations-cli.mjs",
+        "ua-source-context-obligations-cli.mjs"
+      ],
+      "afterNodeTools": [
+        "ua-source-context-obligations-cli.mjs",
+        "ua-source-context-obligations-cli.mjs"
+      ]
+    },
+    {
+      "ordinal": 16,
+      "role": "Verify current continuation candidate snapshot",
+      "mode": "reviewed-versioned-command-or-error-capture-transition",
+      "frozenR5BlockSha256": "6fabd889390f7a0c4aff658685595902722ff0a1a116e827db38fd8973ed8d51",
+      "before": {
+        "sha256": "6fabd889390f7a0c4aff658685595902722ff0a1a116e827db38fd8973ed8d51",
+        "sizeBytes": 426,
+        "utf8": "      - name: Verify current continuation candidate snapshot\n        if: always()\n        run: |\n          node tools/verify-class-mapping-current-reports-v1.mjs --kind continuation --output artifacts/continuation-candidate-coverage/next-native-current-check.json --summary artifacts/continuation-candidate-coverage/validation.md\n          cat artifacts/continuation-candidate-coverage/validation.md >> \"$GITHUB_STEP_SUMMARY\"\n"
+      },
+      "after": {
+        "sha256": "defdd42302e47fc78b93c35c7d66bef68e4c5e51f6de2a7a7d563fd36dc29b3b",
+        "sizeBytes": 426,
+        "utf8": "      - name: Verify current continuation candidate snapshot\n        if: always()\n        run: |\n          node tools/verify-class-mapping-current-reports-v3.mjs --kind continuation --output artifacts/continuation-candidate-coverage/next-native-current-check.json --summary artifacts/continuation-candidate-coverage/validation.md\n          cat artifacts/continuation-candidate-coverage/validation.md >> \"$GITHUB_STEP_SUMMARY\"\n"
+      },
+      "beforeNodeTools": [
+        "verify-class-mapping-current-reports-v1.mjs"
+      ],
+      "afterNodeTools": [
+        "verify-class-mapping-current-reports-v3.mjs"
+      ]
+    },
+    {
+      "ordinal": 17,
+      "role": "Verify declared continuation aliases",
+      "mode": "exact-unchanged",
+      "frozenR5BlockSha256": "ef3004b58b80dcbf06a21febcac3cf82114f428fe187c1784a048f465c9f3219",
+      "before": {
+        "sha256": "ef3004b58b80dcbf06a21febcac3cf82114f428fe187c1784a048f465c9f3219",
+        "sizeBytes": 185,
+        "utf8": "      - name: Verify declared continuation aliases\n        if: always()\n        run: node tools/continuation-alias-audit.mjs --output artifacts/continuation-aliases/report.json --check\n"
+      },
+      "after": {
+        "sha256": "ef3004b58b80dcbf06a21febcac3cf82114f428fe187c1784a048f465c9f3219",
+        "sizeBytes": 185,
+        "utf8": "      - name: Verify declared continuation aliases\n        if: always()\n        run: node tools/continuation-alias-audit.mjs --output artifacts/continuation-aliases/report.json --check\n"
+      },
+      "beforeNodeTools": [
+        "continuation-alias-audit.mjs"
+      ],
+      "afterNodeTools": [
+        "continuation-alias-audit.mjs"
+      ]
+    },
+    {
+      "ordinal": 18,
+      "role": "Inventory consecutive-page excerpt candidates",
+      "mode": "exact-unchanged",
+      "frozenR5BlockSha256": "16dc2c4d99938f9148891258cf2f3a4cb68bbc2a5789cb49927f2a47564c5d7a",
+      "before": {
+        "sha256": "16dc2c4d99938f9148891258cf2f3a4cb68bbc2a5789cb49927f2a47564c5d7a",
+        "sizeBytes": 307,
+        "utf8": "      - name: Inventory consecutive-page excerpt candidates\n        if: always()\n        run: node tools/cross-page-catalog-candidates.mjs --baseline-output artifacts/continuation-candidate-coverage/cross-page-baseline.json --current-output artifacts/continuation-candidate-coverage/cross-page-current.json\n"
+      },
+      "after": {
+        "sha256": "16dc2c4d99938f9148891258cf2f3a4cb68bbc2a5789cb49927f2a47564c5d7a",
+        "sizeBytes": 307,
+        "utf8": "      - name: Inventory consecutive-page excerpt candidates\n        if: always()\n        run: node tools/cross-page-catalog-candidates.mjs --baseline-output artifacts/continuation-candidate-coverage/cross-page-baseline.json --current-output artifacts/continuation-candidate-coverage/cross-page-current.json\n"
+      },
+      "beforeNodeTools": [
+        "cross-page-catalog-candidates.mjs"
+      ],
+      "afterNodeTools": [
+        "cross-page-catalog-candidates.mjs"
+      ]
+    },
+    {
+      "ordinal": 19,
+      "role": "Summarize source visual coverage",
+      "mode": "exact-unchanged",
+      "frozenR5BlockSha256": "11a95735d6aa2e64295a8f9a072fab0099b8d14eaacd395e58a9f9e00b96f349",
+      "before": {
+        "sha256": "11a95735d6aa2e64295a8f9a072fab0099b8d14eaacd395e58a9f9e00b96f349",
+        "sizeBytes": 1209,
+        "utf8": "      - name: Summarize source visual coverage\n        if: always()\n        run: |\n          visual_status=1\n          if [ -f artifacts/source-visual-coverage/validation-exit-status.txt ]; then\n            visual_status=\"$(cat artifacts/source-visual-coverage/validation-exit-status.txt)\"\n          fi\n          if [ -f artifacts/source-visual-coverage/report.md ]; then\n            sed -n '1,35p' artifacts/source-visual-coverage/report.md >> \"$GITHUB_STEP_SUMMARY\"\n            echo \"Full binding-level JSON and Markdown are available in the source-visual-coverage artifact.\" >> \"$GITHUB_STEP_SUMMARY\"\n          else\n            mkdir -p artifacts/source-visual-coverage\n            echo \"Source visual coverage unavailable: current raster/visual CI wrapper did not write its report (status ${visual_status}).\" >> \"$GITHUB_STEP_SUMMARY\"\n            if [ ! -f artifacts/source-visual-coverage/generation-error.txt ]; then\n              echo \"Wrapper did not write report.md (exit status ${visual_status}).\" > artifacts/source-visual-coverage/generation-error.txt\n            fi\n            visual_status=1\n          fi\n          if [ \"$visual_status\" -ne 0 ]; then exit \"$visual_status\"; fi\n          exit 0\n"
+      },
+      "after": {
+        "sha256": "11a95735d6aa2e64295a8f9a072fab0099b8d14eaacd395e58a9f9e00b96f349",
+        "sizeBytes": 1209,
+        "utf8": "      - name: Summarize source visual coverage\n        if: always()\n        run: |\n          visual_status=1\n          if [ -f artifacts/source-visual-coverage/validation-exit-status.txt ]; then\n            visual_status=\"$(cat artifacts/source-visual-coverage/validation-exit-status.txt)\"\n          fi\n          if [ -f artifacts/source-visual-coverage/report.md ]; then\n            sed -n '1,35p' artifacts/source-visual-coverage/report.md >> \"$GITHUB_STEP_SUMMARY\"\n            echo \"Full binding-level JSON and Markdown are available in the source-visual-coverage artifact.\" >> \"$GITHUB_STEP_SUMMARY\"\n          else\n            mkdir -p artifacts/source-visual-coverage\n            echo \"Source visual coverage unavailable: current raster/visual CI wrapper did not write its report (status ${visual_status}).\" >> \"$GITHUB_STEP_SUMMARY\"\n            if [ ! -f artifacts/source-visual-coverage/generation-error.txt ]; then\n              echo \"Wrapper did not write report.md (exit status ${visual_status}).\" > artifacts/source-visual-coverage/generation-error.txt\n            fi\n            visual_status=1\n          fi\n          if [ \"$visual_status\" -ne 0 ]; then exit \"$visual_status\"; fi\n          exit 0\n"
+      },
+      "beforeNodeTools": [],
+      "afterNodeTools": []
+    },
+    {
+      "ordinal": 20,
+      "role": "Check class advancement and source qualifiers",
+      "mode": "reviewed-versioned-command-or-error-capture-transition",
+      "frozenR5BlockSha256": "041bba02184640df0032d217617f6ee19ba1f39bf66ede21acbbfea27498a8c8",
+      "before": {
+        "sha256": "041bba02184640df0032d217617f6ee19ba1f39bf66ede21acbbfea27498a8c8",
+        "sizeBytes": 1000,
+        "utf8": "      - name: Check class advancement and source qualifiers\n        if: always()\n        run: |\n          mkdir -p artifacts/source-domain-audits\n          set +e\n          node tools/class-progression-audit.mjs --input dist/data.json --output artifacts/source-domain-audits/class-progression.json --check\n          class_status=$?\n          node tools/source-qualifier-coverage.mjs --input dist/data.json --output artifacts/source-domain-audits/source-qualifiers.json --check\n          qualifier_status=$?\n          node tools/verify-class-mapping-current-reports-v1.mjs --kind ua26 --output artifacts/source-domain-audits/ua26-note-markers.json\n          marker_status=$?\n          set -e\n          echo \"Class-domain and source-qualifier JSON reports are in the source-domain-audits artifact. Generic semantic qualifier completeness is not certified.\" >> \"$GITHUB_STEP_SUMMARY\"\n          if [ \"$class_status\" -ne 0 ] || [ \"$qualifier_status\" -ne 0 ] || [ \"$marker_status\" -ne 0 ]; then exit 1; fi\n"
+      },
+      "after": {
+        "sha256": "ac64acdf3eba81767605186b488147403c3b35c0325b9e00149c8aab2f6a5617",
+        "sizeBytes": 1000,
+        "utf8": "      - name: Check class advancement and source qualifiers\n        if: always()\n        run: |\n          mkdir -p artifacts/source-domain-audits\n          set +e\n          node tools/class-progression-audit.mjs --input dist/data.json --output artifacts/source-domain-audits/class-progression.json --check\n          class_status=$?\n          node tools/source-qualifier-coverage.mjs --input dist/data.json --output artifacts/source-domain-audits/source-qualifiers.json --check\n          qualifier_status=$?\n          node tools/verify-class-mapping-current-reports-v3.mjs --kind ua26 --output artifacts/source-domain-audits/ua26-note-markers.json\n          marker_status=$?\n          set -e\n          echo \"Class-domain and source-qualifier JSON reports are in the source-domain-audits artifact. Generic semantic qualifier completeness is not certified.\" >> \"$GITHUB_STEP_SUMMARY\"\n          if [ \"$class_status\" -ne 0 ] || [ \"$qualifier_status\" -ne 0 ] || [ \"$marker_status\" -ne 0 ]; then exit 1; fi\n"
+      },
+      "beforeNodeTools": [
+        "class-progression-audit.mjs",
+        "source-qualifier-coverage.mjs",
+        "verify-class-mapping-current-reports-v1.mjs"
+      ],
+      "afterNodeTools": [
+        "class-progression-audit.mjs",
+        "source-qualifier-coverage.mjs",
+        "verify-class-mapping-current-reports-v3.mjs"
+      ]
+    },
+    {
+      "ordinal": 21,
+      "role": "Verify published gaps match current coverage reports",
+      "mode": "reviewed-versioned-command-or-error-capture-transition",
+      "frozenR5BlockSha256": "ff36346c612d92f882180d0ee57f89e6ff55d693759d6ad9a35b5182be8b5752",
+      "before": {
+        "sha256": "2221babd3db94443c2a1380cdcacc19efaccbfdd6463191b24a5574b39a8c9ec",
+        "sizeBytes": 319,
+        "utf8": "      - name: Verify published gaps match current coverage reports\n        if: always()\n        run: |\n          set -o pipefail\n          mkdir -p artifacts/source-domain-audits\n          node tools/verify-class-mapping-current-reports-v2.mjs --kind all --output artifacts/source-domain-audits/gaps-handoff-check.json\n"
+      },
+      "after": {
+        "sha256": "3a514f90c9473a8657031aab04d845e42109eff5992ab37f7d64aef0b2db1bfa",
+        "sizeBytes": 319,
+        "utf8": "      - name: Verify published gaps match current coverage reports\n        if: always()\n        run: |\n          set -o pipefail\n          mkdir -p artifacts/source-domain-audits\n          node tools/verify-class-mapping-current-reports-v3.mjs --kind all --output artifacts/source-domain-audits/gaps-handoff-check.json\n"
+      },
+      "beforeNodeTools": [
+        "verify-class-mapping-current-reports-v2.mjs"
+      ],
+      "afterNodeTools": [
+        "verify-class-mapping-current-reports-v3.mjs"
+      ]
+    },
+    {
+      "ordinal": 22,
+      "role": "Verify coverage report counts and review scopes",
+      "mode": "reviewed-versioned-command-or-error-capture-transition",
+      "frozenR5BlockSha256": "49be8d6bd5f0228638d0e07002b2a616973761bf2aafa0e58b2886386666f82a",
+      "before": {
+        "sha256": "49be8d6bd5f0228638d0e07002b2a616973761bf2aafa0e58b2886386666f82a",
+        "sizeBytes": 296,
+        "utf8": "      - name: Verify coverage report counts and review scopes\n        if: always()\n        run: |\n          mkdir -p artifacts/source-domain-audits\n          node tools/verify-class-mapping-current-reports-v1.mjs --kind consistency --output artifacts/source-domain-audits/report-consistency.json\n"
+      },
+      "after": {
+        "sha256": "f69c5b4704aa87a35946175ed91940fae7ceadd60d0fef7914bd7b9e97557ded",
+        "sizeBytes": 296,
+        "utf8": "      - name: Verify coverage report counts and review scopes\n        if: always()\n        run: |\n          mkdir -p artifacts/source-domain-audits\n          node tools/verify-class-mapping-current-reports-v3.mjs --kind consistency --output artifacts/source-domain-audits/report-consistency.json\n"
+      },
+      "beforeNodeTools": [
+        "verify-class-mapping-current-reports-v1.mjs"
+      ],
+      "afterNodeTools": [
+        "verify-class-mapping-current-reports-v3.mjs"
+      ]
+    },
+    {
+      "ordinal": 23,
+      "role": "Capture build metadata",
+      "mode": "exact-unchanged",
+      "frozenR5BlockSha256": "85525e155e1fc580c72028d413b42de6a62fc2f3a04b1b8312e815e5f085ef8f",
+      "before": {
+        "sha256": "85525e155e1fc580c72028d413b42de6a62fc2f3a04b1b8312e815e5f085ef8f",
+        "sizeBytes": 172,
+        "utf8": "      - name: Capture build metadata\n        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'\n        run: node tools/stamp-build.mjs --capture\n"
+      },
+      "after": {
+        "sha256": "85525e155e1fc580c72028d413b42de6a62fc2f3a04b1b8312e815e5f085ef8f",
+        "sizeBytes": 172,
+        "utf8": "      - name: Capture build metadata\n        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'\n        run: node tools/stamp-build.mjs --capture\n"
+      },
+      "beforeNodeTools": [
+        "stamp-build.mjs"
+      ],
+      "afterNodeTools": [
+        "stamp-build.mjs"
+      ]
+    }
+  ],
+  "preservedOtherGuards": [
+    "same five job names and four shards",
+    "MM replay and exact reducer barrier",
+    "failed/skipped jobs cannot permit build",
+    "no continue-on-error or test skip/name filters",
+    "pinned actions",
+    "always-run audit/error artifact paths",
+    "deploy needs build and only dist publication"
+  ],
+  "limits": [
+    "v2/v3 implementation and exact runtime argument contracts await final independent review.",
+    "Full Source2 suite/CI not run; M/N/O absent.",
+    "All current JSON states and source grades remain unchanged."
+  ]
+}
