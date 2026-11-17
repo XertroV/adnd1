@@ -1,7 +1,7 @@
 // Source2 current suite runner core. All test paths come from the reviewed,
 // SHA-pinned 225-family migration manifest; no shell wildcard is ever used.
 import {createHash} from 'node:crypto';
-import {accessSync, constants, existsSync, lstatSync, mkdirSync, openSync, closeSync, readFileSync, realpathSync, renameSync, writeFileSync} from 'node:fs';
+import {accessSync, constants, existsSync, lstatSync, mkdirSync, openSync, closeSync, readFileSync, realpathSync, renameSync, writeFileSync, writeSync} from 'node:fs';
 import {dirname, isAbsolute, relative, resolve, sep} from 'node:path';
 import {spawn, spawnSync, execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';

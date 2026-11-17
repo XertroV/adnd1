@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
-import {readFileSync, realpathSync} from 'node:fs';
+import {mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {dirname, resolve} from 'node:path';
-import {fileURLToPath} from 'node:url';
+import {dirname, join, resolve} from 'node:path';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import test from 'node:test';
+import {tmpdir} from 'node:os';
 import {
   admitBeforeShardSelection,
   deriveSource2Shards,
@@ -161,12 +162,12 @@ test('raw O join rejects substituted commit, tree, parent, receipt, ancestry, an
   assert.equal(assertVerifiedSource2OJoinProof(outputJoinProof),outputJoinProof);
   assert.throws(()=>assertVerifiedSource2OJoinProof({...outputJoinProof}),/must come from the raw-Git O verifier/);
   assert.throws(()=>readSource2TestRoster(repoRoot,verifiedReportReceipt),/join proof must come from the raw-Git O verifier/);
-  assert.throws(()=>verifySource2OReceiptJoin(repoRoot,{...loaded.document.currentSuiteSemantics.reportOutputJoin,outputCommit:'0'.repeat(40)},verifiedReportReceipt,loaded.sha256),/exact v8 O pin outputCommit/);
-  assert.throws(()=>verifySource2OReceiptJoin(repoRoot,{...loaded.document.currentSuiteSemantics.reportOutputJoin,outputTree:'0'.repeat(40)},verifiedReportReceipt,loaded.sha256),/exact v8 O pin outputTree/);
-  assert.throws(()=>verifySource2OReceiptJoin(repoRoot,{...loaded.document.currentSuiteSemantics.reportOutputJoin,outputParentCommit:'0'.repeat(40)},verifiedReportReceipt,loaded.sha256),/exact v8 O pin outputParentCommit/);
+  assert.throws(()=>verifySource2OReceiptJoin(repoRoot,{...loaded.document.currentSuiteSemantics.reportOutputJoin,outputCommit:'0'.repeat(40)},verifiedReportReceipt,loaded.sha256),/exact v9 O pin outputCommit/);
+  assert.throws(()=>verifySource2OReceiptJoin(repoRoot,{...loaded.document.currentSuiteSemantics.reportOutputJoin,outputTree:'0'.repeat(40)},verifiedReportReceipt,loaded.sha256),/exact v9 O pin outputTree/);
+  assert.throws(()=>verifySource2OReceiptJoin(repoRoot,{...loaded.document.currentSuiteSemantics.reportOutputJoin,outputParentCommit:'0'.repeat(40)},verifiedReportReceipt,loaded.sha256),/exact v9 O pin outputParentCommit/);
   assert.throws(()=>verifySource2OReceiptJoin(repoRoot,loaded.document.currentSuiteSemantics.reportOutputJoin,{...verifiedReportReceipt,sha256:'0'.repeat(64)},loaded.sha256),/verifier receipt raw SHA256/);
   assert.throws(()=>verifySource2OReceiptJoin(repoRoot,loaded.document.currentSuiteSemantics.reportOutputJoin,{...verifiedReportReceipt,headCommit:SOURCE2_O_JOIN_PINS.outputParentCommit},loaded.sha256),/verifier headCommit equals raw current HEAD/);
-  assert.throws(()=>verifySource2OReceiptJoin(repoRoot,loaded.document.currentSuiteSemantics.reportOutputJoin,verifiedReportReceipt,'0'.repeat(64)),/exact pinned v8 manifest digest/);
+  assert.throws(()=>verifySource2OReceiptJoin(repoRoot,loaded.document.currentSuiteSemantics.reportOutputJoin,verifiedReportReceipt,'0'.repeat(64)),/exact pinned v9 manifest digest/);
   const wrongOutput={...verifiedReportReceipt,receipt:structuredClone(verifiedReportReceipt.receipt)};
   wrongOutput.receipt.outputs[0].rawSha256='0'.repeat(64);
   assert.throws(()=>verifySource2OReceiptJoin(repoRoot,loaded.document.currentSuiteSemantics.reportOutputJoin,wrongOutput,loaded.sha256),/returned verified receipt object equals raw O metadata receipt/);
@@ -270,4 +271,72 @@ test('complete TAP summaries expose failures, cancellation, skip and todo states
   const incompleteShardTap=structuredClone(set.shardReceipts);incompleteShardTap[0].tapSummary.tests=9;assert.throws(()=>validateSource2ReceiptSet({...base,shardReceipts:incompleteShardTap}),/all tests pass/);
   const absentMmTap=structuredClone(set.mmReceipt);absentMmTap.tapSummary=null;assert.throws(()=>validateSource2ReceiptSet({...base,mmReceipt:absentMmTap}),/historical MM: positive test count/);
   const incompleteMmTap=structuredClone(set.mmReceipt);incompleteMmTap.tapSummary.tests=18;assert.throws(()=>validateSource2ReceiptSet({...base,mmReceipt:incompleteMmTap}),/historical MM: all tests pass/);
+});
+
+test('runner child-pipe writer imports writeSync and records stdout/stderr, TAP, and digests',async()=>{
+  assert.equal(typeof globalThis.writeSync,'undefined','the regression must not provide a global writeSync');
+  const privateRoot=mkdtempSync(join(tmpdir(),'source2-runner-pipe-'));
+  try{
+    const modules=[
+      'tools/class-mapping-source2-test-runner-core-v2.mjs',
+      'tools/class-mapping-current-source-gate-v2.mjs',
+      'tests/helpers/class-mapping-current-cohort-v2.mjs',
+      'tests/helpers/class-mapping-current-cohort-factory-v2.mjs',
+      'tools/class-mapping-frozen-parent-artifacts-v1.mjs',
+      'tools/class-mapping-native-contract-v1.mjs',
+      'tools/class-mapping-native-contract-v2.mjs',
+      'tools/class-mapping-raw-git-v1.mjs',
+      'tools/class-mapping-ci-tracked-checkout-v1.mjs',
+      'tools/class-mapping-source2-test-receipt-core-v2.mjs',
+      'tools/class-mapping-source2-test-roster-v2.mjs',
+      'tools/class-mapping-source2-o-receipt-join-v1.mjs'
+    ];
+    for(const relativePath of modules){
+      const bytes=readFileSync(resolve(repoRoot,relativePath));
+      const destination=resolve(privateRoot,relativePath);
+      mkdirSync(dirname(destination),{recursive:true});
+      const instrumented=relativePath==='tools/class-mapping-source2-test-runner-core-v2.mjs'
+        ?Buffer.concat([bytes,Buffer.from('\n// Test-only export; the module body and lexical imports above are unchanged.\nexport {runTestProcess};\n')])
+        :bytes;
+      writeFileSync(destination,instrumented,{flag:'wx',mode:0o600});
+    }
+    const childPath=resolve(privateRoot,'tests/runner-process-child.test.mjs');
+    writeFileSync(childPath,
+      "import test from 'node:test';\n"+
+      "test('emits both child streams',()=>{process.stdout.write('SOURCE2_CHILD_STDOUT_SENTINEL\\n');process.stderr.write('SOURCE2_CHILD_STDERR_SENTINEL\\n');});\n",
+      {flag:'wx',mode:0o600});
+    const instrumentedRunner=await import(pathToFileURL(resolve(privateRoot,'tools/class-mapping-source2-test-runner-core-v2.mjs')).href);
+    const childEnv={PATH:process.env.PATH||'/usr/bin:/bin',TMPDIR:privateRoot,TZ:'UTC',CI:'true',NODE_OPTIONS:''};
+    const success=await instrumentedRunner.runTestProcess(['tests/runner-process-child.test.mjs'],childEnv,'runner-contract-success');
+    assert.equal(success.status,0);assert.equal(success.signal,null);assert.equal(success.processError,null);
+    assert.deepEqual(success.tapSummary,{tests:1,pass:1,fail:0,cancelled:0,skipped:0,todo:0});
+    const successOut=success.logs.find(row=>row.path.endsWith('.tap'));
+    const successErr=success.logs.find(row=>row.path.endsWith('.stderr'));
+    assert.ok(successOut&&successErr);
+    const successOutBytes=readFileSync(resolve(privateRoot,successOut.path));
+    const successErrBytes=readFileSync(resolve(privateRoot,successErr.path));
+    assert.match(successOutBytes.toString('utf8'),/TAP version 13/);
+    assert.match(successOutBytes.toString('utf8'),/SOURCE2_CHILD_STDOUT_SENTINEL/);
+    assert.match(successOutBytes.toString('utf8'),/SOURCE2_CHILD_STDERR_SENTINEL/);
+    assert.equal(successOut.bytes,successOutBytes.length);assert.equal(successOut.sha256,sha(successOutBytes));
+    assert.equal(successErr.bytes,successErrBytes.length);assert.equal(successErr.sha256,sha(successErrBytes));
+    assert.equal(successErrBytes.length,0);
+
+    // A controlled Node startup error is routed through the actual child stderr
+    // pipe. It must be logged and hashed even though no TAP summary is available.
+    const stderrCase=await instrumentedRunner.runTestProcess(['tests/runner-process-child.test.mjs'],
+      {...childEnv,NODE_OPTIONS:'--not-a-real-node-option'},'runner-contract-stderr');
+    assert.notEqual(stderrCase.status,0);assert.equal(stderrCase.signal,null);assert.equal(stderrCase.processError,null);
+    assert.deepEqual(stderrCase.tapSummary,{tests:null,pass:null,fail:null,cancelled:null,skipped:null,todo:null});
+    const stderrOut=stderrCase.logs.find(row=>row.path.endsWith('.tap'));
+    const stderrLog=stderrCase.logs.find(row=>row.path.endsWith('.stderr'));
+    assert.ok(stderrOut&&stderrLog);
+    const stderrOutBytes=readFileSync(resolve(privateRoot,stderrOut.path));
+    const stderrLogBytes=readFileSync(resolve(privateRoot,stderrLog.path));
+    assert.equal(stderrOut.bytes,stderrOutBytes.length);assert.equal(stderrOut.sha256,sha(stderrOutBytes));
+    assert.ok(stderrLogBytes.length>0);assert.match(stderrLogBytes.toString('utf8'),/NODE_OPTIONS/);
+    assert.equal(stderrLog.bytes,stderrLogBytes.length);assert.equal(stderrLog.sha256,sha(stderrLogBytes));
+  }finally{
+    rmSync(privateRoot,{recursive:true,force:true});
+  }
 });

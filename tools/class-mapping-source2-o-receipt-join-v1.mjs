@@ -23,9 +23,9 @@ export const SOURCE2_O_JOIN_PINS=Object.freeze({
   transitionPath:'research/class-mapping-current-adapters-v2/source-body-handoff-transition-v2.json',
   transitionSha256:'64441c9a983a4b0fd3b8253c0bace30826a73e6dee5754f19af3a7218f93bc22',
   transitionSizeBytes:7993,
-  migrationManifestPath:'research/class-mapping-ci-sharding-v1/source2-test-transition-v1/finite-225-family-migration-v8.json',
-  migrationManifestSha256:'f2635d94004f59c1bb9db6a1056533b1e90cc4d9a1a67e8884dc238cbd8d42af',
-  migrationManifestSizeBytes:385096,
+  migrationManifestPath:'research/class-mapping-ci-sharding-v1/source2-test-transition-v1/finite-225-family-migration-v9.json',
+  migrationManifestSha256:'208947d126ec48f736509a5e540641bb29aa7aae1e631b60b2d7479589ea55bc',
+  migrationManifestSizeBytes:385080,
 });
 const check=(ok,message)=>{if(!ok)throw new Error(`Source2 O receipt join: ${message}`);};
 const verifiedProofs=new WeakSet();
@@ -64,14 +64,14 @@ export function verifySource2OReceiptJoin(repositoryRoot,manifestJoin,verifiedRe
   check(manifestJoin&&typeof manifestJoin==='object'&&!Array.isArray(manifestJoin),'manifest reportOutputJoin object');
   const manifestBytes=physical(root,SOURCE2_O_JOIN_PINS.migrationManifestPath);
   const actualManifestSha256=sha256(manifestBytes);
-  check(manifestBytes.length===SOURCE2_O_JOIN_PINS.migrationManifestSizeBytes&&actualManifestSha256===SOURCE2_O_JOIN_PINS.migrationManifestSha256&&manifestSha256===actualManifestSha256,'exact pinned v8 manifest digest');
-  let pinnedManifest;try{pinnedManifest=JSON.parse(manifestBytes.toString('utf8'));}catch{throw new Error('Source2 O receipt join: pinned v8 migration manifest is invalid JSON');}
-  check(manifestJoin.status==='O_COMMITTED_RECEIPT_VERIFIED','v8 manifest status is receipt-verified');
+  check(manifestBytes.length===SOURCE2_O_JOIN_PINS.migrationManifestSizeBytes&&actualManifestSha256===SOURCE2_O_JOIN_PINS.migrationManifestSha256&&manifestSha256===actualManifestSha256,'exact pinned v9 manifest digest');
+  let pinnedManifest;try{pinnedManifest=JSON.parse(manifestBytes.toString('utf8'));}catch{throw new Error('Source2 O receipt join: pinned v9 migration manifest is invalid JSON');}
+  check(manifestJoin.status==='O_COMMITTED_RECEIPT_VERIFIED','v9 manifest status is receipt-verified');
   for(const key of ['outputCommit','outputTree','outputParentCommit','bodyCommit','bodyTree','reportQccCommit','metadataReceiptPath','metadataReceiptSha256','metadataReceiptSizeBytes','reportOutputContractCount','newOFileCount','newOFileBytes']){
-    check(manifestJoin[key]===SOURCE2_O_JOIN_PINS[key],`exact v8 O pin ${key}`);
+    check(manifestJoin[key]===SOURCE2_O_JOIN_PINS[key],`exact v9 O pin ${key}`);
   }
   check(manifestJoin.separateAlreadyCommittedTransitionPath===SOURCE2_O_JOIN_PINS.transitionPath,'transition remains the already-committed prerequisite');
-  check(isDeepStrictEqual(manifestJoin,pinnedManifest.currentSuiteSemantics?.reportOutputJoin),'report-output join equals the exact pinned v8 manifest field');
+  check(isDeepStrictEqual(manifestJoin,pinnedManifest.currentSuiteSemantics?.reportOutputJoin),'report-output join equals the exact pinned v9 manifest field');
   check(verifiedReportReceipt&&typeof verifiedReportReceipt==='object'&&!Array.isArray(verifiedReportReceipt),'zero-argument verifier result object');
   check(verifiedReportReceipt.path===SOURCE2_O_JOIN_PINS.metadataReceiptPath,'verifier receipt path');
   check(verifiedReportReceipt.sha256===SOURCE2_O_JOIN_PINS.metadataReceiptSha256,'verifier receipt raw SHA256');
@@ -86,7 +86,7 @@ export function verifySource2OReceiptJoin(repositoryRoot,manifestJoin,verifiedRe
   const currentHeadHeader=parsedCommit(currentHeadBytes,currentHead,'current HEAD');
   const actualHeadTree=rawGit.git('rev-parse','--verify',`${currentHead}^{tree}`).toString('utf8').trim();
   check(currentHeadHeader.tree===actualHeadTree,'raw current HEAD tree identity');
-  // HEAD may be O itself or any later descendant (including the later v8 commit).
+  // HEAD may be O itself or any later descendant (including the later v9 commit).
   // We prove ancestry; we never require headCommit === outputCommit.
   assertOutputCommitAncestor(rawGit,SOURCE2_O_JOIN_PINS.outputCommit,currentHead);
 

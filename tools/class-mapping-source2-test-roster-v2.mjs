@@ -7,9 +7,9 @@ import {lstatSync, readFileSync, realpathSync} from 'node:fs';
 import {relative, resolve, sep} from 'node:path';
 import {assertVerifiedSource2OJoinProof, SOURCE2_O_JOIN_PINS} from './class-mapping-source2-o-receipt-join-v1.mjs';
 
-export const SOURCE2_MIGRATION_PATH = 'research/class-mapping-ci-sharding-v1/source2-test-transition-v1/finite-225-family-migration-v8.json';
-export const SOURCE2_MIGRATION_SHA256 = 'f2635d94004f59c1bb9db6a1056533b1e90cc4d9a1a67e8884dc238cbd8d42af';
-export const SOURCE2_MIGRATION_SIZE_BYTES = 385096;
+export const SOURCE2_MIGRATION_PATH = 'research/class-mapping-ci-sharding-v1/source2-test-transition-v1/finite-225-family-migration-v9.json';
+export const SOURCE2_MIGRATION_SHA256 = '208947d126ec48f736509a5e540641bb29aa7aae1e631b60b2d7479589ea55bc';
+export const SOURCE2_MIGRATION_SIZE_BYTES = 385080;
 export const SOURCE2_WORKFLOW_TRANSITION_PATH = 'research/class-mapping-ci-sharding-v1/source2-test-transition-v1/reviewed-24-workflow-block-transition-v1.json';
 export const SOURCE2_WORKFLOW_TRANSITION_SHA256 = '4703cbd75b933029844d10077d08de78a8009818fde9c2696c4771ae22bc3f3a';
 export const SOURCE2_WORKFLOW_TRANSITION_SIZE_BYTES = 46126;
@@ -184,8 +184,8 @@ export function validateSource2MigrationDocument(document) {
 export function loadSource2MigrationDocument(repositoryRoot) {
   const root=realpathSync(repositoryRoot);
   const manifestBytes=safeArtifact(root,SOURCE2_MIGRATION_PATH);
-  check(manifestBytes.length===SOURCE2_MIGRATION_SIZE_BYTES&&sha256(manifestBytes)===SOURCE2_MIGRATION_SHA256,'exact reviewed v8 migration manifest bytes');
-  let document;try{document=JSON.parse(manifestBytes.toString('utf8'));}catch{throw new Error('Source2 test roster: invalid v8 migration JSON');}
+  check(manifestBytes.length===SOURCE2_MIGRATION_SIZE_BYTES&&sha256(manifestBytes)===SOURCE2_MIGRATION_SHA256,'exact reviewed v9 migration manifest bytes');
+  let document;try{document=JSON.parse(manifestBytes.toString('utf8'));}catch{throw new Error('Source2 test roster: invalid v9 migration JSON');}
   const counts=validateSource2MigrationDocument(document);
   return Object.freeze({repositoryRoot:root,document,counts,sha256:sha256(manifestBytes),sizeBytes:manifestBytes.length});
 }
@@ -195,7 +195,7 @@ export function readSource2TestRoster(repositoryRoot, verifiedReportReceipt, ver
   const loaded=loadSource2MigrationDocument(root),document=loaded.document,counts=loaded.counts;
   check(verifiedReportReceipt&&typeof verifiedReportReceipt==='object','zero-argument committed-report verifier result required before roster reading');
   const outputJoinProof=assertVerifiedSource2OJoinProof(verifiedOutputJoinProof);
-  check(outputJoinProof.manifestSha256===loaded.sha256&&outputJoinProof.reportReceiptSha256===verifiedReportReceipt.sha256,'O join proof is bound to the current pinned v8 manifest and verifier receipt');
+  check(outputJoinProof.manifestSha256===loaded.sha256&&outputJoinProof.reportReceiptSha256===verifiedReportReceipt.sha256,'O join proof is bound to the current pinned v9 manifest and verifier receipt');
   check(outputJoinProof.outputCommit===SOURCE2_O_JOIN_PINS.outputCommit&&outputJoinProof.outputTree===SOURCE2_O_JOIN_PINS.outputTree&&outputJoinProof.outputParentCommit===SOURCE2_O_JOIN_PINS.outputParentCommit,'O join proof pins exact O commit, tree, and parent');
   const workflowMap = safeArtifact(root, SOURCE2_WORKFLOW_TRANSITION_PATH);
   check(workflowMap.length === SOURCE2_WORKFLOW_TRANSITION_SIZE_BYTES && sha256(workflowMap) === SOURCE2_WORKFLOW_TRANSITION_SHA256, 'exact reviewed workflow transition bytes');
