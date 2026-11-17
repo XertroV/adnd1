@@ -2,7 +2,7 @@
 export const currentConsumerPins = Object.freeze({
   "schemaVersion": 2,
   "artifactType": "Native2 next-native current-consumer closure pins",
-  "materialized": false,
+  "materialized": true,
   "sourceEpoch": {
     "sourceCommit": "400f6e9d123d8a654b9b9af48133a2533506e73d",
     "sourceTree": "664c02504efcece25669d2f9c3fdb26437cd5b09",
@@ -20,8 +20,8 @@ export const currentConsumerPins = Object.freeze({
     "parent": "3da6f9f59fcca6b5ce7e3b55be15357182591edf"
   },
   "reportQcc": {
-    "commit": null,
-    "tree": null,
+    "commit": "117efa387f5db3af8fc316bb5e90068bdc6581ce",
+    "tree": "a18b15ed114f97b73551fa43945dd35cd7368147",
     "parent": "06d5278d28bc346ca9b7bca11622d6c8b4ec5a5a"
   },
   "codePins": {
@@ -130,7 +130,13 @@ export const currentConsumerPins = Object.freeze({
     "tools/citation-navigation-coverage-v2.mjs": "2672538c4087fa4b2fdc5f9dd211134e239f6ede35912ed25801e4027b160ccf",
     "tools/citation-navigation-producer-call-scan-v3.mjs": "96b213168a7abb21078444af01a380990c25c4292564dee0db6915df2f15f879"
   },
-  "contractPins": null,
+  "contractPins": {
+    "research/class-mapping-current-adapters-v2/native-monetary-question-contract-v2.json": "b88ad1a100318c2767709e280f653e267f24523cc5d4a40aa87687d401d02dd7",
+    "research/class-mapping-current-adapters-v2/jo-current-source-gap-contract-v3.json": "616e42e3d5cd2e7c833e33d4724b6863f6804e4e3d0308ce7ddd44485cbd3d01",
+    "research/class-mapping-current-adapters-v2/source-handoff-current-contract-v2.json": "a28d3070484defac53823533a83777260e5e77494ea776e4e5c6d14c8b0a7ba1",
+    "research/class-mapping-current-adapters-v2/ua26-marker-current-contract-v2.json": "5f4e6fd6600a2d0652e61e1b4489cff573ab2a15fd43db818fc6963f4d64965c",
+    "research/class-mapping-current-adapters-v2/source-body-handoff-transition-v2.template.json": "6dad77df6ee363699f112cab51cc21da8a5c0ad294a6ef1c41f3db004e021085"
+  },
   "sourceBodyInputHashes": {
     "attack-matrices.json": "8748dadb1c8f927bed62537c220dbfedbfc476426dc34d0dbd25d2dd21ada76e",
     "citation-overrides.json": "9a24ef45de9969b8ea104e8d5b332bd7c05c47a754c6f3c55813b9ad5b18f7a7",
@@ -3203,11 +3209,13 @@ export const currentConsumerPins = Object.freeze({
     "research/class-mapping-current-adapters-v2/ua26-marker-current-contract-v2.json": "5f4e6fd6600a2d0652e61e1b4489cff573ab2a15fd43db818fc6963f4d64965c",
     "research/class-mapping-current-adapters-v2/source-body-handoff-transition-v2.template.json": "6dad77df6ee363699f112cab51cc21da8a5c0ad294a6ef1c41f3db004e021085"
   },
-  "receiptPins": null,
+  "receiptPins": {
+    "research/class-mapping-current-adapters-v2/source-body-handoff-transition-v2.json": "77ffa3456bf2c46592014fbd802d3e0e4641fe9ae307354d11a13983caf129ce"
+  },
   "materializationTransition": {
     "pendingPinModule": {
       "path": "research/class-mapping-current-adapters-v2/current-consumer-pins-v2.mjs",
-      "sha256": null
+      "sha256": "e4e6d7585138d3f37209b0e9193e1be1514c257b9c60c56ada3efe279bfbd44d"
     }
   }
 });
