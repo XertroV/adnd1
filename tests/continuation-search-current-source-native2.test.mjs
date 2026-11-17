@@ -75,3 +75,13 @@ test('declared continuation owners remain findable and outrank body-only referen
  }
  assert.ok(seen.size>0,'nonempty declared continuation-owner fixture');unchanged(current.proof);
 });
+
+
+import {assertClassMappingCurrentSourceIdentity as assertSource2IdentityFromV8ContinuationSearch} from '../tools/class-mapping-current-source-gate-v2.mjs';
+
+test('v8 Source2 identity gate regression: continuation-search successor',()=>{
+ const identity=assertSource2IdentityFromV8ContinuationSearch();
+ assert.equal(identity.summary.stage,'source2-body-native');
+ assert.equal(identity.summary.sourceCommit,'400f6e9d123d8a654b9b9af48133a2533506e73d');
+ assert.equal(identity.summary.sourceTree,'664c02504efcece25669d2f9c3fdb26437cd5b09');
+});

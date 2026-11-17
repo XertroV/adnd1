@@ -89,3 +89,13 @@ test('detached snapshots cannot change current proof and later warm calls rechec
  detachedIdentity.summary.owners=-1;
  assert.deepEqual(gate.assertClassMappingCurrentSourceIdentity(),{summary:expectedSummary,inputHashes:cold.inputHashes});
 });
+
+
+import {assertClassMappingCurrentSourceIdentity as assertSource2IdentityFromV8ConsumerRuntime} from '../tools/class-mapping-current-source-gate-v2.mjs';
+
+test('v8 Source2 identity gate regression: consumer-runtime successor',()=>{
+ const identity=assertSource2IdentityFromV8ConsumerRuntime();
+ assert.equal(identity.summary.stage,'source2-body-native');
+ assert.equal(identity.summary.sourceCommit,'400f6e9d123d8a654b9b9af48133a2533506e73d');
+ assert.equal(identity.summary.sourceTree,'664c02504efcece25669d2f9c3fdb26437cd5b09');
+});

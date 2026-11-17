@@ -394,3 +394,13 @@ test('the versioned code receipt pins new executable paths and the old registry 
 test('workflow contract successor uses the fresh zero-argument Source2 identity API',()=>{
  const proof=assertClassMappingCurrentSourceIdentity();assert.equal(proof.summary.stage,'source2-body-native');assert.equal(proof.summary.sourceCommit,'400f6e9d123d8a654b9b9af48133a2533506e73d');assert.equal(proof.summary.sourceTree,'664c02504efcece25669d2f9c3fdb26437cd5b09');
 });
+
+
+import {assertClassMappingCurrentSourceIdentity as assertSource2IdentityFromV8WorkflowContract} from '../tools/class-mapping-current-source-gate-v2.mjs';
+
+test('v8 Source2 identity gate regression: workflow-contract successor',()=>{
+ const identity=assertSource2IdentityFromV8WorkflowContract();
+ assert.equal(identity.summary.stage,'source2-body-native');
+ assert.equal(identity.summary.sourceCommit,'400f6e9d123d8a654b9b9af48133a2533506e73d');
+ assert.equal(identity.summary.sourceTree,'664c02504efcece25669d2f9c3fdb26437cd5b09');
+});

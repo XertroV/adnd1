@@ -59,3 +59,13 @@ test('actual Source2 ESM edges keep current native qualification and historical 
  assert.match(historicalBytes,/from ['"]\.\.\/class-mapping-source-epoch-v1\/closed-historical-reader-v1\.mjs['"]/,
   'historical facade retains its exact v1 reader');
 });
+
+
+import {assertClassMappingCurrentSourceIdentity as assertSource2IdentityFromV8ImportBoundary} from '../tools/class-mapping-current-source-gate-v2.mjs';
+
+test('v8 Source2 identity gate regression: consumer-import-boundary successor',()=>{
+ const identity=assertSource2IdentityFromV8ImportBoundary();
+ assert.equal(identity.summary.stage,'source2-body-native');
+ assert.equal(identity.summary.sourceCommit,'400f6e9d123d8a654b9b9af48133a2533506e73d');
+ assert.equal(identity.summary.sourceTree,'664c02504efcece25669d2f9c3fdb26437cd5b09');
+});

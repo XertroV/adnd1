@@ -32,3 +32,13 @@ test('the real UA26 adapter rejects rebound catalogs, changed historical evidenc
  const edits=[['unmaterialized',c=>c.materialized=false],['stale source',c=>c.nativeSourceEpochBinding.sourceCommit='6502b19620e092ced9f3e233f2dc3d5ffc8bd3ec'],['wrong fixture',c=>c.nativeSourceEpochBinding.fixtureSha256='0'.repeat(64)],['semantic grade',c=>c.gradeBoundary.semanticPass=true],['value grade',c=>c.gradeBoundary.sourceValueGrade='APPROVED'],['context grade',c=>c.gradeBoundary.contextualAdequacy='ASSESSED'],['default grade',c=>c.gradeBoundary.defaultSelectionReview='PROMOTED'],['historical census',c=>c.expectedCounts.marked++],['legacy receipt',c=>c.legacyMarkerReceipt.sha256='0'.repeat(64)],['catalog digest',c=>c.currentS1Catalogs[0].sha256='0'.repeat(64)],['catalog omission',c=>c.currentS1Catalogs.pop()],['catalog substitution',c=>c.currentS1Catalogs[0].path='research/unadmitted-catalog.json']];
  for(const[label,edit]of edits){const changed=structuredClone(contract);edit(changed);const backend=createSemanticBackend({contractOverrides:new Map([[contractPath,Buffer.from(JSON.stringify(changed))]])}),api=backend.evaluate(modulePath);assert.throws(()=>api.auditUa26MarkerReceiptWithCurrentSourceEpoch(),/closed Source2 marker contract|three current S1 catalog pins|binding paths|catalog pin differs|frozen H/,label);}
 });
+
+
+import {assertClassMappingCurrentSourceIdentity as assertSource2IdentityFromV8Ua26Marker} from '../tools/class-mapping-current-source-gate-v2.mjs';
+
+test('v8 Source2 identity gate regression: ua26-marker successor',()=>{
+ const identity=assertSource2IdentityFromV8Ua26Marker();
+ assert.equal(identity.summary.stage,'source2-body-native');
+ assert.equal(identity.summary.sourceCommit,'400f6e9d123d8a654b9b9af48133a2533506e73d');
+ assert.equal(identity.summary.sourceTree,'664c02504efcece25669d2f9c3fdb26437cd5b09');
+});

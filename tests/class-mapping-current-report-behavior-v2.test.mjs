@@ -491,3 +491,13 @@ test('each actual dual-role question input retains its mandatory M-sealed static
     assert.throws(() => assertClosedQuestionInputAuthority(missingStatic,source,target), /closed qualified input authority/);
   }
 });
+
+
+import {assertClassMappingCurrentSourceIdentity as assertSource2IdentityFromV8ReportBehavior} from '../tools/class-mapping-current-source-gate-v2.mjs';
+
+test('v8 Source2 identity gate regression: report-behavior successor',()=>{
+ const identity=assertSource2IdentityFromV8ReportBehavior();
+ assert.equal(identity.summary.stage,'source2-body-native');
+ assert.equal(identity.summary.sourceCommit,'400f6e9d123d8a654b9b9af48133a2533506e73d');
+ assert.equal(identity.summary.sourceTree,'664c02504efcece25669d2f9c3fdb26437cd5b09');
+});

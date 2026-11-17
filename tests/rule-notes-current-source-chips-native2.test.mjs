@@ -92,3 +92,13 @@ test('explicit source-note heading and unbound guidance retain predecessor rende
  const item2={id:'table-fixture',title:'Table fixture',table:{columns:[],rows:[],sourceNotesTitle:'Armor Class column key',sourceNotes:[{label:'PHB p. 36 · Plate',text:'Plate mail: AC 3'}]}};
  const pending=ui.ruleTableHTML(item2);assert.match(pending,/Plate mail: AC 3/);assert.match(pending,/Exact source focus unavailable/);assert.doesNotMatch(pending,/data-inline-source/);
 });
+
+
+import {assertClassMappingCurrentSourceIdentity as assertSource2IdentityFromV8RuleNotes} from '../tools/class-mapping-current-source-gate-v2.mjs';
+
+test('v8 Source2 identity gate regression: rule-notes successor',()=>{
+ const identity=assertSource2IdentityFromV8RuleNotes();
+ assert.equal(identity.summary.stage,'source2-body-native');
+ assert.equal(identity.summary.sourceCommit,'400f6e9d123d8a654b9b9af48133a2533506e73d');
+ assert.equal(identity.summary.sourceTree,'664c02504efcece25669d2f9c3fdb26437cd5b09');
+});

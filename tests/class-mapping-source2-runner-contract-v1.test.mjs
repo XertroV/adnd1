@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFileSync, realpathSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import {dirname, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import test from 'node:test';
@@ -7,6 +8,8 @@ import {
   admitBeforeShardSelection,
   deriveSource2Shards,
   readSource2TestRoster,
+  loadSource2MigrationDocument,
+  SOURCE2_MIGRATION_SHA256,
   SOURCE2_BODY_COMMIT,
   SOURCE2_BODY_TREE,
   SOURCE2_DEDICATED_MM_PATH, SOURCE2_DEDICATED_MM_SHA256, SOURCE2_DEDICATED_MM_SIZE_BYTES, SOURCE2_HISTORICAL_MM_MANIFEST_SHA256, SOURCE2_HISTORICAL_MM_COMMIT,
@@ -15,18 +18,29 @@ import {
   SOURCE2_SOURCE_BODY_MAP_SHA256,
   SOURCE2_SHARD_COUNT,
   validateSource2MigrationDocument
-} from '../tools/class-mapping-source2-test-roster-v1.mjs';
-import {parseSource2TapSummary, validateSource2ReceiptSet, SOURCE2_SHARD_CODE_PIN_PATHS, SOURCE2_MM_CODE_PIN_PATHS} from '../tools/class-mapping-source2-test-receipt-core-v1.mjs';
+} from '../tools/class-mapping-source2-test-roster-v2.mjs';
+import {parseSource2TapSummary, validateSource2ReceiptSet, SOURCE2_SHARD_CODE_PIN_PATHS, SOURCE2_MM_CODE_PIN_PATHS} from '../tools/class-mapping-source2-test-receipt-core-v2.mjs';
+import {SOURCE2_O_JOIN_PINS, verifySource2OReceiptJoin, assertVerifiedSource2OJoinProof, assertOutputCommitAncestor} from '../tools/class-mapping-source2-o-receipt-join-v1.mjs';
+import {createRawGitReader} from '../tools/class-mapping-raw-git-v1.mjs';
 
 const repoRoot=realpathSync(resolve(dirname(fileURLToPath(import.meta.url)),'..'));
-const sharedCodePins=[
-  ['tools/class-mapping-current-source-gate-v2.mjs','1'],
-  ['tools/class-mapping-current-consumer-seal-verifier-v2.mjs','2'],
-  ['tools/bind-class-mapping-source-audit-input-commit-v3.mjs','3'],
-  ['tools/class-mapping-source2-test-roster-v1.mjs','4']
-].map(([path,digit])=>({path,sha256:digit.repeat(64),sizeBytes:1}));
-const syntheticPinHashes=new Map([...sharedCodePins.map(row=>[row.path,row.sha256]),['tools/run-class-mapping-tests-source2-shard-v1.mjs','a'.repeat(64)],['tools/class-mapping-source2-test-runner-core-v1.mjs','b'.repeat(64)],['tools/run-historical-mm-replay-source2-receipt-v1.mjs','c'.repeat(64)],['tools/replay-historical-mm-native-tests-source2-v1.mjs','d'.repeat(64)]]);
+const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+const allSyntheticCodePinPaths=[...new Set([...SOURCE2_SHARD_CODE_PIN_PATHS,...SOURCE2_MM_CODE_PIN_PATHS])];
+const syntheticPinHashes=new Map(allSyntheticCodePinPaths.map((path,index)=>[path,String((index%9)+1).repeat(64)]));
 function syntheticCodePins(paths){return paths.map(path=>({path,sha256:syntheticPinHashes.get(path),sizeBytes:1}));}
+let cachedAcceptedRosterFixture;
+function acceptedRosterFixture(){
+  if(cachedAcceptedRosterFixture)return cachedAcceptedRosterFixture;
+  const loaded=loadSource2MigrationDocument(repoRoot),receiptBytes=readFileSync(resolve(repoRoot,SOURCE2_O_JOIN_PINS.metadataReceiptPath));
+  const receipt=JSON.parse(receiptBytes.toString('utf8'));
+  const rawGit=createRawGitReader(repoRoot);
+  const headCommit=rawGit.git('rev-parse','--verify','HEAD^{commit}').toString('utf8').trim();
+  const verifiedReportReceipt=Object.freeze({path:SOURCE2_O_JOIN_PINS.metadataReceiptPath,sha256:sha(receiptBytes),sourceCommit:SOURCE2_O_JOIN_PINS.bodyCommit,sourceTree:SOURCE2_O_JOIN_PINS.bodyTree,reportQccCommit:SOURCE2_O_JOIN_PINS.reportQccCommit,qualifierCodeCommit:SOURCE2_O_JOIN_PINS.reportQccCommit,headCommit,receipt});
+  const outputJoinProof=verifySource2OReceiptJoin(repoRoot,loaded.document.currentSuiteSemantics.reportOutputJoin,verifiedReportReceipt,loaded.sha256);
+  const roster=readSource2TestRoster(repoRoot,verifiedReportReceipt,outputJoinProof);
+  cachedAcceptedRosterFixture={loaded,verifiedReportReceipt,outputJoinProof,roster};
+  return cachedAcceptedRosterFixture;
+}
 
 function syntheticRoster(){
   const entries=Array.from({length:20},(_,index)=>({path:`tests/family-${String(index).padStart(2,'0')}.test.mjs`,sha256:String(index%10).repeat(64),sizeBytes:100+index,kind:'synthetic'}));
@@ -36,15 +50,16 @@ function syntheticRoster(){
 function successfulReceiptSet(roster){
   const shards=deriveSource2Shards(roster),runId='301',runAttempt='2',gitCommit='b'.repeat(40),gitTree='c'.repeat(40);
   const sourceIdentity={summary:{stage:'source2-body-native',sourceCommit:SOURCE2_BODY_COMMIT,sourceTree:SOURCE2_BODY_TREE},inputMapSha256:{sourceBody:SOURCE2_SOURCE_BODY_MAP_SHA256,qualificationMetadata:'d'.repeat(64),protectedHistorical:'e'.repeat(64),installedCode:'f'.repeat(64)},inputMapCounts:SOURCE2_INPUT_MAP_COUNTS};
-  const seal={status:'verified',sha256:'e'.repeat(64)},report={status:'verified',sha256:'f'.repeat(64)};
+  const seal={status:'verified',sha256:'e'.repeat(64)},report={status:'verified',sha256:SOURCE2_O_JOIN_PINS.metadataReceiptSha256};
   const tracked={trackedTreeClean:true};
+  const outputJoinProof={manifestSha256:SOURCE2_MIGRATION_SHA256,reportReceiptSha256:report.sha256,outputCommit:SOURCE2_O_JOIN_PINS.outputCommit,outputTree:SOURCE2_O_JOIN_PINS.outputTree,outputParentCommit:SOURCE2_O_JOIN_PINS.outputParentCommit,bodyCommit:SOURCE2_O_JOIN_PINS.bodyCommit,reportQccCommit:SOURCE2_O_JOIN_PINS.reportQccCommit,metadataReceiptPath:SOURCE2_O_JOIN_PINS.metadataReceiptPath,metadataReceiptSha256:SOURCE2_O_JOIN_PINS.metadataReceiptSha256,reportOutputContractCount:26,newOFileCount:26,newOFileBytes:183170305,currentHeadCommit:gitCommit,currentHeadTree:gitTree};
   const shardReceipts=shards.map((shard,index)=>({
     status:'success',mode:'shard',shardIndex:index,shardCount:4,runId,runAttempt,gitCommit,gitTree,workflowSha:gitCommit,gitCommitAfter:gitCommit,topLevelFamilyCount:225,mainCurrentFamilyCount:224,historicalMmFamilyCount:1,supportTestCount:15,mainCurrentTestFileCount:239,logicalTargetCount:240,historicalMmTargetPath:SOURCE2_DEDICATED_MM_PATH,
     sourceRosterSha256:roster.sourceRosterSha256,sourceRosterSha256After:roster.sourceRosterSha256,
     selectedTestFiles:shard.entries.map(row=>row.path),selectedTestFileHashes:Object.fromEntries(shard.entries.map(row=>[row.path,{sha256:row.sha256,sizeBytes:row.sizeBytes}])),
     attemptedFileCount:shard.entries.length,actualExecutedFiles:shard.entries.map(row=>row.path),tapSummary:{tests:5,pass:5,fail:0,cancelled:0,skipped:0,todo:0},
     nodeExitCode:0,processError:null,signal:null,runnerError:null,sourceIdentityBefore:sourceIdentity,sourceIdentityAfter:sourceIdentity,sourceIdentityUnchanged:true,acceptedTargetUnchanged:true,sourceRosterUnchanged:true,
-    consumerSealBefore:seal,consumerSealAfter:seal,reportReceiptBefore:report,reportReceiptAfter:report,trackedCheckoutBefore:tracked,trackedCheckoutAfter:tracked,distTrackedTreeCleanAfter:true,
+    consumerSealBefore:seal,consumerSealAfter:seal,reportReceiptBefore:report,reportReceiptAfter:report,outputJoinProofBefore:outputJoinProof,outputJoinProofAfter:outputJoinProof,trackedCheckoutBefore:tracked,trackedCheckoutAfter:tracked,distTrackedTreeCleanAfter:true,
     runnerCodePins:syntheticCodePins(SOURCE2_SHARD_CODE_PIN_PATHS)
   }));
   const mmReceipt={
@@ -53,15 +68,15 @@ function successfulReceiptSet(roster){
     historicalMmReplay:{manifestSha256:SOURCE2_HISTORICAL_MM_MANIFEST_SHA256,manifestPath:'research/class-mapping-history-v1/mm-native-capsule-manifest-v1.json',testEntry:SOURCE2_DEDICATED_MM_PATH,testEntryPin:{commit:SOURCE2_HISTORICAL_MM_COMMIT,sha256:SOURCE2_DEDICATED_MM_SHA256,sizeBytes:SOURCE2_DEDICATED_MM_SIZE_BYTES},expectedAssertions:19,actualAssertions:19,passed:19,failed:0,skipped:0,capsuleAndPrivateTmpRemoved:true,activeSourceFilesWritten:false},
     tapSummary:{tests:19,pass:19,fail:0,cancelled:0,skipped:0,todo:0},nodeExitCode:0,processError:null,runnerError:null,
     sourceIdentityBefore:sourceIdentity,sourceIdentityAfter:sourceIdentity,sourceIdentityUnchanged:true,acceptedTargetUnchanged:true,sourceRosterUnchanged:true,
-    consumerSealBefore:seal,consumerSealAfter:seal,reportReceiptBefore:report,reportReceiptAfter:report,trackedCheckoutBefore:tracked,trackedCheckoutAfter:tracked,distTrackedTreeCleanAfter:true,
+    consumerSealBefore:seal,consumerSealAfter:seal,reportReceiptBefore:report,reportReceiptAfter:report,outputJoinProofBefore:outputJoinProof,outputJoinProofAfter:outputJoinProof,trackedCheckoutBefore:tracked,trackedCheckoutAfter:tracked,distTrackedTreeCleanAfter:true,
     signal:null,runnerCodePins:syntheticCodePins(SOURCE2_MM_CODE_PIN_PATHS)
   };
   const currentCodePins=[...new Map([...shardReceipts,mmReceipt].flatMap(row=>row.runnerCodePins).map(row=>[row.path,row])).values()];
-  return {shardReceipts,mmReceipt,runId,runAttempt,gitCommit,gitTree,currentIdentity:sourceIdentity,currentConsumerSeal:seal,currentReportReceipt:report,currentCodePins};
+  return {shardReceipts,mmReceipt,runId,runAttempt,gitCommit,gitTree,currentIdentity:sourceIdentity,currentConsumerSeal:seal,currentReportReceipt:report,currentOutputJoinProof:outputJoinProof,currentCodePins};
 }
 
 test('finite Source2 manifest covers 64 static, 7 dynamic/pin, 153 unchanged and one workflow family',()=>{
-  const roster=readSource2TestRoster(repoRoot);
+  const roster=acceptedRosterFixture().roster;
   assert.deepEqual(roster.familyCounts,{static:64,dynamic:7,unaffected:153,workflow:1,successors:72,exactPrefix:64,semantic:8});
   assert.equal(roster.topLevelFamilyCount,225);
   assert.equal(roster.entries.length,239);
@@ -78,7 +93,7 @@ test('finite Source2 manifest covers 64 static, 7 dynamic/pin, 153 unchanged and
 });
 
 test('Source2 roster preserves every frozen predecessor prefix and the complete navigation replacement proof',()=>{
-  const roster=readSource2TestRoster(repoRoot);
+  const roster=acceptedRosterFixture().roster;
   const originalBytes=readFileSync(resolve(repoRoot,'research/class-mapping-history-v1/original-top-level-test-entries-v1.json'));assert.equal(originalBytes.length,10031);assert.equal(sha(originalBytes),'33e7e87992f529f0c90a39b3a0d7103c49da4127f8d8b03ca663832d648d040e');const original=JSON.parse(originalBytes.toString('utf8'));assert.equal(original.entries.length,200);assert.equal(new Set(original.entries).size,200);
   const r5Bytes=readFileSync(resolve(repoRoot,'research/class-mapping-ci-sharding-v1/r5-test-roster-v1.json'));assert.equal(r5Bytes.length,53707);assert.equal(sha(r5Bytes),'e5f8917bb9f878fa7ae1e5406584988936fc623e173a9d2a0a2613aaf67b0142');const r5=JSON.parse(r5Bytes.toString('utf8'));assert.equal(r5.entries.length,217);assert.equal(new Set(r5.entries.map(row=>row.path)).size,217);
   const predecessorPaths=new Set(roster.document.testFamilies.map(row=>row.predecessorPath));assert.ok(original.entries.every(path=>predecessorPaths.has(path)));assert.ok(r5.entries.every(row=>predecessorPaths.has(row.path)));
@@ -113,22 +128,54 @@ test('a pending or wrong source target rejects before manifest loading or shard 
 });
 
 test('accepted identity gates precede roster and selection in the production runner',()=>{
-  const source=readFileSync(resolve(repoRoot,'tools/class-mapping-source2-test-runner-core-v1.mjs'),'utf8');
+  const source=readFileSync(resolve(repoRoot,'tools/class-mapping-source2-test-runner-core-v2.mjs'),'utf8');
   const runner=source.slice(source.indexOf('export async function runSource2Tests'));
   const gate=runner.indexOf('await verifyFullCurrentTarget()');
-  const roster=runner.indexOf('readSource2TestRoster(root)');
+  const roster=runner.indexOf('readSource2TestRoster(root,targetBefore.reportReceipt,targetBefore.outputJoinProof)');
   const shard=runner.indexOf('deriveSource2Shards(roster)');
   assert.ok(gate>=0&&gate<roster&&roster<shard);
   const fullTarget=source.slice(source.indexOf('export async function verifyFullCurrentTarget'),source.indexOf('function digestIdentity'));
   const identity=fullTarget.indexOf('assertClassMappingCurrentSourceIdentity()');
   const consumerSeal=fullTarget.indexOf('verifyCurrentConsumerMaterializedStageSeal');
   const report=fullTarget.indexOf('verifyCommittedClassMappingReportReceipt');
-  assert.ok(identity>=0&&identity<consumerSeal&&consumerSeal<report);
+  const outputJoin=fullTarget.indexOf('verifySource2OReceiptJoin');
+  assert.ok(identity>=0&&identity<consumerSeal&&consumerSeal<report&&report<outputJoin);
   assert.match(source,/verifyCurrentConsumerMaterializedStageSeal/);
   assert.match(source,/verifyCommittedClassMappingReportReceipt/);
+  assert.match(source,/verifySource2OReceiptJoin/);
+  assert.match(source,/outputJoinProofBefore/);
+  const reducer=readFileSync(resolve(repoRoot,'tools/reduce-class-mapping-test-source2-shards-v1.mjs'),'utf8');
+  assert.ok(reducer.indexOf('await verifyFullCurrentTarget()')<reducer.indexOf('readSource2TestRoster(root,target.reportReceipt,target.outputJoinProof)'));
+  const mm=readFileSync(resolve(repoRoot,'tools/run-historical-mm-replay-source2-receipt-v1.mjs'),'utf8');
+  assert.ok(mm.indexOf('await acceptedTarget()')<mm.indexOf('readSource2TestRoster(root,targetBefore.reportReceipt,targetBefore.outputJoinProof)'));
+  const replay=readFileSync(resolve(repoRoot,'tools/replay-historical-mm-native-tests-source2-v1.mjs'),'utf8');
+  assert.ok(replay.indexOf('await verifyFullCurrentTarget()')<replay.indexOf('readSource2TestRoster(root,targetBefore.reportReceipt,targetBefore.outputJoinProof)'));
+  assert.match(replay,/verifyFullCurrentTarget\(\)/);
   assert.doesNotMatch(source,/test-isolation=none/);
   assert.match(source,/--test-concurrency=1/);
   assert.doesNotMatch(source,/tests\/\*\.mjs/);
+});
+
+test('raw O join rejects substituted commit, tree, parent, receipt, ancestry, and output evidence before roster admission',()=>{
+  const {loaded,verifiedReportReceipt,outputJoinProof}=acceptedRosterFixture();
+  assert.equal(assertVerifiedSource2OJoinProof(outputJoinProof),outputJoinProof);
+  assert.throws(()=>assertVerifiedSource2OJoinProof({...outputJoinProof}),/must come from the raw-Git O verifier/);
+  assert.throws(()=>readSource2TestRoster(repoRoot,verifiedReportReceipt),/join proof must come from the raw-Git O verifier/);
+  assert.throws(()=>verifySource2OReceiptJoin(repoRoot,{...loaded.document.currentSuiteSemantics.reportOutputJoin,outputCommit:'0'.repeat(40)},verifiedReportReceipt,loaded.sha256),/exact v8 O pin outputCommit/);
+  assert.throws(()=>verifySource2OReceiptJoin(repoRoot,{...loaded.document.currentSuiteSemantics.reportOutputJoin,outputTree:'0'.repeat(40)},verifiedReportReceipt,loaded.sha256),/exact v8 O pin outputTree/);
+  assert.throws(()=>verifySource2OReceiptJoin(repoRoot,{...loaded.document.currentSuiteSemantics.reportOutputJoin,outputParentCommit:'0'.repeat(40)},verifiedReportReceipt,loaded.sha256),/exact v8 O pin outputParentCommit/);
+  assert.throws(()=>verifySource2OReceiptJoin(repoRoot,loaded.document.currentSuiteSemantics.reportOutputJoin,{...verifiedReportReceipt,sha256:'0'.repeat(64)},loaded.sha256),/verifier receipt raw SHA256/);
+  assert.throws(()=>verifySource2OReceiptJoin(repoRoot,loaded.document.currentSuiteSemantics.reportOutputJoin,{...verifiedReportReceipt,headCommit:SOURCE2_O_JOIN_PINS.outputParentCommit},loaded.sha256),/verifier headCommit equals raw current HEAD/);
+  assert.throws(()=>verifySource2OReceiptJoin(repoRoot,loaded.document.currentSuiteSemantics.reportOutputJoin,verifiedReportReceipt,'0'.repeat(64)),/exact pinned v8 manifest digest/);
+  const wrongOutput={...verifiedReportReceipt,receipt:structuredClone(verifiedReportReceipt.receipt)};
+  wrongOutput.receipt.outputs[0].rawSha256='0'.repeat(64);
+  assert.throws(()=>verifySource2OReceiptJoin(repoRoot,loaded.document.currentSuiteSemantics.reportOutputJoin,wrongOutput,loaded.sha256),/returned verified receipt object equals raw O metadata receipt/);
+  const rawGit=createRawGitReader(repoRoot);
+  assert.equal(assertOutputCommitAncestor(rawGit,SOURCE2_O_JOIN_PINS.outputCommit,verifiedReportReceipt.headCommit),true);
+  assert.throws(()=>assertOutputCommitAncestor(rawGit,SOURCE2_O_JOIN_PINS.outputCommit,SOURCE2_O_JOIN_PINS.outputParentCommit),/not an ancestor/);
+  assert.throws(()=>assertOutputCommitAncestor({git(){throw new Error('synthetic negative ancestry fixture');}},SOURCE2_O_JOIN_PINS.outputCommit,'f'.repeat(40)),/not an ancestor/);
+  assert.equal(outputJoinProof.outputCommit,SOURCE2_O_JOIN_PINS.outputCommit);
+  assert.equal(outputJoinProof.reportOutputContractCount,26);
 });
 
 test('receipt reducer accepts complete exact-coverage receipts for one run and Source2 target',()=>{
@@ -141,6 +188,8 @@ test('receipt reducer accepts complete exact-coverage receipts for one run and S
   const broken=structuredClone(set.shardReceipts);
   broken[2].sourceRosterSha256='0'.repeat(64);
   assert.throws(()=>validateSource2ReceiptSet({...set,shardReceipts:broken,shardJobResult:'success',mmJobResult:'success',roster,currentIdentity:set.currentIdentity,currentConsumerSeal:set.currentConsumerSeal,currentReportReceipt:set.currentReportReceipt}),/exact roster hash/);
+  const wrongJoin=structuredClone(set.shardReceipts);wrongJoin[1].outputJoinProofAfter.outputCommit='0'.repeat(40);assert.throws(()=>validateSource2ReceiptSet({...set,shardReceipts:wrongJoin,shardJobResult:'success',mmJobResult:'success',roster}),/current seal\/report\/O-join pins before\/after|exact current raw O\/receipt join/);
+  assert.throws(()=>validateSource2ReceiptSet({...set,currentOutputJoinProof:undefined,shardJobResult:'success',mmJobResult:'success',roster}),/fresh accepted Source2 identity, consumer seal, report receipt, and O join proof/);
 });
 
 test('receipt reducer rejects hidden skips, todos, failures, incomplete files, and stale attempts',()=>{
@@ -183,7 +232,7 @@ test('failed, cancelled, nonzero, and incomplete execution outcomes reject',()=>
   assert.throws(()=>validateSource2ReceiptSet({...base,mmJobResult:undefined}),/both workflow jobs report success/);
 });
 
-test('run, attempt, checkout, Source2 inputs, consumer seal, and report receipt cannot drift',()=>{
+test('run, attempt, checkout, Source2 inputs, consumer seal, report receipt, and O join cannot drift',()=>{
   const roster=syntheticRoster(),set=successfulReceiptSet(roster),base={...set,shardJobResult:'success',mmJobResult:'success',roster,currentIdentity:set.currentIdentity,currentConsumerSeal:set.currentConsumerSeal,currentReportReceipt:set.currentReportReceipt};
   const run=structuredClone(set.shardReceipts);run[1].runId='999';assert.throws(()=>validateSource2ReceiptSet({...base,shardReceipts:run}),/exact run\/attempt\/commit/);
   const attempt=structuredClone(set.shardReceipts);attempt[1].runAttempt='9';assert.throws(()=>validateSource2ReceiptSet({...base,shardReceipts:attempt}),/exact run\/attempt\/commit/);
@@ -195,6 +244,7 @@ test('run, attempt, checkout, Source2 inputs, consumer seal, and report receipt 
   const stale=structuredClone(set.shardReceipts);stale[2].sourceIdentityBefore.inputMapSha256.sourceBody='8'.repeat(64);stale[2].sourceIdentityAfter=structuredClone(stale[2].sourceIdentityBefore);assert.throws(()=>validateSource2ReceiptSet({...base,shardReceipts:stale}),/exact current Source2 input-map and epoch pins/);
   const seal=structuredClone(set.mmReceipt);seal.consumerSealAfter.sha256='8'.repeat(64);assert.throws(()=>validateSource2ReceiptSet({...base,mmReceipt:seal}),/MM current/);
   const report=structuredClone(set.mmReceipt);report.reportReceiptBefore.sha256='8'.repeat(64);assert.throws(()=>validateSource2ReceiptSet({...base,mmReceipt:report}),/MM current/);
+  const outputJoin=structuredClone(set.mmReceipt);outputJoin.outputJoinProofAfter.metadataReceiptSha256='8'.repeat(64);assert.throws(()=>validateSource2ReceiptSet({...base,mmReceipt:outputJoin}),/MM current seal\/report\/O-join pins before\/after|MM exact current raw O\/receipt join/);
   const incompleteMap=structuredClone(set.currentIdentity);incompleteMap.inputMapCounts.sourceBody=3062;assert.throws(()=>validateSource2ReceiptSet({...base,currentIdentity:incompleteMap}),/complete sourceBody input map cardinality/);
   const substitutedBodyMap=structuredClone(set.currentIdentity);substitutedBodyMap.inputMapSha256.sourceBody='8'.repeat(64);assert.throws(()=>validateSource2ReceiptSet({...base,currentIdentity:substitutedBodyMap}),/canonical complete 3,063-path sourceBody map SHA256/);
 });
