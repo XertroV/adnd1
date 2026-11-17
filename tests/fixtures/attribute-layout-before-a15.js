@@ -1,0 +1,6 @@
+function attributeLayoutHTML(item,{equipment=false}={}){
+ const rows=attributeRows(item,{equipment});
+ if(attributeMode==='table')return `<div class="attribute-table-wrap"><table class="attribute-table"><caption class="sr-only">Extracted attributes for ${esc(item.name||item.title||item._title)}</caption><thead><tr><th scope="col">Source field</th><th scope="col">Extracted value</th>${equipment?'<th scope="col">Source</th>':''}</tr></thead><tbody>${rows.map(({label,value,reference,estimated})=>`<tr data-field-label="${esc(label)}"><th scope="row">${esc(label)}</th><td>${esc(fieldValue(value))}</td>${equipment?`<td>${reference?inlineSourceChip(reference,`${item.name} · ${label}`):estimated?'<span class="small muted">Estimate; no printed price citation</span>':'<span class="small muted">Field citation pending</span>'}</td>`:''}</tr>`).join('')}</tbody></table></div>`;
+ const cited=rows.filter(row=>row.reference);
+ return `<dl class="compact-facts ${equipment?'equipment-facts':'spell-facts'}">${rows.map(attributeFactHTML).join('')}</dl>${cited.length?`<details class="attribute-citations" data-attribute-citations><summary>Field sources</summary><div class="attribute-citation-list">${cited.map(({label,reference})=>`<div><span>${esc(label)}</span>${inlineSourceChip(reference,`${item.name} · ${label}`)}</div>`).join('')}</div></details>`:''}`;
+}

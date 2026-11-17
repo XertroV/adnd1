@@ -33,7 +33,7 @@ jobs:
       - name: Run exact current test shard
         timeout-minutes: 350
         env:
-          TMPDIR: ${{ runner.temp }}/adnd1-source2-shard-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard_index }}
+          TMPDIR: /tmp/adnd1-source2-shard-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard_index }}
         run: |
           mkdir -p "$TMPDIR"
           node tools/run-class-mapping-tests-source2-shard-v1.mjs \
