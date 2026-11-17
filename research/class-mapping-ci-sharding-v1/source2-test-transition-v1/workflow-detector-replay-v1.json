@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "kind": "prospective-workflow-migration-detector-replay",
+  "at": "2026-11-16T20:31:51.749Z",
+  "status": "PASS",
+  "scope": "Isolated exact old workflow assertion callback with registered buffers; prospective candidate reproduction, NOT an actual CI/full-suite failure or pass.",
+  "originalTest": {
+    "path": "tests/class-mapping-test-sharding-contract-v1.test.mjs",
+    "sha256": "7d4cd45681c0cbbba6ecb4cb9895a108150b65de6e9cb61ea8ca90e478d5ae2a",
+    "callbackSha256": "a47450ed5cf802834070461b337ec4e5f098f28a690cdb1386e28f78ad41778f"
+  },
+  "beforeWorkflowSha256": "fa7dcf6701e5622a71161880ea1006ea0104e428c9d63fae1b5276b3494023df",
+  "candidateWorkflowSha256": "825e0ce775a87878cd346b74b2ea38d8394738aef04899bd47ba4dfee0bf66a3",
+  "manifestSha256": "4703cbd75b933029844d10077d08de78a8009818fde9c2696c4771ae22bc3f3a",
+  "controls": [
+    {
+      "name": "all original report commands and pinned actions remain in the gated workflow",
+      "status": "PASS"
+    },
+    {
+      "name": "all original report commands and pinned actions remain in the gated workflow",
+      "status": "REJECTED",
+      "error": "lost original report block:       - name: Verify committed static output is current"
+    },
+    {
+      "name": "reviewed per-block successor guard accepts proposed workflow",
+      "status": "PASS"
+    },
+    {
+      "name": "balanced role substitution rejected even after rebinding summary workflow hash",
+      "status": "PASS",
+      "counterfactualWorkflowSha256": "cb0de7e9cbfab3c619cbae4583736f9cf800e5cf5970b9909566ab5e2a14da7c"
+    },
+    {
+      "name": "duplicate approved role with unchanged24count is rejected",
+      "status": "PASS"
+    }
+  ],
+  "limits": [
+    "Original test file and current workflow remain unchanged.",
+    "This covers the workflow callback only; all other predecessor sharding/registry assertions still require current or explicitly historical coverage.",
+    "Runtime CLI equivalence and complete Source2 suite remain pending."
+  ]
+}

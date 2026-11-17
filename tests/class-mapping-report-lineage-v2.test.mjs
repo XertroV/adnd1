@@ -1,0 +1,26 @@
+// Synthetic transport controls; these do not qualify an installed M/N/O.
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import vm from 'node:vm';
+import * as c from '../tools/class-mapping-report-input-contract-v3.mjs';
+const source=readFileSync(new URL('../tools/class-mapping-report-lineage-v2.mjs',import.meta.url),'utf8');
+assert.equal([...source.matchAll(/^import .*;$/gm)].length,6);
+const code=source.replace(/^import .*;\n/gm,'').replaceAll('export function ','function ').replaceAll('import.meta.url',JSON.stringify('file:///fixture/tools/lineage.mjs'))+'\nglobalThis.subject={assertNative2Lineage,assertRawBlobSha256};';
+const clone=x=>structuredClone(x),bad='f'.repeat(40);
+function input(){return {sourceEpoch:{sourceCommit:c.SOURCE_BODY_COMMIT,sourceTree:c.SOURCE_BODY_TREE,parentCommit:c.SOURCE_BODY_PARENT},coreCode:clone(c.CORE_CODE_IDENTITY),metadata:clone(c.METADATA_IDENTITY),reportQcc:{commit:'1'.repeat(40),tree:'2'.repeat(40),parent:c.METADATA_COMMIT}};}
+function fixture(change=()=>{}){
+ const rows=[{commit:c.SOURCE_BODY_COMMIT,tree:c.SOURCE_BODY_TREE,parent:c.SOURCE_BODY_PARENT},clone(c.CORE_CODE_IDENTITY),clone(c.METADATA_IDENTITY),input().reportQcc];
+ const state={objects:new Map(rows.map(r=>[r.commit,{tree:r.tree,parents:[r.parent]}])),overrides:new Map(),viewFailure:0},proofs=[];let views=0;change(state);
+ const raw={assertView(){if(++views===state.viewFailure)throw Error('view changed');},git(...args){const key=args.join(' ');if(state.overrides.has(key))return Buffer.from(state.overrides.get(key));if(args[0]==='cat-file')return Buffer.from(JSON.stringify(state.objects.get(args[2])));const q=args[2],id=q.slice(0,40);if(q.endsWith('^{commit}')&&state.objects.has(id))return Buffer.from(id);if(q.endsWith('^{tree}'))return Buffer.from(id===c.SOURCE_BODY_PARENT?c.SOURCE_BODY_PARENT_TREE:state.objects.get(id).tree);throw Error('unexpected mock raw request');}};
+ const context=vm.createContext({...c,Buffer,URL,createHash,realpathSync:()=>'/fixture',resolve:()=>'/fixture',fileURLToPath:()=>'/fixture',createRawGitReader:()=>raw,verifyRawCommit(bytes,commit,tree,parent){proofs.push(commit);const r=JSON.parse(bytes);assert.equal(r.tree,tree);assert.deepEqual(r.parents,[parent]);}});
+ vm.runInContext(code,context);return {subject:context.subject,proofs,views:()=>views};
+}
+test('exact B/K/L/M lineage checks all four raw parent proofs and brackets the view',()=>{const f=fixture(),v=f.subject.assertNative2Lineage(input());assert.equal(v.reportQcc.commit,'1'.repeat(40));assert.equal(f.views(),2);assert.deepEqual(f.proofs,[c.SOURCE_BODY_COMMIT,c.CORE_CODE_COMMIT,c.METADATA_COMMIT,'1'.repeat(40)]);assert.ok(Object.isFrozen(v)&&Object.isFrozen(v.metadata));});
+test('wrong fixed B identity, K/L rows and M parent all reject',()=>{for(const owner of ['sourceEpoch','coreCode','metadata'])for(const key of Object.keys(input()[owner])){const v=input();v[owner][key]=bad;assert.throws(()=>fixture().subject.assertNative2Lineage(v),/fixed/);}for(const parent of [c.SOURCE_BODY_COMMIT,c.CORE_CODE_COMMIT]){const v=input();v.reportQcc.parent=parent;assert.throws(()=>fixture().subject.assertNative2Lineage(v),/directly parent/);}});
+test('raw commit and tree mismatches reject even when declared identities match',()=>{for(const id of [c.SOURCE_BODY_COMMIT,c.CORE_CODE_COMMIT,c.METADATA_COMMIT,'1'.repeat(40)])for(const type of ['commit','tree']){const f=fixture(s=>s.overrides.set('rev-parse --verify '+id+'^{'+type+'}',bad));assert.throws(()=>f.subject.assertNative2Lineage(input()),/raw commit/);}const f=fixture(s=>s.overrides.set('rev-parse --verify '+c.SOURCE_BODY_PARENT+'^{tree}',bad));assert.throws(()=>f.subject.assertNative2Lineage(input()),/parent tree/);});
+test('all four exact single-parent constraints are supplied to raw commit verification',()=>{for(const id of [c.SOURCE_BODY_COMMIT,c.CORE_CODE_COMMIT,c.METADATA_COMMIT,'1'.repeat(40)]){const f=fixture(s=>s.objects.get(id).parents.push(bad));assert.throws(()=>f.subject.assertNative2Lineage(input()),/deep-equal/);}});
+test('view failures reject before and after traversal',()=>{for(const n of [1,2])assert.throws(()=>fixture(s=>s.viewFailure=n).subject.assertNative2Lineage(input()),/view changed/);});
+test('blob proof hashes the requested bytes and rejects a false expected SHA',()=>{const f=fixture(),bytes=Buffer.from('bounded fixture\n'),sha=createHash('sha256').update(bytes).digest('hex'),calls=[];const r=f.subject.assertRawBlobSha256(c.SOURCE_BODY_COMMIT,'dist/app.js',sha,(...args)=>{calls.push(args);return bytes;});assert.deepEqual(calls,[[c.SOURCE_BODY_COMMIT,'dist/app.js']]);assert.equal(r.sha256,sha);assert.equal(r.sizeBytes,bytes.length);assert.throws(()=>f.subject.assertRawBlobSha256(c.SOURCE_BODY_COMMIT,'dist/app.js','0'.repeat(64),()=>bytes),/blob SHA-256 differs/);});
+test('blob proof rejects missing readers and malformed digests',()=>{const f=fixture();assert.throws(()=>f.subject.assertRawBlobSha256(c.SOURCE_BODY_COMMIT,'x','0'.repeat(64),null),/invalid blob proof/);assert.throws(()=>f.subject.assertRawBlobSha256(c.SOURCE_BODY_COMMIT,'x','BAD',()=>Buffer.alloc(0)),/invalid blob proof/);});

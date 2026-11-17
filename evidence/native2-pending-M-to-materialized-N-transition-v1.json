@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "Native2 pending-M to materialized-N closure transition contract",
+  "status": "candidate contract payloads are fixed and immutable; actual M/N pins, seal and receipt remain pending",
+  "sourceEpoch": {
+    "commit": "400f6e9d123d8a654b9b9af48133a2533506e73d",
+    "tree": "664c02504efcece25669d2f9c3fdb26437cd5b09",
+    "fixtureSha256": "a333c3920f5ec5d3dbdca4b32673dd22ba94c77807794103af3eb21af71b14c2"
+  },
+  "metadataStage": {
+    "commit": "06d5278d28bc346ca9b7bca11622d6c8b4ec5a5a",
+    "tree": "3d9f4953dfd8a62674e81cefdec89cf1cc2320f9",
+    "parent": "3da6f9f59fcca6b5ce7e3b55be15357182591edf"
+  },
+  "reportQccM": {
+    "commit": null,
+    "tree": null,
+    "parent": "06d5278d28bc346ca9b7bca11622d6c8b4ec5a5a",
+    "status": "pending"
+  },
+  "payloads": [
+    {
+      "path": "research/class-mapping-current-adapters-v2/native-monetary-question-contract-v2.json",
+      "MExpectedSha256": "b88ad1a100318c2767709e280f653e267f24523cc5d4a40aa87687d401d02dd7",
+      "NExpectedSha256": "b88ad1a100318c2767709e280f653e267f24523cc5d4a40aa87687d401d02dd7",
+      "MtoN": "byte-identical"
+    },
+    {
+      "path": "research/class-mapping-current-adapters-v2/jo-current-source-gap-contract-v3.json",
+      "MExpectedSha256": "616e42e3d5cd2e7c833e33d4724b6863f6804e4e3d0308ce7ddd44485cbd3d01",
+      "NExpectedSha256": "616e42e3d5cd2e7c833e33d4724b6863f6804e4e3d0308ce7ddd44485cbd3d01",
+      "MtoN": "byte-identical"
+    },
+    {
+      "path": "research/class-mapping-current-adapters-v2/source-handoff-current-contract-v2.json",
+      "MExpectedSha256": "a28d3070484defac53823533a83777260e5e77494ea776e4e5c6d14c8b0a7ba1",
+      "NExpectedSha256": "a28d3070484defac53823533a83777260e5e77494ea776e4e5c6d14c8b0a7ba1",
+      "MtoN": "byte-identical"
+    },
+    {
+      "path": "research/class-mapping-current-adapters-v2/ua26-marker-current-contract-v2.json",
+      "MExpectedSha256": "5f4e6fd6600a2d0652e61e1b4489cff573ab2a15fd43db818fc6963f4d64965c",
+      "NExpectedSha256": "5f4e6fd6600a2d0652e61e1b4489cff573ab2a15fd43db818fc6963f4d64965c",
+      "MtoN": "byte-identical"
+    },
+    {
+      "path": "research/class-mapping-current-adapters-v2/source-body-handoff-transition-v2.template.json",
+      "MExpectedSha256": "6dad77df6ee363699f112cab51cc21da8a5c0ad294a6ef1c41f3db004e021085",
+      "NExpectedSha256": "6dad77df6ee363699f112cab51cc21da8a5c0ad294a6ef1c41f3db004e021085",
+      "MtoN": "byte-identical; sourceEpoch.fixture.sha256 remains null"
+    }
+  ],
+  "semantics": {
+    "allFivePayloadsByteIdenticalMtoN": true,
+    "materializedCoreBindings": {
+      "monetary": "true, root-authorized core binding only",
+      "jo": "true, root-authorized core readiness only",
+      "sourceHandoff": "true, root-authorized core readiness only",
+      "ua26": "true, root-authorized core readiness only"
+    },
+    "allTrueFlagsRemainIndependentOfReportPinsSealsAndReceipt": true,
+    "handoffCurrentTransitionSha256RemainsNull": true,
+    "handoffReceiptShaBoundSeparatelyByReceiptPinsAndSeal": true,
+    "transitionTemplateRemainsUnmaterialized": true,
+    "questionStatusesAndGradesChanged": false,
+    "reportM_N_OQualified": false,
+    "publicationReady": false
+  },
+  "pendingContractDigests": {
+    "research/class-mapping-current-adapters-v2/native-monetary-question-contract-v2.json": "b88ad1a100318c2767709e280f653e267f24523cc5d4a40aa87687d401d02dd7",
+    "research/class-mapping-current-adapters-v2/jo-current-source-gap-contract-v3.json": "616e42e3d5cd2e7c833e33d4724b6863f6804e4e3d0308ce7ddd44485cbd3d01",
+    "research/class-mapping-current-adapters-v2/source-handoff-current-contract-v2.json": "a28d3070484defac53823533a83777260e5e77494ea776e4e5c6d14c8b0a7ba1",
+    "research/class-mapping-current-adapters-v2/ua26-marker-current-contract-v2.json": "5f4e6fd6600a2d0652e61e1b4489cff573ab2a15fd43db818fc6963f4d64965c",
+    "research/class-mapping-current-adapters-v2/source-body-handoff-transition-v2.template.json": "6dad77df6ee363699f112cab51cc21da8a5c0ad294a6ef1c41f3db004e021085"
+  },
+  "pendingCurrentPinsSha256": null,
+  "materializedCurrentPinsSha256": null,
+  "scopeEvidence": {
+    "sourceBinding": {
+      "path": "evidence/live-core-source-binding-scope-proof-v1.json",
+      "sha256": "7198400deb09a146ec99183589fb48857d4c53748221b46e37a079a3e169b9e0"
+    },
+    "flagDelta": {
+      "path": "evidence/scoped-materialization-core-contract-flag-delta-v1.json",
+      "sha256": "3ab28dbb0c704ca343c054d05fed086ceca097690a267002358bad7c61460561"
+    },
+    "semanticRebindProof": {
+      "path": "research/class-mapping-current-adapters-v2/native2-contract-rebind-proof-v1.json",
+      "sha256": "a6104a2e59c7eed1bd84a81a0c72616161205c7b822de744d800f67a1d76c8f0"
+    }
+  }
+}

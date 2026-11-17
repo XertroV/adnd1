@@ -1,0 +1,59 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {buildInventory} from '../tools/source-scan-inventory.mjs';
+const require=createRequire(import.meta.url),books=require('../dist/books.js');
+const before=JSON.parse(readFileSync(new URL('./fixtures/dmg175-supplement-before.json',import.meta.url),'utf8'));
+test('frozen before fixture preserves the known inaccurate printing-unknown status',()=>{
+ const bytes=readFileSync(new URL('./fixtures/dmg175-supplement-before.json',import.meta.url));
+ assert.equal(createHash('sha256').update(bytes).digest('hex'),'4748e6db25f07ca65bc69ebeed0ef12e442abf8bc3a6cc11718b731acaa581a5');
+ assert.equal(before.input.commit,'0e6932468ae4ef8593c20f34dc8d44af87bb0a85');
+ assert.equal(before.input.publishedDataSha256,'ff4cf9b944f6584f2b3ea219068c552fd554a586e449ffc6999e93bf01343470');
+ assert.deepEqual(before.beforePrivateEvidence,{available:true,printing:'unknown',published:false});
+ assert.equal(before.page.originalPdfContainsPrintedPage,false);
+ assert.equal(before.supplementalImage.userConfirmedCorrectEdition,true);
+ assert.match(before.knownFailure,/unknown printing.*user confirmed/i);
+ assert.equal(before.affectedRecord.pointer,'/rules/35/references/0');
+});
+test('supplemental DMG p.175 evidence remains separate from the missing PDF page',()=>{
+ assert.equal(books.availability('DMG',175),'missing');
+ assert.equal(books.pdfPage('DMG',175),null);
+ const evidence=books.supplementalEvidence('DMG',175);
+ assert.equal(evidence.editionStatus,'user-confirmed-correct-edition');
+ assert.equal(evidence.printingStatus,'not-specified');
+ assert.equal(evidence.originalPdfContainsPrintedPage,false);
+ assert.equal(evidence.originalPdfSha256,'7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669');
+ assert.equal(evidence.imageSha256,'e4acdde4a9fed34ae4c60945db53a37e9e7d1b3682f967bc83ccc481e63e5ba7');
+ assert.equal(evidence.published,false);
+ assert.deepEqual(books.privateEvidence('DMG',175),evidence);
+ assert.match(books.missingPageNotice('DMG',175),/absent from the supplied DMG PDF.*user confirmed.*correct edition.*limited excerpts are available as source evidence/i);
+ assert.doesNotMatch(books.missingPageNotice('DMG',175),/two limited excerpts/i);
+ assert.doesNotMatch(books.missingPageNotice('DMG',175),/printing (?:is )?(?:unknown|unverified)/i);
+ assert.equal(books.privateEvidence('DMG',176),null);
+ assert.equal(books.privateEvidence('PHB',175),null);
+ const inventory=buildInventory({rules:[{id:'private-dmg-page',title:'Reference',book:'DMG',pages:[175]}]});
+ const p=inventory.pages.find(p=>p.book==='DMG'&&p.page===175);
+ assert.equal(p.pdfPage,null);assert.equal(p.availability,'missing');assert.equal(p.evidenceAvailability,'supplemental');assert.equal(p.missing,true);assert.equal(p.suppliedCropPixels,false);
+ assert.equal(p.supplementalEvidence.editionStatus,'user-confirmed-correct-edition');
+ assert.equal(p.supplementalEvidence.originalPdfContainsPrintedPage,false);
+ const blocked=inventory.queue.blocked.find(p=>p.book==='DMG'&&p.page===175);
+ assert.match(blocked.reason,/absent from the supplied PDF.*user confirmed the separate image is from the correct edition.*bounded limited excerpts are available as source evidence/i);
+ assert.doesNotMatch(blocked.reason,/two limited excerpts/i);
+ assert.doesNotMatch(blocked.reason,/obtain/i);
+ assert.ok(!inventory.queue.batches.some(b=>b.book==='DMG'&&b.pages.includes(175)));
+ assert.equal(books.availability('DMG',239),'invalid');assert.equal(books.availability('DMG',240),'invalid');assert.deepEqual(inventory.pages.filter(p=>p.book==='DMG'&&(p.page===239||p.page===240)),[]);
+});
+
+
+// Source2 migration admission: the preserved predecessor assertions below exercise the current runtime.
+import { test as source2IdentityTest_20261116 } from 'node:test';
+import { strict as source2Assert_20261116 } from 'node:assert';
+import { assertClassMappingCurrentSourceIdentity as assertSource2Identity_20261116 } from '../tools/class-mapping-current-source-gate-v2.mjs';
+source2IdentityTest_20261116('Source2 current source identity is freshly admitted', () => {
+  const identity = assertSource2Identity_20261116();
+  source2Assert_20261116.equal(identity.summary.stage, 'source2-body-native');
+  source2Assert_20261116.equal(identity.summary.sourceCommit, '400f6e9d123d8a654b9b9af48133a2533506e73d');
+  source2Assert_20261116.equal(identity.summary.sourceTree, '664c02504efcece25669d2f9c3fdb26437cd5b09');
+});
