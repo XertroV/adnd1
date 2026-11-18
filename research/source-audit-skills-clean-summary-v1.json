@@ -1,0 +1,462 @@
+{
+  "schema": "skills-source-audit-clean-summary-v1",
+  "derived_from": {
+    "artifact": "source-first-skills-audit-v1.json",
+    "sha256": "0819e66f656ada378804510ccf44bfc044bacc0cc385e2a17ef30b6d70dfc2b0"
+  },
+  "sources": {
+    "DMG": {
+      "sha256": "7052949697a009497e5a828d5cf67998df034e30569584110781be46c6de8669",
+      "bytes": 46298255,
+      "pdf_pages": 240,
+      "reviewed_locator": {
+        "pdf_page": 13,
+        "printed_page": 12
+      }
+    },
+    "UA": {
+      "sha256": "e06818cbcce7e4605837ad767e9930c126f43b08d3ce358e14746c7b73eed4f4",
+      "bytes": 28587063,
+      "pdf_pages": 130,
+      "reviewed_locators": [
+        {
+          "pdf_page": 20,
+          "printed_page": 19
+        },
+        {
+          "pdf_page": 21,
+          "printed_page": 20
+        }
+      ]
+    }
+  },
+  "scope": {
+    "pixel_review": "DMG p.12 and UA Barbarian pp.19–20 were inspected from rendered source pixels with printed footers read.",
+    "not_reviewed": [
+      "No complete DMG/UA book-wide system census.",
+      "No full Barbarian mechanics grade.",
+      "UA p.20 level-actions table and Barbarian Horde text are outside this skills audit.",
+      "No live browser/HTTPS search validation for these two entries."
+    ]
+  },
+  "source_findings": {
+    "DMG_p12": {
+      "heading": "PLAYER CHARACTER NON-PROFESSIONAL SKILLS; separate SECONDARY SKILLS TABLE.",
+      "assignment_and_use": [
+        "The class is treated as the character’s previous primary profession; minor mundane knowledge may derive from earlier years or incidental apprenticeship.",
+        "If secondary skills are used in the campaign, the page allows assignment to player characters and optionally henchmen.",
+        "The DM may select to fit background or assign randomly from the percentile table.",
+        "Prose separately says to roll to determine whether a second skill is known and, on a TWO SKILLS result, assign a second appropriate skill.",
+        "The table’s 86–00 result says to roll twice and ignore that result thereafter. The page does not explicitly equate that wording with the prose phrase; keep them distinct.",
+        "The DM creates/adjudicates circumstances of use. Examples: judging general worth/soundness, finding food, small repairs, crude construction; an armorer could judge normal armor quality, repair chain links, and perhaps fashion certain weapons.",
+        "To gauge extent, consider what a person who knows a little about the subject could do and use that as a relative scale."
+      ],
+      "table": {
+        "columns": [
+          "Dice Score",
+          "Result"
+        ],
+        "row_count": 23,
+        "rows": [
+          [
+            "01–02",
+            "Armorer"
+          ],
+          [
+            "03–04",
+            "Bowyer/fletcher"
+          ],
+          [
+            "05–10",
+            "Farmer/gardener"
+          ],
+          [
+            "11–14",
+            "Fisher (netting)"
+          ],
+          [
+            "15–20",
+            "Forester"
+          ],
+          [
+            "21–23",
+            "Gambler"
+          ],
+          [
+            "24–27",
+            "Hunter/fisher (hook and line)"
+          ],
+          [
+            "28–32",
+            "Husbandman (animal husbandry)"
+          ],
+          [
+            "33–34",
+            "Jeweler/lapidary"
+          ],
+          [
+            "35–37",
+            "Leather worker/tanner"
+          ],
+          [
+            "38–39",
+            "Limner/painter"
+          ],
+          [
+            "40–42",
+            "Mason/carpenter"
+          ],
+          [
+            "43–44",
+            "Miner"
+          ],
+          [
+            "45–46",
+            "Navigator (fresh or salt water)"
+          ],
+          [
+            "47–49",
+            "Sailor (fresh or salt)"
+          ],
+          [
+            "50–51",
+            "Shipwright (boats or ships)"
+          ],
+          [
+            "52–54",
+            "Tailor/weaver"
+          ],
+          [
+            "55–57",
+            "Teamster/freighter"
+          ],
+          [
+            "58–60",
+            "Trader/barterer"
+          ],
+          [
+            "61–64",
+            "Trapper/furrier"
+          ],
+          [
+            "65–67",
+            "Woodworker/cabinetmaker"
+          ],
+          [
+            "68–85",
+            "No skill of measurable worth"
+          ],
+          [
+            "86–00",
+            "Roll twice ignoring this result hereafter"
+          ]
+        ],
+        "coverage": "The printed percentile bands span 01–00 (100) without a visible gap or overlap."
+      },
+      "system_scope": {
+        "direct_observation": "This page gives an optional assignment table and DM-adjudicated limited background-knowledge examples. It contains no general nonweapon proficiency catalogue, rank progression, check formula, or universal skill-resolution procedure.",
+        "bounded_classification": "Page-specific secondary/background skills; not evidence on its own of a universal nonweapon proficiency subsystem.",
+        "editorial_caution": "Any sentence saying the page does not provide a universal proficiency-check system is an interpretation of this page, not source wording."
+      }
+    },
+    "UA_Barbarian_pp19_20": {
+      "category_terms": "The UA text calls these primary abilities, secondary abilities, and tertiary skills.",
+      "primary_category_names_only": [
+        "Climb cliffs and trees",
+        "Hide in natural surroundings",
+        "Surprise",
+        "Back protection",
+        "Leaping and springing",
+        "Detect illusion",
+        "Detect magic",
+        "Leadership"
+      ],
+      "secondary_abilities": [
+        {
+          "name": "Survival",
+          "source_scope": "Wild survival: hunting, small-animal trapping, food gathering, shelter/body covering, and fire building."
+        },
+        {
+          "name": "First aid",
+          "source_scope": "For the Barbarian: bind wounds, set sprains/broken bones, make natural antidotes/cures; immediately regain 1 hp, then recover at twice the normal rate (2 hp/day resting; 1 hp/day active/adventuring). For others, binding prevents further hp loss; the page says this aid restores 1 hp and increases recovery by 100% if continued aid/cures are administered. Natural poison/illness cure chance is 10%; if the cause is known, the chance is 50 plus the victim’s Constitution score."
+        },
+        {
+          "name": "Outdoor craft",
+          "source_scope": "Plant/animal detection as a 3rd-level druid ability, direction finding, and weather prediction as if the same-named spell were cast by a 3rd-level druid."
+        },
+        {
+          "name": "Tracking",
+          "source_scope": "Equal to a ranger of the same level, but the Barbarian may track only outdoors."
+        }
+      ],
+      "tertiary_selection_and_native_territory": [
+        "Every Barbarian possesses all four secondary abilities.",
+        "Secondary abilities are generally unusable, certainly not at full potential, in unfamiliar areas. A new locale with different flora, fauna, and climate becomes usable after about one month of continual exposure.",
+        "A Barbarian has one or more listed tertiary skills depending on locale/culture; the DM determines which options apply according to the campaign.",
+        "Native territory matters: a Barbarian must come from an out-of-the-way barbaric state/area in the campaign; the page gives cavemen, dervishes, nomads, and tribesmen as examples.",
+        "Native area informs initial weapons and serves as the basis for judging secondary abilities. Those abilities are severely limited outside the native territory until familiarity increases.",
+        "The page supplies Greyhawk cultural/regional examples for Frost/Ice/Snow/Stonefist, Rovers and other nomad groups, and Amedio/Hepmonaland; examples tie culture to selected tertiary skills."
+      ],
+      "tertiary_options": [
+        {
+          "name": "Animal handling",
+          "source_scope": "Handle/domesticate wild animals, usually dogs and possibly wolves, large birds, giant lynxes, etc."
+        },
+        {
+          "name": "Horsemanship",
+          "source_scope": "Use a horse in combat; may include handling draft teams."
+        },
+        {
+          "name": "Long distance signalling",
+          "source_scope": "Native signaling methods such as drums, smoke, or mirror flashes for long-distance communication."
+        },
+        {
+          "name": "Running",
+          "source_scope": "Full speed (twice normal movement) for at least three full days, then a day moving at normal rate as rest; endurance is twice normal for movement situations."
+        },
+        {
+          "name": "Small craft, paddled",
+          "source_scope": "Build and use small canoes and hide boats."
+        },
+        {
+          "name": "Small craft, rowed",
+          "source_scope": "Build wooden boats and row and/or sail them."
+        },
+        {
+          "name": "Sound imitation",
+          "source_scope": "Mimic bird/animal calls to lure creatures or signal."
+        },
+        {
+          "name": "Snare building",
+          "source_scope": "Construct deadfalls, pits, and other traps for large and very large animals/creatures."
+        }
+      ],
+      "system_scope": {
+        "direct_observation": "These options and secondary abilities are described for the Barbarian subclass, tied to its class features and DM-selected locale/culture.",
+        "bounded_classification": "Class-specific abilities/skills; these pages do not define a universal nonweapon proficiency list or shared general check procedure."
+      }
+    }
+  },
+  "site_join": {
+    "records": {
+      "secondary-skills": {
+        "collection": "rules",
+        "title_or_name": "Secondary skills are an optional background tool",
+        "book": "DMG",
+        "pages": [
+          12
+        ],
+        "display_status": "OCR checked · visual review pending",
+        "source_excerpt_state": "source-excerpt-checked",
+        "source_excerpt_scope": "Source passage locations and legibility checked against the supplied PDFs. This does not verify every card value or the complete page. Any selected-values regions retain their narrower checked-field scope.",
+        "source_excerpt_region_count": 2
+      },
+      "ua-barbarian": {
+        "collection": "classes",
+        "title_or_name": "Barbarian",
+        "book": "UA",
+        "pages": [
+          18,
+          19,
+          20
+        ],
+        "display_status": "OCR checked · visual review pending",
+        "source_excerpt_state": "source-excerpt-checked",
+        "source_excerpt_scope": "Source passage locations and legibility checked against the supplied PDFs. This does not verify every card value or the complete page. Any selected-values regions retain their narrower checked-field scope.",
+        "source_excerpt_region_count": 25
+      }
+    },
+    "collection_counts": {
+      "rules": 219,
+      "spells": 638,
+      "equipment": 192,
+      "matrices": 4,
+      "classes": 16,
+      "sources": 5
+    },
+    "asset_hashes": {
+      "dist/data.json": "16ddcc0ef49ea5ee9ca32b26353edb632d10db160e83bbd464458f5b73c1b573",
+      "dist/app.js": "57eae6b440f2b75294ca6021adbcd9e29a43646a7a6177cc6800973b94f0b8c1",
+      "dist/search.js": "b9de11c725edbffaf069282a48930052a78b238e925c8acdb6c8db97b764052f",
+      "rules.json": "628ed96b1644a37983b75cebc460ae5abd54e5a405cb58ac0a7db29ed60de0cd",
+      "classes.json": "889674ac27495100e95228855d1ee1679625c16fc4c10b8bc9c4d0d9bc522aa0"
+    },
+    "search_wiring": {
+      "assembly": "Frozen dist/app.js buildIndex includes data.rules and data.classes in the global candidate index.",
+      "indexed_text": "Frozen dist/search.js prepare includes rules summary/bullets and class guidance.",
+      "view_scoping": "dist/app.js filteredItems limits results to the selected view: Rules Reference for DMG and Classes & Advancement for UA.",
+      "method": "Read-only local queries used the frozen dist/search.js API and assembled dist/data.json with the app collection/title composition; this was not a live browser or HTTPS test."
+    },
+    "search_queries": [
+      {
+        "view": "rules",
+        "query": "secondary skills",
+        "result_count": 1,
+        "result_ids": [
+          "secondary-skills"
+        ]
+      },
+      {
+        "view": "rules",
+        "query": "farmer gardener",
+        "result_count": 1,
+        "result_ids": [
+          "secondary-skills"
+        ]
+      },
+      {
+        "view": "rules",
+        "query": "animal husbandry",
+        "result_count": 1,
+        "result_ids": [
+          "secondary-skills"
+        ]
+      },
+      {
+        "view": "rules",
+        "query": "TWO SKILLS",
+        "result_count": 1,
+        "result_ids": [
+          "secondary-skills"
+        ]
+      },
+      {
+        "view": "rules",
+        "query": "universal proficiency check",
+        "result_count": 1,
+        "result_ids": [
+          "secondary-skills"
+        ]
+      },
+      {
+        "view": "classes",
+        "query": "tertiary skills",
+        "result_count": 1,
+        "result_ids": [
+          "ua-barbarian"
+        ]
+      },
+      {
+        "view": "classes",
+        "query": "animal handling",
+        "result_count": 1,
+        "result_ids": [
+          "ua-barbarian"
+        ]
+      },
+      {
+        "view": "classes",
+        "query": "first aid",
+        "result_count": 2,
+        "result_ids": [
+          "ua-barbarian",
+          "bard"
+        ],
+        "note": "Target matches; another class also matches."
+      },
+      {
+        "view": "classes",
+        "query": "snare building",
+        "result_count": 1,
+        "result_ids": [
+          "ua-barbarian"
+        ]
+      },
+      {
+        "view": "classes",
+        "query": "paddled rowed small craft",
+        "result_count": 1,
+        "result_ids": [
+          "ua-barbarian"
+        ]
+      },
+      {
+        "view": "classes",
+        "query": "survival tracking outdoor craft",
+        "result_count": 1,
+        "result_ids": [
+          "ua-barbarian"
+        ]
+      },
+      {
+        "view": "classes",
+        "query": "about one month continuous exposure",
+        "result_count": 1,
+        "result_ids": [
+          "ua-barbarian"
+        ]
+      },
+      {
+        "view": "classes",
+        "query": "native territory",
+        "result_count": 1,
+        "result_ids": [
+          "ua-barbarian"
+        ]
+      },
+      {
+        "view": "classes",
+        "query": "unfamiliar areas",
+        "result_count": 1,
+        "result_ids": [
+          "ua-barbarian"
+        ]
+      }
+    ],
+    "nonweapon_catalog_queries": {
+      "query": "nonweapon",
+      "views": [
+        "rules",
+        "classes"
+      ],
+      "result_count": 1,
+      "result_ids": [
+        "ua-barbarian"
+      ],
+      "meaning": "The match is the Barbarian guidance separating its weapon-proficiency slots from its class-specific nonweapon abilities; no standalone universal nonweapon-proficiency record was found by this bounded query.",
+      "other_queries": {
+        "secondary skills": [
+          "secondary-skills",
+          "ua-barbarian"
+        ],
+        "tertiary skills": [
+          "ua-barbarian"
+        ]
+      },
+      "limit": "A bounded catalog query, not proof of book-wide or app-wide absence under every possible label."
+    },
+    "searchable_detail_gap": {
+      "ua_barbarian_id": "ua-barbarian",
+      "present_in_record_and_search": [
+        "secondary/tertiary category names",
+        "all eight tertiary option names",
+        "one-or-more and DM selection",
+        "general unfamiliar-territory/month qualifier"
+      ],
+      "detail_queries_not_returning_ua_barbarian": [
+        "twice normal recovery hit points",
+        "regains 1 hit point",
+        "2 hit points per day resting",
+        "10% chance cure",
+        "50 plus constitution score",
+        "only track outdoors",
+        "handle and domesticate wild animals",
+        "large birds giant lynxes",
+        "draft teams",
+        "drums smoke mirror flashes",
+        "twice normal movement rate",
+        "three full days",
+        "small canoes hide boats",
+        "mimic bird calls lure",
+        "deadfalls pits traps"
+      ],
+      "interpretation": "Detailed secondary procedures and individual tertiary definitions from the source pages are not present in current Barbarian guidance/search text."
+    },
+    "record_comparison": {
+      "DMG": "Existing card table bands and occupations align with the visually reviewed table; its background assignment, “TWO SKILLS” distinction, DM-adjudicated examples, and limited-knowledge scale align with the page. The card’s universal-proficiency-check sentence is editorial page-bounded interpretation. Existing display status remains OCR checked · visual review pending; this audit does not change it.",
+      "UA": "Existing class guidance summarizes eight primary labels, four secondary names, one-or-more locale-selected tertiary structure, broad familiarity limit, DM selection, and all eight tertiary names. It is a summary, not a transcription of the per-ability procedures inventoried here. Existing display status remains OCR checked · visual review pending; this audit does not change it."
+    }
+  },
+  "status": "Existing record statuses remain OCR checked · visual review pending; this audit does not update the site review grade.",
+  "interpretation_limit": "The distinction between optional DMG secondary skills, UA Barbarian class abilities, and a universal nonweapon proficiency system is page-bounded; no universal system is invented or claimed absent from all other sources."
+}
