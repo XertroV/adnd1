@@ -23,6 +23,7 @@ const INSTALL_PINS_PATH = 'research/class-mapping-source-epoch-v1/historical-rea
 const SOURCE2_COMPANION_PATH = 'research/class-mapping-source-epoch-v2/historical-reader-source2-companion-v1.json';
 const EXPECTED_SOURCE2_COMPANION_SHA256 = '075888aae1bec7fac6475e12593ab954cc915c911b1ac00a936629ba54955416';
 const SOURCE2_IDENTITY = Object.freeze({stage:'source2-body-native',sourceCommit:'400f6e9d123d8a654b9b9af48133a2533506e73d',sourceTree:'664c02504efcece25669d2f9c3fdb26437cd5b09',fixturePath:'research/class-mapping-source-epoch-v2/closed-native-body-cohort-v2.json',fixtureSha256:'a333c3920f5ec5d3dbdca4b32673dd22ba94c77807794103af3eb21af71b14c2',sourceBodyRows:3063});
+const HISTORICAL_P_APP_ROLE=Object.freeze({path:'dist/app.js',commit:'0e4cddd40b6ab78a9fe182fa967f0bd43b36070d',tree:'53b3cbe61d77ba16f460fc398f02fb133a3dd899',sha256:'876df077e57041e77732ea56cc47123dc1f459ba6badac0ce98d3254345106d6',sizeBytes:197475});
 const SOURCE2_COMPATIBILITY_CODE = Object.freeze([
   {path:'research/class-mapping-history-v1/replay-tools/continuation-candidates-validate-mm-v2.mjs',sha256:'6bf41296b428080816c4eeab1e553e6eab21f7ce0222b513035c42605a97b536',sizeBytes:40618},
   {path:'research/class-mapping-history-v1/replay-tools/dmg175-current-jo-source-gap-mm-v2.mjs',sha256:'6b936625d7eff8ae2c65891caa83cba7d2c77daa28b48d88841d251cdbe1cf41',sizeBytes:7562},
@@ -316,7 +317,25 @@ async function createClosedReader() {
     for(const [group,values]of Object.entries(bridge.nativeInputHashes))for(const [path,sha]of Object.entries(values))add(path,sha,group);
     for(const row of bridge.exact22Rows)add(row.path,row.nextCurrent.sha256,'historicalMapped');
     const installs=bridge.nativeInstallationPins;if(!Array.isArray(installs)||installs.length!==2||!installs.some(row=>row.path===bridge.nativeSourceEpoch.fixturePath&&row.sha256===bridge.nativeSourceEpoch.fixtureSha256)||!installs.some(row=>row.path==='research/class-mapping-source-epoch-v1/native-qualification-pins-v1.mjs'&&codeRows.some(code=>code.path===row.path&&code.sha256===row.sha256)))fail('exact native fixture/pin-module auxiliary installation set');for(const row of installs)add(row.path,row.sha256,'nativeInstallation');
-    const ref=bridge.metadataReceiptRef;if(ref?.path!=='research/class-mapping-source-epoch-v1/metadata-stage-v2.json'||!digest(ref.sha256)||!integer(ref.sizeBytes)||!commitId(ref.commit)||!commitId(ref.tree))fail('fixed committed metadata receipt reference');if(git('rev-parse',`${ref.commit}^{tree}`).toString('utf8').trim()!==ref.tree)fail('report P tree identity');git('merge-base','--is-ancestor',bridge.nativeSourceEpoch.qualifierCodeCommit,ref.commit);git('merge-base','--is-ancestor',ref.commit,bridge.nativeSourceEpoch.finalS2Commit);const receiptBytes=readClosedFile(ref.path);if(hash(receiptBytes)!==ref.sha256||receiptBytes.length!==ref.sizeBytes)fail('metadata receipt auxiliary content changed');const receipt=parseBytes(receiptBytes,'bound metadata receipt');if(receipt.sourceEpoch?.sourceBody?.commit!==bridge.nativeSourceEpoch.sourceCommit||receipt.qualifierProducer?.commit!==bridge.nativeSourceEpoch.qualifierCodeCommit)fail('metadata receipt source/QCC stages differ');for(const row of reportInputReferences(receipt,ref)){const current=readClosedFile(row.path);if(hash(current)!==row.sha256||!git('show',`${ref.commit}:${safeRepoPath(row.path)}`).equals(current))fail(row.path+': report P role differs from current/freshness bytes');add(row.path,row.sha256,'metadataReport');}assertReportAbsenceClosure(receipt,bridge.nextFreshnessInputs.absentRows,{freshnessCommit:bridge.nativeSourceEpoch.finalS2Commit,reportCommit:ref.commit,qualifierCommit:bridge.nativeSourceEpoch.qualifierCodeCommit,hasPhysical:hasPhysicalPath,hasGit:hasGitPath});for(const path of reportAbsentInputPaths(receipt))if(freshByPath.has(path)||codeMap.has(path))fail(path+': optional absence overlaps present/code closure');
+    const ref=bridge.metadataReceiptRef;if(ref?.path!=='research/class-mapping-source-epoch-v1/metadata-stage-v2.json'||!digest(ref.sha256)||!integer(ref.sizeBytes)||!commitId(ref.commit)||!commitId(ref.tree))fail('fixed committed metadata receipt reference');if(git('rev-parse',`${ref.commit}^{tree}`).toString('utf8').trim()!==ref.tree)fail('report P tree identity');git('merge-base','--is-ancestor',bridge.nativeSourceEpoch.qualifierCodeCommit,ref.commit);git('merge-base','--is-ancestor',ref.commit,bridge.nativeSourceEpoch.finalS2Commit);const receiptBytes=readClosedFile(ref.path);if(hash(receiptBytes)!==ref.sha256||receiptBytes.length!==ref.sizeBytes)fail('metadata receipt auxiliary content changed');const receipt=parseBytes(receiptBytes,'bound metadata receipt');if(receipt.sourceEpoch?.sourceBody?.commit!==bridge.nativeSourceEpoch.sourceCommit||receipt.qualifierProducer?.commit!==bridge.nativeSourceEpoch.qualifierCodeCommit)fail('metadata receipt source/QCC stages differ');for(const row of reportInputReferences(receipt,ref)){
+      if(row.path===HISTORICAL_P_APP_ROLE.path){
+        const oldApp=HISTORICAL_P_APP_ROLE;
+        if(ref.commit!==oldApp.commit||ref.tree!==oldApp.tree||row.sha256!==oldApp.sha256)fail('fixed P-stage S1 dist/app.js report input role changed');
+        const oldPBlob=pinnedBlob(ref.commit,row.path,oldApp,'P-stage historical S1 app report input');
+        if(oldPBlob.length!==oldApp.sizeBytes||hash(oldPBlob)!==oldApp.sha256)fail('P-stage historical S1 app raw blob mismatch');
+        const currentApp=source2Authorities.app,physicalApp=readClosedFile(row.path);
+        if(currentApp?.path!==oldApp.path||currentApp.sha256!=='57eae6b440f2b75294ca6021adbcd9e29a43646a7a6177cc6800973b94f0b8c1'||currentApp.sizeBytes!==197876)fail('fixed current Source2 app role required beside historical P input');
+        const currentBBlob=pinnedBlob(SOURCE2_IDENTITY.sourceCommit,row.path,currentApp,'Source2 B current body app');
+        if(!physicalApp.equals(currentBBlob)||hash(physicalApp)!==currentApp.sha256||physicalApp.length!==currentApp.sizeBytes)fail('current physical app must match exact Source2 B body role');
+        // Keep the pinned P hash in its old report/freshness role; the actual
+        // current app was independently authenticated against Source2 B above.
+        add(row.path,row.sha256,'metadataReport');
+        continue;
+      }
+      const current=readClosedFile(row.path);
+      if(hash(current)!==row.sha256||!git('show',`${ref.commit}:${safeRepoPath(row.path)}`).equals(current))fail(row.path+': report P role differs from current/freshness bytes');
+      add(row.path,row.sha256,'metadataReport');
+    }assertReportAbsenceClosure(receipt,bridge.nextFreshnessInputs.absentRows,{freshnessCommit:bridge.nativeSourceEpoch.finalS2Commit,reportCommit:ref.commit,qualifierCommit:bridge.nativeSourceEpoch.qualifierCodeCommit,hasPhysical:hasPhysicalPath,hasGit:hasGitPath});for(const path of reportAbsentInputPaths(receipt))if(freshByPath.has(path)||codeMap.has(path))fail(path+': optional absence overlaps present/code closure');
     const coverageRows=receipt.outputs.filter(row=>row.kind==='current-coverage-gaps-snapshot');if(coverageRows.length!==1||coverageRows[0].path==='dist/coverage-gaps.json'||freshByPath.get('dist/coverage-gaps.json')?.sha256!==coverageRows[0].rawSha256)fail('public coverage must be captured after exact fresh-report reproduction');const coverageRef=bridge.publicCoverageRef;checkDigestRow(coverageRef,'public coverage',{commit:true});if(coverageRef.path!=='dist/coverage-gaps.json'||coverageRef.sha256!==coverageRows[0].rawSha256||!commitId(coverageRef.tree)||coverageRef.commit===ref.commit||git('rev-parse',`${coverageRef.commit}^{tree}`).toString('utf8').trim()!==coverageRef.tree)fail('separate post-P public coverage commit identity');git('merge-base','--is-ancestor',ref.commit,coverageRef.commit);git('merge-base','--is-ancestor',coverageRef.commit,bridge.nativeSourceEpoch.finalS2Commit);pinnedBlob(coverageRef.commit,coverageRef.path,coverageRef,'public coverage committed reproduction');
     const excluded=new Set([...expected.keys(),...codeMap.keys(),...reportAbsentInputPaths(receipt),BRIDGE_PATH,INSTALL_PINS_PATH]);const required=declaredHistoricalInputClosure({codeFiles:codeMap,excludedPaths:excluded,read:path=>{const pin=freshByPath.get(path);if(!pin)fail(path+': declared historical I/O path missing from exact closure');const bytes=readClosedFile(path);if(hash(bytes)!==pin.sha256||bytes.length!==pin.sizeBytes)fail(path+': declared historical I/O bytes differ');return bytes;}});
     if(canonical(bridge.nextFreshnessInputs.reviewedExtraHistoricalInputPaths)!==canonical(required))fail('reviewed auxiliary path list differs from dynamically derived exact closure');
@@ -481,15 +500,16 @@ async function createClosedReader() {
           ||producerRecord.ancestry?.reportQccMIsAncestorOfCurrentHead!==true)fail('O receipt source-body and QCC lineage fields changed');
       const rows=receipt.outputs.filter(row=>row.kind==='current-coverage-gaps-snapshot');
       if(rows.length!==1||canonical(rows[0])!==canonical(output)||receipt.outputs.some(row=>row.path===output.path&&row.kind!==output.kind))fail('O receipt must contain exactly the fixed current coverage output row');
-      const internal=pinnedBlob(receiptPin.commit,output.path,output,'raw O internal coverage output');
+      const outputBlobPin={sha256:output.rawSha256,sizeBytes:output.sizeBytes};
+      const internal=pinnedBlob(receiptPin.commit,output.path,outputBlobPin,'raw O internal coverage output');
       const parsed=parseBytes(internal,'raw O internal coverage output');
       if(objectSha256(parsed)!==output.parsedObjectSha256)fail('raw O coverage parsed-object fingerprint mismatch');
       const qccProducer=pinnedBlob(qcc.commit,producer.path,producer,'QCC coverage producer code');
       const oProducer=pinnedBlob(receiptPin.commit,producer.path,producer,'O coverage producer code');
       const tProducer=pinnedBlob(alias.commit,producer.path,producer,'T coverage producer code');
       if(!qccProducer.equals(oProducer)||!qccProducer.equals(tProducer))fail('O/QCC/T coverage producer code bytes differ');
-      const tInternal=pinnedBlob(alias.commit,output.path,output,'T internal coverage alias');
-      const tPublished=pinnedBlob(alias.commit,alias.path,output,'T public coverage alias');
+      const tInternal=pinnedBlob(alias.commit,output.path,outputBlobPin,'T internal coverage alias');
+      const tPublished=pinnedBlob(alias.commit,alias.path,outputBlobPin,'T public coverage alias');
       if(!internal.equals(tInternal)||!internal.equals(tPublished))fail('raw O internal coverage and T internal/dist aliases differ');
       source2CoverageAuthority={receiptBytes:Buffer.from(receiptBytes),internalBytes:Buffer.from(internal),producerBytes:Buffer.from(qccProducer)};
     }
@@ -528,8 +548,6 @@ async function createClosedReader() {
     }
     for (const row of bridge.nextFreshnessInputs.rows) {
       const path = safeRepoPath(row.path), absolute = resolve(root, path);
-      const oldBlob = pinnedBlob(row.commit, path, row, path+' immutable old bridge Git blob', !NATIVE_GROUPS.includes(row.group));
-      if (row.objectSha256) assertVerifiedObjectFingerprint(oldBlob, row, 'closed historical JSON input', path+': old Git JSON invalid', path+': old Git object fingerprint mismatch');
       const override = path === 'dist/app.js' ? source2Authorities.app
         : path === 'dist/coverage-gaps.json' ? source2Authorities.coverage : null;
       const proofSha = proofByPath.get(path);
@@ -542,6 +560,8 @@ async function createClosedReader() {
         fail(path+': old bridge physical role differs from exact Source2 proof map');
       }
       if (blobCacheSealed && proofSha !== undefined && path !== 'dist/coverage-gaps.json') continue;
+      const oldBlob = pinnedBlob(row.commit, path, row, path+' immutable old bridge Git blob', !NATIVE_GROUPS.includes(row.group));
+      if (row.objectSha256) assertVerifiedObjectFingerprint(oldBlob, row, 'closed historical JSON input', path+': old Git JSON invalid', path+': old Git object fingerprint mismatch');
       let stat;
       try { stat = lstatSync(absolute); } catch { fail(path + ': fresh current input is missing'); }
       if (!stat.isFile() || stat.isSymbolicLink() || realpathSync(absolute) !== absolute) fail(path + ': current input must be a regular non-symlink file');
@@ -624,6 +644,15 @@ async function createClosedReader() {
     return proof;
   }
 
+  function guardHistoricalProjectionInput(row) {
+    const hasTypedSource2CurrentOverride = row.path === source2Authorities.app.path
+      || row.path === source2Authorities.coverage.path;
+    // The zero-argument guard authenticates the actual Source2 physical app and
+    // O-bound coverage output. The kernel below still accepts only the exact
+    // old mapped candidate/MM bytes; it cannot project either new physical value.
+    currentGuard(hasTypedSource2CurrentOverride ? null : row.path);
+  }
+
   const kernel = createHistoricalProjectionKernel({
     rows: bridge.exact22Rows,
     hRows,
@@ -640,23 +669,23 @@ async function createClosedReader() {
   blobCacheSealed = true;
 
   function normalizeVersion29HistoricalBytes(path, value) {
-    const row = byPathRow(path); currentGuard(row.path);
+    const row = byPathRow(path); guardHistoricalProjectionInput(row);
     return kernel.normalizeBytes(row.path, value, row.nextCurrent);
   }
   function normalizeHistoricalMmBytes(path, value) {
-    const row = byPathRow(path); currentGuard(row.path);
+    const row = byPathRow(path); guardHistoricalProjectionInput(row);
     return kernel.normalizeMmBytes(row.path, value, row.nextCurrent);
   }
   function normalizeVersion29HistoricalJson(path, value) {
-    const row = byPathRow(path); currentGuard(row.path);
+    const row = byPathRow(path); guardHistoricalProjectionInput(row);
     return kernel.normalizeJson(row.path, value, row.nextCurrent);
   }
   function normalizeHistoricalMmJson(path, value) {
-    const row = byPathRow(path); currentGuard(row.path);
+    const row = byPathRow(path); guardHistoricalProjectionInput(row);
     return kernel.normalizeMmJson(row.path, value, row.nextCurrent);
   }
   function isExactLegacyFacadeLiteral(path, value) {
-    const row = byPathRow(path); currentGuard(row.path);
+    const row = byPathRow(path); guardHistoricalProjectionInput(row);
     try {
       kernel.normalizeJson(row.path, value, row.nextCurrent);
       return false;
