@@ -1,0 +1,66 @@
+{
+  "schema": "source2-v10-explicit-whole-workflow-transition-v1",
+  "status": "PRIVATE_PENDING_INDEPENDENT_REVIEW",
+  "frozenV9Workflow": {
+    "path": ".github/workflows/pages.yml",
+    "sha256": "8f0a07d808ddd2e3be751bf7beaa261708143893cecce96b655eff34e038b959",
+    "sizeBytes": 29180
+  },
+  "frozenV9WorkflowFixture": {
+    "path": "research/class-mapping-ci-sharding-v1/source2-test-transition-v1/predecessor-pages-v9.yml.gz",
+    "sha256": "dbec8cbd36850cb591083485cf816ccffae3bdd54daac43aadb87708e47baf05",
+    "sizeBytes": 4955,
+    "decodedSha256": "8f0a07d808ddd2e3be751bf7beaa261708143893cecce96b655eff34e038b959",
+    "decodedSizeBytes": 29180
+  },
+  "proposedV10Workflow": {
+    "path": ".github/workflows/pages.yml",
+    "sha256": "91d774a553d93e808cb9d7cb3bc42ad559afea8134104f0c70c1a4e41f652896",
+    "sizeBytes": 29180
+  },
+  "onlyExactReplacements": [
+    {
+      "before": "tools/run-class-mapping-tests-source2-shard-v1.mjs",
+      "after": "tools/run-class-mapping-tests-source2-shard-v2.mjs",
+      "occurrences": 1
+    },
+    {
+      "before": "tools/run-historical-mm-replay-source2-receipt-v1.mjs",
+      "after": "tools/run-historical-mm-replay-source2-receipt-v2.mjs",
+      "occurrences": 1
+    },
+    {
+      "before": "tools/reduce-class-mapping-test-source2-shards-v1.mjs",
+      "after": "tools/reduce-class-mapping-test-source2-shards-v2.mjs",
+      "occurrences": 1
+    }
+  ],
+  "historicalAssertionBase": {
+    "path": "tests/class-mapping-test-sharding-contract-source2-v3.test.mjs",
+    "sha256": "c6dcffe19d2494407c25cf86dbc72b960f8fc09f39634fcf9783cd5702f34227",
+    "sizeBytes": 45859
+  },
+  "targetPath": "tests/class-mapping-test-sharding-contract-source2-v4.test.mjs",
+  "retainedAssertionBodies": "every v3 assertion unchanged; only node:fs read alias and explicit historical pages.yml reader inserted",
+  "currentChecks": "direct physical pages.yml must equal frozen v9 bytes with exactly three suite entrypoint replacements; all24roles retained; actual v3 runner delegation and zero-argument Source2 identity",
+  "targetSha256": "7a49287ad3fb4194c3ecd04b4bccf6971355a53635108feffcc0098c429ef9ca",
+  "targetSizeBytes": 51873,
+  "frozenV9BaseTarget": {
+    "path": "tests/class-mapping-test-sharding-contract-source2-v2.test.mjs",
+    "sha256": "7ba8295c7869330485aea8b2eee9e4eae95c9e9c5e372b39718caa9b365cbe5d",
+    "sizeBytes": 41106
+  },
+  "oldV3CaseTitles": [
+    "test('reviewed 24-block map preserves all R5 roles and pins nine versioned workflow successors',()=>{",
+    "test('balanced role substitution rejects after rebinding the workflow hash; duplicate 24-role mapping rejects',()=>{",
+    "test('frozen predecessor guard passes on fa7 and rejects the 825e0c candidate as expected',()=>{",
+    "test('current Source2 workflow keeps fixed jobs, barriers, pinned actions, and every shard CLI contract',async()=>{",
+    "test('the versioned code receipt pins new executable paths and the old registry bytes',async()=>{",
+    "test('workflow contract successor uses the fresh zero-argument Source2 identity API',()=>{",
+    "test('v8 Source2 identity gate regression: workflow-contract successor',()=>{"
+  ],
+  "currentCaseTitles": [
+    "test('v10 physical whole workflow is exactly the preserved v9 workflow with three reviewed suite entrypoint replacements',()=>{",
+    "test('v10 live workflow uses the actual v3 runner, derives physical entrypoint provenance, and keeps fresh Source2 admission',async()=>{"
+  ]
+}

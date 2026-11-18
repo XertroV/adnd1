@@ -36,7 +36,7 @@ jobs:
           TMPDIR: /tmp/adnd1-source2-shard-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard_index }}
         run: |
           mkdir -p "$TMPDIR"
-          node tools/run-class-mapping-tests-source2-shard-v1.mjs \
+          node tools/run-class-mapping-tests-source2-shard-v2.mjs \
             --python "$(python3 -c 'import os,sys; print(os.path.realpath(sys.executable))')" \
             --shard-index "${{ matrix.shard_index }}" \
             --shard-count 4 \
@@ -65,7 +65,7 @@ jobs:
           TMPDIR: ${{ runner.temp }}/adnd1-source2-mm-${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           mkdir -p "$TMPDIR"
-          node tools/run-historical-mm-replay-source2-receipt-v1.mjs --receipt artifacts/test-shards/source2-mm.json
+          node tools/run-historical-mm-replay-source2-receipt-v2.mjs --receipt artifacts/test-shards/source2-mm.json
       - name: Upload exact MM receipt
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -114,7 +114,7 @@ jobs:
           TMPDIR: ${{ runner.temp }}/adnd1-source2-reducer-${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           mkdir -p "$TMPDIR"
-          node tools/reduce-class-mapping-test-source2-shards-v1.mjs
+          node tools/reduce-class-mapping-test-source2-shards-v2.mjs
       - name: Upload reducer report
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -167,7 +167,7 @@ jobs:
         run: |
           mkdir -p artifacts/class-mapping-source2-report-closure
           set +e
-          node tools/verify-class-mapping-current-reports-v3.mjs --kind all --output artifacts/class-mapping-source2-report-closure/report.json --summary artifacts/class-mapping-source2-report-closure/summary.md > artifacts/class-mapping-source2-report-closure/stdout.json 2> artifacts/class-mapping-source2-report-closure/errors.txt
+          node tools/verify-class-mapping-current-reports-v4.mjs --kind all --output artifacts/class-mapping-source2-report-closure/report.json --summary artifacts/class-mapping-source2-report-closure/summary.md > artifacts/class-mapping-source2-report-closure/stdout.json 2> artifacts/class-mapping-source2-report-closure/errors.txt
           report_status=$?
           set -e
           echo "$report_status" > artifacts/class-mapping-source2-report-closure/validation-exit-status.txt
@@ -490,7 +490,7 @@ jobs:
         run: |
           set -o pipefail
           mkdir -p artifacts/source-domain-audits
-          node tools/verify-class-mapping-current-reports-v3.mjs --kind all --output artifacts/source-domain-audits/gaps-handoff-check.json
+          node tools/verify-class-mapping-current-reports-v4.mjs --kind all --output artifacts/source-domain-audits/gaps-handoff-check.json
       - name: Verify coverage report counts and review scopes
         if: always()
         run: |

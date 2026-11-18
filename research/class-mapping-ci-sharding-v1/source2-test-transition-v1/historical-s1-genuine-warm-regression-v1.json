@@ -1,0 +1,152 @@
+{
+  "schema": "class-mapping-historical-s1-genuine-warm-regression-v1",
+  "status": "GENUINE_PRIVATE_BOUND_COPY_REGRESSION_PASS",
+  "executedHead": "bbb439524e615d7af3c8ef832268433cf0dd1063",
+  "executedHeadTree": "dd551a35652817fa335b4ec46db444b96d78921c",
+  "actualSource2": {
+    "sourceCommit": "400f6e9d123d8a654b9b9af48133a2533506e73d",
+    "sourceTree": "664c02504efcece25669d2f9c3fdb26437cd5b09",
+    "sourceBodyFiles": 3063,
+    "proofCalls": "actual fixed-root API with zero arguments"
+  },
+  "historicalS1": {
+    "sourceCommit": "2d35138027f00c0740975e519dbb3a2b6df76d14",
+    "sourceTree": "40ecb15130b339658522794db6d9e1bc58f43b50",
+    "sourceBodyFiles": 2636
+  },
+  "oldCode": {
+    "sha256": "4081ff5019d7f313c6f13088c534261cbdb2ae8417b7bbd9bc4fde17f750e34f",
+    "bytes": 11079
+  },
+  "correctedCode": {
+    "sha256": "d5c863f23f7820324d344a2e65654c7db856284d5f115561747ba873d91f55ca",
+    "bytes": 13090
+  },
+  "oldObservedOutcome": {
+    "status": "REGRESSION_REPRODUCED",
+    "staleWarmAcceptances": 2,
+    "independentGenuineGuardsRejected": [
+      {
+        "label": "independent current gate sees B mutation",
+        "error": "Invalid Native2 body: dist/data.json: fresh physical SHA/size differs from closed pin"
+      },
+      {
+        "label": "independent public evidence sees metadata mutation",
+        "error": "Authenticated historical S1 evidence: protected metadata changed research/class-mapping-source-epoch-v1/metadata-stage-v2.json"
+      }
+    ],
+    "restoredHealthyControls": true
+  },
+  "correctedObservedOutcome": {
+    "status": "PASS",
+    "directFreshnessRejections": 2,
+    "boundedScopeExitRejections": 2,
+    "scopeValidationGuards": 3,
+    "thenableGetterCalls": 0,
+    "healthyFinallyRecovery": true,
+    "actualRejections": [
+      {
+        "label": "fresh outside scope dist/data.json",
+        "error": "Invalid Native2 body: dist/data.json: fresh physical SHA/size differs from closed pin"
+      },
+      {
+        "label": "fresh outside scope research/class-mapping-source-epoch-v1/metadata-stage-v2.json",
+        "error": "Authenticated historical S1 evidence: protected metadata changed research/class-mapping-source-epoch-v1/metadata-stage-v2.json"
+      },
+      {
+        "label": "fresh scope exit dist/data.json",
+        "error": "Invalid Native2 body: dist/data.json: fresh physical SHA/size differs from closed pin"
+      },
+      {
+        "label": "fresh scope exit research/class-mapping-source-epoch-v1/metadata-stage-v2.json",
+        "error": "Authenticated historical S1 evidence: protected metadata changed research/class-mapping-source-epoch-v1/metadata-stage-v2.json"
+      },
+      {
+        "label": "async callback",
+        "error": "Authenticated historical S1 evidence: historical read scope forbids nonplain, async and generator callbacks"
+      },
+      {
+        "label": "thenable return",
+        "error": "Authenticated historical S1 evidence: historical read scope callback must synchronously return undefined"
+      },
+      {
+        "label": "nested scope",
+        "error": "Authenticated historical S1 evidence: nested historical read scopes are forbidden"
+      }
+    ],
+    "restoredHealthyControls": true
+  },
+  "mutations": [
+    {
+      "path": "dist/data.json",
+      "baselineSha256": "16ddcc0ef49ea5ee9ca32b26353edb632d10db160e83bbd464458f5b73c1b573",
+      "mutatedSha256": "31108e0908933f55a2fbb75ec31d55bb5b31bbe01d12d68fe7ff898a635606d6",
+      "sizeBytes": 21742098,
+      "actualOldFailingInputPreserved": true
+    },
+    {
+      "path": "research/class-mapping-source-epoch-v1/metadata-stage-v2.json",
+      "baselineSha256": "86c7749246498f8d53cc7935151cf23569167c6d913f1a77be3c5c1beea4b189",
+      "mutatedSha256": "87b258a6f23bb62a1645e78b7eab85bdbe783cafd53ca23e5176b17991ec5f4c",
+      "sizeBytes": 1244236,
+      "actualOldFailingInputPreserved": true
+    }
+  ],
+  "historicalReadControl": {
+    "path": "dist/books.js",
+    "sizeBytes": 19067,
+    "sha256": "99928f8e954ef213a51c70dc97d8f63b16a7b5eea9f1cba10b76b527ec17f811"
+  },
+  "isolation": {
+    "actualRootReadonlyInChild": true,
+    "privateInputBindCopiesOnly": true,
+    "actualRootWrites": 0,
+    "callerRootHashFixtureProofOverrides": 0,
+    "actualRootStateStable": true,
+    "mainHeadAndIndexNotChanged": true
+  },
+  "rawEvidenceDigests": {
+    "execution-receipt-v1.json": {
+      "sha256": "c2c589f42ea54a3ef647d5ccb9e57b8935fa2b2022587a7ca3e2c3052222888b",
+      "sizeBytes": 24350
+    },
+    "run-old4081/execution-receipt-v1.json": {
+      "sha256": "cc3f0cc9f9546815150f74d717a951bbde217f2ca44fdbc9789442cc6489c144",
+      "sizeBytes": 2521
+    },
+    "run-old4081/stdout.jsonl": {
+      "sha256": "677e602a47bb324b9364491498713ebb930f25d27729268c90eff2fc58ce5e77",
+      "sizeBytes": 7051
+    },
+    "run-old4081/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sizeBytes": 0
+    },
+    "run-correctedd5c/execution-receipt-v1.json": {
+      "sha256": "fc1108bf106f9e6acc8d663dccf71626bbe779d6c0c44c95cb0fe62a9c97adc9",
+      "sizeBytes": 4410
+    },
+    "run-correctedd5c/stdout.jsonl": {
+      "sha256": "4262905731becc376b85cfe17908c000cd62a567c448fd68afecffe395501ac8",
+      "sizeBytes": 17566
+    },
+    "run-correctedd5c/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sizeBytes": 0
+    },
+    "warm-parent-v1.mjs": {
+      "sha256": "7367f0ef4eea2879dbe2a5861f4f533bfe223ad3ade94d141f7306ebc93e78a1",
+      "sizeBytes": 9139
+    },
+    "warm-child-v1.mjs": {
+      "sha256": "3fe6fb06ab82d9f8b4af072a4d3f6b7dc00aae224c1ce420ff1bfeb1bba6151d",
+      "sizeBytes": 6325
+    },
+    "harness-config-v1.json": {
+      "sha256": "cdf896e40876db1e1d4028354018ef1555b9c8afef783571f461b6850eb4e8e3",
+      "sizeBytes": 1972
+    }
+  },
+  "runtimeScope": "This verifies actual old/new warm core behavior; it is not full225-family,239-main-file or whole-workflow success.",
+  "finishedAt": "2026-11-18T01:44:13.620Z"
+}
